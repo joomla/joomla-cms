@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -142,10 +142,12 @@ abstract class ConfigModelCms extends JModelDatabase
 		if (empty($this->name))
 		{
 			$r = null;
+
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
+
 			$this->name = strtolower($r[1]);
 		}
 
@@ -154,7 +156,6 @@ abstract class ConfigModelCms extends JModelDatabase
 
 	/**
 	 * Method to get model state variables
-	 *
 	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
@@ -177,6 +178,8 @@ abstract class ConfigModelCms extends JModelDatabase
 	/**
 	 * Method to register paths for tables
 	 *
+	 * @param   array  $config  Configuration array
+	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
 	 * @since   3.2
@@ -196,7 +199,6 @@ abstract class ConfigModelCms extends JModelDatabase
 
 			// For legacy purposes. Remove for 4.0
 			$paths->insert(JPATH_COMPONENT_ADMINISTRATOR . '/tables', 'normal');
-
 		}
 	}
 
@@ -216,8 +218,8 @@ abstract class ConfigModelCms extends JModelDatabase
 		$dispatcher = JEventDispatcher::getInstance();
 
 		$options = array(
-				'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
-				'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
+			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
+			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
 
 		$cache = JCache::getInstance('callback', $options);
 		$cache->clean();
@@ -260,10 +262,10 @@ abstract class ConfigModelCms extends JModelDatabase
 			{
 				return;
 			}
+
 			$user = JFactory::getUser();
 
 			return $user->authorise('core.delete', $this->option);
-
 		}
 	}
 

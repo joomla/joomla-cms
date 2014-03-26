@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,6 +73,21 @@ class UsersModelUsers extends JModelList
 		}
 
 		// Load the filter state.
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		$active = $this->getUserStateFromRequest($this->context . '.filter.active', 'filter_active');
+		$this->setState('filter.active', $active);
+
+		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state');
+		$this->setState('filter.state', $state);
+
+		$groupId = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group_id', null, 'int');
+		$this->setState('filter.group_id', $groupId);
+
+		$range = $this->getUserStateFromRequest($this->context . '.filter.range', 'filter_range');
+		$this->setState('filter.range', $range);
+
 		$groups = json_decode(base64_decode($app->input->get('groups', '', 'BASE64')));
 
 		if (isset($groups))

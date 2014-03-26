@@ -3,7 +3,7 @@
 	<name>plg_system_debug</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -34,8 +34,8 @@
 					description="PLG_DEBUG_FIELD_PROFILING_DESC"
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="queries" type="radio"
@@ -44,8 +44,8 @@
 					description="PLG_DEBUG_FIELD_QUERIES_DESC"
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="query_types" type="radio"
@@ -54,8 +54,8 @@
 					description="PLG_DEBUG_FIELD_QUERY_TYPES_DESC"
 					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="memory" type="radio"
@@ -64,8 +64,8 @@
 					description="PLG_DEBUG_FIELD_MEMORY_DESC"
 					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="logs" type="radio"
@@ -74,8 +74,8 @@
 					description="PLG_DEBUG_FIELD_LOGS_DESC"
 					label="PLG_DEBUG_FIELD_LOGS_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="log_priorities" type="list" multiple="true" default="all"
@@ -116,8 +116,8 @@
 					description="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_DESC"
 					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="language_files" type="radio"
@@ -126,8 +126,8 @@
 					description="PLG_DEBUG_FIELD_LANGUAGE_FILES_DESC"
 					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="language_strings" type="radio"
@@ -136,8 +136,8 @@
 					description="PLG_DEBUG_FIELD_LANGUAGE_STRING_DESC"
 					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="strip-first" type="radio"
@@ -146,8 +146,8 @@
 					description="PLG_DEBUG_FIELD_STRIP_FIRST_DESC"
 					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="strip-prefix" type="textarea"
@@ -174,8 +174,8 @@
 					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_DESC"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 		</fields>

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,6 +32,16 @@ class JHtmlFieldUrlTest_DataSet
 				'value' => 'http://foobar.com',
 			),
 			'<input type="url" name="myTestName" id="myTestId" value="http://foobar.com" />',
+		),
+
+		// Stript always illegal characters that may be used in XSS.
+		'Value2' => array(
+			array(
+				'id' => 'myTestId',
+				'name' => 'myTestName',
+				'value' => 'http://<>"foobar.com',
+			),
+			'<input type="url" name="myTestName" id="myTestId" value="http://&lt;&gt;&quot;foobar.com" />',
 		),
 
 		'Class' => array(
@@ -132,6 +142,5 @@ class JHtmlFieldUrlTest_DataSet
 			),
 			'<input type="url" name="myTestName" id="myTestId" value="" required aria-required="true" />',
 		),
-
 	);
 }

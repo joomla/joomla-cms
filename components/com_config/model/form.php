@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,6 +37,7 @@ abstract class ConfigModelForm extends ConfigModelCms
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
 	 * @since   3.2
+	 * @throws  RuntimeException
 	 */
 	public function checkin($pk = null)
 	{
@@ -47,24 +48,22 @@ abstract class ConfigModelForm extends ConfigModelCms
 
 			// Get an instance of the row to checkin.
 			$table = $this->getTable();
+
 			if (!$table->load($pk))
 			{
-				$this->setError($table->getError());
-				return false;
+				throw new RuntimeException($table->getError());
 			}
 
 			// Check if this is the user has previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
-				return false;
+				throw new RuntimeException($table->getError());
 			}
 
 			// Attempt to check the row in.
 			if (!$table->checkin($pk))
 			{
-				$this->setError($table->getError());
-				return false;
+				throw new RuntimeException($table->getError());
 			}
 		}
 
@@ -92,22 +91,19 @@ abstract class ConfigModelForm extends ConfigModelCms
 
 			if (!$table->load($pk))
 			{
-				$this->setError($table->getError());
-				return false;
+				throw new RuntimeException($table->getError());
 			}
 
 			// Check if this is the user having previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
 			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
-				return false;
+				throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 			}
 
 			// Attempt to check the row out.
 			if (!$table->checkout($user->get('id'), $pk))
 			{
-				$this->setError($table->getError());
-				return false;
+				throw new RuntimeException($table->getError());
 			}
 		}
 
@@ -241,7 +237,7 @@ abstract class ConfigModelForm extends ConfigModelCms
 		// Check for errors encountered while preparing the data.
 		if (count($results) > 0 && in_array(false, $results, true))
 		{
-			$this->setError($dispatcher->getError());
+			JFactory::getApplication()->enqueueMessage($dispatcher->getError(), 'error');
 		}
 	}
 
@@ -298,13 +294,14 @@ abstract class ConfigModelForm extends ConfigModelCms
 	public function validate($form, $data, $group = null)
 	{
 		// Filter and validate the form data.
-		$data = $form->filter($data);
+		$data   = $form->filter($data);
 		$return = $form->validate($data, $group);
 
 		// Check for an error.
 		if ($return instanceof Exception)
 		{
-			$this->setError($return->getMessage());
+			JFactory::getApplication()->enqueueMessage($return->getMessage(), 'error');
+
 			return false;
 		}
 
@@ -314,7 +311,7 @@ abstract class ConfigModelForm extends ConfigModelCms
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message)
 			{
-				$this->setError($message);
+				JFactory::getApplication()->enqueueMessage($message, 'error');
 			}
 
 			return false;

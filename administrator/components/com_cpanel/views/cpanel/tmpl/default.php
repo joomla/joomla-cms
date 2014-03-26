@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,6 +59,10 @@ $user = JFactory::getUser();
 				$params = new JRegistry;
 				$params->loadString($module->params);
 				$bootstrapSize = $params->get('bootstrap_size');
+				if (!$bootstrapSize)
+				{
+					$bootstrapSize = 12;
+				}
 				$spans += $bootstrapSize;
 				if ($spans > 12)
 				{

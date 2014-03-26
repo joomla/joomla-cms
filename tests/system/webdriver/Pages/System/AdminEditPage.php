@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -446,8 +452,9 @@ abstract class AdminEditPage extends AdminPage
 		{
 			$guiEditor = $this->driver->findElements(By::xPath("//a[contains(@onclick, 'mceToggleEditor')]"));
 		}
-		if (isset($guiEditor) && is_array($guiEditor) && count($guiEditor) == 1)
+		if (isset($guiEditor) && is_array($guiEditor) && count($guiEditor) == 1 && $guiEditor[0]->isDisplayed())
 		{
+			$this->driver->executeScript("window.scrollBy(0,400)");
 			$guiEditor[0]->click();
 		}
 
@@ -455,10 +462,12 @@ abstract class AdminEditPage extends AdminPage
 		$inputElement->clear();
 		$inputElement->sendKeys($values['value']);
 
-		if (isset($guiEditor) && is_array($guiEditor) && count($guiEditor) == 1)
+		if (isset($guiEditor) && is_array($guiEditor) && count($guiEditor) == 1 && $guiEditor[0]->isDisplayed())
 		{
+			$this->driver->executeScript("window.scrollBy(0,400)");
 			$guiEditor[0]->click();
 		}
+		$this->driver->executeScript("window.scrollTo(0,0)");
 	}
 
 	/**

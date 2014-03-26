@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -270,22 +270,22 @@ abstract class JFormField
 	 * @var    mixed
 	 * @since  11.1
 	 */
-	protected $labelClass;
+	protected $labelclass;
 
 	/**
-	* The javascript onchange of the form field.
-	*
-	* @var    string
-	* @since  3.2
-	*/
+	 * The javascript onchange of the form field.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
 	protected $onchange;
 
 	/**
-	* The javascript onclick of the form field.
-	*
-	* @var    string
-	* @since  3.2
-	*/
+	 * The javascript onclick of the form field.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
 	protected $onclick;
 
 	/**
@@ -303,6 +303,13 @@ abstract class JFormField
 	 * @since  11.1
 	 */
 	protected static $generated_fieldname = '__field';
+
+	/**
+	 * Layout to render the form field
+	 *
+	 * @var  string
+	 */
+	protected $renderLayout = 'joomla.form.renderfield';
 
 	/**
 	 * Method to instantiate the form field object.
@@ -361,7 +368,7 @@ abstract class JFormField
 			case 'validate':
 			case 'value':
 			case 'class':
-			case 'labelClass':
+			case 'labelclass':
 			case 'size':
 			case 'onchange':
 			case 'onclick':
@@ -420,11 +427,12 @@ abstract class JFormField
 			case 'description':
 			case 'hint':
 			case 'value':
-			case 'labelClass':
+			case 'labelclass':
 			case 'onchange':
 			case 'onclick':
 			case 'validate':
 			case 'pattern':
+			case 'group':
 			case 'default':
 				$this->$name = (string) $value;
 				break;
@@ -468,6 +476,16 @@ abstract class JFormField
 			case 'translateHint':
 				$value = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
+				break;
+
+			case 'translate_label':
+				$value = (string) $value;
+				$this->translateLabel = $this->translateLabel && !($value === 'false' || $value === 'off' || $value === '0');
+				break;
+
+			case 'translate_description':
+				$value = (string) $value;
+				$this->translateDescription = $this->translateDescription && !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
 			case 'size':
@@ -535,10 +553,11 @@ abstract class JFormField
 		$this->group = $group;
 
 		$attributes = array(
-			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelClass', 'onchange',
+			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange',
 			'onclick', 'validate', 'pattern', 'default', 'required',
 			'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck',
-			'translateHint', 'translateLabel', 'translateDescription', 'size');
+			'translateHint', 'translateLabel','translate_label', 'translateDescription',
+			'translate_description' ,'size');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -691,7 +710,7 @@ abstract class JFormField
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasTooltip' : '';
 		$class = $this->required == true ? $class . ' required' : $class;
-		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
+		$class = !empty($this->labelclass) ? $class . ' ' . $this->labelclass : $class;
 
 		// Add the opening label tag and main attributes attributes.
 		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
@@ -699,8 +718,10 @@ abstract class JFormField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
+			// Don't translate discription if specified in the field xml.
+			$description = $this->translateDescription ? JText::_($this->description) : $this->description;
 			JHtml::_('bootstrap.tooltip');
-			$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), JText::_($this->description), 0) . '"';
+			$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), $description, 0) . '"';
 		}
 
 		// Add the label text and closing tag.
@@ -851,21 +872,36 @@ abstract class JFormField
 	/**
 	 * Method to get a control group with label and input.
 	 *
-	 * @return  string  A string containing the html for the control goup
+	 * @return  string  A string containing the html for the control group
+	 *
+	 * @since      3.2
+	 * @deprecated 3.2.3 Use renderField() instead
+	 */
+	public function getControlGroup()
+	{
+		JLog::add('JFormField->getControlGroup() is deprecated use JFormField->renderField().', JLog::WARNING, 'deprecated');
+
+		return $this->renderField();
+	}
+
+	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @param   array  $options  Options to be passed into the rendering of the field
+	 *
+	 * @return  string  A string containing the html for the control group
 	 *
 	 * @since   3.2
 	 */
-	public function getControlGroup()
+	public function renderField($options = array())
 	{
 		if ($this->hidden)
 		{
 			return $this->getInput();
 		}
 
-		return
-			'<div class="control-group">'
-			. '<div class="control-label">' . $this->getLabel() . '</div>'
-			. '<div class="controls">' . $this->getInput() . '</div>'
-			. '</div>';
+		$hiddenLabel = isset($options['hiddenLabel']) ? $options['hiddenLabel'] : false;
+
+		return JLayoutHelper::render($this->renderLayout, array('input' => $this->getInput(), 'label' => $this->getLabel(), 'hiddenLabel' => $hiddenLabel));
 	}
 }

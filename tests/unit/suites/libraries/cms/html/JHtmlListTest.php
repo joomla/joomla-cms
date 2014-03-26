@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -86,14 +86,42 @@ class JHtmlListTest extends TestCaseDatabase
 	 */
 	public function testUsers()
 	{
-		$this->assertThat(
-			JHtml::_('list.users', 'user-list', '43', '1'),
-			$this->StringContains('<option value="43" selected="selected">Publisher</option>')
+		$result = JHtmlList::users('user-list', '43', '1');
+
+		// Build the container to check the <select> element
+		$matcher = array(
+			'id'    => 'user-list',
+			'tag'   => 'select',
+			'child' => array(
+				'tag'        => 'option',
+				'content'    => 'Publisher',
+				'attributes' => array('selected' => 'selected', 'value' => '43')
+			)
 		);
 
-		$this->assertThat(
-			JHtml::_('list.users', 'user-list', '42'),
-			$this->StringContains('<option value="43">Publisher</option>')
+		$this->assertTag(
+			$matcher,
+			$result,
+			'Expected a <select> element with id "user-list" containing a child <option value="43" selected="selected">Publisher</option>'
+		);
+
+		$result = JHtmlList::users('user-list', '42');
+
+		// Build the container to check the <select> element
+		$matcher = array(
+			'id'    => 'user-list',
+			'tag'   => 'select',
+			'child' => array(
+				'tag'        => 'option',
+				'content'    => 'Publisher',
+				'attributes' => array('value' => '43')
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'Expected a <select> element with id "user-list" containing a child <option value="43">Publisher</option>'
 		);
 	}
 
@@ -106,10 +134,23 @@ class JHtmlListTest extends TestCaseDatabase
 	 */
 	public function testPositions()
 	{
-		$this->assertThat(
-			JHtml::_('list.positions', 'position-list', 'center', null, '1', '1', '1', '1', 'positions'),
-			$this->StringContains('<option value="left">Left</option>')
+		$result = JHtmlList::positions('position-list', 'center', null, '1', '1', '1', '1', 'positions');
+
+		// Build the container to check the <select> element
+		$matcher = array(
+			'id'    => 'positions',
+			'tag'   => 'select',
+			'child' => array(
+				'tag'        => 'option',
+				'content'    => 'Left',
+				'attributes' => array('value' => 'left')
+			)
 		);
 
+		$this->assertTag(
+			$matcher,
+			$result,
+			'Expected a <select> element with id "user-list" containing a child <option value="left">Left</option>'
+		);
 	}
 }

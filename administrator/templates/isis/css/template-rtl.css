@@ -56,7 +56,8 @@ img {
 	-ms-interpolation-mode: bicubic;
 }
 #map_canvas img,
-.google-maps img {
+.google-maps img,
+.gm-style img {
 	max-width: none;
 }
 button,
@@ -6019,27 +6020,47 @@ fieldset.radio.btn-group {
 	margin: 2px 0px 10px 0px;
 	padding-bottom: 5px;
 }
-.input-prepend .chzn-container-single .chzn-single {
+.input-prepend .chzn-container-single .chzn-single,
+.input-append .chzn-container-single .chzn-single {
 	border-color: #ccc;
 	height: 26px;
-	-webkit-border-radius: 0 3px 3px 0;
-	-moz-border-radius: 0 3px 3px 0;
-	border-radius: 0 3px 3px 0;
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
-.input-prepend .chzn-container-active .chzn-single-with-drop {
-	-webkit-border-radius: 0 3px 0 0;
-	-moz-border-radius: 0 3px 0 0;
-	border-radius: 0 3px 0 0;
-}
-.input-prepend .chzn-container-single .chzn-drop {
+.input-prepend .chzn-container-single .chzn-drop,
+.input-append .chzn-container-single .chzn-drop {
 	border-color: #ccc;
 }
 .input-prepend > .add-on,
 .input-append > .add-on {
 	vertical-align: top;
+}
+.input-prepend .chzn-container-single .chzn-single {
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+}
+.input-prepend .chzn-container-single .chzn-single-with-drop {
+	-webkit-border-radius: 0 3px 0 0;
+	-moz-border-radius: 0 3px 0 0;
+	border-radius: 0 3px 0 0;
+}
+.input-append .chzn-container-single .chzn-single {
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+}
+.input-append .chzn-container-single .chzn-single-with-drop {
+	-webkit-border-radius: 3px 0 0 0;
+	-moz-border-radius: 3px 0 0 0;
+	border-radius: 3px 0 0 0;
+}
+.input-prepend.input-append .chzn-container-single .chzn-single,
+.input-prepend.input-append .chzn-container-single .chzn-single-with-drop {
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
 }
 .element-invisible {
 	position: absolute;
@@ -6129,7 +6150,7 @@ div.modal {
 	top: 10%;
 	left: 50%;
 	z-index: 1050;
-	width: 560px;
+	width: 580px;
 	margin-left: -280px;
 	background-color: #fff;
 	border: 1px solid #999;
@@ -6155,6 +6176,9 @@ div.modal.fade {
 }
 div.modal.fade.in {
 	top: 10%;
+}
+.modal-batch {
+	overflow-y: visible;
 }
 @media (max-width: 767px) {
 	div.modal {
@@ -6919,6 +6943,9 @@ div.modal.fade.in {
 .icon-credit-2:before {
 	content: "\e287";
 }
+.icon-expired:before {
+	content: "\4b";
+}
 .icon-edit:before {
 	color: #2f96b4;
 }
@@ -6940,6 +6967,7 @@ div.modal.fade.in {
 }
 .icon-featured:before,
 .icon-default:before,
+.icon-expired:before,
 .icon-pending:before {
 	color: #f89406;
 }
@@ -7358,9 +7386,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 .nav-filters hr {
 	margin: 5px 0;
 }
-.view-module .tab-content {
-	overflow: visible;
-}
 #assignment.tab-pane {
 	min-height: 500px;
 }
@@ -7597,6 +7622,14 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	width: auto;
 	padding-right: 5px;
 	text-align: left;
+}
+.form-horizontal .control-label .spacer hr {
+	width: 380px;
+}
+@media (max-width: 420px) {
+	.form-horizontal .control-label .spacer hr {
+		width: 220px;
+	}
 }
 .form-horizontal #jform_catid_chzn {
 	vertical-align: middle;
@@ -7913,6 +7946,25 @@ input.input-large-text {
 .chzn-color-state.chzn-single[rel="value_-2"].active {
 	background-color: #942a25 \9;
 }
+#permissions-sliders .input-small {
+	width: 120px;
+}
+.editor {
+	overflow: hidden;
+	position: relative;
+}
+a.grid_false {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/admin/publish_r.png');
+}
+a.grid_true {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/admin/icon-16-allow.png');
+}
 .pull-right {
 	float: left;
 }
@@ -8091,7 +8143,7 @@ input.input-large-text {
 	float: right;
 }
 .input-append .add-on {
-	float: left;
+	float: none;
 }
 .input-prepend .add-on,
 .input-prepend .btn {
@@ -8244,7 +8296,7 @@ body {
 }
 .navbar .nav > li > a {
 	padding: 8px 10px;
-	color: #D2E3FC;
+	color: #FFFFFF;
 }
 .container-logo {
 	padding-top: 6px;
@@ -8512,4 +8564,22 @@ input[type="url"] {
 }
 #status .badge {
 	margin-left: 0;
+}
+.dropdown-menu > li > a {
+	text-align: right;
+}
+.btn-group > .btn + .dropdown-toggle {
+	float: none;
+}
+a.grid_false {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/admin/publish_r.png');
+}
+a.grid_true {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/admin/icon-16-allow.png');
 }

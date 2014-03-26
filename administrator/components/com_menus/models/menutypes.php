@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,10 +81,8 @@ class MenusModelMenutypes extends JModelLegacy
 
 						if (isset($option->request['option']))
 						{
-								$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR. ' /components/'.$option->request['option'], null, false, false)
-							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR . '/components/'.$option->request['option'], $lang->getDefault(), false, false);
+								$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR. '/components/'.$option->request['option'], null, false, true);
 						}
 					}
 				}
@@ -217,7 +215,7 @@ class MenusModelMenutypes extends JModelLegacy
 		// Get the views for this component.
 		if (is_dir(JPATH_SITE . '/components/' . $component))
 		{
-			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, 'view', false, true);
+			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, '^view[s]?$', false, true);
 		}
 		$path = '';
 
@@ -326,7 +324,7 @@ class MenusModelMenutypes extends JModelLegacy
 		// Get the views for this component.
 		if (is_dir(JPATH_SITE . '/components/' . $component))
 		{
-			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, 'view', false, true);
+			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, '^view[s]?$', false, true);
 		}
 
 		if (!empty($folders[0]))
@@ -366,10 +364,8 @@ class MenusModelMenutypes extends JModelLegacy
 			if (is_dir($folder . '/html/' . $component . '/' . $view))
 			{
 				$template = basename($folder);
-				$lang->load('tpl_' . $template . '.sys', JPATH_SITE, null, false, false)
-				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, null, false, false)
-				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE, $lang->getDefault(), false, false)
-				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, $lang->getDefault(), false, false);
+				$lang->load('tpl_' . $template . '.sys', JPATH_SITE, null, false, true)
+				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, null, false, true);
 
 				$templateLayouts = JFolder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
 

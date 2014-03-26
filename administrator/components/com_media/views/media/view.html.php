@@ -3,11 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+// Include jQuery
+JHtml::_('jquery.framework');
 
 /**
  * HTML View class for the Media component
@@ -22,6 +25,11 @@ class MediaViewMedia extends JViewLegacy
 	{
 		$app	= JFactory::getApplication();
 		$config = JComponentHelper::getParams('com_media');
+
+		if (!$app->isAdmin())
+		{
+			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+		}
 
 		$lang	= JFactory::getLanguage();
 
