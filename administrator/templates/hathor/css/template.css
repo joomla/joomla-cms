@@ -787,6 +787,9 @@
 .icon-credit-2:before {
 	content: "\e287";
 }
+.icon-expired:before {
+	content: "\4b";
+}
 html,
 body,
 div,

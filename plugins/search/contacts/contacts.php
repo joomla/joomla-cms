@@ -38,6 +38,7 @@ class PlgSearchContacts extends JPlugin
 		static $areas = array(
 			'contacts' => 'PLG_SEARCH_CONTACTS_CONTACTS'
 		);
+
 		return $areas;
 	}
 
@@ -77,10 +78,12 @@ class PlgSearchContacts extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
 		$state = array();
+
 		if ($sContent)
 		{
 			$state[] = 1;
 		}
+
 		if ($sArchived)
 		{
 			$state[] = 2;
@@ -92,6 +95,7 @@ class PlgSearchContacts extends JPlugin
 		}
 
 		$text = trim($text);
+
 		if ($text == '')
 		{
 			return array();

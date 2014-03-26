@@ -48,6 +48,7 @@ abstract class ModTagssimilarHelper
 		$id         = $app->input->getInt('id');
 
 		$tagsToMatch = $tagsHelper->getTagIds($id, $prefix);
+
 		if (!$tagsToMatch || is_null($tagsToMatch))
 		{
 			return;
@@ -62,7 +63,7 @@ abstract class ModTagssimilarHelper
 				$db->quoteName('m.core_content_id'),
 				$db->quoteName('m.content_item_id'),
 				$db->quoteName('m.type_alias'),
-					'COUNT( '  . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('count'),
+					'COUNT( ' . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('count'),
 				$db->quoteName('t.access'),
 				$db->quoteName('t.id'),
 				$db->quoteName('ct.router'),
@@ -97,18 +98,20 @@ abstract class ModTagssimilarHelper
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
+
 			$query->where($db->quoteName('cc.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
 		$query->group($db->quoteName(array('m.core_content_id')));
+
 		if ($matchtype == 'all' && $tagCount > 0)
 		{
-			$query->having('COUNT( '  . $db->quoteName('tag_id') . ')  = ' . $tagCount);
+			$query->having('COUNT( ' . $db->quoteName('tag_id') . ')  = ' . $tagCount);
 		}
 		elseif ($matchtype == 'half' && $tagCount > 0)
 		{
 			$tagCountHalf = ceil($tagCount / 2);
-			$query->having('COUNT( '  . $db->quoteName('tag_id') . ')  >= ' . $tagCountHalf);
+			$query->having('COUNT( ' . $db->quoteName('tag_id') . ')  >= ' . $tagCountHalf);
 		}
 
 		$query->order($db->quoteName('count') . ' DESC');
@@ -118,7 +121,8 @@ abstract class ModTagssimilarHelper
 		foreach ($results as $result)
 		{
 			$explodedAlias = explode('.', $result->type_alias);
-			$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . $result->content_item_id . '-' . $result->core_alias;
+			$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1]
+				. '&id=' . $result->content_item_id . '-' . $result->core_alias;
 		}
 
 		return $results;

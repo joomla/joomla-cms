@@ -57,6 +57,12 @@ abstract class ModLoginHelper
 		}
 	}
 
+	/**
+	 * Creates a list of two factor authentication methods used in com_users
+	 * on user view
+	 *
+	 * @return  array
+	 */
 	public static function getTwoFactorMethods()
 	{
 		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';

@@ -44,6 +44,7 @@ class ModFinderHelper
 			{
 				continue;
 			}
+
 			$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
 		}
 
