@@ -230,11 +230,11 @@ class JFormFieldMedia extends JFormField
 			$script[] = '		var $img = $("#" + id + "_preview");';
 			$script[] = '		if ($img.length) {';
 			$script[] = '			if (value) {';
-			$script[] = '				$img.src = "' . JUri::root() . '" + value;';
+			$script[] = '				$img.attr("src", "' . JUri::root() . '" + value);';
 			$script[] = '				$("#" + id + "_preview_empty").hide();';
 			$script[] = '				$("#" + id + "_preview_img").show()';
 			$script[] = '			} else { ';
-			$script[] = '				$img.src = ""';
+			$script[] = '				$img.attr("src", "")';
 			$script[] = '				$("#" + id + "_preview_empty").show();';
 			$script[] = '				$("#" + id + "_preview_img").hide();';
 			$script[] = '			} ';
