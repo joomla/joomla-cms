@@ -20,12 +20,13 @@ else
 	$lang = JFactory::getLanguage();
 	$myrtl = $params->get('rssrtl');
 	$direction = " ";
+
 	if ($lang->isRTL() && $myrtl == 0)
 	{
 		$direction = " redirect-rtl";
 	}
 
-	// feed description
+	// Feed description
 	elseif ($lang->isRTL() && $myrtl == 1)
 	{
 		$direction = " redirect-ltr";
@@ -46,18 +47,18 @@ else
 	}
 	elseif ($myrtl == 2)
 	{
-		$direction = " redirect-rtl";	}
-	?>
-	<?php
+		$direction = " redirect-rtl";
+	}
+
 	if ($feed != false)
 	{
-		//image handling
+		// Image handling
 		$iUrl	= isset($feed->image)	? $feed->image	: null;
 		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
 		?>
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed<?php echo $moduleclass_sfx; ?>">
 		<?php
-		// feed description
+		// Feed description
 		if (!is_null($feed->title) && $params->get('rsstitle', 1))
 		{
 			?>
@@ -67,14 +68,14 @@ else
 					</h2>
 			<?php
 		}
-		// feed description
+		// Feed description
 		if ($params->get('rssdesc', 1))
 		{
 		?>
 			<?php echo $feed->description; ?>
 			<?php
 		}
-		// feed image
+		// Feed image
 		if ($params->get('rssimage', 1) && $iUrl) :
 		?>
 			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
