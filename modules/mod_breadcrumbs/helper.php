@@ -18,6 +18,13 @@ defined('_JEXEC') or die;
  */
 class ModBreadCrumbsHelper
 {
+	/**
+	 * Retrieve breadcrumb items
+	 *
+	 * @param   JRegistry  &$params  module parameters
+	 *
+	 * @return array
+	 */
 	public static function getList(&$params)
 	{
 		// Get the PathWay object from the application
@@ -29,6 +36,7 @@ class ModBreadCrumbsHelper
 
 		// Don't use $items here as it references JPathway properties directly
 		$crumbs	= array();
+
 		for ($i = 0; $i < $count; $i ++)
 		{
 			$crumbs[$i] = new stdClass;
@@ -50,9 +58,11 @@ class ModBreadCrumbsHelper
 	/**
 	 * Set the breadcrumbs separator for the breadcrumbs display.
 	 *
-	 * @param   string	$custom	Custom xhtml complient string to separate the
+	 * @param   string  $custom  Custom xhtml complient string to separate the
 	 * items of the breadcrumbs
+	 *
 	 * @return  string	Separator string
+	 *
 	 * @since   1.5
 	 */
 	public static function setSeparator($custom = null)
