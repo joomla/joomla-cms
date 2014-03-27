@@ -19,6 +19,8 @@ defined('_JEXEC') or die;
  */
 abstract class NewsfeedsHelperRoute
 {
+	protected static $lang_lookup = array();
+
 	/**
 	 * @param   integer  The route of the newsfeed
 	 */
@@ -34,7 +36,13 @@ abstract class NewsfeedsHelperRoute
 
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
-			$link .= '&lang=' . $language;
+			self::buildLanguageLookup();
+
+			if (isset(self::$lang_lookup[$language]))
+			{
+				$link .= '&lang=' . self::$lang_lookup[$language];
+				$link .= '&language=' . $language;
+			}
 		}
 
 		return $link;
@@ -45,20 +53,55 @@ abstract class NewsfeedsHelperRoute
 		if ($catid instanceof JCategoryNode)
 		{
 			$id = $catid->id;
+			$category = $catid;
 		}
 		else
 		{
 			$id = (int) $catid;
+			$category = JCategories::getInstance('Newsfeeds')->get($id);
 		}
 
-		// Create the link
-		$link = 'index.php?option=com_newsfeeds&view=category&id='.$id;
-
-		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+		if ($id < 1 || !($category instanceof JCategoryNode))
 		{
-			$link .= '&lang=' . $language;
+			$link = '';
+		}
+		else
+		{
+			// Create the link
+			$link = 'index.php?option=com_newsfeeds&view=category&id='.$id;
+
+			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+			{
+				self::buildLanguageLookup();
+
+				if (isset(self::$lang_lookup[$language]))
+				{
+					$link .= '&lang=' . self::$lang_lookup[$language];
+					$link .= '&language=' . $language;
+				}
+			}
 		}
 
 		return $link;
+	}
+
+	protected static function buildLanguageLookup()
+	{
+		if (count(self::$lang_lookup) == 0)
+		{
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('a.sef AS sef')
+				->select('a.lang_code AS lang_code')
+				->from('#__languages AS a');
+
+			$db->setQuery($query);
+			$langs = $db->loadObjectList();
+
+			foreach ($langs as $lang)
+			{
+				self::$lang_lookup[$lang->lang_code] = $lang->sef;
+			}
+		}
 	}
 }

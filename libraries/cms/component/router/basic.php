@@ -19,8 +19,6 @@ defined('JPATH_PLATFORM') or die;
 abstract class JComponentRouterBasic
 {
 	protected $lookup = array();
-
-	protected $lang_lookup = array();
 	
 	protected $name;
 
@@ -49,10 +47,9 @@ abstract class JComponentRouterBasic
 	{
 		$needles = array();
 
-		if (isset($query['language']) && $query['language'] != "*" && JLanguageMultilang::isEnabled() && isset($this->lang_lookup[$query['language']]))
+		if (isset($query['language']) && $query['language'] != "*")
 		{
-			$query['lang'] = $this->lang_lookup[$query['language']];
-			$needles['language'] = $query['lang'];
+			$needles['language'] = $query['language'];
 		}
 		unset($query['language']);
 		
@@ -90,22 +87,13 @@ abstract class JComponentRouterBasic
 	
 	protected function buildLookupTables($language)
 	{
+		if (isset($this->lookup[$language]))
+		{
+			return;
+		}
+		
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu('site');
-		
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.sef AS sef')
-			->select('a.lang_code AS lang_code')
-			->from('#__languages AS a');
-		$db->setQuery($query);
-
-		$langs = $db->loadObjectList();
-		foreach ($langs as $lang)
-		{
-			$this->lang_lookup[$lang->lang_code] = $lang->sef;
-		}
-
 		$component	= JComponentHelper::getComponent('com_' . strtolower($this->getName()));
 
 		$attributes = array('component_id', 'language');
@@ -142,10 +130,7 @@ abstract class JComponentRouterBasic
 		$menus		= $app->getMenu('site');
 		$language	= isset($needles['language']) ? $needles['language'] : '*';
 
-		if(!isset($this->lookup[$language]))
-		{
-			$this->buildLookupTables($language);
-		}
+		$this->buildLookupTables($language);
 
 		if ($needles)
 		{
