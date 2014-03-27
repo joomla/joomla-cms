@@ -41,18 +41,21 @@ class ContentModelForm extends ContentModelArticle
 	{
 		$app = JFactory::getApplication();
 
+		// Load the parameters.
+		$params	= $app->getParams();
+		$this->setState('params', $params);
+
 		// Load state from the request.
 		$pk = $app->input->getInt('a_id');
 		$this->setState('article.id', $pk);
 
-		$this->setState('article.catid', $app->input->getInt('catid'));
+		// Always accept catId parameter, the model will handle security on save
+		$catId = $params->get('catid', 0);
+		$this->setState('article.catid', $app->input->getInt('catid', $catId));
 
 		$return = $app->input->get('return', null, 'base64');
 		$this->setState('return_page', base64_decode($return));
 
-		// Load the parameters.
-		$params	= $app->getParams();
-		$this->setState('params', $params);
 
 		$this->setState('layout', $app->input->getString('layout'));
 	}
@@ -118,9 +121,9 @@ class ContentModelForm extends ContentModelArticle
 		}
 		else
 		{
+			//var_dump($this);
 			// New item.
 			$catId = (int) $this->getState('article.catid');
-
 			if ($catId)
 			{
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.' . $catId));

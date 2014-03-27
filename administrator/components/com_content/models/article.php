@@ -350,13 +350,10 @@ class ContentModelArticle extends JModelAdmin
 			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content'))
 		)
 		{
-			// Disable fields for display.
-			$form->setFieldAttribute('featured', 'disabled', 'true');
-			$form->setFieldAttribute('ordering', 'disabled', 'true');
-			$form->setFieldAttribute('publish_up', 'disabled', 'true');
-			$form->setFieldAttribute('publish_down', 'disabled', 'true');
-			$form->setFieldAttribute('state', 'disabled', 'true');
 
+			//The view handles checking to see
+			// if the fields can be displayed or not, the model
+			// ensures authority to save the data only
 			// Disable fields while saving.
 			// The controller has already verified this is an article you can edit.
 			$form->setFieldAttribute('featured', 'filter', 'unset');
