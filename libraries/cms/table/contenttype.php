@@ -131,7 +131,7 @@ class JTableContenttype extends JTable
 		{
 			if (is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix))
 			{
-				$class = isset($tableInfo->special->class)) ? $tableInfo->special->class : 'JTable';
+				$class = isset($tableInfo->special->class) ? $tableInfo->special->class : 'JTable';
 
 				// Ensure if an FOFTable instance FOF is included
 				if ($class == 'FOFTable' && !class_exists('FOFAutoloaderFof'))
