@@ -131,7 +131,16 @@ class JTableContenttype extends JTable
 		{
 			if (is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix))
 			{
-				$result = JTable::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
+				if (isset($tableInfo->special->class))
+				{
+					include_once JPATH_LIBRARIES.'/fof/include.php';
+					$class = $tableInfo->special->class;
+					$result = $class::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
+				}
+				else
+				{
+					$result = JTable::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
+				}
 			}
 		}
 
