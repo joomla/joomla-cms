@@ -29,8 +29,9 @@ if (!class_exists('JLoader'))
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
-// Register the framework namespace
+// Register PHP namespaces
 JLoader::registerNamespace('Joomla', JPATH_PLATFORM . '/framework');
+JLoader::registerNamespace('Symfony', JPATH_PLATFORM . '/framework');
 
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
 require_once __DIR__ . '/classmap.php';
