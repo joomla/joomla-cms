@@ -113,7 +113,7 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		// The user should not be able to set the requireReset value on their own account
-		if ($userId === JFactory::getUser()->id)
+		if ((int) $userId === (int) JFactory::getUser()->id)
 		{
 			$form->removeField('requireReset');
 		}
