@@ -9,7 +9,8 @@
 defined('_JEXEC') or die;
 
 // Access check.
-if (!JFactory::getUser()->authorise('core.manage', JRequest::getCmd('extension'))) {
+// FIXME (GWK) ACLs are set on com_content, not on com_category!
+if (!JFactory::getUser()->authorise('core.manage', 'com_content'))
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
