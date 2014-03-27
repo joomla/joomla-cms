@@ -896,3 +896,4 @@ abstract class JFormField
 			. '</div>';
 	}
 }
+hidden
