@@ -912,12 +912,11 @@ abstract class JFormField
 		}
       
 		if ($showon = $this->getAttribute('showon')) {
-			JHtml::_('jquery.framework');
-			JHtml::_('script', 'jui/cms.js', false, true);
 			$showon   = explode(':', $showon, 2);
 			$options['class'] .= ' showon_' . implode(' showon_', explode(',', $showon[1]));
 			$id = $this->getName($showon[0]);
 			$options['rel'] = ' rel="showon_' . $id . '"';
+			$options['showonEnabled'] = true;
 		}
 
 		return JLayoutHelper::render($this->renderLayout, array('input' => $this->getInput(), 'label' => $this->getLabel(), 'options' => $options));
