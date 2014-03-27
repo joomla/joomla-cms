@@ -130,7 +130,7 @@ class MessagesModelConfig extends JModelForm
 
 				foreach ($data as $k => $v)
 				{
-					$query->values($userId.', ' . $db->quote($k) . ', ' . $db->quote($v));
+					$query->values($userId . ', ' . $db->quote($k) . ', ' . $db->quote($v));
 				}
 
 				$db->setQuery($query);
