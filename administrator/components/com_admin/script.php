@@ -1018,6 +1018,14 @@ class JoomlaInstallerScript
 			'/plugins/user/joomla/postinstall/index.html',
 			'/media/com_finder/js/finder.js',
 			'/media/com_finder/js/highlighter.js',
+		    '/libraries/joomla/registry/format.php',
+		    '/libraries/joomla/registry/index.html',
+		    '/libraries/joomla/registry/registry.php',
+		    '/libraries/joomla/registry/format/index.html',
+		    '/libraries/joomla/registry/format/ini.php',
+		    '/libraries/joomla/registry/format/json.php',
+		    '/libraries/joomla/registry/format/php.php',
+		    '/libraries/joomla/registry/format/xml.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1073,6 +1081,8 @@ class JoomlaInstallerScript
 			'/libraries/legacy/module',
 			'/administrator/components/com_weblinks/models/fields',
 			'/plugins/user/joomla/postinstall',
+			'/libraries/joomla/registry/format',
+			'/libraries/joomla/registry',
 		);
 
 		jimport('joomla.filesystem.file');
