@@ -36,7 +36,7 @@ class MenuItemEditPage extends AdminEditPage
 	 * @var    array
 	 * @since  3.2
 	 */
-	public $tabLabels = array('Details', 'Advanced Options', 'Module Assignment');
+	public $tabLabels = array('Details', 'Link Type', 'Page Display', 'Metadata', 'Module Assignment');
 
 	/**
 	 * Array of groups for this page. A group is a collapsable slider inside a tab.
@@ -148,10 +148,52 @@ class MenuItemEditPage extends AdminEditPage
 	{
 		foreach ($this->menuItemTypes as $array)
 		{
-			if (strpos($array['type'], $value) !== false)
+			if (trim($array['type']) == trim($value))
 				return $array['group'];
 		}
 		return false;
+	}
+
+	public function getHelpScreenshotName($options)
+	{
+		$prefix = (isset($options['prefix'])) ? $options['prefix'] : '';
+		$language = (isset($options['language'])) ? $options['language'] : '';
+		$component = (isset($options['component'])) ? $options['component'] : '';
+		if ($language)
+		{
+			$options['component'] = $this->getMenuItemComponent();
+		}
+		else
+		{
+			$type = $this->driver->findElement(By::id('jform_type'))->getAttribute(@value);
+			$group = $this->getGroupName($type);
+			$screenName = '';
+			if ($group)
+			{
+				$screenName = '-' . $group . '-' . $type;
+			}
+			if (isset($options['prefix']))
+			{
+				$options['prefix'] = $options['prefix'] . $screenName;
+
+			}
+			else
+			{
+				$options['prefix'] = $screenName;
+			}
+		}
+		return parent::getHelpScreenshotName($options);
+	}
+
+	public function getMenuItemComponent()
+	{
+		$componentName = $this->driver->findElement(By::id('jform_link'))->getAttribute('value');
+		$start = strpos($componentName, '?option=');
+		$end = strpos($componentName, '&');
+		$component = substr($componentName, $start + 8, $end - ($start + 8));
+		$start = strpos($componentName, '&view=');
+		$view = substr($componentName, $start + 6);
+		return $component . '-' . $view;
 	}
 
 	public function getMenuItemType()
@@ -183,6 +225,7 @@ class MenuItemEditPage extends AdminEditPage
 			}
 
 		}
+
 		return $result;
 	}
 
@@ -220,9 +263,9 @@ class MenuItemEditPage extends AdminEditPage
 		$d->findElement(By::xPath("//a[contains(@onclick, 'option=com_menus&view=menutypes')]"))->click();
 		$el = $d->waitForElementUntilIsPresent(By::xPath("//iframe[contains(@src, 'option=com_menus&view=menutypes')]"));
 		$el = $d->switchTo()->getFrameByWebElement($el);
-		$el->findElement(By::xPath("//a[contains(@class, 'accordion-toggle')][contains(., '" . $group . "')]"))->click();
+		$el->findElement(By::xPath("//a[contains(@class, 'accordion-toggle')][contains(., \"" . $group . "\")]"))->click();
 		$d->waitForElementUntilIsPresent(By::xPath("//div[contains(@class, 'accordion-body in')]/div/ul/li/a"));
-		$el->findElement(By::xPath("//div[contains(@class, 'accordion-body in')]//a[contains(text(), '" . $value . "')]"))->click();
+		$el->findElement(By::xPath("//div[contains(@class, 'accordion-body in')]//a[contains(text(), \"" . $value . "\")]"))->click();
 		$d->waitForElementUntilIsNotPresent(By::xPath("//iframe[contains(@src, 'option=com_menus&view=menutypes')]"));
 		$d->waitForElementUntilIsPresent(By::id('jform_title'));
 		$d->switchTo()->getDefaultFrame();

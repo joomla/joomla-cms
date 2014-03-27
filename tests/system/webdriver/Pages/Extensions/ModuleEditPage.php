@@ -93,7 +93,7 @@ class ModuleEditPage extends AdminEditPage
 		}
 	}
 
-	protected function getModuleType()
+	public function getModuleType()
 	{
 		$elements = $this->driver->findElements(By::xPath("//span[@class = 'label']"));
 		if (count($elements >= 2))
@@ -104,6 +104,11 @@ class ModuleEditPage extends AdminEditPage
 		{
 			return false;
 		}
+	}
+
+	public function getModuleName()
+	{
+		return $this->driver->findElement(By::id('jform_module'))->getAttribute('value');
 	}
 
 	public function getTabIds()
