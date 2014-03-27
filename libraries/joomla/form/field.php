@@ -876,9 +876,6 @@ abstract class JFormField
 			return $this->getInput();
 		}
 		
-		$class = '';
-		$rel = '';
-		
 		if ($showon = $this->getAttribute('showon'))
 		{
 			JHtml::_('jquery.framework');
@@ -896,4 +893,3 @@ abstract class JFormField
 			. '</div>';
 	}
 }
-hidden
