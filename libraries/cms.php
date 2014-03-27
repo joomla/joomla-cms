@@ -29,40 +29,6 @@ if (!class_exists('JLoader'))
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
-
-
-
-<?php
-/**
- * @package    Joomla.Libraries
- *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
- */
-
-defined('_JEXEC') or die;
-
-// Set the platform root path as a constant if necessary.
-if (!defined('JPATH_PLATFORM'))
-{
-	define('JPATH_PLATFORM', __DIR__);
-}
-
-// Import the library loader if necessary.
-if (!class_exists('JLoader'))
-{
-	require_once JPATH_PLATFORM . '/loader.php';
-}
-
-// Make sure that the Joomla Platform has been successfully loaded.
-if (!class_exists('JLoader'))
-{
-	throw new RuntimeException('Joomla Platform not loaded.');
-}
-
-// Register the library base path for CMS libraries.
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
-
 // Ensure FOF autoloader included - needed for things like content versioning where
 // we need to get an FOFTable Instance
 if (!class_exists('FOFAutoloaderFof'))
