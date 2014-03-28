@@ -332,7 +332,7 @@ class JGithubPulls extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -362,7 +362,7 @@ class JGithubPulls extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/comments/' . (int) $commentId;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -394,7 +394,7 @@ class JGithubPulls extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId . '/comments';
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -426,7 +426,7 @@ class JGithubPulls extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId . '/commits';
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -458,7 +458,7 @@ class JGithubPulls extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId . '/files';
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -496,7 +496,7 @@ class JGithubPulls extends JGithubObject
 		}
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -526,7 +526,7 @@ class JGithubPulls extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId . '/merge';
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code == 204)

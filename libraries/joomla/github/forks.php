@@ -79,7 +79,7 @@ class JGithubForks extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/forks';
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)

@@ -33,7 +33,7 @@ class JGithubUsers extends JGithubObject
 		$path = '/users/' . $user;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -59,7 +59,7 @@ class JGithubUsers extends JGithubObject
 		$path = '/user';
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -134,7 +134,7 @@ class JGithubUsers extends JGithubObject
 		$path .= ($since) ? '?since=' . $since : '';
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)

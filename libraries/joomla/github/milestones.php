@@ -43,7 +43,7 @@ class JGithubMilestones extends JGithubObject
 		$path .= '&direction=' . $direction;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -73,7 +73,7 @@ class JGithubMilestones extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/milestones/' . (int) $milestoneId;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
