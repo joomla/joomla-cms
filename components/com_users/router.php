@@ -16,28 +16,16 @@ defined('_JEXEC') or die;
  * @subpackage  com_users
  * @since       3.2
  */
-class UsersRouter implements JComponentRouterInterface
+class UsersRouter extends JComponentRouterBase
 {
 	/**
-	 * Preprocess method for the com_users component
+	 * Build the route for the com_users component
 	 *
-	 * @param   array  $query  An associative array of URL arguments
+	 * @param   array  &$query  An array of URL arguments
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 *
 	 * @since   3.3
-	 */
-	public function preprocess($query)
-	{
-		return $query;
-	}
-
-	/**
-	 * Function to build a Users URL route.
-	 *
-	 * @return  array  The array of query string values for which to build a route.
-	 * @return  array  The URL route with segments represented as an array.
-	 * @since    1.5
 	 */
 	public function build(&$query)
 	{
@@ -207,11 +195,13 @@ class UsersRouter implements JComponentRouterInterface
 	}
 
 	/**
-	 * Function to parse a Users URL route.
+	 * Parse the segments of a URL.
 	 *
-	 * @return  array  The URL route with segments represented as an array.
-	 * @return  array  The array of variables to set in the request.
-	 * @since    1.5
+	 * @param   array  &$segments  The segments of the URL to parse.
+	 *
+	 * @return  array  The URL attributes to be used by the application.
+	 *
+	 * @since   3.3
 	 */
 	public function parse(&$segments)
 	{

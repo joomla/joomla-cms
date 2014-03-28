@@ -16,22 +16,8 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       3.3
  */
-class WeblinksRouter implements JComponentRouterInterface
+class WeblinksRouter extends JComponentRouterBase
 {
-	/**
-	 * Preprocess method for the com_weblinks component
-	 *
-	 * @param   array  $query  An associative array of URL arguments
-	 *
-	 * @return  array  The URL arguments to use to assemble the subsequent URL.
-	 *
-	 * @since   3.3
-	 */
-	public function preprocess($query)
-	{
-		return $query;
-	}
-
 	/**
 	 * Build the route for the com_weblinks component
 	 *
