@@ -81,6 +81,8 @@ class ContentViewForm extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->params = $params;
+		//Override global params with article specific params
+		$this->params->merge($this->item->params);
 		$this->user   = $user;
 
 		if ($params->get('enable_category') == 1)
