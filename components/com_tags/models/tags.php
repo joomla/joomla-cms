@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,6 +113,7 @@ class TagsModelTags extends JModelList
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
 		$pid = $this->getState('tag.parent_id');
 		$orderby = $this->state->params->get('all_tags_orderby', 'title');
+		$published = $this->state->params->get('published', 1);
 		$orderDirection = $this->state->params->get('all_tags_orderby_direction', 'ASC');
 		$language = $this->getState('tag.language');
 
@@ -173,8 +174,10 @@ class TagsModelTags extends JModelList
 		// Optionally filter on entered value
 		if ($this->state->get('list.filter'))
 		{
-			$query->where($this->_db->quoteName('a.title') . ' LIKE ' . $this->_db->quote('%' . $this->state->get('list.filter') . '%'));
+			$query->where($db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $this->state->get('list.filter') . '%'));
 		}
+
+		$query->where($db->quoteName('a.published'). ' = ' . $published);
 
 		$query->order($db->quoteName($orderby) . ' ' . $orderDirection . ', a.title ASC');
 

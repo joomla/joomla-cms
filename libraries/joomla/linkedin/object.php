@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,8 +31,8 @@ abstract class JLinkedinObject
 	protected $client;
 
 	/**
-	 * @var JLinkedinOAuth The OAuth client.
-	 * @since 13.1
+	 * @var   JLinkedinOAuth The OAuth client.
+	 * @since  13.1
 	 */
 	protected $oauth;
 

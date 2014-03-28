@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,8 +110,6 @@ function TagsParseRoute($segments)
 	$app	= JFactory::getApplication();
 	$menu	= $app->getMenu();
 	$item	= $menu->getActive();
-	$params = JComponentHelper::getParams('com_tags');
-	$advanced = $params->get('sef_advanced_link', 0);
 
 	// Count route segments
 	$count = count($segments);
@@ -129,6 +127,11 @@ function TagsParseRoute($segments)
 
 	$found = 0;
 
+	/* TODO: Sort this code out. Makes no sense!
+	 * $found isn't used.
+	 * Indentation is all off
+	 * The foreach loop will always break in first itteration
+	 */
 	foreach($segments as $segment)
 	{
 		if ($found == 0)

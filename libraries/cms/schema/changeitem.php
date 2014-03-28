@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -193,10 +193,12 @@ abstract class JSchemaChangeitem
 	public function check()
 	{
 		$this->checkStatus = -1;
+
 		if ($this->checkQuery)
 		{
 			$this->db->setQuery($this->checkQuery);
 			$rows = $this->db->loadObject();
+
 			if ($rows !== false)
 			{
 				if (count($rows) === $this->checkQueryExpected)
@@ -213,6 +215,7 @@ abstract class JSchemaChangeitem
 				$this->checkStatus = -2;
 			}
 		}
+
 		return $this->checkStatus;
 	}
 
@@ -229,6 +232,7 @@ abstract class JSchemaChangeitem
 		{
 			// At this point we have a failed query
 			$this->db->setQuery($this->updateQuery);
+
 			if ($this->db->execute())
 			{
 				if ($this->check())

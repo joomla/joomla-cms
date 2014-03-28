@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,33 +18,24 @@ defined('_JEXEC') or die;
  */
 class WeblinksTableWeblink extends JTable
 {
-
-	/**
-	 * Helper object for storing and deleting tag information.
-	 *
-	 * @var    JHelperTags
-	 * @since  3.1
-	 */
-	protected $tagsHelper = null;
-
 	/**
 	 * Constructor
 	 *
-	 * @param JDatabaseDriver A database connector object
+	 * @param   JDatabaseDriver  &$db  A database connector object
 	 */
 	public function __construct(&$db)
 	{
 		parent::__construct('#__weblinks', 'id', $db);
-
-		$this->tagsHelper = new JHelperTags();
-		$this->tagsHelper->typeAlias = 'com_weblinks.weblink';
 	}
 
 	/**
 	 * Overloaded bind function to pre-process the params.
 	 *
-	 * @param   array  Named array
-	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
+	 * @param   mixed  $array   An associative array or object to bind to the JTable instance.
+	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 *
+	 * @return  boolean  True on success.
+	 *
 	 * @see     JTable:bind
 	 * @since   1.5
 	 */
@@ -85,6 +76,7 @@ class WeblinksTableWeblink extends JTable
 	{
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
+
 		if ($this->id)
 		{
 			// Existing item
@@ -126,9 +118,10 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
-		$this->tagsHelper->preStoreProcess($this);
-		$result = parent::store($updateNulls);
-		return $result && $this->tagsHelper->postStoreProcess($this);
+		// Convert IDN urls to punycode
+		$this->url = JStringPunycode::urlToPunycode($this->url);
+
+		return parent::store($updateNulls);
 	}
 
 	/**
@@ -151,8 +144,12 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
-		// check for existing name
-		$query = 'SELECT id FROM #__weblinks WHERE title = '.$this->_db->quote($this->title).' AND catid = '.(int) $this->catid;
+		// Check for existing name
+		$query = $this->_db->getQuery(true)
+			->select($this->_db->quoteName('id'))
+			->from($this->_db->quoteName('#__weblinks'))
+			->where($this->_db->quoteName('title') . ' = ' . $this->_db->quote($this->title))
+			->where($this->_db->quoteName('catid') . ' = ' . (int) $this->catid);
 		$this->_db->setQuery($query);
 
 		$xid = (int) $this->_db->loadResult();
@@ -199,22 +196,6 @@ class WeblinksTableWeblink extends JTable
 		}
 
 		return true;
-	}
-
-	/**
-	 * Override parent delete method to delete tags information.
-	 *
-	 * @param   integer  $pk  Primary key to delete.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 * @throws  UnexpectedValueException
-	 */
-	public function delete($pk = null)
-	{
-		$result = parent::delete($pk);
-		return $result && $this->tagsHelper->deleteTagData($this, $pk);
 	}
 
 	/**

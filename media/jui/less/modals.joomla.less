@@ -1,0 +1,36 @@
+//
+// Modals
+// --------------------------------------------------
+
+/* Joomla JUI NOTE: Original .modal definition has to be commented */
+
+// > Joomla JUI
+// Base modal
+div.modal {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  z-index: @zindexModal;
+  width: 580px;
+  margin-left: -280px;
+  background-color: @white;
+  border: 1px solid #999;
+  border: 1px solid rgba(0,0,0,.3);
+  *border: 1px solid #999; /* IE6-7 */
+  .border-radius(6px);
+  .box-shadow(0 3px 7px rgba(0,0,0,0.3));
+  .background-clip(padding-box);
+  // Remove focus outline from opened modal
+  outline: none;
+
+  &.fade {
+    .transition(e('opacity .3s linear, top .3s ease-out'));
+    top: -25%;
+  }
+  &.fade.in { top: 10%; }
+}
+//Modal for Batch views
+.modal-batch {
+  overflow-y: visible;
+}
+// < Joomla JUI

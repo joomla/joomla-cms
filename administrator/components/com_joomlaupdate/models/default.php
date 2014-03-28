@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,9 +51,16 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				$updateURL = 'http://update.joomla.org/core/test/list_test.xml';
 				break;
 
-			// "Custom"
+			// "Custom" if custom URL empty no changes
 			case 'custom':
-				$updateURL = $params->get('customurl', '');
+				if ($params->get('customurl', '') != '')
+				{
+					$updateURL = $params->get('customurl', '');
+				}
+				else
+				{
+					return JError::raiseWarning(403, JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'));
+				}
 				break;
 
 			// "Do not change"
@@ -83,7 +90,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
 			// Remove cached updates
-			$query = $db->getQuery(true)
+			$query->clear()
 				->delete($db->quoteName('#__updates'))
 				->where($db->quoteName('extension_id') . ' = ' . $db->quote('700'));
 			$db->setQuery($query);
@@ -113,7 +120,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 		$updater = JUpdater::getInstance();
-		$results = $updater->findUpdates(700, $cache_timeout);
+		$updater->findUpdates(700, $cache_timeout);
 	}
 
 	/**
@@ -151,7 +158,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$ret['latest'] = $updateObject->version;
 		}
 
-		// Fetch the full udpate details from the update details URL
+		// Fetch the full update details from the update details URL
 		jimport('joomla.updater.update');
 		$update = new JUpdate;
 		$update->loadFromXML($updateObject->detailsurl);
@@ -277,6 +284,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	protected function downloadPackage($url, $target)
 	{
 		JLoader::import('helpers.download', JPATH_COMPONENT_ADMINISTRATOR);
+		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $packageURL), JLog::INFO, 'Update');
 		$result = AdmintoolsHelperDownload::download($url, $target);
 
 		if (!$result)
@@ -528,7 +536,6 @@ ENDDATA;
 		$element = preg_replace('/\.xml/', '', basename($manifestPath));
 
 		// Run the script file
-		$scriptElement = $manifest->scriptfile;
 		$manifestScript = (string) $manifest->scriptfile;
 
 		if ($manifestScript)
@@ -710,6 +717,9 @@ ENDDATA;
 		{
 			$installer->set('extension_message', $msg);
 		}
+
+		// Refresh versionable assets cache
+		JFactory::getApplication()->flushAssets();
 
 		return true;
 	}

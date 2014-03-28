@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,6 +57,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	 * @param   string  $key   The name of the key for the primary key.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
@@ -110,10 +111,13 @@ class WeblinksControllerWeblink extends JControllerForm
 	 * @param   array         $validData  The validated data.
 	 *
 	 * @return	void
+	 *
 	 * @since	1.6
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
+		$task = $this->getTask();
+
 		if ($task == 'save')
 		{
 			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblinks', false));

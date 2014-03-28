@@ -30,21 +30,22 @@
 			autocomplete="off"
 			class="validate-password"
 			description="COM_USERS_DESIRED_PASSWORD"
-			field="password2"
 			filter="raw"
 			label="COM_USERS_PROFILE_PASSWORD1_LABEL"
-			message="COM_USERS_PROFILE_PASSWORD1_MESSAGE"
 			size="30"
-			validate="equals"
+			validate="password"
 		/>
 
 		<field name="password2" type="password"
 			autocomplete="off"
 			class="validate-password"
 			description="COM_USERS_PROFILE_PASSWORD2_DESC"
+			field="password1"
 			filter="raw"
 			label="COM_USERS_PROFILE_PASSWORD2_LABEL"
+			message="COM_USERS_PROFILE_PASSWORD1_MESSAGE"
 			size="30"
+			validate="equals"
 		/>
 
 		<field name="email1" type="email"
@@ -69,4 +70,7 @@
 			validate="equals"
 		/>
 	</fieldset>
+	
+	<!-- Used to get the two factor authentication configuration -->
+	<field name="twofactor" type="hidden" />
 </form>

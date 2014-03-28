@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -138,6 +138,7 @@ class JDocumentHTML extends JDocument
 		$data['scripts']     = $this->_scripts;
 		$data['script']      = $this->_script;
 		$data['custom']      = $this->_custom;
+		$data['scriptText']  = JText::script();
 		return $data;
 	}
 
@@ -157,16 +158,24 @@ class JDocumentHTML extends JDocument
 			return;
 		}
 
-		$this->title = (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
-		$this->description = (isset($data['description']) && !empty($data['description'])) ? $data['description'] : $this->description;
-		$this->link = (isset($data['link']) && !empty($data['link'])) ? $data['link'] : $this->link;
-		$this->_metaTags = (isset($data['metaTags']) && !empty($data['metaTags'])) ? $data['metaTags'] : $this->_metaTags;
-		$this->_links = (isset($data['links']) && !empty($data['links'])) ? $data['links'] : $this->_links;
+		$this->title        = (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
+		$this->description  = (isset($data['description']) && !empty($data['description'])) ? $data['description'] : $this->description;
+		$this->link         = (isset($data['link']) && !empty($data['link'])) ? $data['link'] : $this->link;
+		$this->_metaTags    = (isset($data['metaTags']) && !empty($data['metaTags'])) ? $data['metaTags'] : $this->_metaTags;
+		$this->_links       = (isset($data['links']) && !empty($data['links'])) ? $data['links'] : $this->_links;
 		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets'])) ? $data['styleSheets'] : $this->_styleSheets;
-		$this->_style = (isset($data['style']) && !empty($data['style'])) ? $data['style'] : $this->_style;
-		$this->_scripts = (isset($data['scripts']) && !empty($data['scripts'])) ? $data['scripts'] : $this->_scripts;
-		$this->_script = (isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
-		$this->_custom = (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
+		$this->_style       = (isset($data['style']) && !empty($data['style'])) ? $data['style'] : $this->_style;
+		$this->_scripts     = (isset($data['scripts']) && !empty($data['scripts'])) ? $data['scripts'] : $this->_scripts;
+		$this->_script      = (isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
+		$this->_custom      = (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
+
+		if (isset($data['scriptText']) && !empty($data['scriptText']))
+		{
+			foreach ($data['scriptText'] as $key => $string)
+			{
+				JText::script($key, $string);
+			}
+		}
 
 		return $this;
 	}
@@ -522,6 +531,7 @@ class JDocumentHTML extends JDocument
 					->from('#__menu')
 					->where('parent_id = ' . $active->id)
 					->where('published = 1');
+				$db->setQuery($query);
 				$children = $db->loadResult();
 			}
 			else
@@ -572,7 +582,7 @@ class JDocumentHTML extends JDocument
 			{
 				$path = str_replace(JPATH_BASE . '/', '', $dir);
 				$path = str_replace('\\', '/', $path);
-				$this->addFavicon(JURI::base(true) . '/' . $path . 'favicon.ico');
+				$this->addFavicon(JUri::base(true) . '/' . $path . 'favicon.ico');
 				break;
 			}
 		}
@@ -606,14 +616,12 @@ class JDocumentHTML extends JDocument
 		$lang = JFactory::getLanguage();
 
 		// 1.5 or core then 1.6
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
-			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, false)
-			|| $lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false)
-			|| $lang->load('tpl_' . $template, $directory . '/' . $template, $lang->getDefault(), false, false);
+		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
+			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
 
 		// Assign the variables
 		$this->template = $template;
-		$this->baseurl = JURI::base(true);
+		$this->baseurl = JUri::base(true);
 		$this->params = isset($params['params']) ? $params['params'] : new JRegistry;
 
 		// Load
@@ -633,7 +641,7 @@ class JDocumentHTML extends JDocument
 	{
 		$matches = array();
 
-		if (preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $this->_template, $matches))
+		if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches))
 		{
 			$template_tags_first = array();
 			$template_tags_last = array();

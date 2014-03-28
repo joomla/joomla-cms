@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -105,8 +105,6 @@ class JCacheControllerView extends JCacheController
 			 * of the document head after the view has been rendered.  This will allow us to properly cache any attached
 			 * scripts or stylesheets or links or any other modifications that the view has made to the document object
 			 */
-			$cached = array();
-
 			$cached = $wrkarounds == true ? JCache::setWorkarounds($data) : $data;
 
 			// Store the cache data

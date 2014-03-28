@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,37 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-// Load the tooltip behavior.
 JHtml::_('behavior.framework');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
-$canDo = MenusHelper::getActions();
+
+//Ajax for parent items
+$script = "jQuery(document).ready(function ($){
+				$('#jform_menutype').change(function(){
+					var menutype = $(this).val();
+					$.ajax({
+						url: 'index.php?option=com_menus&task=item.getParentItem&menutype=' + menutype,
+						dataType: 'json'
+					}).done(function(data) {
+						$('#jform_parent_id option').each(function() {
+							if ($(this).val() != '1') {
+								$(this).remove();
+							}
+						});
+
+						$.each(data, function (i, val) {
+							var option = $('<option>');
+							option.text(val.title).val(val.id);
+							$('#jform_parent_id').append(option);
+						});
+						$('#jform_parent_id').trigger('liszt:updated');
+					});
+				});
+			});";
+
+// Add the script to the document head.
+JFactory::getDocument()->addScriptDeclaration($script);
+
 ?>
 
 <script type="text/javascript">
@@ -88,7 +113,7 @@ $canDo = MenusHelper::getActions();
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif ?>
 
-				<?php if ($canDo->get('core.edit.state')) : ?>
+				<?php if ($this->canDo->get('core.edit.state')) : ?>
 					<li><?php echo $this->form->getLabel('published'); ?>
 					<?php echo $this->form->getInput('published'); ?></li>
 				<?php endif ?>
@@ -108,7 +133,7 @@ $canDo = MenusHelper::getActions();
 				<li><?php echo $this->form->getLabel('browserNav'); ?>
 				<?php echo $this->form->getInput('browserNav'); ?></li>
 
-				<?php if ($canDo->get('core.edit.state')) : ?>
+				<?php if ($this->canDo->get('core.edit.state')) : ?>
 					<?php if ($this->item->type == 'component') : ?>
 					<li><?php echo $this->form->getLabel('home'); ?>
 					<?php echo $this->form->getInput('home'); ?></li>

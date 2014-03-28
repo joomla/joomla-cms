@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,12 +29,12 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 * Constructor.
 	 *
 	 * @param   JRegistry  $options  Google options object
-	 * @param   JURI       $uri      URL of the page being rendered
+	 * @param   JUri       $uri      URL of the page being rendered
 	 * @param   JHttp      $http     Http client for geocoding requests
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JURI $uri = null, JHttp $http = null)
+	public function __construct(JRegistry $options = null, JUri $uri = null, JHttp $http = null)
 	{
 		parent::__construct($options = null, $uri = null);
 		$this->http = $http ? $http : new JHttp($this->options);

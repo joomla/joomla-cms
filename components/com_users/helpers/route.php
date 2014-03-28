@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,9 +31,6 @@ class UsersHelperRoute
 		// Get the menu items for this component.
 		if (!isset($items))
 		{
-			// Include the site app in case we are loading this from the admin.
-			require_once JPATH_SITE.'/includes/application.php';
-
 			$app	= JFactory::getApplication();
 			$menu	= $app->getMenu();
 			$com	= JComponentHelper::getComponent('com_users');

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,6 +39,22 @@ abstract class JLoader
 	 * @since  12.1
 	 */
 	protected static $prefixes = array();
+
+	/**
+	 * Holds proxy classes and the class names the proxy.
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	protected static $classAliases = array();
+
+	/**
+	 * Container for namespace => path map.
+	 *
+	 * @var    array
+	 * @since  12.3
+	 */
+	protected static $namespaces = array();
 
 	/**
 	 * Method to discover classes of a given type in a given path.
@@ -106,6 +122,18 @@ abstract class JLoader
 	}
 
 	/**
+	 * Method to get the list of registered namespaces.
+	 *
+	 * @return  array  The array of namespace => path values for the autoloader.
+	 *
+	 * @since   12.3
+	 */
+	public static function getNamespaces()
+	{
+		return self::$namespaces;
+	}
+
+	/**
 	 * Loads a class from specified directories.
 	 *
 	 * @param   string  $key   The class name to look for (dot notation).
@@ -153,8 +181,8 @@ abstract class JLoader
 			}
 			/*
 			 * If we are not importing a library from the Joomla namespace directly include the
-			* file since we cannot assert the file/folder naming conventions.
-			*/
+			 * file since we cannot assert the file/folder naming conventions.
+			 */
 			else
 			{
 				// If the file exists attempt to include it.
@@ -186,7 +214,7 @@ abstract class JLoader
 		$class = strtolower($class);
 
 		// If the class already exists do nothing.
-		if (class_exists($class))
+		if (class_exists($class, false))
 		{
 			return true;
 		}
@@ -195,6 +223,7 @@ abstract class JLoader
 		if (isset(self::$classes[$class]))
 		{
 			include_once self::$classes[$class];
+
 			return true;
 		}
 
@@ -233,17 +262,20 @@ abstract class JLoader
 	 * packages with different class prefixes to the system autoloader.  More than one lookup path
 	 * may be registered for the same class prefix, but if this method is called with the reset flag
 	 * set to true then any registered lookups for the given prefix will be overwritten with the current
-	 * lookup path.
+	 * lookup path. When loaded, prefix paths are searched in a "last in, first out" order.
 	 *
-	 * @param   string   $prefix  The class prefix to register.
-	 * @param   string   $path    Absolute file path to the library root where classes with the given prefix can be found.
-	 * @param   boolean  $reset   True to reset the prefix with only the given lookup path.
+	 * @param   string   $prefix   The class prefix to register.
+	 * @param   string   $path     Absolute file path to the library root where classes with the given prefix can be found.
+	 * @param   boolean  $reset    True to reset the prefix with only the given lookup path.
+	 * @param   boolean  $prepend  If true, push the path to the beginning of the prefix lookup paths array.
 	 *
 	 * @return  void
 	 *
+	 * @throws  RuntimeException
+	 *
 	 * @since   12.1
 	 */
-	public static function registerPrefix($prefix, $path, $reset = false)
+	public static function registerPrefix($prefix, $path, $reset = false, $prepend = false)
 	{
 		// Verify the library path exists.
 		if (!file_exists($path))
@@ -259,28 +291,200 @@ abstract class JLoader
 		// Otherwise we want to simply add the path to the prefix.
 		else
 		{
-			self::$prefixes[$prefix][] = $path;
+			if ($prepend)
+			{
+				array_unshift(self::$prefixes[$prefix], $path);
+			}
+			else
+			{
+				self::$prefixes[$prefix][] = $path;
+			}
 		}
 	}
 
 	/**
-	 * Method to setup the autoloaders for the Joomla Platform.  Since the SPL autoloaders are
-	 * called in a queue we will add our explicit, class-registration based loader first, then
-	 * fall back on the autoloader based on conventions.  This will allow people to register a
-	 * class in a specific location and override platform libraries as was previously possible.
+	 * Offers the ability for "just in time" usage of `class_alias()`.
+	 * You cannot overwrite an existing alias.
+	 *
+	 * @param   string  $alias     The alias name to register.
+	 * @param   string  $original  The original class to alias.
+	 *
+	 * @return  boolean  True if registration was successful. False if the alias already exists.
+	 *
+	 * @since   3.2
+	 */
+	public static function registerAlias($alias, $original)
+	{
+		if (!isset(self::$classAliases[$alias]))
+		{
+			self::$classAliases[$alias] = $original;
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Register a namespace to the autoloader. When loaded, namespace paths are searched in a "last in, first out" order.
+	 *
+	 * @param   string   $namespace  A case sensitive Namespace to register.
+	 * @param   string   $path       A case sensitive absolute file path to the library root where classes of the given namespace can be found.
+	 * @param   boolean  $reset      True to reset the namespace with only the given lookup path.
+	 * @param   boolean  $prepend    If true, push the path to the beginning of the namespace lookup paths array.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @throws  RuntimeException
+	 *
+	 * @since   12.3
 	 */
-	public static function setup()
+	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false)
 	{
-		// Register the base path for Joomla platform libraries.
-		self::registerPrefix('J', JPATH_PLATFORM . '/joomla');
+		// Verify the library path exists.
+		if (!file_exists($path))
+		{
+			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
+		}
 
-		// Register the autoloader functions.
-		spl_autoload_register(array('JLoader', 'load'));
-		spl_autoload_register(array('JLoader', '_autoload'));
+		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
+		if (!isset(self::$namespaces[$namespace]) || $reset)
+		{
+			self::$namespaces[$namespace] = array($path);
+		}
+
+		// Otherwise we want to simply add the path to the namespace.
+		else
+		{
+			if ($prepend)
+			{
+				array_unshift(self::$namespaces[$namespace], $path);
+			}
+			else
+			{
+				self::$namespaces[$namespace][] = $path;
+			}
+		}
+	}
+
+	/**
+	 * Method to setup the autoloaders for the Joomla Platform.
+	 * Since the SPL autoloaders are called in a queue we will add our explicit
+	 * class-registration based loader first, then fall back on the autoloader based on conventions.
+	 * This will allow people to register a class in a specific location and override platform libraries
+	 * as was previously possible.
+	 *
+	 * @param   boolean  $enablePsr       True to enable autoloading based on PSR-0.
+	 * @param   boolean  $enablePrefixes  True to enable prefix based class loading (needed to auto load the Joomla core).
+	 * @param   boolean  $enableClasses   True to enable class map based class loading (needed to auto load the Joomla core).
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public static function setup($enablePsr = true, $enablePrefixes = true, $enableClasses = true)
+	{
+		if ($enableClasses)
+		{
+			// Register the class map based autoloader.
+			spl_autoload_register(array('JLoader', 'load'));
+		}
+
+		if ($enablePrefixes)
+		{
+			// Register the J prefix and base path for Joomla platform libraries.
+			self::registerPrefix('J', JPATH_PLATFORM . '/joomla');
+
+			// Register the prefix autoloader.
+			spl_autoload_register(array('JLoader', '_autoload'));
+		}
+
+		if ($enablePsr)
+		{
+			// Register the PSR-0 based autoloader.
+			spl_autoload_register(array('JLoader', 'loadByPsr0'));
+			spl_autoload_register(array('JLoader', 'loadByAlias'));
+		}
+	}
+
+	/**
+	 * Method to autoload classes that are namespaced to the PSR-0 standard.
+	 *
+	 * @param   string  $class  The fully qualified class name to autoload.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   13.1
+	 */
+	public static function loadByPsr0($class)
+	{
+		// Remove the root backslash if present.
+		if ($class[0] == '\\')
+		{
+			$class = substr($class, 1);
+		}
+
+		// Find the location of the last NS separator.
+		$pos = strrpos($class, '\\');
+
+		// If one is found, we're dealing with a NS'd class.
+		if ($pos !== false)
+		{
+			$classPath = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 0, $pos)) . DIRECTORY_SEPARATOR;
+			$className = substr($class, $pos + 1);
+		}
+		// If not, no need to parse path.
+		else
+		{
+			$classPath = null;
+			$className = $class;
+		}
+
+		$classPath .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+
+		// Loop through registered namespaces until we find a match.
+		foreach (self::$namespaces as $ns => $paths)
+		{
+			if (strpos($class, $ns) === 0)
+			{
+				// Loop through paths registered to this namespace until we find a match.
+				foreach ($paths as $path)
+				{
+					$classFilePath = $path . DIRECTORY_SEPARATOR . $classPath;
+
+					// We check for class_exists to handle case-sensitive file systems
+					if (file_exists($classFilePath) && !class_exists($class, false))
+					{
+						return (bool) include_once $classFilePath;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Method to autoload classes that have been aliased using the registerAlias method.
+	 *
+	 * @param   string  $class  The fully qualified class name to autoload.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   3.2
+	 */
+	public static function loadByAlias($class)
+	{
+		// Remove the root backslash if present.
+		if ($class[0] == '\\')
+		{
+			$class = substr($class, 1);
+		}
+
+		if (isset(self::$classAliases[$class]))
+		{
+			class_alias(self::$classAliases[$class], $class);
+		}
 	}
 
 	/**
@@ -288,7 +492,7 @@ abstract class JLoader
 	 *
 	 * @param   string  $class  The class to be loaded.
 	 *
-	 * @return  void
+	 * @return  boolean  True if the class was loaded, false otherwise.
 	 *
 	 * @since   11.3
 	 */
@@ -297,11 +501,14 @@ abstract class JLoader
 		foreach (self::$prefixes as $prefix => $lookup)
 		{
 			$chr = strlen($prefix) < strlen($class) ? $class[strlen($prefix)] : 0;
+
 			if (strpos($class, $prefix) === 0 && ($chr === strtoupper($chr)))
 			{
 				return self::_load(substr($class, strlen($prefix)), $lookup);
 			}
 		}
+
+		return false;
 	}
 
 	/**
@@ -310,7 +517,7 @@ abstract class JLoader
 	 * @param   string  $class   The class to be loaded (wihtout prefix).
 	 * @param   array   $lookup  The array of base paths to use for finding the class file.
 	 *
-	 * @return  void
+	 * @return  boolean  True if the class was loaded, false otherwise.
 	 *
 	 * @since   12.1
 	 */
@@ -333,6 +540,8 @@ abstract class JLoader
 				return include $path;
 			}
 		}
+
+		return false;
 	}
 }
 

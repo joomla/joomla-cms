@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Does a standard Joomla! installation
  */
@@ -29,7 +29,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->jPrint ("Page through screen 1\n");
 		$this->open($cfg->path ."/installation/index.php");
 		$this->select("id=jform_language", "value=en-GB");
-		$this->waitforElement("//a/span[contains(text(), 'English (United Kingdom')]");
+		$this->waitforElement("//a/span[contains(text(), 'English (')]");
 		$this->checkNotices();
 
 		$this->type("jform_site_name", $cfg->site_name);
@@ -75,13 +75,21 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 
+		$this->jPrint("Clear post-install messages\n");
+		$this->click("link=Post-installation Messages");
+		$this->waitForPageToLoad("30000");
+		$this->click("//a[contains(@href, 'index.php?option=com_postinstall&view=message&task=unpublish')]");
+		$this->waitForPageToLoad("30000");
+		$this->click("link=Control Panel");
+		$this->waitForPageToLoad("30000");
+
 		$this->jPrint ("Check for site menu\n");
 		$this->assertEquals($cfg->site_name, $this->getText("link=" . $cfg->site_name));
 
-		$this->jPrint ("Change error level to maximum\n");
+		$this->jPrint ("Change error level to value from config\n");
 		$this->jClick('Global Configuration');
 		$this->click("//a[@href='#page-server']");
-		$this->select("jform_error_reporting", "value=maximum");
+		$this->select("jform_error_reporting", "value=" . $cfg->errorReporting);
 		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 

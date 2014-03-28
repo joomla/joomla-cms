@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,14 +58,11 @@ $listDirn		= $this->escape($this->state->get('list.direction')); ?>
 				<th>
 					<?php echo JText::_('JCLIENT'); ?>
 				</th>
-				<th class="right" width="20">
-					<?php echo JText::_('COM_LANGUAGES_HEADING_NUM'); ?>
-				</th>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="6">
+				<td colspan="5">
 					<?php echo $this->pagination->getListFooter(); ?>
 				</td>
 			</tr>
@@ -93,9 +90,6 @@ $listDirn		= $this->escape($this->state->get('list.direction')); ?>
 				</td>
 				<td class="center">
 					<?php echo $client; ?>
-				</td>
-				<td class="right">
-					<?php echo $this->pagination->getRowOffset($i); ?>
 				</td>
 			</tr>
 			<?php $i++;

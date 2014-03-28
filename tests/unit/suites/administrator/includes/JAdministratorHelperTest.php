@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,6 +28,7 @@ class JAdministratorHelperTest extends TestCase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
+		JFactory::$application->input = new JInput(array());
 		$this->user = $this->getMock('Observer', array('get', 'authorise'));
 
 		JFactory::$application->expects($this->once())

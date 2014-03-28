@@ -54,12 +54,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 		$levelEditPage = $this->getPageObject('LevelEditPage');
 
 		$testElements = $levelEditPage->getAllInputFields();
-		$actualFields = array();
-		foreach ($testElements as $el)
-		{
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
-		}
+		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($levelEditPage->inputFields, $actualFields);
 		$levelEditPage->clickButton('toolbar-cancel');
 		$this->levelManagerPage = $this->getPageObject('LevelManagerPage');
@@ -74,8 +69,8 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 		$this->levelManagerPage->addLevel();
 		$message = $this->levelManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Level successfully saved') >= 0, 'Level save should return success');
-		$this->assertEquals(6, $this->levelManagerPage->getRowNumber('Test Level'), 'Test level should be in row 6');
-		$this->levelManagerPage->deleteLevel('Test Level');
+		$this->assertEquals(7, $this->levelManagerPage->getRowNumber('Test Level'), 'Test level should be in row 6');
+		$this->levelManagerPage->delete('Test Level');
 		$this->assertFalse($this->levelManagerPage->getRowNumber('Test Level'), 'Test level should not be present');
 	}
 
@@ -96,7 +91,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 		sort($groups);
 		sort($actualGroups);
 		$this->assertEquals($groups, $actualGroups, 'Assigned groups should be as expected');
-		$this->levelManagerPage->deleteLevel($levelName);
+		$this->levelManagerPage->delete($levelName);
 		$this->assertFalse($this->levelManagerPage->getRowNumber($levelName), 'Test level should not be present');
 	}
 
@@ -116,6 +111,37 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 		sort($actualGroups);
 		sort($newGroups);
 		$this->assertEquals($newGroups, $actualGroups, 'New groups should be assigned to level');
-		$this->levelManagerPage->deleteLevel($levelName);
+		$this->levelManagerPage->delete($levelName);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setFilter_TestOrdering_ShouldOrderLevels()
+	{
+		$orderings = array('Level Name', 'ID');
+		$rows = array('Customer Access', 'Guest', 'Public', 'Registered', 'Special', 'Super Users');
+		$actualRowNumbers = $this->levelManagerPage->orderAndGetRowNumbers($orderings, $rows);
+
+		$expectedRowNumbers = array(
+				'Level Name' => array('ascending' => array(1, 2, 3, 4, 5, 6), 'descending' => array(6, 5, 4, 3, 2, 1)),
+				'ID' => array('ascending' => array(4, 5, 1, 2, 3, 6), 'descending' => array(3, 2, 6, 5, 4, 1))
+		);
+
+		foreach ($actualRowNumbers as $ordering => $orderingRowNumbers)
+		{
+			foreach ($orderingRowNumbers as $order => $rowNumbers)
+			{
+				foreach ($rowNumbers as $key => $rowNumber)
+				{
+					$this->assertEquals(
+							$expectedRowNumbers[$ordering][$order][$key],
+							$rowNumber,
+							'When the table is sorted by ' . strtolower($ordering) . ' in the ' . $order . ' order '
+							. $rows[$key] . ' should be in row ' . $expectedRowNumbers[$ordering][$order][$key]
+					);
+				}
+			}
+		}
 	}
 }

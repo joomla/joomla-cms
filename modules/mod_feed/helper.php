@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,18 +18,19 @@ defined('_JEXEC') or die;
  */
 class ModFeedHelper
 {
+	/**
+	 * Retrieve feed information
+	 *
+	 * @param   JRegistry  $params  module parameters
+	 *
+	 * @return  JFeedReader|string
+	 */
 	public static function getFeed($params)
 	{
-		// module params
+		// Module params
 		$rssurl	= $params->get('rssurl', '');
 
-		// get RSS parsed object
-		$cache_time = 0;
-		if ($params->get('cache'))
-		{
-			$cache_time  = $params->get('cache_time', 15) * 60;
-		}
-
+		// Get RSS parsed object
 		try
 		{
 			$feed = new JFeedFactory;
@@ -37,17 +38,20 @@ class ModFeedHelper
 		}
 		catch (InvalidArgumentException $e)
 		{
-			$msg = JText::_('MOD_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
 		catch (RunTimeException $e)
 		{
-			$msg = JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+		}
+		catch (LogicException $e)
+		{
+			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
 
 		if (empty($rssDoc))
 		{
-			$msg = JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
-			return $msg;
+			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
 
 		if ($rssDoc)

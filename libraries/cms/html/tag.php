@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -40,7 +40,7 @@ abstract class JHtmlTag
 	{
 		$hash = md5(serialize($config));
 
-		if (!isset(self::$items[$hash]))
+		if (!isset(static::$items[$hash]))
 		{
 			$config = (array) $config;
 			$db = JFactory::getDbo();
@@ -76,6 +76,7 @@ abstract class JHtmlTag
 					{
 						$language = $db->quote($language);
 					}
+
 					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
 				}
 			}
@@ -86,17 +87,17 @@ abstract class JHtmlTag
 			$items = $db->loadObjectList();
 
 			// Assemble the list options.
-			self::$items[$hash] = array();
+			static::$items[$hash] = array();
 
 			foreach ($items as &$item)
 			{
 				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 				$item->title = str_repeat('- ', $repeat) . $item->title;
-				self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
+				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 			}
 		}
 
-		return self::$items[$hash];
+		return static::$items[$hash];
 	}
 
 	/**
@@ -138,15 +139,16 @@ abstract class JHtmlTag
 		$items = $db->loadObjectList();
 
 		// Assemble the list options.
-		self::$items[$hash] = array();
+		static::$items[$hash] = array();
 
 		foreach ($items as &$item)
 		{
 			$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 			$item->title = str_repeat('- ', $repeat) . $item->title;
-			self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
+			static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 		}
-		return self::$items[$hash];
+
+		return static::$items[$hash];
 	}
 
 	/**
@@ -166,7 +168,7 @@ abstract class JHtmlTag
 			array(
 				'selector'    => $selector,
 				'type'        => 'GET',
-				'url'         => JURI::root() . 'index.php?option=com_tags&task=tags.searchAjax',
+				'url'         => JUri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
 				'dataType'    => 'json',
 				'jsonTermKey' => 'like'
 			)
@@ -183,7 +185,7 @@ abstract class JHtmlTag
 						var customTagPrefix = '#new#';
 
 						// Method to add tags pressing enter
-						$('" . $selector . "_chzn input').keydown(function(event) {
+						$('" . $selector . "_chzn input').keyup(function(event) {
 
 							// Tag is greater than 3 chars and enter pressed
 							if (this.value.length >= 3 && (event.which === 13 || event.which === 188)) {

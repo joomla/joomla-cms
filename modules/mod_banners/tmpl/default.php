@@ -3,14 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  mod_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_banners/helpers/banner.php';
-$baseurl = JURI::base();
+$baseurl = JUri::base();
 ?>
 <div class="bannergroup<?php echo $moduleclass_sfx ?>">
 <?php if ($headerText) : ?>
@@ -69,8 +69,8 @@ $baseurl = JURI::base();
 							<img
 								src="<?php echo $baseurl . $imageurl;?>"
 								alt="<?php echo $alt;?>"
-								<?php if (!empty($width)) echo 'width ="'. $width.'"';?>
-								<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
+								<?php if (!empty($width)) echo 'width ="' . $width . '"';?>
+								<?php if (!empty($height)) echo 'height ="' . $height . '"';?>
 							/>
 						</a>
 					<?php endif;?>
@@ -79,8 +79,8 @@ $baseurl = JURI::base();
 					<img
 						src="<?php echo $baseurl . $imageurl;?>"
 						alt="<?php echo $alt;?>"
-						<?php if (!empty($width)) echo 'width ="'. $width.'"';?>
-						<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
+						<?php if (!empty($width)) echo 'width ="' . $width . '"';?>
+						<?php if (!empty($height)) echo 'height ="' . $height . '"';?>
 					/>
 				<?php endif;?>
 			<?php elseif (BannerHelper::isFlash($imageurl)) :?>

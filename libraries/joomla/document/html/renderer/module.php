@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -82,8 +82,6 @@ class JDocumentRendererModule extends JDocumentRenderer
 			$module = clone $module;
 			$module->params = (string) $params;
 		}
-
-		$contents = '';
 
 		// Default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the
 		// module instead

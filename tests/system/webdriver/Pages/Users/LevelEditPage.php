@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -22,14 +28,14 @@ class LevelEditPage extends AdminEditPage
 	 * @var unknown_type
 	 */
 	public $inputFields = array (
-			array('label' => 'Level Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'none')
+			array('label' => 'Level Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'header')
 	);
 
 	public function getAllInputFields($tabIds = array())
 	{
 		$return = array();
 		$labels = $this->driver->findElements(By::xPath("//fieldset/div[@class='control-group']/div/label"));
-		$tabId = 'none';
+		$tabId = 'header';
 		foreach ($labels as $label)
 		{
 			if ($label->getAttribute('class') == 'checkbox')

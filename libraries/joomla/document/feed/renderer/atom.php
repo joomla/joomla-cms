@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -54,7 +54,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 
 		$data = $this->_doc;
 
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=atom');
 
@@ -74,6 +74,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 
 		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\" ";
+
 		if ($data->language != "")
 		{
 			$feed .= " xml:lang=\"" . $data->language . "\"";
@@ -81,6 +82,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 		$feed .= ">\n";
 		$feed .= "	<title type=\"text\">" . $feed_title . "</title>\n";
 		$feed .= "	<subtitle type=\"text\">" . htmlspecialchars($data->description, ENT_COMPAT, 'UTF-8') . "</subtitle>\n";
+
 		if (empty($data->category) === false)
 		{
 			if (is_array($data->category))
@@ -98,6 +100,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 		$feed .= "	<link rel=\"alternate\" type=\"text/html\" href=\"" . $url . "\"/>\n";
 		$feed .= "	<id>" . str_replace(' ', '%20', $data->getBase()) . "</id>\n";
 		$feed .= "	<updated>" . htmlspecialchars($now->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";
+
 		if ($data->editor != "")
 		{
 			$feed .= "	<author>\n";
@@ -113,21 +116,33 @@ class JDocumentRendererAtom extends JDocumentRenderer
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
+
+			if (!preg_match('/[\x80-\xFF]/', $data->items[$i]->link))
+			{
+				$itemlink = $data->items[$i]->link;
+			}
+			else
+			{
+				$itemlink = implode("/", array_map("rawurlencode", explode("/", $data->items[$i]->link)));
+			}
+
 			$feed .= "	<entry>\n";
 			$feed .= "		<title>" . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
-			$feed .= '		<link rel="alternate" type="text/html" href="' . $url . $data->items[$i]->link . "\"/>\n";
+			$feed .= '		<link rel="alternate" type="text/html" href="' . $url . $itemlink . "\"/>\n";
 
 			if ($data->items[$i]->date == "")
 			{
 				$data->items[$i]->date = $now->toUnix();
 			}
+
 			$itemDate = JFactory::getDate($data->items[$i]->date);
 			$itemDate->setTimeZone($tz);
 			$feed .= "		<published>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</published>\n";
 			$feed .= "		<updated>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";
+
 			if (empty($data->items[$i]->guid) === true)
 			{
-				$feed .= "		<id>" . str_replace(' ', '%20', $url . $data->items[$i]->link) . "</id>\n";
+				$feed .= "		<id>" . str_replace(' ', '%20', $url . $itemlink) . "</id>\n";
 			}
 			else
 			{
@@ -138,17 +153,20 @@ class JDocumentRendererAtom extends JDocumentRenderer
 			{
 				$feed .= "		<author>\n";
 				$feed .= "			<name>" . htmlspecialchars($data->items[$i]->author, ENT_COMPAT, 'UTF-8') . "</name>\n";
+
 				if ($data->items[$i]->authorEmail != "")
 				{
 					$feed .= "			<email>" . htmlspecialchars($data->items[$i]->authorEmail, ENT_COMPAT, 'UTF-8') . "</email>\n";
 				}
 				$feed .= "		</author>\n";
 			}
+
 			if ($data->items[$i]->description != "")
 			{
 				$feed .= "		<summary type=\"html\">" . htmlspecialchars($data->items[$i]->description, ENT_COMPAT, 'UTF-8') . "</summary>\n";
 				$feed .= "		<content type=\"html\">" . htmlspecialchars($data->items[$i]->description, ENT_COMPAT, 'UTF-8') . "</content>\n";
 			}
+
 			if (empty($data->items[$i]->category) === false)
 			{
 				if (is_array($data->items[$i]->category))
@@ -163,6 +181,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 					$feed .= "		<category term=\"" . htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8') . "\" />\n";
 				}
 			}
+
 			if ($data->items[$i]->enclosure != null)
 			{
 				$feed .= "		<link rel=\"enclosure\" href=\"" . $data->items[$i]->enclosure->url . "\" type=\""
@@ -170,6 +189,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 			}
 			$feed .= "	</entry>\n";
 		}
+
 		$feed .= "</feed>\n";
 		return $feed;
 	}

@@ -3,14 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
 JHtml::_('behavior.framework');
 
 // Create some shortcuts.
@@ -19,8 +19,9 @@ $n			= count($this->items);
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 
-// check for at least one editable article
+// Check for at least one editable article
 $isEditable = false;
+
 if (!empty($this->items))
 {
 	foreach ($this->items as $article)
@@ -44,7 +45,7 @@ if (!empty($this->items))
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
-	<fieldset class="filters btn-toolbar">
+	<fieldset class="filters btn-toolbar clearfix">
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search">
@@ -66,7 +67,6 @@ if (!empty($this->items))
 		<input type="hidden" name="filter_order_Dir" value="" />
 		<input type="hidden" name="limitstart" value="" />
 		<input type="hidden" name="task" value="" />
-		<div class="clearfix"></div>
 	</fieldset>
 	<?php endif; ?>
 
@@ -124,7 +124,7 @@ if (!empty($this->items))
 							$itemId		= $active->id;
 							$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
 							$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug));
-							$fullURL = new JURI($link);
+							$fullURL = new JUri($link);
 							$fullURL->setVar('return', base64_encode($returnURL));
 							?>
 							<a href="<?php echo $fullURL; ?>" class="register">
@@ -134,6 +134,16 @@ if (!empty($this->items))
 						<?php if ($article->state == 0) : ?>
 							<span class="list-published label label-warning">
 								<?php echo JText::_('JUNPUBLISHED'); ?>
+							</span>
+						<?php endif; ?>
+						<?php if (strtotime($article->publish_up) > strtotime(JFactory::getDate())) : ?>
+							<span class="list-published label label-warning">
+								<?php echo JText::_('JNOTPUBLISHEDYET'); ?>
+							</span>
+						<?php endif; ?>
+						<?php if ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00') : ?>
+							<span class="list-published label label-warning">
+								<?php echo JText::_('JEXPIRED'); ?>
 							</span>
 						<?php endif; ?>
 					</td>
@@ -151,15 +161,9 @@ if (!empty($this->items))
 							<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 								<?php $author = $article->author ?>
 								<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
-
-								<?php if (!empty($article->contactid ) &&  $this->params->get('link_author') == true):?>
-									<?php echo JHtml::_(
-											'link',
-											JRoute::_('index.php?option=com_contact&view=contact&id='.$article->contactid),
-											$author
-									); ?>
-
-								<?php else :?>
+								<?php if (!empty($article->contact_link) && $this->params->get('link_author') == true) : ?>
+									<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $article->contact_link, $author)); ?>
+								<?php else: ?>
 									<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 								<?php endif; ?>
 							<?php endif; ?>

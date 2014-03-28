@@ -108,6 +108,58 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_a($loginPage, 'AdminloginPage'));
 		return $loginPage;
 	}
+	
+	//FrontEnd Login Function
+	function doSiteLogin()
+	{
+		$cfg=new SeleniumConfig();
+		$username=$cfg->username;
+		$password=$cfg->password;
+		$d = $this->driver;
+		$d->clearCurrentCookies();
+		$url = $this->cfg->host.$this->cfg->path.'index.php/login';
+		$this->driver->get($url); 
+		$loginPage = $this->getPageObject('SiteLoginPage', true, $url);
+		$loginPage->SiteLoginUser($username,$password);
+		$loginPage = $this->getPageObject('SiteLoginPage', true, $url);		
+		$urlHome = $this->cfg->host.$this->cfg->path.'index.php';
+		$this->driver->get($urlHome); 		
+		$homePage = $this->getPageObject('SiteContentFeaturedPage', true, $urlHome);			
+	}
+	
+	//Front End Logout Function
+	function doSiteLogout()
+	{
+		$cfg=new SeleniumConfig();
+		$d = $this->driver;
+		$url = $this->cfg->host.$this->cfg->path.'index.php/login';	
+		$this->driver->get($url); 			
+		$loginPage = $this->getPageObject('SiteLoginPage');
+		$loginPage->SiteLogoutUser();
+		$loginPage = $this->getPageObject('SiteLoginPage', true, $url);								
+		$urlHome = $this->cfg->host.$this->cfg->path.'index.php';
+		$this->driver->get($urlHome); 		
+		$homePage = $this->getPageObject('SiteContentFeaturedPage', true, $urlHome);				
+	}
+
+	public function getActualFieldsFromElements($testElements)
+	{
+		$actualFields = array();
+		foreach ($testElements as $el)
+		{
+			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
+			if (isset($el->group))
+			{
+				$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab, 'group' => $el->group);
+			}
+			else
+			{
+				$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
+			}
+
+		}
+		return $actualFields;
+	}
 
 	/**
 	 * Takes screenshot of current screen, saves it in specified default directory or as specified in parameter

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,21 +20,22 @@ class JAdminCssMenu extends JObject
 {
 	/**
 	 * CSS string to add to document head
-	 * @var string
+	 *
+	 * @var  string
 	 */
 	protected $_css = null;
 
 	/**
 	 * Root node
 	 *
-	 * @var    object
+	 * @var  object
 	 */
 	protected $_root = null;
 
 	/**
 	 * Current working node
 	 *
-	 * @var    object
+	 * @var  object
 	 */
 	protected $_current = null;
 
@@ -58,6 +59,7 @@ class JAdminCssMenu extends JObject
 	public function addChild(JMenuNode &$node, $setCurrent = false)
 	{
 		$this->_current->addChild($node);
+
 		if ($setCurrent)
 		{
 			$this->_current = &$node;
@@ -84,11 +86,24 @@ class JAdminCssMenu extends JObject
 		$this->_current = &$this->_root;
 	}
 
+	/**
+	 * Method to add a separator node
+	 *
+	 * @return  void
+	 */
 	public function addSeparator()
 	{
 		$this->addChild(new JMenuNode(null, null, 'separator', false));
 	}
 
+	/**
+	 * Method to render the menu
+	 *
+	 * @param   string  $id     The id of the menu to be rendered
+	 * @param   string  $class  The class of the menu to be rendered
+	 *
+	 * @return  void
+	 */
 	public function renderMenu($id = 'menu', $class = '')
 	{
 		$depth = 1;
@@ -103,34 +118,39 @@ class JAdminCssMenu extends JObject
 			$class = 'class="' . $class . '"';
 		}
 
-		/*
-		 * Recurse through children if they exist
-		 */
+		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul ".$id." ".$class.">\n";
+			echo "<ul " . $id . " " . $class . ">\n";
+
 			foreach ($this->_current->getChildren() as $child)
 			{
 				$this->_current = & $child;
 				$this->renderLevel($depth++);
 			}
+
 			echo "</ul>\n";
 		}
 
 		if ($this->_css)
 		{
 			// Add style to document head
-			$doc = JFactory::getDocument();
-			$doc->addStyleDeclaration($this->_css);
+			JFactory::getDocument()->addStyleDeclaration($this->_css);
 		}
 	}
 
+	/**
+	 * Method to render a given level of a menu
+	 *
+	 * @param   integer  $depth  The level of the menu to be rendered
+	 *
+	 * @return  void
+	 */
 	public function renderLevel($depth)
 	{
-		/*
-		 * Build the CSS class suffix
-		 */
+		// Build the CSS class suffix
 		$class = '';
+
 		if ($this->_current->hasChildren())
 		{
 			$class = ' class="dropdown"';
@@ -151,15 +171,10 @@ class JAdminCssMenu extends JObject
 			$class = ' class="disabled"';
 		}
 
-		/*
-		 * Print the item
-		 */
-		echo "<li".$class.">";
+		// Print the item
+		echo "<li" . $class . ">";
 
-		/*
-		 * Print a link if it exists
-		 */
-
+		// Print a link if it exists
 		$linkClass = array();
 		$dataToggle = '';
 		$dropdownCaret = '';
@@ -178,6 +193,7 @@ class JAdminCssMenu extends JObject
 		if ($this->_current->link != null && $this->_current->getParent()->title != 'ROOT')
 		{
 			$iconClass = $this->getIconClass($this->_current->class);
+
 			if (!empty($iconClass))
 			{
 				$linkClass[] = $iconClass;
@@ -189,7 +205,8 @@ class JAdminCssMenu extends JObject
 
 		if ($this->_current->link != null && $this->_current->target != null)
 		{
-			echo "<a" . $linkClass . " " . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\" >" . $this->_current->title . $dropdownCaret . "</a>";
+			echo "<a" . $linkClass . " " . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\" >"
+				. $this->_current->title . $dropdownCaret . "</a>";
 		}
 		elseif ($this->_current->link != null && $this->_current->target == null)
 		{
@@ -204,29 +221,34 @@ class JAdminCssMenu extends JObject
 			echo "<span></span>";
 		}
 
-		/*
-		 * Recurse through children if they exist
-		 */
+		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
 			if ($this->_current->class)
 			{
 				$id = '';
+
 				if (!empty($this->_current->id))
 				{
-					$id = ' id="menu-'.strtolower($this->_current->id).'"';
+					$id = ' id="menu-' . strtolower($this->_current->id) . '"';
 				}
-				echo '<ul'.$id.' class="dropdown-menu menu-component">'."\n";
-			} else {
-				echo '<ul class="dropdown-menu">'."\n";
+
+				echo '<ul' . $id . ' class="dropdown-menu menu-component">' . "\n";
 			}
+			else
+			{
+				echo '<ul class="dropdown-menu">' . "\n";
+			}
+
 			foreach ($this->_current->getChildren() as $child)
 			{
 				$this->_current = & $child;
 				$this->renderLevel($depth++);
 			}
+
 			echo "</ul>\n";
 		}
+
 		echo "</li>\n";
 	}
 
@@ -234,9 +256,10 @@ class JAdminCssMenu extends JObject
 	 * Method to get the CSS class name for an icon identifier or create one if
 	 * a custom image path is passed as the identifier
 	 *
-	 * @access	public
-	 * @param   string	$identifier	Icon identification string
+	 * @param   string  $identifier  Icon identification string
+	 *
 	 * @return  string	CSS class name
+	 *
 	 * @since   1.5
 	 */
 	public function getIconClass($identifier)
@@ -260,11 +283,14 @@ class JAdminCssMenu extends JObject
 				// We were passed a class name
 				$class = substr($identifier, 6);
 				$classes[$identifier] = "menu-$class";
-			} else {
+			}
+			else
+			{
 				if ($identifier == null)
 				{
 					return null;
 				}
+
 				// Build the CSS class for the icon
 				$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
 				$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
@@ -276,6 +302,7 @@ class JAdminCssMenu extends JObject
 				$classes[$identifier] = "menu-$class";
 			}
 		}
+
 		return $classes[$identifier];
 	}
 }
@@ -285,69 +312,93 @@ class JAdminCssMenu extends JObject
  *
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
- * @since       1.5
  * @see         JAdminCssMenu
+ * @since       1.5
  */
 class JMenuNode extends JObject
 {
 	/**
 	 * Node Title
+	 *
+	 * @var  string
 	 */
 	public $title = null;
 
 	/**
 	 * Node Id
+	 *
+	 * @var  string
 	 */
 	public $id = null;
 
 	/**
 	 * Node Link
+	 *
+	 * @var  string
 	 */
 	public $link = null;
 
 	/**
 	 * Link Target
+	 *
+	 * @var  string
 	 */
 	public $target = null;
 
 	/**
 	 * CSS Class for node
+	 *
+	 * @var  string
 	 */
 	public $class = null;
 
 	/**
 	 * Active Node?
+	 *
+	 * @var  boolean
 	 */
 	public $active = false;
 
 	/**
 	 * Parent node
-	 * @var    object
+	 *
+	 * @var  JMenuNode
 	 */
 	protected $_parent = null;
 
 	/**
 	 * Array of Children
 	 *
-	 * @var    array
+	 * @var  array
 	 */
 	protected $_children = array();
 
+	/**
+	 * Constructor for the class.
+	 *
+	 * @param   string   $title      The title of the node
+	 * @param   string   $link       The node link
+	 * @param   string   $class      The CSS class for the node
+	 * @param   boolean  $active     True if node is active, false otherwise
+	 * @param   string   $target     The link target
+	 * @param   string   $titleicon  The title icon for the node
+	 */
 	public function __construct($title, $link = null, $class = null, $active = false, $target = null, $titleicon = null)
 	{
-		$this->title	= $titleicon ? $title.$titleicon : $title;
-		$this->link		= JFilterOutput::ampReplace($link);
-		$this->class	= $class;
-		$this->active	= $active;
+		$this->title  = $titleicon ? $title . $titleicon : $title;
+		$this->link   = JFilterOutput::ampReplace($link);
+		$this->class  = $class;
+		$this->active = $active;
 
 		$this->id = null;
+
 		if (!empty($link) && $link !== '#')
 		{
-			$uri = new JURI($link);
+			$uri   = new JUri($link);
 			$params = $uri->getQuery(true);
-			$parts = array();
+			$parts  = array();
 
-			foreach ($params as $name => $value)
+			foreach ($params as $value)
 			{
 				$parts[] = str_replace(array('.', '_'), '-', $value);
 			}
@@ -355,7 +406,7 @@ class JMenuNode extends JObject
 			$this->id = implode('-', $parts);
 		}
 
-		$this->target	= $target;
+		$this->target = $target;
 	}
 
 	/**
@@ -377,28 +428,31 @@ class JMenuNode extends JObject
 	 *
 	 * If the node already has a parent, the link is unset
 	 *
-	 * @param   JMenuNode   &$parent  The JMenuNode for parent to be set or null
+	 * @param   JMenuNode  &$parent  The JMenuNode for parent to be set or null
 	 *
 	 * @return  void
 	 */
 	public function setParent(JMenuNode &$parent = null)
 	{
 		$hash = spl_object_hash($this);
+
 		if (!is_null($this->_parent))
 		{
 			unset($this->_parent->children[$hash]);
 		}
+
 		if (!is_null($parent))
 		{
 			$parent->_children[$hash] = & $this;
 		}
+
 		$this->_parent = & $parent;
 	}
 
 	/**
 	 * Get the children of this node
 	 *
-	 * @return  array    The children
+	 * @return  array  The children
 	 */
 	public function &getChildren()
 	{
@@ -408,7 +462,7 @@ class JMenuNode extends JObject
 	/**
 	 * Get the parent of this node
 	 *
-	 * @return  mixed   JMenuNode object with the parent or null for no parent
+	 * @return  mixed  JMenuNode object with the parent or null for no parent
 	 */
 	public function &getParent()
 	{
@@ -418,7 +472,7 @@ class JMenuNode extends JObject
 	/**
 	 * Test if this node has children
 	 *
-	 * @return   boolean  True if there are children
+	 * @return  boolean  True if there are children
 	 */
 	public function hasChildren()
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ $app = JFactory::getApplication();
 
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.framework');
 
 $n = count($this->items);
@@ -119,14 +118,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 							<?php $author = $article->author ?>
 							<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
-
-							<?php if (!empty($article->contactid ) &&  $this->params->get('link_author') == true):?>
-								<?php echo JHtml::_(
-										'link',
-										JRoute::_('index.php?option=com_contact&view=contact&id='.$article->contactid),
-										$author
-								); ?>
-
+							<?php if (!empty($article->contact_link ) &&  $this->params->get('link_author') == true):?>
+								<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $article->contact_link, $author)); ?>
 							<?php else :?>
 								<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 							<?php endif; ?>
@@ -149,7 +142,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						$itemId		= $active->id;
 						$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
 						$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug));
-						$fullURL = new JURI($link);
+						$fullURL = new JUri($link);
 						$fullURL->setVar('return', base64_encode($returnURL));
 					?>
 					<a href="<?php echo $fullURL; ?>" class="register">

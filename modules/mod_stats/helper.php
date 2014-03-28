@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_stats
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,13 @@ defined('_JEXEC') or die;
  */
 class ModStatsHelper
 {
+	/**
+	 * Get list of stats
+	 *
+	 * @param   JRegistry  &$params  module parameters
+	 *
+	 * @return  array
+	 */
 	public static function &getList(&$params)
 	{
 		$app	= JFactory::getApplication();
@@ -31,6 +38,7 @@ class ModStatsHelper
 		$increase	= $params->get('increase');
 
 		$i = 0;
+
 		if ($serverinfo)
 		{
 			$rows[$i] = new stdClass;
@@ -44,7 +52,7 @@ class ModStatsHelper
 			$i++;
 
 			$rows[$i] = new stdClass;
-			$rows[$i]->title	= JText::_('MOD_STATS_MYSQL');
+			$rows[$i]->title = JText::_($db->name);
 			$rows[$i]->data	= $db->getVersion();
 			$i++;
 
@@ -124,7 +132,6 @@ class ModStatsHelper
 				$rows[$i] = new stdClass;
 				$rows[$i]->title	= JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
 				$rows[$i]->data	= $hits + $increase;
-				$i++;
 			}
 		}
 

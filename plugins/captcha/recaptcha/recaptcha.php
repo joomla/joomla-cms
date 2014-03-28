@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * Recaptcha Plugin.
- * Based on the oficial recaptcha library( http://recaptcha.net/plugins/php/ )
+ * Based on the official recaptcha library( https://developers.google.com/recaptcha/docs/php )
  *
  * @package     Joomla.Plugin
  * @subpackage  Captcha
@@ -19,9 +19,9 @@ defined('_JEXEC') or die;
  */
 class PlgCaptchaRecaptcha extends JPlugin
 {
-	const RECAPTCHA_API_SERVER = "http://api.recaptcha.net";
+	const RECAPTCHA_API_SERVER = "http://www.google.com/recaptcha/api";
 	const RECAPTCHA_API_SECURE_SERVER = "https://www.google.com/recaptcha/api";
-	const RECAPTCHA_VERIFY_SERVER = "api-verify.recaptcha.net";
+	const RECAPTCHA_VERIFY_SERVER = "www.google.com";
 
 	/**
 	 * Load the language file on instantiation.
@@ -34,7 +34,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Initialise the captcha
 	 *
-	 * @param   string	$id	The id of the field.
+	 * @param   string  $id  The id of the field.
 	 *
 	 * @return  Boolean	True on success, false otherwise
 	 *
@@ -55,15 +55,16 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 
 		$server = self::RECAPTCHA_API_SERVER;
+
 		if ($app->isSSLConnection())
 		{
 			$server = self::RECAPTCHA_API_SECURE_SERVER;
 		}
 
-		JHtml::_('script', $server.'/js/recaptcha_ajax.js');
+		JHtml::_('script', $server . '/js/recaptcha_ajax.js');
 		$document->addScriptDeclaration('window.addEvent(\'domready\', function()
 		{
-			Recaptcha.create("'.$pubkey.'", "dynamic_recaptcha_1", {theme: "'.$theme.'",'.$lang.'tabindex: 0});});'
+			Recaptcha.create("' . $pubkey . '", "dynamic_recaptcha_1", {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
 		);
 
 		return true;
@@ -71,6 +72,10 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 	/**
 	 * Gets the challenge HTML
+	 *
+	 * @param   string  $name   The name of the field.
+	 * @param   string  $id     The id of the field.
+	 * @param   string  $class  The class of the field.
 	 *
 	 * @return  string  The HTML to be embedded in the form.
 	 *
@@ -82,12 +87,14 @@ class PlgCaptchaRecaptcha extends JPlugin
 	}
 
 	/**
-	  * Calls an HTTP POST function to verify if the user's guess was correct
-	  *
-	  * @return  True if the answer is correct, false otherwise
-	  *
-	  * @since  2.5
-	  */
+	 * Calls an HTTP POST function to verify if the user's guess was correct
+	 *
+	 * @param   string  $code  Answer provided by user.
+	 *
+	 * @return  True if the answer is correct, false otherwise
+	 *
+	 * @since  2.5
+	 */
 	public function onCheckAnswer($code)
 	{
 		$input      = JFactory::getApplication()->input;
@@ -100,6 +107,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		if (empty($privatekey))
 		{
 			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'));
+
 			return false;
 		}
 
@@ -107,6 +115,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		if (empty($remoteip))
 		{
 			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_NO_IP'));
+
 			return false;
 		}
 
@@ -114,11 +123,12 @@ class PlgCaptchaRecaptcha extends JPlugin
 		if ($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0)
 		{
 			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'));
+
 			return false;
 		}
 
 		$response = $this->_recaptcha_http_post(
-			self::RECAPTCHA_VERIFY_SERVER, "/verify",
+			self::RECAPTCHA_VERIFY_SERVER, "/recaptcha/api/verify",
 			array(
 				'privatekey' => $privatekey,
 				'remoteip'   => $remoteip,
@@ -135,8 +145,9 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 		else
 		{
-			//@todo use exceptions here
-			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_'.strtoupper(str_replace('-', '_', $answers[1]))));
+			// @todo use exceptions here
+			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_' . strtoupper(str_replace('-', '_', $answers[1]))));
+
 			return false;
 		}
 	}
@@ -144,7 +155,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Encodes the given data into a query string format.
 	 *
-	 * @param   string  $data  Array of string elements to be encoded
+	 * @param   array  $data  Array of string elements to be encoded
 	 *
 	 * @return  string  Encoded request
 	 *
@@ -153,6 +164,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	private function _recaptcha_qsencode($data)
 	{
 		$req = "";
+
 		foreach ($data as $key => $value)
 		{
 			$req .= $key . '=' . urlencode(stripslashes($value)) . '&';
@@ -160,16 +172,17 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 		// Cut the last '&'
 		$req = rtrim($req, '&');
+
 		return $req;
 	}
 
 	/**
 	 * Submits an HTTP POST to a reCAPTCHA server.
 	 *
-	 * @param   string  $host
-	 * @param   string  $path
-	 * @param   array   $data
-	 * @param   int     $port
+	 * @param   string  $host  Host name to POST to.
+	 * @param   string  $path  Path on host to POST to.
+	 * @param   array   $data  Data to be POSTed.
+	 * @param   int     $port  Optional port number on host.
 	 *
 	 * @return  array   Response
 	 *
@@ -188,6 +201,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		$http_request .= $req;
 
 		$response = '';
+
 		if (($fs = @fsockopen($host, $port, $errno, $errstr, 10)) == false )
 		{
 			die('Could not open socket');
@@ -231,15 +245,15 @@ class PlgCaptchaRecaptcha extends JPlugin
 		if ($language->hasKey('PLG_RECAPTCHA_CUSTOM_LANG'))
 		{
 			$custom[] = 'custom_translations : {';
-			$custom[] = "\t".'instructions_visual : "' . JText::_('PLG_RECAPTCHA_INSTRUCTIONS_VISUAL') . '",';
-			$custom[] = "\t".'instructions_audio : "' . JText::_('PLG_RECAPTCHA_INSTRUCTIONS_AUDIO') . '",';
-			$custom[] = "\t".'play_again : "' . JText::_('PLG_RECAPTCHA_PLAY_AGAIN') . '",';
-			$custom[] = "\t".'cant_hear_this : "' . JText::_('PLG_RECAPTCHA_CANT_HEAR_THIS') . '",';
-			$custom[] = "\t".'visual_challenge : "' . JText::_('PLG_RECAPTCHA_VISUAL_CHALLENGE') . '",';
-			$custom[] = "\t".'audio_challenge : "' . JText::_('PLG_RECAPTCHA_AUDIO_CHALLENGE') . '",';
-			$custom[] = "\t".'refresh_btn : "' . JText::_('PLG_RECAPTCHA_REFRESH_BTN') . '",';
-			$custom[] = "\t".'help_btn : "' . JText::_('PLG_RECAPTCHA_HELP_BTN') . '",';
-			$custom[] = "\t".'incorrect_try_again : "' . JText::_('PLG_RECAPTCHA_INCORRECT_TRY_AGAIN') . '",';
+			$custom[] = "\t" . 'instructions_visual : "' . JText::_('PLG_RECAPTCHA_INSTRUCTIONS_VISUAL') . '",';
+			$custom[] = "\t" . 'instructions_audio : "' . JText::_('PLG_RECAPTCHA_INSTRUCTIONS_AUDIO') . '",';
+			$custom[] = "\t" . 'play_again : "' . JText::_('PLG_RECAPTCHA_PLAY_AGAIN') . '",';
+			$custom[] = "\t" . 'cant_hear_this : "' . JText::_('PLG_RECAPTCHA_CANT_HEAR_THIS') . '",';
+			$custom[] = "\t" . 'visual_challenge : "' . JText::_('PLG_RECAPTCHA_VISUAL_CHALLENGE') . '",';
+			$custom[] = "\t" . 'audio_challenge : "' . JText::_('PLG_RECAPTCHA_AUDIO_CHALLENGE') . '",';
+			$custom[] = "\t" . 'refresh_btn : "' . JText::_('PLG_RECAPTCHA_REFRESH_BTN') . '",';
+			$custom[] = "\t" . 'help_btn : "' . JText::_('PLG_RECAPTCHA_HELP_BTN') . '",';
+			$custom[] = "\t" . 'incorrect_try_again : "' . JText::_('PLG_RECAPTCHA_INCORRECT_TRY_AGAIN') . '",';
 			$custom[] = '},';
 			$custom[] = "lang : '" . $tag . "',";
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,6 +32,8 @@ abstract class JMailHelper
 	 */
 	public static function cleanLine($value)
 	{
+		$value = JStringPunycode::emailToPunycode($value);
+
 		return trim(preg_replace('/(%0A|%0D|\n+|\r+)/i', '', $value));
 	}
 
@@ -93,6 +95,7 @@ abstract class JMailHelper
 		{
 			return false;
 		}
+
 		return $address;
 	}
 
@@ -114,6 +117,7 @@ abstract class JMailHelper
 
 		// Check Length of domain
 		$domainLen = strlen($domain);
+
 		if ($domainLen < 1 || $domainLen > 255)
 		{
 			return false;
@@ -126,6 +130,7 @@ abstract class JMailHelper
 		 */
 		$allowed = 'A-Za-z0-9!#&*+=?_-';
 		$regex = "/^[$allowed][\.$allowed]{0,63}$/";
+
 		if (!preg_match($regex, $local) || substr($local, -1) == '.')
 		{
 			return false;
@@ -133,6 +138,7 @@ abstract class JMailHelper
 
 		// No problem if the domain looks like an IP address, ish
 		$regex = '/^[0-9\.]+$/';
+
 		if (preg_match($regex, $domain))
 		{
 			return true;
@@ -140,6 +146,7 @@ abstract class JMailHelper
 
 		// Check Lengths
 		$localLen = strlen($local);
+
 		if ($localLen < 1 || $localLen > 64)
 		{
 			return false;
@@ -147,9 +154,12 @@ abstract class JMailHelper
 
 		// Check the domain
 		$domain_array = explode(".", rtrim($domain, '.'));
-		$regex = '/^[A-Za-z0-9-]{0,63}$/';
+		$regex = '/^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
+
 		foreach ($domain_array as $domain)
 		{
+			// Convert domain to punycode
+			$domain = JStringPunycode::toPunycode($domain);
 
 			// Must be something
 			if (!$domain)
@@ -171,6 +181,7 @@ abstract class JMailHelper
 
 			// Check for a dash at the end of the domain
 			$length = strlen($domain) - 1;
+
 			if (strpos($domain, '-', $length) === $length)
 			{
 				return false;

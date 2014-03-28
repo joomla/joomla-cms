@@ -15,10 +15,12 @@
 			addfieldpath="/administrator/components/com_contact/models/fields"
 		>
 			<field name="id"
-				type="modal_contacts"
+				type="modal_contact"
 				description="COM_CONTACT_SELECT_CONTACT_DESC"
 				label="COM_CONTACT_SELECT_CONTACT_LABEL"
 				required="true"
+				edit="true"
+				clear="false"
 			/>
 		</fieldset>
 	</fields>

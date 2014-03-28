@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -70,18 +70,17 @@ class JUpdater extends JAdapter
 	 */
 	public function findUpdates($eid = 0, $cacheTimeout = 0)
 	{
-
 		$db = $this->getDBO();
 		$retval = false;
 
 		// Push it into an array
 		if (!is_array($eid))
 		{
-			$query = 'SELECT DISTINCT update_site_id, type, location, last_check_timestamp FROM #__update_sites WHERE enabled = 1';
+			$query = 'SELECT DISTINCT update_site_id, type, location, last_check_timestamp, extra_query FROM #__update_sites WHERE enabled = 1';
 		}
 		else
 		{
-			$query = 'SELECT DISTINCT update_site_id, type, location, last_check_timestamp FROM #__update_sites' .
+			$query = 'SELECT DISTINCT update_site_id, type, location, last_check_timestamp, extra_query FROM #__update_sites' .
 				' WHERE update_site_id IN' .
 				'  (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN (' . implode(',', $eid) . '))';
 		}
@@ -116,11 +115,13 @@ class JUpdater extends JAdapter
 					$results = JArrayHelper::arrayUnique(array_merge($results, $update_result['update_sites']));
 					$result_count = count($results);
 				}
+
 				if (array_key_exists('updates', $update_result) && count($update_result['updates']))
 				{
 					for ($k = 0, $count = count($update_result['updates']); $k < $count; $k++)
 					{
 						$current_update = &$update_result['updates'][$k];
+						$current_update->extra_query = $result['extra_query'];
 						$update = JTable::getInstance('update');
 						$extension = JTable::getInstance('extension');
 						$uid = $update
@@ -140,6 +141,7 @@ class JUpdater extends JAdapter
 								'folder' => strtolower($current_update->get('folder'))
 							)
 						);
+
 						if (!$uid)
 						{
 							// Set the extension id
@@ -172,11 +174,6 @@ class JUpdater extends JAdapter
 						}
 					}
 				}
-				$update_result = true;
-			}
-			elseif ($retval)
-			{
-				$update_result = true;
 			}
 
 			// Finally, update the last update check timestamp
