@@ -37,12 +37,12 @@ class SearchRouter extends JComponentRouterBase
 		}
 
 		// Fix up search for URL
-		$total = count($parts);
+		$total = count($segments);
 
 		for ($i = 0; $i < $total; $i++)
 		{
 			// Urlencode twice because it is decoded once after redirect
-			$parts[$i] = urlencode(urlencode(stripcslashes($parts[$i])));
+			$segments[$i] = urlencode(urlencode(stripcslashes($segments[$i])));
 		}
 
 		return $segments;
@@ -59,6 +59,8 @@ class SearchRouter extends JComponentRouterBase
 	 */
 	public function parse(&$segments)
 	{
+		$vars = array();
+
 		// Fix up search for URL
 		$total = count($segments);
 
