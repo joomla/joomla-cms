@@ -28,7 +28,7 @@ class ContentViewForm extends JViewLegacy
 
 	public function display($tpl = null)
 	{
-		$user		= JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Get model data.
 		$this->state		= $this->get('State');
@@ -84,7 +84,7 @@ class ContentViewForm extends JViewLegacy
 
 		$this->params = $params;
 
-		//Override global params with article specific params
+		// Override global params with article specific params
 		$this->params->merge($this->item->params);
 		$this->user   = $user;
 
@@ -93,6 +93,7 @@ class ContentViewForm extends JViewLegacy
 			$this->form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
 			$this->form->setFieldAttribute('catid', 'readonly', 'true');
 		}
+
 		$this->_prepareDocument();
 		parent::display($tpl);
 	}
