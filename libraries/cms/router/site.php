@@ -365,19 +365,6 @@ class JRouterSite extends JRouter
 
 			if (count($segments))
 			{
-				// Cheap fix on searches
-				if ($component == 'com_search')
-				{
-					// Fix up search for URL
-					$total = count($segments);
-
-					for ($i = 0; $i < $total; $i++)
-					{
-						// Urldecode twice because it is encoded twice
-						$segments[$i] = urldecode(urldecode(stripcslashes($segments[$i])));
-					}
-				}
-
 				$crouter = $this->getComponentRouter($component);
 				$vars = $crouter->parse($segments);
 
@@ -474,19 +461,6 @@ class JRouterSite extends JRouter
 		$query = $crouter->preprocess($query);
 
 		$parts = $crouter->build($query);
-
-		// Encode the route segments
-		if ($component == 'com_search')
-		{
-			// Fix up search for URL
-			$total = count($parts);
-
-			for ($i = 0; $i < $total; $i++)
-			{
-				// Urlencode twice because it is decoded once after redirect
-				$parts[$i] = urlencode(urlencode(stripcslashes($parts[$i])));
-			}
-		}
 
 		$result = implode('/', $parts);
 		$tmp    = ($result != "") ? $result : '';
