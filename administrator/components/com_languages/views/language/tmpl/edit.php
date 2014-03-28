@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,8 +13,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
-
-$canDo = LanguagesHelper::getActions();
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -34,40 +32,10 @@ $canDo = LanguagesHelper::getActions();
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS', true)); ?>
-			<div class="control-group">
-				<div class="controls">
-					<?php if ($this->item->lang_id) : ?>
-						<?php echo JText::sprintf('JGLOBAL_RECORD_NUMBER', $this->item->lang_id); ?>
-					<?php else : ?>
-						<?php echo JText::_('COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE'); ?>
-					<?php endif; ?>
-				</div>
-			</div>
-
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('title'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('title'); ?>
-					</div>
-			</div>
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('title_native'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('title_native'); ?>
-					</div>
-			</div>
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('sef'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('sef'); ?>
-					</div>
-			</div>
+			<?php echo $this->form->renderField('title'); ?>
+			<?php echo $this->form->renderField('title_native'); ?>
+			<?php echo $this->form->renderField('lang_code'); ?>
+			<?php echo $this->form->renderField('sef'); ?>
 			<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('image'); ?>
@@ -79,79 +47,21 @@ $canDo = LanguagesHelper::getActions();
 						</span>
 					</div>
 			</div>
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('lang_code'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('lang_code'); ?>
-					</div>
-			</div>
-			<?php if ($canDo->get('core.edit.state')) : ?>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('published'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('published'); ?>
-					</div>
-				</div>
+			<?php if ($this->canDo->get('core.edit.state')) : ?>
+				<?php echo $this->form->renderField('published'); ?>
 			<?php endif; ?>
 
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('access'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('access'); ?>
-					</div>
-			</div>
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('description'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('description'); ?>
-					</div>
-			</div>
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('lang_id'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('lang_id'); ?>
-					</div>
-			</div>
+			<?php echo $this->form->renderField('access'); ?>
+			<?php echo $this->form->renderField('description'); ?>
+			<?php echo $this->form->renderField('lang_id'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
-			<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
-				<div class="control-group">
-					<?php if (!$field->hidden) : ?>
-						<div class="control-label">
-							<?php echo $field->label; ?>
-						</div>
-					<?php endif; ?>
-					<div class="controls">
-						<?php echo $field->input; ?>
-					</div>
-				</div>
-			<?php endforeach; ?>
+		<?php echo $this->form->renderFieldset('metadata'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'site_name', JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL', true)); ?>
-			<?php foreach ($this->form->getFieldset('site_name') as $field) : ?>
-				<div class="control-group">
-					<?php if (!$field->hidden) : ?>
-						<div class="control-label">
-							<?php echo $field->label; ?>
-						</div>
-					<?php endif; ?>
-					<div class="controls">
-						<?php echo $field->input; ?>
-					</div>
-				</div>
-			<?php endforeach; ?>
+		<?php echo $this->form->renderFieldset('site_name'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 	<?php echo JHtml::_('bootstrap.endTabSet'); ?>

@@ -5,27 +5,26 @@
 	>
 		<field name="id" type="text" default="0"
 			readonly="true" class="readonly"
-			label="JGLOBAL_FIELD_ID_LABEL" description ="JGLOBAL_FIELD_ID_DESC"/>
+			label="JGLOBAL_FIELD_ID_LABEL" description="JGLOBAL_FIELD_ID_DESC" />
 
-
-
-		<field name="name" type="text" class="inputbox"
-			size="40" label="COM_BANNERS_FIELD_CLIENT_NAME_LABEL"
+		<field name="name" type="text"
+			class="input-xxlarge input-large-text"
+			size="40" label="COM_BANNERS_FIELD_NAME_LABEL"
 			description="COM_BANNERS_FIELD_CLIENT_NAME_DESC"
 			required="true" />
 
-		<field name="contact" type="text" class="inputbox"
+		<field name="contact" type="text"
 			size="40" label="COM_BANNERS_FIELD_CONTACT_LABEL"
 			description="COM_BANNERS_FIELD_CONTACT_DESC" required="true" />
 
-		<field name="email" type="email" class="inputbox"
+		<field name="email" type="email"
 			size="40" label="COM_BANNERS_FIELD_EMAIL_LABEL"
 			description="COM_BANNERS_FIELD_EMAIL_DESC" validate="email"
 			required="true" />
 
 		<field name="state" type="list"
 			label="JSTATUS" description="COM_BANNERS_FIELD_CLIENT_STATE_DESC"
-			class="inputbox" size="1" default="1"
+			class="chzn-color-state" size="1" default="1"
 		>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -33,9 +32,17 @@
 			<option value="-2">JTRASHED</option>
 		</field>
 
+		<field name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			size="45"
+			labelclass="control-label"
+		/>
+
 		<field name="purchase_type" type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL" description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
-			default="0" class="inputbox"
+			default="0"
 		>
 			<option value="-1">JGLOBAL_USE_GLOBAL
 			</option>
@@ -52,6 +59,7 @@
 		</field>
 
 		<field name="track_impressions" type="list" default="0"
+			class="chzn-color"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
 		>
@@ -61,6 +69,7 @@
 		</field>
 
 		<field name="track_clicks" type="list" default="0"
+			class="chzn-color"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL" description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -74,17 +83,18 @@
 		label="JGLOBAL_FIELDSET_METADATA_OPTIONS"
 	>
 
-		<field name="metakey" type="textarea" class="inputbox"
+		<field name="metakey" type="textarea"
 			rows="3" cols="30" label="JFIELD_META_KEYWORDS_LABEL"
 			description="COM_BANNERS_FIELD_CLIENT_METAKEYWORDS_DESC" />
 
-		<field name="own_prefix" type="radio" class="btn-group"
+		<field name="own_prefix" type="radio"
+			class="btn-group btn-group-yesno"
 			label="COM_BANNERS_FIELD_CLIENTOWNPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_CLIENTOWNPREFIX_DESC"
 			default="0"
 		>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field name="metakey_prefix" type="text"
@@ -93,10 +103,11 @@
 
 	</fieldset>
 
-	<fieldset name="extra" label="Banners_Extra">
+	<fieldset name="extra" label="COM_BANNERS_EXTRA">
 
-		<field name="extrainfo" type="textarea" class="inputbox"
-			rows="10" cols="40" label="COM_BANNERS_FIELD_EXTRAINFO_LABEL"
+		<field name="extrainfo" type="textarea"
+			class="span12"
+			rows="5" cols="80" label="COM_BANNERS_FIELD_EXTRAINFO_LABEL"
 			description="COM_BANNERS_FIELD_EXTRAINFO_DESC" />
 
 	</fieldset>

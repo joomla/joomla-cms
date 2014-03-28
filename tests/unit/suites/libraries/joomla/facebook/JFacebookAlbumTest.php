@@ -12,7 +12,6 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
- *
  * @since       13.1
  */
 class JFacebookAlbumTest extends TestCase
@@ -57,8 +56,6 @@ class JFacebookAlbumTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @access  protected
-	 *
 	 * @return  void
 	 *
 	 * @since   13.1
@@ -75,7 +72,9 @@ class JFacebookAlbumTest extends TestCase
 		$my_url = "http://localhost/gsoc/joomla-platform/facebook_test.php";
 		$access_token = array(
 			'access_token' => 'token',
-			'expires' => '51837673', 'created' => '2443672521');
+			'expires' => '51837673',
+			'created' => '2443672521'
+		);
 
 		$this->options = new JRegistry;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
@@ -90,20 +89,8 @@ class JFacebookAlbumTest extends TestCase
 		$this->options->set('redirecturi', $my_url);
 		$this->options->set('sendheaders', true);
 		$this->options->set('authmethod', 'get');
-	}
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 *
-	 * @return   void
-	 *
-	 * @since   13.1
-	 */
-	protected function tearDown()
-	{
+		parent::setUp();
 	}
 
 	/**

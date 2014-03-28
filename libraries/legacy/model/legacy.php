@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -344,7 +344,7 @@ abstract class JModelLegacy extends JObject
 	 * @return  mixed  Model object or boolean false if failed
 	 *
 	 * @since   12.2
-	 * @see     JTable::getInstance
+	 * @see     JTable::getInstance()
 	 */
 	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{

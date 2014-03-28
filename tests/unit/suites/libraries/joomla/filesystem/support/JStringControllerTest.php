@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,6 @@ include_once JPATH_PLATFORM . '/joomla/filesystem/support/stringcontroller.php';
  */
 class JStringControllerTest extends PHPUnit_Framework_TestCase
 {
-
 	/**
 	 * @var JStringController
 	 */
@@ -81,5 +80,4 @@ class JStringControllerTest extends PHPUnit_Framework_TestCase
 			'This test has not been implemented yet.'
 		);
 	}
-
 }

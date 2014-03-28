@@ -32,7 +32,7 @@
 		<field
 			name="title"
 			type="text"
-			class="inputbox"
+			class="input-xxlarge input-large-text"
 			size="50"
 			label="COM_TEMPLATES_FIELD_TITLE_LABEL"
 			description="COM_TEMPLATES_FIELD_TITLE_DESC"

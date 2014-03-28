@@ -2,7 +2,7 @@
 /**
  *  @package     FrameworkOnFramework
  *  @subpackage  autoloader
- *  @copyright   Copyright (c)2010-2012 Nicholas K. Dionysopoulos
+ *  @copyright   Copyright (c)2010-2014 Nicholas K. Dionysopoulos
  *  @license     GNU General Public License version 2, or later
  */
 
@@ -11,8 +11,9 @@ defined('FOF_INCLUDED') or die();
 /**
  * The main class autoloader for FOF itself
  *
- * @package  FrameworkOnFramework
- * @since    2.1
+ * @package     FrameworkOnFramework
+ * @subpackage  autoloader
+ * @since       2.1
  */
 class FOFAutoloaderFof
 {

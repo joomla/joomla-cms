@@ -7,21 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/crypt/key.php';
-require_once JPATH_PLATFORM . '/joomla/crypt/cipher.php';
-require_once JPATH_PLATFORM . '/joomla/crypt/cipher/3des.php';
+// TODO - JCryptCipher3Des won't autoload
+JLoader::register('JCryptCipher3Des', JPATH_PLATFORM . '/joomla/crypt/cipher/3des.php');
 
 /**
- * Test class for JCryptCipher3DES.
+ * Test class for JCryptCipher3Des.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
  * @since       12.1
  */
-class JCryptCipher3DESTest extends TestCase
+class JCryptCipher3DesTest extends TestCase
 {
 	/**
-	 * @var    JCryptCipher3DES
+	 * @var    JCryptCipher3Des
 	 * @since  12.1
 	 */
 	private $_cipher;
@@ -43,7 +42,7 @@ class JCryptCipher3DESTest extends TestCase
 			$this->markTestSkipped('The mcrypt extension must be available for this test to run.');
 		}
 
-		$this->_cipher = new JCryptCipher3DES;
+		$this->_cipher = new JCryptCipher3Des;
 
 		// Build the key for testing.
 		$this->key = new JCryptKey('3des');
@@ -91,7 +90,7 @@ class JCryptCipher3DESTest extends TestCase
 	}
 
 	/**
-	 * Tests JCryptCipher3DES->decrypt()
+	 * Tests JCryptCipher3Des->decrypt()
 	 *
 	 * @param   string  $file  @todo
 	 * @param   string  $data  @todo
@@ -111,7 +110,7 @@ class JCryptCipher3DESTest extends TestCase
 	}
 
 	/**
-	 * Tests JCryptCipher3DES->encrypt()
+	 * Tests JCryptCipher3Des->encrypt()
 	 *
 	 * @param   string  $file  @todo
 	 * @param   string  $data  @todo
@@ -133,7 +132,7 @@ class JCryptCipher3DESTest extends TestCase
 	}
 
 	/**
-	 * Tests JCryptCipher3DES->generateKey()
+	 * Tests JCryptCipher3Des->generateKey()
 	 *
 	 * @return  void
 	 *
@@ -141,7 +140,7 @@ class JCryptCipher3DESTest extends TestCase
 	 */
 	public function testGenerateKey()
 	{
-		$key = $this->_cipher->generateKey();
+		$key = $this->_cipher->generateKey(array('password' => 'J00ml@R0cks!'));
 
 		// Assert that the key is the correct type.
 		$this->assertInstanceOf('JCryptKey', $key);

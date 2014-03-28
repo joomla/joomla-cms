@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -201,7 +201,7 @@ class UsersModelUser extends JModelAdmin
 			}
 		}
 
-		// handle the two factor authentication setup
+		// Handle the two factor authentication setup
 		if (array_key_exists('twofactor', $data))
 		{
 			$twoFactorMethod = $data['twofactor']['method'];
@@ -419,6 +419,7 @@ class UsersModelUser extends JModelAdmin
 						if (!$table->check())
 						{
 							$this->setError($table->getError());
+
 							return false;
 						}
 
@@ -427,7 +428,7 @@ class UsersModelUser extends JModelAdmin
 
 						if (in_array(false, $result, true))
 						{
-							// Plugin will have to raise it's own error or throw an exception.
+							// Plugin will have to raise its own error or throw an exception.
 							return false;
 						}
 
@@ -515,6 +516,7 @@ class UsersModelUser extends JModelAdmin
 						if (!$table->check())
 						{
 							$this->setError($table->getError());
+
 							return false;
 						}
 
@@ -718,6 +720,7 @@ class UsersModelUser extends JModelAdmin
 			if (!$groups)
 			{
 				$this->setError(JText::_('COM_USERS_ERROR_NO_ADDITIONS'));
+
 				return false;
 			}
 
@@ -779,11 +782,21 @@ class UsersModelUser extends JModelAdmin
 		if (empty($userId))
 		{
 			$result = array();
-			$config = JComponentHelper::getParams('com_users');
 
-			if ($groupId = $config->get('new_usertype'))
+			$groupsIDs = $this->getForm()->getValue('groups');
+
+			if (!empty($groupsIDs))
 			{
-				$result[] = $groupId;
+				$result = $groupsIDs;
+			}
+			else
+			{
+				$config = JComponentHelper::getParams('com_users');
+
+				if ($groupId = $config->get('new_usertype'))
+				{
+					$result[] = $groupId;
+				}
 			}
 		}
 		else
@@ -900,10 +913,10 @@ class UsersModelUser extends JModelAdmin
 		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
 
 		$updates = (object) array(
-            'id'     => $user_id,
-            'otpKey' => '',
-            'otep'   => ''
-        );
+			'id'     => $user_id,
+			'otpKey' => '',
+			'otep'   => ''
+		);
 
 		// Create an encryptor class
 		$key = $this->getOtpConfigEncryptionKey();
@@ -1059,10 +1072,8 @@ class UsersModelUser extends JModelAdmin
 			$extension = 'com_users';
 			$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 
-			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, false)
-				|| $lang->load($extension, $source, null, false, false)
-				|| $lang->load($extension, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-				|| $lang->load($extension, $source, $lang->getDefault(), false, false);
+			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
+				|| $lang->load($extension, $source, null, false, true);
 
 			$warn = true;
 			$warnMessage = JText::_('COM_USERS_ERROR_SECRET_CODE_WITHOUT_TFA');
@@ -1168,9 +1179,11 @@ class UsersModelUser extends JModelAdmin
 			}
 			else
 			{
-				// Two factor authentication enabled and no OTEPs defined. The
-				// user has used them all up. Therefore anything he enters is
-				// an invalid OTEP.
+				/**
+				 * Two factor authentication enabled and no OTEPs defined. The
+				 * user has used them all up. Therefore anything he enters is
+				 * an invalid OTEP.
+				 */
 				return false;
 			}
 		}

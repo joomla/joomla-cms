@@ -1,13 +1,12 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  view
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
-
-JLoader::import('joomla.application.component.view');
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework Form class. It preferrably renders an XML view template
@@ -33,7 +32,7 @@ class FOFViewForm extends FOFViewHtml
 		$model = $this->getModel();
 
 		// Get the form
-		$this->form = $this->getModel()->getForm();
+		$this->form = $model->getForm();
 		$this->form->setModel($model);
 		$this->form->setView($this);
 
@@ -130,8 +129,8 @@ class FOFViewForm extends FOFViewHtml
 		$model = $this->getModel();
 
 		// Assign the item and form to the view
-		$this->assign('item', $model->getItem());
-		$this->assign('form', $this->form);
+		$this->item = $model->getItem();
+		$this->form = $this->form;
 
 		return true;
 	}

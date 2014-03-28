@@ -3,12 +3,12 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * Test class for JTableMenuType.
+ * Test class for JTableCorecontent.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Table
@@ -39,7 +39,7 @@ class JTableCorecontentTest extends TestCaseDatabase
 
 		JFactory::$session = $this->getMockSession();
 
-		$this->object = new JTableCorecontent(self::$driver);
+		$this->object = new JTableCorecontent(static::$driver);
 	}
 
 	/**

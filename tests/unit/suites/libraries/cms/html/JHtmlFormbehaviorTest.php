@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,6 +35,8 @@ class JHtmlFormbehaviorTest extends TestCase
 	{
 		$this->saveFactoryState();
 
+		parent::setUp();
+
 		JFactory::$application = $this->getMockApplication();
 		JFactory::$document = $this->getMockDocument();
 
@@ -57,6 +59,8 @@ class JHtmlFormbehaviorTest extends TestCase
 		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 
 		JHtmlJqueryInspector::resetLoaded();
 	}

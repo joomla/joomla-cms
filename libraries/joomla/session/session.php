@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,7 +28,7 @@ class JSession implements IteratorAggregate
 	 * One of 'inactive'|'active'|'expired'|'destroyed'|'error'
 	 *
 	 * @var    string
-	 * @see    getState()
+	 * @see    JSession::getState()
 	 * @since  11.1
 	 */
 	protected $_state = 'inactive';
@@ -324,8 +324,8 @@ class JSession implements IteratorAggregate
 			if ($session->isNew())
 			{
 				// Redirect to login screen.
-				$app->redirect(JRoute::_('index.php'), JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'));
-				$app->close();
+				$app->enqueueMessage(JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
+				$app->redirect(JRoute::_('index.php'));
 			}
 			else
 			{
@@ -386,13 +386,13 @@ class JSession implements IteratorAggregate
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new DirectoryIterator(__DIR__ . '/storage');
 
+		/* @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-			if (!$file->isFile() || substr($fileName, strrpos($fileName, '.') + 1) != 'php')
+			if (!$file->isFile() || $file->getExtension() != 'php')
 			{
 				continue;
 			}
@@ -706,7 +706,7 @@ class JSession implements IteratorAggregate
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @see     destroy
+	 * @see     JSession::destroy()
 	 * @since   11.1
 	 */
 	public function restart()

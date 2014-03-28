@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -51,12 +51,12 @@ class JArchiveGzipTest extends JArchiveTestCase
 			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo.gz', self::$outputPath . '/logo-gz.png');
-		$this->assertTrue(is_file(self::$outputPath . '/logo-gz.png'));
+		$this->object->extract(__DIR__ . '/logo.gz', static::$outputPath . '/logo-gz.png');
+		$this->assertTrue(is_file(static::$outputPath . '/logo-gz.png'));
 
-		if (is_file(self::$outputPath . '/logo-gz.png'))
+		if (is_file(static::$outputPath . '/logo-gz.png'))
 		{
-			unlink(self::$outputPath . '/logo-gz.png');
+			unlink(static::$outputPath . '/logo-gz.png');
 		}
 	}
 
@@ -74,12 +74,12 @@ class JArchiveGzipTest extends JArchiveTestCase
 			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo.gz', self::$outputPath . '/logo-gz.png', array('use_streams' => true));
-		$this->assertTrue(is_file(self::$outputPath . '/logo-gz.png'));
+		$this->object->extract(__DIR__ . '/logo.gz', static::$outputPath . '/logo-gz.png', array('use_streams' => true));
+		$this->assertTrue(is_file(static::$outputPath . '/logo-gz.png'));
 
-		if (is_file(self::$outputPath . '/logo-gz.png'))
+		if (is_file(static::$outputPath . '/logo-gz.png'))
 		{
-			unlink(self::$outputPath . '/logo-gz.png');
+			unlink(static::$outputPath . '/logo-gz.png');
 		}
 	}
 

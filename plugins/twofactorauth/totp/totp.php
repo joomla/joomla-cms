@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ class PlgTwofactorauthTotp extends JPlugin
 	 */
 	public function onUserTwofactorIdentify()
 	{
-		$section = (int)$this->params->get('section', 3);
+		$section = (int) $this->params->get('section', 3);
 
 		$current_section = 0;
 
@@ -241,7 +241,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Check succeedeed; return an OTP configuration object
-		$otpConfig = (object)array(
+		$otpConfig = (object) array(
 			'method'   => 'totp',
 			'config'   => array(
 				'code' => $data['key']
@@ -256,8 +256,8 @@ class PlgTwofactorauthTotp extends JPlugin
 	 * This method should handle any two factor authentication and report back
 	 * to the subject.
 	 *
-	 * @param   array   $credentials  Array holding the user credentials
-	 * @param   array   $options      Array of extra options
+	 * @param   array  $credentials  Array holding the user credentials
+	 * @param   array  $options      Array of extra options
 	 *
 	 * @return  boolean  True if the user is authorised with this two-factor authentication method
 	 *
