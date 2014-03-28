@@ -19,7 +19,7 @@ JHtml::_('formbehavior.chosen', 'select');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'link.cancel' || document.formvalidator.isValid(document.id('link-form')))
+		if (task == 'link.cancel' || document.formvalidator.isValid(document.getElementById('link-form')))
 		{
 			Joomla.submitform(task, document.getElementById('link-form'));
 		}
