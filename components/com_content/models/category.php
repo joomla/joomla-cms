@@ -226,7 +226,7 @@ class ContentModelCategory extends JModelList
 			$model->setState('list.filter', $this->getState('list.filter'));
 			// filter.subcategories indicates whether to include articles from subcategories in the list or blog
 			$model->setState('filter.subcategories', $this->getState('filter.subcategories'));
-			$model->setState('filter.max_category_levels', $this->setState('filter.max_category_levels'));
+			$model->setState('filter.max_category_levels', $this->getState('filter.max_category_levels'));
 			$model->setState('list.links', $this->getState('list.links'));
 
 			if ($limit >= 0)
