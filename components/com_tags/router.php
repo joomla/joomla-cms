@@ -16,8 +16,22 @@ defined('_JEXEC') or die;
  * @subpackage  com_tags
  * @since       3.3
  */
-class TagsRouter implements JComponentRouter
+class TagsRouter implements JComponentRouterInterface
 {
+	/**
+	 * Preprocess method for the com_tags component
+	 *
+	 * @param   array  $query  An associative array of URL arguments
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 *
+	 * @since   3.3
+	 */
+	public function preprocess($query)
+	{
+		return $query;
+	}
+
 	/**
 	 * Build the route for the com_tags component
 	 *
@@ -188,6 +202,8 @@ class TagsRouter implements JComponentRouter
 function TagsBuildRoute(&$query)
 {
 	$router = new TagsRouter;
+
+	$query = $router->preprocess($query);
 
 	return $router->build($query);
 }

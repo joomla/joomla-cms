@@ -15,6 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Site
  * @subpackage  com_users
  * @since       1.6
+ * @deprecated  4.0
  */
 class UsersHelperRoute
 {

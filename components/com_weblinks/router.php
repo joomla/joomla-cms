@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       3.3
  */
-class WeblinksRouter implements JComponentRouter
+class WeblinksRouter extends JComponentRouterBasic implements JComponentRouterInterface
 {
 	/**
 	 * Build the route for the com_weblinks component
@@ -256,6 +256,8 @@ class WeblinksRouter implements JComponentRouter
 function WeblinksBuildRoute(&$query)
 {
 	$router = new WeblinksRouter;
+
+	$query = $router->preprocess($query);
 
 	return $router->build($query);
 }

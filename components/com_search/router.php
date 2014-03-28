@@ -16,8 +16,22 @@ defined('_JEXEC') or die;
  * @subpackage  com_search
  * @since       3.3
  */
-class SearchRouter implements JComponentRouter
+class SearchRouter implements JComponentRouterInterface
 {
+	/**
+	 * Preprocess method for the com_search component
+	 *
+	 * @param   array  $query  An associative array of URL arguments
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 *
+	 * @since   3.3
+	 */
+	public function preprocess($query)
+	{
+		return $query;
+	}
+
 	/**
 	 * Build the route for the com_search component
 	 *
@@ -71,6 +85,8 @@ class SearchRouter implements JComponentRouter
 function SearchBuildRoute(&$query)
 {
 	$router = new SearchRouter;
+
+	$query = $router->preprocess($query);
 
 	return $router->build($query);
 }

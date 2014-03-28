@@ -16,8 +16,22 @@ defined('_JEXEC') or die;
  * @subpackage  com_banners
  * @since       3.3
  */
-class BannersRouter implements JComponentRouter
+class BannersRouter implements JComponentRouterInterface
 {
+	/**
+	 * Preprocess method for the com_banners component
+	 *
+	 * @param   array  $query  An associative array of URL arguments
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 *
+	 * @since   3.3
+	 */
+	public function preprocess($query)
+	{
+		return $query;
+	}
+
 	/**
 	 * Build the route for the com_banners component
 	 *
@@ -102,6 +116,8 @@ class BannersRouter implements JComponentRouter
 function BannersBuildRoute(&$query)
 {
 	$router = new BannersRouter;
+
+	$query = $router->preprocess($query);
 
 	return $router->build($query);
 }

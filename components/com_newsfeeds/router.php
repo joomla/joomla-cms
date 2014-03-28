@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_newsfeeds
  * @since       3.3
  */
-class NewsfeedsRouter implements JComponentRouter
+class NewsfeedsRouter extends JComponentRouterBasic implements JComponentRouterInterface
 {
 	/**
 	 * Build the route for the com_newsfeeds component
@@ -249,6 +249,8 @@ class NewsfeedsRouter implements JComponentRouter
 function NewsfeedsBuildRoute(&$query)
 {
 	$router = new NewsfeedsRouter;
+
+	$query = $router->preprocess($query);
 
 	return $router->build($query);
 }

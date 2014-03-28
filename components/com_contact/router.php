@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_contact
  * @since       3.3
  */
-class ContactRouter implements JComponentRouter
+class ContactRouter extends JComponentRouterBasic implements JComponentRouterInterface
 {
 	/**
 	 * Build the route for the com_contact component
@@ -251,6 +251,8 @@ class ContactRouter implements JComponentRouter
 function ContactBuildRoute(&$query)
 {
 	$router = new ContactRouter;
+
+	$query = $router->preprocess($query);
 
 	return $router->build($query);
 }

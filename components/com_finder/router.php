@@ -16,8 +16,22 @@ defined('_JEXEC') or die;
  * @subpackage  com_finder
  * @since       3.3
  */
-class FinderRouter implements JComponentRouter
+class FinderRouter implements JComponentRouterInterface
 {
+	/**
+	 * Preprocess method for the com_finder component
+	 *
+	 * @param   array  $query  An associative array of URL arguments
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 *
+	 * @since   3.3
+	 */
+	public function preprocess($query)
+	{
+		return $query;
+	}
+
 	/**
 	 * Build the route for the com_finder component
 	 *
@@ -131,6 +145,8 @@ class FinderRouter implements JComponentRouter
 function FinderBuildRoute(&$query)
 {
 	$router = new FinderRouter;
+
+	$query = $router->preprocess($query);
 
 	return $router->build($query);
 }

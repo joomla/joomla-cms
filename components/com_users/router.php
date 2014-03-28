@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_users
  * @since       3.2
  */
-class UsersRouter implements JComponentRouter
+class UsersRouter extends JComponentRouterBasic implements JComponentRouterInterface
 {
 	/**
 	 * Function to build a Users URL route.
@@ -261,6 +261,8 @@ class UsersRouter implements JComponentRouter
 function UsersBuildRoute(&$query)
 {
 	$router = new UsersRouter;
+
+	$query = $router->preprocess($query);
 
 	return $router->build($query);
 }

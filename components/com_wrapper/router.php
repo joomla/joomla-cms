@@ -16,8 +16,22 @@ defined('_JEXEC') or die;
  * @subpackage  com_wrapper
  * @since       3.3
  */
-class WrapperRouter implements JComponentRouter
+class WrapperRouter implements JComponentRouterInterface
 {
+	/**
+	 * Preprocess method for the com_wrapper component
+	 *
+	 * @param   array  $query  An associative array of URL arguments
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 *
+	 * @since   3.3
+	 */
+	public function preprocess($query)
+	{
+		return $query;
+	}
+
 	/**
 	 * Build the route for the com_wrapper component
 	 *
@@ -69,6 +83,8 @@ class WrapperRouter implements JComponentRouter
 function WrapperBuildRoute(&$query)
 {
 	$router = new WrapperRouter;
+
+	$query = $router->preprocess($query);
 
 	return $router->build($query);
 }

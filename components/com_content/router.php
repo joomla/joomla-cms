@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_content
  * @since       3.3
  */
-class ContentRouter implements JComponentRouter
+class ContentRouter extends JComponentRouterBasic implements JComponentRouterInterface
 {
 	/**
 	 * Build the route for the com_content component
@@ -451,6 +451,8 @@ class ContentRouter implements JComponentRouter
 function ContentBuildRoute(&$query)
 {
 	$router = new ContentRouter;
+
+	$query = $router->preprocess($query);
 
 	return $router->build($query);
 }
