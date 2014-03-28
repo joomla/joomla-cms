@@ -2974,6 +2974,7 @@ CREATE TABLE [#__users](
 	[resetCount] [int] NOT NULL DEFAULT 0,
 	[otpKey] [nvarchar](1000) NOT NULL DEFAULT '',
 	[otep] [nvarchar](1000) NOT NULL DEFAULT '',
+	[requireReset] [smallint] NULL DEFAULT 0,
  CONSTRAINT [PK_#__users_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
