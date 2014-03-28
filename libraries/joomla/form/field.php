@@ -904,14 +904,14 @@ abstract class JFormField
 		{
 			$options['class'] = '';
 		}
-      
+
 		$options['rel'] = '';
-		
+
 		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel'))
 		{
 			$options['hiddenLabel'] = true;
 		}
-      
+
 		if ($showon = $this->getAttribute('showon'))
 		{
 			$showon   = explode(':', $showon, 2);
