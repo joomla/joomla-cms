@@ -366,12 +366,7 @@ class JRouterSite extends JRouter
 			if (count($segments))
 			{
 				// Cheap fix on searches
-				if ($component != 'com_search')
-				{
-					// Decode the route segments
-					$segments = $this->decodeSegments($segments);
-				}
-				else
+				if ($component == 'com_search')
 				{
 					// Fix up search for URL
 					$total = count($segments);
@@ -481,12 +476,7 @@ class JRouterSite extends JRouter
 		$parts = $crouter->build($query);
 
 		// Encode the route segments
-		if ($component != 'com_search')
-		{
-			// Cheep fix on searches
-			$parts = $this->encodeSegments($parts);
-		}
-		else
+		if ($component == 'com_search')
 		{
 			// Fix up search for URL
 			$total = count($parts);
