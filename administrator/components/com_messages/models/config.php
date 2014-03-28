@@ -122,18 +122,17 @@ class MessagesModelConfig extends JModelForm
 				return false;
 			}
 
-			$tuples = array();
-			foreach ($data as $k => $v)
-			{
-				$tuples[] = '(' . $userId.', ' . $db->quote($k) . ', ' . $db->quote($v) . ')';
-			}
-
-			if ($tuples)
+			if (count($data))
 			{
 				$query = $db->getQuery(true)
 					->insert($db->quoteName('#__messages_cfg'))
-					->columns($db->quoteName(array('user_id', 'cfg_name', 'cfg_value')))
-					->values(implode(',', $tuples));
+					->columns($db->quoteName(array('user_id', 'cfg_name', 'cfg_value')));
+
+				foreach ($data as $k => $v)
+				{
+					$query->values($userId . ', ' . $db->quote($k) . ', ' . $db->quote($v));
+				}
+
 				$db->setQuery($query);
 
 				try
