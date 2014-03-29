@@ -187,7 +187,7 @@ class JGithubCommits extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/commits/' . $sha;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -217,7 +217,7 @@ class JGithubCommits extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/comments/' . $id;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -249,7 +249,7 @@ class JGithubCommits extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/commits/' . $sha . '/comments';
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -280,7 +280,7 @@ class JGithubCommits extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/compare/' . $base . '...' . $head;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -311,7 +311,7 @@ class JGithubCommits extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/commits';
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -342,7 +342,7 @@ class JGithubCommits extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/comments';
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)

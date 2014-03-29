@@ -31,7 +31,7 @@ class JGithubMeta extends JGithubObject
 		// Build the request path.
 		$path = '/meta';
 
-		$githubIps = $this->processResponse($this->client->get($this->fetchUrl($path)), 200);
+		$githubIps = $this->processResponse($this->client->get($this->fetchUrl($path), $this->getLoginHeader()), 200);
 
 		/*
 		 * The response body returns the IP addresses in CIDR format

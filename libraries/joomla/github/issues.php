@@ -381,7 +381,7 @@ class JGithubIssues extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/issues/' . (int) $issueId;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -411,7 +411,7 @@ class JGithubIssues extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/issues/comments/' . (int) $commentId;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -443,7 +443,7 @@ class JGithubIssues extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/issues/' . (int) $issueId . '/comments';
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -473,7 +473,7 @@ class JGithubIssues extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/labels/' . $name;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -502,7 +502,7 @@ class JGithubIssues extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/labels';
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -539,7 +539,7 @@ class JGithubIssues extends JGithubObject
 		// TODO Implement the filtering options.
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -621,7 +621,7 @@ class JGithubIssues extends JGithubObject
 		}
 
 		// Send the request.
-		$response = $this->client->get((string) $uri);
+		$response = $this->client->get((string) $uri, $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)

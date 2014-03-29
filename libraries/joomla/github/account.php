@@ -170,7 +170,7 @@ class JGithubAccount extends JGithubObject
 		$path = '/authorizations/' . $id;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -198,7 +198,7 @@ class JGithubAccount extends JGithubObject
 		$path = '/authorizations';
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -225,7 +225,7 @@ class JGithubAccount extends JGithubObject
 		$path = '/rate_limit';
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)

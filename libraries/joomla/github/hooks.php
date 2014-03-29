@@ -174,7 +174,7 @@ class JGithubHooks extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/hooks/' . $id;
 
 		return $this->processResponse(
-			$this->client->get($this->fetchUrl($path))
+			$this->client->get($this->fetchUrl($path), $this->getLoginHeader())
 		);
 	}
 
@@ -197,7 +197,7 @@ class JGithubHooks extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/hooks';
 
 		return $this->processResponse(
-			$this->client->get($this->fetchUrl($path))
+			$this->client->get($this->fetchUrl($path), $this->getLoginHeader())
 		);
 	}
 

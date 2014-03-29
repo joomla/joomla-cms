@@ -88,7 +88,7 @@ class JGithubStatuses extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/statuses/' . $sha;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)

@@ -120,7 +120,7 @@ class JGithubRefs extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/git/refs/' . $ref;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->get($this->fetchUrl($path), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)
@@ -152,7 +152,7 @@ class JGithubRefs extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/git/refs' . $namespace;
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get($this->fetchUrl($path, $page, $limit), $this->getLoginHeader());
 
 		// Validate the response code.
 		if ($response->code != 200)

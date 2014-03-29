@@ -45,6 +45,28 @@ abstract class JGithubObject
 	}
 
 	/**
+	 * Construct the login header.
+	 *
+	 * @return  array  The login header.
+	 *
+	 * @since   11.4
+	 */
+	protected function getLoginHeader()
+	{
+		$username = $this->options->get('api.username', '');
+		$password = $this->options->get('api.password', '');
+
+		if ($username && $password)
+		{
+			return array('Authorization' => 'Basic ' . base64_encode($username . ':' . $password));
+		}
+		else
+		{
+			return array();
+		}
+	}
+
+	/**
 	 * Method to build and return a full request URL for the request.  This method will
 	 * add appropriate pagination details if necessary and also prepend the API url
 	 * to have a complete URL for the request.
@@ -66,19 +88,6 @@ abstract class JGithubObject
 		{
 			// Use oAuth authentication - @todo set in request header ?
 			$uri->setVar('access_token', $this->options->get('gh.token'));
-		}
-		else
-		{
-			// Use basic authentication
-			if ($this->options->get('api.username', false))
-			{
-				$uri->setUser($this->options->get('api.username'));
-			}
-
-			if ($this->options->get('api.password', false))
-			{
-				$uri->setPass($this->options->get('api.password'));
-			}
 		}
 
 		// If we have a defined page number add it to the JUri object.
