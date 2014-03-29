@@ -112,7 +112,7 @@ class ContentModelArticles extends JModelList
 		$this->setState('filter.tag', $tag);
 
 		// List state information.
-		parent::populateState('a.title', 'asc');
+		parent::populateState('a.id', 'desc');
 
 		// Force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
@@ -307,10 +307,10 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'a.title');
-		$orderDirn = $this->state->get('list.direction', 'asc');
-
-		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		$orderCol = $this->state->get('list.ordering', 'a.id');
+		$orderDirn = $this->state->get('list.direction', 'desc');
+ 
+ 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
 		{
 			$orderCol = 'c.title ' . $orderDirn . ', a.ordering';
 		}
