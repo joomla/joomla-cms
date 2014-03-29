@@ -199,13 +199,6 @@ class ConfigModelApplication extends ConfigModelForm
 			$data['caching'] = 0;
 		}
 
-		// Clean the cache if disabled but previously enabled.
-		if (!$data['caching'] && $prev['caching'])
-		{
-			$cache = JFactory::getCache();
-			$cache->clean();
-		}
-
 		// Create the new configuration object.
 		$config = new JRegistry('config');
 		$config->loadArray($data);
@@ -219,13 +212,78 @@ class ConfigModelApplication extends ConfigModelForm
 		$temp->set('ftp_pass', $data['ftp_pass']);
 		$temp->set('ftp_root', $data['ftp_root']);
 
-		// Clear cache of com_config component.
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
-
 		// Write the configuration file.
-		return $this->writeConfigFile($config);
+		$result = $this->writeConfigFile($config);
+
+		$cacheWarning = false;
+		// Clean the cache if disabled but previously enabled.
+		if (!$data['caching'] && $prev['caching'])
+		{
+			$cache = JFactory::getCache();
+			// Don't let cache cleaning errors stop us
+			$result = @$cache->clean();
+
+			// Handle cache cleaning failure
+			if (!$result && !$cacheWarning)
+			{
+				$cacheWarning = true;
+				// Warn the user that they need to clean the cache
+				$app->enqueueMessage(JText::_('COM_CONFIG_CACHE_WARNING'), 'warning');
+			}
+		}
+
+		// Clear cache of com_config component if we can
+		$result = @$this->cleanCache('_system', 0);
+
+		// Handle cache cleaning failure
+		if (!$result && !$cacheWarning)
+		{
+			$cacheWarning = true;
+			// Warn the user that they need to clean the cache
+			$app->enqueueMessage(JText::_('COM_CONFIG_CACHE_WARNING'), 'warning');
+		}
+
+		$result = @$this->cleanCache('_system', 1);
+
+		// Handle cache cleaning failure
+		if (!$result && !$cacheWarning)
+		{
+			$cacheWarning = true;
+			// Warn the user that they need to clean the cache
+			$app->enqueueMessage(JText::_('COM_CONFIG_CACHE_WARNING'), 'warning');
+		}
+
+		return $result;
 	}
+
+	/**
+	 * Clean the cache and return the cache clean status
+	 *
+	 * @param   string   $group      The cache group
+	 * @param   integer  $client_id  The ID of the client
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.2.x
+	 */
+	protected function cleanCache($group = null, $client_id = 0)
+	{
+		$conf = JFactory::getConfig();
+		$dispatcher = JEventDispatcher::getInstance();
+
+		$options = array(
+			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
+			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
+
+		$cache = JCache::getInstance('callback', $options);
+		$result = $cache->clean();
+
+		// Trigger the onContentCleanCache event.
+		$dispatcher->trigger($this->event_clean_cache, $options);
+
+		return $result;
+	}
+
 
 	/**
 	 * Method to unset the root_user value from configuration data.
