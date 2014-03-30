@@ -21,10 +21,16 @@ $params = $this->state->get('params');
 //$urls = json_decode($this->item->urls);
 
 // This checks if the editor config options have ever been saved. If they haven't they will fall back to the original settings.
-$editoroptions = isset($params->show_publishing_options);
+$editoroptions = isset(json_decode($params)->show_publishing_options);
 if (!$editoroptions)
 {
-	$params->show_urls_images_frontend = '0';
+	$params->set('show_urls_images_frontend', '0');
+}
+
+$showUrlImagesOnFrontend = json_decode($this->item->attribs)->show_urls_images_frontend;
+if ($showUrlImagesOnFrontend)
+{
+	$params->set('show_urls_images_frontend', $showUrlImagesOnFrontend);
 }
 ?>
 
