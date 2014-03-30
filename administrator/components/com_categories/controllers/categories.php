@@ -121,39 +121,4 @@ class CategoriesControllerCategories extends JControllerAdmin
  
  		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&extension=' . $extension, false));
  	} 
-        /**
-        * Changes the order of one or more records.
-        * Override since extension='com_content' must be passed.
-        *
-        * @return boolean True on success
-        *
-        * @since 11.1
-        */
-        public function reorder()
-        {
-               // Check for request forgeries.
-               JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-               // Initialise variables.
-               $extension = JRequest::getCmd('extension');
-               $ids = JRequest::getVar('cid', null, 'post', 'array');
-               $inc = ($this->getTask() == 'orderup') ? -1 : +1;
-
-               $model = $this->getModel();
-               $return = $model->reorder($ids, $inc);
-               if ($return === false)
-               {
-                       // Reorder failed.
-                       $message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-                       $this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&extension=' . $extension . '&view=' . $this->view_list, false), $message, 'error');
-                       return false;
-               }
-               else
-               {
-                       // Reorder succeeded.
-                       $message = JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-                       $this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&extension=' . $extension . '&view=' . $this->view_list, false), $message);
-                       return true;
-               }
-        }
 }

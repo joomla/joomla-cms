@@ -235,18 +235,20 @@ class JControllerAdmin extends JController
 
 		$model = $this->getModel();
 		$return = $model->reorder($ids, $inc);
+                $extension = JRequest::getCmd('extension');
+                $extensionURL = ($extension) ? '&extension=' . JRequest::getCmd('extension') : '';
 		if ($return === false)
 		{
 			// Reorder failed.
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+                        $this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false),$message, 'error');
 			return false;
 		}
 		else
 		{
 			// Reorder succeeded.
 			$message = JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+                        $this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false),$message);
 			return true;
 		}
 	}
