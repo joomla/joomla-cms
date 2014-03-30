@@ -135,6 +135,7 @@ class CategoriesControllerCategories extends JControllerAdmin
                JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
                // Initialise variables.
+               $extension = JRequest::getCmd('extension');
                $ids = JRequest::getVar('cid', null, 'post', 'array');
                $inc = ($this->getTask() == 'orderup') ? -1 : +1;
 
@@ -144,14 +145,14 @@ class CategoriesControllerCategories extends JControllerAdmin
                {
                        // Reorder failed.
                        $message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-                       $this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&extension=com_content&view=' . $this->view_list, false), $message, 'error');
+                       $this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&extension=' . $extension . '&view=' . $this->view_list, false), $message, 'error');
                        return false;
                }
                else
                {
                        // Reorder succeeded.
                        $message = JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-                       $this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&extension=com_content&view=' . $this->view_list, false), $message);
+                       $this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&extension=' . $extension . '&view=' . $this->view_list, false), $message);
                        return true;
                }
         }
