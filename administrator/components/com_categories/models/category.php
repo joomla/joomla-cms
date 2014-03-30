@@ -227,7 +227,9 @@ class CategoriesModelCategory extends JModelAdmin
 			$data['extension'] = $extension;
 		}
 		$user = JFactory::getUser();
-		if (!$user->authorise('core.edit.state', $extension . '.category.' . $jinput->get('id')))
+                // Do not disable attributes on a new category
+                $oldCat = $jinput->get('id', 0);
+                if ($oldCat != 0 && !$user->authorise('core.edit.state', $extension . '.category.' . $jinput->get('id')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
