@@ -40,6 +40,27 @@ class JFormFieldList extends JFormField
 		$html = array();
 		$attr = '';
 
+		// Get the field options.
+		$options = (array) $this->getOptions();
+
+		// Default to the class "advancedSelect" to support Chosen.
+		if (empty($this->class))
+		{
+			$this->class = 'advancedSelect';
+		}
+
+		// In case of a huge amount of options we disable Chosen by removing the "advancedSelect" class.
+		if (count($options) > 10000)
+		{
+			$classes	= explode(' ', $this->class);
+			$key		= array_search('advancedSelect', $classes);
+			if (is_int($key))
+			{
+				unset($classes[$key]);
+				$this->class	= implode(' ', $classes);
+			}
+		}
+
 		// Initialize some field attributes.
 		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
@@ -55,9 +76,6 @@ class JFormFieldList extends JFormField
 
 		// Initialize JavaScript field attributes.
 		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
-
-		// Get the field options.
-		$options = (array) $this->getOptions();
 
 		// Create a read-only list (no name) with a hidden input to store the value.
 		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
