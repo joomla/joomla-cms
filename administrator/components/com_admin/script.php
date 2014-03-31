@@ -1016,6 +1016,8 @@ class JoomlaInstallerScript
 			'/administrator/components/com_weblinks/models/fields/index.html',
 			'/plugins/user/joomla/postinstall/actions.php',
 			'/plugins/user/joomla/postinstall/index.html',
+			'/media/com_finder/js/finder.js',
+			'/media/com_finder/js/highlighter.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode

@@ -23,7 +23,7 @@ $assoc = JLanguageAssociations::isEnabled();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form')))
+		if (task == 'contact.cancel' || document.formvalidator.isValid(document.getElementById('contact-form')))
 		{
 			<?php echo $this->form->getField('misc')->save(); ?>
 

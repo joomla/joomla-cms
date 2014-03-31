@@ -72,16 +72,16 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		else
 		{
 			// special case for modal popups validation response
-			$$('#item-form .modal-value.invalid').each(function(field)
-			{
-				var idReversed = field.id.split("").reverse().join("");
-				var separatorLocation = idReversed.indexOf('_');
-				var name = idReversed.substr(separatorLocation).split("").reverse().join("") + 'name';
-				document.id(name).addClass('invalid');
+			$('.modal-value.invalid', '#item-form').each(function(){
+				var idReversed, separatorLocation, name;
+					idReversed = this.id.split("").reverse().join("");
+					separatorLocation = idReversed.indexOf('_');
+					name = idReversed.substr(separatorLocation).split("").reverse().join("") + 'name';
+					$('#'+ name).addClass('invalid');
 			});
 
-			$('system-message').getElement('h4').innerHTML  = Joomla.JText._('ERROR');
-			$('system-message').getElement('div').innerHTML = Joomla.JText._('JGLOBAL_VALIDATION_FORM_FAILED');
+			$('#system-message-container').find('h4').html(Joomla.JText._('ERROR'));
+			$('#system-message-container').find('p').html(Joomla.JText._('JGLOBAL_VALIDATION_FORM_FAILED'));
 		}
 	}
 </script>

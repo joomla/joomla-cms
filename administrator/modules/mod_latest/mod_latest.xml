@@ -51,7 +51,7 @@
 					label="JCATEGORY"
 					description="MOD_LATEST_FIELD_CATEGORY_DESC"
 					default=""
-					class="inputbox">
+					>
 					<option
 						value="">JOPTION_ANY_CATEGORY</option>
 				</field>

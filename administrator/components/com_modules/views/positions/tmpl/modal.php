@@ -32,22 +32,22 @@ $type      = $this->state->get('filter.type');
 
 			<button type="submit">
 				<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();">
+			<button type="button" onclick="document.getElementById('filter_search').value='';this.form.submit();">
 				<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 
 		<div class="right">
-			<select name="filter_state" class="inputbox" onchange="this.form.submit()">
+			<select name="filter_state" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('modules.templateStates'), 'value', 'text', $state, true);?>
 			</select>
 
-			<select name="filter_type" class="inputbox" onchange="this.form.submit()">
+			<select name="filter_type" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_TYPE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('modules.types'), 'value', 'text', $type, true);?>
 			</select>
 
-			<select name="filter_template" class="inputbox" onchange="this.form.submit()">
+			<select name="filter_template" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_TEMPLATE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('modules.templates', $clientId), 'value', 'text', $template, true);?>
 			</select>

@@ -31,7 +31,7 @@ JHtml::_('formbehavior.chosen', 'select');
 			</div>
 			<div id="batch-choose-action" class="combo controls">
 				<div class="control-group">
-					<select name="batch[group_id]" class="inputbox" id="batch-group-id">
+					<select name="batch[group_id]" id="batch-group-id">
 						<option value=""><?php echo JText::_('JSELECT') ?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('user.groups')); ?>
 					</select>
@@ -43,7 +43,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn" type="button" onclick="document.id('batch-group-id').value=''" data-dismiss="modal">
+		<button class="btn" type="button" onclick="document.getElementById('batch-group-id').value=''" data-dismiss="modal">
 			<?php echo JText::_('JCANCEL'); ?>
 		</button>
 		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('user.batch');">

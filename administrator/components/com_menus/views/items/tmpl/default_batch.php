@@ -41,7 +41,7 @@ $published = $this->state->get('filter.published');
 						<?php echo JText::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
 					</label>
 					<div class="controls">
-						<select name="batch[menu_id]" class="inputbox" id="batch-menu-id">
+						<select name="batch[menu_id]" id="batch-menu-id">
 							<option value=""><?php echo JText::_('JSELECT') ?></option>
 							<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published))); ?>
 						</select>
@@ -54,7 +54,7 @@ $published = $this->state->get('filter.published');
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn" type="button" onclick="document.id('batch-menu-id').value='';document.id('batch-access').value='';document.id('batch-language-id').value=''" data-dismiss="modal">
+		<button class="btn" type="button" onclick="document.getElementById('batch-menu-id').value='';document.getElementById('batch-access').value='';document.getElementById('batch-language-id').value=''" data-dismiss="modal">
 			<?php echo JText::_('JCANCEL'); ?>
 		</button>
 		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('item.batch');">
