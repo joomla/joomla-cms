@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_content
  * @since       3.3
  */
-class ContentRouter implements JComponentRouter
+class ContentRouter extends JComponentRouterBase
 {
 	/**
 	 * Build the route for the com_content component

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_tags
  * @since       3.3
  */
-class TagsRouter implements JComponentRouter
+class TagsRouter extends JComponentRouterBase
 {
 	/**
 	 * Build the route for the com_tags component

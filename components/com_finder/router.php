@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_finder
  * @since       3.3
  */
-class FinderRouter implements JComponentRouter
+class FinderRouter extends JComponentRouterBase
 {
 	/**
 	 * Build the route for the com_finder component

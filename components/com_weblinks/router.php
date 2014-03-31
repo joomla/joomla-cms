@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       3.3
  */
-class WeblinksRouter implements JComponentRouter
+class WeblinksRouter extends JComponentRouterBase
 {
 	/**
 	 * Build the route for the com_weblinks component

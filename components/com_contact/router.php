@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_contact
  * @since       3.3
  */
-class ContactRouter implements JComponentRouter
+class ContactRouter extends JComponentRouterBase
 {
 	/**
 	 * Build the route for the com_contact component
