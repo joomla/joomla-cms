@@ -12,8 +12,8 @@ defined('JPATH_BASE') or die;
 $msgList = $displayData['msgList'];
 
 ?>
-<?php if (is_array($msgList) && !empty($msgList)) : ?>
-	<div id="system-message-container">
+<div id="system-message-container">
+	<?php if (is_array($msgList) && !empty($msgList)) : ?>
 		<div id="system-message">
 			<?php foreach ($msgList as $type => $msgs) : ?>
 				<div class="alert alert-<?php echo $type; ?>">
@@ -31,5 +31,5 @@ $msgList = $displayData['msgList'];
 				</div>
 			<?php endforeach; ?>
 		</div>
-	</div>
-<?php endif; ?>
+	<?php endif; ?>
+</div>
