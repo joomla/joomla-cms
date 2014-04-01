@@ -1040,6 +1040,7 @@ class JoomlaInstallerScript
 			'libraries/joomla/form/fields/note.php',
 			'libraries/joomla/form/fields/password.php',
 			'libraries/joomla/form/fields/plugins.php',
+			'libraries/joomla/form/fields/predefinedlist.php',
 			'libraries/joomla/form/fields/radio.php',
 			'libraries/joomla/form/fields/rules.php',
 			'libraries/joomla/form/fields/sessionhandler.php',
