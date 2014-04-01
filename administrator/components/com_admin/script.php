@@ -1115,12 +1115,9 @@ class JoomlaInstallerScript
 			'/libraries/legacy/module',
 			'/administrator/components/com_weblinks/models/fields',
 			'/plugins/user/joomla/postinstall',
-<<<<<<< HEAD
-			'libraries/joomla/form/fields',
-=======
 			'/libraries/joomla/registry/format',
 			'/libraries/joomla/registry',
->>>>>>> upstream/3.3-dev
+			'libraries/joomla/form/fields',
 		);
 
 		jimport('joomla.filesystem.file');
