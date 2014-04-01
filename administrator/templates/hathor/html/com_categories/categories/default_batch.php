@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 ?>
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">x</button>
+		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_CATEGORIES_BATCH_OPTIONS'); ?></h3>
 	</div>
 	<div class="modal-body">

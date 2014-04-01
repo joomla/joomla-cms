@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,14 +24,6 @@ class JLayoutBaseTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->object = new JLayoutBase;
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown()
-	{
 	}
 
 	/**

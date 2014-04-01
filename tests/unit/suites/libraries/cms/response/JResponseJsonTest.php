@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Response
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,8 +27,9 @@ class JResponseJsonTest extends TestCase
 	 */
 	public function setUp()
 	{
-		$this->app = JFactory::$application;
-		JFactory::$application = null;
+		parent::setUp();
+
+		$this->saveFactoryState();
 	}
 
 	/**
@@ -40,7 +41,9 @@ class JResponseJsonTest extends TestCase
 	 */
 	public function tearDown()
 	{
-		JFactory::$application = $this->app;
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
@@ -71,9 +74,9 @@ class JResponseJsonTest extends TestCase
 	 */
 	public function testSuccessWithData()
 	{
-		$data = new stdClass;
-		$data->value 		= 5;
-		$data->average	= 7.9;
+		$data          = new stdClass;
+		$data->value   = 5;
+		$data->average = 7.9;
 
 		ob_start();
 		echo new JResponseJson($data);
@@ -120,9 +123,9 @@ class JResponseJsonTest extends TestCase
 	 */
 	public function testFailureWithData()
 	{
-		$data = new stdClass;
-		$data->value		= 6;
-		$data->average	= 8.9;
+		$data          = new stdClass;
+		$data->value   = 6;
+		$data->average = 8.9;
 
 		ob_start();
 		echo new JResponseJson($data, 'Something went wrong', true);

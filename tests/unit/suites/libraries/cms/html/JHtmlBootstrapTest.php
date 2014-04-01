@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,6 +38,8 @@ class JHtmlBootstrapTest extends TestCase
 		JHtmlBootstrapInspector::resetLoaded();
 		JHtmlJqueryInspector::resetLoaded();
 
+		parent::setUp();
+
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
@@ -62,6 +64,8 @@ class JHtmlBootstrapTest extends TestCase
 		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**

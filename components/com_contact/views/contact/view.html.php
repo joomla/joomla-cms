@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT.'/models/category.php';
+require_once JPATH_COMPONENT . '/models/category.php';
 
 /**
  * HTML Contact View class for the Contact component
@@ -28,6 +28,13 @@ class ContactViewContact extends JViewLegacy
 
 	protected $return_page;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
@@ -225,9 +232,11 @@ class ContactViewContact extends JViewLegacy
 			$this->setLayout($active->query['layout']);
 		}
 
+		$model = $this->getModel();
+		$model->hit();
 		$this->_prepareDocument();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
- * @since       1.6
+ * @since       3.2
  */
 class ContenthistoryModelHistory extends JModelList
 {
@@ -23,8 +23,8 @@ class ContenthistoryModelHistory extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
-	 * @since   1.6
+	 * @see     JControllerLegacy
+	 * @since   3.2
 	 */
 	public function __construct($config = array())
 	{
@@ -227,11 +227,10 @@ class ContenthistoryModelHistory extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   3.2
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication('administrator');
 		$input = JFactory::getApplication()->input;
 		$itemId = $input->get('item_id', 0, 'integer');
 		$typeId = $input->get('type_id', 0, 'integer');
@@ -255,7 +254,7 @@ class ContenthistoryModelHistory extends JModelList
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since   1.6
+	 * @since   3.2
 	 */
 	protected function getListQuery()
 	{
@@ -265,18 +264,18 @@ class ContenthistoryModelHistory extends JModelList
 
 		// Select the required fields from the table.
 		$query->select(
-				$this->getState(
-						'list.select',
-						'h.version_id, h.ucm_item_id, h.ucm_type_id, h.version_note, h.save_date, h.editor_user_id,' .
-						'h.character_count, h.sha1_hash, h.version_data, h.keep_forever'
-				)
-		);
-		$query->from($db->quoteName('#__ucm_history') . ' AS h');
-		$query->where($db->quoteName('h.ucm_item_id') . ' = ' . $this->getState('item_id'));
-		$query->where($db->quoteName('h.ucm_type_id') . ' = ' . $this->getState('type_id'));
+			$this->getState(
+				'list.select',
+				'h.version_id, h.ucm_item_id, h.ucm_type_id, h.version_note, h.save_date, h.editor_user_id,' .
+				'h.character_count, h.sha1_hash, h.version_data, h.keep_forever'
+			)
+		)
+		->from($db->quoteName('#__ucm_history') . ' AS h')
+		->where($db->quoteName('h.ucm_item_id') . ' = ' . $this->getState('item_id'))
+		->where($db->quoteName('h.ucm_type_id') . ' = ' . $this->getState('type_id'))
 
 		// Join over the users for the editor
-		$query->select('uc.name AS editor')
+		->select('uc.name AS editor')
 		->join('LEFT', '#__users AS uc ON uc.id = h.editor_user_id');
 
 		// Add the list ordering clause.
@@ -297,20 +296,20 @@ class ContenthistoryModelHistory extends JModelList
 	protected function getSha1Hash()
 	{
 		$result = false;
-		$typesTable = JTable::getInstance('Contenttype', 'JTable');
+		$typeTable = JTable::getInstance('Contenttype', 'JTable');
 		$typeId = JFactory::getApplication()->input->getInteger('type_id', 0);
-		$typesTable->load($typeId);
-		$typeAliasArray = explode('.', $typesTable->type_alias);
+		$typeTable->load($typeId);
+		$typeAliasArray = explode('.', $typeTable->type_alias);
 		JTable::addIncludePath(JPATH_ROOT . '/administrator/components/' . $typeAliasArray[0] . '/tables');
-		$contentTable = $typesTable->getContentTable();
+		$contentTable = $typeTable->getContentTable();
 		$keyValue = JFactory::getApplication()->input->getInteger('item_id', 0);
 
 		if ($contentTable && $contentTable->load($keyValue))
 		{
-			$helper = new JHelperContenthistory;
+			$helper = new JHelper;
 
 			$dataObject = $helper->getDataObject($contentTable);
-			$result = $this->getTable('Contenthistory', 'JTable')->getSha1(json_encode($dataObject));
+			$result = $this->getTable('Contenthistory', 'JTable')->getSha1(json_encode($dataObject), $typeTable);
 		}
 
 		return $result;

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,15 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Build the route for the com_newsfeeds component
  *
- * @return  array  An array of URL arguments
+ * @param   array  &$query  An array of URL arguments
  *
  * @return  array  The URL arguments to use to assemble the subsequent URL.
  */
-function NewsfeedsBuildRoute(&$query)
+function newsfeedsBuildRoute(&$query)
 {
 	$segments = array();
 
-	// get a menu item based on Itemid or currently active
+	// Get a menu item based on Itemid or currently active
 	$app	= JFactory::getApplication();
 	$menu	= $app->getMenu();
 	$params = JComponentHelper::getParams('com_newsfeeds');
@@ -34,25 +34,29 @@ function NewsfeedsBuildRoute(&$query)
 	{
 		$menuItem = $menu->getItem($query['Itemid']);
 	}
+
 	$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
 	$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
 
 	if (isset($query['view']))
 	{
 		$view = $query['view'];
+
 		if (empty($query['Itemid']) || empty($menuItem) || $menuItem->component != 'com_newsfeeds')
 		{
 			$segments[] = $query['view'];
 		}
+
 		unset($query['view']);
 	}
 
-	// are we dealing with an newsfeed that is attached to a menu item?
+	// Are we dealing with an newsfeed that is attached to a menu item?
 	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id']))
 	{
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
+
 		return $segments;
 	}
 
@@ -68,29 +72,36 @@ function NewsfeedsBuildRoute(&$query)
 			{
 				$catid = $query['id'];
 			}
+
 			$menuCatid = $mId;
 			$categories = JCategories::getInstance('Newsfeeds');
 			$category = $categories->get($catid);
+
 			if ($category)
 			{
 				$path = $category->getPath();
 				$path = array_reverse($path);
 
 				$array = array();
+
 				foreach ($path as $id)
 				{
 					if ((int) $id == (int) $menuCatid)
 					{
 						break;
 					}
+
 					if ($advanced)
 					{
 						list($tmp, $id) = explode(':', $id, 2);
 					}
+
 					$array[] = $id;
 				}
+
 				$segments = array_merge($segments, array_reverse($array));
 			}
+
 			if ($view == 'newsfeed')
 			{
 				if ($advanced)
@@ -101,9 +112,11 @@ function NewsfeedsBuildRoute(&$query)
 				{
 					$id = $query['id'];
 				}
+
 				$segments[] = $id;
 			}
 		}
+
 		unset($query['id']);
 		unset($query['catid']);
 	}
@@ -128,18 +141,19 @@ function NewsfeedsBuildRoute(&$query)
 
 	return $segments;
 }
+
 /**
  * Parse the segments of a URL.
  *
- * @return  array  The segments of the URL to parse.
+ * @param   array  $segments  The segments of the URL to parse.
  *
  * @return  array  The URL attributes to be used by the application.
  */
-function NewsfeedsParseRoute($segments)
+function newsfeedsParseRoute($segments)
 {
 	$vars = array();
 
-	//Get the active menu item.
+	// Get the active menu item.
 	$app	= JFactory::getApplication();
 	$menu	= $app->getMenu();
 	$item	= $menu->getActive();
@@ -154,6 +168,7 @@ function NewsfeedsParseRoute($segments)
 	{
 		$vars['view']	= $segments[0];
 		$vars['id']		= $segments[$count - 1];
+
 		return $vars;
 	}
 
@@ -163,9 +178,11 @@ function NewsfeedsParseRoute($segments)
 	$vars['catid'] = $id;
 	$vars['id'] = $id;
 	$found = 0;
+
 	foreach ($segments as $segment)
 	{
 		$segment = $advanced ? str_replace(':', '-', $segment) : $segment;
+
 		foreach ($categories as $category)
 		{
 			if ($category->slug == $segment || $category->alias == $segment)
@@ -178,6 +195,7 @@ function NewsfeedsParseRoute($segments)
 				break;
 			}
 		}
+
 		if ($found == 0)
 		{
 			if ($advanced)
@@ -195,9 +213,11 @@ function NewsfeedsParseRoute($segments)
 			{
 				$nid = $segment;
 			}
+
 			$vars['id'] = $nid;
 			$vars['view'] = 'newsfeed';
 		}
+
 		$found = 0;
 	}
 

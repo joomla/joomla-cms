@@ -27,7 +27,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::__get
 	 * @since   12.3
 	 */
 	public function testMagicGetSet()
@@ -46,7 +45,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::__get
 	 * @since   12.3
 	 */
 	public function testMagicGetNull()
@@ -59,7 +57,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::__set
 	 * @since   12.3
 	 */
 	public function testMagicSetUpdatedDateString()
@@ -76,7 +73,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::__set
 	 * @since   12.3
 	 */
 	public function testMagicSetUpdatedDateJDateObject()
@@ -95,7 +91,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::__set
 	 * @since   12.3
 	 */
 	public function testMagicSetAuthorWithPerson()
@@ -115,7 +110,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeed::__set
 	 * @expectedException  InvalidArgumentException
 	 * @since              12.3
 	 */
@@ -129,7 +123,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeed::__set
 	 * @expectedException  InvalidArgumentException
 	 * @since              12.3
 	 */
@@ -143,7 +136,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::__set
 	 * @since   12.3
 	 */
 	public function testMagicSetGeneral()
@@ -160,7 +152,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::addCategory
 	 * @since   12.3
 	 */
 	public function testAddCategory()
@@ -177,7 +168,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::addContributor
 	 * @since   12.3
 	 */
 	public function testAddContributor()
@@ -207,7 +197,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::addEntry
 	 * @since   12.3
 	 */
 	public function testAddEntry()
@@ -236,7 +225,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::offsetExists
 	 * @since   12.3
 	 */
 	public function testOffsetExists()
@@ -261,7 +249,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::offsetGet
 	 * @since   12.3
 	 */
 	public function testOffsetGet()
@@ -286,7 +273,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeed::offsetSet
 	 * @expectedException  InvalidArgumentException
 	 * @since              12.3
 	 */
@@ -300,7 +286,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::offsetSet
 	 * @since   12.3
 	 */
 	public function testOffsetSet()
@@ -322,7 +307,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::offsetUnset
 	 * @since   12.3
 	 */
 	public function testOffsetUnset()
@@ -345,7 +329,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::removeCategory
 	 * @since   12.3
 	 */
 	public function testRemoveCategory()
@@ -368,7 +351,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::removeContributor
 	 * @since   12.3
 	 */
 	public function testRemoveContributor()
@@ -394,7 +376,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::removeEntry
 	 * @since   12.3
 	 */
 	public function testRemoveEntry()
@@ -419,7 +400,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeed::setAuthor
 	 * @since   12.3
 	 */
 	public function testSetAuthor()

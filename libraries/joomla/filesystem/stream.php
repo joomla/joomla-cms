@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -639,7 +639,7 @@ class JStream extends JObject
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see http://php.net/manual/en/function.fseek.php
+	 * @see     http://php.net/manual/en/function.fseek.php
 	 * @since   11.1
 	 */
 	public function seek($offset, $whence = SEEK_SET)
@@ -939,7 +939,7 @@ class JStream extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @see       http://php.net/stream_context_create
+	 * @see     http://php.net/stream_context_create
 	 * @since   11.1
 	 */
 	public function setContextOptions($context)

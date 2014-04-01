@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Input
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -62,7 +62,7 @@ class JInputFiles extends JInput
 	 *
 	 * @return  mixed  The filtered input value.
 	 *
-	 * @see     JFilterInput::clean
+	 * @see     JFilterInput::clean()
 	 * @since   11.1
 	 */
 	public function get($name, $default = null, $filter = 'cmd')

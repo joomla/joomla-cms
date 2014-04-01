@@ -100,7 +100,6 @@ class JPathTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers        JPath::clean
 	 * @dataProvider  getCleanData
 	 * @since         12.2
 	 */
@@ -124,7 +123,6 @@ class JPathTest extends TestCase
 	{
 		JPath::clean(array('/path/to/folder') );
 	}
-
 
 	/**
 	 * Test...

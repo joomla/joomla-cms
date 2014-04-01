@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,9 +18,16 @@ defined('_JEXEC') or die;
  */
 class ModBannersHelper
 {
+	/**
+	 * Retrieve list of banners
+	 *
+	 * @param   JRegistry  &$params  module parameters
+	 *
+	 * @return  mixed
+	 */
 	public static function &getList(&$params)
 	{
-		JModelLegacy::addIncludePath(JPATH_ROOT.'/components/com_banners/models', 'BannersModel');
+		JModelLegacy::addIncludePath(JPATH_ROOT . '/components/com_banners/models', 'BannersModel');
 		$document	= JFactory::getDocument();
 		$app		= JFactory::getApplication();
 		$keywords	= explode(',', $document->getMetaData('keywords'));

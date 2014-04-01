@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,6 +39,8 @@ class JHtmlBehaviorTest extends TestCase
 		// Ensure the loaded states are reset
 		JHtmlBehaviorInspector::resetLoaded();
 
+		parent::setUp();
+
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
@@ -63,6 +65,8 @@ class JHtmlBehaviorTest extends TestCase
 		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
@@ -132,8 +136,8 @@ class JHtmlBehaviorTest extends TestCase
 	public function getCaptionData()
 	{
 		$data = array(
-			array(array('JHtmlBehavior::caption' => array('img.caption' => true), 'JHtmlBehavior::framework' => array('core' => true))),
-			array(array('JHtmlBehavior::caption' => array('img.caption2' => true), 'JHtmlBehavior::framework' => array('core' => true)), 'img.caption2'),
+			array(array('JHtmlBehavior::caption' => array('img.caption' => true))),
+			array(array('JHtmlBehavior::caption' => array('img.caption2' => true)), 'img.caption2'),
 		);
 
 		return $data;
@@ -652,7 +656,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
+		$mock = $this->getMock('myMockObject', array('getTemplate', 'setHeader'));
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
