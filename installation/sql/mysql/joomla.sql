@@ -1868,6 +1868,7 @@ CREATE TABLE IF NOT EXISTS `#__users` (
   `resetCount` int(11) NOT NULL DEFAULT 0 COMMENT 'Count of password resets since lastResetTime',
   `otpKey` varchar(1000) NOT NULL DEFAULT '' COMMENT 'Two factor authentication encrypted keys',
   `otep` varchar(1000) NOT NULL DEFAULT '' COMMENT 'One time emergency passwords',
+  `requireReset` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'Require user to reset password on next login',
   PRIMARY KEY (`id`),
   KEY `idx_name` (`name`),
   KEY `idx_block` (`block`),

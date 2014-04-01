@@ -402,6 +402,34 @@ class JRouterSite extends JRouter
 	}
 
 	/**
+	 * Function to build a raw route
+	 *
+	 * @param   JUri  &$uri  The internal URL
+	 *
+	 * @return  string  Raw Route
+	 *
+	 * @since   3.2
+	 */
+	protected function buildRawRoute(&$uri)
+	{
+		// Get the query data
+		$query = $uri->getQuery(true);
+
+		if (!isset($query['option']))
+		{
+			return;
+		}
+
+		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
+
+		$crouter = $this->getComponentRouter($component);
+
+		$query = $crouter->preprocess($query);
+
+		$uri->setQuery($query);
+	}
+
+	/**
 	 * Function to build a sef route
 	 *
 	 * @param   JUri  &$uri  The internal URL
@@ -447,6 +475,8 @@ class JRouterSite extends JRouter
 		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
 
 		$crouter = $this->getComponentRouter($component);
+
+		$query = $crouter->preprocess($query);
 
 		$parts = $crouter->build($query);
 
@@ -687,7 +717,7 @@ class JRouterSite extends JRouter
 			{
 				$reflection = new ReflectionClass($name);
 
-				if (in_array('JComponentRouter', $reflection->getInterfaceNames()))
+				if (in_array('JComponentRouterInterface', $reflection->getInterfaceNames()))
 				{
 					$this->componentRouters[$component] = new $name();
 				}
@@ -716,7 +746,7 @@ class JRouterSite extends JRouter
 	{
 		$reflection = new ReflectionClass($router);
 
-		if (in_array('JComponentRouter', $reflection->getInterfaceNames()))
+		if (in_array('JComponentRouterInterface', $reflection->getInterfaceNames()))
 		{
 			$this->componentRouters[$component] = $router;
 

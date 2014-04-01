@@ -712,7 +712,7 @@ abstract class JHtmlBehavior
 		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
 
-		JFactory::getApplication()->setHeader('X-Frames-Options', 'SAMEORIGIN');
+		JFactory::getApplication()->setHeader('X-Frame-Options', 'SAMEORIGIN');
 
 		static::$loaded[__METHOD__] = true;
 	}

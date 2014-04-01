@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_wrapper
  * @since       3.3
  */
-class WrapperRouter implements JComponentRouter
+class WrapperRouter extends JComponentRouterBase
 {
 	/**
 	 * Build the route for the com_wrapper component
