@@ -294,6 +294,17 @@
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 		</field>
+
+		<field
+			name="microdata"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="JGLOBAL_MICRODATA_LABEL"
+			description="JGLOBAL_MICRODATA_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 	</fieldset>
 	<fieldset name="editinglayout" label="COM_CONTENT_EDITING_LAYOUT"
 				description="COM_CONTENT_CONFIG_EDITOR_LAYOUT">
