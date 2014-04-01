@@ -1,22 +1,23 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Registry
+ * Part of the Joomla Framework Registry Package
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Registry\Format;
+
+use Joomla\Registry\AbstractRegistryFormat;
+use SimpleXMLElement;
+use stdClass;
 
 /**
- * XML format handler for JRegistry.
+ * XML format handler for Registry.
  *
- * @package     Joomla.Platform
- * @subpackage  Registry
- * @since       11.1
+ * @since  1.0
  */
-class JRegistryFormatXML extends JRegistryFormat
+class Xml extends AbstractRegistryFormat
 {
 	/**
 	 * Converts an object into an XML formatted string.
@@ -28,7 +29,7 @@ class JRegistryFormatXML extends JRegistryFormat
 	 *
 	 * @return  string  XML formatted string.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function objectToString($object, $options = array())
 	{
@@ -52,7 +53,7 @@ class JRegistryFormatXML extends JRegistryFormat
 	 *
 	 * @return  object   Data object.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function stringToObject($data, array $options = array())
 	{
@@ -76,7 +77,7 @@ class JRegistryFormatXML extends JRegistryFormat
 	 *
 	 * @return  mixed  Native value of the SimpleXMLElement object.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	protected function getValueFromNode($node)
 	{
@@ -87,19 +88,23 @@ class JRegistryFormatXML extends JRegistryFormat
 
 				return (int) $value;
 				break;
+
 			case 'string':
 				return (string) $node;
 				break;
+
 			case 'boolean':
 				$value = (string) $node;
 
 				return (bool) $value;
 				break;
+
 			case 'double':
 				$value = (string) $node;
 
 				return (float) $value;
 				break;
+
 			case 'array':
 				$value = array();
 
@@ -107,7 +112,9 @@ class JRegistryFormatXML extends JRegistryFormat
 				{
 					$value[(string) $child['name']] = $this->getValueFromNode($child);
 				}
+
 				break;
+
 			default:
 				$value = new stdClass;
 
@@ -115,6 +122,7 @@ class JRegistryFormatXML extends JRegistryFormat
 				{
 					$value->$child['name'] = $this->getValueFromNode($child);
 				}
+
 				break;
 		}
 
@@ -130,7 +138,7 @@ class JRegistryFormatXML extends JRegistryFormat
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	protected function getXmlChildren(SimpleXMLElement $node, $var, $nodeName)
 	{

@@ -1,34 +1,34 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Registry
+ * Part of the Joomla Framework Registry Package
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Registry\Format;
+
+use Joomla\Registry\AbstractRegistryFormat;
+use stdClass;
 
 /**
- * INI format handler for JRegistry.
+ * INI format handler for Registry.
  *
- * @package     Joomla.Platform
- * @subpackage  Registry
- * @since       11.1
+ * @since  1.0
  */
-class JRegistryFormatINI extends JRegistryFormat
+class Ini extends AbstractRegistryFormat
 {
 	/**
-	 * Cache of processed data
+	 * A cache used by stringToobject.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.0
 	 */
 	protected static $cache = array();
 
 	/**
 	 * Converts an object into an INI formatted string
-	 * -	Unfortunately, there is no way to have ini values nested further than two
+	 * - Unfortunately, there is no way to have ini values nested further than two
 	 * levels deep.  Therefore we will only go through the first two levels of
 	 * the object.
 	 *
@@ -37,7 +37,7 @@ class JRegistryFormatINI extends JRegistryFormat
 	 *
 	 * @return  string  INI formatted string.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function objectToString($object, $options = array())
 	{
@@ -74,11 +74,11 @@ class JRegistryFormatINI extends JRegistryFormat
 	 * Parse an INI formatted string and convert it into an object.
 	 *
 	 * @param   string  $data     INI formatted string to convert.
-	 * @param   mixed   $options  An array of options used by the formatter, or a boolean setting to process sections.
+	 * @param   array   $options  An array of options used by the formatter, or a boolean setting to process sections.
 	 *
 	 * @return  object   Data object.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function stringToObject($data, array $options = array())
 	{
@@ -166,13 +166,13 @@ class JRegistryFormatINI extends JRegistryFormat
 				{
 					$value = false;
 				}
-				// If the value is 'true' assume boolean true.
 				elseif ($value == 'true')
+				// If the value is 'true' assume boolean true.
 				{
 					$value = true;
 				}
-				// If the value is numeric than it is either a float or int.
 				elseif (is_numeric($value))
+				// If the value is numeric than it is either a float or int.
 				{
 					// If there is a period then we assume a float.
 					if (strpos($value, '.') !== false)
@@ -210,7 +210,7 @@ class JRegistryFormatINI extends JRegistryFormat
 	 *
 	 * @return  string  The value in INI format.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	protected function getValueAsINI($value)
 	{

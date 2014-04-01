@@ -1,50 +1,49 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Registry
+ * Part of the Joomla Framework Registry Package
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Registry;
 
-jimport('joomla.utilities.arrayhelper');
+\jimport('joomla.utilities.arrayhelper');
 
 /**
- * JRegistry class
+ * Registry class
  *
- * @package     Joomla.Platform
- * @subpackage  Registry
- * @since       11.1
+ * @since  1.0
  */
-class JRegistry implements JsonSerializable
+class Registry implements \JsonSerializable, \ArrayAccess
 {
 	/**
 	 * Registry Object
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  1.0
 	 */
 	protected $data;
 
 	/**
-	 * @var    array  JRegistry instances container.
-	 * @since  11.3
+	 * Registry instances container.
+	 *
+	 * @var    array
+	 * @since  1.0
 	 */
 	protected static $instances = array();
 
 	/**
 	 * Constructor
 	 *
-	 * @param   mixed  $data  The data to bind to the new JRegistry object.
+	 * @param   mixed  $data  The data to bind to the new Registry object.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function __construct($data = null)
 	{
 		// Instantiate the internal data object.
-		$this->data = new stdClass;
+		$this->data = new \stdClass;
 
 		// Optionally load supplied data.
 		if (is_array($data) || is_object($data))
@@ -60,9 +59,9 @@ class JRegistry implements JsonSerializable
 	/**
 	 * Magic function to clone the registry object.
 	 *
-	 * @return  JRegistry
+	 * @return  Registry
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function __clone()
 	{
@@ -74,7 +73,7 @@ class JRegistry implements JsonSerializable
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function __toString()
 	{
@@ -83,11 +82,11 @@ class JRegistry implements JsonSerializable
 
 	/**
 	 * Implementation for the JsonSerializable interface.
-	 * Allows us to pass JRegistry objects to json_encode.
+	 * Allows us to pass Registry objects to json_encode.
 	 *
 	 * @return  object
 	 *
-	 * @since   12.2
+	 * @since   1.0
 	 * @note    The interface is only present in PHP 5.4 and up.
 	 */
 	public function jsonSerialize()
@@ -103,7 +102,7 @@ class JRegistry implements JsonSerializable
 	 *
 	 * @return  mixed  The value set, or the default if the value was not previously set (or null).
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function def($key, $default = '')
 	{
@@ -120,12 +119,14 @@ class JRegistry implements JsonSerializable
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function exists($path)
 	{
 		// Explode the registry path into an array
-		if ($nodes = explode('.', $path))
+		$nodes = explode('.', $path);
+
+		if ($nodes)
 		{
 			// Initialize the current node to be the registry root.
 			$node = $this->data;
@@ -160,7 +161,7 @@ class JRegistry implements JsonSerializable
 	 *
 	 * @return  mixed  Value of entry or null
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function get($path, $default = null)
 	{
@@ -202,23 +203,23 @@ class JRegistry implements JsonSerializable
 	}
 
 	/**
-	 * Returns a reference to a global JRegistry object, only creating it
+	 * Returns a reference to a global Registry object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * <pre>$registry = JRegistry::getInstance($id);</pre>
+	 * <pre>$registry = Registry::getInstance($id);</pre>
 	 *
 	 * @param   string  $id  An ID for the registry instance
 	 *
-	 * @return  JRegistry  The JRegistry object.
+	 * @return  Registry  The Registry object.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public static function getInstance($id)
 	{
 		if (empty(self::$instances[$id]))
 		{
-			self::$instances[$id] = new JRegistry;
+			self::$instances[$id] = new self;
 		}
 
 		return self::$instances[$id];
@@ -229,15 +230,15 @@ class JRegistry implements JsonSerializable
 	 *
 	 * @param   array  $array  Associative array of value to load
 	 *
-	 * @return  boolean  True on success
+	 * @return  Registry  Return this object to support chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function loadArray($array)
 	{
 		$this->bindData($this->data, $array);
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -245,15 +246,15 @@ class JRegistry implements JsonSerializable
 	 *
 	 * @param   object  $object  The object holding the publics to load
 	 *
-	 * @return  boolean  True on success
+	 * @return  Registry  Return this object to support chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function loadObject($object)
 	{
 		$this->bindData($this->data, $object);
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -263,9 +264,9 @@ class JRegistry implements JsonSerializable
 	 * @param   string  $format   Format of the file [optional: defaults to JSON]
 	 * @param   array   $options  Options used by the formatter
 	 *
-	 * @return  boolean  True on success
+	 * @return  Registry  Return this object to support chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function loadFile($file, $format = 'JSON', $options = array())
 	{
@@ -281,47 +282,98 @@ class JRegistry implements JsonSerializable
 	 * @param   string  $format   Format of the string
 	 * @param   array   $options  Options used by the formatter
 	 *
-	 * @return  boolean  True on success
+	 * @return  Registry  Return this object to support chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function loadString($data, $format = 'JSON', $options = array())
 	{
 		// Load a string into the given namespace [or default namespace if not given]
-		$handler = JRegistryFormat::getInstance($format);
+		$handler = AbstractRegistryFormat::getInstance($format);
 
 		$obj = $handler->stringToObject($data, $options);
 		$this->loadObject($obj);
 
-		return true;
+		return $this;
 	}
 
 	/**
-	 * Merge a JRegistry object into this one
+	 * Merge a Registry object into this one
 	 *
-	 * @param   JRegistry  $source  Source JRegistry object to merge.
+	 * @param   Registry  $source     Source Registry object to merge. [@note Framework typehints this param]
+	 * @param   boolean   $recursive  True to support recursive merge the children values.
 	 *
-	 * @return  boolean  True on success
+	 * @return  Registry  Return this object to support chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
-	public function merge($source)
+	public function merge($source, $recursive = false)
 	{
-		if (!$source instanceof JRegistry)
+		if (!$source instanceof Registry)
 		{
 			return false;
 		}
 
-		// Load the variables into the registry's default namespace.
-		foreach ($source->toArray() as $k => $v)
-		{
-			if (($v !== null) && ($v !== ''))
-			{
-				$this->data->$k = $v;
-			}
-		}
+		$this->bindData($this->data, $source->toArray(), $recursive);
 
-		return true;
+		return $this;
+	}
+
+	/**
+	 * Checks whether an offset exists in the iterator.
+	 *
+	 * @param   mixed  $offset  The array offset.
+	 *
+	 * @return  boolean  True if the offset exists, false otherwise.
+	 *
+	 * @since   1.0
+	 */
+	public function offsetExists($offset)
+	{
+		return (boolean) ($this->get($offset) !== null);
+	}
+
+	/**
+	 * Gets an offset in the iterator.
+	 *
+	 * @param   mixed  $offset  The array offset.
+	 *
+	 * @return  mixed  The array value if it exists, null otherwise.
+	 *
+	 * @since   1.0
+	 */
+	public function offsetGet($offset)
+	{
+		return $this->get($offset);
+	}
+
+	/**
+	 * Sets an offset in the iterator.
+	 *
+	 * @param   mixed  $offset  The array offset.
+	 * @param   mixed  $value   The array value.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function offsetSet($offset, $value)
+	{
+		$this->set($offset, $value);
+	}
+
+	/**
+	 * Unsets an offset in the iterator.
+	 *
+	 * @param   mixed  $offset  The array offset.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function offsetUnset($offset)
+	{
+		$this->set($offset, null);
 	}
 
 	/**
@@ -332,7 +384,7 @@ class JRegistry implements JsonSerializable
 	 *
 	 * @return  mixed  The value of the that has been set.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function set($path, $value)
 	{
@@ -340,8 +392,8 @@ class JRegistry implements JsonSerializable
 
 		/**
 		 * Explode the registry path into an array and remove empty
-		 * nodes caused by passing in double dotted strings. ex: joomla..test.
-		 * Finally, re-key the array so it is sequential.
+		 * nodes that occur as a result of a double dot. ex: joomla..test
+		 * Finally, re-key the array so they are sequential.
 		 */
 		$nodes = array_values(array_filter(explode('.', $path), 'strlen'));
 
@@ -355,10 +407,10 @@ class JRegistry implements JsonSerializable
 			{
 				if (!isset($node->$nodes[$i]) && ($i != $n))
 				{
-					$node->$nodes[$i] = new stdClass;
+					$node->$nodes[$i] = new \stdClass;
 				}
 
-				$node = (object) $node->$nodes[$i];
+				$node = $node->$nodes[$i];
 			}
 
 			// Get the old value if exists so we can return it
@@ -373,7 +425,7 @@ class JRegistry implements JsonSerializable
 	 *
 	 * @return  array  An associative array holding the namespace data
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function toArray()
 	{
@@ -385,7 +437,7 @@ class JRegistry implements JsonSerializable
 	 *
 	 * @return  object   An an object holding the namespace data
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function toObject()
 	{
@@ -400,12 +452,12 @@ class JRegistry implements JsonSerializable
 	 *
 	 * @return  string   Namespace in string format
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function toString($format = 'JSON', $options = array())
 	{
 		// Return a namespace in a given format
-		$handler = JRegistryFormat::getInstance($format);
+		$handler = AbstractRegistryFormat::getInstance($format);
 
 		return $handler->objectToString($this->data, $options);
 	}
@@ -413,14 +465,15 @@ class JRegistry implements JsonSerializable
 	/**
 	 * Method to recursively bind data to a parent object.
 	 *
-	 * @param   object  $parent  The parent object on which to attach the data values.
-	 * @param   mixed   $data    An array or object of data to bind to the parent object.
+	 * @param   object   $parent     The parent object on which to attach the data values.
+	 * @param   mixed    $data       An array or object of data to bind to the parent object.
+	 * @param   boolean  $recursive  True to support recursive bindData.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
-	protected function bindData($parent, $data)
+	protected function bindData($parent, $data, $recursive = true)
 	{
 		// Ensure the input data is an array.
 		if (is_object($data))
@@ -434,9 +487,19 @@ class JRegistry implements JsonSerializable
 
 		foreach ($data as $k => $v)
 		{
-			if ((is_array($v) && JArrayHelper::isAssociative($v)) || is_object($v))
+			if ($v === '' || $v === null)
 			{
-				$parent->$k = new stdClass;
+				continue;
+			}
+
+			// Modification from joomla/registry package - Using CMS JArrayHelper versus importing joomla/utilities package
+			if ((is_array($v) && \JArrayHelper::isAssociative($v)) || is_object($v) && $recursive)
+			{
+				if (!isset($parent->$k))
+				{
+					$parent->$k = new \stdClass;
+				}
+
 				$this->bindData($parent->$k, $v);
 			}
 			else
@@ -453,15 +516,20 @@ class JRegistry implements JsonSerializable
 	 *
 	 * @return  array  Array representation of the input object.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	protected function asArray($data)
 	{
 		$array = array();
 
-		foreach (get_object_vars((object) $data) as $k => $v)
+		if (is_object($data))
 		{
-			if (is_object($v))
+			$data = get_object_vars($data);
+		}
+
+		foreach ($data as $k => $v)
+		{
+			if (is_object($v) || is_array($v))
 			{
 				$array[$k] = $this->asArray($v);
 			}

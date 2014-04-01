@@ -1,22 +1,21 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Registry
+ * Part of the Joomla Framework Registry Package
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Registry\Format;
+
+use Joomla\Registry\AbstractRegistryFormat;
 
 /**
- * JSON format handler for JRegistry.
+ * JSON format handler for Registry.
  *
- * @package     Joomla.Platform
- * @subpackage  Registry
- * @since       11.1
+ * @since  1.0
  */
-class JRegistryFormatJSON extends JRegistryFormat
+class Json extends AbstractRegistryFormat
 {
 	/**
 	 * Converts an object into a JSON formatted string.
@@ -26,7 +25,7 @@ class JRegistryFormatJSON extends JRegistryFormat
 	 *
 	 * @return  string  JSON formatted string.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function objectToString($object, $options = array())
 	{
@@ -43,7 +42,7 @@ class JRegistryFormatJSON extends JRegistryFormat
 	 *
 	 * @return  object   Data object.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function stringToObject($data, array $options = array('processSections' => false))
 	{
@@ -51,7 +50,7 @@ class JRegistryFormatJSON extends JRegistryFormat
 
 		if ((substr($data, 0, 1) != '{') && (substr($data, -1, 1) != '}'))
 		{
-			$ini = JRegistryFormat::getInstance('INI');
+			$ini = AbstractRegistryFormat::getInstance('Ini');
 			$obj = $ini->stringToObject($data, $options);
 		}
 		else

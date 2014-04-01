@@ -1,26 +1,23 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Registry
+ * Part of the Joomla Framework Registry Package
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Registry;
 
 /**
- * Abstract Format for JRegistry
+ * Abstract Format for Registry
  *
- * @package     Joomla.Platform
- * @subpackage  Registry
- * @since       11.1
+ * @since  1.0
  */
-abstract class JRegistryFormat
+abstract class AbstractRegistryFormat
 {
 	/**
-	 * @var    array  JRegistryFormat instances container.
-	 * @since  11.3
+	 * @var    array  Format instances container.
+	 * @since  1.0
 	 */
 	protected static $instances = array();
 
@@ -30,10 +27,10 @@ abstract class JRegistryFormat
 	 *
 	 * @param   string  $type  The format to load
 	 *
-	 * @return  JRegistryFormat  Registry format handler
+	 * @return  AbstractRegistryFormat  Registry format handler
 	 *
-	 * @since   11.1
-	 * @throws  InvalidArgumentException
+	 * @since   1.0
+	 * @throws  \InvalidArgumentException
 	 */
 	public static function getInstance($type)
 	{
@@ -43,21 +40,11 @@ abstract class JRegistryFormat
 		// Only instantiate the object if it doesn't already exist.
 		if (!isset(self::$instances[$type]))
 		{
-			// Only load the file if the class does not exist.
-			$class = 'JRegistryFormat' . $type;
+			$class = '\\Joomla\\Registry\\Format\\' . ucfirst($type);
 
 			if (!class_exists($class))
 			{
-				$path = __DIR__ . '/format/' . $type . '.php';
-
-				if (is_file($path))
-				{
-					include_once $path;
-				}
-				else
-				{
-					throw new InvalidArgumentException('Unable to load format class.', 500);
-				}
+				throw new \InvalidArgumentException('Unable to load format class.', 500);
 			}
 
 			self::$instances[$type] = new $class;
@@ -74,7 +61,7 @@ abstract class JRegistryFormat
 	 *
 	 * @return  string  Formatted string.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	abstract public function objectToString($object, $options = null);
 
@@ -86,7 +73,7 @@ abstract class JRegistryFormat
 	 *
 	 * @return  object  Data Object
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	abstract public function stringToObject($data, array $options = array());
 }
