@@ -94,6 +94,13 @@ class FinderRouter extends JComponentRouterBase
 			unset($query['view']);
 		}
 
+		$total = count($segments);
+
+		for ($i = 0; $i < $total; $i++)
+		{
+			$segments[$i] = str_replace(':', '-', $segments[$i]);
+		}
+
 		return $segments;
 	}
 
@@ -108,7 +115,13 @@ class FinderRouter extends JComponentRouterBase
 	 */
 	public function parse(&$segments)
 	{
+		$total = count($segments);
 		$vars = array();
+
+		for ($i = 0; $i < $total; $i++)
+		{
+			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
+		}
 
 		// Check if the view segment is set and it equals search or advanced.
 		if (@$segments[0] === 'search' || @$segments[0] === 'advanced')

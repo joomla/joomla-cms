@@ -616,7 +616,7 @@ class JRouter
 	 * @return  array  Array of encoded route segments
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use encodeSegments() instead
+	 * @deprecated  4.0  This should be performed in the component router instead
 	 */
 	protected function _encodeSegments($segments)
 	{
@@ -631,6 +631,7 @@ class JRouter
 	 * @return  array  Array of encoded route segments
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  This should be performed in the component router instead
 	 */
 	protected function encodeSegments($segments)
 	{
@@ -652,7 +653,7 @@ class JRouter
 	 * @return  array  Array of decoded route segments
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use decodeSegments() instead
+	 * @deprecated  4.0  This should be performed in the component router instead
 	 */
 	protected function _decodeSegments($segments)
 	{
@@ -667,6 +668,7 @@ class JRouter
 	 * @return  array  Array of decoded route segments
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  This should be performed in the component router instead
 	 */
 	protected function decodeSegments($segments)
 	{
