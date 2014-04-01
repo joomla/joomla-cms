@@ -128,8 +128,8 @@
 				type="list"
 				default="1"
 				validate="options"
-				label="COM_FINDER_SHOW_SUGGESTED_QUERY_LABEL"
-				description="COM_FINDER_SHOW_SUGGESTED_QUERY_DESC">
+				label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
+				description="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -138,8 +138,8 @@
 				type="list"
 				default="1"
 				validate="options"
-				label="COM_FINDER_SHOW_EXPLAINED_QUERY_LABEL"
-				description="COM_FINDER_SHOW_EXPLAINED_QUERY_DESC">
+				label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
+				description="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
