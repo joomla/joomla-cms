@@ -66,8 +66,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			validate="options"
-			label="COM_FINDER_SHOW_SUGGESTED_QUERY_LABEL"
-			description="COM_FINDER_SHOW_SUGGESTED_QUERY_DESC">
+			label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
+			description="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_DESC">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
@@ -76,8 +76,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			validate="options"
-			label="COM_FINDER_SHOW_EXPLAINED_QUERY_LABEL"
-			description="COM_FINDER_SHOW_EXPLAINED_QUERY_DESC">
+			label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
+			description="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_DESC">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
