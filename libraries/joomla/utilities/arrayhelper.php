@@ -117,6 +117,7 @@ abstract class JArrayHelper
 				}
 			}
 		}
+
 		return $obj;
 	}
 
@@ -146,6 +147,7 @@ abstract class JArrayHelper
 					{
 						$output[] = $key;
 					}
+
 					// This is value is an array, go and do it again!
 					$output[] = self::toString($item, $inner_glue, $outer_glue, $keepOuterKey);
 				}
@@ -227,6 +229,7 @@ abstract class JArrayHelper
 		{
 			$result = $item;
 		}
+
 		return $result;
 	}
 
@@ -256,9 +259,11 @@ abstract class JArrayHelper
 				{
 					$result[] = $item->$index;
 				}
+
 				// Else ignore the entry
 			}
 		}
+
 		return $result;
 	}
 
@@ -331,6 +336,7 @@ abstract class JArrayHelper
 				// No casting necessary
 				break;
 		}
+
 		return $result;
 	}
 
@@ -381,6 +387,7 @@ abstract class JArrayHelper
 				}
 			}
 		}
+
 		return $return;
 	}
 
@@ -569,7 +576,6 @@ abstract class JArrayHelper
 
 			if ($cmp > 0)
 			{
-
 				return $direction;
 			}
 

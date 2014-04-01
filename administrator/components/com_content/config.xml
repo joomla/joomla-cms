@@ -184,6 +184,7 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
+
 		<field
 			name="show_readmore"
 			type="radio"
@@ -285,7 +286,8 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-			<field
+
+		<field
 			name="urls_position"
 			type="list"
 			default="0"
@@ -293,6 +295,33 @@
 			description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
+		</field>
+
+		<field
+			name="microdata"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="JGLOBAL_MICRODATA_LABEL"
+			description="JGLOBAL_MICRODATA_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="microdata_type"
+			type="list"
+			default="article"
+			label="JGLOBAL_MICRODATA_TYPE_LABEL"
+			description="JGLOBAL_MICRODATA_TYPE_DESC">
+			<option value="article">Article</option>
+			<option value="blogPosting">BlogPosting</option>
+			<option value="medicalScholarlyArticle">MedicalScholarlyArticle</option>
+			<option value="newsArticle">NewsArticle</option>
+			<option value="recipe">Recipe</option>
+			<option value="review">Review</option>
+			<option value="techArticle">TechArticle</option>
+			<option value="thing">Thing</option>
 		</field>
 	</fieldset>
 	<fieldset name="editinglayout" label="COM_CONTENT_EDITING_LAYOUT"
@@ -403,7 +432,7 @@
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
 				<option value="3">JBROWSERTARGET_MODAL</option>
-		</field>	
+		</field>
 		<field
 			name="spacer4"
 			type="spacer"
@@ -444,7 +473,7 @@
 			extension="com_content"
 			view="category"
 		/>
-		<field 
+		<field
 			name="show_category_heading_title_text"
 			type="radio"
 			class="btn-group btn-group-yesno"

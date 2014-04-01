@@ -98,6 +98,12 @@ abstract class JFactory
 	public static $mailer = null;
 
 	/**
+	 * @var    JMicrodata
+	 * @since  13.1
+	 */
+	public static $microdata = null;
+
+	/**
 	 * Get a application object.
 	 *
 	 * Returns the global {@link JApplicationCms} object, only creating it if it doesn't already exist.
@@ -350,6 +356,26 @@ abstract class JFactory
 		$copy = clone self::$mailer;
 
 		return $copy;
+	}
+
+	/**
+	 * Get a microdata object.
+	 *
+	 * Returns the global {@link JMicrodata} object, only creating it if it doesn't already exist.
+	 *
+	 * @return  JMicrodata
+	 *
+	 * @see     JMicrodata
+	 * @since   13.1
+	 */
+	public static function getMicrodata()
+	{
+		if (!self::$microdata)
+		{
+			self::$microdata = new JMicrodata('', self::getConfig()->get('microdata'));
+		}
+
+		return self::$microdata;
 	}
 
 	/**

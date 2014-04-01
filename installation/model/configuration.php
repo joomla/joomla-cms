@@ -131,6 +131,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('sef_rewrite', 0);
 		$registry->set('sef_suffix', 0);
 		$registry->set('unicodeslugs', 0);
+		$registry->set('microdata', 1);
 
 		/* Feed Settings */
 		$registry->set('feed_limit', 10);

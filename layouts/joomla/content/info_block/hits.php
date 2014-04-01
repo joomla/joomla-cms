@@ -12,5 +12,5 @@ defined('JPATH_BASE') or die;
 ?>
 			<dd class="hits">
 					<span class="icon-eye-open"></span>
-					<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $displayData['item']->hits); ?>
+					<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', JFactory::getMicrodata()->content($displayData['item']->hits, 'UserPageVisits:' . $displayData['item']->hits)->property('interactionCount')->display()); ?>
 			</dd>

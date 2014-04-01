@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 // Create a shortcut for params.
-$params = $displayData->params;
-$canEdit = $displayData->params->get('access-edit');
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+$params    = $displayData->params;
+$canEdit   = $displayData->params->get('access-edit');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.framework');
 ?>
 
@@ -23,9 +23,9 @@ JHtml::_('behavior.framework');
 				<h2>
 					<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid)); ?>">
-						<?php echo $this->escape($displayData->title); ?></a>
+						<?php echo JFactory::getMicrodata()->content($this->escape($displayData->title))->property('name')->display(); ?></a>
 					<?php else : ?>
-						<?php echo $this->escape($displayData->title); ?>
+						<?php echo JFactory::getMicrodata()->content($this->escape($displayData->title))->property('name')->display(); ?>
 					<?php endif; ?>
 				</h2>
 			<?php endif; ?>

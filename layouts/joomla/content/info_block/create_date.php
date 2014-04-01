@@ -12,5 +12,5 @@ defined('JPATH_BASE') or die;
 ?>
 			<dd class="create">
 					<span class="icon-calendar"></span>
-					<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $displayData['item']->created, JText::_('DATE_FORMAT_LC3'))); ?>
+					<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JFactory::getMicrodata()->content(JHtml::_('date', $displayData['item']->created, JText::_('DATE_FORMAT_LC3')), JHtml::_('date', $displayData['item']->created, JText::_('DATE_FORMAT_ISO')))->property('dateCreated')->display()); ?>
 			</dd>

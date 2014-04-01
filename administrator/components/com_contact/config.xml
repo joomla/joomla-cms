@@ -314,6 +314,28 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
+		
+		<field
+			name="microdata"
+			type="radio"
+			class="btn-group"
+			label="JGLOBAL_MICRODATA_LABEL"
+			description="JGLOBAL_MICRODATA_DESC"
+			labelclass="control-label">
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
+			<option	value="0">JNO</option>
+			<option	value="1">JYES</option>
+		</field>
+
+		<field
+			name="microdata_type"
+			type="list"
+			default="person"
+			label="JGLOBAL_MICRODATA_TYPE_LABEL"
+			description="JGLOBAL_MICRODATA_TYPE_DESC">
+			<option value="person">Person</option>
+			<option value="organization">Organization</option>
+		</field>
 
 	</fieldset>
 	<fieldset name="Icons"
