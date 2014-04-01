@@ -12,12 +12,22 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Gists class for the Joomla Platform.
  *
+ * @documentation http://developer.github.com/v3/gists
+ *
  * @package     Joomla.Platform
- * @subpackage  GitHub
+ * @subpackage  GitHub.Gists
  * @since       11.3
+ *
+ * @property-read  JGithubPackageGistsComments  $comments  GitHub API object for gist comments.
  */
-class JGithubGists extends JGithubObject
+class JGithubPackageGists extends JGithubPackage
 {
+	protected $name = 'Gists';
+
+	protected $packages = array(
+		'comments'
+	);
+
 	/**
 	 * Method to create a gist.
 	 *
@@ -25,9 +35,10 @@ class JGithubGists extends JGithubObject
 	 * @param   boolean  $public       True if the gist should be public.
 	 * @param   string   $description  The optional description of the gist.
 	 *
-	 * @return  object
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  object
 	 */
 	public function create($files, $public = false, $description = null)
 	{
@@ -58,80 +69,19 @@ class JGithubGists extends JGithubObject
 	}
 
 	/**
-	 * Method to create a comment on a gist.
-	 *
-	 * @param   integer  $gistId  The gist number.
-	 * @param   string   $body    The comment body text.
-	 *
-	 * @return  object
-	 *
-	 * @since   11.3
-	 */
-	public function createComment($gistId, $body)
-	{
-		// Build the request path.
-		$path = '/gists/' . (int) $gistId . '/comments';
-
-		// Build the request data.
-		$data = json_encode(
-			array(
-				'body' => $body,
-			)
-		);
-
-		// Send the request.
-		$response = $this->client->post($this->fetchUrl($path), $data);
-
-		// Validate the response code.
-		if ($response->code != 201)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
-	}
-
-	/**
 	 * Method to delete a gist.
 	 *
 	 * @param   integer  $gistId  The gist number.
 	 *
-	 * @return  void
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  void
 	 */
 	public function delete($gistId)
 	{
 		// Build the request path.
 		$path = '/gists/' . (int) $gistId;
-
-		// Send the request.
-		$response = $this->client->delete($this->fetchUrl($path));
-
-		// Validate the response code.
-		if ($response->code != 204)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-	}
-
-	/**
-	 * Method to delete a comment on a gist.
-	 *
-	 * @param   integer  $commentId  The id of the comment to delete.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function deleteComment($commentId)
-	{
-		// Build the request path.
-		$path = '/gists/comments/' . (int) $commentId;
 
 		// Send the request.
 		$response = $this->client->delete($this->fetchUrl($path));
@@ -153,9 +103,10 @@ class JGithubGists extends JGithubObject
 	 * @param   boolean  $public       True if the gist should be public.
 	 * @param   string   $description  The description of the gist.
 	 *
-	 * @return  object
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  object
 	 */
 	public function edit($gistId, $files = null, $public = null, $description = null)
 	{
@@ -201,49 +152,14 @@ class JGithubGists extends JGithubObject
 	}
 
 	/**
-	 * Method to update a comment on a gist.
-	 *
-	 * @param   integer  $commentId  The id of the comment to update.
-	 * @param   string   $body       The new body text for the comment.
-	 *
-	 * @return  object
-	 *
-	 * @since   11.3
-	 */
-	public function editComment($commentId, $body)
-	{
-		// Build the request path.
-		$path = '/gists/comments/' . (int) $commentId;
-
-		// Build the request data.
-		$data = json_encode(
-			array(
-				'body' => $body
-			)
-		);
-
-		// Send the request.
-		$response = $this->client->patch($this->fetchUrl($path), $data);
-
-		// Validate the response code.
-		if ($response->code != 200)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
-	}
-
-	/**
 	 * Method to fork a gist.
 	 *
 	 * @param   integer  $gistId  The gist number.
 	 *
-	 * @return  object
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  object
 	 */
 	public function fork($gistId)
 	{
@@ -270,9 +186,10 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @param   integer  $gistId  The gist number.
 	 *
-	 * @return  object
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  object
 	 */
 	public function get($gistId)
 	{
@@ -294,73 +211,16 @@ class JGithubGists extends JGithubObject
 	}
 
 	/**
-	 * Method to get a specific comment on a gist.
-	 *
-	 * @param   integer  $commentId  The comment id to get.
-	 *
-	 * @return  object
-	 *
-	 * @since   11.3
-	 */
-	public function getComment($commentId)
-	{
-		// Build the request path.
-		$path = '/gists/comments/' . (int) $commentId;
-
-		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
-
-		// Validate the response code.
-		if ($response->code != 200)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
-	}
-
-	/**
-	 * Method to get the list of comments on a gist.
-	 *
-	 * @param   integer  $gistId  The gist number.
-	 * @param   integer  $page    The page number from which to get items.
-	 * @param   integer  $limit   The number of items on a page.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.3
-	 */
-	public function getComments($gistId, $page = 0, $limit = 0)
-	{
-		// Build the request path.
-		$path = '/gists/' . (int) $gistId . '/comments';
-
-		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
-
-		// Validate the response code.
-		if ($response->code != 200)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
-	}
-
-	/**
 	 * Method to list gists.  If a user is authenticated it will return the user's gists, otherwise
 	 * it will return all public gists.
 	 *
 	 * @param   integer  $page   The page number from which to get items.
 	 * @param   integer  $limit  The number of items on a page.
 	 *
-	 * @return  array
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  array
 	 */
 	public function getList($page = 0, $limit = 0)
 	{
@@ -388,9 +248,10 @@ class JGithubGists extends JGithubObject
 	 * @param   integer  $page   The page number from which to get items.
 	 * @param   integer  $limit  The number of items on a page.
 	 *
-	 * @return  array
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  array
 	 */
 	public function getListByUser($user, $page = 0, $limit = 0)
 	{
@@ -417,9 +278,10 @@ class JGithubGists extends JGithubObject
 	 * @param   integer  $page   The page number from which to get items.
 	 * @param   integer  $limit  The number of items on a page.
 	 *
-	 * @return  array
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  array
 	 */
 	public function getListPublic($page = 0, $limit = 0)
 	{
@@ -446,9 +308,10 @@ class JGithubGists extends JGithubObject
 	 * @param   integer  $page   The page number from which to get items.
 	 * @param   integer  $limit  The number of items on a page.
 	 *
-	 * @return  array
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  array
 	 */
 	public function getListStarred($page = 0, $limit = 0)
 	{
@@ -474,9 +337,10 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @param   integer  $gistId  The gist number.
 	 *
-	 * @return  boolean  True if the gist is starred.
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  boolean  True if the gist is starred.
 	 */
 	public function isStarred($gistId)
 	{
@@ -508,9 +372,10 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @param   integer  $gistId  The gist number.
 	 *
-	 * @return  void
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  void
 	 */
 	public function star($gistId)
 	{
@@ -534,9 +399,10 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @param   integer  $gistId  The gist number.
 	 *
-	 * @return  void
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  void
 	 */
 	public function unstar($gistId)
 	{
@@ -561,9 +427,10 @@ class JGithubGists extends JGithubObject
 	 *
 	 * @param   array  $files  The list of file paths or filenames and content.
 	 *
-	 * @return  array
-	 *
+	 * @throws InvalidArgumentException
 	 * @since   11.3
+	 *
+	 * @return  array
 	 */
 	protected function buildFileData(array $files)
 	{
@@ -576,6 +443,7 @@ class JGithubGists extends JGithubObject
 			{
 				$data[$key] = array('content' => $file);
 			}
+
 			// Otherwise, we have been given a path and we have to load the content
 			// Verify that the each file exists.
 			elseif (!file_exists($file))
@@ -589,5 +457,93 @@ class JGithubGists extends JGithubObject
 		}
 
 		return $data;
+	}
+
+	/*
+	 * Deprecated methods
+	 */
+
+	/**
+	 * Method to create a comment on a gist.
+	 *
+	 * @param   integer  $gistId  The gist number.
+	 * @param   string   $body    The comment body text.
+	 *
+	 * @deprecated use gists->comments->create()
+	 *
+	 * @return  object
+	 *
+	 * @since      11.3
+	 */
+	public function createComment($gistId, $body)
+	{
+		return $this->comments->create($gistId, $body);
+	}
+
+	/**
+	 * Method to delete a comment on a gist.
+	 *
+	 * @param   integer  $commentId  The id of the comment to delete.
+	 *
+	 * @deprecated use gists->comments->delete()
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function deleteComment($commentId)
+	{
+		$this->comments->delete($commentId);
+	}
+
+	/**
+	 * Method to update a comment on a gist.
+	 *
+	 * @param   integer  $commentId  The id of the comment to update.
+	 * @param   string   $body       The new body text for the comment.
+	 *
+	 * @deprecated use gists->comments->edit()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function editComment($commentId, $body)
+	{
+		return $this->comments->edit($commentId, $body);
+	}
+
+	/**
+	 * Method to get a specific comment on a gist.
+	 *
+	 * @param   integer  $commentId  The comment id to get.
+	 *
+	 * @deprecated use gists->comments->get()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function getComment($commentId)
+	{
+		return $this->comments->get($commentId);
+	}
+
+	/**
+	 * Method to get the list of comments on a gist.
+	 *
+	 * @param   integer  $gistId  The gist number.
+	 * @param   integer  $page    The page number from which to get items.
+	 * @param   integer  $limit   The number of items on a page.
+	 *
+	 * @deprecated use gists->comments->getList()
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getComments($gistId, $page = 0, $limit = 0)
+	{
+		return $this->comments->getList($gistId, $page, $limit);
 	}
 }

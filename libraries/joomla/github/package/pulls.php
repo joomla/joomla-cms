@@ -12,12 +12,22 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Pull Requests class for the Joomla Platform.
  *
+ * @documentation http://developer.github.com/v3/pulls
+ *
  * @package     Joomla.Platform
- * @subpackage  GitHub
+ * @subpackage  GitHub.Pulls
  * @since       11.3
+ *
+ * @property-read  JGithubPackagePullsComments  $comments  GitHub API object for comments.
  */
-class JGithubPulls extends JGithubObject
+class JGithubPackagePulls extends JGithubPackage
 {
+	protected $name = 'Pulls';
+
+	protected $packages = array(
+		'comments'
+	);
+
 	/**
 	 * Method to create a pull request.
 	 *
@@ -31,9 +41,10 @@ class JGithubPulls extends JGithubObject
 	 * @param   string  $head   The branch (or git ref) where your changes are implemented.
 	 * @param   string  $body   The body text for the new pull request.
 	 *
-	 * @return  object
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  object
 	 */
 	public function create($user, $repo, $title, $base, $head, $body = '')
 	{
@@ -65,90 +76,6 @@ class JGithubPulls extends JGithubObject
 	}
 
 	/**
-	 * Method to create a comment on a pull request.
-	 *
-	 * @param   string   $user      The name of the owner of the GitHub repository.
-	 * @param   string   $repo      The name of the GitHub repository.
-	 * @param   integer  $pullId    The pull request number.
-	 * @param   string   $body      The comment body text.
-	 * @param   string   $commitId  The SHA1 hash of the commit to comment on.
-	 * @param   string   $filePath  The Relative path of the file to comment on.
-	 * @param   string   $position  The line index in the diff to comment on.
-	 *
-	 * @return  object
-	 *
-	 * @since   11.3
-	 */
-	public function createComment($user, $repo, $pullId, $body, $commitId, $filePath, $position)
-	{
-		// Build the request path.
-		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId . '/comments';
-
-		// Build the request data.
-		$data = json_encode(
-			array(
-				'body' => $body,
-				'commit_id' => $commitId,
-				'path' => $filePath,
-				'position' => $position
-			)
-		);
-
-		// Send the request.
-		$response = $this->client->post($this->fetchUrl($path), $data);
-
-		// Validate the response code.
-		if ($response->code != 201)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
-	}
-
-	/**
-	 * Method to create a comment in reply to another comment.
-	 *
-	 * @param   string   $user       The name of the owner of the GitHub repository.
-	 * @param   string   $repo       The name of the GitHub repository.
-	 * @param   integer  $pullId     The pull request number.
-	 * @param   string   $body       The comment body text.
-	 * @param   integer  $inReplyTo  The id of the comment to reply to.
-	 *
-	 * @return  object
-	 *
-	 * @since   11.3
-	 */
-	public function createCommentReply($user, $repo, $pullId, $body, $inReplyTo)
-	{
-		// Build the request path.
-		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId . '/comments';
-
-		// Build the request data.
-		$data = json_encode(
-			array(
-				'body' => $body,
-				'in_reply_to' => (int) $inReplyTo
-			)
-		);
-
-		// Send the request.
-		$response = $this->client->post($this->fetchUrl($path), $data);
-
-		// Validate the response code.
-		if ($response->code != 201)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
-	}
-
-	/**
 	 * Method to create a pull request from an existing issue.
 	 *
 	 * @param   string   $user     The name of the owner of the GitHub repository.
@@ -160,9 +87,10 @@ class JGithubPulls extends JGithubObject
 	 *                             of another repo.
 	 * @param   string   $head     The branch (or git ref) where your changes are implemented.
 	 *
-	 * @return  object
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  object
 	 */
 	public function createFromIssue($user, $repo, $issueId, $base, $head)
 	{
@@ -193,34 +121,6 @@ class JGithubPulls extends JGithubObject
 	}
 
 	/**
-	 * Method to delete a comment on a pull request.
-	 *
-	 * @param   string   $user       The name of the owner of the GitHub repository.
-	 * @param   string   $repo       The name of the GitHub repository.
-	 * @param   integer  $commentId  The id of the comment to delete.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function deleteComment($user, $repo, $commentId)
-	{
-		// Build the request path.
-		$path = '/repos/' . $user . '/' . $repo . '/pulls/comments/' . (int) $commentId;
-
-		// Send the request.
-		$response = $this->client->delete($this->fetchUrl($path));
-
-		// Validate the response code.
-		if ($response->code != 204)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-	}
-
-	/**
 	 * Method to update a pull request.
 	 *
 	 * @param   string   $user    The name of the owner of the GitHub repository.
@@ -230,9 +130,10 @@ class JGithubPulls extends JGithubObject
 	 * @param   string   $body    The optional new body text for the pull request.
 	 * @param   string   $state   The optional new state for the pull request. [open, closed]
 	 *
-	 * @return  object
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  object
 	 */
 	public function edit($user, $repo, $pullId, $title = null, $body = null, $state = null)
 	{
@@ -278,53 +179,16 @@ class JGithubPulls extends JGithubObject
 	}
 
 	/**
-	 * Method to update a comment on a pull request.
-	 *
-	 * @param   string   $user       The name of the owner of the GitHub repository.
-	 * @param   string   $repo       The name of the GitHub repository.
-	 * @param   integer  $commentId  The id of the comment to update.
-	 * @param   string   $body       The new body text for the comment.
-	 *
-	 * @return  object
-	 *
-	 * @since   11.3
-	 */
-	public function editComment($user, $repo, $commentId, $body)
-	{
-		// Build the request path.
-		$path = '/repos/' . $user . '/' . $repo . '/pulls/comments/' . (int) $commentId;
-
-		// Build the request data.
-		$data = json_encode(
-			array(
-				'body' => $body
-			)
-		);
-
-		// Send the request.
-		$response = $this->client->patch($this->fetchUrl($path), $data);
-
-		// Validate the response code.
-		if ($response->code != 200)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
-	}
-
-	/**
 	 * Method to get a single pull request.
 	 *
 	 * @param   string   $user    The name of the owner of the GitHub repository.
 	 * @param   string   $repo    The name of the GitHub repository.
 	 * @param   integer  $pullId  The pull request number.
 	 *
-	 * @return  object
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  object
 	 */
 	public function get($user, $repo, $pullId)
 	{
@@ -346,68 +210,6 @@ class JGithubPulls extends JGithubObject
 	}
 
 	/**
-	 * Method to get a specific comment on a pull request.
-	 *
-	 * @param   string   $user       The name of the owner of the GitHub repository.
-	 * @param   string   $repo       The name of the GitHub repository.
-	 * @param   integer  $commentId  The comment id to get.
-	 *
-	 * @return  object
-	 *
-	 * @since   11.3
-	 */
-	public function getComment($user, $repo, $commentId)
-	{
-		// Build the request path.
-		$path = '/repos/' . $user . '/' . $repo . '/pulls/comments/' . (int) $commentId;
-
-		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
-
-		// Validate the response code.
-		if ($response->code != 200)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
-	}
-
-	/**
-	 * Method to get the list of comments on a pull request.
-	 *
-	 * @param   string   $user    The name of the owner of the GitHub repository.
-	 * @param   string   $repo    The name of the GitHub repository.
-	 * @param   integer  $pullId  The pull request number.
-	 * @param   integer  $page    The page number from which to get items.
-	 * @param   integer  $limit   The number of items on a page.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.3
-	 */
-	public function getComments($user, $repo, $pullId, $page = 0, $limit = 0)
-	{
-		// Build the request path.
-		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId . '/comments';
-
-		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
-
-		// Validate the response code.
-		if ($response->code != 200)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
-	}
-
-	/**
 	 * Method to get a list of commits for a pull request.
 	 *
 	 * @param   string   $user    The name of the owner of the GitHub repository.
@@ -416,9 +218,10 @@ class JGithubPulls extends JGithubObject
 	 * @param   integer  $page    The page number from which to get items.
 	 * @param   integer  $limit   The number of items on a page.
 	 *
-	 * @return  array
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  array
 	 */
 	public function getCommits($user, $repo, $pullId, $page = 0, $limit = 0)
 	{
@@ -448,9 +251,10 @@ class JGithubPulls extends JGithubObject
 	 * @param   integer  $page    The page number from which to get items.
 	 * @param   integer  $limit   The number of items on a page.
 	 *
-	 * @return  array
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  array
 	 */
 	public function getFiles($user, $repo, $pullId, $page = 0, $limit = 0)
 	{
@@ -480,9 +284,10 @@ class JGithubPulls extends JGithubObject
 	 * @param   integer  $page   The page number from which to get items.
 	 * @param   integer  $limit  The number of items on a page.
 	 *
-	 * @return  array
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  array
 	 */
 	public function getList($user, $repo, $state = 'open', $page = 0, $limit = 0)
 	{
@@ -516,9 +321,10 @@ class JGithubPulls extends JGithubObject
 	 * @param   string   $repo    The name of the GitHub repository.
 	 * @param   integer  $pullId  The pull request number.  The pull request number.
 	 *
-	 * @return  boolean  True if the pull request has been merged.
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  boolean  True if the pull request has been merged.
 	 */
 	public function isMerged($user, $repo, $pullId)
 	{
@@ -553,9 +359,10 @@ class JGithubPulls extends JGithubObject
 	 * @param   integer  $pullId   The pull request number.
 	 * @param   string   $message  The message that will be used for the merge commit.
 	 *
-	 * @return  object
-	 *
+	 * @throws DomainException
 	 * @since   11.3
+	 *
+	 * @return  object
 	 */
 	public function merge($user, $repo, $pullId, $message = '')
 	{
@@ -581,5 +388,126 @@ class JGithubPulls extends JGithubObject
 		}
 
 		return json_decode($response->body);
+	}
+
+	/*
+	 * Legacy methods
+	 */
+
+	/**
+	 * Method to create a comment on a pull request.
+	 *
+	 * @param   string   $user      The name of the owner of the GitHub repository.
+	 * @param   string   $repo      The name of the GitHub repository.
+	 * @param   integer  $pullId    The pull request number.
+	 * @param   string   $body      The comment body text.
+	 * @param   string   $commitId  The SHA1 hash of the commit to comment on.
+	 * @param   string   $filePath  The Relative path of the file to comment on.
+	 * @param   string   $position  The line index in the diff to comment on.
+	 *
+	 * @deprecated  use pulls->comments->create()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function createComment($user, $repo, $pullId, $body, $commitId, $filePath, $position)
+	{
+		return $this->comments->create($user, $repo, $pullId, $body, $commitId, $filePath, $position);
+	}
+
+	/**
+	 * Method to create a comment in reply to another comment.
+	 *
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $pullId     The pull request number.
+	 * @param   string   $body       The comment body text.
+	 * @param   integer  $inReplyTo  The id of the comment to reply to.
+	 *
+	 * @deprecated  use pulls->comments->createReply()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function createCommentReply($user, $repo, $pullId, $body, $inReplyTo)
+	{
+		return $this->comments->createReply($user, $repo, $pullId, $body, $inReplyTo);
+	}
+
+	/**
+	 * Method to delete a comment on a pull request.
+	 *
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $commentId  The id of the comment to delete.
+	 *
+	 * @deprecated  use pulls->comments->delete()
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function deleteComment($user, $repo, $commentId)
+	{
+		$this->comments->delete($user, $repo, $commentId);
+	}
+
+	/**
+	 * Method to update a comment on a pull request.
+	 *
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $commentId  The id of the comment to update.
+	 * @param   string   $body       The new body text for the comment.
+	 *
+	 * @deprecated  use pulls->comments->edit()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function editComment($user, $repo, $commentId, $body)
+	{
+		return $this->comments->edit($user, $repo, $commentId, $body);
+	}
+
+	/**
+	 * Method to get a specific comment on a pull request.
+	 *
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $commentId  The comment id to get.
+	 *
+	 * @deprecated  use pulls->comments->get()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function getComment($user, $repo, $commentId)
+	{
+		return $this->comments->get($user, $repo, $commentId);
+	}
+
+	/**
+	 * Method to get the list of comments on a pull request.
+	 *
+	 * @param   string   $user    The name of the owner of the GitHub repository.
+	 * @param   string   $repo    The name of the GitHub repository.
+	 * @param   integer  $pullId  The pull request number.
+	 * @param   integer  $page    The page number from which to get items.
+	 * @param   integer  $limit   The number of items on a page.
+	 *
+	 * @deprecated  use pulls->comments->getList()
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getComments($user, $repo, $pullId, $page = 0, $limit = 0)
+	{
+		return $this->comments->getList($user, $repo, $pullId, $page, $limit);
 	}
 }
