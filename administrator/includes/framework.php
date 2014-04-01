@@ -41,9 +41,7 @@ JError::setErrorHandling(E_ERROR, 'message', array('JError', 'customErrorPage'))
 require_once JPATH_LIBRARIES . '/cms.php';
 
 // Pre-Load configuration.
-ob_start();
 require_once JPATH_CONFIGURATION . '/configuration.php';
-ob_end_clean();
 
 // System configuration.
 $config = new JConfig;
