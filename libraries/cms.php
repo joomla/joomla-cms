@@ -61,9 +61,6 @@ JLoader::register('JExtension',  JPATH_PLATFORM . '/cms/installer/extension.php'
 JLoader::registerAlias('JAdministrator',  'JApplicationAdministrator');
 JLoader::registerAlias('JSite',  'JApplicationSite');
 
-// Register the framework namespace
-JLoader::registerNamespace('Joomla', JPATH_LIBRARIES . '/framework');
-
 // Register Observers:
 // Add Tags to Content, Contact, NewsFeeds, WebLinks and Categories: (this is the only link between them here!):
 JObserverMapper::addObserverClassToClass('JTableObserverTags', 'JTableContent', array('typeAlias' => 'com_content.article'));
