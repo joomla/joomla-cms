@@ -216,20 +216,46 @@ class ContactViewContact extends JViewLegacy
 		$item->tags = new JHelperTags;
 		$item->tags->getItemTags('com_contact.contact', $this->item->id);
 
-		// Override the layout only if this is not the active menu item
-		// If it is the active menu item, then the view and item id will match
+		// Set layout
 		$active	= $app->getMenu()->getActive();
-		if ((!$active) || ((strpos($active->link, 'view=contact') === false) || (strpos($active->link, '&id=' . (string) $this->item->id) === false)))
+		
+		if ($active)
 		{
-			if ($layout = $params->get('contact_layout'))
+			$currentLink = $active->link;
+		
+			// If the current view is the contact item
+			if (strpos($currentLink, 'view=contact') && (strpos($currentLink, '&id='.(string) $item->id)))
+			{
+				// Load layout from active query (in case it is an alternative menu item)
+				if (isset($active->query['layout']))
+				{
+					$this->setLayout($active->query['layout']);
+				}
+				// Check for alternative layout of contact
+				elseif ($layout = $item->params->get('contact_layout'))
+				{
+					$this->setLayout($layout);
+				}
+			}
+			else
+			{
+				// Current view is not a single contact
+				// Check for alternative layouts (since we are not in a single-contact menu item)
+				// Single-contact menu item layout takes priority over alt layout for a contact
+				if ($layout = $item->params->get('contact_layout'))
+				{
+					$this->setLayout($layout);
+				}
+			}
+		}
+		else
+		{
+			// Check for alternative layouts (since we are not in a single-contact menu item)
+			// Single-contact menu item layout takes priority over alt layout for a contact
+			if ($layout = $item->params->get('contact_layout'))
 			{
 				$this->setLayout($layout);
 			}
-		}
-		elseif (isset($active->query['layout']))
-		{
-			// We need to set the layout in case this is an alternative menu item (with an alternative layout)
-			$this->setLayout($active->query['layout']);
 		}
 
 		$model = $this->getModel();
