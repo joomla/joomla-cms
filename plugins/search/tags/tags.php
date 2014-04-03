@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class PlgSearchTags extends JPlugin
 {
-
 	/**
 	 * Load the language file on instantiation.
 	 *
@@ -39,6 +38,7 @@ class PlgSearchTags extends JPlugin
 		static $areas = array(
 			'tags' => 'PLG_SEARCH_TAGS_TAGS'
 		);
+
 		return $areas;
 	}
 
@@ -67,19 +67,21 @@ class PlgSearchTags extends JPlugin
 		$section = JText::_('PLG_SEARCH_TAGS_TAGS');
 		$limit = $this->params->def('search_limit', 50);
 
-		if(is_array($areas))
+		if (is_array($areas))
 		{
-			if(!array_intersect($areas, array_keys($this->onContentSearchAreas())))
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
 			{
 				return array();
 			}
 		}
 
 		$text = trim($text);
-		if($text == '')
+		
+		if ($text == '')
 		{
 			return array();
 		}
+		
 		$text = $db->quote('%' . $db->escape($text, true) . '%', false);
 
 		switch($ordering)
@@ -120,13 +122,13 @@ class PlgSearchTags extends JPlugin
 
 		$query->where('(a.title LIKE ' . $text . ' OR a.alias LIKE ' . $text . ')');
 
-		if(!$user->authorise('core.admin'))
+		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
 		}
 
-		if($app->isSite() && JLanguageMultilang::isEnabled())
+		if ($app->isSite() && JLanguageMultilang::isEnabled())
 		{
 			$tag = JFactory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
@@ -137,9 +139,9 @@ class PlgSearchTags extends JPlugin
 		$db->setQuery($query, 0, $limit);
 		$rows = $db->loadObjectList();
 
-		if($rows)
+		if ($rows)
 		{
-			require_once(JPATH_ROOT . '/components/com_tags/helpers/route.php');
+			require_once JPATH_ROOT . '/components/com_tags/helpers/route.php';
 			foreach($rows as $key => $row)
 			{
 				$rows[$key]->href = TagsHelperRoute::getTagRoute($row->id);
@@ -151,7 +153,7 @@ class PlgSearchTags extends JPlugin
 			}
 		}
 
-		if(!$this->params->get('show_tagged_items'))
+		if (!$this->params->get('show_tagged_items'))
 		{
 			return $rows;
 		}
@@ -167,7 +169,7 @@ class PlgSearchTags extends JPlugin
 				$tag_model->setState('tag.id', $row->id);
 				$tagged_items = $tag_model->getItems();
 
-				if($tagged_items)
+				if ($tagged_items)
 				{
 					foreach($tagged_items as $k => $item)
 					{
@@ -182,8 +184,9 @@ class PlgSearchTags extends JPlugin
 					}
 				}
 			}
+			
 			return $final_items;
 		}
 	}
-
 }
+
