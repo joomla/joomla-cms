@@ -1140,7 +1140,17 @@ abstract class JModelAdmin extends JModelForm
 		$tableClassName = get_class($table);
 		$contentType = new JUcmType;
 		$type = $contentType->getTypeByTable($tableClassName);
-		$typeAlias = $type->type_alias;
+
+		// Cope for tables which are not concerned by tags
+		if ($type)
+		{
+			$typeAlias = $type->type_alias;
+		}
+		else
+		{
+			$typeAlias ='';
+		}
+
 		$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
 		$conditions = array();
 
