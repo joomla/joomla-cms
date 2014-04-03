@@ -13,7 +13,7 @@ $msgList = $displayData['msgList'];
 
 ?>
 <div id="system-message-container">
-	<?php if (is_array($msgList)) : ?>
+	<?php if (is_array($msgList) && !empty($msgList)) : ?>
 		<div id="system-message">
 			<?php foreach ($msgList as $type => $msgs) : ?>
 				<div class="alert alert-<?php echo $type; ?>">
