@@ -131,12 +131,12 @@ class CategoriesControllerCategories extends JControllerAdmin
         */
         public function reorder()
         {
-           $return1 = parent::reorder();
+           $return = parent::reorder();
 
            $extension = JRequest::getCmd('extension');
            $extensionURL = ($extension) ? '&extension=' . JRequest::getCmd('extension') : '';
+           $this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
 
-           $return2 = $this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
-           return $return1 && $return2;
+           return $return;
         }
 }
