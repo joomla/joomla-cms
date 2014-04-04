@@ -1168,7 +1168,7 @@ abstract class JModelAdmin extends JModelForm
 				if ($type)
 				{
 					$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
-					$this->createTagsHelper($tagsObserver, $type, $pk, $typeAlias, $table);
+					$this->createTagsHelper($tagsObserver, $type, $pk, $type->type_alias, $table);
 				}
 
 				if (!$table->store())
