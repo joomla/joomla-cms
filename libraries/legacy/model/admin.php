@@ -292,7 +292,7 @@ abstract class JModelAdmin extends JModelForm
 
 				if (!empty($this->type))
 				{
-					static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+					$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 				}
 
 				if (!$this->table->store())
@@ -395,7 +395,7 @@ abstract class JModelAdmin extends JModelForm
 
 			if (!empty($this->type))
 			{
-				static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+				$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 			}
 
 			// Store the row.
@@ -453,7 +453,7 @@ abstract class JModelAdmin extends JModelForm
 
 				if (!empty($this->type))
 				{
-					static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+					$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 				}
 
 				if (!$this->table->store())
@@ -548,7 +548,7 @@ abstract class JModelAdmin extends JModelForm
 
 			if (!empty($this->type))
 			{
-				static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+				$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 			}
 
 			// Store the row.
