@@ -210,6 +210,14 @@ class JDocument
 	protected $mediaVersion = null;
 
 	/**
+	 * Assets array.
+	 *
+	 * @var    array of JDocumentAsset objects.
+	 * @since  3.3
+	 */
+	protected $assets = array();
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $options  Associative array of options
@@ -469,6 +477,14 @@ class JDocument
 		$this->_scripts[$url]['defer'] = $defer;
 		$this->_scripts[$url]['async'] = $async;
 
+		// Add script to new-style asset array.
+		$this->media_assets['javascript']['external'][] = array(
+			'url' => $url,
+			'mime' => $type,
+			'defer' => $defer,
+			'async' => $async,
+		);
+		
 		return $this;
 	}
 
@@ -523,6 +539,9 @@ class JDocument
 			$this->_script[strtolower($type)] .= chr(13) . $content;
 		}
 
+		// Add script fragment to new-style asset array.
+		$this->media_assets['javascript']['internal'][] = $content;
+		
 		return $this;
 	}
 
@@ -544,6 +563,14 @@ class JDocument
 		$this->_styleSheets[$url]['media'] = $media;
 		$this->_styleSheets[$url]['attribs'] = $attribs;
 
+		// Add stylesheet to new-style asset array.
+		$this->media_assets['css']['external'][] = array(
+			'url' => $url,
+			'mime' => $type,
+			'media' => $media,
+			'attribs' => $attribs,
+		);
+		
 		return $this;
 	}
 
@@ -598,6 +625,76 @@ class JDocument
 			$this->_style[strtolower($type)] .= chr(13) . $content;
 		}
 
+		// Add stylesheet fragment to new-style asset array.
+		$this->media_assets['css']['internal'][] = $content;
+		
+		return $this;
+	}
+
+	/**
+	 * Add an asset to the asset array.
+	 * 
+	 * @param   JDocumentAsset  $asset  Asset to be added.
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 * 
+	 * @since   3.3
+	 */
+	public function addAsset(JDocumentAsset $asset)
+	{
+		$this->assets[] = $asset;
+		
+		return $this;
+	}
+
+	/**
+	 * Find an asset given its id.
+	 * 
+	 * @param   string  $id  Asset id.
+	 * 
+	 * @return  JDocumentAsset  Asset found or null if not found.
+	 * 
+	 * @since   3.3
+	 */
+	public function findAssetById($id)
+	{
+		if (isset($this->assets))
+		{
+			foreach ($this->assets as $asset)
+			{
+				if ($asset->getId() == $id)
+				{
+					return $asset;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Get asset array.
+	 * 
+	 * @return  array  Array of JDocumentAsset objects.
+	 * 
+	 * @since   3.3
+	 */
+	public function getAssets()
+	{
+		return $this->assets;
+	}
+	
+	/**
+	 * Set asset array.
+	 * 
+	 * @param  array  Array of JDocumentAsset objects.
+	 * 
+	 * @return  JDocument instance of $this to allow chaining
+	 * 
+	 * @since  3.3
+	 */
+	public function setAssets(array $assets)
+	{
+		$this->assets = $assets;
+		
 		return $this;
 	}
 
