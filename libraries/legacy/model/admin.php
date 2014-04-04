@@ -1137,14 +1137,6 @@ abstract class JModelAdmin extends JModelForm
 	public function saveorder($pks = null, $order = null)
 	{
 		$table = $this->getTable();
-		$tableClassName = get_class($table);
-		$contentType = new JUcmType;
-		$type = $contentType->getTypeByTable($tableClassName);
-
-		// Cope for tables which are not concerned by tags
-		$typeAlias = isset($type->type_alias) ? $type->type_alias : '';
-
-		$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
 		$conditions = array();
 
 		if (empty($pks))
@@ -1168,7 +1160,16 @@ abstract class JModelAdmin extends JModelForm
 			{
 				$table->ordering = $order[$i];
 
-				$this->createTagsHelper($tagsObserver, $type, $pk, $typeAlias, $table);
+				// Try to get the content type
+				$tableClassName = get_class($table);
+				$contentType    = new JUcmType;
+				$type           = $contentType->getTypeByTable($tableClassName);
+
+				if ($type)
+				{
+					$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
+					$this->createTagsHelper($tagsObserver, $type, $pk, $type->type_alias, $table);
+				}
 
 				if (!$table->store())
 				{
