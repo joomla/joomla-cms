@@ -121,4 +121,22 @@ class CategoriesControllerCategories extends JControllerAdmin
  
  		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&extension=' . $extension, false));
  	} 
+        /**
+        * Changes the order of one or more records.
+        * Override to add extension= to the redirect URL.
+        *
+        * @return boolean True on success
+        *
+        * @since 11.1
+        */
+        public function reorder()
+        {
+           $return1 = parent::reorder();
+
+           $extension = JRequest::getCmd('extension');
+           $extensionURL = ($extension) ? '&extension=' . JRequest::getCmd('extension') : '';
+
+           $return2 = $this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
+           return $return1 && $return2;
+        }
 }
