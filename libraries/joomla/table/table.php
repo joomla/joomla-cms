@@ -211,6 +211,20 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	}
 
 	/**
+	 * Enable/Disable calling of observers (this is useful when calling parent:: function
+	 *
+	 * @param   boolean  $enabled  Enable (true) or Disable (false) the observer events
+	 *
+	 * @return  boolean  Returns old state
+	 *
+	 * @since   3.3.0
+	 */
+	public function doCallObservers($enabled)
+	{
+		return $this->_observers->doCallObservers($enabled);
+	}
+
+	/**
 	 * Get the columns from database table.
 	 *
 	 * @return  mixed  An array of the field names, or false if an error occurs.
