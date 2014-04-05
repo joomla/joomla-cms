@@ -16,8 +16,183 @@ defined('_JEXEC') or die;
  * @subpackage  com_media
  * @since       3.3
  */
-class MediaModelEditor extends ConfigModelForm
+class MediaModelEditor extends JModelCmsitem
 {
+	
+	/**
+	 * @var     string  The help screen key for the edit screen.
+	 * @since   3.2
+	 */
+	protected $helpKey = 'JHELP_MEDIA_MANAGER_EDITOR';
+	
+	/**
+	 * @var   string  The help screen base URL for the module.
+	 * @since  3.2
+	 */
+	protected $helpURL;
+	
+	/**
+	 * @var   object  The cache for this item
+	 * @since  3.2
+	 */
+	protected $cache;
+	
+	/**
+	 * @var  string  The event to trigger after saving the data.
+	 * @since   3.2
+	 */
+	protected $event_after_save = 'onExtensionAfterSave';
+	
+	/**
+	 * @var     string  The event to trigger after before the data.
+	 * @since   3.2
+	 */
+	protected $event_before_save = 'onExtensionBeforeSave';
+	
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param   integer  $pk  The id of the primary key.
+	 *
+	 * @return  mixed   Object on success, false on failure.
+	 */
+	public function getItem($pk = null)
+	{
+		
+		$app = JFactory::getApplication();
+		
+		$file   = $app->input->get('file');
+		$folder = $app->input->get('folder');
+		
+		$path     = JPath::clean(COM_MEDIA_BASE . '/' . $file);
+		
+		if(!empty($folder))
+		{
+			$path     = JPath::clean(COM_MEDIA_BASE . '/' . $folder . '/' . $file);
+		}
+		
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query 	-> select($db->quoteName('core_content_id'))
+				-> from($db->quoteName('#__media'))
+				-> where($db->quoteName('url') . ' = '. $db->quote($path));
+		
+		$db->setQuery($query);
+
+		$result = $db->loadObject();
+		
+		$pk = $result->core_content_id;
+	
+// 		$pk = (!empty($pk)) ? $pk : (int) $this->state->get('media.id');
+
+	
+		if (!isset($this->cache[$pk]))
+		{
+			// Get a row instance.
+			$table = $this->getTable();
+
+			// Attempt to load the row.
+			$return = $table->load($pk);
+
+			// Check for a table object error.
+			if ($return === false && $table->getError())
+			{
+				throw new Exception($table->getError());
+				return false;
+			}
+
+			// Convert to the JObject before adding other data.
+			$properties = $table->getProperties(1);
+			$this->cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
+
+			// Convert the params field to an array.
+// 			$registry = new JRegistry;
+// 			$registry->loadString($table->params);
+// 			$this->cache[$pk]->params = $registry->toArray();
+
+		}
+
+		return $this->cache[$pk];
+	}
+	
+	/**
+	 * Returns a reference to the a Table object, always creating it.
+	 *
+	 * @param   type    $type    The table type to instantiate
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  JTable   A database object
+	 */
+	public function getTable($type = 'Corecontent', $prefix = 'JTable', $config = array())
+	{
+		return JTable::getInstance($type, $prefix, $config);
+	}
+	
+	/**
+	 * Auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
+	 * @since   1.6
+	 */
+	protected function populateState()
+	{
+		// Execute the parent method.
+		parent::populateState();
+	
+		$app = JFactory::getApplication('administrator');
+	
+		// Load the User state.
+		$pk = $app->input->getInt('extension_id');
+		$this->state->set('plugin.id', $pk);
+	}
+	
+	/**
+	 * Override method to save the form data.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.2
+	 */
+	public function save($data)
+	{
+		// Load the extension plugin group.
+		JPluginHelper::importPlugin('extension');
+	
+		// Setup type
+		$data['type'] = 'plugin';
+	
+		return parent::save($data);
+	}
+	
+	/**
+	 * Get the necessary data to load an item help screen.
+	 *
+	 * @return  object  An object with key, url, and local properties for loading the item help screen.
+	 *
+	 * @since   3.2
+	 */
+	public function getHelp()
+	{
+		return (object) array('key' => $this->helpKey, 'url' => $this->helpURL);
+	}
+	
+	/**
+	 * Custom clean cache method, plugins are cached in 2 places for different clients
+	 *
+	 * @since   3.2
+	 */
+	protected function cleanCache($group = null, $client_id = 0)
+	{
+		parent::cleanCache('com_plugins');
+	}
+	
+	
 	public function getState($property = null, $default = null)
 	{
 		static $set;

@@ -188,7 +188,9 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 
 	</div>
 	<div class="span3">
-		<?php echo $this->loadTemplate('actions'); ?>
+		<?php 	echo $this->loadTemplate('actions');
+				echo $this->loadTemplate('properties');
+		 ?>
 	</div>
 
 </div>

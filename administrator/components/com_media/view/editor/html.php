@@ -22,6 +22,8 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 	 * For loading image information
 	 */
 	protected $image;
+	
+	public $item;
 
 	public function render()
 	{
@@ -52,6 +54,9 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 
 		$session	= JFactory::getSession();
 		$state		= $this->model->getState();
+		
+		$this->item		= $this->model->getItem();
+		
 		$this->session = $session;
 		$this->config = &$config;
 		$this->state = &$state;
