@@ -472,8 +472,13 @@ class ModulesModelModule extends JModelAdmin
 			// Module-Menu Mapping: Do it in one query
 			$query = $db->getQuery(true)
 				->insert($db->quoteName('#__modules_menu'))
-				->columns($db->quoteName(array('moduleid', 'menuid')))
-				->values($tuples);
+				->columns($db->quoteName(array('moduleid', 'menuid')));
+				
+			foreach ($tuples as $tuple)
+			{
+				$query->values($tuple);
+			}
+
 
 			$this->_db->setQuery($query);
 
