@@ -22,7 +22,13 @@ JHtml::_('behavior.tabstate');
 <p class="well well-small lead">
 
 <?php 
-print_r($this->item);
+
+echo 'Created By: ' . $this->item->core_created_user_id . '<br />';
+echo 'Created On: ' . $this->item->core_created_time . '<br />';
+echo '<br />';
+echo 'Modified By: ' . $this->item->core_modified_user_id . '<br />';
+echo 'Modified On: ' . $this->item->core_modified_time . '<br />';
+
 ?>
 
 

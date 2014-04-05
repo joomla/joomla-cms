@@ -99,6 +99,10 @@ class MediaControllerMediaDelete extends JControllerBase
 				}
 
 				$ret &= JFile::delete($object_file->filepath);
+				
+				// delete from table
+				$model = new MediaModelMedia();
+				$model->deleteMediaFromTable($object_file->filepath);
 
 				// Trigger the onContentAfterDelete event.
 				$dispatcher->trigger('onContentAfterDelete', array('com_media.file', &$object_file));

@@ -130,6 +130,40 @@ class MediaModelEditor extends JModelCmsitem
 		return JTable::getInstance($type, $prefix, $config);
 	}
 	
+	private function updateData()
+	{
+		$app = JFactory::getApplication();
+		
+		$file   = $app->input->get('file');
+		$folder = $app->input->get('folder');
+		
+		$path     = JPath::clean(COM_MEDIA_BASE . '/' . $file);
+		
+		if(!empty($folder))
+		{
+			$path     = JPath::clean(COM_MEDIA_BASE . '/' . $folder . '/' . $file);
+		}
+		
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		
+		$query 	-> select($db->quoteName('core_content_id'))
+				-> from($db->quoteName('#__media'))
+				-> where($db->quoteName('url') . ' = '. $db->quote($path));
+		
+		$db->setQuery($query);
+		
+		$result = $db->loadObject();
+		
+		$pk = $result->core_content_id;
+		
+		$row = $this->getTable();
+		$row->core_content_id = $pk;
+
+		$row->store();
+		
+	}
+	
 	/**
 	 * Auto-populate the model state.
 	 *
@@ -334,12 +368,15 @@ class MediaModelEditor extends JModelCmsitem
 			$image = $JImage->crop($w, $h, $x, $y, true);
 			$image->toFile($file);
 
+			$this->updateData();
+
 			return true;
 		}
 		catch (Exception $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
+
 
 	}
 
@@ -365,6 +402,8 @@ class MediaModelEditor extends JModelCmsitem
 			$image = $JImage->resize($width, $height, true, 1);
 			$image->toFile($file);
 
+			$this->updateData();
+
 			return true;
 		}
 		catch (Exception $e)
@@ -372,6 +411,7 @@ class MediaModelEditor extends JModelCmsitem
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
 
+		
 	}
 
 	/**
@@ -395,12 +435,15 @@ class MediaModelEditor extends JModelCmsitem
 			$image = $JImage->rotate($angle, -1, false);
 			$image->toFile($file);
 
+			$this->updateData();
+
 			return true;
 		}
 		catch (Exception $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
+
 
 	}
 
@@ -474,12 +517,15 @@ class MediaModelEditor extends JModelCmsitem
 			$image = $JImage->filter($filter, $options);
 			$image->toFile($file);
 
+			$this->updateData();
+
 			return true;
 		}
 		catch (Exception $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
+
 
 	}
 }
