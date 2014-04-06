@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Editor
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -457,7 +457,7 @@ class JEditor extends JObject
 			}
 
 			// Try to authenticate
-			if ($temp = $plugin->onDisplay($editor, $this->asset, $this->author))
+			if (method_exists($plugin, 'onDisplay') && $temp = $plugin->onDisplay($editor, $this->asset, $this->author))
 			{
 				$result[] = $temp;
 			}

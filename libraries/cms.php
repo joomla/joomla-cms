@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,6 +28,13 @@ if (!class_exists('JLoader'))
 
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
+
+// Register PHP namespaces
+JLoader::registerNamespace('Joomla', JPATH_PLATFORM . '/framework');
+JLoader::registerNamespace('Symfony', JPATH_PLATFORM . '/framework');
+
+// Register the class aliases for Framework classes that have replaced their Platform equivilents
+require_once __DIR__ . '/classmap.php';
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
 set_exception_handler(array('JErrorPage', 'render'));

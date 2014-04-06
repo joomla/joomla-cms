@@ -219,6 +219,60 @@
 	</fieldset>
 
 	<fieldset
+		name="proxy"
+		label="CONFIG_PROXY_SETTINGS_LABEL">
+		<field
+			name="proxy_enable"
+			type="radio"
+			class="btn-group"
+			default="0"
+			label="COM_CONFIG_FIELD_PROXY_ENABLE_LABEL"
+			description="COM_CONFIG_FIELD_PROXY_ENABLE_DESC"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="proxy_host"
+			type="text"
+			label="COM_CONFIG_FIELD_PROXY_HOST_LABEL"
+			description="COM_CONFIG_FIELD_PROXY_HOST_DESC"
+			filter="string"
+			showon="proxy_enable:1"
+			size="14" />
+
+		<field
+			name="proxy_port"
+			type="text"
+			label="COM_CONFIG_FIELD_PROXY_PORT_LABEL"
+			description="COM_CONFIG_FIELD_PROXY_PORT_DESC"
+			filter="string"
+			showon="proxy_enable:1"
+			size="8" />
+
+		<field
+			name="proxy_user"
+			type="text"
+			label="COM_CONFIG_FIELD_PROXY_USERNAME_LABEL"
+			description="COM_CONFIG_FIELD_PROXY_USERNAME_DESC"
+			filter="string"
+			showon="proxy_enable:1"
+			autocomplete="off"
+			size="25" />
+
+		<field
+			name="proxy_pass"
+			type="password"
+			label="COM_CONFIG_FIELD_PROXY_PASSWORD_LABEL"
+			description="COM_CONFIG_FIELD_PROXY_PASSWORD_DESC"
+			filter="raw"
+			showon="proxy_enable:1"
+			autocomplete="off"
+			size="25" />
+	</fieldset>
+
+	<fieldset
 		name="locale"
 		label="CONFIG_LOCATION_SETTINGS_LABEL">
 		<field
@@ -759,7 +813,6 @@
 			label="FIELD_RULES_LABEL"
 			translate_label="false"
 			validate="rules"
-			class="inputbox"
 			filter="rules">
 			<action
 				name="core.login.site"
@@ -815,7 +868,6 @@
 			name="filters"
 			type="filters"
 			label="COM_CONFIG_TEXT_FILTERS"
-			class="inputbox"
 			filter="" />
 	</fieldset>
 

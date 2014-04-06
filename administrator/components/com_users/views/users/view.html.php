@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,6 +38,7 @@ class UsersViewUsers extends JViewLegacy
 		$this->state		= $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->canDo		= JHelperContent::getActions('com_users');
 
 		UsersHelper::addSubmenu('users');
 
@@ -66,7 +67,7 @@ class UsersViewUsers extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= UsersHelper::getActions();
+		$canDo	= $this->canDo;
 		$user 	= JFactory::getUser();
 
 		// Get the toolbar object instance

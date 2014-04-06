@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -330,18 +330,18 @@ abstract class JHtmlBootstrap
 	 *
 	 * Use element's Title as popover content
 	 *
-	 * @param   string  $selector  Selector for the tooltip
-	 * @param   array   $params    An array of options for the tooltip.
-	 *                  Options for the tooltip can be:
-	 *                      animation  boolean          apply a css fade transition to the tooltip
-	 *                      html       boolean          Insert HTML into the tooltip. If false, jQuery's text method will be used to insert
+	 * @param   string  $selector  Selector for the popover
+	 * @param   array   $params    An array of options for the popover.
+	 *                  Options for the popover can be:
+	 *                      animation  boolean          apply a css fade transition to the popover
+	 *                      html       boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
 	 *                                                  content into the dom.
-	 *                      placement  string|function  how to position the tooltip - top | bottom | left | right
-	 *                      selector   string           If a selector is provided, tooltip objects will be delegated to the specified targets.
-	 *                      trigger    string           how tooltip is triggered - hover | focus | manual
+	 *                      placement  string|function  how to position the popover - top | bottom | left | right
+	 *                      selector   string           If a selector is provided, popover objects will be delegated to the specified targets.
+	 *                      trigger    string           how popover is triggered - hover | focus | manual
 	 *                      title      string|function  default title value if `title` tag isn't present
 	 *                      content    string|function  default content value if `data-content` attribute isn't present
-	 *                      delay      number|object    delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
+	 *                      delay      number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
 	 *                                                  If a number is supplied, delay is applied to both hide/show
 	 *                                                  Object structure is: delay: { show: 500, hide: 100 }
 	 *                      container  string|boolean   Appends the popover to a specific element: { container: 'body' }
@@ -362,14 +362,14 @@ abstract class JHtmlBootstrap
 		static::framework();
 
 		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
-		$opt['html'] = isset($params['html']) ? $params['html'] : true;
+		$opt['html']      = isset($params['html']) ? $params['html'] : true;
 		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
-		$opt['selector'] = isset($params['selector']) ? $params['selector'] : null;
-		$opt['title'] = isset($params['title']) ? $params['title'] : null;
-		$opt['trigger'] = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
-		$opt['content'] = isset($params['content']) ? $params['content'] : null;
-		$opt['delay'] = isset($params['delay']) ? $params['delay'] : null;
-		$opt['container'] = isset($params['container']) ? $params['container'] : "body";
+		$opt['selector']  = isset($params['selector']) ? $params['selector'] : null;
+		$opt['title']     = isset($params['title']) ? $params['title'] : null;
+		$opt['trigger']   = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
+		$opt['content']   = isset($params['content']) ? $params['content'] : null;
+		$opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
+		$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
 
 		$options = JHtml::getJSObject($opt);
 
@@ -466,7 +466,7 @@ abstract class JHtmlBootstrap
 			$opt['title']     = isset($params['title']) ? (string) $params['title'] : null;
 			$opt['trigger']   = isset($params['trigger']) ? (string) $params['trigger'] : null;
 			$opt['delay']     = isset($params['delay']) ? (int) $params['delay'] : null;
-			$opt['container'] = isset($params['container']) ? (int) $params['container'] : "body";
+			$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
 			$opt['template']  = isset($params['template']) ? (string) $params['template'] : null;
 
 			$options = JHtml::getJSObject($opt);

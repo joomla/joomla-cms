@@ -6,7 +6,7 @@
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -62,7 +62,6 @@
 					name="forum_url"
 					type="url"
 					filter="url"
-					class="inputbox"
 					size="30"
 					default=""
 					label="MOD_MENU_FIELD_FORUMURL_LABEL"

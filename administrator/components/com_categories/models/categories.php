@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,10 +83,10 @@ class CategoriesModelCategories extends JModelList
 		$search = $this->getUserStateFromRequest($context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$level = $this->getUserStateFromRequest($context . '.filter.level', 'filter_level', 0, 'int');
+		$level = $this->getUserStateFromRequest($context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
-		$access = $this->getUserStateFromRequest($context . '.filter.access', 'filter_access', 0, 'int');
+		$access = $this->getUserStateFromRequest($context . '.filter.access', 'filter_access');
 		$this->setState('filter.access', $access);
 
 		$published = $this->getUserStateFromRequest($context . '.filter.published', 'filter_published', '');

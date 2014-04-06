@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -799,13 +799,6 @@ class JApplicationCms extends JApplicationWeb
 			{
 				$options['user'] = $user;
 				$options['responseType'] = $response->type;
-
-				if (isset($response->length) && isset($response->secure) && isset($response->lifetime))
-				{
-					$options['length'] = $response->length;
-					$options['secure'] = $response->secure;
-					$options['lifetime'] = $response->lifetime;
-				}
 
 				// The user is successfully logged in. Run the after login events
 				$this->triggerEvent('onUserAfterLogin', array($options));
