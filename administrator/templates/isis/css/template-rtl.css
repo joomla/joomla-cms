@@ -7618,6 +7618,12 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	opacity: 0.3;
 	filter: alpha(opacity=30);
 }
+.alert-joomlaupdate {
+	text-align: center;
+}
+.alert-joomlaupdate button {
+	vertical-align: baseline;
+}
 .form-horizontal .control-label {
 	width: auto;
 	padding-right: 5px;
