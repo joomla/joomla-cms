@@ -56,6 +56,7 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 		$state		= $this->model->getState();
 		
 		$this->item		= $this->model->getItem();
+		$this->form		= $this->model->getForm();
 		
 		$this->session = $session;
 		$this->config = &$config;

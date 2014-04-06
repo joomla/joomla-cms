@@ -28,7 +28,12 @@ echo 'Created On: ' . $this->item->core_created_time . '<br />';
 echo '<br />';
 echo 'Modified By: ' . $this->item->core_modified_user_id . '<br />';
 echo 'Modified On: ' . $this->item->core_modified_time . '<br />';
-
+echo '<br />';
+echo 'Title: ' . $this->item->core_title . '<br />';
+echo 'Alias: ' . $this->item->core_alias . '<br />';
+echo 'Body: ' . $this->item->core_body . '<br />';
+echo '<br />';
+print_r($this->item);
 ?>
 
 

@@ -166,9 +166,8 @@ class MediaModelMedia extends ConfigModelForm
 	{
 		return;
 	}
-	
-	
-	
+
+
 	public function addMediaToTable($url)
 	{
 		
@@ -202,7 +201,7 @@ class MediaModelMedia extends ConfigModelForm
 		
 		
 	}
-	
+
 	public function deleteMediaFromTable($url)
 	{
 		$db = JFactory::getDbo();
@@ -223,14 +222,15 @@ class MediaModelMedia extends ConfigModelForm
 				-> where($db->quoteName('core_content_id') . ' = '. ($pk));
 		$db->setQuery($query);
 		$db->query();
+
+		$row = JTable::getInstance('Corecontent');
+		$row->delete($pk);
 		
-		
-		
-		$query = $db->getQuery(true);
+/* 		$query = $db->getQuery(true);
 		$query 	-> delete($db->quoteName('#__ucm_content'))
 				-> where($db->quoteName('core_content_id') . ' = '. ($pk));
 		$db->setQuery($query);
-		$db->query(); 
+		$db->query();  */
 		
 		
 	}

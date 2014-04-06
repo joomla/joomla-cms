@@ -57,37 +57,11 @@ class MediaModelEditor extends JModelCmsitem
 	 * @return  mixed   Object on success, false on failure.
 	 */
 	public function getItem($pk = null)
-	{
-		
-		$app = JFactory::getApplication();
-		
-		$file   = $app->input->get('file');
-		$folder = $app->input->get('folder');
-		
-		$path     = JPath::clean(COM_MEDIA_BASE . '/' . $file);
-		
-		if(!empty($folder))
-		{
-			$path     = JPath::clean(COM_MEDIA_BASE . '/' . $folder . '/' . $file);
-		}
-		
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query 	-> select($db->quoteName('core_content_id'))
-				-> from($db->quoteName('#__media'))
-				-> where($db->quoteName('url') . ' = '. $db->quote($path));
-		
-		$db->setQuery($query);
-
-		$result = $db->loadObject();
-		
-		$pk = $result->core_content_id;
-	
+	{	
+		$pk = $this->getCoreContentId(); 
 // 		$pk = (!empty($pk)) ? $pk : (int) $this->state->get('media.id');
-
 	
-		if (!isset($this->cache[$pk]))
+		if (!isset($this->item))
 		{
 			// Get a row instance.
 			$table = $this->getTable();
@@ -104,16 +78,24 @@ class MediaModelEditor extends JModelCmsitem
 
 			// Convert to the JObject before adding other data.
 			$properties = $table->getProperties(1);
-			$this->cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
+			$this->item = JArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
-// 			$registry = new JRegistry;
-// 			$registry->loadString($table->params);
-// 			$this->cache[$pk]->params = $registry->toArray();
+			$registry = new JRegistry;
+			$registry->loadString($table->core_params);
+			$this->item->core_params = $registry->toArray();
 
+			// Still not working
+/*			if (!empty($this->item->id))
+			{
+				$this->item->tags = new JHelperTags;
+				$this->item->tags->getTagIds($this->item->core_content_id, $this->item->core_type_id);
+			}
+*/			
+	
 		}
 
-		return $this->cache[$pk];
+		return $this->item;
 	}
 	
 	/**
@@ -129,8 +111,66 @@ class MediaModelEditor extends JModelCmsitem
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
+
+	/**
+	 * Abstract method for getting the form from the model.
+	 *
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  mixed  A JForm object on success, false on failure
+	 *
+	 * @since   1.6
+	 */
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$form = $this->loadForm('com_media.editor', 'image', array('control' => 'jform', 'load_data' => $loadData));
+
+		if (empty($form))
+		{
+			return false;
+		}
+		
+		return $form;
+	}
 	
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  mixed  The data for the form.
+	 * @since   1.6
+	 */
+	protected function loadFormData()
+	{
+		// Check the session for previously entered form data.
+// 		$data = JFactory::getApplication()->getUserState('com_corecontent.edit.item.data', array());
+	
+		if (empty($data))
+		{
+			$data = $this->getItem();
+		}
+	
+		$this->preprocessData('com_media.editor', $data);
+	
+		return $data;
+	}
+	
+	
+	// update modified user and date after a change
 	private function updateData()
+	{
+		$pk = $this->getCoreContentId();
+		
+		$row = $this->getTable();
+		$row->core_content_id = $pk;
+
+		$row->store();
+
+	}
+	
+	// provide required corecontentid for the current image
+	private function getCoreContentId()
 	{
 		$app = JFactory::getApplication();
 		
@@ -155,14 +195,9 @@ class MediaModelEditor extends JModelCmsitem
 		
 		$result = $db->loadObject();
 		
-		$pk = $result->core_content_id;
-		
-		$row = $this->getTable();
-		$row->core_content_id = $pk;
-
-		$row->store();
-		
+		return $result->core_content_id;
 	}
+	
 	
 	/**
 	 * Auto-populate the model state.
@@ -180,8 +215,8 @@ class MediaModelEditor extends JModelCmsitem
 		$app = JFactory::getApplication('administrator');
 	
 		// Load the User state.
-		$pk = $app->input->getInt('extension_id');
-		$this->state->set('plugin.id', $pk);
+// 		$pk = $app->input->getInt('extension_id');
+// 		$this->state->set('plugin.id', $pk);
 	}
 	
 	/**
@@ -223,7 +258,7 @@ class MediaModelEditor extends JModelCmsitem
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		parent::cleanCache('com_plugins');
+		parent::cleanCache('com_media');
 	}
 	
 	
@@ -260,13 +295,13 @@ class MediaModelEditor extends JModelCmsitem
 
 	}
 
-	public function getForm($data = array(), $loadData = true)
-	{
-		return;
-	}
+// 	public function getForm($data = array(), $loadData = true)
+// 	{
+// 		return;
+// 	}
 
 	/**
-	 * Rename a file.
+	 * Rename a file. - *** TO BE REMOVED ***
 	 *
 	 * @param   string  $file  The name and location of the old file
 	 * @param   string  $name  The new name of the file.
@@ -377,7 +412,6 @@ class MediaModelEditor extends JModelCmsitem
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
 
-
 	}
 
 	/**
@@ -410,7 +444,6 @@ class MediaModelEditor extends JModelCmsitem
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
-
 		
 	}
 
@@ -443,7 +476,6 @@ class MediaModelEditor extends JModelCmsitem
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
-
 
 	}
 
