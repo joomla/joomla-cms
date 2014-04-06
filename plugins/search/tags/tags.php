@@ -84,7 +84,7 @@ class PlgSearchTags extends JPlugin
 		
 		$text = $db->quote('%' . $db->escape($text, true) . '%', false);
 
-		switch($ordering)
+		switch ($ordering)
 		{
 			case 'alpha':
 				$order = 'a.title ASC';
@@ -142,7 +142,7 @@ class PlgSearchTags extends JPlugin
 		if ($rows)
 		{
 			require_once JPATH_ROOT . '/components/com_tags/helpers/route.php';
-			foreach($rows as $key => $row)
+			foreach ($rows as $key => $row)
 			{
 				$rows[$key]->href = TagsHelperRoute::getTagRoute($row->id);
 				$rows[$key]->text .= ($row->description != "" ? $row->description : $row->title);
@@ -164,7 +164,7 @@ class PlgSearchTags extends JPlugin
 			$tag_model = JModelLegacy::getInstance('Tag', 'TagsModel');
 			$tag_model->getState();
 
-			foreach($rows as $key => $row)
+			foreach ($rows as $key => $row)
 			{
 				$tag_model->setState('tag.id', $row->id);
 				$tagged_items = $tag_model->getItems();
