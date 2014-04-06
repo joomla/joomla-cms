@@ -173,6 +173,8 @@
 		<filename>en-GB.plg_search_content.sys.ini</filename>
 		<filename>en-GB.plg_search_newsfeeds.ini</filename>
 		<filename>en-GB.plg_search_newsfeeds.sys.ini</filename>
+		<filename>en-GB.plg_search_tags.ini</filename>
+		<filename>en-GB.plg_search_tags.sys.ini</filename>
 		<filename>en-GB.plg_search_weblinks.ini</filename>
 		<filename>en-GB.plg_search_weblinks.sys.ini</filename>
 		<filename>en-GB.plg_system_cache.ini</filename>
