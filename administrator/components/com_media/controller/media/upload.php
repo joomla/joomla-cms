@@ -122,6 +122,11 @@ class MediaControllerMediaUpload extends JControllerBase
 				return false;
 
 			}
+
+			// Hash destination filename
+			$fileparts = pathinfo($file['filepath']);
+			$file['filepath'] = $fileparts['dirname'] . '\\' . md5($fileparts['filename']) . '.' . $fileparts['extension'];
+
 		}
 
 		// Set FTP credentials, if given
