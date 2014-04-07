@@ -1488,13 +1488,14 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *                            If not set the instance property value is used.
 	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param   integer  $userId  The user id of the user performing the operation.
+	 * @param	string   $column  The column of the table holding publishing state.
 	 *
 	 * @return  boolean  True on success; false if $pks is empty.
 	 *
 	 * @link    http://docs.joomla.org/JTable/publish
 	 * @since   11.1
 	 */
-	public function publish($pks = null, $state = 1, $userId = 0)
+	public function publish($pks = null, $state = 1, $userId = 0, $column = 'published')
 	{
 		$k = $this->_tbl_keys;
 
@@ -1538,7 +1539,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// Update the publishing state for rows with the given primary keys.
 			$query = $this->_db->getQuery(true)
 				->update($this->_tbl)
-				->set('published = ' . (int) $state);
+				->set($column . ' = ' . (int) $state);
 
 			// Determine if there is checkin support for the table.
 			if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
