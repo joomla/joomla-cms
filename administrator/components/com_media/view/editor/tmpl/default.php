@@ -188,9 +188,29 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 
 	</div>
 	<div class="span3">
-		<?php 	echo $this->loadTemplate('actions');
-				echo $this->loadTemplate('properties');
-		 ?>
+		<?php 	echo $this->loadTemplate('actions'); ?>
+		
+<script type="text/javascript">
+	Joomla.submitbutton = function(task)
+	{
+		if (task == 'media.cancel.editor' || document.formvalidator.isValid(document.id('media-form')))
+		{
+			Joomla.submitform(task, document.getElementById('media-form'));
+		}
+	}
+</script>
+
+<form action="<?php echo JRoute::_('index.php?option=com_media'); ?>" method="post" name="adminForm" id="media-form" class="form-validate">
+		
+			<?php echo $this->loadTemplate('properties'); ?>
+
+			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="id" value="<?php echo (int) $this->item->core_content_id;?>" />
+			<input type="hidden" name="folder" value="<?php echo $this->folder;?>" />
+			<input type="hidden" name="file" value="<?php echo $this->file;?>" />
+			<?php echo JHtml::_('form.token'); ?>
+</form>			
+			
 	</div>
 
 </div>

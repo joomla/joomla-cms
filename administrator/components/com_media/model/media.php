@@ -168,14 +168,25 @@ class MediaModelMedia extends ConfigModelForm
 	}
 
 
-	public function addMediaToTable($url)
+	public function addMediaToTable($object_file)
 	{
 		
 		$row = JTable::getInstance('Corecontent');
 		
 		$data = array();
-		$data['core_urls'] = $url;
+		$data['core_urls'] = $object_file->filepath;
 		
+		$fname = explode('.', $object_file->name);
+		$data['core_title'] = $fname[0];
+		$data['core_alias'] = JFilterOutput::stringURLSafe($fname[0]);
+		
+		$metadata = new stdClass();
+		$metadata->name 	= $object_file->name;
+		$metadata->type 	= $object_file->type;
+		$metadata->filepath = $object_file->filepath;
+		$metadata->size 	= $object_file->size;
+		$data['core_metadata'] = json_encode($metadata);
+			
 		$row->bind($data);
 		$row->store();
 		
@@ -185,7 +196,7 @@ class MediaModelMedia extends ConfigModelForm
 		
 		$query 	-> select($db->quoteName('core_content_id'))
 				-> from($db->quoteName('#__ucm_content'))
-				-> where($db->quoteName('core_urls') . ' = '. $db->quote($url));
+				-> where($db->quoteName('core_urls') . ' = '. $db->quote($object_file->filepath));
 		
 		$db->setQuery($query);
 		
@@ -193,7 +204,7 @@ class MediaModelMedia extends ConfigModelForm
 		
 		// Create and populate an object.
 		$media = new stdClass();
-		$media->url = $url;
+		$media->url = $object_file->filepath;
 		$media->core_content_id=$result->core_content_id;
 				
 		// Insert the object into the media table.
@@ -208,8 +219,8 @@ class MediaModelMedia extends ConfigModelForm
 		$query = $db->getQuery(true);
 		
 		$query 	-> select($db->quoteName('core_content_id'))
-		-> from($db->quoteName('#__media'))
-		-> where($db->quoteName('url') . ' = '. $db->quote($url));
+				-> from($db->quoteName('#__media'))
+				-> where($db->quoteName('url') . ' = '. $db->quote($url));
 		
 		$db->setQuery($query);
 		

@@ -19,22 +19,38 @@ JHtml::_('behavior.tabstate');
 
 ?>
 
-<p class="well well-small lead">
+<!-- <p class="well well-small lead"> -->
 
 <?php 
 
-echo 'Created By: ' . $this->item->core_created_user_id . '<br />';
-echo 'Created On: ' . $this->item->core_created_time . '<br />';
-echo '<br />';
-echo 'Modified By: ' . $this->item->core_modified_user_id . '<br />';
-echo 'Modified On: ' . $this->item->core_modified_time . '<br />';
-echo '<br />';
-echo 'Title: ' . $this->item->core_title . '<br />';
-echo 'Alias: ' . $this->item->core_alias . '<br />';
-echo 'Body: ' . $this->item->core_body . '<br />';
-echo '<br />';
-print_r($this->item);
+// echo 'Created By: ' . $this->item->core_created_user_id . '<br />';
+// echo 'Created On: ' . $this->item->core_created_time . '<br />';
+// echo '<br />';
+// echo 'Modified By: ' . $this->item->core_modified_user_id . '<br />';
+// echo 'Modified On: ' . $this->item->core_modified_time . '<br />';
+// echo '<br />';
+// echo 'Title: ' . $this->item->core_title . '<br />';
+// echo 'Alias: ' . $this->item->core_alias . '<br />';
+// echo 'Body: ' . $this->item->core_body . '<br />';
+// echo '<br />';
+
+echo $this->form->getControlGroup('core_title');
+echo $this->form->getControlGroup('core_alias');
+echo $this->form->getControlGroup('core_body');
+echo $this->form->getControlGroup('core_catid');
+echo $this->form->getControlGroup('tags');
+
+echo $this->form->getControlGroup('core_created_time');
+echo $this->form->getControlGroup('core_created_user_id');
+echo $this->form->getControlGroup('core_created_by_alias');
+
+echo $this->form->getControlGroup('core_modified_time');
+echo $this->form->getControlGroup('core_modified_user_id');
+
+
+
+
 ?>
 
 
-</p>
+<!-- </p> -->

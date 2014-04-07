@@ -100,8 +100,8 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 		// If not checked out, can save the item.
 		if ($user->authorise('core.edit', 'com_media'))
 		{
-// 			JToolbarHelper::apply('media.save.editor.apply');
-// 			JToolbarHelper::save('media.save.editor.save');
+			JToolbarHelper::apply('media.save.editor.apply');
+			JToolbarHelper::save('media.save.editor.save');
 
 		
 		}
