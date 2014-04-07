@@ -205,7 +205,7 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 			<?php echo $this->loadTemplate('properties'); ?>
 
 			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="id" value="<?php echo (int) $this->item->core_content_id;?>" />
+			<input type="hidden" name="core_content_id" value="<?php echo (int) $this->item->core_content_id;?>" />
 			<input type="hidden" name="folder" value="<?php echo $this->folder;?>" />
 			<input type="hidden" name="file" value="<?php echo $this->file;?>" />
 			<?php echo JHtml::_('form.token'); ?>

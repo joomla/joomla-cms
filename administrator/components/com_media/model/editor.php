@@ -228,16 +228,16 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @since   3.2
 	 */
-	public function save($data)
-	{
-		// Load the extension plugin group.
-		JPluginHelper::importPlugin('extension');
+// 	public function save($data)
+// 	{
+// 		// Load the extension plugin group.
+// 		JPluginHelper::importPlugin('extension');
 	
-		// Setup type
-		$data['type'] = 'plugin';
+// 		// Setup type
+// 		$data['type'] = 'plugin';
 	
-		return parent::save($data);
-	}
+// 		return parent::save($data);
+// 	}
 	
 	/**
 	 * Get the necessary data to load an item help screen.

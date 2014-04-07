@@ -22,12 +22,71 @@ class MediaControllerEditorSave extends JControllerBase
 	 *
 	 * @return  bool	True on success.
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	public function execute()
-	{
-		print_r("I GOT THIS");
-		print_r($this->input);throw new ewewewe();
+	{		
+		// Check for request forgeries.
+		if (!JSession::checkToken())
+		{
+			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'));
+			$this->app->redirect('index.php');
+		}
+		
+		// Check if the user is authorized to do this.
+		$user = JFactory::getUser();
+		
+		if (!$user->authorise('core.edit', 'com_media'))
+		{
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->redirect('index.php');
+		}
+		
+		$model = new MediaModelEditor();
+		$data = $this->input->post->get('jform', array(), 'array');
+		$form = $model->getForm();
+	
+		$data['core_content_id'] = $this->input->get('core_content_id');
+
+		$item = $model->getItem();
+		$properties = $item->getProperties();
+		$data = array_replace_recursive($properties, $data);
+
+		// Validate the posted data - fails here
+		$return = $model->validate($form, $data);
+
+		if ($return === false)
+		{
+			$this->app->redirect(JRoute::_('index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file, false));
+		}
+		
+		// Attempt to save the configuration
+		$data = $return;
+
+		$return = $model->save($data);
+		
+		// Check the return value
+		if ($return === false)
+		{
+			$this->app->redirect(JRoute::_('index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file, false));
+		}
+		
+		// Set the redirect based on the task.
+		switch ($this->options[3])
+		{
+			case 'apply':
+			{
+				$folder = $this->input->get('folder');
+				$file = $this->input->get('file');	
+				$this->app->redirect(JRoute::_('index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file, false));
+				break;
+			}
+
+			case 'save':
+			default:
+				$this->app->redirect(JRoute::_('index.php?option=com_media', false));
+				break;
+		}
 		
 	}
 }
