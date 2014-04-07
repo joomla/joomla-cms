@@ -105,18 +105,35 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	protected $_observers;
 
 	/**
+	 * The column title for the published/unpublished field
+	 *
+	 * @var    boolean
+	 * @since  3.3
+	 */
+	protected $columnPublished;
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
 	 *
-	 * @param   string           $table  Name of the table to model.
-	 * @param   mixed            $key    Name of the primary key field in the table or array of field names that compose the primary key.
-	 * @param   JDatabaseDriver  $db     JDatabaseDriver object.
+	 * @param   string           $table   Name of the table to model.
+	 * @param   mixed            $key     Name of the primary key field in the table or array of field names that compose the primary key.
+	 * @param   JDatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   JRegistry        $config  Config options
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, $db)
+	public function __construct($table, $key, $db, JRegistry $config = null)
 	{
+		// Create a blank config object if none exists to keep b/c in the 3.x branch
+		if (!$config)
+		{
+			$config = new JRegistry;
+		}
+
+		$this->columnPublished = $config->get('columnPublished', null) ? $config->get('columnPublished', null) : 'published';
+
 		// Set internal variables.
 		$this->_tbl = $table;
 
@@ -1538,7 +1555,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// Update the publishing state for rows with the given primary keys.
 			$query = $this->_db->getQuery(true)
 				->update($this->_tbl)
-				->set('published = ' . (int) $state);
+				->set($this->columnPublished . ' = ' . (int) $state);
 
 			// Determine if there is checkin support for the table.
 			if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
