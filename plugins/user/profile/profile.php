@@ -72,11 +72,14 @@ class PlgUserProfile extends JPlugin
 			{
 				// Load the profile data from the database.
 				$db = JFactory::getDbo();
-				$db->setQuery(
-					'SELECT profile_key, profile_value FROM #__user_profiles' .
-						' WHERE user_id = ' . (int) $userId . " AND profile_key LIKE 'profile.%'" .
-						' ORDER BY ordering'
-				);
+				$query = $db->getQuery(true)
+							->select($db->quoteName(array('profile_key', 'profile_value')))
+							->from($db->quoteName('#__user_profiles'))
+							->where($db->quoteName('user_id') . ' = ' . (int) $userId)
+							->where($db->quoteName('profile_key') . 'LIKE \'profile.%\'')
+							->order($db->quoteName('ordering'));
+
+				$db->setQuery($query);
 
 				try
 				{
@@ -355,7 +358,10 @@ class PlgUserProfile extends JPlugin
 					$tuples[] = '(' . $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . $order++ . ')';
 				}
 
-				$db->setQuery('INSERT INTO #__user_profiles VALUES ' . implode(', ', $tuples));
+				$query = $db->getQuery(true)
+							->insert($db->quoteName('#__user_profiles'))
+							->values(implode(', ', $tuples));
+				$db->setQuery($query);
 				$db->execute();
 			}
 			catch (RuntimeException $e)
@@ -393,11 +399,11 @@ class PlgUserProfile extends JPlugin
 			try
 			{
 				$db = JFactory::getDbo();
-				$db->setQuery(
-					'DELETE FROM #__user_profiles WHERE user_id = ' . $userId .
-						" AND profile_key LIKE 'profile.%'"
-				);
-
+				$query = $db->getQuery(true)
+					->delete($db->quoteName('#__user_profiles'))
+					->where($db->quoteName('user_id') . ' = ' . (int) $userId)
+					->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'));
+				$db->setQuery($query);
 				$db->execute();
 			}
 			catch (Exception $e)
