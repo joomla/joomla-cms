@@ -113,6 +113,30 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	protected $columnPublished;
 
 	/**
+	 * The column title for the checked out field
+	 *
+	 * @var    boolean
+	 * @since  3.3
+	 */
+	protected $columnCheckedOut;
+
+	/**
+	 * The column title for the checked out time field
+	 *
+	 * @var    boolean
+	 * @since  3.3
+	 */
+	protected $columnCheckedOutTime;
+
+	/**
+	 * The column title for the hits field
+	 *
+	 * @var    boolean
+	 * @since  3.3
+	 */
+	protected $columnHits;
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
@@ -132,7 +156,11 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$config = new JRegistry;
 		}
 
+		// Define the important field names either from the config or the default fallbacks
 		$this->columnPublished = $config->get('columnPublished', null) ? $config->get('columnPublished', null) : 'published';
+		$this->columnCheckedOut = $config->get('columnCheckedOut', null) ? $config->get('columnCheckedOut', null) : 'checked_out';
+		$this->columnCheckedOutTime = $config->get('columnCheckedOutTime', null) ? $config->get('columnCheckedOutTime', null) : 'checked_out_time';
+		$this->columnHits = $config->get('columnHits', null) ? $config->get('columnHits', null) : 'hits';
 
 		// Set internal variables.
 		$this->_tbl = $table;
@@ -1064,8 +1092,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName('checked_out') . ' = ' . (int) $userId)
-			->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($time));
+			->set($this->_db->quoteName($this->columnCheckedOut) . ' = ' . (int) $userId)
+			->set($this->_db->quoteName($this->columnCheckedOutTime) . ' = ' . $this->_db->quote($time));
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
@@ -1124,8 +1152,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName('checked_out') . ' = 0')
-			->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($this->_db->getNullDate()));
+			->set($this->_db->quoteName($this->columnCheckedOut) . ' = 0')
+			->set($this->_db->quoteName($this->columnCheckedOutTime) . ' = ' . $this->_db->quote($this->_db->getNullDate()));
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 
@@ -1226,7 +1254,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName('hits') . ' = (' . $this->_db->quoteName('hits') . ' + 1)');
+			->set($this->_db->quoteName($this->columnHits) . ' = (' . $this->_db->quoteName($this->columnHits) . ' + 1)');
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
@@ -1560,7 +1588,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// Determine if there is checkin support for the table.
 			if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
 			{
-				$query->where('(checked_out = 0 OR checked_out = ' . (int) $userId . ')');
+				$query->where('(' . $this->columnCheckedOut . ' = 0 OR ' . $this->columnCheckedOut . ' = ' . (int) $userId . ')');
 				$checkin = true;
 			}
 			else
