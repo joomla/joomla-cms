@@ -477,6 +477,13 @@ class JDocumentHTML extends JDocument
 		}
 
 		parent::render();
+
+		//Minify output if we use gzip and we aren't in debug mode
+		if ((JFactory::getConfig()->get('gzip') == 1 ) && (JFactory::getConfig()->get('debug') == 0 ))
+		{
+			$data = preg_replace('~>\s+<~', '><', $data);
+		}
+
 		return $data;
 	}
 
