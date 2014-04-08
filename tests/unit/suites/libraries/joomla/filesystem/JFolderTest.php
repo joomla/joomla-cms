@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,11 +18,6 @@ JLoader::register('JFolder', JPATH_PLATFORM . '/joomla/filesystem/folder.php');
  */
 class JFolderTest extends TestCase
 {
-	/**
-	 * @var JFolder
-	 */
-	protected $object;
-
 	/**
 	 * Test...
 	 *
@@ -99,8 +94,6 @@ class JFolderTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers JFile::exists
-	 *
 	 * @return void
 	 */
 	public function testExists()
@@ -116,9 +109,6 @@ class JFolderTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 *
-	 * @covers  JFolder::files
-	 * @covers  JFolder::_items
 	 */
 	public function testFiles()
 	{
@@ -208,9 +198,6 @@ class JFolderTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 *
-	 * @covers  JFolder::files
-	 * @covers  JFolder::_items
 	 */
 	public function testFolders()
 	{
@@ -357,8 +344,6 @@ class JFolderTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 *
-	 * @covers  JFolder::makeSafe
 	 */
 	public function testMakeSafe()
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,7 +33,7 @@ class JTableUser extends JTable
 	 *
 	 * @since  11.1
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct($db)
 	{
 		parent::__construct('#__users', 'id', $db);
 
@@ -186,7 +186,8 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		if (preg_match("#[<>\"'%;()&]#i", $this->username) || strlen(utf8_decode($this->username)) < 2)
+		if (preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $this->username) || strlen(utf8_decode($this->username)) < 2
+			|| trim($this->username) != $this->username)
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
 
@@ -314,12 +315,13 @@ class JTableUser extends JTable
 		$this->groups = $groups;
 		unset($groups);
 
+		$query = $this->_db->getQuery(true);
+
 		// Store the group data if the user data was saved.
 		if (is_array($this->groups) && count($this->groups))
 		{
 			// Delete the old user group maps.
-			$query = $this->_db->getQuery(true)
-				->delete($this->_db->quoteName('#__user_usergroup_map'))
+			$query->delete($this->_db->quoteName('#__user_usergroup_map'))
 				->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -337,6 +339,16 @@ class JTableUser extends JTable
 				$this->_db->setQuery($query);
 				$this->_db->execute();
 			}
+		}
+
+		// If a user is blocked, delete the cookie login rows
+		if ($this->block == (int) 1)
+		{
+			$query->clear()
+				->delete($this->_db->quoteName('#__user_keys'))
+				->where($this->_db->quoteName('user_id') . ' = ' . $this->_db->quote($this->username));
+			$this->_db->setQuery($query);
+			$this->_db->execute();
 		}
 
 		return true;
@@ -388,6 +400,12 @@ class JTableUser extends JTable
 		$query->clear()
 			->delete($this->_db->quoteName('#__messages'))
 			->where($this->_db->quoteName('user_id_to') . ' = ' . (int) $this->$k);
+		$this->_db->setQuery($query);
+		$this->_db->execute();
+
+		$query->clear()
+			->delete($this->_db->quoteName('#__user_keys'))
+			->where($this->_db->quoteName('user_id') . ' = ' . $this->_db->quote($this->username));
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 

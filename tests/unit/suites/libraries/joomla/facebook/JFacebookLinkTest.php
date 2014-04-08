@@ -12,7 +12,6 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
- *
  * @since       13.1
  */
 class JFacebookLinkTest extends TestCase
@@ -63,8 +62,6 @@ class JFacebookLinkTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @access  protected
-	 *
 	 * @return  void
 	 *
 	 * @since   13.1
@@ -96,20 +93,8 @@ class JFacebookLinkTest extends TestCase
 		$this->options->set('redirecturi', $my_url);
 		$this->options->set('sendheaders', true);
 		$this->options->set('authmethod', 'get');
-	}
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 *
-	 * @return   void
-	 *
-	 * @since   13.1
-	 */
-	protected function tearDown()
-	{
+		parent::setUp();
 	}
 
 	/**
@@ -258,7 +243,6 @@ class JFacebookLinkTest extends TestCase
 	 */
 	public function testCreateCommentFailure()
 	{
-		$exception = false;
 		$token = $this->oauth->getToken();
 		$link = '124346363456';
 		$message = 'test message';
@@ -316,7 +300,6 @@ class JFacebookLinkTest extends TestCase
 	 */
 	public function testDeleteCommentFailure()
 	{
-		$exception = false;
 		$token = $this->oauth->getToken();
 		$comment = '5148941614_12343468';
 
@@ -421,7 +404,6 @@ class JFacebookLinkTest extends TestCase
 	 */
 	public function testCreateLikeFailure()
 	{
-		$exception = false;
 		$token = $this->oauth->getToken();
 		$link = '124346363456';
 
@@ -474,7 +456,6 @@ class JFacebookLinkTest extends TestCase
 	 */
 	public function testDeleteLikeFailure()
 	{
-		$exception = false;
 		$token = $this->oauth->getToken();
 		$link = '124346363456';
 

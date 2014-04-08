@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,7 +34,7 @@ class JTableContenttypeTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
-		$this->object = new JTableContenttype(self::$driver);
+		$this->object = new JTableContenttype(static::$driver);
 	}
 
 	/**

@@ -3,14 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 jimport('joomla.updater.update');
-jimport('legacy.application.helper');
 jimport('legacy.component.helper');
 
 /**
@@ -547,6 +546,32 @@ class InstallationModelLanguages extends JModelBase
 			return false;
 		}
 
+		// Store language filter plugin parameters
+		if ($pluginName == 'plg_system_languagefilter')
+		{
+			$params = '{'
+					. '"detect_browser":"0",'
+					. '"automatic_change":"1",'
+					. '"item_associations":"1",'
+					. '"remove_default_prefix":"0",'
+					. '"lang_cookie":"0",'
+					. '"alternate_meta":"1"'
+				. '}';
+			$query
+				->clear()
+				->update('#__extensions')
+				->set('params = ' . $db->quote($params))
+				->where('name = ' . $db->quote('plg_system_languagefilter'))
+				->where('type = ' . $db->quote('plugin'));
+
+			$db->setQuery($query);
+
+			if (!$db->execute())
+			{
+				return false;
+			}
+		}
+
 		return true;
 	}
 
@@ -570,7 +595,10 @@ class InstallationModelLanguages extends JModelBase
 			'module'    => 'mod_languages',
 			'access'    => 1,
 			'showtitle' => 0,
-			'params'    => '{"header_text":"","footer_text":"","dropdown":"0","image":"1","inline":"1","show_active":"1","full_name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","cache_time":"900","cachemode":"itemid","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',
+			'params'    =>
+				'{"header_text":"","footer_text":"","dropdown":"0","image":"1","inline":"1","show_active":"1",'
+				. '"full_name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","cache_time":"900","cachemode":"itemid",'
+				. '"module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',
 			'client_id' => 0,
 			'language'  => '*',
 			'published' => 1
@@ -804,7 +832,16 @@ class InstallationModelLanguages extends JModelBase
 			'parent_id'    => 1,
 			'level'        => 1,
 			'home'         => 1,
-			'params'       => '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","orderby_pri":"","orderby_sec":"front","order_date":"","multi_column_order":"1","show_pagination":"2","show_pagination_results":"1","show_noauth":"","article-allow_ratings":"","article-allow_comments":"","show_feed_link":"1","feed_summary":"","show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+			'params'       => '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1",'
+				. '"num_intro_articles":"3","num_columns":"3","num_links":"0","orderby_pri":"","orderby_sec":"front",'
+				. '"order_date":"","multi_column_order":"1","show_pagination":"2","show_pagination_results":"1","show_noauth":"",'
+				. '"article-allow_ratings":"","article-allow_comments":"","show_feed_link":"1","feed_summary":"",'
+				. '"show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"",'
+				. '"show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"",'
+				. '"show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"",'
+				. '"show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"",'
+				. '"menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"",'
+				. '"pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
 			'language'     => $itemLanguage->language
 		);
 
@@ -860,7 +897,9 @@ class InstallationModelLanguages extends JModelBase
 			'module'    => 'mod_menu',
 			'access'    => 1,
 			'showtitle' => 1,
-			'params'    => '{"menutype":"mainmenu-' . strtolower($itemLanguage->language) . '","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}',
+			'params'    => '{"menutype":"mainmenu-' . strtolower($itemLanguage->language)
+				. '","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"",'
+				. '"layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}',
 			'client_id' => 0,
 			'language'  => $itemLanguage->language,
 			'published' => 1

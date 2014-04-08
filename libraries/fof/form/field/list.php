@@ -1,11 +1,12 @@
 <?php
 /**
  * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @subpackage form
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 if (!class_exists('JFormFieldList'))
 {
@@ -24,6 +25,12 @@ class FOFFormFieldList extends JFormFieldList implements FOFFormField
 	protected $static;
 
 	protected $repeatable;
+	
+	/** @var   FOFTable  The item being rendered in a repeatable form field */
+	public $item;
+	
+	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
+	public $rowid;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -114,6 +121,9 @@ class FOFFormFieldList extends JFormFieldList implements FOFFormField
 			$keyfield = $this->item->getKeyName();
 			$replace  = $this->item->$keyfield;
 			$link_url = str_replace('[ITEM:ID]', $replace, $link_url);
+
+			// Replace the [ITEMID] in the URL with the current Itemid parameter
+			$link_url = str_replace('[ITEMID]', JFactory::getApplication()->input->getInt('Itemid', 0), $link_url);
 
 			// Replace other field variables in the URL
 			$fields = $this->item->getFields();
@@ -265,7 +275,7 @@ class FOFFormFieldList extends JFormFieldList implements FOFFormField
 		if ($order)
 		{
 			jimport('joomla.utilities.arrayhelper');
-			JArrayHelper::sortObjects($sortOptions, $order, $order_dir == 'asc' ? 1 : -1, $order_case_sensitive, false);
+			FOFUtilsArray::sortObjects($sortOptions, $order, $order_dir == 'asc' ? 1 : -1, $order_case_sensitive, false);
 		}
 
 		// Initialise the options
@@ -287,9 +297,7 @@ class FOFFormFieldList extends JFormFieldList implements FOFFormField
 			{
 				$source_file = FOFTemplateUtils::parsePath($source_file, true);
 
-				JLoader::import('joomla.filesystem.file');
-
-				if (JFile::exists($source_file))
+				if (FOFPlatform::getInstance()->getIntegrationObject('filesystem')->fileExists($source_file))
 				{
 					include_once $source_file;
 				}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,9 +54,9 @@ class MessagesViewMessages extends JViewLegacy
 	protected function addToolbar()
 	{
 		$state	= $this->get('State');
-		$canDo	= MessagesHelper::getActions();
+		$canDo	= JHelperContent::getActions('com_messages');
 
-		JToolbarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'inbox.png');
+		JToolbarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
 
 		if ($canDo->get('core.create'))
 		{
@@ -83,12 +83,12 @@ class MessagesViewMessages extends JViewLegacy
 		//JToolbarHelper::addNew('module.add');
 		JToolbarHelper::divider();
 		$bar = JToolBar::getInstance('toolbar');
-		JHtml::_('bootstrap.modal', 'collapseModal');
-		$title = JText::_('COM_MESSAGES_TOOLBAR_MY_SETTINGS');
-		$dhtml = "<a class=\"btn modal btn-small\" href=\"index.php?option=com_messages&amp;view=config&amp;tmpl=component\"
-					rel=\"{handler:'iframe', size:{x:700,y:300}}\">
-					<i class=\"icon-cog\" title=\"$title\"></i>$title</a>";
-		$bar->appendButton('Custom', $dhtml, 'config');
+
+		// Instantiate a new JLayoutFile instance and render the layout
+		JHtml::_('behavior.modal', 'a.messagesSettings');
+		$layout = new JLayoutFile('toolbar.mysettings');
+
+		$bar->appendButton('Custom', $layout->render(array()), 'upload');
 
 		if ($canDo->get('core.admin'))
 		{

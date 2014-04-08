@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -58,6 +58,8 @@ JLoader::register('JInstallerPackage',  JPATH_PLATFORM . '/cms/installer/adapter
 JLoader::register('JInstallerPlugin',  JPATH_PLATFORM . '/cms/installer/adapter/plugin.php');
 JLoader::register('JInstallerTemplate',  JPATH_PLATFORM . '/cms/installer/adapter/template.php');
 JLoader::register('JExtension',  JPATH_PLATFORM . '/cms/installer/extension.php');
+JLoader::registerAlias('JAdministrator',  'JApplicationAdministrator');
+JLoader::registerAlias('JSite',  'JApplicationSite');
 
 // Register Observers:
 // Add Tags to Content, Contact, NewsFeeds, WebLinks and Categories: (this is the only link between them here!):
@@ -73,5 +75,7 @@ JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'JTable
 JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'JTableCategory', array('typeAlias' => '{extension}.category'));
 JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'NewsfeedsTableNewsfeed', array('typeAlias' => 'com_newsfeeds.newsfeed'));
 JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'WeblinksTableWeblink', array('typeAlias' => 'com_weblinks.weblink'));
-
-require_once JPATH_LIBRARIES . '/framework/aliases.php';
+JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'BannersTableBanner', array('typeAlias' => 'com_banners.banner'));
+JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'BannersTableClient', array('typeAlias' => 'com_banners.client'));
+JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'TagsTableTag', array('typeAlias' => 'com_tags.tag'));
+JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'UsersTableNote', array('typeAlias' => 'com_users.note'));

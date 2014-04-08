@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ abstract class JFactory
 	/**
 	 * Global application object
 	 *
-	 * @var    JApplication
+	 * @var    JApplicationCms
 	 * @since  11.1
 	 */
 	public static $application = null;
@@ -100,13 +100,13 @@ abstract class JFactory
 	/**
 	 * Get a application object.
 	 *
-	 * Returns the global {@link JApplication} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link JApplicationCms} object, only creating it if it doesn't already exist.
 	 *
 	 * @param   mixed   $id      A client identifier or name.
 	 * @param   array   $config  An optional associative array of configuration settings.
 	 * @param   string  $prefix  Application prefix
 	 *
-	 * @return  JApplication object
+	 * @return  JApplicationCms object
 	 *
 	 * @see     JApplication
 	 * @since   11.1
@@ -121,7 +121,7 @@ abstract class JFactory
 				throw new Exception('Application Instantiation Error', 500);
 			}
 
-			self::$application = JApplication::getInstance($id, $config, $prefix);
+			self::$application = JApplicationCms::getInstance($id);
 		}
 
 		return self::$application;
@@ -261,14 +261,17 @@ abstract class JFactory
 	 * @return  JCacheController object
 	 *
 	 * @see     JCache
+	 * @since   11.1
 	 */
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
 	{
 		$hash = md5($group . $handler . $storage);
+
 		if (isset(self::$cache[$hash]))
 		{
 			return self::$cache[$hash];
 		}
+
 		$handler = ($handler == 'function') ? 'callback' : $handler;
 
 		$options = array('defaultgroup' => $group);
@@ -343,6 +346,7 @@ abstract class JFactory
 		{
 			self::$mailer = self::createMailer();
 		}
+
 		$copy = clone self::$mailer;
 
 		return $copy;
@@ -390,6 +394,7 @@ abstract class JFactory
 		JLog::add(__METHOD__ . ' is deprecated. Use SimpleXML directly.', JLog::WARNING, 'deprecated');
 
 		$class = 'SimpleXMLElement';
+
 		if (class_exists('JXMLElement'))
 		{
 			$class = 'JXMLElement';
@@ -588,6 +593,7 @@ abstract class JFactory
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
 		$session = JSession::getInstance($handler, $options);
+
 		if ($session->getState() == 'expired')
 		{
 			$session->restart();
@@ -628,6 +634,7 @@ abstract class JFactory
 			{
 				header('HTTP/1.1 500 Internal Server Error');
 			}
+
 			jexit('Database Error: ' . $e->getMessage());
 		}
 
@@ -716,8 +723,16 @@ abstract class JFactory
 		$input = self::getApplication()->input;
 		$type = $input->get('format', 'html', 'word');
 
-		$attributes = array('charset' => 'utf-8', 'lineend' => 'unix', 'tab' => '  ', 'language' => $lang->getTag(),
-			'direction' => $lang->isRTL() ? 'rtl' : 'ltr');
+		$version = new JVersion;
+
+		$attributes = array(
+			'charset' => 'utf-8',
+			'lineend' => 'unix',
+			'tab' => '  ',
+			'language' => $lang->getTag(),
+			'direction' => $lang->isRTL() ? 'rtl' : 'ltr',
+			'mediaversion' => $version->getMediaVersion()
+		);
 
 		return JDocument::getInstance($type, $attributes);
 	}
@@ -732,7 +747,7 @@ abstract class JFactory
 	 *
 	 * @return  JStream
 	 *
-	 * @see JStream
+	 * @see     JStream
 	 * @since   11.1
 	 */
 	public static function getStream($use_prefix = true, $use_network = true, $ua = null, $uamask = false)

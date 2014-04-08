@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,9 +101,11 @@ $debug  = (boolean) $config->get('debug');
 		</div>
 	</div>
 	<div class="navbar navbar-fixed-bottom hidden-phone">
-		<p class="pull-right">&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
-		<a class="login-joomla" href="http://www.joomla.org" class="hasTooltip" title="<?php echo JHtml::tooltipText('TPL_ISIS_ISFREESOFTWARE');?>">Joomla!&#174;</a>
-		<a href="<?php echo JUri::root(); ?>" class="pull-left"><i class="icon-share icon-white"></i> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE') ?></a>
+		<p class="pull-right">
+			&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
+		</p>
+		<a class="login-joomla" href="http://www.joomla.org" target="_blank" class="hasTooltip" title="<?php echo JHtml::tooltipText('TPL_ISIS_ISFREESOFTWARE');?>">Joomla!&#174;</a>
+		<a href="<?php echo JUri::root(); ?>" target="_blank" class="pull-left"><i class="icon-share icon-white"></i> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE') ?></a>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
 </body>
