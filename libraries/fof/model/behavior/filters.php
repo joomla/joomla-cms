@@ -2,11 +2,11 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework model behavior class
@@ -45,7 +45,11 @@ class FOFModelBehaviorFilters extends FOFModelBehavior
 
 			$field = FOFModelField::getField($field, array('dbo' => $db, 'table_alias' => $model->getTableAlias()));
 
-			if ((is_array($filterState) && array_key_exists('value', $filterState)) || is_object($filterState))
+			if ((is_array($filterState) && (
+					array_key_exists('value', $filterState) ||
+					array_key_exists('from', $filterState) ||
+					array_key_exists('to', $filterState)
+				)) || is_object($filterState))
 			{
 				$options = new JRegistry($filterState);
 			}

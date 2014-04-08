@@ -887,7 +887,7 @@ class PlgEditorTinymce extends JPlugin
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
-			$return .= JLayoutHelper::render('joomla.tinymce.buttons', $buttons);
+			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 
 		return $return;

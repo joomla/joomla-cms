@@ -33,8 +33,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php echo $this->escape($this->params->get('page_subheading')); ?>
 	<?php if ($this->params->get('show_category_title'))
 	{
-
-		echo '<span class="subheading-category">'.$this->category->title.'</span>';
+		echo '<span class="subheading-category">'.JHtml::_('content.prepare', $this->category->title, '', 'com_content.category.title').'</span>';
 	}
 	?>
 </h2>

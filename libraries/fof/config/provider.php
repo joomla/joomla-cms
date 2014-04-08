@@ -2,7 +2,7 @@
 /**
  *  @package     FrameworkOnFramework
  *  @subpackage  config
- *  @copyright   Copyright (c)2010-2012 Nicholas K. Dionysopoulos
+ *  @copyright   Copyright (c)2010-2014 Nicholas K. Dionysopoulos
  *  @license     GNU General Public License version 2, or later
  */
 
@@ -116,27 +116,26 @@ class FOFConfigProvider
 
 		// Get the folders of the component
 		$componentPaths = FOFPlatform::getInstance()->getComponentBaseDirs($component);
+        $filesystem     = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
 
 		// Check that the path exists
-		JLoader::import('joomla.filesystem.folder');
 		$path = $componentPaths['admin'];
-		$path = JPath::check($path);
+		$path = $filesystem->pathCheck($path);
 
-		if (!JFolder::exists($path))
+		if (!$filesystem->folderExists($path))
 		{
 			return $ret;
 		}
 
 		// Read the filename if it exists
 		$filename = $path . '/fof.xml';
-		JLoader::import('joomla.filesystem.file');
 
-		if (!JFile::exists($filename))
+		if (!$filesystem->fileExists($filename))
 		{
 			return $ret;
 		}
 
-		$data = JFile::read($filename);
+		$data = file_get_contents($filename);
 
 		// Load the XML data in a SimpleXMLElement object
 		$xml = simplexml_load_string($data);
@@ -185,8 +184,9 @@ class FOFConfigProvider
 
 		if (empty($domains))
 		{
-			JLoader::import('joomla.filesystem.folder');
-			$files = JFolder::files(__DIR__ . '/domain', '.php');
+			$filesystem = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
+
+			$files = $filesystem->folderFiles(__DIR__ . '/domain', '.php');
 
 			if (!empty($files))
 			{

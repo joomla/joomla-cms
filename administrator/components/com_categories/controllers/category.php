@@ -29,7 +29,8 @@ class CategoriesControllerCategory extends JControllerForm
 	/**
 	 * Constructor.
 	 *
-	 * @param  array  $config  An optional associative array of configuration settings.
+	 * @param  array   $config  An optional associative array of configuration settings.
+	 *
 	 * @since  1.6
 	 * @see    JController
 	 */
@@ -56,6 +57,7 @@ class CategoriesControllerCategory extends JControllerForm
 	protected function allowAdd($data = array())
 	{
 		$user = JFactory::getUser();
+
 		return ($user->authorise('core.create', $this->extension) || count($user->getAuthorisedCategories($this->extension, 'core.create')));
 	}
 
@@ -93,6 +95,7 @@ class CategoriesControllerCategory extends JControllerForm
 		{
 			// Now test the owner is the user.
 			$ownerId = (int) isset($data['created_user_id']) ? $data['created_user_id'] : 0;
+
 			if (empty($ownerId) && $recordId)
 			{
 				// Need to do a lookup from the model.
@@ -112,13 +115,14 @@ class CategoriesControllerCategory extends JControllerForm
 				return true;
 			}
 		}
+
 		return false;
 	}
 
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   object   $model  The model.
+	 * @param   object  $model  The model.
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
@@ -190,6 +194,7 @@ class CategoriesControllerCategory extends JControllerForm
 			$registry->loadArray($item->params);
 			$item->params = (string) $registry;
 		}
+
 		if (isset($item->metadata) && is_array($item->metadata))
 		{
 			$registry = new JRegistry;

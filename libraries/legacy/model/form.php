@@ -54,6 +54,12 @@ abstract class JModelForm extends JModelLegacy
 				return false;
 			}
 
+			// If there is no checked_out or checked_out_time field, just return true.
+			if (!property_exists($table, 'checked_out') || !property_exists($table, 'checked_out_time'))
+			{
+				return true;
+			}
+
 			// Check if this is the user having previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{

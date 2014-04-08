@@ -59,6 +59,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'getSession',
 			'getTemplate',
 			'initialiseApp',
+			'isAdmin',
 			'loadConfiguration',
 			'loadDispatcher',
 			'loadDocument',

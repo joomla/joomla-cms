@@ -48,28 +48,17 @@ class MenusHelper
 	 * @param   integer  The menu ID.
 	 *
 	 * @return  JObject
+	 *
 	 * @since   1.6
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions($parentId = 0)
 	{
-		$user = JFactory::getUser();
-		$result = new JObject;
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
-		if (empty($parentId))
-		{
-			$assetName = 'com_menus';
-		}
-		else
-		{
-			$assetName = 'com_menus.item.' . (int) $parentId;
-		}
-
-		$actions = JAccess::getActions('com_menus');
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
+		// Get list of actions
+		$result = JHelperContent::getActions('com_menus');
 
 		return $result;
 	}

@@ -2,10 +2,10 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  render
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * Akeeba Strapper view renderer class.
@@ -52,13 +52,14 @@ class FOFRenderStrapper extends FOFRenderAbstract
 		{
 			// Wrap output in a Joomla-versioned div
 			$version = new JVersion;
-			$version = str_replace('.', '', $version->RELEASE);
-			echo "<div class=\"joomla-version-$version\">\n";
+			$versionParts = explode('.', $version->RELEASE);
+			$minorVersion = str_replace('.', '', $version->RELEASE);
+			$majorVersion = array_shift($versionParts);
+			echo "<div class=\"joomla-version-$majorVersion joomla-version-$minorVersion\">\n";
 
 			// Wrap output in an akeeba-bootstrap class div
 			echo "<div class=\"akeeba-bootstrap\">\n";
             echo "<div class=\"row-fluid\">\n";
-
 		}
 
 		// Render submenu and toolbar (only if asked to)
@@ -257,7 +258,7 @@ ENDJAVASCRIPT;
 
 						if ($item['link'])
 						{
-							echo "<a tabindex=\"-1\" href=\"" . $item['link'] . "\">" . $item['name'] . "</a>";
+							echo "<a href=\"" . $item['link'] . "\">" . $item['name'] . "</a>";
 						}
 						else
 						{
@@ -420,6 +421,10 @@ ENDJAVASCRIPT;
         {
             $title	 = JFactory::getApplication()->JComponentTitle;
         }
+		else
+		{
+			$title = '';
+		}
 
         $html	 = array();
         $actions = array();
@@ -519,6 +524,8 @@ JS;
 
 		if (version_compare(JVERSION, '3.0', 'gt'))
 		{
+			$form_class = '';
+
 			if ($show_filters)
 			{
 				JHtmlSidebar::setAction("index.php?option=" .
@@ -548,6 +555,10 @@ JS;
 
 			$headerFields = $tmpFields;
 			ksort($headerFields, SORT_NUMERIC);
+		}
+		else
+		{
+			$form_class = 'class="form-horizontal"';
 		}
 
 		// Pre-render the header and filter rows
@@ -601,8 +612,6 @@ JS;
 				if (version_compare(JVERSION, '3.0', 'ge'))
 				{
 					// Joomla! 3.0 or later
-					$form_class = '';
-					
 					if (!empty($filter))
 					{
 						$filter_html .= '<div class="filter-search btn-group pull-left">' . "\n";
@@ -638,7 +647,6 @@ JS;
 				else
 				{
 					// Joomla! 2.5
-					$form_class = 'class="form-horizontal"';
 					$filter_html .= "\t\t\t\t\t<td>" . PHP_EOL;
 
 					if (!empty($filter))
@@ -827,7 +835,8 @@ JS;
 				{
 					$field->rowid	 = $i;
 					$field->item	 = $table_item;
-					$class			 = $field->labelClass ? 'class ="' . $field->labelClass . '"' : '';
+					$labelClass = $field->labelClass ? $field->labelClass : $field->labelclass; // Joomla! 2.5/3.x use different case for the same name
+					$class			 = $labelClass ? 'class ="' . $labelClass . '"' : '';
 					$html .= "\t\t\t\t\t<td $class>" . $field->getRepeatable() . '</td>' . PHP_EOL;
 				}
 

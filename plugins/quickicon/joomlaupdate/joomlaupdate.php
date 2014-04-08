@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Joomla! udpate notification plugin
+ * Joomla! update notification plugin
  *
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomlaupdate
@@ -53,7 +53,7 @@ class PlgQuickiconJoomlaupdate extends JPlugin
 		$script = array();
 		$script[] = 'var plg_quickicon_joomlaupdate_url = \'' . $url . '\';';
 		$script[] = 'var plg_quickicon_joomlaupdate_ajax_url = \'' . $ajax_url . '\';';
-		$script[] = 'var plg_quickicon_jupdatecheck_jversion = \''.JVERSION.'\'';
+		$script[] = 'var plg_quickicon_jupdatecheck_jversion = \'' . JVERSION . '\'';
 		$script[] = 'var plg_quickicon_joomlaupdate_text = {'
 			. '"UPTODATE" : "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true) . '",'
 			. '"UPDATEFOUND": "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true) . '",'

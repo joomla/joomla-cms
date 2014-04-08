@@ -14,7 +14,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
-$canDo = UsersHelper::getActions();
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
