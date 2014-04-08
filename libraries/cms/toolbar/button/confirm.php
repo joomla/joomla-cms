@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,21 +42,24 @@ class JToolbarButtonConfirm extends JToolbarButton
 	 */
 	public function fetchButton($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
-		$text = JText::_($text);
-		$msg = JText::_($msg, true);
-		$class = $this->fetchIconClass($name);
-		$doTask = $this->_getCommand($msg, $name, $task, $list);
+		// Store all data to the options array for use with JLayout
+		$options = array();
+		$options['text'] = JText::_($text);
+		$options['msg'] = JText::_($msg, true);
+		$options['class'] = $this->fetchIconClass($name);
+		$options['doTask'] = $this->_getCommand($options['msg'], $name, $task, $list);
 
-		return '<button onclick="' . $doTask . '" class="btn btn-small">'
-			. '<span class="' . $class . '"></span>'
-			. $text
-			. '</button>';
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('joomla.toolbar.confirm');
+
+		return $layout->render($options);
 	}
 
 	/**
 	 * Get the button CSS Id
 	 *
 	 * @param   string   $type      Button type
+	 * @param   string   $msg       Message to display
 	 * @param   string   $name      Name to be used as apart of the id
 	 * @param   string   $text      Button text
 	 * @param   string   $task      The task associated with the button
@@ -67,7 +70,7 @@ class JToolbarButtonConfirm extends JToolbarButton
 	 *
 	 * @since   3.0
 	 */
-	public function fetchId($type = 'Confirm', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
+	public function fetchId($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
 		return $this->_parent->getName() . '-' . $name;
 	}

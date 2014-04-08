@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -405,9 +405,6 @@ class FinderIndexerHelper
 		// Only get the router once.
 		if (!($router instanceof JRouter))
 		{
-			jimport('joomla.application.router');
-			include_once JPATH_SITE . '/includes/application.php';
-
 			// Get and configure the site router.
 			$config = JFactory::getConfig();
 			$router = JRouter::getInstance('site');

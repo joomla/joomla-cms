@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -51,7 +51,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->select("jform_menutype", "value=function-test-menu");
 		$this->jPrint ("Open Select Article modal\n");
 		sleep(2);
-		$this->click("//a[@title='Select or Change article']");
+		$this->click("//a[contains(@href,'jSelectArticle')]");
 		$this->waitforElement("//iframe[contains(@src, 'jSelectArticle')]");
 		$this->click("link=Australian Parks");
 		$this->waitforElement("//input[@id='jform_request_id_name']");

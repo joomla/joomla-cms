@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,12 +33,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 */
 	public function render($head, $params = array(), $content = null)
 	{
-		ob_start();
-		echo $this->fetchHead($this->_doc);
-		$buffer = ob_get_contents();
-		ob_end_clean();
-
-		return $buffer;
+		return $this->fetchHead($this->_doc);
 	}
 
 	/**
@@ -128,15 +123,23 @@ class JDocumentRendererHead extends JDocumentRenderer
 		// Generate stylesheet links
 		foreach ($document->_styleSheets as $strSrc => $strAttr)
 		{
-			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '" type="' . $strAttr['mime'] . '"';
+			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '"';
+
+			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || $strAttr['mime'] != 'text/css'))
+			{
+				$buffer .= ' type="' . $strAttr['mime'] . '"';
+			}
+
 			if (!is_null($strAttr['media']))
 			{
-				$buffer .= ' media="' . $strAttr['media'] . '" ';
+				$buffer .= ' media="' . $strAttr['media'] . '"';
 			}
+
 			if ($temp = JArrayHelper::toString($strAttr['attribs']))
 			{
 				$buffer .= ' ' . $temp;
 			}
+
 			$buffer .= $tagEnd . $lnEnd;
 		}
 
@@ -165,18 +168,25 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_scripts as $strSrc => $strAttr)
 		{
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
-			if (!is_null($strAttr['mime']))
+			$defaultMimes = array(
+				'text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript'
+			);
+
+			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultMimes)))
 			{
 				$buffer .= ' type="' . $strAttr['mime'] . '"';
 			}
+
 			if ($strAttr['defer'])
 			{
 				$buffer .= ' defer="defer"';
 			}
+
 			if ($strAttr['async'])
 			{
 				$buffer .= ' async="async"';
 			}
+
 			$buffer .= '></script>' . $lnEnd;
 		}
 

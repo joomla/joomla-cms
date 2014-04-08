@@ -5,17 +5,22 @@
 	<property name="joomlasource" value="administrator,cli,components,includes,installation,language/en-GB,libraries/cms,modules,plugins,templates" />
 
 	<target name="clean" description="Clean up and create artifact directories">
+		<delete dir="${basedir}/build/api" />
 		<delete dir="${basedir}/build/coverage" />
 		<delete dir="${basedir}/build/logs" />
 		<delete dir="${basedir}/build/pdepend" />
 
+		<mkdir dir="${basedir}/build/api" />
 		<mkdir dir="${basedir}/build/coverage" />
 		<mkdir dir="${basedir}/build/logs" />
 		<mkdir dir="${basedir}/build/pdepend" />
 	</target>
 
 	<target name="phpunit" description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
-		<exec executable="phpunit" />
+		<exec executable="phpunit">
+			<arg value="-d" />
+			<arg value="zend.enable_gc=0" />
+		</exec>
 	</target>
 
 	<target name="parallelTasks" description="Run the pdepend, phpmd and phpcs tasks in parallel using a maximum of 2 threads.">
@@ -56,6 +61,21 @@
 			<arg value="${basedir}/build/phpmd.xml" />
 			<arg value="--reportfile" />
 			<arg value="${basedir}/build/logs/pmd.xml" />
+		</exec>
+	</target>
+
+	<target name="phpdoc" description="Generate API documentation using phpDocumentor">
+		<exec executable="phpdoc">
+			<arg value="-d" />
+			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/" />
+			<arg value="-f" />
+			<arg path="${basedir}/libraries/loader.php,${basedir}/libraries/platform.php" />
+			<arg value="-t" />
+			<arg path="${basedir}/build/api/" />
+			<arg value="--template" />
+			<arg value="joomla" />
+			<arg value="--title" />
+			<arg value="Joomla! CMS API" />
 		</exec>
 	</target>
 

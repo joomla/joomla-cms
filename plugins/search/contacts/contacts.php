@@ -3,14 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.contacts
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Contacts Search plugin
+ * Contacts search plugin.
  *
  * @package     Joomla.Plugin
  * @subpackage  Search.contacts
@@ -27,28 +27,40 @@ class PlgSearchContacts extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * @return array An array of search areas
+	 * Determine areas searchable by this plugin.
+	 *
+	 * @return  array  An array of search areas.
+	 *
+	 * @since   1.6
 	 */
 	public function onContentSearchAreas()
 	{
 		static $areas = array(
 			'contacts' => 'PLG_SEARCH_CONTACTS_CONTACTS'
 		);
+
 		return $areas;
 	}
 
 	/**
-	 * Contacts Search method
+	 * Search content (contacts).
 	 *
-	 * The sql must return the following fields that are used in a common display
-	 * routine: href, title, section, created, text, browsernav
+	 * The SQL must return the following fields that are used in a common display
+	 * routine: href, title, section, created, text, browsernav.
 	 *
-	 * @param string Target search string
-	 * @param string matching option, exact|any|all
-	 * @param string ordering option, newest|oldest|popular|alpha|category
+	 * @param   string  $text      Target search string.
+	 * @param   string  $phrase    Matching option (possible values: exact|any|all).  Default is "any".
+	 * @param   string  $ordering  Ordering option (possible values: newest|oldest|popular|alpha|category).  Default is "newest".
+	 * @param   string  $areas     An array if the search is to be restricted to areas or null to search all areas.
+	 *
+	 * @return  array  Search results.
+	 *
+	 * @since   1.6
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
+		require_once JPATH_SITE . '/components/com_contact/helpers/route.php';
+
 		$db = JFactory::getDbo();
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
@@ -66,21 +78,24 @@ class PlgSearchContacts extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
 		$state = array();
+
 		if ($sContent)
 		{
 			$state[] = 1;
 		}
+
 		if ($sArchived)
 		{
 			$state[] = 2;
 		}
 
-		if (!empty($state))
+		if (empty($state))
 		{
 			return array();
 		}
 
 		$text = trim($text);
+
 		if ($text == '')
 		{
 			return array();
@@ -108,7 +123,8 @@ class PlgSearchContacts extends JPlugin
 		$text = $db->quote('%' . $db->escape($text, true) . '%', false);
 
 		$query = $db->getQuery(true);
-		//sqlsrv changes
+
+		// SQLSRV changes.
 		$case_when = ' CASE WHEN ';
 		$case_when .= $query->charLength('a.alias', '!=', '0');
 		$case_when .= ' THEN ';
@@ -144,7 +160,7 @@ class PlgSearchContacts extends JPlugin
 			->group('a.id, a.con_position, a.misc, c.alias, c.id')
 			->order($order);
 
-		// Filter by language
+		// Filter by language.
 		if ($app->isSite() && JLanguageMultilang::isEnabled())
 		{
 			$tag = JFactory::getLanguage()->getTag();
@@ -159,7 +175,7 @@ class PlgSearchContacts extends JPlugin
 		{
 			foreach ($rows as $key => $row)
 			{
-				$rows[$key]->href = 'index.php?option=com_contact&view=contact&id=' . $row->slug . '&catid=' . $row->catslug;
+				$rows[$key]->href = ContactHelperRoute::getContactRoute($row->slug, $row->catslug);
 				$rows[$key]->text = $row->title;
 				$rows[$key]->text .= ($row->con_position) ? ', ' . $row->con_position : '';
 				$rows[$key]->text .= ($row->misc) ? ', ' . $row->misc : '';

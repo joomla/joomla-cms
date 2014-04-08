@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
@@ -20,7 +21,7 @@ $params = $this->state->get('params');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('adminForm')))
+		if (task == 'weblink.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
 		{
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task);
@@ -45,76 +46,29 @@ $params = $this->state->get('params');
 					<span class="icon-cancel"></span> <?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
+			<?php if ($params->get('save_history', 0)) : ?>
+				<div class="btn-group">
+					<?php echo $this->form->getInput('contenthistory'); ?>
+				</div>
+			<?php endif; ?>
 		</div>
 
 		<hr class="hr-condensed" />
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('title'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('title'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('alias'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('alias'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('catid'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('catid'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('url'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('url'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('tags'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('tags'); ?>
-			</div>
-		</div>
+		<?php echo $this->form->renderField('title'); ?>
+		<?php echo $this->form->renderField('alias'); ?>
+		<?php echo $this->form->renderField('catid'); ?>
+		<?php echo $this->form->renderField('url'); ?>
+		<?php echo $this->form->renderField('tags'); ?>
+
+		<?php if ($params->get('save_history', 0)) : ?>
+			<?php echo $this->form->renderField('version_note'); ?>
+		<?php endif; ?>
 
 		<?php if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink')) : ?>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $this->form->getLabel('state'); ?>
-				</div>
-				<div class="controls">
-					<?php echo $this->form->getInput('state'); ?>
-				</div>
-			</div>
+			<?php echo $this->form->renderField('state'); ?>
 		<?php endif; ?>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('language'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('language'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('description'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('description'); ?>
-			</div>
-		</div>
+		<?php echo $this->form->renderField('language'); ?>
+		<?php echo $this->form->renderField('description'); ?>
 
 		<input type="hidden" name="return" value="<?php echo $this->return_page;?>" />
 		<input type="hidden" name="task" value="" />

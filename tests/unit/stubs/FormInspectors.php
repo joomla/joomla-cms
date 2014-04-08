@@ -3,15 +3,13 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Inspector classes for the forms library.
  */
-require_once JPATH_PLATFORM . '/joomla/form/form.php';
-require_once JPATH_PLATFORM . '/joomla/form/field.php';
 
 /**
  * JFormInspector class.

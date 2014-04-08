@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -52,34 +52,42 @@ class JToolbarButtonPopup extends JToolbarButton
 			$title = $text;
 		}
 
-		$text = JText::_($text);
-		$title = JText::_($title);
-		$class = 'out-2';
-		$doTask = $this->_getCommand($url);
+		// Store all data to the options array for use with JLayout
+		$options = array();
+		$options['name'] = $name;
+		$options['text'] = JText::_($text);
+		$options['title'] = JText::_($title);
+		$options['class'] = $this->fetchIconClass($name);
+		$options['doTask'] = $this->_getCommand($url);
 
-		$html = '<button class="btn btn-small modal" data-toggle="modal" data-target="#modal-' . $name . '">'
-			. '<i class="icon-' . $class . '"></i> '
-			. $text
-			. '</button>';
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('joomla.toolbar.popup');
+
+		$html = array();
+		$html[] = $layout->render($options);
+
+		// Place modal div and scripts in a new div
+		$html[] = '<div class="btn-group" style="width: 0; margin: 0">';
 
 		// Build the options array for the modal
 		$params = array();
-		$params['title']  = $title;
-		$params['url']    = $doTask;
+		$params['title']  = $options['title'];
+		$params['url']    = $options['doTask'];
 		$params['height'] = $height;
 		$params['width']  = $width;
-		$html .= "\n" . JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
+		$html[] = JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
 
 		// If an $onClose event is passed, add it to the modal JS object
 		if (strlen($onClose) >= 1)
 		{
-			$html .= "\n"
-				. '<script>'
+			$html[] = '<script>'
 				. 'jQuery(\'#modal-' . $name . '\').on(\'hide\', function () {' . $onClose . ';});'
-				. '</script>\n';
+				. '</script>';
 		}
 
-		return $html;
+		$html[] = '</div>';
+
+		return implode("\n", $html);
 	}
 
 	/**

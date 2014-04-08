@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,8 +69,8 @@ $baseurl = JUri::base();
 							<img
 								src="<?php echo $baseurl . $imageurl;?>"
 								alt="<?php echo $alt;?>"
-								<?php if (!empty($width)) echo 'width ="'. $width.'"';?>
-								<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
+								<?php if (!empty($width)) echo 'width ="' . $width . '"';?>
+								<?php if (!empty($height)) echo 'height ="' . $height . '"';?>
 							/>
 						</a>
 					<?php endif;?>
@@ -79,8 +79,8 @@ $baseurl = JUri::base();
 					<img
 						src="<?php echo $baseurl . $imageurl;?>"
 						alt="<?php echo $alt;?>"
-						<?php if (!empty($width)) echo 'width ="'. $width.'"';?>
-						<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
+						<?php if (!empty($width)) echo 'width ="' . $width . '"';?>
+						<?php if (!empty($height)) echo 'height ="' . $height . '"';?>
 					/>
 				<?php endif;?>
 			<?php elseif (BannerHelper::isFlash($imageurl)) :?>

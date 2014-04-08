@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -165,6 +165,23 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 		class_exists('JApplication');
 
 		return TestMockApplication::create($this);
+	}
+
+	/**
+	 * Gets a mock CMS application object.
+	 *
+	 * @param   array  $options  A set of options to configure the mock.
+	 *
+	 * @return  JApplicationCms
+	 *
+	 * @since   3.2
+	 */
+	public function getMockCmsApp($options = array())
+	{
+		// Attempt to load the real class first.
+		class_exists('JApplicationCms');
+
+		return TestMockApplicationCms::create($this, $options);
 	}
 
 	/**

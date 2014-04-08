@@ -3,18 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Field to select a user id from a modal list.
+ * Field to select a user ID from a modal list.
  *
  * @package     Joomla.Libraries
  * @subpackage  Form
- * @since       1.6.0
+ * @since       1.6
  */
 class JFormFieldUser extends JFormField
 {
@@ -22,7 +22,7 @@ class JFormFieldUser extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  1.6.0
+	 * @since  1.6
 	 */
 	public $type = 'User';
 
@@ -31,7 +31,7 @@ class JFormFieldUser extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   1.6.0
+	 * @since   1.6
 	 */
 	protected function getInput()
 	{
@@ -43,11 +43,9 @@ class JFormFieldUser extends JFormField
 			. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
 
 		// Initialize some field attributes.
-		$attr = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-
-		// Initialize JavaScript field attributes.
-		$onchange = (string) $this->element['onchange'];
+		$attr = !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$attr .= $this->required ? ' required' : '';
 
 		// Load the modal behavior script.
 		JHtml::_('behavior.modal', 'a.modal_' . $this->id);
@@ -58,8 +56,9 @@ class JFormFieldUser extends JFormField
 		$script[] = '		var old_id = document.getElementById("' . $this->id . '_id").value;';
 		$script[] = '		if (old_id != id) {';
 		$script[] = '			document.getElementById("' . $this->id . '_id").value = id;';
-		$script[] = '			document.getElementById("' . $this->id . '_name").value = title;';
-		$script[] = '			' . $onchange;
+		$script[] = '			document.getElementById("' . $this->id . '").value = title;';
+		$script[] = '			document.getElementById("' . $this->id . '").className = document.getElementById("' . $this->id . '").className.replace(" invalid" , "");';
+		$script[] = '			' . $this->onchange;
 		$script[] = '		}';
 		$script[] = '		SqueezeBox.close();';
 		$script[] = '	}';
@@ -69,9 +68,15 @@ class JFormFieldUser extends JFormField
 
 		// Load the current username if available.
 		$table = JTable::getInstance('user');
-		if ($this->value)
+
+		if (is_numeric($this->value))
 		{
 			$table->load($this->value);
+		}
+		// Handle the special case for "current".
+		elseif (strtoupper($this->value) == 'CURRENT')
+		{
+			$table->load(JFactory::getUser()->id);
 		}
 		else
 		{
@@ -80,16 +85,17 @@ class JFormFieldUser extends JFormField
 
 		// Create a dummy text field with the user name.
 		$html[] = '<div class="input-append">';
-		$html[] = '	<input class="input-medium" type="text" id="' . $this->id . '_name" value="' . htmlspecialchars($table->name, ENT_COMPAT, 'UTF-8') . '"'
-			. ' disabled="disabled"' . $attr . ' />';
+		$html[] = '	<input type="text" id="' . $this->id . '" value="' . htmlspecialchars($table->name, ENT_COMPAT, 'UTF-8') . '"'
+			. ' readonly' . $attr . ' />';
 
 		// Create the user select button.
-		if ($this->element['readonly'] != 'true')
+		if ($this->readonly === false)
 		{
 			$html[] = '		<a class="btn btn-primary modal_' . $this->id . '" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '" href="' . $link . '"'
 				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
 			$html[] = '<i class="icon-user"></i></a>';
 		}
+
 		$html[] = '</div>';
 
 		// Create the real field, hidden, that stored the user id.
@@ -103,7 +109,7 @@ class JFormFieldUser extends JFormField
 	 *
 	 * @return  mixed  array of filtering groups or null.
 	 *
-	 * @since   1.6.0
+	 * @since   1.6
 	 */
 	protected function getGroups()
 	{
@@ -115,7 +121,7 @@ class JFormFieldUser extends JFormField
 	 *
 	 * @return  mixed  Array of users to exclude or null to to not exclude them
 	 *
-	 * @since   1.6.0
+	 * @since   1.6
 	 */
 	protected function getExcluded()
 	{

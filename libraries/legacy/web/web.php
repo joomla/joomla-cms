@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,7 +34,7 @@ class JWeb extends JApplicationWeb
 	 *                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   11.3
-	 * @deprecated  12.3 Use JApplicationWeb instead.
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS) Use JApplicationWeb instead.
 	 */
 	public function __construct(JInput $input = null, JRegistry $config = null, JApplicationWebClient $client = null)
 	{

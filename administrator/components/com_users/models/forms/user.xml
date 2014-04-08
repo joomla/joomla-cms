@@ -97,26 +97,22 @@
 				name="sendEmail"
 				type="radio"
 				default="0"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
 				description="COM_USERS_USER_FIELD_SENDEMAIL_DESC">
-				<option
-					value="0">JNO</option>
-				<option
-					value="1">JYES</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 		</field>
 
 		<field
 				name="block"
 				type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="0"
 				label="COM_USERS_USER_FIELD_BLOCK_LABEL"
 				description="COM_USERS_USER_FIELD_BLOCK_DESC">
-				<option
-					value="0">JNO</option>
-				<option
-					value="1">JYES</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -131,6 +127,7 @@
 
 	</fieldset>
 	<field name="groups" type="hidden" />
+	<field name="twofactor" type="hidden" />
 
 	<fields name="params">
 

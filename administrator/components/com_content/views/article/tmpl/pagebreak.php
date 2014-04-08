@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,9 +29,9 @@ $script .= '}'."\n";
 
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
-		<form>
-		<table width="100%" align="center">
-			<tr width="40%">
+	<form>
+		<table>
+			<tr>
 				<td class="key" align="right">
 					<label for="title">
 						<?php echo JText::_('COM_CONTENT_PAGEBREAK_TITLE'); ?>
@@ -41,7 +41,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					<input type="text" id="title" name="title" />
 				</td>
 			</tr>
-			<tr width="60%">
+			<tr>
 				<td class="key" align="right">
 					<label for="alias">
 						<?php echo JText::_('COM_CONTENT_PAGEBREAK_TOC'); ?>
@@ -52,5 +52,5 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				</td>
 			</tr>
 		</table>
-		</form>
-		<button onclick="insertPagebreak();"><?php echo JText::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?></button>
+	</form>
+	<button onclick="insertPagebreak();"><?php echo JText::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?></button>

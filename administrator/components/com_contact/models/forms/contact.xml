@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
+    <fieldset addfieldpath="/administrator/components/com_categories/models/fields">
 		<field name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
@@ -15,8 +15,8 @@
 			type="text"
 			label="COM_CONTACT_FIELD_NAME_LABEL"
 			description="COM_CONTACT_FIELD_NAME_DESC"
-			class="inputbox"
-			size="30"
+			class="inputbox input-xxlarge input-large-text"
+			size="40"
 			required="true"
 		 />
 
@@ -24,8 +24,17 @@
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
 			class="inputbox"
-			size="30"
+			size="45"
+		/>
+
+		<field name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="inputbox span12" size="45"
+			labelclass="control-label"
 		/>
 
 		<field name="user_id"
@@ -39,7 +48,7 @@
 			type="list"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
-			class="inputbox span12 small"
+			class="chzn-color-state"
 			size="1"
 			default="1"
 		>
@@ -67,107 +76,8 @@
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
-			class="inputbox span12 small"
+			class="inputbox"
 			size="1"
-		/>
-
-		<field name="sortname1" type="text"
-			label="COM_CONTACT_FIELD_SORTNAME1_LABEL"
-			description="COM_CONTACT_FIELD_SORTNAME1_DESC"
-			class="inputbox"
-			size="30"
-		/>
-
-		<field name="sortname2" type="text"
-			label="COM_CONTACT_FIELD_SORTNAME2_LABEL"
-			description="COM_CONTACT_FIELD_SORTNAME2_DESC"
-			class="inputbox" size="30" />
-
-		<field name="sortname3" type="text"
-			label="COM_CONTACT_FIELD_SORTNAME3_LABEL"
-			description="COM_CONTACT_FIELD_SORTNAME3_DESC"
-			class="inputbox"
-			size="30"
-		/>
-
-		<field name="con_position" type="text"
-			label="COM_CONTACT_FIELD_INFORMATION_POSITION_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_POSITION_DESC"
-			class="inputbox"
-			size="30"
-		/>
-
-		<field name="email_to" type="email"
-			label="JGLOBAL_EMAIL"
-			description="COM_CONTACT_FIELD_INFORMATION_EMAIL_DESC"
-			class="inputbox"
-			size="30"
-		/>
-
-		<field name="address" type="textarea"
-			label="COM_CONTACT_FIELD_INFORMATION_ADDRESS_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_ADDRESS_DESC"
-			class="inputbox"
-			rows="3"
-			cols="30"
-		/>
-
-		<field name="suburb" type="text"
-			label="COM_CONTACT_FIELD_INFORMATION_SUBURB_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_SUBURB_DESC"
-			class="inputbox"
-			size="30"
-		/>
-
-		<field name="state" type="text"
-			label="COM_CONTACT_FIELD_INFORMATION_STATE_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_STATE_DESC"
-			class="inputbox"
-			size="30"
-		/>
-
-		<field name="postcode" type="text"
-			label="COM_CONTACT_FIELD_INFORMATION_POSTCODE_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_POSTCODE_DESC"
-			class="inputbox"
-			size="30"
-		/>
-
-		<field name="country" type="text"
-			label="COM_CONTACT_FIELD_INFORMATION_COUNTRY_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_COUNTRY_DESC"
-			class="inputbox"
-			size="30"
-		/>
-
-		<field name="telephone" type="text"
-			label="COM_CONTACT_FIELD_INFORMATION_TELEPHONE_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_TELEPHONE_DESC"
-			class="inputbox"
-			size="30"
-		/>
-
-		<field name="mobile" type="text"
-			label="COM_CONTACT_FIELD_INFORMATION_MOBILE_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_MOBILE_DESC"
-			class="inputbox"
-			size="30"
-		/>
-
-		<field name="fax" type="text"
-			label="COM_CONTACT_FIELD_INFORMATION_FAX_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_FAX_DESC"
-			class="inputbox"
-			size="30"
-		/>
-
-		<field name="webpage"
-			type="url"
-			filter="url"
-			label="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_DESC"
-			class="inputbox"
-			size="30"
 		/>
 
 		<field name="misc" type="editor"
@@ -178,12 +88,6 @@
 			buttons="true"
 			hide="readmore,pagebreak"
 			 />
-		<field name="image"
-			type="media"
-			hide_none="1"
-			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
-			/>
 
 		<field name="created_by" type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL" description="COM_CONTACT_FIELD_CREATED_BY_DESC" />
@@ -206,8 +110,6 @@
 		readonly="true"
 		filter="unset"/>
 
-
-
 		<field name="checked_out"
 			type="hidden"
 			filter="unset"
@@ -223,6 +125,7 @@
 			class="inputbox"
 			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC"
+            content_type="com_contact.contact"
 		/>
 
 		<field name="publish_up" type="calendar"
@@ -256,27 +159,27 @@
 		/>
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_CONTACT_FIELD_LANGUAGE_DESC" class="inputbox span12 small"
+			description="COM_CONTACT_FIELD_LANGUAGE_DESC" class="inputbox"
 		>
 			<option value="*">JALL</option>
 		</field>
 
 		<field name="featured"
-			type="list"
+			type="radio"
+			class="btn-group btn-group-yesno"
 			label="JFEATURED"
 			description="COM_CONTACT_FIELD_FEATURED_DESC"
 			default="0"
-			class="span12 small"
 		>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
-		<field name="tags" 
+		<field name="tags"
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="inputbox span12 small"
+			class="inputbox span12"
 			multiple="true"
 		>
 		</field>
@@ -332,11 +235,124 @@
 			description="COM_CONTACT_FIELD_ICONS_MISC_DESC"
 		/>
 	</fieldset>
+	<fieldset name="details" label="COM_CONTACT_CONTACT_DETAILS">
 
-	<fields name="params">
-		<fieldset name="jbasic"
-			label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS"
-			>
+		<field name="@text_details"
+			type="note"
+			label=""
+			description="COM_CONTACT_EDIT_DETAILS" />
+
+		<field name="image"
+			type="media"
+			hide_none="1"
+			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
+			description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
+			/>
+
+		<field name="con_position" type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_POSITION_LABEL"
+			description="COM_CONTACT_FIELD_INFORMATION_POSITION_DESC"
+			class="inputbox"
+			size="30"
+		/>
+
+		<field name="email_to" type="email"
+			label="JGLOBAL_EMAIL"
+			description="COM_CONTACT_FIELD_INFORMATION_EMAIL_DESC"
+			class="inputbox"
+			size="30"
+		/>
+
+		<field name="address" type="textarea"
+			label="COM_CONTACT_FIELD_INFORMATION_ADDRESS_LABEL"
+			description="COM_CONTACT_FIELD_INFORMATION_ADDRESS_DESC"
+			class="inputbox"
+			rows="3"
+			cols="30"
+		/>
+
+		<field name="suburb" type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_SUBURB_LABEL"
+			description="COM_CONTACT_FIELD_INFORMATION_SUBURB_DESC"
+			class="inputbox"
+			size="30"
+		/>
+
+		<field name="state" type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_STATE_LABEL"
+			description="COM_CONTACT_FIELD_INFORMATION_STATE_DESC"
+			class="inputbox"
+			size="30"
+		/>
+
+		<field name="postcode" type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_POSTCODE_LABEL"
+			description="COM_CONTACT_FIELD_INFORMATION_POSTCODE_DESC"
+			class="inputbox"
+			size="30"
+		/>
+
+		<field name="country" type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_COUNTRY_LABEL"
+			description="COM_CONTACT_FIELD_INFORMATION_COUNTRY_DESC"
+			class="inputbox"
+			size="30"
+		/>
+
+		<field name="telephone" type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_TELEPHONE_LABEL"
+			description="COM_CONTACT_FIELD_INFORMATION_TELEPHONE_DESC"
+
+			class="inputbox"
+			size="30"
+		/>
+
+		<field name="mobile" type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_MOBILE_LABEL"
+			description="COM_CONTACT_FIELD_INFORMATION_MOBILE_DESC"
+			class="inputbox"
+			size="30"
+		/>
+
+		<field name="fax" type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_FAX_LABEL"
+			description="COM_CONTACT_FIELD_INFORMATION_FAX_DESC"
+			class="inputbox"
+			size="30"
+		/>
+
+		<field name="webpage"
+			type="url"
+			filter="url"
+			label="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_LABEL"
+			description="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_DESC"
+			class="inputbox"
+			size="30"
+		/>
+
+		<field name="sortname1" type="text"
+			label="COM_CONTACT_FIELD_SORTNAME1_LABEL"
+			description="COM_CONTACT_FIELD_SORTNAME1_DESC"
+			class="inputbox"
+			size="30"
+		/>
+
+		<field name="sortname2" type="text"
+			label="COM_CONTACT_FIELD_SORTNAME2_LABEL"
+			description="COM_CONTACT_FIELD_SORTNAME2_DESC"
+			class="inputbox" size="30" />
+
+		<field name="sortname3" type="text"
+			label="COM_CONTACT_FIELD_SORTNAME3_LABEL"
+			description="COM_CONTACT_FIELD_SORTNAME3_DESC"
+			class="inputbox"
+			size="30"
+		/>
+	</fieldset>
+
+	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+		<fieldset name="display" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+
 			<field name="show_contact_category"
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
@@ -351,8 +367,8 @@
 			</field>
 
 			<field name="show_contact_list"
-			type="radio"
-			class="btn-group"
+				type="list"
+				class="chzn-color"
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
 			description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
 		>
@@ -372,6 +388,7 @@
 			</field>
 
 			<field name="show_tags" type="list"
+				class="chzn-color"
 				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
 				description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
 			>
@@ -382,6 +399,7 @@
 
 			<field name="show_name"
 				type="list"
+				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL" description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -390,6 +408,7 @@
 			</field>
 
 			<field name="show_position" type="list"
+				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_DESC"
 			>
@@ -399,6 +418,7 @@
 			</field>
 
 			<field name="show_email" type="list"
+				class="chzn-color"
 				label="JGLOBAL_EMAIL"
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
 			>
@@ -408,6 +428,7 @@
 			</field>
 
 			<field name="show_street_address" type="list"
+				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_DESC"
 			>
@@ -417,6 +438,7 @@
 			</field>
 
 			<field name="show_suburb" type="list"
+				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
 			>
@@ -426,6 +448,7 @@
 			</field>
 
 			<field name="show_state" type="list"
+				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_DESC"
 			>
@@ -435,6 +458,7 @@
 			</field>
 
 			<field name="show_postcode" type="list"
+				class="chzn-color"
 
 				label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_DESC"
@@ -446,6 +470,7 @@
 
 			<field name="show_country"
 				type="list"
+				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_COUNTRY_DESC"
 			>
@@ -456,6 +481,7 @@
 
 			<field name="show_telephone"
 				type="list"
+				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_TELEPHONE_DESC"
 			>
@@ -466,6 +492,7 @@
 
 			<field name="show_mobile"
 				type="list"
+				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_MOBILE_DESC"
 			>
@@ -475,6 +502,7 @@
 			</field>
 
 			<field name="show_fax" type="list"
+				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
 			>
@@ -484,6 +512,7 @@
 			</field>
 
 			<field name="show_webpage" type="list"
+				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_WEBPAGE_DESC"
 			>
@@ -493,6 +522,7 @@
 			</field>
 
 			<field name="show_misc" type="list"
+				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
 			>
@@ -502,6 +532,7 @@
 			</field>
 
 			<field name="show_image" type="list"
+				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_DESC"
 			>
@@ -511,6 +542,7 @@
 			</field>
 
 			<field name="allow_vcard" type="list"
+				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_VCARD_DESC"
 			>
@@ -521,12 +553,14 @@
 
 			<field name="show_articles" label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
 				description="COM_CONTACT_FIELD_ARTICLES_SHOW_DESC" type="list"
+				class="chzn-color"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 			<field name="show_profile" type="list"
+				class="chzn-color"
 
 				label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL"
 				description="COM_CONTACT_FIELD_PROFILE_SHOW_DESC"
@@ -540,6 +574,7 @@
 			label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
 			description="COM_CONTACT_FIELD_SHOW_LINKS_DESC"
 			type="list"
+			class="chzn-color"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -633,10 +668,11 @@
 		</fieldset>
 
 		<fieldset name="email"
-			label="COM_CONTACT_FIELDSET_CONTACT_FORM"
+			label="COM_CONTACT_FIELDSET_CONTACT_LABEL"
 		>
 
 			<field name="show_email_form" type="list"
+				class="chzn-color"
 
 				label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
 				description="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_DESC"
@@ -647,6 +683,7 @@
 			</field>
 
 			<field name="show_email_copy" type="list"
+				class="chzn-color"
 
 				label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
 				description="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_DESC"
@@ -673,6 +710,7 @@
 				cols="30" description="COM_CONTACT_FIELD_EMAIL_BANNED_TEXT_DESC" />
 
 			<field name="validate_session" type="list"
+				class="chzn-color"
 
 				label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
 				description="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_DESC"
@@ -683,6 +721,7 @@
 			</field>
 
 			<field name="custom_reply" type="list"
+				class="chzn-color"
 
 				label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
 				description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
@@ -699,10 +738,10 @@
 			description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC" />
 		</fieldset>
 	</fields>
-	<fields name="metadata">
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
 			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-	
+
 			<field name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
@@ -714,7 +753,7 @@
 				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
 				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 			</field>
-	
+
 			<field name="rights" type="text"
 				label="JFIELD_METADATA_RIGHTS_LABEL"
 				description="JFIELD_METADATA_RIGHTS_DESC"
@@ -722,15 +761,17 @@
 
 		</fieldset>
 	</fields>
-		<field name="hits"
-			type="text"
-			class="readonly"
-			size="6" label="JGLOBAL_HITS"
-			description="COM_CONTACT_HITS_DESC"
-			readonly="true"
-			filter="unset" />
-		<field name="version" type="text" class="readonly"
-			label="COM_CONTACT_FIELD_VERSION_LABEL" size="6" description="COM_CONTACT_FIELD_VERSION_DESC"
-			readonly="true" filter="unset" />
+
+	<field name="hits"
+		type="text"
+		class="readonly"
+		size="6" label="JGLOBAL_HITS"
+		description="COM_CONTACT_HITS_DESC"
+		readonly="true"
+		filter="unset" />
+
+	<field name="version" type="text" class="readonly"
+		label="COM_CONTACT_FIELD_VERSION_LABEL" size="6" description="COM_CONTACT_FIELD_VERSION_DESC"
+		readonly="true" filter="unset" />
 
 </form>

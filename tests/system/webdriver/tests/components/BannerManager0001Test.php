@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -62,8 +62,13 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$this->bannerManagerPage->clickButton('toolbar-new');
 		$bannerEditPage = $this->getPageObject('BannerEditPage');
-		$testElements = $bannerEditPage->getAllInputFields(array('details', 'publishing', 'otherparams', 'metadata'));
-		$actualFields = $actualFields = $this->getActualFieldsFromElements($testElements);
+
+		// Option to print actual element array
+		/* @var $bannerEditPage BannerEditPage */
+// 	 	$bannerEditPage->printFieldArray($bannerEditPage->getAllInputFields($bannerEditPage->tabs));
+
+		$testElements = $bannerEditPage->getAllInputFields($bannerEditPage->tabs);
+		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($bannerEditPage->inputFields, $actualFields);
 		$bannerEditPage->clickButton('toolbar-cancel');
 		$this->bannerManagerPage = $this->getPageObject('BannerManagerPage');
@@ -105,7 +110,7 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 		$message = $this->bannerManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Banner successfully saved') >= 0, 'Banner save should return success');
 		$this->assertEquals(1, $this->bannerManagerPage->getRowNumber($bannerName), 'Test Banner should be in row 1');
-		$this->bannerManagerPage->deleteItem($bannerName);
+		$this->bannerManagerPage->trashAndDelete($bannerName);
 		$this->assertFalse($this->bannerManagerPage->getRowNumber($bannerName), 'Test Banner should not be present');
 	}
 
@@ -116,9 +121,9 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$salt = rand();
 		$bannerName = 'Banner' . $salt;
-		$client='Joomla!';
-		$TrackClicks='Yes';
-		$width='35';
+		$client = 'Joomla!';
+		$TrackClicks = 'Yes';
+		$width = '35';
 
 		$this->assertFalse($this->bannerManagerPage->getRowNumber($bannerName), 'Test banner should not be present');
 		$this->bannerManagerPage->addBanner($bannerName, array('Client' => $client, 'Track Clicks' => $TrackClicks, 'Width' => $width));
@@ -126,8 +131,8 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertTrue(strpos($message, 'Banner successfully saved') >= 0, 'Banner save should return success');
 		$this->assertEquals(1, $this->bannerManagerPage->getRowNumber($bannerName), 'Test banner should be in row 1');
 		$values = $this->bannerManagerPage->getFieldValues('BannerEditPage', $bannerName, array('Name', 'Client', 'Track Clicks', 'Width'));
-		$this->assertEquals(array($bannerName,$client,$TrackClicks,$width), $values, 'Actual name, client, track clicks and width should match expected');
-		$this->bannerManagerPage->deleteItem($bannerName);
+		$this->assertEquals(array($bannerName, $client, $TrackClicks, $width), $values, 'Actual name, client, track clicks and width should match expected');
+		$this->bannerManagerPage->trashAndDelete($bannerName);
 		$this->assertFalse($this->bannerManagerPage->getRowNumber($bannerName), 'Test banner should not be present');
 	}
 
@@ -138,15 +143,15 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$salt = rand();
 		$bannerName = 'Banner' . $salt;
-		$client='Joomla!';
-		$TrackClicks='Yes';
-		$width='35';
+		$client = 'Joomla!';
+		$TrackClicks = 'Yes';
+		$width = '35';
 		$this->assertFalse($this->bannerManagerPage->getRowNumber($bannerName), 'Test banner should not be present');
 		$this->bannerManagerPage->addBanner($bannerName, false);
 		$this->bannerManagerPage->editBanner($bannerName, array('Client' => $client, 'Track Clicks' => $TrackClicks, 'Width' => $width));
 		$values = $this->bannerManagerPage->getFieldValues('BannerEditPage', $bannerName, array('Name', 'Client', 'Track Clicks', 'Width'));
-		$this->assertEquals(array($bannerName,$client,$TrackClicks,$width), $values, 'Actual name, client, track clicks and width should match expected');
-		$this->bannerManagerPage->deleteItem($bannerName);
+		$this->assertEquals(array($bannerName, $client, $TrackClicks, $width), $values, 'Actual name, client, track clicks and width should match expected');
+		$this->bannerManagerPage->trashAndDelete($bannerName);
 	}
 
 	/**
@@ -162,6 +167,6 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 		$this->bannerManagerPage->changeBannerState($bannerName, 'unpublished');
 		$state = $this->bannerManagerPage->getState($bannerName);
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
-		$this->bannerManagerPage->deleteItem($bannerName);
+		$this->bannerManagerPage->trashAndDelete($bannerName);
 	}
 }

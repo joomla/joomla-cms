@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -45,15 +51,6 @@ class GroupManagerPage extends AdminManagerPage
 		$editGroupPage->setFieldValues(array('Group Title' => $name, 'Group Parent' => $parent));
 		$editGroupPage->clickButton('toolbar-save');
 		$this->groupManagerPage = $this->test->getPageObject('GroupManagerPage');
-	}
-
-	public function deleteGroup($name)
-	{
-		$this->searchFor($name);
-		$this->driver->findElement(By::name("checkall-toggle"))->click();
-		$this->clickButton('toolbar-delete');
-		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
-		$this->searchFor();
 	}
 
 	public function editGroup($name, $fields)

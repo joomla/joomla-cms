@@ -6,16 +6,19 @@
 			description="JGLOBAL_FIELD_ID_DESC" />
 
 		<field name="name" type="text" label="JGLOBAL_TITLE"
-			description="JFIELD_TITLE_DESC" class="inputbox" size="30"
+			description="JFIELD_TITLE_DESC"
+			class="inputbox input-xxlarge input-large-text"
+			size="40"
 			required="true" />
 
 		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC" class="inputbox"
+			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER" class="inputbox"
 			size="45" />
 
 		<field name="published" type="list"
 			label="JSTATUS" description="JFIELD_PUBLISHED_DESC"
-			class="inputbox span12 small" size="1" default="1"
+			class="chzn-color-state" size="1" default="1"
 		>
 			<option value="1">
 				JPUBLISHED</option>
@@ -34,26 +37,35 @@
 		</field>
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox span12 small"
+			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox"
 		>
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="tags" 
+		<field name="tags"
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="inputbox span12 small"
+			class="inputbox span12"
 			multiple="true"
 		>
 		</field>
+
+		<field name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="inputbox span12" size="45"
+			labelclass="control-label"
+		/>
 
 		<field name="description" type="editor" buttons="true" hide="pagebreak,readmore"
 			class="inputbox"
 			filter="JComponentHelper::filterText"
 			label="JGLOBAL_DESCRIPTION" description="COM_NEWSFEEDS_FIELD_DESCRIPTION_DESC" />
 
-		<field name="link" type="url" filter="url" class="inputbox"
+		<field name="link" type="url" filter="url"
+			class="inputbox span12"
 			size="60" label="COM_NEWSFEEDS_FIELD_LINK_LABEL"
 			description="COM_NEWSFEEDS_FIELD_LINK_DESC" required="true" />
 
@@ -67,20 +79,8 @@
 			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
 			required="true" />
 
-		<field name="ordering" type="ordering" class="inputbox"
+		<field name="ordering" type="ordering" class="inputbox" content_type="com_newsfeeds.newsfeed"
 			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
-
-		<field name="rtl" type="list" class="inputbox"
-			default="0" label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
-			description="COM_NEWSFEEDS_FIELD_RTL_DESC"
-		>
-			<option value="0">COM_NEWSFEEDS_FIELD_VALUE_SITE
-			</option>
-			<option value="1">COM_NEWSFEEDS_FIELD_VALUE_LTR
-			</option>
-			<option value="2">COM_NEWSFEEDS_FIELD_VALUE_RTL
-			</option>
-		</field>
 
 		<field name="created" type="calendar"
 			label="JGLOBAL_FIELD_CREATED_LABEL" description="JGLOBAL_FIELD_CREATED_DESC"
@@ -126,7 +126,7 @@
 			filter="user_utc" />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC" class="inputbox span12 small" size="1" />
+			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
 
 		<field name="metakey" type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
@@ -139,9 +139,8 @@
 		<field name="xreference" type="text"
 			label="JFIELD_XREFERENCE_LABEL" description="JFIELD_XREFERENCE_DESC"
 			class="inputbox" size="20" />
-
-	</fieldset>
 	<fields name="images">
+		<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
 			<field
 				name="image_first"
 				type="media"
@@ -201,11 +200,33 @@
 				description="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_DESC"
 				class="inputbox"
 				size="20" />
+		</fieldset>
 	</fields>
+	</fieldset>
 
-	<fields name="params">
-		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+	<fieldset name="jbasic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+		<field name="numarticles" type="Text" class="inputbox"
+			default="5" size="2" label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
+			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_DESC"
+			required="true" />
 
+		<field name="cache_time" type="Text" class="inputbox"
+			default="3600" size="4" label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
+			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
+			required="true" />
+
+		<field name="rtl" type="list" class="inputbox"
+			default="0" label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
+			description="COM_NEWSFEEDS_FIELD_RTL_DESC"
+		>
+			<option value="0">COM_NEWSFEEDS_FIELD_VALUE_SITE
+			</option>
+			<option value="1">COM_NEWSFEEDS_FIELD_VALUE_LTR
+			</option>
+			<option value="2">COM_NEWSFEEDS_FIELD_VALUE_RTL
+			</option>
+		</field>
+		<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 			<field name="show_feed_image" type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
@@ -254,11 +275,13 @@
 				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="asc">JGLOBAL_OLDEST_FIRST</option>
 			</field>
+		</fields>
+	</fieldset>
 
-		</fieldset>
+	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 	</fields>
 
-	<fields name="metadata">
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 			<field name="robots"

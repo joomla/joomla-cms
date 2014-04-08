@@ -17,6 +17,9 @@
  * limitations under the License.
  * ========================================================== */
 
+ /**
+  * Custom version for Joomla!
+  */
 
 !function ($) {
 
@@ -542,12 +545,12 @@
       if (this.transitioning || !this.$element.hasClass('in')) return
       dimension = this.dimension()
       this.reset(this.$element[dimension]())
-	  /* >>> JUI >>> */
+	  // JOOMLA JUI >>>
 	  /* ORIGINAL:
       this.transition('removeClass', $.Event('hide'), 'hidden')
       */
       this.transition('removeClass', $.Event('hideme'), 'hidden')
-      /* <<< JUI <<< */
+      // < Joomla JUI
 
       this.$element[dimension](0)
     }
@@ -669,7 +672,13 @@
   var toggle = '[data-toggle=dropdown]'
     , Dropdown = function (element) {
         var $el = $(element).on('click.dropdown.data-api', this.toggle)
+        // JOOMLA JUI >>>
+          .on('mouseover.dropdown.data-api', this.toggle)
+        // < Joomla JUI
         $('html').on('click.dropdown.data-api', function () {
+          // JOOMLA JUI >>>
+          $el.parent().parent().removeClass('nav-hover')
+          // < Joomla JUI
           $el.parent().removeClass('open')
         })
       }
@@ -679,7 +688,7 @@
     constructor: Dropdown
 
   , toggle: function (e) {
-      /* >>> JUI >>> */
+      // JOOMLA JUI >>>
       /* ORIGINAL
       var $this = $(this)
         , $parent
@@ -689,29 +698,40 @@
         , $parent
         , isActive
         , url
-
-      url = $this.attr('href')
-      if ((url) && (url !== '#')) {
-         window.location = url
-         return
-      }
-      /* <<< JUI <<< */
+        , isHover
+      // < Joomla JUI
 
       if ($this.is('.disabled, :disabled')) return
 
       $parent = getParent($this)
 
       isActive = $parent.hasClass('open')
+      // JOOMLA JUI >>>
+      isHover = $parent.parent().hasClass('nav-hover')
+      if(!isHover && e.type == 'mouseover') return
+      // < Joomla JUI
+
+      url = $this.attr('href')
+      if (e.type == 'click' && (url) && (url !== '#')) {
+         window.location = url
+         return
+      }
 
       clearMenus()
 
-      if (!isActive) {
+      // JOOMLA JUI >>>
+      if ((!isActive && e.type != 'mouseover') || (isHover && e.type == 'mouseover')) {
         if ('ontouchstart' in document.documentElement) {
           // if mobile we we use a backdrop because click events don't delegate
           $('<div class="dropdown-backdrop"/>').insertBefore($(this)).on('click', clearMenus)
+          $this.on('hover', function () {
+            $('.dropdown-backdrop').remove()
+          });
         }
+        $parent.parent().toggleClass('nav-hover');
         $parent.toggleClass('open')
       }
+      // < Joomla JUI
 
       $this.focus()
 
@@ -762,6 +782,9 @@
   }
 
   function clearMenus() {
+    // JOOMLA JUI >>>
+    $(toggle).parent().parent().removeClass('nav-hover')
+    // < Joomla JUI
     $('.dropdown-backdrop').remove()
     $(toggle).each(function () {
       getParent($(this)).removeClass('open')
@@ -819,7 +842,9 @@
     .on('click.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
     .on('click.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
     .on('keydown.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
-
+    // JOOMLA JUI >>>
+    .on('mouseover.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+    // < Joomla JUI
 }(window.jQuery);
 /* =========================================================
  * bootstrap-modal.js v2.3.2
@@ -1291,7 +1316,7 @@
     }
 
   , hide: function () {
-	  /* >>> JUI >>> */
+	  // JOOMLA JUI >>>
 	  /* ORIGINAL:
       var that = this
         , $tip = this.tip()
@@ -1300,7 +1325,7 @@
       var that = this
         , $tip = this.tip()
         , e = $.Event('hideme')
-      /* <<< JUI <<< */
+      // < Joomla JUI
 
       this.$element.trigger(e)
       if (e.isDefaultPrevented()) return
@@ -1422,12 +1447,12 @@
   , trigger: 'hover focus'
   , title: ''
   , delay: 0
-  /* >>> JUI >>> */
+  // JOOMLA JUI >>>
   /* ORIGINAL:
   , html: false
   */
   , html: true
-  /* <<< JUI <<< */
+  // < Joomla JUI
   , container: false
   }
 

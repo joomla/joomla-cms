@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,21 +32,24 @@ class JToolbarButtonSeparator extends JToolbarButton
 	 *
 	 * @return  string  The HTML for the separator
 	 *
-	 * @see     JButton::render()
+	 * @see     JToolbarButton::render()
 	 * @since   3.0
 	 */
 	public function render(&$definition)
 	{
-		$class = null;
-		$style = null;
+		// Store all data to the options array for use with JLayout
+		$options = array();
 
 		// Separator class name
-		$class = (empty($definition[1])) ? 'btn-group' : 'btn-group ' . $definition[1];
+		$options['class'] = (empty($definition[1])) ? '' : $definition[1];
 
 		// Custom width
-		$style = (empty($definition[2])) ? null : ' style="width:' . (int) $definition[2] . 'px;"';
+		$options['style'] = (empty($definition[2])) ? '' : ' style="width:' . (int) $definition[2] . 'px;"';
 
-		return '<div class="' . $class . '"' . $style . '></div>';
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('joomla.toolbar.separator');
+
+		return $layout->render($options);
 	}
 
 	/**

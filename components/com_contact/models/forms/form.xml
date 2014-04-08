@@ -19,6 +19,7 @@
 		<field name="alias" type="text"
 			description="JFIELD_ALIAS_DESC"
 			label="JFIELD_ALIAS_LABEL"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="30"
 		/>
 
@@ -158,6 +159,7 @@
 		<field name="ordering" type="ordering"
 			description="JFIELD_ORDERING_DESC"
 			label="JFIELD_ORDERING_LABEL"
+            content_type="com_contact.contact"
 		/>
 
 		<field name="metakey" type="textarea"
