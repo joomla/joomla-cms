@@ -31,6 +31,7 @@ class PlgContentContact extends JPlugin
 	public function onContentPrepare($context, &$row, $params, $page = 0)
 	{
 		$allowed_contexts = array('com_content.category', 'com_content.article', 'com_content.featured');
+
 		if (!in_array($context, $allowed_contexts))
 		{
 			return true;
@@ -69,14 +70,15 @@ class PlgContentContact extends JPlugin
 	/**
 	 * Retrieve Contact
 	 *
-	 * @param   int    $created_by
+	 * @param   int  $created_by  Id of the user who created the contact
 	 *
 	 * @return  mixed|null|integer
 	 */
 	protected function getContactID($created_by)
 	{
 		static $contacts = array();
-		if(isset($contacts[$created_by]))
+
+		if (isset($contacts[$created_by]))
 		{
 			return $contacts[$created_by];
 		}

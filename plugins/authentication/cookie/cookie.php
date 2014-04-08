@@ -59,8 +59,8 @@ class PlgAuthenticationCookie extends JPlugin
 
 		// Get cookie
 		$cookieName		= JUserHelper::getShortHashedUserAgent();
-
 		$cookieValue	= $this->app->input->cookie->get($cookieName);
+
 		if (!$cookieValue)
 		{
 			return;
@@ -95,7 +95,6 @@ class PlgAuthenticationCookie extends JPlugin
 			->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series))
 			->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
 			->order($this->db->quoteName('time') . ' DESC');
-
 		$results = $this->db->setQuery($query)->loadObjectList();
 
 		if (count($results) !== 1)
@@ -111,6 +110,7 @@ class PlgAuthenticationCookie extends JPlugin
 		else
 		{
 			$token	= JUserHelper::hashPassword($cookieArray[0]);
+
 			if (!JUserHelper::verifyPassword($cookieArray[0], $results[0]->token))
 			{
 				// This is a real attack! Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
@@ -124,10 +124,8 @@ class PlgAuthenticationCookie extends JPlugin
 				$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
 
 				// Issue warning by email to user and/or admin?
-
 				JLog::add(JText::sprintf('PLG_AUTH_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), JLog::WARNING, 'security');
-
-				$response->status  = JAuthentication::STATUS_FAILURE;
+				$response->status = JAuthentication::STATUS_FAILURE;
 
 				return false;
 			}
@@ -138,7 +136,6 @@ class PlgAuthenticationCookie extends JPlugin
 			->select($this->db->quoteName(array('id', 'username', 'password')))
 			->from($this->db->quoteName('#__users'))
 			->where($this->db->quoteName('username') . ' = ' . $this->db->quote($results[0]->user_id));
-
 		$result = $this->db->setQuery($query)->loadObject();
 
 		if ($result)
@@ -147,11 +144,11 @@ class PlgAuthenticationCookie extends JPlugin
 			$user = JUser::getInstance($result->id);
 
 			// Set response data.
-			$response->username = $result->username;
-			$response->email    = $user->email;
-			$response->fullname = $user->name;
-			$response->password = $result->password;
-			$response->language = $user->getParam('language');
+			$response->username		 = $result->username;
+			$response->email		 = $user->email;
+			$response->fullname		 = $user->name;
+			$response->password		 = $result->password;
+			$response->language		 = $user->getParam('language');
 
 			// Set response status.
 			$response->status        = JAuthentication::STATUS_SUCCESS;
@@ -169,7 +166,7 @@ class PlgAuthenticationCookie extends JPlugin
 	 * We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *
-	 * @param   array  options  Array holding options
+	 * @param   array  $options  Array holding options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -191,6 +188,7 @@ class PlgAuthenticationCookie extends JPlugin
 			// We need the old data to get the existing series
 			$cookieValue	= $this->app->input->cookie->get($cookieName);
 			$cookieArray	= explode('.', $cookieValue);
+
 			// Filter series since we're going to use it in the query
 			$filter			= new JFilterInput;
 			$series			= $filter->clean($cookieArray[1], 'ALNUM');
@@ -202,15 +200,14 @@ class PlgAuthenticationCookie extends JPlugin
 
 			// Create an unique series which will be used over the lifespan of the cookie
 			$unique = false;
+
 			do
 			{
 				$series = JUserHelper::genRandomPassword(20);
-
 				$query = $this->db->getQuery(true)
 					->select($this->db->quoteName('series'))
 					->from($this->db->quoteName('#__user_keys'))
 					->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series));
-
 				$results = $this->db->setQuery($query)->loadResult();
 
 				if (is_null($results))
@@ -218,6 +215,7 @@ class PlgAuthenticationCookie extends JPlugin
 					$unique = true;
 				}
 			}
+
 			while ($unique === false);
 		}
 		else
@@ -226,18 +224,17 @@ class PlgAuthenticationCookie extends JPlugin
 		}
 
 		// Get the parameter values
-		$lifetime	= $this->params->get('cookie_lifetime', '60') * 24 * 60 * 60;
-		$length		= $this->params->get('key_length', '16');
+		$lifetime		= $this->params->get('cookie_lifetime', '60') * 24 * 60 * 60;
+		$length		    = $this->params->get('key_length', '16');
 
 		// Generate new cookie
-		$token		= JUserHelper::genRandomPassword($length);
-		$cookieValue = $token . '.' . $series;
+		$token		    = JUserHelper::genRandomPassword($length);
+		$cookieValue    = $token . '.' . $series;
 
 		// Overwrite existing cookie with new value
 		$this->app->input->cookie->set(
 			$cookieName, $cookieValue, time() + $lifetime, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'), $this->app->isSSLConnection()
 		);
-
 		$query = $this->db->getQuery(true);
 
 		if (!empty($options['remember']))
@@ -263,7 +260,6 @@ class PlgAuthenticationCookie extends JPlugin
 		$hashed_token	= JUserHelper::hashPassword($token);
 		$query
 			->set($this->db->quoteName('token') . ' = ' . $this->db->quote($hashed_token));
-
 		$this->db->setQuery($query)->execute();
 
 		return true;
@@ -288,6 +284,7 @@ class PlgAuthenticationCookie extends JPlugin
 
 		$cookieName		= JUserHelper::getShortHashedUserAgent();
 		$cookieValue	= $this->app->input->cookie->get($cookieName);
+
 		// There are no cookies to delete.
 		if (!$cookieValue)
 		{
@@ -297,15 +294,14 @@ class PlgAuthenticationCookie extends JPlugin
 		$cookieArray	= explode('.', $cookieValue);
 
 		// Filter series since we're going to use it in the query
-		$filter	= new JFilterInput;
-		$series	= $filter->clean($cookieArray[1], 'ALNUM');
+		$filter	        = new JFilterInput;
+		$series	        = $filter->clean($cookieArray[1], 'ALNUM');
 
 		// Remove the record from the database
 		$query = $this->db->getQuery(true);
 		$query
 			->delete('#__user_keys')
 			->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series));
-
 		$this->db->setQuery($query)->execute();
 
 		// Destroy the cookie

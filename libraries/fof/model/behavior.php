@@ -2,11 +2,11 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework model behavior class. It defines the events which are
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @package  FrameworkOnFramework
  * @since    2.1
  */
-abstract class FOFModelBehavior extends JEvent
+abstract class FOFModelBehavior extends FOFUtilsObservableEvent
 {
 	/**
 	 * This event runs before saving data in the model
@@ -101,7 +101,7 @@ abstract class FOFModelBehavior extends JEvent
 	 * list in a model
 	 *
 	 * @param   FOFModel        &$model  The model which calls this event
-	 * @param   JDatabaseQuery  &$query  The model which calls this event
+	 * @param   JDatabaseQuery  &$query  The query being built
 	 *
 	 * @return  void
 	 */
@@ -191,7 +191,7 @@ abstract class FOFModelBehavior extends JEvent
 	 * list in a model
 	 *
 	 * @param   FOFModel        &$model  The model which calls this event
-	 * @param   JDatabaseQuery  &$query  The model which calls this event
+	 * @param   JDatabaseQuery  &$query  The query being built
 	 *
 	 * @return  void
 	 */

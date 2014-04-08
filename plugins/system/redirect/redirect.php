@@ -88,9 +88,9 @@ class PlgSystemRedirect extends JPlugin
 					->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
 				$db->setQuery($query);
 				$res = $db->loadResult();
+
 				if (!$res)
 				{
-
 					// If not, add the new url to the database.
 					$columns = array(
 						$db->quoteName('old_url'),

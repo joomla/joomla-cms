@@ -31,7 +31,7 @@ class PlgSystemRemember extends JPlugin
 	 * Remember me method to run onAfterInitialise
 	 * Only purpose is to initialise the login authentication process if a cookie is present
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   1.5
 	 * @throws  InvalidArgumentException
@@ -41,7 +41,7 @@ class PlgSystemRemember extends JPlugin
 		// No remember me for admin.
 		if ($this->app->isAdmin())
 		{
-			return false;
+			return;
 		}
 
 		// Check for a cookie if user is not logged in
@@ -52,19 +52,25 @@ class PlgSystemRemember extends JPlugin
 			// Check for the cookie
 			if ($this->app->input->cookie->get($cookieName))
 			{
-				return $this->app->login(array('username' => ''), array('silent' => true));
+				$this->app->login(array('username' => ''), array('silent' => true));
 			}
 		}
-
-		return false;
 	}
 
-	public function onUserLogout($options)
+	/**
+	 * Imports the authentication plugin on user logout to make sure that the cookie is destroyed.
+	 *
+	 * @param   array  $user     Holds the user data.
+	 * @param   array  $options  Array holding options (remember, autoregister, group).
+	 *
+	 * @return  boolean
+	 */
+	public function onUserLogout($user, $options)
 	{
 		// No remember me for admin
 		if ($this->app->isAdmin())
 		{
-			return false;
+			return true;
 		}
 
 		$cookieName = JUserHelper::getShortHashedUserAgent();
@@ -75,5 +81,7 @@ class PlgSystemRemember extends JPlugin
 			// Make sure authentication group is loaded to process onUserAfterLogout event
 			JPluginHelper::importPlugin('authentication');
 		}
+
+		return true;
 	}
 }
