@@ -49,7 +49,7 @@ Class PlgContentAvatar extends JPlugin
      *
      * @var   string
      * @since 3.2
-      */
+     */
         protected $profile = 'http://www.gravatar.com/';
         
     /**
