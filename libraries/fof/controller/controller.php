@@ -2,12 +2,12 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage controller
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework controller class. FOF is based on the thin controller
@@ -17,10 +17,10 @@ defined('_JEXEC') or die;
  * @package  FrameworkOnFramework
  * @since    1.0
  */
-class FOFController extends JObject
+class FOFController extends FOFUtilsObject
 {
 	/**
-	 * @var int Bit mask to enable JRoute'ing on redirects.
+	 * @var int Bit mask to enable Routing on redirects.
 	 * 0 = never
 	 * 1 = frontend only
 	 * 2 = backend  only
@@ -317,10 +317,9 @@ class FOFController extends JObject
 			'default'
 		);
 
-		JLoader::import('joomla.filesystem.path');
-
 		// Get the path names for the component
 		$componentPaths = FOFPlatform::getInstance()->getComponentBaseDirs($config['option']);
+        $filesystem     = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
 
 		// Look for the best classname match
 		foreach ($classSuffixes as $suffix)
@@ -368,14 +367,14 @@ class FOFController extends JObject
 
 			if (!empty($format))
 			{
-				$path = JPath::find(
+				$path = $filesystem->pathFind(
 					$searchPaths, strtolower($suffix) . '.' . strtolower($format) . '.php'
 				);
 			}
 
 			if (!$path)
 			{
-				$path = JPath::find(
+				$path = $filesystem->pathFind(
 						$searchPaths, strtolower($suffix) . '.php'
 				);
 			}
@@ -551,7 +550,8 @@ class FOFController extends JObject
 
 		if (!is_null($altBasePath))
 		{
-			$basePath = JPATH_SITE . '/' . $altBasePath;
+            $platformDirs = FOFPlatform::getInstance()->getPlatformBaseDirs();
+			$basePath     = $platformDirs['public'] . '/' . $altBasePath;
 		}
 
 		$this->basePath = $basePath;
@@ -790,6 +790,8 @@ class FOFController extends JObject
 		// Just force path to array
 		settype($path, 'array');
 
+        $filesystem = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
+
 		if (!isset($this->paths[$type]))
 		{
 			$this->paths[$type] = array();
@@ -799,7 +801,7 @@ class FOFController extends JObject
 		foreach ($path as $dir)
 		{
 			// No surrounding spaces allowed!
-			$dir = rtrim(JPath::check($dir, '/'), '/') . '/';
+			$dir = rtrim($filesystem->pathCheck($dir, '/'), '/') . '/';
 
 			// Add to the top of the search dirs
 			array_unshift($this->paths[$type], $dir);
@@ -920,7 +922,7 @@ class FOFController extends JObject
 
 		if ($result)
 		{
-			$plugin_event = FOFInflector::camelize('on before ' . $this->bareComponent . ' controller ' . $this->view . ' ' . $task);
+			$plugin_event  = FOFInflector::camelize('on before ' . $this->bareComponent . ' controller ' . $this->view . ' ' . $task);
 			$plugin_result = FOFPlatform::getInstance()->runPlugins($plugin_event, array(&$this, &$this->input));
 
 			if (in_array(false, $plugin_result, true))
@@ -952,7 +954,7 @@ class FOFController extends JObject
 
 		if ($doTask == 'display')
 		{
-			JResponse::setHeader('Status', '400 Bad Request', true);
+            FOFPlatform::getInstance()->setHeader('Status', '400 Bad Request', true);
 
 			throw new Exception('Bad Request', 400);
 		}
@@ -1030,9 +1032,9 @@ class FOFController extends JObject
 		$view->setLayout(is_null($this->layout) ? 'default' : $this->layout);
 
 		// Display the view
-		$conf = JFactory::getConfig();
+		$conf = FOFPlatform::getInstance()->getConfig();
 
-		if (!FOFPlatform::getInstance()->isCli() && JFactory::getApplication()->isSite() && $cachable && ($viewType != 'feed') && $conf->get('caching') >= 1)
+		if (FOFPlatform::getInstance()->isFrontend() && $cachable && ($viewType != 'feed') && $conf->get('caching') >= 1)
 		{
 			// Get a JCache object
 			$option = $this->input->get('option', 'com_foobar', 'cmd');
@@ -1398,7 +1400,7 @@ class FOFController extends JObject
 		}
 		else
 		{
-			JResponse::setHeader('Status', '201 Created', true);
+            FOFPlatform::getInstance()->setHeader('Status', '201 Created', true);
 			$this->setRedirect($url);
 
 			return true;
@@ -1632,7 +1634,6 @@ class FOFController extends JObject
 	public function saveorder()
 	{
 		// CSRF prevention
-
 		if ($this->csrfProtection)
 		{
 			$this->_csrfProtection();
@@ -1645,8 +1646,9 @@ class FOFController extends JObject
 			$model->setIDsFromRequest();
 		}
 
-		$ids = $model->getIds();
-		$orders = $this->input->get('order', array(), 'array');
+        $ordering = $model->getTable()->getColumnAlias('ordering');
+		$ids      = $model->getIds();
+		$orders   = $this->input->get('order', array(), 'array');
 
 		if ($n = count($ids))
 		{
@@ -1666,7 +1668,7 @@ class FOFController extends JObject
 
 				if ($item->$key == $ids[$i])
 				{
-					$item->ordering = $neworder;
+					$item->$ordering = $neworder;
 					$model->save($item);
 				}
 			}
@@ -1675,7 +1677,6 @@ class FOFController extends JObject
 		$status = $model->reorder();
 
 		// Redirect
-
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
 		{
 			$customURL = base64_decode($customURL);
@@ -1829,7 +1830,8 @@ class FOFController extends JObject
 		if ($this->redirect)
 		{
 			$app = JFactory::getApplication();
-			$app->redirect($this->redirect, $this->message, $this->messageType);
+			$app->enqueueMessage($this->message, $this->messageType);
+			$app->redirect($this->redirect);
 
 			return true;
 		}
@@ -2122,7 +2124,7 @@ class FOFController extends JObject
 
 		if ($status && ($id != 0))
 		{
-			JResponse::setHeader('Status', '201 Created', true);
+            FOFPlatform::getInstance()->setHeader('Status', '201 Created', true);
 
 			// Try to check-in the record if it's not a new one
 			$status = $model->checkin();
@@ -2232,9 +2234,10 @@ class FOFController extends JObject
 		{
 			$config = (array) $config;
 		}
-		elseif (!is_array($config))
+		elseif (!is_array($config) || empty($config))
 		{
-			$config = array();
+			// array_merge is required to create a copy instead of assigning by reference
+			$config = array_merge($this->config);
 		}
 
 		if (empty($name))
@@ -2290,9 +2293,10 @@ class FOFController extends JObject
 			{
 				$config = (array) $config;
 			}
-			elseif (!is_array($config))
+			elseif (!is_array($config) || empty($config))
 			{
-				$config = array();
+				// array_merge is required to create a copy instead of assigning by reference
+				$config = array_merge($this->config);
 			}
 
 			$prefix = null;
@@ -2607,7 +2611,8 @@ class FOFController extends JObject
 			$altViewName,
 			'default'
 		);
-		JLoader::import('joomla.filesystem.path');
+
+        $filesystem = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
 
 		foreach ($suffixes as $suffix)
 		{
@@ -2622,7 +2627,7 @@ class FOFController extends JObject
 
 			// The class is not loaded. Let's load it!
 			$viewPath = $this->createFileName('view', array('name'	 => $suffix, 'type'	 => $viewType));
-			$path = JPath::find($basePaths, $viewPath);
+			$path = $filesystem->pathFind($basePaths, $viewPath);
 
 			if ($path)
 			{
@@ -2798,6 +2803,7 @@ class FOFController extends JObject
 				}
 
 				$resource = FOFInflector::singularize($this->view);
+				$isEditState = ($area == 'core.edit.state');
 
 				foreach ($ids as $id)
 				{
@@ -2810,9 +2816,9 @@ class FOFController extends JObject
 						return true;
 					}
 
-					// Fallback on edit.own. First test if the permission is available.
+					// Fallback on edit.own, if not edit.state. First test if the permission is available.
 
-					if (FOFPlatform::getInstance()->authorise('core.edit.own', $asset))
+					if ((!$isEditState) && (FOFPlatform::getInstance()->authorise('core.edit.own', $asset)))
 					{
 						$table = $this->getThisModel()->getTable();
                         $table->load($id);
@@ -2842,6 +2848,8 @@ class FOFController extends JObject
 				}
 			}
 		}
+		
+		return false;
 	}
 
 	/**
@@ -3200,9 +3208,10 @@ class FOFController extends JObject
 
 	/**
 	 * Applies CSRF protection by means of a standard Joomla! token (nonce) check.
-	 * Raises a 403 Access Forbidden error through JError or an exception
-	 * (depending the Joomla! version) if the check fails.
+	 * Raises a 403 Access Forbidden error through the platform if the check fails.
 	 *
+     * TODO Move this check inside the platform
+     *
 	 * @return  boolean  True if the CSRF check is successful
 	 *
 	 * @throws Exception
@@ -3213,7 +3222,7 @@ class FOFController extends JObject
 
 		if (is_null($isCli))
 		{
-			$isCli = FOFPlatform::getInstance()->isCli();
+			$isCli   = FOFPlatform::getInstance()->isCli();
 			$isAdmin = FOFPlatform::getInstance()->isBackend();
 		}
 
@@ -3250,13 +3259,12 @@ class FOFController extends JObject
 		}
 
 		$hasToken = false;
-		$session = JFactory::getSession();
+		$session  = JFactory::getSession();
 
 		// Joomla! 1.5/1.6/1.7/2.5 (classic Joomla! API) method
-
 		if (method_exists('JUtility', 'getToken'))
 		{
-			$token = JUtility::getToken();
+			$token    = JUtility::getToken();
 			$hasToken = $this->input->get($token, false, 'none') == 1;
 
 			if (!$hasToken)
@@ -3266,12 +3274,11 @@ class FOFController extends JObject
 		}
 
 		// Joomla! 2.5+ (Platform 12.1+) method
-
 		if (!$hasToken)
 		{
 			if (method_exists($session, 'getToken'))
 			{
-				$token = $session->getToken();
+				$token    = $session->getToken();
 				$hasToken = $this->input->get($token, false, 'none') == 1;
 
 				if (!$hasToken)
@@ -3282,12 +3289,11 @@ class FOFController extends JObject
 		}
 
 		// Joomla! 2.5+ formToken method
-
 		if (!$hasToken)
 		{
 			if (method_exists($session, 'getFormToken'))
 			{
-				$token = $session->getFormToken();
+				$token    = $session->getFormToken();
 				$hasToken = $this->input->get($token, false, 'none') == 1;
 
 				if (!$hasToken)
@@ -3299,14 +3305,7 @@ class FOFController extends JObject
 
 		if (!$hasToken)
 		{
-			if (version_compare(JVERSION, '3.0', 'ge'))
-			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
-			}
-			else
-			{
-				JError::raiseError('403', JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
-			}
+            FOFPlatform::getInstance()->raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 
 			return false;
 		}

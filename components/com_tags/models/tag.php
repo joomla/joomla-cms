@@ -143,8 +143,9 @@ class TagsModelTag extends JModelList
 			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 		}
 
-		$listQuery = New JHelperTags;
-		$query = $listQuery->getTagItemsQuery($tagId, $typesr, $includeChildren, $orderByOption, $orderDir, $matchAll, $language, $stateFilter);
+		$tagsHelper = new JHelperTags;
+		$query = $tagsHelper->getTagItemsQuery($tagId, $typesr, $includeChildren, $orderByOption, $orderDir, $matchAll, $language, $stateFilter);
+
 		if ($this->state->get('list.filter'))
 		{
 			$query->where($this->_db->quoteName('c.core_title') . ' LIKE ' . $this->_db->quote('%' . $this->state->get('list.filter') . '%'));
@@ -174,23 +175,26 @@ class TagsModelTag extends JModelList
 		$this->setState('params', $params);
 
 		// Load state from the request.
-		$pk = $app->input->getObject('id');
-		$pk = (array) $pk;
-		$pkString = '';
+		$ids = $app->input->get('id', array(), 'array');
 
-		foreach ($pk as $id)
-		{
-			$pkString .= (int) $id . ',';
-		}
-		$pkString = rtrim($pkString, ',');
+		JArrayHelper::toInteger($ids);
+
+		$pkString = implode(',', $ids);
 
 		$this->setState('tag.id', $pkString);
 
 		// Get the selected list of types from the request. If none are specified all are used.
-		$typesr = $app->input->getObject('types');
+		$typesr = $app->input->get('types', array(), 'array');
+
 		if ($typesr)
 		{
-			$typesr = (array) $typesr;
+			// Implode is needed because the array can contain a string with a coma separated list of ids
+			$typesr = implode(',', $typesr);
+
+			// Sanitise
+			$typesr = explode(',', $typesr);
+			JArrayHelper::toInteger($typesr);
+
 			$this->setState('tag.typesr', $typesr);
 		}
 
@@ -199,6 +203,7 @@ class TagsModelTag extends JModelList
 
 		// List state information
 		$format = $app->input->getWord('format');
+
 		if ($format == 'feed')
 		{
 			$limit = $app->getCfg('feed_limit');
@@ -214,6 +219,7 @@ class TagsModelTag extends JModelList
 				$limit = $this->state->params->get('maximum', 20);
 			}
 		}
+
 		$this->setState('list.limit', $limit);
 
 		$offset = $app->input->get('limitstart', 0, 'uint');
@@ -222,18 +228,22 @@ class TagsModelTag extends JModelList
 		$itemid = $pkString . ':' . $app->input->get('Itemid', 0, 'int');
 		$orderCol = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
 		$orderCol = !$orderCol ? $this->state->params->get('tag_list_orderby', 'c.core_title') : $orderCol;
+
 		if (!in_array($orderCol, $this->filter_fields))
 		{
 			$orderCol = 'c.core_title';
 		}
+
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order_direction', 'filter_order_Dir', '', 'string');
 		$listOrder = !$listOrder ? $this->state->params->get('tag_list_orderby_direction', 'ASC') : $listOrder;
+
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
 		{
 			$listOrder = 'ASC';
 		}
+
 		$this->setState('list.direction', $listOrder);
 
 		$this->setState('tag.state', 1);

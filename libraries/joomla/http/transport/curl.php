@@ -142,6 +142,19 @@ class JHttpTransportCurl implements JHttpTransport
 		// Follow redirects.
 		$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
 
+		// Proxy configuration
+		$config = JFactory::getConfig();
+
+		if ($config->get('proxy_enable'))
+		{
+			$options[CURLOPT_PROXY] = $config->get('proxy_host') . ':' . $config->get('proxy_port');
+
+			if ($user = $config->get('proxy_user'))
+			{
+				$options[CURLOPT_PROXYUSERPWD] = $user . ':' . $config->get('proxy_pass');
+			}
+		}
+
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);
 

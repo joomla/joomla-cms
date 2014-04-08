@@ -2,11 +2,11 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 if (!class_exists('JFormFieldImagelist'))
 {
@@ -131,7 +131,7 @@ class FOFFormFieldImagelist extends JFormFieldImageList implements FOFFormField
 
 		if ($this->value && file_exists(JPATH_ROOT . '/' . $path . '/' . $this->value))
 		{
-			$src = JURI::root() . '/' . $path . '/' . $this->value;
+			$src = FOFPlatform::getInstance()->URIroot() . '/' . $path . '/' . $this->value;
 		}
 		else
 		{
