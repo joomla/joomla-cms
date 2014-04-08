@@ -561,14 +561,14 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		$config = JFactory::getConfig();
 		$lifetime = ($config->get('lifetime') * 60000);
 		$refreshTime = ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
 
-		// Refresh time is 1 minute less than the liftime assined in the configuration.php file.
+		// Refresh time is 1 minute less than the lifetime assigned in the configuration.php file.
 
 		// The longest refresh period is one hour to prevent integer overflow.
 		if ($refreshTime > 3600000 || $refreshTime <= 0)
@@ -576,16 +576,16 @@ abstract class JHtmlBehavior
 			$refreshTime = 3600000;
 		}
 
-		$document = JFactory::getDocument();
-		$script = '';
-		$script .= 'function keepAlive() {';
-		$script .= '	var myAjax = new Request({method: "get", url: "index.php"}).send();';
-		$script .= '}';
-		$script .= ' window.addEvent("domready", function()';
-		$script .= '{ keepAlive.periodical(' . $refreshTime . '); }';
-		$script .= ');';
+		// Attach keep alive to document
+		JFactory::getDocument()->addScriptDeclaration('
+		    jQuery(document).ready(function() {
+		        window.setInterval(
+		            function(){ new jQuery.ajax({ type: "GET" }); },
+		            ' . $refreshTime . '
+		        );
+		    });
+		');
 
-		$document->addScriptDeclaration($script);
 		static::$loaded[__METHOD__] = true;
 
 		return;

@@ -636,8 +636,9 @@ class JHtmlBehaviorTest extends TestCase
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::keepalive();
+
 		$this->assertEquals(
-			array('JHtmlBehavior::keepalive' => true, 'JHtmlBehavior::framework' => array('core' => true)),
+			array('JHtmlBehavior::keepalive' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
