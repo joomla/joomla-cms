@@ -41,6 +41,7 @@ class PlgContentVote extends JPlugin
 	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
 	{
 		$parts = explode(".", $context);
+
 		if ($parts[0] != 'com_content')
 		{
 			return false;

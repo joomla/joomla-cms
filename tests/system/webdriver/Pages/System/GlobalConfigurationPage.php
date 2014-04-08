@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -78,6 +84,7 @@ class GlobalConfigurationPage extends AdminEditPage
 			array('label' => 'Force SSL', 'id' => 'jform_force_ssl', 'type' => 'select', 'tab' => 'page-server'),
 			array('label' => 'Server Time Zone', 'id' => 'jform_offset', 'type' => 'select', 'tab' => 'page-server'),
 			array('label' => 'Enable FTP', 'id' => 'jform_ftp_enable', 'type' => 'fieldset', 'tab' => 'page-server'),
+			array('label' => 'Enable Proxy', 'id' => 'jform_proxy_enable', 'type' => 'fieldset', 'tab' => 'page-server'),
 			array('label' => 'Database Type', 'id' => 'jform_dbtype', 'type' => 'select', 'tab' => 'page-server'),
 			array('label' => 'Host', 'id' => 'jform_host', 'type' => 'input', 'tab' => 'page-server'),
 			array('label' => 'Database Username', 'id' => 'jform_user', 'type' => 'input', 'tab' => 'page-server'),

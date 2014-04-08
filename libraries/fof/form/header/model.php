@@ -2,11 +2,11 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 if (!class_exists('JFormFieldSql'))
 {
@@ -34,10 +34,11 @@ class FOFFormHeaderModel extends FOFFormHeaderFieldselectable
 		// Initialize some field attributes.
 		$key = $this->element['key_field'] ? (string) $this->element['key_field'] : 'value';
 		$value = $this->element['value_field'] ? (string) $this->element['value_field'] : (string) $this->element['name'];
-		$translate = $this->element['translate'] ? (string) $this->element['translate'] : false;
 		$applyAccess = $this->element['apply_access'] ? (string) $this->element['apply_access'] : 'false';
 		$modelName = (string) $this->element['model'];
 		$nonePlaceholder = (string) $this->element['none'];
+		$translate = empty($this->element['translate']) ? 'true' : (string) $this->element['translate'];
+		$translate = in_array(strtolower($translate), array('true','yes','1','on')) ? true : false;
 
 		if (!empty($nonePlaceholder))
 		{

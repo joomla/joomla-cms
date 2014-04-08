@@ -94,6 +94,7 @@ class PlgSystemDebug extends JPlugin
 
 		// Skip the plugin if debug is off
 		$app = JFactory::getApplication();
+
 		if ($app->getCfg('debug_lang') == '0' && $app->getCfg('debug') == '0')
 		{
 			return;
@@ -198,10 +199,10 @@ class PlgSystemDebug extends JPlugin
 
 		// No debug for Safari and Chrome redirection.
 		if (strstr(strtolower($_SERVER['HTTP_USER_AGENT']), 'webkit') !== false
-			&& substr($contents, 0, 50) == '<html><head><meta http-equiv="refresh" content="0;'
-		)
+			&& substr($contents, 0, 50) == '<html><head><meta http-equiv="refresh" content="0;')
 		{
 			echo $contents;
+
 			return;
 		}
 
@@ -747,7 +748,7 @@ class PlgSystemDebug extends JPlugin
 
 				// How heavy should the string length count: 0 - 1.
 				$ratio = 0.5;
-				$timeScore = $queryTime / (strlen($query) * $ratio) * 200;
+				$timeScore = $queryTime / ((strlen($query) + 1) * $ratio) * 200;
 
 				// Determine color of bargraph depending on query speed and presence of warnings in EXPLAIN.
 				if ($timeScore > 10)
@@ -1353,7 +1354,8 @@ class PlgSystemDebug extends JPlugin
 					$this->sqlShowProfileEach[0] = array(array('Error' => 'MySql have_profiling = off'));
 				}
 			}
-			catch (Exception $e) {
+			catch (Exception $e)
+			{
 				$this->sqlShowProfileEach[0] = array(array('Error' => $e->getMessage()));
 			}
 		}
@@ -1373,7 +1375,8 @@ class PlgSystemDebug extends JPlugin
 						$db->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
 						$this->explains[$k] = $db->loadAssocList();
 					}
-					catch (Exception $e) {
+					catch (Exception $e)
+					{
 						$this->explains[$k] = array(array('Error' => $e->getMessage()));
 					}
 				}

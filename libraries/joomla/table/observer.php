@@ -30,11 +30,11 @@ abstract class JTableObserver implements JObserverInterface
 	/**
 	 * Constructor: Associates to $table $this observer
 	 *
-	 * @param   JTable  $table  Table to be observed
+	 * @param   JTableInterface  $table  Table to be observed
 	 *
 	 * @since   3.1.2
 	 */
-	public function __construct(JTable $table)
+	public function __construct(JTableInterface $table)
 	{
 		$table->attachObserver($this);
 		$this->table = $table;
