@@ -808,10 +808,8 @@ class ModulesModelModule extends JModelAdmin
 		$formFile	= JPath::clean($client->path.'/modules/'.$module.'/'.$module.'.xml');
 
 		// Load the core and/or local language file(s).
-			$lang->load($module, $client->path, null, false, false)
-		||	$lang->load($module, $client->path.'/modules/'.$module, null, false, false)
-		||	$lang->load($module, $client->path, $lang->getDefault(), false, false)
-		||	$lang->load($module, $client->path.'/modules/'.$module, $lang->getDefault(), false, false);
+			$lang->load($module, $client->path, null, false, true)
+		||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
 
 		if (file_exists($formFile))
 		{

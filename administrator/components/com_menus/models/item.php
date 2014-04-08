@@ -671,10 +671,8 @@ class MenusModelItem extends JModelAdmin
 				if (isset($args['option'])) {
 					// Load the language file for the component.
 					$lang = JFactory::getLanguage();
-					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, false)
-					||	$lang->load($args['option'], JPATH_ADMINISTRATOR.'/components/'.$args['option'], null, false, false)
-					||	$lang->load($args['option'], JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-					||	$lang->load($args['option'], JPATH_ADMINISTRATOR.'/components/'.$args['option'], $lang->getDefault(), false, false);
+						$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, true)
+					||	$lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, true);
 
 					// Determine the component id.
 					$component = JComponentHelper::getComponent($args['option']);
@@ -956,7 +954,7 @@ class MenusModelItem extends JModelAdmin
 
 			// Attempt to load the xml file.
 
-			if ($xmlFile && !$xml = simplexml_load_file($xmlFile)) 
+			if ($xmlFile && !$xml = simplexml_load_file($xmlFile))
 			{
 
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
