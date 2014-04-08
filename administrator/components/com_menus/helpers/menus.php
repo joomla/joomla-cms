@@ -53,16 +53,10 @@ class MenusHelper
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		if (empty($parentId)) {
-			$assetName = 'com_menus';
-		} else {
-			$assetName = 'com_menus.item.'.(int) $parentId;
-		}
-
 		$actions = JAccess::getActions('com_menus');
 
 		foreach ($actions as $action) {
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+			$result->set($action->name,	$user->authorise($action->name, 'com_menus'));
 		}
 
 		return $result;
