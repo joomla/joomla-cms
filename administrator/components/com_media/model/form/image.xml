@@ -45,9 +45,9 @@
 
 		<field name="core_created_time" type="calendar" label="COM_CONTENT_FIELD_CREATED_LABEL"
 			description="COM_CONTENT_FIELD_CREATED_DESC" class="inputbox" size="22"
-			format="%Y-%m-%d %H:%M:%S" filter="user_utc" labelclass="control-label" readonly="true"/>
+			format="%Y-%m-%d %H:%M:%S" filter="user_utc" labelclass="control-label" />
 
-		<field name="core_created_user_id" type="user" readonly="true"
+		<field name="core_created_user_id" type="user" 
 			label="COM_CONTENT_FIELD_CREATED_BY_LABEL" description="COM_CONTENT_FIELD_CREATED_BY_DESC" labelclass="control-label" />
 
 		<field name="core_created_by_alias" type="text"

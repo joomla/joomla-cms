@@ -168,8 +168,16 @@ class MediaControllerMediaUpload extends JControllerBase
 			else
 			{
 				// add to table
-				$model = new MediaModelMedia();
-				$model->addMediaToTable($object_file);
+				$this->input->set('file', $object_file->getProperties());
+				
+				// Create controller instance
+				$createController = new MediaControllerMediaCreate();
+				
+				if (!$createController->execute())
+				{
+					
+					return false;
+				}			
 				
 				// Trigger the onContentAfterSave event.
 				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));

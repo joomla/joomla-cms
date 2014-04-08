@@ -168,49 +168,48 @@ class MediaModelMedia extends ConfigModelForm
 	}
 
 
-	public function addMediaToTable($object_file)
+	public function create($file)
 	{
 		
 		$row = JTable::getInstance('Corecontent');
-		
+
 		$data = array();
-		$data['core_urls'] = $object_file->filepath;
-		
-		$fname = explode('.', $object_file->name);
+		$data['core_urls'] = $file['filepath'];
+
+		$fname = explode('.', $file['name']);
 		$data['core_title'] = $fname[0];
 		$data['core_alias'] = JFilterOutput::stringURLSafe($fname[0]);
-		
+
 		$metadata = new stdClass();
-		$metadata->name 	= $object_file->name;
-		$metadata->type 	= $object_file->type;
-		$metadata->filepath = $object_file->filepath;
-		$metadata->size 	= $object_file->size;
+		$metadata->name 	= $file['name'];
+		$metadata->type 	= $file['type'];
+		$metadata->filepath = $file['filepath'];
+		$metadata->size 	= $file['size'];
 		$data['core_metadata'] = json_encode($metadata);
-			
+
 		$row->bind($data);
 		$row->store();
-		
+
 		// get id of the entry
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		
+
 		$query 	-> select($db->quoteName('core_content_id'))
 				-> from($db->quoteName('#__ucm_content'))
-				-> where($db->quoteName('core_urls') . ' = '. $db->quote($object_file->filepath));
-		
+				-> where($db->quoteName('core_urls') . ' = '. $db->quote($file['filepath']));
+
 		$db->setQuery($query);
-		
+
 		$result = $db->loadObject();
-		
+
 		// Create and populate an object.
 		$media = new stdClass();
-		$media->url = $object_file->filepath;
+		$media->url = $file['filepath'];
 		$media->core_content_id=$result->core_content_id;
 				
 		// Insert the object into the media table.
 		$result = JFactory::getDbo()->insertObject('#__media', $media);
-		
-		
+
 	}
 
 	public function deleteMediaFromTable($url)
