@@ -203,8 +203,6 @@ class JEventDispatcher extends JObject
 				}
 			}
 
-			$this->_observers[] = $observer;
-			end($this->_observers);
 			$methods = array($observer['event']);
 		}
 		else
@@ -225,10 +223,11 @@ class JEventDispatcher extends JObject
 				}
 			}
 
-			$this->_observers[] = $observer;
 			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
 		}
 
+		$this->_observers[] = $observer;
+		end($this->_observers);
 		$key = key($this->_observers);
 
 		foreach ($methods as $method)
