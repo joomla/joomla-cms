@@ -1570,7 +1570,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// Update the publishing state for rows with the given primary keys.
 			$query = $this->_db->getQuery(true)
 				->update($this->_tbl)
-				->set($this->columnPublished . ' = ' . (int) $state);
+				->set($this->_db->quoteName($this->columnPublished) . ' = ' . (int) $state);
 
 			// Determine if there is checkin support for the table.
 			if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
