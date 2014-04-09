@@ -105,7 +105,7 @@ var JFormValidator = function($) {
 			}
 		});
 		// Run custom form validators if present
-		new Hash(custom).each(function(validator) {
+		$.each(custom, function(key, validator) {
 			if (validator.exec() !== true) {
 				valid = false;
 			}
