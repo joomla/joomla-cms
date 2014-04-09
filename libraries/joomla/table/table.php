@@ -593,16 +593,14 @@ abstract class JTable extends JObject implements JObservableInterface
 	 */
 	public function bind($src, $ignore = array())
 	{
-		// JSON encode any fields that need it via JRegistry
+		// JSON encode any fields required
 		if (!empty($this->jsonEncode))
 		{
 			foreach ($this->jsonEncode as $field)
 			{
 				if (isset($src[$field]) && is_array($src[$field]))
 				{
-					$registry = new JRegistry;
-					$registry->loadArray($src[$field]);
-					$src[$field] = (string) $registry;
+					$src[$field] = json_encode($src[$field]);
 				}
 			}
 		}
