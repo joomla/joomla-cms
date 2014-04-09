@@ -190,58 +190,25 @@ class MediaModelMedia extends ConfigModelForm
 		$row->bind($data);
 		$row->store();
 
-		// get id of the entry
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query 	-> select($db->quoteName('core_content_id'))
-				-> from($db->quoteName('#__ucm_content'))
-				-> where($db->quoteName('core_urls') . ' = '. $db->quote($file['filepath']));
-
-		$db->setQuery($query);
-
-		$result = $db->loadObject();
-
-		// Create and populate an object.
-		$media = new stdClass();
-		$media->url = $file['filepath'];
-		$media->core_content_id=$result->core_content_id;
-				
-		// Insert the object into the media table.
-		$result = JFactory::getDbo()->insertObject('#__media', $media);
-
 	}
 
 	public function deleteMediaFromTable($url)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		
+
 		$query 	-> select($db->quoteName('core_content_id'))
-				-> from($db->quoteName('#__media'))
-				-> where($db->quoteName('url') . ' = '. $db->quote($url));
+				-> from($db->quoteName('#__ucm_content'))
+				-> where($db->quoteName('core_urls') . ' = '. $db->quote($url));
 		
 		$db->setQuery($query);
 		
 		$result = $db->loadObject();
 		
 		$pk = $result->core_content_id;
-		
-		$query = $db->getQuery(true);
-		$query 	-> delete($db->quoteName('#__media'))
-				-> where($db->quoteName('core_content_id') . ' = '. ($pk));
-		$db->setQuery($query);
-		$db->query();
 
 		$row = JTable::getInstance('Corecontent');
 		$row->delete($pk);
-		
-/* 		$query = $db->getQuery(true);
-		$query 	-> delete($db->quoteName('#__ucm_content'))
-				-> where($db->quoteName('core_content_id') . ' = '. ($pk));
-		$db->setQuery($query);
-		$db->query();  */
-		
 		
 	}
 }

@@ -188,8 +188,8 @@ class MediaModelEditor extends JModelCmsitem
 		$query = $db->getQuery(true);
 		
 		$query 	-> select($db->quoteName('core_content_id'))
-				-> from($db->quoteName('#__media'))
-				-> where($db->quoteName('url') . ' = '. $db->quote($path));
+				-> from($db->quoteName('#__ucm_content'))
+				-> where($db->quoteName('core_urls') . ' = '. $db->quote($path));
 		
 		$db->setQuery($query);
 		
@@ -218,27 +218,7 @@ class MediaModelEditor extends JModelCmsitem
 // 		$pk = $app->input->getInt('extension_id');
 // 		$this->state->set('plugin.id', $pk);
 	}
-	
-	/**
-	 * Override method to save the form data.
-	 *
-	 * @param   array  $data  The form data.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.2
-	 */
-// 	public function save($data)
-// 	{
-// 		// Load the extension plugin group.
-// 		JPluginHelper::importPlugin('extension');
-	
-// 		// Setup type
-// 		$data['type'] = 'plugin';
-	
-// 		return parent::save($data);
-// 	}
-	
+
 	/**
 	 * Get the necessary data to load an item help screen.
 	 *
@@ -294,11 +274,6 @@ class MediaModelEditor extends JModelCmsitem
 		}
 
 	}
-
-// 	public function getForm($data = array(), $loadData = true)
-// 	{
-// 		return;
-// 	}
 
 	/**
 	 * Rename a file. - *** TO BE REMOVED ***
