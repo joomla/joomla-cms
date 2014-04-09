@@ -475,31 +475,6 @@ class JViewLegacy extends JObject
 	}
 
 	/**
-	 * Get the renderer
-	 *
-	 * @param   string  $layout   Layout to load.
-	 * @param   array   $options  Optional array with layout options
-	 *
-	 * @return  JLayoutFile       Renderer instance
-	 */
-	public function getRenderer($layout, $options = array())
-	{
-		$component = JApplicationHelper::getComponentName();
-		$template  = JFactory::getApplication()->getTemplate();
-
-		$renderer = new JLayoutFile($layout, null, $options);
-
-		$renderer->setIncludePaths(
-			array(
-				JPATH_THEMES . '/' . $template . '/html/' . $component . '/' . $this->getName(),
-				$this->_basePath . '/views/' . $this->getName() . '/tmpl'
-			)
-		);
-
-		return $renderer;
-	}
-
-	/**
 	 * Method to add a model to the view.  We support a multiple model single
 	 * view system by which models are referenced by classname.  A caveat to the
 	 * classname referencing is that any classname prepended by JModel will be
