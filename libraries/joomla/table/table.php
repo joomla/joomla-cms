@@ -597,11 +597,13 @@ abstract class JTable extends JObject implements JObservableInterface
 		if (!empty($this->jsonEncode))
 		{
 			foreach ($this->jsonEncode as $field)
-			if (isset($src[$field]) && is_array($src[$field]))
 			{
-				$registry = new JRegistry;
-				$registry->loadArray($src[$field]);
-				$src[$field] = (string) $registry;
+				if (isset($src[$field]) && is_array($src[$field]))
+				{
+					$registry = new JRegistry;
+					$registry->loadArray($src[$field]);
+					$src[$field] = (string) $registry;
+				}
 			}
 		}
 
