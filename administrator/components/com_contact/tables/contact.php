@@ -16,6 +16,14 @@ defined('_JEXEC') or die;
 class ContactTableContact extends JTable
 {
 	/**
+	 * A set of data to be json encoded
+	 *
+	 * @var    array
+	 * @since  3.3
+	 */
+	protected $jsonEncode = array('params', 'metadata');
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  &$db  Database connector object
@@ -25,34 +33,6 @@ class ContactTableContact extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__contact_details', 'id', $db);
-	}
-
-	/**
-	 * Overloaded bind function
-	 *
-	 * @param   array  $array   Named array to bind
-	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
-	 *
-	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
-	 * @since   1.6
-	 */
-	public function bind($array, $ignore = '')
-	{
-		if (isset($array['params']) && is_array($array['params']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['params']);
-			$array['params'] = (string) $registry;
-		}
-
-		if (isset($array['metadata']) && is_array($array['metadata']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['metadata']);
-			$array['metadata'] = (string) $registry;
-		}
-
-		return parent::bind($array, $ignore);
 	}
 
 	/**
