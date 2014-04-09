@@ -64,7 +64,7 @@ abstract class JHtmlBehavior
 
 		// Keep loading core.js for BC reasons
  		static::core();
- 
+
 		static::$loaded[__METHOD__][$type] = true;
 
 		return;
@@ -72,7 +72,7 @@ abstract class JHtmlBehavior
 
 	/**
 	 * Method to load core.js into the document head.
-	 * 
+	 *
 	 * Core.js defines the 'Joomla' namespace and contains functions which are used across extensions
 	 *
 	 * @return  void
@@ -599,9 +599,6 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
 		$config = JFactory::getConfig();
 		$lifetime = ($config->get('lifetime') * 60000);
 		$refreshTime = ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
@@ -615,13 +612,13 @@ abstract class JHtmlBehavior
 		}
 
 		$document = JFactory::getDocument();
-		$script = '';
-		$script .= 'function keepAlive() {';
-		$script .= '	jQuery.get("index.php");';
-		$script .= '}';
-		$script .= 'jQuery(function($)';
-		$script .= '{ setInterval(keepAlive, ' . $refreshTime . '); }';
-		$script .= ');';
+		$script = 'window.setInterval(function(){';
+		$script .= 'var r;';
+		$script .= 'try{';
+		$script .= 'r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")';
+		$script .= '}catch(e){}';
+		$script .= 'if(r){r.open("GET","./",true);r.send(null)}';
+		$script .= '},' . $refreshTime . ');';
 
 		$document->addScriptDeclaration($script);
 		static::$loaded[__METHOD__] = true;
