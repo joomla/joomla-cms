@@ -18,7 +18,6 @@ jimport('joomla.filesystem.path');
  *
  * @package     Joomla.Platform
  * @subpackage  Table
- * @link        http://docs.joomla.org/JTable
  * @since       11.1
  * @tutorial	Joomla.Platform/jtable.cls
  */
