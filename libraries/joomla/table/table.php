@@ -110,7 +110,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 * @var    boolean
 	 * @since  3.3
 	 */
-	protected $columnPublished;
+	protected $columnPublished = 'published';
 
 	/**
 	 * The column title for the checked out field
@@ -118,7 +118,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 * @var    boolean
 	 * @since  3.3
 	 */
-	protected $columnCheckedOut;
+	protected $columnCheckedOut = 'checked_out';
 
 	/**
 	 * The column title for the checked out time field
@@ -126,7 +126,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 * @var    boolean
 	 * @since  3.3
 	 */
-	protected $columnCheckedOutTime;
+	protected $columnCheckedOutTime = 'checked_out_time';
 
 	/**
 	 * The column title for the hits field
@@ -134,34 +134,21 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 * @var    boolean
 	 * @since  3.3
 	 */
-	protected $columnHits;
+	protected $columnHits = 'hits';
 
 	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
 	 *
-	 * @param   string           $table   Name of the table to model.
-	 * @param   mixed            $key     Name of the primary key field in the table or array of field names that compose the primary key.
-	 * @param   JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   JRegistry        $config  Config options
+	 * @param   string           $table  Name of the table to model.
+	 * @param   mixed            $key    Name of the primary key field in the table or array of field names that compose the primary key.
+	 * @param   JDatabaseDriver  $db     JDatabaseDriver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, $db, JRegistry $config = null)
+	public function __construct($table, $key, $db)
 	{
-		// Create a blank config object if none exists to keep b/c in the 3.x branch
-		if (!$config)
-		{
-			$config = new JRegistry;
-		}
-
-		// Define the important field names either from the config or the default fallbacks
-		$this->columnPublished = $config->get('columnPublished', null) ? $config->get('columnPublished', null) : 'published';
-		$this->columnCheckedOut = $config->get('columnCheckedOut', null) ? $config->get('columnCheckedOut', null) : 'checked_out';
-		$this->columnCheckedOutTime = $config->get('columnCheckedOutTime', null) ? $config->get('columnCheckedOutTime', null) : 'checked_out_time';
-		$this->columnHits = $config->get('columnHits', null) ? $config->get('columnHits', null) : 'hits';
-
 		// Set internal variables.
 		$this->_tbl = $table;
 

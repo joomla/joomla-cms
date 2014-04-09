@@ -19,6 +19,14 @@ defined('_JEXEC') or die;
 class BannersTableBanner extends JTable
 {
 	/**
+	 * The column title for the published/unpublished field
+	 *
+	 * @var    boolean
+	 * @since  3.3
+	 */
+	protected $columnPublished = 'state';
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  &$_db  Database connector object
@@ -27,10 +35,7 @@ class BannersTableBanner extends JTable
 	 */
 	public function __construct(&$_db)
 	{
-		$config = array (
-			'columnPublished' => 'state',
-		);
-		parent::__construct('#__banners', 'id', $_db, new JRegistry($config));
+		parent::__construct('#__banners', 'id', $_db);
 		$date = JFactory::getDate();
 		$this->created = $date->toSql();
 	}
