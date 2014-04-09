@@ -276,45 +276,6 @@ class MediaModelEditor extends JModelCmsitem
 	}
 
 	/**
-	 * Rename a file. - *** TO BE REMOVED ***
-	 *
-	 * @param   string  $file  The name and location of the old file
-	 * @param   string  $name  The new name of the file.
-	 *
-	 * @return  string  Encoded string containing the new file location.
-	 *
-	 * @since   3.2
-	 */
-	public function renameFile($file, $name)
-	{
-		$app         = JFactory::getApplication();
-
-		$fileName    = $file;
-		$path_parts  = pathinfo($file);
-		$type        = $path_parts['extension'];
-		$newFileName = $name . '.' . $type;
-
-		$newName    = $path_parts['dirname'] . '/' . $newFileName;
-
-		if (file_exists($newName))
-		{
-			$app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_EXISTS'), 'error');
-
-			return false;
-		}
-
-		if (!rename($fileName, $newName))
-		{
-			$app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_RENAME_ERROR'), 'error');
-
-			return false;
-		}
-
-		return $newFileName;
-
-	}
-
-	/**
 	 * Get an image address, height and width.
 	 *
 	 * @return  array an associative array containing image address, height and width.

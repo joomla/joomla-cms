@@ -215,41 +215,6 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 
 </div>
 
-<!-- Rename Modal -->
-<form
-	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.rename.editor&folder=' . $this->folder . '&file=' . $this->file); ?>"
-	method="post">
-	<div id="renameModal" class="modal hide fade">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal"
-				aria-hidden="true">&times;</button>
-			<h3>
-				<?php echo JText::sprintf('COM_MEDIA_EDITOR_RENAME_FILE', $this->file); ?>
-			</h3>
-		</div>
-		<div class="modal-body">
-			<div id="" class="form-horizontal">
-				<div class="control-group">
-					<label for="new_name" class="control-label hasTooltip"
-						title="<?php echo JHtml::tooltipText(JText::_('COM_MEDIA_EDITOR_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_NEW_FILE_NAME')?>
-					</label>
-					<div class="controls">
-						<input class="input-xlarge" type="text" name="new_name" required />
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_RENAME_CLOSE'); ?>
-			</a>
-			<button class="btn btn-primary" type="submit">
-				<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_RENAME'); ?>
-			</button>
-		</div>
-	</div>
-	<?php echo JHtml::_('form.token'); ?>
-</form>
-
 <!-- Resize Modal -->
 <form
 	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.resize.editor&folder=' . $this->folder . '&file=' . $this->file); ?>"

@@ -17,11 +17,6 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
 
-$input = JFactory::getApplication()->input;
-
-// JHtml::_('script', 'system/jquery.Jcrop.min.js', false, true);
-// JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
-
 ?>
 
 <p class="well well-small lead">
@@ -30,14 +25,6 @@ $input = JFactory::getApplication()->input;
 		class='btn btn-large'>
 		<i class='icon-refresh' title='COM_MEDIA_EDITOR_BUTTON_RESIZE'></i>
 		<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_RESIZE') ?>
-	</button>
-
-	<br /> <br />
-
-	<button data-toggle='modal' data-target='#renameModal'
-		class='btn btn-large'>
-		<i class='icon-refresh' title='COM_MEDIA_EDITOR_BUTTON_RENAME'></i>
-		<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_RENAME') ?>
 	</button>
 
 	<br /> <br /> 
