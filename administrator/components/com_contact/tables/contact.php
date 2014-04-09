@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 class ContactTableContact extends JTable
 {
 	/**
-	 * A set of data to be json encoded
+	 * Ensure the params and metadata in json encoded in the bind method
 	 *
 	 * @var    array
 	 * @since  3.3
