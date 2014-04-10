@@ -186,6 +186,56 @@ class MediaModelMedialist extends ConfigModelForm
 							$docs[] = $tmp;
 							break;
 					}
+					
+					// Get image id from #__ucm_content table
+					$url = str_replace('/', '\\', $tmp->path);
+					
+					$db = JFactory::getDbo();
+					$query = $db->getQuery(true);
+					
+					$query 	-> select($db->quoteName('core_content_id'))
+							-> from($db->quoteName('#__ucm_content'))
+							-> where($db->quoteName('core_urls') . ' = '. $db->quote($url));
+
+					$db->setQuery($query);
+
+					$result = $db->loadObject();
+
+					if($result != null)
+					{
+						$tmp->core_content_id = $result->core_content_id;
+
+					}
+					else
+					{
+						// Logic to add image to #__ucm_content and get core_content_id
+						$newfile = array();
+						$newfile['name'] = $tmp->name;
+						$newfile['type'] = $tmp->type;
+						$newfile['filepath'] = $url;
+						$newfile['size'] = $tmp->size;
+						
+						// Using create controller to create a new record
+						$createController = new MediaControllerMediaCreate();
+						$input = JFactory::getApplication()->input;
+						$input->set('file', $newfile);
+						
+						$createController->execute();
+						
+						// Get core_content_id of newly created record
+						$db = JFactory::getDbo();
+						$query = $db->getQuery(true);
+							
+						$query 	-> select($db->quoteName('core_content_id'))
+								-> from($db->quoteName('#__ucm_content'))
+								-> where($db->quoteName('core_urls') . ' = '. $db->quote($url));
+						
+						$db->setQuery($query);
+						
+						$result = $db->loadObject();
+						
+						$tmp->core_content_id = $result->core_content_id;
+					}
 				}
 			}
 		}

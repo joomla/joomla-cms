@@ -179,6 +179,7 @@ class MediaModelMedia extends ConfigModelForm
 		$fname = explode('.', $file['name']);
 		$data['core_title'] = $fname[0];
 		$data['core_alias'] = JFilterOutput::stringURLSafe($fname[0]);
+		$data['core_state'] = '1';
 
 		$metadata = new stdClass();
 		$metadata->name 	= $file['name'];
