@@ -19,24 +19,6 @@ defined('_JEXEC') or die;
 class UsersModelUser extends JModelAdmin
 {
 	/**
-	 * Constructor.
-	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @since   3.2
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-	}
-
-	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
 	 * @param   string  $type    The table type to instantiate
@@ -46,7 +28,7 @@ class UsersModelUser extends JModelAdmin
 	 * @return  JTable  A database object
 	 *
 	 * @since   1.6
-	*/
+	 */
 	public function getTable($type = 'User', $prefix = 'JTable', $config = array())
 	{
 		$table = JTable::getInstance($type, $prefix, $config);
@@ -212,8 +194,8 @@ class UsersModelUser extends JModelAdmin
 			if ($twoFactorMethod != 'none')
 			{
 				// Run the plugins
-				FOFPlatform::getInstance()->importPlugin('twofactorauth');
-				$otpConfigReplies = FOFPlatform::getInstance()->runPlugins('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
+				JPluginHelper::importPlugin('twofactorauth');
+				$otpConfigReplies = JEventDispatcher::getInstance()->trigger('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
 
 				// Look for a valid reply
 				foreach ($otpConfigReplies as $reply)
@@ -852,7 +834,7 @@ class UsersModelUser extends JModelAdmin
 
 		// Create an encryptor class
 		$key = $this->getOtpConfigEncryptionKey();
-		$aes = new FOFEncryptAes($key, 256);
+		$aes = new JEncryptAes($key, 256);
 
 		// Decrypt the data
 		$decryptedConfig = $aes->decryptString($encryptedConfig);
@@ -920,7 +902,7 @@ class UsersModelUser extends JModelAdmin
 
 		// Create an encryptor class
 		$key = $this->getOtpConfigEncryptionKey();
-		$aes = new FOFEncryptAes($key, 256);
+		$aes = new JEncryptAes($key, 256);
 
 		// Create the encrypted option strings
 		if (!empty($otpConfig->method) && ($otpConfig->method != 'none'))
@@ -966,9 +948,9 @@ class UsersModelUser extends JModelAdmin
 
 		$otpConfig = $this->getOtpConfig($user_id);
 
-		FOFPlatform::getInstance()->importPlugin('twofactorauth');
+		JPluginHelper::importPlugin('twofactorauth');
 
-		return FOFPlatform::getInstance()->runPlugins('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+		return JEventDispatcher::getInstance()->trigger('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
 	}
 
 	/**
@@ -1073,7 +1055,7 @@ class UsersModelUser extends JModelAdmin
 			$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 
 			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load($extension, $source, null, false, true);
+					|| $lang->load($extension, $source, null, false, true);
 
 			$warn = true;
 			$warnMessage = JText::_('COM_USERS_ERROR_SECRET_CODE_WITHOUT_TFA');
@@ -1112,16 +1094,10 @@ class UsersModelUser extends JModelAdmin
 			'secretkey' => $secretkey,
 		);
 
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-
 		// Try to validate the OTP
-		FOFPlatform::getInstance()->importPlugin('twofactorauth');
+		JPluginHelper::importPlugin('twofactorauth');
 
-		$otpAuthReplies = FOFPlatform::getInstance()->runPlugins('onUserTwofactorAuthenticate', array($credentials, $options));
+		$otpAuthReplies = JEventDispatcher::getInstance()->trigger('onUserTwofactorAuthenticate', array($credentials, $options));
 
 		$check = false;
 
