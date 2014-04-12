@@ -89,6 +89,7 @@ class PlgUserContactCreator extends JPlugin
 			$contact->user_id  = $user_id;
 			$contact->email_to = $user['email'];
 			$contact->catid    = $categoryId;
+			$contact->access   = '1';
 			$contact->language = '*';
 			$contact->generateAlias();
 
