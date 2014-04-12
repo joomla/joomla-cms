@@ -697,9 +697,9 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			$query->setLimit($limit, $offset);
 		}
 
-		$query = $this->replacePrefix((string) $query);
+		$sql = $this->replacePrefix((string) $query);
 
-		$this->prepared = $this->connection->prepare($query, $driverOptions);
+		$this->prepared = $this->connection->prepare($sql, $driverOptions);
 
 		// Store reference to the JDatabaseQuery instance:
 		parent::setQuery($query, $offset, $limit);
