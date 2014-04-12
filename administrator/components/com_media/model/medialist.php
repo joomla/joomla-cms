@@ -203,7 +203,7 @@ class MediaModelMedialist extends ConfigModelForm
 
 					if($result != null)
 					{
-						$tmp->core_content_id = $result->core_content_id;
+						$tmp->id = $result->core_content_id;
 
 					}
 					else
