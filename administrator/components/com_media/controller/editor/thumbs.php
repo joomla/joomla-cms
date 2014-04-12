@@ -41,13 +41,7 @@ class MediaControllerEditorThumbs extends JControllerBase
 
 		$file   = $this->app->input->get('file');
 		$folder = $this->app->input->get('folder');
-		
-		$path     = JPath::clean(COM_MEDIA_BASE . '/' . $file);
-		
-		if(!empty($folder))
-		{
-			$path     = JPath::clean(COM_MEDIA_BASE . '/' . $folder . '/' . $file);
-		}
+		$id		= $this->app->input->get('id');
 
 		if(!empty($thumbsFolder))
 		{
@@ -59,16 +53,16 @@ class MediaControllerEditorThumbs extends JControllerBase
 
 		$model = new $modelClass;
 
-		if ($model->createThumbs($path, $size, $creationMethod, $thumbsFolder))
+		if ($model->createThumbs($id, $size, $creationMethod, $thumbsFolder))
 		{
 			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_THUMBS_SUCCESS'));
-			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file;
+			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id;
 			$this->app->redirect(JRoute::_($url, false));
 		}
 		else
 		{
 			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_THUMBS_ERROR'), 'error');
-			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file;
+			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id;
 			$this->app->redirect(JRoute::_($url, false));
 		}
 

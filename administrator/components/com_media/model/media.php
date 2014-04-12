@@ -189,7 +189,8 @@ class MediaModelMedia extends ConfigModelForm
 		$data['core_metadata'] = json_encode($metadata);
 
 		$row->bind($data);
-		$row->store();
+		
+		if($row->store()) return true;
 
 	}
 

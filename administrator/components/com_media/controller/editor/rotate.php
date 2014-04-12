@@ -39,29 +39,23 @@ class MediaControllerEditorRotate extends JControllerBase
 
 		$file   = $this->app->input->get('file');
 		$folder = $this->app->input->get('folder');
-
-		$path     = JPath::clean(COM_MEDIA_BASE . '/' . $file);
-
-		if(!empty($folder))
-		{
-			$path     = JPath::clean(COM_MEDIA_BASE . '/' . $folder . '/' . $file);
-		}
+		$id		= $this->app->input->get('id');
 
 		$viewName = $this->input->getWord('view', 'editor');
 		$modelClass = $this->prefix . 'Model' . ucfirst($viewName);
 
 		$model = new $modelClass;
 
-		if ($model->resizeImage($path, $angle))
+		if ($model->rotateImage($id, $angle))
 		{
 			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_ROTATE_SUCCESS'));
-			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file;
+			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file. '&id=' . $id;
 			$this->app->redirect(JRoute::_($url, false));
 		}
 		else
 		{
 			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_ROTATE_ERROR'), 'error');
-			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file;
+			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file. '&id=' . $id;
 			$this->app->redirect(JRoute::_($url, false));
 		}
 	}

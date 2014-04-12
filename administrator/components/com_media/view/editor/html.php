@@ -55,7 +55,8 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 		$session	= JFactory::getSession();
 		$state		= $this->model->getState();
 		
-		$this->item		= $this->model->getItem();
+		$this->id		= $app->input->get('id');
+		$this->item		= $this->model->getItem($this->id);
 		$this->form		= $this->model->getForm();
 		
 		$this->session = $session;
@@ -66,6 +67,7 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 		// From template manager
 		$this->folder   = $app->input->get('folder');
 		$this->file     = $app->input->get('file');
+
 		$explodeArray   = explode('.', $this->file);
 		$ext            = end($explodeArray);
 		$imageExts      = explode(',', $config->get('image_extensions'));

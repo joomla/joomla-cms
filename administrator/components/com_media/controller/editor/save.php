@@ -46,9 +46,13 @@ class MediaControllerEditorSave extends JControllerBase
 		$data = $this->input->post->get('jform', array(), 'array');
 		$form = $model->getForm();
 	
-		$data['core_content_id'] = $this->input->get('core_content_id');
+		$file   = $this->app->input->get('file');
+		$folder = $this->app->input->get('folder');
+		$id   = $this->input->get('id');
+		
+		$data['core_content_id'] = $id;
 
-		$item = $model->getItem();
+		$item = $model->getItem($id);
 		$properties = $item->getProperties();
 		$data = array_replace_recursive($properties, $data);
 
@@ -57,7 +61,7 @@ class MediaControllerEditorSave extends JControllerBase
 
 		if ($return === false)
 		{
-			$this->app->redirect(JRoute::_('index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file, false));
+			$this->app->redirect(JRoute::_('index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id, false));
 		}
 		
 		// Attempt to save the configuration
@@ -68,7 +72,7 @@ class MediaControllerEditorSave extends JControllerBase
 		// Check the return value
 		if ($return === false)
 		{
-			$this->app->redirect(JRoute::_('index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file, false));
+			$this->app->redirect(JRoute::_('index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id, false));
 		}
 		
 		// Set the redirect based on the task.
@@ -78,13 +82,13 @@ class MediaControllerEditorSave extends JControllerBase
 			{
 				$folder = $this->input->get('folder');
 				$file = $this->input->get('file');	
-				$this->app->redirect(JRoute::_('index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file, false));
+				$this->app->redirect(JRoute::_('index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id, false));
 				break;
 			}
 
 			case 'save':
 			default:
-				$this->app->redirect(JRoute::_('index.php?option=com_media', false));
+				$this->app->redirect(JRoute::_('index.php?option=com_media&folder=' . $folder, false));
 				break;
 		}
 		

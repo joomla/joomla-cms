@@ -58,8 +58,9 @@ class MediaModelEditor extends JModelCmsitem
 	 */
 	public function getItem($pk = null)
 	{	
-		$pk = $this->getCoreContentId(); 
 // 		$pk = (!empty($pk)) ? $pk : (int) $this->state->get('media.id');
+		$input = JFactory::getApplication()->input;
+		$pk = (!empty($pk)) ? $pk :$input->get('id');
 	
 		if (!isset($this->item))
 		{
@@ -160,7 +161,9 @@ class MediaModelEditor extends JModelCmsitem
 	// update modified user and date after a change
 	private function updateData()
 	{
-		$pk = $this->getCoreContentId();
+
+		$input = JFactory::getApplication()->input;
+		$pk = $input->get('id');
 		
 		$row = $this->getTable();
 		$row->core_content_id = $pk;
@@ -168,36 +171,6 @@ class MediaModelEditor extends JModelCmsitem
 		$row->store();
 
 	}
-	
-	// provide required corecontentid for the current image
-	private function getCoreContentId()
-	{
-		$app = JFactory::getApplication();
-		
-		$file   = $app->input->get('file');
-		$folder = $app->input->get('folder');
-		
-		$path     = JPath::clean(COM_MEDIA_BASE . '/' . $file);
-		
-		if(!empty($folder))
-		{
-			$path     = JPath::clean(COM_MEDIA_BASE . '/' . $folder . '/' . $file);
-		}
-		
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		
-		$query 	-> select($db->quoteName('core_content_id'))
-				-> from($db->quoteName('#__ucm_content'))
-				-> where($db->quoteName('core_urls') . ' = '. $db->quote($path));
-		
-		$db->setQuery($query);
-		
-		$result = $db->loadObject();
-		
-		return $result->core_content_id;
-	}
-	
 	
 	/**
 	 * Auto-populate the model state.
@@ -318,7 +291,7 @@ class MediaModelEditor extends JModelCmsitem
 	/**
 	 * Crop an image.
 	 *
-	 * @param   string  $file  The name and location of the file
+	 * @param   int     $id    The id of the entry
 	 * @param   string  $w     width.
 	 * @param   string  $h     height.
 	 * @param   string  $x     x-coordinate.
@@ -328,9 +301,12 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @since   3.3
 	 */
-	public function cropImage($file, $w, $h, $x, $y)
+	public function cropImage($id, $w, $h, $x, $y)
 	{
 		$app      = JFactory::getApplication();
+		$table   = $this->getTable();
+		$table->load($id);
+		$file	= $table->core_urls;
 
 		$JImage   = new JImage($file);
 
@@ -353,7 +329,7 @@ class MediaModelEditor extends JModelCmsitem
 	/**
 	 * Resize an image.
 	 *
-	 * @param   string  $file    The name and location of the file
+	 * @param   int     $id      The id of the entry
 	 * @param   string  $width   The new width of the image.
 	 * @param   string  $height  The new height of the image.
 	 *
@@ -361,10 +337,13 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @since   3.2
 	 */
-	public function resizeImage($file, $width, $height)
+	public function resizeImage($id, $width, $height)
 	{
 		$app     = JFactory::getApplication();
-
+		$table   = $this->getTable();
+		$table->load($id);
+		$file	= $table->core_urls;
+		
 		$JImage = new JImage($file);
 
 		try
@@ -386,16 +365,19 @@ class MediaModelEditor extends JModelCmsitem
 	/**
 	 * Rotate an image.
 	 *
-	 * @param   string  $file    The name and location of the file
+	 * @param   int     $id      The id of the entry
 	 * @param   string  $angle   The new angle of the image.
 	 *
 	 * @return   boolean  true if image rotate successful, false otherwise.
 	 *
 	 * @since   3.2
 	 */
-	public function rotateImage($file, $angle)
+	public function rotateImage($id, $angle)
 	{
 		$app     = JFactory::getApplication();
+		$table   = $this->getTable();
+		$table->load($id);
+		$file	= $table->core_urls;
 
 		$JImage = new JImage($file);
 
@@ -418,7 +400,7 @@ class MediaModelEditor extends JModelCmsitem
 	/**
 	 * Generating thumbs an image.
 	 *
-	 * @param   string  $file             The name and location of the file
+	 * @param   int     $id               The id of the entry
 	 * @param   mixed   $size             The thumbnail sizes as a string or an array
 	 * @param   int     $creationMethod   The thumbnail creation method
 	 * @param   string  $thumbsFolder     The folder to save thumbnails
@@ -427,9 +409,12 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @since   3.2
 	 */
-	public function createThumbs($file, $sizes, $creationMethod = JImage::SCALE_INSIDE, $thumbsFolder = null)
+	public function createThumbs($id, $sizes, $creationMethod = JImage::SCALE_INSIDE, $thumbsFolder = null)
 	{
 		$app     = JFactory::getApplication();
+		$table   = $this->getTable();
+		$table->load($id);
+		$file	= $table->core_urls;
 
 		$JImage = new JImage($file);
 
@@ -459,7 +444,7 @@ class MediaModelEditor extends JModelCmsitem
 	/**
 	 * Filter an image.
 	 *
-	 * @param   string  $file    The name and location of the file
+	 * @param   int     $id      The id of the entry
 	 * @param   string  $filter  The new filter for the image.
 	 * @param   string  $value   The filter value only use in brightness, contrast and smooth filters.
 	 *
@@ -467,9 +452,13 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @since   3.2
 	 */
-	public function filterImage($file, $filter, $value = null)
+	public function filterImage($id, $filter, $value = null)
 	{
 		$app     = JFactory::getApplication();
+		$table   = $this->getTable();
+		$table->load($id);
+		$file	= $table->core_urls;
+		
 		$options = array_fill(0, 11, 0);
 
 		if(!empty($value))

@@ -173,7 +173,7 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 		<img id="image-crop"
 			src="<?php echo $this->image['address'] . '?' . time(); ?>" />
 		<form
-			action="<?php echo JRoute::_('index.php?option=com_media&controller=media.crop.editor&folder=' . $this->folder . '&file=' . $this->file); ?>"
+			action="<?php echo JRoute::_('index.php?option=com_media&controller=media.crop.editor&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>"
 			method="post" name="adminForm" id="adminForm" class="form-horizontal">
 			<fieldset class="adminform">
 				<input type="hidden" id="x" name="x" />
@@ -200,14 +200,11 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_media'); ?>" method="post" name="adminForm" id="media-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_media&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>" method="post" name="adminForm" id="media-form" class="form-validate">
 		
 			<?php echo $this->loadTemplate('properties'); ?>
 
 			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="core_content_id" value="<?php echo (int) $this->item->core_content_id;?>" />
-			<input type="hidden" name="folder" value="<?php echo $this->folder;?>" />
-			<input type="hidden" name="file" value="<?php echo $this->file;?>" />
 			<?php echo JHtml::_('form.token'); ?>
 </form>			
 			
@@ -217,7 +214,7 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 
 <!-- Resize Modal -->
 <form
-	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.resize.editor&folder=' . $this->folder . '&file=' . $this->file); ?>"
+	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.resize.editor&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>"
 	method="post">
 	<div id="resizeModal" class="modal hide fade">
 		<div class="modal-header">
@@ -264,7 +261,7 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 
 <!-- Rotate Modal -->
 <form
-	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.rotate.editor&folder=' . $this->folder . '&file=' . $this->file); ?>"
+	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.rotate.editor&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>"
 	method="post">
 	<div id="rotateModal" class="modal hide fade">
 		<div class="modal-header">
@@ -300,7 +297,7 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 
 <!-- Filter Modal -->
 <form
-	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.filter.editor&folder=' . $this->folder . '&file=' . $this->file); ?>"
+	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.filter.editor&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>"
 	method="post">
 	<div id="filterModal" class="modal hide fade">
 		<div class="modal-header">
@@ -355,7 +352,7 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 
 <!-- Thumbs Modal -->
 <form
-	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.thumbs.editor&folder=' . $this->folder . '&file=' . $this->file); ?>"
+	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.thumbs.editor&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>"
 	method="post">
 	<div id="thumbsModal" class="modal hide fade">
 		<div class="modal-header">

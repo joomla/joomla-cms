@@ -42,13 +42,7 @@ class MediaControllerEditorCrop extends JControllerBase
 
 		$file   = $this->app->input->get('file');
 		$folder = $this->app->input->get('folder');
-		
-		$path     = JPath::clean(COM_MEDIA_BASE . '/' . $file);
-		
-		if(!empty($folder))
-		{
-			$path     = JPath::clean(COM_MEDIA_BASE . '/' . $folder . '/' . $file);
-		}
+		$id		= $this->app->input->get('id');
 
 		$viewName = $this->input->getWord('view', 'editor');
 		$modelClass = $this->prefix . 'Model' . ucfirst($viewName);
@@ -58,19 +52,19 @@ class MediaControllerEditorCrop extends JControllerBase
 		if (empty($w) && empty($h) && empty($x) && empty($y))
 		{
 			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_CROP_AREA_ERROR'), 'error');
-			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file;
+			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id;
 			$this->app->redirect(JRoute::_($url, false));
 		}
-		elseif ($model->cropImage($path, $w, $h, $x, $y))
+		elseif ($model->cropImage($id, $w, $h, $x, $y))
 		{
 			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_CROP_SUCCESS'));
-			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file;
+			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id;
 			$this->app->redirect(JRoute::_($url, false));
 		}
 		else
 		{
 			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_CROP_ERROR'), 'error');
-			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file;
+			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id;
 			$this->app->redirect(JRoute::_($url, false));
 		}
 
