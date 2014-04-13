@@ -31,6 +31,8 @@
 					type="url"
 					filter="url"
 					size="50"
+					required="true"
+					validate="url"
 					label="MOD_FEED_FIELD_RSSURL_LABEL"
 					description="MOD_FEED_FIELD_RSSURL_DESC" />
 				<field

@@ -272,7 +272,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchAccess($value, $pks, $contexts)
 	{
-		if (!$this->batchSet)
+		if (empty($this->batchSet))
 		{
 			// Set some needed variables.
 			$this->user = JFactory::getUser();
@@ -290,7 +290,10 @@ abstract class JModelAdmin extends JModelForm
 				$this->table->load($pk);
 				$this->table->access = (int) $value;
 
-				static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+				if (!empty($this->type))
+				{
+					$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+				}
 
 				if (!$this->table->store())
 				{
@@ -326,7 +329,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
-		if (!$this->batchSet)
+		if (empty($this->batchSet))
 		{
 			// Set some needed variables.
 			$this->user = JFactory::getUser();
@@ -390,7 +393,10 @@ abstract class JModelAdmin extends JModelForm
 				return false;
 			}
 
-			static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+			if (!empty($this->type))
+			{
+				$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+			}
 
 			// Store the row.
 			if (!$this->table->store())
@@ -427,7 +433,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchLanguage($value, $pks, $contexts)
 	{
-		if (!$this->batchSet)
+		if (empty($this->batchSet))
 		{
 			// Set some needed variables.
 			$this->user = JFactory::getUser();
@@ -445,7 +451,10 @@ abstract class JModelAdmin extends JModelForm
 				$this->table->load($pk);
 				$this->table->language = $value;
 
-				static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+				if (!empty($this->type))
+				{
+					$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+				}
 
 				if (!$this->table->store())
 				{
@@ -481,7 +490,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
-		if (!$this->batchSet)
+		if (empty($this->batchSet))
 		{
 			// Set some needed variables.
 			$this->user = JFactory::getUser();
@@ -537,7 +546,10 @@ abstract class JModelAdmin extends JModelForm
 				return false;
 			}
 
-			static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+			if (!empty($this->type))
+			{
+				$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+			}
 
 			// Store the row.
 			if (!$this->table->store())
@@ -1140,7 +1152,6 @@ abstract class JModelAdmin extends JModelForm
 		$tableClassName = get_class($table);
 		$contentType = new JUcmType;
 		$type = $contentType->getTypeByTable($tableClassName);
-		$typeAlias = $type->type_alias;
 		$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
 		$conditions = array();
 
@@ -1165,7 +1176,10 @@ abstract class JModelAdmin extends JModelForm
 			{
 				$table->ordering = $order[$i];
 
-				$this->createTagsHelper($tagsObserver, $type, $pk, $typeAlias, $table);
+				if ($type)
+				{
+					$this->createTagsHelper($tagsObserver, $type, $pk, $type->type_alias, $table);
+				}
 
 				if (!$table->store())
 				{

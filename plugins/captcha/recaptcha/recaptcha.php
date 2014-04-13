@@ -45,6 +45,8 @@ class PlgCaptchaRecaptcha extends JPlugin
 		$document = JFactory::getDocument();
 		$app      = JFactory::getApplication();
 
+		JHtml::_('jquery.framework');
+
 		$lang   = $this->_getLanguage();
 		$pubkey = $this->params->get('public_key', '');
 		$theme  = $this->params->get('theme', 'clean');
@@ -62,7 +64,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 
 		JHtml::_('script', $server . '/js/recaptcha_ajax.js');
-		$document->addScriptDeclaration('window.addEvent(\'domready\', function()
+		$document->addScriptDeclaration('jQuery( document ).ready(function()
 		{
 			Recaptcha.create("' . $pubkey . '", "dynamic_recaptcha_1", {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
 		);
