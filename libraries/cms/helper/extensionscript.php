@@ -7,18 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access to this file
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 /**
- * Helper class to aid with modules installing.
+ * Helper class to aid with extension installs.
  *
  * @since  3.4
  */
-class JExtensionscriptHelper
+class JHelperExtensionscript
 {
 	/**
 	 * @var		string	The version number of the module.
@@ -74,7 +73,7 @@ class JExtensionscriptHelper
 	protected $allowDowngrades = false;
 
 	/**
-	 * Function called before module installation/update/removal procedure commences
+	 * Function called before extension installation/update/removal procedure commences
 	 *
 	 * @param   string                   $type    The type of change (install, update or discover_install,
 	 *                                            not uninstall)
