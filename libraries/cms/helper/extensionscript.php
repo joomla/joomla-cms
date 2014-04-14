@@ -20,48 +20,50 @@ jimport('joomla.filesystem.folder');
 class JHelperExtensionscript
 {
 	/**
-	 * @var		string	The version number of the module.
-	 * @since   3.4
+	 * @var    string  The version number of the module.
+	 * @since  3.4
 	 */
 	protected $release;
 
 	/**
-	 * @var		string	The table the parameters are stored in.
-	 * @since   3.4
+	 * @var    string  The table the parameters are stored in.
+	 * @since  3.4
 	 */
 	protected $paramTable;
 
 	/**
-	 * @var		string	The extension name. This should be set in the installer script.
-	 * @since   3.4
+	 * @var    string  The extension name. This should be set in the installer script.
+	 * @since  3.4
 	 */
 	protected $extension;
 
 	/**
-	 * @var		array  A list of files to be deleted.
-	 * @since   3.4
+	 * @var    array  A list of files to be deleted.
+	 * @since  3.4
 	 */
 	protected $deleteFiles = array();
 
 	/**
-	 * @var		array  A list of folders to be deleted.
-	 * @since   3.4
+	 * @var    array  A list of folders to be deleted.
+	 * @since  3.4
 	 */
 	protected $deleteFolders = array();
 
 	/**
-	 * @var   array  A list of cli script files to be copied to the cli directory
-	 * @since   3.4
+	 * @var    array  A list of cli script files to be copied to the cli directory
+	 * @since  3.4
 	 */
 	protected $cliScriptFiles = array();
 
 	/**
-	 * @var   string  Minimum PHP version required to install the extension
+	 * @var    string  Minimum PHP version required to install the extension
+	 * @since  3.4
 	 */
 	protected $minimumPhp;
 
 	/**
-	 * @var   string  Minimum Joomla version required to install the extension
+	 * @var    string  Minimum Joomla version required to install the extension
+	 * @since  3.4
 	 */
 	protected $minimumJoomla;
 
