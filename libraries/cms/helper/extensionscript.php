@@ -67,6 +67,13 @@ class JExtensionscriptHelper
 	protected $minimumJoomla;
 
 	/**
+	 * @var   boolean  Allow downgrades of your extension. Use at your own risk
+	 *                 as if there is a change in functionality people may wish
+	 *                 to downgrade
+	 */
+	protected $allowDowngrades = false;
+
+	/**
 	 * Function called before module installation/update/removal procedure commences
 	 *
 	 * @param   string                   $type    The type of change (install, update or discover_install,
@@ -106,7 +113,7 @@ class JExtensionscriptHelper
 		}
 
 		// Abort if the module being installed is not newer than the currently installed version
-		if ($type == 'Update')
+		if ($type == 'Update' && $this->allowDowngrades)
 		{
 			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', JFactory::getDbo()->quote($this->extension));
 			$oldRelease = $manifest['version'];
