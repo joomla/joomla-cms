@@ -76,7 +76,9 @@ class JFormFieldUser extends JFormField
 		// Handle the special case for "current".
 		elseif (strtoupper($this->value) == 'CURRENT')
 		{
-			$table->load(JFactory::getUser()->id);
+			// 'CURRENT' is not a reasonable value to be placed in the html
+			$this->value = JFactory::getUser()->id;
+			$table->load($this->value);
 		}
 		else
 		{
@@ -99,7 +101,7 @@ class JFormFieldUser extends JFormField
 		$html[] = '</div>';
 
 		// Create the real field, hidden, that stored the user id.
-		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . (int) $this->value . '" />';
+		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $this->value . '" />';
 
 		return implode("\n", $html);
 	}
