@@ -28,6 +28,11 @@ $ -> Idioma corrección o cambio
 - -> Eliminado
 ! -> Nota
 
+07-nov-2013
+ # Fallo al actualizar extensiones de terceros
+ # Fallo al agregar adjuntos
+ # Ajustes relativos a Joomla 2.5.14
+
 26-abr-2013
  + Ajustes relativos a Joomla 2.5.10/2.5.11
  + Agregado en Gestor de Módulo el nombre de la carpeta del módulo.
