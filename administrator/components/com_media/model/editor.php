@@ -79,7 +79,7 @@ class MediaModelEditor extends JModelCmsitem
 
 			// Convert to the JObject before adding other data.
 			$properties = $table->getProperties(1);
-			$this->item = JArrayHelper::toObject($properties, 'JObject');
+			$this->item = JArrayHelper::toObject($properties);
 
 			// Convert the params field to an array.
 			$registry = new JRegistry;
@@ -87,12 +87,12 @@ class MediaModelEditor extends JModelCmsitem
 			$this->item->core_params = $registry->toArray();
 
 			// Still not working
-/*			if (!empty($this->item->id))
+			if (!empty($this->item->core_content_id))
 			{
 				$this->item->tags = new JHelperTags;
-				$this->item->tags->getTagIds($this->item->core_content_id, $this->item->core_type_id);
+				$this->item->tags->getTagIds($this->item->core_content_id, $this->item->core_type_alias);
 			}
-*/			
+			
 	
 		}
 

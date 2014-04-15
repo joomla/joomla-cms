@@ -53,10 +53,11 @@ class MediaControllerEditorSave extends JControllerBase
 		$data['core_content_id'] = $id;
 
 		$item = $model->getItem($id);
-		$properties = $item->getProperties();
-		$data = array_replace_recursive($properties, $data);
 
-		// Validate the posted data - fails here
+		// Replace array with non-existing properties
+		$data = array_replace_recursive((array) $item, $data);
+
+		// Validate the posted data
 		$return = $model->validate($form, $data);
 
 		if ($return === false)

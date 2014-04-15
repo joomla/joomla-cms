@@ -177,6 +177,7 @@ class MediaModelMedia extends ConfigModelForm
 		$data['core_urls'] = $file['filepath'];
 
 		$fname = explode('.', $file['name']);
+		$data['core_type_alias'] = 'com_media.image';
 		$data['core_title'] = $fname[0];
 		$data['core_alias'] = JFilterOutput::stringURLSafe($fname[0]);
 		$data['core_state'] = '1';
