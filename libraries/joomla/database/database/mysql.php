@@ -92,7 +92,7 @@ class JDatabaseMySQL extends JDatabase
 		}
 
 		// Attempt to connect to the server.
-		if (!($this->connection = @ mysql_connect($options['host'], $options['user'], $options['password'], true)))
+		if (!($this->connection = mysql_connect($options['host'], $options['user'], $options['password'], true)))
 		{
 
 			// Legacy error handling switch based on the JError::$legacy switch.
