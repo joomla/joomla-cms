@@ -98,16 +98,14 @@ class ContentViewArticle extends JViewLegacy
 		$offset = $this->state->get('list.offset');
 
 		// Check the view access to the article (the model has already computed the values).
-		if ($item->params->get('access-view') != true && (($item->params->get('show_noauth') != true &&  $user->get('guest') ))) {
-
-						JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
-
+		if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0'))
+		{
+				JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 				return;
-
 		}
 
-		if ($item->params->get('show_intro', '1')=='1') {
-			$item->text = $item->introtext.' '.$item->fulltext;
+		if ($item->params->get('show_intro', '1') == '1') {
+			$item->text = $item->introtext . ' ' . $item->fulltext;
 		}
 		elseif ($item->fulltext) {
 			$item->text = $item->fulltext;
