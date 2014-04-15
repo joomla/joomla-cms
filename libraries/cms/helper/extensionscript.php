@@ -20,7 +20,7 @@ jimport('joomla.filesystem.folder');
 class JHelperExtensionscript
 {
 	/**
-	 * @var    string  The version number of the module.
+	 * @var    string  The version number of the extension.
 	 * @since  3.4
 	 */
 	protected $release;
@@ -77,9 +77,9 @@ class JHelperExtensionscript
 	/**
 	 * Function called before extension installation/update/removal procedure commences
 	 *
-	 * @param   string                   $type    The type of change (install, update or discover_install,
-	 *                                            not uninstall)
-	 * @param   JInstallerAdapterModule  $parent  The class calling this method
+	 * @param   string            $type    The type of change (install, update or discover_install,
+	 *                                     not uninstall)
+	 * @param   JAdapterInstance  $parent  The class calling this method
 	 *
 	 * @return  boolean  true on success and false on failure
 	 *
@@ -99,13 +99,13 @@ class JHelperExtensionscript
 			JLog::add(JText::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), JLog::WARNING, 'jerror');
 		}
 
-		// Module manifest file version
+		// Extension manifest file version
 		$this->release = $parent->get("manifest")->version;
 		$extensionType = substr($this->extension, 0, 3);
 
+		// Modules parameters are located in the module table - else in the extension table
 		if ($extensionType === 'mod')
 		{
-			// Modules belong in the module table - else in the extension table
 			$this->paramTable = '#__modules';
 		}
 		else
@@ -113,7 +113,7 @@ class JHelperExtensionscript
 			$this->paramTable = '#__extensions';
 		}
 
-		// Abort if the module being installed is not newer than the currently installed version
+		// Abort if the extension being installed is not newer than the currently installed version
 		if ($type == 'Update' && $this->allowDowngrades)
 		{
 			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', JFactory::getDbo()->quote($this->extension));
