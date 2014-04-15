@@ -188,13 +188,13 @@ class JFile
 
 		foreach ($files as $file)
 		{
+			$file = JPath::clean($file);
+			
 			if (!is_file($file))
 			{
 				continue;
 			}
 			
-			$file = JPath::clean($file);
-
 			// Try making the file writable first. If it's read-only, it can't be deleted
 			// on Windows, even if the parent folder is writable
 			@chmod($file, 0777);
