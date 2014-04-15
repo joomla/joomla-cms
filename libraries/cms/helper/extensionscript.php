@@ -90,13 +90,13 @@ class JHelperExtensionscript
 		// Check for the minimum PHP version before continuing
 		if (!empty($this->minimumPhp) && !version_compare(PHP_VERSION, $this->minimumPhp, '>'))
 		{
-			JLog::add(JText::sprintf('JGLOBAL_MINIMUM_PHP', $this->minimumPhp), JLog::WARNING, 'jerror');
+			JLog::add(JText::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), JLog::WARNING, 'jerror');
 		}
 
 		// Check for the minimum Joomla version before continuing
 		if (!empty($this->minimumJoomla) && !version_compare(JVERSION, $this->minimumJoomla, '>'))
 		{
-			JLog::add(JText::sprintf('JGLOBAL_MINIMUM_JOOMLA', $this->minimumJoomla), JLog::WARNING, 'jerror');
+			JLog::add(JText::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), JLog::WARNING, 'jerror');
 		}
 
 		// Module manifest file version
@@ -121,7 +121,7 @@ class JHelperExtensionscript
 
 			if (version_compare($this->release, $oldRelease, '<'))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('JGLOBAL_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
 
 				return false;
 			}
@@ -299,7 +299,7 @@ class JHelperExtensionscript
 			{
 				if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
 				{
-					echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br />';
+					echo JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br />';
 				}
 			}
 		}
@@ -310,7 +310,7 @@ class JHelperExtensionscript
 			{
 				if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
 				{
-					echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
+					echo JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br />';
 				}
 			}
 		}
@@ -333,7 +333,7 @@ class JHelperExtensionscript
 
 				if (JFile::exists(JPATH_ROOT . $file) && !JFile::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name))
 				{
-					echo JText::sprintf('FILES_JOOMLA_ERROR_MOVE', $name);
+					echo JText::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
 				}
 			}
 		}
