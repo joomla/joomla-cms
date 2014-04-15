@@ -185,6 +185,10 @@ class JFile
 
 		foreach ($files as $file)
 		{
+			if(!is_file($file))
+			{
+				continue;
+			}
 			$file = JPath::clean($file);
 
 			// Try making the file writable first. If it's read-only, it can't be deleted
