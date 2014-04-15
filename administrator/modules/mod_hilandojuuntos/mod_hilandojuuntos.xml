@@ -36,14 +36,14 @@
 					name="url0sep"
 					type="text"
 					size="50"		
-					default="Portal Comunidad Juuntos"
+					default="Blogs Comunidad Juuntos"
 					label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
 					description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />	
 				<field
 					name="rssurl0"
 					type="text"
 					size="50"
-					default="http://juuntos.org/?format=feed&amp;type=rss"
+					default="http://www.juuntos.org/noticias.feed?type=rss"
 					label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
 					description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />						
 				<field type="spacer" name="myspacer" hr="true" />
@@ -51,14 +51,14 @@
 					name="url1sep"
 					type="text"
 					size="50"
-					default="Blogs Comunidad Juuntos"
+					default="Proyecto JDOC"
 					label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
 					description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />
 				<field
 					name="rssurl1"
 					type="text"
 					size="50"
-					default="http://juuntos.org/noticias.feed?type=rss"
+					default="http://jdoc.juuntos.org/?format=feed&amp;type=rss"
 					label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
 					description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />
 				<field type="spacer" name="myspacer2" hr="true" />
@@ -66,14 +66,14 @@
 					name="url2sep"
 					type="text"
 					size="50"
-					default="Foro Comunidad Juuntos"
+					default=""
 					label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
 					description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />
 				<field
 					name="rssurl2"
 					type="text"
 					size="50"
-					default="http://juuntos.org/foro/rss.feed"
+					default=""
 					label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
 					description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />
 				<field type="spacer" name="myspacer3" hr="true" />
@@ -81,14 +81,14 @@
 					name="url3sep"
 					type="text"
 					size="50"
-					default="JDoc Proyecto Documentación"
+					default=""
 					label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
 					description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />
 				<field
 					name="rssurl3"
 					type="text"
 					size="50"
-					default="http://jdoc.juuntos.org/?format=feed&amp;type=rss"
+					default=""
 					label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
 					description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />
 					
