@@ -91,27 +91,33 @@ class PlgSystemRedirect extends JPlugin
 
 				if (!$res)
 				{
-					// If not, add the new url to the database.
-					$columns = array(
-						$db->quoteName('old_url'),
-						$db->quoteName('new_url'),
-						$db->quoteName('referer'),
-						$db->quoteName('comment'),
-						$db->quoteName('hits'),
-						$db->quoteName('published'),
-						$db->quoteName('created_date')
-					);
-					$query->clear()
-						->insert($db->quoteName('#__redirect_links'), false)
-						->columns($columns)
-						->values(
-							$db->quote($current) . ', ' . $db->quote('') .
+					// If not, add the new url to the database but only if option is enabled
+					$params = new JRegistry(JPluginHelper::getPlugin('system', 'redirect')->params);
+					$collect_urls = $params->get('collect_urls', 1);
+
+					if ($collect_urls == true)
+					{
+						$columns = array(
+							$db->quoteName('old_url'),
+							$db->quoteName('new_url'),
+							$db->quoteName('referer'),
+							$db->quoteName('comment'),
+							$db->quoteName('hits'),
+							$db->quoteName('published'),
+							$db->quoteName('created_date')
+						);
+						$query->clear()
+							->insert($db->quoteName('#__redirect_links'), false)
+							->columns($columns)
+							->values(
+								$db->quote($current) . ', ' . $db->quote('') .
 								' ,' . $db->quote($referer) . ', ' . $db->quote('') . ',1,0, ' .
 								$db->quote(JFactory::getDate()->toSql())
-						);
+							);
 
-					$db->setQuery($query);
-					$db->execute();
+						$db->setQuery($query);
+						$db->execute();
+					}
 				}
 				else
 				{
