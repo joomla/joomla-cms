@@ -193,7 +193,7 @@ class MediaModelMedialist extends ConfigModelForm
 					$db = JFactory::getDbo();
 					$query = $db->getQuery(true);
 					
-					$query 	-> select($db->quoteName('core_content_id'))
+					$query 	-> select($db->quoteName('core_content_id') . ',' . $db->quoteName('core_title'))
 							-> from($db->quoteName('#__ucm_content'))
 							-> where($db->quoteName('core_urls') . ' = '. $db->quote($url));
 
@@ -204,6 +204,7 @@ class MediaModelMedialist extends ConfigModelForm
 					if($result != null)
 					{
 						$tmp->id = $result->core_content_id;
+						$tmp->title = $result->core_title;
 
 					}
 					else

@@ -70,6 +70,8 @@ class MediaControllerEditorSave extends JControllerBase
 
 		$return = $model->save($data);
 		
+		$this->postSaveHook($model, $data);
+		
 		// Check the return value
 		if ($return === false)
 		{
@@ -93,5 +95,13 @@ class MediaControllerEditorSave extends JControllerBase
 				break;
 		}
 		
+	}
+	
+	protected function postSaveHook($model, $data = array())
+	{
+		$table = $model->getTable();
+
+		$tags = new JHelperTags();
+		$tags->tagItem($data['core_content_id'], $table, $data['tags']);
 	}
 }
