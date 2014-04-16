@@ -37,7 +37,11 @@ $class = ' class="first"';
 				<?php echo $this->escape($child->title); ?></a>
 
 				<?php if (count($child->getChildren()) > 0) : ?>
-					<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
+					<?php if ($this->maxLevel == 1) : ?>
+						<a class="btn btn-mini disabled pull-right"><span class="icon-plus"></span></a>
+					<?php else : ?>
+						<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
+					<?php endif; ?>
 				<?php endif;?>
 			</h3>
 			<?php else : ?>
@@ -50,7 +54,11 @@ $class = ' class="first"';
 				<?php endif; ?>
 
 				<?php if (count($child->getChildren()) > 0) : ?>
-					<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
+					<?php if ($this->maxLevel == 1) : ?>
+						<a class="btn btn-mini disabled pull-right"><span class="icon-plus"></span></a>
+					<?php else : ?>
+						<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
+					<?php endif; ?>
 				<?php endif;?>
 			<?php endif;?>
 			</h3>
@@ -62,15 +70,13 @@ $class = ' class="first"';
 				<?php endif; ?>
 			<?php endif; ?>
 
-			<?php if (count($child->getChildren()) > 0) :?>
+			<?php if (count($child->getChildren()) > 0 && $this->maxLevel != 1) :?>
 			<div class="collapse fade" id="category-<?php echo $child->id;?>">
 				<?php
 				$this->children[$child->id] = $child->getChildren();
 				$this->category = $child;
 				$this->maxLevel--;
-				if ($this->maxLevel != 0) :
-					echo $this->loadTemplate('children');
-				endif;
+				echo $this->loadTemplate('children');
 				$this->category = $child->getParent();
 				$this->maxLevel++;
 				?>
