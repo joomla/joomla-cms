@@ -57,8 +57,38 @@ class ContentControllerAdjuntos extends JControllerForm
                 // TODO: Implementa/valida una estructura de datos para los nombres 
                 // de los archivos que se guardan en la base de datos
             } else {
-                print_r("Ha ocurrido un error");
-                print_r($archivo['error']);
+
+                // Muestra el mensaje a partir del código de error generado durante la 
+                // subida del archivo
+                $err = $archivo['error'];
+
+                $data = array();
+
+                switch ($err) {
+                    case 1:
+                        $data["Error ".$err] = "El tamaño del archivo excede el máximo permitido por la configuración";
+                        break;
+                    case 2:
+                        $data["Error ".$err] = "El archivo subudo excede el tamaño máximo permitido en el form";
+                    case 3:
+                        $data["Error ".$err] = "El archivo ha sido parcialmente subido";
+                        break;
+                    case 4:
+                        $data["Error ".$err] = "No se ha subido ningún archivo";
+                        break;
+                    case 6:
+                        $data["Error ".$err] = "Falta el directorio temporal ";
+                        break;
+                    case 7:
+                        $data["Error ".$err] = "Falló al escribir en el disco";
+                        break;
+                    case 8:
+                        $data["Error ".$err] = "La extensión de PHP paró la subida del archivo, no se puede comprobar";
+                        break;
+                }
+
+                // Retorna un objeto JSON que puede ser utilizado en el cliente
+                print_r(json_encode($data));
             }
         }
     }
