@@ -36,7 +36,7 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$sitename = $app->getCfg('sitename');
+$sitename = $app->get('sitename');
 
 ?>
 <!DOCTYPE html>
@@ -64,7 +64,7 @@ $sitename = $app->getCfg('sitename');
 			}
 		}
 		<?php // Check if debug is on ?>
-		<?php if ($app->getCfg('debug_lang') == '1' or $app->getCfg('debug') == '1') : ?>
+		<?php if ($app->get('debug_lang') == '1' or $app->get('debug') == '1') : ?>
 			.view-login .container {
 				position: static;
 				margin-top: 20px;
