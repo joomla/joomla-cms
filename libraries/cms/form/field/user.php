@@ -80,7 +80,7 @@ class JFormFieldUser extends JFormField
 		}
 		else
 		{
-			$table->username = JText::_('JLIB_FORM_SELECT_USER');
+			$table->name = JText::_('JLIB_FORM_SELECT_USER');
 		}
 
 		// Create a dummy text field with the user name.
