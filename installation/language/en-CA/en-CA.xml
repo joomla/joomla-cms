@@ -2,19 +2,19 @@
 <metafile
 	version="3.2"
 	client="installation">
-	<name>French (Fr)</name>
+	<name>English (Canada)</name>
 	<version>3.2.0</version>
-	<creationDate>September 2012</creationDate>
-	<author>Joomla.fr</author>
+	<creationDate>2014-04-12</creationDate>
+	<author>Martin Lamothe</author>
 	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description></description>
 	<files>
-		<filename>fr-FR.ini</filename>
+		<filename>en-CA.ini</filename>
 	</files>
 	<metadata>
-		<name>Français (Fr)</name>
-		<tag>fr-FR</tag>
+		<name>English (Canada)</name>
+		<tag>en-CA</tag>
 		<rtl>0</rtl>
 	</metadata>
 	<params />
