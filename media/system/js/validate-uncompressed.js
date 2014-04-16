@@ -29,7 +29,7 @@ var JFormValidator = new Class({
 		// Default handlers
 		this.setHandler('username',
 			function (value) {
-				regex = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&]", "i");
+				regex = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&|\ ]", "i");
 				return !regex.test(value);
 			}
 		);
