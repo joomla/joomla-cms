@@ -8,6 +8,7 @@
 
 defined ('_JEXEC') or die('Acceso directo a este archivo restringido');
 
+
 jimport('joomla.form.formfield');
 
 /*
@@ -34,10 +35,11 @@ class JFormFieldAdjuntos extends JFormField
         JHtml::_('script', 'system/progressbar-uncompressed.js', false, true);
         JHtml::_('script', 'system/mootools-file-upload.js', false, true);
 
-        $archivo    = $this->element['archivo'];
-        $tipo       = $this->element['tipo'];
-        $nombre     = $this->element['nombre'];
-        $descripcion= $this->element['descripcion'];
+        $archivo        = $this->element['archivo'];
+        $tipo           = $this->element['tipo'];
+        $nombre         = $this->element['nombre'];
+        $descripcion    = $this->element['descripcion'];
+        $extensiones    = $this->element->getAttribute('extensiones');
         
         // Path subida de archivos
         $path       = $this->element['path'];       
@@ -151,6 +153,7 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '           url: "'.JURI::root().'administrator/index.php?option=com_content&task=adjuntos.subir&format=json",';
         $script[] = '           data: {';
         $script[] = '               "campo":"campo-adjunto-"+adjuntoCount,';
+        $script[] = '               "exts":"'.$extensiones.'",';
         $script[] = '               "id":'.$id.'},';
         $script[] = '           images: ["campo-adjunto-"+adjuntoCount],';
         $script[] = '           adjuntoId: adjuntoCount,'; 

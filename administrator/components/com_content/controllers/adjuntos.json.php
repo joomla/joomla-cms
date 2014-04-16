@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controllerform');
 jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.mime');
 
 
 class ContentControllerAdjuntos extends JControllerForm
@@ -35,9 +36,18 @@ class ContentControllerAdjuntos extends JControllerForm
         // Obtiene la variable @campo enviada en el request 
         $campo = $jinput->get->get('campo', null, null);
 
+        // Obtiene la variable @exts (extensiones) enviada en el request
+        $exts = explode(',', $jinput->get->get('exts', null, null));
+
+        // Obtiene los datos del archivo
         $archivo = $jinput->files->get($campo);
 
         if(isset($archivo)){
+
+            $mimeArchivo = $archivo['type'];
+
+            // Valida el tipo mime del archivo
+            $esValido = self::validarTipoMime($exts, $mimeArchivo);
 
             // Sanea el nombre de archivo evitando caracteres no deseados
             $nombreArchivo = strtolower(JFile::makeSafe($archivo['name']));
@@ -114,6 +124,20 @@ class ContentControllerAdjuntos extends JControllerForm
         $dest = null;
 
         return $arr;
+    }
+
+    /**
+     * Valida que el tipo mime del archivo corresponda al los tipos mime definidos en
+     * la configuración del elemento Adjuntos
+     *
+     * @param   $exts           Array con las extensiones de archivo permitidas, 
+     *                          definidas en la configuración xml
+     * @param   $mimeArchivo    String contiene el tipo mime del archivo
+     * @return  boolean         Habilita o deshabilita la subida del archivo
+     */
+
+    function validarTipoMime($exts, $mimeArchivo) {
+        $mimes = JMime::set($exts);
     }
 
     public function borrar() {

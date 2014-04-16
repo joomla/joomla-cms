@@ -911,6 +911,7 @@
 		<field
 			name="adjuntos"
 			type="adjuntos"
+            extensiones="aw,zip,ez,flv,ogv,mp4"
 			label="Adjuntos"
             description="Adjuntos" />
 	</fields> 
