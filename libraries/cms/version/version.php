@@ -22,10 +22,10 @@ final class JVersion
 	public $PRODUCT = 'Joomla!';
 
 	/** @var  string  Release version. */
-	public $RELEASE = '3.2';
+	public $RELEASE = '3.3';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '4-dev';
+	public $DEV_LEVEL = '0.rc-dev';
 
 	/** @var  string  Development STATUS. */
 	public $DEV_STATUS = 'Development';
@@ -37,10 +37,10 @@ final class JVersion
 	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELDATE = '6-March-2014';
+	public $RELDATE = '9-April-2014';
 
 	/** @var  string  Release time. */
-	public $RELTIME = '14:30';
+	public $RELTIME = '21:00';
 
 	/** @var  string  Release timezone. */
 	public $RELTZ = 'GMT';

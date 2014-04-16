@@ -266,13 +266,11 @@ class JFilesystemHelper
 		{
 			$files = new DirectoryIterator(__DIR__ . '/streams');
 
+			/* @type  $file  DirectoryIterator */
 			foreach ($files as $file)
 			{
-				$filename = $file->getFilename();
-
 				// Only load for php files.
-				// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-				if (!$file->isFile() || substr($filename, strrpos($filename, '.') + 1) != 'php')
+				if (!$file->isFile() || $file->getExtension() !== 'php')
 				{
 					continue;
 				}

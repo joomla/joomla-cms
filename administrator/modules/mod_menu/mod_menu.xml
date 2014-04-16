@@ -62,7 +62,6 @@
 					name="forum_url"
 					type="url"
 					filter="url"
-					class="inputbox"
 					size="30"
 					default=""
 					label="MOD_MENU_FIELD_FORUMURL_LABEL"

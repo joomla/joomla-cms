@@ -61,8 +61,35 @@ abstract class JHtmlBehavior
 		}
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
-		JHtml::_('script', 'system/core.js', false, true);
+
+		// Keep loading core.js for BC reasons
+ 		static::core();
+
 		static::$loaded[__METHOD__][$type] = true;
+
+		return;
+	}
+
+	/**
+	 * Method to load core.js into the document head.
+	 *
+	 * Core.js defines the 'Joomla' namespace and contains functions which are used across extensions
+	 *
+	 * @return  void
+	 *
+	 * @since   3.3
+	 */
+	public static function core()
+	{
+		// Only load once
+		if (isset(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/core.js', false, true);
+		static::$loaded[__METHOD__] = true;
 
 		return;
 	}
@@ -120,11 +147,14 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Include MooTools framework
+		static::framework();
+
+		// Include jQuery Framework
+		JHtml::_('jquery.framework');
+
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
-
-		// Include MooTools More framework
-		static::framework('more');
 
 		JHtml::_('script', 'system/punycode.js', false, true);
 		JHtml::_('script', 'system/validate.js', false, true);
@@ -240,18 +270,21 @@ abstract class JHtmlBehavior
 
 		$options = JHtml::getJSObject($opt);
 
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
 		// Attach tooltips to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('domready', function() {
-			$$('$selector').each(function(el) {
-				var title = el.get('title');
+			"jQuery(function($) {
+			 $('$selector').each(function() {
+				var title = $(this).attr('title');
 				if (title) {
 					var parts = title.split('::', 2);
-					el.store('tip:title', parts[0]);
-					el.store('tip:text', parts[1]);
+					$(this).get(0).store('tip:title', parts[0]); // Depends on Mootools store which requires for Tips
+					$(this).get(0).store('tip:text', parts[1]);  // Depends on Mootools store which requires for Tips
 				}
 			});
-			var JTooltips = new Tips($$('$selector'), $options);
+			var JTooltips = new Tips($('$selector').get(), $options);
 		});"
 		);
 
@@ -323,9 +356,12 @@ abstract class JHtmlBehavior
 		$opt['onShow']        = (isset($params['onShow'])) ? $params['onShow'] : null;
 		$opt['onHide']        = (isset($params['onHide'])) ? $params['onHide'] : null;
 
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
 		if (isset($params['fullScreen']) && (bool) $params['fullScreen'])
 		{
-			$opt['size']      = array('x' => '\\window.getSize().x-80', 'y' => '\\window.getSize().y-80');
+			$opt['size']      = array('x' => '\\jQuery(window).width() - 80', 'y' => '\\jQuery(window).height() - 80');
 		}
 
 		$options = JHtml::getJSObject($opt);
@@ -334,10 +370,9 @@ abstract class JHtmlBehavior
 		$document
 			->addScriptDeclaration(
 			"
-		window.addEvent('domready', function() {
-
+		jQuery(function($) {
 			SqueezeBox.initialize(" . $options . ");
-			SqueezeBox.assign($$('" . $selector . "'), {
+			SqueezeBox.assign($('" . $selector . "').get(), {
 				parse: 'rel'
 			});
 		});"
@@ -408,6 +443,9 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
 		// Setup options object
 		$opt['div']   = (array_key_exists('div', $params)) ? $params['div'] : $id . '_tree';
 		$opt['mode']  = (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
@@ -434,7 +472,7 @@ abstract class JHtmlBehavior
 
 		$treeName = (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
 
-		$js = '		window.addEvent(\'domready\', function(){
+		$js = '		jQuery(function(){
 			tree' . $treeName . ' = new MooTreeControl(' . $options . ',' . $rootNode . ');
 			tree' . $treeName . '.adopt(\'' . $id . '\');})';
 
@@ -662,7 +700,10 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		static::framework();
 
-		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
+		$js = "jQuery(function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
 			" else {top.location = self.location; }});";
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('html { display:none }');
