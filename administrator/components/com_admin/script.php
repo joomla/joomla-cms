@@ -250,7 +250,7 @@ class JoomlaInstallerScript
 				'type=' . $db->quote($extension[0])
 				. ' AND element=' . $db->quote($extension[1])
 				. ' AND folder=' . $db->quote($extension[2])
-				. ' AND client_id=' . $extension[3], 'OR'
+				. ' AND client_id=' . $db->quote($extension[3])
 			);
 		}
 
