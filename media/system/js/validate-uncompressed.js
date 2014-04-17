@@ -186,7 +186,7 @@ var JFormValidator = function() {
  	 	// Attach to forms with class 'form-validate'
  	 	jQuery('form.form-validate').each(function() {
  	 	 	attachToForm(this);
- 	 	}, this);
+ 	 	});
  	};
 
  	// Initialize handlers and attach validation to form

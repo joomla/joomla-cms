@@ -174,7 +174,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php echo htmlspecialchars($item->editor); ?>
 				</td>
 				<td class="center">
-					<?php echo number_format((int) $item->character_count, 0, '.', ','); ?>
+					<?php echo number_format((int) $item->character_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?>
 				</td>
 			</tr>
 			<?php $i++; ?>
