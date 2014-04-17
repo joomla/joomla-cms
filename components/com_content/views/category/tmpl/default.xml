@@ -193,10 +193,9 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field
-					name="spacer1"
-					type="spacer"
-					hr="true"
+			<field name="spacer1"
+			       type="spacer"
+			       hr="true"
 					/>
 			<field name="orderby_pri"
 			       type="list"
@@ -250,7 +249,6 @@
 			       type="list"
 			       label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			       description="JGLOBAL_PAGINATION_RESULTS_DESC">
-
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -390,31 +388,28 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field
-					name="show_vote"
-					type="list"
-					label="JGLOBAL_SHOW_VOTE_LABEL"
-					description="JGLOBAL_SHOW_VOTE_DESC"
+			<field name="show_vote"
+			       type="list"
+			       label="JGLOBAL_SHOW_VOTE_LABEL"
+			       description="JGLOBAL_SHOW_VOTE_DESC"
 					>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field
-					name="show_readmore"
-					type="list"
-					description="JGLOBAL_SHOW_READMORE_DESC"
-					label="JGLOBAL_SHOW_READMORE_LABEL"
+			<field name="show_readmore"
+			       type="list"
+			       description="JGLOBAL_SHOW_READMORE_DESC"
+			       label="JGLOBAL_SHOW_READMORE_LABEL"
 					>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field
-					name="show_readmore_title"
-					type="list"
-					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
-					description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
+			<field name="show_readmore_title"
+			       type="list"
+			       label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
+			       description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
 					>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>

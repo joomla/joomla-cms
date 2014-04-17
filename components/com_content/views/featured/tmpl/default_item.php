@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Create a shortcut for params.
-$params     = &$this->item->params;
+$params     = $this->item->params;
 $images     = json_decode($this->item->images);
 $canEdit    = $this->item->params->get('access-edit');
 $info       = $this->item->params->get('info_block_position', 0);
@@ -211,12 +211,12 @@ $info       = $this->item->params->get('info_block_position', 0);
 	<?php if ($params->get('access-view')) : ?>
 		<?php $link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>
 	<?php else : ?>
-		<?php $menu = JFactory::getApplication()->getMenu(); ?>
-		<?php $active = $menu->getActive(); ?>
-		<?php $itemId = $active->id; ?>
-		<?php $link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId); ?>
-		<?php $returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>
-		<?php $link = new JUri($link1); ?>
+		<?php $menu         = JFactory::getApplication()->getMenu(); ?>
+		<?php $active       = $menu->getActive(); ?>
+		<?php $itemId       = $active->id; ?>
+		<?php $link1        = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId); ?>
+		<?php $returnURL    = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>
+		<?php $link         = new JUri($link1); ?>
 		<?php $link->setVar('return', base64_encode($returnURL)); ?>
 	<?php endif; ?>
 	<p class="readmore">

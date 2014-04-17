@@ -13,15 +13,14 @@
 	<fields name="params">
 		<fieldset name="advanced"
 		          label="COM_MENUS_LAYOUT_FEATURED_OPTIONS">
-			<field
-					name="featured_categories"
-					type="category"
-					extension="com_content"
-					multiple="true"
-					size="10"
-					default=""
-					label="COM_CONTENT_FEATURED_CATEGORIES_LABEL"
-					description="COM_CONTENT_FEATURED_CATEGORIES_DESC">
+			<field name="featured_categories"
+			       type="category"
+			       extension="com_content"
+			       multiple="true"
+			       size="10"
+			       default=""
+			       label="COM_CONTENT_FEATURED_CATEGORIES_LABEL"
+			       description="COM_CONTENT_FEATURED_CATEGORIES_DESC">
 				<option value="">JOPTION_ALL_CATEGORIES</option>
 			</field>
 			<field name="layout_type"
@@ -156,12 +155,11 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field
-					name="info_block_position"
-					type="list"
-					default=""
-					label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
-					description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
+			<field name="info_block_position"
+			       type="list"
+			       default=""
+			       label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
+			       description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
@@ -268,32 +266,29 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field
-					name="show_vote"
-					type="list"
-					label="JGLOBAL_SHOW_VOTE_LABEL"
-					description="JGLOBAL_SHOW_VOTE_DESC"
+			<field name="show_vote"
+			       type="list"
+			       label="JGLOBAL_SHOW_VOTE_LABEL"
+			       description="JGLOBAL_SHOW_VOTE_DESC"
 					>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field
-					name="show_readmore"
-					type="list"
-					description="JGLOBAL_SHOW_READMORE_DESC"
-					label="JGLOBAL_SHOW_READMORE_LABEL"
+			<field name="show_readmore"
+			       type="list"
+			       description="JGLOBAL_SHOW_READMORE_DESC"
+			       label="JGLOBAL_SHOW_READMORE_LABEL"
 					>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field
-					name="show_readmore_title"
-					type="list"
-					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
-					description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
+			<field name="show_readmore_title"
+			       type="list"
+			       label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
+			       description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
 					>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
