@@ -64,7 +64,7 @@ $sitename = $app->get('sitename');
 			}
 		}
 		<?php // Check if debug is on ?>
-		<?php if ($app->get('debug_lang') == '1' or $app->get('debug') == '1') : ?>
+		<?php if ($app->get('debug_lang', 1) || $app->get('debug', 1)) : ?>
 			.view-login .container {
 				position: static;
 				margin-top: 20px;
