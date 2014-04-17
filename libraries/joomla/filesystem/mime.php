@@ -29,7 +29,7 @@ class JMime
 
         foreach($exts as $ext) {
             // cambia a minúsculas el string de la extensión
-            $ext = strtolower($str)
+            $ext = strtolower($ext);
 
             // verifica si la extensión contiene el caracter (.), si no, lo agrega
             if ($ext[0] != '.') $ext = '.'.$ext;
