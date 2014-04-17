@@ -292,8 +292,15 @@ class joomlaInstallerScript
 		$query = $db->getQuery(true);
 		$query->select('*');
 		$query->from('#__extensions');
-		foreach ($extensions as $extension) {
-			$query->where('type='.$db->quote($extension[0]).' AND element='.$db->quote($extension[1]).' AND folder='.$db->quote($extension[2]).' AND client_id='.$extension[3], 'OR');
+		
+		foreach ($extensions as $extension)
+		{
+			$query->where(
+				'type=' . $db->quote($extension[0])
+				. ' AND element=' . $db->quote($extension[1])
+				. ' AND folder=' . $db->quote($extension[2]) 
+				. ' AND client_id=' . $db->quote($extension[3])
+			);
 		}
 		$db->setQuery($query);
 		$extensions = $db->loadObjectList();
