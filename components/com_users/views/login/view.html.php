@@ -53,7 +53,7 @@ class UsersViewLogin extends JViewLegacy
 		{
 			$this->setLayout($active->query['layout']);
 		}
-		
+
 		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
 		$tfa = UsersHelper::getTwoFactorMethods();
 		$this->tfa = is_array($tfa) && count($tfa) > 1;
