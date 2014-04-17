@@ -35,11 +35,11 @@ class RedirectViewLinks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->enabled		        = RedirectHelper::isEnabled();
+		$this->enabled              = RedirectHelper::isEnabled();
 		$this->collect_urls_enabled = RedirectHelper::collectUrlsEnabled();
-		$this->items		        = $this->get('Items');
-		$this->pagination	        = $this->get('Pagination');
-		$this->state		        = $this->get('State');
+		$this->items                = $this->get('Items');
+		$this->pagination           = $this->get('Pagination');
+		$this->state                = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
