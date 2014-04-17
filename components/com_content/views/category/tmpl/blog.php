@@ -19,7 +19,6 @@ JHtml::_('behavior.caption');
 			<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
 		</div>
 	<?php endif; ?>
-
 	<?php if ($this->params->get('show_category_title', 1) or $this->params->get('page_subheading')) : ?>
 		<h2> <?php echo $this->escape($this->params->get('page_subheading')); ?>
 			<?php if ($this->params->get('show_category_title')) : ?>
@@ -27,12 +26,10 @@ JHtml::_('behavior.caption');
 			<?php endif; ?>
 		</h2>
 	<?php endif; ?>
-
-	<?php if ($this->params->get('show_tags', 1) && !empty($this->category->tags->itemTags)) : ?>
+	<?php if ($this->params->get('show_cat_tags', 1) && !empty($this->category->tags->itemTags)) : ?>
 		<?php $this->category->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 		<?php echo $this->category->tagLayout->render($this->category->tags->itemTags); ?>
 	<?php endif; ?>
-
 	<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 		<div class="category-desc clearfix">
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
@@ -43,64 +40,52 @@ JHtml::_('behavior.caption');
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>
-
 	<?php if (empty($this->lead_items) && empty($this->link_items) && empty($this->intro_items)) : ?>
 		<?php if ($this->params->get('show_no_articles', 1)) : ?>
 			<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
 		<?php endif; ?>
 	<?php endif; ?>
-
 	<?php $leadingcount = 0; ?>
 	<?php if (!empty($this->lead_items)) : ?>
 		<div class="items-leading clearfix">
 			<?php foreach ($this->lead_items as &$item) : ?>
 				<div
 					class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
-					<?php
-					$this->item = & $item;
-					echo $this->loadTemplate('item');
-					?>
+					<?php $this->item = & $item; ?>
+					<?php echo $this->loadTemplate('item'); ?>
 				</div>
 				<?php $leadingcount++; ?>
 			<?php endforeach; ?>
 		</div><!-- end items-leading -->
 	<?php endif; ?>
-
-	<?php
-	$introcount = (count($this->intro_items));
-	$counter = 0;
-	?>
-
+	<?php $introcount = (count($this->intro_items)); ?>
+	<?php $counter = 0;	?>
 	<?php if (!empty($this->intro_items)) : ?>
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
 			<?php $rowcount = ((int) $key % (int) $this->columns) + 1; ?>
 			<?php if ($rowcount == 1) : ?>
 				<?php $row = $counter / $this->columns; ?>
 				<div class="items-row cols-<?php echo (int) $this->columns; ?> <?php echo 'row-' . $row; ?> row-fluid clearfix">
-			<?php endif; ?>
-			<div class="span<?php echo round((12 / $this->columns)); ?>">
-				<div
-					class="item column-<?php echo $rowcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
-					<?php
-					$this->item = & $item;
-					echo $this->loadTemplate('item');
-					?>
-				</div>
-				<!-- end item -->
-				<?php $counter++; ?>
-			</div><!-- end span -->
-			<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
+					<?php endif; ?>
+					<div class="span<?php echo round((12 / $this->columns)); ?>">
+						<div
+							class="item column-<?php echo $rowcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
+							<?php $this->item = & $item; ?>
+							<?php echo $this->loadTemplate('item'); ?>
+						</div>
+						<!-- end item -->
+						<?php $counter++; ?>
+					</div><!-- end span -->
+					<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
 				</div><!-- end row -->
 			<?php endif; ?>
 		<?php endforeach; ?>
 	<?php endif; ?>
-
 	<?php if (!empty($this->link_items)) : ?>
 		<div class="items-more">
 			<?php echo $this->loadTemplate('links'); ?>
 		</div>
 	<?php endif; ?>
-
 	<?php if (!empty($this->children[$this->category->id]) && $this->maxLevel != 0) : ?>
 		<div class="cat-children">
 			<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
