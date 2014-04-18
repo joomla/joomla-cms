@@ -74,7 +74,7 @@ class MenusControllerItems extends JControllerAdmin
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		JLog::add('MenusControllerItems::saveorder() is deprecated. Function will be removed in 4.0', JLog::WARNING, 'deprecated');
-		
+
 		// Get the arrays from the Request
 		$order = $this->input->post->get('order', null, 'array');
 		$originalOrder = explode(',', $this->input->getString('original_order_values'));
