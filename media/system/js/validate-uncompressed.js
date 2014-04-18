@@ -63,7 +63,7 @@ var JFormValidator = new Class({
 
 	setHandler: function(name, fn, en)
 	{
-		en = (en == '') ? true : en;
+		en = (en === '') ? true : en;
 		this.handlers[name] = { enabled: en, exec: fn };
 	},
 
@@ -121,7 +121,7 @@ var JFormValidator = new Class({
 
 		// Only validate the field if the validate class is set
 		var handler = (el.className && el.className.search(/validate-([a-zA-Z0-9\_\-]+)/) != -1) ? el.className.match(/validate-([a-zA-Z0-9\_\-]+)/)[1] : "";
-		if (handler == '') {
+		if (handler === '') {
 			this.handleResponse(true, el);
 			return true;
 		}
@@ -129,7 +129,7 @@ var JFormValidator = new Class({
 		// Check the additional validation types
 		if ((handler) && (handler != 'none') && (this.handlers[handler]) && el.get('value')) {
 			// Execute the validation handler and return result
-			if (this.handlers[handler].exec(el.get('value')) != true) {
+			if (this.handlers[handler].exec(el.get('value')) !== true) {
 				this.handleResponse(false, el);
 				return false;
 			}
@@ -147,14 +147,14 @@ var JFormValidator = new Class({
 		// Validate form fields
 		var elements = form.getElements('fieldset').concat(Array.from(form.elements));
 		for (var i=0;i < elements.length; i++) {
-			if (this.validate(elements[i]) == false) {
+			if (this.validate(elements[i]) === false) {
 				valid = false;
 			}
 		}
 
 		// Run custom form validators if present
 		new Hash(this.custom).each(function(validator){
-			if (validator.exec() != true) {
+			if (validator.exec() !== true) {
 				valid = false;
 			}
 		});
@@ -163,7 +163,7 @@ var JFormValidator = new Class({
 			var message = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
 			var errors = jQuery("label.invalid");
 			var error = new Object();
-			error.error = new Array();
+			error.error = [];
 			for (var i=0;i < errors.length; i++) {
 				var label = jQuery(errors[i]).text();
 				if (label != 'undefined') {
@@ -189,7 +189,7 @@ var JFormValidator = new Class({
 		}
 
 		// Set the element and its label (if exists) invalid state
-		if (state == false) {
+		if (state === false) {
 			el.addClass('invalid');
 			el.set('aria-invalid', 'true');
 			if (el.labelref) {
