@@ -904,9 +904,6 @@ class MenusModelItem extends JModelAdmin
 				$base = JPATH_SITE . '/components/' . $option;
 			}
 
-			// Confirm a view is defined.
-			$formFile = false;
-
 			if (isset($args['view']))
 			{
 				$view = $args['view'];
@@ -920,8 +917,6 @@ class MenusModelItem extends JModelAdmin
 				{
 					$layout = 'default';
 				}
-
-				$formFile = false;
 
 				// Check for the layout XML file. Use standard xml file if it exists.
 				$tplFolders = array(
