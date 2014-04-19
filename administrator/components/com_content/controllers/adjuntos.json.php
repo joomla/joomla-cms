@@ -15,7 +15,6 @@ jimport('joomla.application.component.controllerform');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.mime');
 
-
 class ContentControllerAdjuntos extends JControllerForm
 {
     public function subir() {
@@ -46,8 +45,18 @@ class ContentControllerAdjuntos extends JControllerForm
 
             $mimeArchivo = $archivo['type'];
 
-            // Valida el tipo mime del archivo
+            // Valida el tipo mime del archivo, si no es valido retorna mensaje de error
+            // y detiene la ejecución
             $esValido = self::validarTipoMime($exts, $mimeArchivo);
+
+            if(!$esValido['estado']) {
+                $data = array(
+                    'Error' => $esValido['msg']
+                );
+                print_r(json_encode($data));
+
+                return;
+            }
 
             // Sanea el nombre de archivo evitando caracteres no deseados
             $nombreArchivo = strtolower(JFile::makeSafe($archivo['name']));
@@ -133,11 +142,25 @@ class ContentControllerAdjuntos extends JControllerForm
      * @param   $exts           Array con las extensiones de archivo permitidas, 
      *                          definidas en la configuración xml
      * @param   $mimeArchivo    String contiene el tipo mime del archivo
-     * @return  boolean         Habilita o deshabilita la subida del archivo
+     * @return  $arr            Array con el estado de la validación y mensaje resultante
      */
 
     function validarTipoMime($exts, $mimeArchivo) {
         $mimes = JMime::set($exts);
+        $estado = array_search($mimeArchivo, $mimes, true);
+
+        $arr = array();
+
+        if ($estado) {
+            $msg = "El tipo ".$mimeArchivo." es permitido para la subida de archivos";
+        } else {
+            $msg = "El tipo ".$mimeArchivo." no es permitido para la subida de archivos, contacte al administrador";
+        }
+
+        $arr['estado'] = $estado;
+        $arr['msg'] = $msg;
+
+        return $arr;
     }
 
     public function borrar() {
