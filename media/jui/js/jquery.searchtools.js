@@ -96,6 +96,13 @@
 		init: function () {
 			var self = this;
 
+			// IE < 9 - Avoid to submit placeholder value
+			if(!document.addEventListener  ) {
+				if (this.searchField.val() === this.searchField.attr('placeholder')) {
+					this.searchField.val('');
+				}
+			}
+
 			// Get values
 			this.searchString = this.searchField.val();
 
