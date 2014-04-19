@@ -129,13 +129,82 @@ class JFormFieldSQL extends JFormFieldList
 
 		if ($return)
 		{
+			// Check if its using the old way
+			$this->query = (string) $this->element['query'];
+
+			if (empty($this->query))
+			{
+				// Get the query from the form
+				$query = array();
+				$query['select'] = (string) $this->element['sql_select'];
+				$query['from'] = (string) $this->element['sql_from'];
+				$query['join'] = $this->element['sql_join'] ? (string) $this->element['sql_join'] : '';
+				$query['group'] = $this->element['sql_group'] ? (string) $this->element['sql_group'] : '';
+				$query['order'] = (string) $this->element['sql_order'];
+
+				// Get the filters
+				$filter = $this->element['sql_filter'] ? (string) $this->element['sql_filter'] : '';
+
+				// Process the query
+				$this->query = $this->processQuery($query, $filter);
+			}
+
 			$this->keyField   = $this->element['key_field'] ? (string) $this->element['key_field'] : 'value';
 			$this->valueField = $this->element['value_field'] ? (string) $this->element['value_field'] : (string) $this->element['name'];
 			$this->translate  = $this->element['translate'] ? (string) $this->element['translate'] : false;
-			$this->query      = (string) $this->element['query'];
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Method to process the query from form.
+	 *
+	 * @param   array   $conditions   The conditions from the form.
+	 * @param   string  $filter       The columns to filter.
+	 *
+	 * @return  $query  The query object.
+	 *
+	 * @since   12.1
+	 */
+	protected function processQuery($conditions, $filter)
+	{
+		// Get the database object.
+		$db = JFactory::getDbo();
+		// Get the query object
+		$query = $db->getQuery(true);
+		// Select fields
+		$query->select($conditions['select']);
+		// From selected table
+		$query->from($conditions['from']);
+		// Join over the groups
+		if (!empty($conditions['join']))
+		{
+			$query->join('LEFT', $conditions['join']);
+		}
+		// Group by
+		if (!empty($conditions['group']))
+		{
+			$query->group($conditions['group']);
+		}
+
+		// Process the filters
+		if (!empty($filter))
+		{
+			$html_filters = JFactory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
+
+			$filters = explode(",", $filter);
+
+			foreach($filters as $k => $value)
+			{
+				if (isset($html_filters[$value]))
+				{
+					$query->where("{$value} = {$html_filters[$value]}");
+				}
+			}
+		}
+
+		return $query;
 	}
 
 	/**
