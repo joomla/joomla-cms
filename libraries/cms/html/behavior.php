@@ -280,8 +280,8 @@ abstract class JHtmlBehavior
 				var title = $(this).attr('title');
 				if (title) {
 					var parts = title.split('::', 2);
-					$(this).get(0).store('tip:title', parts[0]); // Depends on Mootools store which requires for Tips
-					$(this).get(0).store('tip:text', parts[1]);  // Depends on Mootools store which requires for Tips
+					$(this).data('tip:title', parts[0]);
+					$(this).data('tip:text', parts[1]);
 				}
 			});
 			var JTooltips = new Tips($('$selector').get(), $options);

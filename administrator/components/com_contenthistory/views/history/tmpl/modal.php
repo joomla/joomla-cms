@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('jquery.framework');
 
