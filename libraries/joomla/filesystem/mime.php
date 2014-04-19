@@ -36,7 +36,16 @@ class JMime
 
             // verifica la extensión dentro del catálogo y almacena el valor del 
             // tipo mime en @mimes
-            if (array_key_exists($ext, $catalog)) array_push($mimes, $catalog[$ext]);
+            foreach ($catalog as $k => $v ) {
+                $parts = explode(',',$k);
+                $check = array_search($ext, $parts);
+
+                if($check !== false) {
+                    array_push($mimes, $v);
+                    break;
+                }
+
+            }
         }
 
         return $mimes;
