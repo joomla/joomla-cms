@@ -18,3 +18,6 @@ defined('_JEXEC') or die;
 		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_COMPLETE_MESSAGE', JVERSION); ?>
 	</p>
 </fieldset>
+<form action="index.php" method="post" id="adminForm">
+	<input type="hidden" name="task" value="update.download" />
+</form>
