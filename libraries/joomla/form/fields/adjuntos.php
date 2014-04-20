@@ -59,11 +59,18 @@ class JFormFieldAdjuntos extends JFormField
         $style[] = '    position:relative;';
         $style[] = '}';
         $style[] = '.error-msg {';
-        $style[] = '    background-color: red;';
-        $style[] = '    color: yellow;';
+        $style[] = '    background-color: #f2dede;';
+        $style[] = '    border-bottom: 1px solid #ebccd1;';
+        $style[] = '    color: #a94442;';
         $style[] = '    font-weight: bold;';
-        $style[] = '    padding: 3px;';
-        $style[] = '    position: relative;';
+        $style[] = '    padding: 3px 10px;';
+        $style[] = '}';
+        $style[] = '.warn-msg {';
+        $style[] = '    background-color: #fcf8e3;';
+        $style[] = '    border-bottom: 1px solid #faebcc;';
+        $style[] = '    color: #8a6d3b;';
+        $style[] = '    font-weight: bold;';
+        $style[] = '    padding: 3px 10px;';
         $style[] = '}';
         $style[] = '.progress {';
         $style[] = '    background-color: #111111;';
@@ -99,6 +106,8 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '       }';
         $script[] = '}).set("text", "+");';
 
+        $script[] = 'contenedor = $("controles-adjuntos").getParent("fieldset")';
+
         $script[] = '$("controles-adjuntos").grab(btnAgregarAdjunto);';
 
         $script[] = '});';
@@ -128,10 +137,8 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '               if(aId) {';
         $script[] = '                    subirArchivo();';
         $script[] = '               } else { ';
-        $script[] = '                   error = new Element("div",{';
-        $script[] = '                       class:"error-msg"';
-        $script[] = '                   }).set({"text":"Por favor guarde el Artículo antes de adjuntar archivos"});';
-        $script[] = '                   $("controles-adjuntos").grab(error,"before")';
+        $script[] = '                   msg = "Por favor guarde el artículo antes de adjuntar archivos"';
+        $script[] = '                   mostrarMensaje(msg, "warn")';
         $script[] = '               }';
         $script[] = '           }';
         $script[] = '   })';    
@@ -159,6 +166,10 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '           adjuntoId: adjuntoCount,'; 
         $script[] = '           onComplete: function(res) {';
         $script[] = '               var data = JSON.decode(res);';
+        $script[] = '               if (data.tipo == "error" || data.tipo == "warn") {';
+        $script[] = '                   mostrarMensaje(data.msg, data.tipo);';
+        $script[] = '                   return;';
+        $script[] = '               }';
         $script[] = '               var nombreArchivo = new Element("div",{';
         $script[] = '                   class:"nombre-archivo"';
         $script[] = '               }).set("text", data.nombreArchivo);';
@@ -180,6 +191,16 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '       }';
         $script[] = '   }).send();';
         $script[] = '   $(el.get("data-id")).dispose();';
+        $script[] = '}';
+
+        $script[] = 'function mostrarMensaje(msg, type) {';
+        $script[] = '   el = new Element("div", {';
+        $script[] = '       class: type+"-msg"';
+        $script[] = '       }).set({"text": msg});';
+        $script[] = '   contenedor.grab(el, "before");';
+        $script[] = '   var slide = new Fx.Slide(el).hide().slideIn();';
+        $script[] = '';
+        $script[] = '';
         $script[] = '}';
 
         JFactory::getDocument()->addStyleDeclaration(implode("\n", $style));

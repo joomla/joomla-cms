@@ -28,7 +28,10 @@ class ContentControllerAdjuntos extends JControllerForm
 
         $id = $jinput->get->get('id', null, null);
         if($id == 0) {
-            print_r('Debe haber guardado el artículo para agregar adjuntos');
+            $data = array();
+            $data['msg'] = "Por favor guarde el artículo antes de aduntar archivos";
+            $data['tipo'] = "warn";
+            print_r(json_encode($data));
             return;
         }
 
@@ -38,24 +41,42 @@ class ContentControllerAdjuntos extends JControllerForm
         // Obtiene la variable @exts (extensiones) enviada en el request
         $exts = explode(',', $jinput->get->get('exts', null, null));
 
+        // Obtiene datos del servidor
+        $maxFileSize = ini_get("upload_max_filesize");
+        $serverContent = $_SERVER['CONTENT_LENGTH'];
+
         // Obtiene los datos del archivo
         $archivo = $jinput->files->get($campo);
+
+
+        // Verifica que el tamaño del request no supere el definido en la configuración PHP
+        if ($maxFileSize > $serverContent && is_null($archivo['size'])) {
+            $data = array();
+            $data['msg'] = "El tamaño del archivo supera el máximo permitido por el request al servidor";
+            $data['tipo'] = "error";
+            print_r(json_encode($data));
+            return;
+        }
 
         if(isset($archivo)){
 
             $mimeArchivo = $archivo['type'];
 
-            // Valida el tipo mime del archivo, si no es valido retorna mensaje de error
+            // Valida el tip)o mime del archivo, si no es valido retorna mensaje de error
             // y detiene la ejecución
-            $esValido = self::validarTipoMime($exts, $mimeArchivo);
+            if(!is_null($mimeArchivo)) {
+                $esValido = self::validarTipoMime($exts, $mimeArchivo);
 
-            if(!$esValido['estado']) {
-                $data = array(
-                    'Error' => $esValido['msg']
-                );
-                print_r(json_encode($data));
+                if($esValido['estado'] === false) {
+                    $data = array(
+                        'msg' => $esValido['msg'],
+                        'tipo' => $esValido['tipo']
+                    );
 
-                return;
+                    print_r(json_encode($data));
+
+                    return;
+                }
             }
 
             // Sanea el nombre de archivo evitando caracteres no deseados
@@ -68,15 +89,14 @@ class ContentControllerAdjuntos extends JControllerForm
             $dest = JPATH_ROOT.DS.'uploads'.DS.sha1(time()).'-'.$nombreArchivo;
 
             if(JFile::upload($src, $dest)) {
-
                 $data = self::reformarArchivo($id, $dest);
 
                 print_r(json_encode($data));
 
                 // TODO: Implementa/valida una estructura de datos para los nombres 
                 // de los archivos que se guardan en la base de datos
-            } else {
 
+            } else {
                 // Muestra el mensaje a partir del código de error generado durante la 
                 // subida del archivo
                 $err = $archivo['error'];
@@ -85,26 +105,28 @@ class ContentControllerAdjuntos extends JControllerForm
 
                 switch ($err) {
                     case 1:
-                        $data["Error ".$err] = "El tamaño del archivo excede el máximo permitido por la configuración";
+                        $data["msg"] = "#".$err.": El tamaño del archivo excede el máximo permitido por la configuración";
                         break;
                     case 2:
-                        $data["Error ".$err] = "El archivo subudo excede el tamaño máximo permitido en el form";
+                        $data["msg"] = "#".$err.": El archivo subudo excede el tamaño máximo permitido en el form";
                     case 3:
-                        $data["Error ".$err] = "El archivo ha sido parcialmente subido";
+                        $data["msg"] = "#".$err.": El archivo ha sido parcialmente subido";
                         break;
                     case 4:
-                        $data["Error ".$err] = "No se ha subido ningún archivo";
+                        $data["msg"] = "#".$err.": No se ha subido ningún archivo";
                         break;
                     case 6:
-                        $data["Error ".$err] = "Falta el directorio temporal ";
+                        $data["msg"] = "#".$err.": Falta el directorio temporal ";
                         break;
                     case 7:
-                        $data["Error ".$err] = "Falló al escribir en el disco";
+                        $data["msg"] = "#".$err.": Falló al escribir en el disco";
                         break;
                     case 8:
-                        $data["Error ".$err] = "La extensión de PHP paró la subida del archivo, no se puede comprobar";
+                        $data["msg"] = "#".$err.": La extensión de PHP paró la subida del archivo, no se puede comprobar";
                         break;
                 }
+
+                $data["tipo"] = "error";
 
                 // Retorna un objeto JSON que puede ser utilizado en el cliente
                 print_r(json_encode($data));
@@ -142,7 +164,8 @@ class ContentControllerAdjuntos extends JControllerForm
      * @param   $exts           Array con las extensiones de archivo permitidas, 
      *                          definidas en la configuración xml
      * @param   $mimeArchivo    String contiene el tipo mime del archivo
-     * @return  $arr            Array con el estado de la validación y mensaje resultante
+     * @return  $arr            Array con el estado de la validación, mensaje resultante 
+     *                          y tipo de mensaje
      */
 
     function validarTipoMime($exts, $mimeArchivo) {
@@ -151,14 +174,15 @@ class ContentControllerAdjuntos extends JControllerForm
 
         $arr = array();
 
-        if ($estado) {
-            $msg = "El tipo ".$mimeArchivo." es permitido para la subida de archivos";
+        if ($estado === false) {
+            $arr['msg'] = "El tipo ".$mimeArchivo." no es permitido para la subida de archivos, contacte al administrador";
+            $arr['tipo'] = "warn"; 
+            $arr['estado'] = false;
         } else {
-            $msg = "El tipo ".$mimeArchivo." no es permitido para la subida de archivos, contacte al administrador";
+            $arr['msg'] = "El tipo ".$mimeArchivo." es permitido para la subida de archivos";
+            $arr['tipo'] = "success"; 
+            $arr['estado'] = true;
         }
-
-        $arr['estado'] = $estado;
-        $arr['msg'] = $msg;
 
         return $arr;
     }
