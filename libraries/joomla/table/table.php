@@ -311,14 +311,14 @@ class JTable extends JObject implements JObservableInterface, JTableInterface
 				
 				if($pos !== false)
 				{
-					$subject = substr_replace($prefix, '', $pos, strlen('Table'));
+					$component = substr_replace($prefix, '', $pos, strlen('Table'));
 				}
 
 				// If we have an irregularly named prefix we'll skip this step
-				if ($subject)
+				if ($component)
 				{
-					$tableName = '#__' . $subject . '_' . $typePlural;
-					$keyName = $subject . '_' . $typeSingular . '_id';
+					$tableName = '#__' . $component . '_' . $typePlural;
+					$keyName = $component . '_' . $typeSingular . '_id';
 
 					// TODO: check the table exists using JDatabase - will do this later if people approve
 					// of the method of this
