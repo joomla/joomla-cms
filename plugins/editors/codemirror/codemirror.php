@@ -95,6 +95,10 @@ class PlgEditorCodemirror extends JPlugin
 
 		$script = array(
 			';(function (cm) {',
+				// The legacy combo for fullscreen. Remove it later now there is a configurable one.
+				'cm.keyMap["default"]["Ctrl-Q"] = function (cm) {',
+					'cm.setOption("fullScreen", !cm.getOption("fullScreen"));',
+				'};',
 				'cm.keyMap["default"]["' . $this->fullScreenCombo . '"] = function (cm) {',
 					'cm.setOption("fullScreen", !cm.getOption("fullScreen"));',
 				'};',
@@ -418,7 +422,7 @@ class PlgEditorCodemirror extends JPlugin
 
 		$styles = array(
 			'font-family: ' . ((isset($info) && isset($info->css)) ? $info->css . '!important' : 'monospace') . ';',
-			'font-size: ' . $this->params->get('fontSize', 10) . 'px;',
+			'font-size: ' . $this->params->get('fontSize', 13) . 'px;',
 			'line-height: ' . $this->params->get('lineHeight', 1.2) . 'em;',
 			'border: ' . '1px solid #ccc;'
 		);
