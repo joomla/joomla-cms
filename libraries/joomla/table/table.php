@@ -22,7 +22,7 @@ jimport('joomla.filesystem.path');
  * @since       11.1
  * @tutorial	Joomla.Platform/jtable.cls
  */
-abstract class JTable extends JObject implements JObservableInterface, JTableInterface
+class JTable extends JObject implements JObservableInterface, JTableInterface
 {
 	/**
 	 * Include paths for searching for JTable classes.
@@ -250,6 +250,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
 	 *
+	 * @link    http://docs.joomla.org/JTable/getInstance
 	 * @since   11.1
 	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
@@ -257,6 +258,9 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// Sanitize and prepare the table class name.
 		$type       = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$tableClass = $prefix . ucfirst($type);
+
+		// If a database object was passed in the configuration array use it, otherwise get the global one from JFactory.
+		$db = isset($config['dbo']) ? $config['dbo'] : JFactory::getDbo();
 
 		// Only try to load the class if it doesn't already exist.
 		if (!class_exists($tableClass))
@@ -279,7 +283,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			}
 			else
 			{
-				// Load the RAD for now because it's inflector is much better than Joomala's
+								// Load the RAD for now because it's inflector is much better than Joomala's
 				// in the final example we'll either migrate that to a Joomla class which is a
 				// duplicate or similar
 				if (!defined('FOF_INCLUDED'))
@@ -303,11 +307,11 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 				// Remove the 'Table' part from the prefix - this should be the component name
 				$subject = false;
-				$pos = strrpos($subject, 'Table');
+				$pos = strrpos($prefix, 'Table');
 				
 				if($pos !== false)
 				{
-					$subject = substr_replace($subject, '', $pos, strlen('Table'));
+					$subject = substr_replace($prefix, '', $pos, strlen('Table'));
 				}
 
 				// If we have an irregularly named prefix we'll skip this step
@@ -321,15 +325,14 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 					return new JTable($tableName, $keyName, $db);
 				}
 
-				// If we were unable to find the class file in the JTable include paths or find a table raise a warning and return false.
+				// parent::__construct('#__content_frontpage', 'content_id', $db);
+
+				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
 				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type), JLog::WARNING, 'jerror');
 
 				return false;
 			}
 		}
-
-		// If a database object was passed in the configuration array use it, otherwise get the global one from JFactory.
-		$db = isset($config['dbo']) ? $config['dbo'] : JFactory::getDbo();
 
 		// Instantiate a new table class and return it.
 		return new $tableClass($db);
