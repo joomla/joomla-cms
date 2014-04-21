@@ -250,7 +250,6 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
 	 *
-	 * @link    http://docs.joomla.org/JTable/getInstance
 	 * @since   11.1
 	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
@@ -280,6 +279,14 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			}
 			else
 			{
+				// Load the RAD for now because it's inflector is much better than Joomala's
+				// in the final example we'll either migrate that to a Joomla class which is a
+				// duplicate or similar
+				if (!defined('FOF_INCLUDED'))
+				{
+					require_once JPATH_LIBRARIES . '/fof/include.php';
+				}
+
 				// Next let's search for a standardized table name if the parent class doesn't exist
 				$isTypeSingular = FOFInflector::isSingular($type);
 
