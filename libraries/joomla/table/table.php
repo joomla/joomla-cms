@@ -325,8 +325,6 @@ class JTable extends JObject implements JObservableInterface, JTableInterface
 					return new JTable($tableName, $keyName, $db);
 				}
 
-				// parent::__construct('#__content_frontpage', 'content_id', $db);
-
 				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
 				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type), JLog::WARNING, 'jerror');
 
