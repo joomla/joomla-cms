@@ -8451,6 +8451,19 @@ body {
 	left: 3px;
 	right: auto;
 }
+.chzn-container.chzn-with-drop .chzn-drop {
+	right: 0;
+	left: auto;
+}
+.chzn-container-single.chzn-container-single-nosearch .chzn-search {
+	position: absolute;
+	right: -9999px;
+	left: auto;
+}
+.chzn-container .chzn-drop {
+	right: -9999px;
+	left: auto;
+}
 .alert {
 	padding-right: 14px;
 	padding-left: 35px;
