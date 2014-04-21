@@ -250,7 +250,6 @@ class JTable extends JObject implements JObservableInterface, JTableInterface
 	 *
 	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
 	 *
-	 * @link    http://docs.joomla.org/JTable/getInstance
 	 * @since   11.1
 	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
@@ -314,15 +313,20 @@ class JTable extends JObject implements JObservableInterface, JTableInterface
 					$component = substr_replace($prefix, '', $pos, strlen('Table'));
 				}
 
-				// If we have an irregularly named prefix we'll skip this step
+				// If we have an irregularly named prefix we'll skip this and throw an error
 				if ($component)
 				{
 					$tableName = '#__' . $component . '_' . $typePlural;
 					$keyName = $component . '_' . $typeSingular . '_id';
 
-					// TODO: check the table exists using JDatabase - will do this later if people approve
-					// of the method of this
-					return new JTable($tableName, $keyName, $db);
+					// Get the list of tables so we can check tha table exists
+					if (in_array($tableName, $db->getTableList()))
+					{
+						// If the table exists then we return the JTable instance
+						// else we can only assume that the automatic names aren't being used
+						// and return false
+						return new JTable($tableName, $keyName, $db);
+					}
 				}
 
 				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
