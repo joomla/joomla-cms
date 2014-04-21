@@ -283,7 +283,7 @@ class JTable extends JObject implements JObservableInterface, JTableInterface
 			}
 			else
 			{
-								// Load the RAD for now because it's inflector is much better than Joomala's
+				// Load the RAD for now because it's inflector is much better than Joomala's
 				// in the final example we'll either migrate that to a Joomla class which is a
 				// duplicate or similar
 				if (!defined('FOF_INCLUDED'))
