@@ -280,7 +280,41 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			}
 			else
 			{
-				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
+				// Next let's search for a standardized table name if the parent class doesn't exist
+				$isTypeSingular = FOFInflector::isSingular($type);
+
+				if ($isTypeSingular)
+				{
+					$typeSingular = $type;
+					$typePlural = FOFInflector::pluralize($type);
+				}
+				else
+				{
+					$typeSingular = FOFInflector::singularize($type);
+					$typePlural = $type;
+				}
+
+				// Remove the 'Table' part from the prefix - this should be the component name
+				$subject = false;
+				$pos = strrpos($subject, 'Table');
+				
+				if($pos !== false)
+				{
+					$subject = substr_replace($subject, '', $pos, strlen('Table'));
+				}
+
+				// If we have an irregularly named prefix we'll skip this step
+				if ($subject)
+				{
+					$tableName = '#__' . $subject . '_' . $typePlural;
+					$keyName = $subject . '_' . $typeSingular . '_id';
+
+					// TODO: check the table exists using JDatabase - will do this later if people approve
+					// of the method of this
+					return new JTable($tableName, $keyName, $db);
+				}
+
+				// If we were unable to find the class file in the JTable include paths or find a table raise a warning and return false.
 				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type), JLog::WARNING, 'jerror');
 
 				return false;
