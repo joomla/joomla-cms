@@ -211,7 +211,7 @@
 					   first="6"
 					   last="16"
 					   step="1"
-					   default="10"
+					   default="13"
 					   filter="intval"
 					   description="PLG_CODEMIRROR_FIELD_FONT_SIZE_DESC"
 					   label="PLG_CODEMIRROR_FIELD_FONT_SIZE_LABEL" />
