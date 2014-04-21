@@ -14,9 +14,9 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
 
-$user       = JFactory::getUser();
-$listOrder  = $this->escape($this->state->get('list.ordering'));
-$listDirn   = $this->escape($this->state->get('list.direction'));
+$user = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_redirect&view=links'); ?>" method="post" name="adminForm" id="adminForm">
@@ -36,7 +36,6 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 					<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 				</div>
-
 				<div class="filter-select">
 					<label class="selectlabel" for="filter_published">
 						<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
@@ -51,7 +50,6 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				</div>
 			</fieldset>
 			<div class="clr"></div>
-
 			<table class="adminlist">
 				<thead>
 				<tr>
@@ -70,6 +68,9 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					<th class="width-10">
 						<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_CREATED_DATE', 'a.created_date', $listDirn, $listOrder); ?>
 					</th>
+					<th width="1%" class="nowrap">
+						<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_HITS', 'a.hits', $listDirn, $listOrder); ?>
+					</th>
 					<th class="nowrap state-col">
 						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 					</th>
@@ -78,7 +79,6 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					</th>
 				</tr>
 				</thead>
-
 				<tbody>
 				<?php foreach ($this->items as $i => $item) :
 					$canCreate = $user->authorise('core.create', 'com_redirect');
@@ -107,6 +107,9 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('date', $item->created_date, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
 						<td class="center">
+							<?php echo (int) $item->hits; ?>
+						</td>
+						<td class="center">
 							<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
 						</td>
 						<td class="center">
@@ -116,7 +119,6 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				<?php endforeach; ?>
 				</tbody>
 			</table>
-
 			<?php echo $this->pagination->getListFooter(); ?>
 			<p class="footer-tip">
 				<?php if ($this->enabled) : ?>
@@ -130,13 +132,10 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					<span class="disabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?></span>
 				<?php endif; ?>
 			</p>
-
 			<div class="clr"></div>
-
 			<?php if (!empty($this->items)) : ?>
 				<?php echo $this->loadTemplate('addform'); ?>
 			<?php endif; ?>
-
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />
 			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
