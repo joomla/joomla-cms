@@ -175,7 +175,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 <?php if ($displayHeader) : ?>
 	<header class="header">
 		<div class="container-logo">
-			<img src="<?php echo $logo; ?>" class="logo" />
+			<img src="<?php echo $logo; ?>" class="logo" alt="<?php echo $sitename;?>" />
 		</div>
 		<div class="container-title">
 			<jdoc:include type="modules" name="title" />
