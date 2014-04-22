@@ -24,10 +24,12 @@ class PlgSystemSef extends JPlugin
 	 *
 	 * @since   3.0
 	 */
-	public function onAfterRoute()
+	public function onContentBeforeDisplay($article, $params, $limitstart)
 	{
 		$app = JFactory::getApplication();
 		$doc = JFactory::getDocument();
+		$option = JRequest::getCmd('option'); 
+		$view = JRequest::getCmd('view');
 
 		if ($app->getName() != 'site' || $doc->getType() !== 'html')
 		{
@@ -47,6 +49,11 @@ class PlgSystemSef extends JPlugin
 		$parsed = $router->parse($uri);
 		$fakelink = 'index.php?' . http_build_query($parsed);
 		$link = $domain . JRoute::_($fakelink, false);
+
+		if($article == 'com_content.article' && ($option == "com_content" && $view == "article"))
+		{
+			$link = JRoute::_( ContentHelperRoute::getArticleRoute( (int)$params->id, $params->catslug),false,-1);
+		}
 
 		if ($uri !== $link)
 		{
