@@ -306,11 +306,12 @@ class JTable extends JObject implements JObservableInterface, JTableInterface
 
 				// Remove the 'Table' part from the prefix - this should be the component name
 				// If we don't have a table suffix to the prefix then we just have to give up.
-				$pos = strrpos($prefix, 'Table');
+				$suffix = 'Table';
+				$pos = strrpos($prefix, $suffix);
 				
 				if($pos !== false)
 				{
-					$component = substr_replace($prefix, '', $pos, strlen('Table'));
+					$component = substr_replace($prefix, '', $pos, strlen($suffix));
 
 					$tableName = '#__' . $component . '_' . $typePlural;
 					$keyName = $component . '_' . $typeSingular . '_id';
