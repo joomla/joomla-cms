@@ -45,7 +45,7 @@ $ -> Language fix or change
  # [#32815] Issues with the cache permissions  Thanks Tobias Zulauf
  # [#32810] *mod_feed does not render hyperlinks in RSS 2.0 feeds containing GUIDs + others  Thanks Lewis Rosenthal
  # [#32772] A Header is missing for the beez3 login form.  Thanks Tobias Zulauf
- # [#32700] Cleanup beez3 error.php  
+ # [#32700] Cleanup beez3 error.php
  # [#32675] Missing check in JApplicationSite causes a fatal error  Thanks Michael Babker
  $ Updating TinyMCE German de.js.
 
@@ -53,17 +53,17 @@ $ -> Language fix or change
  # [#32812] *Wrong JText causes double string use
 
 25-Nov-2013 Jean-Marie Simonet
- # [#32605] Heading TOO BIG in the screen "Template Manager: Customise Template" 
+ # [#32605] Heading TOO BIG in the screen "Template Manager: Customise Template"
 
 24-Nov-2013 Jean-Marie Simonet
  # [#32779] Tags formfield doesn't show tag when editing an item with the same id  Thanks Thomas Hunziker
- # [#32765] *com_redirect :do not translate cyrillic characters in url 
+ # [#32765] *com_redirect :do not translate cyrillic characters in url
  # [#30263] grid.boolean does not work properly in Isis  Thanks Peter Bui
 
 22-Nov-2013 Jean-Marie Simonet
  # [#32727] Updating Joomla! RAD Layer to FOF 2.1.0 stable  Thanks Nicholas Dyonisopoulos
  # [#32693] com_ajax cannot access modules with dashes in their name  Thanks Matt Thomas
- # [#32776] *helpsite url can't be localised at install time 
+ # [#32776] *helpsite url can't be localised at install time
  ^ Updating en-GB xml versions
 
 21-Nov-2013 Jean-Marie Simonet
@@ -1296,7 +1296,6 @@ $ -> Language fix or change
 28-Apr-2013 Jean-Marie Simonet
  $ Adding installation languages : ro-RO and gd-GB
 
-JM: Testing committing to staging
 
 -------------------- 3.1.1 Stable Release [26-Apr-2013] ------------------
 
