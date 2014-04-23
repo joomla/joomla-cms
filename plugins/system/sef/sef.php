@@ -28,8 +28,8 @@ class PlgSystemSef extends JPlugin
 	{
 		$app = JFactory::getApplication();
 		$doc = JFactory::getDocument();
-		$option = JRequest::getCmd('option'); 
-		$view = JRequest::getCmd('view');
+		$option = $app->input->getCmd('option', null);
+		$view = $app->input->getCmd('view', null);
 
 		if ($app->getName() != 'site' || $doc->getType() !== 'html')
 		{
