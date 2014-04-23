@@ -259,6 +259,9 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		$type       = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$tableClass = $prefix . ucfirst($type);
 
+		// If a database object was passed in the configuration array use it, otherwise get the global one from JFactory.
+		$db = isset($config['dbo']) ? $config['dbo'] : JFactory::getDbo();
+
 		// Only try to load the class if it doesn't already exist.
 		if (!class_exists($tableClass))
 		{
@@ -280,15 +283,57 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			}
 			else
 			{
+				// Load the RAD for now because it's inflector is much better than Joomala's
+				// in the final example we'll either migrate that to a Joomla class which is a
+				// duplicate or similar
+				if (!defined('FOF_INCLUDED'))
+				{
+					require_once JPATH_LIBRARIES . '/fof/include.php';
+				}
+
+				// Next let's search for a standardized table name if the parent class doesn't exist
+				$isTypeSingular = FOFInflector::isSingular($type);
+
+				if ($isTypeSingular)
+				{
+					$typeSingular = $type;
+					$typePlural = FOFInflector::pluralize($type);
+				}
+				else
+				{
+					$typeSingular = FOFInflector::singularize($type);
+					$typePlural = $type;
+				}
+
+				// Remove the 'Table' part from the prefix - this should be the component name
+				// If we don't have a table suffix to the prefix then we just have to give up.
+				$suffix = 'Table';
+				$pos = strrpos($prefix, $suffix);
+
+				if($pos !== false)
+				{
+					$component = substr_replace($prefix, '', $pos, strlen($suffix));
+
+					$tableName = '#__' . $component . '_' . $typePlural;
+					$keyName = $component . '_' . $typeSingular . '_id';
+
+					// Get the list of tables so we can check the table exists
+					// If it's not a table that exist we abort
+					if (in_array($tableName, $db->getTableList()))
+					{
+						// If the table exists then we return the JTable instance
+						// else we can only assume that the automatic names aren't being used
+						// and return false
+						return new JTableDefault($tableName, $keyName, $db);
+					}
+				}
+
 				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
 				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type), JLog::WARNING, 'jerror');
 
 				return false;
 			}
 		}
-
-		// If a database object was passed in the configuration array use it, otherwise get the global one from JFactory.
-		$db = isset($config['dbo']) ? $config['dbo'] : JFactory::getDbo();
 
 		// Instantiate a new table class and return it.
 		return new $tableClass($db);
