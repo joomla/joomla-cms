@@ -43,7 +43,7 @@
 					name="rssurl0"
 					type="text"
 					size="50"
-					default="http://www.juuntos.org/noticias.feed?type=rss"
+					default="http://www.juuntos.net/noticias.feed?type=rss"
 					label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
 					description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />						
 				<field type="spacer" name="myspacer" hr="true" />
@@ -58,7 +58,7 @@
 					name="rssurl1"
 					type="text"
 					size="50"
-					default="http://jdoc.juuntos.org/?format=feed&amp;type=rss"
+					default="http://jdoc.juuntos.net/?format=feed&amp;type=rss"
 					label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
 					description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />
 				<field type="spacer" name="myspacer2" hr="true" />
