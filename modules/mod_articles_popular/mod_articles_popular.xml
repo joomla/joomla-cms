@@ -93,7 +93,7 @@
 				<field
 					name="cache_time"
 					type="text"
-					default="900"
+					default="15"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
 
