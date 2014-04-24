@@ -144,7 +144,7 @@ final class JVersion
 	 *
 	 * @return  string
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
 	public function generateMediaVersion()
 	{
@@ -163,7 +163,7 @@ final class JVersion
 	 *
 	 * @return  string  The media version.
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
 	public function getMediaVersion()
 	{
@@ -198,7 +198,7 @@ final class JVersion
 	 *
 	 * @return  JVersion  Instance of $this to allow chaining.
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
 	public function refreshMediaVersion()
 	{
@@ -214,7 +214,7 @@ final class JVersion
 	 *
 	 * @return  JVersion  Instance of $this to allow chaining.
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
 	public function setMediaVersion($mediaVersion)
 	{
