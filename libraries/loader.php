@@ -296,11 +296,33 @@ abstract class JLoader
 	{
 		foreach (self::$prefixes as $prefix => $lookup)
 		{
-			if (strpos($class, $prefix) === 0)
+			if (strpos($class, $prefix) === 0 && self::isFirstLetterAfterPrefixUpperCase($prefix, $class))
 			{
 				return self::_load(substr($class, strlen($prefix)), $lookup);
 			}
 		}
+	}
+
+	/**
+	 * Check if first letter after the prefix length is uppercase (First letter of class name)
+	 * This allows to match proper library when one library prefix is included in the prefix of another class
+	 * e.g: LMyclass and LibMyclass
+	 *
+	 * @param   string  $prefix  Library prefix
+	 * @param   string  $class   Classname
+	 *
+	 * @return bool
+	 */
+	private static function isFirstLetterAfterPrefixUpperCase($prefix, $class)
+	{
+		if (strlen($prefix) >= strlen($class))
+		{
+			return false;
+		}
+
+		$chr = $class[strlen($prefix)];
+
+		return $chr === strtoupper($chr);
 	}
 
 	/**
