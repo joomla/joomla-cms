@@ -44,8 +44,7 @@ class JCmsControllerAdd extends JCmsControllerDisplay
 			return false;
 		}
 
-		parent::execute();
-		return true;
+		return parent::execute();	
 	}
 
 }
