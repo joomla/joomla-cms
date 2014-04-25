@@ -132,8 +132,8 @@ class JCmsControllerDisplay extends JCmsControllerBase
 		
 		if (!class_exists($class)) 
 		{
-			$path = 'com_'.strtolower($prefix).DIRECTORY_SEPARATOR.'view';
-			$path .= DIRECTORY_SEPARATOR.strtolower($name).DIRECTORY_SEPARATOR;
+			$path = 'com_'.strtolower($prefix).'/view';
+			$path .= '/'.strtolower($name).'/';
 			throw new ErrorException(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $class, $path), 500);
 		}
 		

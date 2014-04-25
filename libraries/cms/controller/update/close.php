@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-class Babelu_libControllerJoomlaUpdateClose extends Babelu_libControllerJoomlaUpdateBase
+class JCmsControllerUpdateClose extends JCmsControllerUpdateBase
 {
 	public function execute()
 	{

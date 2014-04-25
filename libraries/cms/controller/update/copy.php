@@ -46,7 +46,11 @@ class JCmsControllerUpdateCopy extends JCmsControllerUpdateBase
 		return false;
 	}
 
-	protected function commit(Babelu_libModelJoomlaBase $model, $data)
+	/**
+	 * (non-PHPdoc)
+	 * @see JCmsControllerUpdateBase::commit()
+	 */
+	protected function commit($model, $data)
 	{
 		if (!$model->allowAction('core.create'))
 		{
