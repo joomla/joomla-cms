@@ -61,7 +61,7 @@ foreach ($fields as $field)
 				$form->setFieldAttribute($f, 'type', 'hidden');
 			}
 
-			$html[] = $form->getControlGroup($f);
+			$html[] = $form->renderField($f);
 			break;
 		}
 	}

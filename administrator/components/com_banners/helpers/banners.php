@@ -21,9 +21,10 @@ class BannersHelper extends JHelperContent
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vName  The name of the active view.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
@@ -54,7 +55,10 @@ class BannersHelper extends JHelperContent
 	}
 
 	/**
+	 * Update / reset the banners
+	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	public static function updateReset()
@@ -78,6 +82,7 @@ class BannersHelper extends JHelperContent
 		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, $e->getMessage());
+
 			return false;
 		}
 
@@ -100,25 +105,25 @@ class BannersHelper extends JHelperContent
 				$purchase_type = $params->get('purchase_type');
 			}
 
-			switch($purchase_type)
+			switch ($purchase_type)
 			{
 				case 1:
 					$reset = $nullDate;
 					break;
 				case 2:
-					$date = JFactory::getDate('+1 year '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 year ' . date('Y-m-d', strtotime('now')));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 3:
-					$date = JFactory::getDate('+1 month '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 month ' . date('Y-m-d', strtotime('now')));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 4:
-					$date = JFactory::getDate('+7 day '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+7 day ' . date('Y-m-d', strtotime('now')));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 5:
-					$date = JFactory::getDate('+1 day '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 day ' . date('Y-m-d', strtotime('now')));
 					$reset = $db->quote($date->toSql());
 					break;
 			}
@@ -139,6 +144,7 @@ class BannersHelper extends JHelperContent
 			catch (RuntimeException $e)
 			{
 				JError::raiseWarning(500, $db->getMessage());
+
 				return false;
 			}
 		}
@@ -146,6 +152,11 @@ class BannersHelper extends JHelperContent
 		return true;
 	}
 
+	/**
+	 * Get client list in text/value format for a select field
+	 *
+	 * @return  array
+	 */
 	public static function getClientOptions()
 	{
 		$options = array();
@@ -169,7 +180,7 @@ class BannersHelper extends JHelperContent
 		}
 
 		// Merge any additional options in the XML definition.
-		//$options = array_merge(parent::getOptions(), $options);
+		// $options = array_merge(parent::getOptions(), $options);
 
 		array_unshift($options, JHtml::_('select.option', '0', JText::_('COM_BANNERS_NO_CLIENT')));
 

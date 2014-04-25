@@ -561,9 +561,6 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
-
 		$config = JFactory::getConfig();
 		$lifetime = ($config->get('lifetime') * 60000);
 		$refreshTime = ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
@@ -577,13 +574,13 @@ abstract class JHtmlBehavior
 		}
 
 		$document = JFactory::getDocument();
-		$script = '';
-		$script .= 'function keepAlive() {';
-		$script .= '	var myAjax = new Request({method: "get", url: "index.php"}).send();';
-		$script .= '}';
-		$script .= ' window.addEvent("domready", function()';
-		$script .= '{ keepAlive.periodical(' . $refreshTime . '); }';
-		$script .= ');';
+		$script = 'window.setInterval(function(){';
+		$script .= 'var r;';
+		$script .= 'try{';
+		$script .= 'r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")';
+		$script .= '}catch(e){}';
+		$script .= 'if(r){r.open("GET","./",true);r.send(null)}';
+		$script .= '},' . $refreshTime . ');';
 
 		$document->addScriptDeclaration($script);
 		static::$loaded[__METHOD__] = true;
@@ -671,7 +668,7 @@ abstract class JHtmlBehavior
 		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
 
-		JFactory::getApplication()->setHeader('X-Frames-Options', 'SAMEORIGIN');
+		JFactory::getApplication()->setHeader('X-Frame-Options', 'SAMEORIGIN');
 
 		static::$loaded[__METHOD__] = true;
 	}

@@ -3,6 +3,7 @@ tinymce.addI18n('nl',{
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Uw browser ondersteunt de toegang tot het klembord niet. Gebruik de sneltoetsen ctrl+X\/C\/V.",
 "Paste": "Plakken",
 "Close": "Sluiten",
+"Font Family": "Lettertype",
 "Align right": "Rechts uitlijnen",
 "New document": "Nieuw document",
 "Blockquote": "Citaat",
@@ -15,6 +16,7 @@ tinymce.addI18n('nl',{
 "Bullet list": "Opsommingstekens",
 "Superscript": "Superscript",
 "Clear formatting": "Opmaak wissen",
+"Font Sizes": "Lettergrootte",
 "Subscript": "Subscript",
 "Redo": "Opnieuw",
 "Ok": "Ok",
@@ -173,5 +175,7 @@ tinymce.addI18n('nl',{
 "Header 6": "Kop 6",
 "Insert Time": "Tijd invoegen",
 "Insert nonbreaking space": "Vaste spatie invoegen",
-"Toggle blockquote": "Schakelen citaat"
+"Toggle blockquote": "Schakelen citaat",
+"The URL you entered seems to be an external link. Do you want to add the required http:\/\/ prefix?": "De URL die u heeft ingevuld lijkt een externe link te zijn. Wilt u de benodigde http:\/\/ als voorvoegsel toevoegen?",
+"The URL you entered seems to be an email address. Do you want to add the required mailto: prefix?": "De URL die u heeft ingevuld lijkt een e-mailadres te zijn. Wilt u de benodigde mailto: als voorvoegsel toevoegen?"
 });

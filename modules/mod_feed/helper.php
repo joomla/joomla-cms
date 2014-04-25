@@ -18,12 +18,19 @@ defined('_JEXEC') or die;
  */
 class ModFeedHelper
 {
+	/**
+	 * Retrieve feed information
+	 *
+	 * @param   JRegistry  $params  module parameters
+	 *
+	 * @return  JFeedReader|string
+	 */
 	public static function getFeed($params)
 	{
-		// module params
+		// Module params
 		$rssurl	= $params->get('rssurl', '');
 
-		// get RSS parsed object
+		// Get RSS parsed object
 		try
 		{
 			$feed = new JFeedFactory;

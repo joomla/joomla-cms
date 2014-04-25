@@ -45,6 +45,8 @@ class PlgCaptchaRecaptcha extends JPlugin
 		$document = JFactory::getDocument();
 		$app      = JFactory::getApplication();
 
+		JHtml::_('jquery.framework');
+
 		$lang   = $this->_getLanguage();
 		$pubkey = $this->params->get('public_key', '');
 		$theme  = $this->params->get('theme', 'clean');
@@ -62,7 +64,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 
 		JHtml::_('script', $server . '/js/recaptcha_ajax.js');
-		$document->addScriptDeclaration('window.addEvent(\'domready\', function()
+		$document->addScriptDeclaration('jQuery( document ).ready(function()
 		{
 			Recaptcha.create("' . $pubkey . '", "dynamic_recaptcha_1", {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
 		);
@@ -87,12 +89,14 @@ class PlgCaptchaRecaptcha extends JPlugin
 	}
 
 	/**
-	  * Calls an HTTP POST function to verify if the user's guess was correct
-	  *
-	  * @return  True if the answer is correct, false otherwise
-	  *
-	  * @since  2.5
-	  */
+	 * Calls an HTTP POST function to verify if the user's guess was correct
+	 *
+	 * @param   string  $code  Answer provided by user.
+	 *
+	 * @return  True if the answer is correct, false otherwise
+	 *
+	 * @since  2.5
+	 */
 	public function onCheckAnswer($code)
 	{
 		$input      = JFactory::getApplication()->input;
@@ -177,10 +181,10 @@ class PlgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Submits an HTTP POST to a reCAPTCHA server.
 	 *
-	 * @param   string  $host
-	 * @param   string  $path
-	 * @param   array   $data
-	 * @param   int     $port
+	 * @param   string  $host  Host name to POST to.
+	 * @param   string  $path  Path on host to POST to.
+	 * @param   array   $data  Data to be POSTed.
+	 * @param   int     $port  Optional port number on host.
 	 *
 	 * @return  array   Response
 	 *

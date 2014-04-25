@@ -52,9 +52,7 @@ JHtml::_('behavior.keepalive');
 				<?php endif; ?>
 			<?php endforeach; ?>
 
-			<?php $tfa = JPluginHelper::getPlugin('twofactorauth'); ?>
-
-			<?php if (!is_null($tfa) && $tfa != array()): ?>
+			<?php if ($this->tfa): ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getField('secretkey')->label; ?>

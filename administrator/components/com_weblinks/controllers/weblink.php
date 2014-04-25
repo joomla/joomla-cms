@@ -57,6 +57,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	 * @param   string  $key   The name of the key for the primary key.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
@@ -110,6 +111,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	 * @param   array         $validData  The validated data.
 	 *
 	 * @return	void
+	 *
 	 * @since	1.6
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
