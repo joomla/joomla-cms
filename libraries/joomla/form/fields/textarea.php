@@ -29,6 +29,14 @@ class JFormFieldTextarea extends JFormField
 	protected $type = 'Textarea';
 
 	/**
+	 * The allowable maxlength of the field.
+	 *
+	 * @var    integer
+	 * @since  3.2
+	 */
+	protected $maxLength;
+
+	/**
 	 * The number of rows in textarea.
 	 *
 	 * @var    mixed
@@ -57,6 +65,7 @@ class JFormFieldTextarea extends JFormField
 	{
 		switch ($name)
 		{
+			case 'maxLength':
 			case 'rows':
 			case 'columns':
 				return $this->$name;
@@ -79,6 +88,9 @@ class JFormFieldTextarea extends JFormField
 	{
 		switch ($name)
 		{
+			case 'maxLength':
+				$this->maxLength = (int) $value;
+				break;
 			case 'rows':
 			case 'columns':
 				$this->$name = (int) $value;
@@ -111,6 +123,8 @@ class JFormFieldTextarea extends JFormField
 		{
 			$this->rows    = isset($this->element['rows']) ? (int) $this->element['rows'] : false;
 			$this->columns = isset($this->element['cols']) ? (int) $this->element['cols'] : false;
+
+			$this->maxLength = (int) $this->element['maxlength'];
 		}
 
 		return $return;
@@ -141,6 +155,7 @@ class JFormFieldTextarea extends JFormField
 		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 		$autofocus    = $this->autofocus ? ' autofocus' : '';
 		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
+		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
@@ -151,7 +166,7 @@ class JFormFieldTextarea extends JFormField
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
 		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class
-			. $hint . $disabled . $readonly . $onchange . $onclick . $required . $autocomplete . $autofocus . $spellcheck . ' >'
+			. $hint . $disabled . $readonly . $onchange . $onclick . $maxLength . $required . $autocomplete . $autofocus . $spellcheck . ' >'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea>';
 	}
 }
