@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Captcha
+ * @subpackage Controller
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-abstract class JCmsControllerImport extends JCmsControllerBase
+abstract class JControllerImport extends JControllerCms
 {
 
 	public function execute()
@@ -54,7 +54,7 @@ abstract class JCmsControllerImport extends JCmsControllerBase
 
 	/**
 	 * Method to exectue model import function
-	 * @param JCmsModel $model
+	 * @param JModel $model
 	 * @param array $data Jform data
 	 * @param array $files Jform files
 	 */

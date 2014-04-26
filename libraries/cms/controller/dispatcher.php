@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Captcha
+ * @subpackage Controller
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,11 +9,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
-class JCmsControllerDispatcher extends JCmsControllerBase
+class JControllerDispatcher extends JControllerCms
 {
 	/**
 	 * The Task Controller
-	 * @var JCmsControllerBase
+	 * @var JControllerBase
 	 */
 	protected $controller;
 	
@@ -72,13 +72,13 @@ class JCmsControllerDispatcher extends JCmsControllerBase
 	
 	/**
 	 * Method to get a the default task controller.
-	 * "JCmsController'.ucfirst($task);
+	 * "JController'.ucfirst($task);
 	 * @param String $task
 	 * @return string
 	 */
 	protected function getFallbackClassName($task)
 	{
-		$class_name = 'JCmsController'.ucfirst($task);
+		$class_name = 'JController'.ucfirst($task);
 		return $class_name;
 	}
 	

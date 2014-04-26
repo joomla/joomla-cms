@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Captcha
+ * @subpackage Controller
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-class JCmsControllerUpdateCopy extends JCmsControllerUpdateBase
+class JControllerUpdateCopy extends JControllerUpdateBase
 {
 	public function execute()
 	{
@@ -48,7 +48,7 @@ class JCmsControllerUpdateCopy extends JCmsControllerUpdateBase
 
 	/**
 	 * (non-PHPdoc)
-	 * @see JCmsControllerUpdateBase::commit()
+	 * @see JControllerUpdateBase::commit()
 	 */
 	protected function commit($model, $data)
 	{

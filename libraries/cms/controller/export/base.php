@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Captcha
+ * @subpackage Controller
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-abstract class JCmsControllerExportBase extends JCmsControllerBase
+abstract class JControllerExportBase extends JControllerCms
 {
 	public function execute()
 	{
@@ -49,7 +49,7 @@ abstract class JCmsControllerExportBase extends JCmsControllerBase
 
 	/**
 	 * Method to export data from the model
-	 * @param JCmsModelData $model
+	 * @param JModelData $model
 	 * @param JInput $input
 	 * @param array $config
 	 * @return boolean True if the file was sent successfully.

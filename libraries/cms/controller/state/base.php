@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Captcha
+ * @subpackage Controller
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-abstract class JCmsControllerStateBase extends JCmsControllerBase
+abstract class JControllerStateBase extends JControllerCms
 {
 	public function execute()
 	{
@@ -40,7 +40,7 @@ abstract class JCmsControllerStateBase extends JCmsControllerBase
 
 	/**
 	 * Method to update record states
-	 * @param JCmsModelData $model
+	 * @param JModelData $model
 	 * @param array $cid
 	 */
 	abstract protected function updateRecordState($model, $cid);

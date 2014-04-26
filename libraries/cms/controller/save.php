@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Captcha
+ * @subpackage Controller
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,12 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
-abstract class JCmsControllerSave extends JCmsControllerBase
+abstract class JControllerSave extends JControllerCms
 {
 
 	/**
 	 * Method to save the data to the model
-	 * @param JCmsModelData $model to save to
+	 * @param JModelData $model to save to
 	 * @param array $data from the form
 	 */
 	abstract protected function commit($model, $data);

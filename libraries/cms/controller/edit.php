@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Captcha
+ * @subpackage Controller
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-class JCmsControllerEdit extends JCmsControllerDisplay
+class JControllerEdit extends JControllerDisplay
 {
 	/**
 	 * Instantiate the controller.
@@ -28,7 +28,7 @@ class JCmsControllerEdit extends JCmsControllerDisplay
 
 	/**
 	 * (non-PHPdoc)
-	 * @see JCmsControllerDisplay::execute()
+	 * @see JControllerDisplay::execute()
 	 */
 	public function execute()
 	{
