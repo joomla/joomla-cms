@@ -34,7 +34,7 @@ class JFormFieldNumber extends JFormField
 	 * @var    float
 	 * @since  3.2
 	 */
-	protected $max = 0;
+	protected $max = null;
 
 	/**
 	 * The allowable minimum value of the field.
@@ -42,7 +42,7 @@ class JFormFieldNumber extends JFormField
 	 * @var    float
 	 * @since  3.2
 	 */
-	protected $min = 0;
+	protected $min = null;
 
 	/**
 	 * The step by which value of the field increased or decreased.
