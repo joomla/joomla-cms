@@ -157,14 +157,6 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 </style>
 
 <div class="row-fluid">
-	<div class="span12">
-		<p class="well well-small lead">
-			<?php echo JText::_('COM_MEDIA_EDITOR_FILENAME') . ' : ' . $this->image['path']; ?>
-		</p>
-
-	</div>
-</div>
-<div class="row-fluid">
 
 	<div class="span9">
 

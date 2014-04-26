@@ -235,7 +235,7 @@ class MediaModelMedialist extends ConfigModelForm
 						
 						$result = $db->loadObject();
 						
-						$tmp->core_content_id = $result->core_content_id;
+						$tmp->id = $result->core_content_id;
 					}
 				}
 			}
