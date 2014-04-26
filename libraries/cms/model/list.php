@@ -74,7 +74,7 @@ abstract class JModelList extends JModelItem
 	 * @param string $dataKeyName name of the database key I.E. "a.title"
 	 * @param booleen $sortable true to add to the filterFields array
 	 * @param booleen $searchable true to add to the searchFields array
-	 * @return JCmsModelList $this to allow for chaining
+	 * @return JModelList $this to allow for chaining
 	 */
 	public function addFilterField($name, $dataKeyName, $sortable = true, $searchable = false)
 	{
@@ -266,7 +266,7 @@ abstract class JModelList extends JModelItem
 
 	/**
 	 * (non-PHPdoc)
-	 * @see JCmsModelBase::populateState()
+	 * @see JModelBase::populateState()
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
