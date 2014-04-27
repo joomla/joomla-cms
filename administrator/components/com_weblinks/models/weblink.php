@@ -67,7 +67,9 @@ class WeblinksModelWeblink extends JModelAdmin
 
 	/**
 	 * Method to test whether a record can be deleted.
-	 *
+	 * NOTE: Not used in single task controller models.
+	 * Kept here to prevent unintended side effects with the categories implementation.
+	 * 
 	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the component.
@@ -84,25 +86,11 @@ class WeblinksModelWeblink extends JModelAdmin
 		}
 		else
 		{
-			return parent::canEditState($record);
+			return $user->authorise('core.edit.state', $this->option);
 		}
 	}
 
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $type    The table name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  JTable  A JTable object
-	 *
-	 * @since   1.6
-	 */
-	public function getTable($type = 'Weblink', $prefix = 'WeblinksTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
-	}
+	// removed getTable form as its implemented in the single task MVC model
 
 	/**
 	 * Abstract method for getting the form from the model.
