@@ -102,6 +102,7 @@ class MediaControllerEditorSave extends JControllerBase
 		$table = $model->getTable();
 
 		$tags = new JHelperTags();
+		$tags->typeAlias = 'com_media.image';
 		$tags->tagItem($data['core_content_id'], $table, $data['tags']);
 	}
 }

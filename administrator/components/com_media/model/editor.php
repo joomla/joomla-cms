@@ -86,11 +86,14 @@ class MediaModelEditor extends JModelCmsitem
 			$registry->loadString($table->core_params);
 			$this->item->core_params = $registry->toArray();
 
-			// Still not working
 			if (!empty($this->item->core_content_id))
 			{
-				$this->item->tags = new JHelperTags;
-				$this->item->tags->getTagIds($this->item->core_content_id, $this->item->core_type_alias);
+				// This is not the proper way
+// 				$this->item->tags = new JHelperTags;
+// 				$this->item->tags->getTagIds($this->item->core_content_id, $this->item->core_type_alias);
+
+				// Overriding getTagIds in JHelperTags
+				$this->item->tags = $this->getTagIds($this->item->core_content_id, $this->item->core_type_alias);
 			}
 			
 	
@@ -484,5 +487,59 @@ class MediaModelEditor extends JModelCmsitem
 		}
 
 
+	}
+	
+	/**
+	 * Method to get a list of tags for a given core content item.
+	 * Normally used for displaying a list of tags within a layout
+	 * This replaces the JHelperTags::getTagIds because it uses core_content_id
+	 *
+	 * @param   mixed   $ids     The id or array of ids (primary key) of the item to be tagged.
+	 * @param   string  $prefix  Dot separated string with the option and view to be used for a url.
+	 *
+	 * @return  string   Comma separated list of tag Ids.
+	 *
+	 * @since   3.1
+	 */
+	public function getTagIds($ids, $prefix)
+	{
+		if (empty($ids))
+		{
+			return;
+		}
+	
+		/**
+		 * Ids possible formats:
+		 * ---------------------
+		 * 	$id = 1;
+		 *  $id = array(1,2);
+		 *  $id = array('1,3,4,19');
+		 *  $id = '1,3';
+		 */
+		$ids = (array) $ids;
+		$ids = implode(',', $ids);
+		$ids = explode(',', $ids);
+		JArrayHelper::toInteger($ids);
+	
+		$db = JFactory::getDbo();
+	
+		// Load the tags.
+		$query = $db->getQuery(true)
+		->select($db->quoteName('t.id'))
+		->from($db->quoteName('#__tags') . ' AS ' . $db->quoteName('t'))
+		->join(
+				'INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'
+				. ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id')
+	
+				. ' AND ' . $db->quoteName('m.core_content_id') . ' IN ( ' . implode(',', $ids) . ')'
+		);
+	
+		$db->setQuery($query);
+	
+		// Add the tags to the content data.
+		$tagsList = $db->loadColumn();
+		$this->tags = implode(',', $tagsList);
+	
+		return $this->tags;
 	}
 }
