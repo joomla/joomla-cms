@@ -21,9 +21,10 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $canOrder	= $user->authorise('core.edit.state', 'com_weblinks.category');
 $saveOrder	= $listOrder == 'a.ordering';
+$keyName = $this->keyName;
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_weblinks&task=weblinks.saveOrderAjax&tmpl=component';
+	$saveOrderingUrl = 'index.php?option=com_weblinks&task=stateAjaxSaveorder.weblink&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'weblinkList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
@@ -45,7 +46,7 @@ $sortFields = $this->getSortFields();
 		Joomla.tableOrdering(order, dirn, '');
 	}
 </script>
-<form action="<?php echo JRoute::_('index.php?option=com_weblinks&view=weblinks'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_($this->formUrl); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -109,7 +110,7 @@ $sortFields = $this->getSortFields();
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 					</th>
 					<th width="1%" class="nowrap center hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.'.$keyName, $listDirn, $listOrder); ?>
 					</th>
 				</tr>
 			</thead>
@@ -150,17 +151,15 @@ $sortFields = $this->getSortFields();
 						<?php endif; ?>
 					</td>
 					<td class="center hidden-phone">
-						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+						<?php echo JHtml::_('grid.id', $i, $item->$keyName); ?>
 					</td>
-					<td class="center">
-						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'weblinks.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+					<td class="center">					
+						<?php echo WeblinksHelper::publish($i, $item,  $this->config); ?>
 					</td>
 					<td class="nowrap has-context">
-						<?php if ($item->checked_out) : ?>
-							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'weblinks.', $canCheckin); ?>
-						<?php endif; ?>
+					<?php echo WeblinksHelper::checkedout($i, $item, $this->config);?>
 						<?php if ($canEdit) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_weblinks&task=weblink.edit&id='.(int) $item->id); ?>">
+							<a href="<?php echo JRoute::_($this->editUrl.(int) $item->$keyName); ?>">
 								<?php echo $this->escape($item->title); ?></a>
 						<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
@@ -186,7 +185,7 @@ $sortFields = $this->getSortFields();
 						<?php endif;?>
 					</td>
 					<td class="center hidden-phone">
-						<?php echo (int) $item->id; ?>
+						<?php echo (int) $item->$keyName; ?>
 					</td>
 				</tr>
 				<?php endforeach; ?>
@@ -194,9 +193,10 @@ $sortFields = $this->getSortFields();
 		</table>
 
 		<?php //Load the batch processing form. ?>
-		<?php echo $this->loadTemplate('batch'); ?>
+		<?php //Single task controllers don't support this yet.?>
+		<?php //echo $this->loadTemplate('batch'); ?>
 
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="task" value="display.<?php echo $this->config['subject'];?>" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />

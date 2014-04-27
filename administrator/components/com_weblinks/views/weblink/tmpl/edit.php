@@ -14,6 +14,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 
+$keyName = $this->keyName;
+
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -26,7 +28,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_weblinks&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="weblink-form" class="form-validate">
+<form action="<?php echo JRoute::_($this->editUrl.(int) $this->item->$keyName); ?>" method="post" name="adminForm" id="weblink-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
 
@@ -37,7 +39,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_WEBLINKS_NEW_WEBLINK', true) : JText::sprintf('COM_WEBLINKS_EDIT_WEBLINK', $this->item->id, true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->$keyName) ? JText::_('COM_WEBLINKS_NEW_WEBLINK', true) : JText::sprintf('COM_WEBLINKS_EDIT_WEBLINK', $this->item->$keyName, true)); ?>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('title'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('title'); ?></div>
@@ -87,8 +89,8 @@ JHtml::_('formbehavior.chosen', 'select');
 					<div class="controls"><?php echo $this->form->getInput('alias'); ?></div>
 				</div>
 				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('id'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('id'); ?></div>
+					<div class="control-label"><?php echo $this->form->getLabel($keyName); ?></div>
+					<div class="controls"><?php echo $this->form->getInput($keyName); ?></div>
 				</div>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('created_by'); ?></div>
