@@ -24,12 +24,12 @@ class WeblinksHelper
 	 * @param   string	The name of the active view.
 	 * @since   1.6
 	 */
-	public static function addSubmenu($vName = 'weblinks')
+	public static function addSubmenu($vName = 'weblink')
 	{
 		JHtmlSidebar::addEntry(
 			JText::_('COM_WEBLINKS_SUBMENU_WEBLINKS'),
-			'index.php?option=com_weblinks&view=weblinks',
-			$vName == 'weblinks'
+			'index.php?option=com_weblinks&view=weblink',
+			$vName == 'weblink'
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_WEBLINKS_SUBMENU_CATEGORIES'),

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+include_once JPATH_COMPONENT.'/helpers/weblinks.php';
 /**
  * View to edit a weblink.
  *
@@ -18,31 +19,6 @@ defined('_JEXEC') or die;
  */
 class WeblinksViewWeblinkHtml extends JViewAdmin
 {
-
-	protected $item;
-
-	protected $form;
-	
-	/**
-	 * Display the view
-	 */
-	public function display($tpl = null)
-	{
-		$this->state	= $this->get('State');
-		$this->item		= $this->get('Item');
-		$this->form		= $this->get('Form');
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
-		}
-
-		$this->addToolbar();
-		parent::display($tpl);
-	}
-
 	/**
 	 * Add the page title and toolbar.
 	 *
@@ -50,8 +26,6 @@ class WeblinksViewWeblinkHtml extends JViewAdmin
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/weblinks.php';
-		
 		parent::addToolbar();
 		
 		$config = $this->config;
@@ -194,6 +168,26 @@ class WeblinksViewWeblinkHtml extends JViewAdmin
 		JText::_('JOPTION_SELECT_TAG'),
 		'filter_tag',
 		JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
+		);
+	}
+	
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+				'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
+				'a.state' => JText::_('JSTATUS'),
+				'a.title' => JText::_('JGLOBAL_TITLE'),
+				'a.access' => JText::_('JGRID_HEADING_ACCESS'),
+				'a.hits' => JText::_('JGLOBAL_HITS'),
+				'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
+				'a.id' => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

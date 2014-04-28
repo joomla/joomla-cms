@@ -34,4 +34,12 @@ class JControllerStateAjaxSaveorder extends JControllerStateSaveorder
 		JFactory::getApplication()->close();
 	}
 
+	/**
+	 * Overridden to allow AJAX without token
+	 * @return void
+	 */
+	protected function validateSession()
+	{
+		return;
+	}
 }

@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-abstract class JModelData extends JModelBase
+abstract class JModelData extends JModelCms
 {
 
 	/**

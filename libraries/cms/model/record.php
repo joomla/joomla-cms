@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-abstract class JModelItem extends JModelData
+abstract class JModelRecord extends JModelData
 {
 	/**
 	 * Method to get a single record.

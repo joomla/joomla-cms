@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-abstract class JModelAdmin extends JModelList
+abstract class JModelAdministrator extends JModelCollection
 {
 	/**
 	 * Array of form objects.
@@ -317,6 +317,38 @@ abstract class JModelAdmin extends JModelList
 	}
 
 	/**
+	 * Method to allow derived classes to preprocess the data.
+	 *
+	 * @param   string  $context  The context identifier.
+	 * @param   mixed   &$data    The data to be processed. It gets altered directly.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function preprocessData($context, &$data)
+	{
+		// Get the dispatcher and load the users plugins.
+		$dispatcher = $this->getDispatcher();
+		JPluginHelper::importPlugin('content');
+	
+		// Trigger the data preparation event.
+		$results = $dispatcher->trigger('onContentPrepareData', array($context, $data));
+	
+		// Check for errors encountered while preparing the data.
+		if (count($results) > 0 && in_array(false, $results, true))
+		{
+			// Get the last error.
+			$error = $dispatcher->getError();
+
+			if (!($error instanceof Exception))
+			{
+				throw new Exception($error);
+			}
+		}
+	}
+
+	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
 	 * @param   JForm   $form   A JForm object.
@@ -530,19 +562,15 @@ abstract class JModelAdmin extends JModelList
 		foreach ($pks as $i => $pk)
 		{
 			$activeRecord = $this->getActiveRecord($pk);
-				
-
 			// Access checks.
-			if ($activeRecord->canReorder($activeRecord) && $activeRecord->ordering != $order[$i])
+			if ($activeRecord->canDoReorder($activeRecord))
 			{
 				$activeRecord->ordering = $order[$i];
 
-				$this->createTagsHelper($tagsObserver, $type, $pk, $typeAlias, $activeRecord);
-
 				// Store the data.
-				if (!$table->store())
+				if (!$activeRecord->store())
 				{
-					throw new ErrorException($table->getError());
+					throw new ErrorException($activeRecord->getError());
 					return false;
 				}
 

@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-abstract class JModelBase
+abstract class JModelCms
 {
 	/**
 	 * Configuration array

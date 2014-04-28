@@ -101,7 +101,7 @@ abstract class JTableCms extends JTable
 			$checkin = false;
 			if ($this->isLockable($this))
 			{
-				if(!$this->isLocked($activeRecord))
+				if(!$this->isLocked($this))
 				{
 					$this->checkout($userId, $pk);
 					$checkin = true;
@@ -201,7 +201,7 @@ abstract class JTableCms extends JTable
 	{
 		$pk = $this->getValidPk($pk);
 
-		if (Babelu_libUtilityJoomlaVersion::isJ3())
+		if ($this->isCompatible('3.0'))
 		{
 			// Implement JObservableInterface: Pre-processing by observers
 			$this->_observers->update('onBeforeDelete', array($pk));
@@ -234,7 +234,7 @@ abstract class JTableCms extends JTable
 		// Check for a database error.
 		$this->_db->execute();
 
-		if (Babelu_libUtilityJoomlaVersion::isJ3())
+		if ($this->isCompatible('3.0'))
 		{
 			// Implement JObservableInterface: Post-processing by observers
 			$this->_observers->update('onAfterDelete', array($pk));
@@ -465,7 +465,7 @@ abstract class JTableCms extends JTable
 	 */
 	public function canDoDelete(JTable $activeRecord)
 	{
-		$config = $this->config;
+		$config = $this->_config;
 		$user = JFactory::getUser();
 
 		if (!$user->authorise('core.delete', $config['option']))
@@ -483,7 +483,7 @@ abstract class JTableCms extends JTable
 	 */
 	public function canDoReorder(JTable $activeRecord)
 	{
-		$config = $this->config;
+		$config = $this->_config;
 		$user = JFactory::getUser();
 
 		if (!$user->authorise('core.edit.state', $config['option']))
@@ -562,7 +562,8 @@ abstract class JTableCms extends JTable
 	 */
 	public function load($keys = null, $reset = true)
 	{
-		if (Babelu_libUtilityJoomlaVersion::isJ3())
+		$version = new JVersion();
+		if ($this->isCompatible('3.0'))
 		{
 			// Implement JObservableInterface: Pre-processing by observers
 			$this->_observers->update('onBeforeLoad', array($keys, $reset));
@@ -642,7 +643,7 @@ abstract class JTableCms extends JTable
 			$result = $this->bind($row);
 		}
 
-		if (Babelu_libUtilityJoomlaVersion::isJ3())
+		if ($this->isCompatible('3.0'))
 		{
 			// Implement JObservableInterface: Post-processing by observers
 			$this->_observers->update('onAfterLoad', array(&$result, $row));
@@ -652,5 +653,20 @@ abstract class JTableCms extends JTable
 		return $result;
 	}
 
+	/**
+	 * Check if the version compatible
+	 * @param string $minimum The minimum version of the Joomla which is compatible.
+	 * @see JVersion::isCompatible
+	 * @return boolean
+	 */
+	protected function isCompatible($minimum)
+	{
+		$version = new JVersion();
+		if ($version->isCompatible($minimum))
+		{
+			return true;
+		}
+		return false;
+	}
 }
 

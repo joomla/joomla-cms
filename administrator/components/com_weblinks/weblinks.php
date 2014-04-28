@@ -15,6 +15,15 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_weblinks'))
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-$controller	= JControllerLegacy::getInstance('Weblinks');
-$controller->execute(JFactory::getApplication()->input->get('task'));
+require_once JPATH_COMPONENT_ADMINISTRATOR.'/autoloader.php';
+
+$app = JFactory::getApplication();
+$input = $app->input;
+$config = array('default_view' => 'weblink');
+
+$controller	= new WeblinksController($input, $app, $config);
+
+$controller->execute();
+
 $controller->redirect();
+

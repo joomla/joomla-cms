@@ -31,6 +31,7 @@ class JViewAdmin extends JViewCms
 	{
 		//get the unit count for each course
 		$model = $this->getModel();
+		$this->state = $model->getState();
 		$config = $this->config;
 
 		$this->keyName = $model->getKeyName();
@@ -53,16 +54,16 @@ class JViewAdmin extends JViewCms
 
 			$prefix = substr($config['option'], 4);
 			$sideBarHelper = ucfirst($prefix).'Helper';
-				
 			if (class_exists($sideBarHelper))
 			{
-				$this->sidebar = $sideBarHelper::addSubmenu($config['subject']);
+				$sideBarHelper::addSubmenu($config['subject']);
 				$this->addFilters();
+				$this->sidebar = JHtmlSidebar::render();
 			}
 		}
 
 		
-		$this->state = $model->getState();
+		
 
 		// load toolbar
 		$this->addToolbar();

@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-abstract class JModelList extends JModelItem
+abstract class JModelCollection extends JModelRecord
 {
 	/**
 	 * Valid filter fields.
@@ -166,7 +166,7 @@ abstract class JModelList extends JModelItem
 			{
 				$query->where('a.state = '.(int) $state);
 			}
-			else if ($published === '')
+			else if ($state === '')
 			{
 				$query->where('(a.state IN (0, 1))');
 			}

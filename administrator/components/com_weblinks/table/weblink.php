@@ -23,9 +23,11 @@ class WeblinksTableWeblink extends JTableCms
 	 *
 	 * @param   JDatabaseDriver  &$db  A database connector object
 	 */
-	public function __construct(&$db)
+	public function __construct($config = array())
 	{
-		parent::__construct('#__weblinks', 'id', $db);
+		$config['table']['name'] = '#__weblinks';
+		$config['table']['key'] = 'id';
+		parent::__construct($config);
 	}
 
 	/**

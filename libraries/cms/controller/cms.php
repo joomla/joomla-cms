@@ -154,6 +154,7 @@ abstract class JControllerCms extends JControllerBase
 	{
 		//Safe merge. will not overwrite existing keys
 		$config += $this->config;
+		return $config;
 	}
 	
 	/**
