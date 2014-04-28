@@ -63,6 +63,13 @@ final class JVersion
 	 */
 	public function isCompatible($minimum)
 	{
+		// Define the Joomla version if not already defined.
+		if (!defined('JVERSION'))
+		{
+			$jversion = new JVersion;
+			define('JVERSION', $jversion->getShortVersion());
+		}
+
 		return version_compare(JVERSION, $minimum, 'ge');
 	}
 
