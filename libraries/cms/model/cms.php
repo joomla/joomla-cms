@@ -172,11 +172,12 @@ abstract class JModelCms
 
 	/**
 	 * Method to authorise the current user for an action.
-	 * This method uses the final prefix
+	 * This method is intended to be overriden to allow for customized access rights
 	 * @param string $action
 	 * @param string $assetName
+	 * @param object $activeRecord active record data to check against
 	 */
-	public function allowAction($action, $assetName = null)
+	public function allowAction($action, $assetName = null, $activeRecord = null)
 	{
 		if (is_null($assetName))
 		{

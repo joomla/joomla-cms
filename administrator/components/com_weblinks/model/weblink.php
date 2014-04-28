@@ -171,60 +171,21 @@ class WeblinksModelWeblink extends JModelAdministrator
 	protected $text_prefix = 'COM_WEBLINKS';
 
 	/**
-	 * Method to test whether a record can be deleted.
-	 *
-	 * @param   object  $record  A record object.
-	 *
-	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
-	 *
-	 * @since   1.6
-	 */
-	protected function canDelete($record)
+ 	* (non-PHPdoc) 
+ 	* @see JModelCms::allowAction()
+ 	*/
+	public function allowAction($action, $assetName = null, $activeRecord = null)
 	{
-		if (!empty($record->id))
+		if (is_object($activeRecord) && !empty($activeRecord->catid))
 		{
-			if ($record->state != -2)
-			{
-				return;
-			}
-
-			if ($record->catid)
-			{
-				return $this->allowAction('core.delete', 'com_weblinks.category.'.(int) $record->catid);
-			}
-			else
-			{
-				return $this->allowAction('core.delete');
-			}
+			$config = $this->config;
+			$assetName = $config['option'].'category'.(int) $record->catid;
 		}
+	
+		return parent::allowAction($action, $assetName, $activeRecord);
 	}
-
-	/**
-	 * Method to test whether a record can be deleted.
-	 * NOTE: Not used in single task controller models.
-	 * Kept here to prevent unintended side effects with the categories implementation.
-	 * 
-	 * @param   object  $record  A record object.
-	 *
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the component.
-	 *
-	 * @since   1.6
-	 */
-	protected function canEditState($record)
-	{
-		$user = JFactory::getUser();
-
-		if (!empty($record->catid))
-		{
-			return $this->allowAction('core.edit.state', 'com_weblinks.category.'.(int) $record->catid);
-		}
-		else
-		{
-			return $this->allowAction('core.edit.state');
-		}
-	}
-
-	// removed getTable form as its implemented in the single task MVC model
+	
+	//NOTE removed getTable, canEditState, canDelete as its implemented in the single task MVC model
 
 	/**
 	 * Abstract method for getting the form from the model.
@@ -259,7 +220,7 @@ class WeblinksModelWeblink extends JModelAdministrator
 		}
 
 		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data))
+		if (!$this->allowAction('core.edit.state', $this->config['option'], (object) $data))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');

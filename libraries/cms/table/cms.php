@@ -139,7 +139,7 @@ abstract class JTableCms extends JTable
 
 		if ($this->isLocked($this))
 		{
-			throw new ErrorException(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+			throw new ErrorException(JText::_('JLIB_DATABASE_ERROR_CHECKIN_USER_MISMATCH'));
 			return false;
 		}
 
@@ -173,7 +173,7 @@ abstract class JTableCms extends JTable
 
 		if ($this->isLocked($this))
 		{
-			throw new ErrorException(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+			throw new ErrorException(JText::_('JLIB_DATABASE_ERROR_CHECKIN_USER_MISMATCH'));
 			return false;
 		}
 
@@ -265,7 +265,7 @@ abstract class JTableCms extends JTable
 
 			if ($pk[$key] === null)
 			{
-				throw new UnexpectedValueException(JText::_('BABELU_LIB_ERROR_NULL_PRIMARY_KEYS_NOT_ALLOWED'));
+				throw new UnexpectedValueException(JText::_('JLIB_DATABASE_ERROR_NULL_PRIMARY_KEYS_NOT_ALLOWED'));
 				return false;
 			}
 		}
@@ -369,7 +369,7 @@ abstract class JTableCms extends JTable
 		{
 			if ($this->isLocked($this))
 			{
-				throw new ErrorException(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+				throw new ErrorException(JText::_('JLIB_DATABASE_ERROR_CHECKIN_USER_MISMATCH'));
 				return false;
 			}
 			$this->checkout($userId);
@@ -455,42 +455,6 @@ abstract class JTableCms extends JTable
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Method to verify that the record can be deleted.
-	 * @param JTable $activeRecord
-	 * @throws ErrorException
-	 * @return boolean
-	 */
-	public function canDoDelete(JTable $activeRecord)
-	{
-		$config = $this->_config;
-		$user = JFactory::getUser();
-
-		if (!$user->authorise('core.delete', $config['option']))
-		{
-			throw ErrorException('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED');
-		}
-		return true;
-	}
-
-	/**
-	 * Method to verify that the record can be reordered.
-	 * @param JTable $activeRecord
-	 * @throws ErrorException
-	 * @return boolean
-	 */
-	public function canDoReorder(JTable $activeRecord)
-	{
-		$config = $this->_config;
-		$user = JFactory::getUser();
-
-		if (!$user->authorise('core.edit.state', $config['option']))
-		{
-			throw ErrorException('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED');
-		}
-		return true;
 	}
 
 	public function getReorderConditions(JTable $activeRecord)
@@ -596,13 +560,13 @@ abstract class JTableCms extends JTable
 			{
 				if ($keyCount > 1)
 				{
-					throw new InvalidArgumentException('Table has multiple primary keys specified, only one primary key value provided.');
+					throw new InvalidArgumentException('JLIB_DATABASE_ERROR_INCOMPLETE_COMPOUND_PRIMARY_KEY');
 				}
 				$keys = array($this->getKeyName() => $keys);
 			}
 			else
 			{
-				throw new RuntimeException('No table keys defined.');
+				throw new RuntimeException('JLIB_DATABASE_NO_PRIMARY_KEY_DEFINED');
 			}
 		}
 

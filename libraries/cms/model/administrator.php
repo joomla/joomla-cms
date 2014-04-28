@@ -20,72 +20,6 @@ abstract class JModelAdministrator extends JModelCollection
 	protected $forms = array();
 
 	/**
-	 * Method to update one or more record states
-	 * @param mixed $cid primary key or array of primary keys.
-	 * @param string $type type of state change.
-	 * @see JCmsModelAdmin::getStateTypes
-	 * @throws ErrorException
-	 * @return boolean
-	*/
-	public function updateRecordState($cid, $type)
-	{
-		$stateChangeTypes = $this->getStateTypes();
-
-		if (!array_key_exists($type, $stateChangeTypes))
-		{
-			throw new ErrorException('JLIB_APPLICATION_ERROR_UNRECOGNIZED_STATE_CHANGE');
-			return false;
-		}
-
-		$newState = $stateChangeTypes[$type];
-
-		$user = JFactory::getUser();
-
-		foreach ((array)$cid AS $i => $pk)
-		{
-			$activeRecord = $this->getActiveRecord($pk);
-				
-			$activeRecord->updateRecordState($pk, $newState, $user->id);
-		}
-
-		// Include the content plugins for the change of state event.
-		JPluginHelper::importPlugin('content');
-		$dispatcher = $this->getDispatcher();
-
-		$config = $this->config;
-		$context = $this->getContext();
-
-		//trigger 'onContentChangeState'
-		$result = $dispatcher->trigger('onContentChangeState', array($context, $cid, $newState));
-
-		if (!in_array(false, $result, true))
-		{
-			// Clear the component's cache
-			$this->cleanCache();
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to get an associative array of state types.
-	 * Default array has these values 'publish' => 1, 'unpublish' => 0,'archive' => 2,'trash' => -2,'report' => -3
-	 * This allows extensions to add additional states to their records by overloading this function.
-	 * @return array $stateChangeTypes
-	 */
-	protected function getStateTypes()
-	{
-		$stateChangeTypes = array();
-		$stateChangeTypes['publish']   = 1;
-		$stateChangeTypes['unpublish'] = 0;
-		$stateChangeTypes['archive']   = 2;
-		$stateChangeTypes['trash']     = -2;
-		$stateChangeTypes['report']    = -3;
-
-		return $stateChangeTypes;
-	}
-
-	/**
 	 * Method to validate data and insert into db
 	 * @param array $data
 	 * @throws ErrorException
@@ -468,7 +402,7 @@ abstract class JModelAdministrator extends JModelCollection
 				
 			$activeRecord = $this->getActiveRecord($pk);
 				
-			if ($activeRecord->canDoDelete($activeRecord))
+			if ($this->allowAction('core.delete', $config['option'], $activeRecord))
 			{
 				// Trigger the onContentBeforeDelete event.
 				$result = $dispatcher->trigger('onContentBeforeDelete', array($context, $activeRecord));
@@ -484,6 +418,11 @@ abstract class JModelAdministrator extends JModelCollection
 				// Trigger the onContentAfterDelete event.
 				$dispatcher->trigger('onContentAfterDelete', array($context, $activeRecord));
 			}
+			else 
+			{
+				throw ErrorException('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED');
+				return false;
+			}
 		}
 
 		// Clear the component's cache
@@ -492,6 +431,80 @@ abstract class JModelAdministrator extends JModelCollection
 		return true;
 	}
 
+	/**
+	 * Method to update one or more record states
+	 * @param mixed $cid primary key or array of primary keys.
+	 * @param string $type type of state change.
+	 * @see JCmsModelAdmin::getStateTypes
+	 * @throws ErrorException
+	 * @return boolean
+	 */
+	public function updateRecordState($cid, $type)
+	{
+		$stateChangeTypes = $this->getStateTypes();
+	
+		if (!array_key_exists($type, $stateChangeTypes))
+		{
+			throw new ErrorException('JLIB_APPLICATION_ERROR_UNRECOGNIZED_STATE_CHANGE');
+			return false;
+		}
+	
+		$newState = $stateChangeTypes[$type];
+	
+		$user = JFactory::getUser();
+	
+		foreach ((array)$cid AS $i => $pk)
+		{
+			$activeRecord = $this->getActiveRecord($pk);
+				
+			if ($this->allowAction('core.edit.state', $config['option'], $activeRecord))
+			{
+				$activeRecord->updateRecordState($pk, $newState, $user->id);
+			}
+			else
+			{
+				//remove items we cannot edit.
+				unset($cid[$i]);
+			}
+		}
+	
+		// Include the content plugins for the change of state event.
+		JPluginHelper::importPlugin('content');
+		$dispatcher = $this->getDispatcher();
+	
+		$config = $this->config;
+		$context = $this->getContext();
+	
+		//trigger 'onContentChangeState'
+		$result = $dispatcher->trigger('onContentChangeState', array($context, $cid, $newState));
+	
+		if (!in_array(false, $result, true))
+		{
+			// Clear the component's cache
+			$this->cleanCache();
+		}
+	
+		return true;
+	}
+	
+	/**
+	 * Method to get an associative array of state types.
+	 * Default array has these values 'publish' => 1, 'unpublish' => 0,'archive' => 2,'trash' => -2,'report' => -3
+	 * This allows extensions to add additional states to their records by overloading this function.
+	 * @return array $stateChangeTypes
+	 */
+	protected function getStateTypes()
+	{
+		$stateChangeTypes = array();
+		$stateChangeTypes['publish']   = 1;
+		$stateChangeTypes['unpublish'] = 0;
+		$stateChangeTypes['archive']   = 2;
+		$stateChangeTypes['trash']     = -2;
+		$stateChangeTypes['report']    = -3;
+	
+		return $stateChangeTypes;
+	}
+	
 	/**
 	 * Method to reorder one or more records
 	 * @param int $pks
@@ -519,10 +532,14 @@ abstract class JModelAdministrator extends JModelCollection
 		{
 			$activeRecord = $this->getActiveRecord($pk);
 				
-			if ($activeRecord->canDoReorder($activeRecord))
+			if ($this->allowAction('core.edit.state', $config['option'], $activeRecord))
 			{
 				$where = $activeRecord->getReorderConditions($activeRecord);
 				$activeRecord->moveOrder($pk, $delta, $where);
+			}
+			else
+			{
+				throw ErrorException('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED');
 			}
 		}
 
@@ -563,7 +580,7 @@ abstract class JModelAdministrator extends JModelCollection
 		{
 			$activeRecord = $this->getActiveRecord($pk);
 			// Access checks.
-			if ($activeRecord->canDoReorder($activeRecord))
+			if ($this->allowAction('core.edit.state', $config['option'], $activeRecord))
 			{
 				$activeRecord->ordering = $order[$i];
 
