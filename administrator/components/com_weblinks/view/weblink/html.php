@@ -113,7 +113,7 @@ class WeblinksViewWeblinkHtml extends JViewAdmin
 			JToolbarHelper::deleteList('', 'delete.weblink', 'JTOOLBAR_EMPTY_TRASH');
 		} elseif ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::trash('trash.weblinks');
+			JToolbarHelper::trash('stateTrash.weblink');
 		}
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_weblinks') && $user->authorise('core.edit', 'com_weblinks') && $user->authorise('core.edit.state', 'com_weblinks'))

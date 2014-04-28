@@ -270,21 +270,20 @@ abstract class JModelCollection extends JModelRecord
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-
 		$context = $this->getContext();
 
 		if (!$this->stateIsSet)
 		{
 			$app = JFactory::getApplication();
 				
-			$filters = $this->getUserStateFromRequest($context.'.filter', 'filter', array(), 'array');
+			$filters = $app->getUserStateFromRequest($context.'.filter', 'filter', array(), 'array');
 				
 			foreach ($filters AS $name => $value)
 			{
 				$this->setState('filter.'.$name, $value);
 			}
 				
-			$limit = $this->getUserStateFromRequest($context.'list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+			$limit = $app->getUserStateFromRequest($context.'list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
 			$this->setState('list.limit', $limit);
 				
 			// Check if the ordering field is in the white list, otherwise use the incoming value.
@@ -309,8 +308,8 @@ abstract class JModelCollection extends JModelRecord
 				
 			$this->setState('list.direction', strtoupper($orderDir));
 				
-			$limitStartValue =  $app->getUserStateFromRequest($context . '.limitstart', 'limitstart', 0);
-				
+			$limitStartValue =  $app->getUserStateFromRequest($context . '.limitstart', 'limitstart', 0, 'int');
+			
 			if ($limit != 0)
 			{
 				$limitStart = (floor($limitStartValue / $limit) * $limit);
@@ -319,7 +318,7 @@ abstract class JModelCollection extends JModelRecord
 			{
 				$limitStart = 0;
 			}
-				
+			
 			$this->setState('list.start', $limitStart);
 				
 			parent::populateState($ordering, $direction);
