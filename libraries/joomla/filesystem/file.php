@@ -186,7 +186,7 @@ class JFile
 		foreach ($files as $file)
 		{
 			$file = JPath::clean($file);
-			
+
 			if (!is_file($file))
 			{
 				continue;

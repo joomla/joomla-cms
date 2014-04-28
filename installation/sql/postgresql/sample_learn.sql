@@ -181,6 +181,8 @@ INSERT INTO "#__assets" VALUES
 (177,1,426,427,1,'com_ajax','com_ajax','{}'),
 (178,1,428,429,1,'com_postinstall','com_postinstall','{}');
 
+SELECT setval('#__assets_id_seq', max(id)) FROM #__assets;
+
 --
 -- Dumping data for table #__banners
 --
@@ -189,6 +191,8 @@ INSERT INTO "#__banners" VALUES
 (3,2,0,'Shop 2','shop-2',0,0,0,'http://shop.joomla.org',1,15,'T Shirts, caps and more from the Joomla! Shop.','',0,2,'','{"imageurl":"images\\/banners\\/white.png","width":"","height":"","alt":"Joomla! Shop"}',0,'',-1,0,0,0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00','2011-01-01 00:00:01','en-GB',42,'Joomla','1970-01-01 00:00:00',0,1),
 (4,1,0,'Support Joomla!','support-joomla',0,0,0,'http://contribute.joomla.org',1,15,'Your contributions of time, talent and money make Joomla possible.','',0,3,'','{"imageurl":"images\\/banners\\/white.png","width":"","height":"","alt":""}',0,'',-1,0,0,0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00','2011-01-01 00:00:01','en-GB',42,'Joomla','1970-01-01 00:00:00',0,1);
 
+SELECT setval('#__banners_id_seq', max(id)) FROM #__banners;
+
 --
 -- Dumping data for table #__banner_clients
 --
@@ -196,6 +200,8 @@ INSERT INTO "#__banner_clients" VALUES
 (1,'Joomla!','Administrator','email@email.com','',1,0,'1970-01-01 00:00:00','',0,'',-1,-1,-1),
 (2,'Shop','Example','example@example.com','',1,0,'1970-01-01 00:00:00','',0,'',-1,0,0),
 (3,'Bookstore','Bookstore Example','example@example.com','',1,0,'1970-01-01 00:00:00','',0,'',-1,0,0);
+
+SELECT setval('#__banner_clients_id_seq', max(id)) FROM #__banner_clients;
 
 --
 -- Dumping data for table #__categories
@@ -269,6 +275,8 @@ INSERT INTO "#__categories" VALUES
 (77,169,1,131,132,1,'uncategorised','com_users','Uncategorised','uncategorised','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":""}','','','{"page_title":"","author":"","robots":""}',910,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
 (78,174,23,29,30,5,'sample-data-articles/joomla/extensions/templates/protostar','com_content','Protostar','protostar','','<p>Protostar is a mobile ready template designed using Twitter Bootstrap. It is sleek and easily to customise. It is the default template for Joomla 3.</p>\r\n<ul>\r\n<li><a href="index.php?Itemid=469">Home Page</a></li>\r\n<li><a href="index.php?option=com_content&amp;view=article&amp;id=49&amp;catid=23&amp;Itemid=470">Typography</a></li>\r\n</ul>',1,0,'1970-01-01 00:00:00',1,'{"category_layout":"","image":""}','','','{"author":"","robots":""}',910,'2012-09-25 11:50:03',123,'2012-09-25 12:13:14',0,'*',1);
 
+SELECT setval('#__categories_id_seq', max(id)) FROM #__categories;
+
 --
 -- Dumping data for table #__contact_details
 --
@@ -281,6 +289,8 @@ INSERT INTO "#__contact_details" VALUES
 (6,'Apples','apples','Scientific Name: Malus domestica','Image Credit: Fievet\r\nRights: Public Domain\r\nSource: http://commons.wikimedia.org/wiki/File:Pommes_vertes.JPG','','Family: Rosaceae','Large: Producers: China, United States','','','','<p>Apples are a versatile fruit, used for eating, cooking, and preserving.</p>\r\n<p>There are more that 7500 different kinds of apples grown around the world.</p>','images/sampledata/fruitshop/apple.jpg','',0,1,0,'1970-01-01 00:00:00',1,'{"show_contact_category":"","show_contact_list":"","presentation_style":"plain","show_name":"","show_position":"","show_email":"","show_street_address":"","show_suburb":"","show_state":"","show_postcode":"","show_country":"","show_telephone":"","show_mobile":"","show_fax":"","show_webpage":"","show_misc":"","show_image":"","allow_vcard":"","show_articles":"","show_profile":"","show_links":"1","linka_name":"Wikipedia: Apples English","linka":"http:\\/\\/en.wikipedia.org\\/wiki\\/Apple","linkb_name":"Wikipedia: Manzana Espa\\u00f1ol ","linkb":"http:\\/\\/es.wikipedia.org\\/wiki\\/Manzana","linkc_name":"Wikipedia: \\u82f9\\u679c \\u4e2d\\u6587","linkc":"http:\\/\\/zh.wikipedia.org\\/zh\\/\\u82f9\\u679c","linkd_name":"Wikipedia: Tofaa Kiswahili","linkd":"http:\\/\\/sw.wikipedia.org\\/wiki\\/Tofaa","linke_name":"","linke":"","contact_layout":"beez5:encyclopedia"}',0,38,1,'','','','','','*','2011-01-01 00:00:01',42,'Joomla','1970-01-01 00:00:00',0,'','','{"robots":"","rights":""}',0,'','1970-01-01 00:00:00','1970-01-01 00:00:00',1,0),
 (7,'Tamarind','tamarind','Scientific Name: Tamarindus indica','Image Credit: Franz Eugen KÃ¶hler, KÃ¶hler\'s Medizinal-Pflanzen \r\nRights: Public Domain\r\nSource:http://commons.wikimedia.org/wiki/File:Koeh-134.jpg','','Family: Fabaceae','Large Producers: India, United States','','','','<p>Tamarinds are a versatile fruit used around the world. In its young form it is used in hot sauces; ripened it is the basis for many refreshing drinks.</p>\r\n<p> </p>','images/sampledata/fruitshop/tamarind.jpg','',0,1,0,'1970-01-01 00:00:00',1,'{"show_contact_category":"","show_contact_list":"","presentation_style":"plain","show_name":"","show_position":"","show_email":"","show_street_address":"","show_suburb":"","show_state":"","show_postcode":"","show_country":"","show_telephone":"","show_mobile":"","show_fax":"","show_webpage":"","show_misc":"","show_image":"","allow_vcard":"","show_articles":"","show_profile":"","show_links":"1","linka_name":"Wikipedia: Tamarind English","linka":"http:\\/\\/en.wikipedia.org\\/wiki\\/Tamarind","linkb_name":"Wikipedia: \\u09a4\\u09c7\\u0981\\u09a4\\u09c1\\u09b2  \\u09ac\\u09be\\u0982\\u09b2\\u09be  ","linkb":"http:\\/\\/bn.wikipedia.org\\/wiki\\/\\u09a4\\u09c7\\u0981\\u09a4\\u09c1\\u09b2 ","linkc_name":"Wikipedia: Tamarinier Fran\\u00e7ais","linkc":"http:\\/\\/fr.wikipedia.org\\/wiki\\/Tamarinier","linkd_name":"Wikipedia:Tamaline lea faka-Tonga","linkd":"http:\\/\\/to.wikipedia.org\\/wiki\\/Tamaline","linke_name":"","linke":"","contact_layout":"beez5:encyclopedia"}',0,57,1,'','','','','','*','2011-01-01 00:00:01',42,'Joomla','1970-01-01 00:00:00',0,'','','{"robots":"","rights":""}',0,'','1970-01-01 00:00:00','1970-01-01 00:00:00',1,0),
 (8,'Shop Address','shop-address','','','Our City','Our Province','Our Country','','555-555-5555','','<p>Here are directions for how to get to our shop.</p>','','',0,1,0,'1970-01-01 00:00:00',1,'{"show_contact_category":"","show_contact_list":"","presentation_style":"","show_name":"","show_position":"","show_email":"","show_street_address":"","show_suburb":"","show_state":"","show_postcode":"","show_country":"","show_telephone":"","show_mobile":"","show_fax":"","show_webpage":"","show_misc":"","show_image":"","allow_vcard":"","show_articles":"","show_profile":"","show_links":"","linka_name":"","linka":"","linkb_name":"","linkb":"","linkc_name":"","linkc":"","linkd_name":"","linkd":"","linke_name":"","linke":"","show_email_form":"","show_email_copy":"","banned_email":"","banned_subject":"","banned_text":"","validate_session":"","custom_reply":"","redirect":""}',0,35,1,'','','','','','*','2011-01-01 00:00:01',42,'Joomla','1970-01-01 00:00:00',0,'','','{"robots":"","rights":""}',1,'','1970-01-01 00:00:00','1970-01-01 00:00:00',1,0);
+
+SELECT setval('#__contact_details_id_seq', max(id)) FROM #__contact_details;
 
 --
 -- Dumping data for table #__content
@@ -355,6 +365,8 @@ INSERT INTO "#__content" VALUES
 (68,170,'Captcha','captcha','<p>The Captcha plugins are used to prevent spam submissions on your forms such as registration, contact and login. You basic installation of Joomla includes one Captcha plugin which leverages the ReCaptchaÂ® service but you may install other plugins connecting to different Captcha systems.</p>\r\n<p>Default on:</p>\r\n<ul>\r\n<li>ReCaptcha <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;amp;keyref=Help31:Extensions_Plugin_Manager_Edit">help</a></li>\r\n</ul>\r\n<p>Note: ReCaptcha is a the trademark of Google Inc. and is an independent product not associated with or endorsed by the Joomla Project. You will need to register and agree to the Terms of Service at Recaptcha.net to use this plugin. Complete instructions are available if you edit the ReCaptcha plugin in the Plugin Manager.</p>','',1,25,'2011-01-01 00:00:01',123,'Joomla','1970-01-01 00:00:00',0,0,'1970-01-01 00:00:00','2012-01-17 03:20:45','1970-01-01 00:00:00','{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}','{"urla":"","urlatext":"","targeta":"","urlb":"","urlbtext":"","targetb":"","urlc":"","urlctext":"","targetc":""}','{"show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}',1,1,'','',1,0,'{"robots":"","author":"","rights":"","xreference":""}',0,'*',''),
 (69,171,'Quick Icons','quick-icons','<p> The Quick Icon plugin group is used to provide notification that updates to Joomla! or installed extensions are available and should be applied. These notifications display on your administrator control panel, which is the page you see when you first log in to your site administrator.</p>\r\n<p>Default on:</p>\r\n<ul>\r\n<li>Quick icon - Joomla! extensions updates notification <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;amp;keyref=Help31:Extensions_Plugin_Manager_Edit">Help</a>.</li>\r\n<li>Quick icon - Joomla! update notification <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;amp;keyref=Help31:Extensions_Plugin_Manager_Edit">Help</a></li>\r\n</ul>','',1,25,'2011-01-01 00:00:01',123,'Joomla','1970-01-01 00:00:00',0,0,'1970-01-01 00:00:00','2012-01-17 03:27:39','1970-01-01 00:00:00','{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}','{"urla":"","urlatext":"","targeta":"","urlb":"","urlbtext":"","targetb":"","urlc":"","urlctext":"","targetc":""}','{"show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}',1,0,'','',1,0,'{"robots":"","author":"","rights":"","xreference":""}',0,'*',''),
 (70,170,'Smart Search','smart-search','<p>This module provides search using the Smart Search component. You should only use it if you have indexed your content and either have enabled the Smart Search content plugin or are keeping the index of your site updated manually. <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;amp;keyref=Help31:Extensions_Module_Manager_Smart_Search">Help</a>.</p>\r\n<div class="sample-module">{loadmodule finder,Smart Search}</div>','',1,67,'2011-01-01 00:00:01',123,'Joomla','1970-01-01 00:00:00',0,0,'1970-01-01 00:00:00','2012-01-17 03:42:36','1970-01-01 00:00:00','{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}','{"urla":"","urlatext":"","targeta":"","urlb":"","urlbtext":"","targetb":"","urlc":"","urlctext":"","targetc":""}','{"show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}',1,0,'','',1,0,'{"robots":"","author":"","rights":"","xreference":""}',0,'*','');
+
+SELECT setval('#__content_id_seq', max(id)) FROM #__content;
 
 --
 -- Dumping data for table #__content_frontpage
@@ -512,6 +524,8 @@ INSERT INTO "#__menu" VALUES
 (471,'menu','com_tags','com-tags','','com-tags','index.php?option=com_tags','component',0,1,1,29,0,'1970-01-01 00:00:00',0,1,'class:tags',0,'',277,278,0,'',1),
 (472,'main','com_postinstall','Post-installation messages','','Post-installation messages','index.php?option=com_postinstall','component',0,1,1,32,0,'1970-01-01 00:00:00',0,1,'class:postinstall',0,'',279,280,0,'*',1);
 
+SELECT setval('#__menu_id_seq', max(id)) FROM #__menu;
+
 --
 -- Dumping data for table #__menu_types
 --
@@ -522,6 +536,8 @@ INSERT INTO "#__menu_types" VALUES
 (5,'parks','Australian Parks','Main menu for a site about Australian parks'),
 (6,'mainmenu','Main Menu','Simple Home Menu'),
 (7,'fruitshop','Fruit Shop','Menu for the sample shop site.');
+
+SELECT setval('#__menu_types_id_seq', max(id)) FROM #__menu_types;
 
 --
 -- Dumping data for table #__modules
@@ -587,6 +603,8 @@ INSERT INTO "#__modules" VALUES
 (88,0,'Image Module','','<p><img src="images/headers/maple.jpg" alt="" /></p>',1,'position-3',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_custom',1,0,'{"prepare_content":"1","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"1","header_tag":"h3","header_class":"","style":"0"}',0,'*'),
 (89,0,'Custom HTML','','<p>In this module you can put whatever text or other content you would like.</p>',1,'',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_custom',1,1,'{"prepare_content":"1","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"1","header_tag":"h3","header_class":"","style":"0"}',0,'*'),
 (90,0,'Parks Image Module','','<p><img src="images/sampledata/parks/banner_cradle.jpg" alt="" /></p>',1,'position-3',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_custom',1,1,'{"prepare_content":"1","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"1","header_tag":"h3","header_class":"","style":"0"}',0,'*');
+
+SELECT setval('#__modules_id_seq', max(id)) FROM #__modules;
 
 --
 -- Dumping data for table #__modules_menu
@@ -794,6 +812,8 @@ INSERT INTO "#__newsfeeds" VALUES
 (17,3,'Joomla! Security News','joomla-security-news','http://feeds.joomla.org/JoomlaSecurityNews',1,5,3600,0,'1970-01-01 00:00:00',2,1,1,'en-GB','{"show_feed_image":"","show_feed_description":"","show_item_description":"","feed_character_count":"0","newsfeed_layout":"","feed_display_order":""}','2011-01-01 00:00:01',42,'Joomla','1970-01-01 00:00:00',0,'','','{"robots":"","rights":""}','','1970-01-01 00:00:00','1970-01-01 00:00:00','',1,0,''),
 (17,4,'Joomla! Connect','joomla-connect','http://feeds.joomla.org/JoomlaConnect',1,5,3600,0,'1970-01-01 00:00:00',3,1,1,'en-GB','{"show_feed_image":"","show_feed_description":"","show_item_description":"","feed_character_count":"0","newsfeed_layout":"","feed_display_order":""}','2011-01-01 00:00:01',42,'Joomla','1970-01-01 00:00:00',0,'','','{"robots":"","rights":""}','','1970-01-01 00:00:00','1970-01-01 00:00:00','',1,0,'');
 
+SELECT setval('#__newsfeeds_id_seq', max(id)) FROM #__newsfeeds;
+
 --
 -- Dumping data for table #__template_styles
 --
@@ -803,6 +823,8 @@ INSERT INTO "#__template_styles" VALUES
 (7,'protostar',0,'1','protostar - Default','{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
 (8,'isis',1,'1','isis - Default','{"templateColor":"","logoFile":""}'),
 (9,'beez3',0,'0','Beez3 - Default','{"wrapperSmall":53,"wrapperLarge":72,"logo":"","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","bootstrap":"","templatecolor":"personal","headerImage":"","backgroundcolor":"#eee"}');
+
+SELECT setval('#__template_styles_id_seq', max(id)) FROM #__template_styles;
 
 --
 -- Dumping data for table #__usergroups
@@ -820,6 +842,8 @@ INSERT INTO "#__usergroups" VALUES
 (12,2,17,18,'Customer Group (Example)'),
 (13,1,2,3,'Guest');
 
+SELECT setval('#__usergroups_id_seq', max(id)) FROM #__usergroups;
+
 --
 -- Dumping data for table #__viewlevels
 --
@@ -830,6 +854,8 @@ INSERT INTO "#__viewlevels" VALUES
 (4,'Customer Access Level (Example)',3,'[6,3,12]'),
 (5,'Guest',0,'[13]'),
 (6,'Super Users',0,'[8]');
+
+SELECT setval('#__viewlevels_id_seq', max(id)) FROM #__viewlevels;
 
 --
 -- Dumping data for table #__weblinks
@@ -844,5 +870,7 @@ INSERT INTO "#__weblinks" VALUES
 (7,31,'Baw Baw National Park','baw-baw-national-park','http://www.parkweb.vic.gov.au/1park_display.cfm?park=44','<p>Park of the Austalian Alps National Parks system, Baw Baw  features sub alpine vegetation, beautiful views, and opportunities for hiking, skiing and other outdoor activities.</p>',0,1,0,'1970-01-01 00:00:00',1,1,'{"target":"0","count_clicks":""}','en-GB','2011-01-01 00:00:01',42,'Joomla','1970-01-01 00:00:00',0,'','','{"robots":"","author":"","rights":""}',0,'','1970-01-01 00:00:00','1970-01-01 00:00:00',1,''),
 (8,31,'Kakadu','kakadu','http://www.environment.gov.au/parks/kakadu/index.html','<p>Kakadu is known for both its cultural heritage and its natural features. It is one of a small number of places listed as World Heritage Places for both reasons. Extensive rock art is found there.</p>',0,1,0,'1970-01-01 00:00:00',2,1,'{"target":"0","count_clicks":""}','en-GB','2011-01-01 00:00:01',42,'Joomla','1970-01-01 00:00:00',0,'','','{"robots":"","author":"","rights":""}',0,'','1970-01-01 00:00:00','1970-01-01 00:00:00',1,''),
 (9,31,'Pulu Keeling','pulu-keeling','http://www.environment.gov.au/parks/cocos/index.html','<p>Located on an atoll 2000 kilometers north of Perth, Pulu Keeling is Australia\'s smallest national park.</p>',0,1,0,'1970-01-01 00:00:00',3,1,'{"target":"0","count_clicks":""}','en-GB','2011-01-01 00:00:01',42,'Joomla','1970-01-01 00:00:00',0,'','','{"robots":"","author":"","rights":""}',0,'','2010-07-10 23:44:03','1970-01-01 00:00:00',1,'');
+
+SELECT setval('#__weblinks_id_seq', max(id)) FROM #__weblinks;
 
 UPDATE "#__extensions" SET "params" = '{"allowUserRegistration":"1","new_usertype":"2","guest_usergroup":"13","sendpassword":"1","useractivation":"1","mail_to_admin":"0","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","mailSubjectPrefix":"","mailBodySuffix":"","save_history":"1","history_limit":5}' WHERE "extension_id" = 25;
