@@ -224,7 +224,7 @@
 		<field
 			name="proxy_enable"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_CONFIG_FIELD_PROXY_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_PROXY_ENABLE_DESC"
