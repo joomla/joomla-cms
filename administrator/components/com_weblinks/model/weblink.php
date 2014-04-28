@@ -25,23 +25,23 @@ class WeblinksModelWeblink extends JModelAdministrator
 		{	
 			$config['filter_fields'][] = array('name' => 'id', 'dataKeyName' => 'a.id', 'sortable' => true, 'searchable' => true);
 			$config['filter_fields'][] = array('name' => 'title', 'dataKeyName' => 'a.title', 'sortable' => true, 'searchable' => true);
-			$config['filter_fields'][] = array('name' => 'alias', 'dataKeyName' => 'a.alias', 'sortable' => true, 'searchable' => true);
-			$config['filter_fields'][] = array('name' => 'checked_out', 'dataKeyName' => 'a.checked_out', 'sortable' => true, 'searchable' => true);
-			$config['filter_fields'][] = array('name' => 'checked_out_time', 'dataKeyName' => 'a.checked_out_time', 'sortable' => true, 'searchable' => true);
-			$config['filter_fields'][] = array('name' => 'category_id', 'dataKeyName' => 'a.catid', 'sortable' => true, 'searchable' => true);
+			$config['filter_fields'][] = array('name' => 'alias', 'dataKeyName' => 'a.alias', 'sortable' => true, 'searchable' => false);
+			$config['filter_fields'][] = array('name' => 'checked_out', 'dataKeyName' => 'a.checked_out', 'sortable' => true, 'searchable' => false);
+			$config['filter_fields'][] = array('name' => 'checked_out_time', 'dataKeyName' => 'a.checked_out_time', 'sortable' => true, 'searchable' => false);
+			$config['filter_fields'][] = array('name' => 'category_id', 'dataKeyName' => 'a.catid', 'sortable' => true, 'searchable' => false);
 			$config['filter_fields'][] = array('name' => 'category_title', 'dataKeyName' => 'c.title', 'sortable' => false, 'searchable' => true);
-			$config['filter_fields'][] = array('name' => 'state', 'dataKeyName' => 'a.state', 'sortable' => true, 'searchable' => true);
-			$config['filter_fields'][] = array('name' => 'access', 'dataKeyName' => 'a.access', 'sortable' => true, 'searchable' => true);
+			$config['filter_fields'][] = array('name' => 'state', 'dataKeyName' => 'a.state', 'sortable' => true, 'searchable' => false);
+			$config['filter_fields'][] = array('name' => 'access', 'dataKeyName' => 'a.access', 'sortable' => true, 'searchable' => false);
 			$config['filter_fields'][] = array('name' => 'access_level', 'dataKeyName' => 'ag.title', 'sortable' => true, 'searchable' => true);
-			$config['filter_fields'][] = array('name' => 'created', 'dataKeyName' => 'a.created', 'sortable' => true, 'searchable' => true);
+			$config['filter_fields'][] = array('name' => 'created', 'dataKeyName' => 'a.created', 'sortable' => true, 'searchable' => false);
 			$config['filter_fields'][] = array('name' => 'created_by', 'dataKeyName' => 'a.created_by', 'sortable' => true, 'searchable' => true);
-			$config['filter_fields'][] = array('name' => 'ordering', 'dataKeyName' => 'a.ordering', 'sortable' => true, 'searchable' => true);
-			$config['filter_fields'][] = array('name' => 'featured', 'dataKeyName' => 'a.featured', 'sortable' => true, 'searchable' => true);
+			$config['filter_fields'][] = array('name' => 'ordering', 'dataKeyName' => 'a.ordering', 'sortable' => true, 'searchable' => false);
+			$config['filter_fields'][] = array('name' => 'featured', 'dataKeyName' => 'a.featured', 'sortable' => true, 'searchable' => false);
 			$config['filter_fields'][] = array('name' => 'language', 'dataKeyName' => 'a.language', 'sortable' => true, 'searchable' => true);
-			$config['filter_fields'][] = array('name' => 'hits', 'dataKeyName' => 'a.hits', 'sortable' => true, 'searchable' => true);
-			$config['filter_fields'][] = array('name' => 'publish_up', 'dataKeyName' => 'a.publish_up', 'sortable' => true, 'searchable' => true);
-			$config['filter_fields'][] = array('name' => 'publish_down', 'dataKeyName' => 'a.publish_down', 'sortable' => true, 'searchable' => true);
-			$config['filter_fields'][] = array('name' => 'url', 'dataKeyName' => 'a.url', 'sortable' => true, 'searchable' => true);
+			$config['filter_fields'][] = array('name' => 'hits', 'dataKeyName' => 'a.hits', 'sortable' => true, 'searchable' => false);
+			$config['filter_fields'][] = array('name' => 'publish_up', 'dataKeyName' => 'a.publish_up', 'sortable' => true, 'searchable' => false);
+			$config['filter_fields'][] = array('name' => 'publish_down', 'dataKeyName' => 'a.publish_down', 'sortable' => true, 'searchable' => false);
+			$config['filter_fields'][] = array('name' => 'url', 'dataKeyName' => 'a.url', 'sortable' => true, 'searchable' => false);
 		}
 	
 		parent::__construct($config);
@@ -111,6 +111,7 @@ class WeblinksModelWeblink extends JModelAdministrator
 	
 		// add the default filters
 		$query = parent::getListQuery($query);
+		
 		return $query;
 	}
 	
@@ -186,15 +187,14 @@ class WeblinksModelWeblink extends JModelAdministrator
 			{
 				return;
 			}
-			$user = JFactory::getUser();
 
 			if ($record->catid)
 			{
-				return $user->authorise('core.delete', 'com_weblinks.category.'.(int) $record->catid);
+				return $this->allowAction('core.delete', 'com_weblinks.category.'.(int) $record->catid);
 			}
 			else
 			{
-				return parent::canDelete($record);
+				return $this->allowAction('core.delete');
 			}
 		}
 	}
@@ -216,11 +216,11 @@ class WeblinksModelWeblink extends JModelAdministrator
 
 		if (!empty($record->catid))
 		{
-			return $user->authorise('core.edit.state', 'com_weblinks.category.'.(int) $record->catid);
+			return $this->allowAction('core.edit.state', 'com_weblinks.category.'.(int) $record->catid);
 		}
 		else
 		{
-			return $user->authorise('core.edit.state', $this->option);
+			return $this->allowAction('core.edit.state');
 		}
 	}
 
@@ -239,8 +239,8 @@ class WeblinksModelWeblink extends JModelAdministrator
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_weblinks.weblink', 'weblink', array('control' => 'jform', 'load_data' => $loadData));
-
+		$form = parent::getForm($data, $loadData);
+		
 		if (empty($form))
 		{
 			return false;
@@ -288,8 +288,8 @@ class WeblinksModelWeblink extends JModelAdministrator
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_weblinks.edit.weblink.data', array());
-
+		$data = parent::loadFormData();
+		
 		if (empty($data))
 		{
 			$data = $this->getItem();

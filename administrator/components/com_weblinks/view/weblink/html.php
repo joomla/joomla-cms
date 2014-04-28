@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 include_once JPATH_COMPONENT.'/helpers/weblinks.php';
+
 /**
  * View to edit a weblink.
  *

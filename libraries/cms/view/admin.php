@@ -44,7 +44,7 @@ class JViewAdmin extends JViewCms
 			JFactory::getApplication()->input->set('hidemainmenu', true);
 			// load standard properties
 			$this->item	= $model->getItem();
-			$this->form	= $model->getForm($this->item, false);
+			$this->form	= $model->getForm();
 		}
 		else
 		{

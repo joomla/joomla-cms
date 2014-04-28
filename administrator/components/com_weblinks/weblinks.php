@@ -26,4 +26,3 @@ $controller	= new WeblinksController($input, $app, $config);
 $controller->execute();
 
 $controller->redirect();
-
