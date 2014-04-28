@@ -53,7 +53,8 @@
     pick: function(data, i) {
       var completion = data.list[i];
       if (completion.hint) completion.hint(this.cm, data, completion);
-      else this.cm.replaceRange(getText(completion), completion.from||data.from, completion.to||data.to);
+      else this.cm.replaceRange(getText(completion), completion.from || data.from,
+                                completion.to || data.to, "complete");
       CodeMirror.signal(data, "pick", completion);
       this.close();
     },
@@ -100,6 +101,7 @@
         data = data_;
         if (finished) return;
         if (!data || !data.list.length) return done();
+        if (completion.widget) completion.widget.close();
         completion.widget = new Widget(completion, data);
       }
 
