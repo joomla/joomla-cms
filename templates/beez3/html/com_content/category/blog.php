@@ -23,8 +23,13 @@ $cparams = JComponentHelper::getParams('com_media');
 <section class="blog<?php echo $this->pageclass_sfx;?>">
 <?php if ($this->params->get('show_page_heading') != 0 or $this->params->get('show_category_title')) : ?>
 <h1>
-	<?php echo $this->escape($this->params->get('page_heading')); ?>
-	<?php if ($this->params->get('show_category_title'))
+	<?php
+	if ($this->params->get('show_page_heading') != 0)
+	{
+		echo $this->escape($this->params->get('page_heading'));
+	}
+	
+	if ($this->params->get('show_category_title'))
 	{
 		echo '<span class="subheading-category">'.JHtml::_('content.prepare', $this->category->title, '', 'com_content.category.title').'</span>';
 	}
