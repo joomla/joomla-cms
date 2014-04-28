@@ -140,7 +140,10 @@ class JHttpTransportCurl implements JHttpTransport
 		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
 
 		// Follow redirects.
-		$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
+		if (!ini_get('safe_mode'))
+		{
+			$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
+		}
 
 		// Proxy configuration
 		$config = JFactory::getConfig();
