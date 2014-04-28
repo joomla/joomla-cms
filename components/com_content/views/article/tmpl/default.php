@@ -197,9 +197,9 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 	<?php if (isset ($this->item->toc)) :
 		echo $this->item->toc;
 	endif; ?>
-	<section itemprop="articleBody">
+	<div itemprop="articleBody">
 		<?php echo $this->item->text; ?>
-	</section>
+	</div>
 
 	<?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
 		<div class="article-info muted">
