@@ -319,29 +319,41 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		/* not only type field */
 		$id = new stdClass;
 		$id->column_name = 'id';
+		$id->Field = 'id';
 		$id->type = 'integer';
+		$id->Type = 'integer';
 		$id->null = 'NO';
+		$id->Null = 'NO';
 		$id->Default = 'nextval(\'jos_dbtest_id_seq\'::regclass)';
 		$id->comments = '';
 
 		$title = new stdClass;
 		$title->column_name = 'title';
+		$title->Field = 'title';
 		$title->type = 'character varying(50)';
+		$title->Type = 'character varying(50)';
 		$title->null = 'NO';
+		$title->Null = 'NO';
 		$title->Default = null;
 		$title->comments = '';
 
 		$start_date = new stdClass;
 		$start_date->column_name = 'start_date';
+		$start_date->Field = 'start_date';
 		$start_date->type = 'timestamp without time zone';
+		$start_date->Type = 'timestamp without time zone';
 		$start_date->null = 'NO';
+		$start_date->Null = 'NO';
 		$start_date->Default = null;
 		$start_date->comments = '';
 
 		$description = new stdClass;
 		$description->column_name = 'description';
+		$description->Field = 'description';
 		$description->type = 'text';
+		$description->Type = 'text';
 		$description->null = 'NO';
+		$description->Null = 'NO';
 		$description->Default = null;
 		$description->comments = '';
 
