@@ -57,6 +57,8 @@ INSERT INTO "#__assets" VALUES
 (46,1,89,90,1,'com_ajax','com_ajax','{}'),
 (47,1,91,92,1,'com_postinstall','com_postinstall','{}');
 
+SELECT setval('#__assets_id_seq', max(id)) FROM #__assets;
+
 --
 -- Dumping data for table #__categories
 --
@@ -71,6 +73,8 @@ INSERT INTO "#__categories" VALUES
 (8,42,1,13,14,1,'blog-roll','com_weblinks','Blog Roll','blog-roll','','',1,0,'1970-01-01 00:00:00',1,'{"category_layout":"","image":""}','','','{"author":"","robots":""}',363,'2011-01-01 00:00:01',363,'2012-07-20 19:44:04',0,'*',1),
 (9,35,1,15,16,1,'blog','com_content','Blog','blog','','',1,0,'1970-01-01 00:00:00',1,'{"category_layout":"","image":""}','','','{"author":"","robots":""}',363,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1);
 
+SELECT setval('#__categories_id_seq', max(id)) FROM #__categories;
+
 --
 -- Dumping data for table #__content
 --
@@ -81,6 +85,8 @@ INSERT INTO "#__content" VALUES
 (4,39,'About your home page','about-your-home-page','<p>Your home page is set to display the four most recent articles from the blog category in a column. Then there are links to the 4 nest oldest articles. You can change those numbers by editing the content options settings in the blog tab in your site administrator. There is a link to your site administrator in the top menu.</p>\r\n<p>If you want to have your blog post broken into two parts, an introduction and then a full length separate page, use the Read More button to insert a break.</p>\r\n','\r\n<p>On the full page you will see both the introductory content and the rest of the article. You can change the settings to hide the introduction if you want.</p>\r\n<p>Â </p>\r\n<p>Â </p>\r\n<p>Â </p>',1,9,'2011-01-03 00:00:01',713,'Joomla','2013-10-13 16:59:32',713,0,'1970-01-01 00:00:00','2012-01-03 00:00:00','1970-01-01 00:00:00','{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}','{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}','{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"0","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":""}',7,1,'','',1,5,'{"robots":"","author":"","rights":"","xreference":""}',0,'*',''),
 (5,40,'Your Modules','your-modules','<p>Your site has some commonly used modules already preconfigured. These include:</p>\r\n<ul>\r\n<li>Image Module which holds the image beneath the menu. This is a Custom HTML module that you can edit to change the image.</li>\r\n<li>Blog Roll. which lets you link to other blogs. We\'ve put in two examples, but you\'ll want to change them. When you are logged in, click on blog roll on the top menu to update this.</li>\r\n<li>Most Read Posts which lists articles based on the number of times they have been read.</li>\r\n<li>Older Articles which lists out articles by month.</li>\r\n<li>Syndicate which allows your readers to read your posts in a news reader.</li>\r\n<li>Popular Tags, which will appear if you use tagging on your articles. Just enter a tag in the Tags field when editing.</li>\r\n</ul>\r\n<p>Each of these modules has many options which you can experiment with in the Module Manager in your site Administrator. Moving your mouse over a module and clicking on the edit icon will take you to an edit screen for that module. Always be sure to save and close any module you edit.Â </p>\r\n<p>Joomla! also includes many other modules you can incorporate in your site. As you develop your site you may want to add more module that you can find at the <a href="http://extensions.joomla.org">Joomla Extensions Directory.</a></p>','',1,9,'2010-12-31 00:00:01',713,'Joomla','2013-10-13 17:59:36',713,0,'1970-01-01 00:00:00','2010-12-31 00:00:01','1970-01-01 00:00:00','{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}','{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}','{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"0","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":""}',11,0,'','',1,4,'{"robots":"","author":"","rights":"","xreference":""}',0,'*',''),
 (6,43,'Your Template','your-template','<p>Templates control the look and feel of your website.</p>\r\n<p>This blog is installed with the Protostar template.</p>\r\n<p>You can edit the options by clicking on the Working on Your Site, Template Settings link in the top menu (visible when you login).</p>\r\n<p>For example you can change the site background color, highlights color, site title, site description and title font used.Â </p>\r\n<p>More options are available in the site administrator. You may also install a new template using the extension manager.</p>','',1,9,'2011-01-02 00:00:01',713,'Joomla','2013-10-13 17:04:31',713,0,'1970-01-01 00:00:00','2011-01-02 00:00:01','1970-01-01 00:00:00','{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}','{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}','{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"0","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":""}',17,0,'','',1,2,'{"robots":"","author":"","rights":"","xreference":""}',0,'*','');
+
+SELECT setval('#__content_id_seq', max(id)) FROM #__content;
 
 --
 -- Dumping data for table #__menu
@@ -124,6 +130,8 @@ INSERT INTO "#__menu" VALUES
 (114,'authormenu','Template Settings','template-settings','','working-on-your-site/template-settings','index.php?option=com_config&view=templates&controller=config.display.templates','component',1,109,2,23,0,'1970-01-01 00:00:00',0,1,'',0,'{"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',20,21,0,'*',0),
 (115,'mainmenu','Author Login','author-login','','author-login','index.php?option=com_users&view=login','component',1,1,1,25,0,'1970-01-01 00:00:00',0,1,'',0,'{"login_redirect_url":"","logindescription_show":"1","login_description":"","login_image":"","logout_redirect_url":"","logoutdescription_show":"1","logout_description":"","logout_image":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',71,72,0,'*',0);
 
+SELECT setval('#__menu_id_seq', max(id)) FROM #__menu;
+
 --
 -- Dumping data for table #__menu_types
 --
@@ -131,6 +139,8 @@ INSERT INTO "#__menu_types" VALUES
 (1,'mainmenu','Main Menu','The main menu for the site'),
 (2,'authormenu','Author Menu',''),
 (3,'bottommenu','Bottom Menu','');
+
+SELECT setval('#__menu_types_id_seq', max(id)) FROM #__menu_types;
 
 --
 -- Dumping data for table #__modules
@@ -163,6 +173,8 @@ INSERT INTO "#__modules" VALUES
 (90,0,'Similar Items','','',0,'',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_tags_similar',1,1,'{"maximum":"5","matchtype":"any","layout":"_:default","moduleclass_sfx":"","owncache":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',0,'*'),
 (91,0,'Site Information','','',4,'cpanel',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_stats_admin',6,1,'{"serverinfo":"1","siteinfo":"1","counter":"0","increase":"0","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":"","style":"0"}',1,'*'),
 (92,0,'Release News','','',1,'postinstall',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_feed',1,1,'{"rssurl":"http:\\/\\/www.joomla.org\\/announcements\\/release-news.feed","rssrtl":"0","rsstitle":"1","rssdesc":"1","rssimage":"1","rssitems":"3","rssitemdesc":"1","word_count":"0","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',1,'*');
+
+SELECT setval('#__modules_id_seq', max(id)) FROM #__modules;
 
 --
 -- Dumping data for table #__modules_menu
@@ -204,3 +216,5 @@ INSERT INTO "#__modules_menu" VALUES
 INSERT INTO "#__weblinks" VALUES
 (1,8,'Joomla! Community','joomla-community','http://community.joomla.org/blogs/community.html','',0,1,0,'1970-01-01 00:00:00',1,1,'{"target":"","width":"","height":"","count_clicks":""}','*','2011-01-01 00:00:01',42,'Joomla','1970-01-01 00:00:00',0,'','','',0,'','1970-01-01 00:00:00','1970-01-01 00:00:00',1,''),
 (2,8,'Joomla! Leadership Blog','joomla-leadership-blog','http://community.joomla.org/blogs/leadership.html','',0,1,0,'1970-01-01 00:00:00',2,1,'{"target":"","width":"","height":"","count_clicks":""}','*','2011-01-01 00:00:01',42,'Joomla','1970-01-01 00:00:00',0,'','','',0,'','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'');
+
+SELECT setval('#__weblinks_id_seq', max(id)) FROM #__weblinks;
