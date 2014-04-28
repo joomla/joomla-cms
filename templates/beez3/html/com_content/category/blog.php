@@ -28,8 +28,8 @@ $cparams = JComponentHelper::getParams('com_media');
 <?php endif; ?>
 
 <?php if ($this->params->get('show_category_title')) : ?>
-<h2>
-	<?php echo '<span class="subheading-category">'.JHtml::_('content.prepare', $this->category->title, '', 'com_content.category.title').'</span>'; ?>
+<h2 class="subheading-category">
+	<?php echo JHtml::_('content.prepare', $this->category->title, '', 'com_content.category.title'); ?>
 </h2>
 <?php endif; ?>
 
