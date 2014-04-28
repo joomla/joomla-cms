@@ -21,20 +21,16 @@ $cparams = JComponentHelper::getParams('com_media');
 // It will be a separate class if the user starts it with a space
 ?>
 <section class="blog<?php echo $this->pageclass_sfx;?>">
-<?php if ($this->params->get('show_page_heading') != 0 or $this->params->get('show_category_title')) : ?>
+<?php if ($this->params->get('show_page_heading') != 0) : ?>
 <h1>
-	<?php
-	if ($this->params->get('show_page_heading') != 0)
-	{
-		echo $this->escape($this->params->get('page_heading'));
-	}
-	
-	if ($this->params->get('show_category_title'))
-	{
-		echo '<span class="subheading-category">'.JHtml::_('content.prepare', $this->category->title, '', 'com_content.category.title').'</span>';
-	}
-	?>
+	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
+<?php endif; ?>
+
+<?php if ($this->params->get('show_category_title')) : ?>
+<h2>
+	<?php echo '<span class="subheading-category">'.JHtml::_('content.prepare', $this->category->title, '', 'com_content.category.title').'</span>'; ?>
+</h2>
 <?php endif; ?>
 
 <?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
