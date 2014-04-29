@@ -1,0 +1,2 @@
+ALTER TABLE "#__tags" ALTER COLUMN "images" SET DEFAULT '';
+ALTER TABLE "#__tags" ALTER COLUMN "urls" SET DEFAULT '';
