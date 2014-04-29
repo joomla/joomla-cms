@@ -489,6 +489,7 @@ class JHelperTags extends JHelper
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
 		$nullDate = $db->quote($db->getNullDate());
+		$nowDate = $db->quote(JFactory::getDate()->toSql());
 
 		$ntagsr = substr_count($tagId, ',') + 1;
 
@@ -528,7 +529,7 @@ class JHelperTags extends JHelper
 			->select('MAX(ct.type_title) AS content_type_title, MAX(ct.router) AS router')
 
 			->from('#__contentitem_tag_map AS m')
-			->join('INNER', '#__ucm_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id')
+			->join('INNER', '#__ucm_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id AND c.core_state IN (' . implode(',', $stateFilters) . ')' . (in_array('0', $stateFilters) ? '' : ' AND (c.core_publish_up = ' . $nullDate . ' OR c.core_publish_up <= ' . $nowDate . ') AND (c.core_publish_down = ' . $nullDate . ' OR  c.core_publish_down >= ' . $nowDate . ')'))
 			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
 
 			// Join over the users for the author and email
@@ -537,8 +538,7 @@ class JHelperTags extends JHelper
 
 			->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id')
 
-			->where('m.tag_id IN (' . implode(',', $tagIds) . ')')
-			->where('c.core_state IN (' . implode(',', $stateFilters) . ')');
+			->where('m.tag_id IN (' . implode(',', $tagIds) . ')');
 
 		// Optionally filter on language
 		if (empty($language))
