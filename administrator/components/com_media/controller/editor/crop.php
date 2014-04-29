@@ -41,7 +41,7 @@ class MediaControllerEditorCrop extends JControllerBase
 		$h     = $this->app->input->get('h');
 
 		$file   = $this->app->input->get('file');
-		$folder = $this->app->input->get('folder');
+		$folder = $this->app->input->get('folder', '', 'path');
 		$id		= $this->app->input->get('id');
 
 		$viewName = $this->input->getWord('view', 'editor');

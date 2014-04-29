@@ -40,7 +40,7 @@ class MediaControllerEditorThumbs extends JControllerBase
 		$creationMethod   = $this->app->input->get('c', JImage::SCALE_INSIDE, 'int');
 
 		$file   = $this->app->input->get('file');
-		$folder = $this->app->input->get('folder');
+		$folder = $this->app->input->get('folder', '', 'path');
 		$id		= $this->app->input->get('id');
 
 		if(!empty($thumbsFolder))

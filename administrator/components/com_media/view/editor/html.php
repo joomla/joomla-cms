@@ -65,7 +65,7 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 		$this->require_ftp = $ftp;
 
 		// From template manager
-		$this->folder   = $app->input->get('folder');
+		$this->folder   = $app->input->get('folder', '', 'path');
 		$this->file     = $app->input->get('file');
 
 		$explodeArray   = explode('.', $this->file);

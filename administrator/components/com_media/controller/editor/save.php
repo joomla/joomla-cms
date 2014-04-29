@@ -47,7 +47,7 @@ class MediaControllerEditorSave extends JControllerBase
 		$form = $model->getForm();
 	
 		$file   = $this->app->input->get('file');
-		$folder = $this->app->input->get('folder');
+		$folder = $this->app->input->get('folder', '', 'path');
 		$id   = $this->input->get('id');
 		
 		$data['core_content_id'] = $id;
