@@ -235,6 +235,8 @@ class ContactModelContact extends JModelForm
 	{
 		// TODO: Cache on the fingerprint of the arguments
 		$db		= $this->getDbo();
+		$nullDate = $db->quote($db->getNullDate());
+		$nowDate = $db->quote(JFactory::getDate()->toSql());
 		$user	= JFactory::getUser();
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 
@@ -334,6 +336,8 @@ class ContactModelContact extends JModelForm
 					->join('LEFT', '#__categories as c on a.catid=c.id')
 					->where('a.created_by = ' . (int) $result->user_id)
 					->where('a.access IN ('. $groups.')')
+					->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+					->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
 					->order('a.state DESC, a.created DESC');
 				// filter per language if plugin published
 				if (JLanguageMultilang::isEnabled())
