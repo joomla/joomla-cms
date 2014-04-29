@@ -235,6 +235,8 @@ class ContactModelContact extends JModelForm
 	{
 		// TODO: Cache on the fingerprint of the arguments
 		$db		= $this->getDbo();
+		$nullDate = $db->quote($db->getNullDate());
+		$nowDate = $db->quote(JFactory::getDate()->toSql());
 		$user	= JFactory::getUser();
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 
@@ -342,7 +344,9 @@ class ContactModelContact extends JModelForm
 				}
 				if (is_numeric($published))
 				{
-					$query->where('a.state IN (1,2)');
+					$query->where('a.state IN (1,2)')
+						->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 				}
 				$db->setQuery($query, 0, 10);
 				$articles = $db->loadObjectList();
