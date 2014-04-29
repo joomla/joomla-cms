@@ -79,7 +79,7 @@ $n = count($this->items);
 			<?php if ($this->params->get('tag_list_show_item_description', 1)) : ?>
 				<?php echo $item->event->beforeDisplayContent; ?>
 				<span class="tag-body">
-					<?php echo JHtml::_('string.truncate', $item->core_body, $this->params->get('tag_list_item_maximum_characters')); ?>
+					<?php echo JHtml::_('string.truncateComplex', $item->core_body, $this->params->get('tag_list_item_maximum_characters')); ?>
 				</span>
 				<?php echo $item->event->afterDisplayContent; ?>
 			<?php endif; ?>
