@@ -104,7 +104,10 @@ class TagsViewTag extends JViewLegacy
 				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 
 				// Write the results back into the body
-				if ( !empty($itemElement->core_body) ) $itemElement->core_body = $itemElement->text;
+				if (!empty($itemElement->core_body))
+				{
+					$itemElement->core_body = $itemElement->text;
+				}
 			}
 		}
 
