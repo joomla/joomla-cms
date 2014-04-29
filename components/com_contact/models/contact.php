@@ -336,8 +336,6 @@ class ContactModelContact extends JModelForm
 					->join('LEFT', '#__categories as c on a.catid=c.id')
 					->where('a.created_by = ' . (int) $result->user_id)
 					->where('a.access IN ('. $groups.')')
-					->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-					->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
 					->order('a.state DESC, a.created DESC');
 				// filter per language if plugin published
 				if (JLanguageMultilang::isEnabled())
@@ -346,7 +344,9 @@ class ContactModelContact extends JModelForm
 				}
 				if (is_numeric($published))
 				{
-					$query->where('a.state IN (1,2)');
+					$query->where('a.state IN (1,2)')
+						->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 				}
 				$db->setQuery($query, 0, 10);
 				$articles = $db->loadObjectList();
