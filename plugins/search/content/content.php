@@ -109,11 +109,11 @@ class PlgSearchContent extends JPlugin
 				{
 					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
 					$wheres2 = array();
-					$wheres2[] = 'a.title LIKE ' . $word;
-					$wheres2[] = 'a.introtext LIKE ' . $word;
-					$wheres2[] = 'a.fulltext LIKE ' . $word;
-					$wheres2[] = 'a.metakey LIKE ' . $word;
-					$wheres2[] = 'a.metadesc LIKE ' . $word;
+					$wheres2[] = 'LOWER(a.title) LIKE LOWER(' . $word .')';
+                    			$wheres2[] = 'LOWER(a.introtext) LIKE LOWER(' . $word .')';
+                    			$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word .')';
+                    			$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word .')';
+                    			$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word .')';
 					$wheres[] = implode(' OR ', $wheres2);
 				}
 
