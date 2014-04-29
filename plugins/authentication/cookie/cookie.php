@@ -135,7 +135,8 @@ class PlgAuthenticationCookie extends JPlugin
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName(array('id', 'username', 'password')))
 			->from($this->db->quoteName('#__users'))
-			->where($this->db->quoteName('username') . ' = ' . $this->db->quote($results[0]->user_id));
+			->where($this->db->quoteName('username') . ' = ' . $this->db->quote($results[0]->user_id))
+			->where($this->db->quoteName('requireReset') . ' = 0');
 		$result = $this->db->setQuery($query)->loadObject();
 
 		if ($result)

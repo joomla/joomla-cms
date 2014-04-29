@@ -205,45 +205,52 @@ class JFormFieldMedia extends JFormField
 			// Load the modal behavior script.
 			JHtml::_('behavior.modal');
 
+			// Include jQuery
+			JHtml::_('jquery.framework');
+
 			// Build the script.
 			$script = array();
 			$script[] = '	function jInsertFieldValue(value, id) {';
-			$script[] = '		var old_value = document.id(id).value;';
+			$script[] = '		var $ = jQuery.noConflict();';
+			$script[] = '		var old_value = $("#" + id).val();';
 			$script[] = '		if (old_value != value) {';
-			$script[] = '			var elem = document.id(id);';
-			$script[] = '			elem.value = value;';
-			$script[] = '			elem.fireEvent("change");';
-			$script[] = '			if (typeof(elem.onchange) === "function") {';
-			$script[] = '				elem.onchange();';
+			$script[] = '			var $elem = $("#" + id);';
+			$script[] = '			$elem.val(value);';
+			$script[] = '			$elem.trigger("change");';
+			$script[] = '			if (typeof($elem.get(0).onchange) === "function") {';
+			$script[] = '				$elem.get(0).onchange();';
 			$script[] = '			}';
 			$script[] = '			jMediaRefreshPreview(id);';
 			$script[] = '		}';
 			$script[] = '	}';
 
 			$script[] = '	function jMediaRefreshPreview(id) {';
-			$script[] = '		var value = document.id(id).value;';
-			$script[] = '		var img = document.id(id + "_preview");';
-			$script[] = '		if (img) {';
+			$script[] = '		var $ = jQuery.noConflict();';
+			$script[] = '		var value = $("#" + id).val();';
+			$script[] = '		var $img = $("#" + id + "_preview");';
+			$script[] = '		if ($img.length) {';
 			$script[] = '			if (value) {';
-			$script[] = '				img.src = "' . JUri::root() . '" + value;';
-			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "none");';
-			$script[] = '				document.id(id + "_preview_img").setStyle("display", "");';
+			$script[] = '				$img.attr("src", "' . JUri::root() . '" + value);';
+			$script[] = '				$("#" + id + "_preview_empty").hide();';
+			$script[] = '				$("#" + id + "_preview_img").show()';
 			$script[] = '			} else { ';
-			$script[] = '				img.src = ""';
-			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "");';
-			$script[] = '				document.id(id + "_preview_img").setStyle("display", "none");';
+			$script[] = '				$img.attr("src", "")';
+			$script[] = '				$("#" + id + "_preview_empty").show();';
+			$script[] = '				$("#" + id + "_preview_img").hide();';
 			$script[] = '			} ';
 			$script[] = '		} ';
 			$script[] = '	}';
 
 			$script[] = '	function jMediaRefreshPreviewTip(tip)';
 			$script[] = '	{';
-			$script[] = '		var img = tip.getElement("img.media-preview");';
-			$script[] = '		tip.getElement("div.tip").setStyle("max-width", "none");';
-			$script[] = '		var id = img.getProperty("id");';
+			$script[] = '		var $ = jQuery.noConflict();';
+			$script[] = '		var $tip = $(tip);';
+			$script[] = '		var $img = $tip.find("img.media-preview");';
+			$script[] = '		$tip.find("div.tip").css("max-width", "none");';
+			$script[] = '		var id = $img.attr("id");';
 			$script[] = '		id = id.substring(0, id.length - "_preview".length);';
 			$script[] = '		jMediaRefreshPreview(id);';
-			$script[] = '		tip.setStyle("display", "block");';
+			$script[] = '		$tip.show();';
 			$script[] = '	}';
 
 			// Add the script to the document head.

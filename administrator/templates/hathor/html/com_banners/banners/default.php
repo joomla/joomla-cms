@@ -43,7 +43,7 @@ $saveOrder = $listOrder == 'ordering';
 			<label class="selectlabel" for="filter_state">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
-			<select name="filter_state" class="inputbox" id="filter_state">
+			<select name="filter_state" id="filter_state">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true);?>
 			</select>
@@ -51,7 +51,7 @@ $saveOrder = $listOrder == 'ordering';
 			<label class="selectlabel" for="filter_client_id">
 				<?php echo JText::_('COM_BANNERS_SELECT_CLIENT'); ?>
 			</label>
-			<select name="filter_client_id" class="inputbox" id="filter_client_id">
+			<select name="filter_client_id" id="filter_client_id">
 				<option value=""><?php echo JText::_('COM_BANNERS_SELECT_CLIENT');?></option>
 				<?php echo JHtml::_('select.options', BannersHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
@@ -59,7 +59,7 @@ $saveOrder = $listOrder == 'ordering';
 			<label class="selectlabel" for="filter_category_id">
 				<?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?>
 			</label>
-			<select name="filter_category_id" class="inputbox" id="filter_category_id">
+			<select name="filter_category_id" id="filter_category_id">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
@@ -67,7 +67,7 @@ $saveOrder = $listOrder == 'ordering';
 			<label class="selectlabel" for="filter_language">
 				<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>
 			</label>
-			<select name="filter_language" class="inputbox" id="filter_language">
+			<select name="filter_language" id="filter_language">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 			</select>
