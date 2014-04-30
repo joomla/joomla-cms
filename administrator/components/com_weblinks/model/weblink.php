@@ -179,10 +179,35 @@ class WeblinksModelWeblink extends JModelAdministrator
 		if (is_object($activeRecord) && !empty($activeRecord->catid))
 		{
 			$config = $this->config;
-			$assetName = $config['option'].'category'.(int) $record->catid;
+			$assetName = $config['option'].'.category.'.(int) $activeRecord->catid;
 		}
 	
 		return parent::allowAction($action, $assetName, $activeRecord);
+	}
+	
+	/**
+	 * Convience method to count athorized categries for a specific task.
+	 * Used to pull the code out of view
+	 * @param string $action
+	 * @param string $assetName
+	 * @see WeblinksViewWeblink::addEditToolbar
+	 * @return boolean
+	 */
+	public function allowCategoryAction($action, $assetName = null)
+	{
+		if (is_null($assetName))
+		{
+			$config = $this->config;
+			$assetName = $config['option'];
+		}
+		
+		$user = JFactory::getUser();
+		
+		if (count($user->getAuthorisedCategories($assetName, $action)) > 0) 
+		{
+			return true;
+		}
+		return false;
 	}
 	
 	//NOTE removed getTable, canEditState, canDelete as its implemented in the single task MVC model
