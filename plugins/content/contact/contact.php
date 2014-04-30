@@ -22,7 +22,7 @@ class PlgContentContact extends JPlugin
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  3.1
+	 * @since  3.4
 	 */
 	protected $db;
 
