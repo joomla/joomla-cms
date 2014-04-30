@@ -1335,7 +1335,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
-	public function reorder($where = '')
+	public function reorder($where = '', $order = '')
 	{
 		// If there is no ordering field set an error and return false.
 		if (!property_exists($this, 'ordering'))
@@ -1350,7 +1350,12 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			->select(implode(',', $this->_tbl_keys) . ', ordering')
 			->from($this->_tbl)
 			->where('ordering >= 0')
-			->order('ordering');
+			->order('ordering ASC');
+
+		if ($order)
+		{
+			$query->order($order);
+		}
 
 		// Setup the extra where and ordering clause data.
 		if ($where)

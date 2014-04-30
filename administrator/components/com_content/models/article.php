@@ -424,6 +424,18 @@ class ContentModelArticle extends JModelAdmin
 	{
 		$app = JFactory::getApplication();
 
+		$table = $this->getTable();
+		$key = $table->getKeyName();
+		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+
+		$prevOrder = 0;
+
+		if ($pk > 0)
+		{
+			$table->load($pk);
+			$prevOrder  = (int) $table->ordering;
+		}
+
 		if (isset($data['images']) && is_array($data['images']))
 		{
 			$registry = new JRegistry;
@@ -528,6 +540,9 @@ class ContentModelArticle extends JModelAdmin
 					}
 				}
 			}
+
+			$table->load((int) $this->getState($this->getName() . '.id'));
+			$table->reorder('catid = ' . (int) $table->catid . ' AND state >= 0', ($prevOrder > (int) $table->ordering ? 'modified DESC' : 'modified ASC'));
 
 			return true;
 		}

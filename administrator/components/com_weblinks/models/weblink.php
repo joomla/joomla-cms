@@ -300,6 +300,18 @@ class WeblinksModelWeblink extends JModelAdmin
 	{
 		$app = JFactory::getApplication();
 
+		$table = $this->getTable();
+		$key = $table->getKeyName();
+		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+
+		$prevOrder = 0;
+
+		if ($pk > 0)
+		{
+			$table->load($pk);
+			$prevOrder  = (int) $table->ordering;
+		}
+
 		// Alter the title for save as copy
 		if ($app->input->get('task') == 'save2copy')
 		{
@@ -309,7 +321,15 @@ class WeblinksModelWeblink extends JModelAdmin
 			$data['state']	= 0;
 		}
 
-		return parent::save($data);
+		if (parent::save($data))
+		{
+			$table->load((int) $this->getState($this->getName() . '.id'));
+			$table->reorder('catid = ' . (int) $table->catid . ' AND state >= 0', ($prevOrder > (int) $table->ordering ? 'modified DESC' : 'modified ASC'));
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
