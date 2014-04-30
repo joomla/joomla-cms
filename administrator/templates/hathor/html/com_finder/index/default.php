@@ -46,7 +46,7 @@ Joomla.submitbutton = function(pressbutton)
 	}
 
 	Joomla.submitform(pressbutton);
-}
+};
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=index');?>" method="post" name="adminForm" id="adminForm">

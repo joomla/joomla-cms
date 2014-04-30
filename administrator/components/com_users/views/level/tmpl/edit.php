@@ -22,7 +22,7 @@ Joomla.submitbutton = function(task)
 	{
 		Joomla.submitform(task, document.id('level-form'));
 	}
-}
+};
 /*
 window.addEvent('domready', function(){
 	document.id('user-groups').getElements('input').each(function(i){

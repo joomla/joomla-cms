@@ -26,7 +26,7 @@ $fieldsets = $this->form->getFieldsets();
 		{
 			Joomla.submitform(task, document.getElementById('user-form'));
 		}
-	}
+	};
 
 	Joomla.twoFactorMethodChange = function(e)
 	{
@@ -42,7 +42,7 @@ $fieldsets = $this->form->getFieldsets();
 				jQuery('#' + el.id).show(0);
 			}
 		});
-	}
+	};
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" class="form-validate form-horizontal" enctype="multipart/form-data">

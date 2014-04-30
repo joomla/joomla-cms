@@ -34,7 +34,7 @@ endif;
 			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task);
 		}
-	}
+	};
 </script>
 <div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
 <?php if ($params->get('show_page_heading')) : ?>

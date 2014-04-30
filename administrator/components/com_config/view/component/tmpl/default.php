@@ -24,7 +24,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		{
 			Joomla.submitform(task, document.getElementById('component-form'));
 		}
-	}
+	};
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
 	<div class="row-fluid">

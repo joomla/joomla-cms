@@ -42,7 +42,7 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 <?php endforeach;?>
 		}
 		Joomla.submitform(task);
-	}
+	};
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=groups');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>

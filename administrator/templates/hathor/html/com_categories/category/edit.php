@@ -30,7 +30,7 @@ $assoc = JLanguageAssociations::isEnabled();
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
-	}
+	};
 </script>
 
 <div class="category-edit">

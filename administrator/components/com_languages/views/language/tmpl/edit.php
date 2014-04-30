@@ -21,7 +21,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		{
 			Joomla.submitform(task, document.getElementById('language-form'));
 		}
-	}
+	};
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&layout=edit&lang_id='.(int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate form-horizontal">

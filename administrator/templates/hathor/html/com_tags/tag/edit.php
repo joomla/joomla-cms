@@ -23,7 +23,7 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task, document.getElementById('tag-form'));
 		}
-	}
+	};
 </script>
 <div class="weblink-edit">
 
