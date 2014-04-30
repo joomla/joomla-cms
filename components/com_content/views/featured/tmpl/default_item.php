@@ -136,14 +136,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 	</dl>
 <?php endif; ?>
 
-<?php if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
-	<?php $imgfloat = (empty($images->float_intro)) ? $params->get('float_intro') : $images->float_intro; ?>
-	<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
-	<?php if ($images->image_intro_caption):
-		echo 'class="caption"'.' title="' .htmlspecialchars($images->image_intro_caption) .'"';
-	endif; ?>
-	src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/> </div>
-<?php endif; ?>
+<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
 
 <?php if (!$params->get('show_intro')) : ?>
 	<?php echo $this->item->event->afterDisplayTitle; ?>
