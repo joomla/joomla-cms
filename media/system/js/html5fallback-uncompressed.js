@@ -118,6 +118,8 @@
 
 			for(var i=0; i<flen; i++) {
 				var elem = f[i];
+				elem.isRequired = !!elem.required,
+				elem.isDisabled = !!elem.disabled;
 
 				//Do Validation
 				if(!elem.isDisabled) {
@@ -143,7 +145,7 @@
 			var	self = elem.form.H5Form,
 				$elem = $(elem),
 				isMissing = false;
-			elem.isRequired = !!($(elem).attr("required")),
+			elem.isRequired = !!($(elem).attr("required"));
 			elem.isDisabled = !!($(elem).attr("disabled"));
 			if(!elem.isDisabled){
 				isMissing = !self.browser.isRequiredNative && elem.isRequired && self.isValueMissing(self, elem);
