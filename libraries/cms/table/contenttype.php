@@ -131,7 +131,17 @@ class JTableContenttype extends JTable
 		{
 			if (is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix))
 			{
-				$result = JTable::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
+				$class = isset($tableInfo->special->class) ? $tableInfo->special->class : 'JTable';
+
+				if (!class_implements($class, 'JTableInterface'))
+				{
+					// This isn't an instance of JTableInterface. Abort.
+					throw new RuntimeException('Class must be an instance of JTableInterface');
+
+					return false;
+				}
+
+				$result = $class::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
 			}
 		}
 

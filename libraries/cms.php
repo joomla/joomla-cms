@@ -29,6 +29,13 @@ if (!class_exists('JLoader'))
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
+// Ensure FOF autoloader included - needed for things like content versioning where
+// we need to get an FOFTable Instance
+if (!class_exists('FOFAutoloaderFof'))
+{
+	include_once JPATH_LIBRARIES . '/fof/include.php';
+}
+
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
 set_exception_handler(array('JErrorPage', 'render'));
 
