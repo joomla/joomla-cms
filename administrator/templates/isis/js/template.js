@@ -41,7 +41,8 @@
 				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-success');
 			}
 		});
-		// add color classes to chosen field based on value
+
+		// Add color classes to chosen field based on value
 		$('select[class^="chzn-color"], select[class*=" chzn-color"]').on('liszt:ready', function(){
 			var select = $(this);
 			var cls = this.className.replace(/^.(chzn-color[a-z0-9-_]*)$.*/, '\1');
@@ -51,7 +52,27 @@
 			{
 				container.attr('rel', 'value_' + select.val());
 			});
-
 		});
+
+		// Autohide not used toolbar buttons
+		var selectActions = $('#toolbar').children('#toolbar-edit,#toolbar-publish,#toolbar-unpublish,#toolbar-featured,#toolbar-checkin,#toolbar-archive,#toolbar-trash,#toolbar-batch,#toolbar-remove,#toolbar-delete,#toolbar-copy,#toolbar-default,#toolbar-unblock');
+		selectActions.hide();
+
+		var multiCheckboxes = $('form#adminForm table.table-striped input[type=checkbox], form#adminForm table.table-striped input[type=radio]');
+		multiCheckboxes.on('change', null, null, (function() {
+				var numberChecked = multiCheckboxes.filter(':checked').size();
+
+				if (numberChecked > 0) {
+					if (numberChecked == 1) {
+						selectActions.fadeIn().prop('disabled', false);
+					} else {
+						selectActions.filter(':not(#toolbar-edit)').fadeIn().prop('disabled', false);
+						selectActions.filter('#toolbar-edit').fadeOut().prop('disabled', true);
+					}
+				} else {
+					selectActions.fadeOut().prop('disabled', true);
+				}
+			})
+		);
 	})
 })(jQuery);
