@@ -1202,8 +1202,17 @@ class JTableNested extends JTable
 	 */
 	public function getRootId()
 	{
+		static $rootId = array();
+
 		// Get the root item.
 		$k = $this->_tbl_key;
+
+		// Check to see we haven't figured this out yet.
+		$cacheKey = $this->_tbl . '_' . $k;
+		if ($rootId[$cacheKey] != null)
+		{
+			return $rootId[$cacheKey];
+		}
 
 		// Test for a unique record with parent_id = 0
 		$query = $this->_db->getQuery(true)
@@ -1215,6 +1224,7 @@ class JTableNested extends JTable
 
 		if (count($result) == 1)
 		{
+			$rootId[$cacheKey] = $result[0];
 			return $result[0];
 		}
 
@@ -1228,6 +1238,7 @@ class JTableNested extends JTable
 
 		if (count($result) == 1)
 		{
+			$rootId[$cacheKey] = $result[0];
 			return $result[0];
 		}
 
@@ -1245,6 +1256,7 @@ class JTableNested extends JTable
 
 			if (count($result) == 1)
 			{
+				$rootId[$cacheKey] = $result[0];
 				return $result[0];
 			}
 		}
