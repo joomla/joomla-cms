@@ -276,7 +276,7 @@ function ContentParseRoute($segments)
 	// if there is only one segment, then it points to either an article or a category
 	// we test it first to see if it is a category.  If the id and alias match a category
 	// then we assume it is a category.  If they don't we assume it is an article
-	if ($count == 1)
+	if ($count == 1 && !$advanced)
 	{
 		// we check to see if an alias is given.  If not, we assume it is an article
 		if (strpos($segments[0], ':') === false)
@@ -386,7 +386,7 @@ function ContentParseRoute($segments)
 					->select($db->quoteName('id'))
 					->from('#__content')
 					->where($db->quoteName('catid') . ' = ' . (int) $vars['catid'])
-					->where($db->quoteName('alias') . ' = ' . $db->quote($db->quote($segment)));
+					->where($db->quoteName('alias') . ' = ' . $db->quote($segment));
 				$db->setQuery($query);
 				$cid = $db->loadResult();
 			}
