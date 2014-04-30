@@ -28,7 +28,7 @@ abstract class JControllerStateBase extends JControllerCms
 			return false;
 		}
 
-		$cid = $input->post->get('cid', array(), 'array');
+		$cid = $input->get('cid', array(), 'array');
 		// Make sure the item ids are integers
 		$cid = $this->cleanCid($cid);
 
