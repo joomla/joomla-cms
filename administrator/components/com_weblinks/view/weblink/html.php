@@ -44,36 +44,42 @@ class WeblinksViewWeblinkHtml extends JViewAdmin
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 		
-		$user		= JFactory::getUser();
-		$isNew		= ($this->item->id == 0);
-		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
-		// Since we don't track these assets at the item level, use the category id.
-		$canDo		= WeblinksHelper::getActions($this->item->catid, 0);
+		$model = $this->getModel();
+		$item = $this->item;
+		$isNew = ($item->id == 0);
 		
-		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit')||(count($user->getAuthorisedCategories('com_weblinks', 'core.create')))))
+		$allowCreate = ($model->allowAction('core.create', $this->config['option'], $item) || $model->allowCategoryAction('core.create','com_weblinks'));
+		$allowEdit = $model->allowAction('core.edit', $this->config['option'], $item);
+		if ($isNew && $allowCreate)
 		{
 			JToolbarHelper::apply('createEdit.weblink');
 			JToolbarHelper::save('createClose.weblink');
 		}
-		if (!$checkedOut && (count($user->getAuthorisedCategories('com_weblinks', 'core.create')))){
+		elseif ($allowEdit) 
+		{
+			JToolbarHelper::apply('updateEdit.weblink');
+			JToolbarHelper::save('updateClose.weblink');
+		}
+		
+		if ($isNew && $allowCreate)
+		{
 			JToolbarHelper::save2new('createNew.weblink');
 		}
+		elseif ($allowEdit && $allowCreate) 
+		{
+			JToolbarHelper::save2new('updateNew.weblink');
+		}
+		
 		// If an existing item, can save to a copy.
-		if (!$isNew && (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0))
+		if (!$isNew && $allowCreate)
 		{
 			JToolbarHelper::save2copy('updateCopy.weblink');
 		}
-		if (empty($this->item->id))
-		{
-			JToolbarHelper::cancel('cancel.weblink');
-		}
-		else
-		{
-			JToolbarHelper::cancel('cancel.weblink', 'JTOOLBAR_CLOSE');
-		}
+	
+		JToolbarHelper::cancel('cancel.weblink');
+
 		
-		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+		if ($this->state->params->get('save_history') && $allowEdit)
 		{
 			$itemId = $this->item->id;
 			$typeAlias = 'com_weblinks.weblink';
@@ -85,49 +91,58 @@ class WeblinksViewWeblinkHtml extends JViewAdmin
 	}
 	
 	private function addListToolbar()
-	{
-		$state	= $this->state;
-		$canDo	= WeblinksHelper::getActions($state->get('filter.category_id'));
-		$user	= JFactory::getUser();
-		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+	{		
+		$model = $this->getModel();
+		$item = $this->item;
 		
-		if (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0)
+		if ($model->allowCategoryAction('core.create','com_weblinks'))
 		{
 			JToolbarHelper::addNew('add.weblink');
 		}
-		if ($canDo->get('core.edit'))
+		
+		if ($model->allowAction('core.edit'))
 		{
 			JToolbarHelper::editList('edit.weblink');
 		}
-		if ($canDo->get('core.edit.state')) {
 		
+		if ($model->allowAction('core.edit.state')) 
+		{
 			JToolbarHelper::publish('statePublish.weblink', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('stateUnpublish.weblink', 'JTOOLBAR_UNPUBLISH', true);
 		
 			JToolbarHelper::archiveList('stateArchive.weblink');
 			JToolbarHelper::checkin('checkin.weblink');
 		}
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		
+		$state	= $this->state;
+		$inTrashBox = ($model->allowAction('core.delete') && $state->get('filter.state') == -2);
+		if ($inTrashBox)
 		{
 			JToolbarHelper::deleteList('', 'delete.weblink', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state'))
+		} 
+		elseif ($model->allowAction('core.edit.state'))
 		{
 			JToolbarHelper::trash('stateTrash.weblink');
 		}
+		
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_weblinks') && $user->authorise('core.edit', 'com_weblinks') && $user->authorise('core.edit.state', 'com_weblinks'))
+		$canProcessBatch = ($model->allowAction('core.create') && $model->allowAction('core.edit') && $model->allowAction('core.edit.state'));
+		if ($canProcessBatch)
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-		
+			
+			// Get the toolbar object instance
+			$bar = JToolBar::getInstance('toolbar');
+			
 			// Instantiate a new JLayoutFile instance and render the batch button
 			$layout = new JLayoutFile('joomla.toolbar.batch');
 		
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
-		if ($canDo->get('core.admin'))
+		
+		if ($model->allowAction('core.admin'))
 		{
 			JToolbarHelper::preferences('com_weblinks');
 		}

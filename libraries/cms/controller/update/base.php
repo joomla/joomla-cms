@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage Controller
+ * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -28,7 +28,7 @@ abstract class JControllerUpdateBase extends JControllerSave
 		$url = 'index.php?option='.$config['option'].'&task=edit.'.$config['subject'];
 		$url .='&'.$keyName.'='.$keyValue;
 
-		if (!$this->canDo($model, 'core.edit'))
+		if (!$model->allowAction('core.edit'))
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_EDIT_RECORD_NOT_PERMITTED');
 			$this->setRedirect($url, $msg, 'error');

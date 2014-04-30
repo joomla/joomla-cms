@@ -128,75 +128,6 @@ abstract class JTableCms extends JTable
 		return true;
 	}
 
-	public function checkout($userId, $pk = null)
-	{
-		$pk = $this->getValidPk($pk);
-
-		if (!$this->isLockable($this))
-		{
-			return true;
-		}
-
-		if ($this->isLocked($this))
-		{
-			throw new ErrorException(JText::_('JLIB_DATABASE_ERROR_CHECKIN_USER_MISMATCH'));
-			return false;
-		}
-
-		// Get the current time in the database format.
-		$time = JFactory::getDate()->toSql();
-
-		// Check the row out by primary key.
-		$query = $this->_db->getQuery(true)
-		->update($this->_tbl)
-		->set($this->_db->quoteName('checked_out') . ' = ' . (int) $userId)
-		->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($time));
-		$this->appendPrimaryKeys($query, $pk);
-		$this->_db->setQuery($query);
-		$this->_db->execute();
-
-		// Set table values in the object.
-		$this->checked_out      = (int) $userId;
-		$this->checked_out_time = $time;
-
-		return true;
-	}
-
-	public function checkin($pk = null)
-	{
-		$pk = $this->getValidPk($pk);
-
-		if (!$this->isLockable($this))
-		{
-			return true;
-		}
-
-		if ($this->isLocked($this))
-		{
-			throw new ErrorException(JText::_('JLIB_DATABASE_ERROR_CHECKIN_USER_MISMATCH'));
-			return false;
-		}
-
-		// Check the row in by primary key.
-		$query = $this->_db->getQuery(true)
-		->update($this->_tbl)
-		->set($this->_db->quoteName('checked_out') . ' = 0')
-		->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($this->_db->getNullDate()));
-		$this->appendPrimaryKeys($query, $pk);
-
-		$this->_db->setQuery($query);
-
-
-		// Check for a database error.
-		$this->_db->execute();
-
-		// Set table values in the object.
-		$this->checked_out      = 0;
-		$this->checked_out_time = '';
-
-		return true;
-	}
-
 	public function delete($pk = null)
 	{
 		$pk = $this->getValidPk($pk);
@@ -307,6 +238,75 @@ abstract class JTableCms extends JTable
 		}
 	}
 
+	public function checkout($userId, $pk = null)
+	{
+		$pk = $this->getValidPk($pk);
+	
+		if (!$this->isLockable($this))
+		{
+			return true;
+		}
+	
+		if ($this->isLocked($this))
+		{
+			throw new ErrorException(JText::_('JLIB_DATABASE_ERROR_CHECKIN_USER_MISMATCH'));
+			return false;
+		}
+	
+		// Get the current time in the database format.
+		$time = JFactory::getDate()->toSql();
+	
+		// Check the row out by primary key.
+		$query = $this->_db->getQuery(true)
+		->update($this->_tbl)
+		->set($this->_db->quoteName('checked_out') . ' = ' . (int) $userId)
+		->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($time));
+		$this->appendPrimaryKeys($query, $pk);
+		$this->_db->setQuery($query);
+		$this->_db->execute();
+	
+		// Set table values in the object.
+		$this->checked_out      = (int) $userId;
+		$this->checked_out_time = $time;
+	
+		return true;
+	}
+	
+	public function checkin($pk = null)
+	{
+		$pk = $this->getValidPk($pk);
+	
+		if (!$this->isLockable($this))
+		{
+			return true;
+		}
+	
+		if ($this->isLocked($this))
+		{
+			throw new ErrorException(JText::_('JLIB_DATABASE_ERROR_CHECKIN_USER_MISMATCH'));
+			return false;
+		}
+	
+		// Check the row in by primary key.
+		$query = $this->_db->getQuery(true)
+		->update($this->_tbl)
+		->set($this->_db->quoteName('checked_out') . ' = 0')
+		->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($this->_db->getNullDate()));
+		$this->appendPrimaryKeys($query, $pk);
+	
+		$this->_db->setQuery($query);
+	
+	
+		// Check for a database error.
+		$this->_db->execute();
+	
+		// Set table values in the object.
+		$this->checked_out      = 0;
+		$this->checked_out_time = '';
+	
+		return true;
+	}
+	
 	/**
 	 * Method to check if a table has lockable rows.
 	 * A table that has both the "checked_out" and "checked_out_time" fields has lockable rows
@@ -457,22 +457,17 @@ abstract class JTableCms extends JTable
 		return false;
 	}
 
+	/**
+	 * A protected method to get a set of ordering conditions.
+	 *
+	 * @param   JTable  $table  A JTable object.
+	 *
+	 * @return  array  An array of conditions to add to ordering queries.
+	 *
+	 */
 	public function getReorderConditions(JTable $activeRecord)
 	{
-		return '';
-	}
-
-	/**
-	 * (non-PHPdoc)
-	 * @see JTable::check()
-	 */
-	public function check()
-	{
-		if (property_exists($this, 'ordering') && $this->id == 0)
-		{
-			$this->ordering = self::getNextOrder();
-		}
-		return parent::check();
+		return array();
 	}
 
 	/**
@@ -497,8 +492,6 @@ abstract class JTableCms extends JTable
 			$array['metadata'] = (string)$registry;
 		}
 
-		//TODO figure out how to implement rules without JRules
-
 		if (isset($array['rules']) && is_array($array['rules']))
 		{
 			$rules = new JAccessRules($array['rules']);
@@ -506,6 +499,62 @@ abstract class JTableCms extends JTable
 		}
 
 		return parent::bind($array, $ignore);
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see JTable::check()
+	 */
+	public function check()
+	{
+		if (property_exists($this, 'ordering') && $this->id == 0)
+		{
+			$this->ordering = self::getNextOrder();
+		}
+		
+		$supportsAliases = (property_exists($this, 'catid')
+				&& property_exists($this, 'alias')
+				&& property_exists($this, 'title'));
+		
+		$keyName = $this->getKeyName();
+		$isNew = (empty($this->$keyName));
+		
+		if ($supportsAliases && $isNew)
+		{
+			$this->checkAlias($this);
+		}
+		
+		return parent::check();
+	}
+	
+	/**
+	 * Method to check the Alias.
+	 * If the alias is already in use then a new title and alias are generated.
+	 * @param JTable $activeRecord
+	 * @return boolean
+	 */
+	protected function checkAlias(JTable $activeRecord)
+	{
+		$category_id = $activeRecord->catid;
+		$title = $activeRecord->title;
+		$alias = $activeRecord->alias;
+		
+		if (empty($alias))
+		{
+			$alias = JString::strtolower(str_replace(' ', '-', $title));
+		}
+	
+		$table = clone $activeRecord;
+			
+		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
+		{
+			$title = JString::increment($title);
+			$alias = JString::increment($alias, 'dash');
+		}
+			
+		$activeRecord->title = $title;
+		$activeRecord->alias = $alias;
+		return true;
 	}
 
 	/**
@@ -632,5 +681,7 @@ abstract class JTableCms extends JTable
 		}
 		return false;
 	}
+	
+	
 }
 
