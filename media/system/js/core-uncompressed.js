@@ -139,6 +139,13 @@ Joomla.renderMessages = function(messages) {
         });
         $div.append($h4);
 
+        $a = $('<a/>', {
+            'class' : 'close',
+            'data-dismiss' : 'alert',
+            'text' : '×'
+        });
+        $div.append($a);
+
         $divList = $('<div/>');
         $.each(item, function(index, item) {
             $p = $('<p/>', {
