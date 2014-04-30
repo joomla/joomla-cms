@@ -39,7 +39,7 @@ class JControllerStateSaveorder extends JControllerStateBase
 	 */
 	protected function updateRecordState($model, $cid)
 	{
-		$order = $this->input->post->get('order', array(), 'array');
+		$order = $this->input->get('order', array(), 'array');
 		$model->saveorder($cid, $order);
 	}
 }

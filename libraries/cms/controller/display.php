@@ -81,7 +81,7 @@ class JControllerDisplay extends JControllerCms
 			if ($model = $this->getModel($prefix, $subject, $config))
 			{
 				// Push the model into the view (as default)
-				$view->setModel($subject, $model, true);
+				$view->setModel($model, true);
 			}
 		
 			$this->view = $view;
