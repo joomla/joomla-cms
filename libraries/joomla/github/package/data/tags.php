@@ -29,7 +29,7 @@ class JGithubPackageDataTags extends JGithubPackage
 	 * @param   string  $repo   The name of the GitHub repository.
 	 * @param   string  $sha    The SHA1 value to set the reference to.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -62,7 +62,7 @@ class JGithubPackageDataTags extends JGithubPackage
 	 * @param   string  $tagger_email  The email of the author of the tag.
 	 * @param   string  $tagger_date   Timestamp of when this object was tagged.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 *
 	 * @return object
 	 */

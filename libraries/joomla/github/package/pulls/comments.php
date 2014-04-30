@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub.Pulls
- * @since       ¿
+ * @since       3.3 (CMS)
  */
 class JGithubPackagePullsComments extends JGithubPackage
 {

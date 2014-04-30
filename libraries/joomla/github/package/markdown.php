@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub.Markdown
- * @since       ¿
+ * @since       3.3 (CMS)
  */
 class JGithubPackageMarkdown extends JGithubPackage
 {
@@ -27,7 +27,7 @@ class JGithubPackageMarkdown extends JGithubPackage
 	 * @param   string  $mode     The parsing mode; valid options are 'markdown' or 'gfm'.
 	 * @param   string  $context  An optional repository context, only used in 'gfm' mode.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 * @throws  DomainException
 	 * @throws  InvalidArgumentException
 	 *

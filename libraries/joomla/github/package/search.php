@@ -30,7 +30,7 @@ class JGithubPackageSearch extends JGithubPackage
 	 *
 	 * @throws UnexpectedValueException
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -62,7 +62,7 @@ class JGithubPackageSearch extends JGithubPackage
 	 * @param   string   $language    Filter results by language https://github.com/languages
 	 * @param   integer  $start_page  Page number to fetch
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -88,7 +88,7 @@ class JGithubPackageSearch extends JGithubPackage
 	 * @param   string   $keyword     The search term.
 	 * @param   integer  $start_page  Page number to fetch
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -115,7 +115,7 @@ class JGithubPackageSearch extends JGithubPackage
 	 *
 	 * @param   string  $email  The email address(es).
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */

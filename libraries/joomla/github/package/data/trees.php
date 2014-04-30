@@ -27,7 +27,7 @@ class JGithubPackageDataTrees extends JGithubPackage
 	 * @param   string  $repo   The name of the GitHub repository.
 	 * @param   string  $sha    The SHA1 value to set the reference to.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -48,7 +48,7 @@ class JGithubPackageDataTrees extends JGithubPackage
 	 * @param   string  $repo   The name of the GitHub repository.
 	 * @param   string  $sha    The SHA1 value to set the reference to.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -91,7 +91,7 @@ class JGithubPackageDataTrees extends JGithubPackage
 	 *                              a tree structure
 	 * @param   string  $base_tree  The SHA1 of the tree you want to update with new data.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 *
 	 * @return object
 	 */

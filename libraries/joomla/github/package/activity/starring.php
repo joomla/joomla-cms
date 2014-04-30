@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub.Activity
- * @since       ¿
+ * @since       3.3 (CMS)
  */
 class JGithubPackageActivityStarring extends JGithubPackage
 {
@@ -26,7 +26,7 @@ class JGithubPackageActivityStarring extends JGithubPackage
 	 * @param   string  $owner  Repository owner.
 	 * @param   string  $repo   Repository name.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return mixed
 	 */
@@ -47,7 +47,7 @@ class JGithubPackageActivityStarring extends JGithubPackage
 	 *
 	 * @param   string  $user  User name.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -72,7 +72,7 @@ class JGithubPackageActivityStarring extends JGithubPackage
 	 * @param   string  $repo   Repository name.
 	 *
 	 * @throws UnexpectedValueException
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -107,7 +107,7 @@ class JGithubPackageActivityStarring extends JGithubPackage
 	 * @param   string  $owner  Repository owner.
 	 * @param   string  $repo   Repository name.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -130,7 +130,7 @@ class JGithubPackageActivityStarring extends JGithubPackage
 	 * @param   string  $owner  Repository owner.
 	 * @param   string  $repo   Repository name.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */

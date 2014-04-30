@@ -651,9 +651,9 @@ class JRouterSite extends JRouter
 	/**
 	 * Get component router
 	 *
-	 * @param   string $component Name of the component including com_ prefix
+	 * @param   string  $component  Name of the component including com_ prefix
 	 *
-	 * @return  object The router of the component
+	 * @return  JComponentRouterInterface  Component router
 	 *
 	 * @since   3.3
 	 */

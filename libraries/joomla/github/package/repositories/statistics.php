@@ -17,7 +17,9 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/repos/statistics
  *
- * @since  ¿
+ * @package     Joomla.Platform
+ * @subpackage  GitHub
+ * @since       3.3 (CMS)
  */
 class JGithubPackageRepositoriesStatistics  extends JGithubPackage
 {
