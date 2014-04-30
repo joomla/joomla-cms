@@ -405,7 +405,7 @@ class AdmintoolsHelperDownload
 
 			// Connect the FTP client
 			$ftp = JClientFtp::getInstance(
-				$ftpOptions['host'], $ftpOptions['port'], null,
+				$ftpOptions['host'], $ftpOptions['port'], array(),
 				$ftpOptions['user'], $ftpOptions['pass']
 			);
 		}
