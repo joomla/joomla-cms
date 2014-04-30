@@ -99,7 +99,7 @@ var JFormValidator = new Class({
 		}
 
 		// If the field is required make sure it has a value
-		if (el.hasClass('required')) {
+		if (el.hasClass('required') || el.get('required') != null) {
 			if (el.get('tag')=='fieldset' && (el.hasClass('radio') || el.hasClass('checkboxes'))) {
 				for(var i=0;;i++) {
 					if (document.id(el.get('id')+i)) {
