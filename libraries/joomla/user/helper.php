@@ -306,10 +306,10 @@ abstract class JUserHelper
 	 */
 	public static function hashPassword($password)
 	{
-		// Use PHPass's portable hashes with a cost of 10.
-		$phpass = new PasswordHash(10, true);
+		// JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
+		JCrypt::hasStrongPasswordSupport();
 
-		return $phpass->HashPassword($password);
+		return password_hash($password, PASSWORD_DEFAULT);
 	}
 
 	/**
@@ -338,7 +338,7 @@ abstract class JUserHelper
 
 			$match = $phpass->CheckPassword($password, $hash);
 
-			$rehash = false;
+			$rehash = true;
 		}
 		elseif ($hash[0] == '$')
 		{
@@ -347,8 +347,7 @@ abstract class JUserHelper
 			$match = password_verify($password, $hash);
 
 			// Uncomment this line if we actually move to bcrypt.
-			// $rehash = password_needs_rehash($hash, PASSWORD_DEFAULT);
-			$rehash = true;
+			$rehash = password_needs_rehash($hash, PASSWORD_DEFAULT);
 		}
 		elseif (substr($hash, 0, 8) == '{SHA256}')
 		{

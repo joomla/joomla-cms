@@ -128,12 +128,8 @@ class JCrypt
 		$length = (int) $length;
 		$sslStr = '';
 
-		/*
-		 * If a secure randomness generator exists and we don't
-		 * have a buggy PHP version use it.
-		 */
-		if (function_exists('openssl_random_pseudo_bytes')
-			&& (version_compare(PHP_VERSION, '5.3.4') >= 0 || IS_WIN))
+		// If a secure randomness generator exists use it.
+		if (function_exists('openssl_random_pseudo_bytes'))
 		{
 			$sslStr = openssl_random_pseudo_bytes($length, $strong);
 
@@ -297,39 +293,24 @@ class JCrypt
 	 * Tests for the availability of updated crypt().
 	 * Based on a method by Anthony Ferrera
 	 *
-	 * @return  boolean  True if updated crypt() is available.
+	 * @return  boolean  Always returns true since 3.3
 	 *
 	 * @note    To be removed when PHP 5.3.7 or higher is the minimum supported version.
 	 * @see     https://github.com/ircmaxell/password_compat/blob/master/version-test.php
 	 * @since   3.2
+	 * @deprecated  4.0
 	 */
 	public static function hasStrongPasswordSupport()
 	{
-		static $pass = null;
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated without replacement.', JLog::WARNING, 'deprecated');
 
-		if (is_null($pass))
+		if (!defined('PASSWORD_DEFAULT'))
 		{
-			// Check to see whether crypt() is supported.
-			if (version_compare(PHP_VERSION, '5.3.7', '>=') === true)
-			{
-				// We have safe PHP version.
-				$pass = true;
-			}
-			else
-			{
-				// We need to test if we have patched PHP version.
-				jimport('compat.password.lib.version_test');
-				$test = new version_test;
-				$pass = $test->version_test();
-			}
-
-			if ($pass && !defined('PASSWORD_DEFAULT'))
-			{
-				// Always make sure that the password hashing API has been defined.
-				include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
-			}
+			// Always make sure that the password hashing API has been defined.
+			include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
 		}
 
-		return $pass;
+		return true;
 	}
 }
