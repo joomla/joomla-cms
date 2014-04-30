@@ -79,10 +79,19 @@ var JFormValidator = new Class({
 				if (el.hasClass('validate')) {
 					el.onclick = function(){return document.formvalidator.isValid(this.form);};
 				}
-			} else {
+			}
+			else if (document.id(el).get('tag') == 'fieldset') {
+				if (el.hasClass('radio') || el.hasClass('checkboxes')) {
+					el.getElements('input').each(function(elCh){
+						elCh.parent = el;
+						elCh.addEvent('change', function(){return document.formvalidator.validate(this.parent);});
+					});
+				}
+			}
+			else {
 				el.addEvent('blur', function(){return document.formvalidator.validate(this);});
 				if (el.hasClass('validate-email') && Browser.Features.inputemail) {
-					el.type = 'email';
+					try { el.type = 'email'; } catch (e){}
 				}
 			}
 		});
@@ -100,17 +109,11 @@ var JFormValidator = new Class({
 
 		// If the field is required make sure it has a value
 		if (el.hasClass('required')) {
-			if (el.get('tag')=='fieldset' && (el.hasClass('radio') || el.hasClass('checkboxes'))) {
-				for(var i=0;;i++) {
-					if (document.id(el.get('id')+i)) {
-						if (document.id(el.get('id')+i).checked) {
-							break;
-						}
-					}
-					else {
-						this.handleResponse(false, el);
-						return false;
-					}
+			// Check if any radio or checkbox is selected in fieldset
+			if (el.get('tag') == 'fieldset' && (el.hasClass('radio') || el.hasClass('checkboxes'))) {
+				if (!el.getElements('input:checked').length) {
+					this.handleResponse(false, el);
+					return false;
 				}
 			}
 			else if (!(el.get('value'))) {
@@ -153,7 +156,7 @@ var JFormValidator = new Class({
 		}
 
 		// Run custom form validators if present
-		new Hash(this.custom).each(function(validator){
+		Object.each(this.custom, function(validator){
 			if (validator.exec() != true) {
 				valid = false;
 			}
