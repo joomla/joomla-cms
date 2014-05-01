@@ -733,8 +733,6 @@ abstract class JHtmlSelect
 	public static function radiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
 		$translate = false)
 	{
-		reset($data);
-
 		if (is_array($attribs))
 		{
 			$attribs = JArrayHelper::toString($attribs);
