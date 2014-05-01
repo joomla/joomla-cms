@@ -59,18 +59,10 @@ var JFormValidator = function($) {
 		if ($el.hasClass('required')) {
 			var tagName = $el.prop("tagName").toLowerCase(), i = 0, selector;
 			if (tagName === 'fieldset' && ($el.hasClass('radio') || $el.hasClass('checkboxes'))) {
-				while (true) {
-					selector = "#" + $el.attr('id') + i;
-					if ($(selector).get(0)) {
-						if ($(selector).is(':checked')) {
-							break;
-						}
-					} else {
-						handleResponse(false, $el);
-						return false;
-					}
-					i++;
-				}
+				if (!$el.find('input:checked').length)
+					handleResponse(false, $el);
+					return false;
+ 				}
 				//If element has class placeholder that means it is empty.
 			} else if (!$el.val() || $el.hasClass('placeholder') || ($el.attr('type') === 'checkbox' && !$el.is(':checked'))) {
 				handleResponse(false, $el);
