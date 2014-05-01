@@ -149,7 +149,7 @@
 
 				// Order to set
 				var newOrderCol = $(this).attr('data-order');
-				var newDirection = 'ASC';
+				var newDirection = $(this).attr('data-direction');
 				var newOrdering = newOrderCol + ' ' + newDirection;
 
 				// The data-order attrib is required
