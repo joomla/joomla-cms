@@ -380,12 +380,12 @@ class JUpdate extends JObject
 		{
 			$response = $http->get($url);
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			$response = null;
 		}
 
-		if (!isset($response) || 200 != $response->code)
+		if ($response === null || $response->code !== 200)
 		{
 			// TODO: Add a 'mark bad' setting here somehow
 			JLog::add(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), JLog::WARNING, 'jerror');
@@ -403,7 +403,7 @@ class JUpdate extends JObject
 			JLog::add(sprintf(
 				"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xmlParser)),
 				xml_get_current_line_number($this->xmlParser)
-			)), JLog::WARNING, 'updater');
+			), JLog::WARNING, 'updater');
 
 			return false;
 		}
