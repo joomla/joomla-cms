@@ -39,6 +39,7 @@ class MediaControllerEditorDisplay extends ConfigControllerDisplay
 		$document = JFactory::getDocument();
 
 		$componentFolder = $this->input->getWord('option', 'com_media');
+		$folder = $this->app->input->get('folder', '', 'path');
 
 		if ($this->app->isAdmin())
 		{
@@ -82,6 +83,14 @@ class MediaControllerEditorDisplay extends ConfigControllerDisplay
 			// Push document object into the view.
 			$view->document = $document;
 
+			$id = $this->input->getInt('id');
+
+			// Check if another user already checked-out
+			if(!$model->checkout($id))
+			{
+				$this->app->redirect(JRoute::_('index.php?option=com_media&folder=' . $folder, false));
+			}
+			
 			// Reply for service requests
 			if ($viewFormat == 'json')
 			{

@@ -68,7 +68,12 @@ class MediaControllerEditorSave extends JControllerBase
 		// Attempt to save the configuration
 		$data = $return;
 
-		$return = $model->save($data);
+		// Call checkin controller
+		$checkinController = new MediaControllerEditorCheckin();
+		if($checkinController->execute())
+		{
+			$return = $model->save($data);
+		}
 		
 		$this->postSaveHook($model, $data);
 		
@@ -83,14 +88,14 @@ class MediaControllerEditorSave extends JControllerBase
 		{
 			case 'apply':
 			{
-				$folder = $this->input->get('folder');
-				$file = $this->input->get('file');	
+
 				$this->app->redirect(JRoute::_('index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id, false));
 				break;
 			}
 
 			case 'save':
 			default:
+				
 				$this->app->redirect(JRoute::_('index.php?option=com_media&folder=' . $folder, false));
 				break;
 		}

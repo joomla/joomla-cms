@@ -48,6 +48,98 @@ class MediaModelEditor extends JModelCmsitem
 	 * @since   3.2
 	 */
 	protected $event_before_save = 'onExtensionBeforeSave';
+
+	
+	/**
+	 * Method to checkin a row in #__ucm_content.
+	 *
+	 * @param   integer  $pk  The numeric id of the primary key.
+	 *
+	 * @return  boolean  False on failure or error, true otherwise.
+	 *
+	 * @since   3.2
+	 */
+	public function checkin($pk = null)
+	{
+		// Only attempt to check the row in if it exists.
+		if ($pk)
+		{
+			$user = JFactory::getUser();
+			$app = JFactory::getApplication();
+	
+			// Get an instance of the row to checkin.
+			$table = $this->getTable();
+	
+			if (!$table->load($pk))
+			{
+				$app->enqueueMessage($table->getError(), 'error');
+	
+				return false;
+			}
+	
+			// Check if this is the user has previously checked out the row.
+			if ($table->core_checked_out_user_id > 0 && $table->core_checked_out_user_id != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+			{
+				$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), 'error');
+	
+				return false;
+			}
+	
+			// Attempt to check the row in.
+			if (!$table->checkin($pk))
+			{
+				$app->enqueueMessage($table->getError(), 'error');
+	
+				return false;
+			}
+		}
+	
+		return true;
+	}
+	
+	/**
+	 * Method to check-out a row for editing in #__ucm_content.
+	 *
+	 * @param   integer  $pk  The numeric id of the primary key.
+	 *
+	 * @return  boolean  False on failure or error, true otherwise.
+	 *
+	 * @since   3.2
+	 */
+	public function checkout($pk = null)
+	{
+		// Only attempt to check the row in if it exists.
+		if ($pk)
+		{
+			$user = JFactory::getUser();
+			$app = JFactory::getApplication();
+	
+			// Get an instance of the row to checkout.
+			$table = $this->getTable();
+	
+			if (!$table->load($pk))
+			{
+				$app->enqueueMessage($table->getError(), 'error');
+				return false;
+			}
+
+			// Check if this is the user having previously checked out the row.
+			if ($table->core_checked_out_user_id > 0 && $table->core_checked_out_user_id != $user->get('id'))
+			{
+				$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'), 'error');
+				return false;
+			}
+	
+			// Attempt to check the row out.
+			if (!$table->checkout($user->get('id'), $pk))
+			{
+				$app->enqueueMessage($table->getError(), 'error');
+				return false;
+			}
+		}
+
+		return true;
+	}
 	
 	/**
 	 * Method to get a single record.
@@ -111,7 +203,7 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @return  JTable   A database object
 	 */
-	public function getTable($type = 'Corecontent', $prefix = 'JTable', $config = array())
+	public function getTable($type = 'Media', $prefix = 'MediaTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}

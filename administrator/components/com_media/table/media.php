@@ -16,109 +16,130 @@ defined('_JEXEC') or die;
  * @subpackage  com_media
  * @since       3.4
  */
-class MediaTableMedia extends JTable
+class MediaTableMedia extends JTableCorecontent
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   JDatabaseDriver  &$db  A database connector object
-	 */
-	public function __construct(&$db)
-	{
-		parent::__construct('#__media', 'id', $db);
-	}
 
 	/**
-	 * Overloaded bind function to pre-process the params.
+	 * Overriding JTable checkout method for #__ucm_core_content
 	 *
-	 * @param   mixed  $array   An associative array or object to bind to the JTable instance.
-	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 * @param   integer  $userId  The Id of the user checking out the row.
+	 * @param   mixed    $pk      An optional primary key value to check out.  If not set
+	 *                            the instance property value is used.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JTable:bind
-	 * @since   1.5
+	 * @since   3.4
+	 * @throws  UnexpectedValueException
 	 */
-	public function bind($array, $ignore = '')
+	public function checkOut($userId, $pk = null)
 	{
-		if (isset($array['params']) && is_array($array['params']))
+		// If there is no checked_out or checked_out_time field, just return true.
+		if (!property_exists($this, 'core_checked_out_user_id') || !property_exists($this, 'core_checked_out_time'))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['params']);
-			$array['params'] = (string) $registry;
+			return true;
 		}
-
-		if (isset($array['metadata']) && is_array($array['metadata']))
+	
+		if (is_null($pk))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['metadata']);
-			$array['metadata'] = (string) $registry;
-		}
-
-		if (isset($array['images']) && is_array($array['images']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['images']);
-			$array['images'] = (string) $registry;
-		}
-
-		return parent::bind($array, $ignore);
-	}
-
-	/**
-	 * Overload the store method for the Media table.
-	 *
-	 * @param   boolean	Toggle whether null values should be updated.
-	 * @return  boolean  True on success, false on failure.
-	 * @since   1.6
-	 */
-	public function store($updateNulls = false)
-	{
-		$date	= JFactory::getDate();
-		$user	= JFactory::getUser();
-
-		if ($this->id)
-		{
-			// Existing item
-			$this->modified		= $date->toSql();
-			$this->modified_by	= $user->get('id');
-		}
-		else
-		{
-			// New media. A media created and created_by field can be set by the user,
-			// so we don't touch either of these if they are set.
-			if (!(int) $this->created)
+			$pk = array();
+	
+			foreach ($this->_tbl_keys AS $key)
 			{
-				$this->created = $date->toSql();
-			}
-			if (empty($this->created_by))
-			{
-				$this->created_by = $user->get('id');
+				$pk[$key] = $this->$key;
 			}
 		}
-
-		// Verify that the alias is unique
-		$table = JTable::getInstance('Media', 'MediaTable');
-
-		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
+		elseif (!is_array($pk))
 		{
-			$this->setError(JText::_('COM_MEDIA_ERROR_UNIQUE_ALIAS'));
-			return false;
+			$pk = array($this->_tbl_key => $pk);
 		}
-
-		// Convert IDN urls to punycode
-		$this->url = JStringPunycode::urlToPunycode($this->url);
-
-		return parent::store($updateNulls);
+	
+		foreach ($this->_tbl_keys AS $key)
+		{
+			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
+	
+			if ($pk[$key] === null)
+			{
+				throw new UnexpectedValueException('Null primary key not allowed.');
+			}
+		}
+	
+		// Get the current time in the database format.
+		$time = JFactory::getDate()->toSql();
+	
+		// Check the row out by primary key.
+		$query = $this->_db->getQuery(true)
+		->update($this->_tbl)
+		->set($this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId)
+		->set($this->_db->quoteName('core_checked_out_time') . ' = ' . $this->_db->quote($time));
+		$this->appendPrimaryKeys($query, $pk);
+		$this->_db->setQuery($query);
+		$this->_db->execute();
+	
+		// Set table values in the object.
+		$this->core_checked_out_user_id      = (int) $userId;
+		$this->core_checked_out_time = $time;
+	
+		return true;
 	}
-
+	
 	/**
-	 * Overloaded check method to ensure data integrity.
+	 * Overriding JTable checkin method for #__ucm_core_content
+	 * 
+	 * @param   mixed  $pk  An optional primary key value to check out.  If not set the instance property value is used.
 	 *
 	 * @return  boolean  True on success.
+	 *
+	 * @since   3.4
+	 * @throws  UnexpectedValueException
 	 */
-	public function check()
+	public function checkIn($pk = null)
 	{
-		
+		// If there is no checked_out or checked_out_time field, just return true.
+		if (!property_exists($this, 'core_checked_out_user_id') || !property_exists($this, 'core_checked_out_time'))
+		{
+			return true;
+		}
+	
+		if (is_null($pk))
+		{
+			$pk = array();
+	
+			foreach ($this->_tbl_keys AS $key)
+			{
+				$pk[$this->$key] = $this->$key;
+			}
+		}
+		elseif (!is_array($pk))
+		{
+			$pk = array($this->_tbl_key => $pk);
+		}
+	
+		foreach ($this->_tbl_keys AS $key)
+		{
+			$pk[$key] = empty($pk[$key]) ? $this->$key : $pk[$key];
+	
+			if ($pk[$key] === null)
+			{
+				throw new UnexpectedValueException('Null primary key not allowed.');
+			}
+		}
+	
+		// Check the row in by primary key.
+		$query = $this->_db->getQuery(true)
+		->update($this->_tbl)
+		->set($this->_db->quoteName('core_checked_out_user_id') . ' = 0')
+		->set($this->_db->quoteName('core_checked_out_time') . ' = ' . $this->_db->quote($this->_db->getNullDate()));
+		$this->appendPrimaryKeys($query, $pk);
+		$this->_db->setQuery($query);
+	
+		// Check for a database error.
+		$this->_db->execute();
+	
+		// Set table values in the object.
+		$this->core_checked_out_user_id = 0;
+		$this->core_checked_out_time = '';
+	
+		return true;
 	}
+
 }
