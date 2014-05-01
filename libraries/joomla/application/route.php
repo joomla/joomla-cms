@@ -41,6 +41,7 @@ class JRoute
 	 */
 	public static function _($url, $xhtml = true, $ssl = null)
 	{
+		fwrite(STDOUT, "\n" . "Yay I got here" . "\n");
 		if (!self::$_router)
 		{
 			// Get the router.
@@ -52,6 +53,8 @@ class JRoute
 				return null;
 			}
 		}
+
+		fwrite(STDOUT, "\n" . "Now I must have a routing object" . "\n");
 
 		if (!is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
 		{
