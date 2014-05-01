@@ -1,4 +1,4 @@
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
 
 	// Create the defaults once
 	var pluginName = "searchtools";
@@ -96,6 +96,13 @@
 		init: function () {
 			var self = this;
 
+			// IE < 9 - Avoid to submit placeholder value
+			if(!document.addEventListener  ) {
+				if (this.searchField.val() === this.searchField.attr('placeholder')) {
+					this.searchField.val('');
+				}
+			}
+
 			// Get values
 			this.searchString = this.searchField.val();
 
@@ -172,7 +179,7 @@
 			var self = this;
 
 			var option = $(element).find('option:selected');
-			if (option.val() != '') {
+			if (option.val() !== '') {
 				self.activeFilter(element);
 			} else {
 				self.deactiveFilter(element);
@@ -306,7 +313,7 @@
 				this.orderField = $('<input>').attr({
 				    type: 'hidden',
 				    id: 'js-stools-field-order',
-				    class: 'js-stools-field-order',
+				    'class': 'js-stools-field-order',
 				    name: self.options.orderFieldName,
 				    value: self.activeOrder + ' ' + this.activeDirection
 				});

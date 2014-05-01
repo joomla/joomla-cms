@@ -45,7 +45,7 @@ $loggeduser = JFactory::getUser();
 			<label class="selectlabel" for="filter_state">
 				<?php echo JText::_('COM_USERS_FILTER_LABEL'); ?>
 			</label>
-			<select name="filter_state" class="inputbox" id="filter_state">
+			<select name="filter_state" id="filter_state">
 				<option value="*"><?php echo JText::_('COM_USERS_FILTER_STATE');?></option>
 				<?php echo JHtml::_('select.options', UsersHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
 			</select>
@@ -53,7 +53,7 @@ $loggeduser = JFactory::getUser();
 			<label class="selectlabel" for="filter_active">
 				<?php echo JText::_('COM_USERS_FILTER_ACTIVE'); ?>
 			</label>
-			<select name="filter_active" class="inputbox" id="filter_active">
+			<select name="filter_active" id="filter_active">
 				<option value="*"><?php echo JText::_('COM_USERS_FILTER_ACTIVE');?></option>
 				<?php echo JHtml::_('select.options', UsersHelper::getActiveOptions(), 'value', 'text', $this->state->get('filter.active'));?>
 			</select>
@@ -61,7 +61,7 @@ $loggeduser = JFactory::getUser();
 			<label class="selectlabel" for="filter_group_id">
 				<?php echo JText::_('COM_USERS_FILTER_USERGROUP'); ?>
 			</label>
-			<select name="filter_group_id" class="inputbox" id="filter_group_id">
+			<select name="filter_group_id" id="filter_group_id">
 				<option value=""><?php echo JText::_('COM_USERS_FILTER_USERGROUP');?></option>
 				<?php echo JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'));?>
 			</select>
@@ -69,7 +69,7 @@ $loggeduser = JFactory::getUser();
 			<label class="selectlabel" for="filter_range">
 				<?php echo JText::_('COM_USERS_FILTER_FILTER_DATE'); ?>
 			</label>
-			<select name="filter_range" class="inputbox"  id="filter_range" >
+			<select name="filter_range" id="filter_range" >
 				<option value=""><?php echo JText::_('COM_USERS_OPTION_FILTER_DATE');?></option>
 				<?php echo JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'));?>
 			</select>
@@ -138,6 +138,9 @@ $loggeduser = JFactory::getUser();
 						<?php echo JHtml::_('users.filterNotes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.addNote', $item->id); ?>
+						<?php if ($item->requireReset == '1') : ?>
+						<span class="label label-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
+						<?php endif; ?>
 					</div>
 					<?php if ($canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->id); ?>" title="<?php echo JText::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">

@@ -224,7 +224,7 @@
 		<field
 			name="proxy_enable"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_CONFIG_FIELD_PROXY_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_PROXY_ENABLE_DESC"
@@ -813,7 +813,6 @@
 			label="FIELD_RULES_LABEL"
 			translate_label="false"
 			validate="rules"
-			class="inputbox"
 			filter="rules">
 			<action
 				name="core.login.site"
@@ -869,7 +868,6 @@
 			name="filters"
 			type="filters"
 			label="COM_CONFIG_TEXT_FILTERS"
-			class="inputbox"
 			filter="" />
 	</fieldset>
 

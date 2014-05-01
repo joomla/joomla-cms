@@ -36,11 +36,8 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$sitename = $app->getCfg('sitename');
+$sitename = $app->get('sitename');
 
-// Check if debug is on
-$config = JFactory::getConfig();
-$debug  = (boolean) $config->get('debug');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
@@ -66,7 +63,8 @@ $debug  = (boolean) $config->get('debug');
 				padding: 4px 10px 4px;
 			}
 		}
-		<?php if ($debug) : ?>
+		<?php // Check if debug is on ?>
+		<?php if ($app->get('debug_lang', 1) || $app->get('debug', 1)) : ?>
 			.view-login .container {
 				position: static;
 				margin-top: 20px;

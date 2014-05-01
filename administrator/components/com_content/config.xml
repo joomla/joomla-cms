@@ -372,7 +372,7 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
-			class="inputbox">
+			>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
@@ -385,7 +385,7 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
-			class="inputbox">
+			>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
@@ -398,7 +398,7 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
-			class="inputbox">
+			>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
@@ -887,7 +887,6 @@
 			name="rules"
 			type="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"
-			class="inputbox"
 			validate="rules"
 			filter="rules"
 			component="com_content"

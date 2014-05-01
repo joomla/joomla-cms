@@ -48,11 +48,15 @@ INSERT INTO "#__assets" VALUES
 (38,1,73,74,1,'com_ajax','com_ajax','{}'),
 (39,1,75,76,1,'com_postinstall','com_postinstall','{}n');
 
+SELECT setval('#__assets_id_seq', max(id)) FROM #__assets;
+
 --
 -- Dumping data for table #__content
 --
 INSERT INTO  "#__content" VALUES
 (1,35,'Getting Started','getting-started','<p>It\'s easy to get started creating your website. Knowing some of the basics will help.</p>\r\n<h3>What is a Content Management System?</h3>\r\n<p>A content management system is software that allows you to create and manage webpages easily by separating the creation of your content from the mechanics required to present it on the web.</p>\r\n<p>In this site, the content is stored in a <em>database</em>. The look and feel are created by a <em>template</em>. Joomla! brings together the template and your content to create web pages.</p>\r\n<h3>Logging in</h3>\r\n<p>To login to your site use the user name and password that were created as part of the installation process. Once logged-in you will be able to create and edit articles and modify some settings.</p>\r\n<h3>Creating an article</h3>\r\n<p>Once you are logged-in, a new menu will be visible. To create a new article, click on the "Submit Article" link on that menu.</p>\r\n<p>The new article interface gives you a lot of options, but all you need to do is add a title and put something in the content area. To make it easy to find, set the state to published.</p>\r\n<div>You can edit an existing article by clicking on the edit icon (this only displays to users who have the right to edit).</div>\r\n<h3>Template, site settings, and modules</h3>\r\n<p>The look and feel of your site is controlled by a template. You can change the site name, background colour, highlights colour and more by editing the template settings. Click the "Template Settings" in the user menu.Â </p>\r\n<p>The boxes around the main content of the site are called modules. Â You can modify modules on the current page by moving your cursor to the module and clicking the edit link. Always be sure to save and close any module you edit.</p>\r\n<p><span style="line-height: 1.3em;">You can change some site settings such as the site name and description by clicking on the "Site Settings" link.</span></p>\r\n<p>More advanced options for templates, site settings, modules, and more are available in the site administrator.</p>\r\n<h3>Site and Administrator</h3>\r\n<p>Your site actually has two separate sites. The site (also called the front end) is what visitors to your site will see. The administrator (also called the back end) is only used by people managing your site. You can access the administrator by clicking the "Site Administrator" link on the "User Menu" menu (visible once you login) or by adding /administrator to the end of your domain name. The same user name and password are used for both sites.</p>\r\n<h3>Learn more</h3>\r\n<p>There is much more to learn about how to use Joomla! to create the web site you envision. You can learn much more at the <a href="http://docs.joomla.org" target="_blank">Joomla! documentation site</a> and on the<a href="http://forum.joomla.org" target="_blank"> Joomla! forums</a>.</p>','',1,2,'2011-01-01 00:00:00',209,'','1970-01-01 00:00:00',209,0,'1970-01-01 00:00:00','2011-01-01 00:00:00','1970-01-01 00:00:00','{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}','{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}','{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"0","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":""}',9,0,'','',1,78,'{"robots":"","author":"","rights":"","xreference":""}',0,'*','');
+
+SELECT setval('#__content_id_seq', max(id)) FROM #__content;
 
 --
 -- Dumping data for table #__menu
@@ -92,12 +96,16 @@ INSERT INTO "#__menu" VALUES
 (467,'usermenu','Template Settings','template-settings','','template-settings','index.php?option=com_config&view=templates&controller=config.display.templates','component',1,1,1,23,0,'1970-01-01 00:00:00',0,6,'',0,'{"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',225,226,0,'*',0),
 (468,'usermenu','Site Settings','site-settings','','site-settings','index.php?option=com_config&view=config&controller=config.display.config','component',1,1,1,23,0,'1970-01-01 00:00:00',0,6,'',0,'{"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',227,228,0,'*',0);
 
+SELECT setval('#__menu_id_seq', max(id)) FROM #__menu;
+
 --
 -- Dumping data for table #__menu_types
 --
 INSERT INTO "#__menu_types" VALUES
 (1,'mainmenu','Main Menu','The main menu for the site'),
 (2,'usermenu','User Menu','A Menu for logged-in Users');
+
+SELECT setval('#__menu_types_id_seq', max(id)) FROM #__menu_types;
 
 --
 -- Dumping data for table #__modules
@@ -147,8 +155,10 @@ INSERT INTO "#__modules" VALUES
 (88,0,'Site Information','','',3,'cpanel',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_stats_admin',1,1,'{"serverinfo":"1","siteinfo":"1","counter":"0","increase":"0","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',1,'*'),
 (89,0,'Release News','','',0,'postinstall',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_feed',1,1,'{"rssurl":"http:\\/\\/www.joomla.org\\/announcements\\/release-news.feed","rssrtl":"0","rsstitle":"1","rssdesc":"1","rssimage":"1","rssitems":"3","rssitemdesc":"1","word_count":"0","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',1,'*');
 
+SELECT setval('#__modules_id_seq', max(id)) FROM #__modules;
+
 --
--- Dumping data for table #__modules
+-- Dumping data for table #__modules_menu
 --
 INSERT INTO "#__modules_menu" VALUES
 (1,0),

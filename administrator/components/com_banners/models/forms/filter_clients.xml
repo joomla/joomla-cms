@@ -22,7 +22,6 @@
 			label="COM_BANNERS_FILTER_PURCHASETYPE_LABEL"
 			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0"
-			class="inputbox"
 			onchange="this.form.submit();"
 		>
 			<option value="">COM_BANNERS_SELECT_TYPE</option>
@@ -62,7 +61,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="inputbox input-mini"
+			class="input-mini"
 			default="25"
 			label="COM_BANNERS_LIST_LIMIT"
 			description="COM_BANNERS_LIST_LIMIT_DESC"
