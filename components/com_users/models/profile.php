@@ -28,12 +28,6 @@ class UsersModelProfile extends JModelForm
 	{
 		parent::__construct($config);
 
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-
 		// Load the helper and model used for two factor authentication
 		require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
 		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
@@ -309,8 +303,8 @@ class UsersModelProfile extends JModelForm
 			if ($twoFactorMethod != 'none')
 			{
 				// Run the plugins
-				FOFPlatform::getInstance()->importPlugin('twofactorauth');
-				$otpConfigReplies = FOFPlatform::getInstance()->runPlugins('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
+				JPluginHelper::importPlugin('twofactorauth');
+				$otpConfigReplies = JEventDispatcher::getInstance()->trigger('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
 
 				// Look for a valid reply
 				foreach ($otpConfigReplies as $reply)
@@ -391,8 +385,8 @@ class UsersModelProfile extends JModelForm
 
 		$otpConfig = $model->getOtpConfig($user_id);
 
-		FOFPlatform::getInstance()->importPlugin('twofactorauth');
-		return FOFPlatform::getInstance()->runPlugins('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+		JPluginHelper::importPlugin('twofactorauth');
+		return JEventDispatcher::getInstance()->trigger('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
 	}
 
 	public function getOtpConfig($user_id = null)

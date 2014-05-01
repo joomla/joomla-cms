@@ -19,6 +19,12 @@ defined('_JEXEC') or die;
 class PlgTwofactorauthYubikey extends JPlugin
 {
 	/**
+	 * @var    \JApplicationCms
+	 * @since  3.3
+	 */
+	protected $app;
+
+	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
@@ -33,27 +39,6 @@ class PlgTwofactorauthYubikey extends JPlugin
 	 * @since  3.2
 	 */
 	protected $methodName = 'yubikey';
-
-	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
-	 *
-	 * @since   3.2
-	 */
-	public function __construct(&$subject, $config = array())
-	{
-		parent::__construct($subject, $config);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-	}
 
 	/**
 	 * This method returns the identification object for this two factor
@@ -71,13 +56,11 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		try
 		{
-			$app = JFactory::getApplication();
-
-			if ($app->isAdmin())
+			if ($this->app->isAdmin())
 			{
 				$current_section = 2;
 			}
-			elseif ($app->isSite())
+			elseif ($this->app->isSite())
 			{
 				$current_section = 1;
 			}
@@ -129,17 +112,17 @@ class PlgTwofactorauthYubikey extends JPlugin
 		@ob_start();
 
 		// Include the form.php from a template override. If none is found use the default.
-		$path = FOFPlatform::getInstance()->getTemplateOverridePath('plg_twofactorauth_yubikey', true);
+		$path = JPATH_THEMES . '/' . $this->app->getTemplate() . '/html/plg_twofactorauth_yubikey/';
 
 		JLoader::import('joomla.filesystem.file');
 
 		if (JFile::exists($path . 'form.php'))
 		{
-			include_once $path . 'form.php';
+			include $path . 'form.php';
 		}
 		else
 		{
-			include_once __DIR__ . '/tmpl/form.php';
+			include __DIR__ . '/tmpl/form.php';
 		}
 
 		// Stop output buffering and get the form contents
@@ -170,11 +153,8 @@ class PlgTwofactorauthYubikey extends JPlugin
 			return false;
 		}
 
-		// Get a reference to the input data object
-		$input = JFactory::getApplication()->input;
-
 		// Load raw data
-		$rawData = $input->get('jform', array(), 'array');
+		$rawData = $this->app->input->get('jform', array(), 'array');
 		$data = $rawData['twofactor']['yubikey'];
 
 		// Warn if the securitycode is empty
@@ -182,8 +162,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		{
 			try
 			{
-				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::_('PLG_TWOFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 'error');
+				$this->app->enqueueMessage(JText::_('PLG_TWOFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 'error');
 			}
 			catch (Exception $exc)
 			{
@@ -199,8 +178,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		if (!$check)
 		{
-			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('PLG_TWOFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 'error');
+			$this->app->enqueueMessage(JText::_('PLG_TWOFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 'error');
 
 			// Check failed. Do not change two factor authentication settings.
 			return false;
