@@ -683,7 +683,7 @@ class JRouterSite extends JRouter
 
 				if (in_array('JComponentRouterInterface', $reflection->getInterfaceNames()))
 				{
-					$this->componentRouters[$component] = new $name();
+					$this->componentRouters[$component] = new $name;
 				}
 			}
 
