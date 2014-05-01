@@ -13,6 +13,9 @@ defined('JPATH_PLATFORM') or die;
  * This class provides an RFC6238-compliant Time-based One Time Passwords,
  * compatible with Google Authenticator (with PassCodeLength = 6 and TimePeriod = 30).
  *
+ * Forked from the encrypt library by: Akeeba LTD <https://github.com/akeeba/fof>
+ * Original Contributors: Nicholas K. Dionysopoulos and Davide Tampellini
+ *
  * @package     Joomla.Libraries
  * @subpackage  Encrypt
  * @since       3.3

@@ -12,6 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JEncryptBase32
  *
+ * Forked from the encrypt library by: Akeeba LTD <https://github.com/akeeba/fof>
+ * Original Contributors: Nicholas K. Dionysopoulos and Davide Tampellini
+ *
  * @package     Joomla.Libraries
  * @subpackage  Encrypt
  * @since       3.3

@@ -13,6 +13,9 @@ defined('JPATH_PLATFORM') or die;
  * A simple implementation of AES-128, AES-192 and AES-256 encryption using the
  * high performance mcrypt library.
  *
+ * Forked from the encrypt library by: Akeeba LTD <https://github.com/akeeba/fof>
+ * Original Contributors: Nicholas K. Dionysopoulos and Davide Tampellini
+ *
  * @package     Joomla.Libraries
  * @subpackage  Encrypt
  * @since       3.3
