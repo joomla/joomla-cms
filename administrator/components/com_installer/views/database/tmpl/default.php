@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  ***************************************************************************************
  * Warning: Some modifications and improved were made by the Community Juuntos for
@@ -35,11 +35,11 @@ defined('_JEXEC') or die;
 				<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?>
 			<?php endif; ?>
 
-			<?php if (!(strncmp($this->schemaVersion, VJOKTE, 5) === 0)) : ?>
-				<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, VJOKTE); ?></li>
+			<?php if ($this->schemaVersion != $this->changeSet->getSchema()) : ?>
+				<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, $this->changeSet->getSchema()); ?></li>
 			<?php endif; ?>
 
-			<?php if (($this->updateVersion != VJOKTE)) : ?>
+			<?php if (version_compare($this->updateVersion, VJOKTE) != 0) : ?>
 				<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $this->updateVersion, VJOKTE); ?></li>
 			<?php endif; ?>
 
