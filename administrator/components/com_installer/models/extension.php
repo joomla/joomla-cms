@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -118,49 +118,38 @@ class InstallerModel extends JModelList
 				case 'component':
 					$extension = $item->element;
 					$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, false)
-					||	$lang->load("$extension.sys", $source, null, false, false)
-					||	$lang->load("$extension.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-					||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
+						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
+					||	$lang->load("$extension.sys", $source, null, false, true);
 				break;
 				case 'file':
 					$extension = 'files_' . $item->element;
-						$lang->load("$extension.sys", JPATH_SITE, null, false, false)
-					||	$lang->load("$extension.sys", JPATH_SITE, $lang->getDefault(), false, false);
+						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
 				break;
 				case 'library':
 					$extension = 'lib_' . $item->element;
-						$lang->load("$extension.sys", JPATH_SITE, null, false, false)
-					||	$lang->load("$extension.sys", JPATH_SITE, $lang->getDefault(), false, false);
+						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
 				break;
 				case 'module':
 					$extension = $item->element;
 					$source = $path . '/modules/' . $extension;
-						$lang->load("$extension.sys", $path, null, false, false)
-					||	$lang->load("$extension.sys", $source, null, false, false)
-					||	$lang->load("$extension.sys", $path, $lang->getDefault(), false, false)
-					||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
+						$lang->load("$extension.sys", $path, null, false, true)
+					||	$lang->load("$extension.sys", $source, null, false, true);
 				break;
 				case 'package':
 					$extension = $item->element;
-						$lang->load("$extension.sys", JPATH_SITE, null, false, false)
-					||	$lang->load("$extension.sys", JPATH_SITE, $lang->getDefault(), false, false);
+						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
 				break;
 				case 'plugin':
 					$extension = 'plg_' . $item->folder . '_' . $item->element;
 					$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, false)
-					||	$lang->load("$extension.sys", $source, null, false, false)
-					||	$lang->load("$extension.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-					||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
+						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
+					||	$lang->load("$extension.sys", $source, null, false, true);
 				break;
 				case 'template':
 					$extension = 'tpl_' . $item->element;
 					$source = $path . '/templates/' . $item->element;
-						$lang->load("$extension.sys", $path, null, false, false)
-					||	$lang->load("$extension.sys", $source, null, false, false)
-					||	$lang->load("$extension.sys", $path, $lang->getDefault(), false, false)
-					||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
+						$lang->load("$extension.sys", $path, null, false, true)
+					||	$lang->load("$extension.sys", $source, null, false, true);
 				break;
 			}
 			if (!in_array($item->type, array('language', 'template', 'library'))) {
