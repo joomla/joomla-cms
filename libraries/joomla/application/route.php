@@ -44,7 +44,8 @@ class JRoute
 		if (!self::$_router)
 		{
 			// Get the router.
-			self::$_router = JFactory::getApplication()->getRouter();
+			$app = JFactory::getApplication();
+			self::$_router = $app::getRouter();
 
 			// Make sure that we have our router
 			if (!self::$_router)

@@ -1018,7 +1018,7 @@ class JApplicationCms extends JApplicationWeb
 		// Get the full request URI.
 		$uri = clone JUri::getInstance();
 
-		$router = $this->getRouter();
+		$router = static::getRouter();
 		$result = $router->parse($uri);
 
 		foreach ($result as $key => $value)
