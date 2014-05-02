@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -315,10 +315,8 @@ class CategoriesModelCategory extends JModelAdmin
 
 		if (file_exists($path))
 		{
-			$lang->load($component, JPATH_BASE, null, false, false);
-			$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false);
-			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false);
-			$lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
+			$lang->load($component, JPATH_BASE, null, false, true);
+			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
 
 			if (!$form->loadFile($path, false))
 			{
@@ -337,7 +335,8 @@ class CategoriesModelCategory extends JModelAdmin
 
 			if (class_exists($cName) && is_callable(array($cName, 'onPrepareForm')))
 			{
-				$lang->load($component, JPATH_BASE, null, false, false) || $lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false) || $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false) || $lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
+					$lang->load($component, JPATH_BASE, null, false, true)
+				||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 				call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));
 
 				// Check for an error.

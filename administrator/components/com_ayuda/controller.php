@@ -2,7 +2,7 @@
 /**
  * @package		Jokte.Site
  * @subpackage	com_ayuda
- * @copyright	Copyleft 2012 - 2013 Comunidad Juuntos.
+ * @copyright	Copyleft 2012 - 2014 Comunidad Juuntos.
  * @license		GNU General Public License version 3
  */
 
