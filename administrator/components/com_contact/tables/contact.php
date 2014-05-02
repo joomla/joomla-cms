@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -115,7 +115,7 @@ class ContactTableContact extends JTable
 			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
 			return false;
 		}
-		
+
 		if (empty($this->alias)) {
 			$this->alias = $this->name;
 		}
@@ -135,7 +135,6 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		return true;
 		// clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
 		if (!empty($this->metakey)) {
