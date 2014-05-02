@@ -327,6 +327,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Run the setup method.
 		$this->setup();
 
+		// Remove the old item.
+		$this->remove($id);
+
 		// Get the item.
 		$item = $this->getItem($id);
 
