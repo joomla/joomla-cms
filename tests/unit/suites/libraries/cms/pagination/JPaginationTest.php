@@ -255,7 +255,7 @@ class JPaginationTest extends TestCase
 					array(
 						'text' => 'JLIB_HTML_VIEW_ALL',
 						'base' => '0',
-						'link' => '',
+						'link' => 'index.php',
 						'prefix' => '',
 						'active' => '',
 					),
@@ -300,7 +300,7 @@ class JPaginationTest extends TestCase
 	}
 
 	/**
-	 * This method tests the _buildDataObject method.
+	 * This method tests the getData method.
 	 *
 	 * @param   integer  $total       The total number of items.
 	 * @param   integer  $limitstart  The offset of the item to start at.
@@ -414,7 +414,7 @@ class JPaginationTest extends TestCase
 	public function dataTestGetPagesLinks()
 	{
 		return array(
-			array(100, 50, 20, '<ul><li class="pagination-start"><a title="JLIB_HTML_START" href="" class="hasTooltip pagenav">JLIB_HTML_START</a></li><li class="pagination-prev"><a title="JPREV" href="" class="hasTooltip pagenav">JPREV</a></li><li><a href="" class="pagenav">1</a></li><li><a href="" class="pagenav">2</a></li><li><span class="pagenav">3</span></li><li><a href="" class="pagenav">4</a></li><li><a href="" class="pagenav">5</a></li><li class="pagination-next"><a title="JNEXT" href="" class="hasTooltip pagenav">JNEXT</a></li><li class="pagination-end"><a title="JLIB_HTML_END" href="" class="hasTooltip pagenav">JLIB_HTML_END</a></li></ul>'),
+			array(100, 50, 20, '<ul><li class="pagination-start"><a title="JLIB_HTML_START" href="index.php?limitstart=0" class="hasTooltip pagenav">JLIB_HTML_START</a></li><li class="pagination-prev"><a title="JPREV" href="index.php?limitstart=20" class="hasTooltip pagenav">JPREV</a></li><li><a href="index.php?limitstart=0" class="pagenav">1</a></li><li><a href="index.php?limitstart=20" class="pagenav">2</a></li><li><span class="pagenav">3</span></li><li><a href="index.php?limitstart=60" class="pagenav">4</a></li><li><a href="index.php?limitstart=80" class="pagenav">5</a></li><li class="pagination-next"><a title="JNEXT" href="index.php?limitstart=60" class="hasTooltip pagenav">JNEXT</a></li><li class="pagination-end"><a title="JLIB_HTML_END" href="index.php?limitstart=80" class="hasTooltip pagenav">JLIB_HTML_END</a></li></ul>'),
 		);
 	}
 
