@@ -290,7 +290,7 @@ class JPaginationTest extends TestCase
 					array(
 						'text' => '3',
 						'base' => '',
-						'link' => 'index.php?limitstart=60',
+						'link' => null,
 						'prefix' => '',
 						'active' => true,
 					),
