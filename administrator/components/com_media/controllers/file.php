@@ -44,7 +44,7 @@ class MediaControllerFile extends JControllerLegacy
 		// Get some data from the request
 		$files        = $this->input->files->get('Filedata', '', 'array');
 		$return       = $this->input->post->get('return-url', null, 'base64');
-		$this->folder = $this->input->get('folder', '', 'path');
+		$this->folder = $this->input->get->get('folder', '', 'path');
 
 		// Set the redirect
 		if ($return)
