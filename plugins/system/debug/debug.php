@@ -100,13 +100,13 @@ class PlgSystemDebug extends JPlugin
 			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
 		}
 
+		$this->debugLang = $this->app->get('debug_lang');
+		
 		// Skip the plugin if debug is off
-		if ($this->app->get('debug_lang') == '0' && $this->app->get('debug') == '0')
+		if ($this->debugLang == '0' && $this->app->get('debug') == '0')
 		{
 			return;
 		}
-
-		$this->debugLang = $this->app->get('debug_lang');
 
 		// Only if debugging or language debug is enabled.
 		if (JDEBUG || $this->debugLang)
