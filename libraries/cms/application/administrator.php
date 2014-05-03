@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -127,6 +127,22 @@ class JApplicationAdministrator extends JApplicationCms
 			else
 			{
 				$this->enqueueMessage('Your host needs to disable magic_quotes_gpc to run this version of Joomla!', 'error');
+			}
+		}
+
+		// Check if the user is required to reset their password
+		$user = JFactory::getUser();
+
+		if ($user->get('requireReset', 0) === '1')
+		{
+			if ($this->input->getCmd('option') != 'com_admin' && $this->input->getCmd('view') != 'profile' && $this->input->getCmd('layout') != 'edit')
+			{
+				if ($this->input->getCmd('task') != 'profile.save')
+				{
+					// Redirect to the profile edit page
+					$this->enqueueMessage(JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+					$this->redirect(JRoute::_('index.php?option=com_admin&task=profile.edit&id=' . $user->id, false));
+				}
 			}
 		}
 

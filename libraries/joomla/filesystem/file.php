@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -186,6 +186,11 @@ class JFile
 		foreach ($files as $file)
 		{
 			$file = JPath::clean($file);
+
+			if (!is_file($file))
+			{
+				continue;
+			}
 
 			// Try making the file writable first. If it's read-only, it can't be deleted
 			// on Windows, even if the parent folder is writable

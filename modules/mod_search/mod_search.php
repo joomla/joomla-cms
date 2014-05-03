@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_search
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,8 +19,15 @@ if ($params->get('opensearch', 1))
 {
 	$doc = JFactory::getDocument();
 
-	$ostitle = $params->get('opensearch_title', JText::_('MOD_SEARCH_SEARCHBUTTON_TEXT').' '.$app->getCfg('sitename'));
-	$doc->addHeadLink(JUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_('&option=com_search&format=opensearch'), 'search', 'rel', array('title' => htmlspecialchars($ostitle), 'type' => 'application/opensearchdescription+xml'));
+	$ostitle = $params->get('opensearch_title', JText::_('MOD_SEARCH_SEARCHBUTTON_TEXT') . ' ' . $app->getCfg('sitename'));
+	$doc->addHeadLink(
+			JUri::getInstance()->toString(array('scheme', 'host', 'port'))
+			. JRoute::_('&option=com_search&format=opensearch'), 'search', 'rel',
+			array(
+				'title' => htmlspecialchars($ostitle),
+				'type' => 'application/opensearchdescription+xml'
+			)
+		);
 }
 
 $upper_limit = $lang->getUpperLimitSearchWord();

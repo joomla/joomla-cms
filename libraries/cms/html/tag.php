@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -185,7 +185,7 @@ abstract class JHtmlTag
 						var customTagPrefix = '#new#';
 
 						// Method to add tags pressing enter
-						$('" . $selector . "_chzn input').keydown(function(event) {
+						$('" . $selector . "_chzn input').keyup(function(event) {
 
 							// Tag is greater than 3 chars and enter pressed
 							if (this.value.length >= 3 && (event.which === 13 || event.which === 188)) {

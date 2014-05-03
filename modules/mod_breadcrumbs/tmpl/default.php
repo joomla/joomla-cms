@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,11 @@ JHtml::_('bootstrap.tooltip');
 	<?php
 	if ($params->get('showHere', 1))
 	{
-		echo '<li class="active"><span class="divider icon-location hasTooltip" title="' . JText::_('MOD_BREADCRUMBS_HERE') . '"></span></li>';
+		echo '<li class="active">' . JText::_('MOD_BREADCRUMBS_HERE') . '&#160;</li>';
+	}
+	else
+	{
+		echo '<li class="active"><span class="divider icon-location"></span></li>';
 	}
 
 	// Get rid of duplicated entries on trail including home page when using multilanguage

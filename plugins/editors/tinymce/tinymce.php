@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -887,7 +887,7 @@ class PlgEditorTinymce extends JPlugin
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
-			$return .= JLayoutHelper::render('joomla.tinymce.buttons', $buttons);
+			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 
 		return $return;

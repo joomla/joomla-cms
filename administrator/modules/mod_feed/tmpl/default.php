@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ else
 		$direction = " redirect-rtl";
 	}
 
-	// feed description
+	// Feed description
 	elseif ($lang->isRTL() && $myrtl == 1)
 	{
 		$direction = " redirect-ltr";
@@ -51,7 +51,7 @@ else
 	<?php
 	if ($feed != false)
 	{
-		//image handling
+		// Image handling
 		$iUrl	= isset($feed->image)	? $feed->image	: null;
 		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
 		?>
@@ -67,14 +67,14 @@ else
 					</h2>
 			<?php
 		}
-		// feed description
+		// Feed description
 		if ($params->get('rssdesc', 1))
 		{
 		?>
 			<?php echo $feed->description; ?>
 			<?php
 		}
-		// feed image
+		// Feed image
 		if ($params->get('rssimage', 1) && $iUrl) :
 		?>
 			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>

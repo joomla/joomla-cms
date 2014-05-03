@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -549,7 +549,14 @@ class InstallationModelLanguages extends JModelBase
 		// Store language filter plugin parameters
 		if ($pluginName == 'plg_system_languagefilter')
 		{
-			$params = '{"detect_browser":"0","automatic_change":"1","item_associations":"1","remove_default_prefix":"0","lang_cookie":"0","alternate_meta":"1"}';
+			$params = '{'
+					. '"detect_browser":"0",'
+					. '"automatic_change":"1",'
+					. '"item_associations":"1",'
+					. '"remove_default_prefix":"0",'
+					. '"lang_cookie":"0",'
+					. '"alternate_meta":"1"'
+				. '}';
 			$query
 				->clear()
 				->update('#__extensions')
@@ -724,7 +731,8 @@ class InstallationModelLanguages extends JModelBase
 			'title_native' => $nativeLanguageName,
 			'sef'          => $sefLangString,
 			'image'        => $flag,
-			'published'    => 1
+			'published'    => 1,
+			'ordering'     => 0
 		);
 
 		// Bind the data.
@@ -741,6 +749,12 @@ class InstallationModelLanguages extends JModelBase
 
 		// Store the data.
 		if (!$tableLanguage->store())
+		{
+			return false;
+		}
+
+		// Reorder the data.
+		if (!$tableLanguage->reorder())
 		{
 			return false;
 		}

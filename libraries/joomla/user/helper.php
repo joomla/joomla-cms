@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -306,10 +306,10 @@ abstract class JUserHelper
 	 */
 	public static function hashPassword($password)
 	{
-		// Use PHPass's portable hashes with a cost of 10.
-		$phpass = new PasswordHash(10, true);
+		// JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
+		JCrypt::hasStrongPasswordSupport();
 
-		return $phpass->HashPassword($password);
+		return password_hash($password, PASSWORD_DEFAULT);
 	}
 
 	/**
@@ -338,7 +338,7 @@ abstract class JUserHelper
 
 			$match = $phpass->CheckPassword($password, $hash);
 
-			$rehash = false;
+			$rehash = true;
 		}
 		elseif ($hash[0] == '$')
 		{
@@ -347,8 +347,7 @@ abstract class JUserHelper
 			$match = password_verify($password, $hash);
 
 			// Uncomment this line if we actually move to bcrypt.
-			// $rehash = password_needs_rehash($hash, PASSWORD_DEFAULT);
-			$rehash = true;
+			$rehash = password_needs_rehash($hash, PASSWORD_DEFAULT);
 		}
 		elseif (substr($hash, 0, 8) == '{SHA256}')
 		{
@@ -718,7 +717,7 @@ abstract class JUserHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.2
-	 * @see     JInput::setCookie for more details
+	 * @deprecated  4.0  This is handled in the authentication plugin itself. The 'invalid' column in the db should be removed as well
 	 */
 	public static function invalidateCookie($userId, $cookieName)
 	{
@@ -746,6 +745,7 @@ abstract class JUserHelper
 	 * @return  mixed  Database query result
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  This is handled in the authentication plugin itself
 	 */
 	public static function clearExpiredTokens()
 	{
@@ -765,6 +765,7 @@ abstract class JUserHelper
 	 * @return  mixed  An array of information from an authentication cookie or false if there is no cookie
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  This is handled in the authentication plugin itself
 	 */
 	public static function getRememberCookieData()
 	{

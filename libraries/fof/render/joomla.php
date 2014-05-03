@@ -2,10 +2,10 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  render
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * Default Joomla! 1.5, 1.7, 2.5 view renderer class
@@ -52,8 +52,10 @@ class FOFRenderJoomla extends FOFRenderAbstract
 		{
 			// Wrap output in a Joomla-versioned div
 			$version = new JVersion;
-			$version = str_replace('.', '', $version->RELEASE);
-			echo "<div class=\"joomla-version-$version\">\n";
+			$versionParts = explode('.', $version->RELEASE);
+			$minorVersion = str_replace('.', '', $version->RELEASE);
+			$majorVersion = array_shift($versionParts);
+			echo "<div class=\"joomla-version-$majorVersion joomla-version-$minorVersion\">\n";
 		}
 
 		// Render submenu and toolbar (only if asked to)
@@ -263,7 +265,8 @@ class FOFRenderJoomla extends FOFRenderAbstract
 				{
 					$field->rowid	 = $i;
 					$field->item	 = $table_item;
-					$class			 = $field->labelClass ? 'class ="' . $field->labelClass . '"' : '';
+					$labelClass = $field->labelClass ? $field->labelClass : $field->labelclass; // Joomla! 2.5/3.x use different case for the same name
+					$class			 = $labelClass ? 'class ="' . $labelClass . '"' : '';
 					$html .= "\t\t\t\t\t<td $class>" . $field->getRepeatable() . '</td>' . PHP_EOL;
 				}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -216,9 +216,11 @@ class PluginsModelPlugin extends JModelAdmin
 
 		// Load the core and/or local language sys file(s) for the ordering field.
 		$db = JFactory::getDbo();
-		$query = 'SELECT element' .
-				' FROM #__extensions' .
-				' WHERE (type =' .$db->quote('plugin'). 'AND folder='. $db->quote($folder) . ')';
+		$query = $db->getQuery(true)
+			->select($db->quoteName('element'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote($folder));
 		$db->setQuery($query);
 		$elements = $db->loadColumn();
 

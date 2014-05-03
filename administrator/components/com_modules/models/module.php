@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -448,22 +448,17 @@ class ModulesModelModule extends JModelAdmin
 					throw new Exception($table->getError());
 				}
 
-				// $query = 'SELECT menuid'
-				//	. ' FROM #__modules_menu'
-				//	. ' WHERE moduleid = ' . (int) $pk
-				//	;
-
 				$query	= $db->getQuery(true)
-					->select('menuid')
-					->from('#__modules_menu')
-					->where('moduleid=' . (int) $pk);
+					->select($db->quoteName('menuid'))
+					->from($db->quoteName('#__modules_menu'))
+					->where($db->quoteName('moduleid') . ' = ' . (int) $pk);
 
 				$this->_db->setQuery($query);
 				$rows = $this->_db->loadColumn();
 
 				foreach ($rows as $menuid)
 				{
-					$tuples[] = '(' . (int) $table->id . ',' . (int) $menuid . ')';
+					$tuples[] = (int) $table->id . ',' . (int) $menuid;
 				}
 			}
 			else
@@ -475,7 +470,11 @@ class ModulesModelModule extends JModelAdmin
 		if (!empty($tuples))
 		{
 			// Module-Menu Mapping: Do it in one query
-			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES ' . implode(',', $tuples);
+			$query = $db->getQuery(true)
+				->insert($db->quoteName('#__modules_menu'))
+				->columns($db->quoteName(array('moduleid', 'menuid')))
+				->values($tuples);
+
 			$this->_db->setQuery($query);
 
 			try
@@ -710,11 +709,11 @@ class ModulesModelModule extends JModelAdmin
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Determine the page assignment mode.
-			$db->setQuery(
-				'SELECT menuid' .
-				' FROM #__modules_menu' .
-				' WHERE moduleid = ' . $pk
-			);
+			$query	= $db->getQuery(true)
+				->select($db->quoteName('menuid'))
+				->from($db->quoteName('#__modules_menu'))
+				->where($db->quoteName('moduleid') . ' = ' . (int) $pk);
+			$db->setQuery($query);
 			$assigned = $db->loadColumn();
 
 			if (empty($pk))

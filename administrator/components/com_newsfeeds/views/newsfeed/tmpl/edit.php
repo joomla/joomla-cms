@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ $assoc = JLanguageAssociations::isEnabled();
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_NEWSFEEDS_NEW_NEWSFEED', true) : JText::sprintf('COM_NEWSFEEDS_EDIT_NEWSFEED', $this->item->id, true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_NEWSFEEDS_NEW_NEWSFEED', true) : JText::_('COM_NEWSFEEDS_EDIT_NEWSFEED', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="form-vertical">

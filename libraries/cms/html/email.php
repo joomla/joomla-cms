@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -56,10 +56,11 @@ abstract class JHtmlEmail
 			// Special handling when mail text is different from mail address
 			if ($text)
 			{
+				// Convert text - here is the right place
+				$text = static::convertEncoding($text);
+
 				if ($email)
 				{
-					// Convert text
-					$text = static::convertEncoding($text);
 
 					// Split email by @ symbol
 					$text = explode('@', $text);

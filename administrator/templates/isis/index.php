@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.0
  */
@@ -245,7 +245,8 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 			<div class="btn-group pull-right">
 				<p>
 					<jdoc:include type="modules" name="footer" style="no" />
-					&copy; <?php echo $sitename; ?> <?php echo date('Y'); ?></p>
+					&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
+				</p>
 
 			</div>
 			<jdoc:include type="modules" name="status" style="no" />

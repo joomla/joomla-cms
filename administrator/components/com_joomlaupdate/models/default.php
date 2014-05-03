@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -158,7 +158,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$ret['latest'] = $updateObject->version;
 		}
 
-		// Fetch the full udpate details from the update details URL
+		// Fetch the full update details from the update details URL
 		jimport('joomla.updater.update');
 		$update = new JUpdate;
 		$update->loadFromXML($updateObject->detailsurl);

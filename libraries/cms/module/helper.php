@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Module
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -139,6 +139,18 @@ abstract class JModuleHelper
 	public static function renderModule($module, $attribs = array())
 	{
 		static $chrome;
+
+		// Check that $module is a valid module object
+		if (!is_object($module) || !isset($module->module) || !isset($module->params))
+		{
+			if (defined('JDEBUG') && JDEBUG)
+			{
+				JLog::addLogger(array('text_file' => 'jmodulehelper.log.php'), JLog::ALL, array('modulehelper'));
+				JLog::add('JModuleHelper::renderModule($module) expects a module object', JLog::DEBUG, 'modulehelper');
+			}
+
+			return;
+		}
 
 		if (defined('JDEBUG'))
 		{

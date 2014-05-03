@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -586,12 +586,8 @@ class ContactModelContact extends JModelAdmin
 		$user = JFactory::getUser();
 
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias = JApplication::stringURLSafe($table->alias);
 
-		if (empty($table->alias))
-		{
-			$table->alias = JApplication::stringURLSafe($table->name);
-		}
+		$table->generateAlias();
 
 		if (empty($table->id))
 		{
@@ -602,9 +598,9 @@ class ContactModelContact extends JModelAdmin
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
-				$query = $db->getQuery(true);
-				$query->select('MAX(ordering)');
-				$query->from('#__contact_details');
+				$query = $db->getQuery(true)
+					->select('MAX(ordering)')
+					->from($db->quoteName('#__contact_details'));
 				$db->setQuery($query);
 				$max = $db->loadResult();
 

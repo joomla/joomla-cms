@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -80,7 +80,7 @@ class JFormFieldUser extends JFormField
 		}
 		else
 		{
-			$table->username = JText::_('JLIB_FORM_SELECT_USER');
+			$table->name = JText::_('JLIB_FORM_SELECT_USER');
 		}
 
 		// Create a dummy text field with the user name.

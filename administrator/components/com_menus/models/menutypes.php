@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -215,7 +215,7 @@ class MenusModelMenutypes extends JModelLegacy
 		// Get the views for this component.
 		if (is_dir(JPATH_SITE . '/components/' . $component))
 		{
-			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, 'view', false, true);
+			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, '^view[s]?$', false, true);
 		}
 		$path = '';
 
@@ -324,7 +324,7 @@ class MenusModelMenutypes extends JModelLegacy
 		// Get the views for this component.
 		if (is_dir(JPATH_SITE . '/components/' . $component))
 		{
-			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, 'view', false, true);
+			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, '^view[s]?$', false, true);
 		}
 
 		if (!empty($folders[0]))

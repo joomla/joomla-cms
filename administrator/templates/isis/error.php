@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -218,7 +218,9 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 		<div id="status" class="navbar status-top hidden-phone">
 			<div class="btn-toolbar">
 				<div class="btn-group pull-right">
-					<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
+					<p>
+						&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
+					</p>
 				</div>
 				<?php
 				// Display status modules
