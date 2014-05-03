@@ -99,7 +99,13 @@ class PlgSystemDebug extends JPlugin
 		{
 			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
 		}
-
+		
+		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
+		if (!$this->app)
+		{
+			$this->app = JFactory::getApplication();
+		}
+		
 		$this->debugLang = $this->app->get('debug_lang');
 		
 		// Skip the plugin if debug is off
