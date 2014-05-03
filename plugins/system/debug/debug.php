@@ -95,12 +95,12 @@ class PlgSystemDebug extends JPlugin
 		// Skip the plugin if debug is off
 		$app = JFactory::getApplication();
 
-		if ($app->getCfg('debug_lang') == '0' && $app->getCfg('debug') == '0')
+		if ($app->get('debug_lang') == '0' && $app->get('debug') == '0')
 		{
 			return;
 		}
 
-		$this->debugLang = JFactory::getApplication()->getCfg('debug_lang');
+		$this->debugLang = $app->get('debug_lang');
 
 		// Only if debugging or language debug is enabled.
 		if (JDEBUG || $this->debugLang)
