@@ -29,7 +29,7 @@ final class JPlatform
 	// Code name.
 	const CODE_NAME = 'Brian Kernighan';
 	// Release date.
-	const RELEASE_DATE = '03-Jan-2014';
+	const RELEASE_DATE = '03-Jan-2012';
 	// Release time.
 	const RELEASE_TIME = '00:00';
 	// Release timezone.
