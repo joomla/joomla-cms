@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
  * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
@@ -15,7 +14,7 @@ defined('_JEXEC') or die;
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationControllerSetup extends JController
+class JInstallationControllerSetup extends JControllerLegacy
 {
 	/**
 	 * Method to set the setup language for the application.
@@ -26,10 +25,20 @@ class JInstallationControllerSetup extends JController
 	public function setlanguage()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
+
+		// Very crude workaround to give an error message when JSON is disabled
+		if (!function_exists('json_encode') || !function_exists('json_decode'))
+		{
+			JResponse::setHeader('status', 500);
+			JResponse::setHeader('Content-Type', 'application/json; charset=utf-8');
+			JResponse::sendHeaders();
+			echo '{"token":"'.JSession::getFormToken(true).'","lang":"'.JFactory::getLanguage()->getTag().'","error":true,"header":"'.JText::_('INSTL_HEADER_ERROR').'","message":"'.JText::_('INSTL_WARNJSON').'"}';
+			$app->close();
+		}
 
 		// Check for potentially unwritable session
 		$session = JFactory::getSession();
@@ -82,7 +91,7 @@ class JInstallationControllerSetup extends JController
 	public function database()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -141,7 +150,7 @@ class JInstallationControllerSetup extends JController
 			);
 			$dummy = $model->storeOptions($data);
 
-			$r->view = 'site';
+			$r->view = 'filesystem';
 			$this->sendResponse($r);
 		}
 	}
@@ -153,7 +162,7 @@ class JInstallationControllerSetup extends JController
 	public function filesystem()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -202,7 +211,7 @@ class JInstallationControllerSetup extends JController
 	public function saveconfig()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -212,10 +221,8 @@ class JInstallationControllerSetup extends JController
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
-                $file 	= JRequest::getVar( 'jform', array(), 'files', 'array' );
-                $file 	= JRequest::get('files');
 		$return	= $model->validate($data, 'site');
-                //var_dump($data, $return, $file, $_FILES); exit();
+
 		// Attempt to save the data before validation
 		$form = $model->getForm();
 		$data = $form->filter($data);
@@ -272,7 +279,7 @@ class JInstallationControllerSetup extends JController
 	public function loadSampleData()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -315,7 +322,7 @@ class JInstallationControllerSetup extends JController
 	public function detectFtpRoot()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -352,7 +359,7 @@ class JInstallationControllerSetup extends JController
 	public function verifyFtpSettings()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -391,7 +398,7 @@ class JInstallationControllerSetup extends JController
 		jimport('joomla.filesystem.folder');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -438,6 +445,17 @@ class JInstallationControllerSetup extends JController
 				}
 			}
 
+			// Rename the robots.txt.dist file to robots.txt
+			if ($return)
+			{
+				$robotsFile = JPath::clean($options->ftp_root . '/robots.txt');
+				$distFile = JPath::clean($options->ftp_root . '/robots.txt.dist');
+				if (!file_exists($robotsFile) && file_exists($distFile))
+				{
+					$return = $ftp->rename($distFile, $robotsFile);
+				}
+			}
+
 			$ftp->quit();
 		} else {
 			// Try to delete the folder.
@@ -448,6 +466,12 @@ class JInstallationControllerSetup extends JController
 			ob_end_clean();
 		}
 
+
+			// Rename the robots.txt.dist file if robots.txt doesn't exist
+			if ($return && !file_exists(JPATH_ROOT . '/robots.txt') && file_exists(JPATH_ROOT . '/robots.txt.dist'))
+			{
+				$return = JFile::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
+			}
 		// If an error was encountered return an error.
 		if (!$return) {
 			$this->sendResponse(new Exception(JText::_('INSTL_COMPLETE_ERROR_FOLDER_DELETE'), 500));
@@ -538,6 +562,3 @@ class JInstallationJsonResponse
 		}
 	}
 }
-
-// Set the error handler.
-//JError::setErrorHandling(E_ALL, 'callback', array('JInstallationControllerSetup', 'sendResponse'));
