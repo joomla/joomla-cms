@@ -1,14 +1,11 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * The HTML Joomla Core Site Configuration View
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationViewSite extends JView
+class JInstallationViewSite extends JViewLegacy
 {
 	/**
 	 * Display the view
@@ -34,9 +31,9 @@ class JInstallationViewSite extends JView
 			return false;
 		}
 
-		$this->assignRef('state', $state);
-		$this->assignRef('form', $form);
-		$this->assign('sample_installed', $sample_installed);
+		$this->state = $state;
+		$this->form  = $form;
+		$this->sample_installed = $sample_installed;
 
 		parent::display($tpl);
 	}
