@@ -304,5 +304,4 @@ class ContentControllerArticle extends JControllerForm
 			}
 		}
 	}
-	
 }
