@@ -75,6 +75,14 @@ class PlgSystemDebug extends JPlugin
 	private $totalQueries = 0;
 
 	/**
+	 * Application object.
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.3
+	 */
+	protected $app;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -93,14 +101,12 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// Skip the plugin if debug is off
-		$app = JFactory::getApplication();
-
-		if ($app->get('debug_lang') == '0' && $app->get('debug') == '0')
+		if ($this->app->get('debug_lang') == '0' && $this->app->get('debug') == '0')
 		{
 			return;
 		}
 
-		$this->debugLang = $app->get('debug_lang');
+		$this->debugLang = $this->app->get('debug_lang');
 
 		// Only if debugging or language debug is enabled.
 		if (JDEBUG || $this->debugLang)
