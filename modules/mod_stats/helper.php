@@ -63,12 +63,12 @@ class ModStatsHelper
 
 			$rows[$i] = new stdClass;
 			$rows[$i]->title	= JText::_('MOD_STATS_CACHING');
-			$rows[$i]->data	= $app->getCfg('caching') ? JText::_('JENABLED'):JText::_('JDISABLED');
+			$rows[$i]->data	= $app->get('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 
 			$rows[$i] = new stdClass;
 			$rows[$i]->title	= JText::_('MOD_STATS_GZIP');
-			$rows[$i]->data	= $app->getCfg('gzip') ? JText::_('JENABLED'):JText::_('JDISABLED');
+			$rows[$i]->data	= $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 		}
 
