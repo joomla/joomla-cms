@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Atajo para los parámetros.
 $params = $this->item->params;
 $title = $this->item->title;
-$link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
+$link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
 ?>
 <div style="clear:both"></div>
 <div class="socialButtons" style="text-align: center;float: <?php echo $params->get('align_socialbuttons') ?>; clear:right;">

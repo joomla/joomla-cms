@@ -48,7 +48,7 @@ class ContentViewForm extends JViewLegacy
 			return false;
 		}
 
-		if (!empty($this->item) && isset($this->item->id)) {			
+		if (!empty($this->item) && isset($this->item->id)) {
 			$this->item->images = json_decode($this->item->images);
 			$this->item->urls = json_decode($this->item->urls);
 			$this->item->attachments = json_decode($this->item->attachments);
