@@ -90,7 +90,7 @@ class MediaControllerFile extends JControllerLegacy
 			$dispatcher	= JDispatcher::getInstance();
 			$object_file = new JObject($file);
 			$object_file->filepath = $filepath;
-			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file));
+			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file, true));
 			if (in_array(false, $result, true)) {
 				// There are some errors in the plugins
 				$log->addEntry(array('comment' => 'Errors before save: '.$filepath.' : '.implode(', ', $object_file->getErrors())));
