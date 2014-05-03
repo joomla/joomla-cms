@@ -42,8 +42,10 @@ class JInstallation extends JApplication
 
 		$this->_createConfiguration('');
 
-		// Set the root in the URI based on the application name.
-		JURI::root(null, str_replace('/'.$this->getName(), '', JURI::base(true)));
+		// Set the root in the URI one level up.
+		$parts = explode('/', JUri::base(true));
+		array_pop($parts);
+		JUri::root(null, implode('/', $parts));
 	}
 
 	/**
