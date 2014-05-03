@@ -16,7 +16,7 @@ body {
     background: #fff;
     height: 100%;
     padding-bottom: 1px;
-    min-width: 960px;
+    min-width: 960px;    
 }
 
 body, div, p, td, span {
@@ -114,7 +114,8 @@ div#cls_style {
     padding: 0px 10px 0px 0px;
     margin: 12px 0px 0px 0px;
     float: right;
-    color: #000;
+    color: black; 
+    text-shadow: black 0.1em 0.1em 0.2em
 }
 
 #system-message-container {
@@ -304,7 +305,7 @@ div#cls_style {
 
 .install-text {
     float: left;
-    width: 30%;
+    width: 26%;
     color: #444;
 }
 
@@ -500,6 +501,10 @@ div#installer div.m {
 div#step,
 div#installer div.install-body {
     background: #fbfbfb;
+    padding:10px;
+    box-shadow: 2px 2px 2px #808080;
+   -webkit-box-shadow: 2px 2px 2px #808080;
+   -moz-box-shadow: 2px 2px 2px #808080;
 }
 
 .remove {
@@ -634,3 +639,4 @@ div.inlineError {
     background: url("../images/copyleft.png") no-repeat 50% 100%;
     padding-bottom: 70px; 
 }
+

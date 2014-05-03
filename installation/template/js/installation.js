@@ -1,8 +1,7 @@
 /**
- * @version		$Id$
  * @package		Joomla.Installation
  * @subpackage	JavaScript
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 var wnd = null;
@@ -28,25 +27,26 @@ var Installation = new Class({
 
         this.pageInit();
     },
-    
+
     pageInit: function() {
     	this.addToggler();
 		// Attach the validator
-		$$('form.form-validate').each(function(form){this.attachToForm(form);}, document.formvalidator);
-		
+		$$('form.form-validate').each(function(form){ this.attachToForm(form); }, document.formvalidator);
+
 		if (this.view == 'site' && this.sampleDataLoaded) {
-			var select = document.id('jform_sample_file');
+			var select = document.id('jform_db_old');
 			var button = document.id('theDefault').children[0];
 			button.setAttribute('disabled', 'disabled');
 			select.setAttribute('disabled', 'disabled');
-			button.setAttribute('value', Locale.get('installation.sampleDataLoaded'));
+			button.setAttribute('value', Joomla.JText._('INSTL_SITE_SAMPLE_LOADED', 'Datos de ejemplo cargados correctamente.'));
 		}
     },
-    
+
     submitform: function() {
 		var form = document.id('adminForm');
-	
+
 		if (this.busy) {
+			alert(Joomla.JText._('INSTL_PROCESS_BUSY', 'Proceso en progreso. Por favor espere...'));
 			return false;
 		}
 
@@ -84,7 +84,7 @@ var Installation = new Class({
 
 		return false;
 	},
-	
+
 	goToPage: function(page, fromSubmit) {
 		var url = this.baseUrl+'?tmpl=body&view='+page;
 		var req = new Request.HTML({
@@ -111,7 +111,7 @@ var Installation = new Class({
 				active.removeClass('active');
 				var nextStep = document.id(page);
 				nextStep.addClass('active');
-			}.bind(this),
+			}.bind(this)
 		}).send();
 
 		return false;
@@ -121,6 +121,9 @@ var Installation = new Class({
  	 * Method to install sample data via AJAX request.
 	 */
 	sampleData: function(el, filename) {
+		this.busy = true;
+		sample_data_spinner = new Spinner('sample-data-region');
+		sample_data_spinner.show(true);
 		el = document.id(el);
 		filename = document.id(filename);
 		var req = new Request.JSON({
@@ -137,7 +140,7 @@ var Installation = new Class({
 					Joomla.replaceTokens(r.token);
 					this.sampleDataLoaded = r.data.sampleDataLoaded;
 					if (r.error == false) {
-						el.set('value', Locale.get('installation.sampleDataLoaded'));
+						el.set('value', Joomla.JText._('INSTL_SITE_SAMPLE_LOADED', 'Datos de ejemplo cargados correctamente.'));
 						el.set('onclick','');
 						el.set('disabled', 'disabled');
 						filename.set('disabled', 'disabled');
@@ -154,6 +157,8 @@ var Installation = new Class({
 					el.set('disabled', 'disabled');
 					filename.set('disabled', 'disabled');
 				}
+				this.busy = false;
+				sample_data_spinner.hide(true);
 			}.bind(this),
 			onFailure: function(xhr) {
 				var r = JSON.decode(xhr.responseText);
@@ -164,6 +169,8 @@ var Installation = new Class({
 				}
 				el.set('disabled', '');
 				filename.set('disabled', '');
+				this.busy = false;
+				sample_data_spinner.hide(true);
 			}
 		}).send();
 	},
@@ -211,7 +218,7 @@ var Installation = new Class({
 			url: 'index.php?'+document.id(el.form).toQueryString(),
 			data: {'task':'setup.verifyFtpSettings', 'format':'json'},
 			onRequest: function() {
-				el.set('disabled', 'disabled');},
+				el.set('disabled', 'disabled'); },
 				onFailure: function(xhr) {
 				var r = JSON.decode(xhr.responseText);
 				if (r) {
@@ -225,7 +232,7 @@ var Installation = new Class({
 				if (r) {
 					Joomla.replaceTokens(r.token)
 					if (r.error == false) {
-						alert(Joomla.JText._('INSTL_FTP_SETTINGS_CORRECT'));
+						alert(Joomla.JText._('INSTL_FTP_SETTINGS_CORRECT', 'Opciones correctas'));
 					} else {
 						alert(r.message);
 					}
@@ -281,8 +288,8 @@ var Installation = new Class({
 		}).send();
 	},
 
-    addToggler: function() {
-    	new Accordion($$('h4.moofx-toggler'), $$('div.moofx-slider'), {
+	addToggler: function() {
+		new Fx.Accordion($$('h4.moofx-toggler'), $$('div.moofx-slider'), {
 			onActive: function(toggler, i) {
 				toggler.addClass('moofx-toggler-down');
 			},
