@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_menus
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,10 +64,8 @@ class MenusViewItems extends JViewLegacy
 				case 'component':
 				default:
 					// load language
-						$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR, null, false, false)
-					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR.'/components/'.$item->componentname, null, false, false)
-					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR.'/components/'.$item->componentname, $lang->getDefault(), false, false);
+						$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+					||	$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname, null, false, true);
 
 					if (!empty($item->componentname)) {
 						$value	= JText::_($item->componentname);
@@ -91,10 +89,8 @@ class MenusViewItems extends JViewLegacy
 											$temp = explode(':', $vars['layout']);
 											$file = JPATH_SITE.'/templates/'.$temp[0].'/html/'.$item->componentname.'/'.$vars['view'].'/'.$temp[1].'.xml';
 											// Load template language file
-											$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE, null, false, false)
-											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE.'/templates/'.$temp[0], null, false, false)
-											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE, $lang->getDefault(), false, false)
-											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE.'/templates/'.$temp[0], $lang->getDefault(), false, false);
+												$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE, null, false, true)
+											||	$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0], null, false, true);
 
 										}
 										else

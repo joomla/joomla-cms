@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,10 +73,8 @@ class MenusModelMenutypes extends JModelLegacy
 						$this->rlu[MenusHelper::getLinkKey($option->request)] = $option->get('title');
 
 						if (isset($option->request['option'])) {
-								$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR, null, false, false)
-							||	$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR.'/components/'.$option->request['option'], null, false, false)
-							||	$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-							||	$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR.'/components/'.$option->request['option'], $lang->getDefault(), false, false);
+								$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR. '/components/'.$option->request['option'], null, false, true);
 						}
 					}
 				}
@@ -297,10 +295,8 @@ class MenusModelMenutypes extends JModelLegacy
 		{
 			if (JFolder::exists($folder . '/html/' . $component . '/' . $view)) {
 				$template = JFile::getName($folder);
-					$lang->load('tpl_'.$template.'.sys', JPATH_SITE, null, false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, null, false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE, $lang->getDefault(), false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, $lang->getDefault(), false, false);
+					$lang->load('tpl_' . $template . '.sys', JPATH_SITE, null, false, true)
+				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, null, false, true);
 
 				$templateLayouts = JFolder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
 

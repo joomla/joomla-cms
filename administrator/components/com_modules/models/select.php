@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_modules
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -129,10 +129,8 @@ class ModulesModelSelect extends JModelList
 
 					// 1.5 Format; Core files or language packs then
 			// 1.6 3PD Extension Support
-				$lang->load($item->module.'.sys', $client->path, null, false, false)
-			||	$lang->load($item->module.'.sys', $client->path.'/modules/'.$item->module, null, false, false)
-			||	$lang->load($item->module.'.sys', $client->path, $lang->getDefault(), false, false)
-			||	$lang->load($item->module.'.sys', $client->path.'/modules/'.$item->module, $lang->getDefault(), false, false);
+				$lang->load($item->module . '.sys', $client->path, null, false, true)
+			||	$lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module, null, false, true);
 			$item->name	= JText::_($item->name);
 
 			if (isset($item->xml) && $text = trim($item->xml->description)) {
