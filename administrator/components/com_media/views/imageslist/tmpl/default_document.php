@@ -2,7 +2,7 @@
 /**
  * @package		Jokte.Administrator
  * @subpackage	com_media
- * @copyleft	Copyleft 2012 - 2013 Comunidad Juuntos & Jokte!
+ * @copyleft	Copyleft 2012 - 2014 Comunidad Juuntos & Jokte!
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
