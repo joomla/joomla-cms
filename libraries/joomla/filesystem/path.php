@@ -171,7 +171,6 @@ class JPath
 	{
 		if (strpos($path, '..') !== false)
 		{
-			// Don't translate
 			JError::raiseError(20, 'JPath::check Use of relative paths not permitted');
 			jexit();
 		}
