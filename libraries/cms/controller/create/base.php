@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-abstract class JControllerCreateBase extends JControllerJoomlaSave
+abstract class JControllerCreateBase extends JControllerSave
 {
 	public function execute()
 	{
