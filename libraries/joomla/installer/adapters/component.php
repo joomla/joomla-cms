@@ -145,9 +145,8 @@ class JInstallerComponent extends JAdapterInstance
 				$source = "$path/$folder";
 			}
 		}
-		$lang->load($extension . '.sys', $source, null, false, false) || $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+			$lang->load($extension . '.sys', $source, null, false, true)
+		||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true);
 	}
 
 	/**
@@ -1455,10 +1454,10 @@ class JInstallerComponent extends JAdapterInstance
 				$query->where('type = '.$db->quote('component'));
 				$query->where('parent_id = 1');
 				$query->where('home = 0');
-				
+
 				$db->setQuery($query);
 				$menu_id = $db->loadResult();
-				
+
 				if(!$menu_id) {
 					// Oops! Could not get the menu ID. Go back and rollback changes.
 					JError::raiseWarning(1, $table->getError());
@@ -1468,10 +1467,10 @@ class JInstallerComponent extends JAdapterInstance
 					$query = $db->getQuery(true);
 					$query->delete('#__menu');
 					$query->where('id = '.(int)$menu_id);
-					
+
 					$db->setQuery($query);
 					$db->query();
-					
+
 					// Retry creating the menu item
 					if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store()) {
 						// Install failed, rollback changes
