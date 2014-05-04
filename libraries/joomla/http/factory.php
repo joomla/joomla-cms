@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JHttpFactory
 {
 	/**
-	 * method to receive Http instance.
+	 * method to recieve Http instance.
 	 *
 	 * @param   JRegistry  $options   Client options object.
 	 * @param   mixed      $adapters  Adapter (string) or queue of adapters (array) to use for communication.
@@ -66,8 +66,7 @@ class JHttpFactory
 			settype($default, 'array');
 			$availableAdapters = $default;
 		}
-
-		// Check if there is at least one available http transport adapter
+		// Check if there is available http transport adapters
 		if (!count($availableAdapters))
 		{
 			return false;
@@ -77,7 +76,7 @@ class JHttpFactory
 		{
 			$class = 'JHttpTransport' . ucfirst($adapter);
 
-			if ($class)
+			if (call_user_func(array($class, 'isSupported')))
 			{
 				return new $class($options);
 			}
@@ -96,7 +95,7 @@ class JHttpFactory
 	public static function getHttpTransports()
 	{
 		$names = array();
-		$iterator = new DirectoryIterator(__DIR__ . '/transport');
+		$iterator = new DirectoryIterator(dirname(__FILE__) . '/transport');
 
 		foreach ($iterator as $file)
 		{
