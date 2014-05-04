@@ -101,6 +101,8 @@ class JInstallationControllerSetup extends JControllerLegacy
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
+        $file 	= JRequest::getVar( 'jform', array(), 'files', 'array' );
+        $file 	= JRequest::get('files');
 		$return	= $model->validate($data, 'database');
 
 		$r = new JObject();
@@ -150,7 +152,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 			);
 			$dummy = $model->storeOptions($data);
 
-			$r->view = 'filesystem';
+			$r->view = 'site';
 			$this->sendResponse($r);
 		}
 	}
