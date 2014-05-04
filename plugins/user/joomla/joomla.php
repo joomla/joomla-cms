@@ -68,10 +68,24 @@ class plgUserJoomla extends JPlugin
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
 
 			if ($app->isAdmin()) {
-				if ($mail_to_user) {
-
-					// Load user_joomla plugin language (not done automatically).
+				if ($mail_to_user)
+				{
 					$lang = JFactory::getLanguage();
+					$defaultLocale = $lang->getTag();
+
+					/**
+					 * Look for user language. Priority:
+					 * 	1. User frontend language
+					 * 	2. User backend language
+					 */
+					$userParams = new JRegistry($user['params']);
+					$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
+
+					if ($userLocale != $defaultLocale)
+					{
+						$lang->setLanguage($userLocale);
+					}
+
 					$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
 
 					// Compute the mail subject.
@@ -102,6 +116,12 @@ class plgUserJoomla extends JPlugin
 						->addRecipient($user['email'])
 						->setSubject($emailSubject)
 						->setBody($emailBody);
+
+					// Set application language back to default if we changed it
+					if ($userLocale != $defaultLocale)
+					{
+						$lang->setLanguage($defaultLocale);
+					}
 
 					if (!$mail->Send()) {
 						// TODO: Probably should raise a plugin error but this event is not error checked.
