@@ -103,16 +103,18 @@ class JInstallationModelDatabase extends JModelLegacy
 			try
 			{
 				$db = JInstallationHelperDatabase::getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
+
+				// Check database version.
+
+				$db_version = $db->getVersion();
+
+				$type = $options->db_type;
 			}
 			catch (RuntimeException $e)
 			{
 				$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()));
 				return false;
 			}
-
-			// Check database version.
-			$db_version = $db->getVersion();
-			$type = $options->db_type;
 
 			if (!$db->isMinimumVersion()) {
 				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_'.strtoupper($type).'_VERSION', $db_version));
@@ -255,17 +257,23 @@ class JInstallationModelDatabase extends JModelLegacy
 			}
 
 			// Load the localise.sql for translating the data in joomla.sql/joomla_backwards.sql
-			$dblocalise = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/localise.sql';
-			if (JFile::exists($dblocalise)) {
-				if (!$this->populateDatabase($db, $dblocalise)) {
-					$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
-					return false;
-				}
+			if ($type == 'mysqli' || $type == 'mysql')
+			{
+				$dblocalise = 'sql/mysql/localise.sql';
 			}
-			$dblocalise_sql = 'sql/'.(($type == 'sqlsrv') ? 'sqlazure' : $type).'/localise.sql';
-			if (JFile::exists($dblocalise_sql)) {
-				if (!$this->populateDatabase($db, $dblocalise_sql)) {
-					$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
+			elseif ($type == 'sqlsrv' || $type == 'sqlazure')
+			{
+				$dblocalise = 'sql/sqlazure/localise.sql';
+			}
+			else
+			{
+				$dblocalise = 'sql/' . $type . '/localise.sql';
+			}
+
+			if (is_file($dblocalise))
+			{
+				if (!$this->populateDatabase($db, $dblocalise))
+				{
 					return false;
 				}
 			}

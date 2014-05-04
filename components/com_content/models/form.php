@@ -62,7 +62,7 @@ class ContentModelForm extends ContentModelArticle
 
 		// Get a row instance.
 		$table = $this->getTable();
-		
+
 		// Attempt to load the row.
 		$return = $table->load($itemId);
 
@@ -74,7 +74,7 @@ class ContentModelForm extends ContentModelArticle
 
 		$properties = $table->getProperties(1);
 		$value = JArrayHelper::toObject($properties, 'JObject');
-		
+
 		// Convert attrib field to Registry.
 		$value->params = new JRegistry;
 		$value->params->loadString($value->attribs);
@@ -118,7 +118,7 @@ class ContentModelForm extends ContentModelArticle
 		if (!empty($value->fulltext)) {
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
 		}
-		
+
 		return $value;
 	}
 

@@ -59,10 +59,8 @@ class JFormFieldEditors extends JFormFieldList
 		$lang = JFactory::getLanguage();
 		foreach ($options as $i => $option)
 		{
-			$lang->load('plg_editors_' . $option->value, JPATH_ADMINISTRATOR, null, false, false)
-				|| $lang->load('plg_editors_' . $option->value, JPATH_PLUGINS . '/editors/' . $option->value, null, false, false)
-				|| $lang->load('plg_editors_' . $option->value, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-				|| $lang->load('plg_editors_' . $option->value, JPATH_PLUGINS . '/editors/' . $option->value, $lang->getDefault(), false, false);
+				$lang->load('plg_editors_' . $option->value, JPATH_ADMINISTRATOR, null, false, true)
+			||	$lang->load('plg_editors_' . $option->value, JPATH_PLUGINS . '/editors/' . $option->value, null, false, true);
 			$options[$i]->text = JText::_($option->text);
 		}
 

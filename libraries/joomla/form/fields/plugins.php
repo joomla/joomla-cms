@@ -59,10 +59,8 @@ class JFormFieldPlugins extends JFormFieldList
 			{
 				$source = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
 				$extension = 'plg_' . $folder . '_' . $item->value;
-					$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-				||	$lang->load($extension . '.sys', $source, null, false, false)
-				||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-				||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false);
+					$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+				||	$lang->load($extension . '.sys', $source, null, false, true);
 				$options[$i]->text = JText::_($item->text);
 			}
 

@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
- * @package		Jokte.Installation
- * @copyright	Copyleft 2012 - 2014 Comunidad Juuntos y Jokte.org
+ * @package		Joomla.Installation
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 

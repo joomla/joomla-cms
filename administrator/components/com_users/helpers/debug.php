@@ -45,10 +45,8 @@ class UsersHelperDebug
 				// Load language
 				$extension 	= $item->value;
 				$source 	= JPATH_ADMINISTRATOR . '/components/' . $extension;
-				$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, false)
-				||	$lang->load("$extension.sys", $source, null, false, false)
-				||	$lang->load("$extension.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-				||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
+				||	$lang->load("$extension.sys", $source, null, false, true);
 
 				// Translate component name
 				$item->text = JText::_($item->text);
@@ -118,10 +116,8 @@ class UsersHelperDebug
 				$extension 	= 'com_config';
 				$source 	= JPATH_ADMINISTRATOR . '/components/' . $extension;
 
-					$lang->load($extension, JPATH_ADMINISTRATOR, null, false, false)
-				||	$lang->load($extension, $source, null, false, false)
-				||	$lang->load($extension, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-				||	$lang->load($extension, $source, $lang->getDefault(), false, false);
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
+				||	$lang->load("$extension.sys", $source, null, false, true);
 			}
 		}
 
