@@ -490,6 +490,7 @@ class ContentModelArticle extends JModelAdmin
 				}
 
 				$associations[$item->language] = $item->id;
+				$associations = array_filter($associations);
 
 				// Deleting old association for these items
 				$db = JFactory::getDbo();
