@@ -186,8 +186,21 @@ class ContentControllerAdjuntos extends JControllerForm
         return $arr;
     }
 
+    /*
+     * Elimina los datos del archivo adjunto indicado
+     * 
+     * $return  $arr    Array con el estado de la eliminación y mensaje resultante
+     */
+
     public function borrar() {
-        print_r('{"estado": "borrando"}');
+
+        // Recibe los datos necesarios para eliminar el archivo adjunto indicado
+        $jinput = JFactory::getApplication()->input;
+
+        $id = $jinput->get('id', null, null);
+        $hash = $jinput->get('hash', null, null);
+
+        print_r('{"hash": "'.$hash.'"}');
     }
 
     /*

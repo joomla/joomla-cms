@@ -173,6 +173,7 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '               var nombreArchivo = new Element("div",{';
         $script[] = '                   class:"nombre-archivo"';
         $script[] = '               }).set("text", data.nombreArchivo);';
+        $script[] = '               btnEliminarAdjunto.set("data-hash", data.hash)';
         $script[] = '               uploaded = formAdjunto.getElements(".uploaded")';
         $script[] = '               uploaded.grab(nombreArchivo,"top");';
         $script[] = '               console.log(data);';
@@ -184,8 +185,13 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '}';
 
         $script[] = 'function eliminarAdjunto(el) {';
-        $script[] = '   var request = new Request({';
+        $script[] = '   var hash = el.get("data-hash");';
+        $script[] = '   var request = new Request.JSON({';
         $script[] = '       url: "'.JURI::root().'administrator/index.php?option=com_content&task=adjuntos.borrar&format=json",';
+        $script[] = '       data: {';
+        $script[] = '           "id":'.$id.',';
+        $script[] = '           "hash": hash';
+        $script[] = '       },';
         $script[] = '       onComplete: function(res) {';
         $script[] = '           console.log(res)';
         $script[] = '       }';
