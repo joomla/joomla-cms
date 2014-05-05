@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub.Activity
- * @since       ¿
+ * @since       3.3 (CMS)
  *
  * @documentation  http://developer.github.com/v3/activity/
  *

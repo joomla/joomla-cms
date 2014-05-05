@@ -176,7 +176,7 @@ class JGithubPackageDataRefs extends JGithubPackage
 	 * @param   string  $repo   The name of the GitHub repository.
 	 * @param   string  $ref    The reference to update.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 * @return object
 	 */
 	public function delete($owner, $repo, $ref)

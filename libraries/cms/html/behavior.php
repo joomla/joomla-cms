@@ -63,7 +63,7 @@ abstract class JHtmlBehavior
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
 
 		// Keep loading core.js for BC reasons
- 		static::core();
+		static::core();
 
 		static::$loaded[__METHOD__][$type] = true;
 

@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub.Activity
- * @since       ¿
+ * @since       3.3 (CMS)
  */
 class JGithubPackageActivityNotifications extends JGithubPackage
 {
@@ -31,7 +31,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 	 * @param   JDate    $since          filters out any notifications updated before the given time. The time should be passed in
 	 *                                   as UTC in the ISO 8601 format.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -62,7 +62,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 	 * @param   JDate    $since          filters out any notifications updated before the given time. The time should be passed in
 	 *                                   as UTC in the ISO 8601 format.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -90,7 +90,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 	 * @param   JDate    $last_read_at  Describes the last point that notifications were checked.
 	 *                                  Anything updated since this time will not be updated. Default: Now. Expected in ISO 8601 format.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -127,7 +127,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 	 * @param   JDate    $last_read_at  Describes the last point that notifications were checked.
 	 *                                  Anything updated since this time will not be updated. Default: Now. Expected in ISO 8601 format.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -157,7 +157,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 	 *
 	 * @param   integer  $id  The thread id.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -178,7 +178,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 	 * @param   boolean  $unread  Changes the unread status of the threads.
 	 * @param   boolean  $read    Inverse of “unread”.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -206,7 +206,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 	 *
 	 * @param   integer  $id  The thread id.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -231,7 +231,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 	 * @param   boolean  $subscribed  Determines if notifications should be received from this thread.
 	 * @param   boolean  $ignored     Determines if all notifications should be blocked from this thread.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -255,7 +255,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 	 *
 	 * @param   integer  $id  The thread id.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */

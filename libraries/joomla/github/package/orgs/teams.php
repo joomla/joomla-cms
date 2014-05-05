@@ -28,7 +28,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 	 *
 	 * @param   string  $org  The name of the organization.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -47,7 +47,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 	 *
 	 * @param   integer  $id  The team id.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -76,7 +76,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 	 *
 	 * @throws UnexpectedValueException
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -123,7 +123,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 	 *                                admin - team members can pull, push and administer these repositories.
 	 *
 	 * @throws UnexpectedValueException
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -158,7 +158,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 	 *
 	 * @param   integer  $id  The team id.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -180,7 +180,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 	 *
 	 * @param   integer  $id  The team id.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -203,7 +203,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 	 * @param   string   $user  The name of the user.
 	 *
 	 * @throws UnexpectedValueException
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -241,7 +241,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 	 * @param   integer  $id    The team id.
 	 * @param   string   $user  The name of the user.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -266,7 +266,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 	 * @param   integer  $id    The team id.
 	 * @param   string   $user  The name of the user.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -286,7 +286,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 	 *
 	 * @param   integer  $id  The team id.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -307,7 +307,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 	 * @param   string   $repo  The name of the GitHub repository.
 	 *
 	 * @throws UnexpectedValueException
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -350,7 +350,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 	 * @param   string   $owner  The name of the owner of the GitHub repository.
 	 * @param   string   $repo   The name of the GitHub repository.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -376,7 +376,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 	 * @param   string   $owner  The name of the owner of the GitHub repository.
 	 * @param   string   $repo   The name of the GitHub repository.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
