@@ -26,7 +26,7 @@ class ContentControllerAdjuntos extends JControllerForm
          * con el fin de evitar subir archivos huerfanos
          */
 
-        $id = $jinput->get->get('id', null, null);
+        $id = $jinput->get('id', null, null);
         if($id == 0) {
             $data = array();
             $data['msg'] = "Por favor guarde el artículo antes de aduntar archivos";
