@@ -1084,6 +1084,16 @@ class JoomlaInstallerScript
 			'/plugins/user/joomla/postinstall',
 			'/libraries/joomla/registry/format',
 			'/libraries/joomla/registry',
+		    // Joomla! 3.4
+		    '/administrator/manifests/libraries/phpmailer.xml',
+		    '/language/en-GB/en-GB.lib_phpmailer.sys.ini',
+		    '/libraries/phpmailer/language/index.html',
+		    '/libraries/phpmailer/language/phpmailer.lang-joomla.php',
+		    '/libraries/phpmailer/index.html',
+		    '/libraries/phpmailer/LICENSE',
+		    '/libraries/phpmailer/phpmailer.php',
+		    '/libraries/phpmailer/pop.php',
+		    '/libraries/phpmailer/smtp.php',
 		);
 
 		jimport('joomla.filesystem.file');

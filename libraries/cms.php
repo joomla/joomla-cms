@@ -33,6 +33,9 @@ JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 JLoader::registerNamespace('Joomla', JPATH_PLATFORM . '/framework');
 JLoader::registerNamespace('Symfony', JPATH_PLATFORM . '/framework');
 
+// Add the Composer autoloader
+require_once JPATH_ROOT . '/vendor/autoload.php';
+
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
 require_once __DIR__ . '/classmap.php';
 

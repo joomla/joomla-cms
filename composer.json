@@ -6,6 +6,7 @@
     "homepage": "https://github.com/joomla/joomla-cms",
     "license": "GPL-2.0+",
     "require": {
-        "php": ">=5.3.10"
+        "php": ">=5.3.10",
+	    "phpmailer/phpmailer": "~5.2"
     }
 }
