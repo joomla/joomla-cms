@@ -1,0 +1,11 @@
+{
+    "name": "joomla/joomla-cms",
+    "type": "project",
+    "description": "Joomla CMS",
+    "keywords": ["joomla", "cms"],
+    "homepage": "https://github.com/joomla/joomla-cms",
+    "license": "GPL-2.0+",
+    "require": {
+        "php": ">=5.3.10"
+    }
+}
