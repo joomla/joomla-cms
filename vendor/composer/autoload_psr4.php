@@ -6,4 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Joomla\\Utilities\\Tests\\' => array($vendorDir . '/joomla/utilities/Tests'),
+    'Joomla\\Utilities\\' => array($vendorDir . '/joomla/utilities/src'),
+    'Joomla\\String\\Tests\\' => array($vendorDir . '/joomla/string/Tests'),
+    'Joomla\\String\\' => array($vendorDir . '/joomla/string/src'),
+    'Joomla\\Registry\\Tests\\' => array($vendorDir . '/joomla/registry/Tests'),
+    'Joomla\\Registry\\' => array($vendorDir . '/joomla/registry/src'),
 );

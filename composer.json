@@ -7,6 +7,8 @@
     "license": "GPL-2.0+",
     "require": {
         "php": ">=5.3.10",
-	    "phpmailer/phpmailer": "~5.2"
+	    "joomla/registry": "~1.1",
+	    "phpmailer/phpmailer": "~5.2",
+	    "symfony/yaml": "2.*"
     }
 }
