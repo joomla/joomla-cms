@@ -1030,6 +1030,12 @@ class JoomlaInstallerScript
 		    // Joomla! 3.4
 		    '/administrator/manifests/libraries/phpmailer.xml',
 		    '/language/en-GB/en-GB.lib_phpmailer.sys.ini',
+		    '/libraries/framework/Joomla/DI/Exception/DependencyResolutionException.php',
+		    '/libraries/framework/Joomla/DI/Exception/index.html',
+		    '/libraries/framework/Joomla/DI/Container.php',
+		    '/libraries/framework/Joomla/DI/ContainerAwareInterface.php',
+		    '/libraries/framework/Joomla/DI/index.html',
+		    '/libraries/framework/Joomla/DI/ServiceProviderInterface.php',
 		    '/libraries/framework/Joomla/Registry/Format/index.html',
 		    '/libraries/framework/Joomla/Registry/Format/Ini.php',
 		    '/libraries/framework/Joomla/Registry/Format/Json.php',
@@ -1117,6 +1123,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format',
 			'/libraries/joomla/registry',
 		    // Joomla! 3.4
+		    '/libraries/framework/Joomla/DI/Exception',
+		    '/libraries/framework/Joomla/DI',
 		    '/libraries/framework/Joomla/Registry/Format',
 		    '/libraries/framework/Joomla/Registry',
 		    '/libraries/framework/Symfony/Component/Yaml/Exception',

@@ -12,4 +12,6 @@ return array(
     'Joomla\\String\\' => array($vendorDir . '/joomla/string/src'),
     'Joomla\\Registry\\Tests\\' => array($vendorDir . '/joomla/registry/Tests'),
     'Joomla\\Registry\\' => array($vendorDir . '/joomla/registry/src'),
+    'Joomla\\DI\\Tests\\' => array($vendorDir . '/joomla/di/Tests'),
+    'Joomla\\DI\\' => array($vendorDir . '/joomla/di/src'),
 );

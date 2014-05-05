@@ -272,5 +272,47 @@
         ],
         "description": "Symfony Yaml Component",
         "homepage": "http://symfony.com"
+    },
+    {
+        "name": "joomla/di",
+        "version": "1.2.0",
+        "version_normalized": "1.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/di.git",
+            "reference": "4866c58e92ce4e851cd87d5d9d31b069b7284267"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/di/zipball/4866c58e92ce4e851cd87d5d9d31b069b7284267",
+            "reference": "4866c58e92ce4e851cd87d5d9d31b069b7284267",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.10"
+        },
+        "time": "2014-03-21 13:20:34",
+        "type": "joomla-package",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\DI\\": "src/",
+                "Joomla\\DI\\Tests\\": "Tests/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla DI Package",
+        "homepage": "https://github.com/joomla-framework/di",
+        "keywords": [
+            "container",
+            "dependency injection",
+            "di",
+            "framework",
+            "ioc",
+            "joomla"
+        ]
     }
 ]

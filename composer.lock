@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "7857da26dbfaaf89f4b3be026b82d7ea",
+    "hash": "827bbdf3eb63321533e68fa69f711661",
     "packages": [
         {
             "name": "joomla/compat",
@@ -40,6 +40,46 @@
                 "joomla"
             ],
             "time": "2014-02-09 19:29:20"
+        },
+        {
+            "name": "joomla/di",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/di.git",
+                "reference": "4866c58e92ce4e851cd87d5d9d31b069b7284267"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/di/zipball/4866c58e92ce4e851cd87d5d9d31b069b7284267",
+                "reference": "4866c58e92ce4e851cd87d5d9d31b069b7284267",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.10"
+            },
+            "type": "joomla-package",
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\DI\\": "src/",
+                    "Joomla\\DI\\Tests\\": "Tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Joomla DI Package",
+            "homepage": "https://github.com/joomla-framework/di",
+            "keywords": [
+                "container",
+                "dependency injection",
+                "di",
+                "framework",
+                "ioc",
+                "joomla"
+            ],
+            "time": "2014-03-21 13:20:34"
         },
         {
             "name": "joomla/registry",
