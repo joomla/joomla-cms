@@ -14,8 +14,7 @@ class JControllerStateTrash extends JControllerStateBase
 	public function execute()
 	{
 		$config = $this->config;
-		$input = $this->input;
-		$url = 'index.php?option='.$config['option'].'&task=display.'.$config['subject'];
+		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
 
 		try
 		{
@@ -25,11 +24,13 @@ class JControllerStateTrash extends JControllerStateBase
 		{
 			$msg = $e->getMessage();
 			$this->setRedirect($url, $msg, 'warning');
+
 			return false;
 		}
 
 		$msg = $this->translate('JLIB_APPLICATION_MSG_ITEMS_TRASHED');
 		$this->setRedirect($url, $msg, 'message');
+
 		return true;
 	}
 

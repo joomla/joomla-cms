@@ -18,14 +18,13 @@ class JControllerCancel extends JControllerCms
 	public function execute()
 	{
 		$config = $this->config;
-		$url = 'index.php?option='.$config['option'].'&task=display.'.$config['subject'];
+		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
 
-		$prefix = $this->getPrefix();
-		$model = $this->getModel($prefix, $config['subject'], $config);
+		$model   = $this->getModel();
 		$keyName = $model->getKeyName();
 
 		$input = $this->input;
-		$pk = $input->getInt($keyName, 0);
+		$pk    = $input->getInt($keyName, 0);
 
 		if ($pk != 0)
 		{
@@ -37,11 +36,13 @@ class JControllerCancel extends JControllerCms
 			{
 				$msg = $e->getMessage();
 				$this->setRedirect($url, $msg, 'warning');
+
 				return false;
 			}
 		}
 
 		$this->setRedirect($url);
+
 		return true;
 	}
 

@@ -14,19 +14,24 @@ abstract class JControllerSave extends JControllerCms
 
 	/**
 	 * Method to save the data to the model
-	 * @param JModelData $model to save to
-	 * @param array $data from the form
+	 *
+	 * @param JModelCms $model to save to
+	 * @param array     $data  from the form
 	 */
 	abstract protected function commit($model, $data);
 
 
+	/**
+	 * Method to save the user input into state.
+	 * This is intended to be used to preserve form data when server side validation fails
+	 */
 	protected function setUserState()
 	{
 		$config = $this->config;
-		$key = $config['option'].'.edit.'.$config['subject'].'.data';
+		$key    = $config['option'] . '.edit.' . $config['subject'] . '.data';
 
 		$input = $this->input;
-		$data = $input->post->get('jform', array(), 'array');
+		$data  = $input->post->get('jform', array(), 'array');
 
 		$app = $this->app;
 		$app->setUserState($key, $data);

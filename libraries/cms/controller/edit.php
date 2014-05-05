@@ -14,9 +14,10 @@ class JControllerEdit extends JControllerDisplay
 	/**
 	 * Instantiate the controller.
 	 *
-	 * @param   JInput            $input  The input object.
-	 * @param   JApplicationBase  $app    The application object.
-	 * @param   array             $config Configuration
+	 * @param   JInput           $input  The input object.
+	 * @param   JApplicationBase $app    The application object.
+	 * @param   array            $config Configuration
+	 *
 	 * @since  12.1
 	 */
 	public function __construct(JInput $input, $app = null, $config = array())
@@ -27,38 +28,37 @@ class JControllerEdit extends JControllerDisplay
 	}
 
 	/**
-	 * (non-PHPdoc)
 	 * @see JControllerDisplay::execute()
 	 */
 	public function execute()
 	{
 		$config = $this->config;
-		$prefix = $this->getPrefix();
-		$model = $this->getModel($prefix, $config['subject'], $config);
+		$model  = $this->getModel();
 
 		if (!$model->allowAction('core.edit'))
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED');
-			$url = 'index.php?option='.$config['option'].'&task=display.'.$config['subject'];
+			$url = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
 			$this->setRedirect($url, $msg, 'error');
+
 			return false;
 		}
 
 		$input = $this->input;
-		$cid = $input->post->get('cid', array(), 'array');
+		$cid   = $input->post->get('cid', array(), 'array');
 
 		if (count($cid))
 		{
-			$pk = (int)$cid[0];
+			$pk = (int) $cid[0];
 		}
 		else
 		{
 			$keyName = $model->getKeyName();
-			$pk = $input->getInt($keyName, 0);
+			$pk      = $input->getInt($keyName, 0);
 		}
 
 		$context = $model->getContext();
-		$model->setState($context.'.id', $pk);
+		$model->setState($context . '.id', $pk);
 
 		try
 		{
@@ -67,8 +67,9 @@ class JControllerEdit extends JControllerDisplay
 		catch (Exception $e)
 		{
 			$msg = $e->getMessage();
-			$url = 'index.php?option='.$config['option'].'&task=display.'.$config['subject'];
+			$url = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
 			$this->setRedirect($url, $msg, 'error');
+
 			return false;
 		}
 

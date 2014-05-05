@@ -18,31 +18,32 @@ abstract class JControllerImport extends JControllerCms
 		$this->validateSession();
 
 		$config = $this->config;
-		$url = 'index.php?option='.$config['option'].'&task=display.'.$config['subject'];
+		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
 
-		$prefix = $this->getPrefix();
-		$model = $this->getModel($prefix, $config['subject'], $config);
+		$model = $this->getModel();
 
 		if (!$model->allowAction('core.import'))
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_IMPORT_NOT_PERMITTED');
 			$this->setRedirect($url, $msg, 'error');
+
 			return false;
 		}
 
 		try
 		{
 			$input = $this->input;
-			$data = $input->post->get('jform', array(), 'array');
+			$data  = $input->post->get('jform', array(), 'array');
 			$files = $input->files->get('jform');
-				
+
 			$this->import($model, $data, $files);
-				
+
 		}
 		catch (Exception $e)
 		{
 			$msg = $e->getMessage();
 			$this->setRedirect($url, $msg, 'error');
+
 			return false;
 		}
 
@@ -53,10 +54,11 @@ abstract class JControllerImport extends JControllerCms
 	}
 
 	/**
-	 * Method to exectue model import function
-	 * @param JModel $model
-	 * @param array $data Jform data
-	 * @param array $files Jform files
+	 * Method to execute model import function
+	 *
+	 * @param JModelCms $model
+	 * @param array     $data  JForm data
+	 * @param array     $files JForm files
 	 */
 	protected function import($model, $data, $files)
 	{

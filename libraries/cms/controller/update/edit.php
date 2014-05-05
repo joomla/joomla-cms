@@ -16,18 +16,18 @@ class JControllerUpdateEdit extends JControllerUpdateBase
 		if (parent::execute())
 		{
 			$config = $this->config;
-			$input = $this->input;
-				
-			$prefix = $this->getPrefix();
-			$model = $this->getModel($prefix, $config['subject'], $config);
-			$keyName = $model->getKeyName();
+			$input  = $this->input;
+
+			$model    = $this->getModel();
+			$keyName  = $model->getKeyName();
 			$keyValue = $input->getInt($keyName);
-				
-			$url = 'index.php?option='.$config['option'].'&task=edit.'.$config['subject'];
-			$url .='&'.$keyName.'='.$keyValue;
-				
+
+			$url = 'index.php?option=' . $config['option'] . '&task=edit.' . $config['subject'];
+			$url .= '&' . $keyName . '=' . $keyValue;
+
 			$msg = $this->translate('JLIB_APPLICATION_MSG_SAVE_COMPLETED');
 			$this->setRedirect($url, $msg, 'message');
+
 			return true;
 		}
 

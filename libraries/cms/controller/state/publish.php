@@ -14,8 +14,7 @@ class JControllerStatePublish extends JControllerStateBase
 	public function execute()
 	{
 		$config = $this->config;
-		$input = $this->input;
-		$url = 'index.php?option='.$config['option'].'&task=display.'.$config['subject'];
+		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
 
 		try
 		{
@@ -25,16 +24,17 @@ class JControllerStatePublish extends JControllerStateBase
 		{
 			$msg = $e->getMessage();
 			$this->setRedirect($url, $msg, 'warning');
+
 			return false;
 		}
 
 		$msg = $this->translate('JLIB_APPLICATION_MSG_ITEMS_PUBLISHED');
 		$this->setRedirect($url, $msg, 'message');
+
 		return true;
 	}
 
 	/**
-	 * (non-PHPdoc)
 	 * @see JControllerStateBase::execute()
 	 */
 	protected function updateRecordState($model, $cid)

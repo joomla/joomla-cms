@@ -14,7 +14,7 @@ class JControllerUpdateClose extends JControllerUpdateBase
 	public function execute()
 	{
 		$config = $this->config;
-		$url = 'index.php?option='.$config['option'].'&task=display.'.$config['subject'];
+		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
 
 		if (parent::execute())
 		{
@@ -27,10 +27,11 @@ class JControllerUpdateClose extends JControllerUpdateBase
 				$msg = $e->getMessage();
 				$this->setRedirect($url, $msg, 'warning', true, false);
 			}
-				
+
 
 			$msg = $this->translate('JLIB_APPLICATION_MSG_SAVE_COMPLETED');
 			$this->setRedirect($url, $msg, 'message');
+
 			return true;
 		}
 

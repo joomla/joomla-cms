@@ -18,27 +18,27 @@ abstract class JControllerUpdateBase extends JControllerSave
 		$this->validateSession();
 
 		$config = $this->config;
-		$input = $this->input;
+		$input  = $this->input;
 
-		$prefix = $this->getPrefix();
-		$model = $this->getModel($prefix, $config['subject'], $config);
-		$keyName = $model->getKeyName();
+		$model    = $this->getModel();
+		$keyName  = $model->getKeyName();
 		$keyValue = $input->getInt($keyName);
 
-		$url = 'index.php?option='.$config['option'].'&task=edit.'.$config['subject'];
-		$url .='&'.$keyName.'='.$keyValue;
+		$url = 'index.php?option=' . $config['option'] . '&task=edit.' . $config['subject'];
+		$url .= '&' . $keyName . '=' . $keyValue;
 
 		if (!$model->allowAction('core.edit'))
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_EDIT_RECORD_NOT_PERMITTED');
 			$this->setRedirect($url, $msg, 'error');
+
 			return false;
 		}
 
 		try
 		{
 			$input = $this->input;
-			$data = $input->post->get('jform', array(), 'array');
+			$data  = $input->post->get('jform', array(), 'array');
 			$this->commit($model, $data);
 		}
 		catch (Exception $e)
@@ -46,6 +46,7 @@ abstract class JControllerUpdateBase extends JControllerSave
 			$this->setUserState();
 			$msg = $e->getMessage();
 			$this->setRedirect($url, $msg, 'error');
+
 			return false;
 		}
 
@@ -53,7 +54,6 @@ abstract class JControllerUpdateBase extends JControllerSave
 	}
 
 	/**
-	 * (non-PHPdoc)
 	 * @see JControllerSave::commit()
 	 */
 	protected function commit($model, $data)
@@ -69,11 +69,11 @@ abstract class JControllerUpdateBase extends JControllerSave
 	{
 		$config = $this->config;
 
-		$prefix = $this->getPrefix();
-		$model = $this->getModel($prefix, $config['subject'], $config);
+		$prefix  = $this->getPrefix();
+		$model   = $this->getModel($prefix, $config['subject'], $config);
 		$keyName = $model->getKeyName();
 
-		$input = $this->input;
+		$input    = $this->input;
 		$keyValue = $input->getInt($keyName);
 
 		$model->checkin($keyValue);

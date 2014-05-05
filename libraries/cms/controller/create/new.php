@@ -16,9 +16,10 @@ class JControllerCreateNew extends JControllerCreateBase
 		if (parent::execute())
 		{
 			$config = $this->config;
-			$url = 'index.php?option='.$config['option'].'&task=add.'.$config['subject'];
-			$msg = $this->translate('JLIB_APPLICATION_MSG_SAVE_COMPLETED');
+			$url    = 'index.php?option=' . $config['option'] . '&task=add.' . $config['subject'];
+			$msg    = $this->translate('JLIB_APPLICATION_MSG_SAVE_COMPLETED');
 			$this->setRedirect($url, $msg, 'message');
+
 			return true;
 		}
 

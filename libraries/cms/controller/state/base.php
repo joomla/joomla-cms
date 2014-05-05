@@ -16,16 +16,13 @@ abstract class JControllerStateBase extends JControllerCms
 		//Check for request forgeries
 		$this->validateSession();
 
-		$config = $this->config;
 		$input = $this->input;
 
-		$prefix = $this->getPrefix();
-		$model = $this->getModel($prefix, $config['subject'], $config);
+		$model = $this->getModel();
 
 		if (!$model->allowAction('core.edit.state'))
 		{
 			throw new ErrorException($this->translate('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
-			return false;
 		}
 
 		$cid = $input->get('cid', array(), 'array');
@@ -40,8 +37,9 @@ abstract class JControllerStateBase extends JControllerCms
 
 	/**
 	 * Method to update record states
-	 * @param JModelData $model
-	 * @param array $cid
+	 *
+	 * @param JModelCms $model
+	 * @param array     $cid
 	 */
 	abstract protected function updateRecordState($model, $cid);
 

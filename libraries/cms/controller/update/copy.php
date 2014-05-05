@@ -16,16 +16,14 @@ class JControllerUpdateCopy extends JControllerUpdateBase
 		if (parent::execute())
 		{
 			$config = $this->config;
+			$model  = $this->getModel();
 
-			$prefix = $this->getPrefix();
-			$model = $this->getModel($prefix, $config['subject'], $config);
+			$context  = $model->getContext();
+			$keyName  = $model->getKeyName();
+			$keyValue = $model->getState($context . '.id');
 
-			$context = $model->getContext();
-			$keyName = $model->getKeyName();
-			$keyValue = $model->getState($context.'.id');
-
-			$url = 'index.php?option='.$config['option'].'&task=edit.'.$config['subject'];
-			$url .='&'.$keyName.'='.$keyValue;
+			$url = 'index.php?option=' . $config['option'] . '&task=edit.' . $config['subject'];
+			$url .= '&' . $keyName . '=' . $keyValue;
 
 			try
 			{
@@ -58,7 +56,7 @@ class JControllerUpdateCopy extends JControllerUpdateBase
 		}
 		else
 		{
-			$keyName = $model->getKeyName();
+			$keyName        = $model->getKeyName();
 			$data[$keyName] = 0;
 
 			$model->create($data);

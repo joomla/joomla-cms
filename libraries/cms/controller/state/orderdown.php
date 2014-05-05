@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 class JControllerStateOrderdown extends JControllerStateOrderup
 {
 	/**
-	 * (non-PHPdoc)
 	 * @see JControllerStateBase::execute()
 	 */
 	protected function updateRecordState($model, $cid)

@@ -16,8 +16,8 @@ class JControllerUpdateNew extends JControllerUpdateBase
 		if (parent::execute())
 		{
 			$config = $this->config;
-			$url = 'index.php?option='.$config['option'].'&task=add.'.$config['subject'];
-				
+			$url    = 'index.php?option=' . $config['option'] . '&task=add.' . $config['subject'];
+
 			try
 			{
 				$this->checkin();
@@ -27,9 +27,10 @@ class JControllerUpdateNew extends JControllerUpdateBase
 				$msg = $e->getMessage();
 				$this->setRedirect($url, $msg, 'warning', true, false);
 			}
-				
+
 			$msg = $this->translate('JLIB_APPLICATION_MSG_SAVE_COMPLETED');
 			$this->setRedirect($url, $msg, 'message');
+
 			return true;
 		}
 

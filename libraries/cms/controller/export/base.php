@@ -11,21 +11,22 @@ defined('JPATH_PLATFORM') or die;
 
 abstract class JControllerExportBase extends JControllerCms
 {
+	/** @noinspection PhpInconsistentReturnPointsInspection */
 	public function execute()
 	{
 		//Check for request forgeries
 		$this->validateSession();
 
 		$config = $this->config;
-		$url = 'index.php?option='.$config['option'].'&task=display.'.$config['subject'];
+		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
 
-		$prefix = $this->getPrefix();
-		$model = $this->getModel($prefix, $config['subject'], $config);
+		$model = $this->getModel();
 
 		if (!$model->allowAction('core.export'))
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_EXPORT_NOT_PERMITTED');
 			$this->setRedirect($url, $msg, 'error');
+
 			return false;
 		}
 
@@ -38,21 +39,23 @@ abstract class JControllerExportBase extends JControllerCms
 		{
 			$msg = $e->getMessage();
 			$this->setRedirect($url, $msg, 'error');
+
 			return false;
 		}
 
-		// We assume the exprot file was sent to the browser
-		// So if we made it this far we just need to close the app.
-		$app = $this->app;
-		$app->close();
+		// We assume the export file was sent to the browser
+		//So close the application
+		JFactory::getApplication()->close();
 	}
 
 	/**
 	 * Method to export data from the model
-	 * @param JModelData $model
-	 * @param JInput $input
-	 * @param array $config
+	 *
+	 * @param JModelCms $model
+	 * @param JInput    $input
+	 * @param array     $config
+	 *
 	 * @return boolean True if the file was sent successfully.
 	 */
-	abstract function export($model, $input ,$config);
+	abstract function export($model, $input, $config);
 }

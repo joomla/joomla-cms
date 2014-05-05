@@ -16,19 +16,18 @@ class JControllerCreateEdit extends JControllerCreateBase
 		if (parent::execute())
 		{
 			$config = $this->config;
-				
-			$prefix = $this->getPrefix();
-			$model = $this->getModel($prefix, $config['subject'], $config);
+			$model  = $this->getModel();
 
-			$context = $model->getContext();
-			$keyName = $model->getKeyName();
-			$keyValue = $model->getState($context.'.id');
-				
-			$url = 'index.php?option='.$config['option'].'&task=edit.'.$config['subject'];
-			$url .='&'.$keyName.'='.$keyValue;
-				
+			$context  = $model->getContext();
+			$keyName  = $model->getKeyName();
+			$keyValue = $model->getState($context . '.id');
+
+			$url = 'index.php?option=' . $config['option'] . '&task=edit.' . $config['subject'];
+			$url .= '&' . $keyName . '=' . $keyValue;
+
 			$msg = $this->translate('JLIB_APPLICATION_MSG_SAVE_COMPLETED');
 			$this->setRedirect($url, $msg, 'message');
+
 			return true;
 		}
 

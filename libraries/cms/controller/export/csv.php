@@ -13,17 +13,17 @@ class JControllerExportCSV extends JControllerExportBase
 {
 	function export($model, $input, $config)
 	{
-		$fileName = $config['option'].'_'.$config['subject'].'.csv';
+		$fileName = $config['option'] . '_' . $config['subject'] . '.csv';
 		// send the headers
 		header('Content-Type: text/csv');
-		header('Content-Disposition: attachment;filename='.$fileName);
+		header('Content-Disposition: attachment;filename=' . $fileName);
 
 		// open output for writing
-		if ($handle = fopen('php://output','w'))
+		if ($handle = fopen('php://output', 'w'))
 		{
 			// pass the output handle to the model
 			$model->exportCsv($handle, $input);
-				
+
 			fclose($handle);
 		}
 
