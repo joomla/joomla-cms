@@ -91,7 +91,7 @@ class ContentControllerAdjuntos extends JControllerForm
             if(JFile::upload($src, $dest)) {
 
                 $archivo = self::reformarArchivo($id, $dest);
-                $data = array_merge($archivo, self::guardar($data));
+                $data = array_merge($archivo, self::guardar($archivo));
 
                 print_r(json_encode($data));
 
