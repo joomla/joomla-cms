@@ -100,6 +100,7 @@ $filesArray = array(
 	"plugins/index.html\n" => true,
 	"templates/index.html\n" => true,
 	"tmp/index.html\n" => true,
+	"vendor/autoload.php\n" => true,
 	"htaccess.txt\n" => true,
 	"index.php\n" => true,
 	"LICENSE.txt\n" => true,
@@ -107,6 +108,34 @@ $filesArray = array(
 	"robots.txt.dist\n" => true,
 	"web.config.txt\n" => true,
 	"joomla.xml\n" => true
+);
+
+/*
+ * Here we set the files/folders which should not be packaged at any time
+ * These paths are from the repository root without the leading slash
+ */
+$doNotPackage = array(
+	'.gitignore',
+	'.travis.yml',
+	'CONTRIBUTING.md',
+	'README.md',
+	'build',
+	'build.xml',
+	'composer.json',
+	'composer.lock',
+	'phpunit.xml.dist',
+	'tests',
+	'travisci-phpunit.xml',
+    'vendor/phpmailer/phpmailer/docs',
+    'vendor/phpmailer/phpmailer/examples',
+    'vendor/phpmailer/phpmailer/extras',
+    'vendor/phpmailer/phpmailer/language',
+    'vendor/phpmailer/phpmailer/test',
+    'vendor/phpmailer/phpmailer/.gitignore',
+    'vendor/phpmailer/phpmailer/.travis.yml',
+    'vendor/phpmailer/phpmailer/changelog.md',
+    'vendor/phpmailer/phpmailer/composer.json',
+    'vendor/phpmailer/phpmailer/README.md',
 );
 
 // For the packages, replace spaces in stability (RC) with underscores
@@ -130,6 +159,7 @@ for ($num = $release - 1; $num >= 0; $num--)
 	// Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
 	foreach ($files as $file)
 	{
+		// TODO - Refactor this check to use the $doNotPackage array as a base
 		if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file, 2, 5) != 'build' && substr($file, 2, 4) != '.git'
 			&& substr($file, 2, 7) != '.travis' && substr($file, 2, 6) != 'travis' && substr($file, 2, 7) != 'phpunit' && substr($file, -3) != '.md'
 			&& substr($file, 2, 6) != 'images')
@@ -173,7 +203,7 @@ for ($num = $release - 1; $num >= 0; $num--)
 
 // Delete the files and folders we exclude from the packages (tests, docs, build, etc.).
 echo "Delete folders not included in packages.\n";
-$doNotPackage = array('tests', '.gitignore', '.travis.yml', 'build', 'build.xml', 'phpunit.xml.dist', 'travisci-phpunit.xml', 'README.md', 'CONTRIBUTING.md');
+
 foreach ($doNotPackage as $removeFile)
 {
 	system('rm -rf ' . $fullVersion . '/' . $removeFile);
