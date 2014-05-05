@@ -68,7 +68,7 @@ JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 // Register classes for compatability with PHP 5.3
 if (version_compare(PHP_VERSION, '5.4.0', '<'))
 {
-	JLoader::register('JsonSerializable', __DIR__ . '/compat/jsonserializable.php');
+	JLoader::register('JsonSerializable', JPATH_ROOT . '/vendor/joomla/compat/src/JsonSerializable.php');
 }
 
 // Add deprecated constants

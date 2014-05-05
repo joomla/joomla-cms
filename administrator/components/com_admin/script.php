@@ -1030,6 +1030,7 @@ class JoomlaInstallerScript
 		    // Joomla! 3.4
 		    '/administrator/manifests/libraries/phpmailer.xml',
 		    '/language/en-GB/en-GB.lib_phpmailer.sys.ini',
+		    '/libraries/compat/jsonserializable.php',
 		    '/libraries/framework/Joomla/DI/Exception/DependencyResolutionException.php',
 		    '/libraries/framework/Joomla/DI/Exception/index.html',
 		    '/libraries/framework/Joomla/DI/Container.php',
