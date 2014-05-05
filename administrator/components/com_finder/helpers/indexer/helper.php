@@ -276,8 +276,11 @@ class FinderIndexerHelper
 		$db->setQuery($query);
 		$db->execute();
 
+		// Add the new type entry to the types hash
+		$types[$title] = (object)array("id" => $db->insertid(), "title" => $title, "mime" => $mime);
+		
 		// Return the new id.
-		return (int) $db->insertid();
+		return (int) $types[$title]->id;
 	}
 
 	/**
