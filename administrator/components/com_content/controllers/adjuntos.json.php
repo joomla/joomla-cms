@@ -89,12 +89,11 @@ class ContentControllerAdjuntos extends JControllerForm
             $dest = JPATH_ROOT.DS.'uploads'.DS.sha1(time()).'-'.$nombreArchivo;
 
             if(JFile::upload($src, $dest)) {
-                $data = self::reformarArchivo($id, $dest);
+
+                $archivo = self::reformarArchivo($id, $dest);
+                $data = array_merge($archivo, self::guardar($data));
 
                 print_r(json_encode($data));
-
-                // TODO: Implementa/valida una estructura de datos para los nombres 
-                // de los archivos que se guardan en la base de datos
 
             } else {
                 // Muestra el mensaje a partir del código de error generado durante la 
@@ -189,5 +188,48 @@ class ContentControllerAdjuntos extends JControllerForm
 
     public function borrar() {
         print_r('{"estado": "borrando"}');
+    }
+
+    /*
+     * Guarda los datos del archivo adjunto en la Base de Datos
+     *
+     * @param   $data   Array con los datos del archivo adjuntado
+     * @return  $arr    Array con el estado de la subida y mensaje resultante        
+     *
+     */
+
+    public function guardar($data) {
+        $db = JFactory::getDbo();
+
+        $query = $db->getQuery(true);
+
+        $columnas = array('propietario_id', 'nombre_archivo', 'ruta', 'hash');
+        $valores = array(
+            $data['id'], 
+            $db->quote($data['nombreArchivo']), 
+            $db->quote($data['ruta']), 
+            $db->quote($data['hash']));
+        
+        $query
+            ->insert($db->quoteName('#__adjuntos'))
+            ->columns($db->quoteName($columnas))
+            ->values(implode(',', $valores));
+
+        $arr = array();
+
+        // Maneja posibles errores arrojados por la Base de Datos
+        try {
+            $db->setQuery($query);
+            $db->query();
+
+            $arr['msg'] = "Archivo guardado satisfactoriamente!";
+            $arr['tipo'] = "success";
+        }
+        catch (RuntimeException $e) {
+            $arr['msg'] = "Se ha presentado el error: " . $e->getMessage();
+            $arr['tipo'] = "error";
+        }
+        
+        return $arr;
     }
 }
