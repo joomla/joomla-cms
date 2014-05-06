@@ -27,7 +27,7 @@ class JControllerStateSaveorder extends JControllerStateBase
 
 		$config = $this->config;
 		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-		$msg = $this->translate('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED');
+		$msg    = $this->translate('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED');
 		$this->setRedirect($url, $msg, 'message');
 
 		return true;

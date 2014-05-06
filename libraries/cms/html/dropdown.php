@@ -73,6 +73,7 @@ abstract class JHtmlDropdown
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;
+
 		return;
 	}
 
@@ -91,13 +92,14 @@ abstract class JHtmlDropdown
 			return;
 		}
 
-		$dropDownList = '<div class="btn-group" style="margin-left:6px;display:none">
+		$dropDownList               = '<div class="btn-group" style="margin-left:6px;display:none">
 							<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-mini">
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">';
-		static::$dropDownList = $dropDownList;
+		static::$dropDownList       = $dropDownList;
 		static::$loaded[__METHOD__] = true;
+
 		return;
 	}
 
@@ -112,7 +114,7 @@ abstract class JHtmlDropdown
 	{
 		$dropDownList = static::$dropDownList;
 		$dropDownList .= '</ul></div>';
-		static::$dropDownList	= null;
+		static::$dropDownList                   = null;
 		static::$loaded['JHtmlDropdown::start'] = false;
 
 		return $dropDownList;
@@ -122,9 +124,9 @@ abstract class JHtmlDropdown
 	/**
 	 * Append an edit item to the current dropdown menu
 	 *
-	 * @param   integer  $id          Record ID
-	 * @param   string   $prefix      Task prefix
-	 * @param   string   $customLink  The custom link if dont use default Joomla action format
+	 * @param   integer $id         Record ID
+	 * @param   string  $prefix     Task prefix
+	 * @param   string  $customLink The custom link if dont use default Joomla action format
 	 *
 	 * @return  void
 	 *
@@ -137,7 +139,7 @@ abstract class JHtmlDropdown
 		if (!$customLink)
 		{
 			$option = JFactory::getApplication()->input->getCmd('option');
-			$link = 'index.php?option=' . $option;
+			$link   = 'index.php?option=' . $option;
 		}
 		else
 		{
@@ -148,14 +150,15 @@ abstract class JHtmlDropdown
 		$link = JRoute::_($link);
 
 		static::addCustomItem(JText::_('JACTION_EDIT'), $link);
+
 		return;
 	}
 
 	/**
 	 * Append a publish item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string $checkboxId ID of corresponding checkbox of the record
+	 * @param   string $prefix     The task prefix
 	 *
 	 * @return  void
 	 *
@@ -165,14 +168,15 @@ abstract class JHtmlDropdown
 	{
 		$task = $prefix . 'publish';
 		static::addCustomItem(JText::_('JTOOLBAR_PUBLISH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
 		return;
 	}
 
 	/**
 	 * Append an unpublish item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string $checkboxId ID of corresponding checkbox of the record
+	 * @param   string $prefix     The task prefix
 	 *
 	 * @return  void
 	 *
@@ -182,14 +186,15 @@ abstract class JHtmlDropdown
 	{
 		$task = $prefix . 'unpublish';
 		static::addCustomItem(JText::_('JTOOLBAR_UNPUBLISH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
 		return;
 	}
 
 	/**
 	 * Append a featured item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string $checkboxId ID of corresponding checkbox of the record
+	 * @param   string $prefix     The task prefix
 	 *
 	 * @return  void
 	 *
@@ -199,14 +204,15 @@ abstract class JHtmlDropdown
 	{
 		$task = $prefix . 'featured';
 		static::addCustomItem(JText::_('JFEATURED'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
 		return;
 	}
 
 	/**
 	 * Append an unfeatured item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string $checkboxId ID of corresponding checkbox of the record
+	 * @param   string $prefix     The task prefix
 	 *
 	 * @return  void
 	 *
@@ -216,14 +222,15 @@ abstract class JHtmlDropdown
 	{
 		$task = $prefix . 'unfeatured';
 		static::addCustomItem(JText::_('JUNFEATURED'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
 		return;
 	}
 
 	/**
 	 * Append an archive item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string $checkboxId ID of corresponding checkbox of the record
+	 * @param   string $prefix     The task prefix
 	 *
 	 * @return  void
 	 *
@@ -233,14 +240,15 @@ abstract class JHtmlDropdown
 	{
 		$task = $prefix . 'archive';
 		static::addCustomItem(JText::_('JTOOLBAR_ARCHIVE'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
 		return;
 	}
 
 	/**
 	 * Append an unarchive item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string $checkboxId ID of corresponding checkbox of the record
+	 * @param   string $prefix     The task prefix
 	 *
 	 * @return  void
 	 *
@@ -250,14 +258,15 @@ abstract class JHtmlDropdown
 	{
 		$task = $prefix . 'unpublish';
 		static::addCustomItem(JText::_('JTOOLBAR_UNARCHIVE'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
 		return;
 	}
 
 	/**
 	 * Append a trash item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string $checkboxId ID of corresponding checkbox of the record
+	 * @param   string $prefix     The task prefix
 	 *
 	 * @return  void
 	 *
@@ -267,14 +276,15 @@ abstract class JHtmlDropdown
 	{
 		$task = $prefix . 'trash';
 		static::addCustomItem(JText::_('JTOOLBAR_TRASH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
 		return;
 	}
 
 	/**
 	 * Append an untrash item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string $checkboxId ID of corresponding checkbox of the record
+	 * @param   string $prefix     The task prefix
 	 *
 	 * @return  void
 	 *
@@ -284,14 +294,15 @@ abstract class JHtmlDropdown
 	{
 		$task = $prefix . 'publish';
 		static::addCustomItem(JText::_('JTOOLBAR_UNTRASH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
 		return;
 	}
 
 	/**
 	 * Append a checkin item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string $checkboxId ID of corresponding checkbox of the record
+	 * @param   string $prefix     The task prefix
 	 *
 	 * @return  void
 	 *
@@ -301,6 +312,7 @@ abstract class JHtmlDropdown
 	{
 		$task = $prefix . 'checkin';
 		static::addCustomItem(JText::_('JTOOLBAR_CHECKIN'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
 		return;
 	}
 
@@ -314,25 +326,26 @@ abstract class JHtmlDropdown
 	public static function divider()
 	{
 		static::$dropDownList .= '<li class="divider"></li>';
+
 		return;
 	}
 
 	/**
 	 * Append a custom item to current dropdown menu
 	 *
-	 * @param   string   $label           The label of item
-	 * @param   string   $link            The link of item
-	 * @param   string   $linkAttributes  Custom link attributes
-	 * @param   string   $className       Class name of item
-	 * @param   boolean  $ajaxLoad        True if using ajax load when item clicked
-	 * @param   string   $jsCallBackFunc  Javascript function name, called when ajax load successfully
+	 * @param   string  $label          The label of item
+	 * @param   string  $link           The link of item
+	 * @param   string  $linkAttributes Custom link attributes
+	 * @param   string  $className      Class name of item
+	 * @param   boolean $ajaxLoad       True if using ajax load when item clicked
+	 * @param   string  $jsCallBackFunc Javascript function name, called when ajax load successfully
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
 	public static function addCustomItem($label, $link = 'javascript:void(0)', $linkAttributes = '', $className = '', $ajaxLoad = false,
-		$jsCallBackFunc = null)
+	                                     $jsCallBackFunc = null)
 	{
 		static::start();
 
@@ -350,6 +363,7 @@ abstract class JHtmlDropdown
 		$dropDownList .= $label;
 		$dropDownList .= '</a></li>';
 		static::$dropDownList = $dropDownList;
+
 		return;
 	}
 }

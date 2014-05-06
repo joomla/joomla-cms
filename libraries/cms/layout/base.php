@@ -22,7 +22,7 @@ class JLayoutBase implements JLayout
 	/**
 	 * Method to escape output.
 	 *
-	 * @param   string  $output  The output to escape.
+	 * @param   string $output The output to escape.
 	 *
 	 * @return  string  The escaped output.
 	 *
@@ -36,7 +36,7 @@ class JLayoutBase implements JLayout
 	/**
 	 * Method to render the layout.
 	 *
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   object $displayData Object which properties are used inside the layout file to build displayed output
 	 *
 	 * @return  string  The necessary HTML to display the layout
 	 *

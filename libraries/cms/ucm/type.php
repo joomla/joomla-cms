@@ -27,27 +27,27 @@ class JUcmType implements JUcm
 	public $type;
 
 	/**
-	* The Database object
-	*
-	* @var    JDatabaseDriver
-	* @since  3.1
-	*/
+	 * The Database object
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.1
+	 */
 	protected $db;
 
 	/**
-	* The alias for the content type
-	*
-	* @var	  string
-	* @since  3.1
-	*/
+	 * The alias for the content type
+	 *
+	 * @var      string
+	 * @since  3.1
+	 */
 	protected $alias;
 
 	/**
 	 * Class constructor
 	 *
-	 * @param   string            $alias        The alias for the item
-	 * @param   JDatabaseDriver   $database     The database object
-	 * @param   JApplicationBase  $application  The application object
+	 * @param   string           $alias       The alias for the item
+	 * @param   JDatabaseDriver  $database    The database object
+	 * @param   JApplicationBase $application The application object
 	 *
 	 * @since   3.1
 	 */
@@ -62,14 +62,14 @@ class JUcmType implements JUcm
 	}
 
 	/**
-	* Get the Content Type
-	*
-	* @param   integer  $pk  The primary key of the alias type
-	*
-	* @return  object  The UCM Type data
-	*
-	* @since   3.1
-	*/
+	 * Get the Content Type
+	 *
+	 * @param   integer $pk The primary key of the alias type
+	 *
+	 * @return  object  The UCM Type data
+	 *
+	 * @since   3.1
+	 */
 	public function getType($pk = null)
 	{
 		if (!$pk)
@@ -77,7 +77,7 @@ class JUcmType implements JUcm
 			$pk = $this->getTypeId();
 		}
 
-		$query	= $this->db->getQuery(true);
+		$query = $this->db->getQuery(true);
 		$query->select('ct.*');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
 
@@ -92,7 +92,7 @@ class JUcmType implements JUcm
 	/**
 	 * Retrieves the UCM type ID
 	 *
-	 * @param   string  $alias  The string of the type alias
+	 * @param   string $alias The string of the type alias
 	 *
 	 * @return  mixed  The ID of the requested type or false if type is not found
 	 *

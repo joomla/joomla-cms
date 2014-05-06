@@ -29,8 +29,8 @@ abstract class JHtmlContentLanguage
 	/**
 	 * Get a list of the available content language items.
 	 *
-	 * @param   boolean  $all        True to include All (*)
-	 * @param   boolean  $translate  True to translate All
+	 * @param   boolean $all       True to include All (*)
+	 * @param   boolean $translate True to translate All
 	 *
 	 * @return  string
 	 *

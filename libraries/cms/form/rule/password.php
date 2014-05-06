@@ -23,13 +23,13 @@ class JFormRulePassword extends JFormRule
 	 * XML needs a validate attribute of equals and a field attribute
 	 * that is equal to the field to test against.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   SimpleXMLElement $element   The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed            $value     The form field value to validate.
+	 * @param   string           $group     The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
-	 * @param   JRegistry         $input    An optional JRegistry object with the entire data set to validate against the entire form.
-	 * @param   JForm             $form     The form object for which the field is being tested.
+	 * @param   JRegistry        $input     An optional JRegistry object with the entire data set to validate against the entire form.
+	 * @param   JForm            $form      The form object for which the field is being tested.
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
@@ -39,11 +39,11 @@ class JFormRulePassword extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
-		$meter		= isset($this->element['strengthmeter'])  ? ' meter="0"' : '1';
-		$threshold	= isset($this->element['threshold']) ? (int) $this->element['threshold'] : 66;
-		$minimumLength = isset($this->element['minimum_length']) ? (int) $this->element['minimum_length'] : 4;
-		$minimumIntegers = isset($this->element['minimum_integers']) ? (int) $this->element['minimum_integers'] : 0;
-		$minimumSymbols = isset($this->element['minimum_symbols']) ? (int) $this->element['minimum_symbols'] : 0;
+		$meter            = isset($this->element['strengthmeter']) ? ' meter="0"' : '1';
+		$threshold        = isset($this->element['threshold']) ? (int) $this->element['threshold'] : 66;
+		$minimumLength    = isset($this->element['minimum_length']) ? (int) $this->element['minimum_length'] : 4;
+		$minimumIntegers  = isset($this->element['minimum_integers']) ? (int) $this->element['minimum_integers'] : 0;
+		$minimumSymbols   = isset($this->element['minimum_symbols']) ? (int) $this->element['minimum_symbols'] : 0;
 		$minimumUppercase = isset($this->element['minimum_uppercase']) ? (int) $this->element['minimum_uppercase'] : 0;
 
 		// If we have parameters from com_users, use those instead.
@@ -52,12 +52,12 @@ class JFormRulePassword extends JFormRule
 
 		if (!empty($params))
 		{
-			$minimumLengthp = $params->get('minimum_length');
-			$minimumIntegersp = $params->get('minimum_integers');
-			$minimumSymbolsp = $params->get('minimum_symbols');
+			$minimumLengthp    = $params->get('minimum_length');
+			$minimumIntegersp  = $params->get('minimum_integers');
+			$minimumSymbolsp   = $params->get('minimum_symbols');
 			$minimumUppercasep = $params->get('minimum_uppercase');
-			$meterp = $params->get('meter');
-			$thresholdp = $params->get('threshold');
+			$meterp            = $params->get('meter');
+			$thresholdp        = $params->get('threshold');
 
 			empty($minimumLengthp) ? : $minimumLength = (int) $minimumLengthp;
 			empty($minimumIntegersp) ? : $minimumIntegers = (int) $minimumIntegersp;
@@ -83,7 +83,7 @@ class JFormRulePassword extends JFormRule
 			JFactory::getApplication()->enqueueMessage(
 				JText::_('COM_USERS_MSG_PASSWORD_TOO_LONG'),
 				'warning'
-				);
+			);
 		}
 
 		// We don't allow white space inside passwords
@@ -97,7 +97,7 @@ class JFormRulePassword extends JFormRule
 			JFactory::getApplication()->enqueueMessage(
 				JText::_('COM_USERS_MSG_SPACES_IN_PASSWORD'),
 				'warning'
-				);
+			);
 
 			$validPassword = false;
 		}
@@ -144,7 +144,7 @@ class JFormRulePassword extends JFormRule
 				JFactory::getApplication()->enqueueMessage(
 					JText::plural('COM_USERS_MSG_NOT_ENOUGH_UPPERCASE_LETTERS_N', $minimumUppercase),
 					'warning'
-			);
+				);
 
 				$validPassword = false;
 			}
@@ -158,7 +158,7 @@ class JFormRulePassword extends JFormRule
 				JFactory::getApplication()->enqueueMessage(
 					JText::plural('COM_USERS_MSG_PASSWORD_TOO_SHORT_N', $minimumLength),
 					'warning'
-					);
+				);
 
 				$validPassword = false;
 			}

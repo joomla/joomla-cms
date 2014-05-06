@@ -41,7 +41,7 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 		$groups = array();
 
 		// Add Module Style Field
-		$tmp = '---' . JText::_('JLIB_FORM_VALUE_FROM_TEMPLATE') . '---';
+		$tmp            = '---' . JText::_('JLIB_FORM_VALUE_FROM_TEMPLATE') . '---';
 		$groups[$tmp][] = JHtml::_('select.option', '0', JText::_('JLIB_FORM_VALUE_INHERITED'));
 
 		$templateStyles = $this->getTemplateModuleStyles();
@@ -49,12 +49,12 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 		// Create one new option object for each available style, grouped by templates
 		foreach ($templateStyles as $template => $styles)
 		{
-			$template = ucfirst($template);
+			$template          = ucfirst($template);
 			$groups[$template] = array();
 
 			foreach ($styles as $style)
 			{
-				$tmp = JHtml::_('select.option', $template . '-' . $style, $style);
+				$tmp                 = JHtml::_('select.option', $template . '-' . $style, $style);
 				$groups[$template][] = $tmp;
 			}
 		}
@@ -110,7 +110,7 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 	 */
 	protected function getSystemTemplate()
 	{
-		$template = new stdClass;
+		$template          = new stdClass;
 		$template->element = 'system';
 		$template->name    = 'system';
 		$template->enabled = 1;

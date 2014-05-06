@@ -35,10 +35,10 @@ class JFormFieldUser extends JFormField
 	 */
 	protected function getInput()
 	{
-		$html = array();
-		$groups = $this->getGroups();
+		$html     = array();
+		$groups   = $this->getGroups();
 		$excluded = $this->getExcluded();
-		$link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;field=' . $this->id
+		$link     = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;field=' . $this->id
 			. (isset($groups) ? ('&amp;groups=' . base64_encode(json_encode($groups))) : '')
 			. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
 
@@ -54,7 +54,7 @@ class JFormFieldUser extends JFormField
 		JHtml::_('behavior.modal', 'a.modal_' . $this->id);
 
 		// Build the script.
-		$script = array();
+		$script   = array();
 		$script[] = '	function jSelectUser_' . $this->id . '(id, title) {';
 		$script[] = '		var old_id = document.getElementById("' . $this->id . '_id").value;';
 		$script[] = '		if (old_id != id) {';

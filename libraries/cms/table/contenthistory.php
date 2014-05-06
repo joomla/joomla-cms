@@ -30,7 +30,7 @@ class JTableContenthistory extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  A database connector object
+	 * @param   JDatabaseDriver $db A database connector object
 	 *
 	 * @since   3.1
 	 */
@@ -43,7 +43,7 @@ class JTableContenthistory extends JTable
 	/**
 	 * Overrides JTable::store to set modified hash, user id, and save date.
 	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 * @param   boolean $updateNulls True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -68,7 +68,7 @@ class JTableContenthistory extends JTable
 	 * Utility method to get the hash after removing selected values. This lets us detect changes other than
 	 * modified date (which will change on every save).
 	 *
-	 * @param   mixed  $jsonData  Either an object or a string with json-encoded data
+	 * @param   mixed $jsonData Either an object or a string with json-encoded data
 	 *
 	 * @return  string  SHA1 hash on sucess. Empty string on failure.
 	 *
@@ -127,7 +127,7 @@ class JTableContenthistory extends JTable
 	 */
 	public function getHashMatch()
 	{
-		$db = $this->_db;
+		$db    = $this->_db;
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__ucm_history'))
@@ -142,7 +142,7 @@ class JTableContenthistory extends JTable
 	/**
 	 * Utility method to remove the oldest versions of an item, saving only the most recent versions.
 	 *
-	 * @param   integer  $maxVersions  The maximum number of versions to save. All others will be deleted.
+	 * @param   integer $maxVersions The maximum number of versions to save. All others will be deleted.
 	 *
 	 * @return  boolean   true on sucess, false on failure.
 	 *
@@ -153,7 +153,7 @@ class JTableContenthistory extends JTable
 		$result = true;
 
 		// Get the list of version_id values we want to save
-		$db = $this->_db;
+		$db    = $this->_db;
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__ucm_history'))

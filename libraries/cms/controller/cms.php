@@ -112,7 +112,7 @@ abstract class JControllerCms extends JControllerBase
 	 */
 	protected function getPrefix($option = null)
 	{
-		if(is_null($option))
+		if (is_null($option))
 		{
 			$option = $this->config['option'];
 		}
@@ -222,13 +222,14 @@ abstract class JControllerCms extends JControllerBase
 
 	/**
 	 * Method to set the default abort redirect
-	 * @param string $msg translated abort message
+	 *
+	 * @param string $msg  translated abort message
 	 * @param string $type type of message I.E. 'error' or 'warning
 	 */
 	protected function abort($msg, $type)
 	{
-		$config = $this->config;
-		$abortUrl =  'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
+		$config   = $this->config;
+		$abortUrl = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
 		$this->setRedirect($abortUrl, $msg, $type, true);
 	}
 

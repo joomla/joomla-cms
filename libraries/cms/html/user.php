@@ -21,7 +21,7 @@ abstract class JHtmlUser
 	/**
 	 * Displays a list of user groups.
 	 *
-	 * @param   boolean  $includeSuperAdmin  true to include super admin groups, false to exclude them
+	 * @param   boolean $includeSuperAdmin true to include super admin groups, false to exclude them
 	 *
 	 * @return  array  An array containing a list of user groups.
 	 *
@@ -29,7 +29,7 @@ abstract class JHtmlUser
 	 */
 	public static function groups($includeSuperAdmin = false)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level')
 			->from($db->quoteName('#__usergroups') . ' AS a')
@@ -42,7 +42,7 @@ abstract class JHtmlUser
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
 			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
-			$groups[] = JHtml::_('select.option', $options[$i]->value, $options[$i]->text);
+			$groups[]          = JHtml::_('select.option', $options[$i]->value, $options[$i]->text);
 		}
 
 		// Exclude super admin groups if requested

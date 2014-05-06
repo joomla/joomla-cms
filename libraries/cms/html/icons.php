@@ -21,7 +21,7 @@ abstract class JHtmlIcons
 	/**
 	 * Method to generate html code for a list of buttons
 	 *
-	 * @param   array  $buttons  Array of buttons
+	 * @param   array $buttons Array of buttons
 	 *
 	 * @return  string
 	 *
@@ -34,13 +34,14 @@ abstract class JHtmlIcons
 		{
 			$html[] = JHtml::_('icons.button', $button);
 		}
+
 		return implode($html);
 	}
 
 	/**
 	 * Method to generate html code for a list of buttons
 	 *
-	 * @param   array  $button  Button properties
+	 * @param   array $button Button properties
 	 *
 	 * @return  string
 	 *
@@ -75,6 +76,7 @@ abstract class JHtmlIcons
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new JLayoutFile('joomla.quickicons.icon');
+
 		return $layout->render($button);
 	}
 }

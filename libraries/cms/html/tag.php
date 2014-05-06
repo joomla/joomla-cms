@@ -29,7 +29,7 @@ abstract class JHtmlTag
 	/**
 	 * Returns an array of tags.
 	 *
-	 * @param   array  $config  An array of configuration options. By default, only
+	 * @param   array $config   An array of configuration options. By default, only
 	 *                          published and unpublished categories are returned.
 	 *
 	 * @return  array
@@ -43,8 +43,8 @@ abstract class JHtmlTag
 		if (!isset(static::$items[$hash]))
 		{
 			$config = (array) $config;
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
+			$db     = JFactory::getDbo();
+			$query  = $db->getQuery(true)
 				->select('a.id, a.title, a.level')
 				->from('#__tags AS a')
 				->where('a.parent_id > 0');
@@ -90,8 +90,8 @@ abstract class JHtmlTag
 
 			foreach ($items as &$item)
 			{
-				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
-				$item->title = str_repeat('- ', $repeat) . $item->title;
+				$repeat                 = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
+				$item->title            = str_repeat('- ', $repeat) . $item->title;
 				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 			}
 		}
@@ -102,7 +102,7 @@ abstract class JHtmlTag
 	/**
 	 * Returns an array of tags.
 	 *
-	 * @param   array  $config  An array of configuration options. By default, only published and unpublished tags are returned.
+	 * @param   array $config An array of configuration options. By default, only published and unpublished tags are returned.
 	 *
 	 * @return  array  Tag data
 	 *
@@ -110,10 +110,10 @@ abstract class JHtmlTag
 	 */
 	public static function tags($config = array('filter.published' => array(0, 1)))
 	{
-		$hash = md5(serialize($config));
+		$hash   = md5(serialize($config));
 		$config = (array) $config;
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
+		$db     = JFactory::getDbo();
+		$query  = $db->getQuery(true)
 			->select('a.id, a.title, a.level, a.parent_id')
 			->from('#__tags AS a')
 			->where('a.parent_id > 0');
@@ -142,24 +142,25 @@ abstract class JHtmlTag
 
 		foreach ($items as &$item)
 		{
-			$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
-			$item->title = str_repeat('- ', $repeat) . $item->title;
+			$repeat                 = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
+			$item->title            = str_repeat('- ', $repeat) . $item->title;
 			static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 		}
+
 		return static::$items[$hash];
 	}
 
 	/**
 	 * This is just a proxy for the formbehavior.ajaxchosen method
 	 *
-	 * @param   string   $selector     DOM id of the tag field
-	 * @param   boolean  $allowCustom  Flag to allow custom values
+	 * @param   string  $selector    DOM id of the tag field
+	 * @param   boolean $allowCustom Flag to allow custom values
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	public static function ajaxfield($selector='#jform_tags', $allowCustom = true)
+	public static function ajaxfield($selector = '#jform_tags', $allowCustom = true)
 	{
 		// Tags field ajax
 		$chosenAjaxSettings = new JRegistry(

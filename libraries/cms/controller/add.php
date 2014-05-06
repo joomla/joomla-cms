@@ -32,11 +32,12 @@ class JControllerAdd extends JControllerDisplay
 	 */
 	public function execute()
 	{
-		$model  = $this->getModel();
+		$model = $this->getModel();
 		if (!$model->allowAction('core.create'))
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED');
 			$this->abort($msg, 'error');
+
 			return false;
 		}
 

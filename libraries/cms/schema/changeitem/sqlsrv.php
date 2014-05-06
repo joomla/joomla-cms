@@ -39,16 +39,16 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 	{
 		// Initialize fields in case we can't create a check query
 		$this->checkStatus = -1; // change status to skipped
-		$result = null;
+		$result            = null;
 
 		// Remove any newlines
 		$this->updateQuery = str_replace("\n", '', $this->updateQuery);
 
 		// Fix up extra spaces around () and in general
-		$find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
-		$replace = array('($3)', '$1');
+		$find        = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
+		$replace     = array('($3)', '$1');
 		$updateQuery = preg_replace($find, $replace, $this->updateQuery);
-		$wordArray = explode(' ', $updateQuery);
+		$wordArray   = explode(' ', $updateQuery);
 
 		// First, make sure we have an array of at least 6 elements
 		// if not, we can't make a check query for this one
@@ -65,30 +65,30 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 			if ($alterCommand == 'ADD')
 			{
-				$result = 'SELECT * FROM INFORMATION_SCHEMA.Columns ' . $wordArray[2] . ' WHERE COLUMN_NAME = ' . $this->fixQuote($wordArray[5]);
-				$this->queryType = 'ADD';
+				$result            = 'SELECT * FROM INFORMATION_SCHEMA.Columns ' . $wordArray[2] . ' WHERE COLUMN_NAME = ' . $this->fixQuote($wordArray[5]);
+				$this->queryType   = 'ADD';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
 			elseif ($alterCommand == 'CREATE INDEX')
 			{
-				$index = $this->fixQuote(substr($wordArray[5], 0, strpos($wordArray[5], '(')));
-				$result = 'SELECT * FROM SYS.INDEXES ' . $wordArray[2] . ' WHERE name = ' . $index;
-				$this->queryType = 'CREATE INDEX';
+				$index             = $this->fixQuote(substr($wordArray[5], 0, strpos($wordArray[5], '(')));
+				$result            = 'SELECT * FROM SYS.INDEXES ' . $wordArray[2] . ' WHERE name = ' . $index;
+				$this->queryType   = 'CREATE INDEX';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
 			elseif (strtoupper($wordArray[3]) == 'MODIFY' || strtoupper($wordArray[3]) == 'CHANGE')
 			{
-				$result = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = ' . $this->fixQuote($wordArray[2]);
-				$this->queryType = 'ALTER COLUMN COLUMN_NAME =' . $this->fixQuote($wordArray[4]);
+				$result            = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = ' . $this->fixQuote($wordArray[2]);
+				$this->queryType   = 'ALTER COLUMN COLUMN_NAME =' . $this->fixQuote($wordArray[4]);
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]));
 			}
 		}
 
 		if ($command == 'CREATE TABLE')
 		{
-			$table = $wordArray[5];
-			$result = 'SELECT * FROM sys.TABLES WHERE NAME = ' . $this->fixQuote($table);
-			$this->queryType = 'CREATE_TABLE';
+			$table             = $wordArray[5];
+			$result            = 'SELECT * FROM sys.TABLES WHERE NAME = ' . $this->fixQuote($table);
+			$this->queryType   = 'CREATE_TABLE';
 			$this->msgElements = array($this->fixQuote($table));
 		}
 
@@ -110,8 +110,8 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 	 * If you change a column to "integer unsigned" it shows
 	 * as "int(10) unsigned" in the check query.
 	 *
-	 * @param   string  $type1  the column type
-	 * @param   string  $type2  the column attributes
+	 * @param   string $type1 the column type
+	 * @param   string $type2 the column attributes
 	 *
 	 * @return  string  The original or changed column type.
 	 *
@@ -124,6 +124,7 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 		{
 			$result = 'int';
 		}
+
 		return $result;
 	}
 
@@ -132,7 +133,7 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 	 * Replaces name quote character with normal quote for literal.
 	 * Drops trailing semi-colon. Injects the database prefix.
 	 *
-	 * @param   string  $string  The input string to be cleaned up.
+	 * @param   string $string The input string to be cleaned up.
 	 *
 	 * @return  string  The modified string.
 	 *
@@ -143,6 +144,7 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 		$string = str_replace('`', '', $string);
 		$string = str_replace(';', '', $string);
 		$string = str_replace('#__', $this->db->getPrefix(), $string);
+
 		return $this->db->quote($string);
 	}
 }

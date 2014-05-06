@@ -21,11 +21,11 @@ abstract class JHtmlRules
 	/**
 	 * Creates the HTML for the permissions widget
 	 *
-	 * @param   array    $actions   Array of action objects
-	 * @param   integer  $assetId   Id of a specific asset to  create a widget for.
-	 * @param   integer  $parent    Id of the parent of the asset
-	 * @param   string   $control   The form control
-	 * @param   string   $idPrefix  Prefix for the ids assigned to specific action-group pairs
+	 * @param   array   $actions  Array of action objects
+	 * @param   integer $assetId  Id of a specific asset to  create a widget for.
+	 * @param   integer $parent   Id of the parent of the asset
+	 * @param   string  $control  The form control
+	 * @param   string  $idPrefix Prefix for the ids assigned to specific action-group pairs
 	 *
 	 * @return  string   HTML for the permissions widget
 	 *
@@ -42,8 +42,8 @@ abstract class JHtmlRules
 
 		// Get the incoming inherited rules as well as the asset specific rules.
 		$inheriting = JAccess::getAssetRules($parent ? $parent : static::_getParentAssetId($assetId), true);
-		$inherited = JAccess::getAssetRules($assetId, true);
-		$rules = JAccess::getAssetRules($assetId);
+		$inherited  = JAccess::getAssetRules($assetId, true);
+		$rules      = JAccess::getAssetRules($assetId);
 
 		$html = array();
 
@@ -71,7 +71,7 @@ abstract class JHtmlRules
 			{
 				$html[] = '				<td class="col' . ($j + 2) . '">'
 					. ($assetId ? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
-					: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
+						: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
 			}
 			$html[] = '			</tr>';
 		}
@@ -81,18 +81,18 @@ abstract class JHtmlRules
 		foreach ($actions as $action)
 		{
 			$actionTitle = JText::_($action->title);
-			$actionDesc = JText::_($action->description);
-			$html[] = JHtml::_('tabs.panel', $actionTitle, $action->name);
-			$html[] = '			<p>' . $actionDesc . '</p>';
-			$html[] = '			<table class="aclmodify-table" summary="' . strip_tags($actionDesc) . '">';
-			$html[] = '			<caption>' . JText::_('JLIB_HTML_ACCESS_MODIFY_DESC_CAPTION_ACL') . ' ' . $actionTitle . ' '
+			$actionDesc  = JText::_($action->description);
+			$html[]      = JHtml::_('tabs.panel', $actionTitle, $action->name);
+			$html[]      = '			<p>' . $actionDesc . '</p>';
+			$html[]      = '			<table class="aclmodify-table" summary="' . strip_tags($actionDesc) . '">';
+			$html[]      = '			<caption>' . JText::_('JLIB_HTML_ACCESS_MODIFY_DESC_CAPTION_ACL') . ' ' . $actionTitle . ' '
 				. JText::_('JLIB_HTML_ACCESS_MODIFY_DESC_CAPTION_TABLE') . '</caption>';
-			$html[] = '			<tr>';
-			$html[] = '				<th class="col1 hidelabeltxt">' . JText::_('JLIB_RULES_GROUP') . '</th>';
-			$html[] = '				<th class="col2">' . JText::_('JLIB_RULES_INHERIT') . '</th>';
-			$html[] = '				<th class="col3 hidelabeltxt">' . JText::_('JMODIFY') . '</th>';
-			$html[] = '				<th class="col4">' . JText::_('JCURRENT') . '</th>';
-			$html[] = '			</tr>';
+			$html[]      = '			<tr>';
+			$html[]      = '				<th class="col1 hidelabeltxt">' . JText::_('JLIB_RULES_GROUP') . '</th>';
+			$html[]      = '				<th class="col2">' . JText::_('JLIB_RULES_INHERIT') . '</th>';
+			$html[]      = '				<th class="col3 hidelabeltxt">' . JText::_('JMODIFY') . '</th>';
+			$html[]      = '				<th class="col4">' . JText::_('JCURRENT') . '</th>';
+			$html[]      = '			</tr>';
 
 			foreach ($groups as $i => $group)
 			{
@@ -116,7 +116,7 @@ abstract class JHtmlRules
 				$html[] = '				</td>';
 				$html[] = '				<td class="col4">'
 					. ($assetId ? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
-					: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
+						: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
 				$html[] = '			</tr>';
 			}
 
@@ -139,7 +139,7 @@ abstract class JHtmlRules
 	/**
 	 * Get the id of the parent asset
 	 *
-	 * @param   integer  $assetId  The asset for which the parentid will be returned
+	 * @param   integer $assetId The asset for which the parentid will be returned
 	 *
 	 * @return  integer  The id of the parent asset
 	 *
@@ -148,7 +148,7 @@ abstract class JHtmlRules
 	protected static function _getParentAssetId($assetId)
 	{
 		// Get a database object.
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Get the user groups from the database.
@@ -178,7 +178,7 @@ abstract class JHtmlRules
 			. ' FROM #__usergroups AS a LEFT JOIN #__usergroups AS b ON a.lft >= b.lft AND a.rgt <= b.rgt'
 			. ' ORDER BY a.lft ASC, b.lft ASC'
 		);
-		$result = $db->loadObjectList();
+		$result  = $db->loadObjectList();
 		$options = array();
 
 		// Pre-compute additional values.
@@ -188,9 +188,9 @@ abstract class JHtmlRules
 
 			if ($end === false || $end->value != $option->value)
 			{
-				$end = $option;
+				$end        = $option;
 				$end->level = 0;
-				$options[] = $end;
+				$options[]  = $end;
 			}
 			else
 			{
@@ -214,11 +214,11 @@ abstract class JHtmlRules
 	{
 		$images['allow-l'] = '<label class="icon-16-allow" title="' . JText::_('JLIB_RULES_ALLOWED') . '">' . JText::_('JLIB_RULES_ALLOWED')
 			. '</label>';
-		$images['deny-l'] = '<label class="icon-16-deny" title="' . JText::_('JLIB_RULES_DENIED') . '">' . JText::_('JLIB_RULES_DENIED') . '</label>';
-		$images['allow'] = '<a class="icon-16-allow" title="' . JText::_('JLIB_RULES_ALLOWED') . '"> </a>';
-		$images['deny'] = '<a class="icon-16-deny" title="' . JText::_('JLIB_RULES_DENIED') . '"> </a>';
+		$images['deny-l']  = '<label class="icon-16-deny" title="' . JText::_('JLIB_RULES_DENIED') . '">' . JText::_('JLIB_RULES_DENIED') . '</label>';
+		$images['allow']   = '<a class="icon-16-allow" title="' . JText::_('JLIB_RULES_ALLOWED') . '"> </a>';
+		$images['deny']    = '<a class="icon-16-deny" title="' . JText::_('JLIB_RULES_DENIED') . '"> </a>';
 		$images['allow-i'] = '<a class="icon-16-allowinactive" title="' . JText::_('JRULE_ALLOWED_INHERITED') . '"> </a>';
-		$images['deny-i'] = '<a class="icon-16-denyinactive" title="' . JText::_('JRULE_DENIED_INHERITED') . '"> </a>';
+		$images['deny-i']  = '<a class="icon-16-denyinactive" title="' . JText::_('JRULE_DENIED_INHERITED') . '"> </a>';
 
 		return $images;
 	}

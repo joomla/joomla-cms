@@ -42,17 +42,17 @@ class JFormFieldTemplatestyle extends JFormFieldGroupedList
 	protected function getGroups()
 	{
 		$groups = array();
-		$lang = JFactory::getLanguage();
+		$lang   = JFactory::getLanguage();
 
 		// Get the client and client_id.
 		$clientName = $this->element['client'] ? (string) $this->element['client'] : 'site';
-		$client = JApplicationHelper::getClientInfo($clientName, true);
+		$client     = JApplicationHelper::getClientInfo($clientName, true);
 
 		// Get the template.
 		$template = (string) $this->element['template'];
 
 		// Get the database object and a new query object.
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Build the query.
@@ -80,9 +80,9 @@ class JFormFieldTemplatestyle extends JFormFieldGroupedList
 			{
 				$template = $style->template;
 				$lang->load('tpl_' . $template . '.sys', $client->path, null, false, false)
-					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, null, false, false)
-					|| $lang->load('tpl_' . $template . '.sys', $client->path, $lang->getDefault(), false, false)
-					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, $lang->getDefault(), false, false);
+				|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, null, false, false)
+				|| $lang->load('tpl_' . $template . '.sys', $client->path, $lang->getDefault(), false, false)
+				|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, $lang->getDefault(), false, false);
 				$name = JText::_($style->name);
 
 				// Initialize the group if necessary.

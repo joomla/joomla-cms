@@ -23,7 +23,7 @@ class JFormFieldModulePosition extends JFormFieldText
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
+	 * @var        string
 	 * @since   1.6
 	 */
 	protected $type = 'ModulePosition';
@@ -31,7 +31,7 @@ class JFormFieldModulePosition extends JFormFieldText
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  string    The field input markup.
 	 *
 	 * @since   1.6
 	 */
@@ -44,7 +44,7 @@ class JFormFieldModulePosition extends JFormFieldText
 			$clientName = $this->element['client'];
 			if (isset($clientName))
 			{
-				$client = JApplicationHelper::getClientInfo($clientName, true);
+				$client   = JApplicationHelper::getClientInfo($clientName, true);
 				$clientId = $client->id;
 			}
 		}
@@ -60,7 +60,7 @@ class JFormFieldModulePosition extends JFormFieldText
 		JHtml::_('behavior.modal', 'a.modal');
 
 		// Build the script.
-		$script = array();
+		$script   = array();
 		$script[] = '	function jSelectPosition_' . $this->id . '(name) {';
 		$script[] = '		document.id("' . $this->id . '").value = name;';
 		$script[] = '		SqueezeBox.close();';

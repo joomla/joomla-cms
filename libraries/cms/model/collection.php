@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage Model
+ * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -22,9 +22,8 @@ abstract class JModelCollection extends JModelRecord
 	/**
 	 * Array of field dataKeyNames to search in
 	 * @var array
-	*/
+	 */
 	protected $searchFields = array();
-
 
 
 	public function __construct($config = array())
@@ -36,12 +35,12 @@ abstract class JModelCollection extends JModelRecord
 		{
 			foreach ($config['filter_fields'] AS $filter_field)
 			{
-				$hasName = (array_key_exists('name', $filter_field));
+				$hasName    = (array_key_exists('name', $filter_field));
 				$hasDataKey = (array_key_exists('dataKeyName', $filter_field));
 
 				if ($hasName && $hasDataKey)
 				{
-					$name = $filter_field['name'];
+					$name        = $filter_field['name'];
 					$dataKeyName = $filter_field['dataKeyName'];
 
 					if (array_key_exists('sortable', $filter_field))
@@ -70,10 +69,12 @@ abstract class JModelCollection extends JModelRecord
 
 	/**
 	 * Method to add field to filterField and/or to searchFields arrays
-	 * @param string $name name of the filter I.E. "title"
-	 * @param string $dataKeyName name of the database key I.E. "a.title"
-	 * @param booleen $sortable true to add to the filterFields array
-	 * @param booleen $searchable true to add to the searchFields array
+	 *
+	 * @param string  $name        name of the filter I.E. "title"
+	 * @param string  $dataKeyName name of the database key I.E. "a.title"
+	 * @param booleen $sortable    true to add to the filterFields array
+	 * @param booleen $searchable  true to add to the searchFields array
+	 *
 	 * @return JModelList $this to allow for chaining
 	 */
 	public function addFilterField($name, $dataKeyName, $sortable = true, $searchable = false)
@@ -113,9 +114,9 @@ abstract class JModelCollection extends JModelRecord
 				$stateHasFilter = property_exists($this->state, $filterName);
 				if ($stateHasFilter)
 				{
-					$validState = (!empty($this->state->$filterName) || is_numeric($this->state->$filterName));
+					$validState      = (!empty($this->state->$filterName) || is_numeric($this->state->$filterName));
 					$isPublishFilter = ($filterName == 'filter.state');
-						
+
 					if ($validState && !$isPublishFilter)
 					{
 						$activeFilters[$filterField['dataKeyName']] = $this->state->get($filterName);
@@ -129,16 +130,16 @@ abstract class JModelCollection extends JModelRecord
 
 	/**
 	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
-	 * 
+	 *
 	 * If you send a $query object to this function it will append active filters before returning.
 	 *
-	 * If you don't send a $query it will return a $query object with: 
-	 * 
+	 * If you don't send a $query it will return a $query object with:
+	 *
 	 * $query->select('a.*');
-	 * $query->from($tableName.' AS a'); 
-	 * 
+	 * $query->from($tableName.' AS a');
+	 *
 	 * before appending the active filters.
-	 *  
+	 *
 	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   12.2
@@ -150,21 +151,21 @@ abstract class JModelCollection extends JModelRecord
 		if (is_null($query))
 		{
 			$query = $db->getQuery(true);
-				
-			$table = $this->getTable();
+
+			$table     = $this->getTable();
 			$tableName = $table->getTableName();
-				
+
 			$query->select('a.*');
-			$query->from($tableName.' AS a');
+			$query->from($tableName . ' AS a');
 		}
 
 		if (array_key_exists('a.state', $this->filterFields))
 		{
-			$state =  $this->getState('filter.state');
-				
+			$state = $this->getState('filter.state');
+
 			if (is_numeric($state))
 			{
-				$query->where('a.state = '.(int) $state);
+				$query->where('a.state = ' . (int) $state);
 			}
 			else if ($state === '')
 			{
@@ -175,7 +176,7 @@ abstract class JModelCollection extends JModelRecord
 		$activeFilters = $this->getActiveFilters();
 		foreach ($activeFilters AS $dataKeyName => $value)
 		{
-			$query->where($dataKeyName.' = '.$db->quote($value));
+			$query->where($dataKeyName . ' = ' . $db->quote($value));
 		}
 
 		$search = $this->buildSearch();
@@ -185,12 +186,12 @@ abstract class JModelCollection extends JModelRecord
 			$query->where($search);
 		}
 
-		$orderCol	= $this->state->get('list.ordering');
-		$orderDirn	= $this->state->get('list.direction');
+		$orderCol  = $this->state->get('list.ordering');
+		$orderDirn = $this->state->get('list.direction');
 
 		if ($orderCol && $orderDirn)
 		{
-			$query->order($db->escape($orderCol.' '.$orderDirn));
+			$query->order($db->escape($orderCol . ' ' . $orderDirn));
 		}
 
 		return $query;
@@ -221,42 +222,42 @@ abstract class JModelCollection extends JModelRecord
 
 	protected function buildSearch()
 	{
-		$db		= JFactory::getDbo();
+		$db     = JFactory::getDbo();
 		$search = $this->getState('filter.search');
 
 		if (!empty($search))
 		{
-			if(isset($this->searchFields))
+			if (isset($this->searchFields))
 			{
-				$where = '';
-				$searchInList = (array)$this->searchFields;
+				$where        = '';
+				$searchInList = (array) $this->searchFields;
 
 				$isExact = (JString::strrpos($search, '"'));
 
 				if ($isExact)
 				{
-					$search = JString::substr($search, 1,-1);
-					$where = '( ';
-					foreach ((array)$searchInList as $search_field)
+					$search = JString::substr($search, 1, -1);
+					$where  = '( ';
+					foreach ((array) $searchInList as $search_field)
 					{
 						$cleanSearch = $db->Quote($db->escape($search, true));
-						$where .=' '.$search_field['dataKeyName'].' = '.$cleanSearch.' OR';
+						$where .= ' ' . $search_field['dataKeyName'] . ' = ' . $cleanSearch . ' OR';
 					}
-					$where = substr($where, 0,-3);
-					$where.=')';
+					$where = substr($where, 0, -3);
+					$where .= ')';
 				}
 				else
 				{
-					$where = '';
-					$search = $db->Quote('%'.$db->escape($search, true).'%');
+					$where  = '';
+					$search = $db->Quote('%' . $db->escape($search, true) . '%');
 
 					$where = '( ';
-					foreach ((array)$searchInList as $search_field)
+					foreach ((array) $searchInList as $search_field)
 					{
-						$where .=' '.$search_field['dataKeyName'].' LIKE '.$search.' OR ';
+						$where .= ' ' . $search_field['dataKeyName'] . ' LIKE ' . $search . ' OR ';
 					}
-					$where = substr($where, 0,-3);
-					$where.=')';
+					$where = substr($where, 0, -3);
+					$where .= ')';
 				}
 
 				return $where;
@@ -275,41 +276,41 @@ abstract class JModelCollection extends JModelRecord
 		if (!$this->stateIsSet)
 		{
 			$app = JFactory::getApplication();
-				
-			$filters = $app->getUserStateFromRequest($context.'.filter', 'filter', array(), 'array');
-				
+
+			$filters = $app->getUserStateFromRequest($context . '.filter', 'filter', array(), 'array');
+
 			foreach ($filters AS $name => $value)
 			{
-				$this->setState('filter.'.$name, $value);
+				$this->setState('filter.' . $name, $value);
 			}
-				
-			$limit = $app->getUserStateFromRequest($context.'list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+
+			$limit = $app->getUserStateFromRequest($context . 'list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
 			$this->setState('list.limit', $limit);
-				
+
 			// Check if the ordering field is in the white list, otherwise use the incoming value.
 			$orderColName = $app->getUserStateFromRequest($context . '.ordercol', 'filter_order', $ordering);
-				
+
 			if (!array_key_exists($orderColName, $this->filterFields))
 			{
 				$orderColName = $ordering;
 				$app->setUserState($context . '.ordercol', $orderColName);
 			}
-				
+
 			$this->setState('list.ordering', $orderColName);
-				
+
 			// Check if the ordering direction is valid, otherwise use the incoming value.
 			$orderDir = $app->getUserStateFromRequest($context . '.orderdirn', 'filter_order_Dir', $direction);
-				
-			if (!in_array(strtoupper($orderDir),array('ASC', 'DESC')))
+
+			if (!in_array(strtoupper($orderDir), array('ASC', 'DESC')))
 			{
 				$orderDir = $direction;
 				$app->setUserState($context . '.orderdirn', $orderDir);
 			}
-				
+
 			$this->setState('list.direction', strtoupper($orderDir));
-				
-			$limitStartValue =  $app->getUserStateFromRequest($context . '.limitstart', 'limitstart', 0, 'int');
-			
+
+			$limitStartValue = $app->getUserStateFromRequest($context . '.limitstart', 'limitstart', 0, 'int');
+
 			if ($limit != 0)
 			{
 				$limitStart = (floor($limitStartValue / $limit) * $limit);
@@ -318,9 +319,9 @@ abstract class JModelCollection extends JModelRecord
 			{
 				$limitStart = 0;
 			}
-			
+
 			$this->setState('list.start', $limitStart);
-				
+
 			parent::populateState($ordering, $direction);
 		}
 	}
@@ -337,7 +338,7 @@ abstract class JModelCollection extends JModelRecord
 		// Create the pagination object.
 		jimport('joomla.html.pagination');
 		$limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
-		$page = new JPagination($this->getTotal(), $this->getStart(), $limit);
+		$page  = new JPagination($this->getTotal(), $this->getStart(), $limit);
 
 		return $page;
 	}
@@ -387,10 +388,11 @@ abstract class JModelCollection extends JModelRecord
 
 		return $start;
 	}
+
 	/**
 	 * Returns a record count for the query.
 	 *
-	 * @param   JDatabaseQuery $query  The query.
+	 * @param   JDatabaseQuery $query The query.
 	 *
 	 * @return  integer  Number of rows for query.
 	 *
@@ -403,16 +405,17 @@ abstract class JModelCollection extends JModelRecord
 		//if this is a select and there are no GROUP BY or HAVING clause
 		//Use COUNT(*) method to improve performance.
 
-		$isSelect = ($query->type == 'select');
+		$isSelect       = ($query->type == 'select');
 		$hasGroupClause = ($query->group === null);
-		$hasHaveClause = ($query->having === null);
-			
+		$hasHaveClause  = ($query->having === null);
+
 		if ($isSelect && !$hasGroupClause && !$hasHaveClause)
 		{
 			$query = clone $query;
 			$query->clear('select')->clear('order')->select('COUNT(*)');
 
 			$db->setQuery($query);
+
 			return (int) $db->loadResult();
 		}
 
@@ -429,11 +432,11 @@ abstract class JModelCollection extends JModelRecord
 	 * This is the same as the method in JApplication except that this also can optionally
 	 * force you back to the first page when a filter has changed
 	 *
-	 * @param   string   $key        The key of the user state variable.
-	 * @param   string   $request    The name of the variable passed in a request.
-	 * @param   string   $default    The default value for the variable if not found. Optional.
-	 * @param   string   $type       Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
-	 * @param   boolean  $resetPage  If true, the limitstart in request is set to zero
+	 * @param   string  $key       The key of the user state variable.
+	 * @param   string  $request   The name of the variable passed in a request.
+	 * @param   string  $default   The default value for the variable if not found. Optional.
+	 * @param   string  $type      Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
+	 * @param   boolean $resetPage If true, the limitstart in request is set to zero
 	 *
 	 * @return  The request user state.
 	 *
@@ -441,11 +444,11 @@ abstract class JModelCollection extends JModelRecord
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
-		$app = JFactory::getApplication();
-		$input     = $app->input;
+		$app   = JFactory::getApplication();
+		$input = $app->input;
 
 		$old_state = $app->getUserState($key);
-		if(!is_null($old_state))
+		if (!is_null($old_state))
 		{
 			$cur_state = $old_state;
 		}
@@ -462,7 +465,7 @@ abstract class JModelCollection extends JModelRecord
 		{
 			$input->set('limitstart', 0);
 			$input->set('list.total', null);
-				
+
 		}
 
 		// Save the new value only if it is set in this request.

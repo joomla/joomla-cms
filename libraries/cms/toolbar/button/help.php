@@ -19,18 +19,18 @@ defined('JPATH_PLATFORM') or die;
 class JToolbarButtonHelp extends JToolbarButton
 {
 	/**
-	 * @var    string	Button type
+	 * @var    string    Button type
 	 */
 	protected $_name = 'Help';
 
 	/**
 	 * Fetches the button HTML code.
 	 *
-	 * @param   string   $type       Unused string.
-	 * @param   string   $ref        The name of the help screen (its key reference).
-	 * @param   boolean  $com        Use the help file in the component directory.
-	 * @param   string   $override   Use this URL instead of any other.
-	 * @param   string   $component  Name of component to get Help (null for current component)
+	 * @param   string  $type      Unused string.
+	 * @param   string  $ref       The name of the help screen (its key reference).
+	 * @param   boolean $com       Use the help file in the component directory.
+	 * @param   string  $override  Use this URL instead of any other.
+	 * @param   string  $component Name of component to get Help (null for current component)
 	 *
 	 * @return  string
 	 *
@@ -39,7 +39,7 @@ class JToolbarButtonHelp extends JToolbarButton
 	public function fetchButton($type = 'Help', $ref = '', $com = false, $override = null, $component = null)
 	{
 		// Store all data to the options array for use with JLayout
-		$options = array();
+		$options           = array();
 		$options['text']   = JText::_('JTOOLBAR_HELP');
 		$options['doTask'] = $this->_getCommand($ref, $com, $override, $component);
 
@@ -54,7 +54,7 @@ class JToolbarButtonHelp extends JToolbarButton
 	 *
 	 * Redefined from JButton class
 	 *
-	 * @return  string	Button CSS Id
+	 * @return  string    Button CSS Id
 	 *
 	 * @since   3.0
 	 */
@@ -66,10 +66,10 @@ class JToolbarButtonHelp extends JToolbarButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param   string   $ref        The name of the help screen (its key reference).
-	 * @param   boolean  $com        Use the help file in the component directory.
-	 * @param   string   $override   Use this URL instead of any other.
-	 * @param   string   $component  Name of component to get Help (null for current component)
+	 * @param   string  $ref       The name of the help screen (its key reference).
+	 * @param   boolean $com       Use the help file in the component directory.
+	 * @param   string  $override  Use this URL instead of any other.
+	 * @param   string  $component Name of component to get Help (null for current component)
 	 *
 	 * @return  string   JavaScript command string
 	 *

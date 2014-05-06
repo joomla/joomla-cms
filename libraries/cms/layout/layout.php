@@ -22,7 +22,7 @@ interface JLayout
 	/**
 	 * Method to escape output.
 	 *
-	 * @param   string  $output  The output to escape.
+	 * @param   string $output The output to escape.
 	 *
 	 * @return  string  The escaped output.
 	 *
@@ -33,7 +33,7 @@ interface JLayout
 	/**
 	 * Method to render the layout.
 	 *
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   object $displayData Object which properties are used inside the layout file to build displayed output
 	 *
 	 * @return  string  The rendered layout.
 	 *

@@ -46,9 +46,9 @@ class JHelperTags
 	/**
 	 * Method to add tag rows to mapping table.
 	 *
-	 * @param   integer  $ucmId  ID of the #__ucm_content item being tagged
-	 * @param   JTable   $table  JTable object being tagged
-	 * @param   array    $tags   Array of tags to be applied.
+	 * @param   integer $ucmId ID of the #__ucm_content item being tagged
+	 * @param   JTable  $table JTable object being tagged
+	 * @param   array   $tags  Array of tags to be applied.
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
@@ -56,9 +56,9 @@ class JHelperTags
 	 */
 	public function addTagMapping($ucmId, $table, $tags = array())
 	{
-		$db = $table->getDbo();
-		$key = $table->getKeyName();
-		$item = $table->$key;
+		$db     = $table->getDbo();
+		$key    = $table->getKeyName();
+		$item   = $table->$key;
 		$typeId = $this->getTypeId($this->typeAlias);
 
 		// Insert the new tag maps
@@ -69,7 +69,7 @@ class JHelperTags
 
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
-		$query->columns(array($db->quoteName('type_alias'), $db->quoteName('core_content_id'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'),  $db->quoteName('type_id')));
+		$query->columns(array($db->quoteName('type_alias'), $db->quoteName('core_content_id'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'), $db->quoteName('type_id')));
 
 		foreach ($tags as $tag)
 		{
@@ -84,7 +84,7 @@ class JHelperTags
 	/**
 	 * Function that converts tags paths into paths of names
 	 *
-	 * @param   array  $tags  Array of tags
+	 * @param   array $tags Array of tags
 	 *
 	 * @return  array
 	 *
@@ -169,7 +169,7 @@ class JHelperTags
 	/**
 	 * Create any new tags by looking for #new# in the strings
 	 *
-	 * @param   array  $tags  Tags text array from the field
+	 * @param   array $tags Tags text array from the field
 	 *
 	 * @return  mixed   If successful, metadata with new tag titles replaced by tag ids. Otherwise false.
 	 *
@@ -186,7 +186,7 @@ class JHelperTags
 			// We will use the tags table to store them
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 			$tagTable = JTable::getInstance('Tag', 'TagsTable');
-			$newTags = array();
+			$newTags  = array();
 
 			foreach ($tags as $key => $tag)
 			{
@@ -210,13 +210,13 @@ class JHelperTags
 					else
 					{
 						// Prepare tag data
-						$tagTable->id = 0;
-						$tagTable->title = $tagText;
+						$tagTable->id        = 0;
+						$tagTable->title     = $tagText;
 						$tagTable->published = 1;
 
 						// $tagTable->language = property_exists ($item, 'language') ? $item->language : '*';
 						$tagTable->language = '*';
-						$tagTable->access = 1;
+						$tagTable->access   = 1;
 
 						// Make this item a child of the root tag
 						$tagTable->setLocation($tagTable->getRootId(), 'last-child');
@@ -239,7 +239,7 @@ class JHelperTags
 
 			// At this point $tags is an array of all tag ids
 			$this->tags = $newTags;
-			$result = $newTags;
+			$result     = $newTags;
 		}
 
 		return $result;
@@ -248,7 +248,7 @@ class JHelperTags
 	/**
 	 * Create any new tags by looking for #new# in the metadata
 	 *
-	 * @param   string  $metadata  Metadata JSON string
+	 * @param   string $metadata Metadata JSON string
 	 *
 	 * @return  mixed   If successful, metadata with new tag titles replaced by tag ids. Otherwise false.
 	 *
@@ -274,7 +274,7 @@ class JHelperTags
 			// We will use the tags table to store them
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 			$tagTable = JTable::getInstance('Tag', 'TagsTable');
-			$newTags = array();
+			$newTags  = array();
 
 			foreach ($tags as $tag)
 			{
@@ -298,13 +298,13 @@ class JHelperTags
 					else
 					{
 						// Prepare tag data
-						$tagTable->id = 0;
-						$tagTable->title = $tagText;
+						$tagTable->id        = 0;
+						$tagTable->title     = $tagText;
 						$tagTable->published = 1;
 
 						// $tagTable->language = property_exists ($item, 'language') ? $item->language : '*';
 						$tagTable->language = '*';
-						$tagTable->access = 1;
+						$tagTable->access   = 1;
 
 						// Make this item a child of the root tag
 						$tagTable->setLocation($tagTable->getRootId(), 'last-child');
@@ -327,7 +327,7 @@ class JHelperTags
 
 			// At this point $tags is an array of all tag ids
 			$metaObject->tags = $newTags;
-			$result = json_encode($metaObject);
+			$result           = json_encode($metaObject);
 		}
 
 		return $result;
@@ -336,8 +336,8 @@ class JHelperTags
 	/**
 	 * Method to delete the tag mappings and #__ucm_content record for for an item
 	 *
-	 * @param   JTable   $table          JTable object of content table where delete occurred
-	 * @param   integer  $contentItemId  ID of the content item.
+	 * @param   JTable  $table         JTable object of content table where delete occurred
+	 * @param   integer $contentItemId ID of the content item.
 	 *
 	 * @return  boolean  true on success, false on failure
 	 *
@@ -358,9 +358,9 @@ class JHelperTags
 	/**
 	 * Method to get a list of tags for an item, optionally with the tag data.
 	 *
-	 * @param   integer  $contentType  Content type alias. Dot separated.
-	 * @param   integer  $id           Id of the item to retrieve tags for.
-	 * @param   boolean  $getTagData   If true, data from the tags table will be included, defaults to true.
+	 * @param   integer $contentType Content type alias. Dot separated.
+	 * @param   integer $id          Id of the item to retrieve tags for.
+	 * @param   boolean $getTagData  If true, data from the tags table will be included, defaults to true.
 	 *
 	 * @return  array    Array of of tag objects
 	 *
@@ -374,7 +374,7 @@ class JHelperTags
 		}
 
 		// Initialize some variables.
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('m.tag_id'))
 			->from($db->quoteName('#__contentitem_tag_map') . ' AS m ')
@@ -386,7 +386,7 @@ class JHelperTags
 				)
 			);
 
-		$user = JFactory::getUser();
+		$user   = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		$query->where('t.access IN (' . $groups . ')');
@@ -420,8 +420,8 @@ class JHelperTags
 	 * Method to get a list of tags for a given item.
 	 * Normally used for displaying a list of tags within a layout
 	 *
-	 * @param   integer  $id      The id (primary key) of the item to be tagged.
-	 * @param   string   $prefix  Dot separated string with the option and view to be used for a url.
+	 * @param   integer $id     The id (primary key) of the item to be tagged.
+	 * @param   string  $prefix Dot separated string with the option and view to be used for a url.
 	 *
 	 * @return  string   Comma separated list of tag Ids.
 	 *
@@ -452,7 +452,7 @@ class JHelperTags
 			$db->setQuery($query);
 
 			// Add the tags to the content data.
-			$tagsList = $db->loadColumn();
+			$tagsList   = $db->loadColumn();
 			$this->tags = implode(',', $tagsList);
 		}
 		else
@@ -466,27 +466,27 @@ class JHelperTags
 	/**
 	 * Method to get a query to retrieve a detailed list of items for a tag.
 	 *
-	 * @param   mixed    $tagId            Tag or array of tags to be matched
-	 * @param   mixed    $typesr           Null, type or array of type aliases for content types to be included in the results
-	 * @param   boolean  $includeChildren  True to include the results from child tags
-	 * @param   string   $orderByOption    Column to order the results by
-	 * @param   string   $orderDir         Direction to sort the results in
-	 * @param   boolean  $anyOrAll         True to include items matching at least one tag, false to include
+	 * @param   mixed   $tagId             Tag or array of tags to be matched
+	 * @param   mixed   $typesr            Null, type or array of type aliases for content types to be included in the results
+	 * @param   boolean $includeChildren   True to include the results from child tags
+	 * @param   string  $orderByOption     Column to order the results by
+	 * @param   string  $orderDir          Direction to sort the results in
+	 * @param   boolean $anyOrAll          True to include items matching at least one tag, false to include
 	 *                                     items all tags in the array.
-	 * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
-	 * @param   string   $stateFilter      Optional filtering on publication state, defaults to published or unpublished.
+	 * @param   string  $languageFilter    Optional filter on language. Options are 'all', 'current' or any string.
+	 * @param   string  $stateFilter       Optional filtering on publication state, defaults to published or unpublished.
 	 *
 	 * @return  JDatabaseQuery  Query to retrieve a list of tags
 	 *
 	 * @since   3.1
 	 */
 	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'c.core_title', $orderDir = 'ASC',
-		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1')
+	                                 $anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1')
 	{
 		// Create a new query object.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
+		$db       = JFactory::getDbo();
+		$query    = $db->getQuery(true);
+		$user     = JFactory::getUser();
 		$nullDate = $db->quote($db->getNullDate());
 
 		$ntagsr = substr_count($tagId, ',') + 1;
@@ -606,7 +606,7 @@ class JHelperTags
 	/**
 	 * Function that converts tag ids to their tag names
 	 *
-	 * @param   array  $tagIds  Array of integer tag ids.
+	 * @param   array $tagIds Array of integer tag ids.
 	 *
 	 * @return  array  An array of tag names.
 	 *
@@ -621,7 +621,7 @@ class JHelperTags
 			JArrayHelper::toInteger($tagIds);
 			$tagIds = implode(',', $tagIds);
 
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__tags'))
@@ -638,8 +638,8 @@ class JHelperTags
 	/**
 	 * Method to get an array of tag ids for the current tag and its children
 	 *
-	 * @param   integer  $id             An optional ID
-	 * @param   array    &$tagTreeArray  Array containing the tag tree
+	 * @param   integer $id            An optional ID
+	 * @param   array   &$tagTreeArray Array containing the tag tree
 	 *
 	 * @return  mixed
 	 *
@@ -674,7 +674,7 @@ class JHelperTags
 	/**
 	 * Method to get the type id for a type alias.
 	 *
-	 * @param   string  $typeAlias  A type alias.
+	 * @param   string $typeAlias A type alias.
 	 *
 	 * @return  string  Name of the table for a type
 	 *
@@ -683,7 +683,7 @@ class JHelperTags
 	public function getTypeId($typeAlias)
 	{
 		// Initialize some variables.
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('type_id'))
 			->from($db->quoteName('#__content_types'))
@@ -697,10 +697,10 @@ class JHelperTags
 	/**
 	 * Method to get a list of types with associated data.
 	 *
-	 * @param   string   $arrayType    Optionally specify that the returned list consist of objects, associative arrays, or arrays.
+	 * @param   string  $arrayType     Optionally specify that the returned list consist of objects, associative arrays, or arrays.
 	 *                                 Options are: rowList, assocList, and objectList
-	 * @param   array    $selectTypes  Optional array of type ids to limit the results to. Often from a request.
-	 * @param   boolean  $useAlias     If true, the alias is used to match, if false the type_id is used.
+	 * @param   array   $selectTypes   Optional array of type ids to limit the results to. Often from a request.
+	 * @param   boolean $useAlias      If true, the alias is used to match, if false the type_id is used.
 	 *
 	 * @return  array   Array of of types
 	 *
@@ -709,7 +709,7 @@ class JHelperTags
 	public static function getTypes($arrayType = 'objectList', $selectTypes = null, $useAlias = true)
 	{
 		// Initialize some variables.
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*');
 
@@ -756,9 +756,9 @@ class JHelperTags
 	/**
 	 * Function that handles saving tags used in a table class after a store()
 	 *
-	 * @param   JTable   $table    JTable being processed
-	 * @param   array    $newTags  Array of new tags
-	 * @param   boolean  $replace  Flag indicating if all exising tags should be replaced
+	 * @param   JTable  $table   JTable being processed
+	 * @param   array   $newTags Array of new tags
+	 * @param   boolean $replace Flag indicating if all exising tags should be replaced
 	 *
 	 * @return  boolean
 	 *
@@ -768,13 +768,13 @@ class JHelperTags
 	{
 		if (!empty($table->newTags) && empty($newTags))
 		{
-				$newTags = $table->newTags;
+			$newTags = $table->newTags;
 		}
 
 		// If existing row, check to see if tags have changed.
 		$newTable = clone $table;
 		$newTable->reset();
-		$key = $newTable->getKeyName();
+		$key       = $newTable->getKeyName();
 		$typeAlias = $this->typeAlias;
 
 		$result = true;
@@ -785,7 +785,7 @@ class JHelperTags
 			if (!$newTags)
 			{
 				// Delete all tags data
-				$key = $table->getKeyName();
+				$key    = $table->getKeyName();
 				$result = $this->deleteTagData($table, $table->$key);
 			}
 			else
@@ -793,31 +793,32 @@ class JHelperTags
 				// Process the tags
 				$rowdata = new JHelperContent;
 
-				$data = $rowdata->getRowData($table);
+				$data            = $rowdata->getRowData($table);
 				$ucmContentTable = JTable::getInstance('Corecontent');
 
-				$ucm = new JUcmContent($table, $this->typeAlias);
+				$ucm     = new JUcmContent($table, $this->typeAlias);
 				$ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;
 
 				$primaryId = $ucm->getPrimaryKey($ucmData['common']['core_type_id'], $ucmData['common']['core_content_item_id']);
-				$result = $ucmContentTable->load($primaryId);
-				$result = $result && $ucmContentTable->bind($ucmData['common']);
-				$result = $result && $ucmContentTable->check();
-				$result = $result && $ucmContentTable->store();
-				$ucmId = $ucmContentTable->core_content_id;
+				$result    = $ucmContentTable->load($primaryId);
+				$result    = $result && $ucmContentTable->bind($ucmData['common']);
+				$result    = $result && $ucmContentTable->check();
+				$result    = $result && $ucmContentTable->store();
+				$ucmId     = $ucmContentTable->core_content_id;
 
 				// Store the tag data if the article data was saved and run related methods.
 				$result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
 			}
 		}
+
 		return $result;
 	}
 
 	/**
 	 * Function that preProcesses data from a table prior to a store() to ensure proper tag handling
 	 *
-	 * @param   JTable  $table    JTable being processed
-	 * @param   array   $newTags  Array of new tags
+	 * @param   JTable $table   JTable being processed
+	 * @param   array  $newTags Array of new tags
 	 *
 	 * @return  null
 	 *
@@ -833,7 +834,7 @@ class JHelperTags
 		// If existing row, check to see if tags have changed.
 		$oldTable = clone $table;
 		$oldTable->reset();
-		$key = $oldTable->getKeyName();
+		$key       = $oldTable->getKeyName();
 		$typeAlias = $this->typeAlias;
 
 		if ($oldTable->$key && $oldTable->load())
@@ -852,7 +853,7 @@ class JHelperTags
 	/**
 	 * Function to search tags
 	 *
-	 * @param   array  $filters  Filter to apply to the search
+	 * @param   array $filters Filter to apply to the search
 	 *
 	 * @return  array
 	 *
@@ -860,7 +861,7 @@ class JHelperTags
 	 */
 	public static function searchTags($filters = array())
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value')
 			->select('a.path AS text')
@@ -882,7 +883,7 @@ class JHelperTags
 		{
 			$query->where(
 				'(' . $db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%')
-					. ' OR ' . $db->quoteName('a.path') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%') . ')'
+				. ' OR ' . $db->quoteName('a.path') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%') . ')'
 			);
 		}
 
@@ -939,7 +940,7 @@ class JHelperTags
 	/**
 	 * Method to delete all instances of a tag from the mapping table. Generally used when a tag is deleted.
 	 *
-	 * @param   integer  $tag_id  The tag_id (primary key) for the deleted tag.
+	 * @param   integer $tag_id The tag_id (primary key) for the deleted tag.
 	 *
 	 * @return  void
 	 *
@@ -948,7 +949,7 @@ class JHelperTags
 	public function tagDeleteInstances($tag_id)
 	{
 		// Delete the old tag maps.
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__contentitem_tag_map'))
 			->where($db->quoteName('tag_id') . ' = ' . (int) $tag_id);
@@ -959,10 +960,10 @@ class JHelperTags
 	/**
 	 * Method to add or update tags associated with an item.
 	 *
-	 * @param   integer  $ucmId    Id of the #__ucm_content item being tagged
-	 * @param   JTable   $table    JTable object being tagged
-	 * @param   array    $tags     Array of tags to be applied.
-	 * @param   boolean  $replace  Flag indicating if all exising tags should be replaced
+	 * @param   integer $ucmId   Id of the #__ucm_content item being tagged
+	 * @param   JTable  $table   JTable object being tagged
+	 * @param   array   $tags    Array of tags to be applied.
+	 * @param   boolean $replace Flag indicating if all exising tags should be replaced
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
@@ -970,10 +971,10 @@ class JHelperTags
 	 */
 	public function tagItem($ucmId, $table, $tags = array(), $replace = true)
 	{
-		$key = $table->get('_tbl_key');
+		$key     = $table->get('_tbl_key');
 		$oldTags = $this->getTagIds((int) $table->$key, $this->typeAlias);
 		$oldTags = explode(',', $oldTags);
-		$result = $this->unTagItem($ucmId, $table);
+		$result  = $this->unTagItem($ucmId, $table);
 
 		if ($replace)
 		{
@@ -1007,9 +1008,9 @@ class JHelperTags
 	/**
 	 * Method to untag an item
 	 *
-	 * @param   integer  $contentId  ID of the content item being untagged
-	 * @param   JTable   $table      JTable object being untagged
-	 * @param   array    $tags       Array of tags to be untagged. Use an empty array to untag all existing tags.
+	 * @param   integer $contentId ID of the content item being untagged
+	 * @param   JTable  $table     JTable object being untagged
+	 * @param   array   $tags      Array of tags to be untagged. Use an empty array to untag all existing tags.
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
@@ -1017,9 +1018,9 @@ class JHelperTags
 	 */
 	public function unTagItem($contentId, $table, $tags = array())
 	{
-		$key = $table->getKeyName();
-		$id = $table->$key;
-		$db = JFactory::getDbo();
+		$key   = $table->getKeyName();
+		$id    = $table->$key;
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete('#__contentitem_tag_map')
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($this->typeAlias))

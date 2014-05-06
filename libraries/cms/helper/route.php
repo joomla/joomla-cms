@@ -31,28 +31,28 @@ class JHelperRoute
 	 * @var    string  Option for the extension (such as com_content)
 	 * @since  3.1
 	 */
-	protected  $extension;
+	protected $extension;
 
 	/**
 	 * @var    string  Value of the primary key in the content type table
 	 * @since  3.1
 	 */
-	protected  $id;
+	protected $id;
 
 	/**
 	 * @var    string  Name of the view for the url
 	 * @since  3.1
 	 */
-	protected  $view;
+	protected $view;
 
 	/**
 	 * A method to get the route for a specific item
 	 *
-	 * @param   integer  $id         Value of the primary key for the item in its content table
-	 * @param   string   $typealias  The type_alias for the item being routed. Of the form extension.view.
-	 * @param   string   $link       The link to be routed
-	 * @param   string   $language   The language of the content for multilingual sites
-	 * @param   integer  $catid      Optional category id
+	 * @param   integer $id        Value of the primary key for the item in its content table
+	 * @param   string  $typealias The type_alias for the item being routed. Of the form extension.view.
+	 * @param   string  $link      The link to be routed
+	 * @param   string  $language  The language of the content for multilingual sites
+	 * @param   integer $catid     Optional category id
 	 *
 	 * @return  string  The route of the item
 	 *
@@ -62,14 +62,14 @@ class JHelperRoute
 	{
 		$typeExploded = explode('.', $typealias);
 
-		$this->view = $typeExploded[1];
+		$this->view      = $typeExploded[1];
 		$this->extension = $typeExploded[0];
-		$name = ucfirst(substr_replace($this->extension, '', 0, 4));
+		$name            = ucfirst(substr_replace($this->extension, '', 0, 4));
 
 		if (isset($this->view))
 		{
 			$needles = array(
-				$this->view  => array((int) $id)
+				$this->view => array((int) $id)
 			);
 		}
 		if (empty($link))
@@ -86,7 +86,7 @@ class JHelperRoute
 				$category = $categories->get((int) $catid);
 				if ($category)
 				{
-					$needles['category'] = array_reverse($category->getPath());
+					$needles['category']   = array_reverse($category->getPath());
 					$needles['categories'] = $needles['category'];
 					$link .= '&catid=' . $catid;
 				}
@@ -96,8 +96,8 @@ class JHelperRoute
 		// Deal with languages only if needed
 		if (!empty($language) && $language != '*' && JLanguageMultilang::isEnabled())
 		{
-			$db		= JFactory::getDbo();
-			$query	= $db->getQuery(true)
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
 				->select('a.sef AS sef')
 				->select('a.lang_code AS lang_code')
 				->from('#__languages AS a');
@@ -114,14 +114,14 @@ class JHelperRoute
 			}
 		}
 
-			if ($item = self::findItem($needles))
-			{
-				$link .= '&Itemid=' . $item;
-			}
-			elseif ($item = self::findItem())
-			{
-				$link .= '&Itemid=' . $item;
-			}
+		if ($item = self::findItem($needles))
+		{
+			$link .= '&Itemid=' . $item;
+		}
+		elseif ($item = self::findItem())
+		{
+			$link .= '&Itemid=' . $item;
+		}
 
 		return $link;
 	}
@@ -129,7 +129,7 @@ class JHelperRoute
 	/**
 	 * Method to find the item in the menu structure
 	 *
-	 * @param   array  $needles  Array of lookup values
+	 * @param   array $needles Array of lookup values
 	 *
 	 * @return  mixed
 	 *
@@ -137,9 +137,9 @@ class JHelperRoute
 	 */
 	protected function findItem($needles = array())
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu('site');
-		$language	= isset($needles['language']) ? $needles['language'] : '*';
+		$app      = JFactory::getApplication();
+		$menus    = $app->getMenu('site');
+		$language = isset($needles['language']) ? $needles['language'] : '*';
 
 		// Prepare the reverse lookup array.
 		if (!isset(self::$lookup[$language]))
@@ -149,12 +149,12 @@ class JHelperRoute
 			$component = JComponentHelper::getComponent($this->extension);
 
 			$attributes = array('component_id');
-			$values = array($component->id);
+			$values     = array($component->id);
 
 			if ($language != '*')
 			{
 				$attributes[] = 'language';
-				$values[] = array($needles['language'], '*');
+				$values[]     = array($needles['language'], '*');
 			}
 
 			$items = $menus->getItems($attributes, $values);

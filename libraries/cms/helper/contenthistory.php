@@ -30,7 +30,7 @@ class JHelperContenthistory
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $typeAlias  The type of content to be versioned (for example, 'com_content.article').
+	 * @param   string $typeAlias The type of content to be versioned (for example, 'com_content.article').
 	 *
 	 * @since   3.2
 	 */
@@ -42,7 +42,7 @@ class JHelperContenthistory
 	/**
 	 * Method to delete the history for an item.
 	 *
-	 * @param   JTable  $table  JTable object being tagged
+	 * @param   JTable $table JTable object being tagged
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
@@ -50,12 +50,12 @@ class JHelperContenthistory
 	 */
 	public function deleteHistory($table)
 	{
-		$key = $table->getKeyName();
-		$id = $table->$key;
+		$key       = $table->getKeyName();
+		$id        = $table->$key;
 		$typeTable = JTable::getInstance('Contenttype', 'JTable');
-		$typeId = $typeTable->getTypeId($this->typeAlias);
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$typeId    = $typeTable->getTypeId($this->typeAlias);
+		$db        = JFactory::getDbo();
+		$query     = $db->getQuery(true);
 		$query->delete($db->quoteName('#__ucm_history'))
 			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $id)
 			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $typeId);
@@ -67,7 +67,7 @@ class JHelperContenthistory
 	/**
 	 * Method to get an object containing all of the table columns.
 	 *
-	 * @param   JTable  $table  JTable object.
+	 * @param   JTable $table JTable object.
 	 *
 	 * @return  object Contains all of the columns and values.
 	 *
@@ -75,12 +75,12 @@ class JHelperContenthistory
 	 */
 	public function getDataObject(JTable $table)
 	{
-		$fields = $table->getFields();
+		$fields     = $table->getFields();
 		$dataObject = new stdClass;
 
 		foreach ($fields as $field)
 		{
-			$fieldName = $field->Field;
+			$fieldName              = $field->Field;
 			$dataObject->$fieldName = $table->get($fieldName);
 		}
 
@@ -90,8 +90,8 @@ class JHelperContenthistory
 	/**
 	 * Method to get a list of available versions of this item.
 	 *
-	 * @param   integer  $typeId  Type id for this component item.
-	 * @param   mixed    $id      Primary key of row to get history for.
+	 * @param   integer $typeId Type id for this component item.
+	 * @param   mixed   $id     Primary key of row to get history for.
 	 *
 	 * @return  mixed   The return value or null if the query failed.
 	 *
@@ -99,7 +99,7 @@ class JHelperContenthistory
 	 */
 	public function getHistory($typeId, $id)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('h.version_note') . ',' . $db->quoteName('h.save_date') . ',' . $db->quoteName('u.name'))
 			->from($db->quoteName('#__ucm_history') . ' AS h ')
@@ -115,7 +115,7 @@ class JHelperContenthistory
 	/**
 	 * Method to save a version snapshot to the content history table.
 	 *
-	 * @param   JTable  $table  JTable object being tagged
+	 * @param   JTable $table JTable object being tagged
 	 *
 	 * @return  boolean  True on success, otherwise false.
 	 *
@@ -123,9 +123,9 @@ class JHelperContenthistory
 	 */
 	public function store($table)
 	{
-		$dataObject = $this->getDataObject($table);
+		$dataObject   = $this->getDataObject($table);
 		$historyTable = JTable::getInstance('Contenthistory', 'JTable');
-		$typeTable = JTable::getInstance('Contenttype', 'JTable');
+		$typeTable    = JTable::getInstance('Contenttype', 'JTable');
 		$historyTable->set('ucm_type_id', $typeTable->getTypeId($this->typeAlias));
 
 		$key = $table->getKeyName();
@@ -139,7 +139,7 @@ class JHelperContenthistory
 
 		$historyTable->set('version_data', json_encode($dataObject));
 		$input = JFactory::getApplication()->input;
-		$data = $input->get('jform', array(), 'array');
+		$data  = $input->get('jform', array(), 'array');
 
 		if (isset($data['version_note']))
 		{

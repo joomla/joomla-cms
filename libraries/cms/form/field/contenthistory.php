@@ -37,9 +37,9 @@ class JFormFieldContenthistory extends JFormField
 	{
 		$typeId = JTable::getInstance('Contenttype')->getTypeId($this->element['data-typeAlias']);
 		$itemId = $this->form->getValue('id');
-		$label = JText::_('JTOOLBAR_VERSIONS');
-		$html = array();
-		$link = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;field='
+		$label  = JText::_('JTOOLBAR_VERSIONS');
+		$html   = array();
+		$link   = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;field='
 			. $this->id . '&amp;item_id=' . $itemId . '&amp;type_id=' . $typeId . '&amp;type_alias='
 			. $this->element['data-typeAlias'] . '&amp;' . JSession::getFormToken() . '=1';
 
@@ -52,6 +52,7 @@ class JFormFieldContenthistory extends JFormField
 		$html[] = $label;
 		$html[] = '</a>';
 		$html[] = '</div>';
+
 		return implode("\n", $html);
 	}
 }

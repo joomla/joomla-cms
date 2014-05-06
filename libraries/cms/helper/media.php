@@ -21,7 +21,7 @@ class JHelperMedia
 	/**
 	 * Checks if the file is an image
 	 *
-	 * @param   string  $fileName  The filename
+	 * @param   string $fileName The filename
 	 *
 	 * @return  boolean
 	 *
@@ -30,13 +30,14 @@ class JHelperMedia
 	public function isImage($fileName)
 	{
 		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
+
 		return preg_match("/\.(?:$imageTypes)$/i", $fileName);
 	}
 
 	/**
 	 * Gets the file extension for purposed of using an icon
 	 *
-	 * @param   string  $fileName  The filename
+	 * @param   string $fileName The filename
 	 *
 	 * @return  string  File extension to determine icon
 	 *
@@ -50,8 +51,8 @@ class JHelperMedia
 	/**
 	 * Checks if the file can be uploaded
 	 *
-	 * @param   array   $file       File information
-	 * @param   string  $component  The option name for the component storing the parameters
+	 * @param   array  $file      File information
+	 * @param   string $component The option name for the component storing the parameters
 	 *
 	 * @return  boolean
 	 *
@@ -82,7 +83,7 @@ class JHelperMedia
 
 		// Media file names should never have executable extensions buried in them.
 		$executable = array(
-			'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp','dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
+			'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
 			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh'
 		);
 
@@ -216,9 +217,9 @@ class JHelperMedia
 	/**
 	 * Calculate the size of a resized image
 	 *
-	 * @param   integer  $width   Image width
-	 * @param   integer  $height  Image height
-	 * @param   integer  $target  Target size
+	 * @param   integer $width  Image width
+	 * @param   integer $height Image height
+	 * @param   integer $target Target size
 	 *
 	 * @return  array  The new width and height
 	 *
@@ -250,7 +251,7 @@ class JHelperMedia
 	/**
 	 * Counts the files and directories in a directory that are not php or html files.
 	 *
-	 * @param   string  $dir  Directory name
+	 * @param   string $dir Directory name
 	 *
 	 * @return  array  The number of media files and directories in the given directory
 	 *
@@ -268,7 +269,8 @@ class JHelperMedia
 			while (false !== ($entry = $d->read()))
 			{
 				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry)
-					&& strpos($entry, '.html') === false && strpos($entry, '.php') === false)
+					&& strpos($entry, '.html') === false && strpos($entry, '.php') === false
+				)
 				{
 					$total_file++;
 				}

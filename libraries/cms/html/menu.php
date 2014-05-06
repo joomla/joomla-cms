@@ -45,7 +45,7 @@ abstract class JHtmlMenu
 	{
 		if (empty(static::$menus))
 		{
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('menutype AS value, title AS text')
 				->from($db->quoteName('#__menu_types'))
@@ -60,7 +60,7 @@ abstract class JHtmlMenu
 	/**
 	 * Returns an array of menu items grouped by menu.
 	 *
-	 * @param   array  $config  An array of configuration options.
+	 * @param   array $config An array of configuration options.
 	 *
 	 * @return  array
 	 *
@@ -72,7 +72,7 @@ abstract class JHtmlMenu
 		{
 			$menus = static::menus();
 
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('a.id AS value, a.title AS text, a.level, a.menutype')
 				->from('#__menu AS a')
@@ -108,7 +108,7 @@ abstract class JHtmlMenu
 					$lookup[$item->menutype] = array();
 				}
 
-				$lookup[$item->menutype][] = &$item;
+				$lookup[$item->menutype][] = & $item;
 
 				$item->text = str_repeat('- ', $item->level) . $item->text;
 			}
@@ -143,10 +143,10 @@ abstract class JHtmlMenu
 	/**
 	 * Displays an HTML select list of menu items.
 	 *
-	 * @param   string  $name      The name of the control.
-	 * @param   string  $selected  The value of the selected option.
-	 * @param   string  $attribs   Attributes for the control.
-	 * @param   array   $config    An array of options for the control.
+	 * @param   string $name     The name of the control.
+	 * @param   string $selected The value of the selected option.
+	 * @param   string $attribs  Attributes for the control.
+	 * @param   array  $config   An array of options for the control.
 	 *
 	 * @return  string
 	 *
@@ -161,9 +161,9 @@ abstract class JHtmlMenu
 		return JHtml::_(
 			'select.genericlist', $options, $name,
 			array(
-				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
-				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="1"' : $attribs),
-				'list.select' => (int) $selected,
+				'id'             => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
+				'list.attr'      => (is_null($attribs) ? 'class="inputbox" size="1"' : $attribs),
+				'list.select'    => (int) $selected,
 				'list.translate' => false
 			)
 		);
@@ -172,8 +172,8 @@ abstract class JHtmlMenu
 	/**
 	 * Build the select list for Menu Ordering
 	 *
-	 * @param   object   &$row  The row object
-	 * @param   integer  $id    The id for the row. Must exist to enable menu ordering
+	 * @param   object  &$row The row object
+	 * @param   integer $id   The id for the row. Must exist to enable menu ordering
 	 *
 	 * @return  string
 	 *
@@ -183,15 +183,15 @@ abstract class JHtmlMenu
 	{
 		if ($id)
 		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
+			$db       = JFactory::getDbo();
+			$query    = $db->getQuery(true)
 				->select('ordering AS value, title AS text')
 				->from($db->quoteName('#__menu'))
 				->where($db->quoteName('menutype') . ' = ' . $db->quote($row->menutype))
 				->where($db->quoteName('parent_id') . ' = ' . (int) $row->parent_id)
 				->where($db->quoteName('published') . ' != -2')
 				->order('ordering');
-			$order = JHtml::_('list.genericordering', $query);
+			$order    = JHtml::_('list.genericordering', $query);
 			$ordering = JHtml::_(
 				'select.genericlist', $order, 'ordering',
 				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => (int) $row->ordering)
@@ -208,8 +208,8 @@ abstract class JHtmlMenu
 	/**
 	 * Build the multiple select list for Menu Links/Pages
 	 *
-	 * @param   boolean  $all         True if all can be selected
-	 * @param   boolean  $unassigned  True if unassigned can be selected
+	 * @param   boolean $all        True if all can be selected
+	 * @param   boolean $unassigned True if unassigned can be selected
 	 *
 	 * @return  string
 	 *
@@ -240,7 +240,7 @@ abstract class JHtmlMenu
 		// First pass - collect children
 		foreach ($mitems as $v)
 		{
-			$pt = $v->parent_id;
+			$pt   = $v->parent_id;
 			$list = @$children[$pt] ? $children[$pt] : array();
 			array_push($list, $v);
 			$children[$pt] = $list;
@@ -270,7 +270,7 @@ abstract class JHtmlMenu
 		}
 
 		$lastMenuType = null;
-		$tmpMenuType = null;
+		$tmpMenuType  = null;
 
 		foreach ($list as $list_a)
 		{
@@ -281,9 +281,9 @@ abstract class JHtmlMenu
 					$mitems[] = JHtml::_('select.option', '</OPTGROUP>');
 				}
 
-				$mitems[] = JHtml::_('select.option', '<OPTGROUP>', $list_a->menutype);
+				$mitems[]     = JHtml::_('select.option', '<OPTGROUP>', $list_a->menutype);
 				$lastMenuType = $list_a->menutype;
-				$tmpMenuType = $list_a->menutype;
+				$tmpMenuType  = $list_a->menutype;
 			}
 
 			$mitems[] = JHtml::_('select.option', $list_a->id, $list_a->title);
@@ -300,13 +300,13 @@ abstract class JHtmlMenu
 	/**
 	 * Build the list representing the menu tree
 	 *
-	 * @param   integer  $id         Id of the menu item
-	 * @param   string   $indent     The indentation string
-	 * @param   array    $list       The list to process
-	 * @param   array    &$children  The children of the current item
-	 * @param   integer  $maxlevel   The maximum number of levels in the tree
-	 * @param   integer  $level      The starting level
-	 * @param   string   $type       Type of link: component, URL, alias, separator
+	 * @param   integer $id        Id of the menu item
+	 * @param   string  $indent    The indentation string
+	 * @param   array   $list      The list to process
+	 * @param   array   &$children The children of the current item
+	 * @param   integer $maxlevel  The maximum number of levels in the tree
+	 * @param   integer $level     The starting level
+	 * @param   string  $type      Type of link: component, URL, alias, separator
 	 *
 	 * @return  array
 	 *
@@ -322,12 +322,12 @@ abstract class JHtmlMenu
 
 				if ($type)
 				{
-					$pre = '<sup>|_</sup>&#160;';
+					$pre    = '<sup>|_</sup>&#160;';
 					$spacer = '.&#160;&#160;&#160;&#160;&#160;&#160;';
 				}
 				else
 				{
-					$pre = '- ';
+					$pre    = '- ';
 					$spacer = '&#160;&#160;';
 				}
 
@@ -340,10 +340,10 @@ abstract class JHtmlMenu
 					$txt = $pre . $v->title;
 				}
 
-				$list[$id] = $v;
+				$list[$id]           = $v;
 				$list[$id]->treename = $indent . $txt;
 				$list[$id]->children = count(@$children[$id]);
-				$list = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
+				$list                = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
 			}
 		}
 

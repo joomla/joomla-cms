@@ -21,9 +21,9 @@ abstract class JHtmlContent
 	/**
 	 * Fire onContentPrepare for content that isn't part of an article.
 	 *
-	 * @param   string  $text     The content to be transformed.
-	 * @param   array   $params   The content params.
-	 * @param   string  $context  The context of the content to be transformed.
+	 * @param   string $text    The content to be transformed.
+	 * @param   array  $params  The content params.
+	 * @param   string $context The context of the content to be transformed.
 	 *
 	 * @return  string   The content after transformation.
 	 *
@@ -36,7 +36,7 @@ abstract class JHtmlContent
 			$params = new JObject;
 		}
 
-		$article = new stdClass;
+		$article       = new stdClass;
 		$article->text = $text;
 		JPluginHelper::importPlugin('content');
 		$dispatcher = JEventDispatcher::getInstance();

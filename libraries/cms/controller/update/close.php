@@ -27,7 +27,7 @@ class JControllerUpdateClose extends JControllerUpdateBase
 
 			$config = $this->config;
 			$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-			$msg = $this->translate('JLIB_APPLICATION_MSG_SAVE_COMPLETED');
+			$msg    = $this->translate('JLIB_APPLICATION_MSG_SAVE_COMPLETED');
 			$this->setRedirect($url, $msg, 'message');
 
 			return true;

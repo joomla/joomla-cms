@@ -21,7 +21,7 @@ class JErrorPage
 	/**
 	 * Render the error page based on an exception.
 	 *
-	 * @param   Exception  $error  The exception for which to render the error page.
+	 * @param   Exception $error The exception for which to render the error page.
 	 *
 	 * @return  void
 	 *
@@ -56,9 +56,9 @@ class JErrorPage
 			$document->setTitle(JText::_('Error') . ': ' . $error->getCode());
 			$data = $document->render(
 				false,
-				array('template' => $template,
-				'directory' => JPATH_THEMES,
-				'debug' => $config->get('debug'))
+				array('template'  => $template,
+				      'directory' => JPATH_THEMES,
+				      'debug'     => $config->get('debug'))
 			);
 
 			// Failsafe to get the error displayed.

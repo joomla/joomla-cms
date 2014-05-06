@@ -27,7 +27,7 @@ class JControllerStateUnpublish extends JControllerStateBase
 
 		$config = $this->config;
 		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-		$msg = $this->translate('JLIB_APPLICATION_MSG_ITEMS_UNPUBLISHED');
+		$msg    = $this->translate('JLIB_APPLICATION_MSG_ITEMS_UNPUBLISHED');
 		$this->setRedirect($url, $msg, 'message');
 
 		return true;

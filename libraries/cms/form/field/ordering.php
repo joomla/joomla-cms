@@ -21,7 +21,7 @@ class JFormFieldOrdering extends JFormField
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
+	 * @var        string
 	 * @since   3.2
 	 */
 	protected $type = 'Ordering';
@@ -29,7 +29,7 @@ class JFormFieldOrdering extends JFormField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  string    The field input markup.
 	 *
 	 * @since   3.2
 	 */
@@ -72,10 +72,10 @@ class JFormFieldOrdering extends JFormField
 	 */
 	protected function getQuery()
 	{
-		$categoryId	= (int) $this->form->getValue('catid');
-		$table = (string) $this->element['table'];
+		$categoryId = (int) $this->form->getValue('catid');
+		$table      = (string) $this->element['table'];
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select(array($db->quoteName('ordering', 'value'), $db->quoteName('name', 'text')))
 			->from($db->quoteName($table))

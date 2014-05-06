@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage Model
+ * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -21,7 +21,9 @@ abstract class JModelAdministrator extends JModelCollection
 
 	/**
 	 * Method to validate data and insert into db
+	 *
 	 * @param array $data
+	 *
 	 * @throws ErrorException
 	 * @return boolean
 	 */
@@ -45,14 +47,15 @@ abstract class JModelAdministrator extends JModelCollection
 		// Get dispatcher and include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
 		$dispatcher = $this->getDispatcher();
-		$config = $this->config;
-		$context = $this->getContext();
+		$config     = $this->config;
+		$context    = $this->getContext();
 
 		$result = $dispatcher->trigger('onContentBeforeSave', array($context, $table, true));
 
 		if (in_array(false, $result, true))
 		{
 			throw new ErrorException($table->getError());
+
 			return false;
 		}
 
@@ -60,6 +63,7 @@ abstract class JModelAdministrator extends JModelCollection
 		if (!$table->store())
 		{
 			throw new ErrorException($table->getError());
+
 			return false;
 		}
 
@@ -74,7 +78,7 @@ abstract class JModelAdministrator extends JModelCollection
 		if (isset($table->$pkName))
 		{
 			$context = $this->getContext();
-			$this->setState( $context.'.id', $table->$pkName);
+			$this->setState($context . '.id', $table->$pkName);
 		}
 
 		return true;
@@ -82,7 +86,9 @@ abstract class JModelAdministrator extends JModelCollection
 
 	/**
 	 * Method to validate data and update into db
+	 *
 	 * @param array $data
+	 *
 	 * @throws ErrorException
 	 * @return boolean
 	 */
@@ -108,13 +114,14 @@ abstract class JModelAdministrator extends JModelCollection
 		// Get dispatcher and include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
 		$dispatcher = $this->getDispatcher();
-		$config = $this->config;
+		$config     = $this->config;
 
 		$result = $dispatcher->trigger('onContentBeforeSave', array($config['option'] . '.' . $config['subject'], $table, false));
 
 		if (in_array(false, $result, true))
 		{
 			throw new ErrorException($table->getError());
+
 			return false;
 		}
 
@@ -122,6 +129,7 @@ abstract class JModelAdministrator extends JModelCollection
 		if (!$table->store())
 		{
 			throw new ErrorException($table->getError());
+
 			return false;
 		}
 
@@ -144,8 +152,8 @@ abstract class JModelAdministrator extends JModelCollection
 	/**
 	 * method for getting the form from the model.
 	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 * @param   array   $data     Data for the form.
+	 * @param   boolean $loadData True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
@@ -154,7 +162,7 @@ abstract class JModelAdministrator extends JModelCollection
 	public function getForm($data = array(), $loadData = false)
 	{
 		$config = $this->config;
-		$form = $this->loadForm($config['option'].'.'.$config['subject'], $config['subject'], array('control' => 'jform', 'load_data' => $loadData));
+		$form   = $this->loadForm($config['option'] . '.' . $config['subject'], $config['subject'], array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{
@@ -173,11 +181,11 @@ abstract class JModelAdministrator extends JModelCollection
 	/**
 	 * Method to get a form object.
 	 *
-	 * @param   string   $name     The name of the form.
-	 * @param   string   $source   The form source. Can be XML string if file flag is set to false.
-	 * @param   array    $options  Optional array of options for the form creation.
-	 * @param   boolean  $clear    Optional argument to force load a new form.
-	 * @param   string   $xpath    An optional xpath to search for the fields.
+	 * @param   string  $name    The name of the form.
+	 * @param   string  $source  The form source. Can be XML string if file flag is set to false.
+	 * @param   array   $options Optional array of options for the form creation.
+	 * @param   boolean $clear   Optional argument to force load a new form.
+	 * @param   string  $xpath   An optional xpath to search for the fields.
 	 *
 	 * @return  mixed  JForm object on success, False on error.
 	 *
@@ -241,20 +249,21 @@ abstract class JModelAdministrator extends JModelCollection
 	{
 		$config = $this->config;
 
-		$data = JFactory::getApplication()->getUserState($this->getContext().'.edit.data', array());
+		$data = JFactory::getApplication()->getUserState($this->getContext() . '.edit.data', array());
 
 		if (empty($data))
 		{
 			$data = $this->getItem();
 		}
+
 		return $data;
 	}
 
 	/**
 	 * Method to allow derived classes to preprocess the data.
 	 *
-	 * @param   string  $context  The context identifier.
-	 * @param   mixed   &$data    The data to be processed. It gets altered directly.
+	 * @param   string $context The context identifier.
+	 * @param   mixed  &$data   The data to be processed. It gets altered directly.
 	 *
 	 * @return  void
 	 *
@@ -265,10 +274,10 @@ abstract class JModelAdministrator extends JModelCollection
 		// Get the dispatcher and load the users plugins.
 		$dispatcher = $this->getDispatcher();
 		JPluginHelper::importPlugin('content');
-	
+
 		// Trigger the data preparation event.
 		$results = $dispatcher->trigger('onContentPrepareData', array($context, $data));
-	
+
 		// Check for errors encountered while preparing the data.
 		if (count($results) > 0 && in_array(false, $results, true))
 		{
@@ -285,9 +294,9 @@ abstract class JModelAdministrator extends JModelCollection
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   JForm   $form   A JForm object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 * @param   JForm  $form  A JForm object.
+	 * @param   mixed  $data  The data expected for the form.
+	 * @param   string $group The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
@@ -321,9 +330,9 @@ abstract class JModelAdministrator extends JModelCollection
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   JForm   $form   The form to validate against.
-	 * @param   array   $data   The data to validate.
-	 * @param   string  $group  The name of the field group to validate.
+	 * @param   JForm  $form  The form to validate against.
+	 * @param   array  $data  The data to validate.
+	 * @param   string $group The name of the field group to validate.
 	 *
 	 * @return  mixed  Array of filtered data if valid, false otherwise.
 	 *
@@ -343,6 +352,7 @@ abstract class JModelAdministrator extends JModelCollection
 		catch (Exception $e)
 		{
 			throw new ErrorException($return->getMessage());
+
 			return false;
 		}
 
@@ -350,8 +360,8 @@ abstract class JModelAdministrator extends JModelCollection
 		if ($return === false)
 		{
 			$msg = '';
-			$i = 0;
-			
+			$i   = 0;
+
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $e)
 			{
@@ -363,8 +373,9 @@ abstract class JModelAdministrator extends JModelCollection
 				$msg .= $e->getMessage();
 				$i++;
 			}
-				
+
 			throw new ErrorException($msg);
+
 			return false;
 		}
 
@@ -380,7 +391,7 @@ abstract class JModelAdministrator extends JModelCollection
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  $pks  An array of record primary keys.
+	 * @param   array $pks An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -389,19 +400,19 @@ abstract class JModelAdministrator extends JModelCollection
 	public function delete($cid)
 	{
 		$config = $this->config;
-		$pks = (array) $cid;
-		$table = $this->getTable();
+		$pks    = (array) $cid;
+		$table  = $this->getTable();
 
 		// Include the content plugins for the on delete events.
 		JPluginHelper::importPlugin('content');
 		$dispatcher = $this->getDispatcher();
 
-		foreach($pks AS $pk)
+		foreach ($pks AS $pk)
 		{
-			$context = $config['option'].'.'.$config['subject'];
-				
+			$context = $config['option'] . '.' . $config['subject'];
+
 			$activeRecord = $this->getActiveRecord($pk);
-				
+
 			if ($this->allowAction('core.delete', $config['option'], $activeRecord))
 			{
 				// Trigger the onContentBeforeDelete event.
@@ -410,6 +421,7 @@ abstract class JModelAdministrator extends JModelCollection
 				if (in_array(false, $result, true))
 				{
 					throw new ErrorException($activeRecord->getError());
+
 					return false;
 				}
 
@@ -418,9 +430,10 @@ abstract class JModelAdministrator extends JModelCollection
 				// Trigger the onContentAfterDelete event.
 				$dispatcher->trigger('onContentAfterDelete', array($context, $activeRecord));
 			}
-			else 
+			else
 			{
 				throw ErrorException('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED');
+
 				return false;
 			}
 		}
@@ -433,8 +446,10 @@ abstract class JModelAdministrator extends JModelCollection
 
 	/**
 	 * Method to update one or more record states
-	 * @param mixed $cid primary key or array of primary keys.
+	 *
+	 * @param mixed  $cid  primary key or array of primary keys.
 	 * @param string $type type of state change.
+	 *
 	 * @see JCmsModelAdmin::getStateTypes
 	 * @throws ErrorException
 	 * @return boolean
@@ -442,21 +457,22 @@ abstract class JModelAdministrator extends JModelCollection
 	public function updateRecordState($cid, $type)
 	{
 		$stateChangeTypes = $this->getStateTypes();
-	
+
 		if (!array_key_exists($type, $stateChangeTypes))
 		{
 			throw new ErrorException('JLIB_APPLICATION_ERROR_UNRECOGNIZED_STATE_CHANGE');
+
 			return false;
 		}
-	
+
 		$newState = $stateChangeTypes[$type];
-	
+
 		$user = JFactory::getUser();
-	
-		foreach ((array)$cid AS $i => $pk)
+
+		foreach ((array) $cid AS $i => $pk)
 		{
 			$activeRecord = $this->getActiveRecord($pk);
-				
+
 			if ($this->allowAction('core.edit.state', $config['option'], $activeRecord))
 			{
 				$activeRecord->updateRecordState($pk, $newState, $user->id);
@@ -467,26 +483,26 @@ abstract class JModelAdministrator extends JModelCollection
 				unset($cid[$i]);
 			}
 		}
-	
+
 		// Include the content plugins for the change of state event.
 		JPluginHelper::importPlugin('content');
 		$dispatcher = $this->getDispatcher();
-	
-		$config = $this->config;
+
+		$config  = $this->config;
 		$context = $this->getContext();
-	
+
 		//trigger 'onContentChangeState'
 		$result = $dispatcher->trigger('onContentChangeState', array($context, $cid, $newState));
-	
+
 		if (!in_array(false, $result, true))
 		{
 			// Clear the component's cache
 			$this->cleanCache();
 		}
-	
+
 		return true;
 	}
-	
+
 	/**
 	 * Method to get an associative array of state types.
 	 * Default array has these values 'publish' => 1, 'unpublish' => 0,'archive' => 2,'trash' => -2,'report' => -3
@@ -495,20 +511,22 @@ abstract class JModelAdministrator extends JModelCollection
 	 */
 	protected function getStateTypes()
 	{
-		$stateChangeTypes = array();
+		$stateChangeTypes              = array();
 		$stateChangeTypes['publish']   = 1;
 		$stateChangeTypes['unpublish'] = 0;
 		$stateChangeTypes['archive']   = 2;
 		$stateChangeTypes['trash']     = -2;
 		$stateChangeTypes['report']    = -3;
-	
+
 		return $stateChangeTypes;
 	}
-	
+
 	/**
 	 * Method to reorder one or more records
-	 * @param int $pks
+	 *
+	 * @param int    $pks
 	 * @param string $direction up or down
+	 *
 	 * @return boolean
 	 */
 	public function reorder($pks, $direction)
@@ -528,10 +546,10 @@ abstract class JModelAdministrator extends JModelCollection
 			$delta = null;
 		}
 
-		foreach($pks AS $pk)
+		foreach ($pks AS $pk)
 		{
 			$activeRecord = $this->getActiveRecord($pk);
-				
+
 			if ($this->allowAction('core.edit.state', $config['option'], $activeRecord))
 			{
 				$where = $activeRecord->getReorderConditions($activeRecord);
@@ -552,8 +570,8 @@ abstract class JModelAdministrator extends JModelCollection
 	/**
 	 * Saves the manually set order of records.
 	 *
-	 * @param   array    $pks    An array of primary key ids.
-	 * @param   integer  $order  +1 or -1
+	 * @param   array   $pks   An array of primary key ids.
+	 * @param   integer $order +1 or -1
 	 *
 	 * @return  mixed
 	 *
@@ -561,17 +579,18 @@ abstract class JModelAdministrator extends JModelCollection
 	 */
 	public function saveorder($pks = null, $order = null)
 	{
-		$table = $this->getTable();
+		$table          = $this->getTable();
 		$tableClassName = get_class($table);
-		$contentType = new JUcmType;
-		$type = $contentType->getTypeByTable($tableClassName);
-		$typeAlias = $type->type_alias;
-		$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
-		$conditions = array();
+		$contentType    = new JUcmType;
+		$type           = $contentType->getTypeByTable($tableClassName);
+		$typeAlias      = $type->type_alias;
+		$tagsObserver   = $table->getObserverOfClass('JTableObserverTags');
+		$conditions     = array();
 
 		if (empty($pks))
 		{
 			throw new ErrorException(JText::_('JLIB_APPLICATION_ERROR_NO_ITEMS_SELECTED'));
+
 			return false;
 		}
 
@@ -588,12 +607,13 @@ abstract class JModelAdministrator extends JModelCollection
 				if (!$activeRecord->store())
 				{
 					throw new ErrorException($activeRecord->getError());
+
 					return false;
 				}
 
 				// Remember to reorder within position and client_id
 				$condition = $activeRecord->getReorderConditions($activeRecord);
-				$found = false;
+				$found     = false;
 
 				foreach ($conditions as $cond)
 				{
@@ -606,7 +626,7 @@ abstract class JModelAdministrator extends JModelCollection
 
 				if (!$found)
 				{
-					$key = $activeRecord->getKeyName();
+					$key          = $activeRecord->getKeyName();
 					$conditions[] = array($activeRecord->$key, $condition);
 				}
 			}
@@ -629,8 +649,10 @@ abstract class JModelAdministrator extends JModelCollection
 	 * Method to import one or more files.
 	 *
 	 * This method is intended to be overriden by child classes.
-	 * @param array $data post data from the input
+	 *
+	 * @param array $data  post data from the input
 	 * @param array $files files data from the input
+	 *
 	 * @throws ErrorException
 	 */
 	public function import($data, $files)

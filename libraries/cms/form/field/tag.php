@@ -112,10 +112,10 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$published = $this->element['published']? $this->element['published'] : array(0,1);
+		$published = $this->element['published'] ? $this->element['published'] : array(0, 1);
 
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('a.id AS value, a.path, a.title AS text, a.level, a.published')
 			->from('#__tags AS a')
 			->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
@@ -182,7 +182,7 @@ class JFormFieldTag extends JFormFieldList
 	/**
 	 * Add "-" before nested tags, depending on level
 	 *
-	 * @param   array  &$options  Array of tags
+	 * @param   array &$options Array of tags
 	 *
 	 * @return  array  The field option objects.
 	 *
@@ -194,7 +194,7 @@ class JFormFieldTag extends JFormFieldList
 		{
 			foreach ($options as &$option)
 			{
-				$repeat = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
+				$repeat       = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
 				$option->text = str_repeat('- ', $repeat) . $option->text;
 			}
 		}
@@ -215,7 +215,8 @@ class JFormFieldTag extends JFormFieldList
 		{
 			// If mode="nested" || ( mode not set & config = nested )
 			if ((isset($this->element['mode']) && $this->element['mode'] == 'nested')
-				|| (!isset($this->element['mode']) && $this->comParams->get('tag_field_ajax_mode', 1) == 0))
+				|| (!isset($this->element['mode']) && $this->comParams->get('tag_field_ajax_mode', 1) == 0)
+			)
 			{
 				$this->isNested = true;
 			}

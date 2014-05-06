@@ -57,7 +57,7 @@ class JToolbar
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $name  The toolbar name.
+	 * @param   string $name The toolbar name.
 	 *
 	 * @since   1.5
 	 */
@@ -74,7 +74,7 @@ class JToolbar
 	 * Returns the global JToolbar object, only creating it if it
 	 * doesn't already exist.
 	 *
-	 * @param   string  $name  The name of the toolbar.
+	 * @param   string $name The name of the toolbar.
 	 *
 	 * @return  JToolbar  The JToolbar object.
 	 *
@@ -102,6 +102,7 @@ class JToolbar
 		// Push button onto the end of the toolbar array.
 		$btn = func_get_args();
 		array_push($this->_bar, $btn);
+
 		return true;
 	}
 
@@ -141,6 +142,7 @@ class JToolbar
 		// Insert button into the front of the toolbar array.
 		$btn = func_get_args();
 		array_unshift($this->_bar, $btn);
+
 		return true;
 	}
 
@@ -177,7 +179,7 @@ class JToolbar
 	/**
 	 * Render a button.
 	 *
-	 * @param   object  &$node  A toolbar node.
+	 * @param   object &$node A toolbar node.
 	 *
 	 * @return  string
 	 *
@@ -195,14 +197,15 @@ class JToolbar
 		{
 			return JText::sprintf('JLIB_HTML_BUTTON_NOT_DEFINED', $type);
 		}
+
 		return $button->render($node);
 	}
 
 	/**
 	 * Loads a button type.
 	 *
-	 * @param   string   $type  Button Type
-	 * @param   boolean  $new   False by default
+	 * @param   string  $type Button Type
+	 * @param   boolean $new  False by default
 	 *
 	 * @return  boolean
 	 *
@@ -219,6 +222,7 @@ class JToolbar
 		if (!class_exists('JToolbarButton'))
 		{
 			JLog::add(JText::_('JLIB_HTML_BUTTON_BASE_CLASS'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -249,6 +253,7 @@ class JToolbar
 				else
 				{
 					JLog::add(JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}
@@ -273,7 +278,7 @@ class JToolbar
 	 * added them. If the parameter type cannot be found in the custom folders,
 	 * it will look in libraries/joomla/html/toolbar/button.
 	 *
-	 * @param   mixed  $path  Directory or directories to search.
+	 * @param   mixed $path Directory or directories to search.
 	 *
 	 * @return  void
 	 *

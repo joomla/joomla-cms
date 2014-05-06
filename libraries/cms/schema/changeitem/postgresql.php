@@ -39,16 +39,16 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 	{
 		// Initialize fields in case we can't create a check query
 		$this->checkStatus = -1; // change status to skipped
-		$result = null;
+		$result            = null;
 
 		// Remove any newlines
 		$this->updateQuery = str_replace("\n", '', $this->updateQuery);
 
 		// Fix up extra spaces around () and in general
-		$find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
-		$replace = array('($3)', '$1');
+		$find        = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
+		$replace     = array('($3)', '$1');
 		$updateQuery = preg_replace($find, $replace, $this->updateQuery);
-		$wordArray = explode(' ', $updateQuery);
+		$wordArray   = explode(' ', $updateQuery);
 
 		// First, make sure we have an array of at least 6 elements
 		// if not, we can't make a check query for this one
@@ -66,9 +66,9 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 			if ($alterCommand === 'ADD COLUMN')
 			{
 				$result = 'SELECT column_name FROM information_schema.columns WHERE table_name='
-				. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]);
+					. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]);
 
-				$this->queryType = 'ADD_COLUMN';
+				$this->queryType   = 'ADD_COLUMN';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
 			elseif ($alterCommand === 'ALTER COLUMN')
@@ -95,7 +95,7 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
 						. ' AND data_type=' . $this->fixQuote($type);
 
-					$this->queryType = 'CHANGE_COLUMN_TYPE';
+					$this->queryType   = 'CHANGE_COLUMN_TYPE';
 					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type);
 				}
 				elseif (strtoupper($wordArray[7] . ' ' . $wordArray[8]) == 'NOT NULL')
@@ -114,9 +114,9 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
 						. ' AND is_nullable=' . $isNullable;
 
-					$this->queryType = 'CHANGE_COLUMN_TYPE';
+					$this->queryType          = 'CHANGE_COLUMN_TYPE';
 					$this->checkQueryExpected = 1;
-					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $isNullable);
+					$this->msgElements        = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $isNullable);
 				}
 				elseif (strtoupper($wordArray[7]) === 'DEFAULT')
 				{
@@ -133,9 +133,9 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
 						. ' AND column_default ' . $isNullDef;
 
-					$this->queryType = 'CHANGE_COLUMN_TYPE';
+					$this->queryType          = 'CHANGE_COLUMN_TYPE';
 					$this->checkQueryExpected = 1;
-					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $isNullDef);
+					$this->msgElements        = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $isNullDef);
 				}
 			}
 		}
@@ -150,28 +150,28 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 				$idx = $this->fixQuote($wordArray[2]);
 			}
 
-			$result = 'SELECT * FROM pg_indexes WHERE indexname=' . $idx;
-			$this->queryType = 'DROP_INDEX';
+			$result                   = 'SELECT * FROM pg_indexes WHERE indexname=' . $idx;
+			$this->queryType          = 'DROP_INDEX';
 			$this->checkQueryExpected = 0;
-			$this->msgElements = array($this->fixQuote($idx));
+			$this->msgElements        = array($this->fixQuote($idx));
 		}
 		elseif ($command == 'CREATE INDEX' || (strtoupper($command . $wordArray[2]) == 'CREATE UNIQUE INDEX'))
 		{
 			if ($wordArray[1] === 'UNIQUE')
 			{
-				$idx = $this->fixQuote($wordArray[3]);
+				$idx   = $this->fixQuote($wordArray[3]);
 				$table = $this->fixQuote($wordArray[5]);
 			}
 			else
 			{
-				$idx = $this->fixQuote($wordArray[2]);
+				$idx   = $this->fixQuote($wordArray[2]);
 				$table = $this->fixQuote($wordArray[4]);
 			}
 
-			$result = 'SELECT * FROM pg_indexes WHERE indexname=' . $idx . ' AND tablename=' . $table;
-			$this->queryType = 'ADD_INDEX';
+			$result                   = 'SELECT * FROM pg_indexes WHERE indexname=' . $idx . ' AND tablename=' . $table;
+			$this->queryType          = 'ADD_INDEX';
 			$this->checkQueryExpected = 1;
-			$this->msgElements = array($table, $idx);
+			$this->msgElements        = array($table, $idx);
 		}
 
 		if ($command == 'CREATE TABLE')
@@ -184,10 +184,10 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 			{
 				$table = $this->fixQuote($wordArray[2]);
 			}
-			$result = 'SELECT table_name FROM information_schema.tables WHERE table_name=' . $table;
-			$this->queryType = 'CREATE_TABLE';
+			$result                   = 'SELECT table_name FROM information_schema.tables WHERE table_name=' . $table;
+			$this->queryType          = 'CREATE_TABLE';
 			$this->checkQueryExpected = 1;
-			$this->msgElements = array($table);
+			$this->msgElements        = array($table);
 		}
 
 		// Set fields based on results
@@ -208,8 +208,8 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 	 * If you change a column to "integer unsigned" it shows
 	 * as "int(10) unsigned" in the check query.
 	 *
-	 * @param   string  $type1  the column type
-	 * @param   string  $type2  the column attributes
+	 * @param   string $type1 the column type
+	 * @param   string $type2 the column attributes
 	 *
 	 * @return  string  The original or changed column type.
 	 *
@@ -222,6 +222,7 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 		{
 			$result = 'unsigned int(10)';
 		}
+
 		return $result;
 	}
 
@@ -230,7 +231,7 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 	 * Replaces name quote character with normal quote for literal.
 	 * Drops trailing semi-colon. Injects the database prefix.
 	 *
-	 * @param   string  $string  The input string to be cleaned up.
+	 * @param   string $string The input string to be cleaned up.
 	 *
 	 * @return  string  The modified string.
 	 *
@@ -241,6 +242,7 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 		$string = str_replace('"', '', $string);
 		$string = str_replace(';', '', $string);
 		$string = str_replace('#__', $this->db->getPrefix(), $string);
+
 		return $this->db->quote($string);
 	}
 }

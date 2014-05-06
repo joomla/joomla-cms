@@ -30,7 +30,7 @@ abstract class JControllerExportBase extends JControllerCms
 		try
 		{
 			$config = $this->config;
-			$input = $this->input;
+			$input  = $this->input;
 			$this->export($model, $input, $config);
 		}
 		catch (Exception $e)

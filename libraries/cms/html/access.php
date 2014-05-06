@@ -29,11 +29,11 @@ abstract class JHtmlAccess
 	/**
 	 * Displays a list of the available access view levels
 	 *
-	 * @param   string  $name      The form field name.
-	 * @param   string  $selected  The name of the selected section.
-	 * @param   string  $attribs   Additional attributes to add to the select field.
-	 * @param   mixed   $params    True to add "All Sections" option or and array of options
-	 * @param   string  $id        The form field id
+	 * @param   string $name     The form field name.
+	 * @param   string $selected The name of the selected section.
+	 * @param   string $attribs  Additional attributes to add to the select field.
+	 * @param   mixed  $params   True to add "All Sections" option or and array of options
+	 * @param   string $id       The form field id
 	 *
 	 * @return  string  The required HTML for the SELECT tag.
 	 *
@@ -42,7 +42,7 @@ abstract class JHtmlAccess
 	 */
 	public static function level($name, $selected, $attribs = '', $params = true, $id = false)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value, a.title AS text')
 			->from('#__viewlevels AS a')
@@ -70,9 +70,9 @@ abstract class JHtmlAccess
 			$options,
 			$name,
 			array(
-				'list.attr' => $attribs,
+				'list.attr'   => $attribs,
 				'list.select' => $selected,
-				'id' => $id
+				'id'          => $id
 			)
 		);
 	}
@@ -80,10 +80,10 @@ abstract class JHtmlAccess
 	/**
 	 * Displays a list of the available user groups.
 	 *
-	 * @param   string   $name      The form field name.
-	 * @param   string   $selected  The name of the selected section.
-	 * @param   string   $attribs   Additional attributes to add to the select field.
-	 * @param   boolean  $allowAll  True to add "All Groups" option.
+	 * @param   string  $name     The form field name.
+	 * @param   string  $selected The name of the selected section.
+	 * @param   string  $attribs  Additional attributes to add to the select field.
+	 * @param   boolean $allowAll True to add "All Groups" option.
 	 *
 	 * @return  string   The required HTML for the SELECT tag.
 	 *
@@ -92,7 +92,7 @@ abstract class JHtmlAccess
 	 */
 	public static function usergroup($name, $selected, $attribs = '', $allowAll = true)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level')
 			->from($db->quoteName('#__usergroups') . ' AS a')
@@ -119,9 +119,9 @@ abstract class JHtmlAccess
 	/**
 	 * Returns a UL list of user groups with check boxes
 	 *
-	 * @param   string   $name             The name of the checkbox controls array
-	 * @param   array    $selected         An array of the checked boxes
-	 * @param   boolean  $checkSuperAdmin  If false only super admins can add to super admin groups
+	 * @param   string  $name            The name of the checkbox controls array
+	 * @param   array   $selected        An array of the checked boxes
+	 * @param   boolean $checkSuperAdmin If false only super admins can add to super admin groups
 	 *
 	 * @return  string
 	 *
@@ -135,7 +135,7 @@ abstract class JHtmlAccess
 
 		$isSuperAdmin = JFactory::getUser()->authorise('core.admin');
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.*, COUNT(DISTINCT b.id) AS level')
 			->from($db->quoteName('#__usergroups') . ' AS a')
@@ -149,7 +149,7 @@ abstract class JHtmlAccess
 
 		for ($i = 0, $n = count($groups); $i < $n; $i++)
 		{
-			$item = &$groups[$i];
+			$item = & $groups[$i];
 
 			// If checkSuperAdmin is true, only add item if the user is superadmin or the group is not super admin
 			if ((!$checkSuperAdmin) || $isSuperAdmin || (!JAccess::checkGroup($item->id, 'core.admin')))
@@ -185,10 +185,10 @@ abstract class JHtmlAccess
 	/**
 	 * Returns a UL list of actions with check boxes
 	 *
-	 * @param   string  $name       The name of the checkbox controls array
-	 * @param   array   $selected   An array of the checked boxes
-	 * @param   string  $component  The component the permissions apply to
-	 * @param   string  $section    The section (within a component) the permissions apply to
+	 * @param   string $name      The name of the checkbox controls array
+	 * @param   array  $selected  An array of the checked boxes
+	 * @param   string $component The component the permissions apply to
+	 * @param   string $section   The section (within a component) the permissions apply to
 	 *
 	 * @return  string
 	 *
@@ -206,15 +206,15 @@ abstract class JHtmlAccess
 			"/access/section[@name='" . $section . "']/"
 		);
 
-		$html = array();
+		$html   = array();
 		$html[] = '<ul class="checklist access-actions">';
 
 		for ($i = 0, $n = count($actions); $i < $n; $i++)
 		{
-			$item = &$actions[$i];
+			$item = & $actions[$i];
 
 			// Setup  the variable attributes.
-			$eid = $count . 'action_' . $item->id;
+			$eid     = $count . 'action_' . $item->id;
 			$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
 
 			// Build the HTML for the item.
@@ -243,7 +243,7 @@ abstract class JHtmlAccess
 	{
 		if (empty(static::$asset_groups))
 		{
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('a.id AS value, a.title AS text')
 				->from($db->quoteName('#__viewlevels') . ' AS a')
@@ -260,10 +260,10 @@ abstract class JHtmlAccess
 	/**
 	 * Displays a Select list of the available asset groups
 	 *
-	 * @param   string  $name      The name of the select element
-	 * @param   mixed   $selected  The selected asset group id
-	 * @param   string  $attribs   Optional attributes for the select field
-	 * @param   array   $config    An array of options for the control
+	 * @param   string $name     The name of the select element
+	 * @param   mixed  $selected The selected asset group id
+	 * @param   string $attribs  Optional attributes for the select field
+	 * @param   array  $config   An array of options for the control
 	 *
 	 * @return  mixed  An HTML string or null if an error occurs
 	 *
@@ -285,8 +285,8 @@ abstract class JHtmlAccess
 			$options,
 			$name,
 			array(
-				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
-				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
+				'id'          => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
+				'list.attr'   => (is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
 				'list.select' => (int) $selected
 			)
 		);

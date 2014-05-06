@@ -39,16 +39,16 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 	{
 		// Initialize fields in case we can't create a check query
 		$this->checkStatus = -1; // change status to skipped
-		$result = null;
+		$result            = null;
 
 		// Remove any newlines
 		$this->updateQuery = str_replace("\n", '', $this->updateQuery);
 
 		// Fix up extra spaces around () and in general
-		$find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
-		$replace = array('($3)', '$1');
+		$find        = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
+		$replace     = array('($3)', '$1');
 		$updateQuery = preg_replace($find, $replace, $this->updateQuery);
-		$wordArray = explode(' ', $updateQuery);
+		$wordArray   = explode(' ', $updateQuery);
 
 		// First, make sure we have an array of at least 6 elements
 		// if not, we can't make a check query for this one
@@ -65,8 +65,8 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 			if ($alterCommand == 'ADD COLUMN')
 			{
-				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5]);
-				$this->queryType = 'ADD_COLUMN';
+				$result            = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5]);
+				$this->queryType   = 'ADD_COLUMN';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
 			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD UNIQUE')
@@ -79,25 +79,25 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				{
 					$index = $this->fixQuote($wordArray[5]);
 				}
-				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
-				$this->queryType = 'ADD_INDEX';
+				$result            = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
+				$this->queryType   = 'ADD_INDEX';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
 			elseif ($alterCommand == 'DROP INDEX')
 			{
-				$index = $this->fixQuote($wordArray[5]);
-				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
-				$this->queryType = 'DROP_INDEX';
+				$index                    = $this->fixQuote($wordArray[5]);
+				$result                   = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
+				$this->queryType          = 'DROP_INDEX';
 				$this->checkQueryExpected = 0;
-				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+				$this->msgElements        = array($this->fixQuote($wordArray[2]), $index);
 			}
 			elseif ($alterCommand == 'DROP COLUMN')
 			{
-				$index = $this->fixQuote($wordArray[5]);
-				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE Field = ' . $index;
-				$this->queryType = 'DROP_COLUMN';
+				$index                    = $this->fixQuote($wordArray[5]);
+				$result                   = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE Field = ' . $index;
+				$this->queryType          = 'DROP_COLUMN';
 				$this->checkQueryExpected = 0;
-				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+				$this->msgElements        = array($this->fixQuote($wordArray[2]), $index);
 			}
 			elseif (strtoupper($wordArray[3]) == 'MODIFY')
 			{
@@ -107,16 +107,16 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				{
 					$type = $this->fixQuote($this->fixInteger($wordArray[5], $wordArray[6]));
 				}
-				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[4]) . ' AND type = ' . $type;
-				$this->queryType = 'CHANGE_COLUMN_TYPE';
+				$result            = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[4]) . ' AND type = ' . $type;
+				$this->queryType   = 'CHANGE_COLUMN_TYPE';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type);
 			}
 			elseif (strtoupper($wordArray[3]) == 'CHANGE')
 			{
 				// Kludge to fix problem with "integer unsigned"
-				$type = $this->fixQuote($this->fixInteger($wordArray[6], $wordArray[7]));
-				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[4]) . ' AND type = ' . $type;
-				$this->queryType = 'CHANGE_COLUMN_TYPE';
+				$type              = $this->fixQuote($this->fixInteger($wordArray[6], $wordArray[7]));
+				$result            = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[4]) . ' AND type = ' . $type;
+				$this->queryType   = 'CHANGE_COLUMN_TYPE';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type);
 			}
 		}
@@ -131,8 +131,8 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 			{
 				$table = $wordArray[2];
 			}
-			$result = 'SHOW TABLES LIKE ' . $this->fixQuote($table);
-			$this->queryType = 'CREATE_TABLE';
+			$result            = 'SHOW TABLES LIKE ' . $this->fixQuote($table);
+			$this->queryType   = 'CREATE_TABLE';
 			$this->msgElements = array($this->fixQuote($table));
 		}
 
@@ -154,8 +154,8 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 	 * If you change a column to "integer unsigned" it shows
 	 * as "int(10) unsigned" in the check query.
 	 *
-	 * @param   string  $type1  the column type
-	 * @param   string  $type2  the column attributes
+	 * @param   string $type1 the column type
+	 * @param   string $type2 the column attributes
 	 *
 	 * @return  string  The original or changed column type.
 	 *
@@ -168,6 +168,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		{
 			$result = 'int(10) unsigned';
 		}
+
 		return $result;
 	}
 
@@ -176,7 +177,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 	 * Replaces name quote character with normal quote for literal.
 	 * Drops trailing semi-colon. Injects the database prefix.
 	 *
-	 * @param   string  $string  The input string to be cleaned up.
+	 * @param   string $string The input string to be cleaned up.
 	 *
 	 * @return  string  The modified string.
 	 *
@@ -187,6 +188,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		$string = str_replace('`', '', $string);
 		$string = str_replace(';', '', $string);
 		$string = str_replace('#__', $this->db->getPrefix(), $string);
+
 		return $this->db->quote($string);
 	}
 }

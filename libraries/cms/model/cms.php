@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage Model
+ * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -62,8 +62,8 @@ abstract class JModelCms
 	/**
 	 * Method to set model state variables
 	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $value     The value of the property to set or null.
+	 * @param   string $property The name of the property.
+	 * @param   mixed  $value    The value of the property to set or null.
 	 *
 	 * @return  mixed  The previous value of the property or null if not set.
 	 *
@@ -77,8 +77,8 @@ abstract class JModelCms
 	/**
 	 * Method to get model state variables
 	 *
-	 * @param   string  $property  Optional parameter name
-	 * @param   mixed   $default   Optional default value
+	 * @param   string $property Optional parameter name
+	 * @param   mixed  $default  Optional default value
 	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
@@ -130,8 +130,8 @@ abstract class JModelCms
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string  $group     The cache group
+	 * @param   integer $client_id The ID of the client
 	 *
 	 * @return  void
 	 *
@@ -140,7 +140,7 @@ abstract class JModelCms
 	protected function cleanCache($group = null, $client_id = 0)
 	{
 		$localConfig = $this->config;
-		$dispatcher = $this->getDispatcher();
+		$dispatcher  = $this->getDispatcher();
 
 		$options = array();
 
@@ -159,7 +159,7 @@ abstract class JModelCms
 		}
 		else
 		{
-			$globalConfig = JFactory::getConfig();
+			$globalConfig        = JFactory::getConfig();
 			$options['cachbase'] = $globalConfig->get('cache_path', JPATH_SITE . '/cache');
 		}
 
@@ -173,6 +173,7 @@ abstract class JModelCms
 	/**
 	 * Method to authorise the current user for an action.
 	 * This method is intended to be overriden to allow for customized access rights
+	 *
 	 * @param string $action
 	 * @param string $assetName
 	 * @param object $activeRecord active record data to check against
@@ -181,11 +182,12 @@ abstract class JModelCms
 	{
 		if (is_null($assetName))
 		{
-			$config = $this->config;
+			$config    = $this->config;
 			$assetName = $config['option'];
 		}
 
 		$user = JFactory::getUser();
+
 		return $user->authorise($action, $assetName);
 	}
 
@@ -204,8 +206,9 @@ abstract class JModelCms
 	 */
 	public function getContext()
 	{
-		$config = $this->config;
-		$context = $config['option'].'.'.$config['subject'];
+		$config  = $this->config;
+		$context = $config['option'] . '.' . $config['subject'];
+
 		return $context;
 	}
 

@@ -27,7 +27,7 @@ class JControllerStateOrderup extends JControllerStateBase
 
 		$config = $this->config;
 		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-		$msg = $this->translate('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
+		$msg    = $this->translate('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
 		$this->setRedirect($url, $msg, 'message');
 
 		return true;

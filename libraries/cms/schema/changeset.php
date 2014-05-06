@@ -50,16 +50,16 @@ class JSchemaChangeset
 	 * Constructor: builds array of $changeItems by processing the .sql files in a folder.
 	 * The folder for the Joomla core updates is administrator/components/com_admin/sql/updates/<database>.
 	 *
-	 * @param   JDatabaseDriver  $db      The current database object
-	 * @param   string           $folder  The full path to the folder containing the update queries
+	 * @param   JDatabaseDriver $db     The current database object
+	 * @param   string          $folder The full path to the folder containing the update queries
 	 *
 	 * @since   2.5
 	 */
 	public function __construct($db, $folder = null)
 	{
-		$this->db = $db;
-		$this->folder = $folder;
-		$updateFiles = $this->getUpdateFiles();
+		$this->db      = $db;
+		$this->folder  = $folder;
+		$updateFiles   = $this->getUpdateFiles();
 		$updateQueries = $this->getUpdateQueries($updateFiles);
 		foreach ($updateQueries as $obj)
 		{
@@ -70,8 +70,8 @@ class JSchemaChangeset
 	/**
 	 * Returns a reference to the JSchemaChangeset object, only creating it if it doesn't already exist.
 	 *
-	 * @param   JDatabaseDriver  $db      The current database object
-	 * @param   string           $folder  The full path to the folder containing the update queries
+	 * @param   JDatabaseDriver $db     The current database object
+	 * @param   string          $folder The full path to the folder containing the update queries
 	 *
 	 * @return  JSchemaChangeset
 	 *
@@ -109,6 +109,7 @@ class JSchemaChangeset
 				$errors[] = $item;
 			}
 		}
+
 		return $errors;
 	}
 
@@ -129,12 +130,12 @@ class JSchemaChangeset
 	}
 
 	/**
-	* Returns an array of results for this set
-	*
-	* @return  array  associative array of changeitems grouped by unchecked, ok, error, and skipped
-	*
-	* @since   2.5
-	*/
+	 * Returns an array of results for this set
+	 *
+	 * @return  array  associative array of changeitems grouped by unchecked, ok, error, and skipped
+	 *
+	 * @since   2.5
+	 */
 	public function getStatus()
 	{
 		$result = array('unchecked' => array(), 'ok' => array(), 'error' => array(), 'skipped' => array());
@@ -156,6 +157,7 @@ class JSchemaChangeset
 					break;
 			}
 		}
+
 		return $result;
 	}
 
@@ -172,7 +174,8 @@ class JSchemaChangeset
 	public function getSchema()
 	{
 		$updateFiles = $this->getUpdateFiles();
-		$result = new SplFileInfo(array_pop($updateFiles));
+		$result      = new SplFileInfo(array_pop($updateFiles));
+
 		return $result->getBasename('.sql');
 	}
 
@@ -211,7 +214,7 @@ class JSchemaChangeset
 	/**
 	 * Get array of SQL queries
 	 *
-	 * @param   array  $sqlfiles  Array of .sql update filenames.
+	 * @param   array $sqlfiles Array of .sql update filenames.
 	 *
 	 * @return  array  Array of stdClass objects where:
 	 *                    file=filename,
@@ -233,20 +236,21 @@ class JSchemaChangeset
 			{
 				if ($trimmedQuery = $this->trimQuery($query))
 				{
-					$fileQueries = new stdClass;
-					$fileQueries->file = $file;
+					$fileQueries              = new stdClass;
+					$fileQueries->file        = $file;
 					$fileQueries->updateQuery = $trimmedQuery;
-					$result[] = $fileQueries;
+					$result[]                 = $fileQueries;
 				}
 			}
 		}
+
 		return $result;
 	}
 
 	/**
 	 * Trim comment and blank lines out of a query string
 	 *
-	 * @param   string  $query  query string to be trimmed
+	 * @param   string $query query string to be trimmed
 	 *
 	 * @return  string  String with leading comment lines removed
 	 *

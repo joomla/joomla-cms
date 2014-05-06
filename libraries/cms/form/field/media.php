@@ -45,9 +45,9 @@ class JFormFieldMedia extends JFormField
 	 */
 	protected function getInput()
 	{
-		$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+		$assetField  = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 		$authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
-		$asset = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
+		$asset       = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
 		if ($asset == '')
 		{
 			$asset = JFactory::getApplication()->input->get('option');
@@ -60,7 +60,7 @@ class JFormFieldMedia extends JFormField
 			JHtml::_('behavior.modal');
 
 			// Build the script.
-			$script = array();
+			$script   = array();
 			$script[] = '	function jInsertFieldValue(value, id) {';
 			$script[] = '		var old_value = document.id(id).value;';
 			$script[] = '		if (old_value != value) {';
@@ -122,8 +122,8 @@ class JFormFieldMedia extends JFormField
 		$html[] = '<div class="input-prepend input-append">';
 
 		// The Preview.
-		$preview = (string) $this->element['preview'];
-		$showPreview = true;
+		$preview       = (string) $this->element['preview'];
+		$showPreview   = true;
 		$showAsTooltip = false;
 		switch ($preview)
 		{
@@ -141,7 +141,7 @@ class JFormFieldMedia extends JFormField
 			case 'tooltip':
 			default:
 				$showAsTooltip = true;
-				$options = array(
+				$options       = array(
 					'onShow' => 'jMediaRefreshPreviewTip',
 				);
 				JHtml::_('behavior.tooltip', '.hasTipPreview', $options);
@@ -159,33 +159,33 @@ class JFormFieldMedia extends JFormField
 				$src = '';
 			}
 
-			$width = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 300;
+			$width  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 300;
 			$height = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
-			$style = '';
+			$style  = '';
 			$style .= ($width > 0) ? 'max-width:' . $width . 'px;' : '';
 			$style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
 
-			$imgattr = array(
-				'id' => $this->id . '_preview',
+			$imgattr         = array(
+				'id'    => $this->id . '_preview',
 				'class' => 'media-preview',
 				'style' => $style,
 			);
-			$img = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
-			$previewImg = '<div id="' . $this->id . '_preview_img"' . ($src ? '' : ' style="display:none"') . '>' . $img . '</div>';
+			$img             = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
+			$previewImg      = '<div id="' . $this->id . '_preview_img"' . ($src ? '' : ' style="display:none"') . '>' . $img . '</div>';
 			$previewImgEmpty = '<div id="' . $this->id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
 				. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
 
 			if ($showAsTooltip)
 			{
-				$html[] = '<div class="media-preview add-on">';
+				$html[]  = '<div class="media-preview add-on">';
 				$tooltip = $previewImgEmpty . $previewImg;
 				$options = array(
 					'title' => JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'),
-					'text' => '<i class="icon-eye"></i>',
+					'text'  => '<i class="icon-eye"></i>',
 					'class' => 'hasTipPreview'
 				);
-				$html[] = JHtml::tooltip($tooltip, $options);
-				$html[] = '</div>';
+				$html[]  = JHtml::tooltip($tooltip, $options);
+				$html[]  = '</div>';
 			}
 			else
 			{
@@ -223,9 +223,9 @@ class JFormFieldMedia extends JFormField
 
 			$html[] = '<a class="modal btn" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '" href="'
 				. ($this->element['readonly'] ? ''
-				: ($link ? $link
-					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
-					. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
+					: ($link ? $link
+						: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
+						. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
 				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
 			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn hasTooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
 			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';

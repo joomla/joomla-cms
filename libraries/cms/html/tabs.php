@@ -21,8 +21,8 @@ abstract class JHtmlTabs
 	/**
 	 * Creates a panes and creates the JavaScript object for it.
 	 *
-	 * @param   string  $group   The pane identifier.
-	 * @param   array   $params  An array of option.
+	 * @param   string $group  The pane identifier.
+	 * @param   array  $params An array of option.
 	 *
 	 * @return  string
 	 *
@@ -50,8 +50,8 @@ abstract class JHtmlTabs
 	/**
 	 * Begins the display of a new panel.
 	 *
-	 * @param   string  $text  Text to display.
-	 * @param   string  $id    Identifier of the panel.
+	 * @param   string $text Text to display.
+	 * @param   string $id   Identifier of the panel.
 	 *
 	 * @return  string  HTML to start a new panel
 	 *
@@ -65,8 +65,8 @@ abstract class JHtmlTabs
 	/**
 	 * Load the JavaScript behavior.
 	 *
-	 * @param   string  $group   The pane identifier.
-	 * @param   array   $params  Array of options.
+	 * @param   string $group  The pane identifier.
+	 * @param   array  $params Array of options.
 	 *
 	 * @return  void
 	 *

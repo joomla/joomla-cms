@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage Model
+ * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -14,7 +14,7 @@ abstract class JModelRecord extends JModelData
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   integer  $pk  The id of the primary key.
+	 * @param   integer $pk The id of the primary key.
 	 *
 	 * @return  mixed    JObject on success, false on failure.
 	 *
@@ -24,10 +24,10 @@ abstract class JModelRecord extends JModelData
 	{
 		$config = $this->config;
 
-		if(empty($pk))
+		if (empty($pk))
 		{
-			$context= $this->getContext();
-			$pk = (int) $this->getState($context. '.id');
+			$context = $this->getContext();
+			$pk      = (int) $this->getState($context . '.id');
 		}
 
 		$table = $this->getTable();
@@ -37,7 +37,7 @@ abstract class JModelRecord extends JModelData
 
 		// Convert to the JObject before adding other data.
 		$properties = $table->getProperties(1);
-		$item = JArrayHelper::toObject($properties, 'JObject');
+		$item       = JArrayHelper::toObject($properties, 'JObject');
 
 		if (property_exists($item, 'params'))
 		{

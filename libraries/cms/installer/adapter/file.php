@@ -40,7 +40,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param   string  $path  The path on which to find language files.
+	 * @param   string $path The path on which to find language files.
 	 *
 	 * @return  void
 	 *
@@ -49,13 +49,13 @@ class JInstallerAdapterFile extends JAdapterInstance
 	public function loadLanguage($path)
 	{
 		$this->manifest = $this->parent->getManifest();
-		$extension = 'files_' . str_replace('files_', '', strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd')));
-		$lang = JFactory::getLanguage();
-		$source = $path;
+		$extension      = 'files_' . str_replace('files_', '', strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd')));
+		$lang           = JFactory::getLanguage();
+		$source         = $path;
 		$lang->load($extension . '.sys', $source, null, false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
+		|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+		|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
 	}
 
 	/**
@@ -82,7 +82,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 
 		// Set element
 		$manifestPath = JPath::clean($this->parent->getPath('manifest'));
-		$element = preg_replace('/\.xml/', '', basename($manifestPath));
+		$element      = preg_replace('/\.xml/', '', basename($manifestPath));
 		$this->set('element', $element);
 
 		// Get the component description
@@ -133,7 +133,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$this->scriptElement = $this->manifest->scriptfile;
-		$manifestScript = (string) $this->manifest->scriptfile;
+		$manifestScript      = (string) $this->manifest->scriptfile;
 
 		if ($manifestScript)
 		{
@@ -254,7 +254,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 
 			return false;
 		}
-		$id = $db->loadResult();
+		$id  = $db->loadResult();
 		$row = JTable::getInstance('extension');
 
 		if ($id)
@@ -365,8 +365,8 @@ class JInstallerAdapterFile extends JAdapterInstance
 		ob_end_clean();
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		$manifest = array();
-		$manifest['src'] = $this->parent->getPath('manifest');
+		$manifest         = array();
+		$manifest['src']  = $this->parent->getPath('manifest');
 		$manifest['dest'] = JPATH_MANIFESTS . '/files/' . basename($this->parent->getPath('manifest'));
 
 		if (!$this->parent->copyFiles(array($manifest), true))
@@ -386,7 +386,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 				JFolder::create($this->parent->getPath('extension_root'));
 			}
 
-			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
+			$path['src']  = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->get('manifest_script');
 
 			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
@@ -402,7 +402,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 		}
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(
+		$uid    = $update->find(
 			array('element' => $this->get('element'), 'type' => 'file', 'client_id' => (int) '', 'folder' => '')
 		);
 
@@ -453,7 +453,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param   string  $id  The id of the file to uninstall
+	 * @param   string $id The id of the file to uninstall
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -477,7 +477,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 			return false;
 		}
 
-		$retval = true;
+		$retval       = true;
 		$manifestFile = JPATH_MANIFESTS . '/files/' . $row->element . '.xml';
 
 		// Because files may not have their own folders we cannot use the standard method of finding an installation manifest
@@ -508,7 +508,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 
 			// If there is an manifest class file, let's load it
 			$this->scriptElement = $this->manifest->scriptfile;
-			$manifestScript = (string) $this->manifest->scriptfile;
+			$manifestScript      = (string) $this->manifest->scriptfile;
 
 			if ($manifestScript)
 			{
@@ -647,7 +647,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 	/**
 	 * Function used to check if extension is already installed
 	 *
-	 * @param   string  $extension  The element name of the extension to install
+	 * @param   string $extension The element name of the extension to install
 	 *
 	 * @return  boolean  True if extension exists
 	 *
@@ -698,11 +698,11 @@ class JInstallerAdapterFile extends JAdapterInstance
 	{
 		// Initialise variable
 		$this->folderList = array();
-		$this->fileList = array();
+		$this->fileList   = array();
 
 		// Set root folder names
 		$packagePath = $this->parent->getPath('source');
-		$jRootPath = JPath::clean(JPATH_ROOT);
+		$jRootPath   = JPath::clean(JPATH_ROOT);
 
 		// Loop through all elements and get list of files and folders
 		foreach ($this->manifest->fileset->files as $eFiles)
@@ -753,7 +753,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 				// Loop through all filenames elements
 				foreach ($eFiles->children() as $eFileName)
 				{
-					$path['src'] = $sourceFolder . '/' . $eFileName;
+					$path['src']  = $sourceFolder . '/' . $eFileName;
 					$path['dest'] = $targetFolder . '/' . $eFileName;
 					$path['type'] = 'file';
 
@@ -773,7 +773,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 
 				foreach ($files as $file)
 				{
-					$path['src'] = $sourceFolder . '/' . $file;
+					$path['src']  = $sourceFolder . '/' . $file;
 					$path['dest'] = $targetFolder . '/' . $file;
 
 					array_push($this->fileList, $path);
@@ -793,13 +793,13 @@ class JInstallerAdapterFile extends JAdapterInstance
 	public function refreshManifestCache()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
-		$manifestPath = JPATH_MANIFESTS . '/files/' . $this->parent->extension->element . '.xml';
+		$manifestPath           = JPATH_MANIFESTS . '/files/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->name           = $manifest_details['name'];
 
 		try
 		{

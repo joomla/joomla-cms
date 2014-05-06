@@ -28,23 +28,23 @@ class JToolbarButtonPopup extends JToolbarButton
 	/**
 	 * Fetch the HTML for the button
 	 *
-	 * @param   string   $type     Unused string, formerly button type.
-	 * @param   string   $name     Modal name, used to generate element ID
-	 * @param   string   $text     The link text
-	 * @param   string   $url      URL for popup
-	 * @param   integer  $width    Width of popup
-	 * @param   integer  $height   Height of popup
-	 * @param   integer  $top      Top attribute.  [@deprecated  Unused, will be removed in 4.0]
-	 * @param   integer  $left     Left attribute. [@deprecated  Unused, will be removed in 4.0]
-	 * @param   string   $onClose  JavaScript for the onClose event.
-	 * @param   string   $title    The title text
+	 * @param   string  $type    Unused string, formerly button type.
+	 * @param   string  $name    Modal name, used to generate element ID
+	 * @param   string  $text    The link text
+	 * @param   string  $url     URL for popup
+	 * @param   integer $width   Width of popup
+	 * @param   integer $height  Height of popup
+	 * @param   integer $top     Top attribute.  [@deprecated  Unused, will be removed in 4.0]
+	 * @param   integer $left    Left attribute. [@deprecated  Unused, will be removed in 4.0]
+	 * @param   string  $onClose JavaScript for the onClose event.
+	 * @param   string  $title   The title text
 	 *
 	 * @return  string  HTML string for the button
 	 *
 	 * @since   3.0
 	 */
 	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $width = 640, $height = 480, $top = 0, $left = 0,
-		$onClose = '', $title = '')
+	                            $onClose = '', $title = '')
 	{
 		// If no $title is set, use the $text element
 		if (strlen($title) == 0)
@@ -53,29 +53,29 @@ class JToolbarButtonPopup extends JToolbarButton
 		}
 
 		// Store all data to the options array for use with JLayout
-		$options = array();
-		$options['name'] = trim(JText::_($name), '*?');
-		$options['text'] = JText::_($text);
-		$options['title'] = JText::_($title);
-		$options['class'] = $this->fetchIconClass($name);
+		$options           = array();
+		$options['name']   = trim(JText::_($name), '*?');
+		$options['text']   = JText::_($text);
+		$options['title']  = JText::_($title);
+		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($url);
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new JLayoutFile('joomla.toolbar.popup');
 
-		$html = array();
+		$html   = array();
 		$html[] = $layout->render($options);
 
 		// Place modal div and scripts in a new div
 		$html[] = '</div><div class="btn-group" style="width: 0; margin: 0">';
 
 		// Build the options array for the modal
-		$params = array();
+		$params           = array();
 		$params['title']  = $options['title'];
 		$params['url']    = $options['doTask'];
 		$params['height'] = $height;
 		$params['width']  = $width;
-		$html[] = JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
+		$html[]           = JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
 
 		// If an $onClose event is passed, add it to the modal JS object
 		if (strlen($onClose) >= 1)
@@ -91,10 +91,10 @@ class JToolbarButtonPopup extends JToolbarButton
 	/**
 	 * Get the button id
 	 *
-	 * @param   string  $type  Button type
-	 * @param   string  $name  Button name
+	 * @param   string $type Button type
+	 * @param   string $name Button name
 	 *
-	 * @return  string	Button CSS Id
+	 * @return  string    Button CSS Id
 	 *
 	 * @since   3.0
 	 */
@@ -106,7 +106,7 @@ class JToolbarButtonPopup extends JToolbarButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param   string  $url  URL for popup
+	 * @param   string $url URL for popup
 	 *
 	 * @return  string  JavaScript command string
 	 *

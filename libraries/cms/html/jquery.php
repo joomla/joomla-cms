@@ -29,8 +29,8 @@ abstract class JHtmlJquery
 	 *
 	 * If debugging mode is on an uncompressed version of jQuery is included for easier debugging.
 	 *
-	 * @param   boolean  $noConflict  True to load jQuery in noConflict mode [optional]
-	 * @param   mixed    $debug       Is debugging mode on? [optional]
+	 * @param   boolean $noConflict True to load jQuery in noConflict mode [optional]
+	 * @param   mixed   $debug      Is debugging mode on? [optional]
 	 *
 	 * @return  void
 	 *
@@ -69,8 +69,8 @@ abstract class JHtmlJquery
 	 *
 	 * If debugging mode is on an uncompressed version of jQuery UI is included for easier debugging.
 	 *
-	 * @param   array  $components  The jQuery UI components to load [optional]
-	 * @param   mixed  $debug       Is debugging mode on? [optional]
+	 * @param   array $components The jQuery UI components to load [optional]
+	 * @param   mixed $debug      Is debugging mode on? [optional]
 	 *
 	 * @return  void
 	 *

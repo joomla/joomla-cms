@@ -84,20 +84,20 @@ class JPagination
 	/**
 	 * Constructor.
 	 *
-	 * @param   integer  $total       The total number of items.
-	 * @param   integer  $limitstart  The offset of the item to start at.
-	 * @param   integer  $limit       The number of items to display per page.
-	 * @param   string   $prefix      The prefix used for request variables.
+	 * @param   integer $total      The total number of items.
+	 * @param   integer $limitstart The offset of the item to start at.
+	 * @param   integer $limit      The number of items to display per page.
+	 * @param   string  $prefix     The prefix used for request variables.
 	 *
 	 * @since   1.5
 	 */
 	public function __construct($total, $limitstart, $limit, $prefix = '')
 	{
 		// Value/type checking.
-		$this->total = (int) $total;
+		$this->total      = (int) $total;
 		$this->limitstart = (int) max($limitstart, 0);
-		$this->limit = (int) max($limit, 0);
-		$this->prefix = $prefix;
+		$this->limit      = (int) max($limit, 0);
+		$this->prefix     = $prefix;
 
 		if ($this->limit > $this->total)
 		{
@@ -106,7 +106,7 @@ class JPagination
 
 		if (!$this->limit)
 		{
-			$this->limit = $total;
+			$this->limit      = $total;
 			$this->limitstart = 0;
 		}
 
@@ -122,12 +122,12 @@ class JPagination
 		// Set the total pages and current page values.
 		if ($this->limit > 0)
 		{
-			$this->pagesTotal = ceil($this->total / $this->limit);
+			$this->pagesTotal   = ceil($this->total / $this->limit);
 			$this->pagesCurrent = ceil(($this->limitstart + 1) / $this->limit);
 		}
 
 		// Set the pagination iteration loop values.
-		$displayedPages = 10;
+		$displayedPages   = 10;
 		$this->pagesStart = $this->pagesCurrent - ($displayedPages / 2);
 
 		if ($this->pagesStart < 1)
@@ -164,8 +164,8 @@ class JPagination
 	 * Method to set an additional URL parameter to be added to all pagination class generated
 	 * links.
 	 *
-	 * @param   string  $key    The name of the URL parameter for which to set a value.
-	 * @param   mixed   $value  The value to set for the URL parameter.
+	 * @param   string $key   The name of the URL parameter for which to set a value.
+	 * @param   mixed  $value The value to set for the URL parameter.
 	 *
 	 * @return  mixed  The old value for the parameter.
 	 *
@@ -193,7 +193,7 @@ class JPagination
 	 * Method to get an additional URL parameter (if it exists) to be added to
 	 * all pagination class generated links.
 	 *
-	 * @param   string  $key  The name of the URL parameter for which to get the value.
+	 * @param   string $key The name of the URL parameter for which to get the value.
 	 *
 	 * @return  mixed  The value if it exists or null if it does not.
 	 *
@@ -209,7 +209,7 @@ class JPagination
 	/**
 	 * Return the rationalised offset for a row with a given index.
 	 *
-	 * @param   integer  $index  The row index
+	 * @param   integer $index The row index
 	 *
 	 * @return  integer  Rationalised offset for a row with a given index.
 	 *
@@ -267,7 +267,7 @@ class JPagination
 	 */
 	public function getResultsCounter()
 	{
-		$html = null;
+		$html       = null;
 		$fromResult = $this->limitstart + 1;
 
 		// If the limit is reached before the end of the list.
@@ -308,7 +308,7 @@ class JPagination
 		// Build the page navigation list.
 		$data = $this->_buildDataObject();
 
-		$list = array();
+		$list           = array();
 		$list['prefix'] = $this->prefix;
 
 		$itemOverride = false;
@@ -335,34 +335,34 @@ class JPagination
 		if ($data->all->base !== null)
 		{
 			$list['all']['active'] = true;
-			$list['all']['data'] = ($itemOverride) ? pagination_item_active($data->all) : $this->_item_active($data->all);
+			$list['all']['data']   = ($itemOverride) ? pagination_item_active($data->all) : $this->_item_active($data->all);
 		}
 		else
 		{
 			$list['all']['active'] = false;
-			$list['all']['data'] = ($itemOverride) ? pagination_item_inactive($data->all) : $this->_item_inactive($data->all);
+			$list['all']['data']   = ($itemOverride) ? pagination_item_inactive($data->all) : $this->_item_inactive($data->all);
 		}
 
 		if ($data->start->base !== null)
 		{
 			$list['start']['active'] = true;
-			$list['start']['data'] = ($itemOverride) ? pagination_item_active($data->start) : $this->_item_active($data->start);
+			$list['start']['data']   = ($itemOverride) ? pagination_item_active($data->start) : $this->_item_active($data->start);
 		}
 		else
 		{
 			$list['start']['active'] = false;
-			$list['start']['data'] = ($itemOverride) ? pagination_item_inactive($data->start) : $this->_item_inactive($data->start);
+			$list['start']['data']   = ($itemOverride) ? pagination_item_inactive($data->start) : $this->_item_inactive($data->start);
 		}
 
 		if ($data->previous->base !== null)
 		{
 			$list['previous']['active'] = true;
-			$list['previous']['data'] = ($itemOverride) ? pagination_item_active($data->previous) : $this->_item_active($data->previous);
+			$list['previous']['data']   = ($itemOverride) ? pagination_item_active($data->previous) : $this->_item_active($data->previous);
 		}
 		else
 		{
 			$list['previous']['active'] = false;
-			$list['previous']['data'] = ($itemOverride) ? pagination_item_inactive($data->previous) : $this->_item_inactive($data->previous);
+			$list['previous']['data']   = ($itemOverride) ? pagination_item_inactive($data->previous) : $this->_item_inactive($data->previous);
 		}
 
 		// Make sure it exists
@@ -373,35 +373,35 @@ class JPagination
 			if ($page->base !== null)
 			{
 				$list['pages'][$i]['active'] = true;
-				$list['pages'][$i]['data'] = ($itemOverride) ? pagination_item_active($page) : $this->_item_active($page);
+				$list['pages'][$i]['data']   = ($itemOverride) ? pagination_item_active($page) : $this->_item_active($page);
 			}
 			else
 			{
 				$list['pages'][$i]['active'] = false;
-				$list['pages'][$i]['data'] = ($itemOverride) ? pagination_item_inactive($page) : $this->_item_inactive($page);
+				$list['pages'][$i]['data']   = ($itemOverride) ? pagination_item_inactive($page) : $this->_item_inactive($page);
 			}
 		}
 
 		if ($data->next->base !== null)
 		{
 			$list['next']['active'] = true;
-			$list['next']['data'] = ($itemOverride) ? pagination_item_active($data->next) : $this->_item_active($data->next);
+			$list['next']['data']   = ($itemOverride) ? pagination_item_active($data->next) : $this->_item_active($data->next);
 		}
 		else
 		{
 			$list['next']['active'] = false;
-			$list['next']['data'] = ($itemOverride) ? pagination_item_inactive($data->next) : $this->_item_inactive($data->next);
+			$list['next']['data']   = ($itemOverride) ? pagination_item_inactive($data->next) : $this->_item_inactive($data->next);
 		}
 
 		if ($data->end->base !== null)
 		{
 			$list['end']['active'] = true;
-			$list['end']['data'] = ($itemOverride) ? pagination_item_active($data->end) : $this->_item_active($data->end);
+			$list['end']['data']   = ($itemOverride) ? pagination_item_active($data->end) : $this->_item_active($data->end);
 		}
 		else
 		{
 			$list['end']['active'] = false;
-			$list['end']['data'] = ($itemOverride) ? pagination_item_inactive($data->end) : $this->_item_inactive($data->end);
+			$list['end']['data']   = ($itemOverride) ? pagination_item_inactive($data->end) : $this->_item_inactive($data->end);
 		}
 
 		if ($this->total > $this->limit)
@@ -425,14 +425,14 @@ class JPagination
 	{
 		$app = JFactory::getApplication();
 
-		$list = array();
-		$list['prefix'] = $this->prefix;
-		$list['limit'] = $this->limit;
-		$list['limitstart'] = $this->limitstart;
-		$list['total'] = $this->total;
-		$list['limitfield'] = $this->getLimitBox();
+		$list                 = array();
+		$list['prefix']       = $this->prefix;
+		$list['limit']        = $this->limit;
+		$list['limitstart']   = $this->limitstart;
+		$list['total']        = $this->total;
+		$list['limitfield']   = $this->getLimitBox();
 		$list['pagescounter'] = $this->getPagesCounter();
-		$list['pageslinks'] = $this->getPagesLinks();
+		$list['pageslinks']   = $this->getPagesLinks();
 
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/pagination.php';
 
@@ -458,7 +458,7 @@ class JPagination
 	 */
 	public function getLimitBox()
 	{
-		$app = JFactory::getApplication();
+		$app    = JFactory::getApplication();
 		$limits = array();
 
 		// Make the option list.
@@ -505,12 +505,12 @@ class JPagination
 	/**
 	 * Return the icon to move an item UP.
 	 *
-	 * @param   integer  $i          The row index.
-	 * @param   boolean  $condition  True to show the icon.
-	 * @param   string   $task       The task to fire.
-	 * @param   string   $alt        The image alternative text string.
-	 * @param   boolean  $enabled    An optional setting for access control on the action.
-	 * @param   string   $checkbox   An optional prefix for checkboxes.
+	 * @param   integer $i         The row index.
+	 * @param   boolean $condition True to show the icon.
+	 * @param   string  $task      The task to fire.
+	 * @param   string  $alt       The image alternative text string.
+	 * @param   boolean $enabled   An optional setting for access control on the action.
+	 * @param   string  $checkbox  An optional prefix for checkboxes.
 	 *
 	 * @return  string   Either the icon to move an item up or a space.
 	 *
@@ -531,13 +531,13 @@ class JPagination
 	/**
 	 * Return the icon to move an item DOWN.
 	 *
-	 * @param   integer  $i          The row index.
-	 * @param   integer  $n          The number of items in the list.
-	 * @param   boolean  $condition  True to show the icon.
-	 * @param   string   $task       The task to fire.
-	 * @param   string   $alt        The image alternative text string.
-	 * @param   boolean  $enabled    An optional setting for access control on the action.
-	 * @param   string   $checkbox   An optional prefix for checkboxes.
+	 * @param   integer $i         The row index.
+	 * @param   integer $n         The number of items in the list.
+	 * @param   boolean $condition True to show the icon.
+	 * @param   string  $task      The task to fire.
+	 * @param   string  $alt       The image alternative text string.
+	 * @param   boolean $enabled   An optional setting for access control on the action.
+	 * @param   string  $checkbox  An optional prefix for checkboxes.
 	 *
 	 * @return  string   Either the icon to move an item down or a space.
 	 *
@@ -558,7 +558,7 @@ class JPagination
 	/**
 	 * Create the HTML for a list footer
 	 *
-	 * @param   array  $list  Pagination list data structure.
+	 * @param   array $list Pagination list data structure.
 	 *
 	 * @return  string  HTML for a list footer
 	 *
@@ -581,7 +581,7 @@ class JPagination
 	/**
 	 * Create the html for a list footer
 	 *
-	 * @param   array  $list  Pagination list data structure.
+	 * @param   array $list Pagination list data structure.
 	 *
 	 * @return  string  HTML for a list start, previous, next,end
 	 *
@@ -609,7 +609,7 @@ class JPagination
 	/**
 	 * Method to create an active pagination link to the item
 	 *
-	 * @param   JPaginationObject  $item  The object with which to make an active link.
+	 * @param   JPaginationObject $item The object with which to make an active link.
 	 *
 	 * @return  string  HTML link
 	 *
@@ -643,7 +643,7 @@ class JPagination
 	/**
 	 * Method to create an inactive pagination string
 	 *
-	 * @param   JPaginationObject  $item  The item to be processed
+	 * @param   JPaginationObject $item The item to be processed
 	 *
 	 * @return  string
 	 *
@@ -694,7 +694,7 @@ class JPagination
 		}
 
 		// Set the start and previous data objects.
-		$data->start = new JPaginationObject(JText::_('JLIB_HTML_START'), $this->prefix);
+		$data->start    = new JPaginationObject(JText::_('JLIB_HTML_START'), $this->prefix);
 		$data->previous = new JPaginationObject(JText::_('JPREV'), $this->prefix);
 
 		if ($this->pagesCurrent > 1)
@@ -704,29 +704,29 @@ class JPagination
 			// Set the empty for removal from route
 			// @todo remove code: $page = $page == 0 ? '' : $page;
 
-			$data->start->base = '0';
-			$data->start->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
+			$data->start->base    = '0';
+			$data->start->link    = JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
 			$data->previous->base = $page;
 			$data->previous->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $page);
 		}
 
 		// Set the next and end data objects.
 		$data->next = new JPaginationObject(JText::_('JNEXT'), $this->prefix);
-		$data->end = new JPaginationObject(JText::_('JLIB_HTML_END'), $this->prefix);
+		$data->end  = new JPaginationObject(JText::_('JLIB_HTML_END'), $this->prefix);
 
 		if ($this->pagesCurrent < $this->pagesTotal)
 		{
 			$next = $this->pagesCurrent * $this->limit;
-			$end = ($this->pagesTotal - 1) * $this->limit;
+			$end  = ($this->pagesTotal - 1) * $this->limit;
 
 			$data->next->base = $next;
 			$data->next->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $next);
-			$data->end->base = $end;
-			$data->end->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $end);
+			$data->end->base  = $end;
+			$data->end->link  = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $end);
 		}
 
 		$data->pages = array();
-		$stop = $this->pagesStop;
+		$stop        = $this->pagesStop;
 
 		for ($i = $this->pagesStart; $i <= $stop; $i++)
 		{
@@ -751,12 +751,12 @@ class JPagination
 	/**
 	 * Modifies a property of the object, creating it if it does not already exist.
 	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $value     The value of the property to set.
+	 * @param   string $property The name of the property.
+	 * @param   mixed  $value    The value of the property to set.
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since       3.0
 	 * @deprecated  4.0  Access the properties directly.
 	 */
 	public function set($property, $value = null)
@@ -765,8 +765,8 @@ class JPagination
 
 		if (strpos($property, '.'))
 		{
-			$prop = explode('.', $property);
-			$prop[1] = ucfirst($prop[1]);
+			$prop     = explode('.', $property);
+			$prop[1]  = ucfirst($prop[1]);
 			$property = implode($prop);
 		}
 
@@ -776,12 +776,12 @@ class JPagination
 	/**
 	 * Returns a property of the object or the default value if the property is not set.
 	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $default   The default value.
+	 * @param   string $property The name of the property.
+	 * @param   mixed  $default  The default value.
 	 *
 	 * @return  mixed    The value of the property.
 	 *
-	 * @since   3.0
+	 * @since       3.0
 	 * @deprecated  4.0  Access the properties directly.
 	 */
 	public function get($property, $default = null)
@@ -790,8 +790,8 @@ class JPagination
 
 		if (strpos($property, '.'))
 		{
-			$prop = explode('.', $property);
-			$prop[1] = ucfirst($prop[1]);
+			$prop     = explode('.', $property);
+			$prop[1]  = ucfirst($prop[1]);
 			$property = implode($prop);
 		}
 

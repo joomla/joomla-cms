@@ -53,16 +53,16 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Instantiate JUcmContent.
 	 *
-	 * @param   JTable    $table  The table object
-	 * @param   sring     $alias  The type alias
-	 * @param   JUcmType  $type   The type object
+	 * @param   JTable   $table The table object
+	 * @param   sring    $alias The type alias
+	 * @param   JUcmType $type  The type object
 	 *
 	 * @since   3.1
 	 */
 	public function __construct(JTable $table = null, $alias = null, JUcmType $type = null)
 	{
 		// Setup dependencies.
-		$input = JFactory::getApplication()->input;
+		$input       = JFactory::getApplication()->input;
 		$this->alias = isset($alias) ? $alias : $input->get('option') . '.' . $input->get('view');
 
 		$this->type = isset($type) ? $type : $this->getType();
@@ -81,8 +81,8 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Method to save the data
 	 *
-	 * @param   array     $original  The original data to be saved
-	 * @param   JUcmType  $type      The UCM Type object
+	 * @param   array    $original The original data to be saved
+	 * @param   JUcmType $type     The UCM Type object
 	 *
 	 * @return  boolean  true
 	 *
@@ -109,8 +109,8 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Delete content from the Core Content table
 	 *
-	 * @param   mixed     $pk    The string/array of id's to delete
-	 * @param   JUcmType  $type  The content type object
+	 * @param   mixed    $pk   The string/array of id's to delete
+	 * @param   JUcmType $type The content type object
 	 *
 	 * @return  boolean  True if success
 	 *
@@ -140,8 +140,8 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Map the original content to the Core Content fields
 	 *
-	 * @param   array     $original  The original data array
-	 * @param   JUcmType  $type      Type object for this data
+	 * @param   array    $original The original data array
+	 * @param   JUcmType $type     Type object for this data
 	 *
 	 * @return  object  $ucmData  The mapped UCM data
 	 *
@@ -194,9 +194,9 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Store data to the appropriate table
 	 *
-	 * @param   array    $data        Data to be stored
-	 * @param   JTable   $table       JTable Object
-	 * @param   boolean  $primaryKey  Flag that is true for data that are using #__ucm_content as their primary table
+	 * @param   array   $data       Data to be stored
+	 * @param   JTable  $table      JTable Object
+	 * @param   boolean $primaryKey Flag that is true for data that are using #__ucm_content as their primary table
 	 *
 	 * @return  Boolean  true on success
 	 *
@@ -212,7 +212,7 @@ class JUcmContent extends JUcmBase
 		if (!$primaryKey)
 		{
 			// Store the core UCM mappings
-			$baseData = array();
+			$baseData                    = array();
 			$baseData['ucm_type_id']     = $typeId;
 			$baseData['ucm_item_id']     = $data['core_content_item_id'];
 			$baseData['ucm_language_id'] = JHelperContent::getLanguageId($data['core_language']);
@@ -229,8 +229,8 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Get the value of the primary key from #__ucm_base
 	 *
-	 * @param   string   $typeId         The ID for the type
-	 * @param   integer  $contentItemId  Value of the primary key in the legacy or secondary table
+	 * @param   string  $typeId        The ID for the type
+	 * @param   integer $contentItemId Value of the primary key in the legacy or secondary table
 	 *
 	 * @return  integer  The integer of the primary key
 	 *
@@ -238,7 +238,7 @@ class JUcmContent extends JUcmBase
 	 */
 	public function getPrimaryKey($typeId, $contentItemId)
 	{
-		$db = JFactory::getDbo();
+		$db        = JFactory::getDbo();
 		$queryccid = $db->getQuery(true);
 		$queryccid->select($db->quoteName('ucm_id'))
 			->from($db->quoteName('#__ucm_base'))

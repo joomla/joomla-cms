@@ -21,11 +21,11 @@ abstract class JHtmlList
 	/**
 	 * Build the select list to choose an image
 	 *
-	 * @param   string  $name        The name of the field
-	 * @param   string  $active      The selected item
-	 * @param   string  $javascript  Alternative javascript
-	 * @param   string  $directory   Directory the images are stored in
-	 * @param   string  $extensions  Allowed extensions
+	 * @param   string $name       The name of the field
+	 * @param   string $active     The selected item
+	 * @param   string $javascript Alternative javascript
+	 * @param   string $directory  Directory the images are stored in
+	 * @param   string $extensions Allowed extensions
 	 *
 	 * @return  array  Image names
 	 *
@@ -46,7 +46,7 @@ abstract class JHtmlList
 		}
 
 		$imageFiles = new DirectoryIterator(JPATH_SITE . '/' . $directory);
-		$images = array(JHtml::_('select.option', '', JText::_('JOPTION_SELECT_IMAGE')));
+		$images     = array(JHtml::_('select.option', '', JText::_('JOPTION_SELECT_IMAGE')));
 
 		foreach ($imageFiles as $file)
 		{
@@ -68,7 +68,7 @@ abstract class JHtmlList
 			$images,
 			$name,
 			array(
-				'list.attr' => 'class="inputbox" size="1" ' . $javascript,
+				'list.attr'   => 'class="inputbox" size="1" ' . $javascript,
 				'list.select' => $active
 			)
 		);
@@ -79,8 +79,8 @@ abstract class JHtmlList
 	/**
 	 * Returns an array of options
 	 *
-	 * @param   string   $query  SQL with 'ordering' AS value and 'name field' AS text
-	 * @param   integer  $chop   The length of the truncated headline
+	 * @param   string  $query SQL with 'ordering' AS value and 'name field' AS text
+	 * @param   integer $chop  The length of the truncated headline
 	 *
 	 * @return  array  An array of objects formatted for JHtml list processing
 	 *
@@ -88,7 +88,7 @@ abstract class JHtmlList
 	 */
 	public static function genericordering($query, $chop = 30)
 	{
-		$db = JFactory::getDbo();
+		$db      = JFactory::getDbo();
 		$options = array();
 		$db->setQuery($query);
 
@@ -127,11 +127,11 @@ abstract class JHtmlList
 	/**
 	 * Build the select list for Ordering derived from a query
 	 *
-	 * @param   integer  $name      The scalar value
-	 * @param   string   $query     The query
-	 * @param   string   $attribs   HTML tag attributes
-	 * @param   string   $selected  The selected item
-	 * @param   integer  $neworder  1 if new and first, -1 if new and last, 0  or null if existing item
+	 * @param   integer $name     The scalar value
+	 * @param   string  $query    The query
+	 * @param   string  $attribs  HTML tag attributes
+	 * @param   string  $selected The selected item
+	 * @param   integer $neworder 1 if new and first, -1 if new and last, 0  or null if existing item
 	 *
 	 * @return  string   HTML markup for the select list
 	 *
@@ -147,7 +147,7 @@ abstract class JHtmlList
 		if (empty($neworder))
 		{
 			$orders = JHtml::_('list.genericordering', $query);
-			$html = JHtml::_('select.genericlist', $orders, $name, array('list.attr' => $attribs, 'list.select' => (int) $selected));
+			$html   = JHtml::_('select.genericlist', $orders, $name, array('list.attr' => $attribs, 'list.select' => (int) $selected));
 		}
 		else
 		{
@@ -169,11 +169,11 @@ abstract class JHtmlList
 	/**
 	 * Select list of active users
 	 *
-	 * @param   string   $name        The name of the field
-	 * @param   string   $active      The active user
-	 * @param   integer  $nouser      If set include an option to select no user
-	 * @param   string   $javascript  Custom javascript
-	 * @param   string   $order       Specify a field to order by
+	 * @param   string  $name       The name of the field
+	 * @param   string  $active     The active user
+	 * @param   integer $nouser     If set include an option to select no user
+	 * @param   string  $javascript Custom javascript
+	 * @param   string  $order      Specify a field to order by
 	 *
 	 * @return  string   The HTML for a list of users list of users
 	 *
@@ -181,7 +181,7 @@ abstract class JHtmlList
 	 */
 	public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('u.id AS value, u.name AS text')
 			->from('#__users AS u')
@@ -194,7 +194,7 @@ abstract class JHtmlList
 		if ($nouser)
 		{
 			$users[] = JHtml::_('select.option', '0', JText::_('JOPTION_NO_USER'));
-			$users = array_merge($users, $db->loadObjectList());
+			$users   = array_merge($users, $db->loadObjectList());
 		}
 		else
 		{
@@ -206,7 +206,7 @@ abstract class JHtmlList
 			$users,
 			$name,
 			array(
-				'list.attr' => 'class="inputbox" size="1" ' . $javascript,
+				'list.attr'   => 'class="inputbox" size="1" ' . $javascript,
 				'list.select' => $active
 			)
 		);
@@ -217,21 +217,21 @@ abstract class JHtmlList
 	/**
 	 * Select list of positions - generally used for location of images
 	 *
-	 * @param   string   $name        Name of the field
-	 * @param   string   $active      The active value
-	 * @param   string   $javascript  Alternative javascript
-	 * @param   boolean  $none        Null if not assigned
-	 * @param   boolean  $center      Null if not assigned
-	 * @param   boolean  $left        Null if not assigned
-	 * @param   boolean  $right       Null if not assigned
-	 * @param   boolean  $id          Null if not assigned
+	 * @param   string  $name       Name of the field
+	 * @param   string  $active     The active value
+	 * @param   string  $javascript Alternative javascript
+	 * @param   boolean $none       Null if not assigned
+	 * @param   boolean $center     Null if not assigned
+	 * @param   boolean $left       Null if not assigned
+	 * @param   boolean $right      Null if not assigned
+	 * @param   boolean $id         Null if not assigned
 	 *
 	 * @return  array  The positions
 	 *
 	 * @since   1.5
 	 */
 	public static function positions($name, $active = null, $javascript = null, $none = true, $center = true, $left = true, $right = true,
-		$id = false)
+	                                 $id = false)
 	{
 		$pos = array();
 
@@ -258,10 +258,10 @@ abstract class JHtmlList
 		$positions = JHtml::_(
 			'select.genericlist', $pos, $name,
 			array(
-				'id' => $id,
-				'list.attr' => 'class="inputbox" size="1"' . $javascript,
+				'id'          => $id,
+				'list.attr'   => 'class="inputbox" size="1"' . $javascript,
 				'list.select' => $active,
-				'option.key' => null,
+				'option.key'  => null,
 			)
 		);
 

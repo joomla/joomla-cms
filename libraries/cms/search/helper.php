@@ -21,8 +21,8 @@ class JSearchHelper
 	/**
 	 * Method to log search terms to the database
 	 *
-	 * @param   string  $term       The term being searched
-	 * @param   string  $component  The component being used for the search
+	 * @param   string $term      The term being searched
+	 * @param   string $component The component being used for the search
 	 *
 	 * @return  void
 	 *
@@ -31,8 +31,8 @@ class JSearchHelper
 	public static function logSearch($term, $component)
 	{
 		// Initialise our variables
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$db                  = JFactory::getDbo();
+		$query               = $db->getQuery(true);
 		$enable_log_searches = JComponentHelper::getParams($component)->get('enabled');
 
 		// Sanitise the term for the database

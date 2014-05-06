@@ -88,7 +88,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param   string  $path  The path language files are on.
+	 * @param   string $path The path language files are on.
 	 *
 	 * @return  void
 	 *
@@ -102,14 +102,14 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		{
 			$this->parent
 				->setPath(
-				'source',
-				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) .
-				'/components/' . $this->parent->extension->element
-			);
+					'source',
+					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) .
+					'/components/' . $this->parent->extension->element
+				);
 		}
 
 		$this->manifest = $this->parent->getManifest();
-		$name = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
+		$name           = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
 
 		if (substr($name, 0, 4) == 'com_')
 		{
@@ -120,7 +120,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			$extension = 'com_' . $name;
 		}
 
-		$lang = JFactory::getLanguage();
+		$lang   = JFactory::getLanguage();
 		$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/components/' . $extension;
 
 		if ($this->manifest->administration->files)
@@ -146,8 +146,8 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			}
 		}
 		$lang->load($extension . '.sys', $source, null, false, false) || $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+		|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+		|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
 	}
 
 	/**
@@ -228,7 +228,8 @@ class JInstallerAdapterComponent extends JAdapterInstance
 
 			// Upgrade manually set or update function available or update tag detected
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement)
+				|| $updateElement
+			)
 			{
 				// Transfer control to the update function
 				return $this->update();
@@ -253,6 +254,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 						JLog::WARNING, 'jerror'
 					);
 				}
+
 				return false;
 			}
 		}
@@ -393,7 +395,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		// If there is a manifest script, let's copy it.
 		if ($this->get('manifest_script'))
 		{
-			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
+			$path['src']  = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $this->get('manifest_script');
 
 			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
@@ -490,7 +492,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
+		$uid    = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{
@@ -522,11 +524,11 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		}
 
 		// Register the component container just under root in the assets table.
-		$asset = JTable::getInstance('Asset');
-		$asset->name = $row->element;
+		$asset            = JTable::getInstance('Asset');
+		$asset->name      = $row->element;
 		$asset->parent_id = 1;
-		$asset->rules = '{}';
-		$asset->title = $row->name;
+		$asset->rules     = '{}';
+		$asset->title     = $row->name;
 		$asset->setLocation(1, 'last-child');
 
 		if (!$asset->store())
@@ -643,12 +645,12 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		if ($old_manifest)
 		{
 			$this->oldAdminFiles = $old_manifest->administration->files;
-			$this->oldFiles = $old_manifest->files;
+			$this->oldFiles      = $old_manifest->files;
 		}
 		else
 		{
 			$this->oldAdminFiles = null;
-			$this->oldFiles = null;
+			$this->oldFiles      = null;
 		}
 
 		/**
@@ -806,7 +808,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		// If there is a manifest script, let's copy it.
 		if ($this->get('manifest_script'))
 		{
-			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
+			$path['src']  = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $this->get('manifest_script');
 
 			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
@@ -890,7 +892,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
+		$uid    = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{
@@ -906,17 +908,17 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		{
 			// Set the defaults
 			// There is no folder for components
-			$row->folder = '';
-			$row->enabled = 1;
+			$row->folder    = '';
+			$row->enabled   = 1;
 			$row->protected = 0;
-			$row->access = 1;
+			$row->access    = 1;
 			$row->client_id = 1;
-			$row->params = $this->parent->getParams();
+			$row->params    = $this->parent->getParams();
 		}
 
-		$row->name = $this->get('name');
-		$row->type = 'component';
-		$row->element = $this->get('element');
+		$row->name           = $this->get('name');
+		$row->type           = 'component';
+		$row->element        = $this->get('element');
 		$row->manifest_cache = $this->parent->generateManifestCache();
 
 		if (!$row->store())
@@ -960,7 +962,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 	/**
 	 * Custom uninstall method for components
 	 *
-	 * @param   integer  $id  The unique extension id of the component to uninstall
+	 * @param   integer $id The unique extension id of the component to uninstall
 	 *
 	 * @return  mixed  Return value for uninstall method in component uninstall file
 	 *
@@ -968,8 +970,8 @@ class JInstallerAdapterComponent extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		$db = $this->parent->getDbo();
-		$row = null;
+		$db     = $this->parent->getDbo();
+		$row    = null;
 		$retval = true;
 
 		// First order of business will be to load the component object table from the database.
@@ -1154,7 +1156,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $row->element, 'type' => 'component', 'client_id' => 1, 'folder' => ''));
+		$uid    = $update->find(array('element' => $row->element, 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{
@@ -1208,8 +1210,8 @@ class JInstallerAdapterComponent extends JAdapterInstance
 	 */
 	protected function _buildAdminMenus()
 	{
-		$db = $this->parent->getDbo();
-		$table = JTable::getInstance('menu');
+		$db     = $this->parent->getDbo();
+		$table  = JTable::getInstance('menu');
 		$option = $this->get('element');
 
 		// If a component exists with this option in the table then we don't need to add menus
@@ -1262,18 +1264,18 @@ class JInstallerAdapterComponent extends JAdapterInstance
 
 		if ($menuElement)
 		{
-			$data = array();
-			$data['menutype'] = 'main';
-			$data['client_id'] = 1;
-			$data['title'] = (string) trim($menuElement);
-			$data['alias'] = (string) $menuElement;
-			$data['link'] = 'index.php?option=' . $option;
-			$data['type'] = 'component';
-			$data['published'] = 0;
-			$data['parent_id'] = 1;
+			$data                 = array();
+			$data['menutype']     = 'main';
+			$data['client_id']    = 1;
+			$data['title']        = (string) trim($menuElement);
+			$data['alias']        = (string) $menuElement;
+			$data['link']         = 'index.php?option=' . $option;
+			$data['type']         = 'component';
+			$data['published']    = 0;
+			$data['parent_id']    = 1;
 			$data['component_id'] = $component_id;
-			$data['img'] = ((string) $menuElement->attributes()->img) ? (string) $menuElement->attributes()->img : 'class:component';
-			$data['home'] = 0;
+			$data['img']          = ((string) $menuElement->attributes()->img) ? (string) $menuElement->attributes()->img : 'class:component';
+			$data['home']         = 0;
 
 			try
 			{
@@ -1341,18 +1343,18 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		// No menu element was specified, Let's make a generic menu item
 		else
 		{
-			$data = array();
-			$data['menutype'] = 'main';
-			$data['client_id'] = 1;
-			$data['title'] = $option;
-			$data['alias'] = $option;
-			$data['link'] = 'index.php?option=' . $option;
-			$data['type'] = 'component';
-			$data['published'] = 0;
-			$data['parent_id'] = 1;
+			$data                 = array();
+			$data['menutype']     = 'main';
+			$data['client_id']    = 1;
+			$data['title']        = $option;
+			$data['alias']        = $option;
+			$data['link']         = 'index.php?option=' . $option;
+			$data['type']         = 'component';
+			$data['published']    = 0;
+			$data['parent_id']    = 1;
 			$data['component_id'] = $component_id;
-			$data['img'] = 'class:component';
-			$data['home'] = 0;
+			$data['img']          = 'class:component';
+			$data['home']         = 0;
 
 			try
 			{
@@ -1393,17 +1395,17 @@ class JInstallerAdapterComponent extends JAdapterInstance
 
 		foreach ($this->manifest->administration->submenu->menu as $child)
 		{
-			$data = array();
-			$data['menutype'] = 'main';
-			$data['client_id'] = 1;
-			$data['title'] = (string) trim($child);
-			$data['alias'] = (string) $child;
-			$data['type'] = 'component';
-			$data['published'] = 0;
-			$data['parent_id'] = $parent_id;
+			$data                 = array();
+			$data['menutype']     = 'main';
+			$data['client_id']    = 1;
+			$data['title']        = (string) trim($child);
+			$data['alias']        = (string) $child;
+			$data['type']         = 'component';
+			$data['published']    = 0;
+			$data['parent_id']    = $parent_id;
 			$data['component_id'] = $component_id;
-			$data['img'] = ((string) $child->attributes()->img) ? (string) $child->attributes()->img : 'class:component';
-			$data['home'] = 0;
+			$data['img']          = ((string) $child->attributes()->img) ? (string) $child->attributes()->img : 'class:component';
+			$data['home']         = 0;
 
 			// Set the sub menu link
 			if ((string) $child->attributes()->link)
@@ -1444,7 +1446,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 					$request[] = 'sub=' . $child->attributes()->sub;
 				}
 
-				$qstring = (count($request)) ? '&' . implode('&', $request) : '';
+				$qstring      = (count($request)) ? '&' . implode('&', $request) : '';
 				$data['link'] = 'index.php?option=' . $option . $qstring;
 			}
 
@@ -1478,7 +1480,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 	/**
 	 * Method to remove admin menu references to a component
 	 *
-	 * @param   object  &$row  Component table object.
+	 * @param   object &$row Component table object.
 	 *
 	 * @return  boolean  True if successful.
 	 *
@@ -1486,9 +1488,9 @@ class JInstallerAdapterComponent extends JAdapterInstance
 	 */
 	protected function _removeAdminMenus(&$row)
 	{
-		$db = $this->parent->getDbo();
+		$db    = $this->parent->getDbo();
 		$table = JTable::getInstance('menu');
-		$id = $row->extension_id;
+		$id    = $row->extension_id;
 
 		// Get the ids of the menu items
 		$query = $db->getQuery(true)
@@ -1518,6 +1520,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			$table->rebuild();
 
 		}
+
 		return true;
 	}
 
@@ -1525,7 +1528,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 	 * Custom rollback method
 	 * - Roll back the component menu item
 	 *
-	 * @param   array  $step  Installation step to rollback.
+	 * @param   array $step Installation step to rollback.
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -1545,8 +1548,8 @@ class JInstallerAdapterComponent extends JAdapterInstance
 	 */
 	public function discover()
 	{
-		$results = array();
-		$site_components = JFolder::folders(JPATH_SITE . '/components');
+		$results          = array();
+		$site_components  = JFolder::folders(JPATH_SITE . '/components');
 		$admin_components = JFolder::folders(JPATH_ADMINISTRATOR . '/components');
 
 		foreach ($site_components as $component)
@@ -1556,7 +1559,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 				$manifest_details = JInstaller::parseXMLInstallFile(
 					JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
 				);
-				$extension = JTable::getInstance('extension');
+				$extension        = JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 0);
 				$extension->set('element', $component);
@@ -1576,7 +1579,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 				$manifest_details = JInstaller::parseXMLInstallFile(
 					JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
 				);
-				$extension = JTable::getInstance('extension');
+				$extension        = JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 1);
 				$extension->set('element', $component);
@@ -1588,6 +1591,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 				$results[] = $extension;
 			}
 		}
+
 		return $results;
 	}
 
@@ -1601,20 +1605,20 @@ class JInstallerAdapterComponent extends JAdapterInstance
 	public function discover_install()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
-		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$short_element = str_replace('com_', '', $this->parent->extension->element);
-		$manifestPath = $client->path . '/components/' . $this->parent->extension->element . '/' . $short_element . '.xml';
+		$client                 = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$short_element          = str_replace('com_', '', $this->parent->extension->element);
+		$manifestPath           = $client->path . '/components/' . $this->parent->extension->element . '/' . $short_element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$this->parent->setPath('source', $client->path . '/components/' . $this->parent->extension->element);
 		$this->parent->setPath('extension_root', $this->parent->getPath('source'));
 
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->state = 0;
-		$this->parent->extension->name = $manifest_details['name'];
-		$this->parent->extension->enabled = 1;
-		$this->parent->extension->params = $this->parent->getParams();
+		$this->parent->extension->state          = 0;
+		$this->parent->extension->name           = $manifest_details['name'];
+		$this->parent->extension->enabled        = 1;
+		$this->parent->extension->params         = $this->parent->getParams();
 
 		try
 		{
@@ -1820,7 +1824,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
+		$uid    = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{
@@ -1858,15 +1862,15 @@ class JInstallerAdapterComponent extends JAdapterInstance
 	public function refreshManifestCache()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
-		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$short_element = str_replace('com_', '', $this->parent->extension->element);
-		$manifestPath = $client->path . '/components/' . $this->parent->extension->element . '/' . $short_element . '.xml';
+		$client                 = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$short_element          = str_replace('com_', '', $this->parent->extension->element);
+		$manifestPath           = $client->path . '/components/' . $this->parent->extension->element . '/' . $short_element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->name           = $manifest_details['name'];
 
 		try
 		{

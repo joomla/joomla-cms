@@ -21,7 +21,7 @@ class JHelperContent
 	/**
 	 * Configure the Linkbar. Must be implemented by each extension.
 	 *
-	 * @param   string  $vName  The name of the active view.
+	 * @param   string $vName The name of the active view.
 	 *
 	 * @return  void
 	 *
@@ -34,9 +34,9 @@ class JHelperContent
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   integer  $categoryId  The category ID.
-	 * @param   integer  $id          The item ID.
-	 * @param   string   $assetName   The asset name
+	 * @param   integer $categoryId The category ID.
+	 * @param   integer $id         The item ID.
+	 * @param   string  $assetName  The asset name
 	 *
 	 * @return  JObject
 	 *
@@ -45,8 +45,8 @@ class JHelperContent
 	public static function getActions($categoryId = 0, $id = 0, $assetName = '')
 	{
 		// Reverted a change for version 2.5.6
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		$user   = JFactory::getUser();
+		$result = new JObject;
 
 		$actions = array(
 			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
@@ -63,7 +63,7 @@ class JHelperContent
 	/**
 	 * Gets the current language
 	 *
-	 * @param   boolean  $detectBrowser  Flag indicating whether to use the browser language as a fallback.
+	 * @param   boolean $detectBrowser Flag indicating whether to use the browser language as a fallback.
 	 *
 	 * @return  string  The language string
 	 *
@@ -71,7 +71,7 @@ class JHelperContent
 	 */
 	public static function getCurrentLanguage($detectBrowser = true)
 	{
-		$app = JFactory::getApplication();
+		$app      = JFactory::getApplication();
 		$langCode = $app->input->cookie->getString(JApplication::getHash('language'));
 
 		// No cookie - let's try to detect browser language or use site default
@@ -91,14 +91,14 @@ class JHelperContent
 	}
 
 	/**
-	* Gets the associated language ID
-	*
-	* @param   string  $langCode  The language code to look up
-	*
-	* @return  integer  The language ID
-	*
-	* @since   3.1
-	*/
+	 * Gets the associated language ID
+	 *
+	 * @param   string $langCode The language code to look up
+	 *
+	 * @return  integer  The language ID
+	 *
+	 * @since   3.1
+	 */
 	public static function getLanguageId($langCode)
 	{
 		$db    = JFactory::getDbo();
@@ -116,7 +116,7 @@ class JHelperContent
 	/**
 	 * Gets a row of data from a table
 	 *
-	 * @param   JTable  $table  JTable instance for a row.
+	 * @param   JTable $table JTable instance for a row.
 	 *
 	 * @return  array  Associative array of all columns and values for a row in a table.
 	 *
@@ -125,12 +125,12 @@ class JHelperContent
 	public function getRowData($table)
 	{
 		$fields = $table->getFields();
-		$data = array();
+		$data   = array();
 
 		foreach ($fields as &$field)
 		{
-			$columnName = $field->Field;
-			$value = $table->$columnName;
+			$columnName        = $field->Field;
+			$value             = $table->$columnName;
 			$data[$columnName] = $value;
 		}
 

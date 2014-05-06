@@ -56,10 +56,10 @@ class JResponseJson
 	/**
 	 * Constructor
 	 *
-	 * @param   mixed    $response        The Response data
-	 * @param   string   $message         The main response message
-	 * @param   boolean  $error           True, if the success flag shall be set to false, defaults to false
-	 * @param   boolean  $ignoreMessages  True, if the message queue shouldn't be included, defaults to false
+	 * @param   mixed   $response       The Response data
+	 * @param   string  $message        The main response message
+	 * @param   boolean $error          True, if the success flag shall be set to false, defaults to false
+	 * @param   boolean $ignoreMessages True, if the message queue shouldn't be included, defaults to false
 	 *
 	 * @since   3.1
 	 */
@@ -97,14 +97,14 @@ class JResponseJson
 		if ($response instanceof Exception)
 		{
 			// Prepare the error response
-			$this->success	= false;
-			$this->message	= $response->getMessage();
+			$this->success = false;
+			$this->message = $response->getMessage();
 		}
 		else
 		{
 			// Prepare the response data
-			$this->success	= !$error;
-			$this->data			= $response;
+			$this->success = !$error;
+			$this->data    = $response;
 		}
 	}
 

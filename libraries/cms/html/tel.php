@@ -24,9 +24,9 @@ abstract class JHtmlTel
 	 * By default, the ITU-T format will automatically be used.
 	 * However, one of the allowed unit types may also be used instead.
 	 *
-	 * @param   integer  $number       The integers in a phone number with dot separated country code
+	 * @param   integer $number        The integers in a phone number with dot separated country code
 	 *                                 ccc.nnnnnnn where ccc represents country code and nnn represents the local number.
-	 * @param   string   $displayplan  The numbering plan used to display the numbers.
+	 * @param   string  $displayplan   The numbering plan used to display the numbers.
 	 *
 	 * @return  string  The formatted telephone number.
 	 *
@@ -35,9 +35,9 @@ abstract class JHtmlTel
 	 */
 	public static function tel($number, $displayplan)
 	{
-		$number = explode('.', $number);
+		$number      = explode('.', $number);
 		$countrycode = $number[0];
-		$number = $number[1];
+		$number      = $number[1];
 
 		if ($displayplan == 'ITU-T' || $displayplan == 'International' || $displayplan == 'int' || $displayplan == 'missdn' || $displayplan == null)
 		{
@@ -65,7 +65,7 @@ abstract class JHtmlTel
 		}
 		elseif ($displayplan == 'ARPA' || $displayplan == 'ENUM')
 		{
-			$number = implode(str_split(strrev($number), 1), '.');
+			$number     = implode(str_split(strrev($number), 1), '.');
 			$display[0] = '+';
 			$display[1] = $number;
 			$display[2] = '.';

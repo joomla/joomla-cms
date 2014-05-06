@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage Model
+ * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -30,15 +30,16 @@ abstract class JModelData extends JModelCms
 	public function getKeyName($tableName = null, $tablePrefix = null, $config = array())
 	{
 		$table = $this->getTable($tableName, $tablePrefix, $config = array());
+
 		return $table->getKeyName();
 	}
 
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   string $name   The table name. Optional.
+	 * @param   string $prefix The class prefix. Optional.
+	 * @param   array  $config Configuration array for model. Optional.
 	 *
 	 * @return  JTable  A JTable object
 	 *
@@ -77,25 +78,25 @@ abstract class JModelData extends JModelCms
 			return $table;
 		}
 
-		throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $prefix.'Table'.$name), 0);
+		throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $prefix . 'Table' . $name), 0);
 	}
 
 	/**
 	 * Method to load and return a model object.
 	 *
-	 * @param   string  $name    The name of the view
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration settings to pass to JTable::getInstance
+	 * @param   string $name   The name of the view
+	 * @param   string $prefix The class prefix. Optional.
+	 * @param   array  $config Configuration settings to pass to JTable::getInstance
 	 *
 	 * @return  mixed   A JTable object or boolean false if failed
 	 *
 	 * @since   12.2
 	 * @see     JTable::getInstance()
 	 */
-	protected function createTable($name, $prefix , $config = array())
+	protected function createTable($name, $prefix, $config = array())
 	{
 		// Clean the model name
-		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		// Make sure we are returning a DBO object
@@ -104,7 +105,7 @@ abstract class JModelData extends JModelCms
 			$config['dbo'] = $this->getDbo();
 		}
 
-		$className = $prefix.'Table'.$name;
+		$className = $prefix . 'Table' . $name;
 
 		return new $className($config);
 	}
@@ -112,8 +113,8 @@ abstract class JModelData extends JModelCms
 	/**
 	 * Method to load a row for editing from the version history table.
 	 *
-	 * @param   integer  $version_id  Key to the version history table.
-	 * @param   JTable   $table      Content table object being loaded.
+	 * @param   integer $version_id Key to the version history table.
+	 * @param   JTable  $table      Content table object being loaded.
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 * @throws ErrorException
@@ -129,10 +130,11 @@ abstract class JModelData extends JModelCms
 			// Get an instance of the row to checkout.
 			$historyTable = JTable::getInstance('Contenthistory');
 
-				
+
 			if (!$historyTable->load($version_id))
 			{
 				throw new ErrorException($historyTable->getError());
+
 				return false;
 			}
 
@@ -150,6 +152,7 @@ abstract class JModelData extends JModelCms
 				}
 
 				throw ErrorException(JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
+
 				return false;
 			}
 		}
@@ -162,7 +165,9 @@ abstract class JModelData extends JModelCms
 
 	/**
 	 * Method to lock a record for editing
+	 *
 	 * @param int $pk primary key of record
+	 *
 	 * @throws InvalidArgumentException
 	 * @throws ErrorException
 	 * @return boolean
@@ -171,7 +176,7 @@ abstract class JModelData extends JModelCms
 	public function checkout($pk)
 	{
 		$activeRecord = $this->getActiveRecord($pk);
-		$user = JFactory::getUser();
+		$user         = JFactory::getUser();
 
 		$activeRecord->checkout($user->id, $pk);
 
@@ -180,7 +185,9 @@ abstract class JModelData extends JModelCms
 
 	/**
 	 * Method to unlock a record
+	 *
 	 * @param int $pk primary key
+	 *
 	 * @throws InvalidArgumentException
 	 * @throws ErrorException
 	 * @return boolean
@@ -198,7 +205,9 @@ abstract class JModelData extends JModelCms
 
 	/**
 	 * Method to get a loaded active record.
+	 *
 	 * @param int $pk primary key
+	 *
 	 * @throws ErrorException
 	 * @return JTable
 	 */
@@ -217,12 +226,14 @@ abstract class JModelData extends JModelCms
 
 	/**
 	 * Method to check if a table is lockable
+	 *
 	 * @param JTable $table
+	 *
 	 * @return boolean
 	 */
 	protected function isLockable(JTable $table)
 	{
-		$hasCheckedOut = (property_exists($table, 'checked_out'));
+		$hasCheckedOut     = (property_exists($table, 'checked_out'));
 		$hasCheckedOutTime = (property_exists($table, 'checked_out_time'));
 		// If there is no checked_out or checked_out_time field, just return true.
 
@@ -237,7 +248,9 @@ abstract class JModelData extends JModelCms
 
 	/**
 	 * Method to check if a record is locked
+	 *
 	 * @param JTable $activeRecord
+	 *
 	 * @return boolean
 	 */
 	protected function isLocked(JTable $activeRecord)
@@ -245,9 +258,9 @@ abstract class JModelData extends JModelCms
 		$user = JFactory::getUser();
 		if ($this->isLockable($activeRecord))
 		{
-			$isCheckedOut = ($activeRecord->checked_out > 0);
+			$isCheckedOut    = ($activeRecord->checked_out > 0);
 			$isCurrentEditor = ($activeRecord->checked_out == $user->get('id'));
-			$canOverride = ($user->authorise('core.admin', 'com_checkin'));
+			$canOverride     = ($user->authorise('core.admin', 'com_checkin'));
 
 			if ($isCheckedOut && !$isCurrentEditor && !$canOverride)
 			{

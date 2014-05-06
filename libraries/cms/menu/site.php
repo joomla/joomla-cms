@@ -49,6 +49,7 @@ class JMenuSite extends JMenu
 		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()));
+
 			return false;
 		}
 
@@ -59,12 +60,12 @@ class JMenuSite extends JMenu
 
 			if (isset($this->_items[$item->parent_id]))
 			{
-				$parent_tree  = $this->_items[$item->parent_id]->tree;
+				$parent_tree = $this->_items[$item->parent_id]->tree;
 			}
 
 			// Create tree.
 			$parent_tree[] = $item->id;
-			$item->tree = $parent_tree;
+			$item->tree    = $parent_tree;
 
 			// Create the query array.
 			$url = str_replace('index.php?', '', $item->link);
@@ -77,9 +78,9 @@ class JMenuSite extends JMenu
 	/**
 	 * Gets menu items by attribute
 	 *
-	 * @param   string   $attributes  The field name
-	 * @param   string   $values      The value of the field
-	 * @param   boolean  $firstonly   If true, only returns the first item found
+	 * @param   string  $attributes The field name
+	 * @param   string  $values     The value of the field
+	 * @param   boolean $firstonly  If true, only returns the first item found
 	 *
 	 * @return  array
 	 *
@@ -98,8 +99,8 @@ class JMenuSite extends JMenu
 			{
 				if (JLanguageMultilang::isEnabled())
 				{
-					$attributes[] 	= 'language';
-					$values[] 		= array(JFactory::getLanguage()->getTag(), '*');
+					$attributes[] = 'language';
+					$values[]     = array(JFactory::getLanguage()->getTag(), '*');
 				}
 			}
 			elseif ($values[$key] === null)
@@ -112,7 +113,7 @@ class JMenuSite extends JMenu
 			if (($key = array_search('access', $attributes)) === false)
 			{
 				$attributes[] = 'access';
-				$values[] = JFactory::getUser()->getAuthorisedViewLevels();
+				$values[]     = JFactory::getUser()->getAuthorisedViewLevels();
 			}
 			elseif ($values[$key] === null)
 			{
@@ -123,7 +124,7 @@ class JMenuSite extends JMenu
 
 		// Reset arrays or we get a notice if some values were unset
 		$attributes = array_values($attributes);
-		$values = array_values($values);
+		$values     = array_values($values);
 
 		return parent::getItems($attributes, $values, $firstonly);
 	}
@@ -131,7 +132,7 @@ class JMenuSite extends JMenu
 	/**
 	 * Get menu item by id
 	 *
-	 * @param   string  $language  The language code.
+	 * @param   string $language The language code.
 	 *
 	 * @return  object  The item object
 	 *

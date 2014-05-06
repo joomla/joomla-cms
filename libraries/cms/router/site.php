@@ -21,7 +21,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @param   JUri  &$uri  The uri.
+	 * @param   JUri &$uri The uri.
 	 *
 	 * @return  array
 	 *
@@ -52,7 +52,7 @@ class JRouterSite extends JRouter
 		if (preg_match("#.*?\.php#u", $path, $matches))
 		{
 			// Get the current entry point path relative to the site path.
-			$scriptPath = realpath($_SERVER['SCRIPT_FILENAME'] ? $_SERVER['SCRIPT_FILENAME'] : str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']));
+			$scriptPath         = realpath($_SERVER['SCRIPT_FILENAME'] ? $_SERVER['SCRIPT_FILENAME'] : str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']));
 			$relativeScriptPath = str_replace('\\', '/', str_replace(JPATH_SITE, '', $scriptPath));
 
 			// If a php file has been found in the request path, check to see if it is a valid file.
@@ -87,7 +87,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Function to convert an internal URI to a route
 	 *
-	 * @param   string  $url  The internal URL
+	 * @param   string $url The internal URL
 	 *
 	 * @return  string  The absolute search engine friendly URL
 	 *
@@ -137,7 +137,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Function to convert a raw route to an internal URI
 	 *
-	 * @param   JUri  &$uri  The raw route
+	 * @param   JUri &$uri The raw route
 	 *
 	 * @return  array
 	 *
@@ -179,7 +179,7 @@ class JRouterSite extends JRouter
 		$this->setVar('Itemid', $app->input->getInt('Itemid', null));
 
 		// Only an Itemid  OR if filter language plugin set? Get the full information from the itemid
-		if (count($this->getVars()) == 1 || ($app->getLanguageFilter() && count($this->getVars()) == 2 ))
+		if (count($this->getVars()) == 1 || ($app->getLanguageFilter() && count($this->getVars()) == 2))
 		{
 			$item = $menu->getItem($this->getVar('Itemid'));
 
@@ -198,7 +198,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Function to convert a sef route to an internal URI
 	 *
-	 * @param   JUri  &$uri  The sef URI
+	 * @param   JUri &$uri The sef URI
 	 *
 	 * @return  string  Internal URI
 	 *
@@ -259,7 +259,7 @@ class JRouterSite extends JRouter
 		{
 			$vars['option'] = 'com_' . $segments[1];
 			$vars['Itemid'] = null;
-			$route = implode('/', array_slice($segments, 2));
+			$route          = implode('/', array_slice($segments, 2));
 		}
 		else
 		{
@@ -281,7 +281,8 @@ class JRouterSite extends JRouter
 				$length = strlen($item->route);
 				if ($length > 0 && JString::strpos($route_lowercase . '/', $item->route . '/') === 0
 					&& $item->type != 'menulink' && (!$app->getLanguageFilter() || $item->language == '*'
-					|| $item->language == $lang_tag))
+						|| $item->language == $lang_tag)
+				)
 				{
 					// We have exact item for this language
 					if ($item->language == $lang_tag)
@@ -363,7 +364,7 @@ class JRouterSite extends JRouter
 				require_once $path;
 				$function = substr($component, 4) . 'ParseRoute';
 				$function = str_replace(array("-", "."), "", $function);
-				$vars = $function($segments);
+				$vars     = $function($segments);
 
 				$this->setVars($vars);
 			}
@@ -383,11 +384,11 @@ class JRouterSite extends JRouter
 	/**
 	 * Function to build a sef route
 	 *
-	 * @param   JUri  &$uri  The internal URL
+	 * @param   JUri &$uri The internal URL
 	 *
 	 * @return  void
 	 *
-	 * @since   1.5
+	 * @since       1.5
 	 * @deprecated  4.0  Use buildSefRoute() instead
 	 */
 	protected function _buildSefRoute(&$uri)
@@ -398,7 +399,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Function to build a sef route
 	 *
-	 * @param   JUri  &$uri  The uri
+	 * @param   JUri &$uri The uri
 	 *
 	 * @return  void
 	 *
@@ -511,7 +512,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Process the parsed router variables based on custom defined rules
 	 *
-	 * @param   JUri  &$uri  The URI to parse
+	 * @param   JUri &$uri The URI to parse
 	 *
 	 * @return  array  The array of processed URI variables
 	 *
@@ -538,7 +539,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Process the build uri query data based on custom defined rules
 	 *
-	 * @param   JUri  &$uri  The URI
+	 * @param   JUri &$uri The URI
 	 *
 	 * @return  void
 	 *
@@ -554,7 +555,7 @@ class JRouterSite extends JRouter
 
 			// Get the active menu item
 			$itemid = $uri->getVar('Itemid');
-			$item = $menu->getItem($itemid);
+			$item   = $menu->getItem($itemid);
 
 			if ($item)
 			{
@@ -585,7 +586,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Create a uri based on a full or partial url string
 	 *
-	 * @param   string  $url  The URI
+	 * @param   string $url The URI
 	 *
 	 * @return  JUri
 	 *
@@ -607,7 +608,7 @@ class JRouterSite extends JRouter
 		{
 			if ($option = $uri->getVar('option'))
 			{
-				$item  = $menu->getItem($this->getVar('Itemid'));
+				$item = $menu->getItem($this->getVar('Itemid'));
 
 				if (isset($item) && $item->component == $option)
 				{

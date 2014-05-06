@@ -27,7 +27,7 @@ class JControllerStatePublish extends JControllerStateBase
 
 		$config = $this->config;
 		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-		$msg = $this->translate('JLIB_APPLICATION_MSG_ITEMS_PUBLISHED');
+		$msg    = $this->translate('JLIB_APPLICATION_MSG_ITEMS_PUBLISHED');
 		$this->setRedirect($url, $msg, 'message');
 
 		return true;

@@ -57,7 +57,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param   string  $path  The path where to find language files.
+	 * @param   string $path The path where to find language files.
 	 *
 	 * @return  JInstallerTemplate
 	 *
@@ -71,14 +71,14 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		{
 			$this->parent
 				->setPath(
-				'source',
-				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/' . $this->parent->extension->element
-			);
+					'source',
+					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/' . $this->parent->extension->element
+				);
 		}
 
 		$this->manifest = $this->parent->getManifest();
-		$name = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
-		$client = (string) $this->manifest->attributes()->client;
+		$name           = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
+		$client         = (string) $this->manifest->attributes()->client;
 
 		// Load administrator language if not set.
 		if (!$client)
@@ -87,12 +87,12 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		}
 
 		$extension = "tpl_$name";
-		$lang = JFactory::getLanguage();
-		$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/' . $name;
+		$lang      = JFactory::getLanguage();
+		$source    = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/' . $name;
 		$lang->load($extension . '.sys', $source, null, false, false)
-			|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false);
+		|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), null, false, false)
+		|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+		|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false);
 	}
 
 	/**
@@ -108,7 +108,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		$lang = JFactory::getLanguage();
-		$xml = $this->parent->getManifest();
+		$xml  = $this->parent->getManifest();
 
 		// Get the client application target
 		if ($cname = (string) $xml->attributes()->client)
@@ -186,11 +186,11 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 				// If we didn't have overwrite set, find an update function or find an update tag so let's call it safe
 				$this->parent
 					->abort(
-					JText::sprintf(
-						'JLIB_INSTALLER_ABORT_TPL_INSTALL_ANOTHER_TEMPLATE_USING_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
-						$this->parent->getPath('extension_root')
-					)
-				);
+						JText::sprintf(
+							'JLIB_INSTALLER_ABORT_TPL_INSTALL_ANOTHER_TEMPLATE_USING_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
+							$this->parent->getPath('extension_root')
+						)
+					);
 
 				return false;
 			}
@@ -286,23 +286,23 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		}
 		else
 		{
-			$row->type = 'template';
+			$row->type    = 'template';
 			$row->element = $this->get('element');
 
 			// There is no folder for templates
-			$row->folder = '';
-			$row->enabled = 1;
+			$row->folder    = '';
+			$row->enabled   = 1;
 			$row->protected = 0;
-			$row->access = 1;
+			$row->access    = 1;
 			$row->client_id = $clientId;
-			$row->params = $this->parent->getParams();
+			$row->params    = $this->parent->getParams();
 
 			// Custom data
 			$row->custom_data = '';
 		}
 
 		// Name might change in an update
-		$row->name = $this->get('name');
+		$row->name           = $this->get('name');
 		$row->manifest_cache = $this->parent->generateManifestCache();
 
 		if (!$row->store())
@@ -327,7 +327,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 			$values = array(
 				$db->quote($row->element), $clientId, $db->quote(0),
 				$db->quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->get('name')))),
-				$db->quote($row->params) );
+				$db->quote($row->params));
 
 			$lang->setDebug($debug);
 
@@ -363,7 +363,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param   integer  $id  The extension ID
+	 * @param   integer $id The extension ID
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -391,7 +391,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 			return false;
 		}
 
-		$name = $row->element;
+		$name     = $row->element;
 		$clientId = $row->client_id;
 
 		// For a template the id will be the template name which represents the subfolder of the templates folder that the template resides in.
@@ -403,7 +403,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		}
 
 		// Deny remove default template
-		$db = $this->parent->getDbo();
+		$db    = $this->parent->getDbo();
 		$query = "SELECT COUNT(*) FROM #__template_styles WHERE home = '1' AND template = " . $db->quote($name);
 		$db->setQuery($query);
 
@@ -486,10 +486,10 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 	 */
 	public function discover()
 	{
-		$results = array();
-		$site_list = JFolder::folders(JPATH_SITE . '/templates');
+		$results    = array();
+		$site_list  = JFolder::folders(JPATH_SITE . '/templates');
 		$admin_list = JFolder::folders(JPATH_ADMINISTRATOR . '/templates');
-		$site_info = JApplicationHelper::getClientInfo('site', true);
+		$site_info  = JApplicationHelper::getClientInfo('site', true);
 		$admin_info = JApplicationHelper::getClientInfo('administrator', true);
 
 		foreach ($site_list as $template)
@@ -500,7 +500,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 				continue;
 			}
 			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
-			$extension = JTable::getInstance('extension');
+			$extension        = JTable::getInstance('extension');
 			$extension->set('type', 'template');
 			$extension->set('client_id', $site_info->id);
 			$extension->set('element', $template);
@@ -521,7 +521,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 			}
 
 			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
-			$extension = JTable::getInstance('extension');
+			$extension        = JTable::getInstance('extension');
 			$extension->set('type', 'template');
 			$extension->set('client_id', $admin_info->id);
 			$extension->set('element', $template);
@@ -548,10 +548,10 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 	{
 		// Templates are one of the easiest
 		// If its not in the extensions table we just add it
-		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
+		$client                 = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$manifestPath           = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
-		$description = (string) $this->parent->manifest->description;
+		$description            = (string) $this->parent->manifest->description;
 
 		if ($description)
 		{
@@ -563,11 +563,11 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		}
 
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->state = 0;
-		$this->parent->extension->name = $manifest_details['name'];
-		$this->parent->extension->enabled = 1;
+		$this->parent->extension->state          = 0;
+		$this->parent->extension->name           = $manifest_details['name'];
+		$this->parent->extension->enabled        = 1;
 
 		$data = new JObject;
 
@@ -583,23 +583,23 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 			$db = $this->parent->getDbo();
 
 			// Insert record in #__template_styles
-			$lang = JFactory::getLanguage();
-			$debug = $lang->setDebug(false);
+			$lang    = JFactory::getLanguage();
+			$debug   = $lang->setDebug(false);
 			$columns = array($db->quoteName('template'),
 				$db->quoteName('client_id'),
 				$db->quoteName('home'),
 				$db->quoteName('title'),
 				$db->quoteName('params')
 			);
-			$query = $db->getQuery(true)
+			$query   = $db->getQuery(true)
 				->insert($db->quoteName('#__template_styles'))
 				->columns($columns)
 				->values(
 					$db->quote($this->parent->extension->element)
-						. ',' . $db->quote($this->parent->extension->client_id)
-						. ',' . $db->quote(0)
-						. ',' . $db->quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name))
-						. ',' . $db->quote($this->parent->extension->params)
+					. ',' . $db->quote($this->parent->extension->client_id)
+					. ',' . $db->quote(0)
+					. ',' . $db->quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name))
+					. ',' . $db->quote($this->parent->extension->params)
 				);
 			$lang->setDebug($debug);
 			$db->setQuery($query);
@@ -625,14 +625,14 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 	public function refreshManifestCache()
 	{
 		// Need to find to find where the XML file is since we don't store this normally.
-		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
+		$client                 = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$manifestPath           = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->name           = $manifest_details['name'];
 
 		try
 		{

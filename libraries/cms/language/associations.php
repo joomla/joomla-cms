@@ -21,13 +21,13 @@ class JLanguageAssociations
 	/**
 	 * Get the associations.
 	 *
-	 * @param   string   $extension   The name of the component.
-	 * @param   string   $tablename   The name of the table.
-	 * @param   string   $context     The context
-	 * @param   integer  $id          The primary key value.
-	 * @param   string   $pk          The name of the primary key in the given $table.
-	 * @param   string   $aliasField  If the table has an alias field set it here. Null to not use it
-	 * @param   string   $catField    If the table has a catid field set it here. Null to not use it
+	 * @param   string  $extension  The name of the component.
+	 * @param   string  $tablename  The name of the table.
+	 * @param   string  $context    The context
+	 * @param   integer $id         The primary key value.
+	 * @param   string  $pk         The name of the primary key in the given $table.
+	 * @param   string  $aliasField If the table has an alias field set it here. Null to not use it
+	 * @param   string  $catField   If the table has a catid field set it here. Null to not use it
 	 *
 	 * @return  array                The associated items
 	 *
@@ -36,8 +36,8 @@ class JLanguageAssociations
 	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid')
 	{
 		$associations = array();
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
+		$db           = JFactory::getDbo();
+		$query        = $db->getQuery(true)
 			->select($db->quoteName('c2.language'))
 			->from($db->quoteName($tablename, 'c'))
 			->join('INNER', $db->quoteName('#__associations', 'a') . ' ON a.id = c.id AND a.context=' . $db->quote($context))

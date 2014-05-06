@@ -29,8 +29,8 @@ abstract class JHtmlCategory
 	/**
 	 * Returns an array of categories for the given extension.
 	 *
-	 * @param   string  $extension  The extension option e.g. com_something.
-	 * @param   array   $config     An array of configuration options. By default, only
+	 * @param   string $extension   The extension option e.g. com_something.
+	 * @param   array  $config      An array of configuration options. By default, only
 	 *                              published and unpublished categories are returned.
 	 *
 	 * @return  array
@@ -44,8 +44,8 @@ abstract class JHtmlCategory
 		if (!isset(static::$items[$hash]))
 		{
 			$config = (array) $config;
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
+			$db     = JFactory::getDbo();
+			$query  = $db->getQuery(true)
 				->select('a.id, a.title, a.level')
 				->from('#__categories AS a')
 				->where('a.parent_id > 0');
@@ -94,8 +94,8 @@ abstract class JHtmlCategory
 
 			foreach ($items as &$item)
 			{
-				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
-				$item->title = str_repeat('- ', $repeat) . $item->title;
+				$repeat                 = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
+				$item->title            = str_repeat('- ', $repeat) . $item->title;
 				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 			}
 		}
@@ -106,8 +106,8 @@ abstract class JHtmlCategory
 	/**
 	 * Returns an array of categories for the given extension.
 	 *
-	 * @param   string  $extension  The extension option.
-	 * @param   array   $config     An array of configuration options. By default, only published and unpublished categories are returned.
+	 * @param   string $extension The extension option.
+	 * @param   array  $config    An array of configuration options. By default, only published and unpublished categories are returned.
 	 *
 	 * @return  array   Categories for the extension
 	 *
@@ -120,8 +120,8 @@ abstract class JHtmlCategory
 		if (!isset(static::$items[$hash]))
 		{
 			$config = (array) $config;
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
+			$db     = JFactory::getDbo();
+			$query  = $db->getQuery(true)
 				->select('a.id, a.title, a.level, a.parent_id')
 				->from('#__categories AS a')
 				->where('a.parent_id > 0');
@@ -153,8 +153,8 @@ abstract class JHtmlCategory
 
 			foreach ($items as &$item)
 			{
-				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
-				$item->title = str_repeat('- ', $repeat) . $item->title;
+				$repeat                 = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
+				$item->title            = str_repeat('- ', $repeat) . $item->title;
 				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 			}
 			// Special "Add to root" option:

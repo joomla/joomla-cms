@@ -54,7 +54,7 @@ final class JVersion
 	/**
 	 * Compares two a "PHP standardized" version number against the current Joomla version.
 	 *
-	 * @param   string  $minimum  The minimum version of the Joomla which is compatible.
+	 * @param   string $minimum The minimum version of the Joomla which is compatible.
 	 *
 	 * @return  bool    True if the version is compatible.
 	 *
@@ -100,16 +100,16 @@ final class JVersion
 	public function getLongVersion()
 	{
 		return $this->PRODUCT . ' ' . $this->RELEASE . '.' . $this->DEV_LEVEL . ' '
-				. $this->DEV_STATUS . ' [ ' . $this->CODENAME . ' ] ' . $this->RELDATE . ' '
-				. $this->RELTIME . ' ' . $this->RELTZ;
+		. $this->DEV_STATUS . ' [ ' . $this->CODENAME . ' ] ' . $this->RELDATE . ' '
+		. $this->RELTIME . ' ' . $this->RELTZ;
 	}
 
 	/**
 	 * Returns the user agent.
 	 *
-	 * @param   string  $component    Name of the component.
-	 * @param   bool    $mask         Mask as Mozilla/5.0 or not.
-	 * @param   bool    $add_version  Add version afterwards to component.
+	 * @param   string $component   Name of the component.
+	 * @param   bool   $mask        Mask as Mozilla/5.0 or not.
+	 * @param   bool   $add_version Add version afterwards to component.
 	 *
 	 * @return  string  User Agent.
 	 *

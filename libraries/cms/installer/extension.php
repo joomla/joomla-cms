@@ -86,7 +86,7 @@ class JInstallerExtension extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
+	 * @param   SimpleXMLElement $element A SimpleXMLElement from which to load data from
 	 *
 	 * @since  3.1
 	 */
@@ -95,7 +95,7 @@ class JInstallerExtension extends JObject
 		if ($element)
 		{
 			$this->type = (string) $element->attributes()->type;
-			$this->id = (string) $element->attributes()->id;
+			$this->id   = (string) $element->attributes()->id;
 
 			switch ($this->type)
 			{
@@ -106,7 +106,7 @@ class JInstallerExtension extends JObject
 				case 'module':
 				case 'template':
 				case 'language':
-					$this->client = (string) $element->attributes()->client;
+					$this->client  = (string) $element->attributes()->client;
 					$tmp_client_id = JApplicationHelper::getClientInfo($this->client, 1);
 
 					if ($tmp_client_id == null)
@@ -156,7 +156,7 @@ class JExtension extends JInstallerExtension
 	/**
 	 * Constructor
 	 *
-	 * @param   SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
+	 * @param   SimpleXMLElement $element A SimpleXMLElement from which to load data from
 	 *
 	 * @since  3.1
 	 */

@@ -21,7 +21,7 @@ class JPathwaySite extends JPathway
 	/**
 	 * Class constructor.
 	 *
-	 * @param   array  $options  The class options.
+	 * @param   array $options The class options.
 	 *
 	 * @since   1.5
 	 */
@@ -41,7 +41,7 @@ class JPathwaySite extends JPathway
 			{
 				foreach ($item->tree as $menupath)
 				{
-					$url = '';
+					$url  = '';
 					$link = $menu->getItem($menupath);
 
 					switch ($link->type)

@@ -22,7 +22,7 @@ class JMenu
 	 * Array to hold the menu items
 	 *
 	 * @var    array
-	 * @since  1.5
+	 * @since       1.5
 	 * @deprecated  4.0  Will convert to $items
 	 */
 	protected $_items = array();
@@ -31,7 +31,7 @@ class JMenu
 	 * Identifier of the default menu item
 	 *
 	 * @var    integer
-	 * @since  1.5
+	 * @since       1.5
 	 * @deprecated  4.0  Will convert to $default
 	 */
 	protected $_default = array();
@@ -40,7 +40,7 @@ class JMenu
 	 * Identifier of the active menu item
 	 *
 	 * @var    integer
-	 * @since  1.5
+	 * @since       1.5
 	 * @deprecated  4.0  Will convert to $active
 	 */
 	protected $_active = 0;
@@ -54,7 +54,7 @@ class JMenu
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  $options  An array of configuration options.
+	 * @param   array $options An array of configuration options.
 	 *
 	 * @since   1.5
 	 */
@@ -80,8 +80,8 @@ class JMenu
 	/**
 	 * Returns a JMenu object
 	 *
-	 * @param   string  $client   The name of the client
-	 * @param   array   $options  An associative array of options
+	 * @param   string $client  The name of the client
+	 * @param   array  $options An associative array of options
 	 *
 	 * @return  JMenu  A menu object.
 	 *
@@ -129,7 +129,7 @@ class JMenu
 	/**
 	 * Get menu item by id
 	 *
-	 * @param   integer  $id  The item id
+	 * @param   integer $id The item id
 	 *
 	 * @return  mixed    The item object, or null if not found
 	 *
@@ -141,7 +141,7 @@ class JMenu
 
 		if (isset($this->_items[$id]))
 		{
-			$result = &$this->_items[$id];
+			$result = & $this->_items[$id];
 		}
 
 		return $result;
@@ -150,8 +150,8 @@ class JMenu
 	/**
 	 * Set the default item by id and language code.
 	 *
-	 * @param   integer  $id        The menu item id.
-	 * @param   string   $language  The language cod (since 1.6).
+	 * @param   integer $id       The menu item id.
+	 * @param   string  $language The language cod (since 1.6).
 	 *
 	 * @return  boolean  True, if successful
 	 *
@@ -172,7 +172,7 @@ class JMenu
 	/**
 	 * Get the default item by language code.
 	 *
-	 * @param   string  $language  The language code, default value of * means all.
+	 * @param   string $language The language code, default value of * means all.
 	 *
 	 * @return  object  The item object
 	 *
@@ -197,7 +197,7 @@ class JMenu
 	/**
 	 * Set the default item by id
 	 *
-	 * @param   integer  $id  The item id
+	 * @param   integer $id The item id
 	 *
 	 * @return  mixed  If successful the active item, otherwise null
 	 *
@@ -208,7 +208,7 @@ class JMenu
 		if (isset($this->_items[$id]))
 		{
 			$this->_active = $id;
-			$result = &$this->_items[$id];
+			$result        = & $this->_items[$id];
 
 			return $result;
 		}
@@ -227,7 +227,7 @@ class JMenu
 	{
 		if ($this->_active)
 		{
-			$item = &$this->_items[$this->_active];
+			$item = & $this->_items[$this->_active];
 
 			return $item;
 		}
@@ -238,10 +238,10 @@ class JMenu
 	/**
 	 * Gets menu items by attribute
 	 *
-	 * @param   mixed    $attributes  The field name(s).
-	 * @param   mixed    $values      The value(s) of the field. If an array, need to match field names 
+	 * @param   mixed   $attributes   The field name(s).
+	 * @param   mixed   $values       The value(s) of the field. If an array, need to match field names
 	 *                                each attribute may have multiple values to lookup for.
-	 * @param   boolean  $firstonly   If true, only returns the first item found
+	 * @param   boolean $firstonly    If true, only returns the first item found
 	 *
 	 * @return  array
 	 *
@@ -249,9 +249,9 @@ class JMenu
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
-		$items = array();
+		$items      = array();
 		$attributes = (array) $attributes;
-		$values = (array) $values;
+		$values     = (array) $values;
 
 		foreach ($this->_items as $item)
 		{
@@ -299,7 +299,7 @@ class JMenu
 	/**
 	 * Gets the parameter object for a certain menu item
 	 *
-	 * @param   integer  $id  The item id
+	 * @param   integer $id The item id
 	 *
 	 * @return  JRegistry  A JRegistry object
 	 *
@@ -333,7 +333,7 @@ class JMenu
 	 * Method to check JMenu object authorization against an access control
 	 * object and optionally an access extension object
 	 *
-	 * @param   integer  $id  The menu id
+	 * @param   integer $id The menu id
 	 *
 	 * @return  boolean  True if authorised
 	 *

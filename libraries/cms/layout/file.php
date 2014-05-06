@@ -41,8 +41,8 @@ class JLayoutFile extends JLayoutBase
 	/**
 	 * Method to instantiate the file-based layout.
 	 *
-	 * @param   string  $layoutId  Dot separated path to the layout file, relative to base path
-	 * @param   string  $basePath  Base path to use when loading layout files
+	 * @param   string $layoutId Dot separated path to the layout file, relative to base path
+	 * @param   string $basePath Base path to use when loading layout files
 	 *
 	 * @since   3.0
 	 */
@@ -55,7 +55,7 @@ class JLayoutFile extends JLayoutBase
 	/**
 	 * Method to render the layout.
 	 *
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   object $displayData Object which properties are used inside the layout file to build displayed output
 	 *
 	 * @return  string  The necessary HTML to display the layout
 	 *
@@ -93,7 +93,7 @@ class JLayoutFile extends JLayoutBase
 
 		if (is_null($this->fullPath) && !empty($this->layoutId))
 		{
-			$rawPath = str_replace('.', '/', $this->layoutId) . '.php';
+			$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
 			$fileName = basename($rawPath);
 			$filePath = dirname($rawPath);
 

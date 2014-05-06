@@ -26,6 +26,7 @@ class JControllerDelete extends JControllerCms
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED');
 			$this->abort($msg, 'error');
+
 			return false;
 		}
 
@@ -60,7 +61,7 @@ class JControllerDelete extends JControllerCms
 
 		$config = $this->config;
 		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-		$msg = $this->translate('JLIB_APPLICATION_MSG_ITEMS_DELETED');
+		$msg    = $this->translate('JLIB_APPLICATION_MSG_ITEMS_DELETED');
 		$this->setRedirect($url, $msg, 'message');
 
 		return true;

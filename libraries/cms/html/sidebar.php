@@ -70,9 +70,9 @@ abstract class JHtmlSidebar
 	/**
 	 * Method to add a menu item to submenu.
 	 *
-	 * @param   string  $name    Name of the menu item.
-	 * @param   string  $link    URL of the menu item.
-	 * @param   bool    $active  True if the item is active, false otherwise.
+	 * @param   string $name   Name of the menu item.
+	 * @param   string $link   URL of the menu item.
+	 * @param   bool   $active True if the item is active, false otherwise.
 	 *
 	 * @return  void
 	 *
@@ -98,10 +98,10 @@ abstract class JHtmlSidebar
 	/**
 	 * Method to add a filter to the submenu
 	 *
-	 * @param   string  $label      Label for the menu item.
-	 * @param   string  $name       Name for the filter. Also used as id.
-	 * @param   string  $options    Options for the select field.
-	 * @param   bool    $noDefault  Don't the label as the empty option
+	 * @param   string $label     Label for the menu item.
+	 * @param   string $name      Name for the filter. Also used as id.
+	 * @param   string $options   Options for the select field.
+	 * @param   bool   $noDefault Don't the label as the empty option
 	 *
 	 * @return  void
 	 *
@@ -127,7 +127,7 @@ abstract class JHtmlSidebar
 	/**
 	 * Set value for the action attribute of the filter form
 	 *
-	 * @param   string  $action  Value for the action attribute of the form
+	 * @param   string $action Value for the action attribute of the form
 	 *
 	 * @return  void
 	 *

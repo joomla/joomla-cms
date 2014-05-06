@@ -112,26 +112,26 @@ abstract class JSchemaChangeitem
 	/**
 	 * Constructor: builds check query and message from $updateQuery
 	 *
-	 * @param   JDatabaseDriver  $db     Database connector object
-	 * @param   string           $file   Full path name of the sql file
-	 * @param   string           $query  Text of the sql query (one line of the file)
+	 * @param   JDatabaseDriver $db    Database connector object
+	 * @param   string          $file  Full path name of the sql file
+	 * @param   string          $query Text of the sql query (one line of the file)
 	 *
 	 * @since   2.5
 	 */
 	public function __construct($db, $file, $query)
 	{
 		$this->updateQuery = $query;
-		$this->file = $file;
-		$this->db = $db;
+		$this->file        = $file;
+		$this->db          = $db;
 		$this->buildCheckQuery();
 	}
 
 	/**
 	 * Returns a reference to the JSchemaChangeitem object.
 	 *
-	 * @param   JDatabaseDriver  $db     Database connector object
-	 * @param   string           $file   Full path name of the sql file
-	 * @param   string           $query  Text of the sql query (one line of the file)
+	 * @param   JDatabaseDriver $db    Database connector object
+	 * @param   string          $file  Full path name of the sql file
+	 * @param   string          $query Text of the sql query (one line of the file)
 	 *
 	 * @return  JSchemaChangeitem instance based on the database driver
 	 *
@@ -213,6 +213,7 @@ abstract class JSchemaChangeitem
 				$this->checkStatus = -2;
 			}
 		}
+
 		return $this->checkStatus;
 	}
 

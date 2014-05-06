@@ -45,7 +45,7 @@ abstract class JControllerImport extends JControllerCms
 
 		$config = $this->config;
 		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-		$msg = $this->translate('JLIB_APPLICATION_MESSAGE_IMPORT_COMPLETED');
+		$msg    = $this->translate('JLIB_APPLICATION_MESSAGE_IMPORT_COMPLETED');
 		$this->setRedirect($url, $msg, 'message');
 
 		return true;

@@ -73,7 +73,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param   string  $path  The path where to find language files.
+	 * @param   string $path The path where to find language files.
 	 *
 	 * @return  void
 	 *
@@ -88,12 +88,12 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 			$this->parent->setPath('source', JPATH_PLUGINS . '/' . $this->parent->extension->folder . '/' . $this->parent->extension->element);
 		}
 		$this->manifest = $this->parent->getManifest();
-		$element = $this->manifest->files;
+		$element        = $this->manifest->files;
 
 		if ($element)
 		{
 			$group = strtolower((string) $this->manifest->attributes()->group);
-			$name = '';
+			$name  = '';
 
 			if (count($element->children()))
 			{
@@ -109,18 +109,18 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 			if ($name)
 			{
 				$extension = "plg_${group}_${name}";
-				$lang = JFactory::getLanguage();
-				$source = $path ? $path : JPATH_PLUGINS . "/$group/$name";
-				$folder = (string) $element->attributes()->folder;
+				$lang      = JFactory::getLanguage();
+				$source    = $path ? $path : JPATH_PLUGINS . "/$group/$name";
+				$folder    = (string) $element->attributes()->folder;
 
 				if ($folder && file_exists("$path/$folder"))
 				{
 					$source = "$path/$folder";
 				}
 				$lang->load($extension . '.sys', $source, null, false, false)
-					|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-					|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-					|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+				|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
+				|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+				|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
 			}
 		}
 	}
@@ -227,7 +227,8 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 
 			// Upgrade manually set or update function available or update tag detected
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement)
+				|| $updateElement
+			)
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -245,11 +246,11 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				$this->parent
 					->abort(
-					JText::sprintf(
-						'JLIB_INSTALLER_ABORT_PLG_INSTALL_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
-						$this->parent->getPath('extension_root')
-					)
-				);
+						JText::sprintf(
+							'JLIB_INSTALLER_ABORT_PLG_INSTALL_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
+							$this->parent->getPath('extension_root')
+						)
+					);
 
 				return false;
 			}
@@ -264,7 +265,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		// If there is an manifest class file, let's load it; we'll copy it later (don't have destination yet).
 		if ((string) $xml->scriptfile)
 		{
-			$manifestScript = (string) $xml->scriptfile;
+			$manifestScript     = (string) $xml->scriptfile;
 			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
 			if (is_file($manifestScriptFile))
@@ -322,11 +323,11 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 			{
 				$this->parent
 					->abort(
-					JText::sprintf(
-						'JLIB_INSTALLER_ABORT_PLG_INSTALL_CREATE_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
-						$this->parent->getPath('extension_root')
-					)
-				);
+						JText::sprintf(
+							'JLIB_INSTALLER_ABORT_PLG_INSTALL_CREATE_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
+							$this->parent->getPath('extension_root')
+						)
+					);
 
 				return false;
 			}
@@ -346,7 +347,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 
 			if ($tmpInstaller->findManifest())
 			{
-				$old_manifest = $tmpInstaller->getManifest();
+				$old_manifest   = $tmpInstaller->getManifest();
 				$this->oldFiles = $old_manifest->files;
 			}
 		}
@@ -378,7 +379,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		// If there is a manifest script, lets copy it.
 		if ($this->get('manifest_script'))
 		{
-			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
+			$path['src']  = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->get('manifest_script');
 
 			if (!file_exists($path['dest']))
@@ -410,16 +411,16 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				// Install failed, roll back changes
 				$this->parent
 					->abort(
-					JText::sprintf(
-						'JLIB_INSTALLER_ABORT_PLG_INSTALL_ALLREADY_EXISTS', JText::_('JLIB_INSTALLER_' . $this->route),
-						$this->get('name')
-					)
-				);
+						JText::sprintf(
+							'JLIB_INSTALLER_ABORT_PLG_INSTALL_ALLREADY_EXISTS', JText::_('JLIB_INSTALLER_' . $this->route),
+							$this->get('name')
+						)
+					);
 
 				return false;
 			}
 			$row->load($id);
-			$row->name = $this->get('name');
+			$row->name           = $this->get('name');
 			$row->manifest_cache = $this->parent->generateManifestCache();
 
 			// Update the manifest cache and name
@@ -428,22 +429,22 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		else
 		{
 			// Store in the extensions table (1.6)
-			$row->name = $this->get('name');
-			$row->type = 'plugin';
-			$row->ordering = 0;
-			$row->element = $element;
-			$row->folder = $group;
-			$row->enabled = 0;
+			$row->name      = $this->get('name');
+			$row->type      = 'plugin';
+			$row->ordering  = 0;
+			$row->element   = $element;
+			$row->folder    = $group;
+			$row->enabled   = 0;
 			$row->protected = 0;
-			$row->access = 1;
+			$row->access    = 1;
 			$row->client_id = 0;
-			$row->params = $this->parent->getParams();
+			$row->params    = $this->parent->getParams();
 
 			// Custom data
 			$row->custom_data = '';
 
 			// System data
-			$row->system_data = '';
+			$row->system_data    = '';
 			$row->manifest_cache = $this->parent->generateManifestCache();
 
 			// Editor plugins are published by default
@@ -457,8 +458,8 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				// Install failed, roll back changes
 				$this->parent
 					->abort(
-					JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
-				);
+						JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
+					);
 
 				return false;
 			}
@@ -479,8 +480,8 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				// Install failed, rollback changes
 				$this->parent
 					->abort(
-					JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_SQL_ERROR', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
-				);
+						JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_SQL_ERROR', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true))
+					);
 
 				return false;
 			}
@@ -585,7 +586,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param   integer  $id  The id of the plugin to uninstall
+	 * @param   integer $id The id of the plugin to uninstall
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -595,9 +596,9 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 	{
 		$this->route = 'uninstall';
 
-		$row = null;
+		$row    = null;
 		$retval = true;
-		$db = $this->parent->getDbo();
+		$db     = $this->parent->getDbo();
 
 		// First order of business will be to load the plugin object table from the database.
 		// This should give us the necessary information to proceed.
@@ -754,7 +755,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 	 */
 	public function discover()
 	{
-		$results = array();
+		$results     = array();
 		$folder_list = JFolder::folders(JPATH_SITE . '/plugins');
 
 		foreach ($folder_list as $folder)
@@ -764,7 +765,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 			foreach ($file_list as $file)
 			{
 				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . '/plugins/' . $folder . '/' . $file);
-				$file = JFile::stripExt($file);
+				$file             = JFile::stripExt($file);
 
 				// Ignore example plugins
 				if ($file == 'example')
@@ -794,7 +795,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 					$manifest_details = JInstaller::parseXMLInstallFile(
 						JPATH_SITE . '/plugins/' . $folder . '/' . $plugin_folder . '/' . $file
 					);
-					$file = JFile::stripExt($file);
+					$file             = JFile::stripExt($file);
 
 					if ($file == 'example')
 					{
@@ -815,6 +816,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				}
 			}
 		}
+
 		return $results;
 	}
 
@@ -844,7 +846,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 			$manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '.xml';
 		}
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
-		$description = (string) $this->parent->manifest->description;
+		$description            = (string) $this->parent->manifest->description;
 
 		if ($description)
 		{
@@ -855,12 +857,12 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 			$this->parent->set('message', '');
 		}
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JInstaller::parseXMLInstallFile($manifestPath);
+		$manifest_details                        = JInstaller::parseXMLInstallFile($manifestPath);
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->state = 0;
-		$this->parent->extension->name = $manifest_details['name'];
-		$this->parent->extension->enabled = ('editors' == $this->parent->extension->folder) ? 1 : 0;
-		$this->parent->extension->params = $this->parent->getParams();
+		$this->parent->extension->state          = 0;
+		$this->parent->extension->name           = $manifest_details['name'];
+		$this->parent->extension->enabled        = ('editors' == $this->parent->extension->folder) ? 1 : 0;
+		$this->parent->extension->params         = $this->parent->getParams();
 
 		if ($this->parent->extension->store())
 		{
@@ -888,12 +890,12 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		 * Similar to modules and templates, rather easy
 		 * If it's not in the extensions table we just add it
 		 */
-		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '/'
+		$client                 = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$manifestPath           = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '/'
 			. $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 
 		$this->parent->extension->name = $manifest_details['name'];

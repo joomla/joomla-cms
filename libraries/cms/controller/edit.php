@@ -32,12 +32,13 @@ class JControllerEdit extends JControllerDisplay
 	 */
 	public function execute()
 	{
-		$model  = $this->getModel();
+		$model = $this->getModel();
 
 		if (!$model->allowAction('core.edit'))
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED');
 			$this->abort($msg, 'error');
+
 			return false;
 		}
 
@@ -65,6 +66,7 @@ class JControllerEdit extends JControllerDisplay
 		{
 			$msg = $e->getMessage();
 			$this->abort($msg, 'error');
+
 			return false;
 		}
 

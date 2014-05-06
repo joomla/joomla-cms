@@ -41,6 +41,7 @@ class JLanguageMultilang
 		if ($app->isSite())
 		{
 			$enabled = $app->getLanguageFilter();
+
 			return $enabled;
 		}
 
@@ -48,7 +49,7 @@ class JLanguageMultilang
 		if (!$tested)
 		{
 			// Determine status of language filter plug-in.
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('enabled')
 				->from($db->quoteName('#__extensions'))
@@ -58,7 +59,7 @@ class JLanguageMultilang
 			$db->setQuery($query);
 
 			$enabled = $db->loadResult();
-			$tested = true;
+			$tested  = true;
 		}
 
 		return $enabled;

@@ -24,10 +24,10 @@ abstract class JHtmlString
 	 * word, it will find the first space that is within the limit and
 	 * truncate at that point. This method is UTF-8 safe.
 	 *
-	 * @param   string   $text       The text to truncate.
-	 * @param   integer  $length     The maximum length of the text.
-	 * @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
-	 * @param   boolean  $allowHtml  Allow HTML tags in the output, and close any open tags (default: true).
+	 * @param   string  $text      The text to truncate.
+	 * @param   integer $length    The maximum length of the text.
+	 * @param   boolean $noSplit   Don't split a word if that is where the cutoff occurs (default: true).
+	 * @param   boolean $allowHtml Allow HTML tags in the output, and close any open tags (default: true).
 	 *
 	 * @return  string   The truncated text.
 	 *
@@ -73,7 +73,7 @@ abstract class JHtmlString
 			{
 				// Find the position of the last space within the allowed length.
 				$offset = JString::strrpos($tmp, ' ');
-				$tmp = JString::substr($tmp, 0, $offset + 1);
+				$tmp    = JString::substr($tmp, 0, $offset + 1);
 
 				// If there are no spaces and the string is longer than the maximum
 				// we need to just use the ellipsis. In that case we are done.
@@ -141,24 +141,24 @@ abstract class JHtmlString
 	}
 
 	/**
-	* Method to extend the truncate method to more complex situations
-	*
-	* The goal is to get the proper length plain text string with as much of
-	* the html intact as possible with all tags properly closed.
-	*
-	* @param   string   $html       The content of the introtext to be truncated
-	* @param   integer  $maxLength  The maximum number of characters to render
-	* @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
-	*
-	* @return  string  The truncated string. If the string is truncated an ellipsis
-	*                  (...) will be appended.
-	*
-	* @note    If a maximum length of 3 or less is selected and the text has more than
-	*          that number of characters an ellipsis will be displayed.
-	*          This method will not create valid HTML from malformed HTML.
-	*
-	* @since   3.1
-	*/
+	 * Method to extend the truncate method to more complex situations
+	 *
+	 * The goal is to get the proper length plain text string with as much of
+	 * the html intact as possible with all tags properly closed.
+	 *
+	 * @param   string  $html      The content of the introtext to be truncated
+	 * @param   integer $maxLength The maximum number of characters to render
+	 * @param   boolean $noSplit   Don't split a word if that is where the cutoff occurs (default: true).
+	 *
+	 * @return  string  The truncated string. If the string is truncated an ellipsis
+	 *                  (...) will be appended.
+	 *
+	 * @note    If a maximum length of 3 or less is selected and the text has more than
+	 *          that number of characters an ellipsis will be displayed.
+	 *          This method will not create valid HTML from malformed HTML.
+	 *
+	 * @since   3.1
+	 */
 	public static function truncateComplex($html, $maxLength = 0, $noSplit = true)
 	{
 		// Start with some basic rules.
@@ -180,7 +180,7 @@ abstract class JHtmlString
 		if ($maxLength == 1 && substr($html, 0, 1) == '<')
 		{
 			$endTagPos = strlen(strstr($html, '>', true));
-			$tag = substr($html, 1, $endTagPos);
+			$tag       = substr($html, 1, $endTagPos);
 
 			$l = $endTagPos + 1;
 
@@ -201,14 +201,14 @@ abstract class JHtmlString
 		// It's all HTML, just return it.
 		if (strlen($ptString) == 0)
 		{
-				return $html;
+			return $html;
 		}
 
 		// If the plain text is shorter than the max length the variable will not end in ...
 		// In that case we use the whole string.
 		if (substr($ptString, -3) != '...')
 		{
-				return $html;
+			return $html;
 		}
 
 		// Regular truncate gives us the ellipsis but we want to go back for text and tags.
@@ -267,9 +267,9 @@ abstract class JHtmlString
 	 *
 	 * Note that this method does not scan for HTML tags so will potentially break them.
 	 *
-	 * @param   string   $text    The text to abridge.
-	 * @param   integer  $length  The maximum length of the text (default is 50).
-	 * @param   integer  $intro   The maximum length of the intro text (default is 30).
+	 * @param   string  $text   The text to abridge.
+	 * @param   integer $length The maximum length of the text (default is 50).
+	 * @param   integer $intro  The maximum length of the intro text (default is 30).
 	 *
 	 * @return  string   The abridged text.
 	 *

@@ -39,7 +39,7 @@ abstract class JToolbarButton
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $parent  The parent
+	 * @param   object $parent The parent
 	 */
 	public function __construct($parent = null)
 	{
@@ -61,7 +61,7 @@ abstract class JToolbarButton
 	/**
 	 * Get the HTML to render the button
 	 *
-	 * @param   array  &$definition  Parameters to be passed
+	 * @param   array &$definition Parameters to be passed
 	 *
 	 * @return  string
 	 *
@@ -72,7 +72,7 @@ abstract class JToolbarButton
 		/*
 		 * Initialise some variables
 		 */
-		$id = call_user_func_array(array(&$this, 'fetchId'), $definition);
+		$id     = call_user_func_array(array(&$this, 'fetchId'), $definition);
 		$action = call_user_func_array(array(&$this, 'fetchButton'), $definition);
 
 		// Build id attribute
@@ -82,8 +82,8 @@ abstract class JToolbarButton
 		}
 
 		// Build the HTML Button
-		$options = array();
-		$options['id'] = $id;
+		$options           = array();
+		$options['id']     = $id;
 		$options['action'] = $action;
 
 		$layout = new JLayoutFile('joomla.toolbar.base');
@@ -96,7 +96,7 @@ abstract class JToolbarButton
 	 *
 	 * Can be redefined in the final class
 	 *
-	 * @param   string  $identifier  Icon identification string
+	 * @param   string $identifier Icon identification string
 	 *
 	 * @return  string  CSS class name
 	 *
@@ -136,7 +136,7 @@ abstract class JButton extends JToolbarButton
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $parent  The parent
+	 * @param   object $parent The parent
 	 *
 	 * @deprecated  4.0  Use JToolbarButton instead.
 	 */

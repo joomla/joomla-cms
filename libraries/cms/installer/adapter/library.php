@@ -24,7 +24,7 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param   string  $path  The path where to find language files.
+	 * @param   string $path The path where to find language files.
 	 *
 	 * @return  void
 	 *
@@ -39,14 +39,14 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 			$this->parent->setPath('source', JPATH_PLATFORM . '/' . $this->parent->extension->element);
 		}
 		$this->manifest = $this->parent->getManifest();
-		$extension = 'lib_' . strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
-		$name = strtolower((string) $this->manifest->libraryname);
-		$lang = JFactory::getLanguage();
-		$source = $path ? $path : JPATH_PLATFORM . "/$name";
+		$extension      = 'lib_' . strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
+		$name           = strtolower((string) $this->manifest->libraryname);
+		$lang           = JFactory::getLanguage();
+		$source         = $path ? $path : JPATH_PLATFORM . "/$name";
 		$lang->load($extension . '.sys', $source, null, false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
+		|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+		|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
 	}
 
 	/**
@@ -68,12 +68,12 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		 */
 
 		// Set the extension's name
-		$name = JFilterInput::getInstance()->clean((string) $this->manifest->name, 'string');
+		$name    = JFilterInput::getInstance()->clean((string) $this->manifest->name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
 		$this->set('element', $element);
 
-		$db = $this->parent->getDbo();
+		$db    = $this->parent->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
@@ -171,21 +171,21 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		$this->parent->parseMedia($this->manifest->media);
 
 		// Extension Registration
-		$row = JTable::getInstance('extension');
-		$row->name = $this->get('name');
-		$row->type = 'library';
+		$row          = JTable::getInstance('extension');
+		$row->name    = $this->get('name');
+		$row->type    = 'library';
 		$row->element = $this->get('element');
 
 		// There is no folder for libraries
-		$row->folder = '';
-		$row->enabled = 1;
+		$row->folder    = '';
+		$row->enabled   = 1;
 		$row->protected = 0;
-		$row->access = 1;
+		$row->access    = 1;
 		$row->client_id = 0;
-		$row->params = $this->parent->getParams();
+		$row->params    = $this->parent->getParams();
 
 		// Custom data
-		$row->custom_data = '';
+		$row->custom_data    = '';
 		$row->manifest_cache = $this->parent->generateManifestCache();
 
 		if (!$row->store())
@@ -203,8 +203,8 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		 */
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		$manifest = array();
-		$manifest['src'] = $this->parent->getPath('manifest');
+		$manifest         = array();
+		$manifest['src']  = $this->parent->getPath('manifest');
 		$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . basename($this->parent->getPath('manifest'));
 
 		if (!$this->parent->copyFiles(array($manifest), true))
@@ -214,6 +214,7 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 
 			return false;
 		}
+
 		return $row->get('extension_id');
 	}
 
@@ -237,16 +238,16 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name = (string) $this->manifest->name;
-		$name = JFilterInput::getInstance()->clean($name, 'string');
+		$name    = (string) $this->manifest->name;
+		$name    = JFilterInput::getInstance()->clean($name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
 		$this->set('element', $element);
 
 		// We don't want to compromise this instance!
 		$installer = new JInstaller;
-		$db = $this->parent->getDbo();
-		$query = $db->getQuery(true)
+		$db        = $this->parent->getDbo();
+		$query     = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
@@ -259,6 +260,7 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 			// Already installed, which would make sense
 			$installer->uninstall('library', $result);
 		}
+
 		// Now create the new files
 		return $this->install();
 	}
@@ -266,7 +268,7 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param   string  $id  The id of the library to uninstall.
+	 * @param   string $id The id of the library to uninstall.
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -371,14 +373,14 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 	 */
 	public function discover()
 	{
-		$results = array();
+		$results   = array();
 		$file_list = JFolder::files(JPATH_MANIFESTS . '/libraries', '\.xml$');
 
 		foreach ($file_list as $file)
 		{
 			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_MANIFESTS . '/libraries/' . $file);
-			$file = JFile::stripExt($file);
-			$extension = JTable::getInstance('extension');
+			$file             = JFile::stripExt($file);
+			$extension        = JTable::getInstance('extension');
 			$extension->set('type', 'library');
 			$extension->set('client_id', 0);
 			$extension->set('element', $file);
@@ -389,6 +391,7 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 			$extension->set('params', '{}');
 			$results[] = $extension;
 		}
+
 		return $results;
 	}
 
@@ -412,15 +415,15 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		 * time they can be adequately removed.
 		 */
 
-		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->parent->extension->element . '.xml';
+		$manifestPath           = JPATH_MANIFESTS . '/libraries/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->state = 0;
-		$this->parent->extension->name = $manifest_details['name'];
-		$this->parent->extension->enabled = 1;
-		$this->parent->extension->params = $this->parent->getParams();
+		$this->parent->extension->state          = 0;
+		$this->parent->extension->name           = $manifest_details['name'];
+		$this->parent->extension->enabled        = 1;
+		$this->parent->extension->params         = $this->parent->getParams();
 
 		if ($this->parent->extension->store())
 		{
@@ -444,13 +447,13 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 	public function refreshManifestCache()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
-		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->parent->extension->element . '.xml';
+		$manifestPath           = JPATH_MANIFESTS . '/libraries/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->name           = $manifest_details['name'];
 
 		try
 		{

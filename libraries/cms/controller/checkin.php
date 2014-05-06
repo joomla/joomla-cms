@@ -51,7 +51,7 @@ class JControllerCheckin extends JControllerCms
 
 		$config = $this->config;
 		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-		$msg = $this->translate('JLIB_APPLICATION_MSG_CHECKIN_SUCCEEDED');
+		$msg    = $this->translate('JLIB_APPLICATION_MSG_CHECKIN_SUCCEEDED');
 		$this->setRedirect($url, $msg, 'message');
 
 		return true;

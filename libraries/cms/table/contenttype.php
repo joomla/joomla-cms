@@ -21,7 +21,7 @@ class JTableContenttype extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  A database connector object
+	 * @param   JDatabaseDriver $db A database connector object
 	 *
 	 * @since   3.1
 	 */
@@ -59,7 +59,7 @@ class JTableContenttype extends JTable
 	/**
 	 * Overridden JTable::store.
 	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 * @param   boolean $updateNulls True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -83,7 +83,7 @@ class JTableContenttype extends JTable
 	/**
 	 * Method to expand the field mapping
 	 *
-	 * @param   boolean  $assoc  True to return an associative array.
+	 * @param   boolean $assoc True to return an associative array.
 	 *
 	 * @return  mixed  Array or object with field mappings. Defaults to object.
 	 *
@@ -97,7 +97,7 @@ class JTableContenttype extends JTable
 	/**
 	 * Method to get the id given the type alias
 	 *
-	 * @param   string  $typeAlias  Content type alias (for example, 'com_content.article').
+	 * @param   string $typeAlias Content type alias (for example, 'com_content.article').
 	 *
 	 * @return  mixed     type_id for this alias if successful, otherwise null.
 	 *
@@ -105,7 +105,7 @@ class JTableContenttype extends JTable
 	 */
 	public function getTypeId($typeAlias)
 	{
-		$db = $this->_db;
+		$db    = $this->_db;
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('type_id'))
 			->from($db->quoteName('#__content_types'))
@@ -124,7 +124,7 @@ class JTableContenttype extends JTable
 	 */
 	public function getContentTable()
 	{
-		$result = false;
+		$result    = false;
 		$tableInfo = json_decode($this->table);
 
 		if (is_object($tableInfo) && isset($tableInfo->special))

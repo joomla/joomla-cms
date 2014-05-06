@@ -15,7 +15,7 @@ class JControllerCreateClose extends JControllerCreateBase
 	{
 		if (parent::execute())
 		{
-			$msg    = $this->translate('JLIB_APPLICATION_MSG_SAVE_COMPLETED');
+			$msg = $this->translate('JLIB_APPLICATION_MSG_SAVE_COMPLETED');
 			$this->abort($msg, 'error');
 
 			return true;

@@ -27,10 +27,10 @@ abstract class JHtmlBootstrap
 	/**
 	 * Add javascript support for the Bootstrap affix plugin
 	 *
-	 * @param   string  $selector  Unique selector for the element to be affixed.
-	 * @param   array   $params    An array of options.
-	 *                             Options for the affix plugin can be:
-	 *                             - offset  number|function|object  Pixels to offset from screen when calculating position of scroll.
+	 * @param   string $selector                                     Unique selector for the element to be affixed.
+	 * @param   array  $params                                       An array of options.
+	 *                                                               Options for the affix plugin can be:
+	 *                                                               - offset  number|function|object  Pixels to offset from screen when calculating position of scroll.
 	 *                                                               If a single number is provided, the offset will be applied in both top
 	 *                                                               and left directions. To listen for a single direction, or multiple
 	 *                                                               unique offsets, just provide an object offset: { x: 10 }.
@@ -72,7 +72,7 @@ abstract class JHtmlBootstrap
 	/**
 	 * Add javascript support for Bootstrap alerts
 	 *
-	 * @param   string  $selector  Common class for the alerts
+	 * @param   string $selector Common class for the alerts
 	 *
 	 * @return  void
 	 *
@@ -104,7 +104,7 @@ abstract class JHtmlBootstrap
 	/**
 	 * Add javascript support for Bootstrap buttons
 	 *
-	 * @param   string  $selector  Common class for the buttons
+	 * @param   string $selector Common class for the buttons
 	 *
 	 * @return  void
 	 *
@@ -136,12 +136,12 @@ abstract class JHtmlBootstrap
 	/**
 	 * Add javascript support for Bootstrap carousels
 	 *
-	 * @param   string  $selector  Common class for the carousels.
-	 * @param   array   $params    An array of options for the modal.
-	 *                             Options for the modal can be:
-	 *                             - interval  number  The amount of time to delay between automatically cycling an item.
+	 * @param   string $selector                       Common class for the carousels.
+	 * @param   array  $params                         An array of options for the modal.
+	 *                                                 Options for the modal can be:
+	 *                                                 - interval  number  The amount of time to delay between automatically cycling an item.
 	 *                                                 If false, carousel will not automatically cycle.
-	 *                             - pause     string  Pauses the cycling of the carousel on mouseenter and resumes the cycling
+	 *                                                 - pause     string  Pauses the cycling of the carousel on mouseenter and resumes the cycling
 	 *                                                 of the carousel on mouseleave.
 	 *
 	 * @return  void
@@ -180,7 +180,7 @@ abstract class JHtmlBootstrap
 	/**
 	 * Add javascript support for Bootstrap dropdowns
 	 *
-	 * @param   string  $selector  Common class for the dropdowns
+	 * @param   string $selector Common class for the dropdowns
 	 *
 	 * @return  void
 	 *
@@ -214,7 +214,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * If debugging mode is on an uncompressed version of Bootstrap is included for easier debugging.
 	 *
-	 * @param   mixed  $debug  Is debugging mode on? [optional]
+	 * @param   mixed $debug Is debugging mode on? [optional]
 	 *
 	 * @return  void
 	 *
@@ -235,7 +235,7 @@ abstract class JHtmlBootstrap
 		if ($debug === null)
 		{
 			$config = JFactory::getConfig();
-			$debug = (boolean) $config->get('debug');
+			$debug  = (boolean) $config->get('debug');
 		}
 
 		JHtml::_('script', 'jui/bootstrap.min.js', false, true, false, false, $debug);
@@ -247,8 +247,8 @@ abstract class JHtmlBootstrap
 	/**
 	 * Add javascript support for Bootstrap modals
 	 *
-	 * @param   string  $selector  The ID selector for the modal.
-	 * @param   array   $params    An array of options for the modal.
+	 * @param   string $selector   The ID selector for the modal.
+	 * @param   array  $params     An array of options for the modal.
 	 *                             Options for the modal can be:
 	 *                             - backdrop  boolean  Includes a modal-backdrop element.
 	 *                             - keyboard  boolean  Closes the modal when escape key is pressed.
@@ -272,7 +272,7 @@ abstract class JHtmlBootstrap
 			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
 			$opt['keyboard'] = isset($params['keyboard']) ? (boolean) $params['keyboard'] : true;
 			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : true;
-			$opt['remote']   = isset($params['remote']) ?  $params['remote'] : '';
+			$opt['remote']   = isset($params['remote']) ? $params['remote'] : '';
 
 			$options = JHtml::getJSObject($opt);
 
@@ -293,9 +293,9 @@ abstract class JHtmlBootstrap
 	/**
 	 * Method to render a Bootstrap modal
 	 *
-	 * @param   string  $selector  The ID selector for the modal.
-	 * @param   array   $params    An array of options for the modal.
-	 * @param   string  $footer    Optional markup for the modal footer
+	 * @param   string $selector The ID selector for the modal.
+	 * @param   array  $params   An array of options for the modal.
+	 * @param   string $footer   Optional markup for the modal footer
 	 *
 	 * @return  string  HTML markup for a modal
 	 *
@@ -330,21 +330,21 @@ abstract class JHtmlBootstrap
 	 *
 	 * Use element's Title as popover content
 	 *
-	 * @param   string  $selector  Selector for the tooltip
-	 * @param   array   $params    An array of options for the tooltip.
-	 *                  Options for the tooltip can be:
-	 *                      animation  boolean          apply a css fade transition to the tooltip
-	 *                      html       boolean          Insert HTML into the tooltip. If false, jQuery's text method will be used to insert
+	 * @param   string $selector                        Selector for the tooltip
+	 * @param   array  $params                          An array of options for the tooltip.
+	 *                                                  Options for the tooltip can be:
+	 *                                                  animation  boolean          apply a css fade transition to the tooltip
+	 *                                                  html       boolean          Insert HTML into the tooltip. If false, jQuery's text method will be used to insert
 	 *                                                  content into the dom.
-	 *                      placement  string|function  how to position the tooltip - top | bottom | left | right
-	 *                      selector   string           If a selector is provided, tooltip objects will be delegated to the specified targets.
-	 *                      trigger    string           how tooltip is triggered - hover | focus | manual
-	 *                      title      string|function  default title value if `title` tag isn't present
-	 *                      content    string|function  default content value if `data-content` attribute isn't present
-	 *                      delay      number|object    delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
+	 *                                                  placement  string|function  how to position the tooltip - top | bottom | left | right
+	 *                                                  selector   string           If a selector is provided, tooltip objects will be delegated to the specified targets.
+	 *                                                  trigger    string           how tooltip is triggered - hover | focus | manual
+	 *                                                  title      string|function  default title value if `title` tag isn't present
+	 *                                                  content    string|function  default content value if `data-content` attribute isn't present
+	 *                                                  delay      number|object    delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
 	 *                                                  If a number is supplied, delay is applied to both hide/show
 	 *                                                  Object structure is: delay: { show: 500, hide: 100 }
-	 *                      container  string|boolean   Appends the popover to a specific element: { container: 'body' }
+	 *                                                  container  string|boolean   Appends the popover to a specific element: { container: 'body' }
 	 *
 	 * @return  void
 	 *
@@ -362,13 +362,13 @@ abstract class JHtmlBootstrap
 		static::framework();
 
 		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
-		$opt['html'] = isset($params['html']) ? $params['html'] : true;
+		$opt['html']      = isset($params['html']) ? $params['html'] : true;
 		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
-		$opt['selector'] = isset($params['selector']) ? $params['selector'] : null;
-		$opt['title'] = isset($params['title']) ? $params['title'] : null;
-		$opt['trigger'] = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
-		$opt['content'] = isset($params['content']) ? $params['content'] : null;
-		$opt['delay'] = isset($params['delay']) ? $params['delay'] : null;
+		$opt['selector']  = isset($params['selector']) ? $params['selector'] : null;
+		$opt['title']     = isset($params['title']) ? $params['title'] : null;
+		$opt['trigger']   = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
+		$opt['content']   = isset($params['content']) ? $params['content'] : null;
+		$opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
 		$opt['container'] = isset($params['container']) ? $params['container'] : "body";
 
 		$options = JHtml::getJSObject($opt);
@@ -389,8 +389,8 @@ abstract class JHtmlBootstrap
 	/**
 	 * Add javascript support for Bootstrap ScrollSpy
 	 *
-	 * @param   string  $selector  The ID selector for the ScrollSpy element.
-	 * @param   array   $params    An array of options for the ScrollSpy.
+	 * @param   string $selector   The ID selector for the ScrollSpy element.
+	 * @param   array  $params     An array of options for the ScrollSpy.
 	 *                             Options for the modal can be:
 	 *                             - offset  number  Pixels to offset from top when calculating position of scroll.
 	 *
@@ -432,20 +432,20 @@ abstract class JHtmlBootstrap
 	 * Add a title attribute to any element in the form
 	 * title="title::text"
 	 *
-	 * @param   string  $selector  The ID selector for the tooltip.
-	 * @param   array   $params    An array of options for the tooltip.
-	 *                             Options for the tooltip can be:
-	 *                             - animation  boolean          Apply a CSS fade transition to the tooltip
-	 *                             - html       boolean          Insert HTML into the tooltip. If false, jQuery's text method will be used to insert
+	 * @param   string $selector                                 The ID selector for the tooltip.
+	 * @param   array  $params                                   An array of options for the tooltip.
+	 *                                                           Options for the tooltip can be:
+	 *                                                           - animation  boolean          Apply a CSS fade transition to the tooltip
+	 *                                                           - html       boolean          Insert HTML into the tooltip. If false, jQuery's text method will be used to insert
 	 *                                                           content into the dom.
-	 *                             - placement  string|function  How to position the tooltip - top | bottom | left | right
-	 *                             - selector   string           If a selector is provided, tooltip objects will be delegated to the specified targets.
-	 *                             - title      string|function  Default title value if `title` tag isn't present
-	 *                             - trigger    string           How tooltip is triggered - hover | focus | manual
-	 *                             - delay      integer          Delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
+	 *                                                           - placement  string|function  How to position the tooltip - top | bottom | left | right
+	 *                                                           - selector   string           If a selector is provided, tooltip objects will be delegated to the specified targets.
+	 *                                                           - title      string|function  Default title value if `title` tag isn't present
+	 *                                                           - trigger    string           How tooltip is triggered - hover | focus | manual
+	 *                                                           - delay      integer          Delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
 	 *                                                           If a number is supplied, delay is applied to both hide/show
 	 *                                                           Object structure is: delay: { show: 500, hide: 100 }
-	 *                             - container  string|boolean   Appends the popover to a specific element: { container: 'body' }
+	 *                                                           - container  string|boolean   Appends the popover to a specific element: { container: 'body' }
 	 *
 	 * @return  void
 	 *
@@ -489,23 +489,23 @@ abstract class JHtmlBootstrap
 	/**
 	 * Add javascript support for Bootstrap typeahead
 	 *
-	 * @param   string  $selector  The selector for the typeahead element.
-	 * @param   array   $params    An array of options for the typeahead element.
-	 *                             Options for the tooltip can be:
-	 *                             - source       array, function  The data source to query against. May be an array of strings or a function.
+	 * @param   string $selector                                   The selector for the typeahead element.
+	 * @param   array  $params                                     An array of options for the typeahead element.
+	 *                                                             Options for the tooltip can be:
+	 *                                                             - source       array, function  The data source to query against. May be an array of strings or a function.
 	 *                                                             The function is passed two arguments, the query value in the input field and the
 	 *                                                             process callback. The function may be used synchronously by returning the data
 	 *                                                             source directly or asynchronously via the process callback's single argument.
-	 *                             - items        number           The max number of items to display in the dropdown.
-	 *                             - minLength    number           The minimum character length needed before triggering autocomplete suggestions
-	 *                             - matcher      function         The method used to determine if a query matches an item. Accepts a single argument,
+	 *                                                             - items        number           The max number of items to display in the dropdown.
+	 *                                                             - minLength    number           The minimum character length needed before triggering autocomplete suggestions
+	 *                                                             - matcher      function         The method used to determine if a query matches an item. Accepts a single argument,
 	 *                                                             the item against which to test the query. Access the current query with this.query.
 	 *                                                             Return a boolean true if query is a match.
-	 *                             - sorter       function         Method used to sort autocomplete results. Accepts a single argument items and has
+	 *                                                             - sorter       function         Method used to sort autocomplete results. Accepts a single argument items and has
 	 *                                                             the scope of the typeahead instance. Reference the current query with this.query.
-	 *                             - updater      function         The method used to return selected item. Accepts a single argument, the item and
+	 *                                                             - updater      function         The method used to return selected item. Accepts a single argument, the item and
 	 *                                                             has the scope of the typeahead instance.
-	 *                             - highlighter  function         Method used to highlight autocomplete results. Accepts a single argument item and
+	 *                                                             - highlighter  function         Method used to highlight autocomplete results. Accepts a single argument item and
 	 *                                                             has the scope of the typeahead instance. Should return html.
 	 *
 	 * @return  void
@@ -548,13 +548,13 @@ abstract class JHtmlBootstrap
 	/**
 	 * Add javascript support for Bootstrap accordians and insert the accordian
 	 *
-	 * @param   string  $selector  The ID selector for the tooltip.
-	 * @param   array   $params    An array of options for the tooltip.
-	 *                             Options for the tooltip can be:
-	 *                             - parent  selector  If selector then all collapsible elements under the specified parent will be closed when this
+	 * @param   string $selector                       The ID selector for the tooltip.
+	 * @param   array  $params                         An array of options for the tooltip.
+	 *                                                 Options for the tooltip can be:
+	 *                                                 - parent  selector  If selector then all collapsible elements under the specified parent will be closed when this
 	 *                                                 collapsible item is shown. (similar to traditional accordion behavior)
-	 *                             - toggle  boolean   Toggles the collapsible element on invocation
-	 *                             - active  string    Sets the active slide during load
+	 *                                                 - toggle  boolean   Toggles the collapsible element on invocation
+	 *                                                 - active  string    Sets the active slide during load
 	 *
 	 * @return  string  HTML for the accordian
 	 *
@@ -584,7 +584,7 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
+			static::$loaded[__METHOD__][$sig]     = true;
 			static::$loaded[__METHOD__]['active'] = $opt['active'];
 		}
 
@@ -606,10 +606,10 @@ abstract class JHtmlBootstrap
 	/**
 	 * Begins the display of a new accordion slide.
 	 *
-	 * @param   string  $selector  Identifier of the accordion group.
-	 * @param   string  $text      Text to display.
-	 * @param   string  $id        Identifier of the slide.
-	 * @param   string  $class     Class of the accordion group.
+	 * @param   string $selector Identifier of the accordion group.
+	 * @param   string $text     Text to display.
+	 * @param   string $id       Identifier of the slide.
+	 * @param   string $class    Class of the accordion group.
 	 *
 	 * @return  string  HTML to add the slide
 	 *
@@ -617,7 +617,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function addSlide($selector, $text, $id, $class = '')
 	{
-		$in = (static::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
+		$in    = (static::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
 		$class = (!empty($class)) ? ' ' . $class : '';
 
 		$html = '<div class="accordion-group' . $class . '">'
@@ -647,8 +647,8 @@ abstract class JHtmlBootstrap
 	/**
 	 * Creates a tab pane
 	 *
-	 * @param   string  $selector  The pane identifier.
-	 * @param   array   $params    The parameters for the pane
+	 * @param   string $selector The pane identifier.
+	 * @param   array  $params   The parameters for the pane
 	 *
 	 * @return  string
 	 *
@@ -671,7 +671,7 @@ abstract class JHtmlBootstrap
 				->addScriptDeclaration(JLayoutHelper::render('libraries.cms.html.bootstrap.starttabsetscript', array('selector' => $selector)));
 
 			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
+			static::$loaded[__METHOD__][$sig]                = true;
 			static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 		}
 
@@ -697,9 +697,9 @@ abstract class JHtmlBootstrap
 	/**
 	 * Begins the display of a new tab content panel.
 	 *
-	 * @param   string  $selector  Identifier of the panel.
-	 * @param   string  $id        The ID of the div element
-	 * @param   string  $title     The title text for the new UL tab
+	 * @param   string $selector Identifier of the panel.
+	 * @param   string $id       The ID of the div element
+	 * @param   string $title    The title text for the new UL tab
 	 *
 	 * @return  string  HTML to start a new panel
 	 *
@@ -711,13 +711,13 @@ abstract class JHtmlBootstrap
 		static $tabLayout = null;
 
 		$tabScriptLayout = is_null($tabScriptLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
-		$tabLayout = is_null($tabLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtab') : $tabLayout;
+		$tabLayout       = is_null($tabLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtab') : $tabLayout;
 
 		$active = (static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
 		// Inject tab into UL
 		JFactory::getDocument()
-		->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector,'id' => $id, 'active' => $active, 'title' => $title)));
+			->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector, 'id' => $id, 'active' => $active, 'title' => $title)));
 
 		$html = $tabLayout->render(array('id' => $id, 'active' => $active));
 
@@ -741,13 +741,13 @@ abstract class JHtmlBootstrap
 	/**
 	 * Creates a tab pane
 	 *
-	 * @param   string  $selector  The pane identifier.
-	 * @param   array   $params    The parameters for the pane
+	 * @param   string $selector The pane identifier.
+	 * @param   array  $params   The parameters for the pane
 	 *
 	 * @return  string
 	 *
-	 * @since   3.0
-	 * @deprecated  4.0	Use JHtml::_('bootstrap.startTabSet') instead.
+	 * @since       3.0
+	 * @deprecated  4.0    Use JHtml::_('bootstrap.startTabSet') instead.
 	 */
 	public static function startPane($selector = 'myTab', $params = array())
 	{
@@ -771,7 +771,7 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			static::$loaded['JHtmlBootstrap::startTabSet'][$sig] = true;
+			static::$loaded['JHtmlBootstrap::startTabSet'][$sig]                = true;
 			static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] = $opt['active'];
 		}
 
@@ -783,8 +783,8 @@ abstract class JHtmlBootstrap
 	 *
 	 * @return  string  HTML to close the pane
 	 *
-	 * @since   3.0
-	 * @deprecated  4.0	Use JHtml::_('bootstrap.endTabSet') instead.
+	 * @since       3.0
+	 * @deprecated  4.0    Use JHtml::_('bootstrap.endTabSet') instead.
 	 */
 	public static function endPane()
 	{
@@ -794,12 +794,12 @@ abstract class JHtmlBootstrap
 	/**
 	 * Begins the display of a new tab content panel.
 	 *
-	 * @param   string  $selector  Identifier of the panel.
-	 * @param   string  $id        The ID of the div element
+	 * @param   string $selector Identifier of the panel.
+	 * @param   string $id       The ID of the div element
 	 *
 	 * @return  string  HTML to start a new panel
 	 *
-	 * @since   3.0
+	 * @since       3.0
 	 * @deprecated  4.0 Use JHtml::_('bootstrap.addTab') instead.
 	 */
 	public static function addPanel($selector, $id)
@@ -814,7 +814,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * @return  string  HTML to close the pane
 	 *
-	 * @since   3.0
+	 * @since       3.0
 	 * @deprecated  4.0 Use JHtml::_('bootstrap.endTab') instead.
 	 */
 	public static function endPanel()
@@ -825,9 +825,9 @@ abstract class JHtmlBootstrap
 	/**
 	 * Loads CSS files needed by Bootstrap
 	 *
-	 * @param   boolean  $includeMainCss  If true, main bootstrap.css files are loaded
-	 * @param   string   $direction       rtl or ltr direction. If empty, ltr is assumed
-	 * @param   array    $attribs         Optional array of attributes to be passed to JHtml::_('stylesheet')
+	 * @param   boolean $includeMainCss If true, main bootstrap.css files are loaded
+	 * @param   string  $direction      rtl or ltr direction. If empty, ltr is assumed
+	 * @param   array   $attribs        Optional array of attributes to be passed to JHtml::_('stylesheet')
 	 *
 	 * @return  void
 	 *

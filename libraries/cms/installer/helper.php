@@ -25,8 +25,8 @@ abstract class JInstallerHelper
 	/**
 	 * Downloads a package
 	 *
-	 * @param   string  $url     URL of file to download
-	 * @param   string  $target  Download target filename [optional]
+	 * @param   string $url    URL of file to download
+	 * @param   string $target Download target filename [optional]
 	 *
 	 * @return  mixed  Path to downloaded package or boolean false on failure
 	 *
@@ -44,7 +44,7 @@ abstract class JInstallerHelper
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
-		$http = JHttpFactory::getHttp();
+		$http     = JHttpFactory::getHttp();
 		$response = $http->get($url);
 
 		if (302 == $response->code && isset($response->headers['Location']))
@@ -61,7 +61,7 @@ abstract class JInstallerHelper
 		if (isset($response->headers['Content-Disposition']))
 		{
 			$contentfilename = explode("\"", $response->headers['Content-Disposition']);
-			$target = $contentfilename[1];
+			$target          = $contentfilename[1];
 		}
 
 		// Set the target path if not given
@@ -91,7 +91,7 @@ abstract class JInstallerHelper
 	 * Unpacks a file and verifies it as a Joomla element package
 	 * Supports .gz .tar .tar.gz and .zip
 	 *
-	 * @param   string  $p_filename  The uploaded package filename or install directory
+	 * @param   string $p_filename The uploaded package filename or install directory
 	 *
 	 * @return  mixed  Array on success or boolean false on failure
 	 *
@@ -106,7 +106,7 @@ abstract class JInstallerHelper
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = JPath::clean(dirname($p_filename) . '/' . $tmpdir);
+		$extractdir  = JPath::clean(dirname($p_filename) . '/' . $tmpdir);
 		$archivename = JPath::clean($archivename);
 
 		// Do the unpacking of the archive
@@ -123,7 +123,7 @@ abstract class JInstallerHelper
 		 * Let's set the extraction directory and package file in the result array so we can
 		 * cleanup everything properly later on.
 		 */
-		$retval['extractdir'] = $extractdir;
+		$retval['extractdir']  = $extractdir;
 		$retval['packagefile'] = $archivename;
 
 		/*
@@ -168,7 +168,7 @@ abstract class JInstallerHelper
 	/**
 	 * Method to detect the extension type from a package directory
 	 *
-	 * @param   string  $p_dir  Path to package directory
+	 * @param   string $p_dir Path to package directory
 	 *
 	 * @return  mixed  Extension type string or boolean false on fail
 	 *
@@ -220,7 +220,7 @@ abstract class JInstallerHelper
 	/**
 	 * Gets a file name out of a url
 	 *
-	 * @param   string  $url  URL to get name from
+	 * @param   string $url URL to get name from
 	 *
 	 * @return  mixed   String filename or boolean false if failed
 	 *
@@ -234,14 +234,15 @@ abstract class JInstallerHelper
 
 			return $parts[count($parts) - 1];
 		}
+
 		return false;
 	}
 
 	/**
 	 * Clean up temporary uploaded package and unpacked extension
 	 *
-	 * @param   string  $package    Path to the uploaded package file
-	 * @param   string  $resultdir  Path to the unpacked extension
+	 * @param   string $package   Path to the uploaded package file
+	 * @param   string $resultdir Path to the unpacked extension
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -273,11 +274,11 @@ abstract class JInstallerHelper
 	 * Splits contents of a sql file into array of discreet queries.
 	 * Queries need to be delimited with end of statement marker ';'
 	 *
-	 * @param   string  $query  The SQL statement.
+	 * @param   string $query The SQL statement.
 	 *
 	 * @return  array  Array of queries
 	 *
-	 * @since   3.1
+	 * @since       3.1
 	 * @deprecated  13.3  Use JDatabaseDriver::splitSql() directly
 	 * @codeCoverageIgnore
 	 */
