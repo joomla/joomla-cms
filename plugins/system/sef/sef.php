@@ -34,7 +34,7 @@ class PlgSystemSef extends JPlugin
 			return true;
 		}
 
-		$router = $app->getRouter();
+		$router = $app::getRouter();
 
 		$uri     = clone JUri::getInstance();
 		$domain  = $this->params->get('domain');

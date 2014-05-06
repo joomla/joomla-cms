@@ -56,6 +56,9 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		// Load mooTools
 		JHtml::_('behavior.framework', true);
 
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
 		// Load our Javascript
 		$document = JFactory::getDocument();
 		$document->addScript('../media/com_joomlaupdate/default.js');

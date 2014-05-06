@@ -39,7 +39,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 			<div class="btn-group pull-left">
-				<select name="filter_state" class="inputbox" onchange="this.form.submit()">
+				<select name="filter_state" onchange="this.form.submit()">
 					<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 					<?php echo JHtml::_('select.options', MessagesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
 				</select>
