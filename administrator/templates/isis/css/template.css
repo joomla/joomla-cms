@@ -6984,7 +6984,7 @@ body {
 	background-image: -webkit-radial-gradient(circle,#165387,#142849);
 	background-image: -moz-radial-gradient(circle,#165387,#142849);
 	background-image: -o-radial-gradient(circle,#165387,#142849);
-	background-image: radial-gradient(circle, #165387, #142849);
+	background-image: radial-gradient(circle,#165387,#142849);
 	background-repeat: no-repeat;
 }
 .view-login .container {
