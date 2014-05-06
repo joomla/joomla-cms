@@ -665,6 +665,7 @@ class JDocumentHTML extends JDocument
 			}
 			// Reverse the last array so the jdocs are in forward order.
 			$template_tags_last = array_reverse($template_tags_last);
+			$template_tags_first = array_reverse($template_tags_first);
 
 			$this->_template_tags = $template_tags_first + $template_tags_last;
 		}
