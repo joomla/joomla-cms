@@ -20,36 +20,28 @@ class JControllerDispatcher extends JControllerCms
 	/**
 	 * Uses the input to select the task controller and set the subject to the input
 	 * uses the 'option' and 'task' to determine $this->controller
-	 * format Option.'Controller'.Task
+	 * format: {Option}.'Controller'.{Task}
 	 * Also sets the subject using the task
 	 * if the task isn't in controller.subject format, it defaults to task.view
 	 * if no task is set, it defaults to display.view
 	 * if both the task and the view are not set, it defaults to display.$config['default_view']
 	 *
 	 * @param JInput           $input
-	 * @param JApplication $app
+	 * @param JApplicationWeb  $app
 	 * @param array            $config
 	 *
 	 * @throws InvalidArgumentException
 	 */
 	public function __construct(JInput $input, $app = null, $config = array())
 	{
-		$command = $input->get('task', 'display', 'cmd');
-
-		if (!strpos($command, '.'))
+		if(!array_key_exists('task',$config) || !array_key_exists('subject', $config))
 		{
-			if (!array_key_exists('default_view', $config))
-			{
-				$config['default_view'] = 'default';
-			}
+			$command = $this->getCommand($input, $config);
+			list($controllerName, $subject) = explode('.', $command);
 
-			$command .= '.' . $input->get('view', $config['default_view']);
+			$config['task']    = $controllerName;
+			$config['subject'] = $subject;
 		}
-
-		list($controllerName, $subject) = explode('.', $command);
-
-		$config['task']    = $controllerName;
-		$config['subject'] = $subject;
 
 		parent::__construct($input, $app, $config);
 
@@ -71,6 +63,30 @@ class JControllerDispatcher extends JControllerCms
 		$input->set('task', $controllerName);
 
 		$this->controller = new $class($input, $app, $config);
+	}
+
+	/**
+	 * Method to get the task command from the input
+	 *
+	 * @param JInput $input
+	 * @param array $config
+	 *
+	 * @return string dot delimited task command
+	 */
+	protected function getCommand($input, $config)
+	{
+		$command = $input->get('task', 'display', 'cmd');
+
+		if (!strpos($command, '.'))
+		{
+			if (!array_key_exists('default_view', $config))
+			{
+				$config['default_view'] = 'default';
+			}
+
+			$command .= '.' . $input->get('view', $config['default_view']);
+		}
+		return $command;
 	}
 
 	/**

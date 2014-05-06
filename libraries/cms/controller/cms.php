@@ -285,7 +285,7 @@ abstract class JControllerCms extends JControllerBase
 	}
 
 	/**
-	 * Method to redirect internally without rebuilding the stack.
+	 * Method to execute a task controller internally without rebuilding the stack.
 	 * This is intended to be used for task chaining
 	 *
 	 * @param JInput       $input
@@ -295,7 +295,7 @@ abstract class JControllerCms extends JControllerBase
 	 * @throws InvalidArgumentException
 	 * @return boolean
 	 */
-	protected function internalRedirect(JInput $input, $app = null, $config = array())
+	protected function executeInline(JInput $input, $app = null, $config = array())
 	{
 		if(is_null($app))
 		{
