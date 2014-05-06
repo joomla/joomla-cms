@@ -35,10 +35,10 @@ abstract class JControllerStateBase extends JControllerCms
 	}
 
 	/**
-	 * Method to update record states
+	 * Method to update one or more record states
 	 *
-	 * @param JModelCms $model
-	 * @param array     $cid
+	 * @param JModelAdministrator $model
+	 * @param array               $cid
 	 */
 	abstract protected function updateRecordState($model, $cid);
 

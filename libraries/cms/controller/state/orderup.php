@@ -34,6 +34,9 @@ class JControllerStateOrderup extends JControllerStateBase
 	}
 
 	/**
+	 * @param JModelAdministrator $model
+	 * @param array               $cid
+	 *
 	 * @see JControllerStateBase::execute()
 	 */
 	protected function updateRecordState($model, $cid)

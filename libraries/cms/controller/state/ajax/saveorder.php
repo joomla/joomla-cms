@@ -12,12 +12,8 @@ defined('JPATH_PLATFORM') or die;
 class JControllerStateAjaxSaveorder extends JControllerStateSaveorder
 {
 	/** @noinspection PhpInconsistentReturnPointsInspection */
-	/** @noinspection PhpInconsistentReturnPointsInspection */
 	public function execute()
 	{
-		$config = $this->config;
-		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-
 		try
 		{
 			parent::execute();
@@ -25,7 +21,7 @@ class JControllerStateAjaxSaveorder extends JControllerStateSaveorder
 		catch (Exception $e)
 		{
 			$msg = $e->getMessage();
-			$this->setRedirect($url, $msg, 'warning');
+			$this->abort($msg, 'warning');
 
 			return false;
 		}

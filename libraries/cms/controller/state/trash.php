@@ -34,7 +34,9 @@ class JControllerStateTrash extends JControllerStateBase
 	}
 
 	/**
-	 * (non-PHPdoc)
+	 * @param JModelAdministrator $model
+	 * @param array               $cid
+	 *
 	 * @see JControllerStateBase::execute()
 	 */
 	protected function updateRecordState($model, $cid)

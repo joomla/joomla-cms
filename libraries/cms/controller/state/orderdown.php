@@ -12,6 +12,9 @@ defined('JPATH_PLATFORM') or die;
 class JControllerStateOrderdown extends JControllerStateOrderup
 {
 	/**
+	 * @param JModelAdministrator $model
+	 * @param array               $cid
+	 *
 	 * @see JControllerStateBase::execute()
 	 */
 	protected function updateRecordState($model, $cid)

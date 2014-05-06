@@ -13,6 +13,7 @@ abstract class JModelCms
 {
 	/**
 	 * Configuration array
+	 *
 	 * @var array
 	 */
 	protected $config = array();
@@ -36,7 +37,8 @@ abstract class JModelCms
 	/**
 	 * Flag if the internal state should be updated
 	 * from request
-	 * @var unknown_type
+	 *
+	 * @var boolean
 	 */
 	protected $ignoreRequest;
 
@@ -57,21 +59,6 @@ abstract class JModelCms
 		{
 			$this->ignoreRequest = true;
 		}
-	}
-
-	/**
-	 * Method to set model state variables
-	 *
-	 * @param   string $property The name of the property.
-	 * @param   mixed  $value    The value of the property to set or null.
-	 *
-	 * @return  mixed  The previous value of the property or null if not set.
-	 *
-	 * @since   12.2
-	 */
-	public function setState($property, $value = null)
-	{
-		return $this->state->set($property, $value);
 	}
 
 	/**
@@ -108,11 +95,29 @@ abstract class JModelCms
 	}
 
 	/**
+	 * Method to set model state variables
+	 *
+	 * @param   string $property The name of the property.
+	 * @param   mixed  $value    The value of the property to set or null.
+	 *
+	 * @return  mixed  The previous value of the property or null if not set.
+	 *
+	 * @since   12.2
+	 */
+	public function setState($property, $value = null)
+	{
+		return $this->state->set($property, $value);
+	}
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * This method should only be called once per instantiation and is designed
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
+	 *
+	 * @param string $ordering  column to order by. I.E. 'a.title'
+	 * @param string $direction 'ASC' or 'DESC'
 	 *
 	 * @return  void
 	 *
@@ -125,6 +130,43 @@ abstract class JModelCms
 		{
 			//do something
 		}
+	}
+
+	/**
+	 * Method to authorise the current user for an action.
+	 * This method is intended to be overridden to allow for customized access rights
+	 *
+	 * @param string $action       ACL action string. I.E. 'core.create'
+	 * @param string $assetName    asset name to check against.
+	 * @param object $activeRecord active record data to check against
+	 *
+	 * @return bool
+	 * @see JUser::authorise
+	 */
+	public function allowAction($action, $assetName = null, $activeRecord = null)
+	{
+		if (is_null($assetName))
+		{
+			$config    = $this->config;
+			$assetName = $config['option'];
+		}
+
+		$user = JFactory::getUser();
+
+		return $user->authorise($action, $assetName);
+	}
+
+	/**
+	 * Method to get the model context.
+	 * $context = $config['option'].'.'.$config['subject'];
+	 * @return string
+	 */
+	public function getContext()
+	{
+		$config  = $this->config;
+		$context = $config['option'] . '.' . $config['subject'];
+
+		return $context;
 	}
 
 	/**
@@ -171,52 +213,10 @@ abstract class JModelCms
 	}
 
 	/**
-	 * Method to authorise the current user for an action.
-	 * This method is intended to be overriden to allow for customized access rights
-	 *
-	 * @param string $action
-	 * @param string $assetName
-	 * @param object $activeRecord active record data to check against
-	 */
-	public function allowAction($action, $assetName = null, $activeRecord = null)
-	{
-		if (is_null($assetName))
-		{
-			$config    = $this->config;
-			$assetName = $config['option'];
-		}
-
-		$user = JFactory::getUser();
-
-		return $user->authorise($action, $assetName);
-	}
-
-	/**
-	 * Method to check the session token
-	 */
-	protected function validateSession()
-	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-	}
-
-	/**
-	 * Method to get the model context.
-	 * $context = $config['option'].'.'.$config['subject'];
-	 * @return string
-	 */
-	public function getContext()
-	{
-		$config  = $this->config;
-		$context = $config['option'] . '.' . $config['subject'];
-
-		return $context;
-	}
-
-	/**
 	 * Method to get a dispatcher
 	 * @return JEventDispatcher
 	 */
-	protected function getDispatcher()
+	public function getDispatcher()
 	{
 		$version = new JVersion();
 		if ($version->isCompatible('3.0'))
@@ -231,5 +231,13 @@ abstract class JModelCms
 		}
 
 		return $dispatcher;
+	}
+
+	/**
+	 * Method to check the session token
+	 */
+	protected function validateSession()
+	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 	}
 }

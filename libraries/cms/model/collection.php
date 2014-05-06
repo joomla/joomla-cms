@@ -95,37 +95,26 @@ abstract class JModelCollection extends JModelRecord
 	}
 
 	/**
-	 * Function to get the active filters
+	 * Method to get an array of data items.
 	 *
-	 * @return  array  Associative array in the format: array('filter_published' => 0)
+	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   3.2
+	 * @since   12.2
 	 */
-	public function getActiveFilters()
+	public function getItems()
 	{
-		$activeFilters = array();
+		$db = $this->getDbo();
+		// Load the list items.
+		$query = $this->getListQuery();
 
-		if (count($this->filterFields) != 0)
-		{
-			foreach ($this->filterFields as $filterField)
-			{
-				$filterName = 'filter.' . $filterField['name'];
+		$start = $this->getStart();
+		$limit = $this->getState('list.limit');
 
-				$stateHasFilter = property_exists($this->state, $filterName);
-				if ($stateHasFilter)
-				{
-					$validState      = (!empty($this->state->$filterName) || is_numeric($this->state->$filterName));
-					$isPublishFilter = ($filterName == 'filter.state');
+		$db->setQuery($query, $start, $limit);
 
-					if ($validState && !$isPublishFilter)
-					{
-						$activeFilters[$filterField['dataKeyName']] = $this->state->get($filterName);
-					}
-				}
-			}
-		}
+		$items = $db->loadObjectList();
 
-		return $activeFilters;
+		return $items;
 	}
 
 	/**
@@ -198,26 +187,37 @@ abstract class JModelCollection extends JModelRecord
 	}
 
 	/**
-	 * Method to get an array of data items.
+	 * Function to get the active filters
 	 *
-	 * @return  mixed  An array of data items on success, false on failure.
+	 * @return  array  Associative array in the format: array('filter_published' => 0)
 	 *
-	 * @since   12.2
+	 * @since   3.2
 	 */
-	public function getItems()
+	public function getActiveFilters()
 	{
-		$db = $this->getDbo();
-		// Load the list items.
-		$query = $this->getListQuery();
+		$activeFilters = array();
 
-		$start = $this->getStart();
-		$limit = $this->getState('list.limit');
+		if (count($this->filterFields) != 0)
+		{
+			foreach ($this->filterFields as $filterField)
+			{
+				$filterName = 'filter.' . $filterField['name'];
 
-		$db->setQuery($query, $start, $limit);
+				$stateHasFilter = property_exists($this->state, $filterName);
+				if ($stateHasFilter)
+				{
+					$validState      = (!empty($this->state->$filterName) || is_numeric($this->state->$filterName));
+					$isPublishFilter = ($filterName == 'filter.state');
 
-		$items = $db->loadObjectList();
+					if ($validState && !$isPublishFilter)
+					{
+						$activeFilters[$filterField['dataKeyName']] = $this->state->get($filterName);
+					}
+				}
+			}
+		}
 
-		return $items;
+		return $activeFilters;
 	}
 
 	protected function buildSearch()
@@ -263,6 +263,161 @@ abstract class JModelCollection extends JModelRecord
 				return $where;
 			}
 		}
+	}
+
+	/**
+	 * Method to get the starting number of items for the data set.
+	 *
+	 * @return  integer  The starting number of items available in the data set.
+	 *
+	 * @since   12.2
+	 */
+	public function getStart()
+	{
+
+		$start = $this->getState('list.start');
+		$limit = $this->getState('list.limit');
+		$total = $this->getTotal();
+
+		if ($start > $total - $limit)
+		{
+			$start = max(0, (int) (ceil($total / $limit) - 1) * $limit);
+		}
+
+		return $start;
+	}
+
+	/**
+	 * Method to get the total number of items for the data set.
+	 *
+	 * @return  integer  The total number of items available in the data set.
+	 *
+	 * @since   12.2
+	 */
+	public function getTotal()
+	{
+		// Get a storage key.
+		$total = $this->getState('list.total', null);
+
+		if ($total == null)
+		{
+			// Load the total.
+			$query = $this->getListQuery();
+
+			$total = (int) $this->_getListCount($query);
+			$this->setState('list.total', $total);
+		}
+
+		return $total;
+	}
+
+	/**
+	 * Returns a record count for the query.
+	 *
+	 * @param   JDatabaseQuery $query The query.
+	 *
+	 * @return  integer  Number of rows for query.
+	 *
+	 * @since   12.2
+	 */
+	protected function _getListCount(JDatabaseQuery $query)
+	{
+		$db = $this->getDbo();
+
+		//if this is a select and there are no GROUP BY or HAVING clause
+		//Use COUNT(*) method to improve performance.
+
+		$isSelect       = ($query->type == 'select');
+		$hasGroupClause = ($query->group === null);
+		$hasHaveClause  = ($query->having === null);
+
+		if ($isSelect && !$hasGroupClause && !$hasHaveClause)
+		{
+			$query = clone $query;
+			$query->clear('select')->clear('order')->select('COUNT(*)');
+
+			$db->setQuery($query);
+
+			return (int) $db->loadResult();
+		}
+
+		// Else use brute-force and count all returned results.
+		$db->setQuery($query);
+		$db->execute();
+
+		return (int) $db->getNumRows();
+	}
+
+	/**
+	 * Method to get a JPagination object for the data set.
+	 *
+	 * @return  JPagination  A JPagination object for the data set.
+	 *
+	 * @since   12.2
+	 */
+	public function getPagination()
+	{
+		// Create the pagination object.
+		jimport('joomla.html.pagination');
+		$limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
+		$page  = new JPagination($this->getTotal(), $this->getStart(), $limit);
+
+		return $page;
+	}
+
+	/**
+	 * Gets the value of a user state variable and sets it in the session
+	 *
+	 * This is the same as the method in JApplication except that this also can optionally
+	 * force you back to the first page when a filter has changed
+	 *
+	 * @param   string  $key       The key of the user state variable.
+	 * @param   string  $request   The name of the variable passed in a request.
+	 * @param   string  $default   The default value for the variable if not found. Optional.
+	 * @param   string  $type      Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
+	 * @param   boolean $resetPage If true, the limitstart in request is set to zero
+	 *
+	 * @return  The request user state.
+	 *
+	 * @since   12.2
+	 */
+	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
+	{
+		$app   = JFactory::getApplication();
+		$input = $app->input;
+
+		$old_state = $app->getUserState($key);
+		if (!is_null($old_state))
+		{
+			$cur_state = $old_state;
+		}
+		else
+		{
+			$cur_state = $default;
+		}
+
+		$new_state = $input->get($request, null, $type);
+
+		$hasChanged = ($cur_state != $new_state);
+
+		if ($hasChanged && $resetPage)
+		{
+			$input->set('limitstart', 0);
+			$input->set('list.total', null);
+
+		}
+
+		// Save the new value only if it is set in this request.
+		if ($new_state !== null)
+		{
+			$app->setUserState($key, $new_state);
+		}
+		else
+		{
+			$new_state = $cur_state;
+		}
+
+		return $new_state;
 	}
 
 	/**
@@ -324,161 +479,6 @@ abstract class JModelCollection extends JModelRecord
 
 			parent::populateState($ordering, $direction);
 		}
-	}
-
-	/**
-	 * Method to get a JPagination object for the data set.
-	 *
-	 * @return  JPagination  A JPagination object for the data set.
-	 *
-	 * @since   12.2
-	 */
-	public function getPagination()
-	{
-		// Create the pagination object.
-		jimport('joomla.html.pagination');
-		$limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
-		$page  = new JPagination($this->getTotal(), $this->getStart(), $limit);
-
-		return $page;
-	}
-
-	/**
-	 * Method to get the total number of items for the data set.
-	 *
-	 * @return  integer  The total number of items available in the data set.
-	 *
-	 * @since   12.2
-	 */
-	public function getTotal()
-	{
-		// Get a storage key.
-		$total = $this->getState('list.total', null);
-
-		if ($total == null)
-		{
-			// Load the total.
-			$query = $this->getListQuery();
-
-			$total = (int) $this->_getListCount($query);
-			$this->setState('list.total', $total);
-		}
-
-		return $total;
-	}
-
-	/**
-	 * Method to get the starting number of items for the data set.
-	 *
-	 * @return  integer  The starting number of items available in the data set.
-	 *
-	 * @since   12.2
-	 */
-	public function getStart()
-	{
-
-		$start = $this->getState('list.start');
-		$limit = $this->getState('list.limit');
-		$total = $this->getTotal();
-
-		if ($start > $total - $limit)
-		{
-			$start = max(0, (int) (ceil($total / $limit) - 1) * $limit);
-		}
-
-		return $start;
-	}
-
-	/**
-	 * Returns a record count for the query.
-	 *
-	 * @param   JDatabaseQuery $query The query.
-	 *
-	 * @return  integer  Number of rows for query.
-	 *
-	 * @since   12.2
-	 */
-	protected function _getListCount(JDatabaseQuery $query)
-	{
-		$db = $this->getDbo();
-
-		//if this is a select and there are no GROUP BY or HAVING clause
-		//Use COUNT(*) method to improve performance.
-
-		$isSelect       = ($query->type == 'select');
-		$hasGroupClause = ($query->group === null);
-		$hasHaveClause  = ($query->having === null);
-
-		if ($isSelect && !$hasGroupClause && !$hasHaveClause)
-		{
-			$query = clone $query;
-			$query->clear('select')->clear('order')->select('COUNT(*)');
-
-			$db->setQuery($query);
-
-			return (int) $db->loadResult();
-		}
-
-		// Else use brute-force and count all returned results.
-		$db->setQuery($query);
-		$db->execute();
-
-		return (int) $db->getNumRows();
-	}
-
-	/**
-	 * Gets the value of a user state variable and sets it in the session
-	 *
-	 * This is the same as the method in JApplication except that this also can optionally
-	 * force you back to the first page when a filter has changed
-	 *
-	 * @param   string  $key       The key of the user state variable.
-	 * @param   string  $request   The name of the variable passed in a request.
-	 * @param   string  $default   The default value for the variable if not found. Optional.
-	 * @param   string  $type      Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
-	 * @param   boolean $resetPage If true, the limitstart in request is set to zero
-	 *
-	 * @return  The request user state.
-	 *
-	 * @since   12.2
-	 */
-	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
-	{
-		$app   = JFactory::getApplication();
-		$input = $app->input;
-
-		$old_state = $app->getUserState($key);
-		if (!is_null($old_state))
-		{
-			$cur_state = $old_state;
-		}
-		else
-		{
-			$cur_state = $default;
-		}
-
-		$new_state = $input->get($request, null, $type);
-
-		$hasChanged = ($cur_state != $new_state);
-
-		if ($hasChanged && $resetPage)
-		{
-			$input->set('limitstart', 0);
-			$input->set('list.total', null);
-
-		}
-
-		// Save the new value only if it is set in this request.
-		if ($new_state !== null)
-		{
-			$app->setUserState($key, $new_state);
-		}
-		else
-		{
-			$new_state = $cur_state;
-		}
-
-		return $new_state;
 	}
 
 }

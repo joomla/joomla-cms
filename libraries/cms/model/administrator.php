@@ -85,71 +85,6 @@ abstract class JModelAdministrator extends JModelCollection
 	}
 
 	/**
-	 * Method to validate data and update into db
-	 *
-	 * @param array $data
-	 *
-	 * @throws ErrorException
-	 * @return boolean
-	 */
-	public function update($data)
-	{
-
-		$form = $this->getForm($data, false);
-
-		$validData = $this->validate($form, $data);
-
-		$table = $this->getTable();
-
-		if ((!empty($validData['tags']) && $validData['tags'][0] != ''))
-		{
-			$table->newTags = $validData['tags'];
-		}
-
-		//prepare the table for store
-		$table->load($pk);
-		$table->bind($validData);
-		$table->check();
-
-		// Get dispatcher and include the content plugins for the on save events.
-		JPluginHelper::importPlugin('content');
-		$dispatcher = $this->getDispatcher();
-		$config     = $this->config;
-
-		$result = $dispatcher->trigger('onContentBeforeSave', array($config['option'] . '.' . $config['subject'], $table, false));
-
-		if (in_array(false, $result, true))
-		{
-			throw new ErrorException($table->getError());
-
-			return false;
-		}
-
-		// Store the data.
-		if (!$table->store())
-		{
-			throw new ErrorException($table->getError());
-
-			return false;
-		}
-
-		// Clean the cache.
-		$this->cleanCache();
-
-		// Trigger the onContentAfterSave event.
-		$dispatcher->trigger('onContentAfterSave', array($config['option'] . '.' . $config['subject'], $table, false));
-
-		$pkName = $table->getKeyName();
-
-		if (isset($table->$pkName))
-		{
-			$this->setState($config['subject'] . '.id', $table->$pkName);
-		}
-
-		return true;
-	}
-
-	/**
 	 * method for getting the form from the model.
 	 *
 	 * @param   array   $data     Data for the form.
@@ -176,7 +111,6 @@ abstract class JModelAdministrator extends JModelCollection
 
 		return $form;
 	}
-
 
 	/**
 	 * Method to get a form object.
@@ -257,38 +191,6 @@ abstract class JModelAdministrator extends JModelCollection
 		}
 
 		return $data;
-	}
-
-	/**
-	 * Method to allow derived classes to preprocess the data.
-	 *
-	 * @param   string $context The context identifier.
-	 * @param   mixed  &$data   The data to be processed. It gets altered directly.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function preprocessData($context, &$data)
-	{
-		// Get the dispatcher and load the users plugins.
-		$dispatcher = $this->getDispatcher();
-		JPluginHelper::importPlugin('content');
-
-		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onContentPrepareData', array($context, $data));
-
-		// Check for errors encountered while preparing the data.
-		if (count($results) > 0 && in_array(false, $results, true))
-		{
-			// Get the last error.
-			$error = $dispatcher->getError();
-
-			if (!($error instanceof Exception))
-			{
-				throw new Exception($error);
-			}
-		}
 	}
 
 	/**
@@ -386,6 +288,71 @@ abstract class JModelAdministrator extends JModelCollection
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Method to validate data and update into db
+	 *
+	 * @param array $data
+	 *
+	 * @throws ErrorException
+	 * @return boolean
+	 */
+	public function update($data)
+	{
+
+		$form = $this->getForm($data, false);
+
+		$validData = $this->validate($form, $data);
+
+		$table = $this->getTable();
+
+		if ((!empty($validData['tags']) && $validData['tags'][0] != ''))
+		{
+			$table->newTags = $validData['tags'];
+		}
+
+		//prepare the table for store
+		$table->load($pk);
+		$table->bind($validData);
+		$table->check();
+
+		// Get dispatcher and include the content plugins for the on save events.
+		JPluginHelper::importPlugin('content');
+		$dispatcher = $this->getDispatcher();
+		$config     = $this->config;
+
+		$result = $dispatcher->trigger('onContentBeforeSave', array($config['option'] . '.' . $config['subject'], $table, false));
+
+		if (in_array(false, $result, true))
+		{
+			throw new ErrorException($table->getError());
+
+			return false;
+		}
+
+		// Store the data.
+		if (!$table->store())
+		{
+			throw new ErrorException($table->getError());
+
+			return false;
+		}
+
+		// Clean the cache.
+		$this->cleanCache();
+
+		// Trigger the onContentAfterSave event.
+		$dispatcher->trigger('onContentAfterSave', array($config['option'] . '.' . $config['subject'], $table, false));
+
+		$pkName = $table->getKeyName();
+
+		if (isset($table->$pkName))
+		{
+			$this->setState($config['subject'] . '.id', $table->$pkName);
+		}
+
+		return true;
 	}
 
 	/**
@@ -524,9 +491,10 @@ abstract class JModelAdministrator extends JModelCollection
 	/**
 	 * Method to reorder one or more records
 	 *
-	 * @param int    $pks
+	 * @param array  $pks
 	 * @param string $direction up or down
 	 *
+	 * @throws ErrorException
 	 * @return boolean
 	 */
 	public function reorder($pks, $direction)
@@ -573,6 +541,7 @@ abstract class JModelAdministrator extends JModelCollection
 	 * @param   array   $pks   An array of primary key ids.
 	 * @param   integer $order +1 or -1
 	 *
+	 * @throws ErrorException
 	 * @return  mixed
 	 *
 	 * @since   12.2
@@ -599,6 +568,7 @@ abstract class JModelAdministrator extends JModelCollection
 		{
 			$activeRecord = $this->getActiveRecord($pk);
 			// Access checks.
+			$config = $this->config;
 			if ($this->allowAction('core.edit.state', $config['option'], $activeRecord))
 			{
 				$activeRecord->ordering = $order[$i];
@@ -648,7 +618,7 @@ abstract class JModelAdministrator extends JModelCollection
 	/**
 	 * Method to import one or more files.
 	 *
-	 * This method is intended to be overriden by child classes.
+	 * This method is intended to be overridden by child classes.
 	 *
 	 * @param array $data  post data from the input
 	 * @param array $files files data from the input
@@ -658,5 +628,38 @@ abstract class JModelAdministrator extends JModelCollection
 	public function import($data, $files)
 	{
 		throw new ErrorException(JText::_('JLIB_APPLICATION_ERROR_IMPORT_NOT_SUPPORTED'));
+	}
+
+	/**
+	 * Method to allow derived classes to preprocess the data.
+	 *
+	 * @param   string $context The context identifier.
+	 * @param   mixed  &$data   The data to be processed. It gets altered directly.
+	 *
+	 * @throws Exception
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function preprocessData($context, &$data)
+	{
+		// Get the dispatcher and load the users plugins.
+		$dispatcher = $this->getDispatcher();
+		JPluginHelper::importPlugin('content');
+
+		// Trigger the data preparation event.
+		$results = $dispatcher->trigger('onContentPrepareData', array($context, $data));
+
+		// Check for errors encountered while preparing the data.
+		if (count($results) > 0 && in_array(false, $results, true))
+		{
+			// Get the last error.
+			$error = $dispatcher->getError();
+
+			if (!($error instanceof Exception))
+			{
+				throw new Exception($error);
+			}
+		}
 	}
 }

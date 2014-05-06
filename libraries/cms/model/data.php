@@ -24,7 +24,13 @@ abstract class JModelData extends JModelCms
 
 	/**
 	 * Method to get the name of the primary key from table
+	 *
 	 * @See JTable::getKeyName
+	 *
+	 * @param string $tableName
+	 * @param string $tablePrefix
+	 * @param array  $config
+	 *
 	 * @return string
 	 */
 	public function getKeyName($tableName = null, $tablePrefix = null, $config = array())
@@ -134,8 +140,6 @@ abstract class JModelData extends JModelCms
 			if (!$historyTable->load($version_id))
 			{
 				throw new ErrorException($historyTable->getError());
-
-				return false;
 			}
 
 			$rowArray = JArrayHelper::fromObject(json_decode($historyTable->version_data));
@@ -152,8 +156,6 @@ abstract class JModelData extends JModelCms
 				}
 
 				throw ErrorException(JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
-
-				return false;
 			}
 		}
 
@@ -255,10 +257,11 @@ abstract class JModelData extends JModelCms
 	 */
 	protected function isLocked(JTable $activeRecord)
 	{
-		$user = JFactory::getUser();
 		if ($this->isLockable($activeRecord))
 		{
-			$isCheckedOut    = ($activeRecord->checked_out > 0);
+			$isCheckedOut = ($activeRecord->checked_out > 0);
+
+			$user            = JFactory::getUser();
 			$isCurrentEditor = ($activeRecord->checked_out == $user->get('id'));
 			$canOverride     = ($user->authorise('core.admin', 'com_checkin'));
 

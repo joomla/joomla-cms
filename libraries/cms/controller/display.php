@@ -71,7 +71,7 @@ class JControllerDisplay extends JControllerCms
 
 			$subject = $this->config['subject'];
 
-			// Get/Create the model
+			// Get OR Create the model
 			if ($model = $this->getModel($prefix, $subject, $config))
 			{
 				// Push the model into the view (as default)
@@ -91,7 +91,8 @@ class JControllerDisplay extends JControllerCms
 
 			JPluginHelper::importPlugin('content');
 
-			$dispatcher = JDispatcher::getInstance();
+			$defaultModel = $this->view->getModel();
+			$dispatcher   = $defaultModel->getDispatcher();
 			$dispatcher->trigger('onContentPrepareToEcho', array($outputObj));
 
 			echo $outputObj->output;
