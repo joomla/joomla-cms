@@ -160,6 +160,105 @@ class JImage
 	}
 
 	/**
+	 * Method to detect if a given image's format is cubic (width equals height).
+	 *
+	 * @param   string  $path  The filesystem path to the image for which to get properties.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   11.3
+	 * @throws  InvalidArgumentException
+	 * @throws  RuntimeException
+	 */
+	public static function isCubic($path)
+	{
+		// Make sure the file exists.
+		if (!file_exists($path))
+		{
+			throw new InvalidArgumentException('The image file does not exist.');
+		}
+
+		// Get the image file information.
+		$info = getimagesize($path);
+
+		if (!$info)
+		{
+			// @codeCoverageIgnoreStart
+			throw new RuntimeException('Unable to get properties for the image.');
+
+			// @codeCoverageIgnoreEnd
+		}
+
+		return (int) $info[0] == (int) $info[1];
+	}
+
+	/**
+	 * Method to detect if a given image's format is landscape (width is bigger than height).
+	 *
+	 * @param   string  $path  The filesystem path to the image for which to get properties.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   11.3
+	 * @throws  InvalidArgumentException
+	 * @throws  RuntimeException
+	 */
+	public static function isLandscape($path)
+	{
+		// Make sure the file exists.
+		if (!file_exists($path))
+		{
+			throw new InvalidArgumentException('The image file does not exist.');
+		}
+
+		// Get the image file information.
+		$info = getimagesize($path);
+
+		if (!$info)
+		{
+			// @codeCoverageIgnoreStart
+			throw new RuntimeException('Unable to get properties for the image.');
+
+			// @codeCoverageIgnoreEnd
+		}
+
+		return (int) $info[0] > (int) $info[1];
+	}
+
+	/**
+	 * Method to detect if a given image's format is portrait (height is bigger than width).
+	 *
+	 * @param   string  $path  The filesystem path to the image for which to get properties.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   11.3
+	 * @throws  InvalidArgumentException
+	 * @throws  RuntimeException
+	 */
+	public static function isPortrait($path)
+	{
+		// Make sure the file exists.
+		if (!file_exists($path))
+		{
+			throw new InvalidArgumentException('The image file does not exist.');
+		}
+
+		// Get the image file information.
+		$info = getimagesize($path);
+
+		if (!$info)
+		{
+			// @codeCoverageIgnoreStart
+			throw new RuntimeException('Unable to get properties for the image.');
+
+			// @codeCoverageIgnoreEnd
+		}
+
+		return (int) $info[0] < (int) $info[1];
+	}
+
+	/**
 	 * Method to generate thumbnails from the current image. It allows
 	 * creation by resizing or cropping the original image.
 	 *
