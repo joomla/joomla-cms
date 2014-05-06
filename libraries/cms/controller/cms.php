@@ -55,7 +55,7 @@ abstract class JControllerCms extends JControllerBase
 	 * Instantiate the controller.
 	 *
 	 * @param   JInput           $input  The input object.
-	 * @param   JApplicationBase $app    The application object.
+	 * @param   JApplicationWeb  $app    The application object.
 	 * @param   array            $config Configuration
 	 *
 	 * @since  12.1
@@ -282,5 +282,61 @@ abstract class JControllerCms extends JControllerBase
 		}
 
 		return $cleanCid;
+	}
+
+	/**
+	 * Method to redirect internally without rebuilding the stack.
+	 * This is intended to be used for task chaining
+	 *
+	 * @param JInput       $input
+	 * @param JApplication $app
+	 * @param array        $config
+	 *
+	 * @throws InvalidArgumentException
+	 * @return boolean
+	 */
+	protected function internalRedirect(JInput $input, $app = null, $config = array())
+	{
+		if(is_null($app))
+		{
+			$app = $this->app;
+		}
+
+		$config = $this->normalizeConfig($config);
+
+		$prefix = $this->getPrefix($config['option']);
+
+		$dispatchControllerName = $prefix.'Controller';
+		if(!class_exists($dispatchControllerName))
+		{
+			$format = $input->getWord('format', 'html');
+			throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $dispatchControllerName, $format));
+		}
+
+
+		/** @var $dispatchController JControllerDispatcher */
+		$dispatchController = new $dispatchControllerName($input, $app, $config);
+		$dispatchController->mergeModels($this->models);
+
+		return $dispatchController->execute();
+	}
+
+	/**
+	 * Method to merge an array of models to $this->models array
+	 * @param array $models Associative array of models that follow the $models[prefix][$name] format
+	 * @param bool  $overwrite True to overwrite existing models with $models value
+	 * @return void
+	 */
+	public function mergeModels($models = array(), $overwrite = false)
+	{
+		if($overwrite)
+		{
+			$models += $this->models;
+			$this->models = $models;
+		}
+		else
+		{
+			$this->models += $models;
+		}
 	}
 }

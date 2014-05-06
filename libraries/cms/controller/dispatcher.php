@@ -13,7 +13,7 @@ class JControllerDispatcher extends JControllerCms
 {
 	/**
 	 * The Task Controller
-	 * @var JControllerBase
+	 * @var JControllerCms
 	 */
 	protected $controller;
 
@@ -27,7 +27,7 @@ class JControllerDispatcher extends JControllerCms
 	 * if both the task and the view are not set, it defaults to display.$config['default_view']
 	 *
 	 * @param JInput           $input
-	 * @param JApplicationBase $app
+	 * @param JApplication $app
 	 * @param array            $config
 	 *
 	 * @throws InvalidArgumentException
@@ -89,8 +89,8 @@ class JControllerDispatcher extends JControllerCms
 	}
 
 	/**
-	 * (non-PHPdoc)
-	 * @see JController::execute()
+	 * proxy for $this->controller->execute()
+	 * @see JControllerCms::execute()
 	 */
 	public function execute()
 	{
@@ -103,11 +103,22 @@ class JControllerDispatcher extends JControllerCms
 	}
 
 	/**
-	 * (non-PHPdoc)
-	 * @see JControllerCmsBase::redirect()
+	 * proxy for $this->controller->redirect()
+	 * @see JControllerCms::redirect()
 	 */
 	public function redirect()
 	{
 		return $this->controller->redirect();
+	}
+
+	/**
+	 * proxy for $this->controller->mergeModels()
+	 * @param array $models Associative array of models that follow the $models[prefix][$name] format
+	 * @param bool  $overwrite True to overwrite existing models with $models value
+	 * @return void
+	 */
+	public function mergeModels($models = array(), $overwrite = false)
+	{
+		$this->controller->mergeModels($models, $overwrite);
 	}
 }
