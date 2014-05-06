@@ -19,15 +19,12 @@ class JControllerCheckin extends JControllerCms
 		//Check for request forgeries
 		$this->validateSession();
 
-		$config = $this->config;
-		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-
 		$model = $this->getModel();
 
 		if (!$model->allowAction('core.manage'))
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_CHECKIN_NOT_ALLOWED');
-			$this->setRedirect($url, $msg, 'error');
+			$this->abort($msg, 'error');
 
 			return false;
 		}
@@ -36,7 +33,6 @@ class JControllerCheckin extends JControllerCms
 		$cid   = $input->post->get('cid', array(), 'array');
 		// Make sure the item ids are integers
 		$cid = $this->cleanCid($cid);
-
 
 		try
 		{
@@ -48,11 +44,13 @@ class JControllerCheckin extends JControllerCms
 		catch (Exception $e)
 		{
 			$msg = $e->getMessage();
-			$this->setRedirect($url, $msg, 'warning');
+			$this->abort($msg, 'warning');
 
 			return false;
 		}
 
+		$config = $this->config;
+		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
 		$msg = $this->translate('JLIB_APPLICATION_MSG_CHECKIN_SUCCEEDED');
 		$this->setRedirect($url, $msg, 'message');
 

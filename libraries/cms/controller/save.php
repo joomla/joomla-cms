@@ -24,6 +24,7 @@ abstract class JControllerSave extends JControllerCms
 	/**
 	 * Method to save the user input into state.
 	 * This is intended to be used to preserve form data when server side validation fails
+	 * @return void
 	 */
 	protected function setUserState()
 	{

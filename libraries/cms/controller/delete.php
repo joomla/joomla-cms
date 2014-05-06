@@ -20,16 +20,12 @@ class JControllerDelete extends JControllerCms
 		//Check for request forgeries
 		$this->validateSession();
 
-		$config = $this->config;
-		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-
 		$model = $this->getModel();
 
 		If (!$model->allowAction('core.delete'))
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED');
-			$this->setRedirect($url, $msg, 'error');
-
+			$this->abort($msg, 'error');
 			return false;
 		}
 
@@ -41,7 +37,7 @@ class JControllerDelete extends JControllerCms
 		if (!is_array($cid) || $totalCids < 1)
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_NO_ITEM_SELECTED');
-			$this->setRedirect($url, $msg, 'error');
+			$this->abort($msg, 'error');
 
 			return false;
 		}
@@ -57,11 +53,13 @@ class JControllerDelete extends JControllerCms
 		catch (Exception $e)
 		{
 			$msg = $e->getMessage();
-			$this->setRedirect($url, $msg, 'warning');
+			$this->abort($msg, 'error');
 
 			return false;
 		}
 
+		$config = $this->config;
+		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
 		$msg = $this->translate('JLIB_APPLICATION_MSG_ITEMS_DELETED');
 		$this->setRedirect($url, $msg, 'message');
 

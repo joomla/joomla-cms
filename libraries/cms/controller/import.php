@@ -17,15 +17,12 @@ abstract class JControllerImport extends JControllerCms
 		//Check for request forgeries
 		$this->validateSession();
 
-		$config = $this->config;
-		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-
 		$model = $this->getModel();
 
 		if (!$model->allowAction('core.import'))
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_IMPORT_NOT_PERMITTED');
-			$this->setRedirect($url, $msg, 'error');
+			$this->abort($msg, 'error');
 
 			return false;
 		}
@@ -37,16 +34,17 @@ abstract class JControllerImport extends JControllerCms
 			$files = $input->files->get('jform');
 
 			$this->import($model, $data, $files);
-
 		}
 		catch (Exception $e)
 		{
 			$msg = $e->getMessage();
-			$this->setRedirect($url, $msg, 'error');
+			$this->abort($msg, 'error');
 
 			return false;
 		}
 
+		$config = $this->config;
+		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
 		$msg = $this->translate('JLIB_APPLICATION_MESSAGE_IMPORT_COMPLETED');
 		$this->setRedirect($url, $msg, 'message');
 

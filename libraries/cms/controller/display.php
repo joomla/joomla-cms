@@ -47,11 +47,8 @@ class JControllerDisplay extends JControllerCms
 		//without using the task controller
 		if ($layout == 'edit' && $task == 'display')
 		{
-			$url = 'index.php?option=' . $this->config['option'];
-			$url .= '&task=display.' . $config['subject'];
-
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_DIRECT_ACCESS_DENIED');
-			$this->setRedirect($url, $msg, 'error', true);
+			$this->abort($msg, 'error');
 			$this->redirect();
 		}
 	}

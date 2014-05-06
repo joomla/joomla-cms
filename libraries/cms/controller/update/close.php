@@ -13,9 +13,6 @@ class JControllerUpdateClose extends JControllerUpdateBase
 {
 	public function execute()
 	{
-		$config = $this->config;
-		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-
 		if (parent::execute())
 		{
 			try
@@ -25,10 +22,11 @@ class JControllerUpdateClose extends JControllerUpdateBase
 			catch (Exception $e)
 			{
 				$msg = $e->getMessage();
-				$this->setRedirect($url, $msg, 'warning', true, false);
+				$this->abort($msg, 'warning');
 			}
 
-
+			$config = $this->config;
+			$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
 			$msg = $this->translate('JLIB_APPLICATION_MSG_SAVE_COMPLETED');
 			$this->setRedirect($url, $msg, 'message');
 

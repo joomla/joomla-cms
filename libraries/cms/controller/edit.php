@@ -32,15 +32,12 @@ class JControllerEdit extends JControllerDisplay
 	 */
 	public function execute()
 	{
-		$config = $this->config;
 		$model  = $this->getModel();
 
 		if (!$model->allowAction('core.edit'))
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED');
-			$url = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-			$this->setRedirect($url, $msg, 'error');
-
+			$this->abort($msg, 'error');
 			return false;
 		}
 
@@ -67,9 +64,7 @@ class JControllerEdit extends JControllerDisplay
 		catch (Exception $e)
 		{
 			$msg = $e->getMessage();
-			$url = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-			$this->setRedirect($url, $msg, 'error');
-
+			$this->abort($msg, 'error');
 			return false;
 		}
 

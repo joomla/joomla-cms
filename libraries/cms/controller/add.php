@@ -32,15 +32,11 @@ class JControllerAdd extends JControllerDisplay
 	 */
 	public function execute()
 	{
-		$config = $this->config;
 		$model  = $this->getModel();
-
 		if (!$model->allowAction('core.create'))
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED');
-			$url = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-			$this->setRedirect($url, $msg, 'error');
-
+			$this->abort($msg, 'error');
 			return false;
 		}
 

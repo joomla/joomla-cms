@@ -29,7 +29,6 @@ abstract class JControllerStateBase extends JControllerCms
 		// Make sure the item ids are integers
 		$cid = $this->cleanCid($cid);
 
-
 		$this->updateRecordState($model, $cid);
 
 		return true;

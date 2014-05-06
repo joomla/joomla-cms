@@ -105,17 +105,26 @@ abstract class JControllerCms extends JControllerBase
 
 	/**
 	 * Method to get the option prefix from the input
+	 *
+	 * @param string $option component option string 'com_{componentName}'
+	 *
 	 * @return string ucfirst(substr($this->config['option'], 4));
 	 */
-	protected function getPrefix()
+	protected function getPrefix($option = null)
 	{
-		$prefix = ucfirst(substr($this->config['option'], 4));
+		if(is_null($option))
+		{
+			$option = $this->config['option'];
+		}
+		$prefix = ucfirst(substr($option, 4));
 
 		return $prefix;
 	}
 
 	/**
 	 * Method to get a model, creating it if it does not already exist.
+	 * Uses the prefix and $name to create the class name. Format $prefix.'Model'.$name
+	 * If null default values are taken from $config array
 	 *
 	 * @param string $prefix
 	 * @param string $name
@@ -126,6 +135,8 @@ abstract class JControllerCms extends JControllerBase
 	 */
 	public function getModel($prefix = null, $name = null, $config = array())
 	{
+		$config = $this->normalizeConfig($config);
+
 		if (is_null($prefix))
 		{
 			$prefix = $this->getPrefix();
@@ -133,7 +144,7 @@ abstract class JControllerCms extends JControllerBase
 
 		if (is_null($name))
 		{
-			$name = $this->config['subject'];
+			$name = $config['subject'];
 		}
 
 		$prefix = ucfirst($prefix);
@@ -150,8 +161,6 @@ abstract class JControllerCms extends JControllerBase
 		{
 			throw new ErrorException(JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $class));
 		}
-
-		$config = $this->normalizeConfig($config);
 
 		$this->models[$prefix][$name] = new $class($config);
 
@@ -212,6 +221,18 @@ abstract class JControllerCms extends JControllerBase
 	}
 
 	/**
+	 * Method to set the default abort redirect
+	 * @param string $msg translated abort message
+	 * @param string $type type of message I.E. 'error' or 'warning
+	 */
+	protected function abort($msg, $type)
+	{
+		$config = $this->config;
+		$abortUrl =  'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
+		$this->setRedirect($abortUrl, $msg, $type, true);
+	}
+
+	/**
 	 * Set a URL for browser redirection.
 	 *
 	 * @param   string $url       URL to redirect to.
@@ -261,5 +282,4 @@ abstract class JControllerCms extends JControllerBase
 
 		return $cleanCid;
 	}
-
 }

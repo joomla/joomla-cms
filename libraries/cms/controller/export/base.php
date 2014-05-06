@@ -17,28 +17,26 @@ abstract class JControllerExportBase extends JControllerCms
 		//Check for request forgeries
 		$this->validateSession();
 
-		$config = $this->config;
-		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-
 		$model = $this->getModel();
 
 		if (!$model->allowAction('core.export'))
 		{
 			$msg = $this->translate('JLIB_APPLICATION_ERROR_EXPORT_NOT_PERMITTED');
-			$this->setRedirect($url, $msg, 'error');
+			$this->abort($msg, 'error');
 
 			return false;
 		}
 
 		try
 		{
+			$config = $this->config;
 			$input = $this->input;
 			$this->export($model, $input, $config);
 		}
 		catch (Exception $e)
 		{
 			$msg = $e->getMessage();
-			$this->setRedirect($url, $msg, 'error');
+			$this->abort($msg, 'error');
 
 			return false;
 		}

@@ -13,9 +13,6 @@ class JControllerStateUnpublish extends JControllerStateBase
 {
 	public function execute()
 	{
-		$config = $this->config;
-		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
-
 		try
 		{
 			parent::execute();
@@ -23,11 +20,13 @@ class JControllerStateUnpublish extends JControllerStateBase
 		catch (Exception $e)
 		{
 			$msg = $e->getMessage();
-			$this->setRedirect($url, $msg, 'warning');
+			$this->abort($msg, 'warning');
 
 			return false;
 		}
 
+		$config = $this->config;
+		$url    = 'index.php?option=' . $config['option'] . '&task=display.' . $config['subject'];
 		$msg = $this->translate('JLIB_APPLICATION_MSG_ITEMS_UNPUBLISHED');
 		$this->setRedirect($url, $msg, 'message');
 
