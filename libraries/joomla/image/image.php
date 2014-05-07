@@ -143,38 +143,11 @@ class JImage
 	 * @since   11.3
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
+	 * @deprecated  4.0  Use JImageHelper::getImageFileProperties instead.
 	 */
 	public static function getImageFileProperties($path)
 	{
-		// Make sure the file exists.
-		if (!file_exists($path))
-		{
-			throw new InvalidArgumentException('The image file does not exist.');
-		}
-
-		// Get the image file information.
-		$info = getimagesize($path);
-
-		if (!$info)
-		{
-			// @codeCoverageIgnoreStart
-			throw new RuntimeException('Unable to get properties for the image.');
-
-			// @codeCoverageIgnoreEnd
-		}
-
-		// Build the response object.
-		$properties = (object) array(
-			'width' => $info[0],
-			'height' => $info[1],
-			'type' => $info[2],
-			'attributes' => $info[3],
-			'bits' => isset($info['bits']) ? $info['bits'] : null,
-			'channels' => isset($info['channels']) ? $info['channels'] : null,
-			'mime' => $info['mime']
-		);
-
-		return $properties;
+		return JImageHelper::getImageFileProperties($path);
 	}
 
 	/**
