@@ -6,9 +6,7 @@ php:
 
 before_script:
   - composer self-update
-  - pyrus channel-discover pear.phpunit.de
-  - pyrus channel-discover pear.symfony.com
-  - pyrus install --force phpunit/DbUnit
+  - wget https://phar.phpunit.de/phpunit.phar
   - phpenv rehash
   - mysql -e 'create database joomla_ut;'
   - mysql joomla_ut < tests/unit/suites/database/stubs/mysql.sql
@@ -16,7 +14,7 @@ before_script:
   - psql -d joomla_ut -a -f tests/unit/suites/database/stubs/postgresql.sql
 
 script:
-  - phpunit --configuration travisci-phpunit.xml
+  - php phpunit.phar --configuration travisci-phpunit.xml
 
 branches:
   except:
