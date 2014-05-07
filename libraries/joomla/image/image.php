@@ -171,7 +171,7 @@ class JImage
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 */
-	public static function getOrientation($path = null)
+	public function getOrientation($path = null)
 	{
 		// If this is an instance of JImage with a resource loaded, get width and height from the resource.
 		if ($path)
@@ -208,8 +208,7 @@ class JImage
 					return 'null';
 			}
 		}
-		// TODO - needs work because $handle won't be set when calling this method statically (see: #3568)
-		elseif (isset($handle) && is_resource($handle) && (get_resource_type($handle) == 'gd'))
+		elseif ($this->isLoaded())
 		{
 			$width  = $this->getWidth();
 			$height = $this->getHeight();
