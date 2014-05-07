@@ -55,6 +55,24 @@ class JImage
 	const SCALE_FIT = 6;
 
 	/**
+	 * @const  string
+	 * @since  13.1
+	 */
+	const ORIENTATION_LANDSCAPE = 'landscape';
+
+	/**
+	 * @const  string
+	 * @since  13.1
+	 */
+	const ORIENTATION_PORTRAIT = 'portrait';
+
+	/**
+	 * @const  string
+	 * @since  13.1
+	 */
+	const ORIENTATION_SQUARE = 'square';
+
+	/**
 	 * @var    resource  The image resource handle.
 	 * @since  11.3
 	 */
@@ -196,13 +214,13 @@ class JImage
 			switch (true)
 			{
 				case ((int) $info[0] > (int) $info[1]) :
-					return 'landscape';
+					return JImage::ORIENTATION_LANDSCAPE;
 
 				case ((int) $info[0] < (int) $info[1]) :
-					return 'portrait';
+					return JImage::ORIENTATION_PORTRAIT;
 
 				case ((int) $info[0] == (int) $info[1]) :
-					return 'square';
+					return JImage::ORIENTATION_SQUARE;
 
 				default :
 					return 'null';
@@ -216,13 +234,13 @@ class JImage
 			switch (true)
 			{
 				case ($width > $height) :
-					return 'landscape';
+					return JImage::ORIENTATION_LANDSCAPE;
 
 				case ($width < $height) :
-					return 'portrait';
+					return JImage::ORIENTATION_PORTRAIT;
 
 				case ($width == $height) :
-					return 'square';
+					return JImage::ORIENTATION_SQUARE;
 
 				default :
 					return 'null';
