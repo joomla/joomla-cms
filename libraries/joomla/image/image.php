@@ -55,24 +55,6 @@ class JImage
 	const SCALE_FIT = 6;
 
 	/**
-	 * @const  string
-	 * @since  13.1
-	 */
-	const ORIENTATION_LANDSCAPE = 'landscape';
-
-	/**
-	 * @const  string
-	 * @since  13.1
-	 */
-	const ORIENTATION_PORTRAIT = 'portrait';
-
-	/**
-	 * @const  string
-	 * @since  13.1
-	 */
-	const ORIENTATION_SQUARE = 'square';
-
-	/**
 	 * @var    resource  The image resource handle.
 	 * @since  11.3
 	 */
@@ -148,79 +130,6 @@ class JImage
 	public static function getImageFileProperties($path)
 	{
 		return JImageHelper::getImageFileProperties($path);
-	}
-
-	/**
-	 * Method to detect an whether image's orientation is landscape, portrait or square.
-	 * The orientation will be returned as string.
-	 *
-	 * @param   string  $path  The filesystem path to the image for which to get properties. (optional) If not passed in it is checked for a linked resource.
-	 *
-	 * @return  mixed   String the orientation or null.
-	 *
-	 * @since   11.3
-	 * @throws  InvalidArgumentException
-	 * @throws  RuntimeException
-	 */
-	public function getOrientation($path = null)
-	{
-		// If this is an instance of JImage with a resource loaded, get width and height from the resource.
-		if ($path)
-		{
-			// Make sure the file exists.
-			if (!file_exists($path))
-			{
-				throw new InvalidArgumentException('The image file does not exist.');
-			}
-
-			// Get the image file information.
-			$info = getimagesize($path);
-
-			if (!$info)
-			{
-				// @codeCoverageIgnoreStart
-				throw new RuntimeException('Unable to get properties for the image.');
-
-				// @codeCoverageIgnoreEnd
-			}
-
-			switch (true)
-			{
-				case ((int) $info[0] > (int) $info[1]) :
-					return JImage::ORIENTATION_LANDSCAPE;
-
-				case ((int) $info[0] < (int) $info[1]) :
-					return JImage::ORIENTATION_PORTRAIT;
-
-				case ((int) $info[0] == (int) $info[1]) :
-					return JImage::ORIENTATION_SQUARE;
-
-				default :
-					return 'null';
-			}
-		}
-		elseif ($this->isLoaded())
-		{
-			$width  = $this->getWidth();
-			$height = $this->getHeight();
-
-			switch (true)
-			{
-				case ($width > $height) :
-					return JImage::ORIENTATION_LANDSCAPE;
-
-				case ($width < $height) :
-					return JImage::ORIENTATION_PORTRAIT;
-
-				case ($width == $height) :
-					return JImage::ORIENTATION_SQUARE;
-
-				default :
-					return 'null';
-			}
-		}
-		
-		return null;
 	}
 
 	/**
