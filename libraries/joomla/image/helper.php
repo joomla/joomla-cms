@@ -17,8 +17,26 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Mail
  * @since       13.1
  */
-abstract class JMailHelper
+abstract class JImageHelper
 {
+	/**
+	 * @const  string
+	 * @since  13.1
+	 */
+	const ORIENTATION_LANDSCAPE = 'landscape';
+
+	/**
+	 * @const  string
+	 * @since  13.1
+	 */
+	const ORIENTATION_PORTRAIT = 'portrait';
+
+	/**
+	 * @const  string
+	 * @since  13.1
+	 */
+	const ORIENTATION_SQUARE = 'square';
+
 	/**
 	 * Method to return a properties object for an image given a filesystem path.  The
 	 * result object has values for image width, height, type, attributes, mime type, bits,
