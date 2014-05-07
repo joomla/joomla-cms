@@ -9,35 +9,17 @@
 
 defined('JPATH_PLATFORM') or die;
 
-class JControllerStateAjaxSaveorder extends JControllerStateSaveorder
+class JControllerStateAjaxSaveorder extends JControllerStateAjaxBase
 {
-	/** @noinspection PhpInconsistentReturnPointsInspection */
-	public function execute()
-	{
-		try
-		{
-			parent::execute();
-		}
-		catch (Exception $e)
-		{
-			$msg = $e->getMessage();
-			$this->abort($msg, 'warning');
-
-			return false;
-		}
-
-		echo '1';
-
-		// Close the application
-		JFactory::getApplication()->close();
-	}
-
 	/**
-	 * Overridden to allow AJAX without token
-	 * @return void
+	 * @param JModelAdministrator $model
+	 * @param array               $cid
+	 *
+	 * @see JControllerStateBase::execute()
 	 */
-	protected function validateSession()
+	protected function updateRecordState($model, $cid)
 	{
-		return;
+		$order = $this->input->get('order', array(), 'array');
+		$model->saveorder($cid, $order);
 	}
 }
