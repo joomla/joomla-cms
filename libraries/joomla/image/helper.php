@@ -48,7 +48,7 @@ abstract class JImageHelper
 	 *
 	 * @return  stdClass
 	 *
-	 * @since   11.3
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
