@@ -95,7 +95,7 @@ abstract class JImageHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getOrientation($width, $height)
+	public static function getOrientation($width, $height)
 	{
 	    switch (true)
 	    {
