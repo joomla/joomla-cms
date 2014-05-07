@@ -125,11 +125,33 @@ class JImage
 	 * @since   11.3
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
+	 *
 	 * @deprecated  4.0  Use JImageHelper::getImageFileProperties instead.
 	 */
 	public static function getImageFileProperties($path)
 	{
 		return JImageHelper::getImageFileProperties($path);
+	}
+	
+	/**
+	 * Method to detect an whether image's orientation is landscape, portrait or square.
+	 * The orientation will be returned as string.
+	 *
+	 * @return  mixed   Orientation string or null.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getOrientation()
+	{
+	    if ($this->isLoaded())
+	    {
+	        $width  = $this->getWidth();
+	        $height = $this->getHeight();
+	
+	        return JImageHelper::getOrientation($width, $height);
+	    }
+	
+	    return null;
 	}
 
 	/**
