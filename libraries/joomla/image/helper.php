@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Mail
+ * @subpackage  Image
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -14,26 +14,27 @@ defined('JPATH_PLATFORM') or die;
  * to the Joomla image routines.
  *
  * @package     Joomla.Platform
- * @subpackage  Mail
+ * @subpackage  Image
+	 *
  * @since       13.1
  */
 abstract class JImageHelper
 {
 	/**
 	 * @const  string
-	 * @since  13.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	const ORIENTATION_LANDSCAPE = 'landscape';
 
 	/**
 	 * @const  string
-	 * @since  13.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	const ORIENTATION_PORTRAIT = 'portrait';
 
 	/**
 	 * @const  string
-	 * @since  13.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	const ORIENTATION_SQUARE = 'square';
 
@@ -48,6 +49,7 @@ abstract class JImageHelper
 	 * @return  stdClass
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 */
