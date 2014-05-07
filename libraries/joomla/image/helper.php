@@ -15,8 +15,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Image
-	 *
- * @since       13.1
+ * *
+ * @since       __DEPLOY_VERSION__
  */
 abstract class JImageHelper
 {
