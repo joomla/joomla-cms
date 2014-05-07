@@ -137,6 +137,7 @@ class JImage
 	 * Method to detect an whether image's orientation is landscape, portrait or square.
 	 * The orientation will be returned as string.
 	 *
+	 * @static
 	 * @return  mixed   Orientation string or null.
 	 *
 	 * @since   __DEPLOY_VERSION__
