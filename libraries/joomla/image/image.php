@@ -160,102 +160,78 @@ class JImage
 	}
 
 	/**
-	 * Method to detect if a given image's format is cubic (width equals height).
+	 * Method to detect an whether image's orientation is landscape, portrait or square.
+	 * The orientation will be returned as string.
 	 *
-	 * @param   string  $path  The filesystem path to the image for which to get properties.
+	 * @param   string  $path  The filesystem path to the image for which to get properties. (optional) If not passed in it is checked for a linked resource.
 	 *
-	 * @return  boolean
-	 *
-	 * @since   11.3
-	 * @throws  InvalidArgumentException
-	 * @throws  RuntimeException
-	 */
-	public static function isCubic($path)
-	{
-		// Make sure the file exists.
-		if (!file_exists($path))
-		{
-			throw new InvalidArgumentException('The image file does not exist.');
-		}
-
-		// Get the image file information.
-		$info = getimagesize($path);
-
-		if (!$info)
-		{
-			// @codeCoverageIgnoreStart
-			throw new RuntimeException('Unable to get properties for the image.');
-
-			// @codeCoverageIgnoreEnd
-		}
-
-		return (int) $info[0] == (int) $info[1];
-	}
-
-	/**
-	 * Method to detect if a given image's format is landscape (width is bigger than height).
-	 *
-	 * @param   string  $path  The filesystem path to the image for which to get properties.
-	 *
-	 * @return  boolean
+	 * @return  mixed   String the orientation or null.
 	 *
 	 * @since   11.3
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 */
-	public static function isLandscape($path)
+	public static function getOrientation($path = null)
 	{
-		// Make sure the file exists.
-		if (!file_exists($path))
+		// If this is an instance of JImage with a resource loaded, get width and height from the resource.
+		if ($path)
 		{
-			throw new InvalidArgumentException('The image file does not exist.');
+			// Make sure the file exists.
+			if (!file_exists($path))
+			{
+				throw new InvalidArgumentException('The image file does not exist.');
+			}
+
+			// Get the image file information.
+			$info = getimagesize($path);
+
+			if (!$info)
+			{
+				// @codeCoverageIgnoreStart
+				throw new RuntimeException('Unable to get properties for the image.');
+
+				// @codeCoverageIgnoreEnd
+			}
+
+			switch (true)
+			{
+				case ((int) $info[0] > (int) $info[1]) :
+					return 'landscape';
+
+				case ((int) $info[0] < (int) $info[1]) :
+					return 'portrait';
+
+				case ((int) $info[0] == (int) $info[1]) :
+					return 'square';
+
+				default :
+					return 'null';
+			}
 		}
-
-		// Get the image file information.
-		$info = getimagesize($path);
-
-		if (!$info)
+		elseif (isset($handle) && is_resource($handle) && (get_resource_type($handle) == 'gd'))
 		{
-			// @codeCoverageIgnoreStart
-			throw new RuntimeException('Unable to get properties for the image.');
+			$width  = $this->getWidth();
+			$height = $this->getHeight();
 
-			// @codeCoverageIgnoreEnd
+			switch (true)
+			{
+				case ($width > $height) :
+					return 'landscape';
+
+				case ($width < $height) :
+					return 'portrait';
+
+				case ($width == $height) :
+					return 'square';
+
+				default :
+					return 'null';
+			}
 		}
-
-		return (int) $info[0] > (int) $info[1];
-	}
-
-	/**
-	 * Method to detect if a given image's format is portrait (height is bigger than width).
-	 *
-	 * @param   string  $path  The filesystem path to the image for which to get properties.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   11.3
-	 * @throws  InvalidArgumentException
-	 * @throws  RuntimeException
-	 */
-	public static function isPortrait($path)
-	{
-		// Make sure the file exists.
-		if (!file_exists($path))
+		else
 		{
-			throw new InvalidArgumentException('The image file does not exist.');
+			return null;
 		}
-
-		// Get the image file information.
-		$info = getimagesize($path);
-
-		if (!$info)
-		{
-			// @codeCoverageIgnoreStart
-			throw new RuntimeException('Unable to get properties for the image.');
-
-			// @codeCoverageIgnoreEnd
-		}
-
-		return (int) $info[0] < (int) $info[1];
 	}
 
 	/**
