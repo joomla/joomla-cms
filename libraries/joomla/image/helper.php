@@ -65,4 +65,32 @@ abstract class JMailHelper
 
 		return $properties;
 	}
+	
+	/**
+	 * Compare width and height integers to determine image orientation.
+	 *
+	 * @param  integer  $width
+	 * @param  integer  $height
+	 *
+	 * @return  mixed   Orientation string or null.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getOrientation($width, $height)
+	{
+	    switch (true)
+	    {
+	        case ($width > $height) :
+	            return self::ORIENTATION_LANDSCAPE;
+	
+	        case ($width < $height) :
+	            return self::ORIENTATION_PORTRAIT;
+	
+	        case ($width == $height) :
+	            return self::ORIENTATION_SQUARE;
+	
+	        default :
+	            return null;
+	    }
+	}
 }
