@@ -78,7 +78,8 @@ abstract class JImageHelper
 			'attributes' => $info[3],
 			'bits' => isset($info['bits']) ? $info['bits'] : null,
 			'channels' => isset($info['channels']) ? $info['channels'] : null,
-			'mime' => $info['mime']
+			'mime' => $info['mime'],
+			'orientation' => JImageHelper::getOrientation((int) $info[0], (int) $info[1]);
 		);
 
 		return $properties;
