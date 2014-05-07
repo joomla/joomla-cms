@@ -246,10 +246,8 @@ class JImage
 					return 'null';
 			}
 		}
-		else
-		{
-			return null;
-		}
+		
+		return null;
 	}
 
 	/**
