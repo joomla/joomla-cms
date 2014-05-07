@@ -208,6 +208,7 @@ class JImage
 					return 'null';
 			}
 		}
+		// TODO - needs work because $handle won't be set when calling this method statically (see: #3568)
 		elseif (isset($handle) && is_resource($handle) && (get_resource_type($handle) == 'gd'))
 		{
 			$width  = $this->getWidth();
