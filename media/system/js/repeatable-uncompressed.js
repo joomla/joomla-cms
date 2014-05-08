@@ -137,12 +137,12 @@
             // bind open the modal
             $(document).on('click', self.options.btModalOpen, function (e) {
             	e.preventDefault();
-            	self.modalWindow.modal('show');
+            	self.$modalWindow.modal('show');
             });
             // bind close the modal
-            self.modalWindow.on('click', self.options.btModalClose, function (e) {
+            self.$modalWindow.on('click', self.options.btModalClose, function (e) {
             	e.preventDefault();
-            	self.modalWindow.modal('hide');
+            	self.$modalWindow.modal('hide');
             });
 
             // bind add button
@@ -210,39 +210,45 @@
 
         	// fix modal style
         	modalEl.css({
+        		position: 'absolute',
         		width: 'auto',
-        		'max-height': '80%',
-        		'max-width': '100%',
-        		overflow: 'auto'
+        		'max-width': '100%'
         	});
-        	modalEl.on('show', function () {
+
+        	modalEl.on('shown', function () {
         		self.resizeModal();
         	});
         	$(window).resize(function() {
         		self.resizeModal();
         	});
         	// refresh values on modal closed
-        	modalEl.on('hide', function () {
+        	modalEl.on('hidden', function () {
         		self.refreshValue();
         	});
         	// init bootstrap modal
-        	self.modalWindow = modalEl.modal({show: false});
+        	self.$modalWindow = modalEl.modal({show: false});
 
         	// tell all that the modal are ready
-            self.$container.trigger('prepare-modal', self.modalWindow);
+            self.$container.trigger('prepare-modal', self.$modalWindow);
         };
 
         //resize and count position for the modal popup
         self.resizeModal = function (){
+        	if(!self.$modalWindow.is(':visible')){
+        		// do nothing with hidden
+        		return;
+        	}
         	var docHalfWidth = $(document).width() / 2,
-      	 	 	modalHalfWidth = $(self.modalWindow).width() / 2,
-      	 	 	marginLeft = modalHalfWidth > docHalfWidth ? 0 : -modalHalfWidth,
+      	 	 	modalHalfWidth = self.$modalWindow.width() / 2,
+      	 	 	rowsHalfWidth = self.$rowsContainer.width() / 2,
+      	 	 	marginLeft = modalHalfWidth >= docHalfWidth ? 0 : -modalHalfWidth,
       	 	 	left = marginLeft ? '50%' : 0;
 
-        	$(self.modalWindow).css({
+        	self.$modalWindow.css({
        	    	 top: '20%',
        	    	 left: left,
-       	         'margin-left': marginLeft
+       	         'margin-left': marginLeft,
+       	         overflow: rowsHalfWidth > modalHalfWidth ? 'auto' : 'visible'
        	    });
 
         };
@@ -418,7 +424,7 @@
         self.fixScripts = function($row){
         	// chosen hack
         	if($.fn.chosen){
-        		$row.find('select').chosen();
+        		$row.find('select').chosen()
         	}
 
         	//color picker
