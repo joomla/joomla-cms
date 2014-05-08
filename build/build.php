@@ -93,7 +93,6 @@ $filesArray = array(
 	"includes/index.html\n" => true,
 	"language/index.html\n" => true,
 	"layouts/index.html\n" => true,
-	"libraries/autoload.php\n" => true,
 	"libraries/index.html\n" => true,
 	"logs/index.html\n" => true,
 	"media/index.html\n" => true,
