@@ -89,19 +89,23 @@ class JFormFieldRepeatable extends JFormField
 		$data[] = 'data-bt-add="a.add"';
 		$data[] = 'data-bt-remove="a.remove"';
 		$data[] = 'data-bt-modal-open="#' . $this->id . '_button"';
-		$data[] = 'data-bt-modal-close="a.close-modal"';
+		$data[] = 'data-bt-modal-close="button.close-modal"';
+		$data[] = 'data-bt-modal-save-data="button.save-modal-data"';
 		$data[] = 'data-maximum="' . $maximum . '"';
 		$data[] = 'data-input="#' . $this->id . '"';
 
 		// And finaly build a main container
 		$str = array();
 		$str[] = '<div id="' . $this->id . '_container"  class="form-field-repeatable-container" ' . implode(' ', $data) . '>';
-		// Add the table
+		// Add the table to modal
 		$str[] = '<div id="' . $this->id . '_modal" class="modal hide">';
 		$str[] =  $table;
-		$str[] = '<div class="modal-footer"><a href="#" class="close-modal btn btn-primary">Close</a></div>';
+		$str[] = '<div class="modal-footer">';
+			$str[] = '<button class="close-modal btn button btn-link">' . JText::_('JCANCEL') . '</button>';
+			$str[] = '<button class="save-modal-data btn button btn-primary">' . JText::_('JAPPLY') . '</button>';
 		$str[] = '</div>';
-		$str[] = '</div>';
+		$str[] = '</div>'; // close modal container
+		$str[] = '</div>'; // close main container
 
 		// Button for display the modal window
 		$select = (string) $this->element['select'] ? JText::_((string) $this->element['select']) : JText::_('JLIB_FORM_BUTTON_SELECT');

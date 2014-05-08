@@ -125,14 +125,7 @@
             }
 
             // so init the form depend from values that we have
-            var first = self.inputs[0]; // first field name
-            // go through values and add a new copy
-            // but make sure that at least one will be added
-            var count = self.values[first.name].length || 1,
-            	row = null;
-            for(var i = 0; i < count; i++){
-            	row = self.addRow(row, i);
-            }
+            self.buildRows();
 
             // bind open the modal
             $(document).on('click', self.options.btModalOpen, function (e) {
@@ -143,6 +136,15 @@
             self.$modalWindow.on('click', self.options.btModalClose, function (e) {
             	e.preventDefault();
             	self.$modalWindow.modal('hide');
+            	// rollback
+            	self.buildRows();
+            });
+
+            // bind save the modaldata
+            self.$modalWindow.on('click', self.options.btModalSaveData, function (e) {
+            	e.preventDefault();
+            	self.$modalWindow.modal('hide');
+            	self.refreshValue();
             });
 
             // bind add button
@@ -198,7 +200,7 @@
         	// keep template
         	self.template = $row.prop('outerHTML');
         	// remove
-        	self.removeRow($rows);
+        	$rows.remove();
 
         	// tell all that the template ready
             self.$container.trigger('prepare-template', self.template);
@@ -221,12 +223,9 @@
         	$(window).resize(function() {
         		self.resizeModal();
         	});
-        	// refresh values on modal closed
-        	modalEl.on('hidden', function () {
-        		self.refreshValue();
-        	});
+
         	// init bootstrap modal
-        	self.$modalWindow = modalEl.modal({show: false});
+        	self.$modalWindow = modalEl.modal({show: false, backdrop: 'static'});
 
         	// tell all that the modal are ready
             self.$container.trigger('prepare-modal', self.$modalWindow);
@@ -251,6 +250,25 @@
        	         overflow: rowsHalfWidth > modalHalfWidth ? 'auto' : 'visible'
        	    });
 
+        };
+
+        // build rows
+        self.buildRows = function(){
+        	// clean up any old
+        	var $oldRows = self.$rowsContainer.children();
+        	if($oldRows.length){
+        		self.removeRow($oldRows);
+        	}
+
+        	// first field name
+            var first = self.inputs[0];
+            // go through values and add a new copy
+            // but make sure that at least one will be added
+            var count = self.values[first.name].length || 1,
+            	row = null;
+            for(var i = 0; i < count; i++){
+            	row = self.addRow(row, i);
+            }
         };
 
         // add new row
@@ -459,13 +477,14 @@
 
     // defaults
     $.JRepeatable.defaults = {
-    	modalElement: '#modal-container', // id of the modal container
+    	modalElement: "#modal-container", // id of the modal container
     	btModalOpen: "#open-modal", // id of the button for initiate the modal window
-    	btModalClose: ".close-modal", // button for close the modal window
+    	btModalClose: ".close-modal", // button for close the modal window, and rollback all changes
+    	btModalSaveData: ".save-modal-data", // button for close the modal window, and keep the all changes
     	btAdd: "a.add", //  button selector for "add" action
     	btRemove: "a.remove",//  button selector for "remove" action
     	maximum: 10, // maximum repeating
-    	repeatableElement: 'table tbody tr',
+    	repeatableElement: "table tbody tr",
     	input: '#values-input' // input where we save a final values
     };
 
