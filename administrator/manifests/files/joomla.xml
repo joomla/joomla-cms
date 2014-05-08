@@ -39,7 +39,6 @@
 			<folder>plugins</folder>
 			<folder>templates</folder>
 			<folder>tmp</folder>
-			<folder>vendor</folder>
 			<file>htaccess.txt</file>
 			<file>web.config.txt</file>
 			<file>LICENSE.txt</file>
