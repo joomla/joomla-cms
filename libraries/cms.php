@@ -30,7 +30,7 @@ if (!class_exists('JLoader'))
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
 // Add the Composer autoloader
-require_once JPATH_LIBRARIES . '/autoload.php';
+require_once JPATH_LIBRARIES . '/vendor/autoload.php';
 
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
 require_once __DIR__ . '/classmap.php';
