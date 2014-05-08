@@ -1,0 +1,14 @@
+{
+    "name": "joomla/compat",
+    "type": "joomla-package",
+    "description": "Joomla Compat Package",
+    "keywords": ["joomla", "framework", "compat"],
+    "homepage": "https://github.com/joomla-framework/compat",
+    "license": "GPL-2.0+",
+    "require": {
+        "php": ">=5.3.10"
+    },
+    "autoload": {
+     	"classmap": ["src/JsonSerializable.php"]
+    }
+}
