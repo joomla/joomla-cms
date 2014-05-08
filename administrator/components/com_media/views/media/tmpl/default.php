@@ -70,7 +70,7 @@ $input = JFactory::getApplication()->input;
 			<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" class="form-inline" method="post">
 					<div class="path">
 						<input type="text" id="folderpath" readonly="readonly" />
-						<input type="text" id="foldername" name="foldername"  />
+						<input type="text" id="foldername" name="foldername" class="update-folder" />
 						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
 						<button type="submit" class="btn"><i class="icon-folder-open"></i> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
 					</div>
