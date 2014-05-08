@@ -5,6 +5,9 @@
     "keywords": ["joomla", "cms"],
     "homepage": "https://github.com/joomla/joomla-cms",
     "license": "GPL-2.0+",
+	"config": {
+        "vendor-dir": "libraries"
+    },
     "require": {
         "php": ">=5.3.10",
 	    "joomla/di": "~1.2",
