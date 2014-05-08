@@ -24,15 +24,19 @@ abstract class JControllerSave extends JControllerCms
 	/**
 	 * Method to save the user input into state.
 	 * This is intended to be used to preserve form data when server side validation fails
+	 *
+	 * @param JModelCms $model to get the context from
+	 *
+	 * @see JModelCms::getContext
 	 * @return void
 	 */
-	protected function setUserState()
+	protected function setUserState($model)
 	{
-		$config = $this->config;
-		$key    = $config['option'] . '.edit.' . $config['subject'] . '.data';
+		$context = $model->getContext();
+		$key     = $context . '.jform.data';
 
 		$input = $this->input;
-		$data  = $input->post->get('jform', array(), 'array');
+		$data  = $input->get('jform', array(), 'array');
 
 		$app = $this->app;
 		$app->setUserState($key, $data);

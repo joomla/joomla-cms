@@ -25,17 +25,16 @@ abstract class JModelData extends JModelCms
 	/**
 	 * Method to get the name of the primary key from table
 	 *
-	 * @See JTable::getKeyName
-	 *
-	 * @param string $tableName
 	 * @param string $tablePrefix
+	 * @param string $tableName
 	 * @param array  $config
 	 *
 	 * @return string
+	 * @See JTable::getKeyName
 	 */
-	public function getKeyName($tableName = null, $tablePrefix = null, $config = array())
+	public function getKeyName( $tablePrefix = null, $tableName = null, $config = array())
 	{
-		$table = $this->getTable($tableName, $tablePrefix, $config = array());
+		$table = $this->getTable($tablePrefix, $tableName, $config);
 
 		return $table->getKeyName();
 	}
@@ -43,19 +42,17 @@ abstract class JModelData extends JModelCms
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
-	 * @param   string $name   The table name. Optional.
 	 * @param   string $prefix The class prefix. Optional.
+	 * @param   string $name   The table name. Optional.
 	 * @param   array  $config Configuration array for model. Optional.
 	 *
 	 * @return  JTable  A JTable object
 	 *
 	 * @since   12.2
-	 * @throws  Exception
+	 * @throws  ErrorException
 	 */
-	public function getTable($name = null, $prefix = null, $config = array())
+	public function getTable($prefix = null, $name = null, $config = array())
 	{
-		$config = $this->config;
-
 		if (count($config) == 0)
 		{
 			$config = $this->config;
@@ -79,19 +76,19 @@ abstract class JModelData extends JModelCms
 			$prefix = ucfirst(substr($config['option'], 4));
 		}
 
-		if ($table = $this->createTable($name, $prefix, $config))
+		if (!$table = $this->createTable( $prefix, $name, $config))
 		{
-			return $table;
+			throw new ErrorException(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $prefix . 'Table' . $name), 0);
 		}
+		return $table;
 
-		throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $prefix . 'Table' . $name), 0);
 	}
 
 	/**
 	 * Method to load and return a model object.
 	 *
-	 * @param   string $name   The name of the view
 	 * @param   string $prefix The class prefix. Optional.
+	 * @param   string $name   The name of the view
 	 * @param   array  $config Configuration settings to pass to JTable::getInstance
 	 *
 	 * @return  mixed   A JTable object or boolean false if failed
@@ -99,11 +96,11 @@ abstract class JModelData extends JModelCms
 	 * @since   12.2
 	 * @see     JTable::getInstance()
 	 */
-	protected function createTable($name, $prefix, $config = array())
+	protected function createTable($prefix, $name, $config = array())
 	{
 		// Clean the model name
-		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 
 		// Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config))
@@ -114,55 +111,6 @@ abstract class JModelData extends JModelCms
 		$className = $prefix . 'Table' . $name;
 
 		return new $className($config);
-	}
-
-	/**
-	 * Method to load a row for editing from the version history table.
-	 *
-	 * @param   integer $version_id Key to the version history table.
-	 * @param   JTable  $table      Content table object being loaded.
-	 *
-	 * @return  boolean  False on failure or error, true otherwise.
-	 * @throws ErrorException
-	 * @since   12.2
-	 */
-	public function loadHistory($version_id, JTable $table)
-	{
-		// Only attempt to check the row in if it exists.
-		if ($version_id)
-		{
-			$user = JFactory::getUser();
-
-			// Get an instance of the row to checkout.
-			$historyTable = JTable::getInstance('Contenthistory');
-
-
-			if (!$historyTable->load($version_id))
-			{
-				throw new ErrorException($historyTable->getError());
-			}
-
-			$rowArray = JArrayHelper::fromObject(json_decode($historyTable->version_data));
-
-			$typeId = JTable::getInstance('Contenttype')->getTypeId($this->typeAlias);
-
-			if ($historyTable->ucm_type_id != $typeId)
-			{
-				$key = $table->getKeyName();
-
-				if (isset($rowArray[$key]))
-				{
-					$table->checkIn($rowArray[$key]);
-				}
-
-				throw ErrorException(JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
-			}
-		}
-
-		$this->setState('save_date', $historyTable->save_date);
-		$this->setState('version_note', $historyTable->version_note);
-
-		return $table->bind($rowArray);
 	}
 
 	/**
@@ -233,7 +181,7 @@ abstract class JModelData extends JModelCms
 	 *
 	 * @return boolean
 	 */
-	protected function isLockable(JTable $table)
+	protected function isLockable($table)
 	{
 		$hasCheckedOut     = (property_exists($table, 'checked_out'));
 		$hasCheckedOutTime = (property_exists($table, 'checked_out_time'));
@@ -255,7 +203,7 @@ abstract class JModelData extends JModelCms
 	 *
 	 * @return boolean
 	 */
-	protected function isLocked(JTable $activeRecord)
+	protected function isLocked($activeRecord)
 	{
 		if ($this->isLockable($activeRecord))
 		{
@@ -270,6 +218,6 @@ abstract class JModelData extends JModelCms
 				return true; // record is locked
 			}
 		}
-		false; // record is not locked
+		return false; // record is not locked
 	}
 }

@@ -41,7 +41,7 @@ abstract class JControllerCreateBase extends JControllerSave
 		}
 		catch (Exception $e)
 		{
-			$this->setUserState();
+			$this->setUserState($model);
 			$msg = $e->getMessage();
 			$this->setRedirect($url, $msg, 'error');
 

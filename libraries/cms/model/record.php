@@ -22,21 +22,16 @@ abstract class JModelRecord extends JModelData
 	 */
 	public function getItem($pk = null)
 	{
-		$config = $this->config;
-
 		if (empty($pk))
 		{
 			$context = $this->getContext();
 			$pk      = (int) $this->getState($context . '.id');
 		}
 
-		$table = $this->getTable();
-
-		$table->load($pk);
-
+		$activeRecord = $this->getActiveRecord($pk);
 
 		// Convert to the JObject before adding other data.
-		$properties = $table->getProperties(1);
+		$properties = $activeRecord->getProperties(1);
 		$item       = JArrayHelper::toObject($properties, 'JObject');
 
 		if (property_exists($item, 'params'))

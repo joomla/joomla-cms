@@ -70,10 +70,10 @@ abstract class JModelCollection extends JModelRecord
 	/**
 	 * Method to add field to filterField and/or to searchFields arrays
 	 *
-	 * @param string  $name        name of the filter I.E. "title"
-	 * @param string  $dataKeyName name of the database key I.E. "a.title"
-	 * @param booleen $sortable    true to add to the filterFields array
-	 * @param booleen $searchable  true to add to the searchFields array
+	 * @param string $name        name of the filter I.E. "title"
+	 * @param string $dataKeyName name of the database key I.E. "a.title"
+	 * @param bool   $sortable    true to add to the filterFields array
+	 * @param bool   $searchable  true to add to the searchFields array
 	 *
 	 * @return JModelList $this to allow for chaining
 	 */
@@ -108,9 +108,9 @@ abstract class JModelCollection extends JModelRecord
 		$query = $this->getListQuery();
 
 		$start = $this->getStart();
-		$limit = $this->getState('list.limit');
+		$limit = $this->getState('list.limit', 0);
 
-		$db->setQuery($query, $start, $limit);
+		$db->setQuery($query, $start, (int) $limit);
 
 		$items = $db->loadObjectList();
 
@@ -128,6 +128,8 @@ abstract class JModelCollection extends JModelRecord
 	 * $query->from($tableName.' AS a');
 	 *
 	 * before appending the active filters.
+	 *
+	 * @param JDatabaseQuery $query
 	 *
 	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
 	 *
@@ -224,12 +226,13 @@ abstract class JModelCollection extends JModelRecord
 	{
 		$db     = JFactory::getDbo();
 		$search = $this->getState('filter.search');
+		$where  = null;
 
 		if (!empty($search))
 		{
 			if (isset($this->searchFields))
 			{
-				$where        = '';
+
 				$searchInList = (array) $this->searchFields;
 
 				$isExact = (JString::strrpos($search, '"'));
@@ -248,7 +251,6 @@ abstract class JModelCollection extends JModelRecord
 				}
 				else
 				{
-					$where  = '';
 					$search = $db->Quote('%' . $db->escape($search, true) . '%');
 
 					$where = '( ';
@@ -259,10 +261,9 @@ abstract class JModelCollection extends JModelRecord
 					$where = substr($where, 0, -3);
 					$where .= ')';
 				}
-
-				return $where;
 			}
 		}
+		return $where; //no search found
 	}
 
 	/**
@@ -377,7 +378,7 @@ abstract class JModelCollection extends JModelRecord
 	 * @param   string  $type      Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
 	 * @param   boolean $resetPage If true, the limitstart in request is set to zero
 	 *
-	 * @return  The request user state.
+	 * @return  mixed  The request user state.
 	 *
 	 * @since   12.2
 	 */
@@ -421,8 +422,7 @@ abstract class JModelCollection extends JModelRecord
 	}
 
 	/**
-	 * (non-PHPdoc)
-	 * @see JModelBase::populateState()
+	 * @see JModelCms::populateState()
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{

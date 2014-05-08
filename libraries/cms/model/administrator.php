@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-abstract class JModelAdministrator extends JModelCollection
+abstract class JModelAdministrator extends JModelUcm
 {
 	/**
 	 * Array of form objects.
@@ -47,7 +47,6 @@ abstract class JModelAdministrator extends JModelCollection
 		// Get dispatcher and include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
 		$dispatcher = $this->getDispatcher();
-		$config     = $this->config;
 		$context    = $this->getContext();
 
 		$result = $dispatcher->trigger('onContentBeforeSave', array($context, $table, true));
@@ -55,16 +54,12 @@ abstract class JModelAdministrator extends JModelCollection
 		if (in_array(false, $result, true))
 		{
 			throw new ErrorException($table->getError());
-
-			return false;
 		}
 
 		// Store the data.
 		if (!$table->store())
 		{
 			throw new ErrorException($table->getError());
-
-			return false;
 		}
 
 		// Clean the cache.
@@ -115,24 +110,24 @@ abstract class JModelAdministrator extends JModelCollection
 	/**
 	 * Method to get a form object.
 	 *
-	 * @param   string  $name    The name of the form.
-	 * @param   string  $source  The form source. Can be XML string if file flag is set to false.
-	 * @param   array   $options Optional array of options for the form creation.
-	 * @param   boolean $clear   Optional argument to force load a new form.
-	 * @param   string  $xpath   An optional xpath to search for the fields.
+	 * @param   string    $name    The name of the form.
+	 * @param   string    $source  The form source. Can be XML string if file flag is set to false.
+	 * @param   array     $config Optional array of options for the form creation.
+	 * @param   boolean   $clear   Optional argument to force load a new form.
+	 * @param bool|string $xpath   An optional xpath to search for the fields.
 	 *
 	 * @return  mixed  JForm object on success, False on error.
 	 *
 	 * @see     JForm
 	 * @since   12.2
 	 */
-	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
+	protected function loadForm($name, $source = null, $config = array(), $clear = false, $xpath = false)
 	{
 		// Handle the optional arguments.
-		$options['control'] = JArrayHelper::getValue($options, 'control', false);
+		$config['control'] = JArrayHelper::getValue($config, 'control', false);
 
 		// Create a signature hash.
-		$hash = md5($source . serialize($options));
+		$hash = md5($source . serialize($config));
 
 		// Check if we can use a previously loaded form.
 		if (isset($this->forms[$hash]) && !$clear)
@@ -146,9 +141,9 @@ abstract class JModelAdministrator extends JModelCollection
 		JForm::addFormPath(JPATH_COMPONENT . '/model/forms');
 		JForm::addFieldPath(JPATH_COMPONENT . '/model/fields');
 
-		$form = JForm::getInstance($name, $source, $options, false, $xpath);
+		$form = JForm::getInstance($name, $source, $config, false, $xpath);
 
-		if (isset($options['load_data']) && $options['load_data'])
+		if (isset($config['load_data']) && $config['load_data'])
 		{
 			// Get the data for the form.
 			$data = $this->loadFormData();
@@ -175,15 +170,19 @@ abstract class JModelAdministrator extends JModelCollection
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
+	 * @param string $context user state variables context prefix
 	 * @return  array    The default data is an empty array.
 	 *
 	 * @since   12.2
 	 */
-	protected function loadFormData()
+	protected function loadFormData($context = null)
 	{
-		$config = $this->config;
+		if(is_null($context))
+		{
+			$context = $this->getContext();
+		}
 
-		$data = JFactory::getApplication()->getUserState($this->getContext() . '.edit.data', array());
+		$data = JFactory::getApplication()->getUserState($context . '.jform.data', array());
 
 		if (empty($data))
 		{
@@ -206,7 +205,7 @@ abstract class JModelAdministrator extends JModelCollection
 	 * @since   12.2
 	 * @throws  Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm($form, $data, $group = 'content')
 	{
 		// Import the appropriate plugin group.
 		JPluginHelper::importPlugin($group);
@@ -236,7 +235,8 @@ abstract class JModelAdministrator extends JModelCollection
 	 * @param   array  $data  The data to validate.
 	 * @param   string $group The name of the field group to validate.
 	 *
-	 * @return  mixed  Array of filtered data if valid, false otherwise.
+	 * @throws ErrorException
+	 * @return  mixed  Array of filtered data if valid
 	 *
 	 * @see     JFormRule
 	 * @see     JFilterInput
@@ -253,9 +253,7 @@ abstract class JModelAdministrator extends JModelCollection
 		}
 		catch (Exception $e)
 		{
-			throw new ErrorException($return->getMessage());
-
-			return false;
+			throw new ErrorException($e->getMessage());
 		}
 
 		// Check the validation results.
@@ -277,8 +275,6 @@ abstract class JModelAdministrator extends JModelCollection
 			}
 
 			throw new ErrorException($msg);
-
-			return false;
 		}
 
 		// Tags B/C break at 3.1.2
@@ -302,7 +298,6 @@ abstract class JModelAdministrator extends JModelCollection
 	{
 
 		$form = $this->getForm($data, false);
-
 		$validData = $this->validate($form, $data);
 
 		$table = $this->getTable();
@@ -313,6 +308,7 @@ abstract class JModelAdministrator extends JModelCollection
 		}
 
 		//prepare the table for store
+		$pk = $data[$table->getKeyName()];
 		$table->load($pk);
 		$table->bind($validData);
 		$table->check();
@@ -327,16 +323,12 @@ abstract class JModelAdministrator extends JModelCollection
 		if (in_array(false, $result, true))
 		{
 			throw new ErrorException($table->getError());
-
-			return false;
 		}
 
 		// Store the data.
 		if (!$table->store())
 		{
 			throw new ErrorException($table->getError());
-
-			return false;
 		}
 
 		// Clean the cache.
@@ -358,21 +350,23 @@ abstract class JModelAdministrator extends JModelCollection
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array $pks An array of record primary keys.
+	 * @param array $cid array of record primary keys.
+	 *
+	 * @throws ErrorException
+	 * @internal param array $pks
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @since   12.2
+	 * @since    12.2
 	 */
 	public function delete($cid)
 	{
-		$config = $this->config;
-		$pks    = (array) $cid;
-		$table  = $this->getTable();
-
 		// Include the content plugins for the on delete events.
 		JPluginHelper::importPlugin('content');
 		$dispatcher = $this->getDispatcher();
+
+		$config = $this->config;
+		$pks    = (array) $cid;
 
 		foreach ($pks AS $pk)
 		{
@@ -388,8 +382,6 @@ abstract class JModelAdministrator extends JModelCollection
 				if (in_array(false, $result, true))
 				{
 					throw new ErrorException($activeRecord->getError());
-
-					return false;
 				}
 
 				$activeRecord->delete($pk);
@@ -399,9 +391,8 @@ abstract class JModelAdministrator extends JModelCollection
 			}
 			else
 			{
-				throw ErrorException('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED');
+				throw new ErrorException('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED');
 
-				return false;
 			}
 		}
 
@@ -417,7 +408,7 @@ abstract class JModelAdministrator extends JModelCollection
 	 * @param mixed  $cid  primary key or array of primary keys.
 	 * @param string $type type of state change.
 	 *
-	 * @see JCmsModelAdmin::getStateTypes
+	 * @see JCmsModelAdministrator::getStateTypes
 	 * @throws ErrorException
 	 * @return boolean
 	 */
@@ -428,15 +419,15 @@ abstract class JModelAdministrator extends JModelCollection
 		if (!array_key_exists($type, $stateChangeTypes))
 		{
 			throw new ErrorException('JLIB_APPLICATION_ERROR_UNRECOGNIZED_STATE_CHANGE');
-
-			return false;
 		}
 
 		$newState = $stateChangeTypes[$type];
 
 		$user = JFactory::getUser();
+		$config = $this->config;
+		$pks    = (array) $cid;
 
-		foreach ((array) $cid AS $i => $pk)
+		foreach ($pks AS $i => $pk)
 		{
 			$activeRecord = $this->getActiveRecord($pk);
 
@@ -455,7 +446,6 @@ abstract class JModelAdministrator extends JModelCollection
 		JPluginHelper::importPlugin('content');
 		$dispatcher = $this->getDispatcher();
 
-		$config  = $this->config;
 		$context = $this->getContext();
 
 		//trigger 'onContentChangeState'
@@ -491,13 +481,13 @@ abstract class JModelAdministrator extends JModelCollection
 	/**
 	 * Method to reorder one or more records
 	 *
-	 * @param array  $pks
+	 * @param array  $cid
 	 * @param string $direction up or down
 	 *
 	 * @throws ErrorException
 	 * @return boolean
 	 */
-	public function reorder($pks, $direction)
+	public function reorder($cid, $direction)
 	{
 		$direction = strtoupper($direction);
 
@@ -514,6 +504,9 @@ abstract class JModelAdministrator extends JModelCollection
 			$delta = null;
 		}
 
+		$config = $this->config;
+		$pks    = (array) $cid;
+
 		foreach ($pks AS $pk)
 		{
 			$activeRecord = $this->getActiveRecord($pk);
@@ -525,7 +518,7 @@ abstract class JModelAdministrator extends JModelCollection
 			}
 			else
 			{
-				throw ErrorException('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED');
+				throw new ErrorException('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED');
 			}
 		}
 
@@ -538,7 +531,7 @@ abstract class JModelAdministrator extends JModelCollection
 	/**
 	 * Saves the manually set order of records.
 	 *
-	 * @param   array   $pks   An array of primary key ids.
+	 * @param   array   $cid   An array of primary key ids.
 	 * @param   integer $order +1 or -1
 	 *
 	 * @throws ErrorException
@@ -546,29 +539,33 @@ abstract class JModelAdministrator extends JModelCollection
 	 *
 	 * @since   12.2
 	 */
-	public function saveorder($pks = null, $order = null)
+	public function saveorder($cid = null, $order = null)
 	{
-		$table          = $this->getTable();
-		$tableClassName = get_class($table);
-		$contentType    = new JUcmType;
-		$type           = $contentType->getTypeByTable($tableClassName);
-		$typeAlias      = $type->type_alias;
-		$tagsObserver   = $table->getObserverOfClass('JTableObserverTags');
-		$conditions     = array();
-
-		if (empty($pks))
+		if (empty($cid))
 		{
 			throw new ErrorException(JText::_('JLIB_APPLICATION_ERROR_NO_ITEMS_SELECTED'));
-
-			return false;
 		}
 
+
+		/*
+		 *  This is something that needs to be worked out once changes to JTable are completed
+		 *  Commented out because I haven't really studied the implementation, so this code might not be correct.
+		 * $table          = $this->getTable();
+		 * $tableClassName = get_class($table);
+		 * $contentType    = new JUcmType;
+		 * $type           = $contentType->getTypeByTable($tableClassName);
+		 * $typeAlias      = $type->type_alias;
+		 * $tagsObserver   = $table->getObserverOfClass('JTableObserverTags');
+		*/
+
+		$conditions     = array();
+		$config = $this->config;
+		$pks    = (array) $cid;
 		// Update ordering values
 		foreach ($pks as $i => $pk)
 		{
 			$activeRecord = $this->getActiveRecord($pk);
 			// Access checks.
-			$config = $this->config;
 			if ($this->allowAction('core.edit.state', $config['option'], $activeRecord))
 			{
 				$activeRecord->ordering = $order[$i];
@@ -577,8 +574,6 @@ abstract class JModelAdministrator extends JModelCollection
 				if (!$activeRecord->store())
 				{
 					throw new ErrorException($activeRecord->getError());
-
-					return false;
 				}
 
 				// Remember to reorder within position and client_id
@@ -602,11 +597,12 @@ abstract class JModelAdministrator extends JModelCollection
 			}
 		}
 
-		// Execute reorder for each category.
+		// Execute reorder for each condition.
 		foreach ($conditions as $cond)
 		{
-			$activeRecord->load($cond[0]);
-			$activeRecord->reorder($cond[1]);
+			$table = $this->getTable();
+			$table->load($cond[0]);
+			$table->reorder($cond[1]);
 		}
 
 		// Clear the component's cache
