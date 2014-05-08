@@ -10,7 +10,7 @@
  * Options can be set through "data" atribute of the JRepeatable container (see example markup)
  *
  * Events:
- * 		$('.form-field-repeatable-container')
+ * 		$('input.form-field-repeatable')
  * 		.on('weready', function(e){
  * 			// fires when JRepeatable initialized
  * 		})
@@ -34,15 +34,8 @@
  *
  * Example fields initial markup:
  *
- * <div class="form-field-repeatable-container"
- * 		data-modal-element="#jform_somename_modal"
- * 		data-repeatable-element="table tbody tr"
- * 		data-bt-add="a.add" data-bt-remove="a.remove"
- * 		data-bt-modal-open="#jform_somename_button"
- * 		data-bt-modal-close="a.close-modal"
- * 		data-maximum="3" data-input="#jform_somename">
- *
- * 	<div id="jform_somename_modal" class="modal hide">
+ * <div id="jform_somename_container">
+ *	<div id="jform_somename_modal" class="modal hide">
  * 		<table>
  * 			<thead>
  * 				<tr>
@@ -66,7 +59,16 @@
  * 	</div>
  * </div>
  * <button id="jform_somename_button" >Open modal</button>
- * <input type="hidden" name="jform[somename]" id="jform_somename" value="" />
+ * <input type="hidden" name="jform[somename]" id="jform_somename" value=""
+ * 		class="form-field-repeatable"
+ * 		data-container="#jform_somename_container"
+ * 		data-modal-element="#jform_somename_modal"
+ * 		data-repeatable-element="table tbody tr"
+ * 		data-bt-add="a.add" data-bt-remove="a.remove"
+ * 		data-bt-modal-open="#jform_somename_button"
+ * 		data-bt-modal-close="a.close-modal"
+ * 		data-maximum="3" data-input="#jform_somename"
+ * 		/>
  *
  * data-repeatable-element="table tbody tr" - means that <tr> inside <tbody> will be repeatable
  */
@@ -74,33 +76,34 @@
 ;(function($){
 	"use strict";
 
-    $.JRepeatable = function(container, options){
+    $.JRepeatable = function(input, options){
         // To avoid scope issues,
         var self = this;
 
         //direct call
         if(!self || self === window){
-        	return new $.JRepeatable(container, options);
+        	return new $.JRepeatable(input, options);
         }
 
-        self.$container = $(container);
+        self.$input = $(input);
 
         // check if alredy exist
-        if(self.$container.data("JRepeatable")){
+        if(self.$input.data("JRepeatable")){
         	return self;
         }
 
-        // Move out form the Form container
-        // for prevent sending to server
-        $('body').append(self.$container);
-
         // Add a reverse reference to the DOM object
-        self.$container.data("JRepeatable", self);
+        self.$input.data("JRepeatable", self);
 
         // method initialize
         self.init = function(){
         	// merge options
             self.options = $.extend({}, $.JRepeatable.defaults, options);
+
+            self.$container = $(self.options.container);
+            // Move out form the Form container
+            // for prevent sending to server
+            $('body').append(self.$container);
 
             // container where the rows is live
             self.$rowsContainer = self.$container.find(self.options.repeatableElement).parent();
@@ -164,7 +167,7 @@
             });
 
             // tell all that we a ready
-            self.$container.trigger('weready');
+            self.$input.trigger('weready');
         };
 
         // prepare a template that we will use repeating
@@ -203,7 +206,7 @@
         	$rows.remove();
 
         	// tell all that the template ready
-            self.$container.trigger('prepare-template', self.template);
+            self.$input.trigger('prepare-template', self.template);
         };
 
         // prepare modal window
@@ -228,7 +231,7 @@
         	self.$modalWindow = modalEl.modal({show: false, backdrop: 'static'});
 
         	// tell all that the modal are ready
-            self.$container.trigger('prepare-modal', self.$modalWindow);
+            self.$input.trigger('prepare-modal', self.$modalWindow);
         };
 
         //resize and count position for the modal popup
@@ -335,7 +338,7 @@
 			}
 
 			// tell all about new row
-            self.$container.trigger('row-add', $row);
+            self.$input.trigger('row-add', $row);
 
         	return $row;
         };
@@ -343,10 +346,9 @@
         // remove row from container
         self.removeRow = function(row){
         	// tell all about row removing
-            self.$container.trigger('row-remove', row);
+            self.$input.trigger('row-remove', row);
 
         	$(row).remove();
-        	//self.refreshValue(); // it will be called on modal close
         };
 
         //fix names ind id`s for field that in $row
@@ -413,7 +415,7 @@
             self.$input.val(JSON.stringify(self.values));
 
             // tell all about value changed
-            self.$container.trigger('value-update', self.values);
+            self.$input.trigger('value-update', self.values);
         };
 
         // remove scripts attached to fields
@@ -506,7 +508,7 @@
     // initialise all available
     // wait when all will be loaded, important for scripts fix
 	$(window).on('load', function(){
-		$('.form-field-repeatable-container').JRepeatable();
+		$('input.form-field-repeatable').JRepeatable();
 	})
 
 })(jQuery);

@@ -82,21 +82,9 @@ class JFormFieldRepeatable extends JFormField
 					. '<tbody><tr>' . implode("\n", $body_row_str) . '</tr></tbody>'
 				. '</table>';
 
-		// Script params
-		$data = array();
-		$data[] = 'data-modal-element="#' . $this->id . '_modal"';
-		$data[] = 'data-repeatable-element="table tbody tr"';
-		$data[] = 'data-bt-add="a.add"';
-		$data[] = 'data-bt-remove="a.remove"';
-		$data[] = 'data-bt-modal-open="#' . $this->id . '_button"';
-		$data[] = 'data-bt-modal-close="button.close-modal"';
-		$data[] = 'data-bt-modal-save-data="button.save-modal-data"';
-		$data[] = 'data-maximum="' . $maximum . '"';
-		$data[] = 'data-input="#' . $this->id . '"';
-
 		// And finaly build a main container
 		$str = array();
-		$str[] = '<div id="' . $this->id . '_container"  class="form-field-repeatable-container" ' . implode(' ', $data) . '>';
+		$str[] = '<div id="' . $this->id . '_container">';
 		// Add the table to modal
 		$str[] = '<div id="' . $this->id . '_modal" class="modal hide">';
 		$str[] =  $table;
@@ -117,9 +105,22 @@ class JFormFieldRepeatable extends JFormField
 			$this->value = array_shift($this->value);
 		}
 
+		// Script params
+		$data = array();
+		$data[] = 'data-container="#' . $this->id . '_container"';
+		$data[] = 'data-modal-element="#' . $this->id . '_modal"';
+		$data[] = 'data-repeatable-element="table tbody tr"';
+		$data[] = 'data-bt-add="a.add"';
+		$data[] = 'data-bt-remove="a.remove"';
+		$data[] = 'data-bt-modal-open="#' . $this->id . '_button"';
+		$data[] = 'data-bt-modal-close="button.close-modal"';
+		$data[] = 'data-bt-modal-save-data="button.save-modal-data"';
+		$data[] = 'data-maximum="' . $maximum . '"';
+		$data[] = 'data-input="#' . $this->id . '"';
+
 		// Hidden input, where the main value is
 		$value = htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
-		$str[] = '<input type="hidden" name="' . $this->name . '" id="' . $this->id . '" value="' . $value . '" />';
+		$str[] = '<input type="hidden" name="' . $this->name . '" id="' . $this->id . '" value="' . $value . '"  class="form-field-repeatable" ' . implode(' ', $data) . ' />';
 
 		// Add scripts
 		JHtml::_('bootstrap.framework');
