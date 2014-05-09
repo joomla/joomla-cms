@@ -962,15 +962,22 @@ abstract class JHtml
 			$done = array();
 		}
 
-		$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
-		$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
-
-		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
-		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
-
 		if (is_array($attribs))
 		{
+			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
+			$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
+
+			$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
+			$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
+			
 			$attribs = JArrayHelper::toString($attribs);
+		}
+		else
+		{
+			// @deprecated  4.0  Use an array instead of a string.
+			JLog::add('Passing a string as $attribs for JHtml::calendar is deprecated, use an array instead.', JLog::WARNING, 'deprecated');	
+		}
+		
 		}
 
 		static::_('bootstrap.tooltip');
