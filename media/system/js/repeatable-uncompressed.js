@@ -118,9 +118,6 @@
             // prepare a row template, and find available field names
             self.prepareTemplate();
 
-            // input for store value
-            self.$input = $(self.options.input);
-
             // check the values and keep it as object
             var val = self.$input.val();
             if(val){
@@ -506,8 +503,7 @@
     	btAdd: "a.add", //  button selector for "add" action
     	btRemove: "a.remove",//  button selector for "remove" action
     	maximum: 10, // maximum repeating
-    	repeatableElement: "table tbody tr",
-    	input: '#values-input' // input where we save a final values
+    	repeatableElement: "table tbody tr"
     };
 
     $.fn.JRepeatable = function(options){
