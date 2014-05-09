@@ -978,8 +978,6 @@ abstract class JHtml
 			JLog::add('Passing a string as $attribs for JHtml::calendar is deprecated, use an array instead.', JLog::WARNING, 'deprecated');	
 		}
 		
-		}
-
 		static::_('bootstrap.tooltip');
 
 		// Format value when not '0000-00-00 00:00:00', otherwise blank it as it would result in 1970-01-01.
