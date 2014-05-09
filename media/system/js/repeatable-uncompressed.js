@@ -121,10 +121,28 @@
             // input for store value
             self.$input = $(self.options.input);
 
-            // check the values and keep as object
+            // check the values and keep it as object
             var val = self.$input.val();
             if(val){
-            	self.values = JSON.parse(val);
+            	// value can be not valid JSON
+            	try {
+            		self.values = JSON.parse(val);
+				} catch (e) {
+					if(e instanceof SyntaxError){
+						// guess there a single quote problem
+						try {
+							val = val.replace(/'/g, '"').replace(/\\"/g, "\'");// ho ho ho
+		            		self.values = JSON.parse(val);
+						} catch (e) {
+							// nop
+							if(window.console){
+    							console.log(e);
+    						}
+						}
+					} else if(window.console){
+						console.log(e);
+					}
+				}
             }
 
             // so init the form depend from values that we have
@@ -470,7 +488,9 @@
         	});
 
         	// another modals
-        	SqueezeBox.assign($row.find('a.modal').get(), {parse: 'rel'});
+        	if(window.SqueezeBox){
+        		SqueezeBox.assign($row.find('a.modal').get(), {parse: 'rel'});
+        	}
         };
 
         // Run initializer
