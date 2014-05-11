@@ -76,7 +76,17 @@ class PlgSystemRedirect extends JPlugin
 			// If a redirect exists and is published, permanently redirect.
 			if ($link and ($link->published == 1))
 			{
-				$app->redirect($link->new_url, true);
+				// When SEF is enabled saved non-SEF link should be redirected to SEF link.
+				if (JFactory::getConfig()->get('sef') == 1 && stristr($link->new_url, 'option=com_') == true)
+				{
+					// Site's URL is to be removed before applying JRoute.
+					$new_url = str_ireplace(JUri::base(), '', $link->new_url);
+					$app->redirect(JRoute::_($new_url));
+				}
+				else
+				{
+					$app->redirect($link->new_url, true);
+				}
 			}
 			else
 			{
