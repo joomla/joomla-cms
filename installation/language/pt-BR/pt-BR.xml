@@ -3,12 +3,12 @@
 	version="1.3"
 	client="installation">
 	<name>Portugués (Brasil)</name>
-	<version>1.3.0</version>
-	<creationDate>31-03-2013</creationDate>
+	<version>1.3.3</version>
+	<creationDate>17-05-2014</creationDate>
 	<author>Comunidade Juuntos.net</author>
 	<copyright>Copyleft 2012 - 2013 Comunidade Juuntos y Jokte.org</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Idioma de instalação Joomla para português europeu pt-PT - Com acordo ortográfico</description>
+	<description>Idioma de instalação Joomla!&trade; para português europeu pt-PT - Com acordo ortográfico</description>
 	<files>
 		<filename>pt-BR.ini</filename>
 	</files>
