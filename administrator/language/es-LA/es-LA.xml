@@ -7,7 +7,7 @@
 	<author>Spanish Translation Team: Comunidad Joomla</author>
 	<authorEmail>info@comunidadjoomla.org</authorEmail>
 	<authorUrl>juuntos.org</authorUrl>
-	<copyright>Copyleft 2012 - 2013 juuntos.org. All rights free.</copyright>
+	<copyright>Copyleft 2012 - 2014 juuntos.net. All rights free.</copyright>
 	<license>GNU General Public License versión 2 o superior; ver LICENSE.txt</license>
 	<description>Idioma Español latinoamericano para vista Administración, creado por Juuntos/Jokte! en base a traducción de Comunidad Joomla.org</description>
 	<files>
@@ -102,7 +102,7 @@
 		<filename>es-LA.plg_content_emailcloak.sys.ini</filename>
 		<filename>es-LA.plg_content_geshi.ini</filename>
 		<filename>es-LA.plg_content_geshi.sys.ini</filename>
-                <filename>es-LA.plg_content_joomla.ini</filename>
+        <filename>es-LA.plg_content_joomla.ini</filename>
 		<filename>es-LA.plg_content_joomla.sys.ini</filename>
 		<filename>es-LA.plg_content_loadmodule.ini</filename>
 		<filename>es-LA.plg_content_loadmodule.sys.ini</filename>
