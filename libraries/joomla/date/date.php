@@ -107,7 +107,6 @@ class JDate extends DateTime
 		// Only continue if $date is valid by strtotime()
 		if (strtotime($date) === false)
 		{
-			// @todo: Send a message to the User that the Date is not valid.
 			return false;
 		}
 		
