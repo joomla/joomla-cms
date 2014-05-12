@@ -169,7 +169,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @param   string   $repo    The name of the GitHub repository.
 	 * @param   integer  $number  The issue number.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 *
 	 * @return  object
 	 */
@@ -192,7 +192,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @param   string  $number  The issue number.
 	 * @param   array   $labels  An array of labels to add.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 *
 	 * @return  object
 	 */
@@ -215,7 +215,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @param   string  $number  The issue number.
 	 * @param   string  $name    The name of the label to remove.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 *
 	 * @return  object
 	 */
@@ -239,7 +239,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @param   string  $number  The issue number.
 	 * @param   array   $labels  New labels
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 *
 	 * @return  object
 	 */
@@ -261,7 +261,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @param   string  $repo    The name of the GitHub repository.
 	 * @param   string  $number  The issue number.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 *
 	 * @return  object
 	 */
@@ -284,7 +284,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @param   string  $repo    The name of the GitHub repository.
 	 * @param   string  $number  The issue number.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 *
 	 * @return  object
 	 */

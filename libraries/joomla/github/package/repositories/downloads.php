@@ -30,7 +30,7 @@ class JGithubPackageRepositoriesDownloads extends JGithubPackage
 	 * @param   string  $owner  The name of the owner of the GitHub repository.
 	 * @param   string  $repo   The name of the GitHub repository.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -52,7 +52,7 @@ class JGithubPackageRepositoriesDownloads extends JGithubPackage
 	 * @param   string   $repo   The name of the GitHub repository.
 	 * @param   integer  $id     The id of the download.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -79,7 +79,7 @@ class JGithubPackageRepositoriesDownloads extends JGithubPackage
 	 * @param   string  $description   The description.
 	 * @param   string  $content_type  The content type.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -148,7 +148,7 @@ class JGithubPackageRepositoriesDownloads extends JGithubPackage
 	 * @param   string  $file                   Local file. Example assumes the file existing in the directory
 	 *                                          where you are running the curl command. Yes, the @ matters.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return boolean
 	 */
@@ -184,7 +184,7 @@ class JGithubPackageRepositoriesDownloads extends JGithubPackage
 	 * @param   string   $repo   The name of the GitHub repository.
 	 * @param   integer  $id     The id of the download.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */

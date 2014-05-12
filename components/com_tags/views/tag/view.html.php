@@ -103,6 +103,11 @@ class TagsViewTag extends JViewLegacy
 				$results = $dispatcher->trigger('onContentAfterDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
 				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 
+				// Write the results back into the body
+				if (!empty($itemElement->core_body))
+				{
+					$itemElement->core_body = $itemElement->text;
+				}
 			}
 		}
 

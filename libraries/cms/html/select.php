@@ -141,10 +141,24 @@ abstract class JHtmlSelect
 	 *
 	 * @return  string  HTML for the select list
 	 *
-	 * @since   3.2
+	 * @since       3.2
+	 * @deprecated  4.0  Just create the <datalist> directly instead
 	 */
-	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag, $translate = false)
+	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag = null, $translate = false)
 	{
+		// Log deprecated message
+		JLog::add(
+			'JHtmlSelect::suggestionlist() is deprecated. Create the <datalist> tag directly instead.',
+			JLog::WARNING,
+			'deprecated'
+		);
+
+		// Note: $idtag is requried but has to be an optional argument in the funtion call due to argument order
+		if (!$idtag)
+		{
+			throw new InvalidArgumentException('$idtag is a required argument in deprecated JHtmlSelect::suggestionlist');
+		}
+
 		// Set default options
 		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
 

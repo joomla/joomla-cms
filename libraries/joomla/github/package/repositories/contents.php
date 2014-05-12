@@ -60,7 +60,7 @@ class JGithubPackageRepositoriesContents extends JGithubPackage
 	 * @param   string  $repo   The name of the GitHub repository.
 	 * @param   string  $ref    The String name of the Commit/Branch/Tag. Defaults to master.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -121,7 +121,7 @@ class JGithubPackageRepositoriesContents extends JGithubPackage
 	 * @param   string  $path   The content path.
 	 * @param   string  $ref    The String name of the Commit/Branch/Tag. Defaults to master.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -178,7 +178,7 @@ class JGithubPackageRepositoriesContents extends JGithubPackage
 	 * @param   string  $ref             The String name of the Commit/Branch/Tag. Defaults to master.
 	 *
 	 * @throws UnexpectedValueException
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */

@@ -30,7 +30,7 @@ class JGithubPackageRepositoriesCollaborators extends JGithubPackage
 	 * @param   string  $owner  The name of the owner of the GitHub repository.
 	 * @param   string  $repo   The name of the GitHub repository.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -52,7 +52,7 @@ class JGithubPackageRepositoriesCollaborators extends JGithubPackage
 	 * @param   string  $user   The name of the GitHub user.
 	 *
 	 * @throws UnexpectedValueException
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return boolean
 	 */
@@ -86,7 +86,7 @@ class JGithubPackageRepositoriesCollaborators extends JGithubPackage
 	 * @param   string  $repo   The name of the GitHub repository.
 	 * @param   string  $user   The name of the GitHub user.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -108,7 +108,7 @@ class JGithubPackageRepositoriesCollaborators extends JGithubPackage
 	 * @param   string  $repo   The name of the GitHub repository.
 	 * @param   string  $user   The name of the GitHub user.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */

@@ -76,12 +76,12 @@ class PlgSearchTags extends JPlugin
 		}
 
 		$text = trim($text);
-		
+
 		if ($text == '')
 		{
 			return array();
 		}
-		
+
 		$text = $db->quote('%' . $db->escape($text, true) . '%', false);
 
 		switch ($ordering)
@@ -184,9 +184,8 @@ class PlgSearchTags extends JPlugin
 					}
 				}
 			}
-			
+
 			return $final_items;
 		}
 	}
 }
-

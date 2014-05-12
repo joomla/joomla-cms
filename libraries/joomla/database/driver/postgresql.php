@@ -399,7 +399,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 					'Type' => $field->type,
 					'Null' => $field->null,
 					// TODO: Improve query above to return primary key info as well
-					//'Key' => ($field->PK == '1' ? 'PRI' : '')
+					// 'Key' => ($field->PK == '1' ? 'PRI' : '')
 				);
 			}
 		}

@@ -251,7 +251,7 @@ class JGithubPackageAuthorization extends JGithubPackage
 	 * @param   string  $state         An unguessable random string. It is used to protect against
 	 *                                 cross-site request forgery attacks.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return JUri
 	 */
@@ -289,7 +289,7 @@ class JGithubPackageAuthorization extends JGithubPackage
 	 * @param   string  $format         The response format (json, xml, ).
 	 *
 	 * @throws UnexpectedValueException
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return string
 	 */
