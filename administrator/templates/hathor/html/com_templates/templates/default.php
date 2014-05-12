@@ -80,6 +80,21 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
+		            <?php
+		                    if (!$item->xmldata){
+		                        $xmldata = new JObject;
+		                        $xmldata->set("version", "--");
+		                        $xmldata->set("creationDate", "--");
+		                    }else{
+		                        $xmldata = unserialize(serialize($item->xmldata));
+		                        if (!$xmldata->get('version')){
+		                            $xmldata->set("version", '--');
+		                        }
+		                        if (!$xmldata->get('creationDate')){
+		                            $xmldata->set("creationDate", '--');
+		                        }
+		                    }
+		            ?>
 				<td class="center">
 					<?php echo JHtml::_('templates.thumb', $item->element, $item->client_id); ?>
 				</td>
@@ -102,21 +117,21 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 				</td>
 				<td class="center">
-					<?php echo $this->escape($item->xmldata->get('version')); ?>
+					<?php echo $this->escape($xmldata->get('version')); ?>
 				</td>
 				<td class="center">
-					<?php echo $this->escape($item->xmldata->get('creationDate')); ?>
+					<?php echo $this->escape($xmldata->get('creationDate')); ?>
 				</td>
 				<td>
-					<?php if ($author = $item->xmldata->get('author')) : ?>
+					<?php if ($author = $xmldata->get('author')) : ?>
 						<p><?php echo $this->escape($author); ?></p>
 					<?php else : ?>
 						&mdash;
 					<?php endif; ?>
-					<?php if ($email = $item->xmldata->get('authorEmail')) : ?>
+					<?php if ($email = $xmldata->get('authorEmail')) : ?>
 						<p><?php echo $this->escape($email); ?></p>
 					<?php endif; ?>
-					<?php if ($url = $item->xmldata->get('authorUrl')) : ?>
+					<?php if ($url = $xmldata->get('authorUrl')) : ?>
 						<p><a href="<?php echo $this->escape($url); ?>">
 							<?php echo $this->escape($url); ?></a></p>
 					<?php endif; ?>
