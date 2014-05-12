@@ -104,10 +104,10 @@ class JDate extends DateTime
 		date_default_timezone_set('UTC');
 		$date = is_numeric($date) ? date('c', $date) : $date;
 		
-		//Only continue if $date is valid by strtotime()
-		if(strtotime($date) === false)
+		// Only continue if $date is valid by strtotime()
+		if (strtotime($date) === false)
 		{
-			//@todo: Send a message to the User that the Date is not valid.
+			// @todo: Send a message to the User that the Date is not valid.
 			return false;
 		}
 		
