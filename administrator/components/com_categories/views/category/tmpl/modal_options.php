@@ -9,6 +9,25 @@
 
 defined('_JEXEC') or die;
 
+<<<<<<< HEAD
+	foreach ($fieldSets as $name => $fieldSet) :
+		$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_'.$name.'_FIELDSET_LABEL';
+		echo JHtml::_('bootstrap.addSlide', 'categoryOptions', JText::_($label), 'collapse' . $i++);
+			if (isset($fieldSet->description) && trim($fieldSet->description)) :
+				echo '<p class="tip">' . JText::_($fieldSet->description) . '</p>';
+			endif;
+			?>
+				<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+						<div class="controls">
+							<?php echo $field->input; ?>
+						</div>
+					</div>
+				<?php endforeach; ?>
+=======
 echo JHtml::_('bootstrap.startAccordion', 'categoryOptions', array('active' => 'collapse0'));
 $fieldSets = $this->form->getFieldsets('params');
 $i = 0;
@@ -19,7 +38,7 @@ $i = 0;
 	echo JHtml::_('bootstrap.addSlide', 'categoryOptions', JText::_($label), 'collapse' . $i++);
 	if (isset($fieldSet->description) && trim($fieldSet->description))
 	{
-		echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
+		echo '<p class="tip">' . JText::_($fieldSet->description) . '</p>';
 	}
 	?>
 	<?php foreach ($this->form->getFieldset($name) as $field) : ?>
@@ -32,6 +51,7 @@ $i = 0;
 			</div>
 		</div>
 	<?php endforeach; ?>
+>>>>>>> 3929524d0fa9a3fd0cfa97f7789990ec37f206b3
 
 	<?php if ($name == 'basic'): ?>
 		<div class="control-group">

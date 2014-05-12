@@ -19,7 +19,7 @@ foreach ($this->fieldsets as $name => $fieldset)
 
 		if (isset($fieldset->description) && trim($fieldset->description))
 		{
-			echo '<p class="tip">' . $this->escape(JText::_($fieldset->description)) . '</p>';
+			echo '<p class="tip">' . JText::_($fieldset->description) . '</p>';
 		}
 
 		$hidden_fields = '';
