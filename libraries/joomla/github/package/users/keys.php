@@ -27,7 +27,7 @@ class JGithubPackageUsersKeys extends JGithubPackage
 	 *
 	 * @param   string  $user  The name of the user.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -48,7 +48,7 @@ class JGithubPackageUsersKeys extends JGithubPackage
 	 * Management of public keys via the API requires that you are authenticated
 	 * through basic auth, or OAuth with the ‘user’ scope.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -67,7 +67,7 @@ class JGithubPackageUsersKeys extends JGithubPackage
 	 *
 	 * @param   integer  $id  The id of the key.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -87,7 +87,7 @@ class JGithubPackageUsersKeys extends JGithubPackage
 	 * @param   string  $title  The title of the key.
 	 * @param   string  $key    The key.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -114,7 +114,7 @@ class JGithubPackageUsersKeys extends JGithubPackage
 	 * @param   string   $title  The title of the key.
 	 * @param   string   $key    The key.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -138,7 +138,7 @@ class JGithubPackageUsersKeys extends JGithubPackage
 	 *
 	 * @param   integer  $id  The id of the key.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */

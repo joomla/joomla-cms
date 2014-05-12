@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub.Orgs
- * @since       ¿
+ * @since       3.3 (CMS)
  *
  * @documentation  http://developer.github.com/v3/orgs/
  *
@@ -36,7 +36,7 @@ class JGithubPackageOrgs extends JGithubPackage
 	 *
 	 * @param   string  $user  The user name.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 *
 	 * @return  object
 	 */
@@ -58,7 +58,7 @@ class JGithubPackageOrgs extends JGithubPackage
 	 *
 	 * @param   string  $org  The organization name.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 *
 	 * @return  object
 	 */
@@ -83,7 +83,7 @@ class JGithubPackageOrgs extends JGithubPackage
 	 * @param   string  $location      The location name.
 	 * @param   string  $name          The name.
 	 *
-	 * @since   ¿
+	 * @since   3.3 (CMS)
 	 *
 	 * @return  object
 	 */

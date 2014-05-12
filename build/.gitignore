@@ -4,5 +4,5 @@
 /logs
 /pdepend
 
-# Ignore the folder the build script places its data in #
+# Ignore the folder the build script creates for packages
 /tmp

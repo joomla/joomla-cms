@@ -34,7 +34,7 @@ class JGithubPackageUsersEmails extends JGithubPackage
 	 * Until API v3 is finalized, use the application/vnd.github.v3 media type
 	 * to get this response format.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -53,7 +53,7 @@ class JGithubPackageUsersEmails extends JGithubPackage
 	 *
 	 * @param   string|array  $email  The email address(es).
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -73,7 +73,7 @@ class JGithubPackageUsersEmails extends JGithubPackage
 	 *
 	 * @param   string|array  $email  The email address(es).
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */

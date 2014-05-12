@@ -28,7 +28,7 @@ class JGithubPackageGitignore extends JGithubPackage
 	 *
 	 * List all templates available to pass as an option when creating a repository.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -49,7 +49,7 @@ class JGithubPackageGitignore extends JGithubPackage
 	 * @param   boolean  $raw   Raw output
 	 *
 	 * @throws DomainException
-	 * @since  ¿
+	 * @since  3.3 (CMS)
 	 *
 	 * @return mixed|string
 	 */

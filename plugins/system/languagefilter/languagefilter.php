@@ -58,7 +58,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		if (!self::$default_lang)
 		{
 			$app = JFactory::getApplication();
-			$router = $app->getRouter();
+			$router = $app::getRouter();
 
 			if ($app->isSite())
 			{
@@ -152,7 +152,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			self::$tag = JFactory::getLanguage()->getTag();
 
-			$router = $app->getRouter();
+			$router = $app::getRouter();
 
 			// Attach build rules for language SEF.
 			$router->attachBuildRule(array($this, 'buildRule'));

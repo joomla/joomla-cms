@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub.Activity
- * @since       ¿
+ * @since       3.3 (CMS)
  */
 class JGithubPackageActivityWatching extends JGithubPackage
 {
@@ -26,7 +26,7 @@ class JGithubPackageActivityWatching extends JGithubPackage
 	 * @param   string  $owner  Repository owner.
 	 * @param   string  $repo   Repository name.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return mixed
 	 */
@@ -47,7 +47,7 @@ class JGithubPackageActivityWatching extends JGithubPackage
 	 *
 	 * @param   string  $user  User name.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return mixed
 	 */
@@ -69,7 +69,7 @@ class JGithubPackageActivityWatching extends JGithubPackage
 	 * @param   string  $owner  Repository owner.
 	 * @param   string  $repo   Repository name.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return mixed
 	 */
@@ -91,7 +91,7 @@ class JGithubPackageActivityWatching extends JGithubPackage
 	 * @param   boolean  $subscribed  Determines if notifications should be received from this thread.
 	 * @param   boolean  $ignored     Determines if all notifications should be blocked from this thread.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -116,7 +116,7 @@ class JGithubPackageActivityWatching extends JGithubPackage
 	 * @param   string  $owner  Repository owner.
 	 * @param   string  $repo   Repository name.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -140,7 +140,7 @@ class JGithubPackageActivityWatching extends JGithubPackage
 	 * @param   string  $repo   Repository name.
 	 *
 	 * @throws UnexpectedValueException
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -175,7 +175,7 @@ class JGithubPackageActivityWatching extends JGithubPackage
 	 * @param   string  $owner  Repository owner.
 	 * @param   string  $repo   Repository name.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -198,7 +198,7 @@ class JGithubPackageActivityWatching extends JGithubPackage
 	 * @param   string  $owner  Repository owner.
 	 * @param   string  $repo   Repository name.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */

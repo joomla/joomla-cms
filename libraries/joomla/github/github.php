@@ -53,15 +53,15 @@ class JGithub
 	protected $client;
 
 	/**
-	 * @var array  List of known packages.
-	 * @since  ¿
+	 * @var    array  List of known packages.
+	 * @since  3.3 (CMS)
 	 */
 	protected $packages = array('activity', 'authorization', 'data', 'gists', 'gitignore', 'issues',
 		'markdown', 'orgs', 'pulls', 'repositories', 'users');
 
 	/**
-	 * @var array  List of known legacy packages.
-	 * @since  ¿
+	 * @var    array  List of known legacy packages.
+	 * @since  3.3 (CMS)
 	 */
 	protected $legacyPackages = array('refs', 'forks', 'commits', 'milestones', 'statuses', 'account', 'hooks', 'meta');
 

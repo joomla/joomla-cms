@@ -14,19 +14,19 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub
- * @since       ¿
+ * @since       3.3 (CMS)
  */
 abstract class JGithubPackage extends JGithubObject
 {
 	/**
-	 * @var string
-	 * @since ¿
+	 * @var    string
+	 * @since  3.3 (CMS)
 	 */
 	protected $name = '';
 
 	/**
-	 * @var array
-	 * @since ¿
+	 * @var    array
+	 * @since  3.3 (CMS)
 	 */
 	protected $packages = array();
 
@@ -35,10 +35,10 @@ abstract class JGithubPackage extends JGithubObject
 	 *
 	 * @param   string  $name  Name of property to retrieve
 	 *
-	 * @throws RuntimeException
-	 * @since   ¿
-	 *
 	 * @return  JGithubPackage  GitHub API package object.
+	 *
+	 * @since   3.3 (CMS)
+	 * @throws  RuntimeException
 	 */
 	public function __get($name)
 	{

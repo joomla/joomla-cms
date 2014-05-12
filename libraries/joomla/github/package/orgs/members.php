@@ -33,7 +33,7 @@ class JGithubPackageOrgsMembers extends JGithubPackage
 	 * @param   string  $org  The name of the organization.
 	 *
 	 * @throws UnexpectedValueException
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return boolean|mixed
 	 */
@@ -70,7 +70,7 @@ class JGithubPackageOrgsMembers extends JGithubPackage
 	 * @param   string  $user  The name of the user.
 	 *
 	 * @throws UnexpectedValueException
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return boolean
 	 */
@@ -120,7 +120,7 @@ class JGithubPackageOrgsMembers extends JGithubPackage
 	 * @param   string  $org   The name of the organization.
 	 * @param   string  $user  The name of the user.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -142,7 +142,7 @@ class JGithubPackageOrgsMembers extends JGithubPackage
 	 *
 	 * @param   string  $org  The name of the organization.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -163,7 +163,7 @@ class JGithubPackageOrgsMembers extends JGithubPackage
 	 * @param   string  $user  The name of the user.
 	 *
 	 * @throws UnexpectedValueException
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -198,7 +198,7 @@ class JGithubPackageOrgsMembers extends JGithubPackage
 	 * @param   string  $org   The name of the organization.
 	 * @param   string  $user  The name of the user.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -219,7 +219,7 @@ class JGithubPackageOrgsMembers extends JGithubPackage
 	 * @param   string  $org   The name of the organization.
 	 * @param   string  $user  The name of the user.
 	 *
-	 * @since    ¿
+	 * @since    3.3 (CMS)
 	 *
 	 * @return object
 	 */

@@ -25,7 +25,7 @@ class JGithubPackageUsersFollowers extends JGithubPackage
 	 *
 	 * @param   string  $user  The name of the user. If not set the current authenticated user will be used.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -46,7 +46,7 @@ class JGithubPackageUsersFollowers extends JGithubPackage
 	 *
 	 * @param   string  $user  The name of the user. If not set the current authenticated user will be used.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -68,7 +68,7 @@ class JGithubPackageUsersFollowers extends JGithubPackage
 	 * @param   string  $user  The name of the user.
 	 *
 	 * @throws UnexpectedValueException
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return boolean
 	 */
@@ -105,7 +105,7 @@ class JGithubPackageUsersFollowers extends JGithubPackage
 	 *
 	 * @param   string  $user  The name of the user.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
@@ -128,7 +128,7 @@ class JGithubPackageUsersFollowers extends JGithubPackage
 	 *
 	 * @param   string  $user  The name of the user.
 	 *
-	 * @since ¿
+	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
