@@ -336,7 +336,12 @@ class JImage
 		{
 			$top = round(($this->getHeight() - $height) / 2);
 
-			$top = $top < 0 ? 0 : $top;
+			if ($top < 0)
+			{
+				$height += $top;
+
+				$top    = 0;
+			}
 		}
 
 		// Sanitize left.
