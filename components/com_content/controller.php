@@ -71,6 +71,17 @@ class ContentController extends JControllerLegacy
 			return JError::raiseError(403, JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 		}
 
+		// trigger hit of article
+		if ($vName == 'article' && $model = $this->getModel($vName))
+		{
+			$state = $model->getState();
+			$params = $state->get('params');
+			$offset = $state->get('list.offset');
+			if (!$params->get('intro_only') && $offset == 0) {
+				$model->hit();
+			}
+		}
+
 		parent::display($cachable, $safeurlparams);
 
 		return $this;
