@@ -190,10 +190,12 @@ class JFormFieldText extends JFormField
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		// Get the field options for the datalist.
 		$datalist = '';
 		$list     = '';
-		$options  = (array) $this->getOptions();
+
+		/* Get the field options for the datalist.
+		Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
+		$options  = (array) $this->getSuggestions();
 
 		if ($options)
 		{
@@ -226,7 +228,7 @@ class JFormFieldText extends JFormField
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   3.3
+	 * @since   3.4
 	 */
 	protected function getOptions()
 	{
@@ -260,13 +262,6 @@ class JFormFieldText extends JFormField
 	 */
 	protected function getSuggestions()
 	{
-		// Log deprecated message
-		JLog::add(
-			'JFormFieldText->getSuggestions() is deprecated. Use getOptions() instead.',
-			JLog::WARNING,
-			'deprecated'
-		);
-
 		return $this->getOptions();
 	}
 }
