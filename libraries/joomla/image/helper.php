@@ -81,6 +81,7 @@ abstract class JImageHelper
 			'bits' => isset($info['bits']) ? $info['bits'] : null,
 			'channels' => isset($info['channels']) ? $info['channels'] : null,
 			'mime' => $info['mime'],
+			'filesize' => filesize($path),
 			'orientation' => JImageHelper::getOrientation((int) $info[0], (int) $info[1])
 		);
 
