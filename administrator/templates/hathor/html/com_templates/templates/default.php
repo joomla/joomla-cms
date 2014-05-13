@@ -81,12 +81,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php foreach ($this->items as $i => $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 		            <?php
+		                    $xmldata = new JRegistry;
 		                    if (!$item->xmldata){
-		                        $xmldata = new JObject;
 		                        $xmldata->set("version", "--");
 		                        $xmldata->set("creationDate", "--");
 		                    }else{
-		                        $xmldata = unserialize(serialize($item->xmldata));
+		                        $xmldata->loadObject($item->xmldata);
 		                        if (!$xmldata->get('version')){
 		                            $xmldata->set("version", '--');
 		                        }
