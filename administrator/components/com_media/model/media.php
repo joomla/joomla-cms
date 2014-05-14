@@ -174,12 +174,16 @@ class MediaModelMedia extends ConfigModelForm
 		
 		$row = JTable::getInstance('Corecontent');
 
+		// Get type_id fron content_type table
+		$type = new JUcmType;
+		$typeId = $type->getTypeId('com_media.image');
+
 		$data = array();
 		$data['core_urls'] = $file['filepath'];
 
 		$fname = explode('.', $file['name']);
-		$data['core_type_id'] = '11';
-		$data['core_content_item_id'] = '11';
+		$data['core_type_id'] = $typeId;
+		$data['core_content_item_id'] = $typeId;
 		$data['core_type_alias'] = 'com_media.image';
 		$data['core_title'] = $fname[0];
 		$data['core_alias'] = JFilterOutput::stringURLSafe($fname[0]);

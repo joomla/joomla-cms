@@ -37,18 +37,6 @@ class MediaModelEditor extends JModelCmsitem
 	 */
 	protected $cache;
 	
-	/**
-	 * @var  string  The event to trigger after saving the data.
-	 * @since   3.2
-	 */
-	protected $event_after_save = 'onExtensionAfterSave';
-	
-	/**
-	 * @var     string  The event to trigger after before the data.
-	 * @since   3.2
-	 */
-	protected $event_before_save = 'onExtensionBeforeSave';
-
 	
 	/**
 	 * Method to checkin a row in #__ucm_content.
@@ -149,8 +137,7 @@ class MediaModelEditor extends JModelCmsitem
 	 * @return  mixed   Object on success, false on failure.
 	 */
 	public function getItem($pk = null)
-	{	
-// 		$pk = (!empty($pk)) ? $pk : (int) $this->state->get('media.id');
+	{
 		$input = JFactory::getApplication()->input;
 		$pk = (!empty($pk)) ? $pk :$input->get('id');
 	
@@ -240,7 +227,7 @@ class MediaModelEditor extends JModelCmsitem
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-// 		$data = JFactory::getApplication()->getUserState('com_corecontent.edit.item.data', array());
+		$data = JFactory::getApplication()->getUserState('com_media.edit.item.data', array());
 	
 		if (empty($data))
 		{
@@ -277,14 +264,17 @@ class MediaModelEditor extends JModelCmsitem
 	 */
 	protected function populateState()
 	{
-		// Execute the parent method.
-		parent::populateState();
-	
-		$app = JFactory::getApplication('administrator');
-	
-		// Load the User state.
-// 		$pk = $app->input->getInt('extension_id');
-// 		$this->state->set('plugin.id', $pk);
+
+		$app = JFactory::getApplication();
+		
+		$id = isset($this->id) && $this->id != 0 ? $this->id : $app->input->getInt('id');
+		
+		$this->state->set('core_content_id', $id);
+		
+		// Load the parameters.
+		$params = JComponentHelper::getParams('com_media');
+		$this->state->set('core_params', $params);
+
 	}
 
 	/**
