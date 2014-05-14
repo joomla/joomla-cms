@@ -53,9 +53,9 @@ class MediaControllerFile extends JControllerLegacy
 
 		if (
 			$_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024) ||
-			$_SERVER['CONTENT_LENGTH'] > (int) (ini_get('upload_max_filesize')) * 1024 * 1024 ||
-			$_SERVER['CONTENT_LENGTH'] > (int) (ini_get('post_max_size')) * 1024 * 1024 ||
-			$_SERVER['CONTENT_LENGTH'] > (int) (ini_get('memory_limit')) * 1024 * 1024
+			$_SERVER['CONTENT_LENGTH'] > $this->toBytes(ini_get('upload_max_filesize')) ||
+			$_SERVER['CONTENT_LENGTH'] > $this->toBytes(ini_get('post_max_size')) ||
+			$_SERVER['CONTENT_LENGTH'] > $this->toBytes(ini_get('memory_limit'))
 		)
 		{
 			$response = array(
@@ -177,6 +177,26 @@ class MediaControllerFile extends JControllerLegacy
 
 			echo json_encode($response);
 			return;
+		}
+	}
+
+	/**
+	 * Small helper function that properly converts any
+	 * configuration options to their byte representation.
+	 *
+	 * @see http://www.php.net/manual/en/function.ini-get.php
+	 *
+	 * @param  string|integer $val The value to be converted to bytes.
+	 * @return integer             The calculated bytes value from the input.
+	 */
+	private function toBytes($val)
+	{
+		switch ($val[strlen($val) - 1])
+		{
+			case 'M': case 'm': return (int) $val * 1048576;
+			case 'K': case 'k': return (int) $val * 1024;
+			case 'G': case 'g': return (int) $val * 1073741824;
+			default: return $val;
 		}
 	}
 }
