@@ -125,25 +125,4 @@ abstract class MediaHelper
 
 		return $mediaHelper->countFiles($dir);
 	}
-
-	/**
-	 * Small helper function that properly converts any
-	 * configuration options to their byte representation.
-	 *
-	 * @link http://www.php.net/manual/en/function.ini-get.php
-	 *
-	 * @param  string|integer $val The value to be converted to bytes.
-	 *
-	 * @return integer             The calculated bytes value from the input.
-	 *
-	 * @since 3.3
-	 * @deprecated 4.0 Use JHelperMedia::toBytes instead
-	 */
-	public static function toBytes($val)
-	{
-		JLog::add('MediaHelper::toBytes() is deprecated. Use JHelperMedia::toBytes() instead.', JLog::WARNING, 'deprecated');
-		$mediaHelper = new JHelperMedia;
-
-		return $mediaHelper->toBytes($val);
-	}
 }
