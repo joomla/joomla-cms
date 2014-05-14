@@ -285,4 +285,34 @@ class JHelperMedia
 
 		return array($total_file, $total_dir);
 	}
+
+	/**
+	 * Small helper function that properly converts any
+	 * configuration options to their byte representation.
+	 *
+	 * @link http://www.php.net/manual/en/function.ini-get.php
+	 *
+	 * @param  string|integer $val The value to be converted to bytes.
+	 *
+	 * @return integer             The calculated bytes value from the input.
+	 *
+	 * @since 3.3
+	 */
+	public function toBytes($val)
+	{
+		switch ($val[strlen($val) - 1])
+		{
+			case 'M':
+			case 'm':
+				return (int) $val * 1048576;
+			case 'K':
+			case 'k':
+				return (int) $val * 1024;
+			case 'G':
+			case 'g':
+				return (int) $val * 1073741824;
+			default:
+				return $val;
+		}
+	}
 }
