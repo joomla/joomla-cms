@@ -847,10 +847,13 @@ class JControllerLegacy extends JObject
 
 		if (empty($prefix))
 		{
-			$prefix = $this->getName() . 'View';
+			$prefix = $this->getName() . 'view';
 		}
 
 		$layout = isset($config['layout']) ? $config['layout'] : '';
+		
+		$prefix = strtolower($prefix);
+		
 
 		if (empty($views[$name][$type][$prefix][$layout]))
 		{
