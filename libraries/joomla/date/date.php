@@ -107,7 +107,7 @@ class JDate extends DateTime
 		// Only continue if $date is valid by strtotime()
 		if (strtotime($date) === false)
 		{
-			return false;
+			$date = 'now';
 		}
 		
 		// Call the DateTime constructor.
