@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,7 +79,7 @@ class ContentViewArchive extends JViewLegacy
 		// Year Field
 		$years = array();
 		$years[] = JHtml::_('select.option', null, JText::_('JYEAR'));
-		for ($i = 2000; $i <= 2020; $i++)
+		for ($year = date('Y'), $i = $year - 10; $i <= $year; $i++)
 		{
 			$years[] = JHtml::_('select.option', $i, $i);
 		}

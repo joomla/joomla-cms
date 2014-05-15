@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ JError::setErrorHandling(E_ERROR, 'message', array('JError', 'customErrorPage'))
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
 
-// Pre-Load configuration.
+// Pre-Load configuration. Don't remove the Output Buffering due to BOM issues, see JCode 26026
 ob_start();
 require_once JPATH_CONFIGURATION . '/configuration.php';
 ob_end_clean();

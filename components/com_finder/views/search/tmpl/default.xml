@@ -116,11 +116,31 @@
 			</field>
 			<field name="allow_empty_query"
 				type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="0"
 				validate="options"
 				label="COM_FINDER_ALLOW_EMPTY_QUERY_LABEL"
 				description="COM_FINDER_ALLOW_EMPTY_QUERY_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="show_suggested_query"
+				type="list"
+				default="1"
+				validate="options"
+				label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
+				description="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="show_explained_query"
+				type="list"
+				default="1"
+				validate="options"
+				label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
+				description="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
@@ -148,7 +168,7 @@
 			<field type="spacer" />
 			<field name="show_feed"
 				type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="0"
 				validate="options"
 				label="COM_FINDER_CONFIG_SHOW_FEED_LABEL"
@@ -158,7 +178,7 @@
 			</field>
 			<field name="show_feed_text"
 				type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="0"
 				validate="options"
 				label="COM_FINDER_CONFIG_SHOW_FEED_TEXT_LABEL"

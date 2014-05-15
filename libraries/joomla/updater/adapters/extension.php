@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -65,6 +65,10 @@ class JUpdaterExtension extends JUpdateAdapter
 				{
 					$this->currentUpdate->targetplatform = $attrs;
 				}
+				if ($name == 'PHP_MINIMUM')
+				{
+					$this->currentUpdate->php_minimum = '';
+				}
 				break;
 		}
 	}
@@ -99,18 +103,44 @@ class JUpdaterExtension extends JUpdateAdapter
 					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver->DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
 					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver->DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
-					// Target platform isn't a valid field in the update table so unset it to prevent J! from trying to store it
-					unset($this->currentUpdate ->targetplatform);
-					if (isset($this->latest))
+					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
+					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>='))
 					{
-						if (version_compare($this->currentUpdate ->version, $this->latest->version, '>') == 1)
-						{
-							$this->latest = $this->currentUpdate;
-						}
+						$phpMatch = true;
 					}
 					else
 					{
-						$this->latest = $this->currentUpdate;
+						// Notify the user of the potential update
+						$msg = JText::sprintf(
+							'JLIB_INSTALLER_AVAILABLE_UPDATE_PHP_VERSION',
+							$this->currentUpdate->name,
+							$this->currentUpdate->version,
+							$this->currentUpdate->php_minimum,
+							PHP_VERSION
+						);
+
+						JFactory::getApplication()->enqueueMessage($msg, 'warning');
+
+						$phpMatch = false;
+					}
+
+					// Target platform and php_minimum aren't valid fields in the update table so unset them to prevent J! from trying to store them
+					unset($this->currentUpdate->targetplatform);
+					unset($this->currentUpdate->php_minimum);
+
+					if ($phpMatch)
+					{
+						if (isset($this->latest))
+						{
+							if (version_compare($this->currentUpdate->version, $this->latest->version, '>') == 1)
+							{
+								$this->latest = $this->currentUpdate;
+							}
+						}
+						else
+						{
+							$this->latest = $this->currentUpdate;
+						}
 					}
 				}
 				break;
@@ -144,6 +174,11 @@ class JUpdaterExtension extends JUpdateAdapter
 			$tag = strtolower($tag);
 			$this->currentUpdate->$tag .= $data;
 		}
+
+		if ($tag == 'PHP_MINIMUM')
+		{
+			$this->currentUpdate->php_minimum = $data;
+		}
 	}
 
 	/**
@@ -157,10 +192,18 @@ class JUpdaterExtension extends JUpdateAdapter
 	 */
 	public function findUpdate($options)
 	{
-		$url = $options['location'];
+		$url = trim($options['location']);
 		$this->_url = &$url;
 		$this->updateSiteId = $options['update_site_id'];
-		if (substr($url, -4) != '.xml')
+
+		$appendExtension = false;
+
+		if (array_key_exists('append_extension', $options))
+		{
+			$appendExtension = $options['append_extension'];
+		}
+
+		if ($appendExtension && (substr($url, -4) != '.xml'))
 		{
 			if (substr($url, -1) != '/')
 			{
@@ -185,6 +228,13 @@ class JUpdaterExtension extends JUpdateAdapter
 
 		if (!isset($response) || (!empty($response->code) && 200 != $response->code))
 		{
+			// If the URL is missing the .xml extension, try appending it and retry loading the update
+			if (!$appendExtension && (substr($url, -4) != '.xml'))
+			{
+				$options['append_extension'] = true;
+				return $this->findUpdate($options);
+			}
+
 			$query = $db->getQuery(true)
 				->update('#__update_sites')
 				->set('enabled = 0')
@@ -195,6 +245,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			JLog::add("Error opening url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), 'warning');
+
 			return false;
 		}
 
@@ -205,12 +256,23 @@ class JUpdaterExtension extends JUpdateAdapter
 
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
+			// If the URL is missing the .xml extension, try appending it and retry loading the update
+			if (!$appendExtension && (substr($url, -4) != '.xml'))
+			{
+				$options['append_extension'] = true;
+				return $this->findUpdate($options);
+			}
+
 			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
+
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $url), 'warning');
+
 			return false;
 		}
+
 		xml_parser_free($this->xmlParser);
+
 		if (isset($this->latest))
 		{
 			if (isset($this->latest->client) && strlen($this->latest->client))
@@ -219,7 +281,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				{
 					$byName = false;
 
-					// <client> has to be 'administrator' or 'site', numeric values are depreceated. See http://docs.joomla.org/Design_of_JUpdate
+					// <client> has to be 'administrator' or 'site', numeric values are deprecated. See http://docs.joomla.org/Design_of_JUpdate
 					JLog::add(
 						'Using numeric values for <client> in the updater xml is deprecated. Use \'administrator\' or \'site\' instead.',
 						JLog::WARNING, 'deprecated'
@@ -229,15 +291,18 @@ class JUpdaterExtension extends JUpdateAdapter
 				{
 					$byName = true;
 				}
+
 				$this->latest->client_id = JApplicationHelper::getClientInfo($this->latest->client, $byName)->id;
 				unset($this->latest->client);
 			}
+
 			$updates = array($this->latest);
 		}
 		else
 		{
 			$updates = array();
 		}
+
 		return array('update_sites' => array(), 'updates' => $updates);
 	}
 }

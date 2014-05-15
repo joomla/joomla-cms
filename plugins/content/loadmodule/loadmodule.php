@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.loadmodule
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -173,7 +173,7 @@ class PlgContentLoadmodule extends JPlugin
 		// This allows people to enter it either way in the content
 		if (!isset($mod))
 		{
-			$name = 'mod_'.$module;
+			$name = 'mod_' . $module;
 			$mod  = JModuleHelper::getModule($name, $title);
 		}
 

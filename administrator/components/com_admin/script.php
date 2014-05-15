@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,53 +21,76 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerFile    $installer    The class calling this method
+	 * @param   JInstallerFile  $installer  The class calling this method
 	 *
 	 * @return void
 	 */
 	public function update($installer)
 	{
+		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['text_file'] = 'joomla_update.php';
+		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
+
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->clearRadCache();
+		$this->updateAssets();
 	}
 
+	/**
+	 * Medtho to update Database
+	 *
+	 * @return void
+	 */
 	protected function updateDatabase()
 	{
 		$db = JFactory::getDbo();
+
 		if (substr($db->name, 0, 5) == 'mysql')
 		{
 			$db->setQuery('SHOW ENGINES');
 			$results = $db->loadObjectList();
+
 			if ($db->getErrorNum())
 			{
 				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+
 				return;
 			}
+
 			foreach ($results as $result)
 			{
 				if ($result->Support == 'DEFAULT')
 				{
 					$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
 					$db->execute();
+
 					if ($db->getErrorNum())
 					{
 						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+
 						return;
 					}
+
 					break;
 				}
 			}
 		}
 	}
 
+	/**
+	 * Update the manifest caches
+	 *
+	 * @return void
+	 */
 	protected function updateManifestCaches()
 	{
 		$extensions = array();
-		// Components
 
-		//`type`, `element`, `folder`, `client_id`
+		// Components
+		// `type`, `element`, `folder`, `client_id`
 		$extensions[] = array('component', 'com_mailto', '', 0);
 		$extensions[] = array('component', 'com_wrapper', '', 0);
 		$extensions[] = array('component', 'com_admin', '', 1);
@@ -105,6 +128,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('library', 'joomla', '', 0);
 		$extensions[] = array('library', 'idna_convert', '', 0);
 		$extensions[] = array('library', 'fof', '', 0);
+		$extensions[] = array('library', 'phpass', '', 0);
 
 		// Modules site
 		// Site
@@ -154,6 +178,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'gmail', 'authentication', 0);
 		$extensions[] = array('plugin', 'joomla', 'authentication', 0);
 		$extensions[] = array('plugin', 'ldap', 'authentication', 0);
+		$extensions[] = array('plugin', 'contact', 'content', 0);
 		$extensions[] = array('plugin', 'emailcloak', 'content', 0);
 		$extensions[] = array('plugin', 'loadmodule', 'content', 0);
 		$extensions[] = array('plugin', 'pagebreak', 'content', 0);
@@ -170,6 +195,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'contacts', 'search', 0);
 		$extensions[] = array('plugin', 'content', 'search', 0);
 		$extensions[] = array('plugin', 'newsfeeds', 'search', 0);
+		$extensions[] = array('plugin', 'tags', 'search', 0);
 		$extensions[] = array('plugin', 'weblinks', 'search', 0);
 		$extensions[] = array('plugin', 'languagefilter', 'system', 0);
 		$extensions[] = array('plugin', 'p3p', 'system', 0);
@@ -218,19 +244,29 @@ class JoomlaInstallerScript
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__extensions');
+
 		foreach ($extensions as $extension)
 		{
-			$query->where('type=' . $db->quote($extension[0]) . ' AND element=' . $db->quote($extension[1]) . ' AND folder=' . $db->quote($extension[2]) . ' AND client_id=' . $extension[3], 'OR');
+			$query->where(
+				'type=' . $db->quote($extension[0])
+				. ' AND element=' . $db->quote($extension[1])
+				. ' AND folder=' . $db->quote($extension[2])
+				. ' AND client_id=' . $extension[3], 'OR'
+			);
 		}
+
 		$db->setQuery($query);
 		$extensions = $db->loadObjectList();
 		$installer = new JInstaller;
+
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
 			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+
 			return;
 		}
+
 		foreach ($extensions as $extension)
 		{
 			if (!$installer->refreshManifestCache($extension->extension_id))
@@ -240,6 +276,11 @@ class JoomlaInstallerScript
 		}
 	}
 
+	/**
+	 * Delete files that should not exist
+	 *
+	 * @return void
+	 */
 	public function deleteUnexistingFiles()
 	{
 		$files = array(
@@ -925,11 +966,11 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/form_utils.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/mctabs.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/validate.js',
-			'administrator/components/com_banners/models/fields/ordering.php',
-			'administrator/components/com_contact/models/fields/ordering.php',
-			'administrator/components/com_newsfeeds/models/fields/ordering.php',
-			'administrator/components/com_plugins/models/fields/ordering.php',
-			'administrator/components/com_weblinks/models/fields/ordering.php',
+			'/administrator/components/com_banners/models/fields/ordering.php',
+			'/administrator/components/com_contact/models/fields/ordering.php',
+			'/administrator/components/com_newsfeeds/models/fields/ordering.php',
+			'/administrator/components/com_plugins/models/fields/ordering.php',
+			'/administrator/components/com_weblinks/models/fields/ordering.php',
 			'/administrator/includes/application.php',
 			'/includes/application.php',
 			'/libraries/legacy/application/helper.php',
@@ -940,6 +981,52 @@ class JoomlaInstallerScript
 			'/libraries/legacy/component/index.html',
 			'/libraries/legacy/module/helper.php',
 			'/libraries/legacy/module/index.html',
+			'/administrator/components/com_templates/controllers/source.php',
+			'/administrator/components/com_templates/models/source.php',
+			'/administrator/components/com_templates/views/source/index.html',
+			'/administrator/components/com_templates/views/source/tmpl/edit.php',
+			'/administrator/components/com_templates/views/source/tmpl/edit_ftp.php',
+			'/administrator/components/com_templates/views/source/tmpl/index.html',
+			'/administrator/components/com_templates/views/source/view.html.php',
+			'/media/editors/codemirror/css/csscolors.css',
+			'/media/editors/codemirror/css/jscolors.css',
+			'/media/editors/codemirror/css/phpcolors.css',
+			'/media/editors/codemirror/css/sparqlcolors.css',
+			'/media/editors/codemirror/css/xmlcolors.css',
+			'/media/editors/codemirror/js/basefiles-uncompressed.js',
+			'/media/editors/codemirror/js/basefiles.js',
+			'/media/editors/codemirror/js/codemirror-uncompressed.js',
+			'/media/editors/codemirror/js/editor.js',
+			'/media/editors/codemirror/js/highlight.js',
+			'/media/editors/codemirror/js/mirrorframe.js',
+			'/media/editors/codemirror/js/parsecss.js',
+			'/media/editors/codemirror/js/parsedummy.js',
+			'/media/editors/codemirror/js/parsehtmlmixed.js',
+			'/media/editors/codemirror/js/parsejavascript.js',
+			'/media/editors/codemirror/js/parsephp.js',
+			'/media/editors/codemirror/js/parsephphtmlmixed.js',
+			'/media/editors/codemirror/js/parsesparql.js',
+			'/media/editors/codemirror/js/parsexml.js',
+			'/media/editors/codemirror/js/select.js',
+			'/media/editors/codemirror/js/stringstream.js',
+			'/media/editors/codemirror/js/tokenize.js',
+			'/media/editors/codemirror/js/tokenizejavascript.js',
+			'/media/editors/codemirror/js/tokenizephp.js',
+			'/media/editors/codemirror/js/undo.js',
+			'/media/editors/codemirror/js/util.js',
+			'/administrator/components/com_weblinks/models/fields/index.html',
+			'/plugins/user/joomla/postinstall/actions.php',
+			'/plugins/user/joomla/postinstall/index.html',
+			'/media/com_finder/js/finder.js',
+			'/media/com_finder/js/highlighter.js',
+			'/libraries/joomla/registry/format.php',
+			'/libraries/joomla/registry/index.html',
+			'/libraries/joomla/registry/registry.php',
+			'/libraries/joomla/registry/format/index.html',
+			'/libraries/joomla/registry/format/ini.php',
+			'/libraries/joomla/registry/format/json.php',
+			'/libraries/joomla/registry/format/php.php',
+			'/libraries/joomla/registry/format/xml.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -993,9 +1080,14 @@ class JoomlaInstallerScript
 			'/libraries/joomla/plugin',
 			'/libraries/legacy/component',
 			'/libraries/legacy/module',
+			'/administrator/components/com_weblinks/models/fields',
+			'/plugins/user/joomla/postinstall',
+			'/libraries/joomla/registry/format',
+			'/libraries/joomla/registry',
 		);
 
 		jimport('joomla.filesystem.file');
+
 		foreach ($files as $file)
 		{
 			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
@@ -1005,6 +1097,7 @@ class JoomlaInstallerScript
 		}
 
 		jimport('joomla.filesystem.folder');
+
 		foreach ($folders as $folder)
 		{
 			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
@@ -1024,11 +1117,55 @@ class JoomlaInstallerScript
 	 */
 	protected function clearRadCache()
 	{
-		if (is_file(JPATH_CACHE . '/fof/cache.php'))
-		{
-			jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.file');
 
+		if (JFile::exists(JPATH_CACHE . '/fof/cache.php'))
+		{
 			JFile::delete(JPATH_CACHE . '/fof/cache.php');
 		}
+	}
+
+	/**
+	 * Method to create assets for newly installed components
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function updateAssets()
+	{
+		// List all components added since 1.6
+		$newComponents = array(
+			'com_finder',
+			'com_joomlaupdate',
+			'com_tags',
+			'com_contenthistory',
+			'com_ajax',
+			'com_postinstall'
+		);
+
+		foreach ($newComponents as $component)
+		{
+			$asset = JTable::getInstance('Asset');
+
+			if (!$asset->loadByName($component))
+			{
+				$asset->name = $component;
+				$asset->parent_id = 1;
+				$asset->rules = '{}';
+				$asset->title = $component;
+				$asset->setLocation(1, 'last-child');
+
+				if (!$asset->store())
+				{
+					// Install failed, roll back changes
+					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
+
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -132,10 +132,10 @@ class JFile
 
 				if (!$ftp->store($src, $dest))
 				{
-
 					// FTP connector throws an error
 					return false;
 				}
+
 				$ret = true;
 			}
 			else
@@ -146,6 +146,7 @@ class JFile
 
 					return false;
 				}
+
 				$ret = true;
 			}
 
@@ -185,6 +186,11 @@ class JFile
 		foreach ($files as $file)
 		{
 			$file = JPath::clean($file);
+
+			if (!is_file($file))
+			{
+				continue;
+			}
 
 			// Try making the file writable first. If it's read-only, it can't be deleted
 			// on Windows, even if the parent folder is writable
@@ -242,7 +248,6 @@ class JFile
 		// Check src path
 		if (!is_readable($src))
 		{
-
 			return JText::_('JLIB_FILESYSTEM_CANNOT_FIND_SOURCE_FILE');
 		}
 
@@ -384,7 +389,11 @@ class JFile
 		if (!file_exists(dirname($file)))
 		{
 			jimport('joomla.filesystem.folder');
-			JFolder::create(dirname($file));
+
+			if (JFolder::create(dirname($file)) == false)
+			{
+				return false;
+			}
 		}
 
 		if ($use_streams)
@@ -546,12 +555,10 @@ class JFile
 
 		if ($slash !== false)
 		{
-
 			return substr($file, $slash + 1);
 		}
 		else
 		{
-
 			return $file;
 		}
 	}

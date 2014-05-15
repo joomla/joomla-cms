@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -319,6 +319,30 @@ class ModulesModelModule extends JModelAdmin
 	}
 
 	/**
+	 * Method to test whether a record can have its state edited.
+	 *
+	 * @param   object    $record    A record object.
+	 *
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 * @since   3.2
+	 */
+	protected function canEditState($record)
+	{
+		$user = JFactory::getUser();
+
+		// Check for existing module.
+		if (!empty($record->id))
+		{
+			return $user->authorise('core.edit.state', 'com_modules.module.' . (int) $record->id);
+		}
+		// Default to component settings if module not known.
+		else
+		{
+			return parent::canEditState('com_modules');
+		}
+	}
+
+	/**
 	 * Method to delete rows.
 	 *
 	 * @param   array  &$pks  An array of item ids.
@@ -340,7 +364,7 @@ class ModulesModelModule extends JModelAdmin
 			if ($table->load($pk))
 			{
 				// Access checks.
-				if (!$user->authorise('core.delete', 'com_modules') || $table->published != -2)
+				if (!$user->authorise('core.delete', 'com_modules.module.'.(int) $pk) || $table->published != -2)
 				{
 					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 					return;
@@ -424,22 +448,17 @@ class ModulesModelModule extends JModelAdmin
 					throw new Exception($table->getError());
 				}
 
-				// $query = 'SELECT menuid'
-				//	. ' FROM #__modules_menu'
-				//	. ' WHERE moduleid = ' . (int) $pk
-				//	;
-
 				$query	= $db->getQuery(true)
-					->select('menuid')
-					->from('#__modules_menu')
-					->where('moduleid=' . (int) $pk);
+					->select($db->quoteName('menuid'))
+					->from($db->quoteName('#__modules_menu'))
+					->where($db->quoteName('moduleid') . ' = ' . (int) $pk);
 
 				$this->_db->setQuery($query);
 				$rows = $this->_db->loadColumn();
 
 				foreach ($rows as $menuid)
 				{
-					$tuples[] = '(' . (int) $table->id . ',' . (int) $menuid . ')';
+					$tuples[] = (int) $table->id . ',' . (int) $menuid;
 				}
 			}
 			else
@@ -451,7 +470,11 @@ class ModulesModelModule extends JModelAdmin
 		if (!empty($tuples))
 		{
 			// Module-Menu Mapping: Do it in one query
-			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES ' . implode(',', $tuples);
+			$query = $db->getQuery(true)
+				->insert($db->quoteName('#__modules_menu'))
+				->columns($db->quoteName(array('moduleid', 'menuid')))
+				->values($tuples);
+
 			$this->_db->setQuery($query);
 
 			try
@@ -523,11 +546,13 @@ class ModulesModelModule extends JModelAdmin
 			$item		= $this->getItem();
 			$clientId	= $item->client_id;
 			$module		= $item->module;
+			$id			= $item->id;
 		}
 		else
 		{
 			$clientId	= JArrayHelper::getValue($data, 'client_id');
 			$module		= JArrayHelper::getValue($data, 'module');
+			$id			= JArrayHelper::getValue($data, 'id');
 		}
 
 		// These variables are used to add data from the plugin XML files.
@@ -543,8 +568,13 @@ class ModulesModelModule extends JModelAdmin
 
 		$form->setFieldAttribute('position', 'client', $this->getState('item.client_id') == 0 ? 'site' : 'administrator');
 
-		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data))
+		$user = JFactory::getUser();
+
+		// Check for existing module
+		// Modify the form based on Edit State access controls.
+		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_modules.module.'.(int) $id))
+			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_modules'))
+		)
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -679,11 +709,11 @@ class ModulesModelModule extends JModelAdmin
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Determine the page assignment mode.
-			$db->setQuery(
-				'SELECT menuid' .
-				' FROM #__modules_menu' .
-				' WHERE moduleid = ' . $pk
-			);
+			$query	= $db->getQuery(true)
+				->select($db->quoteName('menuid'))
+				->from($db->quoteName('#__modules_menu'))
+				->where($db->quoteName('moduleid') . ' = ' . (int) $pk);
+			$db->setQuery($query);
 			$assigned = $db->loadColumn();
 
 			if (empty($pk))
@@ -799,10 +829,8 @@ class ModulesModelModule extends JModelAdmin
 		$formFile = JPath::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
-		$lang->load($module, $client->path, null, false, false)
-			||	$lang->load($module, $client->path . '/modules/' . $module, null, false, false)
-			||	$lang->load($module, $client->path, $lang->getDefault(), false, false)
-			||	$lang->load($module, $client->path . '/modules/' . $module, $lang->getDefault(), false, false);
+		$lang->load($module, $client->path, null, false, true)
+			||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
 
 		if (file_exists($formFile))
 		{

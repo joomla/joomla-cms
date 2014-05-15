@@ -1,0 +1,39 @@
+.CodeMirror {
+    border: 1px solid #eee;
+    height: 600px;
+    line-height: 1.30;
+    font-size: 14px;
+}
+.CodeMirror-fullscreen {
+    display: block;
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    z-index: 9999;
+}
+.CodeMirror-foldmarker {
+    color: blue;
+    text-shadow: #b9f 1px 1px 2px, #b9f -1px -1px 2px, #b9f 1px -1px 2px, #b9f -1px 1px 2px;
+    font-family: arial;
+    line-height: .3;
+    cursor: pointer;
+}
+.CodeMirror-foldgutter {
+    width: .7em;
+}
+.CodeMirror-foldgutter-open,
+.CodeMirror-foldgutter-folded {
+    color: #555;
+    cursor: pointer;
+}
+.CodeMirror-foldgutter-open:after {
+    content: "\25BE";
+}
+.CodeMirror-foldgutter-folded:after {
+    content: "\25B8";
+}
+
+.breakpoints {width: .8em;}
+.breakpoint { color: #822; }
+
+.CodeMirror-matchingtag { background: rgba(255, 150, 0, .3); }

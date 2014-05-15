@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -171,7 +171,20 @@ class UsersModelProfile extends JModelForm
 		{
 			return false;
 		}
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
+
+		// Check for username compliance and parameter set
+		$isUsernameCompliant = true;
+
+		if ($this->loadFormData()->username)
+		{
+			$username = $this->loadFormData()->username;
+			$isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2
+				|| trim($username) != $username);
+		}
+
+		$this->setState('user.username.compliant', $isUsernameCompliant);
+
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
 		{
 			$form->setFieldAttribute('username', 'class', '');
 			$form->setFieldAttribute('username', 'filter', '');
@@ -180,6 +193,13 @@ class UsersModelProfile extends JModelForm
 			$form->setFieldAttribute('username', 'message', '');
 			$form->setFieldAttribute('username', 'readonly', 'true');
 			$form->setFieldAttribute('username', 'required', 'false');
+		}
+
+		// If the user needs to change their password, mark the password fields as required
+		if (JFactory::getUser()->requireReset)
+		{
+			$form->setFieldAttribute('password1', 'required', 'true');
+			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
 		return $form;
@@ -262,7 +282,10 @@ class UsersModelProfile extends JModelForm
 		$data['password']	= $data['password1'];
 
 		// Unset the username if it should not be overwritten
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
+		$username = $data['username'];
+		$isUsernameCompliant = $this->getState('user.username.compliant');
+
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
 		{
 			unset($data['username']);
 		}

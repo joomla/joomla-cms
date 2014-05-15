@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('jquery.framework');
 
@@ -20,9 +20,9 @@ $field = $input->getCmd('field');
 $function = 'jSelectContenthistory_' . $field;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
-$message = JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_ONE');
-$compareMessage = JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_TWO');
-$deleteMessage = JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+$message = addslashes(JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_ONE'));
+$compareMessage = addslashes(JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_TWO'));
+$deleteMessage = addslashes(JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
 $aliasArray = explode('.', $this->state->type_alias);
 $option = ($aliasArray[1] == 'category') ? 'com_categories&amp;extension=' . $aliasArray[0] : $aliasArray[0];
 $filter = JFilterInput::getInstance();
@@ -174,7 +174,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php echo htmlspecialchars($item->editor); ?>
 				</td>
 				<td class="center">
-					<?php echo number_format((int) $item->character_count, 0, '.', ','); ?>
+					<?php echo number_format((int) $item->character_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?>
 				</td>
 			</tr>
 			<?php $i++; ?>

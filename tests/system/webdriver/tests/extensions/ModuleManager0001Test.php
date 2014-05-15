@@ -83,6 +83,11 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 		$this->moduleManagerPage->clickButton('toolbar-new');
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//a[contains(., 'Articles Categories')]"))->click();
 		$moduleEditPage = $this->getPageObject('ModuleEditPage');
+
+		// Option to print actual element array
+		/* @var $moduleEditPage ModuleEditPage */
+// 	 	$moduleEditPage->printFieldArray($moduleEditPage->getAllInputFields($moduleEditPage->tabs));
+
 		$testElements = $moduleEditPage->getAllInputFields($moduleEditPage->tabs);
 		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($moduleEditPage->inputFields, $actualFields);
@@ -144,7 +149,8 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 		$type = 'Custom HTML';
 		$position = 'myposition';
 		$suffix = 'mysuffix';
-		$otherFields = array('Position' => $position, 'Module Class Suffix' => $suffix);
+		$note = 'My old note.';
+		$otherFields = array('Position' => $position, 'Module Class Suffix' => $suffix, 'Note' => $note);
 		$this->moduleManagerPage->setFilter('filter_client_id', $client)->searchFor($title);
 		$this->assertFalse($this->moduleManagerPage->getRowNumber($title), 'Test module should not be present');
 		$this->moduleManagerPage->addModule($title, $client, $type, $otherFields);

@@ -37,7 +37,7 @@
 }
 .navbar .brand {
 	float: right;
-	padding: 8px 20px 12px;
+	padding: 8px 20px 8px 12px;
 	margin-right: -20px;
 	margin-left: 0;
 }
@@ -203,7 +203,7 @@
 	float: right;
 }
 .input-append .add-on {
-	float: left;
+	float: none;
 }
 .input-prepend .add-on,
 .input-prepend .btn {
@@ -355,11 +355,13 @@ body {
 	padding-left: 5px;
 }
 .navbar .nav > li > a {
-	padding: 9px 10px;
-	color: #D2E3FC;
+	padding: 8px 10px;
+	color: #FFFFFF;
 }
 .container-logo {
 	padding-top: 6px;
+	float: left;
+	text-align: left;
 }
 .modal-header .close {
 	float: left;
@@ -509,6 +511,19 @@ body {
 	left: 3px;
 	right: auto;
 }
+.chzn-container.chzn-with-drop .chzn-drop {
+	right: 0;
+	left: auto;
+}
+.chzn-container-single.chzn-container-single-nosearch .chzn-search {
+	position: absolute;
+	right: -9999px;
+	left: auto;
+}
+.chzn-container .chzn-drop {
+	right: -9999px;
+	left: auto;
+}
 .alert {
 	padding-right: 14px;
 	padding-left: 35px;
@@ -563,4 +578,13 @@ body {
 #pop-print {
 	float: left;
 	margin: 10px;
+}
+#install_url,
+#install_directory,
+#jform_customurl,
+#jform_link,
+#jform_params_url,
+input[type="url"] {
+	text-align: left;
+	direction: ltr;
 }

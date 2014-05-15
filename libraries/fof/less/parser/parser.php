@@ -1,16 +1,17 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  less
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * This class is taken verbatim from:
  *
- * lessphp v0.3.8
+ * lessphp v0.3.9
  * http://leafo.net/lessphp
  *
  * LESS css compiler, adapted from http://lesscss.org
@@ -877,7 +878,12 @@ class FOFLessParser
 
 			return true;
 		}
+		elseif ($this->variable($variable))
+		{
+			$out = array('variable', $variable);
 
+			return true;
+		}
 		$this->seek($s);
 
 		return false;
@@ -1078,9 +1084,9 @@ class FOFLessParser
 
 		$s = $this->seek();
 
-		if ($this->literal("@{") && $this->keyword($var) && $this->literal("}", false))
+		if ($this->literal("@{") && $this->openString("}", $interp, null, array("'", '"', ";")) && $this->literal("}", false))
 		{
-			$out = array("variable", $this->lessc->vPrefix . $var);
+			$out = array("interpolate", $interp);
 			$this->eatWhiteDefault = $oldWhite;
 
 			if ($this->eatWhiteDefault)
@@ -1420,30 +1426,37 @@ class FOFLessParser
 	{
 		if ($simple)
 		{
-			$chars = '^,:;{}\][>\(\) "\'';
+			$chars = '^@,:;{}\][>\(\) "\'';
 		}
 		else
 		{
-			$chars = '^,;{}["\'';
+			$chars = '^@,;{}["\'';
 		}
+
+		$s = $this->seek();
 
 		if (!$simple && $this->tagExpression($tag))
 		{
 			return true;
 		}
 
-		$tag = '';
+		$hasExpression = false;
+		$parts         = array();
 
 		while ($this->tagBracket($first))
 		{
-			$tag .= $first;
+			$parts[] = $first;
 		}
+
+		$oldWhite = $this->eatWhiteDefault;
+
+		$this->eatWhiteDefault = false;
 
 		while (true)
 		{
 			if ($this->match('([' . $chars . '0-9][' . $chars . ']*)', $m))
 			{
-				$tag .= $m[1];
+				$parts[] = $m[1];
 
 				if ($simple)
 				{
@@ -1452,24 +1465,63 @@ class FOFLessParser
 
 				while ($this->tagBracket($brack))
 				{
-					$tag .= $brack;
+					$parts[] = $brack;
 				}
 
 				continue;
 			}
-			elseif ($this->unit($unit))
+
+			if (isset($this->buffer[$this->count]) && $this->buffer[$this->count] == "@")
 			{
-				// For keyframes
-				$tag .= $unit[1] . $unit[2];
+				if ($this->interpolation($interp))
+				{
+					$hasExpression = true;
+
+					// Don't unescape
+					$interp[2] = true;
+					$parts[] = $interp;
+
+					continue;
+				}
+
+				if ($this->literal("@"))
+				{
+					$parts[] = "@";
+
+					continue;
+				}
+			}
+
+			// For keyframes
+			if ($this->unit($unit))
+			{
+				$parts[] = $unit[1];
+				$parts[] = $unit[2];
 				continue;
 			}
 
 			break;
 		}
 
-		$tag = trim($tag);
-		if ($tag == '')
+		$this->eatWhiteDefault = $oldWhite;
+
+		if (!$parts)
+		{
+			$this->seek($s);
+
 			return false;
+		}
+
+		if ($hasExpression)
+		{
+			$tag = array("exp", array("string", "", $parts));
+		}
+		else
+		{
+			$tag = trim(implode($parts));
+		}
+
+		$this->whitespace();
 
 		return true;
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_random_image
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,14 @@ defined('_JEXEC') or die;
  */
 class ModRandomImageHelper
 {
+	/**
+	 * Retrieves a random image
+	 *
+	 * @param   JRegistry  &$params  module parameters object
+	 * @param   array      $images   list of images
+	 *
+	 * @return  mixed
+	 */
 	public static function getRandomImage(&$params, $images)
 	{
 		$width	= $params->get('width');
@@ -39,6 +47,7 @@ class ModRandomImageHelper
 		}
 
 		$coeff = $size[0] / $size[1];
+
 		if ($height == '')
 		{
 			$height = (int) ($width / $coeff);
@@ -46,10 +55,13 @@ class ModRandomImageHelper
 		else
 		{
 			$newheight = min($height, (int) ($width / $coeff));
+
 			if ($newheight < $height)
 			{
 				$height = $newheight;
-			} else {
+			}
+			else
+			{
 				$width = $height * $coeff;
 			}
 		}
@@ -61,6 +73,14 @@ class ModRandomImageHelper
 		return $image;
 	}
 
+	/**
+	 * Retrieves images from a specific folder
+	 *
+	 * @param   JRegistry  &$params  module params
+	 * @param   string     $folder   folder to get the images from
+	 *
+	 * @return array
+	 */
 	public static function getImages(&$params, $folder)
 	{
 		$type		= $params->get('type', 'jpg');
@@ -70,7 +90,7 @@ class ModRandomImageHelper
 
 		$dir = JPATH_BASE . '/' . $folder;
 
-		// check if directory exists
+		// Check if directory exists
 		if (is_dir($dir))
 		{
 			if ($handle = opendir($dir))
@@ -83,14 +103,16 @@ class ModRandomImageHelper
 					}
 				}
 			}
+
 			closedir($handle);
 
 			$i = 0;
+
 			foreach ($files as $img)
 			{
 				if (!is_dir($dir . '/' . $img))
 				{
-					if (preg_match('/'.$type.'/', $img))
+					if (preg_match('/' . $type . '/', $img))
 					{
 						$images[$i] = new stdClass;
 
@@ -105,22 +127,31 @@ class ModRandomImageHelper
 		return $images;
 	}
 
+	/**
+	 * Get sanitized folder
+	 *
+	 * @param   JRegistry  &$params  module params objects
+	 *
+	 * @return mixed
+	 */
 	public static function getFolder(&$params)
 	{
 		$folder	= $params->get('folder');
 
 		$LiveSite	= JUri::base();
 
-		// if folder includes livesite info, remove
+		// If folder includes livesite info, remove
 		if (JString::strpos($folder, $LiveSite) === 0)
 		{
 			$folder = str_replace($LiveSite, '', $folder);
 		}
-		// if folder includes absolute path, remove
+
+		// If folder includes absolute path, remove
 		if (JString::strpos($folder, JPATH_SITE) === 0)
 		{
 			$folder = str_replace(JPATH_BASE, '', $folder);
 		}
+
 		$folder = str_replace('\\', DIRECTORY_SEPARATOR, $folder);
 		$folder = str_replace('/', DIRECTORY_SEPARATOR, $folder);
 
