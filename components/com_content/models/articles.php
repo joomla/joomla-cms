@@ -144,7 +144,7 @@ class ContentModelArticles extends JModelList
 		$id .= ':' . serialize($this->getState('filter.published'));
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.featured');
-		$id .= ':' . $this->getState('filter.article_id');
+		$id .= ':' . serialize($this->getState('filter.article_id'));
 		$id .= ':' . $this->getState('filter.article_id.include');
 		$id .= ':' . serialize($this->getState('filter.category_id'));
 		$id .= ':' . $this->getState('filter.category_id.include');
