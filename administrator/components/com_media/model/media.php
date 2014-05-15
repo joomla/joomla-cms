@@ -67,7 +67,7 @@ class MediaModelMedia extends ConfigModelForm
 		}
 		//corrections for windows paths
 		$base = str_replace(DIRECTORY_SEPARATOR, '/', $base);
-		$com_media_base_uni = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE);
+		$com_media_base_uri = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE);
 
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
@@ -81,7 +81,7 @@ class MediaModelMedia extends ConfigModelForm
 
 		foreach ($folders as $folder)
 		{
-			$folder		= str_replace($com_media_base_uni, "", str_replace(DIRECTORY_SEPARATOR, '/', $folder));
+			$folder		= str_replace($com_media_base_uri, "", str_replace(DIRECTORY_SEPARATOR, '/', $folder));
 			$value		= substr($folder, 1);
 			$text		= str_replace(DIRECTORY_SEPARATOR, "/", $folder);
 			$options[]	= JHtml::_('select.option', $value, $text);

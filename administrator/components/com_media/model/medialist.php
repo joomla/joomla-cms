@@ -164,6 +164,17 @@ class MediaModelMedialist extends ConfigModelForm
 								$tmp->width_120 = $tmp->width;
 								$tmp->height_120 = $tmp->height;
 							}
+							
+							if (($info[0] > 60) || ($info[1] > 60))
+							{
+								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 60);
+								$tmp->width_60 = $dimensions[0];
+								$tmp->height_60 = $dimensions[1];
+							}
+							else {
+								$tmp->width_60 = $tmp->width;
+								$tmp->height_60 = $tmp->height;
+							}
 
 							if (($info[0] > 16) || ($info[1] > 16))
 							{

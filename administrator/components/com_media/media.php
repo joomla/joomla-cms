@@ -60,5 +60,6 @@ $controller = $controllerHelper->parseController($app);
 
 $controller->prefix = 'Media';
 //  print_r($app->input);throw new ewewewe();
+
 // Perform the Request task
 $controller->execute();
