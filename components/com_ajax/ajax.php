@@ -31,11 +31,6 @@ $format = strtolower($input->getWord('format'));
 $results = null;
 $parts = null;
 
-// Check for valid format
-if (!$format)
-{
-	$results = new InvalidArgumentException('Please specify response format other that HTML (json, raw, etc.)', 404);
-}
 /*
  * Module support.
  *
@@ -154,6 +149,7 @@ switch ($format)
 		break;
 
 	// Handle as raw format
+	case 'raw':
 	default:
 		// Output exception
 		if ($results instanceof Exception)
