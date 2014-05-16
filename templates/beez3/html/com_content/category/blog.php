@@ -94,17 +94,18 @@ $cparams = JComponentHelper::getParams('com_media');
 <?php if (!empty($this->link_items)) : ?>
 	<?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
-
-	<div class="cat-children">
+	
 	<?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0 && $this->params->get('maxLevel') != 0) : ?>
+	<div class="cat-children">
+
 		<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 		<h3>
 			<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
 		</h3>
 		<?php endif; ?>
-	<?php endif; ?>
 			<?php echo $this->loadTemplate('children'); ?>
 		</div>
+	<?php endif; ?>
 
 
 <?php if (($this->params->def('show_pagination', 1) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
