@@ -108,7 +108,7 @@ class UsersControllerReset extends UsersController
 		if ($return instanceof Exception)
 		{
 			// Get the error message to display.
-			if ($app->get('error_reporting'))
+			if ($app->getCfg('error_reporting'))
 			{
 				$message = $return->getMessage();
 			}
@@ -174,7 +174,7 @@ class UsersControllerReset extends UsersController
 		if ($return instanceof Exception)
 		{
 			// Get the error message to display.
-			if ($app->get('error_reporting'))
+			if ($app->getCfg('error_reporting'))
 			{
 				$message = $return->getMessage();
 			}
