@@ -191,7 +191,7 @@ class UsersControllerReset extends UsersController
 			// Go back to the complete form.
 			$this->setRedirect(JRoute::_($route, false), $message, 'error');
 			return false;
-		} 
+		}
 		elseif ($return === false)
 		{
 			// Complete failed.

@@ -120,7 +120,7 @@ class UsersControllerRegistration extends UsersController
 
 		// Validate the posted data.
 		$form	= $model->getForm();
-	
+
 		if (!$form)
 		{
 			JError::raiseError(500, $model->getError());
