@@ -522,7 +522,7 @@ class TemplatesModelStyle extends JModelAdmin
 
 			if ($n > 0)
 			{
-				$app->enQueueMessage(JText::plural('COM_TEMPLATES_MENU_CHANGED', $n));
+				$app->enqueueMessage(JText::plural('COM_TEMPLATES_MENU_CHANGED', $n));
 			}
 		}
 

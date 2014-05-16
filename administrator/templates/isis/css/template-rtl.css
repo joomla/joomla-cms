@@ -6984,6 +6984,7 @@ body {
 	background-image: -webkit-radial-gradient(circle,#165387,#142849);
 	background-image: -moz-radial-gradient(circle,#165387,#142849);
 	background-image: -o-radial-gradient(circle,#165387,#142849);
+	background-image: radial-gradient(circle,#165387,#142849);
 	background-repeat: no-repeat;
 }
 .view-login .container {
@@ -7440,9 +7441,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	}
 }
 @media (min-width: 738px) {
-	body {
-		padding-top: 30px;
-	}
 	body.component {
 		padding-top: 0;
 	}
@@ -8450,6 +8448,19 @@ body {
 .chzn-container-multi .chzn-choices .search-choice .search-choice-close {
 	left: 3px;
 	right: auto;
+}
+.chzn-container.chzn-with-drop .chzn-drop {
+	right: 0;
+	left: auto;
+}
+.chzn-container-single.chzn-container-single-nosearch .chzn-search {
+	position: absolute;
+	right: -9999px;
+	left: auto;
+}
+.chzn-container .chzn-drop {
+	right: -9999px;
+	left: auto;
 }
 .alert {
 	padding-right: 14px;

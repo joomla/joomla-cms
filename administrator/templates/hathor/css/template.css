@@ -1363,11 +1363,6 @@ p.tab-description {
 	margin-left: 0;
 	margin-top: 5px;
 }
-#login-page form .inputbox {
-	width: 190px;
-	margin-left: 5px;
-	margin-bottom: 15px;
-}
 #login-page input,
 #login-page select {
 	float: right;

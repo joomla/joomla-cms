@@ -175,7 +175,7 @@ tinymce.addI18n('nl',{
 "Header 6": "Kop 6",
 "Insert Time": "Tijd invoegen",
 "Insert nonbreaking space": "Vaste spatie invoegen",
-"Toggle blockquote": "Schakelen citaat"
+"Toggle blockquote": "Schakelen citaat",
 "The URL you entered seems to be an external link. Do you want to add the required http:\/\/ prefix?": "De URL die u heeft ingevuld lijkt een externe link te zijn. Wilt u de benodigde http:\/\/ als voorvoegsel toevoegen?",
 "The URL you entered seems to be an email address. Do you want to add the required mailto: prefix?": "De URL die u heeft ingevuld lijkt een e-mailadres te zijn. Wilt u de benodigde mailto: als voorvoegsel toevoegen?"
 });

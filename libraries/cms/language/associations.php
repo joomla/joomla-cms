@@ -123,9 +123,14 @@ class JLanguageAssociations
 			// If already tested, don't test again.
 			if (!$tested)
 			{
-				$params = new JRegistry(JPluginHelper::getPlugin('system', 'languagefilter')->params);
+				$plugin = JPluginHelper::getPlugin('system', 'languagefilter');
 
-				$enabled  = (boolean) $params->get('item_associations', true);
+				if (!empty($plugin))
+				{
+					$params = new JRegistry($plugin->params);
+					$enabled  = (boolean) $params->get('item_associations', true);
+				}
+
 				$tested = true;
 			}
 		}

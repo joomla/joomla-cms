@@ -9,18 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$button = $displayData;
+JLog::add('The layout joomla.tinymce.buttons.button is deprecated, use joomla.editors.buttons.button instead.', JLog::WARNING, 'deprecated');
+echo JLayoutHelper::render('joomla.editors.buttons.button', $displayData);
 
 ?>
-<?php if ($button->get('name')) : ?>
-	<?php
-		$class    = ($button->get('class')) ? $button->get('class') : null;
-		$class	 .= ($button->get('modal')) ? ' modal-button' : null;
-		$href     = ($button->get('link')) ? ' href="' . JUri::base() . $button->get('link') . '"' : null;
-		$onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : ' onclick="IeCursorFix(); return false;"';
-		$title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
-	?>
-	<a class="<?php echo $class; ?>" title="<?php echo $title; ?>" <?php echo $href . $onclick; ?> rel="<?php echo $button->get('options'); ?>">
-		<i class="icon-<?php echo $button->get('name'); ?>"></i> <?php echo $button->get('text'); ?>
-	</a>
-<?php endif;
