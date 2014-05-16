@@ -25,7 +25,7 @@ $app = JFactory::getApplication();
 $input = $app->input;
 
 // Requested format passed via URL
-$format = strtolower($input->getWord('format'));
+$format = strtolower($input->getWord('format', 'raw'));
 
 // Initialize default response and module name
 $results = null;
