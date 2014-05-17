@@ -59,7 +59,7 @@ $controllerHelper = new ConfigControllerHelper;
 $controller = $controllerHelper->parseController($app);
 
 $controller->prefix = 'Media';
-//  print_r($app->input);throw new ewewewe();
+//  print_r($app->input);throw new ewewew();
 
 // Perform the Request task
 $controller->execute();

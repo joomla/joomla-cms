@@ -30,8 +30,8 @@ class MediaViewImageslistHtml extends ConfigViewCmsHtml
 			JHtml::_('stylesheet', 'media/popup-imagelist_rtl.css', array(), true);
 		}
 
-		$document = JFactory::getDocument();
-		$document->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
+// 		$document = JFactory::getDocument();
+// 		$document->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
 
 		$images = $this->model->getImages();
 		$folders = $this->model->getFolders();

@@ -149,7 +149,7 @@ var ImageManager = this.ImageManager = {
 				break;
 			}
 		}
-		this.frame.location.href='index.php?option=com_media&view=imagesList&tmpl=component&folder=' + folder + '&asset=' + asset + '&author=' + author;
+		this.frame.location.href='index.php?option=com_media&view=imageslist&controller=media.display.imageslist&tmpl=component&folder=' + folder + '&asset=' + asset + '&author=' + author;
 	},
 
 	getFolder: function() {
