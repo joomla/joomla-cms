@@ -33,18 +33,17 @@ class JSessionStorageMemcache extends JSessionStorage
 			throw new RuntimeException('Memcache Extension is not available', 404);
 		}
 
-		parent::__construct($options);
 
 		$config = JFactory::getConfig();
 
 		// This will be an array of loveliness
 		// @todo: multiple servers
-		$this->_servers = array(
-			array(
-				'host' => $config->get('memcache_server_host', 'localhost'),
-				'port' => $config->get('memcache_server_port', 11211)
-			)
+		$this->_memcache = array(
+			'host' => $config->get('memcache_server_host', 'localhost'),
+			'port' => $config->get('memcache_server_port', 11211)
 		);
+
+		parent::__construct($options);
 	}
 
 	/**
@@ -56,7 +55,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 */
 	public function register()
 	{
-		ini_set('session.save_path', $this->_servers['host'] . ':' . $this->_servers['port']);
+		ini_set('session.save_path', $this->_memcache['host'] . ':' . $this->_memcache['port']);
 		ini_set('session.save_handler', 'memcache');
 	}
 
