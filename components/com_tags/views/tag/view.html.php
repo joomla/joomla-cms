@@ -110,6 +110,12 @@ class TagsViewTag extends JViewLegacy
 				}
 			}
 		}
+		
+		// Make the item image params accessible if showing a single tag
+		if (count($item) == 1)
+		{
+			$item[0]->images = JArrayHelper::toObject($item[0]->params, 'JRegistry');
+		}
 
 		$this->state      = &$state;
 		$this->items      = &$items;
@@ -123,7 +129,7 @@ class TagsViewTag extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		// Merge tag params. If this is single-tag view, menu params override tag params
-		// Otherwise, article params override menu item params
+		// Otherwise, tag params override menu item params
 		$this->params	= $this->state->get('params');
 		$active	= $app->getMenu()->getActive();
 		$temp	= clone ($this->params);
