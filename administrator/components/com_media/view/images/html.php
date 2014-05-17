@@ -42,9 +42,6 @@ class MediaViewImagesHtml extends ConfigViewCmsHtml
 		$this->config = $config;
 		$this->state = $this->model->getState();
 		$this->folderList = $this->model->getFolderList();
-
-		$document = JFactory::getDocument();
-// 		$document->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
 		
 		$this->require_ftp = $ftp;
 
