@@ -46,51 +46,6 @@ class MenusModelItem extends JModelAdmin
 	protected $helpLocal = false;
 
 	/**
-	 * Method to test whether a record can be deleted.
-	 *
-	 * @param   object    A record object.
-	 *
-	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
-	 * @since   1.6
-	 */
-	protected function canDelete($record)
-	{
-		if (!empty($record->id))
-		{
-			if ($record->published != -2)
-			{
-				return;
-			}
-			$user = JFactory::getUser();
-
-			return $user->authorise('core.delete', 'com_menus.item.' . (int) $record->id);
-		}
-	}
-
-	/**
-	 * Method to test whether a record can have its state edited.
-	 *
-	 * @param   object    A record object.
-	 *
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 * @since   1.6
-	 */
-	protected function canEditState($record)
-	{
-		$user = JFactory::getUser();
-
-		if (!empty($record->id))
-		{
-			return $user->authorise('core.edit.state', 'com_menus.item.' . (int) $record->id);
-		}
-		// Default to component settings if menu item not known.
-		else
-		{
-			return parent::canEditState($record);
-		}
-	}
-
-	/**
 	 * Method to perform batch operations on an item or a set of items.
 	 *
 	 * @param   array  $commands  An array of commands to perform.
