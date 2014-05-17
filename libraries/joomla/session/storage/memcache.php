@@ -19,6 +19,14 @@ defined('JPATH_PLATFORM') or die;
 class JSessionStorageMemcache extends JSessionStorage
 {
 	/**
+	 * The registered servers stack.
+	 *
+	 * @var    array
+	 * @since  12.2
+	 */
+	private $_servers;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters.
@@ -33,11 +41,10 @@ class JSessionStorageMemcache extends JSessionStorage
 			throw new RuntimeException('Memcache Extension is not available', 404);
 		}
 
-		parent::__construct($options);
-
 		$config = JFactory::getConfig();
 
 		// This will be an array of loveliness
+		// This might help: {@link http://www.php.net/manual/en/memcached.sessions.php#112439}
 		// @todo: multiple servers
 		$this->_servers = array(
 			array(
@@ -45,6 +52,8 @@ class JSessionStorageMemcache extends JSessionStorage
 				'port' => $config->get('memcache_server_port', 11211)
 			)
 		);
+
+		parent::__construct($options);
 	}
 
 	/**
@@ -56,7 +65,11 @@ class JSessionStorageMemcache extends JSessionStorage
 	 */
 	public function register()
 	{
-		ini_set('session.save_path', $this->_servers['host'] . ':' . $this->_servers['port']);
+		// This might help: {@link http://www.php.net/manual/en/memcached.sessions.php#112439}
+		// @todo: evaluate servers count first
+		$server = current($this->_servers);
+		
+		ini_set('session.save_path', $server['host'] . ':' . $server['port']);
 		ini_set('session.save_handler', 'memcache');
 	}
 
