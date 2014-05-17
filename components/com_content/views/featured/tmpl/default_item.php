@@ -224,11 +224,11 @@ $info    = $this->item->params->get('info_block_position', 0);
 			</dd>
 		<?php endif; ?>
 	</dl>
-
+		
+		<?php endif; ?>
 	<?php if ($this->params->get('show_tags', 1)) : ?>
 		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
-	<?php endif; ?>
 
 <?php endif; ?>
 
