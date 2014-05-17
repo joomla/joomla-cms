@@ -156,11 +156,11 @@
 			<field name="target" type="list" default=""
 				label="COM_WEBLINKS_FIELD_TARGET_LABEL" description="COM_WEBLINKS_FIELD_TARGET_DESC"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JBROWSERTARGET_PARENT</option>
-				<option value="1">JBROWSERTARGET_NEW</option>
-				<option value="2">JBROWSERTARGET_POPUP</option>
-				<option value="3">JBROWSERTARGET_MODAL</option>
+				<option value="0">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JBROWSERTARGET_PARENT</option>
+				<option value="2">JBROWSERTARGET_NEW</option>
+				<option value="3">JBROWSERTARGET_POPUP</option>
+				<option value="4">JBROWSERTARGET_MODAL</option>
 			</field>
 
 			<field name="width" type="text"

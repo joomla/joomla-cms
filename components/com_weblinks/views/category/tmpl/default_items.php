@@ -97,11 +97,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 								<span class="label label-warning">Unpublished</span>
 							<?php endif; ?>
 
-							<?php switch ($item->params->get('target', $this->params->get('target')))
+							<?php switch ($item->params->get('target'))
 							{
 								case 1:
 									// open in a new window
-									echo '<a href="'. $link .'" target="_blank" class="'. $menuclass .'" rel="nofollow">'.
+									echo '<a href="'. $link .'" target="_blank" class="'. $menuclass .'" rel="' . $this->params->get('robots') . '">'.
 										$this->escape($item->title) .'</a>';
 									break;
 
@@ -120,7 +120,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 								default:
 									// open in parent window
-									echo '<a href="'.  $link . '" class="'. $menuclass .'" rel="nofollow">'.
+									echo '<a href="'.  $link . '" class="'. $menuclass .'" rel="' . $this->params->get('robots') . '">'.
 										$this->escape($item->title) . ' </a>';
 									break;
 							}
