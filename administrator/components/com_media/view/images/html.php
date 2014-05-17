@@ -23,7 +23,7 @@ class MediaViewImagesHtml extends ConfigViewCmsHtml
 		$config = JComponentHelper::getParams('com_media');
 		$lang	= JFactory::getLanguage();
 
-		JHtml::_('behavior.framework', true);
+		JHtml::_('jquery.framework');
 		JHtml::_('script', 'media/popup-imagemanager.js', true, true);
 		JHtml::_('stylesheet', 'media/popup-imagemanager.css', array(), true);
 
