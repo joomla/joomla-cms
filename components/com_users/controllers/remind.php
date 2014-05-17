@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT.'/controller.php';
+require_once JPATH_COMPONENT . '/controller.php';
 
 /**
  * Reset controller class for Users.
@@ -42,8 +42,8 @@ class UsersControllerRemind extends UsersController
 			// The request failed.
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getRemindRoute();
-			$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
-			$route	= 'index.php?option=com_users&view=remind'.$itemid;
+			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
+			$route	= 'index.php?option=com_users&view=remind' . $itemid;
 
 			// Go back to the request form.
 			$message = JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
@@ -55,8 +55,8 @@ class UsersControllerRemind extends UsersController
 			// The request succeeded.
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getRemindRoute();
-			$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
-			$route	= 'index.php?option=com_users&view=login'.$itemid;
+			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
+			$route	= 'index.php?option=com_users&view=login' . $itemid;
 
 			// Proceed to step two.
 			$message = JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
