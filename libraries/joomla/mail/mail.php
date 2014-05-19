@@ -496,12 +496,12 @@ class JMail extends PHPMailer
 
 			for ($i = 0; $i < $numReplyTo; $i++)
 			{
-				$this->addReplyTo(array($replyTo[$i], $replyToName[$i]));
+				$this->addReplyTo($replyTo[$i], $replyToName[$i]);
 			}
 		}
 		elseif (isset($replyTo))
 		{
-			$this->addReplyTo(array($replyTo, $replyToName));
+			$this->addReplyTo($replyTo, $replyToName);
 		}
 
 		// Add sender to replyTo only if no replyTo received
