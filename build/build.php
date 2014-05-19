@@ -176,6 +176,15 @@ $doNotPackage = array(
 	'libraries/vendor/symfony/yaml/Symfony/Component/Yaml/README.md',
 );
 
+/*
+ * Here we set the files/folders which should not be packaged with patch packages only
+ * These paths are from the repository root without the leading slash
+ */
+$doNotPatch = array(
+	'installation',
+    'images'
+);
+
 // For the packages, replace spaces in stability (RC) with underscores
 $packageStability = str_replace(' ', '_', $stability);
 
@@ -197,20 +206,28 @@ for ($num = $release - 1; $num >= 0; $num--)
 	// Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
 	foreach ($files as $file)
 	{
-		// TODO - Refactor this check to use the $doNotPackage array as a base
-		if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file, 2, 5) != 'build' && substr($file, 2, 4) != '.git'
+		$fileName   = substr($file, 2);
+		$folderPath = explode('/', $file);
+		$folderName = $folderPath[0];
+
+		// TODO - Old check, commented for reference, remove when complete
+		/*if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file, 2, 5) != 'build' && substr($file, 2, 4) != '.git'
 			&& substr($file, 2, 7) != '.travis' && substr($file, 2, 6) != 'travis' && substr($file, 2, 7) != 'phpunit' && substr($file, -3) != '.md'
 			&& substr($file, 2, 6) != 'images')
+		{*/
+
+		if (!in_array($fileName, $doNotPackage) && !in_array($fileName, $doNotPatch)
+			&& !in_array($folderName, $doNotPackage) && !in_array($folderName, $doNotPatch))
 		{
 			// Don't add deleted files to the list
 			if (substr($file, 0, 1) != 'D')
 			{
-				$filesArray[substr($file, 2)] = true;
+				$filesArray[$fileName] = true;
 			}
 			else
 			{
 				// Add deleted files to the deleted files list
-				$deletedFiles[] = substr($file, 2);
+				$deletedFiles[] = $fileName;
 			}
 		}
 	}
