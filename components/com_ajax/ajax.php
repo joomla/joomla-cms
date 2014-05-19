@@ -39,7 +39,7 @@ $parts = null;
  * (i.e. index.php?option=com_ajax&module=foo).
  *
  */
-elseif ($input->get('module'))
+if ($input->get('module'))
 {
 	$module       = $input->get('module');
 	$moduleObject = JModuleHelper::getModule('mod_' . $module, null);
