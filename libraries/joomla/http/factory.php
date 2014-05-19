@@ -120,6 +120,9 @@ class JHttpFactory
 			}
 		}
 
+		// Keep alphabetical order across all environments
+		sort($names);
+
 		return $names;
 	}
 }
