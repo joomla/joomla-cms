@@ -1,0 +1,17 @@
+{
+    "name": "joomla/event",
+    "type": "joomla-package",
+    "description": "Joomla Event Package",
+    "keywords": ["joomla", "framework", "event"],
+    "homepage": "https://github.com/joomla-framework/event",
+    "license": "GPL-2.0+",
+    "require": {
+        "php": ">=5.3.10"
+    },
+    "autoload": {
+    	"psr-4": {
+    		"Joomla\\Event\\": "src/",
+            "Joomla\\Event\\Tests\\": "Tests/"
+    	}
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "name": "joomla/input",
+    "type": "joomla-package",
+    "description": "Joomla Input Package",
+    "keywords": ["joomla", "framework", "input"],
+    "homepage": "https://github.com/joomla-framework/input",
+    "license": "GPL-2.0+",
+    "require": {
+        "php": ">=5.3.10",
+        "joomla/filter": "~1.0"
+    },
+    "require-dev": {
+    	"joomla/test": "~1.0"
+    },
+    "autoload": {
+    	"psr-4": {
+    		"Joomla\\Input\\": "src/",
+            "Joomla\\Input\\Tests\\": "Tests/"
+    	}
+    }
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php" colors="false">
+	<testsuites>
+		<testsuite name="Unit">
+			<directory>Tests</directory>
+		</testsuite>
+	</testsuites>
+    <php>
+        <const name="JPATH_ROOT" value="__DIR__" />
+    </php>
+</phpunit>

@@ -10,6 +10,7 @@
     },
     "require": {
         "php": ">=5.3.10",
+        "joomla/application": "~1.2",
 	    "joomla/di": "~1.2",
 	    "joomla/registry": "~1.1",
 	    "ircmaxell/password-compat": "1.*",

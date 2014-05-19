@@ -1,0 +1,27 @@
+{
+    "name": "joomla/application",
+    "type": "joomla-package",
+    "description": "Joomla Application Package",
+    "keywords": ["joomla", "framework", "application"],
+    "homepage": "https://github.com/joomla-framework/application",
+    "license": "GPL-2.0+",
+    "require": {
+        "php": ">=5.3.10",
+        "joomla/input": "~1.1.1",
+        "joomla/event": "~1.1",
+        "joomla/session": "~1.1",
+        "joomla/string": "~1.1",
+        "joomla/registry": "~1.1",
+        "joomla/uri": "~1.1",
+        "psr/log": "~1.0"
+    },
+    "require-dev": {
+        "joomla/test": "~1.1"
+    },
+    "autoload": {
+    	"psr-4": {
+    		"Joomla\\Application\\": "src/",
+            "Joomla\\Application\\Tests\\": "Tests/"
+    	}
+    }
+}
