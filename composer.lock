@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6e8a5d60a98a70cf477246100dc41fe5",
+    "hash": "e9e4b9f27430e53db204e173d6d125f2",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -122,16 +122,16 @@
         },
         {
             "name": "joomla/registry",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "d4526f2fb6295fbd3c688fa817e72a1821d7c0e4"
+                "reference": "2be70676835f7457719df0418be89397bfd55900"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/d4526f2fb6295fbd3c688fa817e72a1821d7c0e4",
-                "reference": "d4526f2fb6295fbd3c688fa817e72a1821d7c0e4",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/2be70676835f7457719df0418be89397bfd55900",
+                "reference": "2be70676835f7457719df0418be89397bfd55900",
                 "shasum": ""
             },
             "require": {
@@ -164,7 +164,7 @@
                 "joomla",
                 "registry"
             ],
-            "time": "2014-02-09 07:19:55"
+            "time": "2014-05-19 19:41:20"
         },
         {
             "name": "joomla/string",
@@ -246,16 +246,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v5.2.7",
+            "version": "v5.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "8717a79565b2c0ed67f851d70e1949febdf3b226"
+                "reference": "d3802c597bff8f6c2ccfa3eab2a511aa01b8d68f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/8717a79565b2c0ed67f851d70e1949febdf3b226",
-                "reference": "8717a79565b2c0ed67f851d70e1949febdf3b226",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/d3802c597bff8f6c2ccfa3eab2a511aa01b8d68f",
+                "reference": "d3802c597bff8f6c2ccfa3eab2a511aa01b8d68f",
                 "shasum": ""
             },
             "require": {
@@ -263,7 +263,7 @@
             },
             "require-dev": {
                 "phpdocumentor/phpdocumentor": "*",
-                "phpunit/phpunit": "*"
+                "phpunit/phpunit": "4.0.*"
             },
             "type": "library",
             "autoload": {
@@ -295,7 +295,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2013-09-12 07:52:38"
+            "time": "2014-05-14 07:04:18"
         },
         {
             "name": "symfony/yaml",

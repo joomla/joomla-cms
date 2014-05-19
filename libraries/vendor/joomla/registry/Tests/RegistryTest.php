@@ -159,11 +159,15 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
 			'Line: ' . __LINE__ . ' The input value should exist in the parent object.'
 		);
 
-		TestHelper::invoke($a, 'bindData', $parent, array('foo' => 'bar'));
+		TestHelper::invoke($a, 'bindData', $parent, array('foo' => 'bar', 'nullstring' => null));
 		$this->assertThat(
 			$parent->{'foo'},
 			$this->equalTo('bar'),
 			'Line: ' . __LINE__ . ' The input value should exist in the parent object.'
+		);
+		$this->assertNull(
+			$parent->{'nullstring'},
+			'Line: ' . __LINE__ . ' A null string should still be set in the constructor.'
 		);
 
 		TestHelper::invoke($a, 'bindData', $parent, array('level1' => array('level2' => 'value2')));

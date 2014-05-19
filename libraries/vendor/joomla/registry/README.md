@@ -1,4 +1,4 @@
-# The Registry Package
+# The Registry Package [![Build Status](https://travis-ci.org/joomla-framework/registry.png?branch=master)](https://travis-ci.org/joomla-framework/registry)
 
 ``` php
 use Joomla\Registry\Registry;
@@ -27,7 +27,7 @@ $registry->loadString('<root></root>', 'xml');
 
 // Load by object or array
 $registry->loadObject($object);
-$registry->loadaArray($array);
+$registry->loadArray($array);
 
 // Load by file
 $registry->loadFile($root . '/config/config.json', 'json');
@@ -260,20 +260,18 @@ $registry->loadString('<data><value name="foo" type="string">bar</value></data>,
 
 ## Installation via Composer
 
-Add `"joomla/registry": "dev-master"` to the require block in your composer.json, make sure you have `"minimum-stability": "dev"` and then run `composer install`.
+Add `"joomla/registry": "~1.0"` to the require block in your composer.json and then run `composer install`.
 
 ```json
 {
 	"require": {
-		"joomla/registry": "dev-master"
-	},
-	"minimum-stability": "dev"
+		"joomla/registry": "~1.0"
+	}
 }
 ```
 
 Alternatively, you can simply run the following from the command line:
 
 ```sh
-composer init --stability="dev"
-composer require joomla/registry "dev-master"
+composer require joomla/registry "~1.0"
 ```
