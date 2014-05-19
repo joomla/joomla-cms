@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\AbstractApplication;
+
 /**
  * Joomla Platform Base Application Class
  *
@@ -16,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Application
  * @since       12.1
  */
-abstract class JApplicationBase
+abstract class JApplicationBase extends AbstractApplication
 {
 	/**
 	 * The application dispatcher object.
@@ -33,29 +35,6 @@ abstract class JApplicationBase
 	 * @since  12.1
 	 */
 	protected $identity;
-
-	/**
-	 * The application input object.
-	 *
-	 * @var    JInput
-	 * @since  12.1
-	 */
-	public $input = null;
-
-	/**
-	 * Method to close the application.
-	 *
-	 * @param   integer  $code  The exit code (optional; default is 0).
-	 *
-	 * @return  void
-	 *
-	 * @codeCoverageIgnore
-	 * @since   12.1
-	 */
-	public function close($code = 0)
-	{
-		exit($code);
-	}
 
 	/**
 	 * Get the application identity.

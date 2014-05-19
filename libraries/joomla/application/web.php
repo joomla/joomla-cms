@@ -43,12 +43,6 @@ class JApplicationWeb extends JApplicationBase
 	public $client;
 
 	/**
-	 * @var    JRegistry  The application configuration object.
-	 * @since  11.3
-	 */
-	protected $config;
-
-	/**
 	 * @var    JDocument  The application document object.
 	 * @since  11.3
 	 */
@@ -559,39 +553,6 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Returns a property of the object or the default value if the property is not set.
-	 *
-	 * @param   string  $key      The name of the property.
-	 * @param   mixed   $default  The default value (optional) if none is set.
-	 *
-	 * @return  mixed   The value of the configuration.
-	 *
-	 * @since   11.3
-	 */
-	public function get($key, $default = null)
-	{
-		return $this->config->get($key, $default);
-	}
-
-	/**
-	 * Modifies a property of the object, creating it if it does not already exist.
-	 *
-	 * @param   string  $key    The name of the property.
-	 * @param   mixed   $value  The value of the property to set (optional).
-	 *
-	 * @return  mixed   Previous value of the property
-	 *
-	 * @since   11.3
-	 */
-	public function set($key, $value = null)
-	{
-		$previous = $this->config->get($key);
-		$this->config->set($key, $value);
-
-		return $previous;
 	}
 
 	/**
