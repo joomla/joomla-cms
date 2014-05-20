@@ -8,7 +8,6 @@
 
 JLoader::registerAlias('JInput',              '\\Joomla\\Input\\Input');
 JLoader::registerAlias('JInputCli',           '\\Joomla\\Input\\Cli');
-JLoader::registerAlias('JInputCLI',           '\\Joomla\\Input\\Cli');
 JLoader::registerAlias('JInputCookie',        '\\Joomla\\Input\\Cookie');
 JLoader::registerAlias('JInputFiles',         '\\Joomla\\Input\\Files');
 JLoader::registerAlias('JInputJson',          '\\Joomla\\Input\\Json');
