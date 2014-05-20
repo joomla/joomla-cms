@@ -223,19 +223,9 @@ abstract class JArrayHelper
 
 		if (is_array($array))
 		{
-			foreach ($array as &$item)
-			{
-				if (is_array($item) && isset($item[$index]))
-				{
-					$result[] = $item[$index];
-				}
-				elseif (is_object($item) && isset($item->$index))
-				{
-					$result[] = $item->$index;
-				}
-				// Else ignore the entry
-			}
+			$result = ArrayHelper::getColumn($array, $index);
 		}
+
 		return $result;
 	}
 
