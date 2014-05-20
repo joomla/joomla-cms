@@ -482,52 +482,6 @@
         ]
     },
     {
-        "name": "joomla/session",
-        "version": "1.2.0",
-        "version_normalized": "1.2.0.0",
-        "target-dir": "Joomla/Session",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/joomla-framework/session.git",
-            "reference": "0657610e7fe2dda15ae6ed23be64616e5c616b0d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/session/zipball/0657610e7fe2dda15ae6ed23be64616e5c616b0d",
-            "reference": "0657610e7fe2dda15ae6ed23be64616e5c616b0d",
-            "shasum": ""
-        },
-        "require": {
-            "joomla/filter": "~1.0",
-            "php": ">=5.3.10"
-        },
-        "require-dev": {
-            "joomla/test": "~1.0"
-        },
-        "suggest": {
-            "joomla/database": "Install joomla/database if you want to use Database session storage."
-        },
-        "time": "2014-04-09 02:23:29",
-        "type": "joomla-package",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Joomla\\Session": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "description": "Joomla Session Package",
-        "homepage": "https://github.com/joomla-framework/session",
-        "keywords": [
-            "framework",
-            "joomla",
-            "session"
-        ]
-    },
-    {
         "name": "joomla/event",
         "version": "1.1.1",
         "version_normalized": "1.1.1.0",
@@ -610,22 +564,68 @@
         ]
     },
     {
-        "name": "joomla/application",
-        "version": "1.2.0",
-        "version_normalized": "1.2.0.0",
+        "name": "joomla/session",
+        "version": "1.2.1",
+        "version_normalized": "1.2.1.0",
+        "target-dir": "Joomla/Session",
         "source": {
             "type": "git",
-            "url": "https://github.com/joomla-framework/application.git",
-            "reference": "6c96167e960106a6ba49f84c53d907d134350f79"
+            "url": "https://github.com/joomla-framework/session.git",
+            "reference": "6787dde4da83f3f638f834740c2c4dfa3dcdb1c4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/application/zipball/6c96167e960106a6ba49f84c53d907d134350f79",
-            "reference": "6c96167e960106a6ba49f84c53d907d134350f79",
+            "url": "https://api.github.com/repos/joomla-framework/session/zipball/6787dde4da83f3f638f834740c2c4dfa3dcdb1c4",
+            "reference": "6787dde4da83f3f638f834740c2c4dfa3dcdb1c4",
             "shasum": ""
         },
         "require": {
             "joomla/event": "~1.1",
+            "joomla/filter": "~1.0",
+            "php": ">=5.3.10"
+        },
+        "require-dev": {
+            "joomla/test": "~1.0"
+        },
+        "suggest": {
+            "joomla/database": "Install joomla/database if you want to use Database session storage."
+        },
+        "time": "2014-05-20 00:20:17",
+        "type": "joomla-package",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Joomla\\Session": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla Session Package",
+        "homepage": "https://github.com/joomla-framework/session",
+        "keywords": [
+            "framework",
+            "joomla",
+            "session"
+        ]
+    },
+    {
+        "name": "joomla/application",
+        "version": "1.2.1",
+        "version_normalized": "1.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/application.git",
+            "reference": "6eaa27a50d5362cf5d73acf9eade50ae042097da"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/application/zipball/6eaa27a50d5362cf5d73acf9eade50ae042097da",
+            "reference": "6eaa27a50d5362cf5d73acf9eade50ae042097da",
+            "shasum": ""
+        },
+        "require": {
             "joomla/input": "~1.1.1",
             "joomla/registry": "~1.1",
             "joomla/session": "~1.1",
@@ -637,7 +637,7 @@
         "require-dev": {
             "joomla/test": "~1.1"
         },
-        "time": "2014-04-09 02:22:29",
+        "time": "2014-05-20 14:35:14",
         "type": "joomla-package",
         "installation-source": "dist",
         "autoload": {
