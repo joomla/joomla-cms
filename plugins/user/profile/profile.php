@@ -206,9 +206,9 @@ class PlgUserProfile extends JPlugin
 			'tos',
 		);
 
-		//Change fields description when displayed in front-end
+		//Change fields description when displayed in front-end or back-end profile editing
 		$app = JFactory::getApplication();
-		if ($app->isSite())
+		if ($app->isSite() || $name == 'com_users.user' || $name == 'com_admin.profile')
 		{
 			$form->setFieldAttribute('address1', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
 			$form->setFieldAttribute('address2', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
@@ -250,6 +250,11 @@ class PlgUserProfile extends JPlugin
 				)
 				{
 					$form->removeField($field, 'profile');
+				}
+
+				if ($this->params->get('profile-require_dob', 1) > 0)
+				{
+					$form->setFieldAttribute('spacer', 'type', 'spacer', 'profile');
 				}
 			}
 			// Case registration
