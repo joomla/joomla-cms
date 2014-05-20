@@ -17,7 +17,7 @@ use Joomla\Utilities\ArrayHelper;
  * @package     Joomla.Platform
  * @subpackage  Utilities
  * @since       11.1
- * @deprecated  3.4  Use the Joomla Framework ArrayHelper class.
+ * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper instead
  */
 abstract class JArrayHelper
 {
