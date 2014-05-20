@@ -69,7 +69,7 @@ class JApplicationCli extends JApplicationBase
 		{
 			if (class_exists('JInput'))
 			{
-				$this->input = new JInputCLI;
+				$this->input = new JInputCli;
 			}
 		}
 
