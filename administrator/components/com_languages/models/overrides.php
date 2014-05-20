@@ -60,6 +60,12 @@ class LanguagesModelOverrides extends JModelList
 		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 		$strings = LanguagesHelper::parseFile($filename);
 
+		// Delete the override.ini file is empty
+		if (file_exists($filename) && empty($strings))
+		{
+			JFile::delete($filename);
+		}
+
 		// Filter the loaded strings according to the search box
 		$search = $this->getState('filter.search');
 
