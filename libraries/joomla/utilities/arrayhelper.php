@@ -62,6 +62,7 @@ abstract class JArrayHelper
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::toInteger instead
 	 */
 	public static function toInteger(&$array, $default = null)
 	{
@@ -99,6 +100,7 @@ abstract class JArrayHelper
 	 * @return  object   The object mapped from the given array
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::toObject instead
 	 */
 	public static function toObject(&$array, $class = 'stdClass')
 	{
@@ -123,6 +125,7 @@ abstract class JArrayHelper
 	 * @return  string   The string mapped from the given array
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::toString instead
 	 */
 	public static function toString($array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false)
 	{
@@ -146,6 +149,7 @@ abstract class JArrayHelper
 	 * @return  array    The array mapped from the given object
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::fromObject instead
 	 */
 	public static function fromObject($p_obj, $recurse = true, $regex = null)
 	{
@@ -216,6 +220,7 @@ abstract class JArrayHelper
 	 * @return  array  Column of values from the source array
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::getColumn instead
 	 */
 	public static function getColumn(&$array, $index)
 	{
@@ -240,6 +245,7 @@ abstract class JArrayHelper
 	 * @return  mixed  The value from the source array
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::getValue instead
 	 */
 	public static function getValue(&$array, $name, $default = null, $type = '')
 	{
@@ -272,6 +278,7 @@ abstract class JArrayHelper
 	 * @return  array  The inverted array.
 	 *
 	 * @since   12.3
+	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::invert instead
 	 */
 	public static function invert($array)
 	{
@@ -286,6 +293,7 @@ abstract class JArrayHelper
 	 * @return  boolean  True if the array is an associative array.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::isAssociative instead
 	 */
 	public static function isAssociative($array)
 	{
@@ -301,6 +309,7 @@ abstract class JArrayHelper
 	 * @return  array  An array of arrays pivoted either on the value of the keys, or an individual key of an object or array.
 	 *
 	 * @since   11.3
+	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::pivot instead
 	 */
 	public static function pivot($source, $key = null)
 	{
@@ -379,6 +388,7 @@ abstract class JArrayHelper
 	 * @return  array  The sorted array of objects
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::sortObjects instead
 	 */
 	public static function sortObjects(&$a, $k, $direction = 1, $caseSensitive = true, $locale = false)
 	{
@@ -474,6 +484,7 @@ abstract class JArrayHelper
 	 *
 	 * @see     http://php.net/manual/en/function.array-unique.php
 	 * @since   11.2
+	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::arrayUnique instead
 	 */
 	public static function arrayUnique($myArray)
 	{
