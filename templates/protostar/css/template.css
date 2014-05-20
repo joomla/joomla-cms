@@ -7418,3 +7418,9 @@ code {
 	overflow: hidden;
 	position: relative;
 }
+
+.search span.highlight {
+	background-color:#FFFFCC;
+	font-weight:bold;
+	padding:1px 4px;
+}

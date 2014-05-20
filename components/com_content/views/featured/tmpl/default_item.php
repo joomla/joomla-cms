@@ -44,21 +44,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 	<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
 <?php endif; ?>
 
-<?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $canEdit) : ?>
-	<div class="btn-group pull-right"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" role="button"> <span class="icon-cog"></span> <span class="caret"></span> </a>
-		<ul class="dropdown-menu">
-		<?php if ($params->get('show_print_icon')) : ?>
-			<li class="print-icon"> <?php echo JHtml::_('icon.print_popup', $this->item, $params); ?> </li>
-		<?php endif; ?>
-		<?php if ($params->get('show_email_icon')) : ?>
-			<li class="email-icon"> <?php echo JHtml::_('icon.email', $this->item, $params); ?> </li>
-		<?php endif; ?>
-		<?php if ($canEdit) : ?>
-			<li class="edit-icon"> <?php echo JHtml::_('icon.edit', $this->item, $params); ?> </li>
-		<?php endif; ?>
-		</ul>
-	</div>
-<?php endif; ?>
+<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
 
 <?php // Todo Not that elegant would be nice to group the params ?>
 <?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
