@@ -253,62 +253,7 @@ abstract class JArrayHelper
 	 */
 	public static function getValue(&$array, $name, $default = null, $type = '')
 	{
-		$result = null;
-
-		if (isset($array[$name]))
-		{
-			$result = $array[$name];
-		}
-
-		// Handle the default case
-		if (is_null($result))
-		{
-			$result = $default;
-		}
-
-		// Handle the type constraint
-		switch (strtoupper($type))
-		{
-			case 'INT':
-			case 'INTEGER':
-				// Only use the first integer value
-				@preg_match('/-?[0-9]+/', $result, $matches);
-				$result = @(int) $matches[0];
-				break;
-
-			case 'FLOAT':
-			case 'DOUBLE':
-				// Only use the first floating point value
-				@preg_match('/-?[0-9]+(\.[0-9]+)?/', $result, $matches);
-				$result = @(float) $matches[0];
-				break;
-
-			case 'BOOL':
-			case 'BOOLEAN':
-				$result = (bool) $result;
-				break;
-
-			case 'ARRAY':
-				if (!is_array($result))
-				{
-					$result = array($result);
-				}
-				break;
-
-			case 'STRING':
-				$result = (string) $result;
-				break;
-
-			case 'WORD':
-				$result = (string) preg_replace('#\W#', '', $result);
-				break;
-
-			case 'NONE':
-			default:
-				// No casting necessary
-				break;
-		}
-		return $result;
+		ArrayHelper::getValue($array, $name, $default, $type);
 	}
 
 	/**
