@@ -20,33 +20,58 @@ $input = JFactory::getApplication()->input;
 var image_base_path = '<?php $params = JComponentHelper::getParams('com_media');
 echo $params->get('image_path', 'images'); ?>/';
 </script>
+
+<div class="tabbable">
+<ul class="nav nav-tabs">
+	<li class="active"><a href="#browse_tab" data-toggle="tab"><?php echo JText::_('COM_MEDIA_BROWSE_DIRECTORY') ?></a></li>
+	<li><a href="#upload_tab" data-toggle="tab"><?php echo JText::_('COM_MEDIA_UPLOAD') ?></a></li>
+</ul>
+
+<div class="tab-content">
+
+<div class="tab-pane active" id="browse_tab">
+
 <form action="index.php?option=com_media&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author'); ?>" class="form-vertical" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
 		<span id="message"></span><?php echo JHtml::_('image', 'media/dots.gif', '...', array('width' => 22, 'height' => 12), true) ?>
 	</div>
-	<div class="well">
+	<div class="well well-small">
 		<div class="row">
-			<div class="span9 control-group">
-				<div class="control-label">
-					<label class="control-label" for="folder"><?php echo JText::_('COM_MEDIA_DIRECTORY') ?></label>
-				</div>
-				<div class="controls">
-					<?php echo $this->folderList; ?>
-					<button class="btn" type="button" id="upbutton" title="<?php echo JText::_('COM_MEDIA_DIRECTORY_UP') ?>"><?php echo JText::_('COM_MEDIA_UP') ?></button>
-				</div>
-			</div>
+			<form class="form-inline">				
+				<div class="span9 control-group">
+					<fieldset>
+						<label class="control-label"><?php echo JText::_('COM_MEDIA_DIRECTORY') ?></label>
+						<div class="controls">
+						<div class="input-append">			  	
+							<?php echo $this->folderList; ?>
+							<button class="btn btn-small" type="button" id="upbutton" title="<?php echo JText::_('COM_MEDIA_DIRECTORY_UP') ?>"><i class="icon-chevron-up"></i></button>
+							</div>	
+						</div>
+					</fieldset>
+  				</div>				
+			</form>
+
 			<div class="pull-right">
-				<button class="btn btn-primary" type="button" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.id('f_url').value,'<?php echo $this->state->get('field.id');?>');<?php else:?>ImageManager.onok();<?php endif;?>window.parent.SqueezeBox.close();"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
-				<button class="btn" type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('JCANCEL') ?></button>
+				<ul class="nav nav-pills">
+					<li class="active">
+						<a href="#" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.id('f_url').value,'<?php echo $this->state->get('field.id');?>');<?php else:?>ImageManager.onok();<?php endif;?>window.parent.SqueezeBox.close();"><?php echo JText::_('COM_MEDIA_INSERT') ?></a>
+					</li>
+					<li>
+						<a href="#" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('JCANCEL') ?></a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
 
-	<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imageslist&amp;controller=media.display.imageslist&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>"></iframe>
+	<div class="row">
+	
+	<iframe id="imageframe" name="imageframe" class="span9" src="index.php?option=com_media&amp;view=imageslist&amp;controller=media.display.imageslist&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>"></iframe>
 
-	<div class="well">
+
+      <div class="well well-small span3">
 		<div class="row">
-			<div class="span6 control-group">
+			<div class="span3 control-group">
 				<div class="control-label">
 					<label for="f_url"><?php echo JText::_('COM_MEDIA_IMAGE_URL') ?></label>
 				</div>
@@ -55,7 +80,7 @@ echo $params->get('image_path', 'images'); ?>/';
 				</div>
 			</div>
 			<?php if (!$this->state->get('field.id')):?>
-			<div class="span6 control-group">
+			<div class="span3 control-group">
 				<div class="control-label">
 					<label title="<?php echo JText::_('COM_MEDIA_ALIGN_DESC'); ?>" class="noHtmlTip" for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label>
 				</div>
@@ -72,7 +97,7 @@ echo $params->get('image_path', 'images'); ?>/';
 		</div>
 		<?php if (!$this->state->get('field.id')):?>
 		<div class="row">
-			<div class="span6 control-group">
+			<div class="span3 control-group">
 				<div class="control-label">
 					<label for="f_alt"><?php echo JText::_('COM_MEDIA_IMAGE_DESCRIPTION') ?></label>
 				</div>
@@ -80,7 +105,7 @@ echo $params->get('image_path', 'images'); ?>/';
 					<input type="text" id="f_alt" value="" />
 				</div>
 			</div>
-			<div class="span6 control-group">
+			<div class="span3 control-group">
 				<div class="control-label">
 					<label for="f_title"><?php echo JText::_('COM_MEDIA_TITLE') ?></label>
 				</div>
@@ -90,7 +115,7 @@ echo $params->get('image_path', 'images'); ?>/';
 			</div>
 		</div>
 		<div class="row">
-			<div class="span6 control-group">
+			<div class="span3 control-group">
 				<div class="control-label">
 					<label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label>
 				</div>
@@ -98,7 +123,7 @@ echo $params->get('image_path', 'images'); ?>/';
 					<input type="text" id="f_caption" value="" />
 				</div>
 			</div>
-			<div class="span6 control-group">
+			<div class="span3 control-group">
 				<div class="control-label">
 					<label title="<?php echo JText::_('COM_MEDIA_CAPTION_CLASS_DESC'); ?>" class="noHtmlTip" for="f_caption_class"><?php echo JText::_('COM_MEDIA_CAPTION_CLASS_LABEL') ?></label>
 				</div>
@@ -119,7 +144,14 @@ echo $params->get('image_path', 'images'); ?>/';
 		<input type="hidden" id="tmpl" name="component" />
 
 	</div>
+        	
+  </div>
+	
 </form>
+
+</div>
+
+<div class="tab-pane" id="upload_tab">
 
 <?php if ($user->authorise('core.create', 'com_media')) : ?>
 	<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>&amp;view=images" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
@@ -139,3 +171,7 @@ echo $params->get('image_path', 'images'); ?>/';
 		</div>
 	</form>
 <?php endif; ?>
+
+</div>
+</div>
+</div>
