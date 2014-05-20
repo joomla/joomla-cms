@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Input Package
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -167,7 +167,7 @@ class Input implements \Serializable, \Countable
 	 */
 	public function get($name, $default = null, $filter = 'cmd')
 	{
-		if (isset($this->data[$name]))
+		if (isset($this->data[$name]) && !empty($this->data[$name]))
 		{
 			return $this->filter->clean($this->data[$name], $filter);
 		}

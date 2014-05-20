@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -63,6 +63,7 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test__get()
 	{
+		// Test super globals
 		$_POST['foo'] = 'bar';
 
 		// Test the get method.
@@ -75,11 +76,41 @@ class InputTest extends \PHPUnit_Framework_TestCase
 		// Test the set method.
 		$this->instance->post->set('foo', 'notbar');
 		$this->assertThat(
-			$_POST['foo'],
-			$this->equalTo('bar'),
+			$this->instance->post->get('foo'),
+			$this->equalTo('notbar'),
 			'Line: ' . __LINE__ . '.'
 		);
 
+		$_GET['foo'] = 'bar';
+
+		// Test the get method.
+		$this->assertThat(
+			$this->instance->get->get('foo'),
+			$this->equalTo('bar')
+		);
+
+		// Test the set method.
+		$this->instance->get->set('foo', 'notbar');
+		$this->assertThat(
+			$this->instance->get->get('foo'),
+			$this->equalTo('notbar')
+		);
+
+		// Test input class Cli
+		$this->instance->cli->set('foo', 'bar');
+		$this->assertThat(
+			$this->instance->cli->get('foo'),
+			$this->equalTo('bar')
+		);
+
+		// Test input class Json
+		$this->instance->json->set('foo', 'bar');
+		$this->assertThat(
+			$this->instance->json->get('foo'),
+			$this->equalTo('bar')
+		);
+
+		// Input classes Cookie and Files yet to be completed
 		$this->markTestIncomplete();
 	}
 
@@ -144,6 +175,14 @@ class InputTest extends \PHPUnit_Framework_TestCase
 			$instance->get('default_value', 'default'),
 			$this->equalTo('default'),
 			'Line: ' . __LINE__ . '.'
+		);
+
+		$_REQUEST['empty'] = '';
+
+		// Test the get method
+		$this->assertThat(
+			$instance->get('empty', 'default'),
+			$this->equalTo('default')
 		);
 	}
 

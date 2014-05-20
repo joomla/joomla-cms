@@ -521,49 +521,6 @@
         ]
     },
     {
-        "name": "joomla/input",
-        "version": "1.1.1",
-        "version_normalized": "1.1.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/joomla-framework/input.git",
-            "reference": "34c26858445d13220d492a8c1e870e6778232979"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/input/zipball/34c26858445d13220d492a8c1e870e6778232979",
-            "reference": "34c26858445d13220d492a8c1e870e6778232979",
-            "shasum": ""
-        },
-        "require": {
-            "joomla/filter": "~1.0",
-            "php": ">=5.3.10"
-        },
-        "require-dev": {
-            "joomla/test": "~1.0"
-        },
-        "time": "2014-02-09 02:03:05",
-        "type": "joomla-package",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Joomla\\Input\\": "src/",
-                "Joomla\\Input\\Tests\\": "Tests/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "description": "Joomla Input Package",
-        "homepage": "https://github.com/joomla-framework/input",
-        "keywords": [
-            "framework",
-            "input",
-            "joomla"
-        ]
-    },
-    {
         "name": "joomla/session",
         "version": "1.2.1",
         "version_normalized": "1.2.1.0",
@@ -655,6 +612,49 @@
         "keywords": [
             "application",
             "framework",
+            "joomla"
+        ]
+    },
+    {
+        "name": "joomla/input",
+        "version": "1.1.2",
+        "version_normalized": "1.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/input.git",
+            "reference": "3f669bfe88b7fa1009687d7a0ac89ea53fa4e62c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/input/zipball/3f669bfe88b7fa1009687d7a0ac89ea53fa4e62c",
+            "reference": "3f669bfe88b7fa1009687d7a0ac89ea53fa4e62c",
+            "shasum": ""
+        },
+        "require": {
+            "joomla/filter": "~1.0",
+            "php": ">=5.3.10"
+        },
+        "require-dev": {
+            "joomla/test": "~1.0"
+        },
+        "time": "2014-05-20 15:24:15",
+        "type": "joomla-package",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Input\\": "src/",
+                "Joomla\\Input\\Tests\\": "Tests/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla Input Package",
+        "homepage": "https://github.com/joomla-framework/input",
+        "keywords": [
+            "framework",
+            "input",
             "joomla"
         ]
     }

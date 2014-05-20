@@ -1,4 +1,4 @@
-# The Input Package
+# The Input Package [![Build Status](https://travis-ci.org/joomla-framework/input.png?branch=master)](https://travis-ci.org/joomla-framework/input)
 
 This package comprises of four classes, `Input\Input`and four sub-classes extended from it: `Input\Cli`, `Input\Cookie`, `Input\Files`, and `Input\Json`. An input object is generally owned by the application and explicitly added to an application class as a public property, such as can be found in `Application\AbstractApplication`.
 
@@ -22,7 +22,7 @@ use Joomla\Input;
 $input = new Input\Input;
 
 // Construction with data injection.
-$input = new Input\Input(array('foo' => 'bar');
+$input = new Input\Input(array('foo' => 'bar'));
 
 // Construction with a custom filter.
 $filter = new InputFilter(/* custom settings */);
@@ -47,7 +47,7 @@ $foo = $input->get('foo');
 $foo = $input->get('foo', 'bar');
 
 // Apply a custom filter to the variable, in this case, get the raw value.
-$foo = $input->get('body', null, 'string');
+$foo = $input->get('body', null, 'raw');
 
 // Explicitly set an input value.
 $input->set('hidemainmenu', true);
@@ -323,20 +323,18 @@ You can provide customised implementations these methods by creating the followi
 
 ## Installation via Composer
 
-Add `"joomla/input": "dev-master"` to the require block in your composer.json, make sure you have `"minimum-stability": "dev"` and then run `composer install`.
+Add `"joomla/input": "~1.0"` to the require block in your composer.json and then run `composer install`.
 
 ```json
 {
-  "require": {
-    "joomla/input": "dev-master"
-  },
-  "minimum-stability": "dev"
+	"require": {
+		"joomla/input": "~1.0"
+	}
 }
 ```
 
 Alternatively, you can simply run the following from the command line:
 
 ```sh
-composer init --stability="dev"
-composer require joomla/input "dev-master"
+composer require joomla/input "~1.0"
 ```
