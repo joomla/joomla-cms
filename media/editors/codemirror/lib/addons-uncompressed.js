@@ -13,6 +13,9 @@
  *  addon/selection/active-line.js
  *  keymap/vim.js
 **/
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("../../lib/codemirror"));
@@ -51,6 +54,9 @@
     cm.refresh();
   }
 });
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("../../lib/codemirror"));
@@ -191,6 +197,9 @@
     };
   }
 });
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
 /**
  * Tag-closer extension for CodeMirror.
  *
@@ -248,6 +257,7 @@
       var pos = ranges[i].head, tok = cm.getTokenAt(pos);
       var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
       if (inner.mode.name != "xml" || !state.tagName) return CodeMirror.Pass;
+
       var opt = cm.getOption("autoCloseTags"), html = inner.mode.configuration == "html";
       var dontCloseTags = (typeof opt == "object" && opt.dontCloseTags) || (html && htmlDontClose);
       var indentTags = (typeof opt == "object" && opt.indentTags) || (html && htmlIndent);
@@ -261,8 +271,7 @@
           tok.type == "tag" && state.type == "closeTag" ||
           tok.string.indexOf("/") == (tok.string.length - 1) || // match something like <someTagName />
           dontCloseTags && indexOf(dontCloseTags, lowerTagName) > -1 ||
-          CodeMirror.scanForClosingTag && CodeMirror.scanForClosingTag(cm, pos, tagName,
-                                                                       Math.min(cm.lastLine() + 1, pos.line + 50)))
+          closingTagExists(cm, tagName, pos, state, true))
         return CodeMirror.Pass;
 
       var indent = indentTags && indexOf(indentTags, lowerTagName) > -1;
@@ -293,7 +302,8 @@
       var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
       if (tok.type == "string" || tok.string.charAt(0) != "<" ||
           tok.start != pos.ch - 1 || inner.mode.name != "xml" ||
-          !state.context || !state.context.tagName)
+          !state.context || !state.context.tagName ||
+          closingTagExists(cm, state.context.tagName, pos, state))
         return CodeMirror.Pass;
       replacements[i] = "/" + state.context.tagName + ">";
     }
@@ -306,7 +316,31 @@
       if (collection[i] == elt) return i;
     return -1;
   }
+
+  // If xml-fold is loaded, we use its functionality to try and verify
+  // whether a given tag is actually unclosed.
+  function closingTagExists(cm, tagName, pos, state, newTag) {
+    if (!CodeMirror.scanForClosingTag) return false;
+    var end = Math.min(cm.lastLine() + 1, pos.line + 500);
+    var nextClose = CodeMirror.scanForClosingTag(cm, pos, null, end);
+    if (!nextClose || nextClose.tag != tagName) return false;
+    var cx = state.context;
+    // If the immediate wrapping context contains onCx instances of
+    // the same tag, a closing tag only exists if there are at least
+    // that many closing tags of that type following.
+    for (var onCx = newTag ? 1 : 0; cx && cx.tagName == tagName; cx = cx.prev) ++onCx;
+    pos = nextClose.to;
+    for (var i = 1; i < onCx; i++) {
+      var next = CodeMirror.scanForClosingTag(cm, pos, null, end);
+      if (!next || next.tag != tagName) return false;
+      pos = next.to;
+    }
+    return true;
+  }
 });
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("../../lib/codemirror"));
@@ -424,6 +458,9 @@
     return scanForBracket(this, pos, dir, style, config);
   });
 });
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("../../lib/codemirror"), require("../fold/xml-fold"));
@@ -487,6 +524,9 @@
     }
   };
 });
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("../../lib/codemirror"));
@@ -589,6 +629,9 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
 });
 
 });
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("../../lib/codemirror"));
@@ -600,10 +643,14 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
   "use strict";
 
   function doFold(cm, pos, options, force) {
-    var finder = options && (options.call ? options : options.rangeFinder);
-    if (!finder) finder = CodeMirror.fold.auto;
+    if (options && options.call) {
+      var finder = options;
+      options = null;
+    } else {
+      var finder = getOption(cm, options, "rangeFinder");
+    }
     if (typeof pos == "number") pos = CodeMirror.Pos(pos, 0);
-    var minSize = options && options.minFoldSize || 0;
+    var minSize = getOption(cm, options, "minFoldSize");
 
     function getRange(allowFolded) {
       var range = finder(cm, pos);
@@ -620,14 +667,17 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     }
 
     var range = getRange(true);
-    if (options && options.scanUp) while (!range && pos.line > cm.firstLine()) {
+    if (getOption(cm, options, "scanUp")) while (!range && pos.line > cm.firstLine()) {
       pos = CodeMirror.Pos(pos.line - 1, 0);
       range = getRange(false);
     }
     if (!range || range.cleared || force === "unfold") return;
 
-    var myWidget = makeWidget(options);
-    CodeMirror.on(myWidget, "mousedown", function() { myRange.clear(); });
+    var myWidget = makeWidget(cm, options);
+    CodeMirror.on(myWidget, "mousedown", function(e) {
+      myRange.clear();
+      CodeMirror.e_preventDefault(e);
+    });
     var myRange = cm.markText(range.from, range.to, {
       replacedWith: myWidget,
       clearOnEnter: true,
@@ -639,8 +689,8 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     CodeMirror.signal(cm, "fold", cm, range.from, range.to);
   }
 
-  function makeWidget(options) {
-    var widget = (options && options.widget) || "\u2194";
+  function makeWidget(cm, options) {
+    var widget = getOption(cm, options, "widget");
     if (typeof widget == "string") {
       var text = document.createTextNode(widget);
       widget = document.createElement("span");
@@ -705,7 +755,28 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       if (cur) return cur;
     }
   });
+
+  var defaultOptions = {
+    rangeFinder: CodeMirror.fold.auto,
+    widget: "\u2194",
+    minFoldSize: 0,
+    scanUp: false
+  };
+
+  CodeMirror.defineOption("foldOptions", null);
+
+  function getOption(cm, options, name) {
+    if (options && options[name] !== undefined)
+      return options[name];
+    var editorOptions = cm.options.foldOptions;
+    if (editorOptions && editorOptions[name] !== undefined)
+      return editorOptions[name];
+    return defaultOptions[name];
+  }
 });
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("../../lib/codemirror"), require("./foldcode"));
@@ -837,6 +908,9 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       updateFoldInfo(cm, line, line + 1);
   }
 });
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("../../lib/codemirror"));
@@ -1012,9 +1086,12 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
   // Used by addon/edit/closetag.js
   CodeMirror.scanForClosingTag = function(cm, pos, name, end) {
     var iter = new Iter(cm, pos.line, pos.ch, end ? {from: 0, to: end} : null);
-    return !!findMatchingClose(iter, name);
+    return findMatchingClose(iter, name);
   };
 });
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("../../lib/codemirror"));
@@ -1073,6 +1150,9 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       });
   };
 });
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("../../lib/codemirror"));
@@ -1188,6 +1268,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 };
 
 });
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
 // Because sometimes you need to style the cursor's line.
 //
 // Adds an option 'styleActiveLine' which, when enabled, gives the
@@ -1254,6 +1337,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     updateActiveLines(cm, sel.ranges);
   }
 });
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
 /**
  * Supported keybindings:
  *
@@ -1527,6 +1613,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         actionArgs: { insertAt: 'charAfter' }},
     { keys: ['A'], type: 'action', action: 'enterInsertMode', isEdit: true,
         actionArgs: { insertAt: 'eol' }},
+    { keys: ['A'], type: 'action', action: 'enterInsertMode', isEdit: true, actionArgs: { insertAt: 'endOfSelectedArea' }, context: 'visual' },
     { keys: ['i'], type: 'action', action: 'enterInsertMode', isEdit: true,
         actionArgs: { insertAt: 'inplace' }},
     { keys: ['I'], type: 'action', action: 'enterInsertMode', isEdit: true,
@@ -1553,6 +1640,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     { keys: ['R'], type: 'action', action: 'enterInsertMode', isEdit: true,
         actionArgs: { replace: true }},
     { keys: ['u'], type: 'action', action: 'undo' },
+    { keys: ['u'], type: 'action', action: 'changeCase', actionArgs: {toLower: true}, context: 'visual', isEdit: true },
+    { keys: ['U'],type: 'action', action: 'changeCase', actionArgs: {toLower: false}, context: 'visual', isEdit: true },
     { keys: ['<C-r>'], type: 'action', action: 'redo' },
     { keys: ['m', 'character'], type: 'action', action: 'setMark' },
     { keys: ['"', 'character'], type: 'action', action: 'setRegister' },
@@ -1938,13 +2027,13 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         if (macroModeState.isRecording) {
           if (key == 'q') {
             macroModeState.exitMacroRecordMode();
-            vim.inputState = new InputState();
+            clearInputState(cm);
             return;
           }
         }
         if (key == '<Esc>') {
           // Clear input state and get back to normal mode.
-          vim.inputState = new InputState();
+          clearInputState(cm);
           if (vim.visualMode) {
             exitVisualMode(cm);
           }
@@ -2021,6 +2110,11 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       }
       return repeat;
     };
+
+    function clearInputState(cm, reason) {
+      cm.state.vim.inputState = new InputState();
+      CodeMirror.signal(cm, 'vim-command-done', reason);
+    }
 
     /*
      * Register stores information about copy and paste registers.  Besides
@@ -2274,7 +2368,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             return;
           } else {
             // 2 different operators in a row doesn't make sense.
-            vim.inputState = new InputState();
+            clearInputState(cm);
           }
         }
         inputState.operator = command.operator;
@@ -2319,7 +2413,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         actionArgs.repeat = repeat || 1;
         actionArgs.repeatIsExplicit = repeatIsExplicit;
         actionArgs.registerName = inputState.registerName;
-        vim.inputState = new InputState();
+        clearInputState(cm);
         vim.lastMotion = null;
         if (command.isEdit) {
           this.recordLastEdit(vim, inputState, command);
@@ -2500,7 +2594,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
               inputState.selectedCharacter;
         }
         motionArgs.repeat = repeat;
-        vim.inputState = new InputState();
+        clearInputState(cm);
         if (motion) {
           var motionResult = motions[motion](cm, motionArgs, vim);
           vim.lastMotion = motions[motion];
@@ -2806,10 +2900,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         // will move the cursor to where it should be in the end.
         var curStart = cm.getCursor();
         var repeat = motionArgs.repeat;
-        cm.moveV((motionArgs.forward ? repeat : -repeat), 'page');
-        var curEnd = cm.getCursor();
-        cm.setCursor(curStart);
-        return curEnd;
+        return cm.findPosV(curStart, (motionArgs.forward ? repeat : -repeat), 'page');
       },
       moveByParagraph: function(cm, motionArgs) {
         var line = cm.getCursor().line;
@@ -2901,15 +2992,14 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         do {
           symbol = lineText.charAt(ch++);
           if (symbol && isMatchableSymbol(symbol)) {
-            var ignoreStyle = ["string", "comment"];
             var style = cm.getTokenTypeAt(Pos(line, ch));
-            if (ignoreStyle.indexOf(style) < 0) {
+            if (style !== "string" && style !== "comment") {
               break;
             }
           }
         } while (symbol);
         if (symbol) {
-          var matched = cm.findMatchingBracket(Pos(line, ch-1));
+          var matched = cm.findMatchingBracket(Pos(line, ch));
           return matched.to;
         } else {
           return cursor;
@@ -3172,6 +3262,12 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           cm.setCursor(offsetCursor(cm.getCursor(), 0, 1));
         } else if (insertAt == 'firstNonBlank') {
           cm.setCursor(motions.moveToFirstNonWhiteSpaceCharacter(cm));
+        } else if (insertAt == 'endOfSelectedArea') {
+          var selectionEnd = cm.getCursor('head');
+          var selectionStart = cm.getCursor('anchor');
+          selectionEnd = cursorIsBefore(selectionStart, selectionEnd) ? Pos(selectionEnd.line, selectionEnd.ch+1) : (selectionEnd.line < selectionStart.line ? Pos(selectionStart.line, 0) : selectionEnd);
+          cm.setCursor(selectionEnd);
+          exitVisualMode(cm);
         }
         cm.setOption('keyMap', 'vim-insert');
         cm.setOption('disableInput', false);
@@ -3309,7 +3405,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         }
         this.enterInsertMode(cm, { repeat: actionArgs.repeat }, vim);
       },
-      paste: function(cm, actionArgs) {
+      paste: function(cm, actionArgs, vim) {
         var cur = copyCursor(cm.getCursor());
         var register = vimGlobalState.registerController.getRegister(
             actionArgs.registerName);
@@ -3350,7 +3446,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         }
         var linewise = register.linewise;
         if (linewise) {
-          if (actionArgs.after) {
+          if(vim.visualMode) {
+            text = vim.visualLine ? text.slice(0, -1) : '\n' + text.slice(0, text.length - 1) + '\n';
+          } else if (actionArgs.after) {
             // Move the newline at the end to the start instead, and paste just
             // before the newline character of the line we are on right now.
             text = '\n' + text.slice(0, text.length - 1);
@@ -3361,24 +3459,35 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         } else {
           cur.ch += actionArgs.after ? 1 : 0;
         }
-        cm.replaceRange(text, cur);
-        // Now fine tune the cursor to where we want it.
         var curPosFinal;
         var idx;
-        if (linewise && actionArgs.after) {
-          curPosFinal = Pos(
-            cur.line + 1,
-            findFirstNonWhiteSpaceCharacter(cm.getLine(cur.line + 1)));
-        } else if (linewise && !actionArgs.after) {
-          curPosFinal = Pos(
-            cur.line,
-            findFirstNonWhiteSpaceCharacter(cm.getLine(cur.line)));
-        } else if (!linewise && actionArgs.after) {
-          idx = cm.indexFromPos(cur);
-          curPosFinal = cm.posFromIndex(idx + text.length - 1);
+        if (vim.visualMode) {
+          var selectedArea = getSelectedAreaRange(cm, vim);
+          var selectionStart = selectedArea[0];
+          var selectionEnd = selectedArea[1];
+          // push the previously selected text to unnamed register
+          vimGlobalState.registerController.unnamedRegister.setText(cm.getRange(selectionStart, selectionEnd));
+          cm.replaceRange(text, selectionStart, selectionEnd);
+          curPosFinal = cm.posFromIndex(cm.indexFromPos(selectionStart) + text.length - 1);
+          if(linewise)curPosFinal.ch=0;
         } else {
-          idx = cm.indexFromPos(cur);
-          curPosFinal = cm.posFromIndex(idx + text.length);
+          cm.replaceRange(text, cur);
+          // Now fine tune the cursor to where we want it.
+          if (linewise && actionArgs.after) {
+            curPosFinal = Pos(
+              cur.line + 1,
+              findFirstNonWhiteSpaceCharacter(cm.getLine(cur.line + 1)));
+          } else if (linewise && !actionArgs.after) {
+            curPosFinal = Pos(
+              cur.line,
+              findFirstNonWhiteSpaceCharacter(cm.getLine(cur.line)));
+          } else if (!linewise && actionArgs.after) {
+            idx = cm.indexFromPos(cur);
+            curPosFinal = cm.posFromIndex(idx + text.length - 1);
+          } else {
+            idx = cm.indexFromPos(cur);
+            curPosFinal = cm.posFromIndex(idx + text.length);
+          }
         }
         cm.setCursor(curPosFinal);
       },
@@ -3472,6 +3581,15 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           repeat = vim.lastEditInputState.repeatOverride || repeat;
         }
         repeatLastEdit(cm, vim, repeat, false /** repeatForInsert */);
+      },
+      changeCase: function(cm, actionArgs, vim) {
+        var selectedAreaRange = getSelectedAreaRange(cm, vim);
+        var selectionStart = selectedAreaRange[0];
+        var selectionEnd = selectedAreaRange[1];
+        var toLower = actionArgs.toLower;
+        var text = cm.getRange(selectionStart, selectionEnd);
+        cm.replaceRange(toLower ? text.toLowerCase() : text.toUpperCase(), selectionStart, selectionEnd);
+        cm.setCursor(selectionStart);
       }
     };
 
@@ -3553,6 +3671,29 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
     function escapeRegex(s) {
       return s.replace(/([.?*+$\[\]\/\\(){}|\-])/g, '\\$1');
+    }
+    function getSelectedAreaRange(cm, vim) {
+      var selectionStart = cm.getCursor('anchor');
+      var selectionEnd = cm.getCursor('head');
+      var lastSelection = vim.lastSelection;
+      if (!vim.visualMode) {
+        var line = lastSelection.curEnd.line - lastSelection.curStart.line;
+        var ch = line ? lastSelection.curEnd.ch : lastSelection.curEnd.ch - lastSelection.curStart.ch;
+        selectionEnd = {line: selectionEnd.line + line, ch: line ? selectionEnd.ch : ch + selectionEnd.ch};
+        if (lastSelection.visualLine) {
+          return [{line: selectionStart.line, ch: 0}, {line: selectionEnd.line, ch: lineLength(cm, selectionEnd.line)}];
+        }
+      } else {
+        if (cursorIsBefore(selectionEnd, selectionStart)) {
+          var tmp = selectionStart;
+          selectionStart = selectionEnd;
+          selectionEnd = tmp;
+        } else {
+          selectionEnd = cm.clipPos(Pos(selectionEnd.line, selectionEnd.ch+1));
+        }
+        exitVisualMode(cm);
+      }
+      return [selectionStart, selectionEnd];
     }
 
     function exitVisualMode(cm) {
@@ -4164,15 +4305,15 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     // Translates a search string from ex (vim) syntax into javascript form.
     function translateRegex(str) {
       // When these match, add a '\' if unescaped or remove one if escaped.
-      var specials = ['|', '(', ')', '{'];
+      var specials = '|(){';
       // Remove, but never add, a '\' for these.
-      var unescape = ['}'];
+      var unescape = '}';
       var escapeNextChar = false;
       var out = [];
       for (var i = -1; i < str.length; i++) {
         var c = str.charAt(i) || '';
         var n = str.charAt(i+1) || '';
-        var specialComesNext = (specials.indexOf(n) != -1);
+        var specialComesNext = (n && specials.indexOf(n) != -1);
         if (escapeNextChar) {
           if (c !== '\\' || !specialComesNext) {
             out.push(c);
@@ -4182,7 +4323,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           if (c === '\\') {
             escapeNextChar = true;
             // Treat the unescape list as special for removing, but not adding '\'.
-            if (unescape.indexOf(n) != -1) {
+            if (n && unescape.indexOf(n) != -1) {
               specialComesNext = true;
             }
             // Not passing this test means removing a '\'.
@@ -5157,6 +5298,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       // Closure to bind CodeMirror, key, modifier.
       function keyMapper(vimKey) {
         return function(cm) {
+          CodeMirror.signal(cm, 'vim-keypress', vimKey);
           CodeMirror.Vim.handleKey(cm, vimKey);
         };
       }
