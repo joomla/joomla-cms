@@ -80,7 +80,7 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 				</div>
 			</div>
 		<?php else : ?>
-		<input type="hidden" name="language" value="<?php echo $displayData->getForm()->getValue('language'); ?>" />
+		<input type="hidden" id="jform_language" name="jform[language]" value="<?php echo $displayData->getForm()->getValue('language'); ?>" />
 		<?php endif; ?>
 		<div class="control-group">
 			<div class="control-label">
