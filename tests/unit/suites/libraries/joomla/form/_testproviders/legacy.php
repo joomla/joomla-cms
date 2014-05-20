@@ -14,7 +14,7 @@
  * @subpackage  Form
  * @since       11.1
  */
-class JModelLegacyTest extends JModelLegacy
+class JModelLegacyForOptionModelTest extends JModelLegacy
 {
 	public function getOptions(SimpleXMLElement $option, $fieldname = '')
 	{
@@ -31,5 +31,4 @@ class JModelLegacyTest extends JModelLegacy
 
 		return $options;
 	}
-
 }

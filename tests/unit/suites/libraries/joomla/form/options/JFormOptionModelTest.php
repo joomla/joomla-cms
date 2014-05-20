@@ -101,7 +101,7 @@ class JFormOptionModelTest extends TestCase
 	{
 		$element = simplexml_load_string(
 			'<option provider="model"
-				modelName="JModelLegacyTest"
+				modelName="JModelLegacyForOptionModelTest"
 				modelPath="tests.unit.suites.libraries.joomla.form._testproviders.legacy"
 				modelBase="JPATH_BASE" />'
 		);
