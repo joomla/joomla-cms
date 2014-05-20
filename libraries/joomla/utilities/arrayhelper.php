@@ -9,12 +9,15 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * JArrayHelper is an array utility class for doing all sorts of odds and ends with arrays.
  *
  * @package     Joomla.Platform
  * @subpackage  Utilities
  * @since       11.1
+ * @deprecated  3.4  Use the Joomla Framework ArrayHelper class.
  */
 abstract class JArrayHelper
 {
@@ -103,20 +106,9 @@ abstract class JArrayHelper
 
 		if (is_array($array))
 		{
-			$obj = new $class;
-
-			foreach ($array as $k => $v)
-			{
-				if (is_array($v))
-				{
-					$obj->$k = self::toObject($v, $class);
-				}
-				else
-				{
-					$obj->$k = $v;
-				}
-			}
+			$obj = ArrayHelper::toObject($array, $class);
 		}
+
 		return $obj;
 	}
 
@@ -138,22 +130,7 @@ abstract class JArrayHelper
 
 		if (is_array($array))
 		{
-			foreach ($array as $key => $item)
-			{
-				if (is_array($item))
-				{
-					if ($keepOuterKey)
-					{
-						$output[] = $key;
-					}
-					// This is value is an array, go and do it again!
-					$output[] = self::toString($item, $inner_glue, $outer_glue, $keepOuterKey);
-				}
-				else
-				{
-					$output[] = $key . $inner_glue . '"' . $item . '"';
-				}
-			}
+			$output = ArrayHelper::toString($array, $inner_glue, $outer_glue, $keepOuterKey);
 		}
 
 		return implode($outer_glue, $output);
@@ -363,25 +340,7 @@ abstract class JArrayHelper
 	 */
 	public static function invert($array)
 	{
-		$return = array();
-
-		foreach ($array as $base => $values)
-		{
-			if (!is_array($values))
-			{
-				continue;
-			}
-
-			foreach ($values as $key)
-			{
-				// If the key isn't scalar then ignore it.
-				if (is_scalar($key))
-				{
-					$return[$key] = $base;
-				}
-			}
-		}
-		return $return;
+		return ArrayHelper::invert($array);
 	}
 
 	/**
@@ -395,18 +354,7 @@ abstract class JArrayHelper
 	 */
 	public static function isAssociative($array)
 	{
-		if (is_array($array))
-		{
-			foreach (array_keys($array) as $k => $v)
-			{
-				if ($k !== $v)
-				{
-					return true;
-				}
-			}
-		}
-
-		return false;
+		return ArrayHelper::isAssociative($array);
 	}
 
 	/**
