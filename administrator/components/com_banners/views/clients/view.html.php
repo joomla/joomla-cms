@@ -67,7 +67,7 @@ class BannersViewClients extends JViewLegacy
 
 		$canDo = JHelperContent::getActions('com_banners');
 
-		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'banners-clients.png');
+		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
 
 		if ($canDo->get('core.create'))
 		{
