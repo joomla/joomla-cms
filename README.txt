@@ -34,7 +34,7 @@
 
 8- Ready to install Joomla?
     * See minimum requirements here: http://www.joomla.org/technical-requirements.html
-    * How do you install Joomla! ? - http://docs.joomla.org/Installing_Joomla!_1.7
+    * How do you install Joomla! ? - http://docs.joomla.org/J2.5:Installing_Joomla
     * Start your Joomla experience building your site with a local test server.
 	When ready it can be moved to an on-line hosting account of your choice. 
 	See the tutorial: http://docs.joomla.org/Tutorial:Joomla_Local_install
@@ -65,6 +65,6 @@
 
 Copyright:
     * Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
-    * Credits: http://docs.joomla.org/Joomla_1.6_Credits
+    * Credits: http://docs.joomla.org/Joomla!_Credits_and_Thanks
     * Distributed under the GNU General Public License version 2 or later
     * See Licenses details at http://docs.joomla.org/Joomla_Licenses
