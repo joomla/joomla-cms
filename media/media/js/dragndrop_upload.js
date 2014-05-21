@@ -93,7 +93,7 @@ function handleFileUpload(files,obj)
         fd.append(document.getElementById('form-token').value, '1');
         
         var status = new createStatusbar(obj); //To set progress.
-        
+     
         status.setFileNameSize(files[i].name,files[i].size);
         sendFileToUploadController(fd,status);
    }
@@ -104,6 +104,7 @@ function handleFileUpload(files,obj)
 $(document).ready(function()
 {
 var obj = $("#dragandrophandler");
+
 obj.on('dragenter', function (e) 
 {
     e.stopPropagation();

@@ -43,6 +43,7 @@ var ImageManager = this.ImageManager = {
 		this.upbutton = document.getElementById('upbutton');
 		$(this.upbutton).off('click');
 		$(this.upbutton).on('click', function(){ ImageManager.upFolder(); });
+		
 	},
 
 	onloadimageview: function()
@@ -265,3 +266,4 @@ var ImageManager = this.ImageManager = {
 jQuery(function(){
 	ImageManager.initialize();
 });
+

@@ -64,9 +64,9 @@ echo $params->get('image_path', 'images'); ?>/';
 		</div>
 	</div>
 
-	<div class="row">
+<!-- 	<div class="row"> -->
 	
-	<iframe id="imageframe" name="imageframe" class="span9" src="index.php?option=com_media&amp;view=imageslist&amp;controller=media.display.imageslist&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>"></iframe>
+	<iframe id="imageframe" name="imageframe" class="span9" src="index.php?option=com_media&amp;view=imageslist&amp;controller=media.display.imageslist&amp;tmpl=component&amp;folder=<?php echo $this->state->get('folder')?>&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>"></iframe>
 
 
       <div class="well well-small span3">
@@ -145,7 +145,7 @@ echo $params->get('image_path', 'images'); ?>/';
 
 	</div>
         	
-  </div>
+<!--   </div> -->
 	
 </form>
 
@@ -154,7 +154,8 @@ echo $params->get('image_path', 'images'); ?>/';
 <div class="tab-pane" id="upload_tab">
 
 <?php if ($user->authorise('core.create', 'com_media')) : ?>
-	<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>&amp;view=images" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
+	<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;controller=media.upload.media&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>&amp;view=media" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
+
 		<div id="uploadform" class="well">
 			<fieldset id="upload-noflash" class="actions">
 				<div class="control-group">
@@ -167,7 +168,7 @@ echo $params->get('image_path', 'images'); ?>/';
 					</div>
 				</div>
 			</fieldset>
-			<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&tmpl=component&fieldid=' . $input->getCmd('fieldid', '') . '&e_name=' . $input->getCmd('e_name') . '&asset=' . $input->getCmd('asset') . '&author=' . $input->getCmd('author')); ?>" />
+			<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&controller=media.display.images&tmpl=component&fieldid=' . $input->getCmd('fieldid', '') . '&e_name=' . $input->getCmd('e_name') . '&asset=' . $input->getCmd('asset') . '&author=' . $input->getCmd('author')); ?>" />
 		</div>
 	</form>
 <?php endif; ?>

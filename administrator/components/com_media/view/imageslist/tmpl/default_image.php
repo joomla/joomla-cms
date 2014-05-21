@@ -19,7 +19,7 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 			<?php echo JHtml::_('image', $this->baseURL . '/' . $this->_tmp_img->path_relative, JText::sprintf('COM_MEDIA_IMAGE_TITLE', $this->_tmp_img->title, JHtml::_('number.bytes', $this->_tmp_img->size)), array('width' => $this->_tmp_img->width_60, 'height' => $this->_tmp_img->height_60)); ?>
 		</div>
 		<div class="small">
-			<?php echo JHtml::_('string.truncate', $this->_tmp_img->name, 10, false); ?>
+			<?php echo JHtml::_('string.truncate', $this->_tmp_img->title, 10, false); ?>
 		</div>
 	</a>
 </li>
