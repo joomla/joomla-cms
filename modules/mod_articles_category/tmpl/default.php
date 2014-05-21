@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <?php if ($grouped) : ?>
 	<?php foreach ($list as $group_name => $group) : ?>
 	<li>
-		<h<?php echo $item_heading; ?>><?php echo $group_name; ?></h<?php echo $item_heading; ?>>
+		<<?php echo $item_heading; ?>><?php echo $group_name; ?></<?php echo $item_heading; ?>>
 		<ul>
 			<?php foreach ($group as $item) : ?>
 				<li>
