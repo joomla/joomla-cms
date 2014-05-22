@@ -71,6 +71,8 @@ class ContactViewCategory extends JViewCategory
 				}
 			}
 		}
+
+		return parent::display($tpl);
 	}
 
 	/**

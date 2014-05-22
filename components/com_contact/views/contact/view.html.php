@@ -90,12 +90,6 @@ class ContactViewContact extends JViewLegacy
 			$item->email_to = JHtml::_('email.cloak', $item->email_to);
 		}
 
-		// Handle email cloaking
-		if ($item->email_to && $params->get('show_email'))
-		{
-			$item->email_to = JHtml::_('email.cloak', $item->email_to);
-		}
-
 		if ($params->get('show_street_address') || $params->get('show_suburb') || $params->get('show_state') || $params->get('show_postcode') || $params->get('show_country'))
 		{
 			if (!empty ($item->address) || !empty ($item->suburb) || !empty ($item->state) || !empty ($item->country) || !empty ($item->postcode))
