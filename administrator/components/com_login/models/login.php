@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,8 @@ class LoginModelLogin extends JModelLegacy
 	{
 		$credentials = array(
 			'username' => JRequest::getVar('username', '', 'method', 'username'),
-			'password' => JRequest::getVar('passwd', '', 'post', 'string', JREQUEST_ALLOWRAW)
+			'password' => JRequest::getVar('passwd', '', 'post', 'string', JREQUEST_ALLOWRAW),
+			'secretkey' => JRequest::getVar('secretkey', '', 'post', 'string', JREQUEST_ALLOWRAW),
 		);
 		$this->setState('credentials', $credentials);
 

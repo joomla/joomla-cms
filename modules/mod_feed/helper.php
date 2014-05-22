@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,12 +18,19 @@ defined('_JEXEC') or die;
  */
 class ModFeedHelper
 {
+	/**
+	 * Retrieve feed information
+	 *
+	 * @param   JRegistry  $params  module parameters
+	 *
+	 * @return  JFeedReader|string
+	 */
 	public static function getFeed($params)
 	{
-		// module params
+		// Module params
 		$rssurl	= $params->get('rssurl', '');
 
-		// get RSS parsed object
+		// Get RSS parsed object
 		try
 		{
 			$feed = new JFeedFactory;

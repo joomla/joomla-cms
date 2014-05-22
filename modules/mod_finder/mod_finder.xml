@@ -3,7 +3,7 @@
 	<name>mod_finder</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2011</creationDate>
-	<copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -32,8 +32,9 @@
 					description="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_DESCRIPTION" />
 				<field
 					name="show_autosuggest"
-					type="list"
+					type="radio"
 					default="1"
+					class="btn-group btn-group-yesno"
 					label="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_LABEL"
 					description="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_DESCRIPTION">
 					<option
@@ -75,14 +76,9 @@
 					label="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_DESCRIPTION" />
 				<field
-					name="alt_label"
-					type="text"
-					label="MOD_FINDER_FIELDSET_ADVANCED_ALT_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_ALT_DESCRIPTION" />
-				<field
 					name="show_label"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_DESCRIPTION">
@@ -94,7 +90,7 @@
 				<field
 					name="label_pos"
 					type="list"
-					default="top"
+					default="left"
 					label="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_DESCRIPTION">
 					<option
@@ -107,9 +103,14 @@
 						value="bottom">MOD_FINDER_CONFIG_OPTION_BOTTOM</option>
 				</field>
 				<field
+					name="alt_label"
+					type="text"
+					label="MOD_FINDER_FIELDSET_ADVANCED_ALT_LABEL"
+					description="MOD_FINDER_FIELDSET_ADVANCED_ALT_DESCRIPTION" />
+				<field
 					name="show_button"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_DESCRIPTION">
@@ -121,7 +122,7 @@
 				<field
 					name="button_pos"
 					type="list"
-					default="right"
+					default="left"
 					label="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_DESCRIPTION">
 					<option
@@ -136,14 +137,12 @@
 				<field
 					name="opensearch"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="MOD_FINDER_FIELD_OPENSEARCH_LABEL"
 					description="MOD_FINDER_FIELD_OPENSEARCH_DESCRIPTION"
 					default="1">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="opensearch_title"
@@ -152,9 +151,12 @@
 					description="MOD_FINDER_FIELD_OPENSEARCH_TEXT_DESCRIPTION" />
 				<field
 					name="set_itemid"
-					type="text"
+					type="menuitem"
+					default="0"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_DESCRIPTION" />
+					description="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_DESCRIPTION">
+					<option value="0">MOD_FINDER_SELECT_MENU_ITEMID</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -466,6 +466,12 @@ class JFormTest extends TestCase
 			$form->filterField($form->findField('url'), ''),
 			$this->equalTo(''),
 			'Line:' . __LINE__ . ' An empty "url" filter return nothing.'
+		);
+
+		$this->assertThat(
+				$form->filterField($form->findField('url'), 'http://"onmouseover=alert(2);<>"'),
+				$this->equalTo('http://onmouseover=alert(2);'),
+				'Line:' . __LINE__ . ' <>" are always illegal in host names.'
 		);
 
 		$this->assertThat(
@@ -1078,18 +1084,18 @@ class JFormTest extends TestCase
 
 		$this->assertThat(
 			$form->getInput('title', null, 'The Title'),
-			$this->equalTo('<input type="text" name="title" id="title_id" value="The Title" class="inputbox required" required="required" aria-required="true"/>'),
+			$this->equalTo('<input type="text" name="title" id="title_id" value="The Title" class="inputbox" required aria-required="true" />'),
 			'Line:' . __LINE__ . ' The method should return a simple input text field.'
 		);
 
 		$this->assertThat(
 			$form->getInput('show_title', 'params', '0'),
 			$this->equalTo(
-				'<fieldset id="params_show_title" class="radio">' .
-					'<input type="radio" id="params_show_title0" name="params[show_title]" value="1"/>' .
-					'<label for="params_show_title0">' . JText::_('JYes') . '</label>' .
-					'<input type="radio" id="params_show_title1" name="params[show_title]" value="0" checked="checked"/>' .
-					'<label for="params_show_title1">' . JText::_('JNo') . '</label>' .
+				'<fieldset id="params_show_title" class="radio" >' .
+					'<input type="radio" id="params_show_title0" name="params[show_title]" value="1" />' .
+					'<label for="params_show_title0" >' . JText::_('JYes') . '</label>' .
+					'<input type="radio" id="params_show_title1" name="params[show_title]" value="0" checked="checked" />' .
+					'<label for="params_show_title1" >' . JText::_('JNo') . '</label>' .
 					'</fieldset>'
 			),
 			'Line:' . __LINE__ . ' The method should return a radio list.'
@@ -1106,11 +1112,11 @@ class JFormTest extends TestCase
 		$this->assertThat(
 			$form->getInput('colours', 'params', 'blue'),
 			$this->equalTo(
-				'<select id="jform_params_colours" name="jform[params][colours][]" multiple="multiple">' .
-					"\n" . '	<option value="red">Red</option>' .
-					"\n" . '	<option value="blue" selected="selected">Blue</option>' .
-					"\n" . '	<option value="green">Green</option>' .
-					"\n" . '	<option value="yellow">Yellow</option>' .
+				'<select id="jform_params_colours" name="jform[params][colours][]" multiple>' .
+					"\n\t" . '<option value="red">Red</option>' .
+					"\n\t" . '<option value="blue" selected="selected">Blue</option>' .
+					"\n\t" . '<option value="green">Green</option>' .
+					"\n\t" . '<option value="yellow">Yellow</option>' .
 					"\n" . '</select>' .
 					"\n"
 			),
@@ -1121,7 +1127,7 @@ class JFormTest extends TestCase
 		$this->assertThat(
 			$form->getInput('translate_default'),
 			$this->equalTo(
-				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="DEFAULT_KEY"/>'
+				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="DEFAULT_KEY" />'
 			),
 			'Line:' . __LINE__ .
 			' The method should return a simple input text field whose value is untranslated since the DEFAULT_KEY does not exist in the language.'
@@ -1132,7 +1138,7 @@ class JFormTest extends TestCase
 		$this->assertThat(
 			$form->getInput('translate_default'),
 			$this->equalTo(
-				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="??DEFAULT_KEY??"/>'
+				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="??DEFAULT_KEY??" />'
 			),
 			'Line:' . __LINE__ . ' The method should return a simple input text field whose value is marked untranslated.'
 		);
@@ -1141,7 +1147,7 @@ class JFormTest extends TestCase
 		$this->assertThat(
 			$form->getInput('translate_default'),
 			$this->equalTo(
-				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="My Default"/>'
+				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="My Default" />'
 			),
 			'Line:' . __LINE__ . ' The method should return a simple input text field whose value is translated.'
 		);
@@ -2186,7 +2192,6 @@ class JFormTest extends TestCase
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The rule path from the XML file should be present.'
 		);
-
 	}
 
 	/**
@@ -2250,12 +2255,9 @@ class JFormTest extends TestCase
 	/**
 	 * Test for JForm::validateField method.
 	 *
-	 * return   void
+	 * @return  void
 	 *
-	 * @covers  JForm::validateField
 	 * @since   11.1
-	 *
-	 * @return void
 	 */
 	public function testValidateField()
 	{
@@ -2314,14 +2316,11 @@ class JFormTest extends TestCase
 	/**
 	 * Test for JForm::validateField method for missing rule exception.
 	 *
-	 * return   void
+	 * @return  void
 	 *
-	 * @covers  JForm::validateField
 	 * @since   12.1
 	 *
 	 * @expectedException  UnexpectedValueException
-	 *
-	 * @return void
 	 */
 	public function testValidateField_missingRule()
 	{
@@ -2330,6 +2329,6 @@ class JFormTest extends TestCase
 		$xml = $form->getXML();
 
 		$field = array_pop($xml->xpath('fields/field[@name="missingrule"]'));
-		$result = $form->validateField($field, null, 'value');
+		$form->validateField($field, null, 'value');
 	}
 }

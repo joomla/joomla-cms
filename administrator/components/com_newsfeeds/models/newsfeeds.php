@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 			);
 
 			$app = JFactory::getApplication();
-			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			$assoc = JLanguageAssociations::isEnabled();
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
@@ -174,7 +174,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the associations.
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')

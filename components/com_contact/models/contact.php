@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -235,6 +235,8 @@ class ContactModelContact extends JModelForm
 	{
 		// TODO: Cache on the fingerprint of the arguments
 		$db		= $this->getDbo();
+		$nullDate = $db->quote($db->getNullDate());
+		$nowDate = $db->quote(JFactory::getDate()->toSql());
 		$user	= JFactory::getUser();
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 
@@ -342,7 +344,9 @@ class ContactModelContact extends JModelForm
 				}
 				if (is_numeric($published))
 				{
-					$query->where('a.state IN (1,2)');
+					$query->where('a.state IN (1,2)')
+						->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 				}
 				$db->setQuery($query, 0, 10);
 				$articles = $db->loadObjectList();
@@ -376,7 +380,7 @@ class ContactModelContact extends JModelForm
 	/**
 	 * Increment the hit counter for the contact.
 	 *
-	 * @param   int  $pk  Optional primary key of the article to increment.
+	 * @param   integer  $pk  Optional primary key of the contact to increment.
 	 *
 	 * @return  boolean  True if successful; false otherwise and internal error set.
 	 *
@@ -390,23 +394,10 @@ class ContactModelContact extends JModelForm
 		if ($hitcount)
 		{
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
-			$db = $this->getDbo();
 
-			$db->setQuery(
-				'UPDATE #__contact_details' .
-				' SET hits = hits + 1' .
-				' WHERE id = '.(int) $pk
-			);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				$this->setError($e->getMessage());
-				return false;
-			}
+			$table = JTable::getInstance('Contact', 'ContactTable');
+			$table->load($pk);
+			$table->hit($pk);
 		}
 
 		return true;

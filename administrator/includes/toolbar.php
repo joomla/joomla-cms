@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,15 +31,8 @@ abstract class JToolbarHelper
 	 */
 	public static function title($title, $icon = 'generic.png')
 	{
-		// Strip the extension.
-		$icons = explode(' ', $icon);
-
-		foreach ($icons as $i => $icon)
-		{
-			$icons[$i] = 'icon-48-' . preg_replace('#\.[^.]*$#', '', $icon);
-		}
-
-		$html = '<div class="pagetitle ' . htmlspecialchars(implode(' ', $icons)) . '"><h2>' . $title . '</h2></div>';
+		$layout = new JLayoutFile('joomla.toolbar.title');
+		$html = $layout->render(array('title' => $title, 'icon' => $icon));
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;
@@ -584,6 +577,62 @@ abstract class JToolbarHelper
 			$alt,
 			'index.php?option=com_config&amp;view=component&amp;component=' . $component . '&amp;path=' . $path . '&amp;return=' . $return
 		);
+	}
+
+	/**
+	 * Writes a version history
+	 *
+	 * @param   string   $typeAlias  The component and type, for example 'com_content.article'
+	 * @param   integer  $itemId     The id of the item, for example the article id.
+	 * @param   integer  $height     The height of the popup.
+	 * @param   integer  $width      The width of the popup.
+	 * @param   string   $alt        The name of the button.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public static function versions($typeAlias, $itemId, $height = 800, $width = 500, $alt = 'JTOOLBAR_VERSIONS')
+	{
+		JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
+
+		$contentTypeTable = JTable::getInstance('Contenttype');
+		$typeId           = $contentTypeTable->getTypeId($typeAlias);
+
+		// Options array for JLayout
+		$options              = array();
+		$options['title']     = JText::_($alt);
+		$options['height']    = $height;
+		$options['width']     = $width;
+		$options['itemId']    = $itemId;
+		$options['typeId']    = $typeId;
+		$options['typeAlias'] = $typeAlias;
+
+		$bar    = JToolbar::getInstance('toolbar');
+		$layout = new JLayoutFile('joomla.toolbar.versions');
+		$bar->appendButton('Custom', $layout->render($options), 'versions');
+	}
+
+	/**
+	 * Displays a modal button
+	 *
+	 * @param   string  $targetModalId  ID of the target modal box
+	 * @param   string  $icon           Icon class to show on modal button
+	 * @param   string  $alt            Title for the modal button
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public static function modal($targetModalId, $icon, $alt)
+	{
+		JHtml::_('behavior.modal');
+		$title = JText::_($alt);
+		$dhtml = "<button data-toggle='modal' data-target='#" . $targetModalId . "' class='btn btn-small'>
+			<i class='" . $icon . "' title='" . $title . "'></i> " . $title . "</button>";
+
+		$bar = JToolbar::getInstance('toolbar');
+		$bar->appendButton('Custom', $dhtml, $alt);
 	}
 }
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ class ContentViewForm extends JViewLegacy
 
 	public function display($tpl = null)
 	{
-		$user		= JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Get model data.
 		$this->state		= $this->get('State');
@@ -52,10 +52,12 @@ class ContentViewForm extends JViewLegacy
 		}
 
 		$this->item->tags = new JHelperTags;
+
 		if (!empty($this->item->id))
 		{
 			$this->item->tags->getItemTags('com_content.article.', $this->item->id);
 		}
+
 		if (!empty($this->item) && isset($this->item->id))
 		{
 			$this->item->images = json_decode($this->item->images);
@@ -81,6 +83,9 @@ class ContentViewForm extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->params = $params;
+
+		// Override global params with article specific params
+		$this->params->merge($this->item->params);
 		$this->user   = $user;
 
 		if ($params->get('enable_category') == 1)
@@ -88,6 +93,7 @@ class ContentViewForm extends JViewLegacy
 			$this->form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
 			$this->form->setFieldAttribute('catid', 'readonly', 'true');
 		}
+
 		$this->_prepareDocument();
 		parent::display($tpl);
 	}
@@ -104,6 +110,7 @@ class ContentViewForm extends JViewLegacy
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
+
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
@@ -114,6 +121,7 @@ class ContentViewForm extends JViewLegacy
 		}
 
 		$title = $this->params->def('page_title', JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
+
 		if ($app->getCfg('sitename_pagetitles', 0) == 1)
 		{
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);

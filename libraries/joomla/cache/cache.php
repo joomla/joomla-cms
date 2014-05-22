@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -96,15 +96,13 @@ class JCache
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new DirectoryIterator(__DIR__ . '/storage');
 
+		/* @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-			if (!$file->isFile()
-				|| substr($fileName, strrpos($fileName, '.') + 1) != 'php'
-				|| $fileName == 'helper.php')
+			if (!$file->isFile() || $file->getExtension() != 'php' || $fileName == 'helper.php')
 			{
 				continue;
 			}
@@ -500,10 +498,10 @@ class JCache
 		{
 			foreach($data['headers'] as $header)
 			{
-				JResponse::setHeader($header['name'], $header['value']);
+				$app->setHeader($header['name'], $header['value']);
 			}
 		}
-		
+
 		// The following code searches for a token in the cached page and replaces it with the
 		// proper token.
 		if (isset($data['body']))
@@ -511,7 +509,7 @@ class JCache
 			$token 			= JSession::getFormToken();
 			$search 		= '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
 			$replacement 	= '<input type="hidden" name="' . $token . '" value="1" />';
-			
+
 			$data['body'] = preg_replace($search, $replacement, $data['body']);
 			$body = $data['body'];
 		}
@@ -570,7 +568,7 @@ class JCache
 			{
 				$buffer1 = array();
 			}
-	
+
 			// Make sure the module buffer is an array.
 			if (!isset($buffer1['module']) || !is_array($buffer1['module']))
 			{
@@ -604,10 +602,28 @@ class JCache
 					if (isset($options['headerbefore'][$now]))
 					{
 						// We have to serialize the content of the arrays because the may contain other arrays which is a notice in PHP 5.4 and newer
-						$nowvalue = array_map('serialize', $headnow[$now]);
-						$beforevalue = array_map('serialize', $options['headerbefore'][$now]);
+						$nowvalue 		= array_map('serialize', $headnow[$now]);
+						$beforevalue 	= array_map('serialize', $options['headerbefore'][$now]);
+
 						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
 						$newvalue = array_map('unserialize', $newvalue);
+
+						// Special treatment for script and style declarations.
+						if (($now == 'script' || $now == 'style') && is_array($newvalue) && is_array($options['headerbefore'][$now]))
+						{
+							foreach ($newvalue as $type => $currentScriptStr)
+							{
+								if (isset($options['headerbefore'][$now][strtolower($type)]))
+								{
+									$oldScriptStr = $options['headerbefore'][$now][strtolower($type)];
+									if ($oldScriptStr != $currentScriptStr)
+									{
+										// Save only the appended declaration.
+										$newvalue[strtolower($type)] = JString::substr($currentScriptStr, JString::strlen($oldScriptStr));
+									}
+								}
+							}
+						}
 					}
 					else
 					{
@@ -653,13 +669,13 @@ class JCache
 			// Compare the second module buffer against the first buffer.
 			$cached['module'] = array_diff_assoc($buffer2['module'], $buffer1['module']);
 		}
-		
+
 		// Headers data
 		if (isset($options['headers']) && $options['headers'])
 		{
-			$cached['headers'] = JResponse::getHeaders();
+			$cached['headers'] = $app->getHeaders();
 		}
-		
+
 		return $cached;
 	}
 

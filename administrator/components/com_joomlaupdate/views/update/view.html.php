@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ class JoomlaupdateViewUpdate extends JViewLegacy
 		$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise';
 
 		// Set the toolbar information
-		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'install');
+		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'arrow-up-2 install');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
@@ -45,6 +45,9 @@ class JoomlaupdateViewUpdate extends JViewLegacy
 
 		// Load mooTools
 		JHtml::_('behavior.framework', true);
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		$updateScript = <<<ENDSCRIPT
 var joomlaupdate_password = '$password';
@@ -59,6 +62,7 @@ ENDSCRIPT;
 		$document->addScript('../media/com_joomlaupdate/json2.js');
 		$document->addScript('../media/com_joomlaupdate/encryption.js');
 		$document->addScript('../media/com_joomlaupdate/update.js');
+		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/progressbar.js', true, true);
 		JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
 		$document->addScriptDeclaration($updateScript);

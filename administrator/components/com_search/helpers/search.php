@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,19 +33,16 @@ class SearchHelper
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return  JObject
+	 *
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions()
 	{
-		$user	   = JFactory::getUser();
-		$result	   = new JObject;
-		$assetName = 'com_search';
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
-		$actions = JAccess::getActions($assetName);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
+		// Get list of actions
+		$result = JHelperContent::getActions('com_search');
 
 		return $result;
 	}
@@ -218,8 +215,7 @@ class SearchHelper
 	}
 
 	/**
-	 * Transliterates given text to ASCII//TRANSLIT.
-	 * Simulates glibc transliteration style even if libiconv is used by PHP
+	 * Transliterates given text to ASCII
 	 *
 	 * @param   string  $str  String to remove accents from
 	 *
@@ -229,8 +225,8 @@ class SearchHelper
 	 */
 	public static function remove_accents($str)
 	{
-		setlocale(LC_ALL, "en_GB.UTF-8");
-		$str = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", $str);
+		$str = JLanguageTransliterate::utf8_latin_to_ascii($str);
+
 		//TODO: remove other prefixes as well?
 		return preg_replace("/[\"'^]([a-z])/ui", '\1', $str);
 	}
