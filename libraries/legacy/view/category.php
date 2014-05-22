@@ -147,6 +147,32 @@ class JViewCategory extends JViewLegacy
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
+		foreach ($items as $itemElement)
+		{
+			$itemElement->event = new stdClass;
+
+			// For some plugins.
+			!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
+
+			$dispatcher = JEventDispatcher::getInstance();
+			JPluginHelper::importPlugin('content');
+			$dispatcher->trigger('onContentPrepare', array ('com_contact.category', &$itemElement, &$itemElement->core_params, 0));
+
+			$results = $dispatcher->trigger('onContentAfterTitle', array('com_contact.category', &$itemElement, &$itemElement->core_params, 0));
+			$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
+
+			$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_contact.category', &$itemElement, &$itemElement->core_params, 0));
+			$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
+
+			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_contact.category', &$itemElement, &$itemElement->core_params, 0));
+			$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
+
+			if ($itemElement->text)
+			{
+				$itemElement->description = $itemElement->text;
+			}
+		}
+
 		$maxLevel         = $params->get('maxLevel', -1);
 		$this->maxLevel   = &$maxLevel;
 		$this->state      = &$state;
