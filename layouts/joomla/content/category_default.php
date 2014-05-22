@@ -9,14 +9,19 @@
 
 defined('JPATH_BASE') or die;
 
-// Note that this layout opens a div with the page class suffix. If you do not use the category children
-// layout you need to close this div either by overriding this file or in your main layout.
+/**
+ * Note that this layout opens a div with the page class suffix. If you do not use the category children
+ * layout you need to close this div either by overriding this file or in your main layout.
+ */
 $params  = $displayData->params;
 $extension = $displayData->get('category')->extension;
 $canEdit = $params->get('access-edit');
 $className = substr($extension, 4);
-// This will work for the core components but not necessarily for other components
-// that may have different pluralisation rules.
+
+/**
+ * This will work for the core components but not necessarily for other components
+ * that may have different pluralisation rules.
+ */
 if (substr($className, -1) == 's')
 {
 	$className = rtrim($className, 's');
@@ -30,14 +35,25 @@ $tagsData  = $displayData->get('category')->tags->itemTags;
 				<?php echo $displayData->escape($params->get('page_heading')); ?>
 			</h1>
 		<?php endif; ?>
-		<?php if($params->get('show_category_title', 1)) : ?>
+
+		<?php if ($params->get('show_category_title', 1)) : ?>
 			<h2>
-				<?php echo JHtml::_('content.prepare', $displayData->get('category')->title, '', $extension.'.category.title'); ?>
+				<?php echo JHtml::_('content.prepare', $displayData->get('category')->title, '', $extension . '.category'); ?>
 			</h2>
 		<?php endif; ?>
+
+		<?php if (isset($displayData->get('items')->event->afterDisplayTitle)) : ?>
+			<?php echo $displayData->get('items')->event->afterDisplayTitle; ?>
+		<?php endif; ?>
+
 		<?php if ($params->get('show_tags', 1)) : ?>
 			<?php echo JLayoutHelper::render('joomla.content.tags', $tagsData); ?>
 		<?php endif; ?>
+
+		<?php if (isset($displayData->get('items')->event->beforeDisplayContent)) : ?>
+			<?php echo $displayData->get('items')->event->beforeDisplayContent; ?>
+		<?php endif; ?>
+
 		<?php if ($params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
 			<div class="category-desc">
 				<?php if ($params->get('show_description_image') && $displayData->get('category')->getParams()->get('image')) : ?>
@@ -59,6 +75,10 @@ $tagsData  = $displayData->get('category')->tags->itemTags;
 
 				<?php echo $displayData->loadTemplate('children'); ?>
 			</div>
+		<?php endif; ?>
+
+		<?php if (isset($displayData->get('items')->event->afterDisplayContent)) : ?>
+			<?php echo $displayData->get('items')->event->afterDisplayContent; ?>
 		<?php endif; ?>
 	</div>
 </div>

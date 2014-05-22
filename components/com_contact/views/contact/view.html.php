@@ -69,7 +69,7 @@ class ContactViewContact extends JViewLegacy
 			return false;
 		}
 
-		// check if access is not public
+		// Check if access is not public
 		$groups	= $user->getAuthorisedViewLevels();
 
 		$return = '';
@@ -77,7 +77,8 @@ class ContactViewContact extends JViewLegacy
 		if ((!in_array($item->access, $groups)) || (!in_array($item->category_access, $groups)))
 		{
 			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
-			return;
+
+			return false;
 		}
 
 		$options['category_id']	= $item->catid;
@@ -88,13 +89,20 @@ class ContactViewContact extends JViewLegacy
 		{
 			$item->email_to = JHtml::_('email.cloak', $item->email_to);
 		}
-			if ($params->get('show_street_address') || $params->get('show_suburb') || $params->get('show_state') || $params->get('show_postcode') || $params->get('show_country'))
+
+		// Handle email cloaking
+		if ($item->email_to && $params->get('show_email'))
+		{
+			$item->email_to = JHtml::_('email.cloak', $item->email_to);
+		}
+
+		if ($params->get('show_street_address') || $params->get('show_suburb') || $params->get('show_state') || $params->get('show_postcode') || $params->get('show_country'))
+		{
+			if (!empty ($item->address) || !empty ($item->suburb) || !empty ($item->state) || !empty ($item->country) || !empty ($item->postcode))
 			{
-				if (!empty ($item->address) || !empty ($item->suburb) || !empty ($item->state) || !empty ($item->country) || !empty ($item->postcode))
-				{
-					$params->set('address_check', 1);
-				}
+				$params->set('address_check', 1);
 			}
+		}
 		else
 		{
 			$params->set('address_check', 0);
@@ -104,7 +112,7 @@ class ContactViewContact extends JViewLegacy
 		switch ($params->get('contact_icons'))
 		{
 			case 1 :
-				// text
+				// Text
 				$params->set('marker_address',   JText::_('COM_CONTACT_ADDRESS') . ": ");
 				$params->set('marker_email',     JText::_('JGLOBAL_EMAIL') . ": ");
 				$params->set('marker_telephone', JText::_('COM_CONTACT_TELEPHONE') . ": ");
@@ -115,7 +123,7 @@ class ContactViewContact extends JViewLegacy
 				break;
 
 			case 2 :
-				// none
+				// None
 				$params->set('marker_address',   '');
 				$params->set('marker_email',     '');
 				$params->set('marker_telephone', '');
@@ -197,12 +205,38 @@ class ContactViewContact extends JViewLegacy
 			{
 				$contact->link = JRoute::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid));
 			}
+
 			$item->link = JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid));
 		}
 
 		JHtml::_('behavior.formvalidation');
 
-		//Escape strings for HTML output
+		// Process the content plugins.
+		$dispatcher	= JEventDispatcher::getInstance();
+		JPluginHelper::importPlugin('content');
+		$offset = $state->get('list.offset');
+
+		// Fix for where some plugins require a text attribute
+		!empty($item->description)? $item->text = $item->description : $item->text = null;
+		$dispatcher->trigger('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
+
+		// Store the events for later
+		$item->event = new stdClass;
+		$results = $dispatcher->trigger('onContentAfterTitle', array('com_contact.contact', &$item, &$this->params, $offset));
+		$item->event->afterDisplayTitle = trim(implode("\n", $results));
+
+		$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_contact.contact', &$item, &$this->params, $offset));
+		$item->event->beforeDisplayContent = trim(implode("\n", $results));
+
+		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_contact.contact', &$item, &$this->params, $offset));
+		$item->event->afterDisplayContent = trim(implode("\n", $results));
+
+		if ($item->text)
+		{
+			$item->description = $item->text;
+		}
+
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->contact  = &$item;
@@ -241,6 +275,10 @@ class ContactViewContact extends JViewLegacy
 
 	/**
 	 * Prepares the document
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
 	 */
 	protected function _prepareDocument()
 	{

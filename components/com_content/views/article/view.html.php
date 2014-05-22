@@ -148,7 +148,6 @@ class ContentViewArticle extends JViewLegacy
 		$item->tags->getItemTags('com_content.article', $this->item->id);
 
 		// Process the content plugins.
-
 		JPluginHelper::importPlugin('content');
 		$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
 
