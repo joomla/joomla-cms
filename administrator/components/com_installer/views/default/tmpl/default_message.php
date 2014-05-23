@@ -15,12 +15,12 @@ $message2	= $state->get('extension_message');
 ?>
 
 <?php if ($message1) : ?> 
-	<div class="span12 strong"> 
-		<?php echo $message1; ?> 
+	<div class="span12"> 
+		<strong><?php echo $message1; ?></strong>
 	</div> 
 <?php endif; ?> 
 <?php if ($message2) : ?> 
-	<div class="span12 strong"> 
-		<?php echo $message2; ?> 
+	<div class="span12"> 
+		<strong><?php echo $message2; ?></strong>
 	</div> 
 <?php endif; ?>
