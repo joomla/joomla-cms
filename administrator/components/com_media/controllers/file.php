@@ -92,9 +92,24 @@ class MediaControllerFile extends JControllerLegacy
 
 			if (JFile::exists($file['filepath']))
 			{
-				// A file with this name already exists
-				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_FILE_EXISTS'));
-				return false;
+				if ($params->get('override_files', 0) === 1)
+				{
+					/*
+					A file with this name already exists and
+					he option to override the file is set to yes
+					so we delete it here and upload the new later.
+					*/
+					JFile::delete($file['filepath']);
+				}
+				else
+				{
+					/*
+					A file with this name already exists and
+					the option to override the file is not set.
+					*/
+					JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_FILE_EXISTS'));
+					return false;
+				}
 			}
 
 			if (!isset($file['name']))
@@ -108,7 +123,7 @@ class MediaControllerFile extends JControllerLegacy
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
 		JPluginHelper::importPlugin('content');
-		$dispatcher	= JEventDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		foreach ($files as &$file)
 		{
@@ -118,7 +133,6 @@ class MediaControllerFile extends JControllerLegacy
 			if (!MediaHelper::canUpload($file, $err))
 			{
 				// The file can't be uploaded
-
 				return false;
 			}
 
