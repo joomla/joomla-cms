@@ -9,18 +9,18 @@
 
 defined('_JEXEC') or die;
 
-$state			= $this->get('State');
-$message1		= $state->get('message');
-$message2		= $state->get('extension_message');
+$state		= $this->get('State');
+$message1	= $state->get('message');
+$message2	= $state->get('extension_message');
 ?>
 
 <?php if ($message1) : ?> 
-	<div class="span12"> 
+	<div class="span12 strong"> 
 		<?php echo $message1; ?> 
 	</div> 
 <?php endif; ?> 
 <?php if ($message2) : ?> 
-	<div class="span12"> 
+	<div class="span12 strong"> 
 		<?php echo $message2; ?> 
 	</div> 
 <?php endif; ?>
