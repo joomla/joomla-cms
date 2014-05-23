@@ -48,6 +48,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<div class="alert alert-info">
 			<a class="close" data-dismiss="alert">&#215;</a>
 			<?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?>
+			<?php if ($this->collect_urls_enabled) : ?>
+				<?php echo JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'); ?>
+			<?php else : ?>
+				<?php echo JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'); ?>
+			<?php endif; ?>
 		</div>
 			<?php else : ?>
 		<div class="alert alert-error">
