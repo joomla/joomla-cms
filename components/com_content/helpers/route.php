@@ -32,7 +32,7 @@ abstract class ContentHelperRoute
 			'article'  => array((int) $id)
 		);
 		//Create the link
-		$link = 'index.php?option=com_content&view=article&id='. $id;
+		$link = 'index.php?option=com_content&view=article&id=' . $id;
 		if ((int) $catid > 1)
 		{
 			$categories = JCategories::getInstance('Content');
@@ -41,7 +41,7 @@ abstract class ContentHelperRoute
 			{
 				$needles['category'] = array_reverse($category->getPath());
 				$needles['categories'] = $needles['category'];
-				$link .= '&catid='.$catid;
+				$link .= '&catid=' . $catid;
 			}
 		}
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
@@ -57,7 +57,7 @@ abstract class ContentHelperRoute
 
 		if ($item = self::_findItem($needles))
 		{
-			$link .= '&Itemid='.$item;
+			$link .= '&Itemid=' . $item;
 		}
 
 		return $link;
@@ -67,8 +67,8 @@ abstract class ContentHelperRoute
 	{
 		if ($catid instanceof JCategoryNode)
 		{
-			$id = $catid->id;
-			$category = $catid;
+			$id		= $catid->id;
+			$category 	= $catid;
 		}
 		else
 		{
@@ -84,7 +84,7 @@ abstract class ContentHelperRoute
 		{
 			$needles = array();
 
-			$link = 'index.php?option=com_content&view=category&id='.$id;
+			$link = 'index.php?option=com_content&view=category&id=' . $id;
 
 			$catids = array_reverse($category->getPath());
 			$needles['category'] = $catids;
@@ -103,7 +103,7 @@ abstract class ContentHelperRoute
 
 			if ($item = self::_findItem($needles))
 			{
-				$link .= '&Itemid='.$item;
+				$link .= '&Itemid=' . $item;
 			}
 		}
 
@@ -115,7 +115,7 @@ abstract class ContentHelperRoute
 		//Create the link
 		if ($id)
 		{
-			$link = 'index.php?option=com_content&task=article.edit&a_id='. $id;
+			$link = 'index.php?option=com_content&task=article.edit&a_id=' . $id;
 		}
 		else
 		{
@@ -156,7 +156,7 @@ abstract class ContentHelperRoute
 		{
 			self::$lookup[$language] = array();
 
-			$component	= JComponentHelper::getComponent('com_content');
+			$component = JComponentHelper::getComponent('com_content');
 
 			$attributes = array('component_id');
 			$values = array($component->id);
@@ -167,7 +167,7 @@ abstract class ContentHelperRoute
 				$values[] = array($needles['language'], '*');
 			}
 
-			$items		= $menus->getItems($attributes, $values);
+			$items = $menus->getItems($attributes, $values);
 
 			foreach ($items as $item)
 			{
@@ -178,11 +178,13 @@ abstract class ContentHelperRoute
 					{
 						self::$lookup[$language][$view] = array();
 					}
-					if (isset($item->query['id'])) {
-
-						// here it will become a bit tricky
-						// language != * can override existing entries
-						// language == * cannot override existing entries
+					if (isset($item->query['id']))
+					{
+						/**
+						* Here it will become a bit tricky
+						* language != * can override existing entries
+						* language == * cannot override existing entries
+						*/
 						if (!isset(self::$lookup[$language][$view][$item->query['id']]) || $item->language != '*')
 						{
 							self::$lookup[$language][$view][$item->query['id']] = $item->id;
