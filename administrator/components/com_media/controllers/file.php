@@ -107,7 +107,8 @@ class MediaControllerFile extends JControllerLegacy
 				{
 					/*
 					* A file with this name already exists and
-					* the option to override the file is set to no.
+					* the option to override the file is set to no
+					* or the user is not authorised to delete files.
 					*/
 					JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_FILE_EXISTS'));
 					return false;
