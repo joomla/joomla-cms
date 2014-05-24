@@ -36,7 +36,6 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 						<a href="#category-<?php echo $item->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
 					<?php endif;?>
 				</h3>
-				<?php echo $item->event->afterDisplayTitle; ?>
 				<?php if ($this->params->get('show_subcat_desc_cat') == 1) :?>
 					<?php if ($item->description) : ?>
 						<div class="category-desc">
@@ -45,7 +44,6 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 					<?php endif; ?>
 				<?php endif; ?>
 
-				<?php echo $item->event->beforeDisplayContent; ?>
 				<?php if (count($item->getChildren()) > 0) :?>
 					<div class="collapse fade" id="category-<?php echo $item->id;?>">
 						<?php
@@ -58,7 +56,6 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 						?>
 					</div>
 				<?php endif; ?>
-				<?php echo $item->event->afterDisplayContent; ?>
 			</div>
 		<?php endif; ?>
 	<?php endforeach; ?><?php endif; ?>
