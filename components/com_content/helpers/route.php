@@ -39,8 +39,8 @@ abstract class ContentHelperRoute
 			$category 	= $categories->get((int) $catid);
 			if ($category)
 			{
-				$needles['category'] = array_reverse($category->getPath());
-				$needles['categories'] = $needles['category'];
+				$needles['category'] 	= array_reverse($category->getPath());
+				$needles['categories'] 	= $needles['category'];
 				$link .= '&catid=' . $catid;
 			}
 		}
@@ -72,8 +72,8 @@ abstract class ContentHelperRoute
 		}
 		else
 		{
-			$id = (int) $catid;
-			$category = JCategories::getInstance('Content')->get($id);
+			$id 		= (int) $catid;
+			$category 	= JCategories::getInstance('Content')->get($id);
 		}
 
 		if ($id < 1 || !($category instanceof JCategoryNode))
@@ -82,13 +82,11 @@ abstract class ContentHelperRoute
 		}
 		else
 		{
-			$needles = array();
-
-			$link = 'index.php?option=com_content&view=category&id=' . $id;
-
-			$catids = array_reverse($category->getPath());
-			$needles['category'] = $catids;
-			$needles['categories'] = $catids;
+			$needles 		= array();
+			$link 			= 'index.php?option=com_content&view=category&id=' . $id;
+			$catids 		= array_reverse($category->getPath());
+			$needles['category'] 	= $catids;
+			$needles['categories'] 	= $catids;
 
 			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 			{
@@ -156,15 +154,15 @@ abstract class ContentHelperRoute
 		{
 			self::$lookup[$language] = array();
 
-			$component = JComponentHelper::getComponent('com_content');
+			$component 	= JComponentHelper::getComponent('com_content');
 
-			$attributes = array('component_id');
-			$values = array($component->id);
+			$attributes 	= array('component_id');
+			$values 	= array($component->id);
 
 			if ($language != '*')
 			{
-				$attributes[] = 'language';
-				$values[] = array($needles['language'], '*');
+				$attributes[	= 'language';
+				$values[] 	= array($needles['language'], '*');
 			}
 
 			$items = $menus->getItems($attributes, $values);
