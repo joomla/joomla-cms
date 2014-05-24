@@ -93,10 +93,9 @@ class JViewCategories extends JViewLegacy
 			// For some plugins.
 			!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
 
+			// Get Dispatcher Instance and content plugins
 			$dispatcher = JEventDispatcher::getInstance();
-
 			JPluginHelper::importPlugin('content');
-			$dispatcher->trigger('onContentPrepare', array ($this->extension . '.categories', &$itemElement, &$itemElement->core_params, 0));
 
 			$results = $dispatcher->trigger('onContentAfterTitle', array($this->extension . '.categories', &$itemElement, &$itemElement->core_params, 0));
 			$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
