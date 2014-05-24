@@ -149,6 +149,7 @@ class JViewCategory extends JViewLegacy
 
 		foreach ($items as $itemElement)
 		{
+			$itemElement = (object) $itemElement;
 			$itemElement->event = new stdClass;
 
 			// For some plugins.
@@ -156,7 +157,6 @@ class JViewCategory extends JViewLegacy
 
 			$dispatcher = JEventDispatcher::getInstance();
 			JPluginHelper::importPlugin('content');
-			$dispatcher->trigger('onContentPrepare', array ($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
 
 			$results = $dispatcher->trigger('onContentAfterTitle', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
 			$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
