@@ -89,9 +89,9 @@ abstract class ContactHelperRoute
 			// Create the link
 			$link = 'index.php?option=com_contact&view=category&id=' . $id;
 
-			$catids = array_reverse($category->getPath());
-			$needles['category'] = $catids;
-			$needles['categories'] = $catids;
+			$catids 		= array_reverse($category->getPath());
+			$needles['category'] 	= $catids;
+			$needles['categories'] 	= $catids;
 
 			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 			{
@@ -144,10 +144,9 @@ abstract class ContactHelperRoute
 		{
 			self::$lookup[$language] = array();
 
-			$component = JComponentHelper::getComponent('com_contact');
-
-			$attributes = array('component_id');
-			$values = array($component->id);
+			$component	= JComponentHelper::getComponent('com_contact');
+			$attributes 	= array('component_id');
+			$values 	= array($component->id);
 
 			if ($language != '*')
 			{
