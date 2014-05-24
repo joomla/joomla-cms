@@ -92,20 +92,22 @@ class MediaControllerFile extends JControllerLegacy
 
 			if (JFile::exists($file['filepath']))
 			{
-				if ($params->get('override_files', 0) === 1)
+				if ($params->get('override_files', 0) === 1 && JFactory::getUser()->authorise('core.delete', 'com_media'))
 				{
 					/*
-					A file with this name already exists and
-					he option to override the file is set to yes
-					so we delete it here and upload the new later.
+					* A file with this name already exists,
+					* the option to override the file is set to yes and
+					* the current user is authorised to delete files
+					* so we delete it here and upload the new later.
+					* Note that we can't restore the old file if the uplaod fails.
 					*/
 					JFile::delete($file['filepath']);
 				}
 				else
 				{
 					/*
-					A file with this name already exists and
-					the option to override the file is not set.
+					* A file with this name already exists and
+					* the option to override the file is set to no.
 					*/
 					JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_FILE_EXISTS'));
 					return false;
