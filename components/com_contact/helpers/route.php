@@ -32,32 +32,35 @@ abstract class ContactHelperRoute
 			'contact'  => array((int) $id)
 		);
 		//Create the link
-		$link = 'index.php?option=com_contact&view=contact&id='. $id;
+		$link = 'index.php?option=com_contact&view=contact&id=' . $id;
+		
 		if ($catid > 1)
 		{
-			$categories = JCategories::getInstance('Contact');
-			$category = $categories->get($catid);
+			$categories	= JCategories::getInstance('Contact');
+			$category	= $categories->get($catid);
+			
 			if ($category)
 			{
 				$needles['category'] = array_reverse($category->getPath());
 				$needles['categories'] = $needles['category'];
-				$link .= '&catid='.$catid;
+				$link .= '&catid=' . $catid;
 			}
 		}
+		
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
 			self::buildLanguageLookup();
 
 			if (isset(self::$lang_lookup[$language]))
 			{
-				$link .= '&lang='.self::$lang_lookup[$language];
+				$link .= '&lang=' . self::$lang_lookup[$language];
 				$needles['language'] = $language;
 			}
 		}
 
 		if ($item = self::_findItem($needles))
 		{
-			$link .= '&Itemid='.$item;
+			$link .= '&Itemid=' . $item;
 		}
 
 		return $link;
@@ -67,13 +70,13 @@ abstract class ContactHelperRoute
 	{
 		if ($catid instanceof JCategoryNode)
 		{
-			$id = $catid->id;
-			$category = $catid;
+			$id 		= $catid->id;
+			$category 	= $catid;
 		}
 		else
 		{
-			$id = (int) $catid;
-			$category = JCategories::getInstance('Contact')->get($id);
+			$id		= (int) $catid;
+			$category 	= JCategories::getInstance('Contact')->get($id);
 		}
 
 		if ($id < 1 || !($category instanceof JCategoryNode))
@@ -87,9 +90,9 @@ abstract class ContactHelperRoute
 			// Create the link
 			$link = 'index.php?option=com_contact&view=category&id=' . $id;
 
-			$catids = array_reverse($category->getPath());
-			$needles['category'] = $catids;
-			$needles['categories'] = $catids;
+			$catids 		= array_reverse($category->getPath());
+			$needles['category'] 	= $catids;
+			$needles['categories'] 	= $catids;
 
 			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 			{
@@ -104,7 +107,7 @@ abstract class ContactHelperRoute
 
 			if ($item = self::_findItem($needles))
 			{
-				$link .= '&Itemid='.$item;
+				$link .= '&Itemid=' . $item;
 			}
 		}
 
@@ -143,9 +146,8 @@ abstract class ContactHelperRoute
 			self::$lookup[$language] = array();
 
 			$component	= JComponentHelper::getComponent('com_contact');
-
-			$attributes = array('component_id');
-			$values = array($component->id);
+			$attributes 	= array('component_id');
+			$values 	= array($component->id);
 
 			if ($language != '*')
 			{
@@ -160,16 +162,19 @@ abstract class ContactHelperRoute
 				if (isset($item->query) && isset($item->query['view']))
 				{
 					$view = $item->query['view'];
+					
 					if (!isset(self::$lookup[$language][$view]))
 					{
 						self::$lookup[$language][$view] = array();
 					}
+					
 					if (isset($item->query['id']))
 					{
-
-						// here it will become a bit tricky
-						// language != * can override existing entries
-						// language == * cannot override existing entries
+						/**
+						* Here it will become a bit tricky
+						* language != * can override existing entries
+						* language == * cannot override existing entries
+						*/
 						if (!isset(self::$lookup[$language][$view][$item->query['id']]) || $item->language != '*')
 						{
 							self::$lookup[$language][$view][$item->query['id']] = $item->id;
