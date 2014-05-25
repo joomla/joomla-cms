@@ -92,7 +92,7 @@ class MediaControllerFile extends JControllerLegacy
 
 			if (JFile::exists($file['filepath']))
 			{
-				if ($params->get('override_files', 0) === 1 && JFactory::getUser()->authorise('core.delete', 'com_media'))
+				if ($params->get('override_files', 0) == 1 && JFactory::getUser()->authorise('core.delete', 'com_media'))
 				{
 					/*
 					* A file with this name already exists,
