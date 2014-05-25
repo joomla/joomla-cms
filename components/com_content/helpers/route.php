@@ -31,12 +31,15 @@ abstract class ContentHelperRoute
 		$needles = array(
 			'article'  => array((int) $id)
 		);
+		
 		//Create the link
 		$link = 'index.php?option=com_content&view=article&id=' . $id;
+		
 		if ((int) $catid > 1)
 		{
 			$categories 	= JCategories::getInstance('Content');
 			$category 	= $categories->get((int) $catid);
+			
 			if ($category)
 			{
 				$needles['category'] 	= array_reverse($category->getPath());
@@ -44,6 +47,7 @@ abstract class ContentHelperRoute
 				$link .= '&catid=' . $catid;
 			}
 		}
+		
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
 			self::buildLanguageLookup();
@@ -161,7 +165,7 @@ abstract class ContentHelperRoute
 
 			if ($language != '*')
 			{
-				$attributes[	= 'language';
+				$attributes[]	= 'language';
 				$values[] 	= array($needles['language'], '*');
 			}
 
@@ -172,10 +176,12 @@ abstract class ContentHelperRoute
 				if (isset($item->query) && isset($item->query['view']))
 				{
 					$view = $item->query['view'];
+					
 					if (!isset(self::$lookup[$language][$view]))
 					{
 						self::$lookup[$language][$view] = array();
 					}
+					
 					if (isset($item->query['id']))
 					{
 						/**
