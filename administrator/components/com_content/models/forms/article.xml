@@ -912,9 +912,9 @@
 			name="adjuntos"
 			type="adjuntos"
             extensiones="pdf,aw,zip,ez,flv,ogv,mp4"
-			label="Utiliza los controles para gestionar tus archivos adjuntos"
+			label="COM_CONTENT_FIELD_ADJUNTOS_LABEL"
             labelclass="adjuntos-label"
-            description="Adjuntos" />
+            description="COM_CONTENT_FIELD_ADJUNTOS_DESC" />
 	</fields> 
 	
 	<fields name="metadata">
