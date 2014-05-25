@@ -13,7 +13,7 @@ jimport('joomla.environment.browser');
 
 /**
  * Recaptcha Plugin.
- * Based on the oficial recaptcha library( http://recaptcha.net/plugins/php/ )
+ * Based on the official recaptcha library( https://developers.google.com/recaptcha/docs/php )
  *
  * @package     Joomla.Plugin
  * @subpackage  Captcha
@@ -21,9 +21,9 @@ jimport('joomla.environment.browser');
  */
 class plgCaptchaRecaptcha extends JPlugin
 {
-	const RECAPTCHA_API_SERVER = "http://api.recaptcha.net";
+	const RECAPTCHA_API_SERVER = "http://www.google.com/recaptcha/api";
 	const RECAPTCHA_API_SECURE_SERVER = "https://www.google.com/recaptcha/api";
-	const RECAPTCHA_VERIFY_SERVER = "api-verify.recaptcha.net";
+	const RECAPTCHA_VERIFY_SERVER = "www.google.com";
 
 	public function __construct($subject, $config)
 	{
@@ -115,7 +115,7 @@ class plgCaptchaRecaptcha extends JPlugin
 			return false;
 		}
 
-		$response = $this->_recaptcha_http_post(self::RECAPTCHA_VERIFY_SERVER, "/verify",
+		$response = $this->_recaptcha_http_post(self::RECAPTCHA_VERIFY_SERVER, "/recaptcha/api/verify",
 												array(
 													'privatekey'	=> $privatekey,
 													'remoteip'		=> $remoteip,

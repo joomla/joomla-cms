@@ -107,11 +107,11 @@ endif;
 			<?php
 			// Nuevo en Jokte v1.2.2
 			echo JHtml::_('tabs.start');
-			echo JHtml::_('tabs.panel', JText::_('COM_COPETE_DETAILS'), 'copete-basics'); ?>			
-			<div><?php echo $this->form->getInput('copete'); ?></div>
+            echo JHtml::_('tabs.panel', JText::_('COM_TEXT_DETAILS'), 'text-basics'); ?>
+            <div><?php echo $this->form->getInput('articletext'); ?></div>
 			<div class="clr"></div>
-			<?php echo JHtml::_('tabs.panel', JText::_('COM_TEXT_DETAILS'), 'text-basics'); ?>			
-			<div><?php echo $this->form->getInput('articletext'); ?></div>			
+            <?php echo JHtml::_('tabs.panel', JText::_('COM_COPETE_DETAILS'), 'copete-basics'); ?>
+            <div><?php echo $this->form->getInput('copete'); ?></div>
 			<div class="clr"></div>
 			<?php echo JHtml::_('tabs.end'); ?>	
 		</fieldset>

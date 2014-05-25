@@ -18,7 +18,8 @@ $this->direction = $doc->direction;
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<title><?php echo $this->error->getCode(); ?> - <?php echo $this->title; ?></title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error.css" type="text/css" />
 	<?php if ($this->direction == 'rtl') : ?>
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error_rtl.css" type="text/css" />
@@ -47,7 +48,7 @@ $this->direction = $doc->direction;
 
 			<p><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?>.</p>
 			<div id="techinfo">
-			<p><?php echo $this->error->getMessage(); ?></p>
+			<p><?php echo htmlspecialchars($this->error->getMessage()); ?></p>
 			<p>
 				<?php if ($this->debug) :
 					echo $this->renderBacktrace();

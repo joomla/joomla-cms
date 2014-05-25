@@ -1,6 +1,6 @@
 /**
  * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,7 +97,8 @@ fieldset#jform_db_old input {
 
 #system-message dd.message ul {
 	background-color: #C3D2E5;
-	background-image: url(../../../media/system/images/notice-info.png) no-repeat;
+	background-image: url(../../../media/system/images/notice-info.png);
+    background-repeat: no-repeat;
 }
 
 /**
@@ -105,7 +106,8 @@ fieldset#jform_db_old input {
  */
 #system-message dd.error ul {
 	background-color: #E6C0C0;
-	background-image: url(../../../media/system/images/notice-alert.png) no-repeat;
+	background-image: url(../../../media/system/images/notice-alert.png);
+    background-repeat: no-repeat;
 }
 
 /**
@@ -115,10 +117,12 @@ fieldset#jform_db_old input {
 /* System Warning Messages */
 #system-message dd.warning ul {
 	background-color: #E6C8A6;
-	background-image: url(../../../media/system/images/notice-note.png) no-repeat;
+	background-image: url(../../../media/system/images/notice-note.png);
+    background-repeat: no-repeat;
 }
 
 #system-message dd.notice ul {
 	background-color: #EFE7B8;
-	background-image: url(../../../media/system/images/notice-note.png) no-repeat;
+	background-image: url(../../../media/system/images/notice-note.png);
+    background-repeat: no-repeat;
 }

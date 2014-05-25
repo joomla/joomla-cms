@@ -14,14 +14,14 @@ $date		= JFactory::getDate();
 $cur_year	= $date->format('Y');
 $csite_name	= $app->getCfg('sitename');
 
-if (JString::strpos(JText :: _('MOD_FOOTER_LINE1'), '%date%')) {
+if (is_int(JString::strpos(JText :: _('MOD_FOOTER_LINE1'), '%date%'))) {
 	$line1 = str_replace('%date%', $cur_year, JText :: _('MOD_FOOTER_LINE1'));
 }
 else {
 	$line1 = JText :: _('MOD_FOOTER_LINE1');
 }
 
-if (JString::strpos($line1, '%sitename%')) {
+if (is_int(JString::strpos($line1, '%sitename%'))) {
 	$lineone = str_replace('%sitename%', $csite_name, $line1);
 }
 else {
