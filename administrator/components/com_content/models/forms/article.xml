@@ -912,7 +912,8 @@
 			name="adjuntos"
 			type="adjuntos"
             extensiones="pdf,aw,zip,ez,flv,ogv,mp4"
-			label="Adjuntos"
+			label="Utiliza los controles para gestionar tus archivos adjuntos"
+            labelclass="adjuntos-label"
             description="Adjuntos" />
 	</fields> 
 	

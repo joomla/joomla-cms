@@ -246,21 +246,15 @@ endif;
 		// Agrego nuevo slider para el fieldset attachments ?>
 		<?php if ($params['show_attachments_back_end']): ?>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_ATTACHMENTS'), 'attachments-options'); ?>
-			<fieldset class="panelform">
-				<ul class="adminformlist">
-					<li>
-						<?php echo $this->form->getLabel('attachments'); ?>
-						<?php echo $this->form->getInput('attachments'); ?>
-					</li>
-					<?php foreach($this->form->getGroup('attachments') as $field): ?>
-					<li>
-						<?php if (!$field->hidden): ?>
-							<?php echo $field->label; ?>
-						<?php endif; ?>
-						<?php echo $field->input; ?>
-					</li>
-					<?php endforeach; ?>
-				</ul>
+			<fieldset class="panel-adjuntos">
+				<?php foreach($this->form->getGroup('attachments') as $field): ?>
+				<div class="panel-adjuntos-grupo">
+					<?php if (!$field->hidden): ?>
+						<?php echo $field->label; ?>
+					<?php endif; ?>
+					<?php echo $field->input; ?>
+				</div>
+				<?php endforeach; ?>
 			</fieldset>
 		<?php endif; ?>
 		

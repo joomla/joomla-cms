@@ -50,9 +50,9 @@ class JFormFieldAdjuntos extends JFormField
         $style[] = '    position:relative;';
         $style[] = '}';
         $style[] = '#adjuntos {';
-        $style[] = '    float: right;';
-        $style[] = '    width: 55%;';
+        $style[] = '    float: left;';
         $style[] = '    position:relative;';
+        $style[] = '    width: 100%;';
         $style[] = '}';
         $style[] = '.form-adjunto {';
         $style[] = '    margin-bottom: 3px;';
@@ -84,10 +84,10 @@ class JFormFieldAdjuntos extends JFormField
         $style[] = '.nombre-archivo {';
         $style[] = '    padding: 0 40px;';
         $style[] = '}';
-        $style[] = '.btn-adjunto {';
+        $style[] = '.uploaded .btn-adjunto {';
         $style[] = '    position: absolute;';
-        $style[] = '    top: 0;';
         $style[] = '    right: 0;';
+        $style[] = '    top: 0;';
         $style[] = '}';
 
         $script = array();
