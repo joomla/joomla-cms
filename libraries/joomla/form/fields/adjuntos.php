@@ -147,7 +147,10 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '       id: "btn-eliminar-adjunto-"+adjuntoCount,';
         $script[] = '       class:"btn-adjunto",';
         $script[] = '       events: {';
-        $script[] = '           click: function() { eliminarAdjunto(this) }';
+        $script[] = '           click: function(event) {'; 
+        $script[] = '               event.preventDefault();';
+        $script[] = '               eliminarAdjunto(this)';
+        $script[] = '           }';
         $script[] = '       }';
         $script[] = '   }).set({"text": "-", "data-id": formAdjunto.id})';
 
