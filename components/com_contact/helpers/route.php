@@ -33,12 +33,12 @@ abstract class ContactHelperRoute
 		);
 		//Create the link
 		$link = 'index.php?option=com_contact&view=contact&id=' . $id;
-		
+
 		if ($catid > 1)
 		{
 			$categories	= JCategories::getInstance('Contact');
 			$category	= $categories->get($catid);
-			
+
 			if ($category)
 			{
 				$needles['category'] = array_reverse($category->getPath());
@@ -46,7 +46,7 @@ abstract class ContactHelperRoute
 				$link .= '&catid=' . $catid;
 			}
 		}
-		
+
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
 			self::buildLanguageLookup();
@@ -162,12 +162,12 @@ abstract class ContactHelperRoute
 				if (isset($item->query) && isset($item->query['view']))
 				{
 					$view = $item->query['view'];
-					
+
 					if (!isset(self::$lookup[$language][$view]))
 					{
 						self::$lookup[$language][$view] = array();
 					}
-					
+
 					if (isset($item->query['id']))
 					{
 						/**
