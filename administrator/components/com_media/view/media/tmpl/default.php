@@ -14,7 +14,13 @@ $input = JFactory::getApplication()->input;
 ?>
 <div class="row-fluid">
 	<!-- Begin Sidebar -->
-	<div class="span2">
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+		<hr>
+		<b>
+		<?php echo JText::_('COM_MEDIA_FOLDER_TREE');?>
+		</b>
+		<hr>
 		<div id="treeview">
 			<div id="media-tree_tree" class="sidebar-nav">
 				<?php echo $this->loadTemplate('folders'); ?>
@@ -24,7 +30,7 @@ $input = JFactory::getApplication()->input;
 
 	<!-- End Sidebar -->
 	<!-- Begin Content -->
-	<div class="span10">
+	<div id="j-main-container" class="span10">
 		<?php echo $this->loadTemplate('navigation'); ?>
 		<?php if (($user->authorise('core.create', 'com_media')) and $this->require_ftp) : ?>
 			<form action="<?php echo JRoute::_('index.php?option=com_media&controller=media.ftpValidate'); ?>" name="ftpForm" id="ftpForm" method="post">

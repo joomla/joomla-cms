@@ -125,4 +125,11 @@ abstract class MediaHelper
 
 		return $mediaHelper->countFiles($dir);
 	}
+	
+	public static function addSubmenu($vName)
+	{
+		JLoader::register('MediaHelperMedia', JPATH_ADMINISTRATOR . '/components/com_media/helper/media.php');
+
+		MediaHelperMedia::addSubmenu($vName);
+	}
 }

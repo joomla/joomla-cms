@@ -90,7 +90,13 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 		$this->require_ftp = $ftp;
 		$this->folders_id = ' id="media-tree"';
 		$this->folders = $this->model->getFolderTree();
-
+		
+		// Add sidebar
+		JLoader::register('MediaHelperMedia', JPATH_ADMINISTRATOR . '/components/com_media/helper/media.php');
+		
+		MediaHelperMedia::addSubmenu('media');
+		$this->sidebar = JHtmlSidebar::render();
+		
 		// Set the toolbar
 		$this->addToolbar();
 
@@ -155,6 +161,7 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 		}
 
 		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
+
 	}
 
 	function getFolderLevel($folder)
