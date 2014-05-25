@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Site
  * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -164,10 +164,8 @@ abstract class JHtmlUsers
 			$title = $db->loadResult();
 			if ($title)
 			{
-					$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, false)
-				||	$lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, false)
-				||	$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-				||	$lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, $lang->getDefault(), false, false);
+					$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, true)
+				||	$lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, true);
 				$lang->load($title.'.sys');
 				return JText::_($title);
 			}

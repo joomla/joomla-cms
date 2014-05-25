@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -234,5 +234,39 @@ class JCrypt
 		}
 
 		return substr($randomStr, 0, $length);
+	}
+
+	/**
+	 * A timing safe comparison method. This defeats hacking
+	 * attempts that use timing based attack vectors.
+	 *
+	 * @param   string  $known    A known string to check against.
+	 * @param   string  $unknown  An unknown string to check.
+	 *
+	 * @return  boolean  True if the two strings are exactly the same.
+	 *
+	 * @since   3.2
+	 */
+	public static function timingSafeCompare($known, $unknown)
+	{
+		// Prevent issues if string length is 0
+		$known .= chr(0);
+		$unknown .= chr(0);
+
+		$knownLength = strlen($known);
+		$unknownLength = strlen($unknown);
+
+		// Set the result to the difference between the lengths
+		$result = $knownLength - $unknownLength;
+
+		// Note that we ALWAYS iterate over the user-supplied length to prevent leaking length info.
+		for ($i = 0; $i < $unknownLength; $i++)
+		{
+			// Using % here is a trick to prevent notices. It's safe, since if the lengths are different, $result is already non-0
+			$result |= (ord($known[$i % $knownLength]) ^ ord($unknown[$i]));
+		}
+
+		// They are only identical strings if $result is exactly 0...
+		return $result === 0;
 	}
 }

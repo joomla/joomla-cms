@@ -1,27 +1,12 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 ?>
-<form action="index.php" method="post" id="adminForm" class="form-validate">
-	<div id="installer">
-		<div class="m">
-			<div class="lang"><?php echo JText::_('INSTL_SELECT_LANGUAGE_TITLE'); ?></div> 
-			<?php echo $this->form->getInput('language'); ?>
-                        <div id="cls_style"></div>
-		</div>
-            <div>
-                <?php echo JText::_('INSTL_WELCOME_MESSAGE'); ?>
-            </div>
-	</div>
-	<input type="hidden" name="task" value="setup.setlanguage" />
-	<?php echo JHtml::_('form.token'); ?>
-</form>
 <div id="step">
 	<div class="far-right">
 	<?php if ($this->document->direction == 'ltr') : ?>
@@ -32,3 +17,24 @@ defined('_JEXEC') or die;
 	</div>
 	<h2><?php echo JText::_('INSTL_LANGUAGE_TITLE'); ?></h2>
 </div>
+<form action="index.php" method="post" id="adminForm" class="form-validate">
+	<div id="installer">
+		<div class="m">
+			<h3><?php echo JText::_('INSTL_SELECT_LANGUAGE_TITLE'); ?></h3>
+			<div class="install-text">
+				<?php echo JText::_('INSTL_SELECT_LANGUAGE_DESC'); ?>
+			</div>
+			<div class="install-body">
+				<div class="m">
+					<fieldset>
+						<?php echo $this->form->getInput('language'); ?>
+					</fieldset>
+				</div>
+				<div class="clr"></div>
+			</div>
+			<div class="clr"></div>
+		</div>
+	</div>
+	<input type="hidden" name="task" value="setup.setlanguage" />
+	<?php echo JHtml::_('form.token'); ?>
+</form>

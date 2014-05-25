@@ -1,15 +1,15 @@
 <?php
-
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  ***************************************************************************************
  * Warning: Some modifications and improved were made by the Community Juuntos for
  * the latinamerican Project Jokte! CMS
  ***************************************************************************************
  */
+
 defined('_JEXEC') or die;
 
 /**
@@ -17,14 +17,14 @@ defined('_JEXEC') or die;
  * @subpackage	com_installer
  */
 class InstallerControllerInstall extends JControllerLegacy {
-
     /**
      * Install an extension.
      *
      * @return	void
      * @since	1.5
      */
-    public function install() {
+    public function install() 
+	{
         // Check for request forgeries
         JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 

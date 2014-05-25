@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Site
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ class JHtmlIcon
 		$uri	= JURI::getInstance();
 		$base	= $uri->toString(array('scheme', 'host', 'port'));
 		$template = JFactory::getApplication()->getTemplate();
-		$link	= $base.JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid) , false);
+		$link	= $base.JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language) , false);
 		$url	= 'index.php?option=com_mailto&tmpl=component&template='.$template.'&link='.MailToHelper::addLink($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
@@ -104,6 +104,10 @@ class JHtmlIcon
 
 		$url	= 'index.php?option=com_content&task=article.edit&a_id='.$article->id.'&return='.base64_encode(urlencode($uri));
 		$icon	= $article->state ? 'edit.png' : 'edit_unpublished.png';
+		if (strtotime($article->publish_up) > strtotime(JFactory::getDate()))
+		{
+			$icon = 'edit_unpublished.png';
+		}
 		$text	= JHtml::_('image', 'system/'.$icon, JText::_('JGLOBAL_EDIT'), NULL, true);
 
 		if ($article->state == 0) {
@@ -131,7 +135,7 @@ class JHtmlIcon
 
 	static function print_popup($article, $params, $attribs = array())
 	{
-		$url  = ContentHelperRoute::getArticleRoute($article->slug, $article->catid);
+		$url  = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
 		$url .= '&tmpl=component&print=1&layout=default&page='.@ $request->limitstart;
 
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';

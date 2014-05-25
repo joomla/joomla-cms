@@ -2,7 +2,7 @@
 <form>
 	<fieldset>
 		<field name="language" type="language" id="language"
-			class="inputbox lang"
+			class="inputbox"
 			label="INSTL_LANGUAGE_LABEL"
 			size="20"
 			default="es-LA"

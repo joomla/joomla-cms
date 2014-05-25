@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Site
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  ***************************************************************************************
  * Warning: Some modifications and improved were made by the Community Juuntos for
@@ -20,6 +20,8 @@ JHtml::_('behavior.formvalidation');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
+//$images = json_decode($this->item->images);
+//$urls = json_decode($this->item->urls);
 
 // This checks if the editor config options have ever been saved. If they haven't they will fall back to the original settings.
 $editoroptions = isset($params->show_publishing_options);
@@ -47,14 +49,7 @@ endif;
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&a_id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 	<fieldset>
-		<div class="formelm-buttons">
-			<button type="button" onclick="Joomla.submitbutton('article.save')">
-				<?php echo JText::_('JSAVE') ?>
-			</button>
-			<button type="button" onclick="Joomla.submitbutton('article.cancel')">
-				<?php echo JText::_('JCANCEL') ?>
-			</button>
-		</div>
+		
 		<legend><?php echo JText::_('JEDITOR'); ?></legend>
 			<div class="formelm">
 				<?php echo $this->form->getLabel('title'); ?>
@@ -73,6 +68,14 @@ endif;
 			<div class="formelm">
 				<?php echo $this->form->getLabel('copete'); ?>
 				<?php echo $this->form->getInput('copete'); ?>
+			</div>
+			<div class="formelm-buttons">
+			<button type="button" onclick="Joomla.submitbutton('article.save')">
+				<?php echo JText::_('JSAVE') ?>
+			</button>
+			<button type="button" onclick="Joomla.submitbutton('article.cancel')">
+				<?php echo JText::_('JCANCEL') ?>
+			</button>
 			</div>
 			<?php echo $this->form->getInput('articletext'); ?>
 	</fieldset>
@@ -246,6 +249,7 @@ endif;
 			<?php echo $this->form->getLabel('metakey'); ?>
 			<?php echo $this->form->getInput('metakey'); ?>
 		</div>
+
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="return" value="<?php echo $this->return_page;?>" />
 		<?php if($this->params->get('enable_category', 0) == 1) :?>

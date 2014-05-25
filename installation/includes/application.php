@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  ***************************************************************************************
  * Warning: Some modifications and improved were made by the Community Juuntos for
@@ -42,8 +42,10 @@ class JInstallation extends JApplication
 
 		$this->_createConfiguration('');
 
-		// Set the root in the URI based on the application name.
-		JURI::root(null, str_replace('/'.$this->getName(), '', JURI::base(true)));
+		// Set the root in the URI one level up.
+		$parts = explode('/', JUri::base(true));
+		array_pop($parts);
+		JUri::root(null, implode('/', $parts));
 	}
 
 	/**

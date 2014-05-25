@@ -1,206 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
-	type="module"
-	version="1.7"
-	client="site">
-	<name>mod_hilandojuuntos</name>
-	<author>Miguel Tuyaré para Comunidad Juuntos</author>
-	<creationDate>Febrero 2013</creationDate>
-	<copyright>Copyleft - 2013 Juuntos.org</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<authorEmail>developer@tuxmerlin.com.ar</authorEmail>
-	<authorUrl>www.juuntos.org</authorUrl>
-	<version>1.0.1</version>
-	<description>MOD_HILANDOJUUNTOS_XML_DESCRIPTION</description>
-	<files>
-		<filename module="mod_hilandojuuntos">mod_hilandojuuntos.php</filename>
-		<filename>hilandojuuntos.css</filename>
-		<filename>helper.php</filename>
-		<filename>index.html</filename>
-		<folder>tmpl</folder>
-	</files>
-	<languages>		
-		<language tag="es-ES">es-ES.mod_hilandojuuntos.ini</language>
-		<language tag="es-ES">es-ES.mod_hilandojuuntos.sys.ini</language>
-		<language tag="es-LA">es-ES.mod_hilandojuuntos.ini</language>
-		<language tag="es-LA">es-ES.mod_hilandojuuntos.sys.ini</language>
-		<language tag="pt-BR">pt-BR.mod_hilandojuuntos.ini</language>
-		<language tag="pt-BR">pt-BR.mod_hilandojuuntos.sys.ini</language>
-		<language tag="es-LA">es-LA.mod_hilandojuuntos.ini</language>
-		<language tag="es-LA">es-LA.mod_hilandojuuntos.sys.ini</language>
-	</languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="url0sep"
-					type="text"
-					size="50"		
-					default="Portal Comunidad Juuntos"
-					label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />	
-				<field
-					name="rssurl0"
-					type="text"
-					size="50"
-					default="http://juuntos.org/?format=feed&amp;type=rss"
-					label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />						
-				<field type="spacer" name="myspacer" hr="true" />
-				<field
-					name="url1sep"
-					type="text"
-					size="50"
-					default="Blogs Comunidad Juuntos"
-					label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />
-				<field
-					name="rssurl1"
-					type="text"
-					size="50"
-					default="http://juuntos.org/noticias.feed?type=rss"
-					label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />
-				<field type="spacer" name="myspacer2" hr="true" />
-				<field
-					name="url2sep"
-					type="text"
-					size="50"
-					default="Foro Comunidad Juuntos"
-					label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />
-				<field
-					name="rssurl2"
-					type="text"
-					size="50"
-					default="http://juuntos.org/foro/rss.feed"
-					label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />
-				<field type="spacer" name="myspacer3" hr="true" />
-				<field
-					name="url3sep"
-					type="text"
-					size="50"
-					default="JDoc Proyecto Documentación"
-					label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />
-				<field
-					name="rssurl3"
-					type="text"
-					size="50"
-					default="http://jdoc.juuntos.net/?format=feed&amp;type=rss"
-					label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />
-					
-				<field type="spacer" name="myspacer4" hr="true" />
-				<field
-					name="url4sep"
-					type="text"
-					size="50"
-					label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />
-				<field
-					name="rssurl4"
-					type="text"
-					size="50"
-					label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />
-				<field type="spacer" name="myspacer5" hr="true" />
-				
-				<field type="spacer" name="myspacer0" hr="true" />
-				
-				<field type="spacer" name="spacerop" label="&lt;b&gt;Opciones Generales&lt;/b&gt;" />
-				<field
-					name="rsstitle"
-					type="radio"
-					default="1"
-					label="MOD_HILANDOJUUNTOS_FIELD_RSSTITLE_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_RSSTITLE_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
-				</field>
-				<field
-					name="rssdesc"
-					type="radio"
-					default="1"
-					label="MOD_HILANDOJUUNTOS_FIELD_DESCRIPTION_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_DESCRIPTION_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
-				</field>
-				<field
-					name="rssimage"
-					type="radio"
-					default="1"
-					label="MOD_HILANDOJUUNTOS_FIELD_IMAGE_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_IMAGE_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
-				</field>
-				<field
-					name="rssitems"
-					type="text"
-					default="3"
-					label="MOD_HILANDOJUUNTOS_FIELD_ITEMS_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_ITEMS_DESC" />
-				<field
-					name="rssitemdesc"
-					type="radio"
-					default="1"
-					label="MOD_HILANDOJUUNTOS_FIELD_ITEMDESCRIPTION_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_ITEMDESCRIPTION_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
-				</field>
-				<field
-					name="word_count"
-					type="text"
-					size="6"
-					default="0"
-					label="MOD_HILANDOJUUNTOS_FIELD_WORDCOUNT_LABEL"
-					description="MOD_HILANDOJUUNTOS_FIELD_WORDCOUNT_DESC" />
-			</fieldset>
-			<fieldset
-				name="advanced">
-				<field
-					name="layout"
-					type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+        type="module"
+        version="2.5"
+        client="site">
+    <name>mod_hilandojuuntos</name>
+    <author>Comunidad Juuntos</author>
+    <creationDate>Febrero 2012</creationDate>
+    <copyright>Copyleft - Comunidad Juuntos.org</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>developer@tuxmerlin.com.ar</authorEmail>
+    <authorUrl>www.juuntos.org</authorUrl>
+    <version>1.0.1</version>
+    <description>MOD_HILANDOJUUNTOS_XML_DESCRIPTION</description>
+    <files>
+        <filename module="mod_hilandojuuntos">mod_hilandojuuntos.php</filename>
+        <filename>hilandojuuntos.css</filename>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+    </files>
+    <languages>
+        <language tag="es-ES">es-ES.mod_hilandojuuntos.ini</language>
+        <language tag="es-ES">es-ES.mod_hilandojuuntos.sys.ini</language>
+        <language tag="es-LA">es-ES.mod_hilandojuuntos.ini</language>
+        <language tag="es-LA">es-ES.mod_hilandojuuntos.sys.ini</language>
+        <language tag="pt-BR">pt-BR.mod_hilandojuuntos.ini</language>
+        <language tag="pt-BR">pt-BR.mod_hilandojuuntos.sys.ini</language>
+        <language tag="es-LA">es-LA.mod_hilandojuuntos.ini</language>
+        <language tag="es-LA">es-LA.mod_hilandojuuntos.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="url0sep"
+                        type="text"
+                        size="50"
+                        default="Blogs Comunidad Juuntos"
+                        label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />
+                <field
+                        name="rssurl0"
+                        type="text"
+                        size="50"
+                        default="http://www.juuntos.org/noticias.feed?type=rss"
+                        label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />
+                <field type="spacer" name="myspacer" hr="true" />
+                <field
+                        name="url1sep"
+                        type="text"
+                        size="50"
+                        default="Proyecto JDOC"
+                        label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />
+                <field
+                        name="rssurl1"
+                        type="text"
+                        size="50"
+                        default="http://jdoc.juuntos.org/?format=feed&amp;type=rss"
+                        label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />
+                <field type="spacer" name="myspacer2" hr="true" />
+                <field
+                        name="url2sep"
+                        type="text"
+                        size="50"
+                        default=""
+                        label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />
+                <field
+                        name="rssurl2"
+                        type="text"
+                        size="50"
+                        default=""
+                        label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />
+                <field type="spacer" name="myspacer3" hr="true" />
+                <field
+                        name="url3sep"
+                        type="text"
+                        size="50"
+                        default=""
+                        label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />
+                <field
+                        name="rssurl3"
+                        type="text"
+                        size="50"
+                        default=""
+                        label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />
 
-				<field
-					name="moduleclass_sfx"
-					type="text"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+                <field type="spacer" name="myspacer4" hr="true" />
+                <field
+                        name="url4sep"
+                        type="text"
+                        size="50"
+                        label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />
+                <field
+                        name="rssurl4"
+                        type="text"
+                        size="50"
+                        label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />
+                <field type="spacer" name="myspacer5" hr="true" />
 
-				<field
-					name="cache"
-					type="list"
-					default="1"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="1">JGLOBAL_USE_GLOBAL</option>
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
+                <field type="spacer" name="myspacer0" hr="true" />
 
-				<field
-					name="cache_time"
-					type="text"
-					default="900"
-					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
-			</fieldset>
-		</fields>
-	</config>
+                <field type="spacer" name="spacerop" label="&lt;b&gt;Opciones Generales&lt;/b&gt;" />
+                <field
+                        name="rsstitle"
+                        type="radio"
+                        default="1"
+                        label="MOD_HILANDOJUUNTOS_FIELD_RSSTITLE_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_RSSTITLE_DESC">
+                    <option
+                            value="1">JYES</option>
+                    <option
+                            value="0">JNO</option>
+                </field>
+                <field
+                        name="rssdesc"
+                        type="radio"
+                        default="1"
+                        label="MOD_HILANDOJUUNTOS_FIELD_DESCRIPTION_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_DESCRIPTION_DESC">
+                    <option
+                            value="1">JYES</option>
+                    <option
+                            value="0">JNO</option>
+                </field>
+                <field
+                        name="rssimage"
+                        type="radio"
+                        default="1"
+                        label="MOD_HILANDOJUUNTOS_FIELD_IMAGE_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_IMAGE_DESC">
+                    <option
+                            value="1">JYES</option>
+                    <option
+                            value="0">JNO</option>
+                </field>
+                <field
+                        name="rssitems"
+                        type="text"
+                        default="3"
+                        label="MOD_HILANDOJUUNTOS_FIELD_ITEMS_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_ITEMS_DESC" />
+                <field
+                        name="rssitemdesc"
+                        type="radio"
+                        default="1"
+                        label="MOD_HILANDOJUUNTOS_FIELD_ITEMDESCRIPTION_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_ITEMDESCRIPTION_DESC">
+                    <option
+                            value="1">JYES</option>
+                    <option
+                            value="0">JNO</option>
+                </field>
+                <field
+                        name="word_count"
+                        type="text"
+                        size="6"
+                        default="0"
+                        label="MOD_HILANDOJUUNTOS_FIELD_WORDCOUNT_LABEL"
+                        description="MOD_HILANDOJUUNTOS_FIELD_WORDCOUNT_DESC" />
+            </fieldset>
+            <fieldset
+                    name="advanced">
+                <field
+                        name="layout"
+                        type="modulelayout"
+                        label="JFIELD_ALT_LAYOUT_LABEL"
+                        description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+                <field
+                        name="moduleclass_sfx"
+                        type="text"
+                        label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                        description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+                <field
+                        name="cache"
+                        type="list"
+                        default="1"
+                        label="COM_MODULES_FIELD_CACHING_LABEL"
+                        description="COM_MODULES_FIELD_CACHING_DESC">
+                    <option
+                            value="1">JGLOBAL_USE_GLOBAL</option>
+                    <option
+                            value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+                </field>
+
+                <field
+                        name="cache_time"
+                        type="text"
+                        default="900"
+                        label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+                        description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+            </fieldset>
+        </fields>
+    </config>
 </extension>

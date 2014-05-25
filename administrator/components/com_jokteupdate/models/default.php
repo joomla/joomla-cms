@@ -2,7 +2,7 @@
 /**
  * @package     Jokte.Administrator
  * @subpackage  com_jokteupdate
- * @copyright   Copyleft (C) 2013 Comunidad Juuntos
+ * @copyright   Copyleft (C) 2014 Comunidad Juuntos
  * @license     GNU General Public License version 3
  */
 

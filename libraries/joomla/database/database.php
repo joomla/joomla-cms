@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -637,6 +637,19 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Get the row limit for the current SQL statement.
+	 *
+	 * @return  integer  The affected row limit for the current SQL statement.
+	 *
+	 * @since   2.5.17 (CMS Only)
+	 * @deprecated  3.0  Required for SQLSRV support for 2.5 only
+	 */
+	public function getLimit()
+	{
+		return $this->limit;
+	}
+
+	/**
 	 * Get the database driver SQL statement log.
 	 *
 	 * @return  array  SQL statements executed by the database driver.
@@ -682,6 +695,19 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @since   11.1
 	 */
 	abstract public function getNumRows($cursor = null);
+
+	/**
+	 * Get the row offset for the current SQL statement.
+	 *
+	 * @return  integer  The affected row offset to apply for the current SQL statement.
+	 *
+	 * @since   2.5.17 (CMS Only)
+	 * @deprecated  3.0  Required for SQLSRV support for 2.5 only
+	 */
+	public function getOffset()
+	{
+		return $this->offset;
+	}
 
 	/**
 	 * Get the common table prefix for the database driver.

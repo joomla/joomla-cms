@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -229,11 +229,11 @@ class JAccess
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
 		if (is_numeric($asset))
 		{
-			$query->where('(a.id = ' . (int) $asset . ($recursive ? ' OR a.parent_id=0' : '') . ')');
+			$query->where('(a.id = ' . (int) $asset . ')');
 		}
 		else
 		{
-			$query->where('(a.name = ' . $db->quote($asset) . ($recursive ? ' OR a.parent_id=0' : '') . ')');
+			$query->where('(a.name = ' . $db->quote($asset) . ')');
 		}
 
 		// If we want the rules cascading up to the global asset node we need a self-join.

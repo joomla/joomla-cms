@@ -1,13 +1,11 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-//var_dump($_REQUEST, $_FILES);
 ?>
 <div id="step">
 	<div class="far-right">
@@ -41,4 +39,3 @@ defined('_JEXEC') or die;
 <div id="installer">
 	<p class="error remove"><?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?></p>
 </div>
-

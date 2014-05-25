@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  ***************************************************************************************
  * Warning: Some modifications and improved were made by the Community Juuntos for
@@ -48,7 +48,7 @@ class ContentViewForm extends JViewLegacy
 			return false;
 		}
 
-		if (!empty($this->item) && isset($this->item->id)) {			
+		if (!empty($this->item) && isset($this->item->id)) {
 			$this->item->images = json_decode($this->item->images);
 			$this->item->urls = json_decode($this->item->urls);
 			$this->item->attachments = json_decode($this->item->attachments);

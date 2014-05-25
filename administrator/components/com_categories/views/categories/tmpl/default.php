@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_categories
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  ***************************************************************************************
  * Warning: Some modifications and improved were made by the Community Juuntos for
@@ -117,7 +117,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 						<?php endif; ?>
 						<?php if ($canEdit || $canEditOwn) : ?>	
 							<?php if ($this->catpreview): 
-								(strlen($item->description) > 0) ? $textintro = htmlentities(utf8_decode($item->description)) : $textintro = JTEXT::_(JGLOBAL_NODESC); 
+								(strlen($item->description) > 0) ? $textintro = htmlentities(utf8_decode($item->description)) : $textintro = JTEXT::_('JGLOBAL_NODESC'); 
 								?>
 								<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_PREVIEW_DESCRIPTION');?>::<?php echo $textintro; ?>">
 									<a href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id='.$item->id.'&extension='.$extension);?>">

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -555,7 +555,8 @@ class JFilterInput extends JObject
 			// Split into name/value pairs
 			$attrSubSet = explode('=', trim($attrSet[$i]), 2);
 			// Take the last attribute in case there is an attribute with no value
-			$attrSubSet[0] = array_pop(explode(' ', trim($attrSubSet[0])));
+			$attrSubSet_0 = explode(' ', trim($attrSubSet[0]));
+			$attrSubSet[0] = array_pop($attrSubSet_0);
 
 			// Remove all "non-regular" attribute names
 			// AND blacklisted attributes
@@ -641,7 +642,14 @@ class JFilterInput extends JObject
 		if (!is_array($ttr))
 		{
 			// Entity decode
-			$trans_tbl = get_html_translation_table(HTML_ENTITIES);
+			if (version_compare(PHP_VERSION, '5.3.4', '>='))
+			{
+				$trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');
+			}
+			else
+			{
+				$trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT);
+			}
 			foreach ($trans_tbl as $k => $v)
 			{
 				$ttr[$v] = utf8_encode($k);
@@ -649,9 +657,10 @@ class JFilterInput extends JObject
 		}
 		$source = strtr($source, $ttr);
 		// Convert decimal
-		$source = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $source); // decimal notation
+		$source = preg_replace_callback('/&#(\d+);/m', "callbackJFilterInputConvertDecimal", $source); // decimal notation
 		// Convert hex
-		$source = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
+		$source = preg_replace_callback('/&#x([a-f0-9]+);/mi', "callbackJFilterInputConvertHex", $source); // hex notation
+
 		return $source;
 	}
 
@@ -738,5 +747,35 @@ class JFilterInput extends JObject
 			}
 		}
 		return $return;
+	}
+}
+
+if (! function_exists('callbackJFilterInputConvertDecimal'))
+{
+	/**
+	 * Decimal decode callback for JFilterInput::_decode.
+	 *
+	 * @param   $matches
+	 *
+	 * @return  string
+	 */
+	function callbackJFilterInputConvertDecimal($matches)
+	{
+		return utf8_encode(chr($matches[1]));
+	}
+}
+
+if (! function_exists('callbackJFilterInputConvertHex'))
+{
+	/**
+	 * Hex decode callback for JFilterInput::_decode.
+	 *
+	 * @param   $matches
+	 *
+	 * @return  string
+	 */
+	function callbackJFilterInputConvertHex($matches)
+	{
+		return utf8_encode(chr('0x' . $matches[1]));
 	}
 }

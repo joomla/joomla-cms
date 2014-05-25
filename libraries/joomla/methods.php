@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -148,6 +148,27 @@ class JText
 			else
 			{
 				$jsSafe = false;
+			}
+		}
+		if (!(strpos($string, ',') === false))
+		{
+			$test = substr($string, strpos($string, ','));
+			if (strtoupper($test) === $test)
+			{
+				$strs = explode(',', $string);
+				foreach ($strs as $i => $str)
+				{
+					$strs[$i] = $lang->_($str, $jsSafe, $interpretBackSlashes);
+					if ($script)
+					{
+						self::$strings[$str] = $strs[$i];
+					}
+				}
+				$str = array_shift($strs);
+				$str = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $str);
+				$str = vsprintf($str, $strs);
+
+				return $str;
 			}
 		}
 		if ($script)
@@ -317,6 +338,7 @@ class JText
 			{
 				$args[0] = $lang->_($string);
 			}
+			$args[0] = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $args[0]);
 			return call_user_func_array('sprintf', $args);
 		}
 		return '';

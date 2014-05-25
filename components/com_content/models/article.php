@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Site
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  ***************************************************************************************
  * Warning: Some modifications and improved were made by the Community Juuntos for
@@ -72,6 +72,10 @@ class ContentModelArticle extends JModelItem
 	 */
 	public function &getItem($pk = null)
 	{
+
+		// Get current user for authorisation checks
+		$user	= JFactory::getUser();
+		
 		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
@@ -107,21 +111,26 @@ class ContentModelArticle extends JModelItem
 				// Join on user table.
 				$query->select('u.name AS author');
 				$query->join('LEFT', '#__users AS u on u.id = a.created_by');
-		
-				// Join on contact table
+
+				// Get contact id
 				$subQuery = $db->getQuery(true);
-				$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
+				$subQuery->select('MAX(contact.id) AS id');
 				$subQuery->from('#__contact_details AS contact');
 				$subQuery->where('contact.published = 1');
-				$subQuery->group('contact.user_id, contact.language');
-				$query->select('contact.id as contactid' );
-				$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
+				$subQuery->where('contact.user_id = a.created_by');
 
 				// Filter by language
 				if ($this->getState('filter.language'))
 				{
-					$query->where('a.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
-					$query->where('(contact.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').') OR contact.language IS NULL)');
+					$subQuery->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
+				}
+
+				$query->select('(' . $subQuery . ') as contactid');
+
+				// Filter by language
+				if ($this->getState('filter.language'))
+				{
+					$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 				}
 
 				// Join over the categories to get parent category titles
@@ -134,14 +143,16 @@ class ContentModelArticle extends JModelItem
 
 				$query->where('a.id = ' . (int) $pk);
 
-				// Filter by start and end dates.
-				$nullDate = $db->Quote($db->getNullDate());
-				$date = JFactory::getDate();
+				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
+					// Filter by start and end dates.
+					$nullDate = $db->Quote($db->getNullDate());
+					$date = JFactory::getDate();
 
-				$nowDate = $db->Quote($date->toSql());
+					$nowDate = $db->Quote($date->toSql());
 
-				$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
-				$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
+					$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+				}
 
 				// Join to check for category published state in parent categories up the tree
 				// If all categories are published, badcats.id will be null, and we just use the article state
@@ -154,7 +165,7 @@ class ContentModelArticle extends JModelItem
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
-				
+
 				if (is_numeric($published)) {
 					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
 				}
@@ -189,9 +200,6 @@ class ContentModelArticle extends JModelItem
 				$registry = new JRegistry;
 				$registry->loadString($data->metadata);
 				$data->metadata = $registry;
-
-				// Compute selected asset permissions.
-				$user	= JFactory::getUser();
 
 				// Technically guest could edit an article, but lets not check that to improve performance a little.
 				if (!$user->get('guest')) {

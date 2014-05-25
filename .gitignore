@@ -8,3 +8,4 @@
 /tmp/*
 /uploads/*
 .idea
+administrator/components/com_jokteupdate/restoration.php

@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ var MediaManager = this.MediaManager = {
 				   	uri = this._getUriObject(this.frameurl);
 				   	current	= uri.file+'?'+uri.query;
 
-					if (current != 'undefined?undefined' && current != node.data.url) {
+					if (current != 'undefined?undefined' && current != encodeURI(node.data.url)) {
 						window.frames[target].location.href = node.data.url;
 					}
 				}.bind(this)

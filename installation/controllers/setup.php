@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +13,7 @@ defined('_JEXEC') or die;
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationControllerSetup extends JController
+class JInstallationControllerSetup extends JControllerLegacy
 {
 	/**
 	 * Method to set the setup language for the application.
@@ -38,7 +37,7 @@ class JInstallationControllerSetup extends JController
 		}
 
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the setup model.
 		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
@@ -81,7 +80,7 @@ class JInstallationControllerSetup extends JController
 	function database()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -137,7 +136,7 @@ class JInstallationControllerSetup extends JController
 			);
 			$dummy = $model->storeOptions($data);
 
-			$this->setRedirect('index.php?view=site');
+			$this->setRedirect('index.php?view=filesystem');
 		}
 	}
 
@@ -147,7 +146,7 @@ class JInstallationControllerSetup extends JController
 	function filesystem()
 	{
 		// Check for request forgeries.
-		//JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -192,26 +191,25 @@ class JInstallationControllerSetup extends JController
 	function saveconfig()
 	{
 		// Check for request forgeries.
-		//JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
 
 		// Get the setup model.
 		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
-                
+
 		// Get the posted values from the request and validate them.
-		$data = JRequest::getVar('jform', array(), 'get', 'array');
-                
+		$data = JRequest::getVar('jform', array(), 'post', 'array');
 		$return	= $model->validate($data, 'site');
-                
+
 		// Attempt to save the data before validation
 		$form = $model->getForm();
 		$data = $form->filter($data);
 		unset($data['admin_password2']);
 		$model->storeOptions($data);
-                
-		/* Check for validation errors.
+
+		// Check for validation errors.
 		if ($return === false) {
 			// Get the validation messages.
 			$errors	= $model->getErrors();
@@ -231,7 +229,7 @@ class JInstallationControllerSetup extends JController
 
 			return false;
 		}
-                */
+
 		// Store the options in the session.
 		unset($return['admin_password2']);
 		$vars = $model->storeOptions($return);
@@ -241,7 +239,7 @@ class JInstallationControllerSetup extends JController
 
 		// Attempt to setup the configuration.
 		$return = $configuration->setup($vars);
-                
+
 		// Ensure a language was set.
 		if (!$return) {
 			$this->setMessage($configuration->getError(), 'notice');

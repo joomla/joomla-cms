@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  ***************************************************************************************
  * Warning: Some modifications and improved were made by the Community Juuntos for
@@ -42,6 +42,7 @@ class ContentViewArticle extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -54,12 +55,11 @@ class ContentViewArticle extends JViewLegacy
 		$item->parent_slug	= $item->category_alias ? ($item->parent_id.':'.$item->parent_alias) : $item->parent_id;
 
 		// TODO: Change based on shownoauth
-		$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
+		$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->language));
 
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
 		$this->params	= $this->state->get('params');
-		
 		$active	= $app->getMenu()->getActive();
 		$temp	= clone ($this->params);
 
@@ -104,8 +104,11 @@ class ContentViewArticle extends JViewLegacy
 
 		// Check the view access to the article (the model has already computed the values).
 		if ($item->params->get('access-view') != true && (($item->params->get('show_noauth') != true &&  $user->get('guest') ))) {
-			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
-			return;
+
+						JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+
+				return;
+
 		}
 
 		if ($item->params->get('show_intro', '1')=='1') {

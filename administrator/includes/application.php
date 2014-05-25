@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.Administrator
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  ***************************************************************************************
  * Warning: Some modifications and improved were made by the Community Juuntos for
@@ -86,7 +86,7 @@ class JAdministrator extends JApplication
 
 		// Load Library language
 		$lang = JFactory::getLanguage();
-		$lang->load('lib_joomla', JPATH_ADMINISTRATOR);
+		$lang->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, true);
 	}
 
 	/**

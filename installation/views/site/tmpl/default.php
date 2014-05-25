@@ -1,13 +1,11 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die;
 
-$this->validateInput();
+defined('_JEXEC') or die;
 ?>
 <div id="installer">
 	<div class="m">
@@ -81,37 +79,38 @@ $this->validateInput();
 						<a href="#"><?php echo JText::_('INSTL_SITE_META_ADVANCED_SETTINGS'); ?></a>
 					</h4>
 					<div class="section-smenu moofx-slider">
-						<table class="content2">
-							<tr>
-								<td title="<?php echo JText::_('INSTL_SITE_METADESC_TITLE_LABEL'); ?>">
-									<?php echo $this->form->getLabel('site_metadesc'); ?>
-								</td>
-								<td>
-									<?php echo $this->form->getInput('site_metadesc'); ?>
-								</td>
-							</tr>
-							<tr>
-								<td title="<?php echo JText::_('INSTL_SITE_METAKEYS_TITLE_LABEL'); ?>">
-									<?php echo $this->form->getLabel('site_metakeys'); ?>
-								</td>
-								<td>
-									<?php echo $this->form->getInput('site_metakeys'); ?>
-								</td>
-							</tr>
-							<tr>
-								<td title="<?php echo JText::_('INSTL_SITE_OFFLINE_TITLE_LABEL'); ?>">
-									<?php echo $this->form->getLabel('site_offline'); ?>
-								</td>
-								<td>
-									<?php echo $this->form->getInput('site_offline'); ?>
-								</td>
-							</tr>
-						</table>
+							<table class="content2">
+								<tr>
+									<td title="<?php echo JText::_('INSTL_SITE_METADESC_TITLE_LABEL'); ?>">
+										<?php echo $this->form->getLabel('site_metadesc'); ?>
+									</td>
+									<td>
+										<?php echo $this->form->getInput('site_metadesc'); ?>
+									</td>
+								</tr>
+								<tr>
+									<td title="<?php echo JText::_('INSTL_SITE_METAKEYS_TITLE_LABEL'); ?>">
+										<?php echo $this->form->getLabel('site_metakeys'); ?>
+									</td>
+									<td>
+										<?php echo $this->form->getInput('site_metakeys'); ?>
+									</td>
+								</tr>
+								<tr>
+									<td title="<?php echo JText::_('INSTL_SITE_OFFLINE_TITLE_LABEL'); ?>">
+										<?php echo $this->form->getLabel('site_offline'); ?>
+									</td>
+									<td>
+										<?php echo $this->form->getInput('site_offline'); ?>
+									</td>
+								</tr>
+							</table>
+						</div>
 					</div>
 				</div>
-			</div>
-			
-			<div class="newsection"></div>
+
+				<div class="newsection"></div>
+
 				<h4><?php echo JText::_('INSTL_SITE_CONF_TITLE'); ?></h4>
 				<div class="install-text">
 					<?php echo JText::_('INSTL_SITE_CONF_DESC'); ?>
@@ -155,11 +154,12 @@ $this->validateInput();
 							</table>
 						</fieldset>
 					</div>
-					<input type="hidden" name="view" value="site" />
+					<input type="hidden" name="task" value="setup.saveconfig" />
 					<?php echo JHtml::_('form.token'); ?>
 					<?php echo $this->form->getInput('sample_installed'); ?>
 				</div>
 			</form>
+
 			<div class="clr"></div>
 
 			<form enctype="multipart/form-data" action="index.php" method="post" id="filename">
@@ -171,7 +171,7 @@ $this->validateInput();
 					<p><?php echo JText::_('INSTL_SITE_LOAD_SAMPLE_DESC4'); ?></p>
 					<p><?php echo JText::_('INSTL_SITE_LOAD_SAMPLE_DESC8'); ?></p>
 				</div>
-				<div class="install-body">
+				<div id="sample-data-region" class="install-body">
 					<div class="m">
 						<fieldset>
 							<table class="content2 sample-data">
@@ -203,6 +203,7 @@ $this->validateInput();
 					<?php echo JHtml::_('form.token'); ?>
 				</div>
 			</form>
+
 		<div class="clr"></div>
 	</div>
 </div>

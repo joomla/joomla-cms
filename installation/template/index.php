@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Jokte.Installation
- * @copyright	Copyleft 2012 - 2013 Comunidad Juuntos y Jokte.org
+ * @copyright	Copyleft 2012 - 2014 Comunidad Juuntos y Jokte.org
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +66,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 					<a rel="{handler: 'iframe', size: {x: 750, y: 600}}" href="contrasoc.html" target="_blank" class="modal"><?php echo JText::_('INSTL_CMS_AGREEMENT'); ?></a>
 				</p>
 				<p class="stepBarrHigthLight">
-					<a rel="{handler: 'iframe', size: {x: 750, y: 600}}" href="http://www.jokte.org/foro.html" target="_blank" class="modal"><?php echo JText::_('INSTL_HELP'); ?></a>
+					<a rel="{handler: 'iframe', size: {x: 750, y: 600}}" href="http://juuntos.org/foro.html" target="_blank" class="modal"><?php echo JText::_('INSTL_HELP'); ?></a>
 				</p>
 				<p class="stepBarrLnk">
 					<a href="http://jokte.org" target="_blank">Jokte.org</a>

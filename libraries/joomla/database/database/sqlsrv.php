@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -643,7 +643,7 @@ class JDatabaseSQLSrv extends JDatabase
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$sql = $this->replacePrefix((string) $this->sql);
-		if ($this->limit > 0 || $this->offset > 0)
+		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$sql = $this->limit($sql, $this->limit, $this->offset);
 		}
@@ -1112,17 +1112,28 @@ class JDatabaseSQLSrv extends JDatabase
 	 */
 	protected function limit($sql, $limit, $offset)
 	{
+		if ($limit == 0 && $offset == 0)
+		{
+			return $sql;
+		}
+
+		$start = $offset + 1;
+		$end   = $offset + $limit;
+
 		$orderBy = stristr($sql, 'ORDER BY');
+
 		if (is_null($orderBy) || empty($orderBy))
 		{
 			$orderBy = 'ORDER BY (select 0)';
 		}
+
 		$sql = str_ireplace($orderBy, '', $sql);
 
-		$rowNumberText = ',ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
+		$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
 
-		$sql = preg_replace('/\\s+FROM/', '\\1 ' . $rowNumberText . ' ', $sql, 1);
-		$sql = 'SELECT TOP ' . $this->limit . ' * FROM (' . $sql . ') _myResults WHERE RowNumber > ' . $this->offset;
+		$sql = preg_replace('/\sFROM\s/i', $rowNumberText, $sql, 1);
+		$sql = 'SELECT * FROM (' . $sql . ') _myResults WHERE RowNumber BETWEEN ' . $start . ' AND ' . $end;
+		echo $sql;
 
 		return $sql;
 	}

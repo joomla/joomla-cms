@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Site
  * @subpackage	com_weblinks
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,9 +50,6 @@ abstract class WeblinksHelperRoute
 		if ($item = self::_findItem($needles)) {
 			$link .= '&Itemid='.$item;
 		}
-		elseif ($item = self::_findItem()) {
-			$link .= '&Itemid='.$item;
-		}
 
 		return $link;
 	}
@@ -89,35 +86,22 @@ abstract class WeblinksHelperRoute
 			$category = JCategories::getInstance('Weblinks')->get($id);
 		}
 
-		if ($id < 1) {
+		if ($id < 1 || !($category instanceof JCategoryNode))
+		{
 			$link = '';
 		}
 		else {
-			$needles = array(
-				'category' => array($id)
-			);
+			$needles = array();
+
+			//Create the link
+			$link = 'index.php?option=com_weblinks&view=category&id='.$id;
+			
+			$catids = array_reverse($category->getPath());
+			$needles['category'] = $catids;
+			$needles['categories'] = $catids;
 
 			if ($item = self::_findItem($needles)) {
-				$link = 'index.php?Itemid='.$item;
-			}
-			else {
-				//Create the link
-				$link = 'index.php?option=com_weblinks&view=category&id='.$id;
-
-				if ($category) {
-					$catids = array_reverse($category->getPath());
-					$needles = array(
-						'category' => $catids,
-						'categories' => $catids
-					);
-
-					if ($item = self::_findItem($needles)) {
-						$link .= '&Itemid='.$item;
-					}
-					elseif ($item = self::_findItem()) {
-						$link .= '&Itemid='.$item;
-					}
-				}
+				$link .= '&Itemid='.$item;
 			}
 		}
 
@@ -154,24 +138,27 @@ abstract class WeblinksHelperRoute
 			}
 		}
 
-		if ($needles) {
+		if ($needles)
+		{
 			foreach ($needles as $view => $ids)
 			{
-				if (isset(self::$lookup[$view])) {
+				if (isset(self::$lookup[$view]))
+				{
 					foreach($ids as $id)
 					{
-						if (isset(self::$lookup[$view][(int)$id])) {
+						if (isset(self::$lookup[$view][(int)$id]))
+						{
 							return self::$lookup[$view][(int)$id];
 						}
 					}
 				}
 			}
 		}
-		else {
-			$active = $menus->getActive();
-			if ($active) {
-				return $active->id;
-			}
+
+		$active = $menus->getActive();
+		if ($active)
+		{
+			return $active->id;
 		}
 
 		return null;

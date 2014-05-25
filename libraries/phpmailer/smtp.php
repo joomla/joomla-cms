@@ -10,7 +10,7 @@
 |          : Marcus Bointon (coolbru) coolbru@users.sourceforge.net         |
 |          : Jim Jagielski (jimjag) jimjag@gmail.com                        |
 |   Founder: Brent R. Matzelle (original founder)                           |
-| Copyright (c) 2010-2013, Jim Jagielski. All Rights Reserved.              |
+| Copyright (c) 2010-2012, Jim Jagielski. All Rights Reserved.              |
 | Copyright (c) 2004-2009, Andy Prevost. All Rights Reserved.               |
 | Copyright (c) 2001-2003, Brent R. Matzelle                                |
 | ------------------------------------------------------------------------- |

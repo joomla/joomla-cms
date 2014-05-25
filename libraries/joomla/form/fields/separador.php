@@ -2,7 +2,7 @@
 /**
 * @version		1.0.0
 * @package		Jokte.element
-* @copyright	Copyleft 2012 - 2013 Comunidad Juuntos, Proyecto Jokte!
+* @copyright	Copyleft 2012 - 2014 Comunidad Juuntos, Proyecto Jokte!
 * @license		GNU/GPL 3.0
 */
 defined('_JEXEC') or die('Restricted access');

@@ -1,14 +1,11 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * The HTML Joomla Core Install Complete View
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationViewComplete extends JView
+class JInstallationViewComplete extends JViewLegacy
 {
 	/**
 	 * Display the view
@@ -37,14 +34,14 @@ class JInstallationViewComplete extends JView
 			return false;
 		}
 
-		$this->assignRef('state', $state);
-		$this->assignRef('options', $options);
-		$this->assignRef('config', $config);
+		$this->state   = $state;
+		$this->options = $options;
+		$this->config  = $config;
 
 		parent::display($tpl);
 	}
-        
-        public function getDataInstall () {
+	
+	public function getDataInstall () {
             require_once JPATH_INSTALLATION.'/helpers/database.php';
             $site = NULL;
             $result = NULL;

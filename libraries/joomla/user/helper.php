@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -304,6 +304,76 @@ abstract class JUserHelper
 	}
 
 	/**
+	 * Hashes a password using the current encryption.
+	 *
+	 * @param   string  $password  The plaintext password to encrypt.
+	 *
+	 * @return  string  The encrypted password.
+	 *
+	 * @since   3.2.1
+	 */
+	public static function hashPassword($password)
+	{
+		// Use PHPass's portable hashes with a cost of 10.
+		$phpass = new PasswordHash(10, true);
+
+		return $phpass->HashPassword($password);
+	}
+
+	/**
+	 * Formats a password using the current encryption. If the user ID is given
+	 * and the hash does not fit the current hashing algorithm, it automatically
+	 * updates the hash.
+	 *
+	 * @param   string   $password  The plaintext password to check.
+	 * @param   string   $hash      The hash to verify against.
+	 * @param   integer  $user_id   ID of the user if the password hash should be updated
+	 *
+	 * @return  boolean  True if the password and hash match, false otherwise
+	 *
+	 * @since   3.2.1
+	 */
+	public static function verifyPassword($password, $hash, $user_id = 0)
+	{
+		$rehash = false;
+		$match = false;
+
+		// If we are using phpass
+		if (strpos($hash, '$P$') === 0)
+		{
+			// Use PHPass's portable hashes with a cost of 10.
+			$phpass = new PasswordHash(10, true);
+
+			$match = $phpass->CheckPassword($password, $hash);
+
+			$rehash = false;
+		}
+		else
+		{
+			// Check the password
+			$parts = explode(':', $hash);
+			$crypt = $parts[0];
+			$salt  = @$parts[1];
+
+			$rehash = true;
+
+			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : '');
+
+			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
+		}
+
+		// If we have a match and rehash = true, rehash the password with the current algorithm.
+		if ((int) $user_id > 0 && $match && $rehash)
+		{
+			$user = new JUser($user_id);
+			$user->password = self::hashPassword($password);
+			$user->save();
+		}
+
+		return $match;
+	}
+
+	/**
 	 * Formats a password using the current encryption.
 	 *
 	 * @param   string   $plaintext     The plaintext password to encrypt.
@@ -319,6 +389,8 @@ abstract class JUserHelper
 	 * @return  string  The encrypted password.
 	 *
 	 * @since   11.1
+	 *
+	 * @deprecated  4.0
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{

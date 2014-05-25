@@ -3,7 +3,7 @@
  * Akeeba Restore
  * A JSON-powered JPA, JPS and ZIP archive extraction library
  * 
- * @copyright 2010-2013 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @copyright 2010-2014 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license GNU GPL v2 or - at your option - any later version
  * @package akeebabackup
  * @subpackage kickstart

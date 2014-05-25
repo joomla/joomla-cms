@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,8 +34,12 @@ class JUpdaterExtension extends JUpdateAdapter
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
-		// reset the data
-		eval('$this->' . $tag . '->_data = "";');
+
+		// Reset the data
+		if (isset($this->$tag))
+		{
+			$this->$tag->_data = "";
+		}
 
 		switch ($name)
 		{
@@ -141,9 +145,10 @@ class JUpdaterExtension extends JUpdateAdapter
 	 */
 	public function findUpdate($options)
 	{
-		$url = $options['location'];
+		$url = trim($options['location']);
 		$this->_url = &$url;
 		$this->_update_site_id = $options['update_site_id'];
+
 		if (substr($url, -4) != '.xml')
 		{
 			if (substr($url, -1) != '/')
@@ -155,7 +160,18 @@ class JUpdaterExtension extends JUpdateAdapter
 
 		$dbo = $this->parent->getDBO();
 
-		if (!($fp = @fopen($url, "r")))
+		$http = JHttpFactory::getHttp();
+
+		try
+		{
+			$response = $http->get($url);
+		}
+		catch (Exception $exc)
+		{
+			$response = null;
+		}
+
+		if (is_null($response) || ($response->code != 200))
 		{
 			$query = $dbo->getQuery(true);
 			$query->update('#__update_sites');
@@ -167,6 +183,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			JLog::add("Error opening url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), 'warning');
+
 			return false;
 		}
 
@@ -175,17 +192,17 @@ class JUpdaterExtension extends JUpdateAdapter
 		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');
 		xml_set_character_data_handler($this->xml_parser, '_characterData');
 
-		while ($data = fread($fp, 8192))
+		if (!xml_parse($this->xml_parser, $response->body))
 		{
-			if (!xml_parse($this->xml_parser, $data, feof($fp)))
-			{
-				JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
-				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $url), 'warning');
-				return false;
-			}
+			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $url), 'warning');
+
+			return false;
 		}
+
 		xml_parser_free($this->xml_parser);
+
 		if (isset($this->latest))
 		{
 			if (isset($this->latest->client) && strlen($this->latest->client))
@@ -193,12 +210,14 @@ class JUpdaterExtension extends JUpdateAdapter
 				$this->latest->client_id = JApplicationHelper::getClientInfo($this->latest->client, 1)->id;
 				unset($this->latest->client);
 			}
+
 			$updates = array($this->latest);
 		}
 		else
 		{
 			$updates = array();
 		}
+
 		return array('update_sites' => array(), 'updates' => $updates);
 	}
 }
