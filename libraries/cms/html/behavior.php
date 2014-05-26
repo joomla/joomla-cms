@@ -279,6 +279,7 @@ abstract class JHtmlBehavior
 			 $('$selector').each(function() {
 				var title = $(this).attr('title');
 				if (title) {
+					var parts = title.split('::', 2);
 					this.store('tip:title', parts[0]);
 					this.store('tip:text', parts[1]);
 				}
