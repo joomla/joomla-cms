@@ -185,7 +185,7 @@ class PlgEditorTinymce extends JPlugin
 		$invalid_elements	= $this->params->get('invalid_elements', 'script,applet,iframe');
 		$extended_elements	= $this->params->get('extended_elements', '');
 		$valid_elements		= $this->params->get('valid_elements', '');
-		
+
 		// Advanced Options
 		$html_height		= $this->params->get('html_height', '550');
 		$html_width			= $this->params->get('html_width', '750');
