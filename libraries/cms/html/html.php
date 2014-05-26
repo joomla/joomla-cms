@@ -971,7 +971,10 @@ abstract class JHtml
 		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
 
-		$attribs = JArrayHelper::toString($attribs);
+		if (is_array($attribs))
+		{
+			$attribs = JArrayHelper::toString($attribs);
+		}
 
 		static::_('bootstrap.tooltip');
 
