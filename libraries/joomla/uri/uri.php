@@ -509,7 +509,7 @@ class JUri
 	/**
 	 * Returns flat query string.
 	 *
-	 * @param   boolean  $toArray  True to return the query as a key => value pair array.
+	 * @param   boolean       $toArray  True to return the query as a key => value pair array.
 	 *
 	 * @return  string|array  Query string or array.
 	 *
