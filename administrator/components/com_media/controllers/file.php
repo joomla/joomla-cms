@@ -62,15 +62,20 @@ class MediaControllerFile extends JControllerLegacy
 			return false;
 		}
 
+		// Total length of post back data in bytes.
 		$contentLength = (int) $_SERVER['CONTENT_LENGTH'];
+
+		// Maximum allowed size of post back data in MB.
 		$postMaxSize = (int) ini_get('post_max_size');
+
+		// Maximum allowed size of script execution in MB.
 		$memoryLimit = (int) ini_get('memory_limit');
 
 		// Check for the total size of post back data.
 		if (($postMaxSize > 0 && $contentLength > $postMaxSize * 1024 * 1024)
 			|| ($memoryLimit != -1 && $contentLength > $memoryLimit * 1024 * 1024))
 		{
-			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
+			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNUPLOADTOOLARGE'));
 
 			return false;
 		}
@@ -84,17 +89,11 @@ class MediaControllerFile extends JControllerLegacy
 			$file['name']     = JFile::makeSafe($file['name']);
 			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $file['name'])));
 
-			if ($file['error'] == 1)
+			if (($file['error'] == 1)
+				|| ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize))
 			{
+				// File size exceed either 'upload_max_filesize' or 'upload_maxsize'.
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
-
-				return false;
-			}
-
-			if (($uploadMaxSize != 0 && $file['size'] > $uploadMaxSize)
-				|| ($uploadMaxFileSize != 0 && $file['size'] > $uploadMaxFileSize))
-			{
-				JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 
 				return false;
 			}
