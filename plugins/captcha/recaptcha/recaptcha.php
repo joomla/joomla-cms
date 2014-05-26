@@ -66,7 +66,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		JHtml::_('script', $server . '/js/recaptcha_ajax.js');
 		$document->addScriptDeclaration('jQuery( document ).ready(function()
 		{
-			Recaptcha.create("' . $pubkey . '", ' . $id . ', {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
+			Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
 		);
 
 		return true;
