@@ -19,16 +19,17 @@ defined('JPATH_PLATFORM') or die;
 abstract class JModuleHelper
 {
 	/**
-	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
+	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs') or by ID
 	 *
 	 * @param   string  $name   The name of the module
 	 * @param   string  $title  The title of the module, optional
+	 * @param   int     $id     ID of the module, optional
 	 *
 	 * @return  object  The Module object
 	 *
 	 * @since   1.5
 	 */
-	public static function &getModule($name, $title = null)
+	public static function &getModule($name, $title = null, $id = 0)
 	{
 		$result = null;
 		$modules =& static::load();
@@ -39,8 +40,8 @@ abstract class JModuleHelper
 			// Match the name of the module
 			if ($modules[$i]->name == $name || $modules[$i]->module == $name)
 			{
-				// Match the title if we're looking for a specific instance of the module
-				if (!$title || $modules[$i]->title == $title)
+				// Match the title or ID if we're looking for a specific instance of the module
+				if ((!$title && !$id) || $modules[$i]->title == $title || $modules[$i]->id == $id)
 				{
 					// Found it
 					$result = &$modules[$i];
