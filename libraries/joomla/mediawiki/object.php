@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * MediaWiki API object class for the Joomla Platform.
  *
  * @package     Joomla.Platform
- * @subpackage  Mediawiki
+ * @subpackage  MediaWiki
  * @since       12.3
  */
 abstract class JMediawikiObject

@@ -3,16 +3,15 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * Test class for JTableMenuType.
+ * Test class for JTableCategory.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Table
- *
  * @since       12.3
  */
 class JTableCategoryTest extends TestCase

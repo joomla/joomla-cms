@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct($db)
 	{
 		parent::__construct('#__updates', 'update_id', $db);
 	}
@@ -36,7 +36,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @return  boolean  True if the object is ok
 	 *
-	 * @see     JTable::check
+	 * @see     JTable::check()
 	 * @since   11.1
 	 */
 	public function check()
@@ -60,7 +60,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable::bind
+	 * @see     JTable::bind()
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')

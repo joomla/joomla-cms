@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,8 +20,15 @@ class MediaViewMediaList extends JViewLegacy
 {
 	public function display($tpl = null)
 	{
+		$app = JFactory::getApplication();
+
+		if (!$app->isAdmin())
+		{
+			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+		}
+
 		// Do not allow cache
-		JResponse::allowCache(false);
+		$app->allowCache(false);
 
 		JHtml::_('behavior.framework', true);
 

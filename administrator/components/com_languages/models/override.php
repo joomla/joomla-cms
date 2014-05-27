@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -166,8 +166,9 @@ class LanguagesModelOverride extends JModelAdmin
 		// Write override.ini file with the strings
 		$registry = new JRegistry;
 		$registry->loadObject($strings);
+		$reg = $registry->toString('INI');
 
-		if (!JFile::write($filename, $registry->toString('INI')))
+		if (!JFile::write($filename, $reg))
 		{
 			return false;
 		}

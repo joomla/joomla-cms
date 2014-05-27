@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Uri
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -511,7 +511,7 @@ class JUri
 	 *
 	 * @param   boolean  $toArray  True to return the query as a key => value pair array.
 	 *
-	 * @return  string   Query string.
+	 * @return  string|array  Query string or array.
 	 *
 	 * @since   11.1
 	 */

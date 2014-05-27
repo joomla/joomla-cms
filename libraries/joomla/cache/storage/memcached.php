@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,20 +20,26 @@ defined('JPATH_PLATFORM') or die;
 class JCacheStorageMemcached extends JCacheStorage
 {
 	/**
+	 * Memcached connection object
+	 *
 	 * @var    Memcached
 	 * @since  12.1
 	 */
 	protected static $_db = null;
 
 	/**
+	 * Persistent session flag
+	 *
 	 * @var    boolean
 	 * @since  12.1
 	 */
 	protected $_persistent = false;
 
 	/**
-	 * @var
-	 * @since   12.1
+	 * Payload compression level
+	 *
+	 * @var    integer
+	 * @since  12.1
 	 */
 	protected $_compress = 0;
 

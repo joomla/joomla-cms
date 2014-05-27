@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,7 +36,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	 * @param   string  $password  The password to hash.
 	 * @param   string  $type      The hash type.
 	 *
-	 * @return  string  The hashed password.
+	 * @return  mixed  The hashed password or false if the password is too long.
 	 *
 	 * @since   12.2
 	 * @throws  InvalidArgumentException
@@ -52,7 +52,7 @@ class JCryptPasswordSimple implements JCryptPassword
 		{
 			case '$2a$':
 			case JCryptPassword::BLOWFISH:
-				if (version_compare(PHP_VERSION, '5.3.7') >= 0)
+				if (JCrypt::hasStrongPasswordSupport())
 				{
 					$type = '$2y$';
 				}
@@ -130,7 +130,7 @@ class JCryptPasswordSimple implements JCryptPassword
 		// Check if the hash is a blowfish hash.
 		if (substr($hash, 0, 4) == '$2a$' || substr($hash, 0, 4) == '$2y$')
 		{
-			if (version_compare(PHP_VERSION, '5.3.7') >= 0)
+			if (JCrypt::hasStrongPasswordSupport())
 			{
 				$type = '$2y$';
 			}

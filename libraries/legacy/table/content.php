@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -122,7 +122,7 @@ class JTableContent extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
-	 * @see     JTable::bind
+	 * @see     JTable::bind()
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -173,7 +173,7 @@ class JTableContent extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see     JTable::check
+	 * @see     JTable::check()
 	 * @since   11.1
 	 */
 	public function check()

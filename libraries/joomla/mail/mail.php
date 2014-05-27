@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -76,33 +76,42 @@ class JMail extends PHPMailer
 	 */
 	public function Send()
 	{
-		if (($this->Mailer == 'mail') && !function_exists('mail'))
+		if (JFactory::getConfig()->get('mailonline', 1))
 		{
-			if (class_exists('JError'))
+			if (($this->Mailer == 'mail') && !function_exists('mail'))
 			{
-				return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
+				if (class_exists('JError'))
+				{
+					return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
+				}
+				else
+				{
+					throw new RuntimeException(sprintf('%s::Send mail not enabled.', get_class($this)));
+				}
 			}
-			else
+
+			@$result = parent::Send();
+
+			if ($result == false)
 			{
-				throw new RuntimeException(sprintf('%s::Send mail not enabled.', get_class($this)));
+				if (class_exists('JError'))
+				{
+					$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
+				}
+				else
+				{
+					throw new RuntimeException(sprintf('%s::Send failed: "%s".', get_class($this), $this->ErrorInfo));
+				}
 			}
+
+			return $result;
 		}
-
-		@$result = parent::Send();
-
-		if ($result == false)
+		else
 		{
-			if (class_exists('JError'))
-			{
-				$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
-			}
-			else
-			{
-				throw new RuntimeException(sprintf('%s::Send failed: "%s".', get_class($this), $this->ErrorInfo));
-			}
-		}
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_MAIL_FUNCTION_OFFLINE'));
 
-		return $result;
+			return false;
+		}
 	}
 
 	/**

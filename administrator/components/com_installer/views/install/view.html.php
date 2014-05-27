@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,6 +37,13 @@ class InstallerViewInstall extends InstallerViewDefault
 
 		$this->paths = &$paths;
 		$this->state = &$state;
+
+		$this->showJedAndWebInstaller = JComponentHelper::getParams('com_installer')->get('show_jed_info', 1);
+
+		JPluginHelper::importPlugin('installer');
+
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onInstallerBeforeDisplay', array(&$this->showJedAndWebInstaller, $this));
 
 		parent::display($tpl);
 	}

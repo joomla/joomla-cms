@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,15 @@ defined('_JEXEC') or die;
  */
 class WeblinksModelWeblink extends JModelAdmin
 {
+
+	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = 'com_weblinks.weblink';
+
 	/**
 	 * The prefix to use with controller messages.
 	 *
@@ -240,7 +249,11 @@ class WeblinksModelWeblink extends JModelAdmin
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__weblinks');
+				$query = $db->getQuery(true)
+					->select('MAX(ordering)')
+					->from($db->quoteName('#__weblinks'));
+
+				$db->setQuery($query);
 				$max = $db->loadResult();
 
 				$table->ordering = $max + 1;

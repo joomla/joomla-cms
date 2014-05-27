@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,7 +46,7 @@ class JLogEntry
 	 * The priority of the message to be logged.
 	 * @var    string
 	 * @since  11.1
-	 * @see    $priorities
+	 * @see    JLogEntry::$priorities
 	 */
 	public $priority = JLog::INFO;
 

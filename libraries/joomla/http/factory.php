@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,6 +26,8 @@ class JHttpFactory
 	 *
 	 * @return  JHttp      Joomla Http class
 	 *
+	 * @throws  RuntimeException
+	 *
 	 * @since   12.1
 	 */
 	public static function getHttp(JRegistry $options = null, $adapters = null)
@@ -34,7 +36,23 @@ class JHttpFactory
 		{
 			$options = new JRegistry;
 		}
-		return new JHttp($options, self::getAvailableDriver($options, $adapters));
+
+		if (empty($adapters))
+		{
+			$config = JFactory::getConfig();
+
+			if ($config->get('proxy_enable'))
+			{
+				$adapters = 'curl';
+			}
+		}
+
+		if (!$driver = self::getAvailableDriver($options, $adapters))
+		{
+			throw new RuntimeException('No transport driver available.');
+		}
+
+		return new JHttp($options, $driver);
 	}
 
 	/**
@@ -58,11 +76,13 @@ class JHttpFactory
 			settype($default, 'array');
 			$availableAdapters = $default;
 		}
-		// Check if there is available http transport adapters
+
+		// Check if there is at least one available http transport adapter
 		if (!count($availableAdapters))
 		{
 			return false;
 		}
+
 		foreach ($availableAdapters as $adapter)
 		{
 			$class = 'JHttpTransport' . ucfirst($adapter);
@@ -72,6 +92,7 @@ class JHttpFactory
 				return new $class($options);
 			}
 		}
+
 		return false;
 	}
 
@@ -86,13 +107,14 @@ class JHttpFactory
 	{
 		$names = array();
 		$iterator = new DirectoryIterator(__DIR__ . '/transport');
+
+		/* @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-			if ($file->isFile() && substr($fileName, strrpos($fileName, '.') + 1) == 'php')
+			if ($file->isFile() && $file->getExtension() == 'php')
 			{
 				$names[] = substr($fileName, 0, strrpos($fileName, '.'));
 			}
