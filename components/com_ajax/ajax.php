@@ -47,7 +47,7 @@ if (!$format)
 elseif ($input->get('module'))
 {
 	$module       = $input->get('module');
-	$module_id    = $input->getInt('id');
+	$module_id    = $input->getInt('module_id');
 	$moduleObject = JModuleHelper::getModule('mod_' . $module, null, $module_id);
 
 	/*
