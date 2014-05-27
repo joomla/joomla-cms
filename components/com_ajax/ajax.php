@@ -47,7 +47,8 @@ if (!$format)
 elseif ($input->get('module'))
 {
 	$module       = $input->get('module');
-	$moduleObject = JModuleHelper::getModule('mod_' . $module, null);
+	$module_id    = $input->getInt('id');
+	$moduleObject = JModuleHelper::getModule('mod_' . $module, null, $module_id);
 
 	/*
 	 * As JModuleHelper::isEnabled always returns true, we check
@@ -88,9 +89,16 @@ elseif ($input->get('module'))
 
 			if (method_exists($class, $method . 'Ajax'))
 			{
+				// Load module parameters if given module ID
+				$params = new JRegistry;
+				if ($module_id)
+				{
+					$params->loadString($moduleObject->params);
+				}
+				
 				try
 				{
-					$results = call_user_func($class . '::' . $method . 'Ajax');
+					$results = call_user_func($class . '::' . $method . 'Ajax', $params);
 				}
 				catch (Exception $e)
 				{
