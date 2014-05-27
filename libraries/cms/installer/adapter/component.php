@@ -1782,6 +1782,12 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			// @todo remove code: return false;
 		}
 
+		// Set the schema version to be the latest update version
+		if ($this->manifest->update)
+		{
+			$this->parent->setSchemaVersion($this->manifest->update->schemas, $this->parent->extension->extension_id);
+		}
+
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Custom Installation Script Section
