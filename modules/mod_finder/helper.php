@@ -30,6 +30,9 @@ class ModFinderHelper
 	 */
 	public static function getGetFields($route = null)
 	{
+		// Determine if there is an item id before routing.
+		$needId = !JURI::getInstance($route)->getVar('Itemid');
+
 		$fields = array();
 		$uri = JURI::getInstance(JRoute::_($route));
 		$uri->delVar('q');
@@ -38,6 +41,13 @@ class ModFinderHelper
 		foreach ($uri->getQuery(true) as $n => $v)
 		{
 			$fields[] = '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
+		}
+
+		// Add a field for Itemid if we need one.
+		if ($needId)
+		{
+			$id = JFactory::getApplication()->input->get('Itemid', '0', 'int');
+			$fields[] = '<input type="hidden" name="Itemid" value="' . $id . '" />';
 		}
 
 		return implode('', $fields);
