@@ -262,7 +262,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler') && ($_SERVER['HTTP_USER_AGENT'] != 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)'))
 		{
 			$this->compress();
 
@@ -1066,7 +1066,7 @@ class JApplicationCms extends JApplicationWeb
 	public function toString($compress = false)
 	{
 		// Don't compress something if the server is going to do it anyway. Waste of time.
-		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') != 'ob_gzhandler')
+		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') != 'ob_gzhandler' && ($_SERVER['HTTP_USER_AGENT'] != 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)'))
 		{
 			$this->compress();
 		}
