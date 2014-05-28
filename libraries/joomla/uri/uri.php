@@ -511,7 +511,7 @@ class JUri
 	 *
 	 * @param   boolean  $toArray  True to return the query as a key => value pair array.
 	 *
-	 * @return  string   Query string.
+	 * @return  string|array  Query string or array.
 	 *
 	 * @since   11.1
 	 */
