@@ -182,6 +182,16 @@
 					<option value="0">JOFF</option>
 				</field>
 
+				<field name="paste_clean_up" type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					description="PLG_TINY_FIELD_PASTE_CLEAN_UP_DESC"
+					label="PLG_TINY_FIELD_PASTE_CLEAN_UP_LABEL"
+				>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
+
 				<field name="spacer" type="spacer" class="text"
 					label="PLG_TINY_FIELD_NAME_EXTENDED_LABEL"
 				/>
