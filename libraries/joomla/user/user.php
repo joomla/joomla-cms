@@ -751,7 +751,9 @@ class JUser extends JObject
 			}
 			catch (RuntimeException $e)
 			{
-				$this->setError($e->getMessage())
+				$this->setError($e->getMessage());
+
+				return false;
 			}
 
 			// Store the user data in the database
