@@ -10,7 +10,7 @@ What is this?
 ---------------------
 * This is a Joomla! installation/upgrade package to version 3.x
 * Joomla! [Official site](http://www.joomla.org)
-* Joomla! 3.2 [version history](http://docs.joomla.org/Joomla_3.2_version_history)
+* Joomla! 3.3 [version history](http://docs.joomla.org/Joomla_3.3_version_history)
 * Detailed changes in the [Changelog](https://github.com/joomla/joomla-cms/commits/master)
 
 What is Joomla?
@@ -86,6 +86,6 @@ Do you want to improve Joomla?
 Copyright:
 ---------------------
 * Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
-* [Credits](http://docs.joomla.org/Joomla_3_Credits)
+* [Credits](http://docs.joomla.org/Joomla!_Credits_and_Thanks)
 * Distributed under the GNU General Public License version 2 or later
 * See [Licenses details](http://docs.joomla.org/Joomla_Licenses)

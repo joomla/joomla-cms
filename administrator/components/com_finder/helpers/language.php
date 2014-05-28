@@ -31,7 +31,14 @@ class FinderHelperLanguage
 	{
 		$return = preg_replace('/[^a-zA-Z0-9]+/', '_', strtoupper($branchName));
 
-		return 'PLG_FINDER_QUERY_FILTER_BRANCH_P_' . $return;
+		if ($return != '_')
+		{
+			return 'PLG_FINDER_QUERY_FILTER_BRANCH_P_' . $return;
+		}
+		else
+		{
+			return $branchName;
+		}
 	}
 
 	/**
