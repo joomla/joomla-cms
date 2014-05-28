@@ -962,8 +962,11 @@ abstract class JHtml
 			$done = array();
 		}
 
-		$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
-		$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
+		if (is_array($attribs))
+		{
+			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
+			$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
+		}
 
 		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
