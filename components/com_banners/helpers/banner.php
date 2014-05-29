@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Site
  * @subpackage  com_banners
- * @since  1.6
+ * @since       1.6
  */
 abstract class BannerHelper
 {
@@ -23,7 +23,7 @@ abstract class BannerHelper
 	 *
 	 * @param   string  $url  The URL path to the potential image
 	 *
-	 * @return   Boolean  true if an image of type bmp, gif, jp(e)g or png, false otherwise
+	 * @return   boolean  True if an image of type bmp, gif, jp(e)g or png, false otherwise
 	 */
 	public static function isImage($url)
 	{
@@ -37,7 +37,7 @@ abstract class BannerHelper
 	 *
 	 * @param   string  $url  The URL path to the potential flash file 
 	 *
-	 * @return   Boolean  true if an image of type bmp, gif, jp(e)g or png, false otherwise
+	 * @return   boolean  True if an image of type bmp, gif, jp(e)g or png, false otherwise
 	 */
 	public static function isFlash($url)
 	{
