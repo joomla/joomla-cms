@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT.'/controller.php';
+require_once JPATH_COMPONENT . '/controller.php';
 
 /**
  * Registration controller class for Users.
@@ -28,8 +28,8 @@ class UsersControllerRegistration extends UsersController
 	 */
 	public function activate()
 	{
-		$user  = JFactory::getUser();
-		$input = JFactory::getApplication()->input;
+		$user  	 = JFactory::getUser();
+		$input 	 = JFactory::getApplication()->input;
 		$uParams = JComponentHelper::getParams('com_users');
 
 		// If the user is logged in, return them back to the homepage.
@@ -120,6 +120,7 @@ class UsersControllerRegistration extends UsersController
 
 		// Validate the posted data.
 		$form	= $model->getForm();
+
 		if (!$form)
 		{
 			JError::raiseError(500, $model->getError());
@@ -139,7 +140,9 @@ class UsersControllerRegistration extends UsersController
 				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				} else {
+				}
+				else
+				{
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
@@ -171,10 +174,12 @@ class UsersControllerRegistration extends UsersController
 		$app->setUserState('com_users.registration.data', null);
 
 		// Redirect to the profile screen.
-		if ($return === 'adminactivate'){
+		if ($return === 'adminactivate')
+		{
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_VERIFY'));
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));
-		} elseif ($return === 'useractivate')
+		}
+		elseif ($return === 'useractivate')
 		{
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_ACTIVATE'));
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));

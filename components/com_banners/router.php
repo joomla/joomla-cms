@@ -72,7 +72,7 @@ class BannersRouter extends JComponentRouterBase
 			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
 		}
 
-		// view is always the first element of the array
+		// View is always the first element of the array
 		$count = count($segments);
 
 		if ($count)
@@ -105,11 +105,16 @@ class BannersRouter extends JComponentRouterBase
 }
 
 /**
- * Banners router functions
+ * Build the route for the com_banners component
  *
- * These functions are proxys for the new router interface
+ * This function is a proxy for the new router interface
  * for old SEF extensions.
  *
+ * @param   array  &$query  An array of URL arguments
+ *
+ * @return  array  The URL arguments to use to assemble the subsequent URL.
+ *
+ * @since   3.3
  * @deprecated  4.0  Use Class based routers instead
  */
 function BannersBuildRoute(&$query)
@@ -119,6 +124,19 @@ function BannersBuildRoute(&$query)
 	return $router->build($query);
 }
 
+/**
+ * Parse the segments of a URL.
+ *
+ * This function is a proxy for the new router interface
+ * for old SEF extensions.
+ *
+ * @param   array  $segments  The segments of the URL to parse.
+ *
+ * @return  array  The URL attributes to be used by the application.
+ *
+ * @since   3.3
+ * @deprecated  4.0  Use Class based routers instead
+ */
 function BannersParseRoute($segments)
 {
 	$router = new BannersRouter;

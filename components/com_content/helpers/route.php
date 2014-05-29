@@ -31,19 +31,23 @@ abstract class ContentHelperRoute
 		$needles = array(
 			'article'  => array((int) $id)
 		);
-		//Create the link
-		$link = 'index.php?option=com_content&view=article&id='. $id;
+
+		// Create the link
+		$link = 'index.php?option=com_content&view=article&id=' . $id;
+
 		if ((int) $catid > 1)
 		{
 			$categories = JCategories::getInstance('Content');
-			$category = $categories->get((int) $catid);
+			$category   = $categories->get((int) $catid);
+
 			if ($category)
 			{
-				$needles['category'] = array_reverse($category->getPath());
+				$needles['category']   = array_reverse($category->getPath());
 				$needles['categories'] = $needles['category'];
-				$link .= '&catid='.$catid;
+				$link .= '&catid=' . $catid;
 			}
 		}
+
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
 			self::buildLanguageLookup();
@@ -57,7 +61,7 @@ abstract class ContentHelperRoute
 
 		if ($item = self::_findItem($needles))
 		{
-			$link .= '&Itemid='.$item;
+			$link .= '&Itemid=' . $item;
 		}
 
 		return $link;
@@ -67,12 +71,12 @@ abstract class ContentHelperRoute
 	{
 		if ($catid instanceof JCategoryNode)
 		{
-			$id = $catid->id;
+			$id       = $catid->id;
 			$category = $catid;
 		}
 		else
 		{
-			$id = (int) $catid;
+			$id       = (int) $catid;
 			$category = JCategories::getInstance('Content')->get($id);
 		}
 
@@ -82,12 +86,10 @@ abstract class ContentHelperRoute
 		}
 		else
 		{
-			$needles = array();
-
-			$link = 'index.php?option=com_content&view=category&id='.$id;
-
-			$catids = array_reverse($category->getPath());
-			$needles['category'] = $catids;
+			$needles               = array();
+			$link                  = 'index.php?option=com_content&view=category&id=' . $id;
+			$catids                = array_reverse($category->getPath());
+			$needles['category']   = $catids;
 			$needles['categories'] = $catids;
 
 			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
@@ -103,7 +105,7 @@ abstract class ContentHelperRoute
 
 			if ($item = self::_findItem($needles))
 			{
-				$link .= '&Itemid='.$item;
+				$link .= '&Itemid=' . $item;
 			}
 		}
 
@@ -112,10 +114,10 @@ abstract class ContentHelperRoute
 
 	public static function getFormRoute($id)
 	{
-		//Create the link
+		// Create the link
 		if ($id)
 		{
-			$link = 'index.php?option=com_content&task=article.edit&a_id='. $id;
+			$link = 'index.php?option=com_content&task=article.edit&a_id=' . $id;
 		}
 		else
 		{
@@ -147,42 +149,46 @@ abstract class ContentHelperRoute
 
 	protected static function _findItem($needles = null)
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu('site');
-		$language	= isset($needles['language']) ? $needles['language'] : '*';
+		$app      = JFactory::getApplication();
+		$menus    = $app->getMenu('site');
+		$language = isset($needles['language']) ? $needles['language'] : '*';
 
 		// Prepare the reverse lookup array.
 		if (!isset(self::$lookup[$language]))
 		{
 			self::$lookup[$language] = array();
 
-			$component	= JComponentHelper::getComponent('com_content');
+			$component  = JComponentHelper::getComponent('com_content');
 
 			$attributes = array('component_id');
-			$values = array($component->id);
+			$values     = array($component->id);
 
 			if ($language != '*')
 			{
 				$attributes[] = 'language';
-				$values[] = array($needles['language'], '*');
+				$values[]     = array($needles['language'], '*');
 			}
 
-			$items		= $menus->getItems($attributes, $values);
+			$items = $menus->getItems($attributes, $values);
 
 			foreach ($items as $item)
 			{
 				if (isset($item->query) && isset($item->query['view']))
 				{
 					$view = $item->query['view'];
+
 					if (!isset(self::$lookup[$language][$view]))
 					{
 						self::$lookup[$language][$view] = array();
 					}
-					if (isset($item->query['id'])) {
 
-						// here it will become a bit tricky
-						// language != * can override existing entries
-						// language == * cannot override existing entries
+					if (isset($item->query['id']))
+					{
+						/**
+						 * Here it will become a bit tricky
+						 * language != * can override existing entries
+						 * language == * cannot override existing entries
+						 */
 						if (!isset(self::$lookup[$language][$view][$item->query['id']]) || $item->language != '*')
 						{
 							self::$lookup[$language][$view][$item->query['id']] = $item->id;
@@ -211,6 +217,7 @@ abstract class ContentHelperRoute
 
 		// Check if the active menuitem matches the requested language
 		$active = $menus->getActive();
+
 		if ($active && $active->component == 'com_content' && ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
 		{
 			return $active->id;
@@ -218,6 +225,7 @@ abstract class ContentHelperRoute
 
 		// If not found, return language specific home link
 		$default = $menus->getDefault($language);
+
 		return !empty($default->id) ? $default->id : null;
 	}
 }
