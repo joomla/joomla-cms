@@ -18,6 +18,13 @@ defined('_JEXEC') or die;
  */
 class BannersCategories extends JCategories
 {
+	/**
+	 * Constructor
+	 *
+	 * @param   array  $options  An array of options for object construction.<br/>
+	 *
+	 * @since   1.6
+	 */
 	public function __construct($options = array())
 	{
 		$options['table'] = '#__banners';
