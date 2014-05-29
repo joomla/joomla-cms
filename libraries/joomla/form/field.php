@@ -996,30 +996,4 @@ abstract class JFormField
 
 		return true;
 	}
-
-	/**
-	 * Function to determine if field validates the requirements
-	 *
-	 * @return  boolean
-	 */
-	protected function validateRequirements()
-	{
-		// Filter requirements
-		if ($requires = explode(',', (string) $this->element['requires']))
-		{
-			// Requires multilanguage
-			if (in_array('multilanguage', $requires) && !JLanguageMultilang::isEnabled())
-			{
-				return false;
-			}
-
-			// Requires associations
-			if (in_array('associations', $requires) && !JLanguageAssociations::isEnabled())
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
 }
