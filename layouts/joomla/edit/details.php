@@ -45,7 +45,7 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 		<?php if (JLanguageMultilang::isEnabled()) : ?>
 			<?php echo $displayData->getForm()->renderField('language'); ?>
 		<?php else : ?>
-		<input type="hidden" name="language" value="<?php echo $displayData->getForm()->getValue('language'); ?>" />
+		<input type="hidden" id="jform_language" name="jform[language]" value="<?php echo $displayData->getForm()->getValue('language'); ?>" />
 		<?php endif; ?>
 		<?php echo $displayData->getForm()->renderField('tags'); ?>
 		<?php if ($saveHistory) : ?>

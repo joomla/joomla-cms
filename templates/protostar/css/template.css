@@ -56,7 +56,8 @@ img {
 	-ms-interpolation-mode: bicubic;
 }
 #map_canvas img,
-.google-maps img {
+.google-maps img,
+.gm-style img {
 	max-width: none;
 }
 button,
@@ -6942,6 +6943,9 @@ div.modal.fade.in {
 .icon-credit-2:before {
 	content: "\e287";
 }
+.icon-expired:before {
+	content: "\4b";
+}
 body.site {
 	border-top: 3px solid #0088cc;
 	padding: 20px;
@@ -7413,4 +7417,10 @@ code {
 .editor {
 	overflow: hidden;
 	position: relative;
+}
+
+.search span.highlight {
+	background-color:#FFFFCC;
+	font-weight:bold;
+	padding:1px 4px;
 }

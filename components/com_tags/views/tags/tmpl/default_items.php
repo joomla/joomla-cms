@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 JHtml::_('behavior.framework');
 JHtml::_('formbehavior.chosen', 'select');
@@ -23,12 +23,15 @@ $canCreate = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
 
 $columns = $this->params->get('tag_columns', 1);
+
 // Avoid division by 0 and negative columns.
 if ($columns < 1)
 {
 	$columns = 1;
 }
+
 $bsspans = floor(12 / $columns);
+
 if ($bsspans < 1)
 {
 	$bsspans = 1;

@@ -15,6 +15,13 @@ $options = array(
 	JHtml::_('select.option', 'del', JText::_('COM_USERS_BATCH_DELETE')),
 	JHtml::_('select.option', 'set', JText::_('COM_USERS_BATCH_SET'))
 );
+
+// Create the reset password options.
+$resetOptions = array(
+	JHtml::_('select.option', '', JText::_('COM_USERS_NO_ACTION')),
+	JHtml::_('select.option', 'yes', JText::_('JYES')),
+	JHtml::_('select.option', 'no', JText::_('JNO'))
+);
 JHtml::_('formbehavior.chosen', 'select');
 ?>
 <div class="modal hide fade" id="collapseModal">
@@ -31,7 +38,7 @@ JHtml::_('formbehavior.chosen', 'select');
 			</div>
 			<div id="batch-choose-action" class="combo controls">
 				<div class="control-group">
-					<select name="batch[group_id]" class="inputbox" id="batch-group-id">
+					<select name="batch[group_id]" id="batch-group-id">
 						<option value=""><?php echo JText::_('JSELECT') ?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('user.groups')); ?>
 					</select>
@@ -40,6 +47,10 @@ JHtml::_('formbehavior.chosen', 'select');
 			<div class="control-group radio">
 				<?php echo JHtml::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add') ?>
 			</div>
+		</div>
+		<label><?php echo JText::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?></label>
+		<div class="control-group radio">
+			<?php echo JHtml::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', '') ?>
 		</div>
 	</div>
 	<div class="modal-footer">

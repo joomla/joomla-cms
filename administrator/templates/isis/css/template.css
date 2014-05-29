@@ -56,7 +56,8 @@ img {
 	-ms-interpolation-mode: bicubic;
 }
 #map_canvas img,
-.google-maps img {
+.google-maps img,
+.gm-style img {
 	max-width: none;
 }
 button,
@@ -6942,6 +6943,9 @@ div.modal.fade.in {
 .icon-credit-2:before {
 	content: "\e287";
 }
+.icon-expired:before {
+	content: "\4b";
+}
 .icon-edit:before {
 	color: #2f96b4;
 }
@@ -6963,6 +6967,7 @@ div.modal.fade.in {
 }
 .icon-featured:before,
 .icon-default:before,
+.icon-expired:before,
 .icon-pending:before {
 	color: #f89406;
 }
@@ -6979,6 +6984,7 @@ body {
 	background-image: -webkit-radial-gradient(circle,#165387,#142849);
 	background-image: -moz-radial-gradient(circle,#165387,#142849);
 	background-image: -o-radial-gradient(circle,#165387,#142849);
+	background-image: radial-gradient(circle,#165387,#142849);
 	background-repeat: no-repeat;
 }
 .view-login .container {
@@ -7435,9 +7441,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	}
 }
 @media (min-width: 738px) {
-	body {
-		padding-top: 30px;
-	}
 	body.component {
 		padding-top: 0;
 	}

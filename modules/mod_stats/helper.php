@@ -18,6 +18,13 @@ defined('_JEXEC') or die;
  */
 class ModStatsHelper
 {
+	/**
+	 * Get list of stats
+	 *
+	 * @param   JRegistry  &$params  module parameters
+	 *
+	 * @return  array
+	 */
 	public static function &getList(&$params)
 	{
 		$app	= JFactory::getApplication();
@@ -31,6 +38,7 @@ class ModStatsHelper
 		$increase	= $params->get('increase');
 
 		$i = 0;
+
 		if ($serverinfo)
 		{
 			$rows[$i] = new stdClass;

@@ -9,18 +9,27 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE.'/components/com_content/helpers/route.php';
+require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 
-JModelLegacy::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
+JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
 
 /**
  * Helper for mod_articles_popular
  *
  * @package     Joomla.Site
  * @subpackage  mod_articles_popular
+ *
+ * @since       1.6.0
  */
 abstract class ModArticlesPopularHelper
 {
+	/**
+	 * Get a list of popular articles from the articles model
+	 *
+	 * @param   JRegistry  &$params  object holding the models parameters
+	 *
+	 * @return mixed
+	 */
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
@@ -56,14 +65,16 @@ abstract class ModArticlesPopularHelper
 
 		foreach ($items as &$item)
 		{
-			$item->slug = $item->id.':'.$item->alias;
-			$item->catslug = $item->catid.':'.$item->category_alias;
+			$item->slug = $item->id . ':' . $item->alias;
+			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
 				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
-			} else {
+			}
+			else
+			{
 				$item->link = JRoute::_('index.php?option=com_users&view=login');
 			}
 		}

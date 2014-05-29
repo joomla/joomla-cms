@@ -7,13 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 $msgList = $displayData['msgList'];
 
 ?>
 <div id="system-message-container">
-	<?php if (is_array($msgList)) : ?>
+	<?php if (is_array($msgList) && !empty($msgList)) : ?>
 		<div id="system-message">
 			<?php foreach ($msgList as $type => $msgs) : ?>
 				<div class="alert alert-<?php echo $type; ?>">

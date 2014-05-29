@@ -642,7 +642,7 @@ class PlgSystemDebug extends JPlugin
 		$bytes = memory_get_usage();
 
 		return '<span class="label">' . JHtml::_('number.bytes', $bytes) . '</span>'
-			. ' (<span class="label">' . number_format($bytes) . ' ' . JText::_('PLG_DEBUG_BYTES') . '</span>)';
+			. ' (<span class="label">' . number_format($bytes, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')) . ' ' . JText::_('PLG_DEBUG_BYTES') . '</span>)';
 	}
 
 	/**
@@ -748,7 +748,7 @@ class PlgSystemDebug extends JPlugin
 
 				// How heavy should the string length count: 0 - 1.
 				$ratio = 0.5;
-				$timeScore = $queryTime / (strlen($query) * $ratio) * 200;
+				$timeScore = $queryTime / ((strlen($query) + 1) * $ratio) * 200;
 
 				// Determine color of bargraph depending on query speed and presence of warnings in EXPLAIN.
 				if ($timeScore > 10)

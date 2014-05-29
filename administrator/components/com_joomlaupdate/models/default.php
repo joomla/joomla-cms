@@ -158,7 +158,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$ret['latest'] = $updateObject->version;
 		}
 
-		// Fetch the full udpate details from the update details URL
+		// Fetch the full update details from the update details URL
 		jimport('joomla.updater.update');
 		$update = new JUpdate;
 		$update->loadFromXML($updateObject->detailsurl);

@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\Cli\CliOutput;
+
 /**
  * Base class for a Joomla! command line application.
  *
@@ -23,6 +25,12 @@ class JApplicationCli extends JApplicationBase
 	 * @since  11.1
 	 */
 	protected $config;
+
+	/**
+	 * @var    CliOutput  The output type.
+	 * @since  3.3
+	 */
+	protected $output;
 
 	/**
 	 * @var    JApplicationCli  The application instance.
@@ -195,7 +203,44 @@ class JApplicationCli extends JApplicationBase
 	 */
 	public function out($text = '', $nl = true)
 	{
-		fwrite(STDOUT, $text . ($nl ? "\n" : null));
+		$output = $this->getOutput();
+		$output->out($text, $nl);
+
+		return $this;
+	}
+
+	/**
+	 * Get an output object.
+	 *
+	 * @return  CliOutput
+	 *
+	 * @since   3.3
+	 */
+	public function getOutput()
+	{
+		if (!$this->output)
+		{
+			// In 4.0, this will convert to throwing an exception and you will expected to
+			// initialize this in the constructor. Until then set a default.
+			$default = new Joomla\Application\Cli\Output\Xml;
+			$this->setOutput($default);
+		}
+
+		return $this->output;
+	}
+
+	/**
+	 * Set an output object.
+	 *
+	 * @param   CliOutput  $output  CliOutput object
+	 *
+	 * @return  JApplicationCli  Instance of $this to allow chaining.
+	 *
+	 * @since   3.3
+	 */
+	public function setOutput(CliOutput $output)
+	{
+		$this->output = $output;
 
 		return $this;
 	}
