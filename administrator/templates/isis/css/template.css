@@ -6984,6 +6984,7 @@ body {
 	background-image: -webkit-radial-gradient(circle,#165387,#142849);
 	background-image: -moz-radial-gradient(circle,#165387,#142849);
 	background-image: -o-radial-gradient(circle,#165387,#142849);
+	background-image: radial-gradient(circle,#165387,#142849);
 	background-repeat: no-repeat;
 }
 .view-login .container {
@@ -7440,9 +7441,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	}
 }
 @media (min-width: 738px) {
-	body {
-		padding-top: 30px;
-	}
 	body.component {
 		padding-top: 0;
 	}
