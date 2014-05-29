@@ -10,32 +10,39 @@
 defined('_JEXEC') or die;
 
 /**
+ * Banner Helper Class
+ *
  * @package     Joomla.Site
  * @subpackage  com_banners
+ * @since  1.6
  */
 abstract class BannerHelper
 {
 	/**
 	 * Checks if a URL is an image
 	 *
-	 * @param string
-	 * @return URL
+	 * @param   string  $url  The URL path to the potential image
+	 *
+	 * @return   Boolean  true if an image of type bmp, gif, jp(e)g or png, false otherwise
 	 */
 	public static function isImage($url)
 	{
 		$result = preg_match('#\.(?:bmp|gif|jpe?g|png)$#i', $url);
+
 		return $result;
 	}
 
 	/**
 	 * Checks if a URL is a Flash file
 	 *
-	 * @param string
-	 * @return URL
+	 * @param   string  $url  The URL path to the potential flash file 
+	 *
+	 * @return   Boolean  true if an image of type bmp, gif, jp(e)g or png, false otherwise
 	 */
 	public static function isFlash($url)
 	{
 		$result = preg_match('#\.swf$#i', $url);
+
 		return $result;
 	}
 }
