@@ -103,7 +103,7 @@ class JLayoutFile extends JLayoutBase
 	}
 
 	/**
-	 * Method to finds the full real file path, checking possible overrides
+	 * Method to find the full file path, checking possible overrides
 	 *
 	 * @return  string  The full path to the layout file
 	 *
@@ -388,7 +388,20 @@ class JLayoutFile extends JLayoutBase
 			$this->addIncludePath(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $component);
 		}
 
-		// (5 - highest priority) Received a custom high priority path ?
+		// Plugin layouts & overrides if exist
+		$plugin = $this->options->get('plugin', null);
+		$type = $this->options->get('type', null);
+
+		if (!empty($plugin) && !empty($type))
+		{
+			// (5) Plugin overrides path
+			$this->addIncludePaths(JPATH_SITE . '/plugins/' . $type . '/' . $plugin . '/layouts');
+
+			// (6) Plugin template overrides path
+			$this->addIncludePath(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $type . '/' . $plugin);
+		}
+
+		// (7 - highest priority) A custom high priority path
 		if (!is_null($this->basePath))
 		{
 			$this->addIncludePath(rtrim($this->basePath, DIRECTORY_SEPARATOR));
