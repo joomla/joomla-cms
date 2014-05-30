@@ -9,6 +9,13 @@
 			default="0"
 		/>
 
+		<field
+			id="contenthistory"
+			name="contenthistory"
+			type="contenthistory"
+			data-typeAlias="com_weblinks.weblink"
+			label="JTOOLBAR_VERSIONS" />
+
 		<field name="title" type="text"
 			description="COM_WEBLINKS_FIELD_TITLE_DESC"
 			label="JGLOBAL_TITLE"
@@ -19,6 +26,7 @@
 		<field name="alias" type="text"
 			description="COM_WEBLINKS_FIELD_ALIAS_DESC"
 			label="JFIELD_ALIAS_LABEL"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="45"
 		/>
 
@@ -49,6 +57,7 @@
 		/>
 
 		<field name="url" type="url"
+			filter="url"
 			description="COM_WEBLINKS_FIELD_URL_DESC"
 			label="COM_WEBLINKS_FIELD_URL_LABEL"
 			required="true"
@@ -64,20 +73,27 @@
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="tags" 
+		<field name="tags"
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="inputbox span12 small"
-			multiple="true"
-		>
-		</field>
+			class="inputbox"
+			multiple="true" />
+
+		<field
+			name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="inputbox"
+			size="45"
+			labelclass="control-label" />
 
 	</fieldset>
 	<fields name="metadata">
 		<fieldset name="jmetadata"
 			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-	
+
 				<field name="robots"
 					type="hidden"
 					filter="unset"
@@ -91,32 +107,32 @@
 					<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
 					<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 				</field>
-	
-				<field name="author" 
+
+				<field name="author"
 					type="hidden"
 					filter="unset"
-					label="JAUTHOR" 
+					label="JAUTHOR"
 					description="JFIELD_METADATA_AUTHOR_DESC"
-					size="20" 
-					labelclass="control-label" 
+					size="20"
+					labelclass="control-label"
 				/>
 
-				<field name="rights" 
-					type="hidden" 
+				<field name="rights"
+					type="hidden"
 					label="JFIELD_META_RIGHTS_LABEL"
 					filter="unset"
-					description="JFIELD_META_RIGHTS_DESC" 
-					required="false" 
-					labelclass="control-label" 
+					description="JFIELD_META_RIGHTS_DESC"
+					required="false"
+					labelclass="control-label"
 				/>
 
-				<field name="xreference" 
+				<field name="xreference"
 					type="hidden"
 					filter="unset"
 					label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
 					description="COM_CONTENT_FIELD_XREFERENCE_DESC"
 					class="inputbox"
-					size="20" 
+					size="20"
 					labelclass="control-label" />
 
 		</fieldset>

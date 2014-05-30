@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ abstract class TestCaseDatabaseMysqli extends TestCaseDatabase
 	private static $_options = array('driver' => 'mysqli');
 
 	/**
-	 * @var    JDatabaseDriver  The saved database driver to be restored after these tests.
+	 * @var    JDatabaseDriverMysqli  The saved database driver to be restored after these tests.
 	 * @since  12.1
 	 */
 	private static $_stash;

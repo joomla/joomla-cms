@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,9 @@ JHtml::_('behavior.keepalive');
 $app = JFactory::getApplication();
 $input = $app->input;
 
-$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+$saveHistory = $this->state->get('params')->get('save_history', 0);
+
+$assoc = JLanguageAssociations::isEnabled();
 
 ?>
 <script type="text/javascript">
@@ -61,14 +63,16 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 			<?php echo $this->form->getInput('language'); ?></li>
 
 			<!-- Tag field -->
-			<?php foreach ($this->get('form')->getFieldset('jmetadata') as $field) : ?>
-				<?php if ($field->name == 'jform[metadata][tags][]') :?>
-					<li>
-						<?php echo $field->label; ?>
-						<?php echo $field->input; ?>
-					</li>
-				<?php endif; ?>
-			<?php endforeach; ?>
+			<li><?php echo $this->form->getLabel('tags'); ?>
+				<div class="is-tagbox">
+					<?php echo $this->form->getInput('tags'); ?>
+				</div>
+			</li>
+
+			<?php if ($saveHistory) : ?>
+				<li><?php echo $this->form->getLabel('version_note'); ?>
+				<?php echo $this->form->getInput('version_note'); ?></li>
+			<?php endif; ?>
 
 			<li><?php echo $this->form->getLabel('id'); ?>
 			<?php echo $this->form->getInput('id'); ?></li>
@@ -127,6 +131,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 			</fieldset>
 
 			<?php if ($assoc) : ?>
+				<?php echo JHtml::_('sliders.panel', JText::_('COM_NEWSFEEDS_ITEM_ASSOCIATIONS_FIELDSET_LABEL'), '-options');?>
 				<?php echo $this->loadTemplate('associations'); ?>
 			<?php endif; ?>
 

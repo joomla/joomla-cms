@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -375,7 +375,7 @@ abstract class FinderIndexer
 					// Check if we're approaching the memory limit of the token table.
 					if ($count > self::$state->options->get('memory_table_limit', 30000))
 					{
-						self::toggleTables(false);
+						$this->toggleTables(false);
 					}
 
 					unset($string);
@@ -430,7 +430,7 @@ abstract class FinderIndexer
 					// Check if we're approaching the memory limit of the token table.
 					if ($count > self::$state->options->get('memory_table_limit', 30000))
 					{
-						self::toggleTables(false);
+						$this->toggleTables(false);
 					}
 				}
 			}

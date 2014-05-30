@@ -2,13 +2,13 @@
 /**
  * @package    Joomla.Site
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-if (version_compare(PHP_VERSION, '5.3.1', '<'))
+if (version_compare(PHP_VERSION, '5.3.10', '<'))
 {
-	die('Your host needs to use PHP 5.3.1 or higher to run this version of Joomla!');
+	die('Your host needs to use PHP 5.3.10 or higher to run this version of Joomla!');
 }
 
 /**
@@ -36,29 +36,5 @@ JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 // Instantiate the application.
 $app = JFactory::getApplication('site');
 
-// Initialise the application.
-$app->initialise();
-
-// Mark afterIntialise in the profiler.
-JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
-
-// Route the application.
-$app->route();
-
-// Mark afterRoute in the profiler.
-JDEBUG ? $_PROFILER->mark('afterRoute') : null;
-
-// Dispatch the application.
-$app->dispatch();
-
-// Mark afterDispatch in the profiler.
-JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
-
-// Render the application.
-$app->render();
-
-// Mark afterRender in the profiler.
-JDEBUG ? $_PROFILER->mark('afterRender') : null;
-
-// Return the response.
-echo $app;
+// Execute the application.
+$app->execute();

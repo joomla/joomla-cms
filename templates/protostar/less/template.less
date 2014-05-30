@@ -251,6 +251,19 @@ h6 { font-size: 12px; line-height: 14px; }
 	margin-left:auto;
 	margin-right:auto;
 }
+/* New captions */
+figure {
+	display: table;
+}
+figure.pull-center,
+img.pull-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+figcaption {
+	display: table-caption;
+	caption-side: bottom;
+}
 /* Aside Subnavs */
 #aside .nav .nav-child {
 	border-left: 2px solid @tableBorder;
@@ -519,4 +532,38 @@ div.current dd.tabs {
 	clear: both;
 	border: 1px solid #CCC;
 	background-color: #FFF;
+}
+
+/* Help site refresh button*/
+#helpsite-refresh {
+	vertical-align: top;
+}
+
+/*Print pop-up*/
+#pop-print {
+	float: right;
+	margin: 10px;
+}
+
+/*Code white space*/
+code {
+	white-space: pre-wrap;
+}
+
+/*Search filter*/
+#filter-search {
+	vertical-align: top;
+}
+
+/*Fix for editor buttons having a stupid height*/
+.editor {
+	overflow: hidden;
+	position: relative;
+}
+
+/* Com_search highlighting */
+.search span.highlight {
+	background-color:#FFFFCC;
+	font-weight:bold;
+	padding:1px 4px;
 }

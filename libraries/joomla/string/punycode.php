@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -73,7 +73,7 @@ abstract class JStringPunycode
 		if (!isset($parsed['host']) || $parsed['host'] == '')
 		{
 			// If there is no host we do not need to convert it.
-			return;
+			return '';
 		}
 
 		$host = $parsed['host'];
@@ -98,6 +98,11 @@ abstract class JStringPunycode
 		if (!empty($newhost))
 		{
 			$newuri .= $newhost;
+		}
+
+		if (!empty($parsed['port']))
+		{
+			$newuri .= ':' . $parsed['port'];
 		}
 
 		if (!empty($parsed['path']))
@@ -159,6 +164,11 @@ abstract class JStringPunycode
 		if (!empty($newhost))
 		{
 			$newuri .= $newhost;
+		}
+
+		if (!empty($parsed['port']))
+		{
+			$newuri .= ':' . $parsed['port'];
 		}
 
 		if (!empty($parsed['path']))

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Exception
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -208,7 +208,7 @@ class JException extends Exception
 	 * @return  mixed  The value of the property or null
 	 *
 	 * @deprecated  12.1
-	 * @see         getProperties()
+	 * @see         JException::getProperties()
 	 * @since       11.1
 	 */
 	public function get($property, $default = null)
@@ -230,7 +230,7 @@ class JException extends Exception
 	 * @return  array  Object properties
 	 *
 	 * @deprecated    12.1
-	 * @see     get()
+	 * @see     JException::get()
 	 * @since   11.1
 	 */
 	public function getProperties($public = true)
@@ -317,7 +317,7 @@ class JException extends Exception
 	 * @return  mixed  Previous value of the property
 	 *
 	 * @deprecated  12.1
-	 * @see         setProperties()
+	 * @see         JException::setProperties()
 	 * @since       11.1
 	 */
 	public function set($property, $value = null)
@@ -337,7 +337,7 @@ class JException extends Exception
 	 * @return  boolean
 	 *
 	 * @deprecated  12.1
-	 * @see         set()
+	 * @see         JException::set()
 	 * @since       11.1
 	 */
 	public function setProperties($properties)

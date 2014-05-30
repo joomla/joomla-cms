@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
+ * Helper class for admin stats module
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  * @since       3.0
@@ -19,7 +21,7 @@ class ModStatsHelper
 	/**
 	 * Method to retrieve information about the site
 	 *
-	 * @param   JObject  $params  Params object
+	 * @param   JObject  &$params  Params object
 	 *
 	 * @return  array  Array containing site information
 	 *
@@ -38,6 +40,7 @@ class ModStatsHelper
 		$increase   = $params->get('increase');
 
 		$i = 0;
+
 		if ($serverinfo)
 		{
 			$rows[$i]        = new stdClass;

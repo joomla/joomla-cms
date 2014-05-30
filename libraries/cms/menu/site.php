@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Menu
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,9 @@ class JMenuSite extends JMenu
 	/**
 	 * Loads the entire menu table into memory.
 	 *
-	 * @return  array
+	 * @return  boolean  True on success, false on failure
+	 *
+	 * @since   1.5
 	 */
 	public function load()
 	{
@@ -47,6 +49,7 @@ class JMenuSite extends JMenu
 		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()));
+
 			return false;
 		}
 
@@ -54,6 +57,7 @@ class JMenuSite extends JMenu
 		{
 			// Get parent information.
 			$parent_tree = array();
+
 			if (isset($this->_items[$item->parent_id]))
 			{
 				$parent_tree  = $this->_items[$item->parent_id]->tree;
@@ -69,6 +73,8 @@ class JMenuSite extends JMenu
 
 			parse_str($url, $item->query);
 		}
+
+		return true;
 	}
 
 	/**
@@ -79,12 +85,14 @@ class JMenuSite extends JMenu
 	 * @param   boolean  $firstonly   If true, only returns the first item found
 	 *
 	 * @return  array
+	 *
+	 * @since   1.6
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
 		$attributes = (array) $attributes;
-		$values 	= (array) $values;
-		$app		= JApplication::getInstance('site');
+		$values     = (array) $values;
+		$app        = JApplication::getInstance('site');
 
 		if ($app->isSite())
 		{
@@ -128,9 +136,9 @@ class JMenuSite extends JMenu
 	 *
 	 * @param   string  $language  The language code.
 	 *
-	 * @return  object  The item object
+	 * @return  mixed  The item object or null when not found for given language
 	 *
-	 * @since   1.5
+	 * @since   1.6
 	 */
 	public function getDefault($language = '*')
 	{
@@ -144,8 +152,7 @@ class JMenuSite extends JMenu
 		}
 		else
 		{
-			return 0;
+			return null;
 		}
 	}
-
 }

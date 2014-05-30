@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class JFormRulePassword extends JFormRule
 {
-
 	/**
 	 * Method to test if two values are not equal. To use this rule, the form
 	 * XML needs a validate attribute of equals and a field attribute
@@ -40,8 +39,6 @@ class JFormRulePassword extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
-		$field = (string) $element['field'];
-
 		$meter		= isset($this->element['strengthmeter'])  ? ' meter="0"' : '1';
 		$threshold	= isset($this->element['threshold']) ? (int) $this->element['threshold'] : 66;
 		$minimumLength = isset($this->element['minimum_length']) ? (int) $this->element['minimum_length'] : 4;
@@ -81,12 +78,9 @@ class JFormRulePassword extends JFormRule
 		$valueLength = strlen($value);
 
 		// We set a maximum length to prevent abuse since it is unfiltered.
-		if ($valueLength > 99)
+		if ($valueLength > 4096)
 		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_USERS_MSG_PASSWORD_TOO_LONG'),
-				'warning'
-				);
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_MSG_PASSWORD_TOO_LONG'), 'warning');
 		}
 
 		// We don't allow white space inside passwords

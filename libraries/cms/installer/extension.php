@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -131,12 +131,14 @@ class JInstallerExtension extends JObject
 						$this->client_id = JApplicationHelper::getClientInfo($this->client, 1);
 						$this->client_id = $this->client_id->id;
 					}
+
 					if ($element->attributes()->group)
 					{
 						$this->group = (string) $element->attributes()->group;
 					}
 					break;
 			}
+
 			$this->filename = (string) $element;
 		}
 	}

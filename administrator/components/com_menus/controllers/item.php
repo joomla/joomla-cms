@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -138,16 +138,6 @@ class MenusControllerItem extends JControllerForm
 		$context  = 'com_menus.edit.item';
 		$recordId = $this->input->getInt('id');
 
-		if (!$this->checkEditId($context, $recordId))
-		{
-			// Somehow the person just went to the form and saved it - we don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items' . $this->getRedirectToListAppend(), false));
-
-			return false;
-		}
-
 		// Populate the row id from the session.
 		$data['id'] = $recordId;
 
@@ -171,23 +161,73 @@ class MenusControllerItem extends JControllerForm
 		// Validate the posted data.
 		// This post is made up of two forms, one for the item and one for params.
 		$form = $model->getForm($data);
+
 		if (!$form)
 		{
 			JError::raiseError(500, $model->getError());
 
 			return false;
 		}
+
+		if ($data['type'] == 'url')
+		{
+			$data['link'] = str_replace(array('"', '>', '<'), '', $data['link']);
+
+			if (strstr($data['link'], ':'))
+			{
+				$segments = explode(':', $data['link']);
+				$protocol = strtolower($segments[0]);
+				$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais', 'url',
+					'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git');
+
+				if (!in_array($protocol, $scheme))
+				{
+					$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'warning');
+					$this->setRedirect(
+						JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
+					);
+
+					return false;
+				}
+			}
+		}
+
 		$data = $model->validate($form, $data);
 
 		// Check for the special 'request' entry.
 		if ($data['type'] == 'component' && isset($data['request']) && is_array($data['request']) && !empty($data['request']))
 		{
+			$removeArgs = array();
+
+			// Preprocess request fields to ensure that we remove not set or empty request params
+			$request = $form->getGroup('request');
+
+			if (!empty($request))
+			{
+				foreach ($request as $field)
+				{
+					$fieldName = $field->getAttribute('name');
+
+					if (!isset($data['request'][$fieldName]) || $data['request'][$fieldName] == '')
+					{
+						$removeArgs[$fieldName] = '';
+					}
+				}
+			}
+
 			// Parse the submitted link arguments.
 			$args = array();
 			parse_str(parse_url($data['link'], PHP_URL_QUERY), $args);
 
 			// Merge in the user supplied request arguments.
 			$args = array_merge($args, $data['request']);
+
+			// Remove the unused request params
+			if (!empty($args) && !empty($removeArgs))
+			{
+				$args = array_diff_key($args, $removeArgs);
+			}
+
 			$data['link'] = 'index.php?' . urldecode(http_build_query($args, '', '&'));
 			unset($data['request']);
 		}
@@ -341,5 +381,36 @@ class MenusControllerItem extends JControllerForm
 
 		$this->type = $type;
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false));
+	}
+
+	/**
+	 * Gets the parent items of the menu location currently.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	function getParentItem()
+	{
+		$app = JFactory::getApplication();
+
+		$menutype = $this->input->get->get('menutype');
+
+		$model = $this->getModel('Items', '', array());
+		$model->setState('filter.menutype', $menutype);
+		$model->setState('list.select', 'a.id, a.title, a.level');
+
+		$results = $model->getItems();
+
+		// Pad the option text with spaces using depth level as a multiplier.
+		for ($i = 0, $n = count($results); $i < $n; $i++)
+		{
+			$results[$i]->title = str_repeat('- ', $results[$i]->level) . $results[$i]->title;
+		}
+
+		// Output a JSON object
+		echo json_encode($results);
+
+		$app->close();
 	}
 }

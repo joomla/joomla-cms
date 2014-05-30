@@ -11,96 +11,164 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * Page class for the back-end component contact menu.
+ * Page class for the back-end component tags menu.
  *
  * @package     Joomla.Test
  * @subpackage  Webdriver
- * @since       3.2
+ * @since       3.0
  */
 class CategoryManagerPage extends AdminManagerPage
 {
-	/**
+  /**
 	 * XPath string used to uniquely identify this page
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//h1[contains(., 'Category Manager:')]";
+	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_categories&extension=com_content']";
 
 	/**
 	 * URL used to uniquely identify this page
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.0
 	 */
-	protected $url = 'option=com_categories&extension=';
+	protected $url = 'option=com_categories&';
 
 	/**
 	 * Array of filter id values for this page
 	 *
 	 * @var    array
-	 * @since  3.2
+	 * @since  3.0
 	 */
 	public $filters = array(
+			'Sort Table By:' => 'list_fullordering',
+			'20' => 'list_limit',
+			'Select Max Levels' => 'filter_level',
 			'Select Status' => 'filter_published',
-			'Select Category' => 'filter_category_id',
 			'Select Access' => 'filter_access',
 			'Select Language' => 'filter_language',
-			'Select Tags' => 'filter_tag',
+			'Select Tag' => 'filter_tag'
 			);
 
 	/**
 	 * Array of toolbar id values for this page
 	 *
 	 * @var    array
-	 * @since  3.2
+	 * @since  3.0
 	 */
 	public $toolbar = array (
 			'New' => 'toolbar-new',
 			'Edit' => 'toolbar-edit',
 			'Publish' => 'toolbar-publish',
 			'Unpublish' => 'toolbar-unpublish',
+			'Featured' => 'toolbar-featured',
 			'Archive' => 'toolbar-archive',
-			'Check In' => 'toolbar-check-in',
+			'Check In' => 'toolbar-checkin',
 			'Trash' => 'toolbar-trash',
 			'Empty Trash' => 'toolbar-delete',
 			'Batch' => 'toolbar-batch',
 			'Options' => 'toolbar-options',
-			'Rebuid' => 'toolbar-refresh',
 			'Help' => 'toolbar-help',
 			);
 
 	/**
-	 * Override parent constructor so we can deal with the view=categories in the URL.
+	 * Add a new Category item in the Category Manager: Category Manager Screen.
 	 *
-	 * @param  Webdriver                 $driver    Driver for this test.
-	 * @param  JoomlaWebdriverTestClass  $test      Test class object (needed to create page class objects)
-	 * @param  string                    $url       Optional URL to load when object is created. Only use for initial page load.
+	 * @param string   $name          Test Category Title
+	 *
+	 * @param string   $desc		  Test Description of Category
+	 *
+	 * @param array    $fields        Optional associative array of fields to set
+	 *
+	 * @return  CategoryManagerPage
 	 */
-	public function __construct(Webdriver $driver, $test, $url = null)
+	public function addCategory($name='ABC Testing', $desc='System Test Category', $fields = array())
 	{
-		$this->driver = $driver;
-		/* @var $test JoomlaWebdriverTestCase */
-		$this->test = $test;
-		$cfg = new SeleniumConfig();
-		$this->cfg = $cfg; // save current configuration
-		if ($url)
+		$new_name = $name;
+		$this->clickButton('toolbar-new');
+		$categoryEditPage = $this->test->getPageObject('CategoryEditPage');
+		$categoryEditPage->setFieldValues(array('Title' => $name, 'Description'=>$desc));
+		$categoryEditPage->setFieldValues($fields);
+		$categoryEditPage->clickButton('toolbar-save');
+		$this->test->getPageObject('CategoryManagerPage');
+	}
+
+	/**
+	 * Edit a Category item in the Category Manager: Category Manager Screen.
+	 *
+	 * @param string   $name	   Title field
+	 * @param array    $fields     associative array of fields in the form label => value.
+	 *
+	 * @return  void
+	 */
+	public function editCategory($name, $fields)
+	{
+		$this->clickItem($name);
+		$categoryEditPage = $this->test->getPageObject('CategoryEditPage');
+		$categoryEditPage->setFieldValues($fields);
+		$categoryEditPage->clickButton('toolbar-save');
+		$this->test->getPageObject('CategoryManagerPage');
+		$this->searchFor();
+	}
+
+	/**
+	 * Get state  of a Category in Category Manager: Category Manager Screen.
+	 *
+	 * @param string   $name	   Category Title field
+	 *
+	 * @return  State of the Category //Published or Unpublished
+	 */
+	public function getState($name)
+	{
+		$result = false;
+		$this->searchFor($name);
+		$row = $this->getRowNumber($name);
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]/a"))->getAttribute(@onclick);
+		if (strpos($text, 'categories.unpublish') > 0)
 		{
-			$this->driver->get($url);
+			$result = 'published';
 		}
-		$element = $driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath), 5);
-		if (isset($this->url))
+		if (strpos($text, 'categories.publish') > 0)
 		{
-			$actualUrl = $driver->getCurrentPageUrl();
-			// Strip out view=categories if it is present
-			$actualUrl = str_replace('&view=categories', '', $actualUrl);
-			$test->assertContains($this->url, $actualUrl, 'URL for page does not match expected value.');
+			$result = 'unpublished';
 		}
+		return $result;
+	}
+
+	/**
+	 * Change state of a Category in Category Manager: Category Manager Screen.
+	 *
+	 * @param string   $name	   Category Title field
+	 * @param string   $state      State of the Category
+	 *
+	 * @return  void
+	 */
+	public function changeCategoryState($name, $state = 'published')
+	{
+		$this->searchFor($name);
+		$this->checkAll();
+		if (strtolower($state) == 'published')
+		{
+			$this->clickButton('toolbar-publish');
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+		elseif (strtolower($state) == 'unpublished')
+		{
+			$this->clickButton('toolbar-unpublish');
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+		elseif(strtolower($state) == 'archived')
+		{
+			$this->clickButton('toolbar-archive');
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+		$this->searchFor();
 	}
 
 }

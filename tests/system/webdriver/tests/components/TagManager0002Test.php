@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,14 +25,14 @@ use SeleniumClient\DesiredCapabilities;
 class TagManager0002Test extends JoomlaWebdriverTestCase
 {
 
-  /**
+	/**
 	 * The page class being tested.
 	 *
 	 * @var     TagManagerPage
 	 * @since   3.0
 	 */
 	protected $tagManagerPage = null;
-	
+
 	/**
 	 * Login to back end and navigate to menu Tags.
 	 *
@@ -55,7 +55,7 @@ class TagManager0002Test extends JoomlaWebdriverTestCase
 		$this->doAdminLogout();
 		parent::tearDown();
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -65,7 +65,7 @@ class TagManager0002Test extends JoomlaWebdriverTestCase
 		$expectedIds = array_values($this->tagManagerPage->filters);
 		$this->assertEquals($expectedIds, $actualIds, 'Filter ids should match expected');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -83,7 +83,7 @@ class TagManager0002Test extends JoomlaWebdriverTestCase
 		$this->tagManagerPage->trashAndDelete($tagName);
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Tag should not be present');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -91,32 +91,61 @@ class TagManager0002Test extends JoomlaWebdriverTestCase
 	{
 		$tagName_1 = 'Test Filter 1';
 		$tagName_2 = 'Test Filter 2';
-		
+
 		$this->tagManagerPage->addTag($tagName_1);
 		$message = $this->tagManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Tag successfully saved') >= 0, 'Tag save should return success');
 		$state = $this->tagManagerPage->getState($tagName_1);
 		$this->assertEquals('published', $state, 'Initial state should be published');
-		
-	
 		$this->tagManagerPage->addTag($tagName_2);
 		$message = $this->tagManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Tag successfully saved') >= 0, 'Tag save should return success');
 		$state = $this->tagManagerPage->getState($tagName_2);
 		$this->assertEquals('published', $state, 'Initial state should be published');
 		$this->tagManagerPage->changeTagState($tagName_2, 'unpublished');
-		
+
 		$test = $this->tagManagerPage->setFilter('filter_published', 'Unpublished');
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName_1), 'Tag should not show');
 		$this->assertEquals(1, $this->tagManagerPage->getRowNumber($tagName_2), 'Tag should be in row 1');
-		
+
 		$test = $this->tagManagerPage->setFilter('filter_published', 'Published');
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName_2), 'Tag should not show');
 		$this->assertEquals(1, $this->tagManagerPage->getRowNumber($tagName_1), 'Tag should be in row 1');
-		
+
 		$this->tagManagerPage->setFilter('Select Status', 'Select Status');
 		$this->tagManagerPage->trashAndDelete($tagName_1);
 		$this->tagManagerPage->trashAndDelete($tagName_2);
 	}
 	
+	/**
+	 * @test
+	 */
+	public function setFilter_TestFilters_ShouldFilterTags2()
+	{
+		$tagName_1 = 'Test Filter 1';
+		$tagName_2 = 'Test Filter 2';
+
+		$this->tagManagerPage->addTag($tagName_1);
+		$message = $this->tagManagerPage->getAlertMessage();
+		$this->assertTrue(strpos($message, 'Tag successfully saved') >= 0, 'Tag save should return success');
+		$state = $this->tagManagerPage->getState($tagName_1);
+		$this->assertEquals('published', $state, 'Initial state should be published');
+		$this->tagManagerPage->addTag($tagName_2);
+		$message = $this->tagManagerPage->getAlertMessage();
+		$this->assertTrue(strpos($message, 'Tag successfully saved') >= 0, 'Tag save should return success');
+		$state = $this->tagManagerPage->getState($tagName_2);
+		$this->assertEquals('published', $state, 'Initial state should be published');
+		$this->tagManagerPage->changeTagState($tagName_2, 'Archived');
+
+		$test = $this->tagManagerPage->setFilter('filter_published', 'Archived');
+		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName_1), 'Tag should not show');
+		$this->assertGreaterThanOrEqual(1, $this->tagManagerPage->getRowNumber($tagName_2), 'Test test tag should be present');;
+
+		$test = $this->tagManagerPage->setFilter('filter_published', 'Published');
+		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName_2), 'Tag should not show');
+		$this->assertGreaterThanOrEqual(1, $this->tagManagerPage->getRowNumber($tagName_1), 'Test test tag should be present');
+		$this->tagManagerPage->setFilter('Select Status', 'Select Status');
+		$this->tagManagerPage->trashAndDelete($tagName_1);
+		$this->tagManagerPage->trashAndDelete($tagName_2);
+	}
 }

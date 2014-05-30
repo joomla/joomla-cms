@@ -3,15 +3,14 @@
  * @package     Joomla.Libraries
  * @subpackage  Pagination
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Pagination Class. Provides a common interface for content pagination for the
- * Joomla! CMS.
+ * Pagination Class. Provides a common interface for content pagination for the Joomla! CMS.
  *
  * @package     Joomla.Libraries
  * @subpackage  Pagination
@@ -44,25 +43,25 @@ class JPagination
 	public $prefix = null;
 
 	/**
-	 * @var    integer
+	 * @var    integer  Value pagination object begins at
 	 * @since  3.0
 	 */
 	public $pagesStart;
 
 	/**
-	 * @var    integer
+	 * @var    integer  Value pagination object ends at
 	 * @since  3.0
 	 */
 	public $pagesStop;
 
 	/**
-	 * @var    integer
+	 * @var    integer  Current page
 	 * @since  3.0
 	 */
 	public $pagesCurrent;
 
 	/**
-	 * @var    integer
+	 * @var    integer  Total number of pages
 	 * @since  3.0
 	 */
 	public $pagesTotal;
@@ -135,6 +134,7 @@ class JPagination
 		{
 			$this->pagesStart = 1;
 		}
+
 		if ($this->pagesStart + $displayedPages > $this->pagesTotal)
 		{
 			$this->pagesStop = $this->pagesTotal;
@@ -415,6 +415,83 @@ class JPagination
 	}
 
 	/**
+	 * Get the pagination links
+	 *
+	 * @param   string  $layoutId  Layout to render the links
+	 * @param   array   $options   Optional array with settings for the layout
+	 *
+	 * @return  string  Pagination links.
+	 *
+	 * @since   3.3
+	 */
+	public function getPaginationLinks($layoutId = 'joomla.pagination.links', $options = array())
+	{
+		// Allow to receive a null layout
+		$layoutId = (null === $layoutId) ? 'joomla.pagination.links' : $layoutId;
+
+		$app = JFactory::getApplication();
+
+		$list = array(
+			'prefix'       => $this->prefix,
+			'limit'        => $this->limit,
+			'limitstart'   => $this->limitstart,
+			'total'        => $this->total,
+			'limitfield'   => $this->getLimitBox(),
+			'pagescounter' => $this->getPagesCounter(),
+			'pages'        => $this->getPaginationPages()
+		);
+
+		return JLayoutHelper::render($layoutId, array('list' => $list, 'options' => $options));
+	}
+
+	/**
+	 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x.
+	 *
+	 * @return  string  Pagination page list string.
+	 *
+	 * @since   3.3
+	 */
+	public function getPaginationPages()
+	{
+		$list = array();
+
+		if ($this->total > $this->limit)
+		{
+			// Build the page navigation list.
+			$data = $this->_buildDataObject();
+
+			// All
+			$list['all']['active'] = (null !== $data->all->base);
+			$list['all']['data']   = $data->all;
+
+			// Start
+			$list['start']['active'] = (null !== $data->start->base);
+			$list['start']['data']   = $data->start;
+
+			// Previous link
+			$list['previous']['active'] = (null !== $data->previous->base);
+			$list['previous']['data']   = $data->previous;
+
+			// Make sure it exists
+			$list['pages'] = array();
+
+			foreach ($data->pages as $i => $page)
+			{
+				$list['pages'][$i]['active'] = (null !== $page->base);
+				$list['pages'][$i]['data']   = $page;
+			}
+
+			$list['next']['active'] = (null !== $data->next->base);
+			$list['next']['data']   = $data->next;
+
+			$list['end']['active'] = (null !== $data->end->base);
+			$list['end']['data']   = $data->end;
+		}
+
+		return $list;
+	}
+
+	/**
 	 * Return the pagination footer.
 	 *
 	 * @return  string  Pagination footer.
@@ -423,21 +500,20 @@ class JPagination
 	 */
 	public function getListFooter()
 	{
-		$app = JFactory::getApplication();
-
-		$list = array();
-		$list['prefix'] = $this->prefix;
-		$list['limit'] = $this->limit;
-		$list['limitstart'] = $this->limitstart;
-		$list['total'] = $this->total;
-		$list['limitfield'] = $this->getLimitBox();
-		$list['pagescounter'] = $this->getPagesCounter();
-		$list['pageslinks'] = $this->getPagesLinks();
-
-		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/pagination.php';
+		// Keep B/C for overrides done with chromes
+		$chromePath = JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/pagination.php';
 
 		if (file_exists($chromePath))
 		{
+			$list = array();
+			$list['prefix'] = $this->prefix;
+			$list['limit'] = $this->limit;
+			$list['limitstart'] = $this->limitstart;
+			$list['total'] = $this->total;
+			$list['limitfield'] = $this->getLimitBox();
+			$list['pagescounter'] = $this->getPagesCounter();
+			$list['pageslinks'] = $this->getPagesLinks();
+
 			include_once $chromePath;
 
 			if (function_exists('pagination_list_footer'))
@@ -446,7 +522,7 @@ class JPagination
 			}
 		}
 
-		return $this->_list_footer($list);
+		return $this->getPaginationLinks();
 	}
 
 	/**
@@ -620,10 +696,13 @@ class JPagination
 		$app = JFactory::getApplication();
 
 		$title = '';
+		$class = '';
+
 		if (!is_numeric($item->text))
 		{
 			JHtml::_('bootstrap.tooltip');
-			$title = ' class="hasTooltip" title="' . $item->text . '"';
+			$title = ' title="' . $item->text . '"';
+			$class = 'hasTooltip ';
 		}
 
 		if ($app->isAdmin())
@@ -633,7 +712,7 @@ class JPagination
 		}
 		else
 		{
-			return '<a' . $title . ' href="' . $item->link . '" class="pagenav">' . $item->text . '</a>';
+			return '<a' . $title . ' href="' . $item->link . '" class="' . $class . 'pagenav">' . $item->text . '</a>';
 		}
 	}
 

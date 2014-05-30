@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,8 +33,9 @@ class LoginModelLogin extends JModelLegacy
 		$method = $input->getMethod();
 
 		$credentials = array(
-			'username' => $input->$method->get('username', '', 'BASE64'),
-			'password' => $input->$method->get('passwd', '', 'STRING')
+			'username' => $input->$method->get('username', '', 'USERNAME'),
+			'password' => $input->$method->get('passwd', '', 'RAW')
+			'secretkey' => $input->$method->get('secretkey', '', 'RAW'),
 		);
 		$this->setState('credentials', $credentials);
 

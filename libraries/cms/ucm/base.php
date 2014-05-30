@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,16 +54,16 @@ class JUcmBase implements JUcm
 	/**
 	 * Store data to the appropriate table
 	 *
-	 * @param   array   $data        Data to be stored
-	 * @param   JTable  $table       JTable Object
-	 * @param   string  $primaryKey  The primary key name
+	 * @param   array            $data        Data to be stored
+	 * @param   JTableInterface  $table       JTable Object
+	 * @param   string           $primaryKey  The primary key name
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
 	 * @throws  Exception
 	 */
-	protected function store($data, JTable $table = null, $primaryKey = null)
+	protected function store($data, JTableInterface $table = null, $primaryKey = null)
 	{
 		if (!$table)
 		{

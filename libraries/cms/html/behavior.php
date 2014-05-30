@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -61,8 +61,35 @@ abstract class JHtmlBehavior
 		}
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
-		JHtml::_('script', 'system/core.js', false, true);
+
+		// Keep loading core.js for BC reasons
+		static::core();
+
 		static::$loaded[__METHOD__][$type] = true;
+
+		return;
+	}
+
+	/**
+	 * Method to load core.js into the document head.
+	 *
+	 * Core.js defines the 'Joomla' namespace and contains functions which are used across extensions
+	 *
+	 * @return  void
+	 *
+	 * @since   3.3
+	 */
+	public static function core()
+	{
+		// Only load once
+		if (isset(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/core.js', false, true);
+		static::$loaded[__METHOD__] = true;
 
 		return;
 	}
@@ -84,14 +111,14 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/caption.js', true, true);
+		JHtml::_('script', 'system/caption.js', false, true);
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('load', function() {
+			"jQuery(window).on('load',  function() {
 				new JCaption('" . $selector . "');
 			});"
 		);
@@ -120,13 +147,17 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Include MooTools framework
+		static::framework();
+
+		// Include jQuery Framework
+		JHtml::_('jquery.framework');
+
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
 
-		// Include MooTools More framework
-		static::framework('more');
-
-		JHtml::_('script', 'system/validate.js', true, true);
+		JHtml::_('script', 'system/punycode.js', false, true);
+		JHtml::_('script', 'system/validate.js', false, true);
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -145,18 +176,18 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/switcher.js', true, true);
 
 		$script = "
 			document.switcher = null;
-			window.addEvent('domready', function(){
-				toggler = document.id('submenu');
-				element = document.id('config-document');
+			jQuery(function($){
+				var toggler = document.getElementById('submenu');
+				var element = document.getElementById('config-document');
 				if (element) {
-					document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getProperty('class')});
+					document.switcher = new JSwitcher(toggler, element);
 				}
 			});";
 
@@ -239,18 +270,21 @@ abstract class JHtmlBehavior
 
 		$options = JHtml::getJSObject($opt);
 
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
 		// Attach tooltips to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('domready', function() {
-			$$('$selector').each(function(el) {
-				var title = el.get('title');
+			"jQuery(function($) {
+			 $('$selector').each(function() {
+				var title = $(this).attr('title');
 				if (title) {
 					var parts = title.split('::', 2);
-					el.store('tip:title', parts[0]);
-					el.store('tip:text', parts[1]);
+					$(this).data('tip:title', parts[0]);
+					$(this).data('tip:text', parts[1]);
 				}
 			});
-			var JTooltips = new Tips($$('$selector'), $options);
+			var JTooltips = new Tips($('$selector').get(), $options);
 		});"
 		);
 
@@ -322,9 +356,12 @@ abstract class JHtmlBehavior
 		$opt['onShow']        = (isset($params['onShow'])) ? $params['onShow'] : null;
 		$opt['onHide']        = (isset($params['onHide'])) ? $params['onHide'] : null;
 
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
 		if (isset($params['fullScreen']) && (bool) $params['fullScreen'])
 		{
-			$opt['size']      = array('x' => '\\window.getSize().x-80', 'y' => '\\window.getSize().y-80');
+			$opt['size']      = array('x' => '\\jQuery(window).width() - 80', 'y' => '\\jQuery(window).height() - 80');
 		}
 
 		$options = JHtml::getJSObject($opt);
@@ -333,10 +370,9 @@ abstract class JHtmlBehavior
 		$document
 			->addScriptDeclaration(
 			"
-		window.addEvent('domready', function() {
-
+		jQuery(function($) {
 			SqueezeBox.initialize(" . $options . ");
-			SqueezeBox.assign($$('" . $selector . "'), {
+			SqueezeBox.assign($('" . $selector . "').get(), {
 				parse: 'rel'
 			});
 		});"
@@ -365,8 +401,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/multiselect.js', true, true);
 
@@ -407,6 +443,9 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
 		// Setup options object
 		$opt['div']   = (array_key_exists('div', $params)) ? $params['div'] : $id . '_tree';
 		$opt['mode']  = (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
@@ -433,7 +472,7 @@ abstract class JHtmlBehavior
 
 		$treeName = (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
 
-		$js = '		window.addEvent(\'domready\', function(){
+		$js = '		jQuery(function(){
 			tree' . $treeName . ' = new MooTreeControl(' . $options . ',' . $rootNode . ');
 			tree' . $treeName . '.adopt(\'' . $id . '\');})';
 
@@ -475,6 +514,7 @@ abstract class JHtmlBehavior
 		{
 			$document->addScriptDeclaration($translation);
 		}
+
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -559,9 +599,6 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
-
 		$config = JFactory::getConfig();
 		$lifetime = ($config->get('lifetime') * 60000);
 		$refreshTime = ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
@@ -575,13 +612,13 @@ abstract class JHtmlBehavior
 		}
 
 		$document = JFactory::getDocument();
-		$script = '';
-		$script .= 'function keepAlive() {';
-		$script .= '	var myAjax = new Request({method: "get", url: "index.php"}).send();';
-		$script .= '}';
-		$script .= ' window.addEvent("domready", function()';
-		$script .= '{ keepAlive.periodical(' . $refreshTime . '); }';
-		$script .= ');';
+		$script = 'window.setInterval(function(){';
+		$script .= 'var r;';
+		$script .= 'try{';
+		$script .= 'r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")';
+		$script .= '}catch(e){}';
+		$script .= 'if(r){r.open("GET","./",true);r.send(null)}';
+		$script .= '},' . $refreshTime . ');';
 
 		$document->addScriptDeclaration($script);
 		static::$loaded[__METHOD__] = true;
@@ -613,15 +650,18 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
 		JHtml::_('script', 'system/highlighter.js', true, true);
 
 		$terms = str_replace('"', '\"', $terms);
 
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
-			window.addEvent('domready', function () {
-				var start = document.id('" . $start . "');
-				var end = document.id('" . $end . "');
+			jQuery(function ($) {
+				var start = document.getElementById('" . $start . "');
+				var end = document.getElementById('" . $end . "');
 				if (!start || !end || !Joomla.Highlighter) {
 					return true;
 				}
@@ -632,8 +672,8 @@ abstract class JHtmlBehavior
 					onlyWords: false,
 					tag: '" . $tag . "'
 				}).highlight([\"" . implode('","', $terms) . "\"]);
-				start.dispose();
-				end.dispose();
+				$(start).remove();
+				$(end).remove();
 			});
 		");
 
@@ -660,13 +700,16 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		static::framework();
 
-		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
+		$js = "jQuery(function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
 			" else {top.location = self.location; }});";
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
 
-		JResponse::setHeader('X-Frames-Options', 'SAMEORIGIN');
+		JFactory::getApplication()->setHeader('X-Frame-Options', 'SAMEORIGIN');
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -734,6 +777,7 @@ abstract class JHtmlBehavior
 		);
 
 		// This will become an object in Javascript but define it first in PHP for readability
+		$today = " " . JText::_('JLIB_HTML_BEHAVIOR_TODAY') . " ";
 		$text = array(
 			'INFO'			=> JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
 
@@ -759,9 +803,9 @@ abstract class JHtmlBehavior
 			'NEXT_MONTH'	=> JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU'),
 			'SEL_DATE'		=> JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE'),
 			'DRAG_TO_MOVE'	=> JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE'),
-			'PART_TODAY'	=> JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
+			'PART_TODAY'	=> $today,
 			'DAY_FIRST'		=> JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'),
-			'WEEKEND'		=> "0,6",
+			'WEEKEND'		=> JFactory::getLanguage()->getWeekEnd(),
 			'CLOSE'			=> JText::_('JLIB_HTML_BEHAVIOR_CLOSE'),
 			'TODAY'			=> JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
 			'TIME_PART'		=> JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE'),
@@ -777,5 +821,30 @@ abstract class JHtmlBehavior
 			. ' Calendar._MN = ' . json_encode($months_long) . ';'
 			. ' Calendar._SMN = ' . json_encode($months_short) . ';'
 			. ' Calendar._TT = ' . json_encode($text) . ';';
+	}
+
+	/**
+	 * Add unobtrusive JavaScript support to keep a tab state.
+	 *
+	 * Note that keeping tab state only works for inner tabs if in accordance with the following example
+	 * parent tab = permissions
+	 * child tab = permission-<identifier>
+	 *
+	 * Each tab header "a" tag also should have a unique href attribute
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public static function tabstate()
+	{
+		if (isset(self::$loaded[__METHOD__]))
+		{
+			return;
+		}
+		// Include jQuery
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/tabs-state.js', false, true);
+		self::$loaded[__METHOD__] = true;
 	}
 }

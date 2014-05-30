@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,17 +27,9 @@ class JImageFilterSmooth extends JImageFilter
 	 *
 	 * @since   11.3
 	 * @throws  InvalidArgumentException
-	 * @throws  RuntimeException
 	 */
 	public function execute(array $options = array())
 	{
-		// Verify that image filter support for PHP is available.
-		if (!function_exists('imagefilter'))
-		{
-			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR);
-			throw new RuntimeException('The imagefilter function for PHP is not available.');
-		}
-
 		// Validate that the smoothing value exists and is an integer.
 		if (!isset($options[IMG_FILTER_SMOOTH]) || !is_int($options[IMG_FILTER_SMOOTH]))
 		{

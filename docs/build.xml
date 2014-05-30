@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="joomla-cms-manual" default="docs" basedir=".">
-	<target name="docs">
-		<exec executable="ant" dir="installation" />
-	</target>
-</project>
-

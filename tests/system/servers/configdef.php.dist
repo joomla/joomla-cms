@@ -18,6 +18,7 @@ class SeleniumConfig
 	// $folder is the path to the apache root folder
 	var $folder = 'c:/xampp/htdocs'; // typical windows example with XAMPP
 //	var $folder = '/usr/local/apache/htdocs'; // typical linux example
+//	var $folder = '/Applications/XAMPP/xamppfiles/htdocs'; // typical MacOS example with XAMPP
 
 	// $host is normally 'http://localhost'
 	var $host = 'http://localhost';
@@ -26,7 +27,7 @@ class SeleniumConfig
 	// Example: Your full URL to Joomla! is http://localhost/joomla_16/index.php
 	// then $path would be '/joomla_16/'
 	var $path = '/your_joomla_root/';
-	
+
 	// $baseURI set in contructor to the full path
 	var $baseURI;
 
@@ -41,7 +42,7 @@ class SeleniumConfig
 	var $db_name = 'joomla-1-6_source';
 	var $db_type = 'MySQLi';
 	var $db_prefix = 'xxx_';
-	
+
 	// optional setting to install sample data
 	// If not set or true, sample data is installed. Set to false to not install sample data
 	// Note: This must be true for the standard tests to work!
@@ -68,16 +69,19 @@ class SeleniumConfig
 	// optional setting to turn on Cache: values are off, on-basic, on-full
 	// change this value to set the caching in the doInstall.php test
 	var $cache = 'off';
-	
+
 	// optional setting to set administive template to hathor: set to 'hathor' to make hathor the default
-	// var $adminTemplate = 'hathor';  
+	// var $adminTemplate = 'hathor';
 
 	// optional setting to set error reporting level
 	var $errorReporting = 'maximum';
 
 	// optional setting to set the initial window dimensions (Webdriver only)
 	var $windowSize = array(1280, 1024);
-	
+
+	// optional setting to disable installing the site, required in environments that use FTP mode
+	var $doInstall = 'true';
+
 	public function __construct() {
 		$this->baseURI = $this->folder . $this->path;
 	}
