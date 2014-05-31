@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * ${NAMESPACE}\ObserverDefinitions Class implementation
+ * ObserverDefinitions Class implementation
  * 
  */
 class JObserverDefinitions
@@ -39,11 +39,33 @@ class JObserverDefinitions
 	 */
 	public function loadObserversMapping()
 	{
+		// Add mappers from the Content Types table:
+
 		/** @var JTableContenttype $contentType */
 		$contentType = JTable::getInstance('contenttype', 'JTable', array('dbo' => $this->db));
 
 		$mappings = $contentType->loadObserversMapping();
 
+		$this->addMappings($mappings);
+
+		// Add mappers from the Extensions table:
+
+		/** @var JTableContenttype $contentType */
+		$extension = JTable::getInstance('extension', 'JTable', array('dbo' => $this->db));
+
+		$mappings = $extension->loadObserversMapping();
+
+		$this->addMappings($mappings);
+	}
+
+	/**
+	 * Adds Observer $mappings to the Observer Mapper.
+	 *
+	 * @param   array  $mappings
+	 * @return  void
+	 */
+	protected function addMappings($mappings)
+	{
 		foreach ( $mappings as $map )
 		{
 			// JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'JTableContent', array('typeAlias' => 'com_content.article'));

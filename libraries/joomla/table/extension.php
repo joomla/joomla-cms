@@ -204,7 +204,8 @@ class JTableExtension extends JTable
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('observers'))
 			->from($db->quoteName($this->_tbl))
-			->where($db->quoteName('observers') . ' <> ' . $db->quote(''));
+			->where($db->quoteName('observers') . ' <> ' . $db->quote(''))
+			->where($db->quoteName('enabled') . ' = 1');
 		$db->setQuery($query);
 
 		try
