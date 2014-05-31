@@ -27,15 +27,22 @@ abstract class JHtmlEmail
 	 * @param   boolean  $mailto  True if text and mailing address differ
 	 * @param   string   $text    Text for the link
 	 * @param   boolean  $email   True if text is an e-mail address
+	 * @param   string   $class   Set the class to be applied to the mailto link
 	 *
 	 * @return  string  The cloaked email.
 	 *
 	 * @since   1.5
 	 */
-	public static function cloak($mail, $mailto = true, $text = '', $email = true)
+	public static function cloak($mail, $mailto = true, $text = '', $email = true, $class = '')
 	{
 		// Convert text
 		$mail = static::convertEncoding($mail);
+
+		// Set class to mailto link
+		if ( !empty($class) )
+		{
+			$class = 'class="' . $class . '"';
+		}
 
 		// Split email by @ symbol
 		$mail = explode('@', $mail);
@@ -73,13 +80,13 @@ abstract class JHtmlEmail
 					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
 				}
 
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'";
+				$replacement .= "\n document.write('<a " . $class . " ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'";
 				$replacement .= "+ addy_text" . $rand;
 				$replacement .= "+ '<\/a>');";
 			}
 			else
 			{
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'";
+				$replacement .= "\n document.write('<a " . $class . " ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'";
 				$replacement .= "+ addy" . $rand;
 				$replacement .= "+ '<\/a>');";
 			}
