@@ -25,6 +25,10 @@ if (empty ($rssurl))
 	return;
 }
 
+// Clear cache bevor continue
+$cache = JFactory::getCache('feed_parser');
+$cache->clean();
+
 $feed = ModFeedHelper::getFeed($params);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
