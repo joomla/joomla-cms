@@ -61,7 +61,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	protected function getConnection()
 	{
-		if ($this->isSupported()) != true)
+		if (self::isSupported()) != true)
 		{
 			return false;
 		}
