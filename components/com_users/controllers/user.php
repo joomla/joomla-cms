@@ -40,7 +40,7 @@ class UsersControllerUser extends UsersController
 		$data['return'] = base64_decode($app->input->post->get('return', '', 'BASE64'));
 		$data['username'] = $input->$method->get('username', '', 'USERNAME');
 		$data['password'] = $input->$method->get('password', '', 'RAW');
-		$data['secretkey'] = $input->$method->get('secretkey', '');
+		$data['secretkey'] = $input->$method->get('secretkey', '', 'RAW');
 
 		// Set the return URL if empty.
 		if (empty($data['return']))
