@@ -1064,8 +1064,16 @@ class JInstaller extends JAdapter
 				foreach ($schemapaths as $entry)
 				{
 					$attrs = $entry->attributes();
+					
+					//assuming that the type is a mandatory attribute but if it is not mandatory then there should be a discussion for it.
+					$uDriver = strtolower($attrs['type']);
+		
+					if ($uDriver == 'mysqli')
+					{
+						$uDriver = 'mysql';
+					}
 
-					if ($attrs['type'] == $dbDriver)
+					if ($uDriver == $dbDriver)
 					{
 						$schemapath = $entry;
 						break;
