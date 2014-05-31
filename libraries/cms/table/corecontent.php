@@ -173,6 +173,7 @@ class JTableCorecontent extends JTable
 	 * Method to delete a row from the #__ucm_content table by content_item_id.
 	 *
 	 * @param   integer  $contentItemId  value of the core_content_item_id to delete. Corresponds to the primary key of the content table.
+	 * @param   string   $typeAlias      Alias for the content type
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -195,7 +196,7 @@ class JTableCorecontent extends JTable
 		$query->select($db->quoteName('core_content_id'))
 			->from($db->quoteName('#__ucm_content'))
 			->where($db->quoteName('core_content_item_id') . ' = ' . (int) $contentItemId)
-			->where($db->quoteName('core_type_alias') . ' = ' .  $db->quote($typeAlias));
+			->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($typeAlias));
 		$db->setQuery($query);
 
 		if ($ucmId = $db->loadResult())
