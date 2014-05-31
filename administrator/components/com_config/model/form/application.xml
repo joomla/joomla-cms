@@ -126,6 +126,16 @@
 			showon="cache_handler:redis"
 			autocomplete="off"
 			size="30" />
+
+		<field
+			name="redis_server_db"
+			type="text"
+			default="0"
+			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_DB_DESC"
+			filter="integer"
+			showon="cache_handler:redis"
+			size="4" />
 	</fieldset>
 
 	<fieldset
