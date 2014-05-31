@@ -96,9 +96,29 @@ class ContentViewArticle extends JViewLegacy
 					$this->setLayout($layout);
 				}
 
+				$tempArray = $temp->toArray();
+
+				foreach ($tempArray as $key => $value)
+				{
+					if ($value === 'use_article')
+					{
+						// If the article has a value, use it
+						if ($item->params->get($key) != '')
+						{
+							// Get the value from the article
+							$tempArray[$key] = $item->params->get($key);
+						}
+						else
+						{
+							// Otherwise, use the global value
+							$tempArray[$key] = $item->params->get($key);
+						}
+					}
+				}
+
 				// $item->params are the article params, $temp are the menu item params
 				// Merge so that the menu item params take priority
-				$item->params->merge($temp);
+				$item->params->merge($tempArray);
 			}
 			else
 			{

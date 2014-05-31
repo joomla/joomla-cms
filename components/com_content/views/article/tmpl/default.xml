@@ -38,6 +38,7 @@
 			label="JGLOBAL_SHOW_TITLE_LABEL"
 			description="JGLOBAL_SHOW_TITLE_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
+            <option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
