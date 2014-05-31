@@ -364,11 +364,6 @@ abstract class JDatabaseQuery
 					$query .= (string) $this->where;
 				}
 
-				if ($this->union)
-				{
-					$query .= (string) $this->union;
-				}
-
 				if ($this->group)
 				{
 					$query .= (string) $this->group;
@@ -382,6 +377,11 @@ abstract class JDatabaseQuery
 				if ($this->order)
 				{
 					$query .= (string) $this->order;
+				}
+
+				if ($this->union)
+				{
+					$query .= (string) $this->union;
 				}
 				break;
 
