@@ -77,8 +77,8 @@ class JCacheStorageMemcached extends JCacheStorage
 		 * $servers	= (isset($params['servers'])) ? $params['servers'] : array();
 		 */
 		$server = array();
-		$server['host'] = $config->get('memcache_server_host', 'localhost');
-		$server['port'] = $config->get('memcache_server_port', 11211);
+		$server['host'] = $config->get('cache_memcache_server_host', 'localhost');
+		$server['port'] = $config->get('cache_memcache_server_port', 11211);
 
 		// Create the memcache connection
 		if ($this->_persistent)
@@ -305,26 +305,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 */
 	public static function test()
 	{
-		if ((extension_loaded('memcached') && class_exists('Memcached')) != true)
-		{
-			return false;
-		}
-
-		$config = JFactory::getConfig();
-		$host = $config->get('memcache_server_host', 'localhost');
-		$port = $config->get('memcache_server_port', 11211);
-
-		$memcached = new Memcached;
-		$memcachedtest = @$memcached->addServer($host, $port);
-
-		if (!$memcachedtest)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return extension_loaded('memcached') && class_exists('Memcached');
 	}
 
 	/**

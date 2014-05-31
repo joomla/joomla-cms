@@ -59,21 +59,21 @@ class JSessionStorageMemcache extends JSessionStorage
 			return JError::raiseError(404, JText::_('JLIB_SESSION_MEMCACHE_EXTENSION_NOT_AVAILABLE'));
 		}
 
-		parent::__construct($options);
-
 		$config = JFactory::getConfig();
 
-		$this->_compress	= $config->get('memcache_compress', false)?MEMCACHE_COMPRESSED:false;
+		$this->_compress	= $config->get('memcache_compress', false) ? MEMCACHE_COMPRESSED : false;
 		$this->_persistent	= $config->get('memcache_persist', true);
 
 		// This will be an array of loveliness
 		// @todo: multiple servers
 		$this->_servers = array(
 			array(
-				'host' => $config->get('memcache_server_host', 'localhost'),
-				'port' => $config->get('memcache_server_port', 11211)
+				'host' => $config->get('session_memcache_server_host', 'localhost'),
+				'port' => $config->get('session_memcache_server_port', 11211)
 			)
 		);
+
+		parent::__construct($options);
 	}
 
 	/**
