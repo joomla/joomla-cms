@@ -89,6 +89,16 @@
 			default="text/html"
 			label="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_LABEL"
 			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC" />
+		<field
+			name="override_files"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_MEDIA_FIELD_OVERRIDE_FILES_LABEL"
+			description="COM_MEDIA_FIELD_OVERRIDE_FILES_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 	</fieldset>
 
 	<fieldset
