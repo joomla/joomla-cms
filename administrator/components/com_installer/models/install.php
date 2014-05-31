@@ -198,7 +198,7 @@ class InstallerModelInstall extends JModelLegacy
 	protected function _getPackageFromUpload()
 	{
 		// Get the uploaded file information
-		$input = JFactory::getApplication()->input;
+		$input    = JFactory::getApplication()->input;
 		$userfile = $input->files->get('install_package', null, 'array');
 
 		// Make sure that file uploads are enabled in php
