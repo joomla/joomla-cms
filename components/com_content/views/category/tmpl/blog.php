@@ -28,7 +28,7 @@ JHtml::_('behavior.caption');
 		</h2>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('show_tags', 1) && !empty($this->category->tags->itemTags)) : ?>
+	<?php if ($this->params->get('show_cat_tags', 1) && !empty($this->category->tags->itemTags)) : ?>
 		<?php $this->category->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 		<?php echo $this->category->tagLayout->render($this->category->tags->itemTags); ?>
 	<?php endif; ?>

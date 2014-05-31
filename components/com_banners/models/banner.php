@@ -20,6 +20,12 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
  */
 class BannersModelBanner extends JModelLegacy
 {
+	/**
+	 * Cached item object
+	 *
+	 * @var    object
+	 * @since  1.6
+	 */
 	protected $_item;
 
 	/**
@@ -33,7 +39,7 @@ class BannersModelBanner extends JModelLegacy
 	{
 		$id = $this->getState('banner.id');
 
-		// update click count
+		// Update click count
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->update('#__banners')
@@ -51,10 +57,9 @@ class BannersModelBanner extends JModelLegacy
 			JError::raiseError(500, $e->getMessage());
 		}
 
-		// track clicks
-
 		$item = $this->getItem();
 
+		// Track clicks
 		$trackClicks = $item->track_clicks;
 
 		if ($trackClicks < 0 && $item->cid)
@@ -96,7 +101,7 @@ class BannersModelBanner extends JModelLegacy
 
 			if ($count)
 			{
-				// update count
+				// Update count
 				$query->update('#__banner_tracks')
 					->set($db->quoteName('count') . ' = (' . $db->quote('count') . ' + 1)')
 					->where('track_type=2')
@@ -105,8 +110,7 @@ class BannersModelBanner extends JModelLegacy
 			}
 			else
 			{
-				// insert new count
-				//sqlsrv change
+				// Insert new count
 				$query->insert('#__banner_tracks')
 					->columns(
 						array(
@@ -134,6 +138,8 @@ class BannersModelBanner extends JModelLegacy
 	 * Get the data for a banner.
 	 *
 	 * @return  object
+	 *
+	 * @since   1.6
 	 */
 	public function &getItem()
 	{
@@ -147,7 +153,7 @@ class BannersModelBanner extends JModelLegacy
 
 			if ($this->_item === false)
 			{
-				// redirect to banner url
+				// Redirect to banner url
 				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select(
@@ -192,7 +198,7 @@ class BannersModelBanner extends JModelLegacy
 		$item = $this->getItem();
 		$url = $item->clickurl;
 
-		// check for links
+		// Check for links
 		if (!preg_match('#http[s]?://|index[2]?\.php#', $url))
 		{
 			$url = "http://$url";

@@ -28,6 +28,13 @@ class ContentViewArticle extends JViewLegacy
 
 	protected $user;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
@@ -125,7 +132,7 @@ class ContentViewArticle extends JViewLegacy
 		$offset = $this->state->get('list.offset');
 
 		// Check the view access to the article (the model has already computed the values).
-		if ($item->params->get('access-view') != true && (($item->params->get('show_noauth') != true &&  $user->get('guest') )))
+		if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0'))
 		{
 			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return;
@@ -133,7 +140,7 @@ class ContentViewArticle extends JViewLegacy
 
 		if ($item->params->get('show_intro', '1') == '1')
 		{
-			$item->text = $item->introtext.' '.$item->fulltext;
+			$item->text = $item->introtext . ' ' . $item->fulltext;
 		}
 		elseif ($item->fulltext)
 		{

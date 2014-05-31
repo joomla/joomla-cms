@@ -46,6 +46,7 @@ class ContactViewContact extends JViewLegacy
 		// "Lastname, Firstname Midlename" format support
 		// e.g. "de Gaulle, Charles"
 		$namearray = explode(',', $item->name);
+
 		if (count($namearray) > 1 )
 		{
 			$lastname = $namearray[0];
@@ -59,11 +60,12 @@ class ContactViewContact extends JViewLegacy
 
 				$firstname = $namearray[0];
 				$middlename = (count($namearray) > 1) ? $namearray[1] : '';
-				$card_name = $firstname . ' ' . ($middlename ? $middlename . ' ' : '') .  $card_name;
+				$card_name = $firstname . ' ' . ($middlename ? $middlename . ' ' : '') . $card_name;
 			}
 		}
 		// "Firstname Middlename Lastname" format support
-		else {
+		else
+		{
 			$namearray = explode(' ', $item->name);
 
 			$middlename = (count($namearray) > 2) ? $namearray[1] : '';
@@ -74,22 +76,22 @@ class ContactViewContact extends JViewLegacy
 
 		$rev = date('c', strtotime($item->modified));
 
-		JFactory::getApplication()->setHeader('Content-disposition', 'attachment; filename="'.$card_name.'.vcf"', true);
+		JFactory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . $card_name . '.vcf"', true);
 
 		$vcard = array();
 		$vcard[] .= 'BEGIN:VCARD';
 		$vcard[] .= 'VERSION:3.0';
-		$vcard[]  = 'N:'.$lastname.';'.$firstname.';'.$middlename;
-		$vcard[]  = 'FN:'. $item->name;
-		$vcard[]  = 'TITLE:'.$item->con_position;
-		$vcard[]  = 'TEL;TYPE=WORK,VOICE:'.$item->telephone;
-		$vcard[]  = 'TEL;TYPE=WORK,FAX:'.$item->fax;
-		$vcard[]  = 'TEL;TYPE=WORK,MOBILE:'.$item->mobile;
-		$vcard[]  = 'ADR;TYPE=WORK:;;'.$item->address.';'.$item->suburb.';'.$item->state.';'.$item->postcode.';'.$item->country;
-		$vcard[]  = 'LABEL;TYPE=WORK:'.$item->address."\n".$item->suburb."\n".$item->state."\n".$item->postcode."\n".$item->country;
-		$vcard[]  = 'EMAIL;TYPE=PREF,INTERNET:'.$item->email_to;
-		$vcard[]  = 'URL:'.$item->webpage;
-		$vcard[]  = 'REV:'.$rev.'Z';
+		$vcard[]  = 'N:' . $lastname . ';' . $firstname . ';' . $middlename;
+		$vcard[]  = 'FN:' . $item->name;
+		$vcard[]  = 'TITLE:' . $item->con_position;
+		$vcard[]  = 'TEL;TYPE=WORK,VOICE:' . $item->telephone;
+		$vcard[]  = 'TEL;TYPE=WORK,FAX:' . $item->fax;
+		$vcard[]  = 'TEL;TYPE=WORK,MOBILE:' . $item->mobile;
+		$vcard[]  = 'ADR;TYPE=WORK:;;' . $item->address . ';' . $item->suburb . ';' . $item->state . ';' . $item->postcode . ';' . $item->country;
+		$vcard[]  = 'LABEL;TYPE=WORK:' . $item->address . "\n" . $item->suburb . "\n" . $item->state . "\n" . $item->postcode . "\n" . $item->country;
+		$vcard[]  = 'EMAIL;TYPE=PREF,INTERNET:' . $item->email_to;
+		$vcard[]  = 'URL:' . $item->webpage;
+		$vcard[]  = 'REV:' . $rev . 'Z';
 		$vcard[]  = 'END:VCARD';
 
 		echo implode("\n", $vcard);
