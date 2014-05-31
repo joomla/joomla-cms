@@ -101,6 +101,13 @@ class JApplicationCli extends JApplicationBase
 
 		// Set the current directory.
 		$this->set('cwd', getcwd());
+
+		// Map the Observers, unless the config says not to do so.
+		if ($this->config->get('observersmapping') !== false)
+		{
+			$observersDefinitions = new JObserverDefinitions( JFactory::getDbo() );
+			$observersDefinitions->loadObserversMapping();
+		}
 	}
 
 	/**

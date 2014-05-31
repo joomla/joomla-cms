@@ -130,6 +130,13 @@ class JApplicationCms extends JApplicationWeb
 		{
 			$this->loadSession();
 		}
+
+		// Map the Observers, unless the config says not to do so.
+		if ($this->config->get('observersmapping') !== false)
+		{
+			$observersDefinitions = new JObserverDefinitions( JFactory::getDbo() );
+			$observersDefinitions->loadObserversMapping();
+		}
 	}
 
 	/**
