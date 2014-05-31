@@ -737,13 +737,14 @@ class JUser extends JObject
 			JPluginHelper::importPlugin('user');
 			$dispatcher = JEventDispatcher::getInstance();
 
+			// Trigger "onUserBeforeSave" event - plugin will have to raise its own error
+			// or throw an exception.
 			try
 			{
 				$result = $dispatcher->trigger('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
 	
 				if (in_array(false, $result, true))
 				{
-					// Plugin will have to raise its own error or throw an exception.
 					$this->setError($dispatcher->getError());
 	
 					return false;
