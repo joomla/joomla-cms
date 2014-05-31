@@ -245,9 +245,7 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			return false;
 		}
-		else
-		{
-			return true;
-		}
+
+		return true;
 	}
 }
