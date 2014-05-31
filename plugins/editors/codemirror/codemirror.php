@@ -113,11 +113,12 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string   $id       An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
 	 * @param   string   $asset    Unused
 	 * @param   object   $author   Unused
-	 * @param   array    $param    Associative array of editor parameters.
+	 * @param   array    $params   Associative array of editor parameters.
 	 *
 	 * @return  string  HTML Output
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $param = array())
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true,
+		$id = null, $asset = null, $author = null, $params = array())
 	{
 		if (empty($id))
 		{
