@@ -54,9 +54,9 @@ abstract class JFolder
 		{
 			throw new RuntimeException('Source folder not found', -1);
 		}
-		if (!self::exists($dest) && !$force)
+		if (self::exists($dest) && !$force)
 		{
-			throw new RuntimeException('Destination folder not found', -1);
+			throw new RuntimeException('Destination folder already exists', -1);
 		}
 
 		// Make sure the destination exists
