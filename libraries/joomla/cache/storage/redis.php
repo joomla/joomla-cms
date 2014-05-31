@@ -66,8 +66,15 @@ class JCacheStorageRedis extends JCacheStorage
 			return false;
 		}
 
-		$app = JFactory::getApplication();
 		$config = JFactory::getConfig();
+		$app = JFactory::getApplication();
+
+		$caching = (bool)$config->get('caching');
+		if ($caching == false)
+		{
+			return false;
+		}
+
 		$this->_persistent = $config->get('redis_persist', true);
 
 		$server = array();
