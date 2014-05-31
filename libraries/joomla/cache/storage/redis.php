@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package  Joomla.Platform
  * @subpackage  Cache
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license  GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,26 +12,26 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Redis cache storage handler
  *
- * @package     Joomla.Platform
+ * @package  Joomla.Platform
  * @subpackage  Cache
  
- * @since       11.1
+ * @since    13.1
  */
 class JCacheStorageRedis extends JCacheStorage
 {
 	/**
 	 * Redis connection object
 	 *
-	 * @var    Redis
-	 * @since  11.1
+	 * @var Redis
+	 * @since  13.1
 	 */
 	protected static $_redis = null;
 
 	/**
 	 * Persistent session flag
 	 *
-	 * @var    boolean
-	 * @since  11.1
+	 * @var boolean
+	 * @since  13.1
 	 */
 	protected $_persistent = false;
 
@@ -40,7 +40,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @since   11.1
+	 * @since   13.1
 	 */
 	public function __construct($options = array())
 	{
@@ -56,16 +56,17 @@ class JCacheStorageRedis extends JCacheStorage
 	 *
 	 * @return  object   redis connection object
 	 *
-	 * @since   11.1
+	 * @since   13.1
 	 * @throws  RuntimeException
 	 */
 	protected function getConnection()
 	{
-		if (static::isSupported() != true)
+		if (static::isSupported() == false)
 		{
 			return false;
 		}
 
+		$app = JFactory::getApplication();
 		$config = JFactory::getConfig();
 		$this->_persistent = $config->get('redis_persist', true);
 
@@ -73,44 +74,106 @@ class JCacheStorageRedis extends JCacheStorage
 		$server['host'] = $config->get('redis_server_host', 'localhost');
 		$server['port'] = $config->get('redis_server_port', 6379);
 		$server['auth'] = $config->get('redis_server_auth', NULL);
+		$server['db'] = (int)$config->get('redis_server_db', NULL);
 
 		self::$_redis = new Redis();
 		if($this->_persistent)
 		{
-			$redistest = self::$_redis->pconnect($server['host'], $server['port']) && self::$_redis->auth($server['auth']);
+			try
+			{
+				$connection = self::$_redis->pconnect($server['host'], $server['port']);
+				$auth = (!empty($server['auth'])) ? self::$_redis->auth($server['auth']) : true;
+			}
+
+			catch(Exception $e)
+			{
+				
+			}
 		}
 		else
 		{
-			$redistest = self::$_redis->connect($server['host'], $server['port']) && self::$_redis->auth($server['auth']);
+			try
+			{
+				$connection = self::$_redis->connect($server['host'], $server['port']);
+				$auth = (!empty($server['auth'])) ? self::$_redis->auth($server['auth']) : true;
+			}
+
+			catch(Exception $e)
+			{
+				
+			}
 		}
 
-		if ($redistest == false)
+		if ($connection == false)
 		{
-			$app = JFactory::getApplication();
+			self::$_redis = null;
 			if ($app->isAdmin())
 			{
-				JError::raiseWarning(500, JText::_('JLIB_CACHE_ERROR_CACHE_STORAGE_REDIS_NO_CONNECTION'));
+				JError::raiseWarning(500, 'Redis connection failed');
 			}
 
 			return;
 		}
 
-		return;
+		if ($auth == false)
+		{
+			if ($app->isAdmin())
+			{
+				JError::raiseWarning(500, 'Redis authentication failed');
+			}
+
+			return;
+		}
+
+		$select = self::$_redis->select($server['db']);
+		if($select == false)
+		{
+			self::$_redis = null;
+			if ($app->isAdmin())
+			{
+				JError::raiseWarning(500, 'Redis failed to select database');
+			}
+
+			return;
+		}
+
+		try
+		{
+			self::$_redis->ping();
+		}
+
+		catch(RedisException $e)
+		{
+			self::$_redis = null;
+			if ($app->isAdmin())
+			{
+				JError::raiseWarning(500, 'Redis ping failed');
+			}
+
+			return;
+		}
+
+		return self::$_redis;
 	}
 
 	/**
 	 * Get cached data from redis by id and group
 	 *
-	 * @param   string   $id         The cache data id
-	 * @param   string   $group      The cache data group
+	 * @param   string   $id   The cache data id
+	 * @param   string   $group   The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data string
 	 *
-	 * @since   11.1
+	 * @since   13.1
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
+		if (self::isConnected() == false)
+		{
+			return false;
+		}
+
 		$cache_id = $this->_getCacheId($id, $group);
 		$back = self::$_redis->get($cache_id);
 
@@ -120,12 +183,17 @@ class JCacheStorageRedis extends JCacheStorage
 	/**
 	 * Get all cached data
 	 *
-	 * @return  array    data
+	 * @return  array data
 	 *
-	 * @since   11.1
+	 * @since   13.1
 	 */
 	public function getAll()
 	{
+		if (self::isConnected() == false)
+		{
+			return false;
+		}
+
 		parent::getAll();
 
 		$allKeys = self::$_redis->keys('*');
@@ -161,16 +229,21 @@ class JCacheStorageRedis extends JCacheStorage
 	/**
 	 * Store the data to redis by id and group
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id  The cache data id
 	 * @param   string  $group  The cache data group
 	 * @param   string  $data   The data to store in cache
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   11.1
+	 * @since   13.1
 	 */
 	public function store($id, $group, $data)
 	{
+		if (self::isConnected() == false)
+		{
+			return false;
+		}
+
 		$cache_id = $this->_getCacheId($id, $group);
 
 		$tmparr = new stdClass;
@@ -194,15 +267,20 @@ class JCacheStorageRedis extends JCacheStorage
 	/**
 	 * Remove a cached data entry by id and group
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id  The cache data id
 	 * @param   string  $group  The cache data group
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   11.1
+	 * @since   13.1
 	 */
 	public function remove($id, $group)
 	{
+		if (self::isConnected() == false)
+		{
+			return false;
+		}
+
 		$cache_id = $this->_getCacheId($id, $group);
 		return self::$_redis->delete($cache_id);
 	}
@@ -212,15 +290,20 @@ class JCacheStorageRedis extends JCacheStorage
 	 *
 	 * @param   string  $group  The cache data group
 	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
-	 * group mode    : cleans all cache in the group
+	 * group mode : cleans all cache in the group
 	 * notgroup mode : cleans all cache not in the group
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   11.1
+	 * @since   13.1
 	 */
 	public function clean($group, $mode = null)
 	{
+		if (self::isConnected() == false)
+		{
+			return false;
+		}
+
 		$allKeys = self::$_redis->keys('*');
 		if ($allKeys === false)
 		{
@@ -248,7 +331,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public static function isSupported()
 	{
@@ -258,5 +341,17 @@ class JCacheStorageRedis extends JCacheStorage
 		}
 
 		return true;
+	}
+
+	/**
+	 * Test to see if Redis connection is up
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   13.1
+	 */
+	public static function isConnected()
+	{
+		return (bool)self::$_redis;
 	}
 }
