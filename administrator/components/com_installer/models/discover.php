@@ -159,8 +159,8 @@ class InstallerModelDiscover extends InstallerModel
 	public function discover_install()
 	{
 		$app       = JFactory::getApplication();
+		$input     = $app->input;
 		$installer = JInstaller::getInstance();
-		$input = $app->input;
 		
 		// This seems to replace JRequest::getVar (with no filtering) satisfactorily
 		// but not sure why it now requires an array filter
