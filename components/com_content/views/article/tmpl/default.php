@@ -258,10 +258,10 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				</dd>
 			<?php endif; ?>
 			</dl>
-            <?php if($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
-                <?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
-                <?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
-            <?php endif; ?>
+			<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
+				<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+				<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 
