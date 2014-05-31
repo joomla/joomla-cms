@@ -81,8 +81,14 @@ class JCacheStorageRedis extends JCacheStorage
 			$redistest = self::$_redis->connect($server['host'], $server['port']) && self::$_redis->auth($server['auth']);
 		}
 
-		if ($redistest == false){
-			throw new RuntimeException('Could not connect to redis server', 500);
+		if ($redistest == false)
+		{
+			$app = JFactory::getApplication();
+			if ($app->isAdmin())
+			{
+				JError::raiseWarning(500, JText::_('JLIB_CACHE_ERROR_CACHE_STORAGE_REDIS_NO_CONNECTION'));
+			}
+			return;
 		}
 
 		return;
