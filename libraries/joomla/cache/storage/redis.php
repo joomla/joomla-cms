@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Redis cache storage handler
+ * Redis cache storage handler for PECL
  *
  * @package  Joomla.Platform
  * @subpackage  Cache
