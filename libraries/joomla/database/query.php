@@ -383,6 +383,7 @@ abstract class JDatabaseQuery
 				{
 					$query .= (string) $this->union;
 				}
+
 				break;
 
 			case 'delete':
