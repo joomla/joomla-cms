@@ -75,9 +75,12 @@ class JCacheStorageRedis extends JCacheStorage
 		$server['auth'] = $config->get('redis_server_auth', NULL);
 
 		self::$_redis = new Redis();
-		if($this->_persistent){
+		if($this->_persistent)
+		{
 			$redistest = self::$_redis->pconnect($server['host'], $server['port']) && self::$_redis->auth($server['auth']);
-		}else{
+		}
+		else
+		{
 			$redistest = self::$_redis->connect($server['host'], $server['port']) && self::$_redis->auth($server['auth']);
 		}
 
@@ -88,6 +91,7 @@ class JCacheStorageRedis extends JCacheStorage
 			{
 				JError::raiseWarning(500, JText::_('JLIB_CACHE_ERROR_CACHE_STORAGE_REDIS_NO_CONNECTION'));
 			}
+
 			return;
 		}
 
@@ -109,6 +113,7 @@ class JCacheStorageRedis extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$back = self::$_redis->get($cache_id);
+
 		return $back;
 	}
 
@@ -127,17 +132,21 @@ class JCacheStorageRedis extends JCacheStorage
 		$data = array();
 		$secret = $this->_hash;
 
-		if (!empty($allKeys)){
-			foreach ($allKeys as $key){
+		if (!empty($allKeys))
+		{
+			foreach ($allKeys as $key)
+			{
 				$namearr = explode('-', $key);
 
-				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache'){
+				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+				{
 					$group = $namearr[2];
 
 					if (!isset($data[$group])){
 						$item = new JCacheStorageHelper($group);
 					}
-					else{
+					else
+					{
 						$item = $data[$group];
 					}
 					$item->updateSize(strlen($key)*8/1024);
@@ -170,7 +179,8 @@ class JCacheStorageRedis extends JCacheStorage
 
 		$config = JFactory::getConfig();
 		$lifetime = (int) $config->get('cachetime', 15);
-		if ($this->_lifetime == $lifetime){
+		if ($this->_lifetime == $lifetime)
+		{
 			$this->_lifetime = $lifetime * 60;
 		}
 
@@ -229,6 +239,7 @@ class JCacheStorageRedis extends JCacheStorage
 				self::$_redis->delete($key);
 			}
 		}
+
 		return true;
 	}
 
