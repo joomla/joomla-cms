@@ -179,18 +179,23 @@ class JTableCorecontent extends JTable
 	 * @since   3.1
 	 * @throws  UnexpectedValueException
 	 */
-	public function deleteByContentId($contentItemId = null)
+	public function deleteByContentId($contentItemId = null, $typeAlias = null)
 	{
 		if ($contentItemId === null || ((int) $contentItemId) === 0)
 		{
 			throw new UnexpectedValueException('Null content item key not allowed.');
+		}
+		if ($typeAlias === null)
+		{
+			throw new UnexpectedValueException('Null type alias not allowed.');
 		}
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('core_content_id'))
 			->from($db->quoteName('#__ucm_content'))
-			->where($db->quoteName('core_content_item_id') . ' = ' . (int) $contentItemId);
+			->where($db->quoteName('core_content_item_id') . ' = ' . (int) $contentItemId)
+			->where($db->quoteName('core_type_alias') . ' = ' .  $db->quote($typeAlias));
 		$db->setQuery($query);
 
 		if ($ucmId = $db->loadResult())
