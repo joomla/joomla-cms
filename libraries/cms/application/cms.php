@@ -134,8 +134,16 @@ class JApplicationCms extends JApplicationWeb
 		// Map the Observers, unless the config says not to do so.
 		if ($this->config->get('observersmapping') !== false)
 		{
-			$observersDefinitions = new JObserverDefinitions( JFactory::getDbo() );
-			$observersDefinitions->loadObserversMapping();
+			// We want caching ON and same cache for admin and site area, so that we can refresh cache in admin area:
+			$cacheOptions = array(
+				'caching'		=> true,
+				'cachebase'		=> JPATH_ADMINISTRATOR . '/cache'
+			);
+
+			$observersDefinitions = new JObserverDefinitions(JFactory::getDbo(), JCache::getInstance('output', $cacheOptions));
+
+			$forceCacheRefresh = ($this->getClientId() === 1);
+			$observersDefinitions->loadObserversMapping($forceCacheRefresh);
 		}
 	}
 
