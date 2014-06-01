@@ -342,12 +342,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public static function isSupported()
 	{
-		if (class_exists('Redis') != true)
-		{
-			return false;
-		}
-
-		return true;
+		return class_exists('Redis');
 	}
 
 	/**
