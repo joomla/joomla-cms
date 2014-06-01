@@ -73,15 +73,15 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Validate the posted data.
 		$return = $model->validate($form, $data);
 
+		// Save the data in the session.
+		$this->app->setUserState('com_config.config.global.data', $data);
+
 		// Check for validation errors.
 		if ($return === false)
 		{
 			/*
 			 * The validate method enqueued all messages for us, so we just need to redirect back.
 			 */
-
-			// Save the data in the session.
-			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.application', false));
