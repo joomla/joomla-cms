@@ -137,7 +137,7 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '               if(aId) {';
         $script[] = '                    subirArchivo();';
         $script[] = '               } else { ';
-        $script[] = '                   msg = "Por favor guarde el artículo antes de adjuntar archivos"';
+        $script[] = '                   msg = "'.JText::_("COM_CONTENT_ADJUNTOS_MSG_GUARDAR_ARTICULO_PRIMERO").'"';
         $script[] = '                   mostrarMensaje(msg, "warn")';
         $script[] = '               }';
         $script[] = '           }';

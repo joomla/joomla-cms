@@ -29,7 +29,7 @@ class ContentControllerAdjuntos extends JControllerForm
         $id = $jinput->get('id', null, null);
         if($id == 0) {
             $data = array();
-            $data['msg'] = "Por favor guarde el artículo antes de aduntar archivos";
+            $data['msg'] = JText::_("COM_CONTENT_ADJUNTOS_MSG_GUARDAR_ARTICULO_PRIMERO");
             $data['tipo'] = "warn";
             print_r(json_encode($data));
             return;
@@ -52,7 +52,7 @@ class ContentControllerAdjuntos extends JControllerForm
         // Verifica que el tamaño del request no supere el definido en la configuración PHP
         if ($maxFileSize > $serverContent && is_null($archivo['size'])) {
             $data = array();
-            $data['msg'] = "El tamaño del archivo supera el máximo permitido por el request al servidor";
+            $data['msg'] = JText::_("COM_CONTENT_ADJUNTOS_MSG_ARCHIVO_SUPERA_TAMANO_PERMITIDO_SERVIDOR");
             $data['tipo'] = "error";
             print_r(json_encode($data));
             return;
@@ -104,24 +104,24 @@ class ContentControllerAdjuntos extends JControllerForm
 
                 switch ($err) {
                     case 1:
-                        $data["msg"] = "#".$err.": El tamaño del archivo excede el máximo permitido por la configuración";
+                        $data["msg"] = "#".$err.": ".JText::_('COM_CONTENT_ADJUNTOS_MSG_ARCHIVO_SUPERA_TAMANO_PERMITIDO_CONFIG');
                         break;
                     case 2:
-                        $data["msg"] = "#".$err.": El archivo subudo excede el tamaño máximo permitido en el form";
+                        $data["msg"] = "#".$err.": ".JTex::_('COM_CONTENT_ADJUNTOS_MSG_ARCHIVO_SUPERA_TAMANO_PERMITIDO_FORM');
                     case 3:
-                        $data["msg"] = "#".$err.": El archivo ha sido parcialmente subido";
+                        $data["msg"] = "#".$err.": ".JText::_("COM_CONTENT_ADJUNTOS_MSG_ARCHIVO_PARCIALMENTE_SUBIDO");
                         break;
                     case 4:
-                        $data["msg"] = "#".$err.": No se ha subido ningún archivo";
+                        $data["msg"] = "#".$err.": ".JText::_("COM_CONTENT_ADJUNTOS_MSG_ARCHIVO_NO_SUBIDO");
                         break;
                     case 6:
-                        $data["msg"] = "#".$err.": Falta el directorio temporal ";
+                        $data["msg"] = "#".$err.": ".JText::_("COM_CONTENT_ADJUNTOS_MSG_NO_TEMPORAL_DIR");
                         break;
                     case 7:
-                        $data["msg"] = "#".$err.": Falló al escribir en el disco";
+                        $data["msg"] = "#".$err.": ".JText::_('COM_CONTENT_ADJUNTOS_MSG_FALLO_ESCRIBIR_EN_DISCO');
                         break;
                     case 8:
-                        $data["msg"] = "#".$err.": La extensión de PHP paró la subida del archivo, no se puede comprobar";
+                        $data["msg"] = "#".$err.": ".JText::('COM_CONTENT_ADJUNTOS_MSG_NO_EXTENSION_PHP');
                         break;
                 }
 
@@ -174,11 +174,11 @@ class ContentControllerAdjuntos extends JControllerForm
         $arr = array();
 
         if ($estado === false) {
-            $arr['msg'] = "El tipo ".$mimeArchivo." no es permitido para la subida de archivos, contacte al administrador";
+            $arr['msg'] = JText::_('COM_CONTENT_ADJUNTOS_MSG_MIMETYPE_NO_PERMITIDO', $mimeArchivo);
             $arr['tipo'] = "warn"; 
             $arr['estado'] = false;
         } else {
-            $arr['msg'] = "El tipo ".$mimeArchivo." es permitido para la subida de archivos";
+            $arr['msg'] = JText::_('COM_CONTENT_ADJUNTOS_MSG_MIMETYPE_PERMITIDO', $mimeArchivo);
             $arr['tipo'] = "success"; 
             $arr['estado'] = true;
         }
@@ -235,11 +235,11 @@ class ContentControllerAdjuntos extends JControllerForm
             $db->setQuery($query);
             $db->query();
 
-            $arr['msg'] = "Archivo guardado satisfactoriamente!";
+            $arr['msg'] = JText::_('COM_CONTENT_ADJUNTOS_MSG_ARCHIVO_GUARDADO');
             $arr['tipo'] = "success";
         }
         catch (RuntimeException $e) {
-            $arr['msg'] = "Se ha presentado el error: " . $e->getMessage();
+            $arr['msg'] = JText::_('COM_CONTENT_ADJUNTOS_MSG_ERROR_AL_GUARDAR',$e->getMessage());
             $arr['tipo'] = "error";
         }
         
