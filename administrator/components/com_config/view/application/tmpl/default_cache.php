@@ -20,4 +20,10 @@ if (isset($this->data['cache_handler'])
 {
 	$this->fieldsname .= ',memcache';
 }
+if (isset($this->data['cache_handler'])
+	|| $this->data['cache_handler'] == 'redis'
+)
+{
+	$this->fieldsname .= ',redis';
+}
 echo JLayoutHelper::render('joomla.content.options_default', $this);
