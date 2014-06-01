@@ -388,7 +388,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// Clean up on paste
-		$cleanUp = $this->params->get('paste_clean_up', 0);
+		$cleanUp = $this->params->get('paste_clean_up', 1);
 		
 		if ($cleanUp)
 		{
@@ -397,12 +397,10 @@ class PlgEditorTinymce extends JPlugin
 				$plugins[] = 'paste';
 			}
 			
-			$cleanUpPlugin = 'paste';
 			$cleanUpParam = 'paste_auto_cleanup_on_paste: true,';
 		}
 		else
 		{
-			$cleanUpPlugin = '';
 			$cleanUpParam = '';
 		}
 		
@@ -646,10 +644,9 @@ class PlgEditorTinymce extends JPlugin
 					extended_valid_elements : \"$elements\",
 					$forcenewline
 					$smallButtons
-					$cleanUpParam
 					invalid_elements : \"$invalid_elements\",
 					// Plugins
-					plugins : \"table link image code charmap autolink lists importcss $cleanUpPlugin\",
+					plugins : \"table link image code charmap autolink lists importcss\",
 					// Toolbar
 					toolbar1: \"$toolbar1\",
 					toolbar2: \"$toolbar2\",
