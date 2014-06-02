@@ -257,40 +257,16 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 <jdoc:include type="modules" name="debug" style="none" />
 <?php if ($stickyToolbar) : ?>
 	<script>
-		(function($)
-		{
-			// fix sub nav on scroll
-			var $win = $(window)
-				, $nav = $('.subhead')
-				, navTop = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>40<?php else:?>20<?php endif;?>
-				, isFixed = 0
-
-			processScroll()
-
-			// hack sad times - holdover until rewrite for 2.1
-			$nav.on('click', function()
-			{
-				if (!isFixed) {
-					setTimeout(function()
-					{
-						$win.scrollTop($win.scrollTop() - 47)
-					}, 10)
+		(function($){
+			$(window).scroll(function(){
+				if ($(this).scrollTop() > 47) {
+					$('.subhead').addClass('subhead-fixed');
+					$('.container-main').css( "margin-top", "53px" );
+				} else {
+					$('.subhead').removeClass('subhead-fixed');
+					$('.container-main').css( "margin-top", "0" );
 				}
-			})
-
-			$win.on('scroll', processScroll)
-
-			function processScroll()
-			{
-				var i, scrollTop = $win.scrollTop()
-				if (scrollTop >= navTop && !isFixed) {
-					isFixed = 1
-					$nav.addClass('subhead-fixed')
-				} else if (scrollTop <= navTop && isFixed) {
-					isFixed = 0
-					$nav.removeClass('subhead-fixed')
-				}
-			}
+			});
 		})(jQuery);
 	</script>
 <?php endif; ?>
