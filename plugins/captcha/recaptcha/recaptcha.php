@@ -77,7 +77,8 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @param   string  $name   The name of the field.
 	 * @param   string  $id     The id of the field.
-	 * @param   string  $class  The class of the field.
+	 * @param   string  $class  The class of the field. This should be passed as
+	 *                          e.g. 'class="required"'.
 	 *
 	 * @return  string  The HTML to be embedded in the form.
 	 *
