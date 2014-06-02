@@ -144,7 +144,7 @@ class ContentModelArticles extends JModelList
 		$id .= ':' . serialize($this->getState('filter.published'));
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.featured');
-		$id .= ':' . $this->getState('filter.article_id');
+		$id .= ':' . serialize($this->getState('filter.article_id'));
 		$id .= ':' . $this->getState('filter.article_id.include');
 		$id .= ':' . serialize($this->getState('filter.category_id'));
 		$id .= ':' . $this->getState('filter.category_id.include');
@@ -190,7 +190,7 @@ class ContentModelArticles extends JModelList
 					// Use created if publish_up is 0
 					'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 					'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-					'a.hits, a.xreference, a.featured,' . ' ' . $query->length('a.fulltext') . ' AS readmore'
+					'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore'
 			)
 		);
 
@@ -441,12 +441,14 @@ class ContentModelArticles extends JModelList
 			$query->where($authorWhere . $authorAliasWhere);
 		}
 
-		// Filter by start and end dates.
-		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
-			$nullDate	= $db->quote($db->getNullDate());
-			$nowDate	= $db->quote(JFactory::getDate()->toSql());
+		// Define null and now dates
+		$nullDate	= $db->quote($db->getNullDate());
+		$nowDate	= $db->quote(JFactory::getDate()->toSql());
 
-			$query->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')')
+		// Filter by start and end dates.
+		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+		{
+			$query	->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')')
 				->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
 		}
 

@@ -43,13 +43,17 @@ class MediaControllerFile extends JControllerLegacy
 
 		// Get some data from the request
 		$files        = $this->input->files->get('Filedata', '', 'array');
-		$return       = $this->input->post->get('return-url', null, 'base64');
+		$return       = JFactory::getSession()->get('com_media.return_url');
 		$this->folder = $this->input->get('folder', '', 'path');
 
 		// Set the redirect
 		if ($return)
 		{
-			$this->setRedirect(base64_decode($return) . '&folder=' . $this->folder);
+			$this->setRedirect($return . '&folder=' . $this->folder);
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_media&folder=' . $this->folder);
 		}
 
 		// Authorize the user
@@ -58,19 +62,26 @@ class MediaControllerFile extends JControllerLegacy
 			return false;
 		}
 
-		if (($params->get('upload_maxsize', 0) * 1024 * 1024) != 0)
+		// Total length of post back data in bytes.
+		$contentLength = (int) $_SERVER['CONTENT_LENGTH'];
+
+		// Maximum allowed size of post back data in MB.
+		$postMaxSize = (int) ini_get('post_max_size');
+
+		// Maximum allowed size of script execution in MB.
+		$memoryLimit = (int) ini_get('memory_limit');
+
+		// Check for the total size of post back data.
+		if (($postMaxSize > 0 && $contentLength > $postMaxSize * 1024 * 1024)
+			|| ($memoryLimit != -1 && $contentLength > $memoryLimit * 1024 * 1024))
 		{
-			if (
-				$_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024)
-				|| $_SERVER['CONTENT_LENGTH'] > (int) (ini_get('upload_max_filesize')) * 1024 * 1024
-				|| $_SERVER['CONTENT_LENGTH'] > (int) (ini_get('post_max_size')) * 1024 * 1024
-				|| (($_SERVER['CONTENT_LENGTH'] > (int) (ini_get('memory_limit')) * 1024 * 1024) && ((int) (ini_get('memory_limit')) != -1))
-			)
-			{
-				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
-				return false;
-			}
+			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNUPLOADTOOLARGE'));
+
+			return false;
 		}
+
+		$uploadMaxSize = $params->get('upload_maxsize', 0) * 1024 * 1024;
+		$uploadMaxFileSize = (int) ini_get('upload_max_filesize') * 1024 * 1024;
 
 		// Perform basic checks on file info before attempting anything
 		foreach ($files as &$file)
@@ -78,15 +89,12 @@ class MediaControllerFile extends JControllerLegacy
 			$file['name']     = JFile::makeSafe($file['name']);
 			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $file['name'])));
 
-			if ($file['error'] == 1)
+			if (($file['error'] == 1)
+				|| ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize))
 			{
+				// File size exceed either 'upload_max_filesize' or 'upload_maxsize'.
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
-				return false;
-			}
 
-			if (($params->get('upload_maxsize', 0) * 1024 * 1024) != 0 && $file['size'] > ($params->get('upload_maxsize', 0) * 1024 * 1024))
-			{
-				JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 				return false;
 			}
 
@@ -94,6 +102,7 @@ class MediaControllerFile extends JControllerLegacy
 			{
 				// A file with this name already exists
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_FILE_EXISTS'));
+
 				return false;
 			}
 
@@ -101,6 +110,7 @@ class MediaControllerFile extends JControllerLegacy
 			{
 				// No filename (after the name was cleaned by JFile::makeSafe)
 				$this->setRedirect('index.php', JText::_('COM_MEDIA_INVALID_REQUEST'), 'error');
+
 				return false;
 			}
 		}
@@ -130,6 +140,7 @@ class MediaControllerFile extends JControllerLegacy
 			{
 				// There are some errors in the plugins
 				JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
+
 				return false;
 			}
 
@@ -137,6 +148,7 @@ class MediaControllerFile extends JControllerLegacy
 			{
 				// Error in upload
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'));
+
 				return false;
 			}
 			else
@@ -153,7 +165,7 @@ class MediaControllerFile extends JControllerLegacy
 	/**
 	 * Check that the user is authorized to perform this action
 	 *
-	 * @param   string   $action - the action to be peformed (create or delete)
+	 * @param   string  $action  - the action to be peformed (create or delete)
 	 *
 	 * @return  boolean
 	 *
@@ -165,6 +177,7 @@ class MediaControllerFile extends JControllerLegacy
 		{
 			// User is not authorised
 			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_' . strtoupper($action) . '_NOT_PERMITTED'));
+
 			return false;
 		}
 
@@ -221,7 +234,7 @@ class MediaControllerFile extends JControllerLegacy
 		{
 			if ($path !== JFile::makeSafe($path))
 			{
-				// filename is not safe
+				// Filename is not safe
 				$filename = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
 				JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', substr($filename, strlen(COM_MEDIA_BASE))));
 				continue;
@@ -234,6 +247,7 @@ class MediaControllerFile extends JControllerLegacy
 			{
 				// Trigger the onContentBeforeDelete event.
 				$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.file', &$object_file));
+
 				if (in_array(false, $result, true))
 				{
 					// There are some errors in the plugins

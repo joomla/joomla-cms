@@ -26,9 +26,16 @@ class ContentViewForm extends JViewLegacy
 
 	protected $state;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
 	public function display($tpl = null)
 	{
-		$user		= JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Get model data.
 		$this->state		= $this->get('State');
@@ -52,10 +59,12 @@ class ContentViewForm extends JViewLegacy
 		}
 
 		$this->item->tags = new JHelperTags;
+
 		if (!empty($this->item->id))
 		{
 			$this->item->tags->getItemTags('com_content.article.', $this->item->id);
 		}
+
 		if (!empty($this->item) && isset($this->item->id))
 		{
 			$this->item->images = json_decode($this->item->images);
@@ -81,6 +90,9 @@ class ContentViewForm extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->params = $params;
+
+		// Override global params with article specific params
+		$this->params->merge($this->item->params);
 		$this->user   = $user;
 
 		if ($params->get('enable_category') == 1)
@@ -88,6 +100,7 @@ class ContentViewForm extends JViewLegacy
 			$this->form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
 			$this->form->setFieldAttribute('catid', 'readonly', 'true');
 		}
+
 		$this->_prepareDocument();
 		parent::display($tpl);
 	}
@@ -104,6 +117,7 @@ class ContentViewForm extends JViewLegacy
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
+
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
@@ -114,6 +128,7 @@ class ContentViewForm extends JViewLegacy
 		}
 
 		$title = $this->params->def('page_title', JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
+
 		if ($app->getCfg('sitename_pagetitles', 0) == 1)
 		{
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);

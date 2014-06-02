@@ -82,11 +82,15 @@ class PlgSystemRedirect extends JPlugin
 			{
 				$referer = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
 
-				$db->setQuery('SELECT id FROM ' . $db->quoteName('#__redirect_links') . '  WHERE old_url= ' . $db->quote($current));
+				$query = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from($db->quoteName('#__redirect_links'))
+					->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
+				$db->setQuery($query);
 				$res = $db->loadResult();
+
 				if (!$res)
 				{
-
 					// If not, add the new url to the database.
 					$columns = array(
 						$db->quoteName('old_url'),
@@ -114,7 +118,7 @@ class PlgSystemRedirect extends JPlugin
 					// Existing error url, increase hit counter.
 					$query->clear()
 						->update($db->quoteName('#__redirect_links'))
-						->set($db->quoteName('hits') . ' = ' . $db->quote('hits') . ' + 1')
+						->set($db->quoteName('hits') . ' = ' . $db->quoteName('hits') . ' + 1')
 						->where('id = ' . (int) $res);
 					$db->setQuery($query);
 					$db->execute();

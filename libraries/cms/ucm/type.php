@@ -137,8 +137,8 @@ class JUcmType implements JUcm
 		$query	= $this->db->getQuery(true);
 		$query->select('ct.*');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
+		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . $this->db->quote($typeAlias));
 
-		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . (int) $typeAlias);
 		$this->db->setQuery($query);
 
 		$type = $this->db->loadObject();

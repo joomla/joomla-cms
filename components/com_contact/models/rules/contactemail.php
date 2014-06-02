@@ -46,7 +46,7 @@ class JFormRuleContactEmail extends JFormRuleEmail
 		{
 			foreach(explode(';', $banned) as $item)
 			{
-				if (JString::stristr($value, $item) !== false)
+				if ($item != '' && JString::stristr($value, $item) !== false)
 				{
 					return false;
 				}

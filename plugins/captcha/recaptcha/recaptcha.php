@@ -40,10 +40,12 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @since  2.5
 	 */
-	public function onInit($id)
+	public function onInit($id = 'dynamic_recaptcha_1')
 	{
 		$document = JFactory::getDocument();
 		$app      = JFactory::getApplication();
+
+		JHtml::_('jquery.framework');
 
 		$lang   = $this->_getLanguage();
 		$pubkey = $this->params->get('public_key', '');
@@ -62,9 +64,9 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 
 		JHtml::_('script', $server . '/js/recaptcha_ajax.js');
-		$document->addScriptDeclaration('window.addEvent(\'domready\', function()
+		$document->addScriptDeclaration('jQuery( document ).ready(function()
 		{
-			Recaptcha.create("' . $pubkey . '", "dynamic_recaptcha_1", {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
+			Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
 		);
 
 		return true;
@@ -81,9 +83,9 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @since  2.5
 	 */
-	public function onDisplay($name, $id, $class)
+	public function onDisplay($name, $class, $id = 'dynamic_recaptcha_1')
 	{
-		return '<div id="dynamic_recaptcha_1"></div>';
+		return '<div id="' . $id . '"></div>';
 	}
 
 	/**

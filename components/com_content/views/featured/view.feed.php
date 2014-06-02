@@ -18,6 +18,13 @@ defined('_JEXEC') or die;
  */
 class ContentViewFeatured extends JViewLegacy
 {
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
 	public function display($tpl = null)
 	{
 		// Parameters
@@ -47,7 +54,10 @@ class ContentViewFeatured extends JViewLegacy
 
 			// Get row fulltext
 			$db = JFactory::getDbo();
-			$query = 'SELECT' .$db->quoteName('fulltext'). 'FROM #__content WHERE id ='.$row->id;
+			$query = $db->getQuery(true)
+				->select($db->quoteName('fulltext'))
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('id') . ' = ' . $row->id);
 			$db->setQuery($query);
 			$row->fulltext = $db->loadResult();
 

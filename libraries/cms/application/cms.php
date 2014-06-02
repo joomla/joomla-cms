@@ -226,17 +226,7 @@ class JApplicationCms extends JApplicationWeb
 	public function enqueueMessage($msg, $type = 'message')
 	{
 		// For empty queue, if messages exists in the session, enqueue them first.
-		if (!count($this->_messageQueue))
-		{
-			$session = JFactory::getSession();
-			$sessionQueue = $session->get('application.queue');
-
-			if (count($sessionQueue))
-			{
-				$this->_messageQueue = $sessionQueue;
-				$session->set('application.queue', null);
-			}
-		}
+		$this->getMessageQueue();
 
 		// Enqueue the message.
 		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
@@ -800,13 +790,6 @@ class JApplicationCms extends JApplicationWeb
 				$options['user'] = $user;
 				$options['responseType'] = $response->type;
 
-				if (isset($response->length) && isset($response->secure) && isset($response->lifetime))
-				{
-					$options['length'] = $response->length;
-					$options['secure'] = $response->secure;
-					$options['lifetime'] = $response->lifetime;
-				}
-
 				// The user is successfully logged in. Run the after login events
 				$this->triggerEvent('onUserAfterLogin', array($options));
 			}
@@ -1025,7 +1008,7 @@ class JApplicationCms extends JApplicationWeb
 		// Get the full request URI.
 		$uri = clone JUri::getInstance();
 
-		$router = $this->getRouter();
+		$router = static::getRouter();
 		$result = $router->parse($uri);
 
 		foreach ($result as $key => $value)
