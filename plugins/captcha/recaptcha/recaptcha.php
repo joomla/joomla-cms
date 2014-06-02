@@ -83,7 +83,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @since  2.5
 	 */
-	public function onDisplay($name, $id = 'dynamic_recaptcha_1', $class)
+	public function onDisplay($name, $class, $id = 'dynamic_recaptcha_1')
 	{
 		return '<div id="' . $id . '"></div>';
 	}
