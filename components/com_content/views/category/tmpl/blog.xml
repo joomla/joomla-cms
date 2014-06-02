@@ -148,6 +148,15 @@
 				size="3"
 			/>
 
+			<field name="fulltext_leading_articles" type="list"
+				description="JGLOBAL_FULLTEXT_LEADING_ARTICLES_DESC"
+				label="JGLOBAL_FULLTEXT_LEADING_ARTICLES_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="num_intro_articles" type="text"
 				description="JGLOBAL_NUM_INTRO_ARTICLES_DESC"
 				label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"

@@ -41,13 +41,18 @@ $canEdit = $this->item->params->get('access-edit');
 <?php if (!$params->get('show_intro')) : ?>
 	<?php echo $this->item->event->afterDisplayTitle; ?>
 <?php endif; ?>
-<?php echo $this->item->event->beforeDisplayContent; ?> <?php echo $this->item->introtext; ?>
+<?php echo $this->item->event->beforeDisplayContent; ?>
+<?php if ($this->lead_fulltext && $this->item->leading && $this->item->readmore) { ?>
+	<?php echo ($params->get('show_intro') ? $this->item->introtext . ' ' : '') . $this->item->fulltext; ?>
+<?php } else { ?>
+	 <?php echo $this->item->introtext; ?>
+<?php } ?>
 
 <?php if ($useDefList) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
 <?php  endif; ?>
 
-<?php if ($params->get('show_readmore') && $this->item->readmore) :
+<?php if ($params->get('show_readmore') && $this->item->readmore && !($this->lead_fulltext && $this->item->leading) ) :
 	if ($params->get('access-view')) :
 		$link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
 	else :

@@ -77,6 +77,7 @@ class ContentViewCategory extends JViewCategory
 		$numLeading	= $params->def('num_leading_articles', 1);
 		$numIntro	= $params->def('num_intro_articles', 4);
 		$numLinks	= $params->def('num_links', 4);
+		$this->lead_fulltext = $params->def('fulltext_leading_articles', 0);
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($this->items as $item)
@@ -148,6 +149,7 @@ class ContentViewCategory extends JViewCategory
 			{
 				if ($i < $numLeading)
 				{
+					$item->leading = true;
 					$this->lead_items[] = $item;
 				}
 
