@@ -697,6 +697,10 @@ class JCache
 		{
 			$registeredurlparams = $app->registeredurlparams;
 		}
+		else
+		{
+			$registeredurlparams = new stdClass;
+		}
 
 		// Platform defaults
 		$defaulturlparams = array(
@@ -711,7 +715,8 @@ class JCache
 		// Use platform defaults if parameter doesn't already exist.
 		foreach($defaulturlparams as $param => $type)
 		{
-			if (!property_exists($registeredurlparams, $param)) {
+			if (!property_exists($registeredurlparams, $param))
+			{
 				$registeredurlparams->$param = $type;
 			}
 		}
