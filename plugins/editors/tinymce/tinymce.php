@@ -188,7 +188,12 @@ class PlgEditorTinymce extends JPlugin
 
 		// Advanced Options
 		$html_height		= $this->params->get('html_height', '550');
-		$html_width			= $this->params->get('html_width', '750');
+		$html_width			= $this->params->get('html_width', '');
+
+		if ($html_width == 750)
+		{
+			$html_width = '';
+		}
 
 		// Image advanced options
 		$image_advtab = $this->params->get('image_advtab', 1);
