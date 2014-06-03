@@ -32,36 +32,36 @@ abstract class JHtmlEmail
 	 *
 	 * @since   1.5
 	 */
-	public static function cloak($mail, $mailto = true, $text = '', $email = true)
+	 public static function cloak($mail, $mailto = true, $text = '', $email = true)
 	{
 		// Convert text
 		$mail = static::convertEncoding($mail);
-
+	
 		// Split email by @ symbol
 		$mail = explode('@', $mail);
 		$mail_parts = explode('.', $mail[1]);
-
+	
 		// Random number
 		$rand = rand(1, 100000);
-
-		$replacement = "<script type='text/javascript'>";
+	
+		$replacement = '<div id="cloak'.$rand.'">'.JText::_('JLIB_HTML_CLOAKING').'</div>'."<script type='text/javascript'>";
 		$replacement .= "\n <!--";
+		$replacement .= "\n jQuery('#cloak$rand').html('');";
 		$replacement .= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
 		$replacement .= "\n var path = 'hr' + 'ef' + '=';";
 		$replacement .= "\n var addy" . $rand . " = '" . @$mail[0] . "' + '&#64;';";
 		$replacement .= "\n addy" . $rand . " = addy" . $rand . " + '" . implode("' + '&#46;' + '", $mail_parts) . "';";
-
+	
 		if ($mailto)
 		{
 			// Special handling when mail text is different from mail address
 			if ($text)
 			{
-				// Convert text - here is the right place
-				$text = static::convertEncoding($text);
-
 				if ($email)
 				{
-
+					// Convert text
+					$text = static::convertEncoding($text);
+	
 					// Split email by @ symbol
 					$text = explode('@', $text);
 					$text_parts = explode('.', $text[1]);
@@ -72,39 +72,26 @@ abstract class JHtmlEmail
 				{
 					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
 				}
-
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'";
-				$replacement .= "+ addy_text" . $rand;
-				$replacement .= "+ '<\/a>');";
+	
+				$replacement .= "\n jQuery('#cloak$rand').append('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>');";
 			}
 			else
 			{
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'";
-				$replacement .= "+ addy" . $rand;
-				$replacement .= "+ '<\/a>');";
+				$replacement .= "\n jQuery('#cloak$rand').append('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
+				$replacement .= "\n jQuery('#cloak$rand').append(addy" . $rand . ");";
+				$replacement .= "\n jQuery('#cloak$rand').append('<\/a>');";
 			}
 		}
 		else
 		{
-			$replacement .= "\n document.write(addy" . $rand . ");";
+			$replacement .= "\n jQuery('#cloak$rand').append(addy" . $rand . ");";
 		}
-
+	
 		$replacement .= "\n //-->";
 		$replacement .= '\n </script>';
-
-		// XHTML compliance no Javascript text handling
-		$replacement .= "<script type='text/javascript'>";
-		$replacement .= "\n <!--";
-		$replacement .= "\n document.write('<span style=\'display: none;\'>'+ '";
-		$replacement .= JText::_('JLIB_HTML_CLOAKING');
-		$replacement .= "'+ '</'";
-		$replacement .= "+ 'span>');";
-		$replacement .= "\n //-->";
-		$replacement .= "\n </script>";
-
+	
 		return $replacement;
 	}
-
 	/**
 	 * Convert encoded text
 	 *
