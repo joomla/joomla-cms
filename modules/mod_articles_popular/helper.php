@@ -47,6 +47,7 @@ abstract class ModArticlesPopularHelper
 
 		// Date filter
 		$date_filtering = $params->get('date_filtering', 'off');
+
 		if ($date_filtering !== 'off')
 		{
 			$model->setState('filter.date_filtering', $date_filtering);
