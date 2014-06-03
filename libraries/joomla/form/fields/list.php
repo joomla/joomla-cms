@@ -44,13 +44,13 @@ class JFormFieldList extends JFormField
 		$options = (array) $this->getOptions();
 
 		// Default to the class "advancedSelect" to support Chosen.
-		if (!$this->class)
+		if (empty($this->class))
 		{
 			$this->class = 'advancedSelect';
 		}
 
 		// In case of a huge amount of options we disable Chosen by removing the "advancedSelect" class.
-		if ($this->class && (count($options) > 10000))
+		if (count($options) > 10000)
 		{
 			$classes = explode(' ', $this->class);
 			$key     = array_search('advancedSelect', $classes);
