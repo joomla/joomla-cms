@@ -90,6 +90,12 @@ class WrapperViewWrapper extends JViewLegacy
 			$wrapper->url = $url;
 		}
 
+		// Check for layout override
+		$active = JFactory::getApplication()->getMenu()->getActive();
+		if (isset($active->query['layout'])) {
+			$this->setLayout($active->query['layout']);
+		}		
+
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
