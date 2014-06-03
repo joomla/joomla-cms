@@ -699,12 +699,22 @@ class JCache
 		}
 
 		// Platform defaults
-		$registeredurlparams->format = 'WORD';
-		$registeredurlparams->option = 'WORD';
-		$registeredurlparams->view = 'WORD';
-		$registeredurlparams->layout = 'WORD';
-		$registeredurlparams->tpl = 'CMD';
-		$registeredurlparams->id = 'INT';
+		$defaulturlparams = array(
+			'format' 	=> 'WORD',
+			'option' 	=> 'WORD',
+			'view' 		=> 'WORD',
+			'layout' 	=> 'WORD',
+			'tpl' 		=> 'CMD',
+			'id' 		=> 'INT'
+		);
+		
+		// Use platform defaults if parameter doesn't already exist.
+		foreach($defaulturlparams as $param => $type)
+		{
+			if (!property_exists($registeredurlparams, $param)) {
+				$registeredurlparams->$param = $type;
+			}
+		}
 
 		$safeuriaddon = new stdClass;
 
