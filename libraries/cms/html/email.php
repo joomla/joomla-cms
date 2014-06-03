@@ -32,15 +32,15 @@ abstract class JHtmlEmail
 	 *
 	 * @since   1.5
 	 */
-	 public static function cloak($mail, $mailto = true, $text = '', $email = true)
+	public static function cloak($mail, $mailto = true, $text = '', $email = true)
 	{
 		// Convert text
 		$mail = static::convertEncoding($mail);
-	
+
 		// Split email by @ symbol
 		$mail = explode('@', $mail);
 		$mail_parts = explode('.', $mail[1]);
-	
+
 		// Random number
 		$rand = rand(1, 100000);
 	
@@ -51,17 +51,17 @@ abstract class JHtmlEmail
 		$replacement .= "\n var path = 'hr' + 'ef' + '=';";
 		$replacement .= "\n var addy" . $rand . " = '" . @$mail[0] . "' + '&#64;';";
 		$replacement .= "\n addy" . $rand . " = addy" . $rand . " + '" . implode("' + '&#46;' + '", $mail_parts) . "';";
-	
+
 		if ($mailto)
 		{
 			// Special handling when mail text is different from mail address
 			if ($text)
 			{
+				// Convert text - here is the right place
+				$text = static::convertEncoding($text);
+				
 				if ($email)
 				{
-					// Convert text
-					$text = static::convertEncoding($text);
-	
 					// Split email by @ symbol
 					$text = explode('@', $text);
 					$text_parts = explode('.', $text[1]);
@@ -86,10 +86,10 @@ abstract class JHtmlEmail
 		{
 			$replacement .= "\n jQuery('#cloak$rand').append(addy" . $rand . ");";
 		}
-	
+
 		$replacement .= "\n //-->";
 		$replacement .= '\n </script>';
-	
+
 		return $replacement;
 	}
 	/**
