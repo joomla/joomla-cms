@@ -41,6 +41,9 @@ $doc->addScript('templates/' .$this->template. '/js/template.js');
 // Add Stylesheets
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 
+// Add icomoon
+$doc->addStyleSheet('media/jui/css/icomoon.css');	
+
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
