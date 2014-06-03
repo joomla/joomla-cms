@@ -43,8 +43,8 @@ abstract class JHtmlEmail
 
 		// Random number
 		$rand = rand(1, 100000);
-	
-		$replacement = '<div id="cloak'.$rand.'">'.JText::_('JLIB_HTML_CLOAKING').'</div>'."<script type='text/javascript'>";
+
+		$replacement = '<div id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</div>' . "<script type='text/javascript'>";
 		$replacement .= "\n <!--";
 		$replacement .= "\n jQuery('#cloak$rand').html('');";
 		$replacement .= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
@@ -72,7 +72,7 @@ abstract class JHtmlEmail
 				{
 					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
 				}
-	
+
 				$replacement .= "\n jQuery('#cloak$rand').append('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>');";
 			}
 			else
@@ -92,7 +92,7 @@ abstract class JHtmlEmail
 
 		return $replacement;
 	}
-	
+
 	/**
 	 * Convert encoded text
 	 *
