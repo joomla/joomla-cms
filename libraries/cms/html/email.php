@@ -39,7 +39,7 @@ abstract class JHtmlEmail
 		$mail = static::convertEncoding($mail);
 
 		// Set class to mailto link
-		if ( !empty($class) )
+		if (!empty($class))
 		{
 			$class = 'class="' . $class . '"';
 		}
