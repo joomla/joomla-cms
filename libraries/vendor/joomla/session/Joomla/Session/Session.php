@@ -8,7 +8,7 @@
 
 namespace Joomla\Session;
 
-use Joomla\Event\Dispatcher;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Input\Input;
 
 /**
@@ -115,7 +115,7 @@ class Session implements \IteratorAggregate
 	/**
 	 * Holds the Dispatcher object
 	 *
-	 * @var    Dispatcher
+	 * @var    DispatcherInterface
 	 * @since  1.0
 	 */
 	private $dispatcher = null;
@@ -402,7 +402,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @since   1.0
 	 */
-	public function initialise(Input $input, Dispatcher $dispatcher = null)
+	public function initialise(Input $input, DispatcherInterface $dispatcher = null)
 	{
 		$this->input      = $input;
 		$this->dispatcher = $dispatcher;
@@ -557,9 +557,9 @@ class Session implements \IteratorAggregate
 		// Perform security checks
 		$this->_validate();
 
-		if ($this->dispatcher instanceof Dispatcher)
+		if ($this->dispatcher instanceof DispatcherInterface)
 		{
-			$this->dispatcher->trigger('onAfterSessionStart');
+			$this->dispatcher->triggerEvent('onAfterSessionStart');
 		}
 	}
 

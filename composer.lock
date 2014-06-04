@@ -336,17 +336,17 @@
         },
         {
             "name": "joomla/session",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "target-dir": "Joomla/Session",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "6787dde4da83f3f638f834740c2c4dfa3dcdb1c4"
+                "reference": "36e0b66cd0f1fcb5b3db40d5e9d55fbb49fb165f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/6787dde4da83f3f638f834740c2c4dfa3dcdb1c4",
-                "reference": "6787dde4da83f3f638f834740c2c4dfa3dcdb1c4",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/36e0b66cd0f1fcb5b3db40d5e9d55fbb49fb165f",
+                "reference": "36e0b66cd0f1fcb5b3db40d5e9d55fbb49fb165f",
                 "shasum": ""
             },
             "require": {
@@ -377,7 +377,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2014-05-20 00:20:17"
+            "time": "2014-05-31 14:11:45"
         },
         {
             "name": "joomla/string",
@@ -587,17 +587,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.4.4",
+            "version": "v2.5.0",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "65539ecde838f9c0d18b006b2101e3deb4b5c9ff"
+                "reference": "b4b09c68ec2f2727574544ef0173684281a5033c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/65539ecde838f9c0d18b006b2101e3deb4b5c9ff",
-                "reference": "65539ecde838f9c0d18b006b2101e3deb4b5c9ff",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/b4b09c68ec2f2727574544ef0173684281a5033c",
+                "reference": "b4b09c68ec2f2727574544ef0173684281a5033c",
                 "shasum": ""
             },
             "require": {
@@ -606,7 +606,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.5-dev"
                 }
             },
             "autoload": {
@@ -632,7 +632,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-04-18 20:37:09"
+            "time": "2014-05-16 14:25:18"
         }
     ],
     "packages-dev": [

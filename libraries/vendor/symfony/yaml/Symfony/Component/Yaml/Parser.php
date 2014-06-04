@@ -55,7 +55,7 @@ class Parser
         $this->currentLine = '';
         $this->lines = explode("\n", $this->cleanup($value));
 
-        if (function_exists('mb_detect_encoding') && false === mb_detect_encoding($value, 'UTF-8', true)) {
+        if (!preg_match('//u', $value)) {
             throw new ParseException('The YAML value does not appear to be valid UTF-8.');
         }
 
@@ -178,18 +178,35 @@ class Parser
                 } elseif (!isset($values['value']) || '' == trim($values['value'], ' ') || 0 === strpos(ltrim($values['value'], ' '), '#')) {
                     // if next line is less indented or equal, then it means that the current value is null
                     if (!$this->isNextLineIndented() && !$this->isNextLineUnIndentedCollection()) {
-                        $data[$key] = null;
+                        // Spec: Keys MUST be unique; first one wins.
+                        // Parser cannot abort this mapping earlier, since lines
+                        // are processed sequentially.
+                        if (!isset($data[$key])) {
+                            $data[$key] = null;
+                        }
                     } else {
                         $c = $this->getRealCurrentLineNb() + 1;
                         $parser = new Parser($c);
                         $parser->refs =& $this->refs;
-                        $data[$key] = $parser->parse($this->getNextEmbedBlock(), $exceptionOnInvalidType, $objectSupport);
+                        $value = $parser->parse($this->getNextEmbedBlock(), $exceptionOnInvalidType, $objectSupport);
+                        // Spec: Keys MUST be unique; first one wins.
+                        // Parser cannot abort this mapping earlier, since lines
+                        // are processed sequentially.
+                        if (!isset($data[$key])) {
+                            $data[$key] = $value;
+                        }
                     }
                 } else {
                     if ($isInPlace) {
                         $data = $this->refs[$isInPlace];
                     } else {
-                        $data[$key] = $this->parseValue($values['value'], $exceptionOnInvalidType, $objectSupport);
+                        $value = $this->parseValue($values['value'], $exceptionOnInvalidType, $objectSupport);;
+                        // Spec: Keys MUST be unique; first one wins.
+                        // Parser cannot abort this mapping earlier, since lines
+                        // are processed sequentially.
+                        if (!isset($data[$key])) {
+                            $data[$key] = $value;
+                        }
                     }
                 }
             } else {
