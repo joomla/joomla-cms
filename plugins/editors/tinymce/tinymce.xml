@@ -157,7 +157,7 @@
 				/>
 
 				<field name="html_width" type="text"
-					default="750"
+					default=""
 					description="PLG_TINY_FIELD_HTMLWIDTH_DESC"
 					label="PLG_TINY_FIELD_HTMLWIDTH_LABEL"
 				/>

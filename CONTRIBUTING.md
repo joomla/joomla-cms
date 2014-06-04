@@ -11,3 +11,15 @@ All contributions are welcome to be submitted for review for inclusion in the Jo
 3) After submitting the item to the Joomlacode tracker, add a link to the Joomlacode tracker item and the GitHub issue or pull request.
 
 Please be patient as not all items will be tested immediately (remember, all bug testing for the Joomla! CMS is done by volunteers) and be receptive to feedback about your code.
+
+#### Branches
+Pull Requests should usually be made for the `staging` branch as this contains the most recent version of the code.
+There are other branches available which serve specific purposes.
+
+| Branch | Purpose |
+| ------ | ------- |
+| staging | Current codebase. |
+| master | Each commit made to staging gets tested if it passes unit tests and codestyle rules and then merged into master. This is done automatically. |
+| 2.5.x | Branch for the Joomla 2.5.x series. Currently in maintenance mode with EOL end of 2014. No new features are accepted here. |
+| 3.2.x | Branch for the Joomla 3.2.x series. Currently in security mode with EOL Oct 2014. Only security issues are fixed. |
+| 3.4-dev | Branch for the next minor Joomla version. New backward compatible features go into this branch. Commits to staging will be applied to this branch as well. |
