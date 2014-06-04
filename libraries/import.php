@@ -54,7 +54,7 @@ JLoader::import('joomla.factory');
 // Check if the JsonSerializable interface exists already
 if (!interface_exists('JsonSerializable'))
 {
-	JLoader::register('JsonSerializable', JPATH_ROOT . '/vendor/joomla/compat/src/JsonSerializable.php');
+	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/vendor/joomla/compat/src/JsonSerializable.php');
 }
 
 // Register classes that don't follow one file per class naming conventions.
