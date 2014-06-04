@@ -14,7 +14,7 @@ Please be patient as not all items will be tested immediately (remember, all bug
 
 #### Branches
 Pull Requests should usually be made for the `staging` branch as this contains the most recent version of the code.
-There are other branches available which server specific purposes.
+There are other branches available which serve specific purposes.
 
 | Branch | Purpose |
 | ------ | ------- |
