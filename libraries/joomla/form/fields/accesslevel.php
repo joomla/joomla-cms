@@ -40,10 +40,16 @@ class JFormFieldAccessLevel extends JFormFieldList
 	 */
 	protected function getInput()
 	{
+		// Default to the class "advancedSelect" to support Chosen.
+		if (empty($this->class))
+		{
+			$this->class = 'advancedSelect';
+		}
+
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$attr .= $this->class ? ' class="' . $this->class . '"' : '';
 		$attr .= $this->disabled ? ' disabled' : '';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
