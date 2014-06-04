@@ -30,7 +30,7 @@ function modChrome_title($module, &$params, &$attribs)
 {
 	if ($module->content)
 	{
-		echo "<div class=\"module-title\"><h6>".$module->title."</h6></div>";
+		echo "<div class=\"module-title\"><h6>" . $module->title . "</h6></div>";
 		echo $module->content;
 	}
 }
@@ -47,14 +47,14 @@ function modChrome_well($module, &$params, &$attribs)
 {
 	if ($module->content)
 	{
-		$bootstrapSize  = (int) $params->get('bootstrap_size');
-		$moduleClass    = ($bootstrapSize) ? ' span' . $bootstrapSize : '';
+		$bootstrapSize = (int) $params->get('bootstrap_size');
+		$moduleClass   = ($bootstrapSize) ? ' span' . $bootstrapSize : '';
 
 		echo '<div class="well well-small' . $moduleClass . '">';
 
-		if($module->showtitle)
+		if ($module->showtitle)
 		{
-			echo '<h2 class="module-title nav-header">' . $module->title .'</h2>';
+			echo '<h2 class="module-title nav-header">' . $module->title . '</h2>';
 		}
 
 		echo $module->content;
