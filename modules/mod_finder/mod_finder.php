@@ -29,7 +29,7 @@ This code intentionally commented
 	$doc = JFactory::getDocument();
 	$app = JFactory::getApplication();
 
-	$ostitle = $params->get('opensearch_title', JText::_('MOD_FINDER_SEARCHBUTTON_TEXT') . ' ' . $app->getCfg('sitename'));
+	$ostitle = $params->get('opensearch_title', JText::_('MOD_FINDER_SEARCHBUTTON_TEXT') . ' ' . $app->get('sitename'));
 	$doc->addHeadLink(
 						JUri::getInstance()->toString(array('scheme', 'host', 'port')) . JRoute::_('&option=com_finder&format=opensearch'),
 						'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')

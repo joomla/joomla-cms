@@ -35,7 +35,7 @@ $tagsData  = $displayData->get('category')->tags->itemTags;
 				<?php echo JHtml::_('content.prepare', $displayData->get('category')->title, '', $extension.'.category.title'); ?>
 			</h2>
 		<?php endif; ?>
-		<?php if ($params->get('show_tags', 1)) : ?>
+		<?php if ($params->get('show_cat_tags', 1)) : ?>
 			<?php echo JLayoutHelper::render('joomla.content.tags', $tagsData); ?>
 		<?php endif; ?>
 		<?php if ($params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
