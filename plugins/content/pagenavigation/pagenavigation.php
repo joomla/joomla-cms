@@ -138,7 +138,7 @@ class PlgContentPagenavigation extends JPlugin
 			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
-			$query->select('a.id,' . $case_when . ',' . $case_when1)
+			$query->select('a.id, a.title,' . $case_when . ',' . $case_when1)
 				->from('#__content AS a')
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
 				->where(
@@ -193,19 +193,23 @@ class PlgContentPagenavigation extends JPlugin
 
 			if ($row->prev)
 			{
+				$row->prev_title = $row->prev->title;
 				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catslug));
 			}
 			else
 			{
+				$row->prev_title = '';
 				$row->prev = '';
 			}
 
 			if ($row->next)
 			{
+				$row->next_title = $row->next->title;
 				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catslug));
 			}
 			else
 			{
+				$row->next_title = '';
 				$row->next = '';
 			}
 
