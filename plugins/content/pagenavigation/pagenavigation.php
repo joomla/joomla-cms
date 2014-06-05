@@ -195,21 +195,23 @@ class PlgContentPagenavigation extends JPlugin
 
 			if ($row->prev)
 			{
-				$prev_title = $row->prev->title;
+				$row->prev_title = $row->prev->title;
 				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catslug));
 			}
 			else
 			{
+				$row->prev_title = '';
 				$row->prev = '';
 			}
 
 			if ($row->next)
 			{
-				$next_title = $row->next->title;
+				$row->next_title = $row->next->title;
 				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catslug));
 			}
 			else
 			{
+				$row->next_title = '';
 				$row->next = '';
 			}
 
