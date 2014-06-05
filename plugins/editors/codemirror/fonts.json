@@ -19,6 +19,11 @@
 		"url": "//fonts.googleapis.com/css?family=Droid+Sans+Mono",
 		"css": "'Droid Sans Mono', monospace"
 	},
+	"fira_mono": {
+		"name": "Fira Mono",
+		"url": "//fonts.googleapis.com/css?family=Fira+Mono",
+		"css": "'Fira Mono', monospace"
+	},
 	"inconsolata": {
 		"name": "Inconsolata",
 		"url": "//fonts.googleapis.com/css?family=Inconsolata",
