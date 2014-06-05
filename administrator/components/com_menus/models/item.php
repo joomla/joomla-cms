@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,32 +61,8 @@ class MenusModelItem extends JModelAdmin
 			{
 				return;
 			}
-			$user = JFactory::getUser();
 
-			return $user->authorise('core.delete', 'com_menus.item.' . (int) $record->id);
-		}
-	}
-
-	/**
-	 * Method to test whether a record can have its state edited.
-	 *
-	 * @param   object    A record object.
-	 *
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 * @since   1.6
-	 */
-	protected function canEditState($record)
-	{
-		$user = JFactory::getUser();
-
-		if (!empty($record->id))
-		{
-			return $user->authorise('core.edit.state', 'com_menus.item.' . (int) $record->id);
-		}
-		// Default to component settings if menu item not known.
-		else
-		{
-			return parent::canEditState($record);
+			return parent::canDelete($record);
 		}
 	}
 
@@ -689,10 +665,8 @@ class MenusModelItem extends JModelAdmin
 				{
 					// Load the language file for the component.
 					$lang = JFactory::getLanguage();
-					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, false)
-						|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, false)
-						|| $lang->load($args['option'], JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-						|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], $lang->getDefault(), false, false);
+					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, true)
+						|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, true);
 
 					// Determine the component id.
 					$component = JComponentHelper::getComponent($args['option']);

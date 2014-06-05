@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,12 +80,24 @@ class JDocumentOpensearch extends JDocument
 		{
 			if (file_exists($dir . '/favicon.ico'))
 			{
-
-				$path = str_replace(JPATH_BASE . '/', '', $dir);
+				$path = str_replace(JPATH_BASE, '', $dir);
 				$path = str_replace('\\', '/', $path);
-
 				$favicon = new JOpenSearchImage;
-				$favicon->data = JUri::base() . $path . '/favicon.ico';
+
+				if ($path == "")
+				{
+					$favicon->data = JURI::base() . 'favicon.ico';
+				}
+				else
+				{
+					if ($path[0] == "/")
+					{
+						$path = substr($path, 1);
+					}
+
+					$favicon->data = JURI::base() . $path . '/favicon.ico';
+				}
+
 				$favicon->height = '16';
 				$favicon->width = '16';
 				$favicon->type = 'image/vnd.microsoft.icon';

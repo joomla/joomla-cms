@@ -3,7 +3,7 @@
 * @package     Joomla.Administrator
 * @subpackage  com_templates
 *
-* @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+* @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
 * @license     GNU General Public License version 2 or later; see LICENSE.txt
 */
 
@@ -65,10 +65,8 @@ class TemplatesModelTemplate extends JModelForm
 			$lang   = JFactory::getLanguage();
 
 			// Load the core and/or local language file(s).
-			$lang->load('tpl_' . $template->element, $client->path, null, false, false) ||
-			$lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element, null, false, false) ||
-			$lang->load('tpl_' . $template->element, $client->path, $lang->getDefault(), false, false) ||
-			$lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element, $lang->getDefault(), false, false);
+			$lang->load('tpl_' . $template->element, $client->path, null, false, true) ||
+			$lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element, null, false, true);
 			$this->element = $path;
 
 			if (!is_writable($path))
@@ -110,7 +108,7 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			if (!in_array($value, array(".", "..")))
 			{
-				if (is_dir($dir . $value . '/'))
+				if (is_dir($dir . $value))
 				{
 					$relativePath = str_replace($this->element, '', $dir . $value);
 					$result['/' . $relativePath] = $this->getDirectoryTree($dir . $value . '/');

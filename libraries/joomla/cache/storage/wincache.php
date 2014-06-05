@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -61,13 +61,13 @@ class JCacheStorageWincache extends JCacheStorage
 		parent::getAll();
 
 		$allinfo = wincache_ucache_info();
-		$keys = $allinfo['cache_entries'];
-		$secret = $this->_hash;
-		$data = array();
+		$keys    = $allinfo['ucache_entries'];
+		$secret  = $this->_hash;
+		$data    = array();
 
 		foreach ($keys as $key)
 		{
-			$name = $key['key_name'];
+			$name    = $key['key_name'];
 			$namearr = explode('-', $name);
 			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
 			{

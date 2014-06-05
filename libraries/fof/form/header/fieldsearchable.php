@@ -1,11 +1,12 @@
 <?php
 /**
  * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @subpackage form
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * Generic field header, with text input (search) filter
@@ -28,7 +29,7 @@ class FOFFormHeaderFieldsearchable extends FOFFormHeaderField
 		$filterclass = $this->element['filterclass'] ? ' class="' . (string) $this->element['filterclass'] . '"' : '';
 		$placeholder = $this->element['placeholder'] ? $this->element['placeholder'] : $this->getLabel();
 		$name        = $this->element['searchfieldname'] ? $this->element['searchfieldname'] : $this->name;
-		$placeholder = 'placeholder="' . JText::_($placeholder) . '"';
+		$placeholder = ' placeholder="' . JText::_($placeholder) . '"';
 
 		if ($this->element['searchfieldname'])
 		{

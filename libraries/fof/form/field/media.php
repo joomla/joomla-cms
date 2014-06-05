@@ -1,11 +1,12 @@
 <?php
 /**
  * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @subpackage form
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 if (!class_exists('JFormFieldMedia'))
 {
@@ -127,7 +128,7 @@ class FOFFormFieldMedia extends JFormFieldMedia implements FOFFormField
 
 		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
 		{
-			$src = JURI::root() . $this->value;
+			$src = FOFPlatform::getInstance()->URIroot() . $this->value;
 		}
 		else
 		{

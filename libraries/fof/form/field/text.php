@@ -1,11 +1,12 @@
 <?php
 /**
  * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @subpackage form
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 JFormHelper::loadFieldClass('text');
 
@@ -219,6 +220,9 @@ class FOFFormFieldText extends JFormFieldText implements FOFFormField
 		$keyfield = $this->item->getKeyName();
 		$replace  = $this->item->$keyfield;
 		$ret = str_replace('[ITEM:ID]', $replace, $ret);
+
+		// Replace the [ITEMID] in the URL with the current Itemid parameter
+		$ret = str_replace('[ITEMID]', JFactory::getApplication()->input->getInt('Itemid', 0), $ret);
 
 		// Replace other field variables in the URL
 		$fields = $this->item->getFields();

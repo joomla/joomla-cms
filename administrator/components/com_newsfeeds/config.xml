@@ -19,14 +19,12 @@
 			name="save_history"
 			type="radio"
 			class="btn-group btn-group-yesno"
-			default="1"
+			default="0"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 			>
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		
 		<field
@@ -46,8 +44,8 @@
 			default="1"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC">
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -58,8 +56,8 @@
 			default="1"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC">
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -70,15 +68,14 @@
 			default="1"
 			label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC">
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
 			id="feed_character_count"
 			name="feed_character_count"
 			type="text"
-			class="inputbox"
 			size="6"
 			default="0"
 			label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
@@ -122,8 +119,8 @@
 			default="1"
 			label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_TAGS_DESC">
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 	</fieldset>
@@ -148,8 +145,8 @@
 			description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 			default="1"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -160,8 +157,8 @@
 			default="1"
 			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC">
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -196,8 +193,8 @@
 			description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
 			default="0"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_subcat_desc" type="radio"
@@ -206,8 +203,8 @@
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -219,8 +216,8 @@
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_cat_tags" type="radio"
@@ -229,8 +226,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 	</fieldset>
@@ -245,8 +242,8 @@
 			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 			description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="maxLevelcat" type="list"
@@ -268,8 +265,8 @@
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 			description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_subcat_desc_cat" type="radio"
@@ -278,8 +275,8 @@
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_cat_items_cat" type="radio"
@@ -288,8 +285,8 @@
 			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 	</fieldset>
@@ -306,8 +303,8 @@
 			description="JGLOBAL_FILTER_FIELD_DESC"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
-				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="hide">JHIDE</option>
 		</field>
 
 		<field
@@ -318,8 +315,8 @@
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			description="JGLOBAL_DISPLAY_SELECT_DESC"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -331,8 +328,8 @@
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
 			description="JGLOBAL_SHOW_HEADINGS_DESC"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -344,8 +341,8 @@
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
 			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -357,8 +354,8 @@
 			label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_pagination"
@@ -367,8 +364,8 @@
 			label="JGLOBAL_PAGINATION_LABEL"
 			description="JGLOBAL_PAGINATION_DESC"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			<option value="2">JGLOBAL_AUTO</option>
 		</field>
 
@@ -380,8 +377,8 @@
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			description="JGLOBAL_PAGINATION_RESULTS_DESC"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 	</fieldset>

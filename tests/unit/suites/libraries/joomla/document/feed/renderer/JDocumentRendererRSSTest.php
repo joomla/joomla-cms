@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -66,7 +66,8 @@ class JDocumentRendererRSSTest extends TestCase
 		);
 
 		$_SERVER['REQUEST_METHOD'] = 'get';
-		JRequest::setVar('type', 'rss');
+		$input = JFactory::getApplication()->input;
+		$input->set('type', 'rss');
 		$this->object = new JDocumentFeed;
 		$_SERVER['HTTP_HOST'] = 'localhost';
 		$_SERVER['SCRIPT_NAME'] = '';

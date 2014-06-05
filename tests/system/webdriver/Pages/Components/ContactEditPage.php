@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,7 +46,7 @@ class ContactEditPage extends AdminEditPage
 	 * @var    array
 	 * @since  3.2
 	 */
-	public $tabs = array('details', 'publishing', 'attrib-details', 'attrib-display', 'attrib-email');
+	public $tabs = array('details', 'misc', 'publishing', 'attrib-display', 'attrib-email');
 
 	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
@@ -55,10 +55,24 @@ class ContactEditPage extends AdminEditPage
 	 * @since 3.2
 	 */
 	public $inputFields = array (
-			array('label' => 'Name', 'id' => 'jform_name', 'type' => 'input', 'tab' => 'header'),
+						array('label' => 'Name', 'id' => 'jform_name', 'type' => 'input', 'tab' => 'header'),
 			array('label' => 'Alias', 'id' => 'jform_alias', 'type' => 'input', 'tab' => 'header'),
 			array('label' => 'Linked User', 'id' => 'jform_user_id', 'type' => 'input', 'tab' => 'details'),
-			array('label' => 'Miscellaneous Information', 'id' => 'jform_misc', 'type' => 'textarea', 'tab' => 'details'),
+			array('label' => 'Image', 'id' => 'jform_image', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'Position', 'id' => 'jform_con_position', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'Email', 'id' => 'jform_email_to', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'Address', 'id' => 'jform_address', 'type' => 'textarea', 'tab' => 'details'),
+			array('label' => 'City or Suburb', 'id' => 'jform_suburb', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'State or Province', 'id' => 'jform_state', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'Postal / ZIP Code', 'id' => 'jform_postcode', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'Country', 'id' => 'jform_country', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'Telephone', 'id' => 'jform_telephone', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'Mobile', 'id' => 'jform_mobile', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'Fax', 'id' => 'jform_fax', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'Website', 'id' => 'jform_webpage', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'First Sort Field', 'id' => 'jform_sortname1', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'Second Sort Field', 'id' => 'jform_sortname2', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'Third Sort Field', 'id' => 'jform_sortname3', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Tags', 'id' => 'jform_tags', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Status', 'id' => 'jform_published', 'type' => 'select', 'tab' => 'details'),
@@ -66,6 +80,7 @@ class ContactEditPage extends AdminEditPage
 			array('label' => 'Access', 'id' => 'jform_access', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Language', 'id' => 'jform_language', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Version Note', 'id' => 'jform_version_note', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'Miscellaneous Information', 'id' => 'jform_misc', 'type' => 'textarea', 'tab' => 'misc'),
 			array('label' => 'Start Publishing', 'id' => 'jform_publish_up', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Finish Publishing', 'id' => 'jform_publish_down', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Created date', 'id' => 'jform_created', 'type' => 'input', 'tab' => 'publishing'),
@@ -80,21 +95,6 @@ class ContactEditPage extends AdminEditPage
 			array('label' => 'Meta Keywords', 'id' => 'jform_metakey', 'type' => 'textarea', 'tab' => 'publishing'),
 			array('label' => 'Robots', 'id' => 'jform_metadata_robots', 'type' => 'select', 'tab' => 'publishing'),
 			array('label' => 'Rights', 'id' => 'jform_metadata_rights', 'type' => 'input', 'tab' => 'publishing'),
-			array('label' => 'Image', 'id' => 'jform_params_image', 'type' => 'input', 'tab' => 'attrib-details'),
-			array('label' => 'Position', 'id' => 'jform_params_con_position', 'type' => 'input', 'tab' => 'attrib-details'),
-			array('label' => 'Email', 'id' => 'jform_params_email_to', 'type' => 'input', 'tab' => 'attrib-details'),
-			array('label' => 'Address', 'id' => 'jform_params_address', 'type' => 'textarea', 'tab' => 'attrib-details'),
-			array('label' => 'City or Suburb', 'id' => 'jform_params_suburb', 'type' => 'input', 'tab' => 'attrib-details'),
-			array('label' => 'State or Province', 'id' => 'jform_params_state', 'type' => 'input', 'tab' => 'attrib-details'),
-			array('label' => 'Postal / ZIP Code', 'id' => 'jform_params_postcode', 'type' => 'input', 'tab' => 'attrib-details'),
-			array('label' => 'Country', 'id' => 'jform_params_country', 'type' => 'input', 'tab' => 'attrib-details'),
-			array('label' => 'Telephone', 'id' => 'jform_params_telephone', 'type' => 'input', 'tab' => 'attrib-details'),
-			array('label' => 'Mobile', 'id' => 'jform_params_mobile', 'type' => 'input', 'tab' => 'attrib-details'),
-			array('label' => 'Fax', 'id' => 'jform_params_fax', 'type' => 'input', 'tab' => 'attrib-details'),
-			array('label' => 'Website', 'id' => 'jform_params_webpage', 'type' => 'input', 'tab' => 'attrib-details'),
-			array('label' => 'First Sort Field', 'id' => 'jform_params_sortname1', 'type' => 'input', 'tab' => 'attrib-details'),
-			array('label' => 'Second Sort Field', 'id' => 'jform_params_sortname2', 'type' => 'input', 'tab' => 'attrib-details'),
-			array('label' => 'Third Sort Field', 'id' => 'jform_params_sortname3', 'type' => 'input', 'tab' => 'attrib-details'),
 			array('label' => 'Show Category', 'id' => 'jform_params_show_contact_category', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Show Contact List', 'id' => 'jform_params_show_contact_list', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Display format', 'id' => 'jform_params_presentation_style', 'type' => 'select', 'tab' => 'attrib-display'),

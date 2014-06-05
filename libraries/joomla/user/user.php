@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -153,6 +153,14 @@ class JUser extends JObject
 	 * @since  12.2
 	 */
 	public $resetCount = null;
+
+	/**
+	 * Flag to require the user's password be reset
+	 *
+	 * @var    int
+	 * @since  3.2
+	 */
+	public $requireReset = null;
 
 	/**
 	 * User parameters
@@ -544,21 +552,6 @@ class JUser extends JObject
 	 */
 	public function bind(&$array)
 	{
-		// The Joomla user plugin allows you to use weaker passwords if necessary.
-		$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
-
-		if ($joomlaPluginEnabled)
-		{
-			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
-			$userPluginParams = new JRegistry($userPlugin->params);
-			JPluginHelper::importPlugin('user', 'joomla');
-			$defaultEncryption = PlgUserJoomla::setDefaultEncryption($userPluginParams);
-		}
-		else
-		{
-			$defaultEncryption = 'bcrypt';
-		}
-
 		// Let's check to see if the user is new or not
 		if (empty($this->id))
 		{
@@ -579,9 +572,7 @@ class JUser extends JObject
 			}
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
-			$salt = JUserHelper::genRandomPassword(32);
-			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
-			$array['password'] = $crypt . ':' . $salt;
+			$array['password'] = JUserHelper::hashPassword($array['password']);
 
 			// Set the registration timestamp
 			$this->set('registerDate', JFactory::getDate()->toSql());
@@ -593,17 +584,6 @@ class JUser extends JObject
 			{
 				$username = substr($username, 0, 150);
 				$this->set('username', $username);
-			}
-
-			// Use a limit to prevent abuse since it is unfiltered
-			// The maximum password length for bcrypt is 55 characters.
-			$password = $this->get('password');
-
-			if (strlen($password) > 55)
-			{
-				$password = substr($password, 0, 55);
-				$this->set('password', $password);
-				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TRUNCATED'), 'notice');
 			}
 		}
 		else
@@ -620,9 +600,18 @@ class JUser extends JObject
 
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
-				$salt = JUserHelper::genRandomPassword(32);
-				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
-				$array['password'] = $crypt . ':' . $salt;
+				// Check if the user is reusing the current password if required to reset their password
+				if ($this->requireReset == 1 && JUserHelper::verifyPassword($this->password_clear, $this->password))
+				{
+					$this->setError(JText::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
+
+					return false;
+				}
+
+				$array['password'] = JUserHelper::hashPassword($array['password']);
+
+				// Reset the change password flag
+				$array['requireReset'] = 0;
 			}
 			else
 			{
@@ -715,37 +704,30 @@ class JUser extends JObject
 			// Check if I am a Super Admin
 			$iAmSuperAdmin = $my->authorise('core.admin');
 
-			// We are only worried about edits to this account if I am not a Super Admin.
-			if ($iAmSuperAdmin != true)
+			$iAmRehashingSuperadmin = false;
+
+			if (($my->id == 0 && !$isNew) && $this->id == $oldUser->id && $oldUser->authorise('core.admin') && $oldUser->password != $this->password)
 			{
-				if ($isNew)
+				$iAmRehashingSuperadmin = true;
+			}
+
+			// We are only worried about edits to this account if I am not a Super Admin.
+			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true)
+			{
+				// I am not a Super Admin, and this one is, so fail.
+				if (!$isNew && JAccess::check($this->id, 'core.admin'))
 				{
-					// Check if the new user is being put into a Super Admin group.
+					throw new RuntimeException('User not Super Administrator');
+				}
+
+				if ($this->groups != null)
+				{
+					// I am not a Super Admin and I'm trying to make one.
 					foreach ($this->groups as $groupId)
 					{
 						if (JAccess::checkGroup($groupId, 'core.admin'))
 						{
 							throw new RuntimeException('User not Super Administrator');
-						}
-					}
-				}
-				else
-				{
-					// I am not a Super Admin, and this one is, so fail.
-					if (JAccess::check($this->id, 'core.admin'))
-					{
-						throw new RuntimeException('User not Super Administrator');
-					}
-
-					if ($this->groups != null)
-					{
-						// I am not a Super Admin and I'm trying to make one.
-						foreach ($this->groups as $groupId)
-						{
-							if (JAccess::checkGroup($groupId, 'core.admin'))
-							{
-								throw new RuntimeException('User not Super Administrator');
-							}
 						}
 					}
 				}
@@ -787,6 +769,12 @@ class JUser extends JObject
 			$this->setError($e->getMessage());
 
 			return false;
+		}
+
+		// Reset the user object in the session on a successful save
+		if ($result === true && JFactory::getUser()->id == $this->id)
+		{
+			JFactory::getSession()->set('user', $this);
 		}
 
 		return $result;

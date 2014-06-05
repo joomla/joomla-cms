@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,6 @@ JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contac
  */
 class ContactModelContact extends JModelAdmin
 {
-
 	/**
 	 * The type alias for this content type.
 	 *
@@ -55,6 +54,7 @@ class ContactModelContact extends JModelAdmin
 		if (empty($pks))
 		{
 			$this->setError(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
+
 			return false;
 		}
 
@@ -64,7 +64,7 @@ class ContactModelContact extends JModelAdmin
 		$this->user = JFactory::getUser();
 		$this->table = $this->getTable();
 		$this->tableClassName = get_class($this->table);
-		$this->contentType = new JUcmType();
+		$this->contentType = new JUcmType;
 		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		$this->batchSet = true;
 
@@ -78,8 +78,8 @@ class ContactModelContact extends JModelAdmin
 		{
 			$typeAlias = $this->type->type_alias;
 		}
-		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
 
+		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
 
 		if (!empty($commands['category_id']))
 		{
@@ -88,6 +88,7 @@ class ContactModelContact extends JModelAdmin
 			if ($cmd == 'c')
 			{
 				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
+
 				if (is_array($result))
 				{
 					$pks = $result;
@@ -101,6 +102,7 @@ class ContactModelContact extends JModelAdmin
 			{
 				return false;
 			}
+
 			$done = true;
 		}
 
@@ -299,6 +301,7 @@ class ContactModelContact extends JModelAdmin
 	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 *
 	 * @since   1.6
 	 */
 	protected function canDelete($record)
@@ -317,9 +320,10 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to test whether a record can have its state edited.
 	 *
-	 * @param   object    $record    A record object.
+	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
 	 * @since   1.6
 	 */
 	protected function canEditState($record)
@@ -341,11 +345,12 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Returns a Table object, always creating it
 	 *
-	 * @param   type      $type      The table type to instantiate
-	 * @param   string    $prefix    A prefix for the table class name. Optional.
-	 * @param   array     $config    Configuration array for model. Optional.
+	 * @param   type    $type    The table type to instantiate
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable    A database object
+	 * @return  JTable  A database object
+	 *
 	 * @since   1.6
 	 */
 	public function getTable($type = 'Contact', $prefix = 'ContactTable', $config = array())
@@ -356,10 +361,11 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to get the row form.
 	 *
-	 * @param   array      $data        Data for the form.
-	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
+	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
@@ -394,9 +400,10 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   integer    $pk    The id of the primary key.
+	 * @param   integer  $pk  The id of the primary key.
 	 *
 	 * @return  mixed  Object on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function getItem($pk = null)
@@ -442,6 +449,7 @@ class ContactModelContact extends JModelAdmin
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
+	 *
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -472,6 +480,7 @@ class ContactModelContact extends JModelAdmin
 	 * @param   array  The form data.
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since    3.0
 	 */
 	public function save($data)
@@ -574,9 +583,10 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Prepare and sanitise the table prior to saving.
 	 *
-	 * @param   JTable    $table
+	 * @param   JTable  $table  The JTable object
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function prepareTable($table)
@@ -585,12 +595,8 @@ class ContactModelContact extends JModelAdmin
 		$user = JFactory::getUser();
 
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias = JApplication::stringURLSafe($table->alias);
 
-		if (empty($table->alias))
-		{
-			$table->alias = JApplication::stringURLSafe($table->name);
-		}
+		$table->generateAlias();
 
 		if (empty($table->id))
 		{
@@ -601,9 +607,9 @@ class ContactModelContact extends JModelAdmin
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
-				$query = $db->getQuery(true);
-				$query->select('MAX(ordering)');
-				$query->from('#__contact_details');
+				$query = $db->getQuery(true)
+					->select('MAX(ordering)')
+					->from($db->quoteName('#__contact_details'));
 				$db->setQuery($query);
 				$max = $db->loadResult();
 
@@ -623,9 +629,10 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   JTable    $table    A record object.
+	 * @param   JTable  $table  A record object.
 	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
+	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
@@ -682,10 +689,11 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to toggle the featured setting of contacts.
 	 *
-	 * @param   array    $pks      The ids of the items to toggle.
-	 * @param   integer  $value    The value to toggle to.
+	 * @param   array    $pks    The ids of the items to toggle.
+	 * @param   integer  $value  The value to toggle to.
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   1.6
 	 */
 	public function featured($pks, $value = 0)
@@ -749,6 +757,7 @@ class ContactModelContact extends JModelAdmin
 			{
 				$name = JString::increment($name);
 			}
+
 			$alias = JString::increment($alias, 'dash');
 		}
 

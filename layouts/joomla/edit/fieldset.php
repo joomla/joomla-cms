@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,11 +25,6 @@ $extraFields = $displayData->get('extra_fields') ? : array();
 
 if ($displayData->get('show_options', 1))
 {
-	if (isset($fieldSet->description) && trim($fieldSet->description))
-	{
-		echo '<p class="alert alert-info">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
-	}
-
 	if (isset($extraFields[$name]))
 	{
 		foreach ($extraFields[$name] as $f)
@@ -45,30 +40,12 @@ if ($displayData->get('show_options', 1))
 		}
 	}
 
-	$split = ($displayData->get('split', 1) && count($fieldSet) > 10) ? ceil(count($fieldSet) / 2) : 0;
-	$count = 0;
-
 	$html = array();
-	$html[] = '<div class="row-fluid' . ($split ? ' form-horizontal-desktop' : '') . '">';
-	$html[] = '<div class="span' . ($split ? 6 : 12) . '">';
 
 	foreach ($fieldSet as $field)
 	{
-		if ($count == $split && $field->getAttribute('type') == 'spacer' && $field->getAttribute('hr'))
-		{
-			continue;
-		}
-
-		$html[] = $field->getControlGroup();
-
-		if (++$count == $split)
-		{
-			$html[] = '</div><div class="span6">';
-		}
+		$html[] = $field->renderField();
 	}
-
-	$html[] = '</div>';
-	$html[] = '</div>';
 
 	echo implode('', $html);
 }

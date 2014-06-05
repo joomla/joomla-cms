@@ -3,24 +3,33 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE.'/components/com_content/helpers/route.php';
+require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 
-JModelLegacy::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
+JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
 
 /**
  * Helper for mod_articles_news
  *
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
+ *
+ * @since       1.6.0
  */
 abstract class ModArticlesNewsHelper
 {
+	/**
+	 * Get a list of the latest articles from the article model
+	 *
+	 * @param   JRegistry  &$params  object holding the models parameters
+	 *
+	 * @return  mixed
+	 */
 	public static function getList(&$params)
 	{
 		$app = JFactory::getApplication();
@@ -56,23 +65,25 @@ abstract class ModArticlesNewsHelper
 		// Set ordering
 		$ordering = $params->get('ordering', 'a.publish_up');
 		$model->setState('list.ordering', $ordering);
+
 		if (trim($ordering) == 'rand()')
 		{
 			$model->setState('list.direction', '');
 		}
 		else
 		{
-			$model->setState('list.direction', 'ASC');
+			$direction = $params->get('direction', 1) ? 'DESC' : 'ASC';
+			$model->setState('list.direction', $direction);
 		}
 
-		//	Retrieve Content
+		// Retrieve Content
 		$items = $model->getItems();
 
 		foreach ($items as &$item)
 		{
 			$item->readmore = strlen(trim($item->fulltext));
-			$item->slug = $item->id.':'.$item->alias;
-			$item->catslug = $item->catid.':'.$item->category_alias;
+			$item->slug = $item->id . ':' . $item->alias;
+			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
 			{
@@ -80,14 +91,15 @@ abstract class ModArticlesNewsHelper
 				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid));
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE');
 			}
-			else {
+			else
+			{
 				$item->link = JRoute::_('index.php?option=com_users&view=login');
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
 
 			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
 
-			//new
+			// New
 			if (!$params->get('image'))
 			{
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,6 +103,11 @@ class TagsViewTag extends JViewLegacy
 				$results = $dispatcher->trigger('onContentAfterDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
 				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 
+				// Write the results back into the body
+				if (!empty($itemElement->core_body))
+				{
+					$itemElement->core_body = $itemElement->text;
+				}
 			}
 		}
 

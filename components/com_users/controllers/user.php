@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,9 +33,9 @@ class UsersControllerUser extends UsersController
 
 		// Populate the data array:
 		$data = array();
-		$data['return'] = base64_decode($app->input->post->get('return', '', 'BASE64'));
-		$data['username'] = JRequest::getVar('username', '', 'method', 'username');
-		$data['password'] = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
+		$data['return']    = base64_decode($app->input->post->get('return', '', 'BASE64'));
+		$data['username']  = JRequest::getVar('username', '', 'method', 'username');
+		$data['password']  = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
 		$data['secretkey'] = JRequest::getString('secretkey', '');
 
 		// Set the return URL if empty.
@@ -50,7 +50,7 @@ class UsersControllerUser extends UsersController
 		// Get the log in options.
 		$options = array();
 		$options['remember'] = $this->input->getBool('remember', false);
-		$options['return'] = $data['return'];
+		$options['return']   = $data['return'];
 
 		// Get the log in credentials.
 		$credentials = array();
@@ -122,6 +122,9 @@ class UsersControllerUser extends UsersController
 	{
 		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
+		// Get the application
+		$app = JFactory::getApplication();
+
 		// Get the form data.
 		$data  = $this->input->post->get('user', array(), 'array');
 
@@ -133,7 +136,6 @@ class UsersControllerUser extends UsersController
 		if ($return === false)
 		{
 			// Get the validation messages.
-			$app	= &JFactory::getApplication();
 			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.
@@ -142,7 +144,9 @@ class UsersControllerUser extends UsersController
 				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
-				} else {
+				}
+				else
+				{
 					$app->enqueueMessage($errors[$i], 'notice');
 				}
 			}
@@ -200,25 +204,28 @@ class UsersControllerUser extends UsersController
 			if ($app->getCfg('error_reporting'))
 			{
 				$message = $return->getMessage();
-			} else {
+			}
+			else
+			{
 				$message = JText::_('COM_USERS_REMIND_REQUEST_ERROR');
 			}
 
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getRemindRoute();
-			$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
-			$route	= 'index.php?option=com_users&view=remind'.$itemid;
+			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
+			$route	= 'index.php?option=com_users&view=remind' . $itemid;
 
 			// Go back to the complete form.
 			$this->setRedirect(JRoute::_($route, false), $message, 'error');
 			return false;
-		} elseif ($return === false)
+		}
+		elseif ($return === false)
 		{
 			// Complete failed.
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getRemindRoute();
-			$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
-			$route	= 'index.php?option=com_users&view=remind'.$itemid;
+			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
+			$route	= 'index.php?option=com_users&view=remind' . $itemid;
 
 			// Go back to the complete form.
 			$message = JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
@@ -230,8 +237,8 @@ class UsersControllerUser extends UsersController
 			// Complete succeeded.
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getLoginRoute();
-			$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
-			$route	= 'index.php?option=com_users&view=login'.$itemid;
+			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
+			$route	= 'index.php?option=com_users&view=login' . $itemid;
 
 			// Proceed to the login form.
 			$message = JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');

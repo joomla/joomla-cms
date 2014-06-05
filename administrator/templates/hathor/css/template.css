@@ -787,6 +787,9 @@
 .icon-credit-2:before {
 	content: "\e287";
 }
+.icon-expired:before {
+	content: "\4b";
+}
 html,
 body,
 div,
@@ -1360,11 +1363,6 @@ p.tab-description {
 	margin-left: 0;
 	margin-top: 5px;
 }
-#login-page form .inputbox {
-	width: 190px;
-	margin-left: 5px;
-	margin-bottom: 15px;
-}
 #login-page input,
 #login-page select {
 	float: right;
@@ -1834,6 +1832,10 @@ fieldset.adminform {
 	margin: 0 10px 10px 10px;
 	overflow: hidden;
 }
+.adminformlist .btn.modal {
+	float: left;
+	margin-top: 7px;
+}
 ul.adminformlist,
 ul.adminformlist li,
 dl.adminformlist,
@@ -2270,7 +2272,7 @@ table.adminlist .pagination button {
 	margin-right: 20px;
 }
 div.toggle-editor {
-	margin-top: 27px;
+	margin-top: 9px;
 }
 .tip {
 	float: left;
@@ -3543,6 +3545,10 @@ table {
 table.adminlist .item-associations li a {
 	color: #ffffff;
 }
+.hidden {
+	display: none;
+	visibility: hidden;
+}
 .tooltip {
 	position: absolute;
 	z-index: 1030;
@@ -3636,4 +3642,16 @@ th .tooltip-inner {
 fieldset.panelform .tooltip img {
 	float: none;
 	margin: 0;
+}
+div.toggle-editor {
+	float: right;
+}
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+.text-center {
+	text-align: center;
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,8 @@ class ConfigModelTemplates extends ConfigModelForm
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 * 
+	 * @return  null
 	 *
 	 * @since   3.2
 	 */
@@ -96,10 +98,8 @@ class ConfigModelTemplates extends ConfigModelForm
 		jimport('joomla.filesystem.path');
 
 		// Load the core and/or local language file(s).
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
-		||	$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, false)
-		||	$lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, $lang->getDefault(), false, false);
+		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
+		||	$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
 
 		// Look for com_config.xml, which contains fileds to display
 		$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');

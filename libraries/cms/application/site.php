@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -195,6 +195,22 @@ final class JApplicationSite extends JApplicationCms
 		// Initialise the application
 		$this->initialiseApp();
 
+		// Check if the user is required to reset their password
+		$user = JFactory::getUser();
+
+		if ($user->get('requireReset', 0) === '1')
+		{
+			if ($this->input->getCmd('option') != 'com_users' && $this->input->getCmd('view') != 'profile' && $this->input->getCmd('layout') != 'edit')
+			{
+				if ($this->input->getCmd('task') != 'profile.save')
+				{
+					// Redirect to the profile edit page
+					$this->enqueueMessage(JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+					$this->redirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit'));
+				}
+			}
+		}
+
 		// Mark afterInitialise in the profiler.
 		JDEBUG ? $this->profiler->mark('afterInitialise') : null;
 
@@ -281,6 +297,7 @@ final class JApplicationSite extends JApplicationCms
 		static $params = array();
 
 		$hash = '__default';
+
 		if (!empty($option))
 		{
 			$hash = $option;
@@ -315,6 +332,7 @@ final class JApplicationSite extends JApplicationCms
 			{
 				$description = $this->get('MetaDesc');
 			}
+
 			$rights = $this->get('MetaRights');
 			$robots = $this->get('robots');
 
@@ -614,26 +632,15 @@ final class JApplicationSite extends JApplicationCms
 			}
 		}
 
-		// Execute the parent initialiseApp method.
+		// Finish initialisation
 		parent::initialiseApp($options);
-
-		// Load the language to the API
-		$this->loadLanguage();
-
-		// Load Library language
-		$lang = $this->getLanguage();
-
-		// Register the language object with JFactory
-		JFactory::$language = $lang;
 
 		/*
 		 * Try the lib_joomla file in the current language (without allowing the loading of the file in the default language)
 		 * Fallback to the default language if necessary
 		 */
-		$lang->load('lib_joomla', JPATH_SITE, null, false, false)
-			|| $lang->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, false)
-			|| $lang->load('lib_joomla', JPATH_SITE, null, true)
-			|| $lang->load('lib_joomla', JPATH_ADMINISTRATOR, null, true);
+		$this->getLanguage()->load('lib_joomla', JPATH_SITE, null, false, true)
+			|| $this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, true);
 	}
 
 	/**

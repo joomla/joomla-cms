@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,9 +35,11 @@ class ContentViewFeatured extends JViewLegacy
 	protected $columns = 1;
 
 	/**
-	 * Display the view
+	 * Execute and display a template script.
 	 *
-	 * @return  mixed  False on error, null otherwise.
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -86,7 +88,7 @@ class ContentViewFeatured extends JViewLegacy
 				$item->text = $item->introtext;
 			}
 			JPluginHelper::importPlugin('content');
-			$dispatcher->trigger('onContentPrepare', array ('com_content.featured', &$item, &$this->params, 0));
+			$dispatcher->trigger('onContentPrepare', array ('com_content.featured', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;

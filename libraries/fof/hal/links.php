@@ -2,10 +2,10 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  hal
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * Implementation of the Hypertext Application Language links in PHP. This is
@@ -43,7 +43,7 @@ class FOFHalLinks
 			return false;
 		}
 
-		if (!array_key_exists($rel, $this->_links) || !$overwrite)
+		if (!array_key_exists($rel, $this->_links) || $overwrite)
 		{
 			$this->_links[$rel] = $link;
 		}
@@ -80,11 +80,21 @@ class FOFHalLinks
 			return false;
 		}
 
+		$localOverwrite = $overwrite;
+
 		foreach ($links as $link)
 		{
 			if ($link instanceof FOFHalLink)
 			{
-				$this->addLink($rel, $link, $overwrite);
+				$this->addLink($rel, $link, $localOverwrite);
+			}
+
+			// After the first time we call this with overwrite on we have to
+			// turn it off so that the other links are added to the set instead
+			// of overwriting the first item that's already added.
+			if ($localOverwrite)
+			{
+				$localOverwrite = false;
 			}
 		}
 	}

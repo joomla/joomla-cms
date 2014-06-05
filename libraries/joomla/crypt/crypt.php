@@ -128,12 +128,8 @@ class JCrypt
 		$length = (int) $length;
 		$sslStr = '';
 
-		/*
-		 * If a secure randomness generator exists and we don't
-		 * have a buggy PHP version use it.
-		 */
-		if (function_exists('openssl_random_pseudo_bytes')
-			&& (version_compare(PHP_VERSION, '5.3.4') >= 0 || IS_WIN))
+		// If a secure randomness generator exists use it.
+		if (function_exists('openssl_random_pseudo_bytes'))
 		{
 			$sslStr = openssl_random_pseudo_bytes($length, $strong);
 
@@ -297,47 +293,24 @@ class JCrypt
 	 * Tests for the availability of updated crypt().
 	 * Based on a method by Anthony Ferrera
 	 *
-	 * @return  boolean  True if updated crypt() is available.
+	 * @return  boolean  Always returns true since 3.3
 	 *
 	 * @note    To be removed when PHP 5.3.7 or higher is the minimum supported version.
 	 * @see     https://github.com/ircmaxell/password_compat/blob/master/version-test.php
 	 * @since   3.2
+	 * @deprecated  4.0
 	 */
 	public static function hasStrongPasswordSupport()
 	{
-		static $pass = null;
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated without replacement.', JLog::WARNING, 'deprecated');
 
-		if (is_null($pass))
+		if (!defined('PASSWORD_DEFAULT'))
 		{
-			// Check to see whether crypt() is supported.
-			if (version_compare(PHP_VERSION, '5.3.6', '>'))
-			{
-				// We have safe PHP version.
-				$pass = true;
-			}
-			else
-			{
-				// We need to test if we have patched PHP version.
-				$hash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
-				$test = crypt("password", $hash);
-				$pass = ($test == $hash);
-
-				// Test to allow for for Debian backport of bcrypt the 5.3.7 fix.
-				// See https://github.com/ircmaxell/password_compat/pull/34#issuecomment-26648055
-				if(crypt('éàèç', '$2a$05$0123456789012345678901$') === crypt('éàèç', '$2x$05$0123456789012345678901$'))
-				{
-					// $2a$ is insecure.
-					$pass = false;
-				}
-			}
-
-			if ($pass && !defined('PASSWORD_DEFAULT'))
-			{
-				// Always make sure that the password hashing API has been defined.
-				include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
-			}
+			// Always make sure that the password hashing API has been defined.
+			include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
 		}
 
-		return $pass;
+		return true;
 	}
 }

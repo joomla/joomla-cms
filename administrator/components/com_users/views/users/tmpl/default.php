@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.modal', 'a.modal');
 
-$canDo = UsersHelper::getActions();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
@@ -93,7 +93,7 @@ $sortFields = $this->getSortFields();
 		</tfoot>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$canEdit   = $canDo->get('core.edit');
+			$canEdit   = $this->canDo->get('core.edit');
 			$canChange = $loggeduser->authorise('core.edit.state',	'com_users');
 
 			// If this group is super admin and this user is not super admin, $canEdit is false
@@ -120,6 +120,9 @@ $sortFields = $this->getSortFields();
 						<?php echo JHtml::_('users.filterNotes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.addNote', $item->id); ?>
+						<?php if ($item->requireReset == '1') : ?>
+						<span class="label label-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
+						<?php endif; ?>
 					</div>
 					<?php if (JDEBUG) : ?>
 						<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id='.(int) $item->id);?>">

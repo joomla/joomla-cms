@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ abstract class JHtmlSelect
 	static protected $optionDefaults = array(
 		'option' => array('option.attr' => null, 'option.disable' => 'disable', 'option.id' => null, 'option.key' => 'value',
 			'option.key.toHtml' => true, 'option.label' => null, 'option.label.toHtml' => true, 'option.text' => 'text',
-			'option.text.toHtml' => true));
+			'option.text.toHtml' => true, 'option.class' => 'class', 'option.onclick' => 'onclick'));
 
 	/**
 	 * Generates a yes/no radio list.
@@ -141,10 +141,24 @@ abstract class JHtmlSelect
 	 *
 	 * @return  string  HTML for the select list
 	 *
-	 * @since   3.2
+	 * @since       3.2
+	 * @deprecated  4.0  Just create the <datalist> directly instead
 	 */
-	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag, $translate = false)
+	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag = null, $translate = false)
 	{
+		// Log deprecated message
+		JLog::add(
+			'JHtmlSelect::suggestionlist() is deprecated. Create the <datalist> tag directly instead.',
+			JLog::WARNING,
+			'deprecated'
+		);
+
+		// Note: $idtag is requried but has to be an optional argument in the funtion call due to argument order
+		if (!$idtag)
+		{
+			throw new InvalidArgumentException('$idtag is a required argument in deprecated JHtmlSelect::suggestionlist');
+		}
+
 		// Set default options
 		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
 
@@ -609,6 +623,16 @@ abstract class JHtmlSelect
 				if (isset($element->$options['option.disable']) && $element->$options['option.disable'])
 				{
 					$extra .= ' disabled="disabled"';
+				}
+
+				if (isset($element->$options['option.class']) && $element->$options['option.class'])
+				{
+					$extra .= ' class="' . $element->$options['option.class'] . '"';
+				}
+
+				if (isset($element->$options['option.onclick']) && $element->$options['option.onclick'])
+				{
+					$extra .= ' onclick="' . $element->$options['option.onclick'] . '"';
 				}
 			}
 			else

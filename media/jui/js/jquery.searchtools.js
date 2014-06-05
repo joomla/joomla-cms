@@ -1,4 +1,4 @@
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
 
 	// Create the defaults once
 	var pluginName = "searchtools";
@@ -51,30 +51,30 @@
 		this.theForm        = $(this.options.formSelector);
 
 		// Filters
-		this.filterButton    = $(this.options.filterBtnSelector);
-		this.filterContainer = $(this.options.filterContainerSelector);
+		this.filterButton    = $(this.options.formSelector + ' ' + this.options.filterBtnSelector);
+		this.filterContainer = $(this.options.formSelector + ' ' + this.options.filterContainerSelector);
 		this.filtersHidden   = this.options.filtersHidden;
 
 		// List fields
-		this.listButton    = $(this.options.listBtnSelector);
-		this.listContainer = $(this.options.listContainerSelector);
+		this.listButton    = $(this.options.formSelector + ' ' + this.options.listBtnSelector);
+		this.listContainer = $(this.options.formSelector + ' ' + this.options.listContainerSelector);
 		this.listHidden    = this.options.listHidden;
 
 		// Main container
 		this.mainContainer = $(this.options.mainContainerSelector);
 
 		// Search
-		this.searchButton = $(this.options.searchBtnSelector);
-		this.searchField  = $(this.options.searchFieldSelector);
+		this.searchButton = $(this.options.formSelector + ' ' + this.options.searchBtnSelector);
+		this.searchField  = $(this.options.formSelector + ' ' + this.options.searchFieldSelector);
 		this.searchString = null;
 		this.clearButton  = $(this.options.clearBtnSelector);
 
 		// Ordering
-		this.orderCols  = $(this.options.orderColumnSelector);
-		this.orderField = $(this.options.orderFieldSelector);
+		this.orderCols  = $(this.options.formSelector + ' ' + this.options.orderColumnSelector);
+		this.orderField = $(this.options.formSelector + ' ' + this.options.orderFieldSelector);
 
 		// Limit
-		this.limitField = $(this.options.limitFieldSelector);
+		this.limitField = $(this.options.formSelector + ' ' + this.options.limitFieldSelector);
 
 		// Init trackers
 		this.activeColumn    = null;
@@ -95,6 +95,13 @@
 	Plugin.prototype = {
 		init: function () {
 			var self = this;
+
+			// IE < 9 - Avoid to submit placeholder value
+			if(!document.addEventListener  ) {
+				if (this.searchField.val() === this.searchField.attr('placeholder')) {
+					this.searchField.val('');
+				}
+			}
 
 			// Get values
 			this.searchString = this.searchField.val();
@@ -141,9 +148,9 @@
 			this.orderCols.click(function() {
 
 				// Order to set
-				var newOrderCol = $(this).attr('data-order');
-				var newDirection = 'ASC';
-				var newOrdering = newOrderCol + ' ' + newDirection;
+				var newOrderCol  = $(this).attr('data-order');
+				var newDirection = $(this).attr('data-direction');
+				var newOrdering  = newOrderCol + ' ' + newDirection;
 
 				// The data-order attrib is required
 				if (newOrderCol.length)
@@ -172,7 +179,7 @@
 			var self = this;
 
 			var option = $(element).find('option:selected');
-			if (option.val() != '') {
+			if (option.val() !== '') {
 				self.activeFilter(element);
 			} else {
 				self.deactiveFilter(element);
@@ -306,7 +313,7 @@
 				this.orderField = $('<input>').attr({
 				    type: 'hidden',
 				    id: 'js-stools-field-order',
-				    class: 'js-stools-field-order',
+				    'class': 'js-stools-field-order',
 				    name: self.options.orderFieldName,
 				    value: self.activeOrder + ' ' + this.activeDirection
 				});

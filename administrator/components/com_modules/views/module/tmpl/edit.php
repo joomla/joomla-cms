@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,18 +15,24 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
-$hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
+$hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
+$hasContentFieldName = "content";
+
+// For a later improvement
+if ($hasContent)
+{
+	$hasContentFieldName = "content";
+}
 
 // Get Params Fieldsets
 $this->fieldsets = $this->form->getFieldsets('params');
-
 
 $script = "Joomla.submitbutton = function(task)
 	{
 			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {";
 if ($hasContent)
 {
-	$script .= $this->form->getField('content')->save();
+	$script .= $this->form->getField($hasContentFieldName)->save();
 }
 $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 				if (self != top)
@@ -34,7 +40,7 @@ $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 					window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
 				}
 			}
-	}";
+	};";
 
 JFactory::getDocument()->addScriptDeclaration($script);
 
@@ -101,7 +107,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<?php
 				if ($hasContent)
 				{
-					echo $this->form->getInput('content');
+					echo $this->form->getInput($hasContentFieldName);
 				}
 				$this->fieldset = 'basic';
 				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
@@ -132,17 +138,13 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					'note'
 				);
 
-				if ((string) $this->item->xml->name == 'mod_login')
-				{
-					$this->fields = array_diff($this->fields, array('published', 'publish_up', 'publish_down'));
-				}
 				?>
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if (isset($long_description) && $long_description !='') : ?>
+		<?php if (isset($long_description) && $long_description != '') : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION', true)); ?>
 			<?php echo $long_description; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
@@ -162,7 +164,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 		<?php
 		$this->fieldsets = array();
-		$this->ignore_fieldsets = array('basic');
+		$this->ignore_fieldsets = array('basic', 'description');
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
 

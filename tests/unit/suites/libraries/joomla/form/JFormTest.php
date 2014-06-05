@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -466,6 +466,12 @@ class JFormTest extends TestCase
 			$form->filterField($form->findField('url'), ''),
 			$this->equalTo(''),
 			'Line:' . __LINE__ . ' An empty "url" filter return nothing.'
+		);
+
+		$this->assertThat(
+				$form->filterField($form->findField('url'), 'http://"onmouseover=alert(2);<>"'),
+				$this->equalTo('http://onmouseover=alert(2);'),
+				'Line:' . __LINE__ . ' <>" are always illegal in host names.'
 		);
 
 		$this->assertThat(
@@ -1107,10 +1113,10 @@ class JFormTest extends TestCase
 			$form->getInput('colours', 'params', 'blue'),
 			$this->equalTo(
 				'<select id="jform_params_colours" name="jform[params][colours][]" multiple>' .
-					"\n" . '	<option value="red">Red</option>' .
-					"\n" . '	<option value="blue" selected="selected">Blue</option>' .
-					"\n" . '	<option value="green">Green</option>' .
-					"\n" . '	<option value="yellow">Yellow</option>' .
+					"\n\t" . '<option value="red">Red</option>' .
+					"\n\t" . '<option value="blue" selected="selected">Blue</option>' .
+					"\n\t" . '<option value="green">Green</option>' .
+					"\n\t" . '<option value="yellow">Yellow</option>' .
 					"\n" . '</select>' .
 					"\n"
 			),

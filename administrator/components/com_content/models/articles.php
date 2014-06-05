@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,6 +87,33 @@ class ContentModelArticles extends JModelList
 			$this->context .= '.' . $layout;
 		}
 
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
+		$this->setState('filter.access', $access);
+
+		$authorId = $app->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
+		$this->setState('filter.author_id', $authorId);
+
+		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+
+		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+		$this->setState('filter.category_id', $categoryId);
+
+		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
+		$this->setState('filter.level', $level);
+
+		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
+		$this->setState('filter.language', $language);
+
+		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
+		$this->setState('filter.tag', $tag);
+
+		// List state information.
+		parent::populateState('a.id', 'desc');
+
 		// Force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
 
@@ -95,9 +122,6 @@ class ContentModelArticles extends JModelList
 			$this->setState('filter.language', $forcedLanguage);
 			$this->setState('filter.forcedLanguage', $forcedLanguage);
 		}
-
-		// List state information.
-		parent::populateState('a.title', 'asc');
 	}
 
 	/**
@@ -283,8 +307,8 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'a.title');
-		$orderDirn = $this->state->get('list.direction', 'asc');
+		$orderCol = $this->state->get('list.ordering', 'a.id');
+		$orderDirn = $this->state->get('list.direction', 'desc');
 
 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
 		{

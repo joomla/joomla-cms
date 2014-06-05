@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,6 +28,9 @@ class JTableCategory extends JTableNested
 	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__categories', 'id', $db);
+
+		JTableObserverTags::createObserver($this, array('typeAlias' => '{extension}.category'));
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => '{extension}.category'));
 
 		$this->access = (int) JFactory::getConfig()->get('access');
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -170,7 +170,7 @@ abstract class JModelAdmin extends JModelForm
 		$this->user = JFactory::getUser();
 		$this->table = $this->getTable();
 		$this->tableClassName = get_class($this->table);
-		$this->contentType = new JUcmType();
+		$this->contentType = new JUcmType;
 		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		$this->batchSet = true;
 
@@ -272,13 +272,13 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchAccess($value, $pks, $contexts)
 	{
-		if (!$this->batchSet)
+		if (empty($this->batchSet))
 		{
 			// Set some needed variables.
 			$this->user = JFactory::getUser();
 			$this->table = $this->getTable();
 			$this->tableClassName = get_class($this->table);
-			$this->contentType = new JUcmType();
+			$this->contentType = new JUcmType;
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 
@@ -290,11 +290,14 @@ abstract class JModelAdmin extends JModelForm
 				$this->table->load($pk);
 				$this->table->access = (int) $value;
 
-				static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+				if (!empty($this->type))
+				{
+					$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+				}
 
 				if (!$this->table->store())
 				{
-					$this->setError($table->getError());
+					$this->setError($this->table->getError());
 
 					return false;
 				}
@@ -326,13 +329,13 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
-		if (!$this->batchSet)
+		if (empty($this->batchSet))
 		{
 			// Set some needed variables.
 			$this->user = JFactory::getUser();
 			$this->table = $this->getTable();
 			$this->tableClassName = get_class($this->table);
-			$this->contentType = new JUcmType();
+			$this->contentType = new JUcmType;
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 
@@ -390,7 +393,10 @@ abstract class JModelAdmin extends JModelForm
 				return false;
 			}
 
-			static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+			if (!empty($this->type))
+			{
+				$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+			}
 
 			// Store the row.
 			if (!$this->table->store())
@@ -427,13 +433,13 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchLanguage($value, $pks, $contexts)
 	{
-		if (!$this->batchSet)
+		if (empty($this->batchSet))
 		{
 			// Set some needed variables.
 			$this->user = JFactory::getUser();
 			$this->table = $this->getTable();
 			$this->tableClassName = get_class($this->table);
-			$this->contentType = new JUcmType();
+			$this->contentType = new JUcmType;
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 
@@ -445,7 +451,10 @@ abstract class JModelAdmin extends JModelForm
 				$this->table->load($pk);
 				$this->table->language = $value;
 
-				static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+				if (!empty($this->type))
+				{
+					$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+				}
 
 				if (!$this->table->store())
 				{
@@ -481,13 +490,13 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
-		if (!$this->batchSet)
+		if (empty($this->batchSet))
 		{
 			// Set some needed variables.
 			$this->user = JFactory::getUser();
 			$this->table = $this->getTable();
 			$this->tableClassName = get_class($this->table);
-			$this->contentType = new JUcmType();
+			$this->contentType = new JUcmType;
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 
@@ -537,7 +546,10 @@ abstract class JModelAdmin extends JModelForm
 				return false;
 			}
 
-			static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+			if (!empty($this->type))
+			{
+				$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+			}
 
 			// Store the row.
 			if (!$this->table->store())
@@ -1138,9 +1150,8 @@ abstract class JModelAdmin extends JModelForm
 	{
 		$table = $this->getTable();
 		$tableClassName = get_class($table);
-		$contentType = new JUcmType();
+		$contentType = new JUcmType;
 		$type = $contentType->getTypeByTable($tableClassName);
-		$typeAlias = $type->type_alias;
 		$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
 		$conditions = array();
 
@@ -1165,7 +1176,10 @@ abstract class JModelAdmin extends JModelForm
 			{
 				$table->ordering = $order[$i];
 
-				$this->createTagsHelper($tagsObserver, $type, $pk, $typeAlias, $table);
+				if ($type)
+				{
+					$this->createTagsHelper($tagsObserver, $type, $pk, $type->type_alias, $table);
+				}
 
 				if (!$table->store())
 				{
@@ -1208,35 +1222,36 @@ abstract class JModelAdmin extends JModelForm
 	}
 
 	/**
-	 * Method to creat a tags helper to ensure proper management of tags
+	 * Method to create a tags helper to ensure proper management of tags
 	 *
-	 * @param JTableObserverTags  $tagsObserver  The tags observer for this table
-	 * @param JUcmType            $type          The type for the table being processed
-	 * @param integer             $pk            Primary key of the item bing processed
-	 * @param string              $typeAlias     The type alias for this table
+	 * @param   JTableObserverTags  $tagsObserver  The tags observer for this table
+	 * @param   JUcmType            $type          The type for the table being processed
+	 * @param   integer             $pk            Primary key of the item bing processed
+	 * @param   string              $typeAlias     The type alias for this table
+	 * @param   JTable              $table         The JTable object
 	 *
-	 * @return   void
+	 * @return  void
 	 *
-	 * @since  3.2
+	 * @since   3.2
 	 */
 	public function createTagsHelper($tagsObserver, $type, $pk, $typeAlias, $table)
 	{
 		if (!empty($tagsObserver) && !empty($type))
 		{
-			$table->tagsHelper = new JHelperTags();
+			$table->tagsHelper = new JHelperTags;
 			$table->tagsHelper->typeAlias = $typeAlias;
 			$table->tagsHelper->tags = explode(',', $table->tagsHelper->getTagIds($pk, $typeAlias));
 		}
 	}
 
 	/**
-	 * Method to check the validity of the category id for batch copy and move
+	 * Method to check the validity of the category ID for batch copy and move
 	 *
-	 * @param  integer  $categoryId  The category id to check
+	 * @param   integer  $categoryId  The category ID to check
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 *
-	 * @since  3.2
+	 * @since   3.2
 	 */
 	protected function checkCategoryId($categoryId)
 	{
@@ -1285,8 +1300,12 @@ abstract class JModelAdmin extends JModelForm
 	 * A method to preprocess generating a new title in order to allow tables with alternative names
 	 * for alias and title to use the batch move and copy methods
 	 *
-	 * @param integer  $categoryId   The target category id
-	 * @param JTable   $table        The JTable within whcih move or copy is taking place
+	 * @param   integer  $categoryId  The target category id
+	 * @param   JTable   $table       The JTable within which move or copy is taking place
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
 	 */
 	public function generateTitle($categoryId, $table)
 	{
@@ -1295,5 +1314,4 @@ abstract class JModelAdmin extends JModelForm
 		$table->title = $data['0'];
 		$table->alias = $data['1'];
 	}
-
 }

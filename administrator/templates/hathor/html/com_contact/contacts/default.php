@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 			<label class="selectlabel" for="filter_published">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
-			<select name="filter_published" class="inputbox" id="filter_published">
+			<select name="filter_published" id="filter_published">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
@@ -54,7 +54,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 			<label class="selectlabel" for="filter_category_id">
 				<?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?>
 			</label>
-			<select name="filter_category_id" class="inputbox" id="filter_category_id">
+			<select name="filter_category_id" id="filter_category_id">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_contact'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
@@ -62,7 +62,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 			<label class="selectlabel" for="filter_access">
 				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
-			<select name="filter_access" class="inputbox" id="filter_access">
+			<select name="filter_access" id="filter_access">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
@@ -70,7 +70,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 			<label class="selectlabel" for="filter_language">
 				<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>
 			</label>
-			<select name="filter_language" class="inputbox" id="filter_language">
+			<select name="filter_language" id="filter_language">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 			</select>
@@ -78,7 +78,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 			<label class="selectlabel" for="filter_tag">
 				<?php echo JText::_('JOPTION_SELECT_TAG'); ?>
 			</label>
-			<select name="filter_tag" class="inputbox" id="filter_tag">
+			<select name="filter_tag" id="filter_tag">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_TAG');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'));?>
 			</select>
@@ -179,17 +179,17 @@ $assoc		= JLanguageAssociations::isEnabled();
 				</td>
 				<td class="order">
 					<?php if ($canChange) : ?>
-						<?php if ($saveOrder) :?>
+						<?php if ($saveOrder) : ?>
 							<?php if ($listDirn == 'asc') : ?>
 								<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i - 1]->catid), 'contacts.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-								<span><?php echo $this->pagination->orderDownIcon($i, $n, ($item->catid == @$this->items[$i + 1]->catid), 'contacts.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, ($item->catid == @$this->items[$i + 1]->catid), 'contacts.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 							<?php elseif ($listDirn == 'desc') : ?>
 								<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i - 1]->catid), 'contacts.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-								<span><?php echo $this->pagination->orderDownIcon($i, $n, ($item->catid == @$this->items[$i + 1]->catid), 'contacts.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, ($item->catid == @$this->items[$i + 1]->catid), 'contacts.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 							<?php endif; ?>
 						<?php endif; ?>
 						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" title="<?php echo $item->name; ?> order" />
+						<input type="text" name="order[]" value="<?php echo $item->ordering; ?>" <?php echo $disabled; ?> class="text-area-order" title="<?php echo $item->name; ?> order" />
 					<?php else : ?>
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>

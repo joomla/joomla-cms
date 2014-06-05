@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -312,7 +312,7 @@ class JBrowser
 				$this->setBrowser('avantgo');
 				$this->mobile = true;
 			}
-			elseif (preg_match('|Konqueror/([0-9]+)|', $this->agent, $version) || preg_match('|Safari/([0-9]+)\.?([0-9]+)?|', $this->agent, $version))
+			elseif (preg_match('|[Kk]onqueror/([0-9]+)|', $this->agent, $version) || preg_match('|Safari/([0-9]+)\.?([0-9]+)?|', $this->agent, $version))
 			{
 				// Konqueror and Apple's Safari both use the KHTML
 				// rendering engine.

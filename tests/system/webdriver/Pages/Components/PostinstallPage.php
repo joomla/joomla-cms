@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -22,8 +28,14 @@ class PostinstallPage extends AdminPage
 	 */
 	public function clearInstallMessages()
 	{
-		$this->driver->findElement(By::xPath("//a[contains(text(), 'Hide this message')]"))->click();
-		$page = $this->test->getPageObject('PostinstallPage');
+		$clearButtons = $this->driver->findElements(By::xPath("//a[contains(text(), 'Hide this message')]"));
+		while (count($clearButtons) > 0)
+		{
+			$clearButtons[0]->click();
+			$page = $this->test->getPageObject('PostinstallPage');
+			$clearButtons = $this->driver->findElements(By::xPath("//a[contains(text(), 'Hide this message')]"));
+		}
+
 	}
 
 }

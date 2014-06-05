@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -76,7 +76,7 @@ class JMail extends PHPMailer
 	 */
 	public function Send()
 	{
-		if (JFactory::getConfig()->get('mailonline'))
+		if (JFactory::getConfig()->get('mailonline', 1))
 		{
 			if (($this->Mailer == 'mail') && !function_exists('mail'))
 			{
@@ -496,12 +496,12 @@ class JMail extends PHPMailer
 
 			for ($i = 0; $i < $numReplyTo; $i++)
 			{
-				$this->addReplyTo(array($replyTo[$i], $replyToName[$i]));
+				$this->addReplyTo($replyTo[$i], $replyToName[$i]);
 			}
 		}
 		elseif (isset($replyTo))
 		{
-			$this->addReplyTo(array($replyTo, $replyToName));
+			$this->addReplyTo($replyTo, $replyToName);
 		}
 
 		// Add sender to replyTo only if no replyTo received

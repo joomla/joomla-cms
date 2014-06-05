@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -225,7 +225,8 @@ class FinderModelSearch extends JModelList
 			->select('l.link_id')
 			->from($db->quoteName('#__finder_links') . ' AS l')
 			->where('l.access IN (' . $groups . ')')
-			->where('l.state = 1');
+			->where('l.state = 1')
+			->where('l.published = 1');
 
 		// Get the null date and the current date, minus seconds.
 		$nullDate = $db->quote($db->getNullDate());

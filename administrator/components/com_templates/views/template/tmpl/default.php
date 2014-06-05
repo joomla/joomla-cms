@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,6 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
 
-$canDo = TemplatesHelper::getActions();
 $input = JFactory::getApplication()->input;
 
 if ($this->type == 'image')
@@ -178,7 +177,7 @@ if ($this->type == 'image')
 						<input type="hidden" name="task" value="" />
 						<?php echo JHtml::_('form.token'); ?>
 						<div class="hero-unit" style="text-align: justify;">
-							<h1><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h1>
+							<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
 							<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 							<p>
 								<a href="http://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">

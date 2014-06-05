@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -323,37 +323,6 @@ class JDatabaseQueryTest extends TestCase
 		);
 	}
 
-	/**
-	 * Tests the union element of __toString.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function test__toStringUnion()
-	{
-		$this->markTestIncomplete('This test does not work!');
-		$this->_instance->select('*')
-			->union('SELECT id FROM a');
-
-		$this->assertEquals("UNION (SELECT id FROM a)", trim($this->_instance));
-	}
-
-	/**
-	 * Tests the unionAll element of __toString.
-	 *
-	 * @return  void
-	 *
-	 * @since   13.1
-	 */
-	public function test__toStringUnionAll()
-	{
-		$this->markTestIncomplete('This test does not work!');
-		$this->_instance->select('*')
-		->unionAll('SELECT id FROM a');
-
-		$this->assertEquals("UNION ALL (SELECT id FROM a)", trim($this->_instance));
-	}
 	/**
 	 * Tests the JDatabaseQuery::call method.
 	 *
@@ -1553,26 +1522,6 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @since   12.1
 	 */
-	public function testUnionClear()
-	{
-		TestReflection::setValue($this->_instance, 'union', null);
-		TestReflection::setValue($this->_instance, 'order', null);
-		$this->_instance->order('bar');
-		$this->_instance->union('SELECT name FROM foo');
-		$this->assertThat(
-			TestReflection::getValue($this->_instance, 'order'),
-			$this->equalTo(null),
-			'Tests that ORDER BY is cleared with union.'
-		);
-	}
-
-	/**
-	 * Tests the JDatabaseQuery::union method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
 	public function testUnionUnion()
 	{
 		TestReflection::setValue($this->_instance, 'union', null);
@@ -1716,6 +1665,113 @@ class JDatabaseQueryTest extends TestCase
 			$teststring,
 			$this->equalTo(PHP_EOL . "UNION DISTINCT (SELECT name FROM foo)" . PHP_EOL . "UNION DISTINCT (SELECT name FROM bar)"),
 			'Tests rendered query with two unions distinct.'
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::union method when passed a query object instead of a string.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.??
+	 */
+	public function testUnionObject()
+	{
+		$this->_instance->select('name')->from('foo')->where('a=1');
+
+		$q2 = new JDatabaseQueryInspector($this->dbo);
+		$q2->select('name')->from('bar')->where('b=2');
+
+		TestReflection::setValue($this->_instance, 'union', null);
+		$this->_instance->union($q2);
+
+		$this->assertThat(
+			(string) $this->_instance,
+			$this->equalTo(
+				PHP_EOL . "SELECT name" . PHP_EOL .
+				"FROM foo" . PHP_EOL . 
+				"WHERE a=1" . PHP_EOL .
+				"UNION (" . PHP_EOL .
+				"SELECT name" . PHP_EOL .
+				"FROM bar" . PHP_EOL .
+				"WHERE b=2)"
+			)
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::union method when passed two query objects chained.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.??
+	 */
+	public function testUnionObjectsChained()
+	{
+		$this->_instance->select('name')->from('foo')->where('a=1');
+
+		$q2 = new JDatabaseQueryInspector($this->dbo);
+		$q2->select('name')->from('bar')->where('b=2');
+
+		$q3 = new JDatabaseQueryInspector($this->dbo);
+		$q3->select('name')->from('baz')->where('c=3');
+
+		TestReflection::setValue($this->_instance, 'union', null);
+		$this->_instance->union($q2)->union($q3);
+
+		$this->assertThat(
+			(string) $this->_instance,
+			$this->equalTo(
+				PHP_EOL . "SELECT name" . PHP_EOL .
+				"FROM foo" . PHP_EOL .
+				"WHERE a=1" . PHP_EOL .
+				"UNION (" . PHP_EOL .
+				"SELECT name" . PHP_EOL .
+				"FROM bar" . PHP_EOL .
+				"WHERE b=2)" . PHP_EOL .
+				"UNION (" . PHP_EOL .
+				"SELECT name" . PHP_EOL .
+				"FROM baz" . PHP_EOL .
+				"WHERE c=3)"
+			)
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::union method when passed two query objects in an array.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.??
+	 */
+	public function testUnionObjectsArray()
+	{
+		$this->_instance->select('name')->from('foo')->where('a=1');
+
+		$q2 = new JDatabaseQueryInspector($this->dbo);
+		$q2->select('name')->from('bar')->where('b=2');
+
+		$q3 = new JDatabaseQueryInspector($this->dbo);
+		$q3->select('name')->from('baz')->where('c=3');
+
+		TestReflection::setValue($this->_instance, 'union', null);
+		$this->_instance->union(array($q2, $q3));
+
+		$this->assertThat(
+			(string) $this->_instance,
+			$this->equalTo(
+				PHP_EOL . "SELECT name" . PHP_EOL .
+				"FROM foo" . PHP_EOL .
+				"WHERE a=1" . PHP_EOL .
+				"UNION (" . PHP_EOL .
+				"SELECT name" . PHP_EOL .
+				"FROM bar" . PHP_EOL .
+				"WHERE b=2)" . PHP_EOL .
+				"UNION (" . PHP_EOL .
+				"SELECT name" . PHP_EOL .
+				"FROM baz" . PHP_EOL .
+				"WHERE c=3)"
+			)
 		);
 	}
 

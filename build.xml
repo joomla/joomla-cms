@@ -67,7 +67,7 @@
 	<target name="phpdoc" description="Generate API documentation using phpDocumentor">
 		<exec executable="phpdoc">
 			<arg value="-d" />
-			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/" />
+			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/,${basedir}/libraries/framework/Joomla/" />
 			<arg value="-f" />
 			<arg path="${basedir}/libraries/loader.php,${basedir}/libraries/platform.php" />
 			<arg value="-t" />

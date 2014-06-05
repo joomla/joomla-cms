@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE . '/components/com_weblinks/helpers/route.php';
 
 /**
- * Weblinks Search plugin
+ * Weblinks search plugin.
  *
  * @package     Joomla.Plugin
  * @subpackage  Search.weblinks
@@ -29,26 +29,35 @@ class PlgSearchWeblinks extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * @return array An array of search areas
+	 * Determine areas searchable by this plugin.
+	 *
+	 * @return  array  An array of search areas.
+	 *
+	 * @since   1.6
 	 */
 	public function onContentSearchAreas()
 	{
 		static $areas = array(
 			'weblinks' => 'PLG_SEARCH_WEBLINKS_WEBLINKS'
 		);
+
 		return $areas;
 	}
 
 	/**
-	 * Weblink Search method
+	 * Search content (weblinks).
 	 *
-	 * The sql must return the following fields that are used in a common display
+	 * The SQL must return the following fields that are used in a common display
 	 * routine: href, title, section, created, text, browsernav
 	 *
-	 * @param string Target search string
-	 * @param string mathcing option, exact|any|all
-	 * @param string ordering option, newest|oldest|popular|alpha|category
-	 * @param mixed  An array if the search it to be restricted to areas, null if search all
+	 * @param   string  $text      Target search string.
+	 * @param   string  $phrase    Matching option (possible values: exact|any|all).  Default is "any".
+	 * @param   string  $ordering  Ordering option (possible values: newest|oldest|popular|alpha|category).  Default is "newest".
+	 * @param   mixed   $areas     An array if the search it to be restricted to areas or null to search all areas.
+	 *
+	 * @return  array  Search results.
+	 *
+	 * @since   1.6
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
@@ -71,10 +80,12 @@ class PlgSearchWeblinks extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
 		$state = array();
+
 		if ($sContent)
 		{
 			$state[] = 1;
 		}
+
 		if ($sArchived)
 		{
 			$state[] = 2;
@@ -86,10 +97,12 @@ class PlgSearchWeblinks extends JPlugin
 		}
 
 		$text = trim($text);
+
 		if ($text == '')
 		{
 			return array();
 		}
+
 		$searchWeblinks = JText::_('PLG_SEARCH_WEBLINKS');
 
 		switch ($phrase)
@@ -108,6 +121,7 @@ class PlgSearchWeblinks extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
+
 				foreach ($words as $word)
 				{
 					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
@@ -117,6 +131,7 @@ class PlgSearchWeblinks extends JPlugin
 					$wheres2[] = 'a.title LIKE ' . $word;
 					$wheres[] = implode(' OR ', $wheres2);
 				}
+
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
@@ -145,7 +160,8 @@ class PlgSearchWeblinks extends JPlugin
 		}
 
 		$query = $db->getQuery(true);
-		//sqlsrv changes
+
+		// SQLSRV changes.
 		$case_when = ' CASE WHEN ';
 		$case_when .= $query->charLength('a.alias', '!=', '0');
 		$case_when .= ' THEN ';
@@ -170,7 +186,7 @@ class PlgSearchWeblinks extends JPlugin
 		->where('(' . $where . ') AND a.state IN (' . implode(',', $state) . ') AND c.published = 1 AND c.access IN (' . $groups . ')')
 		->order($order);
 
-		// Filter by language
+		// Filter by language.
 		if ($app->isSite() && JLanguageMultilang::isEnabled())
 		{
 			$tag = JFactory::getLanguage()->getTag();
@@ -182,6 +198,7 @@ class PlgSearchWeblinks extends JPlugin
 		$rows = $db->loadObjectList();
 
 		$return = array();
+
 		if ($rows)
 		{
 			foreach ($rows as $key => $row)

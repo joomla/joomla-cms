@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -210,6 +216,7 @@ class MenuItemEditPage extends AdminEditPage
 	{
 		$group = $this->getGroupName($value);
 		$d = $this->driver;
+		$d->findElement(By::xPath("//input[@id='jform_title']"))->click();
 		$d->findElement(By::xPath("//a[contains(@onclick, 'option=com_menus&view=menutypes')]"))->click();
 		$el = $d->waitForElementUntilIsPresent(By::xPath("//iframe[contains(@src, 'option=com_menus&view=menutypes')]"));
 		$el = $d->switchTo()->getFrameByWebElement($el);
