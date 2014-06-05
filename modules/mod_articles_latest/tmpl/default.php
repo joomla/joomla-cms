@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 ?>
-<ul class="latestnews<?php echo $moduleclass_sfx; ?>">
-<?php foreach ($list as $item) :  ?>
-	<li>
-		<a href="<?php echo $item->link; ?>">
-			<?php echo $item->title; ?></a>
-	</li>
-<?php endforeach; ?>
-</ul>
+<?php if (!empty($list)) : ?>
+	<ul class="latestnews<?php echo $moduleclass_sfx; ?>">
+	<?php foreach ($list as $item) :  ?>
+		<li>
+			<a href="<?php echo $item->link; ?>">
+				<?php echo $item->title; ?></a>
+		</li>
+	<?php endforeach; ?>
+	</ul>
+<?php endif; ?>
