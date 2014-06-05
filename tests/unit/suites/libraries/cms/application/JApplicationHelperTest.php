@@ -7,41 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/**
- * Test class for JApplicationHelper
- *
- * @package     Joomla.UnitTest
- * @subpackage  Application
- * @since       3.2
- */
-class JApplicationHelperInspector extends JApplicationHelper
-{
-	/**
-	 * Method to get the current application data
-	 *
-	 * @return  array  The array of application data objects.
-	 *
-	 * @since   3.2
-	 */
-	public static function get()
-	{
-		return self::$_clients;
-	}
-
-	/**
-	 * Set the application data.
-	 *
-	 * @param   string  $apps  The app to set.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public static function set($apps)
-	{
-		self::$_clients = $apps;
-	}
-}
+require_once __DIR__ . '/stubs/JApplicationHelperInspector.php';
 
 /**
  * Test class for JApplicationHelper.
