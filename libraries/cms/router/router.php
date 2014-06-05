@@ -384,13 +384,13 @@ class JRouter
 	 *
 	 * @param   JUri  &$uri  The raw route
 	 *
-	 * @return  boolean
+	 * @return  array  Array of variables
 	 *
 	 * @since   3.2
 	 */
 	protected function parseRawRoute(&$uri)
 	{
-		return false;
+		return array();
 	}
 
 	/**
@@ -413,13 +413,13 @@ class JRouter
 	 *
 	 * @param   JUri  &$uri  The sef URI
 	 *
-	 * @return  string  Internal URI
+	 * @return  array  Array of variables
 	 *
 	 * @since   3.2
 	 */
 	protected function parseSefRoute(&$uri)
 	{
-		return false;
+		return array();
 	}
 
 	/**
@@ -572,15 +572,14 @@ class JRouter
 	 */
 	protected function createURI($url)
 	{
-		if (is_array($url))
+		if (!is_array($url) && substr($url, 0, 1) != '&')
 		{
-			$uri = new JUri('index.php');
-			$uri->setQuery($url);
-
-			return $uri;
+			return new JUri($url);
 		}
-		// Create full URL if we are only appending variables to it
-		elseif (substr($url, 0, 1) == '&')
+		
+		$uri = new JUri('index.php');
+		
+		if (is_string($url))
 		{
 			$vars = array();
 
@@ -590,22 +589,25 @@ class JRouter
 			}
 
 			parse_str($url, $vars);
-
-			$vars = array_merge($this->getVars(), $vars);
-
-			foreach ($vars as $key => $var)
-			{
-				if ($var == "")
-				{
-					unset($vars[$key]);
-				}
-			}
-
-			$url = 'index.php?' . JUri::buildQuery($vars);
+		}
+		else
+		{
+			$vars = $url;
 		}
 
-		// Decompose link into url component parts
-		return new JUri($url);
+		$vars = array_merge($this->getVars(), $vars);
+
+		foreach ($vars as $key => $var)
+		{
+			if ($var == "")
+			{
+				unset($vars[$key]);
+			}
+		}
+
+		$uri->setQuery($vars);
+
+		return $uri;
 	}
 
 	/**

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once __DIR__ . '/stubs/JRouterInspector.php';
+
 /**
  * Test class for JRouter.
  *
@@ -40,68 +42,115 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
+	 * Tests the getInstance() method
 	 *
-	 * @todo Implement testGetInstance().
+	 * @return  void
 	 *
-	 * @return void
+	 * @since         3.4
+	 * @expectedException RuntimeException
 	 */
 	public function testGetInstance()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		//Check if a proper object is returned and that the mode is properly set
+		$object = JRouter::getInstance('administrator', array('mode' => 'test', 'randomKey' => 'randomValue'));
+		$this->assertTrue(is_a($object, 'JRouterAdministrator'));
+		$this->assertEquals($object->getMode(), 'test');
+		//This test is commented, since the feature is not implemented (yet)
+		//$this->assertEquals($object->get('randomKey'), 'randomValue');
+		
+		//Check if the same object is returned by getInstance()
+		$object2 = JRouter::getInstance('administrator');
+		$this->assertSame($object, $object2);
+		
+		//Check if a proper exception is thrown if there is no router class
+		$object3 = JRouter::getInstance('exception');
 	}
 
 	/**
-	 * Test...
+	 * Cases for testParse
 	 *
-	 * @todo Implement testParse().
+	 * @return  array
 	 *
-	 * @return void
+	 * @since   3.4
 	 */
-	public function testParse()
+	public function casesParse()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$cases = array();
+		$cases[] = array(array(), JROUTER_MODE_RAW, array(), array());
+		$cases[] = array(array('var1' => 'value1'), JROUTER_MODE_RAW, array(), array());
+		$cases[] = array(array(), JROUTER_MODE_RAW, array('var1' => 'value1'), array('var1' => 'value1'));
+		
+		$cases[] = array(array(), JROUTER_MODE_SEF, array(), array());
+		$cases[] = array(array('var1' => 'value1'), JROUTER_MODE_SEF, array(), array());
+		$cases[] = array(array(), JROUTER_MODE_SEF, array('var1' => 'value1'), array('var1' => 'value1'));
+
+		return $cases;
 	}
 
 	/**
-	 * Test...
+	 * Tests the parse method
 	 *
-	 * @todo Implement testBuild().
+	 * @param   array    $uri       An associative array with variables
+	 * @param   integer  $mode      JROUTER_MODE_RAW or JROUTER_MODE_SEF
+	 * @param   array    $vars      An associative array with global variables
+	 * @param   array    $expected  Expected value
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @dataProvider  casesParse
+	 * @since         3.4
+	 */
+	public function testParse($uri, $mode, $vars, $expected)
+	{
+		$this->object->setMode($mode);
+		$this->object->setVars($vars);
+
+		$this->assertEquals($this->object->parse($uri), $expected);
+	}
+
+	/**
+	 * Tests the build() method
+	 *
+	 * @return  void
+	 *
+	 * @since         3.4
 	 */
 	public function testBuild()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$uri = new JUri('index.php?var1=value1');
+		$result = $this->object->build('index.php?var1=value1');
+		$this->assertEquals($uri, $result);
 	}
 
 	/**
-	 * Test...
+	 * Tests the getMode() method
 	 *
-	 * @todo Implement testGetMode().
+	 * @return  void
 	 *
-	 * @return void
+	 * @since         3.4
 	 */
 	public function testGetMode()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertEquals($this->object->getMode(), JROUTER_MODE_RAW);
+		
+		$this->object->setMode(JROUTER_MODE_SEF);
+		$this->assertEquals($this->object->getMode(), JROUTER_MODE_SEF);
 	}
 
 	/**
-	 * Test...
+	 * Tests the setMode() method
 	 *
-	 * @todo Implement testSetMode().
+	 * @return  void
 	 *
-	 * @return void
+	 * @since         3.4
 	 */
 	public function testSetMode()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->setMode(JROUTER_MODE_SEF);
+		$this->assertEquals($this->object->getMode(), JROUTER_MODE_SEF);
+		
+		$this->object->setMode(42);
+		$this->assertEquals($this->object->getMode(), 42);
 	}
 
 	/**
@@ -144,120 +193,178 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetVars().
+	 * Tests the setVars() method
 	 *
 	 * @return void
+	 * 
+	 * @since  3.4
 	 */
 	public function testSetVars()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertEquals($this->object->getVars(), array());
+		$this->object->setVars(array('var1' => 'value1'));
+		$this->assertEquals($this->object->getVars(), array('var1' => 'value1'));
+		
+		$this->object->setVars(array('var2' => 'value2'));
+		$this->assertEquals($this->object->getVars(), array('var1' => 'value1', 'var2' => 'value2'));
+		
+		$this->object->setVars(array('var3' => 'value3'), false);
+		$this->assertEquals($this->object->getVars(), array('var3' => 'value3'));
+		
+		$this->object->setVars(array(), false);
+		$this->assertEquals($this->object->getVars(), array());
 	}
 
 	/**
-	 * Test...
+	 * Cases for testGetVar
 	 *
-	 * @todo Implement testGetVar().
+	 * @return  array
 	 *
-	 * @return void
+	 * @since   3.4
 	 */
-	public function testGetVar()
+	public function casesGetVar()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$cases = array();
+		$cases[] = array(array(), 'myvar', 'myvalue', true, 'myvalue');
+		$cases[] = array(array(), 'myvar', 'myvalue', false, null);
+		$cases[] = array(array('myvar' => 'myvalue1'), 'myvar', 'myvalue2', true, 'myvalue2');
+		$cases[] = array(array('myvar' => 'myvalue1'), 'myvar', 'myvalue2', false, 'myvalue2');
+
+		return $cases;
 	}
 
 	/**
-	 * Test...
+	 * Tests the getVar method
 	 *
-	 * @todo Implement testGetVars().
+	 * @param   array    $vars      An associative array with variables
+	 * @param   string   $var       The name of the variable
+	 * @param   mixed    $value     The value of the variable
+	 * @param   boolean  $create    If True, the variable will be created if it doesn't exist yet
+	 * @param   string   $expected  Expected return value
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  casesGetVar
+	 * @since         3.4
+	 */
+	public function testGetVar($vars, $var, $value, $create, $expected)
+	{
+		$this->object->setVars($vars, false);
+		$this->object->setVar($var, $value, $create);
+		$this->assertEquals($this->object->getVar($var), $expected, __METHOD__ . ':' . __LINE__ . ': value is not expected');
+	}
+
+	/**
+	 * Tests the getVars() method
 	 *
 	 * @return void
+	 * 
+	 * @since  3.4
 	 */
 	public function testGetVars()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertEquals($this->object->getVars(), array());
+		$this->object->setVars(array('var1' => 'value1'));
+		$this->assertEquals($this->object->getVars(), array('var1' => 'value1'));
+		
+		$this->object->setVars(array('var2' => 'value2'));
+		$this->assertEquals($this->object->getVars(), array('var1' => 'value1', 'var2' => 'value2'));
+		
+		$this->object->setVars(array('var3' => 'value3'), false);
+		$this->assertEquals($this->object->getVars(), array('var3' => 'value3'));
+		
+		$this->object->setVars(array(), false);
+		$this->assertEquals($this->object->getVars(), array());
 	}
 
 	/**
-	 * Test...
+	 * Cases for testAttachBuildRule
 	 *
-	 * @todo Implement testAttachBuildRule().
+	 * @return  array
 	 *
-	 * @return void
+	 * @since   3.4
 	 */
-	public function testAttachBuildRule()
+	public function casesAttachBuildRule()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$cases = array();
+		$cases[] = array(array(), array('build' => array(), 'parse' => array()));
+		$callbacks = array(function (&$router, &$uri) {});
+		$cases[] = array($callbacks,
+			array(
+				'build' => $callbacks,
+				'parse' => array()
+			)
+		);
+
+		return $cases;
 	}
 
 	/**
-	 * Test...
+	 * Tests the attachBuildRule method
 	 *
-	 * @todo Implement testAttachParseRule().
+	 * @param   callback  $callbacks   Callbacks to be attached
+	 * @param   array     $expected    The expected internal rules array
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @dataProvider  casesAttachBuildRule
+	 * @since         3.4
 	 */
-	public function testAttachParseRule()
+	public function testAttachBuildRule($callbacks, $expected)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$object = new JRouterInspector;
+
+		foreach($callbacks as $callback)
+		{
+			$object->attachBuildRule($callback);
+		}
+
+		$this->assertEquals($object->getRules(), $expected);
 	}
 
 	/**
-	 * Test...
+	 * Cases for testAttachParseRule
 	 *
-	 * @todo Implement testParseRawRoute().
+	 * @return  array
 	 *
-	 * @return void
+	 * @since   3.4
 	 */
-	public function testParseRawRoute()
+	public function casesAttachParseRule()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$cases = array();
+		$cases[] = array(array(), array('build' => array(), 'parse' => array()));
+		$callbacks = array(function (&$router, &$uri) {});
+		$cases[] = array($callbacks,
+			array(
+				'build' => array(),
+				'parse' => $callbacks
+			)
+		);
+
+		return $cases;
 	}
 
 	/**
-	 * Test...
+	 * Tests the attachParseRule method
 	 *
-	 * @todo Implement testParseSefRoute().
+	 * @param   callback  $callbacks   Callbacks to be attached
+	 * @param   array     $expected    The expected internal rules array
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @dataProvider  casesAttachParseRule
+	 * @since         3.4
 	 */
-	public function testParseSefRoute()
+	public function testAttachParseRule($callbacks, $expected)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
+		$object = new JRouterInspector;
 
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testBuildRawRoute().
-	 *
-	 * @return void
-	 */
-	public function testBuildRawRoute()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
+		foreach($callbacks as $callback)
+		{
+			$object->attachParseRule($callback);
+		}
 
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testBuildSefRoute().
-	 *
-	 * @return void
-	 */
-	public function testBuildSefRoute()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertEquals($object->getRules(), $expected);
 	}
 
 	/**
@@ -315,10 +422,10 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * test_processParseRules().
+	 * testProcessParseRules().
 	 *
-	 * @param   array   $functions  @todo
-	 * @param   string  $expected   @todo
+	 * @param   array   $functions  Callback to execute
+	 * @param   string  $expected   Expected return value
 	 *
 	 * @dataProvider casesProcessParseRules
 	 *
@@ -339,54 +446,195 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
+	 * Cases for testProcessBuildRules
 	 *
-	 * @todo Implement testProcessBuildRules().
+	 * @return  array
 	 *
-	 * @return void
+	 * @since   3.4
 	 */
-	public function testProcessBuildRules()
+	public function casesProcessBuildRules()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$cases = array();
+		$cases[] = array(array(), 'index.php?var1=value1&var2=value2');
+		$cases[] = array(
+			array(
+				function (&$router, &$uri)
+				{
+					$uri->setPath('value1');
+				}
+			),
+			'value1?var1=value1&var2=value2'
+		);
+		$cases[] = array(
+			array(
+				function (&$router, &$uri)
+				{
+					$uri->setPath('value1');
+				},
+				function (&$router, &$uri)
+				{
+					$uri->delVar('var1');
+				},
+			),
+			'value1?var2=value2'
+		);
+		$cases[] = array(
+			array(
+				function (&$router, &$uri)
+				{
+					$uri->setPath('value1/value2');
+				},
+				function (&$router, &$uri)
+				{
+					$uri->delVar('var1');
+				},
+				function (&$router, &$uri)
+				{
+					$uri->delVar('var2');
+				},
+			),
+			'value1/value2'
+		);
+
+		return $cases;
 	}
 
 	/**
-	 * Test...
+	 * testProcessBuildRules().
 	 *
-	 * @todo Implement testCreateURI().
+	 * @param   array   $functions  Callback to execute
+	 * @param   string  $expected   Expected return value
+	 *
+	 * @dataProvider casesProcessBuildRules
 	 *
 	 * @return void
 	 */
-	public function testCreateURI()
+	public function testProcessBuildRules($functions, $expected)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$myuri = 'index.php?var1=value1&var2=value2';
+		$stub = $this->getMock('JRouter', array('buildRawRoute'));
+		$stub->expects($this->any())->method('buildRawRoute')->will($this->returnValue(array()));
+
+		foreach ($functions as $function)
+		{
+			$stub->attachBuildRule($function);
+		}
+
+		$juri = $stub->build($myuri);
+		$this->assertEquals($juri->toString(), $expected, __METHOD__ . ':' . __LINE__ . ': value is not expected');
 	}
 
 	/**
-	 * Test...
+	 * Cases for testCreateURI
 	 *
-	 * @todo Implement testEncodeSegments().
+	 * @return  array
 	 *
-	 * @return void
+	 * @since   3.4
 	 */
-	public function testEncodeSegments()
+	public function casesCreateURI()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$cases = array();
+
+		$cases[] = array('', array(), '');
+		$cases[] = array('index.php', array(), 'index.php');
+		
+		$cases[] = array(array('var1' => 'value1', 'var2' => 'value2'), array(), 'index.php?var1=value1&var2=value2');
+		$cases[] = array(array('var1' => 'value1', 'var2' => 'value2'), array('var3' => 'value3'), 'index.php?var3=value3&var1=value1&var2=value2');
+		$cases[] = array(array('var1' => 'value1', 'var2' => 'value2'), array('var2' => 'value3'), 'index.php?var2=value2&var1=value1');
+
+		$cases[] = array('&var1=value1&var2=value2', array(), 'index.php?var1=value1&var2=value2');
+		$cases[] = array('&var1=value1&var2=value2', array('var3' => 'value3'), 'index.php?var3=value3&var1=value1&var2=value2');
+		$cases[] = array('&var1=value1&var2=value2', array('var2' => 'value3'), 'index.php?var2=value2&var1=value1');
+		
+		return $cases;
 	}
 
 	/**
-	 * Test...
+	 * Tests createURI() method
 	 *
-	 * @todo Implement testDecodeSegments().
+	 * @param   array   $url         valid inputs to the createURI() method
+	 * @param   array   $globalVars  global Vars that should be merged into the URL
+	 * @param   string  $expected    expected URI string 
+	 *
+	 * @dataProvider casesCreateURI
 	 *
 	 * @return void
 	 */
-	public function testDecodeSegments()
+	public function testCreateURI($url, $globalVars, $expected)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$object = new JRouterInspector;
+		$object->setVars($globalVars, false);
+		$juri = $object->runCreateURI($url);
+		
+		$this->assertTrue(is_a($juri, 'JUri'));
+		$this->assertEquals($juri->toString(), $expected);
+	}
+
+	/**
+	 * Cases for testEncodeSegments
+	 *
+	 * @return  array
+	 *
+	 * @since   3.4
+	 */
+	public function casesEncodeSegments()
+	{
+		$cases = array();
+		$cases[] = array(array('test'), array('test'));
+		$cases[] = array(array('1:test'), array('1-test'));
+		$cases[] = array(array('test', '1:test'), array('test', '1-test'));
+		$cases[] = array(array('42:test', 'testing:this:method'), array('42-test', 'testing-this-method'));
+		
+		return $cases;
+	}
+
+	/**
+	 * Tests encodeSegments() method
+	 *
+	 * @param   array   $segments   Array of unencoded segments of a URL
+	 * @param   string  $expected   Array of encoded segments of a URL
+	 *
+	 * @dataProvider casesEncodeSegments
+	 *
+	 * @return void
+	 */
+	public function testEncodeSegments($segments, $expected)
+	{
+		$object = new JRouterInspector;
+		$this->assertEquals($object->runEncodeSegments($segments), $expected);
+	}
+
+	/**
+	 * Cases for testDecodeSegments
+	 *
+	 * @return  array
+	 *
+	 * @since   3.4
+	 */
+	public function casesDecodeSegments()
+	{
+		$cases = array();
+		$cases[] = array(array('test'), array('test'));
+		$cases[] = array(array('1-test'), array('1:test'));
+		$cases[] = array(array('test', '1-test'), array('test', '1:test'));
+		$cases[] = array(array('42-test', 'testing-this-method'), array('42:test', 'testing:this-method'));
+		
+		return $cases;
+	}
+
+	/**
+	 * Tests decodeSegments() method
+	 *
+	 * @param   array   $segments   Array of encoded segments of a URL
+	 * @param   string  $expected   Array of decoded segments of a URL
+	 *
+	 * @dataProvider casesDecodeSegments
+	 *
+	 * @return void
+	 */
+	public function testDecodeSegments($segments, $expected)
+	{
+		$object = new JRouterInspector;
+		$this->assertEquals($object->runDecodeSegments($segments), $expected);
 	}
 }

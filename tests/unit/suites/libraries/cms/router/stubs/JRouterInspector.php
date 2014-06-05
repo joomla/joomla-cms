@@ -1,0 +1,72 @@
+<?php
+/**
+ * @package     Joomla.UnitTest
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+/**
+ * Inspector for JHtmlBootstrap
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  HTML
+ * @since       3.1
+ */
+class JRouterInspector extends JRouter
+{
+	/**
+	 * Runs the protected createURI() method
+	 * 
+	 * @param   array   $url  valid inputs to the createURI() method
+	 *
+	 * @return  object  JURI object from the given parameters
+	 *
+	 * @since   3.4
+	 */
+	public function runCreateURI($url)
+	{
+		return $this->createURI($url);
+	}
+
+	/**
+	 * Runs the protected encodeSegments() method
+	 * 
+	 * @param   array   $segments  array of URL segments
+	 *
+	 * @return  mixed  Array of encoded segments
+	 *
+	 * @since   3.4
+	 */
+	public function runEncodeSegments($segments)
+	{
+		return $this->encodeSegments($segments);
+	}
+
+	/**
+	 * Runs the protected decodeSegments() method
+	 *
+	 * @param   array   $segments  array of URL segments
+ 	 *
+	 * @return  mixed  Array of decoded segments
+	 *
+	 * @since   3.4
+	 */
+	public function runDecodeSegments($segments)
+	{
+		return $this->decodeSegments($segments);
+	}
+	
+	/**
+	 * Returns the rules-array
+	 * 
+	 * @return array  Array of rules
+	 * 
+	 * @since  3.4
+	 */
+	public function getRules()
+	{
+		return $this->_rules;
+	}
+}
