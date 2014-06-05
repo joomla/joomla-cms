@@ -46,7 +46,7 @@ abstract class JHtmlEmail
 
 		$replacement = '<div id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</div>' . "<script type='text/javascript'>";
 		$replacement .= "\n <!--";
-		$replacement .= "\n jQuery('#cloak$rand').html('');";
+		$replacement .= "\n document.getElementById('cloak$rand').innerHTML = '';";
 		$replacement .= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
 		$replacement .= "\n var path = 'hr' + 'ef' + '=';";
 		$replacement .= "\n var addy" . $rand . " = '" . @$mail[0] . "' + '&#64;';";
