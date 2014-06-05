@@ -170,8 +170,6 @@ class PlgContentPagenavigation extends JPlugin
 
 			$row->prev = null;
 			$row->next = null;
-			$prev_title = null;
-			$next_title = null;
 
 			if ($location - 1 >= 0)
 			{
