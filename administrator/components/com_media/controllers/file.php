@@ -102,6 +102,7 @@ class MediaControllerFile extends JControllerLegacy
 					* Note that we can't restore the old file if the uplaod fails.
 					*/
 					JFile::delete($file['filepath']);
+					JFactory::getApplication()->enqueueMessage(JText::_('COM_MEDIA_ERROR_FILE_EXISTS_OVERRIDE'), 'notice');
 				}
 				else
 				{
@@ -110,7 +111,7 @@ class MediaControllerFile extends JControllerLegacy
 					* the option to override the file is set to no
 					* or the user is not authorised to delete files.
 					*/
-					JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_FILE_EXISTS'));
+					JFactory::getApplication()->enqueueMessage(JText::_('COM_MEDIA_ERROR_FILE_EXISTS'), 'error');
 					return false;
 				}
 			}
