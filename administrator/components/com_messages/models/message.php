@@ -119,7 +119,7 @@ class MessagesModelMessage extends JModelAdmin
 						// If replying to a message, preload some data.
 						$db     = $this->getDbo();
 						$query	= $db->getQuery(true)
-							->select($db->quoteName(array('subject, user_id_from')))
+							->select($db->quoteName(array('subject', 'user_id_from')))
 							->from($db->quoteName('#__messages'))
 							->where($db->quoteName('message_id') . ' = ' . (int) $replyId);
 
