@@ -49,7 +49,7 @@ class PlgQuickiconJoomlaupdate extends JPlugin
 
 		$cur_template = JFactory::getApplication()->getTemplate();
 		$url = JUri::base() . 'index.php?option=com_joomlaupdate';
-		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax';
+		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&eid=700';
 		$script = array();
 		$script[] = 'var plg_quickicon_joomlaupdate_url = \'' . $url . '\';';
 		$script[] = 'var plg_quickicon_joomlaupdate_ajax_url = \'' . $ajax_url . '\';';
