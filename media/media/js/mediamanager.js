@@ -42,34 +42,38 @@ var MediaManager = this.MediaManager = {
 
 		var folder = this.getFolder();
 		if (folder) {
-			this.updatepaths.each(function(path, el){ el.value =folder; });
+			this.updatepaths.each(function(path){ path.value =folder; });
 			this.folderpath.value = basepath+'/'+folder;
+//			node = this.tree.get('node_'+folder);
+//			node.toggle(false, true);
 		} else {
-			this.updatepaths.each(function(path, el){ el.value = ''; });
+			this.updatepaths.each(function(path){ path.value = ''; });
 			this.folderpath.value = basepath;
+//			node = this.tree.root;
 		}
-
-		$('#' + viewstyle).addClass('active');
-
-		a = this._getUriObject($('#uploadForm').attr('action'));
-		q = this._getQueryObject(a.query);
-		q['folder'] = folder;
+/*
+		if (node) {
+			this.tree.select(node, true);
+		}
+*/
+		document.id(viewstyle).addClass('active');
+/*
+		a = this._getUriObject(document.id('uploadForm').getProperty('action'));
+		q = new Hash(this._getQueryObject(a.query));
+		q.set('folder', folder);
 		var query = [];
-
-        for (var k in q) {
-            var v = q[k];
-            if (q.hasOwnProperty(k) && v !== null) {
-                query.push(k+'='+v);
-            }
-        }
-
+		q.each(function(v, k){
+			if (v != null) {
+				this.push(k+'='+v);
+			}
+		}, query);
 		a.query = query.join('&');
 
 		if (a.port) {
-			$('#uploadForm').attr('action', a.scheme+'://'+a.domain+':'+a.port+a.path+'?'+a.query);
+			document.id('uploadForm').setProperty('action', a.scheme+'://'+a.domain+':'+a.port+a.path+'?'+a.query);
 		} else {
-			$('#uploadForm').attr('action', a.scheme+'://'+a.domain+a.path+'?'+a.query);
-		}
+			document.id('uploadForm').setProperty('action', a.scheme+'://'+a.domain+a.path+'?'+a.query);
+		}*/
 	},
 
 	oncreatefolder: function()
