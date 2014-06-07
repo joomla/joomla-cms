@@ -94,8 +94,8 @@
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="0"
-			label="COM_MEDIA_FIELD_OVERRIDE_FILES_LABEL"
-			description="COM_MEDIA_FIELD_OVERRIDE_FILES_DESC">
+			label="COM_MEDIA_FIELD_OVERWRITE_FILES_LABEL"
+			description="COM_MEDIA_FIELD_OVERWRITE_FILES_DESC">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
