@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
 $lang = JFactory::getLanguage();
@@ -31,8 +30,8 @@ $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 if (is_file($file)) :
 	$doc->addStyleSheet($file);
 endif;
-
 ?>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
@@ -40,6 +39,16 @@ endif;
 	<!--[if lt IE 9]>
 		<script src="../media/jui/js/html5.js"></script>
 	<![endif]-->
+
+	<!-- Link color -->
+	<?php if ($this->params->get('linkColor')) : ?>
+		<style type="text/css">
+			a
+			{
+				color: <?php echo $this->params->get('linkColor'); ?>;
+			}
+		</style>
+	<?php endif; ?>
 </head>
 <body class="contentpane component">
 	<jdoc:include type="message" />
