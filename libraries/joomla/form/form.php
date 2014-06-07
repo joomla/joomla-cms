@@ -129,8 +129,8 @@ class JForm
 			}
 			elseif ($data instanceof JObject)
 			{
-				// Handle a JObject.
-				$data = $data->getProperties();
+				// Handle a JObject. Getting just the properties won't work. We need to convert any nested JObject too.
+				$data = JArrayHelper::fromObject($data);
 			}
 			else
 			{
