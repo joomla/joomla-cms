@@ -90,7 +90,7 @@
 			label="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_LABEL"
 			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC" />
 		<field
-			name="override_files"
+			name="overwrite_files"
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="0"
