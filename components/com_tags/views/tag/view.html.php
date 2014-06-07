@@ -30,6 +30,8 @@ class TagsViewTag extends JViewLegacy
 
 	protected $params;
 
+	protected $tags_title;
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -111,13 +113,13 @@ class TagsViewTag extends JViewLegacy
 			}
 		}
 
-		$this->state      = &$state;
-		$this->items      = &$items;
-		$this->children   = &$children;
-		$this->parent     = &$parent;
-		$this->pagination = &$pagination;
-		$this->user       = &$user;
-		$this->item       = &$item;
+		$this->state      = $state;
+		$this->items      = $items;
+		$this->children   = $children;
+		$this->parent     = $parent;
+		$this->pagination = $pagination;
+		$this->user       = $user;
+		$this->item       = $item;
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
@@ -189,6 +191,9 @@ class TagsViewTag extends JViewLegacy
 		$menus		= $app->getMenu();
 		$title 		= null;
 
+		// Generate the tags title to use for page title, page heading and show tags title option
+		$this->getTagsTitle();
+
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
@@ -196,30 +201,30 @@ class TagsViewTag extends JViewLegacy
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+			$title = $this->params->get('page_title', $menu->title);
+
+			if ($menu->query['option'] != 'com_tags')
+			{
+				$this->params->set('page_subheading', $menu->title);
+			}
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', $this->tags_title);
+			$title = $this->tags_title;
 		}
-
-		if ($menu && ($menu->query['option'] != 'com_tags'))
-		{
-			$this->params->set('page_subheading', $menu->title);
-		}
-
-		$title = $this->state->params->get('page_title');
 
 		if (empty($title))
 		{
-			$title = $app->getCfg('sitename');
+			$title = $app->get('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -267,5 +272,27 @@ class TagsViewTag extends JViewLegacy
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 			$this->document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
+	}
+
+	/**
+	 * Creates the tags title for the output
+	 *
+	 * @return bool
+	 */
+	protected function getTagsTitle()
+	{
+		$tags_title = array();
+
+		if (!empty($this->item))
+		{
+			foreach ($this->item as $item)
+			{
+				$tags_title[] = $item->title;
+			}
+		}
+
+		$this->tags_title = implode(' ', $tags_title);
+
+		return;
 	}
 }
