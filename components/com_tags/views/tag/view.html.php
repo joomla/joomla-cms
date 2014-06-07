@@ -285,9 +285,15 @@ class TagsViewTag extends JViewLegacy
 
 		if (!empty($this->item))
 		{
+			$user   = JFactory::getUser();
+			$groups = $user->getAuthorisedViewLevels();
+
 			foreach ($this->item as $item)
 			{
-				$tags_title[] = $item->title;
+				if (in_array($item->access, $groups))
+				{
+					$tags_title[] = $item->title;
+				}
 			}
 		}
 
