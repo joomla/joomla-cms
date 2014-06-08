@@ -31,7 +31,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CANT_INSTALL_UPDATE') ?>
 	</legend>
 	<p>
-		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_CANT_INSTALL_UPDATE_DESC', $this->updateInfo['latest']); ?>
+		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_CANT_INSTALL_UPDATE_DESC', $this->updateInfo['latest'], $this->updateInfo['latest']); ?>
 	</p>
 </fieldset>
 
