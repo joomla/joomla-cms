@@ -192,7 +192,7 @@ class TagsViewTag extends JViewLegacy
 		$title 		= null;
 
 		// Generate the tags title to use for page title, page heading and show tags title option
-		$this->getTagsTitle();
+		$this->tags_title = $this->getTagsTitle();
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -297,8 +297,6 @@ class TagsViewTag extends JViewLegacy
 			}
 		}
 
-		$this->tags_title = implode(' ', $tags_title);
-
-		return;
+		return implode(' ', $tags_title);
 	}
 }
