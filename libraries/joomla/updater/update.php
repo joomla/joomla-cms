@@ -127,6 +127,22 @@ class JUpdate extends JObject
 	protected $_state_store = array();
 
 	/**
+	 * Object containing the current update data
+	 *
+	 * @var    stdClass
+	 * @since  12.1
+	 */
+	protected $currentUpdate;
+
+	/**
+	 * Object containing the latest update data
+	 *
+	 * @var    stdClass
+	 * @since  12.1
+	 */
+	protected $latest;
+
+	/**
 	 * Gets the reference to the current direct parent
 	 *
 	 * @return  object
