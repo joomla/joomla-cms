@@ -337,6 +337,22 @@ class JLayoutFile extends JLayoutBase
 	}
 
 	/**
+	 * Method to set the include paths
+	 *
+	 * @param   mixed  $paths  Single path or array of paths
+	 *
+	 * @return  JLayoutFile    Self instance for chaining
+	 *
+	 * @since   3.4
+	 */
+	public function setIncludePaths($paths)
+	{
+		$this->includePaths = (array) $paths;
+
+		return $this;
+	}
+
+	/**
 	 * Change the layout
 	 *
 	 * @param   string  $layoutId  Layout to render
