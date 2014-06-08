@@ -44,7 +44,7 @@ echo $params->get('image_path', 'images'); ?>/';
 						<div class="controls">
 						<div class="input-append">			  	
 							<?php echo $this->folderList; ?>
-							<button class="btn btn-small" type="button" id="upbutton" title="<?php echo JText::_('COM_MEDIA_DIRECTORY_UP') ?>"><i class="icon-chevron-up"></i></button>
+							<button class="btn btn-medium" type="button" id="upbutton" title="<?php echo JText::_('COM_MEDIA_DIRECTORY_UP') ?>"><i class="icon-chevron-up"></i></button>
 							</div>	
 						</div>
 					</fieldset>
