@@ -42,13 +42,13 @@ var MediaManager = this.MediaManager = {
 
 		var folder = this.getFolder();
 		if (folder) {
-			this.updatepaths.each(function(path){ path.value =folder; });
-			this.folderpath.value = basepath+'/'+folder;
+			this.updatepaths.each(function(path, el){ el.value =folder; });
+			this.folderpath.val(basepath+'/'+folder);
 //			node = this.tree.get('node_'+folder);
 //			node.toggle(false, true);
 		} else {
-			this.updatepaths.each(function(path){ path.value = ''; });
-			this.folderpath.value = basepath;
+			this.updatepaths.each(function(path, el){ el.value = ''; });
+			this.folderpath.val(basepath);
 //			node = this.tree.root;
 		}
 /*

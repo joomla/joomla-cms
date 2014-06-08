@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+// Include jQuery
+JHtml::_('jquery.framework');
+
 /**
  * HTML View class for the Media component
  *
@@ -57,7 +60,7 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 		endif;
 
 		//For Drag & Drop Upload
-		JHtml::_('jquery.framework', false);
+// 		JHtml::_('jquery.framework', false);
 		JHtml::_('script', 'media/dragndrop_upload.js', true, true);
 		JHtml::stylesheet('media/media/css/dragndrop_upload.css');
 
@@ -99,9 +102,9 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 		
 		// Set the toolbar
 		$this->addToolbar();
-
+		
 		return parent::render();
-		echo JHtml::_('behavior.keepalive');//**
+// 		echo JHtml::_('behavior.keepalive');//**
 	}
 
 	/**
