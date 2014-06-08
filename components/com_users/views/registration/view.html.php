@@ -26,7 +26,7 @@ class UsersViewRegistration extends JViewLegacy
 
 	protected $state;
 
-	protected $document;
+	public $document;
 
 	/**
 	 * Method to display the view.
