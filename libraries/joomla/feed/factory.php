@@ -49,13 +49,13 @@ class JFeedFactory
 				// This is an error
 				throw new RuntimeException('Unable to open the feed.');
 			}
-			// Otherwise, 
+			// Otherwise,
 			else
 			{
 				// Retry with JHttpFactory that allow using CURL and Sockets as alternative method when available
 				$connector = JHttpFactory::getHttp();
 				$feed = $connector->get($uri);
-				
+
 				// Set the value to the XMLReader parser
 				if (!$reader->xml($feed->body, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
 				{
