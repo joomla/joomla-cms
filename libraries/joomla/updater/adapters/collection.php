@@ -240,7 +240,6 @@ class JUpdaterCollection extends JUpdateAdapter
 		$db = $this->parent->getDBO();
 
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
 
 		// JHttp transport throws an exception when there's no response.
 		try
