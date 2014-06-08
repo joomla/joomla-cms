@@ -2,10 +2,10 @@
 function sendFileToUploadController(formData,status)
 {
 	
-    var uploadURL =document.getElementById('uploadForm').getProperty('action');
-    var jqXHR=$.ajax({
+	var uploadURL =jQuery('#uploadForm').attr('action');
+    var jqXHR=jQuery.ajax({
             xhr: function() {
-            var xhrobj = $.ajaxSettings.xhr();
+            var xhrobj = jQuery.ajaxSettings.xhr();
             if (xhrobj.upload) {
                     xhrobj.upload.addEventListener('progress', function(event) {
                         var percent = 0;
@@ -38,13 +38,13 @@ function sendFileToUploadController(formData,status)
 
 function createStatusbar(obj)
 {
-     this.statusbar = $("<tr></tr>");
-     this.filename = $("<td 'width: 10%;'><div class='filename'></div></td>").appendTo(this.statusbar);
-     this.size = $("<td 'width: 20%;'><div class='filesize'></div></td>").appendTo(this.statusbar);
-     this.progressBar = $("<td style='width: 50%;'><div class='progress' ><div class='bar'></div></div></td>").appendTo(this.statusbar);
-     this.abort = $("<td 'width: 10%;'><span class='badge badge-important'>&times;</span></td>").appendTo(this.statusbar);
+     this.statusbar = jQuery("<tr></tr>");
+     this.filename = jQuery("<td 'width: 10%;'><div class='filename'></div></td>").appendTo(this.statusbar);
+     this.size = jQuery("<td 'width: 20%;'><div class='filesize'></div></td>").appendTo(this.statusbar);
+     this.progressBar = jQuery("<td style='width: 50%;'><div class='progress' ><div class='bar'></div></div></td>").appendTo(this.statusbar);
+     this.abort = jQuery("<td 'width: 10%;'><span class='badge badge-important'>&times;</span></td>").appendTo(this.statusbar);
 
-     $("#upload-container").append(this.statusbar);
+     jQuery("#upload-container").append(this.statusbar);
  
     this.setFileNameSize = function(name,size)
     {
@@ -101,15 +101,15 @@ function handleFileUpload(files,obj)
    
   
 }
-$(document).ready(function()
+jQuery(function()
 {
-var obj = $("#dragandrophandler");
+var obj = jQuery("#dragandrophandler");
 
 obj.on('dragenter', function (e) 
 {
     e.stopPropagation();
     e.preventDefault();
-    $(this).css('border', '2px solid #0B85A1');
+    jQuery(this).css('border', '2px solid #0B85A1');
 });
 obj.on('dragover', function (e) 
 {
@@ -119,33 +119,33 @@ obj.on('dragover', function (e)
 obj.on('drop', function (e) 
 {
  
-     $(this).css('border', '2px dotted #0B85A1');
+     jQuery(this).css('border', '2px dotted #0B85A1');
      e.preventDefault();
      var files = e.originalEvent.dataTransfer.files;
  
      //We need to send dropped files to Server
      handleFileUpload(files,obj);
 });
-$(document).on('dragenter', function (e) 
+jQuery(document).on('dragenter', function (e) 
 {
     e.stopPropagation();
     e.preventDefault();
 });
-$(document).on('dragover', function (e) 
+jQuery(document).on('dragover', function (e) 
 {
   e.stopPropagation();
   e.preventDefault();
   obj.css('border', '2px dotted #0B85A1');
 });
-$(document).on('drop', function (e) 
+jQuery(document).on('drop', function (e) 
 {
     e.stopPropagation();
     e.preventDefault();
 });
 
 // Reload folder iFrame when exit
-$('#uploadModal').on('hide', function () {
-	$('#folderframe').attr('src', function (i, val) { 
+jQuery('#uploadModal').on('hide', function () {
+	jQuery('#folderframe').attr('src', function (i, val) { 
 		// Setting folder name in iFrame url
 		return val.replace(/&folder=.*&/,"&folder="+document.getElementById('folder').value+"&") ;
 	});
