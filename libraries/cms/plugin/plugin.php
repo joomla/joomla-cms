@@ -141,4 +141,27 @@ abstract class JPlugin extends JEvent
 		return $lang->load(strtolower($extension), $basePath, null, false, true)
 			|| $lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, true);
 	}
+
+	/**
+	 * Get the renderer
+	 *
+	 * @param   string  $layout   Layout to load.
+	 * @param   array   $options  Optional array with layout options
+	 *
+	 * @return  JLayoutFile       Renderer instance
+	 */
+	protected function getRenderer($layout, $options = array())
+	{
+		$template = JFactory::getApplication()->getTemplate();
+		$renderer = new JLayoutFile($layout, null, $options);
+
+		$renderer->setIncludePaths(
+			array(
+				JPATH_THEMES . "/" . $template . '/html/layouts/plugins/' . $this->_type . '/' . $this->_name,
+				JPATH_SITE . '/layouts/plugins/' . $this->_type . '/' . $this->_name
+			)
+		);
+
+		return $renderer;
+	}
 }

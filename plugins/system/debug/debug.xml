@@ -68,6 +68,16 @@
 					<option value="0">JNO</option>
 				</field>
 
+				<field name="layouts" type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					description="PLG_DEBUG_FIELD_LAYOUTS_DESC"
+					label="PLG_DEBUG_FIELD_LAYOUTS_LABEL"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
 				<field name="logs" type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"

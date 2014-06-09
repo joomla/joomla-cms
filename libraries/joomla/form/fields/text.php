@@ -164,6 +164,11 @@ class JFormFieldText extends JFormField
 	 */
 	protected function getInput()
 	{
+		if (!$this->validateRequirements())
+		{
+			return;
+		}
+
 		// Translate placeholder text
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 

@@ -19,6 +19,22 @@ JFormHelper::loadFieldClass('plugins');
 class JFormFieldPluginsTest extends TestCaseDatabase
 {
 	/**
+	 * Sets up the fixture.
+	 *
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.3
+	 */
+	protected function setUp()
+	{
+		JFactory::$application = $this->getMockApplication();
+
+		parent::setUp();
+	}
+
+	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet

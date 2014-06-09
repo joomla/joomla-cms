@@ -14,8 +14,24 @@
  * @subpackage  Form
  * @since       3.0
  */
-class JFormFieldModuleorderTest extends PHPUnit_Framework_TestCase
+class JFormFieldModuleorderTest extends TestCase
 {
+	/**
+	 * Sets up the fixture.
+	 *
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.3
+	 */
+	protected function setUp()
+	{
+		JFactory::$application = $this->getMockApplication();
+
+		parent::setUp();
+	}
+
 	/**
 	 * Dummy method to prevent failures due to no tests in a class
 	 */

@@ -204,12 +204,38 @@ class JFormFieldTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
-		$equals = '<label id="title_id-lbl" for="title_id" class="hasTooltip required" ' .
-			'title="<strong>Title</strong><br />The title.">Title<span class="star">&#160;*</span></label>';
+		// Build the for the label element.
+		$matcher = array(
+			'id'      => 'title_id-lbl',
+			'tag'     => 'label',
+			'content' => 'regexp:/Title/',
+			'attributes' => array(
+								'title' => '<strong>Title</strong><br />The title.',
+								'class' => 'hasTooltip required',
+							),
+			'children' => array(
+								'only'         => array('tag' => 'span')
+							),
+		);
 
-		$this->assertThat(
+		// Build the for the required span element.
+		$this->assertTag(
+			$matcher,
 			$field->getLabel(),
-			$this->equalTo($equals),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+
+		// @todo check the content of the required span works as expected
+		$matcher = array(
+			'tag'        => 'span',
+			'attributes' => array('class' => 'star'),
+			//'content'    => '&#160;*'
+		);
+
+		// Check the required span
+		$this->assertTag(
+			$matcher,
+			$field->getLabel(),
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
@@ -223,9 +249,16 @@ class JFormFieldTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
-		$this->assertThat(
+		// Build the for the label element.
+		$matcher = array(
+			'id'      => 'colours-lbl',
+			'tag'     => 'label',
+			'content' => 'colours',
+		);
+
+		$this->assertTag(
+			$matcher,
 			$field->getLabel(),
-			$this->equalTo('<label id="colours-lbl" for="colours" class="">colours</label>'),
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 

@@ -147,6 +147,16 @@ class JLayoutBase implements JLayout
 	}
 
 	/**
+	 * Reset / Clean the debug messages list
+	 *
+	 * @return  void
+	 */
+	protected function resetDebugMessages()
+	{
+		$this->debugMessages = array();
+	}
+
+	/**
 	 * Add a debug message to the debug messages array
 	 *
 	 * @param   string  $message  Message to save
