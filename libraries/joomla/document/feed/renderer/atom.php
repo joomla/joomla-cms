@@ -116,7 +116,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 		{
 			$version = new JVersion;
 
-			$versionDetails = 'version="' . $version->RELEASE . '"';
+			$versionDetails = ' version="' . $version->RELEASE . '"';
 		}
 		else
 		{
