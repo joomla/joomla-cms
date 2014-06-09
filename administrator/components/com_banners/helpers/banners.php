@@ -165,6 +165,7 @@ class BannersHelper extends JHelperContent
 		$query = $db->getQuery(true)
 			->select('id As value, name As text')
 			->from('#__banner_clients AS a')
+			->where('a.state=1');
 			->order('a.name');
 
 		// Get the options.
