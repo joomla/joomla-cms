@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_AJAX_AJAX_VIEW_DEFAULT_TITLE" option="COM_AJAX_AJAX_VIEW_DEFAULT_OPTION">
+		<help key = "JHELP_MENUS_MENU_ITEM_AJAX" />
+		<message><![CDATA[COM_AJAX_AJAX_VIEW_DEFAULT_DESC]]></message>
+	</layout>
+
+	<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request">
+
+			<field name="format" type="text"
+				   label="COM_AJAX_FIELD_SELECT_FORMAT_LABEL"
+				   description="COM_AJAX_FIELD_SELECT_FORMAT_DESC"
+			/>
+
+			<field name="ignoreMessages" type="radio" filter="options" default="1"
+				   label="COM_AJAX_FIELD_SELECT_IGNORE_MESSSAGES_LABEL"
+				   description="COM_AJAX_FIELD_SELECT_IGNORE_MESSSAGES_DESC"
+			>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field name="module" type="text"
+				   label="COM_AJAX_FIELD_SELECT_MODULE_LABEL"
+				   description="COM_AJAX_FIELD_SELECT_MODULE_DESC"
+			/>
+
+			<field name="method" type="text" default="get"
+				   label="COM_AJAX_FIELD_SELECT_METHOD_LABEL"
+				   description="COM_AJAX_FIELD_SELECT_METHOD_DESC"
+			/>
+
+			<field name="plugin" type="text"
+				   label="COM_AJAX_FIELD_SELECT_PLUGIN_LABEL"
+				   description="COM_AJAX_FIELD_SELECT_PLUGIN_DESC"
+			/>
+
+
+		</fieldset>
+	</fields>
+
+</metadata>
