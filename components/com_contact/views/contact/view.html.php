@@ -142,8 +142,6 @@ class ContactViewContact extends JViewLegacy
 			$item->link = JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid));
 		}
 
-		JHtml::_('behavior.formvalidation');
-
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
