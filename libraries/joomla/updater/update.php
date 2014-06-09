@@ -215,7 +215,7 @@ class JUpdate extends JObject
 		array_pop($this->_stack);
 		switch ($name)
 		{
-			// Closing update, find the _latest version and check
+			// Closing update, find the latest version and check
 			case 'UPDATE':
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
@@ -249,7 +249,7 @@ class JUpdate extends JObject
 				}
 				break;
 			case 'UPDATES':
-				// If the _latest item is set then we transfer it to where we want to
+				// If the latest item is set then we transfer it to where we want to
 				if (isset($this->_latest))
 				{
 					foreach (get_object_vars($this->_latest) as $key => $val)
