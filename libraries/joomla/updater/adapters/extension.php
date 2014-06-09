@@ -65,7 +65,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				}
 				if ($name == 'PHP_MINIMUM')
 				{
-					$this->currentUpdate->php_minimum = '';
+					$this->current_update->php_minimum = '';
 				}
 				break;
 		}
@@ -95,7 +95,7 @@ class JUpdaterExtension extends JUpdateAdapter
 					&& preg_match('/' . $this->current_update->targetplatform['VERSION'] . '/', $ver->RELEASE))
 				{
 					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
-					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>='))
+					if (!isset($this->current_update->php_minimum) || version_compare(PHP_VERSION, $this->current_update->php_minimum->_data, '>='))
 					{
 						$phpMatch = true;
 					}
@@ -104,9 +104,9 @@ class JUpdaterExtension extends JUpdateAdapter
 						// Notify the user of the potential update
 						$msg = JText::sprintf(
 							'JLIB_INSTALLER_AVAILABLE_UPDATE_PHP_VERSION',
-							$this->currentUpdate->name,
-							$this->currentUpdate->version,
-							$this->currentUpdate->php_minimum,
+							$this->current_update->name,
+							$this->current_update->version,
+							$this->current_update->php_minimum->_data,
 							PHP_VERSION
 						);
 
@@ -116,21 +116,21 @@ class JUpdaterExtension extends JUpdateAdapter
 					}
 
 					// Target platform and php_minimum aren't valid fields in the update table so unset them to prevent J! from trying to store them
-					unset($this->currentUpdate->targetplatform);
-					unset($this->currentUpdate->php_minimum);
+					unset($this->current_update->targetplatform);
+					unset($this->current_update->php_minimum);
 
 					if ($phpMatch)
 					{
 						if (isset($this->latest))
 						{
-							if (version_compare($this->currentUpdate->version, $this->latest->version, '>') == 1)
+							if (version_compare($this->current_update->version->_data, $this->latest->version->_data, '>') == 1)
 							{
-								$this->latest = $this->currentUpdate;
+								$this->latest = $this->current_update;
 							}
 						}
 						else
 						{
-							$this->latest = $this->currentUpdate;
+							$this->latest = $this->current_update;
 						}
 					}
 				}
@@ -165,7 +165,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				
 		if ($tag == 'PHP_MINIMUM')
 		{
-			$this->currentUpdate->php_minimum = $data;
+			$this->current_update->php_minimum = $data;
 		}
 	}
 
