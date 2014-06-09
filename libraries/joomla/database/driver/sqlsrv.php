@@ -112,10 +112,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		// Build the connection configuration array.
 		$config = array(
-			'Database' => $this->options['database'],
+			//'Database' => $this->options['database'],
 			'uid' => $this->options['user'],
 			'pwd' => $this->options['password'],
-			'CharacterSet' => 'UTF-8',
+			//'CharacterSet' => 'UTF-8',
 			'ReturnDatesAsStrings' => true);
 
 		// Make sure the SQLSRV extension for PHP is installed and enabled.
@@ -138,6 +138,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			$this->select($this->options['database']);
 		}
+		
+		// Set charactersets.
+		$this->utf = $this->setUTF();
 	}
 
 	/**
@@ -805,9 +808,8 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
-	{
-		// TODO: Remove this?
+	public function setUTF() {
+	     return false;
 	}
 
 	/**
@@ -1022,7 +1024,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
 
 		$query = preg_replace('/\sFROM\s/i', $rowNumberText, $query, 1);
-		$query = 'SELECT * FROM (' . $query . ') _myResults WHERE RowNumber BETWEEN ' . $start . ' AND ' . $end;
+		// $query = 'SELECT * FROM (' . $query . ') _myResults WHERE RowNumber BETWEEN ' . $start . ' AND ' . $end;
 
 		return $query;
 	}

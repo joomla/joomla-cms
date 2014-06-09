@@ -25,5 +25,5 @@ class JDatabaseDriverSqlazure extends JDatabaseDriverSqlsrv
 	 * @var    string
 	 * @since  12.1
 	 */
-	public $name = 'sqlzure';
+	public $name = 'sqlazure';
 }

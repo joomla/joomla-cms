@@ -103,6 +103,57 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 				break;
 
+			case 'delete':
+				$query .= (string) $this->delete;
+				$query .= (string) $this->from;
+			
+				if ($this->join)
+				{
+					// Special case for joins
+					foreach ($this->join as $join)
+					{
+						$query .= (string) $join;
+					}
+				}
+			
+				if ($this->where)
+				{
+					$query .= (string) $this->where;
+				}
+			
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
+				}
+			
+				break;
+			
+			case 'update':
+				$query .= (string) $this->update;
+			
+				if ($this->join)
+				{
+					// Special case for joins
+					foreach ($this->join as $join)
+					{
+						$query .= (string) $join;
+					}
+				}
+			
+				$query .= (string) $this->set;
+			
+				if ($this->where)
+				{
+					$query .= (string) $this->where;
+				}
+			
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
+				}
+			
+				break;		
+						
 			case 'insert':
 				$query .= (string) $this->insert;
 
@@ -262,6 +313,11 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{
+		if ($limit == 0 && $offset == 0)
+		{
+			return $query;
+		}
+
 		$start = $offset + 1;
 		$end   = $offset + $limit;
 
@@ -277,7 +333,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
 
 		$query = preg_replace('/\sFROM\s/i', $rowNumberText, $query, 1);
-		$query = 'SELECT * FROM (' . $query . ') _myResults WHERE RowNumber BETWEEN ' . $start . ' AND ' . $end;
+		// $query = 'SELECT * FROM (' . $query . ') _myResults WHERE RowNumber BETWEEN ' . $start . ' AND ' . $end;
 
 		return $query;
 	}
