@@ -107,16 +107,6 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 		</style>
 	<?php endif; ?>
 
-	<!-- Link color -->
-	<?php if ($this->params->get('linkColor')) : ?>
-		<style type="text/css">
-			a
-			{
-				color: <?php echo $this->params->get('linkColor'); ?>;
-			}
-		</style>
-	<?php endif; ?>
-
 	<!--[if lt IE 9]>
 	<script src="../media/jui/js/html5.js"></script>
 	<![endif]-->
