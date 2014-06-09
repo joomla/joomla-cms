@@ -320,6 +320,6 @@ class JHttpTransportSocket implements JHttpTransport
 	 */
 	public static function isSupported()
 	{
-		return function_exists('fsockopen') && is_callable('fsockopen');
+		return function_exists('fsockopen') && is_callable('fsockopen') && !JFactory::getConfig()->get('proxy_enable');
 	}
 }
