@@ -112,9 +112,19 @@ class JDocumentRendererAtom extends JDocumentRenderer
 			$feed .= "	</author>\n";
 		}
 
-		$version = new JVersion;
+		if ($app->get('MetaVersion', 0))
+		{
+			$version = new JVersion;
 
-		$feed .= "	<generator uri=\"http://joomla.org\" version=\"" . $version->RELEASE . "\">" . $data->getGenerator() . "</generator>\n";
+			$version = 'version="' . $version->RELEASE . '"';
+		}
+		else
+		{
+			$version = '';
+		}
+
+
+		$feed .= "	<generator uri=\"http://joomla.org\"" . $version  . ">" . $data->getGenerator() . "</generator>\n";
 		$feed .= '	<link rel="self" type="application/atom+xml" href="' . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
