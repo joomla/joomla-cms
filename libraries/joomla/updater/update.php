@@ -127,22 +127,6 @@ class JUpdate extends JObject
 	protected $_state_store = array();
 
 	/**
-	 * Object containing the current update data
-	 *
-	 * @var    stdClass
-	 * @since  12.1
-	 */
-	protected $currentUpdate;
-
-	/**
-	 * Object containing the latest update data
-	 *
-	 * @var    stdClass
-	 * @since  12.1
-	 */
-	protected $latest;
-
-	/**
 	 * Gets the reference to the current direct parent
 	 *
 	 * @return  object
@@ -231,7 +215,7 @@ class JUpdate extends JObject
 		array_pop($this->_stack);
 		switch ($name)
 		{
-			// Closing update, find the latest version and check
+			// Closing update, find the _latest version and check
 			case 'UPDATE':
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
@@ -239,7 +223,7 @@ class JUpdate extends JObject
 					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->RELEASE))
 				{
 					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
-					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum->_data, '>='))
+					if (!isset($this->_current_update->php_minimum) || version_compare(PHP_VERSION, $this->_current_update->php_minimum->_data, '>='))
 					{
 						$phpMatch = true;
 					}
@@ -250,22 +234,22 @@ class JUpdate extends JObject
 
 					if ($phpMatch)
 					{
-						if (isset($this->latest))
+						if (isset($this->_latest))
 						{
-							if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>') == 1)
+							if (version_compare($this->_current_update->version->_data, $this->_latest->version->_data, '>') == 1)
 							{
-								$this->latest = $this->currentUpdate;
+								$this->_latest = $this->_current_update;
 							}
 						}
 						else
 						{
-							$this->latest = $this->currentUpdate;
+							$this->_latest = $this->_current_update;
 						}
 					}
 				}
 				break;
 			case 'UPDATES':
-				// If the latest item is set then we transfer it to where we want to
+				// If the _latest item is set then we transfer it to where we want to
 				if (isset($this->_latest))
 				{
 					foreach (get_object_vars($this->_latest) as $key => $val)
