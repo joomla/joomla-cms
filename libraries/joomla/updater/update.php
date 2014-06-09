@@ -375,8 +375,18 @@ class JUpdate extends JObject
 	public function loadFromXML($url)
 	{
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
-		if (200 != $response->code)
+
+		// JHttp transport throws an exception when there's no reponse.
+		try
+		{
+			$response = $http->get($url);
+		}
+		catch (Exception $e)
+		{
+			$response = null;
+		}
+		
+		if ($response->code != 200)
 		{
 			// TODO: Add a 'mark bad' setting here somehow
 			JLog::add(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), JLog::WARNING, 'jerror');
