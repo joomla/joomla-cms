@@ -77,7 +77,6 @@ abstract class JHtmlMenu
 				->select('a.id AS value, a.title AS text, a.level, a.menutype')
 				->from('#__menu AS a')
 				->where('a.parent_id > 0')
-				->where('a.type <> ' . $db->quote('url'))
 				->where('a.client_id = 0');
 
 			// Filter on the published state
