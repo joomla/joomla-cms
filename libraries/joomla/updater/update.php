@@ -400,10 +400,13 @@ class JUpdate extends JObject
 
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
-			JLog::add(sprintf(
-				"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xmlParser)),
-				xml_get_current_line_number($this->xmlParser)
-			), JLog::WARNING, 'updater');
+			JLog::add(
+				sprintf(
+					"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xmlParser)),
+					xml_get_current_line_number($this->xmlParser)
+				),
+				JLog::WARNING, 'updater'
+			);
 
 			return false;
 		}
