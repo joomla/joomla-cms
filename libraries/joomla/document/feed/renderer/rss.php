@@ -108,6 +108,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			{
 				$feed .= "			<description><![CDATA[" . $data->image->description . "]]></description>\n";
 			}
+
 			$feed .= "		</image>\n";
 		}
 
@@ -181,7 +182,6 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
-
 			if (!preg_match('/[\x80-\xFF]/', $data->items[$i]->link))
 			{
 				$itemlink = $data->items[$i]->link;
@@ -195,6 +195,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			{
 				$itemlink = str_replace(' ', '%20', $url . $itemlink);
 			}
+
 			$feed .= "		<item>\n";
 			$feed .= "			<title>" . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
 			$feed .= "			<link>" . str_replace(' ', '%20', $itemlink) . "</link>\n";
@@ -263,25 +264,10 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 			$feed .= "		</item>\n";
 		}
+
 		$feed .= "	</channel>\n";
 		$feed .= "</rss>\n";
+
 		return $feed;
-	}
-
-	/**
-	 * Convert links in a text from relative to absolute
-	 *
-	 * @param   string  $text  The text processed
-	 *
-	 * @return  string   Text with converted links
-	 *
-	 * @since   11.1
-	 */
-	public function _relToAbs($text)
-	{
-		$base = JUri::base();
-		$text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto|data)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
-
-		return $text;
 	}
 }

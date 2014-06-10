@@ -79,6 +79,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 		{
 			$feed .= " xml:lang=\"" . $data->language . "\"";
 		}
+
 		$feed .= ">\n";
 		$feed .= "	<title type=\"text\">" . $feed_title . "</title>\n";
 		$feed .= "	<subtitle type=\"text\">" . htmlspecialchars($data->description, ENT_COMPAT, 'UTF-8') . "</subtitle>\n";
@@ -97,6 +98,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 				$feed .= "	<category term=\"" . htmlspecialchars($data->category, ENT_COMPAT, 'UTF-8') . "\" />\n";
 			}
 		}
+
 		$feed .= "	<link rel=\"alternate\" type=\"text/html\" href=\"" . $url . "\"/>\n";
 		$feed .= "	<id>" . str_replace(' ', '%20', $data->getBase()) . "</id>\n";
 		$feed .= "	<updated>" . htmlspecialchars($now->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";
@@ -105,10 +107,12 @@ class JDocumentRendererAtom extends JDocumentRenderer
 		{
 			$feed .= "	<author>\n";
 			$feed .= "		<name>" . $data->editor . "</name>\n";
+
 			if ($data->editorEmail != "")
 			{
 				$feed .= "		<email>" . htmlspecialchars($data->editorEmail, ENT_COMPAT, 'UTF-8') . "</email>\n";
 			}
+
 			$feed .= "	</author>\n";
 		}
 
@@ -128,7 +132,6 @@ class JDocumentRendererAtom extends JDocumentRenderer
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
-
 			if (!preg_match('/[\x80-\xFF]/', $data->items[$i]->link))
 			{
 				$itemlink = $data->items[$i]->link;
@@ -170,12 +173,13 @@ class JDocumentRendererAtom extends JDocumentRenderer
 				{
 					$feed .= "			<email>" . htmlspecialchars($data->items[$i]->authorEmail, ENT_COMPAT, 'UTF-8') . "</email>\n";
 				}
+
 				$feed .= "		</author>\n";
 			}
 
 			if ($data->items[$i]->description != "")
 			{
-				$feed .= "		<summary type=\"html\">" . htmlspecialchars($data->items[$i]->description, ENT_COMPAT, 'UTF-8') . "</summary>\n";
+				$feed .= "		<summary type=\"html\">" . htmlspecialchars($this->_relToAbs($data->items[$i]->description), ENT_COMPAT, 'UTF-8') . "</summary>\n";
 				$feed .= "		<content type=\"html\">" . htmlspecialchars($data->items[$i]->description, ENT_COMPAT, 'UTF-8') . "</content>\n";
 			}
 
@@ -199,10 +203,12 @@ class JDocumentRendererAtom extends JDocumentRenderer
 				$feed .= "		<link rel=\"enclosure\" href=\"" . $data->items[$i]->enclosure->url . "\" type=\""
 					. $data->items[$i]->enclosure->type . "\"  length=\"" . $data->items[$i]->enclosure->length . "\" />\n";
 			}
+
 			$feed .= "	</entry>\n";
 		}
 
 		$feed .= "</feed>\n";
+
 		return $feed;
 	}
 }
