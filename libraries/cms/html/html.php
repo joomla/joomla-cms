@@ -972,12 +972,7 @@ abstract class JHtml
 
 			$attribs = JArrayHelper::toString($attribs);
 		}
-		else
-		{
-			// @deprecated  4.0  Use an array instead of a string.
-			JLog::add('Passing a string as $attribs for JHtml::calendar is deprecated, use an array instead.', JLog::WARNING, 'deprecated');	
-		}
-		
+
 		static::_('bootstrap.tooltip');
 
 		// Format value when not '0000-00-00 00:00:00', otherwise blank it as it would result in 1970-01-01.
