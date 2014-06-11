@@ -544,8 +544,9 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	protected function initialiseApp($options = array())
 	{
-		// Set the configuration in the API.
-		$this->config = JFactory::getConfig();
+		// Get the configuration set in the API. Recursively merge it in. Note this will take
+		// Priority over any intialized values.
+		$this->config->merge(JFactory::getConfig(), true);
 
 		// Check that we were given a language in the array (since by default may be blank).
 		if (isset($options['language']))
