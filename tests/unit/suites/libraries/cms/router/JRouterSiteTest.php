@@ -37,11 +37,11 @@ class JRouterSiteTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-		
+
 		$options = array();
-		$options['application'] = TestMockApplication::create($this);
-		$options['menu'] = TestMockMenu::create($this);
-		$this->object = new JRouterSiteInspector($options);
+		$app = TestMockApplicationCms::create($this);
+		$menu = TestMockMenu::create($this);
+		$this->object = new JRouterSiteInspector($options, $app, $menu);
 	}
 	
 	/**
@@ -54,14 +54,14 @@ class JRouterSiteTest extends PHPUnit_Framework_TestCase
 	public function testConstruct()
 	{
 		$options = array();
-		$options['application'] = TestMockApplication::create($this);
-		$options['menu'] = TestMockMenu::create($this);
-		$object = new JRouterSiteInspector($options);
+		$app = TestMockApplication::create($this);
+		$menu = TestMockMenu::create($this);
+		$object = new JRouterSiteInspector($options, $app, $menu);
 		$this->assertInstanceOf('JRouterSite', $object);
 		
 		$options = array();
-		$options['application'] = TestMockApplication::create($this);
-		$object = new JRouterSiteInspector($options);
+		$app = TestMockApplication::create($this);
+		$object = new JRouterSiteInspector($options, $app);
 		$this->assertInstanceOf('JRouterSite', $object);
 		
 		/**
@@ -72,10 +72,10 @@ class JRouterSiteTest extends PHPUnit_Framework_TestCase
 			$_SERVER['HTTP_HOST'] = 'http://localhost';
 			$clear = true;
 		}
-		JApplication::getInstance('site', new JRegistry(array('session' => false)));
+		JApplicationCms::getInstance('site', new JRegistry(array('session' => false)));
 		$options = array();
-		$options['menu'] = TestMockMenu::create($this);
-		$object = new JRouterSiteInspector($options);
+		$menu = TestMockMenu::create($this);
+		$object = new JRouterSiteInspector($options, null, $menu);
 		$this->assertInstanceOf('JRouterSite', $object);
 		
 		if($clear) {
