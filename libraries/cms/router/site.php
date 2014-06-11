@@ -29,7 +29,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Current JApplication-Object
 	 *
-	 * @var    JApplication
+	 * @var    JApplicationCms
 	 * @since  3.4
 	 */
 	protected $app;
@@ -45,26 +45,28 @@ class JRouterSite extends JRouter
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  $options  Array of options
+	 * @param   array            $options  Array of options
+	 * @param   JApplicationCms  $app      JApplicationCms Object
+	 * @param   JMenu            $menu     JMenu object
 	 *
 	 * @since   3.4
 	 */
-	public function __construct($options = array())
+	public function __construct($options = array(), JApplicationCms $app = null, JMenu $menu = null)
 	{
 		parent::__construct($options);
 
-		if (array_key_exists('application', $options))
+		if ($app)
 		{
-			$this->app = $options['application'];
+			$this->app = $app;
 		}
 		else
 		{
 			$this->app = JApplication::getInstance('site');
 		}
 
-		if (array_key_exists('menu', $options))
+		if ($menu)
 		{
-			$this->menu = $options['menu'];
+			$this->menu = $menu;
 		}
 		else
 		{
