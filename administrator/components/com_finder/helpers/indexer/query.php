@@ -518,10 +518,10 @@ class FinderIndexerQuery
 		$params = $registry;
 
 		// Set the dates if not already set.
-		$this->dates->def('d1', $params->get('d1'));
-		$this->dates->def('d2', $params->get('d2'));
-		$this->dates->def('w1', $params->get('w1'));
-		$this->dates->def('w2', $params->get('w2'));
+		$this->dates->def('date1', $params->get('d1'));
+		$this->dates->def('date2', $params->get('d2'));
+		$this->dates->def('when1', $params->get('w1'));
+		$this->dates->def('when2', $params->get('w2'));
 
 		// Remove duplicates and sanitize.
 		$filters = explode(',', $return->data);
