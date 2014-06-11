@@ -307,8 +307,14 @@ class JApplicationCms extends JApplicationWeb
 	 * @since   3.2
 	 * @throws  RuntimeException
 	 */
-	public static function getInstance($name = null)
+	public static function getInstance($name = null, $config)
 	{
+		// If we have an array or a standard class convert it to a JRegistry object
+		if ((is_array($config) || is_object($config)) && !($config instanceof JRegistry))
+		{
+			$config = new JRegistry($config);
+		}
+
 		if (empty(static::$instances[$name]))
 		{
 			// Create a JApplicationCms object.
@@ -319,7 +325,7 @@ class JApplicationCms extends JApplicationWeb
 				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
-			static::$instances[$name] = new $classname;
+			static::$instances[$name] = new $classname(null, $config);
 		}
 
 		return static::$instances[$name];
