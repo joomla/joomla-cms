@@ -75,8 +75,8 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$config = JFactory::getConfig();
-		$this->_persistent = $config->get('memcache_persist', true);
-		$this->_compress = $config->get('memcache_compress', false) == false ? 0 : Memcached::OPT_COMPRESSION;
+		$this->_persistent = $config->get('memcached_persist', true);
+		$this->_compress = $config->get('memcached_compress', false) == false ? 0 : Memcached::OPT_COMPRESSION;
 
 		/*
 		 * This will be an array of loveliness
@@ -84,8 +84,8 @@ class JCacheStorageMemcached extends JCacheStorage
 		 * $servers	= (isset($params['servers'])) ? $params['servers'] : array();
 		 */
 		$server = array();
-		$server['host'] = $config->get('memcache_server_host', 'localhost');
-		$server['port'] = $config->get('memcache_server_port', 11211);
+		$server['host'] = $config->get('memcached_server_host', 'localhost');
+		$server['port'] = $config->get('memcached_server_port', 11211);
 
 		// Create the memcache connection
 		if ($this->_persistent)
@@ -320,8 +320,8 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$config = JFactory::getConfig();
-		$host = $config->get('memcache_server_host', 'localhost');
-		$port = $config->get('memcache_server_port', 11211);
+		$host = $config->get('memcached_server_host', 'localhost');
+		$port = $config->get('memcached_server_port', 11211);
 
 		$memcached = new Memcached;
 		$memcachedtest = @$memcached->addServer($host, $port);
