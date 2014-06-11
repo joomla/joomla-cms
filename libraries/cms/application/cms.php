@@ -307,10 +307,10 @@ class JApplicationCms extends JApplicationWeb
 	 * @since   3.2
 	 * @throws  RuntimeException
 	 */
-	public static function getInstance($name = null, $config)
+	public static function getInstance($name = null, $config = null)
 	{
-		// If we have an array or a standard class convert it to a JRegistry object
-		if ((is_array($config) || is_object($config)) && !($config instanceof JRegistry))
+		// If we have an array or a standard class for the config convert it to a JRegistry object
+		if ($config && (is_array($config) || is_object($config)) && !($config instanceof JRegistry))
 		{
 			$config = new JRegistry($config);
 		}
