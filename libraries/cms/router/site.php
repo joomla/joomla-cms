@@ -29,7 +29,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Current JApplication-Object
 	 *
-	 * @var    JApplication
+	 * @var    JApplicationCms
 	 * @since  3.4
 	 */
 	protected $app;
