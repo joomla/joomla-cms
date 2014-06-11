@@ -26,5 +26,8 @@
 			</language>
 		</languages>
 	</administration>
+	<updateservers>
+		<server type="extension" priority="1" name="Joomla! Update">http://update.joomla.org/core/extensions/joomla/com_joomlaupdate.xml</server>
+	</updateservers>
 </extension>
 
