@@ -1,18 +1,18 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @subpackage  Router
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * Inspector for JHtmlBootstrap
+ * Inspector for JRouter
  *
  * @package     Joomla.UnitTest
- * @subpackage  HTML
- * @since       3.1
+ * @subpackage  Router
+ * @since       3.4
  */
 class JRouterInspector extends JRouter
 {

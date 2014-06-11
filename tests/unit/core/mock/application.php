@@ -32,6 +32,7 @@ class TestMockApplication
 			'getIdentity',
 			'getRouter',
 			'getTemplate',
+			'getMenu'
 		);
 
 		// Create the mock.
@@ -45,6 +46,11 @@ class TestMockApplication
 			// Call original constructor.
 			false
 		);
+		
+		$menu = TestMockMenu::create($test);
+		$mockObject->expects($test->any())
+				->method('getMenu')
+				->will($test->returnValue($menu));
 
 		$mockObject->input = new JInput;
 
