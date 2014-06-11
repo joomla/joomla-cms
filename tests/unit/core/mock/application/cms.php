@@ -93,6 +93,10 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 		// Mock calls to JApplicationWeb::getLanguage().
 		$mockObject->expects($test->any())->method('getLanguage')->will($test->returnValue(TestMockLanguage::create($test)));
 
+		// Mock calls to JApplicationCms::getMenu();
+		$menu = TestMockMenu::create($test);
+		$mockObject->expects($test->any())->method('getMenu')->will($test->returnValue($menu));
+
 		// Mock a call to JApplicationWeb::getSession().
 		if (isset($options['session']))
 		{
