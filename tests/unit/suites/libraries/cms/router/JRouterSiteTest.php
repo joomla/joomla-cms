@@ -16,7 +16,7 @@ require_once __DIR__ . '/stubs/JRouterSiteInspector.php';
  * @subpackage  Router
  * @since       3.0
  */
-class JRouterSiteTest extends PHPUnit_Framework_TestCase
+class JRouterSiteTest extends TestCase
 {
 	/**
 	 * Object under test
@@ -39,7 +39,7 @@ class JRouterSiteTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$options = array();
-		$app = TestMockApplicationCms::create($this);
+		$app = $this->getMockCmsApp();
 		$menu = TestMockMenu::create($this);
 		$this->object = new JRouterSiteInspector($options, $app, $menu);
 	}
@@ -54,13 +54,13 @@ class JRouterSiteTest extends PHPUnit_Framework_TestCase
 	public function testConstruct()
 	{
 		$options = array();
-		$app = TestMockApplication::create($this);
+		$app = $this->getMockCmsApp();
 		$menu = TestMockMenu::create($this);
 		$object = new JRouterSiteInspector($options, $app, $menu);
 		$this->assertInstanceOf('JRouterSite', $object);
 		
 		$options = array();
-		$app = TestMockApplication::create($this);
+		$app = $this->getMockCmsApp();
 		$object = new JRouterSiteInspector($options, $app);
 		$this->assertInstanceOf('JRouterSite', $object);
 		
