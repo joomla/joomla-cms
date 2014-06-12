@@ -240,19 +240,18 @@ class JUpdaterCollection extends JUpdateAdapter
 		$db = $this->parent->getDBO();
 
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
 
 		// JHttp transport throws an exception when there's no response.
 		try
 		{
 			$response = $http->get($url);
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			$response = null;
 		}
 
-		if (!isset($response) || 200 != $response->code)
+		if ($response === null || $response->code !== 200)
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
 			if (!$appendExtension && (substr($url, -4) != '.xml'))

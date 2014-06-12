@@ -26,10 +26,15 @@ class UsersViewRegistration extends JViewLegacy
 
 	protected $state;
 
+	public $document;
+
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string	The template file to include
+	 * @param   string  $tpl  The template file to include
+	 *
+	 * @return  mixed
+	 *
 	 * @since   1.6
 	 */
 	public function display($tpl = null)
@@ -59,23 +64,26 @@ class UsersViewRegistration extends JViewLegacy
 
 		$this->prepareDocument();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
 	 * Prepares the document.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$title 		= null;
+		$app   = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
+
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
@@ -86,6 +94,7 @@ class UsersViewRegistration extends JViewLegacy
 		}
 
 		$title = $this->params->get('page_title', '');
+
 		if (empty($title))
 		{
 			$title = $app->getCfg('sitename');
@@ -98,6 +107,7 @@ class UsersViewRegistration extends JViewLegacy
 		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->params->get('menu-meta_description'))

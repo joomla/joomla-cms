@@ -132,6 +132,13 @@
 					rows="2"
 				/>
 
+				<field name="valid_elements" type="textarea"
+					cols="30"
+					description="PLG_TINY_FIELD_VALIDELEMENTS_DESC"
+					label="PLG_TINY_FIELD_VALIDELEMENTS_LABEL"
+					rows="2"
+				/>
+
 				<field name="extended_elements" type="textarea"
 					cols="30"
 					description="PLG_TINY_FIELD_ELEMENTS_DESC"
@@ -150,7 +157,7 @@
 				/>
 
 				<field name="html_width" type="text"
-					default="750"
+					default=""
 					description="PLG_TINY_FIELD_HTMLWIDTH_DESC"
 					label="PLG_TINY_FIELD_HTMLWIDTH_LABEL"
 				/>

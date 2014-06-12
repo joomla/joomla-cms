@@ -888,7 +888,8 @@ class PlgSystemDebug extends JPlugin
 				$queryTime = ($timings[$id * 2 + 1] - $timings[$id * 2]) * 1000;
 
 				// Timing.  Formats the output for the query time with EXPLAIN query results as tooltip.
-				$htmlTiming = '<div style="margin: 0px 0 5px;"><span class="dbg-query-time">' . JText::sprintf('PLG_DEBUG_QUERY_TIME', sprintf('<span class="label ' . $info[$id]->class . '">%.2f&nbsp;ms</span>', $timing[$id]['0']));
+				$htmlTiming = '<div style="margin: 0px 0 5px;"><span class="dbg-query-time">'
+					. JText::sprintf('PLG_DEBUG_QUERY_TIME', sprintf('<span class="label ' . $info[$id]->class . '">%.2f&nbsp;ms</span>', $timing[$id]['0']));
 
 				if ($timing[$id]['1'])
 				{
@@ -945,7 +946,8 @@ class PlgSystemDebug extends JPlugin
 						}
 
 						$htmlResultsReturned = '<span class="label ' . $labelClass . '">' . (int) $resultsReturned . '</span>';
-						$htmlTiming .= ' ' . '<span class="dbg-query-rowsnumber">' . JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
+						$htmlTiming .= ' ' . '<span class="dbg-query-rowsnumber">'
+							. JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
 					}
 				}
 
@@ -985,7 +987,8 @@ class PlgSystemDebug extends JPlugin
 
 					if (!$this->linkFormat)
 					{
-						$htmlCallStack .= '<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
+						$htmlCallStack .= '<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">'
+							. JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
 					}
 				}
 
@@ -1181,7 +1184,8 @@ class PlgSystemDebug extends JPlugin
 				$tip = JHtml::tooltipText($bar->tip, '', 0);
 			}
 
-			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: ' . $bar->width . '%;" href="#dbg-' . $class . '-' . ($i + 1) . '"></a>';
+			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: '
+				. $bar->width . '%;" href="#dbg-' . $class . '-' . ($i + 1) . '"></a>';
 		}
 
 		return '<div class="progress dbg-bars dbg-bars-' . $class . '">' . implode('', $html) . '</div>';
@@ -1267,7 +1271,8 @@ class PlgSystemDebug extends JPlugin
 					if ($td === 'NULL')
 					{
 						// Displays query parts which don't use a key with warning.
-						$html[] = '<td><strong>' . '<span class="dbg-warning hasTooltip" title="' . JHtml::tooltipText('PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">' . JText::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
+						$html[] = '<td><strong>' . '<span class="dbg-warning hasTooltip" title="' . JHtml::tooltipText('PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">'
+							. JText::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
 						$hasWarnings = true;
 					}
 					else
@@ -1283,7 +1288,9 @@ class PlgSystemDebug extends JPlugin
 					$htmlTd = preg_replace('/([^;]) /', '\1&nbsp;', $htmlTd);
 
 					// Displays warnings for "Using filesort".
-					$htmlTdWithWarnings = str_replace('Using&nbsp;filesort', '<span class="dbg-warning hasTooltip" title="' . JHtml::tooltipText('PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">' . JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>', $htmlTd);
+					$htmlTdWithWarnings = str_replace('Using&nbsp;filesort', '<span class="dbg-warning hasTooltip" title="'
+						. JHtml::tooltipText('PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">' . JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>', $htmlTd
+					);
 
 					if ($htmlTdWithWarnings !== $htmlTd)
 					{

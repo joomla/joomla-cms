@@ -30,7 +30,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	function __construct(& $subject, $config)
+	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
 
@@ -52,7 +52,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	function onAfterInitialise()
+	public function onAfterInitialise()
 	{
 		global $_PROFILER;
 
@@ -99,7 +99,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	function onAfterRender()
+	public function onAfterRender()
 	{
 		$app = JFactory::getApplication();
 

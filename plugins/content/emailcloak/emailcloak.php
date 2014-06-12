@@ -116,10 +116,10 @@ class PlgContentEmailcloak extends JPlugin
 
 		$mode = $this->params->def('mode', 1);
 
-		// Example: any@email.address.com
-		$searchEmail = '([\w\.\-]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,10}))';
+		// Example: any@example.org
+		$searchEmail = '([\w\.\-\+]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,10}))';
 
-		// Example: any@email.address.com?subject=anyText
+		// Example: any@example.org?subject=anyText
 		$searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';
 
 		// Any Text
@@ -129,8 +129,8 @@ class PlgContentEmailcloak extends JPlugin
 		$searchImage	=	"(<img[^>]+>)";
 
 		/*
-		 * Search and fix derivatives of link code <a href="http://mce_host/ourdirectory/email@amail.com"
-		 * >email@email.com</a>. This happens when inserting an email in TinyMCE, cancelling its suggestion to add
+		 * Search and fix derivatives of link code <a href="http://mce_host/ourdirectory/email@example.org"
+		 * >email@example.org</a>. This happens when inserting an email in TinyMCE, cancelling its suggestion to add
 		 * the mailto: prefix...
 		 */
 		$pattern = $this->_getPattern($searchEmail, $searchEmail);
@@ -152,7 +152,7 @@ class PlgContentEmailcloak extends JPlugin
 		}
 
 		/*
-		 * Search and fix derivatives of link code <a href="http://mce_host/ourdirectory/email@amail.com"
+		 * Search and fix derivatives of link code <a href="http://mce_host/ourdirectory/email@example.org"
 		 * >anytext</a>. This happens when inserting an email in TinyMCE, cancelling its suggestion to add
 		 * the mailto: prefix...
 		 */
@@ -175,8 +175,8 @@ class PlgContentEmailcloak extends JPlugin
 		}
 
 		/*
-		 * Search for derivatives of link code <a href="mailto:email@amail.com"
-		 * >email@amail.com</a>
+		 * Search for derivatives of link code <a href="mailto:email@example.org"
+		 * >email@example.org</a>
 		 */
 		$pattern = $this->_getPattern($searchEmail, $searchEmail);
 
@@ -196,7 +196,7 @@ class PlgContentEmailcloak extends JPlugin
 		}
 
 		/*
-		 * Search for derivatives of link code <a href="mailto:email@amail.com">
+		 * Search for derivatives of link code <a href="mailto:email@example.org">
 		 * anytext</a>
 		 */
 		$pattern = $this->_getPattern($searchEmail, $searchText);
@@ -216,7 +216,7 @@ class PlgContentEmailcloak extends JPlugin
 		}
 
 		/*
-		 * Search for derivatives of link code <a href="mailto:email@amail.com">
+		 * Search for derivatives of link code <a href="mailto:email@example.org">
 		 * <img anything></a>
 		 */
 		$pattern = $this->_getPattern($searchEmail, $searchImage);
@@ -236,8 +236,8 @@ class PlgContentEmailcloak extends JPlugin
 		}
 
 		/*
-		 * Search for derivatives of link code <a href="mailto:email@amail.com?
-		 * subject=Text">email@amail.com</a>
+		 * Search for derivatives of link code <a href="mailto:email@example.org?
+		 * subject=Text">email@example.org</a>
 		 */
 		$pattern = $this->_getPattern($searchEmailLink, $searchEmail);
 
@@ -260,7 +260,7 @@ class PlgContentEmailcloak extends JPlugin
 		}
 
 		/*
-		 * Search for derivatives of link code <a href="mailto:email@amail.com?
+		 * Search for derivatives of link code <a href="mailto:email@example.org?
 		 * subject=Text">anytext</a>
 		 */
 		$pattern = $this->_getPattern($searchEmailLink, $searchText);
@@ -282,7 +282,7 @@ class PlgContentEmailcloak extends JPlugin
 			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
 		}
 
-		// Search for plain text email@amail.com
+		// Search for plain text email@example.org
 		$pattern = '~' . $searchEmail . '([^a-z0-9]|$)~i';
 
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))

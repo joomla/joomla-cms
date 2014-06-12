@@ -45,7 +45,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 			<div class="clr"></div>
 			<div class="ubody">
-				<?php echo $item->body; ?>
+				<?php echo JHtml::_('content.prepare', $item->body); ?>
 			</div>
 		</li>
 	<?php endforeach; ?>

@@ -221,7 +221,8 @@ class JUri
 		if (empty(self::$base))
 		{
 			$config = JFactory::getConfig();
-			$live_site = $config->get('live_site');
+			$uri = self::getInstance();
+			$live_site = ($uri->isSSL()) ? str_replace("http://", "https://", $config->get('live_site')) : $config->get('live_site');
 
 			if (trim($live_site) != '')
 			{
@@ -239,7 +240,6 @@ class JUri
 			}
 			else
 			{
-				$uri = self::getInstance();
 				self::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 
 				if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
@@ -511,7 +511,7 @@ class JUri
 	 *
 	 * @param   boolean  $toArray  True to return the query as a key => value pair array.
 	 *
-	 * @return  string   Query string.
+	 * @return  string|array  Query string or array.
 	 *
 	 * @since   11.1
 	 */

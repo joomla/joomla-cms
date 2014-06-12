@@ -19,27 +19,31 @@ defined('_JEXEC') or die;
 class PluginsModelPlugin extends JModelAdmin
 {
 	/**
-	 * @var		string	The help screen key for the module.
+	 * @var     string  The help screen key for the module.
 	 * @since   1.6
 	 */
 	protected $helpKey = 'JHELP_EXTENSIONS_PLUGIN_MANAGER_EDIT';
 
 	/**
-	 * @var		string	The help screen base URL for the module.
+	 * @var     string  The help screen base URL for the module.
 	 * @since   1.6
 	 */
 	protected $helpURL;
 
+	/**
+	 * @var     array  An array of cached plugin items.
+	 * @since   1.6
+	 */
 	protected $_cache;
 
 	/**
-	 * @var		string	The event to trigger after saving the data.
+	 * @var     string  The event to trigger after saving the data.
 	 * @since   1.6
 	 */
 	protected $event_after_save = 'onExtensionAfterSave';
 
 	/**
-	 * @var		string	The event to trigger after before the data.
+	 * @var     string  The event to trigger after before the data.
 	 * @since   1.6
 	 */
 	protected $event_before_save = 'onExtensionBeforeSave';
@@ -47,8 +51,9 @@ class PluginsModelPlugin extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 * 
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
 	 */
@@ -73,6 +78,7 @@ class PluginsModelPlugin extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_plugins.plugin', 'plugin', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -153,12 +159,14 @@ class PluginsModelPlugin extends JModelAdmin
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the plugin XML.
-			$path = JPath::clean(JPATH_PLUGINS.'/'.$table->folder.'/'.$table->element.'/'.$table->element.'.xml');
+			$path = JPath::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
 
 			if (file_exists($path))
 			{
 				$this->_cache[$pk]->xml = simplexml_load_file($path);
-			} else {
+			}
+			else
+			{
 				$this->_cache[$pk]->xml = null;
 			}
 		}
@@ -226,8 +234,8 @@ class PluginsModelPlugin extends JModelAdmin
 
 		foreach ($elements as $elementa)
 		{
-				$lang->load('plg_'.$folder.'_'.$elementa.'.sys', JPATH_ADMINISTRATOR, null, false, true)
-			||	$lang->load('plg_'.$folder.'_'.$elementa.'.sys', JPATH_PLUGINS.'/'.$folder.'/'.$elementa, null, false, true);
+				$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+			||	$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa, null, false, true);
 		}
 
 		if (empty($folder) || empty($element))
@@ -243,8 +251,8 @@ class PluginsModelPlugin extends JModelAdmin
 		}
 
 		// Load the core and/or local language file(s).
-			$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, null, false, true)
-		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_PLUGINS.'/'.$folder.'/'.$element, null, false, true);
+			$lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR, null, false, true)
+		||	$lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element, null, false, true);
 
 		if (file_exists($formFile))
 		{
@@ -286,8 +294,8 @@ class PluginsModelPlugin extends JModelAdmin
 	protected function getReorderConditions($table)
 	{
 		$condition = array();
-		$condition[] = 'type = '. $this->_db->quote($table->type);
-		$condition[] = 'folder = '. $this->_db->quote($table->folder);
+		$condition[] = 'type = ' . $this->_db->quote($table->type);
+		$condition[] = 'folder = ' . $this->_db->quote($table->folder);
 		return $condition;
 	}
 
