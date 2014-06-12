@@ -84,14 +84,15 @@ class JModelCmsitem extends JModelCms
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   JDatabaseDriver  $db      The database adpater.
+	 * @param   array            $config  An array of configuration options. Must have view and option elements.
 	 *
 	 * @see     JModel
 	 * @since   3.4
 	 */
-	public function __construct($config = array())
+	public function __construct(JDatabaseDriver $db = null, $config = array())
 	{
-		parent::__construct($config);
+		parent::__construct($db, $config);
 
 		if (isset($config['event_after_delete']))
 		{

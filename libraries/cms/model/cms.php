@@ -51,59 +51,33 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	protected $__state_set = null;
 
 	/**
+	 * The event to trigger on clearing the cache.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $event_clean_cache = 'onContentCleanCache';
+
+	/**
 	 * Constructor
 	 *
-	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   JDatabaseDriver  $db      The database adpater.
+	 * @param   array            $config  An array of configuration options. Must have view and option elements.
 	 *
 	 * @since   3.4
 	 * @throws  Exception
 	 */
-	public function __construct($config = array())
+	public function __construct(JDatabaseDriver $db = null, $config = array())
 	{
-		// Guess the option from the class name (Option)Model(View).
-		if (empty($this->option))
-		{
-			$r = null;
+		$this->name = $config['view'];
+		$this->option = $config['option'];
 
-			if (!preg_match('/(.*)Model/i', get_class($this), $r))
-			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
-			}
+		// If we don't have a db param see if one got set in the config for legacy purposes
+		if (!$db && array_key_exists('dbo', $config) && $config['dbo'] instanceof JDatabaseDriver)
+		{
+			$db = $config['dbo'];
 
-			$this->option = 'com_' . strtolower($r[1]);
-		}
-
-		// Set the view name
-		if (empty($this->name))
-		{
-			if (array_key_exists('name', $config))
-			{
-				$this->name = $config['name'];
-			}
-			else
-			{
-				$this->name = $this->getName();
-			}
-		}
-
-		// Set the model state
-		if (array_key_exists('state', $config))
-		{
-			$this->state = $config['state'];
-		}
-		else
-		{
-			$this->state = new JObject;
-		}
-
-		// Set the model dbo
-		if (array_key_exists('dbo', $config))
-		{
-			$this->_db = $config['dbo'];
-		}
-		else
-		{
-			$this->_db = JFactory::getDbo();
+			JLog::add('Passing the database object via the config is deprecated. Use the second parameter of the constructor instead', JLog::WARNING, 'deprecated');
 		}
 
 		// Register the paths for the form
@@ -120,14 +94,18 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 		{
 			$this->event_clean_cache = $config['event_clean_cache'];
 		}
-		elseif (empty($this->event_clean_cache))
+
+		// Set the model state
+		if (array_key_exists('state', $config) && $config['state'] instanceof JRegistry)
 		{
-			$this->event_clean_cache = 'onContentCleanCache';
+			$state = $config['state'];
+		}
+		else
+		{
+			$state = new JRegistry;
 		}
 
-		$state = new JRegistry($config);
-
-		parent::__construct($state);
+		parent::__construct($state, $db);
 	}
 
 	/**
@@ -139,20 +117,9 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * @return  string  The name of the model
 	 *
 	 * @since   3.4
-	 * @throws  Exception
 	 */
 	public function getName()
 	{
-		if (empty($this->name))
-		{
-			$r = null;
-			if (!preg_match('/Model(.*)/i', get_class($this), $r))
-			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
-			}
-			$this->name = strtolower($r[1]);
-		}
-
 		return $this->name;
 	}
 
