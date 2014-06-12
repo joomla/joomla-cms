@@ -73,18 +73,18 @@ abstract class JHtmlEmail
 					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
 				}
 
-				$replacement .= "\n jQuery('#cloak$rand').append('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>');";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';";
 			}
 			else
 			{
-				$replacement .= "\n jQuery('#cloak$rand').append('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
-				$replacement .= "\n jQuery('#cloak$rand').append(addy" . $rand . ");";
-				$replacement .= "\n jQuery('#cloak$rand').append('<\/a>');";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>';";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += 'addy" . $rand . "';";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<\/a>';";
 			}
 		}
 		else
 		{
-			$replacement .= "\n jQuery('#cloak$rand').append(addy" . $rand . ");";
+			$replacement .= "\n document.getElementById('cloak$rand').innerHTML += 'addy" . $rand . "';";
 		}
 
 		$replacement .= "\n //-->";
