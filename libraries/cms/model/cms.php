@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Model
  * @since       3.4
  */
-abstract class JModelCms extends JModelDatabase
+abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 {
 	/**
 	 * The model (base) name
