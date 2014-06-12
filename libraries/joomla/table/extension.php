@@ -188,4 +188,42 @@ class JTableExtension extends JTable
 
 		return true;
 	}
+
+	/**
+	 * Loads Observers Mappings from #__extensions table and maps them
+	 *
+	 * @return  array
+	 *
+	 * @throws  RuntimeException
+	 *
+	 * @since 3.3.1
+	 */
+	public function loadObserversMapping()
+	{
+		$db = $this->_db;
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('observers'))
+			->from($db->quoteName($this->_tbl))
+			->where($db->quoteName('observers') . ' <> ' . $db->quote(''))
+			->where($db->quoteName('enabled') . ' = 1');
+		$db->setQuery($query);
+
+		try
+		{
+			$observers = $db->loadColumn('type_alias');
+		}
+		catch (RuntimeException $e)
+		{
+			// The TableContentType table has not yet been updated, let's keep the site working:
+			// This is from 3.1 and 3.2
+
+			return array();
+		}
+
+		foreach ( $observers as &$mapping ) {
+			$mapping = json_decode($mapping);
+		}
+
+		return $observers;
+	}
 }

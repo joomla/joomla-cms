@@ -108,11 +108,81 @@ class JTableContenttype extends JTable
 		$db = $this->_db;
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('type_id'))
-			->from($db->quoteName('#__content_types'))
+			->from($db->quoteName('#__content_types'))		//TODO: use $this->_tbl instead of hardcoded table-name
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
 		$db->setQuery($query);
 
-		return $db->loadResult($query);
+		return $db->loadResult($query);						//TODO: remove that $query as loadResult() does not take any param
+	}
+
+	/**
+	 * Loads Observers Mappings from #__content_types table and maps them
+	 *
+	 * @return  array
+	 *
+	 * @throws  RuntimeException
+	 *
+	 * @since 3.3.1
+	 */
+	public function loadObserversMapping()
+	{
+		$db = $this->_db;
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('observers'))
+			->select($db->quoteName('type_alias'))
+			->from($db->quoteName($this->_tbl))
+			->where($db->quoteName('observers') . ' <> ' . $db->quote(''));
+		$db->setQuery($query);
+
+		try
+		{
+			$observers = $db->loadColumn('type_alias');
+		}
+		catch (RuntimeException $e)
+		{
+			// The TableContentType table has not yet been updated, let's keep the site working: Register Observers:
+			// This is from 3.1 and 3.2
+
+			return array(
+				// Add Tags to Content, Contact, NewsFeeds, WebLinks and Categories: (this is the only link between them here!):
+				(object) array('observerClass' => 'JTableObserverTags', 'observableClass' => 'JTableContent', 'params' => array('typeAlias' => 'com_content.article')),
+				(object) array('observerClass' => 'JTableObserverTags', 'observableClass' => 'ContactTableContact', 'params' => array('typeAlias' => 'com_contact.contact')),
+				(object) array('observerClass' => 'JTableObserverTags', 'observableClass' => 'NewsfeedsTableNewsfeed', 'params' => array('typeAlias' => 'com_newsfeeds.newsfeed')),
+				(object) array('observerClass' => 'JTableObserverTags', 'observableClass' => 'WeblinksTableWeblink', 'params' => array('typeAlias' => 'com_weblinks.weblink')),
+				(object) array('observerClass' => 'JTableObserverTags', 'observableClass' => 'JTableCategory', 'params' => array('typeAlias' => '{extension}.category')),
+
+				// Register Observers for Version History
+				(object) array('observerClass' => 'JTableObserverContenthistory', 'observableClass' => 'ContactTableContact', 'params' => array('typeAlias' => 'com_contact.contact')),
+				(object) array('observerClass' => 'JTableObserverContenthistory', 'observableClass' => 'JTableContent', 'params' => array('typeAlias' => 'com_content.article')),
+				(object) array('observerClass' => 'JTableObserverContenthistory', 'observableClass' => 'JTableCategory', 'params' => array('typeAlias' => '{extension}.category')),
+				(object) array('observerClass' => 'JTableObserverContenthistory', 'observableClass' => 'NewsfeedsTableNewsfeed', 'params' => array('typeAlias' => 'com_newsfeeds.newsfeed')),
+				(object) array('observerClass' => 'JTableObserverContenthistory', 'observableClass' => 'WeblinksTableWeblink', 'params' => array('typeAlias' => 'com_weblinks.weblink')),
+				(object) array('observerClass' => 'JTableObserverContenthistory', 'observableClass' => 'BannersTableBanner', 'params' => array('typeAlias' => 'com_banners.banner')),
+				(object) array('observerClass' => 'JTableObserverContenthistory', 'observableClass' => 'BannersTableClient', 'params' => array('typeAlias' => 'com_banners.client')),
+				(object) array('observerClass' => 'JTableObserverContenthistory', 'observableClass' => 'TagsTableTag', 'params' => array('typeAlias' => 'com_tags.tag')),
+				(object) array('observerClass' => 'JTableObserverContenthistory', 'observableClass' => 'UsersTableNote', 'params' => array('typeAlias' => 'com_users.note'))
+			);
+		}
+
+		$observersMapping = array();
+
+		foreach ( $observers as $typeAlias => $mapping ) {
+			$map = json_decode($mapping);
+
+			if (!property_exists($map, 'params'))
+			{
+				$map->params = array();
+			}
+
+			if (!array_key_exists('typeAlias', $map->params))
+			{
+				$map->params['typeAlias'] = $typeAlias;
+			}
+
+			$observersMapping[] = $map;
+		}
+
+		return $observers;
 	}
 
 	/**
