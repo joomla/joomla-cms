@@ -947,7 +947,7 @@ abstract class JHtml
 	 * @param   string  $name     The name of the text field
 	 * @param   string  $id       The id of the text field
 	 * @param   string  $format   The date format
-	 * @param   array   $attribs  Additional HTML attributes
+	 * @param   mixed   $attribs  Additional HTML attributes
 	 *
 	 * @return  string  HTML markup for a calendar field
 	 *
