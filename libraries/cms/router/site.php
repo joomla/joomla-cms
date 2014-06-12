@@ -459,6 +459,7 @@ class JRouterSite extends JRouter
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  Use buildSefRoute() instead
+	 * @codeCoverageIgnore
 	 */
 	protected function _buildSefRoute(&$uri)
 	{

@@ -555,6 +555,7 @@ class JRouter
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  Use createURI() instead
+	 * @codeCoverageIgnore
 	 */
 	protected function _createURI($url)
 	{
@@ -619,6 +620,7 @@ class JRouter
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  This should be performed in the component router instead
+	 * @codeCoverageIgnore
 	 */
 	protected function _encodeSegments($segments)
 	{
@@ -656,6 +658,7 @@ class JRouter
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  This should be performed in the component router instead
+	 * @codeCoverageIgnore
 	 */
 	protected function _decodeSegments($segments)
 	{

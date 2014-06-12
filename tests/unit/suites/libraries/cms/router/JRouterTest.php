@@ -16,7 +16,7 @@ require_once __DIR__ . '/stubs/JRouterInspector.php';
  * @subpackage  Router
  * @since       3.1
  */
-class JRouterTest extends PHPUnit_Framework_TestCase
+class JRouterTest extends TestCase
 {
 	/**
 	 * Object under test
@@ -61,6 +61,19 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 		//Check if the same object is returned by getInstance()
 		$object2 = JRouter::getInstance('administrator');
 		$this->assertSame($object, $object2);
+		
+		require_once JPATH_TESTS.'/suites/libraries/cms/application/stubs/JApplicationHelperInspector.php';
+		$apps = JApplicationHelperInspector::get();
+		$obj = new stdClass();
+		$obj->id = 3;
+		$obj->name = 'tester';
+		$obj->path = dirname(__FILE__).'/example';
+		$apps[3] = $obj;
+		JApplicationHelperInspector::set($apps);
+		
+		//Test if legacy app routers are still loaded
+		$object3 = JRouter::getInstance('tester');
+		$this->assertTrue(is_a($object, 'JRouter'));
 	}
 
 	/**
@@ -130,6 +143,13 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 	{
 		$uri = new JUri('index.php?var1=value1');
 		$result = $this->object->build('index.php?var1=value1');
+		$this->assertEquals($uri, $result);
+		
+		$this->assertEquals($uri, $this->object->build('index.php?var1=value1'));
+		
+		$object = new JRouter;
+		$object->setMode(JROUTER_MODE_SEF);
+		$result = $object->build('index.php?var1=value1');
 		$this->assertEquals($uri, $result);
 	}
 
@@ -557,6 +577,10 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 		$cases[] = array('&var1=value1&var2=value2', array('var3' => 'value3'), 'index.php?var3=value3&var1=value1&var2=value2');
 		$cases[] = array('&var1=value1&var2=value2', array('var2' => 'value3'), 'index.php?var2=value2&var1=value1');
 		
+		$cases[] = array('&var1=value1&var2=', array(), 'index.php?var1=value1');
+		
+		$cases[] = array('&amp;var1=value1&amp;var2=value2', array(), 'index.php?var1=value1&var2=value2');
+		
 		return $cases;
 	}
 
@@ -578,7 +602,7 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 		$juri = $object->runCreateURI($url);
 		
 		$this->assertTrue(is_a($juri, 'JUri'));
-		$this->assertEquals($juri->toString(), $expected);
+		$this->assertEquals($expected, $juri->toString());
 	}
 
 	/**
