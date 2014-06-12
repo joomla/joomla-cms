@@ -27,7 +27,7 @@ class TestMockMenu
 	 */
 	public static function create(PHPUnit_Framework_TestCase $test)
 	{
-		// Collect all the relevant methods in JApplication (work in progress).
+		// Collect all the relevant methods in JMenu (work in progress).
 		$methods = array(
 			'getItem',
 			'setDefault',

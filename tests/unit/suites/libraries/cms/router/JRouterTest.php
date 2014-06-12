@@ -47,7 +47,6 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since         3.4
-	 * @expectedException RuntimeException
 	 */
 	public function testGetInstance()
 	{
@@ -62,9 +61,20 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 		//Check if the same object is returned by getInstance()
 		$object2 = JRouter::getInstance('administrator');
 		$this->assertSame($object, $object2);
-		
+	}
+
+	/**
+	 * Tests the getInstance() method throwing a proper exception
+	 *
+	 * @return  void
+	 *
+	 * @since         3.4
+	 * @expectedException RuntimeException
+	 */
+	public function testGetInstanceException()
+	{
 		//Check if a proper exception is thrown if there is no router class
-		$object3 = JRouter::getInstance('exception');
+		$object = JRouter::getInstance('exception');
 	}
 
 	/**
