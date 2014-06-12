@@ -138,6 +138,7 @@ class JModelCmsitem extends JModelCms implements JModelFormInterface
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
 	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function checkin($pk = null)
 	{
@@ -151,7 +152,7 @@ class JModelCmsitem extends JModelCms implements JModelFormInterface
 
 			if (!$table->load($pk))
 			{
-				$this->setError($table->getError());
+				throw new RuntimeException($table->getError());
 
 				return false;
 			}
@@ -159,7 +160,7 @@ class JModelCmsitem extends JModelCms implements JModelFormInterface
 			// Check if this is the user has previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+				throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
 				return false;
 			}
@@ -167,7 +168,7 @@ class JModelCmsitem extends JModelCms implements JModelFormInterface
 			// Attempt to check the row in.
 			if (!$table->checkin($pk))
 			{
-				$this->setError($table->getError());
+				throw new RuntimeException($table->getError());
 
 				return false;
 			}
