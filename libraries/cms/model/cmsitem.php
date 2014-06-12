@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Model
  * @since       3.4
  */
-class JModelCmsitem extends JModelCms
+class JModelCmsitem extends JModelCms implements JModelFormInterface
 {
 	/**
 	 * An item.
