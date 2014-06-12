@@ -52,6 +52,7 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 	public function testGetInstance()
 	{
 		//Check if a proper object is returned and that the mode is properly set
+		JRouterInspector::clearInstanceCache();
 		$object = JRouter::getInstance('administrator', array('mode' => 'test', 'randomKey' => 'randomValue'));
 		$this->assertTrue(is_a($object, 'JRouterAdministrator'));
 		$this->assertEquals($object->getMode(), 'test');

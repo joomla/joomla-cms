@@ -69,4 +69,19 @@ class JRouterInspector extends JRouter
 	{
 		return $this->_rules;
 	}
+	
+	/**
+	 * Clear instance of JRouter
+	 * 
+	 * @return void
+	 * 
+	 * @since  3.4
+	 */
+	public static function clearInstanceCache()
+	{
+		foreach(self::$instances as $key => $value)
+		{
+			unset(self::$instances[$key]);
+		}
+	}
 }
