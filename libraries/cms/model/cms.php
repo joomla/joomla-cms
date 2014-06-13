@@ -111,9 +111,6 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	/**
 	 * Method to get the model name
 	 *
-	 * The model name. By default parsed using the classname or it can be set
-	 * by passing a $config['name'] in the class constructor
-	 *
 	 * @return  string  The name of the model
 	 *
 	 * @since   3.4
@@ -152,23 +149,42 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  JTableInterface  A JTableInterface object
 	 *
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
-	public function getTable($name = '', $prefix = 'Table', $options = array())
+	public function getTable($name, $prefix, $options = array())
 	{
-		if (empty($name))
+		if (!$name)
 		{
-			$name = $this->getName();
+			$name = $this->name;
 		}
 
-		if ($table = $this->_createTable($name, $prefix, $options))
+		if (!$prefix)
 		{
-			return $table;
+			$prefix = $this->option . 'Table';
 		}
 
+		// CLean the name and prefix variables up
+		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+
+		// Make sure we are returning a DBO object
+		if (!array_key_exists('dbo', $options))
+		{
+			$options['dbo'] = $this->getDbo();
+		}
+
+		// Try and get table instance
+		$table = JTable::getInstance($name, $prefix, $options);
+
+		if ($table instanceof JTableInterface)
+		{
+			return $table
+		}
+
+		// If the table isn't a instance of JTableInterface throw an exception
 		throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
 	}
 
