@@ -82,22 +82,30 @@ class JPagination
 	protected $additionalUrlParams = array();
 
 	/**
+	 * @var    JApplicationCms  The application object
+	 * @since  3.4
+	 */
+	protected $app = false;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param   integer  $total       The total number of items.
-	 * @param   integer  $limitstart  The offset of the item to start at.
-	 * @param   integer  $limit       The number of items to display per page.
-	 * @param   string   $prefix      The prefix used for request variables.
+	 * @param   integer          $total       The total number of items.
+	 * @param   integer          $limitstart  The offset of the item to start at.
+	 * @param   integer          $limit       The number of items to display per page.
+	 * @param   string           $prefix      The prefix used for request variables.
+	 * @param   JApplicationCms  $app         The application object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct($total, $limitstart, $limit, $prefix = '')
+	public function __construct($total, $limitstart, $limit, $prefix = '', JApplicationCms $app = null)
 	{
 		// Value/type checking.
 		$this->total = (int) $total;
 		$this->limitstart = (int) max($limitstart, 0);
 		$this->limit = (int) max($limit, 0);
 		$this->prefix = $prefix;
+		$this->app = $app ? $app : JFactory::getApplication();
 
 		if ($this->limit > $this->total)
 		{
@@ -303,8 +311,6 @@ class JPagination
 	 */
 	public function getPagesLinks()
 	{
-		$app = JFactory::getApplication();
-
 		// Build the page navigation list.
 		$data = $this->_buildDataObject();
 
@@ -314,7 +320,7 @@ class JPagination
 		$itemOverride = false;
 		$listOverride = false;
 
-		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/pagination.php';
+		$chromePath = JPATH_THEMES . '/' . $this->app->getTemplate() . '/html/pagination.php';
 
 		if (file_exists($chromePath))
 		{
@@ -429,8 +435,6 @@ class JPagination
 		// Allow to receive a null layout
 		$layoutId = (null === $layoutId) ? 'joomla.pagination.links' : $layoutId;
 
-		$app = JFactory::getApplication();
-
 		$list = array(
 			'prefix'       => $this->prefix,
 			'limit'        => $this->limit,
@@ -501,7 +505,7 @@ class JPagination
 	public function getListFooter()
 	{
 		// Keep B/C for overrides done with chromes
-		$chromePath = JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/pagination.php';
+		$chromePath = JPATH_THEMES . '/' . $this->app->getTemplate() . '/html/pagination.php';
 
 		if (file_exists($chromePath))
 		{
@@ -534,7 +538,6 @@ class JPagination
 	 */
 	public function getLimitBox()
 	{
-		$app = JFactory::getApplication();
 		$limits = array();
 
 		// Make the option list.
@@ -550,7 +553,7 @@ class JPagination
 		$selected = $this->viewall ? 0 : $this->limit;
 
 		// Build the select list.
-		if ($app->isAdmin())
+		if ($this->app->isAdmin())
 		{
 			$html = JHtml::_(
 				'select.genericlist',
@@ -693,8 +696,6 @@ class JPagination
 	 */
 	protected function _item_active(JPaginationObject $item)
 	{
-		$app = JFactory::getApplication();
-
 		$title = '';
 		$class = '';
 
@@ -705,7 +706,7 @@ class JPagination
 			$class = 'hasTooltip ';
 		}
 
-		if ($app->isAdmin())
+		if ($this->app->isAdmin())
 		{
 			return '<a' . $title . ' href="#" onclick="document.adminForm.' . $this->prefix
 			. 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;">' . $item->text . '</a>';
@@ -727,9 +728,7 @@ class JPagination
 	 */
 	protected function _item_inactive(JPaginationObject $item)
 	{
-		$app = JFactory::getApplication();
-
-		if ($app->isAdmin())
+		if ($this->app->isAdmin())
 		{
 			return '<span>' . $item->text . '</span>';
 		}
