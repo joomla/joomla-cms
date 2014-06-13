@@ -49,6 +49,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'execute',
 			'get',
 			'getBody',
+			'getCfg',
 			'getDocument',
 			'getHeaders',
 			'getIdentity',

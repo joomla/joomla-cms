@@ -38,6 +38,10 @@ class JRouterSiteTest extends TestCase
 	{
 		parent::setUp();
 
+		// Attempt to load the real class first.
+		class_exists('JApplicationCms');
+		class_exists('JApplication');
+		
 		$options = array();
 		$app = $this->getMockCmsApp();
 		$menu = TestMockMenu::create($this);
@@ -94,13 +98,228 @@ class JRouterSiteTest extends TestCase
 	}
 
 	/**
-	 * @todo   Implement testBuild().
+	 * Cases for testBuild
+	 *
+	 * @return  array
+	 *
+	 * @since   3.4
 	 */
-	public function testBuild()
+	public function casesBuild()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
+		$cases = array();
+		
+		$cases[] = array('', JROUTER_MODE_RAW, array(), array(), array(), '');
+
+		$cases[] = array('blog/test', JROUTER_MODE_RAW, array(), array(), array(), 'blog/test');
+		
+		$cases[] = array('', JROUTER_MODE_RAW, array(), array(), 
+			array(
+				'HTTP_HOST' => 'www.example.com:80',
+				'SCRIPT_NAME' => '/joomla/index.php',
+				'PHP_SELF' => '/joomla/index.php',
+				'REQUEST_URI' => '/joomla/index.php?var=value 10'
+			), '/joomla/');
+		
+		$cases[] = array('blog/test', JROUTER_MODE_RAW, array(), array(), 
+			array(
+				'HTTP_HOST' => 'www.example.com:80',
+				'SCRIPT_NAME' => '/joomla/index.php',
+				'PHP_SELF' => '/joomla/index.php',
+				'REQUEST_URI' => '/joomla/index.php?var=value 10'
+			), '/joomla/blog/test');
+		
+		$cases[] = array('', JROUTER_MODE_SEF, array(), array(), array(), '');
+
+		$cases[] = array('blog/test', JROUTER_MODE_SEF, array(), array(), array(), 'blog/test');
+		
+		$cases[] = array('', JROUTER_MODE_SEF, array(), array(), 
+			array(
+				'HTTP_HOST' => 'www.example.com:80',
+				'SCRIPT_NAME' => '/joomla/index.php',
+				'PHP_SELF' => '/joomla/index.php',
+				'REQUEST_URI' => '/joomla/index.php?var=value 10'
+			), '/joomla/');
+		
+		$cases[] = array('blog/test', JROUTER_MODE_SEF, array(), array(), 
+			array(
+				'HTTP_HOST' => 'www.example.com:80',
+				'SCRIPT_NAME' => '/joomla/index.php',
+				'PHP_SELF' => '/joomla/index.php',
+				'REQUEST_URI' => '/joomla/index.php?var=value 10'
+			), '/joomla/blog/test');
+		
+		$cases[] = array('index.php', JROUTER_MODE_SEF, array(), 
+			array(
+				array('sef_rewrite', null, 1)
+			), 
+			array(
+				'HTTP_HOST' => 'www.example.com:80',
+				'SCRIPT_NAME' => '/joomla/index.php',
+				'PHP_SELF' => '/joomla/index.php',
+				'REQUEST_URI' => '/joomla/index.php?var=value 10'
+			), '/joomla/');
+		
+		$cases[] = array('index.php/blog/test', JROUTER_MODE_SEF, array(), 
+			array(
+				array('sef_rewrite', null, 1)
+			), 
+			array(
+				'HTTP_HOST' => 'www.example.com:80',
+				'SCRIPT_NAME' => '/joomla/index.php',
+				'PHP_SELF' => '/joomla/index.php',
+				'REQUEST_URI' => '/joomla/index.php?var=value 10'
+			), '/joomla/blog/test');
+		
+		$cases[] = array('index.php', JROUTER_MODE_SEF, array(), 
+			array(
+				array('sef_rewrite', null, 1)
+			), 
+			array(), '');
+		
+		$cases[] = array('index.php/blog/test', JROUTER_MODE_SEF, array(), 
+			array(
+				array('sef_rewrite', null, 1)
+			), 
+			array(), 'blog/test');
+
+		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(), 
+			array(
+				array('sef_suffix', null, 1)
+			), 
+			array(
+				'HTTP_HOST' => 'www.example.com:80',
+				'SCRIPT_NAME' => '/joomla/index.php',
+				'PHP_SELF' => '/joomla/index.php',
+				'REQUEST_URI' => '/joomla/index.php?var=value 10'
+			), '/joomla/index.php?format=json');
+		
+		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(), 
+			array(
+				array('sef_suffix', null, 1)
+			), 
+			array(
+				'HTTP_HOST' => 'www.example.com:80',
+				'SCRIPT_NAME' => '/joomla/index.php',
+				'PHP_SELF' => '/joomla/index.php',
+				'REQUEST_URI' => '/joomla/index.php?var=value 10'
+			), '/joomla/index.php/blog/test.json');
+		
+		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(), 
+			array(
+				array('sef_suffix', null, 1)
+			), 
+			array(), 'index.php?format=json');
+		
+		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(), 
+			array(
+				array('sef_suffix', null, 1)
+			), 
+			array(), 'index.php/blog/test.json');
+
+		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(), 
+			array(
+				array('sef_rewrite', null, 1),
+				array('sef_suffix', null, 1)
+			), 
+			array(
+				'HTTP_HOST' => 'www.example.com:80',
+				'SCRIPT_NAME' => '/joomla/index.php',
+				'PHP_SELF' => '/joomla/index.php',
+				'REQUEST_URI' => '/joomla/index.php?var=value 10'
+			), '/joomla/?format=json');
+		
+		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(), 
+			array(
+				array('sef_rewrite', null, 1),
+				array('sef_suffix', null, 1)
+			), 
+			array(
+				'HTTP_HOST' => 'www.example.com:80',
+				'SCRIPT_NAME' => '/joomla/index.php',
+				'PHP_SELF' => '/joomla/index.php',
+				'REQUEST_URI' => '/joomla/index.php?var=value 10'
+			), '/joomla/blog/test.json');
+		
+		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(), 
+			array(
+				array('sef_rewrite', null, 1),
+				array('sef_suffix', null, 1)
+			), 
+			array(), '?format=json');
+		
+		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(), 
+			array(
+				array('sef_rewrite', null, 1),
+				array('sef_suffix', null, 1)
+			), 
+			array(), 'blog/test.json');
+
+		return $cases;
+	}
+	
+	/**
+	 * testBuild().
+	 *
+	 * @param   string   $uri       The URL
+	 * @param   integer  $mode      JROUTER_MODE_RAW or JROUTER_MODE_SEF
+	 * @param   array    $vars      An associative array with global variables
+	 * @param   array    $map       Valuemap for JApplication::getCfg() Mock
+	 * @param   array    $server    Values for $_SERVER
+	 * @param   array    $expected  Expected value
+	 *
+	 * @dataProvider casesBuild
+	 *
+	 * @return void
+	 */
+	public function testBuild($uri, $mode, $vars, $map, $server, $expected)
+	{
+		JUri::reset();
+
+		//Set $_SERVER variable START
+		$bkp = array();
+		foreach($server as $key => $value)
+		{
+			if (isset($_SERVER[$key]))
+			{
+				$bkp[$key] = $_SERVER[$key];
+			}
+			else
+			{
+				$bkp[$key] = null;
+			}
+			$_SERVER[$key] = $value;
+		}
+		//Set $_SERVER variable END
+		
+		$options = array();
+		$app = $this->getMockCmsApp();
+		$app->expects($this->any())->method('getCfg')->will($this->returnValueMap($map));
+		$menu = TestMockMenu::create($this);
+		$this->object = new JRouterSiteInspector($options, $app, $menu);
+		
+		$this->object->setMode($mode);
+		$this->object->setVars($vars);
+		
+		$juri = $this->object->build($uri);
+		$this->assertEquals($expected, $juri->toString());
+		
+		//Check that caching works
+		$juri2 = $this->object->build($uri);
+		$this->assertEquals($juri, $juri2);
+		
+		//Cleanup $_SERVER variable START
+		foreach($bkp as $key => $value)
+		{
+			if (is_null($value))
+			{
+				unset($_SERVER[$key]);
+			}
+			else
+			{
+				$_SERVER[$key] = $value;
+			}
+		}
+		//Cleanup $_SERVER variable END
 	}
 
 	public function testParseRawRoute()

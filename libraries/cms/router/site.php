@@ -55,23 +55,9 @@ class JRouterSite extends JRouter
 	{
 		parent::__construct($options);
 
-		if ($app)
-		{
-			$this->app = $app;
-		}
-		else
-		{
-			$this->app = JApplication::getInstance('site');
-		}
+		$this->app = $app ? $app : JApplication::getInstance('site');
 
-		if ($menu)
-		{
-			$this->menu = $menu;
-		}
-		else
-		{
-			$this->menu = $this->app->getMenu();
-		}
+		$this->menu = $menu ? $menu : $this->app->getMenu();
 	}
 
 	/**
