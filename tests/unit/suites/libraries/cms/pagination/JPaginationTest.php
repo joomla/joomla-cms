@@ -707,8 +707,9 @@ class JPaginationTest extends TestCase
 	{
 		return array(
 			array(
-				'JLIB_HTML_START', 100, 40, 20, '<a title="JLIB_HTML_START" href="" class="hasTooltip pagenav">JLIB_HTML_START</a>',
-				'JLIB_HTML_VIEW_ALL', 100, 40, 20, '<a title="JLIB_HTML_VIEW_ALL" href="" class="hasTooltip pagenav">JLIB_HTML_VIEW_ALL</a>',
+				'JLIB_HTML_START', 100, 40, 20, false, '<a title="JLIB_HTML_START" href="" class="hasTooltip pagenav">JLIB_HTML_START</a>',
+				'JLIB_HTML_VIEW_ALL', 100, 40, 20, false, '<a title="JLIB_HTML_VIEW_ALL" href="" class="hasTooltip pagenav">JLIB_HTML_VIEW_ALL</a>',
+				'JLIB_HTML_START', 100, 40, 20, false, '<a title="JLIB_HTML_START" href="#" onclick="document.adminForm.limitstart.value=0; Joomla.submitform();return false;">JLIB_HTML_START</a>',
 			),
 		);
 	}
@@ -720,6 +721,7 @@ class JPaginationTest extends TestCase
 	 * @param   integer  $total       The total number of items.
 	 * @param   integer  $limitstart  The offset of the item to start at.
 	 * @param   integer  $limit       The number of items to display per page.
+	 * @param   boolean  $admin       Are we in the administrator area
 	 * @param   string   $expected    The expected results for the JPagination object
 	 *
 	 * @return  void
@@ -728,9 +730,13 @@ class JPaginationTest extends TestCase
 	 * @dataProvider  dataTestItemActive
 	 * @since         3.2
 	 */
-	public function testItemActive($text, $total, $limitstart, $limit ,$expected)
+	public function testItemActive($text, $total, $limitstart, $limit, $admin, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
+		// Set whether we are in the admin area or not
+		$app = $this->app;
+		$app->expects($this->any())->method('isAdmin')->will($this->returnValue($admin));
+
+		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 		$paginationObject = new JPaginationObject($text, 0);
 
 		$string = TestReflection::invoke($pagination, '_item_active', $paginationObject);
@@ -751,7 +757,8 @@ class JPaginationTest extends TestCase
 	{
 		return array(
 			array(
-				'3', 100, 40, 20, '<span class="pagenav">3</span>',
+				'3', 100, 40, 20, false, '<span class="pagenav">3</span>',
+				'3', 100, 40, 20, true, '<span>3</span>',
 			),
 		);
 	}
@@ -763,6 +770,7 @@ class JPaginationTest extends TestCase
 	 * @param   integer  $total       The total number of items.
 	 * @param   integer  $limitstart  The offset of the item to start at.
 	 * @param   integer  $limit       The number of items to display per page.
+	 * @param   boolean  $admin       Are we in the administrator area
 	 * @param   string   $expected    The expected results for the JPagination object
 	 *
 	 * @return  void
@@ -771,9 +779,13 @@ class JPaginationTest extends TestCase
 	 * @dataProvider  dataTestItemInactive
 	 * @since         3.2
 	 */
-	public function testItemInactive($text, $total, $limitstart, $limit ,$expected)
+	public function testItemInactive($text, $total, $limitstart, $limit, $admin, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
+		// Set whether we are in the admin area or not
+		$app = $this->app;
+		$app->expects($this->any())->method('isAdmin')->will($this->returnValue($admin));
+
+		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 		$paginationObject = new JPaginationObject($text, 0);
 
 		$string = TestReflection::invoke($pagination, '_item_inactive', $paginationObject);
