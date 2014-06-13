@@ -17,6 +17,14 @@
 class JPaginationTest extends TestCase
 {
 	/**
+	 * An instance of the class to test.
+	 *
+	 * @var    JApplicationCmsInspector
+	 * @since  3.2
+	 */
+	protected $app;
+
+	/**
 	 * Setup for testing.
 	 *
 	 * @return  void
@@ -27,11 +35,18 @@ class JPaginationTest extends TestCase
 	{
 		parent::setUp();
 
-		// We are only coupled to Application and Language in JFactory.
-		$this->saveFactoryState();
+		// Get mock cms application
+		$app = $this->getMockCmsApp();
 
+		// Whilst we inject the application into this class we still need the language
+		// property to be set for JText and the application for inclusion of scripts (such as bootstrap for the tooltips)
+		$this->saveFactoryState();
 		JFactory::$language = $this->getMockLanguage();
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $app;
+
+		// Add an expected result for the getTemplate method and set the mock application
+		$app->expects($this->any())->method('getTemplate')->will($this->returnValue('foobar'));
+		$this->app = $app;
 	}
 
 	/**
@@ -140,7 +155,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testConstructor($total, $limitstart, $limit, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
 
 		$this->assertEquals($expected['total'], $pagination->total, 'Wrong Total');
 
@@ -169,7 +184,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testSetAdditionalUrlParam()
 	{
-		$pagination = new JPagination(100, 50, 20);
+		$pagination = new JPagination(100, 50, 20, '', $this->app);
 
 		$pagination->setAdditionalUrlParam('Joomla', '//www.joomla.org');
 		$this->assertEquals(TestReflection::getValue($pagination, 'additionalUrlParams'), array('Joomla' => '//www.joomla.org'), 'The URL is not the value expected');
@@ -187,7 +202,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testGetAdditionalUrlParam()
 	{
-		$pagination = new JPagination(100, 50, 20);
+		$pagination = new JPagination(100, 50, 20, '', $this->app);
 		$value = '//www.joomla.org';
 		$key = 'Joomla';
 
@@ -212,7 +227,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testGetRowOffset($index = 1, $limitstart = 50, $value = 52)
 	{
-		$pagination = new JPagination(100, $limitstart, 20);
+		$pagination = new JPagination(100, $limitstart, 20, '', $this->app);
 
 		$this->assertEquals($pagination->getRowOffset($index), $value);
 
@@ -229,7 +244,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testSetEmptyAdditionalUrlParam()
 	{
-		$pagination = new JPagination(100, 50, 20);
+		$pagination = new JPagination(100, 50, 20, '', $this->app);
 
 		$pagination->setAdditionalUrlParam('Joomla', '//www.joomla.org');
 		$this->assertEquals(TestReflection::getValue($pagination, 'additionalUrlParams'), array('Joomla' => '//www.joomla.org'), 'The URL is not the value expected');
@@ -316,7 +331,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testGetData($total, $limitstart, $limit, $active, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
 
 		$object = $pagination->getData();
 
@@ -397,7 +412,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testGetPagesCounter($total, $limitstart, $limit, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
 
 		$this->assertEquals($pagination->getPagesCounter(), $expected);
 
@@ -434,7 +449,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testGetPagesLinks($total, $limitstart, $limit, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
 
 		$result = $pagination->getPagesLinks();
 
@@ -485,7 +500,59 @@ class JPaginationTest extends TestCase
 	 */
 	public function testGetLimitBox($total, $limitstart, $limit, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
+
+		$this->assertEquals($pagination->getLimitBox(), $expected, 'The limit box results are not as expected');
+
+		unset($pagination);
+	}
+
+	/**
+	 * Provides the data to test the getLimitBox method.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.4
+	 */
+	public function dataTestGetLimitBoxAdmin()
+	{
+		return array(
+			array(100, 0, 20,
+				"<select id=\"limit\" name=\"limit\" class=\"inputbox input-mini\" size=\"1\" onchange=\"Joomla.submitform();\">\n"
+				. "\t<option value=\"5\">5</option>\n"
+				. "\t<option value=\"10\">10</option>\n"
+				. "\t<option value=\"15\">15</option>\n"
+				. "\t<option value=\"20\" selected=\"selected\">20</option>\n"
+				. "\t<option value=\"25\">25</option>\n"
+				. "\t<option value=\"30\">30</option>\n"
+				. "\t<option value=\"50\">J50</option>\n"
+				. "\t<option value=\"100\">J100</option>\n"
+				. "\t<option value=\"0\">JALL</option>\n"
+				. "</select>\n"
+			),
+		);
+	}
+
+	/**
+	 * This method tests the getLimitBox function when in adminstrator mode.
+	 *
+	 * @param   integer  $total       The total number of items.
+	 * @param   integer  $limitstart  The offset of the item to start at.
+	 * @param   integer  $limit       The number of items to display per page.
+	 * @param   string   $expected    The expected results for the JPagination object
+	 *
+	 * @return  void
+	 *
+	 * @covers        JPagination::getLimitBox
+	 * @dataProvider  dataTestGetLimitBoxAdmin
+	 * @since         3.4
+	 */
+	public function testGetLimitBoxinAdmin($total, $limitstart, $limit, $expected)
+	{
+		$app = $this->app;
+		$app->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
+		
+		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 
 		$this->assertEquals($pagination->getLimitBox(), $expected, 'The limit box results are not as expected');
 
@@ -527,7 +594,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testOrderUpIcon($i, $expected, $condition = true, $task = 'orderup', $alt = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox = 'cb')
 	{
-		$pagination = new JPagination(100, 50, 20);
+		$pagination = new JPagination(100, 50, 20, '', $this->app);
 		$string = $pagination->orderUpIcon($i, $condition, $task, $alt, $enabled, $checkbox);
 
 		$this->assertEquals($string, $expected, 'This is not the expected order up html');
@@ -569,7 +636,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testOrderDownIcon($i, $n, $expected, $condition = true, $task = 'orderdown', $alt = 'JLIB_HTML_MOVE_DOWN', $enabled = true, $checkbox = 'cb')
 	{
-		$pagination = new JPagination($n, 50, 20);
+		$pagination = new JPagination($n, 50, 20, '', $this->app);
 		$string = $pagination->orderDownIcon($i, $n, $condition, $task, $alt, $enabled, $checkbox);
 
 		$this->assertEquals($string, $expected, 'This is not the expected order up html');
@@ -620,7 +687,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testListRender($list, $total, $limitstart, $limit ,$expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
 
 		$string = TestReflection::invoke($pagination, '_list_render', $list);
 
@@ -663,7 +730,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testItemActive($text, $total, $limitstart, $limit ,$expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
 		$paginationObject = new JPaginationObject($text, 0);
 
 		$string = TestReflection::invoke($pagination, '_item_active', $paginationObject);
@@ -706,7 +773,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testItemInactive($text, $total, $limitstart, $limit ,$expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
 		$paginationObject = new JPaginationObject($text, 0);
 
 		$string = TestReflection::invoke($pagination, '_item_inactive', $paginationObject);
@@ -733,7 +800,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testBuildDataObject($total, $limitstart, $limit, $active, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
 
 		$object = TestReflection::invoke($pagination, '_buildDataObject');
 
@@ -813,7 +880,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testSet($property, $value, $expected)
 	{
-		$pagination = new JPagination(100, 50, 20);
+		$pagination = new JPagination(100, 50, 20, '', $this->app);
 
 		$pagination->set($property, $value);
 
@@ -870,7 +937,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testGet($property, $default, $expected)
 	{
-		$pagination = new JPagination(100, 50, 20);
+		$pagination = new JPagination(100, 50, 20, '', $this->app);
 
 		$result = $pagination->get($property, $default);
 		$this->assertEquals($result, $expected, 'The expected output of the property is incorrect');
