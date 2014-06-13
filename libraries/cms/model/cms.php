@@ -155,7 +155,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * @return  JTable  A JTable object
 	 *
 	 * @since   3.4
-	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	public function getTable($name = '', $prefix = 'Table', $options = array())
 	{
@@ -169,7 +169,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 			return $table;
 		}
 
-		throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
+		throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
 	}
 
 	/**
@@ -186,15 +186,13 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 		{
 			$this->addTablePath($config['table_path']);
 		}
-		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		else
 		{
 			// Register the paths for the form
-			$paths = new SplPriorityQueue;
-			$paths->insert(JPATH_COMPONENT_ADMINISTRATOR . '/table', 'normal');
+			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/table');
 
-			// For legacy purposes. Remove for 4.0
-			$paths->insert(JPATH_COMPONENT_ADMINISTRATOR . '/tables', 'normal');
-
+			// @deprecated For legacy purposes. Will be removed in 4.0
+			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/tables');
 		}
 	}
 
