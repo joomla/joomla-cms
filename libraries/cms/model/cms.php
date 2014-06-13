@@ -123,7 +123,6 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	/**
 	 * Method to get model state variables
 	 *
-	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
 	 * @since   3.4
@@ -228,8 +227,9 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 		$dispatcher = JEventDispatcher::getInstance();
 
 		$options = array(
-				'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
-				'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
+			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
+			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
+		);
 
 		$cache = JCache::getInstance('callback', $options);
 		$cache->clean();
