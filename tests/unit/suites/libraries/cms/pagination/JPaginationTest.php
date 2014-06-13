@@ -468,8 +468,21 @@ class JPaginationTest extends TestCase
 	public function dataTestGetLimitBox()
 	{
 		return array(
-			array(100, 0, 20,
+			array(100, 0, 20, false,
 				"<select id=\"limit\" name=\"limit\" class=\"inputbox input-mini\" size=\"1\" onchange=\"this.form.submit()\">\n"
+				. "\t<option value=\"5\">5</option>\n"
+				. "\t<option value=\"10\">10</option>\n"
+				. "\t<option value=\"15\">15</option>\n"
+				. "\t<option value=\"20\" selected=\"selected\">20</option>\n"
+				. "\t<option value=\"25\">25</option>\n"
+				. "\t<option value=\"30\">30</option>\n"
+				. "\t<option value=\"50\">J50</option>\n"
+				. "\t<option value=\"100\">J100</option>\n"
+				. "\t<option value=\"0\">JALL</option>\n"
+				. "</select>\n"
+			),
+			array(100, 0, 20, true,
+				"<select id=\"limit\" name=\"limit\" class=\"inputbox input-mini\" size=\"1\" onchange=\"Joomla.submitform();\">\n"
 				. "\t<option value=\"5\">5</option>\n"
 				. "\t<option value=\"10\">10</option>\n"
 				. "\t<option value=\"15\">15</option>\n"
@@ -490,6 +503,7 @@ class JPaginationTest extends TestCase
 	 * @param   integer  $total       The total number of items.
 	 * @param   integer  $limitstart  The offset of the item to start at.
 	 * @param   integer  $limit       The number of items to display per page.
+	 * @param   boolean  $admin       Are we in the administrator area
 	 * @param   string   $expected    The expected results for the JPagination object
 	 *
 	 * @return  void
@@ -498,60 +512,12 @@ class JPaginationTest extends TestCase
 	 * @dataProvider  dataTestGetLimitBox
 	 * @since         3.1
 	 */
-	public function testGetLimitBox($total, $limitstart, $limit, $expected)
+	public function testGetLimitBox($total, $limitstart, $limit, $admin, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
-
-		$this->assertEquals($pagination->getLimitBox(), $expected, 'The limit box results are not as expected');
-
-		unset($pagination);
-	}
-
-	/**
-	 * Provides the data to test the getLimitBox method.
-	 *
-	 * @return  array
-	 *
-	 * @since   3.4
-	 */
-	public function dataTestGetLimitBoxAdmin()
-	{
-		return array(
-			array(100, 0, 20,
-				"<select id=\"limit\" name=\"limit\" class=\"inputbox input-mini\" size=\"1\" onchange=\"Joomla.submitform();\">\n"
-				. "\t<option value=\"5\">5</option>\n"
-				. "\t<option value=\"10\">10</option>\n"
-				. "\t<option value=\"15\">15</option>\n"
-				. "\t<option value=\"20\" selected=\"selected\">20</option>\n"
-				. "\t<option value=\"25\">25</option>\n"
-				. "\t<option value=\"30\">30</option>\n"
-				. "\t<option value=\"50\">J50</option>\n"
-				. "\t<option value=\"100\">J100</option>\n"
-				. "\t<option value=\"0\">JALL</option>\n"
-				. "</select>\n"
-			),
-		);
-	}
-
-	/**
-	 * This method tests the getLimitBox function when in adminstrator mode.
-	 *
-	 * @param   integer  $total       The total number of items.
-	 * @param   integer  $limitstart  The offset of the item to start at.
-	 * @param   integer  $limit       The number of items to display per page.
-	 * @param   string   $expected    The expected results for the JPagination object
-	 *
-	 * @return  void
-	 *
-	 * @covers        JPagination::getLimitBox
-	 * @dataProvider  dataTestGetLimitBoxAdmin
-	 * @since         3.4
-	 */
-	public function testGetLimitBoxinAdmin($total, $limitstart, $limit, $expected)
-	{
+		// Set whether we are in the admin area or not
 		$app = $this->app;
-		$app->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
-		
+		$app->expects($this->any())->method('isAdmin')->will($this->returnValue($admin));
+
 		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 
 		$this->assertEquals($pagination->getLimitBox(), $expected, 'The limit box results are not as expected');
