@@ -347,14 +347,14 @@ class TemplatesModelStyle extends JModelAdmin
 		$lang     = JFactory::getLanguage();
 		$client   = JApplicationHelper::getClientInfo($clientId);
 
-		if (!$form->loadFile('style_'.$client->name, true))
+		if (!$form->loadFile('style_' . $client->name, true))
 		{
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		jimport('joomla.filesystem.path');
 
-		$formFile = JPath::clean($client->path.'/templates/'.$template.'/templateDetails.xml');
+		$formFile = JPath::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
 		// Load the core and/or local language file(s).
 			$lang->load('tpl_' . $template, $client->path, null, false, true)
