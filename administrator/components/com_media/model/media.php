@@ -178,8 +178,11 @@ class MediaModelMedia extends ConfigModelForm
 		$type = new JUcmType;
 		$typeId = $type->getTypeId('com_media.image');
 
+		// Get relative path
+		$rel_path = str_replace(JPATH_ROOT, "", $file['filepath']);
+
 		$data = array();
-		$data['core_urls'] = $file['filepath'];
+		$data['core_urls'] = $rel_path;
 
 		$fname = explode('.', $file['name']);
 		$data['core_type_id'] = $typeId;
@@ -192,7 +195,7 @@ class MediaModelMedia extends ConfigModelForm
 		$metadata = new stdClass();
 		$metadata->name 	= $file['name'];
 		$metadata->type 	= $file['type'];
-		$metadata->filepath = $file['filepath'];
+		$metadata->filepath = $rel_path;
 		$metadata->size 	= $file['size'];
 		$data['core_metadata'] = json_encode($metadata);
 
@@ -204,6 +207,9 @@ class MediaModelMedia extends ConfigModelForm
 
 	public function deleteMediaFromTable($url)
 	{
+		// Get relative path
+		$url = str_replace(JPATH_ROOT, "", $url);
+
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 

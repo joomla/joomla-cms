@@ -391,7 +391,7 @@ class MediaModelEditor extends JModelCmsitem
 		$app      = JFactory::getApplication();
 		$table   = $this->getTable();
 		$table->load($id);
-		$file	= $table->core_urls;
+		$file	= JPATH_ROOT . $table->core_urls;
 
 		$JImage   = new JImage($file);
 
@@ -427,7 +427,7 @@ class MediaModelEditor extends JModelCmsitem
 		$app     = JFactory::getApplication();
 		$table   = $this->getTable();
 		$table->load($id);
-		$file	= $table->core_urls;
+		$file	= JPATH_ROOT . $table->core_urls;
 		
 		$JImage = new JImage($file);
 
@@ -462,7 +462,7 @@ class MediaModelEditor extends JModelCmsitem
 		$app     = JFactory::getApplication();
 		$table   = $this->getTable();
 		$table->load($id);
-		$file	= $table->core_urls;
+		$file	= JPATH_ROOT . $table->core_urls;
 
 		$JImage = new JImage($file);
 
@@ -499,7 +499,7 @@ class MediaModelEditor extends JModelCmsitem
 		$app     = JFactory::getApplication();
 		$table   = $this->getTable();
 		$table->load($id);
-		$file	= $table->core_urls;
+		$file	= JPATH_ROOT . $table->core_urls;
 
 		$JImage = new JImage($file);
 
@@ -542,7 +542,7 @@ class MediaModelEditor extends JModelCmsitem
 		$app     = JFactory::getApplication();
 		$table   = $this->getTable();
 		$table->load($id);
-		$file	= $table->core_urls;
+		$file	= JPATH_ROOT . $table->core_urls;
 		
 		$options = array_fill(0, 11, 0);
 

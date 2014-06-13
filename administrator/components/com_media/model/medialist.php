@@ -200,6 +200,8 @@ class MediaModelMedialist extends ConfigModelForm
 					
 					// Get image id from #__ucm_content table
 					$url = str_replace('/', '\\', $tmp->path);
+					// Get the relative path
+					$url = str_replace(JPATH_ROOT, "", $url);
 					
 					$db = JFactory::getDbo();
 					$query = $db->getQuery(true);
