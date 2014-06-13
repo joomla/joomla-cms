@@ -38,6 +38,13 @@ class UsersViewUser extends JViewLegacy
 		$this->form->setValue('password',		null);
 		$this->form->setValue('password2',	null);
 
+		// Password field should be required when creating new user
+		if ($this->item->id == 0)
+		{
+			$this->form->setFieldAttribute('password', 'required', 'true');
+			$this->form->setFieldAttribute('password2', 'required', 'true');
+		}
+
 		parent::display($tpl);
 		$this->addToolbar();
 	}
