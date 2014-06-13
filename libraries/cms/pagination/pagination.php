@@ -85,7 +85,7 @@ class JPagination
 	 * @var    JApplicationCms  The application object
 	 * @since  3.4
 	 */
-	protected $app = false;
+	protected $app = null;
 
 	/**
 	 * Constructor.
