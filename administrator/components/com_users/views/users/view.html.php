@@ -33,12 +33,12 @@ class UsersViewUsers extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->canDo		= JHelperContent::getActions('com_users');
+		$this->canDo         = JHelperContent::getActions('com_users');
 
 		UsersHelper::addSubmenu('users');
 
@@ -55,6 +55,7 @@ class UsersViewUsers extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
+		
 		parent::display($tpl);
 	}
 
