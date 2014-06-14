@@ -40,6 +40,8 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 	 * @return  void
 	 *
 	 * @since   3.4
+	 *
+	 * @throws  Exception on error
 	 */
 	public function publish()
 	{
@@ -53,30 +55,27 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 
 		if (empty($ids))
 		{
-			JError::raiseWarning(500, JText::_('COM_INSTALLER_ERROR_NO_UPDATESITES_SELECTED'));
+			throw new Exception(JText::_('COM_INSTALLER_ERROR_NO_UPDATESITES_SELECTED'), 500);
+		}
+
+		// Get the model.
+		$model	= $this->getModel('Updatesites');
+
+		// Change the state of the records.
+		if (!$model->publish($ids, $value))
+		{
+			throw new Exception(implode('<br />', $model->getErrors()), 500);
 		}
 		else
 		{
-			// Get the model.
-			$model	= $this->getModel('Updatesites');
+			$ntext = 'COM_INSTALLER_N_EXTENSIONS_PUBLISHED';
 
-			// Change the state of the records.
-			if (!$model->publish($ids, $value))
+			if ($value == 0)
 			{
-				JError::raiseWarning(500, implode('<br />', $model->getErrors()));
+				$ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
 			}
-			else
-			{
-				if ($value == 1)
-				{
-					$ntext = 'COM_INSTALLER_N_EXTENSIONS_PUBLISHED';
-				}
-				elseif ($value == 0)
-				{
-					$ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
-				}
-				$this->setMessage(JText::plural($ntext, count($ids)));
-			}
+
+			$this->setMessage(JText::plural($ntext, count($ids)));
 		}
 
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=updatesites', false));

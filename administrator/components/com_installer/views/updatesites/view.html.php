@@ -36,6 +36,8 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 	 * @return  mixed|void
 	 *
 	 * @since   3.4
+	 *
+	 * @throws  Exception on errors
 	 */
 	public function display($tpl = null)
 	{
@@ -47,8 +49,7 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		// Check if there are no matching items
@@ -97,7 +98,7 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 
 		JHtmlSidebar::addFilter(
 			JText::_('COM_INSTALLER_VALUE_STATE_SELECT'),
-			'filter_status',
+			'filter_enabled',
 			JHtml::_('select.options', array('0' => 'JUNPUBLISHED', '1' => 'JPUBLISHED'), 'value', 'text', $this->state->get('filter.enabled'), true)
 		);
 

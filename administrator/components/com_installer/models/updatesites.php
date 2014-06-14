@@ -56,8 +56,6 @@ class InstallerModelUpdatesites extends InstallerModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication();
-
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -86,42 +84,42 @@ class InstallerModelUpdatesites extends InstallerModel
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.4
+	 *
+	 * @throws  Exception on ACL error
 	 */
 	public function publish(&$eid = array(), $value = 1)
 	{
 		$user = JFactory::getUser();
 
-		if ($user->authorise('core.edit.state', 'com_installer'))
+		if (!$user->authorise('core.edit.state', 'com_installer'))
 		{
-			$result = true;
-
-			/*
-			 * Ensure eid is an array of extension ids
-			 */
-			if (!is_array($eid))
-			{
-				$eid = array($eid);
-			}
-
-			// Get a table object for the extension type
-			$table = JTable::getInstance('Updatesite');
-
-			// Enable the update site in the table and store it in the database
-			foreach ($eid as $i => $id)
-			{
-				$table->load($id);
-				$table->enabled = $value;
-				if (!$table->store())
-				{
-					$this->setError($table->getError());
-					$result = false;
-				}
-			}
+			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
 		}
-		else
+
+		$result = true;
+
+		/*
+		 * Ensure eid is an array of extension ids
+		 */
+		if (!is_array($eid))
 		{
-			$result = false;
-			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+			$eid = array($eid);
+		}
+
+		// Get a table object for the extension type
+		$table = JTable::getInstance('Updatesite');
+
+		// Enable the update site in the table and store it in the database
+		foreach ($eid as $i => $id)
+		{
+			$table->load($id);
+			$table->enabled = $value;
+
+			if (!$table->store())
+			{
+				$this->setError($table->getError());
+				$result = false;
+			}
 		}
 
 		return $result;
@@ -164,7 +162,7 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		if ($enabled != '')
 		{
-			$query->where('enabled=' . (int)$enabled);
+			$query->where('s.enabled=' . (int)$enabled);
 		}
 
 		if ($type)
@@ -217,21 +215,19 @@ class InstallerModelUpdatesites extends InstallerModel
 			$result = $db->loadObjectList();
 			$this->translate($result);
 
-			if (!empty($search))
+			if (!empty($search) && (stripos($search, 'id:') !== 0))
 			{
 				foreach ($result as $i => $item)
 				{
-					if (!preg_match("/$search/i", $item->name))
+					if (!preg_match("/$search/i", $item->name) && !preg_match("/$search/i", $item->update_site_name))
 					{
-						if (!preg_match("/$search/i", $item->update_site_name))
-						{
-							unset($result[$i]);
-						}
+						unset($result[$i]);
 					}
 				}
 			}
 
 			JArrayHelper::sortObjects($result, $this->getState('list.ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1, true, true);
+
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
 
@@ -243,13 +239,11 @@ class InstallerModelUpdatesites extends InstallerModel
 
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		}
-		else
-		{
-			$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
-			$result = parent::_getList($query, $limitstart, $limit);
-			$this->translate($result);
 
-			return $result;
-		}
+		$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+		$result = parent::_getList($query, $limitstart, $limit);
+		$this->translate($result);
+
+		return $result;
 	}
 }
