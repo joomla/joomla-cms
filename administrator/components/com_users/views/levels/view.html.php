@@ -19,27 +19,27 @@ defined('_JEXEC') or die;
 class UsersViewLevels extends JViewLegacy
 {
 	/**
-	* The item data.
-	*
-	* @var   object
-	* @since 1.6
-	*/
+	 * The item data.
+	 *
+	 * @var   object
+	 * @since 1.6
+	 */
 	protected $items;
 
 	/**
-	* The pagination object.
-	*
-	* @var   JPagination
-	* @since 1.6
-	*/
+	 * The pagination object.
+	 *
+	 * @var   JPagination
+	 * @since 1.6
+	 */
 	protected $pagination;
 
 	/**
-	* The model state.
-	*
-	* @var   JObject
-	* @since 1.6
-	*/
+	 * The model state.
+	 *
+	 * @var   JObject
+	 * @since 1.6
+	 */
 	protected $state;
 
 	/**
