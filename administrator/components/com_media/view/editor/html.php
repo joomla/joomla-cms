@@ -107,10 +107,9 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 
 			JToolbarHelper::spacer('15');
 
+			// Actions on media
+			JToolbarHelper::custom('media.crop.editor', 'move', 'move', 'COM_MEDIA_EDITOR_BUTTON_CROP', false);
 			JToolbarHelper::modal('resizeModal', 'icon-refresh', 'COM_MEDIA_EDITOR_BUTTON_RESIZE');
-
-			// Crop button left because JToolbarHelper::custom doesn't support new MVC
-
 			JToolbarHelper::modal('rotateModal', 'icon-refresh', 'COM_MEDIA_EDITOR_BUTTON_ROTATE');
 			JToolbarHelper::modal('filterModal', 'icon-refresh', 'COM_MEDIA_EDITOR_BUTTON_FILTER');
 			JToolbarHelper::modal('thumbsModal', 'icon-refresh', 'COM_MEDIA_EDITOR_BUTTON_THUMBS');

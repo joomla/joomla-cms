@@ -166,7 +166,7 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 			src="<?php echo $this->image['address'] . '?' . time(); ?>" />
 		<form
 			action="<?php echo JRoute::_('index.php?option=com_media&controller=media.crop.editor&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>"
-			method="post" name="adminForm" id="adminForm" class="form-horizontal">
+			method="post" name="adminForm" id="media-form" class="form-horizontal">
 			<fieldset class="adminform">
 				<input type="hidden" id="x" name="x" />
 				<input type="hidden" id="y"	name="y" />
@@ -180,7 +180,6 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 
 	</div>
 	<div class="span3">
-		<?php 	echo $this->loadTemplate('actions'); ?>
 		
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -192,7 +191,7 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_media&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>" method="post" name="adminForm" id="media-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_media&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>" method="post" name="adminForm2" id="media-form" class="form-validate">
 		
 			<?php echo $this->loadTemplate('properties'); ?>
 
