@@ -21,16 +21,16 @@ class ContentModelArticle extends JModelItem
 	/**
 	 * Model context string.
 	 *
-	 * @var        string
+	 * @var  string
 	 */
 	protected $_context = 'com_content.article';
 
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
+	 * @note Calling getState in this method will result in recursion.
 	 *
-	 * @since   1.6
+	 * @since  1.6
 	 *
 	 * @return void
 	 */
@@ -278,6 +278,9 @@ class ContentModelArticle extends JModelItem
 	 */
 	public function storeVote($pk = 0, $rate = 0)
 	{
+		// Get a handle to the Joomla! application object
+		$app = JFactory::getApplication();
+
 		if ($rate >= 1 && $rate <= 5 && $pk > 0)
 		{
 			$userIP = $_SERVER['REMOTE_ADDR'];
@@ -301,7 +304,7 @@ class ContentModelArticle extends JModelItem
 			}
 			catch (RuntimeException $e)
 			{
-				JError::raiseWarning(500, $e->getMessage());
+				$app->enqueueMessage($e->getMessage(), 'warning');
 
 				return false;
 			}
@@ -325,7 +328,7 @@ class ContentModelArticle extends JModelItem
 				}
 				catch (RuntimeException $e)
 				{
-					JError::raiseWarning(500, $e->getMessage());
+					$app->enqueueMessage($e->getMessage(), 'warning');
 
 					return false;
 				}
@@ -352,7 +355,7 @@ class ContentModelArticle extends JModelItem
 					}
 					catch (RuntimeException $e)
 					{
-						JError::raiseWarning(500, $e->getMessage());
+						$app->enqueueMessage($e->getMessage(), 'warning');
 
 						return false;
 					}
@@ -366,7 +369,7 @@ class ContentModelArticle extends JModelItem
 			return true;
 		}
 
-		JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
+		$app->enqueueMessage(JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), 'warning');
 
 		return false;
 	}
