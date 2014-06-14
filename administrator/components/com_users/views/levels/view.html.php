@@ -80,25 +80,25 @@ class UsersViewLevels extends JViewLegacy
 		{
 			JToolbarHelper::addNew('level.add');
 		}
-		
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('level.edit');
 			JToolbarHelper::divider();
 		}
-		
+
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'level.delete');
 			JToolbarHelper::divider();
 		}
-		
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_users');
 			JToolbarHelper::divider();
 		}
-		
+
 		JToolbarHelper::help('JHELP_USERS_ACCESS_LEVELS');
 	}
 

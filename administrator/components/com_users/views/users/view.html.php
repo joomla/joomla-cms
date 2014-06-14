@@ -23,7 +23,7 @@ class UsersViewUsers extends JViewLegacy
 	 *
 	 * @var   object
 	 * @since 1.6
-	 */	
+	 */
 	protected $items;
 
 	/**
@@ -73,7 +73,7 @@ class UsersViewUsers extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		
+
 		parent::display($tpl);
 	}
 

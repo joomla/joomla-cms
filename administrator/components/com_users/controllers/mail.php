@@ -31,7 +31,7 @@ class UsersControllerMail extends JControllerLegacy
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('Mail');
-		
+
 		if ($model->send())
 		{
 			$type = 'message';

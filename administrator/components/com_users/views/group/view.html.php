@@ -75,12 +75,12 @@ class UsersViewGroup extends JViewLegacy
 			JToolbarHelper::apply('group.apply');
 			JToolbarHelper::save('group.save');
 		}
-		
+
 		if ($canDo->get('core.create'))
 		{
 			JToolbarHelper::save2new('group.save2new');
 		}
-		
+
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
