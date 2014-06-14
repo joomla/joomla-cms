@@ -19,12 +19,12 @@ defined('_JEXEC') or die;
 class UsersControllerMail extends JControllerLegacy
 {
 	/**
-	* Send the mail
-	*
-	* @return void
-	*
-	* @since 1.6
-	*/
+	 * Send the mail
+	 *
+	 * @return void
+	 *
+	 * @since 1.6
+	 */
 	public function send()
 	{
 		// Check for request forgeries.
@@ -46,12 +46,12 @@ class UsersControllerMail extends JControllerLegacy
 	}
 
 	/**
-	* Cancel the mail
-	*
-	* @return void
-	*
-	* @since 1.6
-	*/
+	 * Cancel the mail
+	 *
+	 * @return void
+	 *
+	 * @since 1.6
+	 */
 	public function cancel()
 	{
 		// Check for request forgeries.
