@@ -32,7 +32,11 @@ class InstallerModelUpdatesites extends InstallerModel
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array('name', 'client_id', 'enabled', 'type', 'folder', 'extension_id',);
+			$config['filter_fields'] = array(
+				'update_site_name', 'extension_name', 'client_id',
+				'status', 'extension_type', 'folder', 'update_site_id',
+				'enabled'
+			);
 		}
 
 		parent::__construct($config);
@@ -64,8 +68,8 @@ class InstallerModelUpdatesites extends InstallerModel
 		$status = $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '');
 		$this->setState('filter.enabled', $status);
 
-		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '');
-		$this->setState('filter.type', $categoryId);
+		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.extension_type', 'filter_extension_type', '');
+		$this->setState('filter.extension_type', $categoryId);
 
 		$group = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group', '');
 		$this->setState('filter.group', $group);
@@ -132,7 +136,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	protected function getListQuery()
 	{
 		$enabled = $this->getState('filter.enabled');
-		$type = $this->getState('filter.type');
+		$extension_type = $this->getState('filter.extension_type');
 		$client = $this->getState('filter.client_id');
 		$group = $this->getState('filter.group');
 
@@ -142,7 +146,7 @@ class InstallerModelUpdatesites extends InstallerModel
 				's.name as update_site_name',
 				'e.extension_id',
 				'e.name as extension_name',
-				'e.type',
+				'e.type as extension_type',
 				'e.element',
 				'e.folder',
 				'e.client_id',
@@ -159,9 +163,9 @@ class InstallerModelUpdatesites extends InstallerModel
 			$query->where('enabled=' . (int) $enabled);
 		}
 
-		if ($type)
+		if ($extension_type)
 		{
-			$query->where('e.type=' . $this->_db->quote($type));
+			$query->where('e.type=' . $this->_db->quote($extension_type));
 		}
 
 		if ($client != '')
@@ -169,7 +173,7 @@ class InstallerModelUpdatesites extends InstallerModel
 			$query->where('client_id=' . (int) $client);
 		}
 
-		if ($group != '' && in_array($type, array('plugin', 'library', '')))
+		if ($group != '' && in_array($extension_type, array('plugin', 'library', '')))
 		{
 			$query->where('folder=' . $this->_db->quote($group == '*' ? '' : $group));
 		}
@@ -179,9 +183,64 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		if (!empty($search) && stripos($search, 'id:') === 0)
 		{
-			$query->where('update_site_id = ' . (int) substr($search, 3));
+			$query->where('s.update_site_id = ' . (int) substr($search, 3));
 		}
 
 		return $query;
+	}
+
+	/**
+	 * Returns an object list
+	 *
+	 * @param   string  $query       The query
+	 * @param   int     $limitstart  Offset
+	 * @param   int     $limit       The number of records
+	 *
+	 * @return  array
+	 */
+	protected function _getList($query, $limitstart = 0, $limit = 0)
+	{
+		$ordering	= $this->getState('list.ordering');
+		$search		= $this->getState('filter.search');
+
+		// Replace slashes so preg_match will work
+		$search 	= str_replace('/', ' ', $search);
+		$db			= $this->getDbo();
+
+		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
+		{
+			$db->setQuery($query);
+			$result = $db->loadObjectList();
+			$this->translate($result);
+			if (!empty($search))
+			{
+				foreach ($result as $i => $item)
+				{
+					if (!preg_match("/$search/i", $item->name))
+					{
+						if (!preg_match("/$search/i", $item->update_site_name))
+						{
+							unset($result[$i]);
+						}
+					}
+				}
+			}
+			JArrayHelper::sortObjects($result, $this->getState('list.ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1, true, true);
+			$total = count($result);
+			$this->cache[$this->getStoreId('getTotal')] = $total;
+			if ($total < $limitstart)
+			{
+				$limitstart = 0;
+				$this->setState('list.start', 0);
+			}
+			return array_slice($result, $limitstart, $limit ? $limit : null);
+		}
+		else
+		{
+			$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+			$result = parent::_getList($query, $limitstart, $limit);
+			$this->translate($result);
+			return $result;
+		}
 	}
 }

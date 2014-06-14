@@ -59,10 +59,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%" class="center">
-						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'status', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
 					</th>
 					<th>
-						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'extension_type', $listDirn, $listOrder); ?>
 					</th>
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
@@ -104,7 +104,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 					</td>
 					<td class="center">
-						<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
+						<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->extension_type); ?>
 					</td>
 					<td class="center">
 						<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
