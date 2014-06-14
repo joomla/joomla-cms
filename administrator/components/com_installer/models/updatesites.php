@@ -139,6 +139,7 @@ class InstallerModelUpdatesites extends InstallerModel
 		$query = JFactory::getDbo()->getQuery(true)
 			->select(array(
 				's.*',
+				's.name as update_site_name',
 				'e.extension_id',
 				'e.name as extension_name',
 				'e.type',
@@ -160,7 +161,7 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		if ($type)
 		{
-			$query->where('type=' . $this->_db->quote($type));
+			$query->where('e.type=' . $this->_db->quote($type));
 		}
 
 		if ($client != '')

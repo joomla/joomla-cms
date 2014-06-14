@@ -50,7 +50,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
 					<th class="nowrap">
-						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_UPDATESITE_NAME', 'name', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_UPDATESITE_NAME', 'update_site_name', $listDirn, $listOrder); ?>
 					</th>
 					<th class="nowrap">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'extension_name', $listDirn, $listOrder); ?>
@@ -86,11 +86,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo JHtml::_('grid.id', $i, $item->update_site_id); ?>
 					</td>
 					<td>
-						<?php echo $item->name; ?>
+						<?php echo $item->update_site_name; ?>
 					</td>
 					<td>
-						<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->extension_name, $item->description, 0); ?>">
-							<?php echo $item->extension_name; ?>
+						<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>">
+							<?php echo $item->name; ?>
 						</span>
 					</td>
 					<td class="center">
