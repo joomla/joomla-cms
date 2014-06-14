@@ -21,19 +21,19 @@ class UsersViewGroup extends JViewLegacy
 	protected $form;
 
 	/**
-	* The item data.
-	*
-	* @var   object
-	* @since 1.6
-	*/
-	protected $items;
+	 * The item data.
+	 *
+	 * @var   object
+	 * @since 1.6
+	 */
+	protected $item;
 
 	/**
-	* The model state.
-	*
-	* @var   JObject
-	* @since 1.6
-	*/
+	 * The model state.
+	 *
+	 * @var   JObject
+	 * @since 1.6
+	 */
 	protected $state;
 
 	/**
