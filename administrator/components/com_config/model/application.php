@@ -123,7 +123,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 				if (!$asset->check() || !$asset->store())
 				{
-					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+					$app->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 					return;
 				}
@@ -155,7 +155,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 				if (!$extension->check() || !$extension->store())
 				{
-					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+					$app->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 					return;
 				}
