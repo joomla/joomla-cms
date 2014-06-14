@@ -21,19 +21,19 @@ class UsersViewLevel extends JViewLegacy
 	protected $form;
 
 	/**
-	* The item data.
-	*
-	* @var   object
-	* @since 1.6
-	*/
+	 * The item data.
+	 *
+	 * @var   object
+	 * @since 1.6
+	 */
 	protected $item;
 
 	/**
-	* The model state.
-	*
-	* @var   JObject
-	* @since 1.6
-	*/
+	 * The model state.
+	 *
+	 * @var   JObject
+	 * @since 1.6
+	 */
 	protected $state;
 
 	/**
@@ -75,18 +75,18 @@ class UsersViewLevel extends JViewLegacy
 			JToolbarHelper::apply('level.apply');
 			JToolbarHelper::save('level.save');
 		}
-		
+
 		if ($canDo->get('core.create'))
 		{
 			JToolbarHelper::save2new('level.save2new');
 		}
-		
+
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
 			JToolbarHelper::save2copy('level.save2copy');
 		}
-		
+
 		if (empty($this->item->id))
 		{
 			JToolbarHelper::cancel('level.cancel');
