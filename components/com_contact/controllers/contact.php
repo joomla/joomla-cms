@@ -179,7 +179,7 @@ class ContactControllerContact extends JControllerForm
 
 		// If we are supposed to copy the sender, do so.
 		// Check whether email copy function activated
-		if ($copy_email_activated == true && !empty($data['contact_email_copy']))
+		if ($copy_email_activated == true && isset($data['contact_email_copy']))
 		{
 			$copytext = JText::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
 			$copytext .= "\r\n\r\n" . $body;
