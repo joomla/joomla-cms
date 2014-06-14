@@ -49,6 +49,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<th width="20">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
+					<th width="10%" class="center">
+						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
+					</th>
 					<th class="nowrap">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_UPDATESITE_NAME', 'update_site_name', $listDirn, $listOrder); ?>
 					</th>
@@ -57,9 +60,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</th>
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%" class="center">
-						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
 					</th>
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
@@ -85,6 +85,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<td>
 						<?php echo JHtml::_('grid.id', $i, $item->update_site_id); ?>
 					</td>
+					<td class="center">
+						<?php if (!$item->element) : ?>
+							<strong>X</strong>
+						<?php else : ?>
+							<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'updatesites.'); ?>
+						<?php endif; ?>
+					</td>
 					<td>
 						<?php echo $item->update_site_name; ?>
 					</td>
@@ -95,13 +102,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</td>
 					<td class="center">
 						<?php echo $item->client; ?>
-					</td>
-					<td class="center">
-						<?php if (!$item->element) : ?>
-						<strong>X</strong>
-						<?php else : ?>
-							<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'updatesites.'); ?>
-						<?php endif; ?>
 					</td>
 					<td class="center">
 						<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
