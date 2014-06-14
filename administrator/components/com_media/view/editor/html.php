@@ -105,7 +105,17 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 			JToolbarHelper::apply('media.save.editor.apply');
 			JToolbarHelper::save('media.save.editor.save');
 
+			JToolbarHelper::spacer('15');
+
+			JToolbarHelper::modal('resizeModal', 'icon-refresh', 'COM_MEDIA_EDITOR_BUTTON_RESIZE');
+
+			// Crop button left because JToolbarHelper::custom doesn't support new MVC
+
+			JToolbarHelper::modal('rotateModal', 'icon-refresh', 'COM_MEDIA_EDITOR_BUTTON_ROTATE');
+			JToolbarHelper::modal('filterModal', 'icon-refresh', 'COM_MEDIA_EDITOR_BUTTON_FILTER');
+			JToolbarHelper::modal('thumbsModal', 'icon-refresh', 'COM_MEDIA_EDITOR_BUTTON_THUMBS');
 		
+			JToolbarHelper::divider();
 		}
 
 		// If an existing item, can save to a copy.

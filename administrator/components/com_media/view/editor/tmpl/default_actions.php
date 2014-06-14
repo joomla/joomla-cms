@@ -21,40 +21,11 @@ JHtml::_('behavior.tabstate');
 
 <p class="well well-small lead">
 
-	<button data-toggle='modal' data-target='#resizeModal'
-		class='btn btn-large'>
-		<i class='icon-refresh' title='COM_MEDIA_EDITOR_BUTTON_RESIZE'></i>
-		<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_RESIZE') ?>
-	</button>
-
-	<br /> <br /> 
-
 	<button type="submit" form="adminForm" class='btn btn-large'>
 		<i class='icon-move' title='COM_MEDIA_EDITOR_BUTTON_CROP'></i>
 		<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_CROP') ?>
 	</button>
 	
-	<br /> <br />
-
-	<button data-toggle='modal' data-target='#rotateModal' class='btn btn-large'>
-		<i class='icon-refresh' title='COM_MEDIA_EDITOR_BUTTON_ROTATE'></i>
-		<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_ROTATE') ?>
-	</button>
-
-	<br /> <br />
-
-	<button data-toggle='modal' data-target='#filterModal' class='btn btn-large'>
-		<i class='icon-refresh' title='COM_MEDIA_EDITOR_BUTTON_FILTER'></i>
-		<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_FILTER') ?>
-	</button>
-
-	<br /> <br />
-
-	<button data-toggle='modal' data-target='#thumbsModal' class='btn btn-large'>
-		<i class='icon-refresh' title='COM_MEDIA_EDITOR_BUTTON_THUMBS'></i>
-		<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_THUMBS') ?>
-	</button>
-
-	<br /> <br />
+<br/>
 
 </p>
