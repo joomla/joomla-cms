@@ -37,22 +37,6 @@ class TestMockApplicationCli extends TestMockApplicationBase
 	}
 
 	/**
-	 * Adds mock objects for some methods.
-	 *
-	 * @param  TestCase                                 $test        A test object.
-	 * @param  PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
-	 * @param  array                                    $options     A set of options to configure the mock.
-	 *
-	 * @return  PHPUnit_Framework_MockObject_MockObject  The object with the behaviours added
-	 *
-	 * @since   3.4
-	 */
-	public static function addBehaviours($test, $mockObject, $options)
-	{
-		return parent::addBehaviours($test, $mockObject, $options);
-	}
-
-	/**
 	 * Creates and instance of the mock JApplicationCli object.
 	 *
 	 * @param   TestCase  $test     A test object.
