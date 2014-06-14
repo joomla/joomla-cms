@@ -66,7 +66,8 @@ class JDocumentRendererAtomTest extends TestCase
 		);
 
 		$_SERVER['REQUEST_METHOD'] = 'get';
-		JRequest::setVar('type', 'atom');
+		$input = JFactory::getApplication()->input;
+		$input->set('type', 'atom');
 		$this->object = new JDocumentFeed;
 		$_SERVER['HTTP_HOST'] = 'localhost';
 		$_SERVER['REQUEST_URI'] = '/index.php?format=feed&amp;type=atom';

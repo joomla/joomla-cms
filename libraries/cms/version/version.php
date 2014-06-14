@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Version information class for the Joomla CMS.
@@ -22,10 +22,10 @@ final class JVersion
 	public $PRODUCT = 'Joomla!';
 
 	/** @var  string  Release version. */
-	public $RELEASE = '3.2';
+	public $RELEASE = '3.3';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '3-dev';
+	public $DEV_LEVEL = '2-dev';
 
 	/** @var  string  Development STATUS. */
 	public $DEV_STATUS = 'Development';
@@ -37,10 +37,10 @@ final class JVersion
 	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELDATE = '6-February-2014';
+	public $RELDATE = '11-June-2014';
 
 	/** @var  string  Release time. */
-	public $RELTIME = '16:00';
+	public $RELTIME = '13:30';
 
 	/** @var  string  Release timezone. */
 	public $RELTZ = 'GMT';
@@ -144,7 +144,7 @@ final class JVersion
 	 *
 	 * @return  string
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
 	public function generateMediaVersion()
 	{
@@ -163,7 +163,7 @@ final class JVersion
 	 *
 	 * @return  string  The media version.
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
 	public function getMediaVersion()
 	{
@@ -198,7 +198,7 @@ final class JVersion
 	 *
 	 * @return  JVersion  Instance of $this to allow chaining.
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
 	public function refreshMediaVersion()
 	{
@@ -214,7 +214,7 @@ final class JVersion
 	 *
 	 * @return  JVersion  Instance of $this to allow chaining.
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
 	public function setMediaVersion($mediaVersion)
 	{

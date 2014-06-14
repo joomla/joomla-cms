@@ -458,7 +458,7 @@ class ModulesModelModule extends JModelAdmin
 
 				foreach ($rows as $menuid)
 				{
-					$tuples[] = '(' . (int) $table->id . ',' . (int) $menuid . ')';
+					$tuples[] = (int) $table->id . ',' . (int) $menuid;
 				}
 			}
 			else
@@ -473,7 +473,7 @@ class ModulesModelModule extends JModelAdmin
 			$query = $db->getQuery(true)
 				->insert($db->quoteName('#__modules_menu'))
 				->columns($db->quoteName(array('moduleid', 'menuid')))
-				->values(implode(',', $tuples));
+				->values($tuples);
 
 			$this->_db->setQuery($query);
 

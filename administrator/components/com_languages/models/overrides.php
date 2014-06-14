@@ -54,11 +54,17 @@ class LanguagesModelOverrides extends JModelList
 			return $this->cache[$store];
 		}
 
-		$client = in_array($this->state->get('filter.client'), array(0, 'site')) ? strtoupper('site') : strtoupper('administrator');
+		$client = in_array($this->state->get('filter.client'), array(0, 'site')) ? 'SITE' : 'ADMINISTRATOR';
 
 		// Parse the override.ini file in order to get the keys and strings
 		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 		$strings = LanguagesHelper::parseFile($filename);
+
+		// Delete the override.ini file if empty
+		if (file_exists($filename) && empty($strings))
+		{
+			JFile::delete($filename);
+		}
 
 		// Filter the loaded strings according to the search box
 		$search = $this->getState('filter.search');
@@ -244,7 +250,8 @@ class LanguagesModelOverrides extends JModelList
 		jimport('joomla.filesystem.file');
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 
-		$client = in_array($this->state->get('filter.client'), array(0, 'site')) ? strtoupper('site') : strtoupper('administrator');
+		$filterclient = JFactory::getApplication()->getUserState('com_languages.overrides.filter.client');
+		$client = $filterclient == 0 ? 'SITE' : 'ADMINISTRATOR';
 
 		// Parse the override.ini file in oder to get the keys and strings
 		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';

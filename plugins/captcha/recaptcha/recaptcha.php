@@ -40,10 +40,12 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @since  2.5
 	 */
-	public function onInit($id)
+	public function onInit($id = 'dynamic_recaptcha_1')
 	{
 		$document = JFactory::getDocument();
 		$app      = JFactory::getApplication();
+
+		JHtml::_('jquery.framework');
 
 		$lang   = $this->_getLanguage();
 		$pubkey = $this->params->get('public_key', '');
@@ -62,9 +64,9 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 
 		JHtml::_('script', $server . '/js/recaptcha_ajax.js');
-		$document->addScriptDeclaration('window.addEvent(\'domready\', function()
+		$document->addScriptDeclaration('jQuery( document ).ready(function()
 		{
-			Recaptcha.create("' . $pubkey . '", "dynamic_recaptcha_1", {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
+			Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
 		);
 
 		return true;
@@ -75,15 +77,16 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @param   string  $name   The name of the field.
 	 * @param   string  $id     The id of the field.
-	 * @param   string  $class  The class of the field.
+	 * @param   string  $class  The class of the field. This should be passed as
+	 *                          e.g. 'class="required"'.
 	 *
 	 * @return  string  The HTML to be embedded in the form.
 	 *
 	 * @since  2.5
 	 */
-	public function onDisplay($name, $id, $class)
+	public function onDisplay($name, $id = 'dynamic_recaptcha_1', $class = '')
 	{
-		return '<div id="dynamic_recaptcha_1"></div>';
+		return '<div id="' . $id . '" ' . $class . '></div>';
 	}
 
 	/**

@@ -2,11 +2,11 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  table
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework table behavior class. It defines the events which are
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @package  FrameworkOnFramework
  * @since    2.1
  */
-abstract class FOFTableBehavior extends JEvent
+abstract class FOFTableBehavior extends FOFUtilsObservableEvent
 {
 	/**
 	 * This event runs before binding data to the table

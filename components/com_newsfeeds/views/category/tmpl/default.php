@@ -23,7 +23,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php endif; ?>
 	<?php if ($this->params->get('show_category_title', 1)) : ?>
 		<h2>
-			<?php echo JHtml::_('content.prepare', $this->category->title, '', 'com_newsfeeds.category'); ?>
+			<?php echo JHtml::_('content.prepare', $this->category->title, '', 'com_newsfeeds.category.title'); ?>
 		</h2>
 	<?php endif; ?>
 

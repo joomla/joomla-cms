@@ -13,7 +13,7 @@ JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-$client    = $this->state->get('filter.client') == 'site' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
+$client    = $this->state->get('filter.client') == '0' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction')); ?>

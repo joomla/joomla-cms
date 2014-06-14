@@ -731,7 +731,8 @@ class InstallationModelLanguages extends JModelBase
 			'title_native' => $nativeLanguageName,
 			'sef'          => $sefLangString,
 			'image'        => $flag,
-			'published'    => 1
+			'published'    => 1,
+			'ordering'     => 0
 		);
 
 		// Bind the data.
@@ -748,6 +749,12 @@ class InstallationModelLanguages extends JModelBase
 
 		// Store the data.
 		if (!$tableLanguage->store())
+		{
+			return false;
+		}
+
+		// Reorder the data.
+		if (!$tableLanguage->reorder())
 		{
 			return false;
 		}

@@ -787,6 +787,9 @@
 .icon-credit-2:before {
 	content: "\e287";
 }
+.icon-expired:before {
+	content: "\4b";
+}
 html,
 body,
 div,
@@ -1359,11 +1362,6 @@ p.tab-description {
 	font-size: 1.091em;
 	margin-left: 0;
 	margin-top: 5px;
-}
-#login-page form .inputbox {
-	width: 190px;
-	margin-left: 5px;
-	margin-bottom: 15px;
 }
 #login-page input,
 #login-page select {

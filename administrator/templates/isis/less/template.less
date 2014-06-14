@@ -564,9 +564,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"],html[dir=rtl] .quick-icons
 	}
 }
 @media (min-width: 738px) {
-	body {
-	    padding-top: 30px;
-	}
 	body.component {
 			padding-top: 0;
 	}
@@ -756,6 +753,13 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"],html[dir=rtl] .quick-icons
 		width: auto;
 		padding-right: 5px;
 		text-align: left;
+		// Set a width for the spacer hr so it shows
+		.spacer hr {
+			width: 380px;
+			@media (max-width: 420px) {
+				width: 220px;
+			}
+		}
 	}
 	#jform_catid_chzn {
 		vertical-align: middle;

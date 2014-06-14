@@ -81,7 +81,7 @@ class JFormFieldTextarea extends JFormField
 		{
 			case 'rows':
 			case 'columns':
-				$this->name = (int) $value;
+				$this->$name = (int) $value;
 				break;
 
 			default:

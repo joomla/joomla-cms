@@ -56,10 +56,11 @@ abstract class JHtmlEmail
 			// Special handling when mail text is different from mail address
 			if ($text)
 			{
+				// Convert text - here is the right place
+				$text = static::convertEncoding($text);
+
 				if ($email)
 				{
-					// Convert text
-					$text = static::convertEncoding($text);
 
 					// Split email by @ symbol
 					$text = explode('@', $text);
@@ -72,15 +73,15 @@ abstract class JHtmlEmail
 					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
 				}
 
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
-				$replacement .= "\n document.write(addy_text" . $rand . ");";
-				$replacement .= "\n document.write('<\/a>');";
+				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'";
+				$replacement .= "+ addy_text" . $rand;
+				$replacement .= "+ '<\/a>');";
 			}
 			else
 			{
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
-				$replacement .= "\n document.write(addy" . $rand . ");";
-				$replacement .= "\n document.write('<\/a>');";
+				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'";
+				$replacement .= "+ addy" . $rand;
+				$replacement .= "+ '<\/a>');";
 			}
 		}
 		else
@@ -94,14 +95,10 @@ abstract class JHtmlEmail
 		// XHTML compliance no Javascript text handling
 		$replacement .= "<script type='text/javascript'>";
 		$replacement .= "\n <!--";
-		$replacement .= "\n document.write('<span style=\'display: none;\'>');";
-		$replacement .= "\n //-->";
-		$replacement .= "\n </script>";
+		$replacement .= "\n document.write('<span style=\'display: none;\'>'+ '";
 		$replacement .= JText::_('JLIB_HTML_CLOAKING');
-		$replacement .= "\n <script type='text/javascript'>";
-		$replacement .= "\n <!--";
-		$replacement .= "\n document.write('</');";
-		$replacement .= "\n document.write('span>');";
+		$replacement .= "'+ '</'";
+		$replacement .= "+ 'span>');";
 		$replacement .= "\n //-->";
 		$replacement .= "\n </script>";
 

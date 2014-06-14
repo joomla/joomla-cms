@@ -92,6 +92,8 @@ class PlgEditorNone extends JPlugin
 	}
 
 	/**
+	 * Inserts html code into the editor
+	 *
 	 * @param   string  $id  The id of the editor field
 	 *
 	 * @return  boolean  returns true when complete
@@ -131,7 +133,8 @@ class PlgEditorNone extends JPlugin
 	 *
 	 * @return  string
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true,
+		$id = null, $asset = null, $author = null, $params = array())
 	{
 		if (empty($id))
 		{
@@ -150,7 +153,8 @@ class PlgEditorNone extends JPlugin
 		}
 
 		$buttons = $this->_displayButtons($id, $buttons, $asset, $author);
-		$editor  = "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>" . $buttons;
+		$editor  = "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>"
+			. $buttons;
 
 		return $editor;
 	}
@@ -167,47 +171,31 @@ class PlgEditorNone extends JPlugin
 	 */
 	public function _displayButtons($name, $buttons, $asset, $author)
 	{
-		// Load modal popup behavior
-		JHtml::_('behavior.modal', 'a.modal-button');
-
-		$args['name'] = $name;
-		$args['event'] = 'onGetInsertMethod';
-
 		$return = '';
-		$results[] = $this->update($args);
 
-		foreach ($results as $result)
+		$args = array(
+			'name'  => $name,
+			'event' => 'onGetInsertMethod'
+		);
+
+		$results = (array) $this->update($args);
+
+		if ($results)
 		{
-			if (is_string($result) && trim($result))
+			foreach ($results as $result)
 			{
-				$return .= $result;
+				if (is_string($result) && trim($result))
+				{
+					$return .= $result;
+				}
 			}
 		}
 
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
-			$results = $this->_subject->getButtons($name, $buttons, $asset, $author);
+			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
-			// This will allow plugins to attach buttons or change the behavior on the fly using AJAX
-			$return .= "\n<div id=\"editor-xtd-buttons\" class=\"btn-toolbar pull-left\">\n";
-			$return .= "\n<div class=\"btn-toolbar\">\n";
-
-			foreach ($results as $button)
-			{
-				// Results should be an object
-				if ($button->get('name'))
-				{
-					$modal		= ($button->get('modal')) ? 'class="modal-button btn"' : null;
-					$href		= ($button->get('link')) ? 'class="btn" href="' . JUri::base() . $button->get('link') . '"' : null;
-					$onclick	= ($button->get('onclick')) ? 'onclick="' . $button->get('onclick') . '"' : null;
-					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$return .= "<a " . $modal . " title=\"" . $title . "\" " . $href . " " . $onclick . " rel=\"" . $button->get('options') . "\"><i class=\"icon-" . $button->get('name') . "\"></i> " . $button->get('text') . "</a>\n";
-				}
-			}
-
-			$return .= "</div>\n";
-			$return .= "</div>\n";
-			$return .= "<div class=\"clearfix\"></div>\n";
+			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 
 		return $return;
