@@ -59,7 +59,7 @@ class MediaControllerMediaUpload extends JControllerBase
 
 		// Get some data from the request
 		$files        = $this->input->files->get('Filedata', '', 'array');
-		$return       = $this->input->post->get('return-url', null, 'base64');
+		$return       = JFactory::getSession()->get('com_media.return_url');
 		$this->folder = $this->input->get('folder', '', 'path');
 
 		// Authorize the user
@@ -71,20 +71,26 @@ class MediaControllerMediaUpload extends JControllerBase
 			return false;
 		}
 
-		if (($params->get('upload_maxsize', 0) * 1024 * 1024) != 0)
-		{
-			if (
-			$_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024)
-			|| $_SERVER['CONTENT_LENGTH'] > (int) (ini_get('upload_max_filesize')) * 1024 * 1024
-			|| $_SERVER['CONTENT_LENGTH'] > (int) (ini_get('post_max_size')) * 1024 * 1024
-			|| (($_SERVER['CONTENT_LENGTH'] > (int) (ini_get('memory_limit')) * 1024 * 1024) && ((int) (ini_get('memory_limit')) != -1))
-			)
-			{
-				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'warning');
+		// Total length of post back data in bytes.
+		$contentLength = (int) $_SERVER['CONTENT_LENGTH'];
 
-				return false;
-			}
+		// Maximum allowed size of post back data in MB.
+		$postMaxSize = (int) ini_get('post_max_size');
+
+		// Maximum allowed size of script execution in MB.
+		$memoryLimit = (int) ini_get('memory_limit');
+		
+		// Check for the total size of post back data.
+		if (($postMaxSize > 0 && $contentLength > $postMaxSize * 1024 * 1024)
+		|| ($memoryLimit != -1 && $contentLength > $memoryLimit * 1024 * 1024))
+		{
+			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
+		
+			return false;
 		}
+		
+		$uploadMaxSize = $params->get('upload_maxsize', 0) * 1024 * 1024;
+		$uploadMaxFileSize = (int) ini_get('upload_max_filesize') * 1024 * 1024;
 
 		// Perform basic checks on file info before attempting anything
 		foreach ($files as &$file)
@@ -92,15 +98,10 @@ class MediaControllerMediaUpload extends JControllerBase
 			$file['name']     = JFile::makeSafe($file['name']);
 			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $file['name'])));
 
-			if ($file['error'] == 1)
+			if (($file['error'] == 1)
+					|| ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize))
 			{
-				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'warning');
-
-				return false;
-			}
-
-			if (($params->get('upload_maxsize', 0) * 1024 * 1024) != 0 && $file['size'] > ($params->get('upload_maxsize', 0) * 1024 * 1024))
-			{
+				// File size exceed either 'upload_max_filesize' or 'upload_maxsize'.
 				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'warning');
 
 				return false;
@@ -189,7 +190,7 @@ class MediaControllerMediaUpload extends JControllerBase
 		// Set the redirect
 		if ($return)
 		{
-			$this->app->redirect(JRoute::_(base64_decode($return) . '&folder=' . $this->folder, false));
+			$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
 		}
 
 		return true;

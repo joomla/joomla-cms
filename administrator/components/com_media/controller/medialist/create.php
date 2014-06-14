@@ -76,7 +76,7 @@ class MediaControllerMedialistCreate extends JControllerBase
 
 			if (($folderCheck !== null) && ($folder !== $folderCheck))
 			{
-				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'));
+				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'), 'warning');
 
 				return false;
 			}
@@ -115,7 +115,7 @@ class MediaControllerMedialistCreate extends JControllerBase
 		else
 		{
 			// File name is of zero length (null).
-			$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'));
+			$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'), 'warning');
 
 			return false;
 		}

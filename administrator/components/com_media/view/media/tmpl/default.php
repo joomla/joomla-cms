@@ -38,10 +38,10 @@ $input = JFactory::getApplication()->input;
 					<legend><?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?></legend>
 					<?php echo JText::_('COM_MEDIA_DESCFTP'); ?>
 					<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-					<input type="text" id="username" name="username" class="inputbox" size="70" value="" />
+					<input type="text" id="username" name="username" size="70" value="" />
 
 					<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-					<input type="password" id="password" name="password" class="inputbox" size="70" value="" />
+					<input type="password" id="password" name="password" size="70" value="" />
 				</fieldset>
 			</form>
 		<?php endif; ?>
@@ -93,7 +93,7 @@ $input = JFactory::getApplication()->input;
 						<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
 					</fieldset>
 						<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->get('folder'); ?>" />
-						<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
+						<?php JFactory::getSession()->set('com_media.return_url', 'index.php?option=com_media'); ?>
 
 						<button class="btn btn-primary" id="upload-submit">
 							<i class="icon-upload icon-white"></i> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?>
