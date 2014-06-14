@@ -103,8 +103,8 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 
 		JHtmlSidebar::addFilter(
 			JText::_('COM_INSTALLER_VALUE_TYPE_SELECT'),
-			'filter_extension_type',
-			JHtml::_('select.options', InstallerHelper::getExtensionTypes(), 'value', 'text', $this->state->get('filter.extension_type'), true)
+			'filter_type',
+			JHtml::_('select.options', InstallerHelper::getExtensionTypes(), 'value', 'text', $this->state->get('filter.type'), true)
 		);
 
 		JHtmlSidebar::addFilter(
