@@ -23,7 +23,7 @@ JText::script('TPL_BEEZ3_CLOSEMENU');
 ?>
 
 <script type="text/javascript">
-	var big = '<?php echo (int) $this->params->get('wrapperLarge');?>%';
+	var big = '<?php echo (int) $this->params->get('wrapperLarge'); ?>%';
 	var small = '<?php echo (int) $this->params->get('wrapperSmall'); ?>%';
 	var bildauf = '<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/plus.png';
 	var bildzu = '<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/minus.png';
