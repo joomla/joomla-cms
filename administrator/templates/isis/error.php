@@ -63,9 +63,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
-	<?php // If debug  mode
-		$debug = JFactory::getConfig()->get('debug_lang');
-		if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
+	<?php if ($app->get('debug_lang') == '1' || $app->get('debug') == '1') : ?>
 		<!-- Load additional CSS styles for debug mode-->
 		<link rel="stylesheet" href="<?php echo JUri::root() ?>/media/cms/css/debug.css" type="text/css" />
 	<?php endif; ?>
