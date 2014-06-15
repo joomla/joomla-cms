@@ -17,7 +17,6 @@ if (!isset($this->error))
 
 // Get language and direction
 $doc             = JFactory::getDocument();
-$app             = JFactory::getApplication();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
 ?>
@@ -28,7 +27,7 @@ $this->direction = $doc->direction;
 	<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error.css" type="text/css" />
 	<?php if ($this->direction == 'rtl') : ?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error_rtl.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error_rtl.css" type="text/css" />
 	<?php endif; ?>
 	<?php $debug = JFactory::getConfig()->get('debug_lang'); ?>
 	<?php if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
