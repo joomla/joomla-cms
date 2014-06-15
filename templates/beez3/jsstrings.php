@@ -25,10 +25,10 @@ JText::script('TPL_BEEZ3_CLOSEMENU');
 <script type="text/javascript">
 	var big = '<?php echo (int) $this->params->get('wrapperLarge');?>%';
 	var small = '<?php echo (int) $this->params->get('wrapperSmall'); ?>%';
-	var bildauf = '<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/plus.png';
-	var bildzu = '<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/minus.png';
-	var rightopen='<?php echo JText::_('TPL_BEEZ3_TEXTRIGHTOPEN', true); ?>';
-	var rightclose='<?php echo JText::_('TPL_BEEZ3_TEXTRIGHTCLOSE', true); ?>';
-	var altopen='<?php echo JText::_('TPL_BEEZ3_ALTOPEN', true); ?>';
-	var altclose='<?php echo JText::_('TPL_BEEZ3_ALTCLOSE', true); ?>';
+	var bildauf = '<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/plus.png';
+	var bildzu = '<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/minus.png';
+	var rightopen ='<?php echo JText::_('TPL_BEEZ3_TEXTRIGHTOPEN', true); ?>';
+	var rightclose ='<?php echo JText::_('TPL_BEEZ3_TEXTRIGHTCLOSE', true); ?>';
+	var altopen ='<?php echo JText::_('TPL_BEEZ3_ALTOPEN', true); ?>';
+	var altclose ='<?php echo JText::_('TPL_BEEZ3_ALTCLOSE', true); ?>';
 </script>
