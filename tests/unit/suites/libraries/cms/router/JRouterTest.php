@@ -100,13 +100,13 @@ class JRouterTest extends TestCase
 	public function casesParse()
 	{
 		$cases = array();
-		$cases[] = array(array(), JROUTER_MODE_RAW, array(), array());
-		$cases[] = array(array('var1' => 'value1'), JROUTER_MODE_RAW, array(), array());
-		$cases[] = array(array(), JROUTER_MODE_RAW, array('var1' => 'value1'), array('var1' => 'value1'));
+		$cases[] = array('', JROUTER_MODE_RAW, array(), array());
+		$cases[] = array('index.php?var1=value1', JROUTER_MODE_RAW, array(), array());
+		$cases[] = array('', JROUTER_MODE_RAW, array('var1' => 'value1'), array('var1' => 'value1'));
 		
-		$cases[] = array(array(), JROUTER_MODE_SEF, array(), array());
-		$cases[] = array(array('var1' => 'value1'), JROUTER_MODE_SEF, array(), array());
-		$cases[] = array(array(), JROUTER_MODE_SEF, array('var1' => 'value1'), array('var1' => 'value1'));
+		$cases[] = array('', JROUTER_MODE_SEF, array(), array());
+		$cases[] = array('index.php?var1=value1', JROUTER_MODE_SEF, array(), array());
+		$cases[] = array('', JROUTER_MODE_SEF, array('var1' => 'value1'), array('var1' => 'value1'));
 
 		return $cases;
 	}
