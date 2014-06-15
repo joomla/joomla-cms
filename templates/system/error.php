@@ -8,14 +8,17 @@
  */
 
 defined('_JEXEC') or die;
+
 if (!isset($this->error))
 {
 	$this->error = JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 	$this->debug = false;
 }
-//get language and direction
-$doc = JFactory::getDocument();
-$this->language = $doc->language;
+
+// Get language and direction
+$doc             = JFactory::getDocument();
+$app             = JFactory::getApplication();
+$this->language  = $doc->language;
 $this->direction = $doc->direction;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -27,15 +30,9 @@ $this->direction = $doc->direction;
 	<?php if ($this->direction == 'rtl') : ?>
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error_rtl.css" type="text/css" />
 	<?php endif; ?>
-	<?php
-		$debug = JFactory::getConfig()->get('debug_lang');
-		if (JDEBUG || $debug)
-		{
-	?>
+	<?php if ($app->get('debug_lang') == '1' || $app->get('debug') == '1') : ?>
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" type="text/css" />
-	<?php
-		}
-	?>
+	<?php endif; ?>
 </head>
 <body>
 	<div class="error">
