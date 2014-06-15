@@ -18,13 +18,13 @@ defined('_JEXEC') or die;
 	<div class="control-group">
 		<div class="control-label"><label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label></div>
 		<div class="controls">
-			<input type="text" id="username" name="username" class="input_box" size="70" value="" />
+			<input type="text" id="username" name="username" class="input_box" size="70" value="" autocomplete="off" />
 		</div>
 	</div>
 	<div class="control-group">
 		<div class="control-label"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></div>
 		<div class="controls">
-			<input type="password" id="password" name="password" class="input_box" size="70" value="" />
+			<input type="password" id="password" name="password" class="input_box" size="70" value="" autocomplete="off"  />
 		</div>
 	</div>
 </fieldset>
