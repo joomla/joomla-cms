@@ -19,6 +19,30 @@ require_once __DIR__ . '/stubs/JRouterSiteInspector.php';
 class JRouterSiteTest extends TestCase
 {
 	/**
+	 * Value for test host.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	const TEST_HTTP_HOST = 'mydomain.com';
+
+	/**
+	 * Value for test user agent.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	const TEST_USER_AGENT = 'Mozilla/5.0';
+
+	/**
+	 * Value for test user agent.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	const TEST_REQUEST_URI = '/index.php';
+
+	/**
 	 * Object under test
 	 *
 	 * @var    JRouter
@@ -38,9 +62,10 @@ class JRouterSiteTest extends TestCase
 	{
 		parent::setUp();
 
-		// Attempt to load the real class first.
-		class_exists('JApplicationCms');
-		class_exists('JApplication');
+		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
+		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;
+		$_SERVER['REQUEST_URI'] = self::TEST_REQUEST_URI;
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
 		
 		$options = array();
 		$app = $this->getMockCmsApp();
@@ -101,7 +126,7 @@ class JRouterSiteTest extends TestCase
 		$cases[] = array('', JROUTER_MODE_RAW, array(), array(), array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), '');
 
 		$cases[] = array('/index.php?var1=value1', JROUTER_MODE_RAW, array(), array(), array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'index.php?var1=value1');
-		$cases[] = array('index.php?var1=value1', JROUTER_MODE_RAW, array(), array(), array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'ndex.php?var1=value1');
+		$cases[] = array('index.php?var1=value1', JROUTER_MODE_RAW, array(), array(), array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'index.php?var1=value1');
 		
 		$cases[] = array('/joomla/blog/test.json', JROUTER_MODE_SEF, array(array('sef_suffix', null, '1')), array(), array('format' => 'json', 'option' => 'com_test3', 'Itemid' => '45'), 'joomla/blog/test.json');
 		$cases[] = array('/joomla/blog/test.json/', JROUTER_MODE_SEF, array(array('sef_suffix', null, '1')), array(), array('option' => 'com_test3', 'Itemid' => '45'), 'joomla/blog/test.json');
@@ -166,22 +191,20 @@ class JRouterSiteTest extends TestCase
 			$_SERVER[$key] = $value;
 		}
 		//Set $_SERVER variable END
-		
-		$options = array();
+
+		$options = array(
+			'mode' => $mode,
+		);
 		$app = $this->getMockCmsApp();
 		$app->expects($this->any())->method('getCfg')->will($this->returnValueMap($map));
 		$menu = TestMockMenu::create($this);
-		$this->object = new JRouterSiteInspector($options, $app, $menu);
-		
-		$this->object->setMode($mode);
-		$this->object->setVars(array());
-		
 		$uri = new JUri($url);
 
+		$this->object = new JRouterSiteInspector($options, $app, $menu);
 		$this->assertEquals($expected, $this->object->parse($uri));
-		
+
 		$this->assertEquals($expected2, $uri->toString());
-		
+
 		//Cleanup $_SERVER variable START
 		foreach($bkp as $key => $value)
 		{
@@ -408,20 +431,22 @@ class JRouterSiteTest extends TestCase
 			$_SERVER[$key] = $value;
 		}
 		//Set $_SERVER variable END
-		
-		$options = array();
+
+		// Set up the constructor params
+		$options = array(
+			'mode' => $mode,
+		);
 		$app = $this->getMockCmsApp();
 		$app->expects($this->any())->method('getCfg')->will($this->returnValueMap($map));
 		$menu = TestMockMenu::create($this);
-		$this->object = new JRouterSiteInspector($options, $app, $menu);
-		
-		$this->object->setMode($mode);
-		$this->object->setVars($vars);
-		
+
+		$this->object = new JRouterSiteInspector($options, $app, $menu);		
 		$juri = $this->object->build($uri);
+
+		// Check the expected values
 		$this->assertEquals($expected, $juri->toString());
 		
-		//Check that caching works
+		// Check that caching works
 		$juri2 = $this->object->build($uri);
 		$this->assertEquals($juri, $juri2);
 		
