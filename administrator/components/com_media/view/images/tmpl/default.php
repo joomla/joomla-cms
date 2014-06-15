@@ -21,6 +21,12 @@ var image_base_path = '<?php $params = JComponentHelper::getParams('com_media');
 echo $params->get('image_path', 'images'); ?>/';
 </script>
 
+<style>
+.span9 {
+	width: 870px;
+}
+</style>
+
 <div class="tabbable">
 <ul class="nav nav-tabs">
 	<li class="active"><a href="#browse_tab" data-toggle="tab"><?php echo JText::_('COM_MEDIA_BROWSE_DIRECTORY') ?></a></li>

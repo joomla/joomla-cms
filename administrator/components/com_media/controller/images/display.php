@@ -56,15 +56,8 @@ class MediaControllerImagesDisplay extends ConfigControllerDisplay
 		
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;
-		
-		if ($this->app->isAdmin())
-		{
-			$paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
-		}
-		else
-		{
-			$paths->insert(JPATH_BASE . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
-		}
+
+		$paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
 		
 		$viewClass  = $this->prefix . 'View' . ucfirst($viewName) . ucfirst($viewFormat);
 		$modelClass = $this->prefix . 'Model' . ucfirst('media');

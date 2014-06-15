@@ -14,5 +14,8 @@ $lang = JFactory::getLanguage();
 $lang->load('com_media', JPATH_ADMINISTRATOR, null, false, true)
 ||	$lang->load('com_media', JPATH_SITE, null, false, true);
 
+// Register Media prefix to load backend classes
+JLoader::registerPrefix('Media', JPATH_ADMINISTRATOR . '/components/com_media');
+
 // Hand processing over to the admin base file
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/media.php';
