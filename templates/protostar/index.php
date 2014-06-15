@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
-// Getting params from template
-$params          = JFactory::getApplication()->getTemplate(true)->params;
 $app             = JFactory::getApplication();
 $doc             = JFactory::getDocument();
+$user            = JFactory::getUser();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
+
+// Getting params from template
+$params = $app->getTemplate(true)->params;
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -42,9 +44,6 @@ $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
-
-// Add current user information
-$user = JFactory::getUser();
 
 // Adjusting content width
 if ($this->countModules('position-7') && $this->countModules('position-8'))
@@ -97,17 +96,17 @@ else
 	<style type="text/css">
 		body.site
 		{
-			border-top: 3px solid <?php echo $this->params->get('templateColor');?>;
-			background-color: <?php echo $this->params->get('templateBackgroundColor');?>
+			border-top: 3px solid <?php echo $this->params->get('templateColor'); ?>;
+			background-color: <?php echo $this->params->get('templateBackgroundColor'); ?>
 		}
 		a
 		{
-			color: <?php echo $this->params->get('templateColor');?>;
+			color: <?php echo $this->params->get('templateColor'); ?>;
 		}
 		.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover,
 		.btn-primary
 		{
-			background: <?php echo $this->params->get('templateColor');?>;
+			background: <?php echo $this->params->get('templateColor'); ?>;
 		}
 		.navbar-inner
 		{
@@ -118,7 +117,7 @@ else
 	</style>
 	<?php endif; ?>
 	<!--[if lt IE 9]>
-		<script src="<?php echo $this->baseurl ?>/media/jui/js/html5.js"></script>
+		<script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
 </head>
 
