@@ -249,9 +249,9 @@ class JRouterSiteTest extends TestCase
 	{
 		$cases = array();
 		
-		$cases[] = array('', JROUTER_MODE_RAW, array(), array(), array(), '');
+		$cases[] = array('', JROUTER_MODE_RAW, array(), array(), array(), '/');
 
-		$cases[] = array('blog/test', JROUTER_MODE_RAW, array(), array(), array(), 'blog/test');
+		$cases[] = array('blog/test', JROUTER_MODE_RAW, array(), array(), array(), '/blog/test');
 		
 		$cases[] = array('', JROUTER_MODE_RAW, array(), array(), 
 			array(
@@ -269,9 +269,9 @@ class JRouterSiteTest extends TestCase
 				'REQUEST_URI' => '/joomla/index.php?var=value 10'
 			), '/joomla/blog/test');
 		
-		$cases[] = array('', JROUTER_MODE_SEF, array(), array(), array(), '');
+		$cases[] = array('', JROUTER_MODE_SEF, array(), array(), array(), '/');
 
-		$cases[] = array('blog/test', JROUTER_MODE_SEF, array(), array(), array(), 'blog/test');
+		$cases[] = array('blog/test', JROUTER_MODE_SEF, array(), array(), array(), '/blog/test');
 		
 		$cases[] = array('', JROUTER_MODE_SEF, array(), array(), 
 			array(
@@ -315,13 +315,13 @@ class JRouterSiteTest extends TestCase
 			array(
 				array('sef_rewrite', null, 1)
 			), 
-			array(), '');
+			array(), '/');
 		
 		$cases[] = array('index.php/blog/test', JROUTER_MODE_SEF, array(), 
 			array(
 				array('sef_rewrite', null, 1)
 			), 
-			array(), 'blog/test');
+			array(), '/blog/test');
 
 		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(), 
 			array(
@@ -349,13 +349,13 @@ class JRouterSiteTest extends TestCase
 			array(
 				array('sef_suffix', null, 1)
 			), 
-			array(), 'index.php?format=json');
+			array(), '/index.php?format=json');
 		
 		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(), 
 			array(
 				array('sef_suffix', null, 1)
 			), 
-			array(), 'index.php/blog/test.json');
+			array(), '/index.php/blog/test.json');
 
 		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(), 
 			array(
@@ -386,14 +386,14 @@ class JRouterSiteTest extends TestCase
 				array('sef_rewrite', null, 1),
 				array('sef_suffix', null, 1)
 			), 
-			array(), '?format=json');
+			array(), '/?format=json');
 		
 		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(), 
 			array(
 				array('sef_rewrite', null, 1),
 				array('sef_suffix', null, 1)
 			), 
-			array(), 'blog/test.json');
+			array(), '/blog/test.json');
 
 		return $cases;
 	}
