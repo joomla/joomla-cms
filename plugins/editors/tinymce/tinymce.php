@@ -188,7 +188,12 @@ class PlgEditorTinymce extends JPlugin
 
 		// Advanced Options
 		$html_height		= $this->params->get('html_height', '550');
-		$html_width			= $this->params->get('html_width', '750');
+		$html_width			= $this->params->get('html_width', '');
+
+		if ($html_width == 750)
+		{
+			$html_width = '';
+		}
 
 		// Image advanced options
 		$image_advtab = $this->params->get('image_advtab', 1);
@@ -450,7 +455,8 @@ class PlgEditorTinymce extends JPlugin
 					preg_match_all('/\".*\"/', $match, $values);
 					$result = trim($values["0"]["0"], '"');
 					$final_result = explode(',', $result);
-					$templates .= "{title: '" . trim($final_result['0'], ' " ') . "', description: '" . trim($final_result['2'], ' " ') . "', url: '" . JUri::root() . trim($final_result['1'], ' " ') . "'},";
+					$templates .= "{title: '" . trim($final_result['0'], ' " ') . "', description: '"
+						. trim($final_result['2'], ' " ') . "', url: '" . JUri::root() . trim($final_result['1'], ' " ') . "'},";
 				}
 
 				$templates .= "],";

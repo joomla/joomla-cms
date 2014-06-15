@@ -24,7 +24,7 @@ class PlgUserProfile extends JPlugin
 	 * @var    string
 	 * @since  3.1
 	 */
-	private $_date = '';
+	private $date = '';
 
 	/**
 	 * Load the language file on instantiation.
@@ -37,8 +37,8 @@ class PlgUserProfile extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $subject  The object to observe
-	 * @param   array   $config   An array that holds the plugin configuration
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An array that holds the plugin configuration
 	 *
 	 * @since   1.5
 	 */
@@ -49,8 +49,10 @@ class PlgUserProfile extends JPlugin
 	}
 
 	/**
-	 * @param   string     $context  The context for the data
-	 * @param   integer    $data     The user id
+	 * Runs on content preparation
+	 *
+	 * @param   string   $context  The context for the data
+	 * @param   integer  $data     The user id
 	 *
 	 * @return  boolean
 	 *
@@ -85,6 +87,7 @@ class PlgUserProfile extends JPlugin
 				catch (RuntimeException $e)
 				{
 					$this->_subject->setError($e->getMessage());
+
 					return false;
 				}
 
@@ -95,6 +98,7 @@ class PlgUserProfile extends JPlugin
 				{
 					$k = str_replace('profile.', '', $v[0]);
 					$data->profile[$k] = json_decode($v[1], true);
+
 					if ($data->profile[$k] === null)
 					{
 						$data->profile[$k] = $v[1];
@@ -106,10 +110,12 @@ class PlgUserProfile extends JPlugin
 			{
 				JHtml::register('users.url', array(__CLASS__, 'url'));
 			}
+
 			if (!JHtml::isRegistered('users.calendar'))
 			{
 				JHtml::register('users.calendar', array(__CLASS__, 'calendar'));
 			}
+
 			if (!JHtml::isRegistered('users.tos'))
 			{
 				JHtml::register('users.tos', array(__CLASS__, 'tos'));
@@ -119,6 +125,13 @@ class PlgUserProfile extends JPlugin
 		return true;
 	}
 
+	/**
+	 * returns a anchor tag generated from a given value
+	 *
+	 * @param   string  $value  url to use
+	 *
+	 * @return mixed|string
+	 */
 	public static function url($value)
 	{
 		if (empty($value))
@@ -141,6 +154,13 @@ class PlgUserProfile extends JPlugin
 		}
 	}
 
+	/**
+	 * returns html markup showing a date picker
+	 *
+	 * @param   string  $value  valid date string
+	 *
+	 * @return  mixed
+	 */
 	public static function calendar($value)
 	{
 		if (empty($value))
@@ -153,6 +173,13 @@ class PlgUserProfile extends JPlugin
 		}
 	}
 
+	/**
+	 * return the translated strings yes or no depending on the value
+	 *
+	 * @param   boolean  $value  input value
+	 *
+	 * @return string
+	 */
 	public static function tos($value)
 	{
 		if ($value)
@@ -166,10 +193,13 @@ class PlgUserProfile extends JPlugin
 	}
 
 	/**
-	 * @param   JForm    $form    The form to be altered.
-	 * @param   array    $data    The associated data for the form.
+	 * adds additional fields to the user editing form
+	 *
+	 * @param   JForm  $form  The form to be altered.
+	 * @param   array  $data  The associated data for the form.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	public function onContentPrepareForm($form, $data)
@@ -177,11 +207,13 @@ class PlgUserProfile extends JPlugin
 		if (!($form instanceof JForm))
 		{
 			$this->_subject->setError('JERROR_NOT_A_FORM');
+
 			return false;
 		}
 
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
+
 		if (!in_array($name, array('com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration')))
 		{
 			return true;
@@ -206,8 +238,9 @@ class PlgUserProfile extends JPlugin
 			'tos',
 		);
 
-		//Change fields description when displayed in front-end or back-end profile editing
+		// Change fields description when displayed in front-end or back-end profile editing
 		$app = JFactory::getApplication();
+
 		if ($app->isSite() || $name == 'com_users.user' || $name == 'com_admin.profile')
 		{
 			$form->setFieldAttribute('address1', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
@@ -246,8 +279,7 @@ class PlgUserProfile extends JPlugin
 			{
 				// Remove the field if it is disabled in registration and profile
 				if ($this->params->get('register-require_' . $field, 1) == 0
-					&& $this->params->get('profile-require_' . $field, 1) == 0
-				)
+					&& $this->params->get('profile-require_' . $field, 1) == 0)
 				{
 					$form->removeField($field, 'profile');
 				}
@@ -321,7 +353,7 @@ class PlgUserProfile extends JPlugin
 				$data['profile']['website'] = JStringPunycode::urlToPunycode($data['profile']['website']);
 
 				$date = new JDate($data['profile']['dob']);
-				$this->_date = $date->format('Y-m-d');
+				$this->date = $date->format('Y-m-d');
 			}
 			catch (Exception $e)
 			{
@@ -333,6 +365,16 @@ class PlgUserProfile extends JPlugin
 		return true;
 	}
 
+	/**
+	 * saves user profile data
+	 *
+	 * @param   array    $data    entered user data
+	 * @param   boolean  $isNew   true if this is a new user
+	 * @param   boolean  $result  true if saving the user worked
+	 * @param   string   $error   error message
+	 *
+	 * @return bool
+	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
 		$userId = JArrayHelper::getValue($data, 'id', 0, 'int');
@@ -342,7 +384,7 @@ class PlgUserProfile extends JPlugin
 			try
 			{
 				// Sanitize the date
-				$data['profile']['dob'] = $this->_date;
+				$data['profile']['dob'] = $this->date;
 
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
@@ -357,7 +399,7 @@ class PlgUserProfile extends JPlugin
 
 				foreach ($data['profile'] as $k => $v)
 				{
-					$tuples[] = '(' . $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . $order++ . ')';
+					$tuples[] = '(' . $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . ($order++) . ')';
 				}
 
 				$db->setQuery('INSERT INTO #__user_profiles VALUES ' . implode(', ', $tuples));
@@ -366,6 +408,7 @@ class PlgUserProfile extends JPlugin
 			catch (RuntimeException $e)
 			{
 				$this->_subject->setError($e->getMessage());
+
 				return false;
 			}
 		}
@@ -408,6 +451,7 @@ class PlgUserProfile extends JPlugin
 			catch (Exception $e)
 			{
 				$this->_subject->setError($e->getMessage());
+
 				return false;
 			}
 		}
