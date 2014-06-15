@@ -32,7 +32,7 @@ if ($files)
 	}
 }
 
-$doc->addStyleSheet('templates/' . $this->template . '/css/'.htmlspecialchars($color) . '.css');
+$doc->addStyleSheet('templates/' . $this->template . '/css/' . htmlspecialchars($color) . '.css');
 
 if ($this->direction == 'rtl')
 {
