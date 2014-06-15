@@ -30,7 +30,8 @@ $this->direction = $doc->direction;
 	<?php if ($this->direction == 'rtl') : ?>
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error_rtl.css" type="text/css" />
 	<?php endif; ?>
-	<?php if ($app->get('debug_lang') == '1' || $app->get('debug') == '1') : ?>
+	<?php $debug = JFactory::getConfig()->get('debug_lang'); ?>
+	<?php if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" type="text/css" />
 	<?php endif; ?>
 </head>
