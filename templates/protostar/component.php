@@ -29,7 +29,7 @@ JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
 <head>
 <jdoc:include type="head" />
 <!--[if lt IE 9]>
-	<script src="<?php echo $this->baseurl ?>/media/jui/js/html5.js"></script>
+	<script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script>
 <![endif]-->
 </head>
 <body class="contentpane modal">
