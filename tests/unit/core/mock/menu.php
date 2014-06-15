@@ -58,7 +58,14 @@ class TestMockMenu
 		$mockObject->expects($test->any())
 				->method('getItem')
 				->will($test->returnValueMap(self::prepareGetItemData()));
-
+		
+		$mockObject->expects($test->any())
+				->method('getMenu')
+				->will($test->returnValue(self::$data));
+		
+		$mockObject->expects($test->any())
+				->method('getDefault')
+				->will($test->returnValueMap(self::prepareDefaultData()));
 
 		return $mockObject;
 	}
@@ -71,6 +78,14 @@ class TestMockMenu
 			$return[] = array($id, $item);
 			$return[] = array((string)$id, $item);
 		}
+		
+		return $return;
+	}
+	
+	protected static function prepareDefaultData()
+	{
+		$return = array();
+		$return[] = array('en-GB', self::$data[45]);
 		
 		return $return;
 	}

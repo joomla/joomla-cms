@@ -309,7 +309,7 @@ class JRouterSite extends JRouter
 				if ($item->route && JString::strpos($route_lowercase . '/', $item->route . '/') === 0 && $item->type != 'menulink')
 				{
 					// Usual method for non-multilingual site.
-					if (!$app->getLanguageFilter())
+					if (!$this->app->getLanguageFilter())
 					{
 						// Exact route match. We can break iteration because exact item was found.
 						if ($item->route == $route_lowercase)

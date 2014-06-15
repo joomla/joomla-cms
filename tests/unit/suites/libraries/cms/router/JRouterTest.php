@@ -124,10 +124,11 @@ class JRouterTest extends TestCase
 	 * @dataProvider  casesParse
 	 * @since         3.4
 	 */
-	public function testParse($uri, $mode, $vars, $expected)
+	public function testParse($url, $mode, $vars, $expected)
 	{
 		$this->object->setMode($mode);
 		$this->object->setVars($vars);
+		$uri = new JUri($url);
 
 		$this->assertEquals($this->object->parse($uri), $expected);
 	}
