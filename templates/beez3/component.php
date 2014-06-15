@@ -26,6 +26,7 @@ if ($files)
 	{
 		$files = array($files);
 	}
+
 	foreach ($files as $file)
 	{
 		$doc->addStyleSheet($file);
@@ -37,6 +38,7 @@ $doc->addStyleSheet('templates/' . $this->template . '/css/' . htmlspecialchars(
 if ($this->direction == 'rtl')
 {
 	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
+
 	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css'))
 	{
 		$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color) . '_rtl.css');
