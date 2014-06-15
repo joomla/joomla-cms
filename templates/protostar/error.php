@@ -68,7 +68,8 @@ else
 		</style>
 	<?php endif; ?>
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
-		<?php if ($app->get('debug_lang') == '1' || $app->get('debug') == '1') : ?>
+		<?php $debug = JFactory::getConfig()->get('debug_lang'); ?>
+		<?php if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
 			<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/cms/css/debug.css" type="text/css" />
 		<?php endif; ?>
 	<?php // If Right-to-Left ?>
