@@ -21,11 +21,11 @@ class TestMockMenu
 	 *
 	 * @param   object  $test  A test object.
 	 *
-	 * @return  object
+	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   3.4
 	 */
-	public static function create(PHPUnit_Framework_TestCase $test)
+	public static function create(PHPUnit_Framework_TestCase $test, $setDefault = true)
 	{
 		// Collect all the relevant methods in JMenu (work in progress).
 		$methods = array(
@@ -63,9 +63,12 @@ class TestMockMenu
 				->method('getMenu')
 				->will($test->returnValue(self::$data));
 		
-		$mockObject->expects($test->any())
+		if ($setDefault)
+		{
+			$mockObject->expects($test->any())
 				->method('getDefault')
 				->will($test->returnValueMap(self::prepareDefaultData()));
+		}
 
 		return $mockObject;
 	}

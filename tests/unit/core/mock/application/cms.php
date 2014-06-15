@@ -54,6 +54,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'getHeaders',
 			'getIdentity',
 			'getLanguage',
+			'getLanguageFilter',
 			'getMenu',
 			'getPathway',
 			'getSession',
