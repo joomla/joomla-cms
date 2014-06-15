@@ -86,9 +86,9 @@ abstract class ModTagsPopularHelper
 			->order($order_value . ' ' . $order_direction);
 		
 		// Only return tags connected to published articles
-		$query->where($db->quoteName('c.core_state') . ' = 1'.
-					' AND (' . $db->quoteName('c.core_publish_up') . ' = ' . $nullDate . ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $nowDate . ')'.
-					' AND (' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate . ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $nowDate . ')');
+		$query->where($db->quoteName('c.core_state') . ' = 1')
+			->where($db->quoteName('c.core_publish_up') . ' = ' . $nullDate . ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $nowDate)
+			->where($db->quoteName('c.core_publish_down') . ' = ' . $nullDate . ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $nowDate);
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 
