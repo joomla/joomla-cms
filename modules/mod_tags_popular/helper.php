@@ -81,14 +81,15 @@ abstract class ModTagsPopularHelper
 		}
 
 		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = t.id')
-			->join('INNER', $db->quoteName('#__ucm_content', 'c') . ' ON ' . $db->quoteName('m.type_alias') . ' = ' . $db->quoteName('c.core_type_alias') . ' AND ' . $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')) 
+			->join('INNER', $db->quoteName('#__ucm_content', 'c') . ' ON ' . $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')) 
 
 			->order($order_value . ' ' . $order_direction);
 		
+		$query->where($db->quoteName('m.type_alias') . ' = ' . $db->quoteName('c.core_type_alias'));
 		// Only return tags connected to published articles
 		$query->where($db->quoteName('c.core_state') . ' = 1')
-			->where($db->quoteName('c.core_publish_up') . ' = ' . $nullDate . ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $nowDate)
-			->where($db->quoteName('c.core_publish_down') . ' = ' . $nullDate . ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $nowDate);
+			->where('(' . $db->quoteName('c.core_publish_up') . ' = ' . $nullDate . ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $nowDate . ')')
+			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate . ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $nowDate . ')');
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 
