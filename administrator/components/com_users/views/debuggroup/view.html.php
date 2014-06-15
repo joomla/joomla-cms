@@ -20,10 +20,28 @@ class UsersViewDebuggroup extends JViewLegacy
 {
 	protected $actions;
 
+	/**
+	 * The item data.
+	 *
+	 * @var   object
+	 * @since 1.6
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object.
+	 *
+	 * @var   JPagination
+	 * @since 1.6
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state.
+	 *
+	 * @var   JObject
+	 * @since 1.6
+	 */
 	protected $state;
 
 	/**
@@ -37,13 +55,13 @@ class UsersViewDebuggroup extends JViewLegacy
 			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
-		$this->actions		= $this->get('DebugActions');
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->group		= $this->get('Group');
-		$this->levels		= UsersHelperDebug::getLevelsOptions();
-		$this->components	= UsersHelperDebug::getComponents();
+		$this->actions    = $this->get('DebugActions');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
+		$this->group      = $this->get('Group');
+		$this->levels     = UsersHelperDebug::getLevelsOptions();
+		$this->components = UsersHelperDebug::getComponents();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -71,6 +89,7 @@ class UsersViewDebuggroup extends JViewLegacy
 		JHtmlSidebar::setAction('index.php?option=com_users&view=debuggroup&user_id=' . (int) $this->state->get('filter.user_id'));
 
 		$option = '';
+
 		if (!empty($this->components))
 		{
 			$option = JHtml::_('select.options', $this->components, 'value', 'text', $this->state->get('filter.component'));

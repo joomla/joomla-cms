@@ -103,7 +103,7 @@ class BannersModelBanner extends JModelLegacy
 			{
 				// Update count
 				$query->update('#__banner_tracks')
-					->set($db->quoteName('count') . ' = (' . $db->quote('count') . ' + 1)')
+					->set($db->quoteName('count') . ' = (' . $db->quoteName('count') . ' + 1)')
 					->where('track_type=2')
 					->where('banner_id=' . (int) $id)
 					->where('track_date=' . $db->quote($trackDate));

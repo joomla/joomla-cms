@@ -33,11 +33,7 @@
 			required="true"
 			filter="integer"
 			size="6" />
-	</fieldset>
 
-	<fieldset
-		name="memcache"
-		label="COM_CONFIG_MEMCACHE_SETTINGS_LABEL">
 		<field
 			name="memcache_persist"
 			type="radio"
@@ -45,6 +41,7 @@
 			default="1"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
+			showon="cache_handler:memcache"
 			filter="integer">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -57,6 +54,7 @@
 			default="0"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
+			showon="cache_handler:memcache"
 			filter="integer">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -68,6 +66,7 @@
 			default="localhost"
 			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
+			showon="cache_handler:memcache"
 			filter="string"
 			size="25" />
 
@@ -77,8 +76,61 @@
 			default="11211"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
+			showon="cache_handler:memcache"
 			filter="integer"
 			size="5" />
+
+		<field
+			name="memcached_persist"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
+			showon="cache_handler:memcached"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="memcached_compress"
+			type="radio"
+			class="btn-group"
+			default="0"
+			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
+			showon="cache_handler:memcached"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="memcached_server_host"
+			type="text"
+			default="localhost"
+			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
+			showon="cache_handler:memcached"
+			filter="string"
+			size="25" />
+
+		<field
+			name="memcached_server_port"
+			type="text"
+			default="11211"
+			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
+			showon="cache_handler:memcached"
+			filter="integer"
+			size="5" />
+	</fieldset>
+
+	<fieldset
+		name="memcache"
+		label="COM_CONFIG_MEMCACHE_SETTINGS_LABEL">
+
 	</fieldset>
 
 	<fieldset
@@ -614,6 +666,46 @@
 			description="COM_CONFIG_FIELD_SESSION_HANDLER_DESC"
 			required="true"
 			filter="word" />
+
+		<field
+			name="session_memcache_server_host"
+			type="text"
+			default="localhost"
+			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
+			filter="string"
+			showon="session_handler:memcache"
+			size="25" />
+
+		<field
+			name="session_memcache_server_port"
+			type="text"
+			default="11211"
+			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
+			filter="integer"
+			showon="session_handler:memcache"
+			size="5" />
+
+		<field
+			name="session_memcached_server_host"
+			type="text"
+			default="localhost"
+			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
+			filter="string"
+			showon="session_handler:memcached"
+			size="25" />
+
+		<field
+			name="session_memcached_server_port"
+			type="text"
+			default="11211"
+			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
+			filter="integer"
+			showon="session_handler:memcached"
+			size="5" />
 	</fieldset>
 
 	<fieldset

@@ -19,13 +19,13 @@ defined('_JEXEC') or die;
 class TemplatesModelStyle extends JModelAdmin
 {
 	/**
-	 * @var		string	The help screen key for the module.
+	 * @var	    string	The help screen key for the module.
 	 * @since   1.6
 	 */
 	protected $helpKey = 'JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES_EDIT';
 
 	/**
-	 * @var		string	The help screen base URL for the module.
+	 * @var	    string	The help screen base URL for the module.
 	 * @since   1.6
 	 */
 	protected $helpURL;
@@ -38,7 +38,7 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
+	 * @note    Calling getState in this method will result in recursion.
 	 *
 	 * @return  void
 	 *
@@ -84,7 +84,7 @@ class TemplatesModelStyle extends JModelAdmin
 				// You should not delete a default style
 				if ($table->home != '0')
 				{
-					JError::raiseWarning(SOME_ERROR_NUMBER, Jtext::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'));
+					JError::raiseWarning(SOME_ERROR_NUMBER, JText::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'));
 
 					return false;
 				}
@@ -117,11 +117,11 @@ class TemplatesModelStyle extends JModelAdmin
 	 *
 	 * @return  boolean  True if successful.
 	 *
-	 * @throws	Exception
+	 * @throws  Exception
 	 */
 	public function duplicate(&$pks)
 	{
-		$user	= JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_templates'))
@@ -201,19 +201,19 @@ class TemplatesModelStyle extends JModelAdmin
 		// The folder and element vars are passed when saving the form.
 		if (empty($data))
 		{
-			$item		= $this->getItem();
-			$clientId	= $item->client_id;
-			$template	= $item->template;
+			$item	   = $this->getItem();
+			$clientId  = $item->client_id;
+			$template  = $item->template;
 		}
 		else
 		{
-			$clientId	= JArrayHelper::getValue($data, 'client_id');
-			$template	= JArrayHelper::getValue($data, 'template');
+			$clientId  = JArrayHelper::getValue($data, 'client_id');
+			$template  = JArrayHelper::getValue($data, 'template');
 		}
 
 		// These variables are used to add data from the plugin XML files.
-		$this->setState('item.client_id',	$clientId);
-		$this->setState('item.template',	$template);
+		$this->setState('item.client_id', $clientId);
+		$this->setState('item.template', $template);
 
 		// Get the form.
 		$form = $this->loadForm('com_templates.style', 'style', array('control' => 'jform', 'load_data' => $loadData));
@@ -338,7 +338,7 @@ class TemplatesModelStyle extends JModelAdmin
 	 * @return  void
 	 *
 	 * @since   1.6
-	 * @throws	Exception if there is an error in the form event.
+	 * @throws  Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
@@ -347,18 +347,18 @@ class TemplatesModelStyle extends JModelAdmin
 		$lang     = JFactory::getLanguage();
 		$client   = JApplicationHelper::getClientInfo($clientId);
 
-		if (!$form->loadFile('style_'.$client->name, true))
+		if (!$form->loadFile('style_' . $client->name, true))
 		{
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		jimport('joomla.filesystem.path');
 
-		$formFile	= JPath::clean($client->path.'/templates/'.$template.'/templateDetails.xml');
+		$formFile = JPath::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
 		// Load the core and/or local language file(s).
-			$lang->load('tpl_'.$template, $client->path, null, false, true)
-		||	$lang->load('tpl_'.$template, $client->path.'/templates/'.$template, null, false, true);
+			$lang->load('tpl_' . $template, $client->path, null, false, true)
+		||	$lang->load('tpl_' . $template, $client->path . '/templates/' . $template, null, false, true);
 
 		if (file_exists($formFile))
 		{
@@ -436,8 +436,8 @@ class TemplatesModelStyle extends JModelAdmin
 
 		if ($app->input->get('task') == 'save2copy')
 		{
-			$data['title'] = $this->generateNewTitle(null, null, $data['title']);
-			$data['home'] = 0;
+			$data['title']    = $this->generateNewTitle(null, null, $data['title']);
+			$data['home']     = 0;
 			$data['assigned'] = '';
 		}
 

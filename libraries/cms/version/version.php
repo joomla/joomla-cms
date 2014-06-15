@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Version information class for the Joomla CMS.
@@ -25,7 +25,7 @@ final class JVersion
 	public $RELEASE = '3.3';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '1-dev';
+	public $DEV_LEVEL = '2-dev';
 
 	/** @var  string  Development STATUS. */
 	public $DEV_STATUS = 'Development';
@@ -37,10 +37,10 @@ final class JVersion
 	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELDATE = '30-April-2014';
+	public $RELDATE = '11-June-2014';
 
 	/** @var  string  Release time. */
-	public $RELTIME = '14:00';
+	public $RELTIME = '13:30';
 
 	/** @var  string  Release timezone. */
 	public $RELTZ = 'GMT';
