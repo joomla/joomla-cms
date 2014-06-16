@@ -289,7 +289,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 			$prefix = $this->option . 'Table';
 		}
 
-		// Make sure we are returning a DBO object
+		// Make sure we are giving a JDatabaseDriver object to the table
 		if (!array_key_exists('dbo', $options))
 		{
 			$options['dbo'] = $this->getDbo();
