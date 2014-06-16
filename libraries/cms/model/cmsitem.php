@@ -26,14 +26,6 @@ class JModelCmsitem extends JModelCms implements JModelFormInterface
 	protected $item = null;
 
 	/**
-	 * Model context string.
-	 *
-	 * @var    string
-	 * @since  3.4
-	 */
-	protected $context = 'group.type';
-
-	/**
 	 * The event to trigger after deleting the data.
 	 *
 	 * @var    string
@@ -82,17 +74,18 @@ class JModelCmsitem extends JModelCms implements JModelFormInterface
 	protected $forms = array();
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db      The database adpater.
-	 * @param   array            $config  An array of configuration options. Must have view and option elements.
+	 * @param   JDatabaseDriver   $db          The database adpater.
+	 * @param   JEventDispatcher  $dispatcher  The event dispatcher
+	 * @param   array             $config      An array of configuration options. Must have view
+	 *                                         and option keys.
 	 *
-	 * @see     JModel
 	 * @since   3.4
 	 */
-	public function __construct(JDatabaseDriver $db = null, $config = array())
+	public function __construct(JDatabaseDriver $db = null, JEventDispatcher $dispatcher = null, $config = array())
 	{
-		parent::__construct($db, $config);
+		parent::__construct($db, $dispatcher, $config);
 
 		if (isset($config['event_after_delete']))
 		{
@@ -117,16 +110,6 @@ class JModelCmsitem extends JModelCms implements JModelFormInterface
 		if (isset($config['event_change_state']))
 		{
 			$this->event_change_state = $config['event_change_state'];
-		}
-
-		// Guess the JText message prefix. Defaults to the option.
-		if (isset($config['text_prefix']))
-		{
-			$this->text_prefix = strtoupper($config['text_prefix']);
-		}
-		elseif (empty($this->text_prefix))
-		{
-			$this->text_prefix = strtoupper($this->option);
 		}
 	}
 
