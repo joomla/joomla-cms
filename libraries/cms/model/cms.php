@@ -99,7 +99,6 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 *                                         and option keys.
 	 *
 	 * @since   3.4
-	 * @throws  Exception
 	 */
 	public function __construct(JDatabaseDriver $db = null, JEventDispatcher $dispatcher, $config = array())
 	{
