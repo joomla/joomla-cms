@@ -51,17 +51,18 @@ class JModelCmslist extends JModelCmsactions
 	public $idSchema;
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db      The database adpater.
-	 * @param   array            $config  An array of configuration options. Must have view and option elements.
+	 * @param   JDatabaseDriver   $db          The database adpater.
+	 * @param   JEventDispatcher  $dispatcher  The event dispatcher
+	 * @param   array             $config      An array of configuration options. Must have view
+	 *                                         and option keys.
 	 *
-	 * @see     JModel
 	 * @since   3.4
 	 */
-	public function __construct(JDatabaseDriver $db = null, $config = array())
+	public function __construct(JDatabaseDriver $db = null, JEventDispatcher $dispatcher = null, $config = array())
 	{
-		parent::__construct($config);
+		parent::__construct($db, $dispatcher, $config);
 
 		// Add the ordering filtering fields white list.
 		if (isset($config['filter_fields']))
