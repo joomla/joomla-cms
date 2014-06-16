@@ -337,7 +337,6 @@ abstract class JModelCmsactions extends JModelCms
 	 */
 	public function save(&$data)
 	{
-		$dispatcher = JEventDispatcher::getInstance();
 		$table = $this->getTable();
 
 		if ((!empty($data['tags']) && $data['tags'][0] != ''))
@@ -381,7 +380,7 @@ abstract class JModelCmsactions extends JModelCms
 			}
 
 			// Trigger the onContentBeforeSave event.
-			$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, $table, $isNew));
+			$result = $this->dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, $table, $isNew));
 
 			if (in_array(false, $result, true))
 			{
@@ -401,7 +400,7 @@ abstract class JModelCmsactions extends JModelCms
 			$this->cleanCache();
 
 			// Trigger the onContentAfterSave event.
-			$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, $table, $isNew));
+			$this->dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, $table, $isNew));
 		}
 		catch (Exception $e)
 		{
