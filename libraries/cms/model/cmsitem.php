@@ -128,33 +128,37 @@ class JModelCmsitem extends JModelCms implements JModelFormInterface
 		// Only attempt to check the row in if it exists.
 		if ($pk)
 		{
-			$user = JFactory::getUser();
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_NO_KEY'));
 
-			// Get an instance of the row to checkin.
-			$table = $this->getTable();
+			return false;
+		}
 
-			if (!$table->load($pk))
-			{
-				throw new RuntimeException($table->getError());
+		$user = JFactory::getUser();
 
-				return false;
-			}
+		// Get an instance of the row to checkin.
+		$table = $this->getTable();
 
-			// Check if this is the user has previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
-			{
-				throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+		if (!$table->load($pk))
+		{
+			throw new RuntimeException($table->getError());
 
-				return false;
-			}
+			return false;
+		}
 
-			// Attempt to check the row in.
-			if (!$table->checkin($pk))
-			{
-				throw new RuntimeException($table->getError());
+		// Check if this is the user has previously checked out the row.
+		if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+		{
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
-				return false;
-			}
+			return false;
+		}
+
+		// Attempt to check the row in.
+		if (!$table->checkin($pk))
+		{
+			throw new RuntimeException($table->getError());
+
+			return false;
 		}
 
 		return true;
@@ -168,36 +172,44 @@ class JModelCmsitem extends JModelCms implements JModelFormInterface
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
 	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function checkout($pk = null)
 	{
 		// Only attempt to check the row in if it exists.
 		if ($pk)
 		{
-			$user = JFactory::getUser();
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_NO_KEY'));
 
-			// Get an instance of the row to checkout.
-			$table = $this->getTable();
+			return false;
+		}
 
-			if (!$table->load($pk))
-			{
-				$this->setError($table->getError());
-				return false;
-			}
+		$user = JFactory::getUser();
 
-			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
-			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
-				return false;
-			}
+		// Get an instance of the row to checkout.
+		$table = $this->getTable();
 
-			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $pk))
-			{
-				$this->setError($table->getError());
-				return false;
-			}
+		if (!$table->load($pk))
+		{
+			throw new RuntimeException($table->getError());
+
+			return false;
+		}
+
+		// Check if this is the user having previously checked out the row.
+		if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
+		{
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
+
+			return false;
+		}
+
+		// Attempt to check the row out.
+		if (!$table->checkout($user->get('id'), $pk))
+		{
+			throw new RuntimeException($table->getError());
+
+			return false;
 		}
 
 		return true;
