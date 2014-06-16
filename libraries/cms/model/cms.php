@@ -295,6 +295,19 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	}
 
 	/**
+	 * Method to get the model name. Required for implementation of the CMS
+	 * interface
+	 *
+	 * @return  string  The name of the model
+	 *
+	 * @since   3.4
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
 	 * Method to get model state variables
 	 *
 	 * @return  JRegistry  The state object
