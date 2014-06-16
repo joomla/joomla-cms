@@ -8,14 +8,16 @@
  */
 
 defined('_JEXEC') or die;
+
 if (!isset($this->error))
 {
 	$this->error = JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 	$this->debug = false;
 }
-//get language and direction
-$doc = JFactory::getDocument();
-$this->language = $doc->language;
+
+// Get language and direction
+$doc             = JFactory::getDocument();
+$this->language  = $doc->language;
 $this->direction = $doc->direction;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -25,17 +27,12 @@ $this->direction = $doc->direction;
 	<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error.css" type="text/css" />
 	<?php if ($this->direction == 'rtl') : ?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error_rtl.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error_rtl.css" type="text/css" />
 	<?php endif; ?>
-	<?php
-		$debug = JFactory::getConfig()->get('debug_lang');
-		if (JDEBUG || $debug)
-		{
-	?>
+	<?php $debug = JFactory::getConfig()->get('debug_lang'); ?>
+	<?php if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" type="text/css" />
-	<?php
-		}
-	?>
+	<?php endif; ?>
 </head>
 <body>
 	<div class="error">
