@@ -544,6 +544,7 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 	 *
 	 * @since   3.4
 	 * @throws  RuntimeException
+	 * @throws  InvalidArgumentException
 	 */
 	public function saveorder($pks = null, $order = null)
 	{
@@ -562,7 +563,9 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 
 		if (empty($pks))
 		{
-			return JError::raiseWarning(500, JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'));
+			throw new InvalidArgumentException(JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'), 500);
+
+			return false;
 		}
 
 		// Update ordering values
