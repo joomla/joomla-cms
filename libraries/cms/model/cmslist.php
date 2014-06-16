@@ -263,6 +263,7 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 		$start = $this->state->get('list.start');
 		$limit = $this->state->get('list.limit');
 		$total = $this->getTotal();
+
 		if ($start > $total - $limit)
 		{
 			$start = max(0, (int) (ceil($total / $limit) - 1) * $limit);
@@ -307,15 +308,18 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 
 			// Check if the ordering field is in the white list, otherwise use the incoming value.
 			$value = $app->getUserStateFromRequest($this->contentType . '.ordercol', 'filter_order', $ordering);
+
 			if (!in_array($value, $this->filter_fields))
 			{
 				$value = $ordering;
 				$app->setUserState($this->contentType . '.ordercol', $value);
 			}
+
 			$this->state->set('list.ordering', $value);
 
 			// Check if the ordering direction is valid, otherwise use the incoming value.
 			$value = $app->getUserStateFromRequest($this->contentType . '.orderdirn', 'filter_order_Dir', $direction);
+
 			if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
 			{
 				$value = $direction;
@@ -448,6 +452,8 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 		// Check in all items.
 		foreach ($pks as $pk)
 		{
+			$table->reset();
+
 			if ($table->load($pk))
 			{
 				if ($table->checked_out > 0)
