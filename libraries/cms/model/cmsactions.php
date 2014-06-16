@@ -308,7 +308,7 @@ abstract class JModelCmsactions extends JModelCms
 			}
 
 			// Prepare the row for saving
-			$this->prepareTable($table);
+			$table = $this->prepareTable($table);
 
 			// Check the data.
 			if (!$table->check())
@@ -348,5 +348,19 @@ abstract class JModelCmsactions extends JModelCms
 		}
 
 		return true;
+	}
+
+	/**
+	 * Prepare and sanitise the table data prior to saving.
+	 *
+	 * @param   JTableInterface  $table  A reference to a JTable object.
+	 *
+	 * @return  JTableInterface
+	 *
+	 * @since   3.4
+	 */
+	protected function prepareTable(JTableInterface $table)
+	{
+		// Derived class will provide its own implementation if required.
 	}
 }
