@@ -24,7 +24,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * @var    string
 	 * @since  3.4
 	 */
-	protected $name;
+	protected $name = null;
 
 	/**
 	 * The injected config
@@ -32,7 +32,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * @var    string
 	 * @since  3.4
 	 */
-	protected $config;
+	protected $config = array();
 
 	/**
 	 * The object content type
@@ -40,7 +40,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * @var    string
 	 * @since  3.4
 	 */
-	protected $contentType;
+	protected $contentType = null;
 
 	/**
 	 * The URL option for the component.
@@ -80,7 +80,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 *
 	 * @var boolean
 	 */
-	protected $ignoreRequest;
+	protected $ignoreRequest = false;
 
 	/**
 	 * The event to trigger on clearing the cache.
@@ -100,7 +100,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(JDatabaseDriver $db = null, JEventDispatcher $dispatcher, $config = array())
+	public function __construct(JDatabaseDriver $db = null, JEventDispatcher $dispatcher = null, $config = array())
 	{
 		// Set the view name, component name, config and event dispatcher
 		$this->name = $config['view'];
