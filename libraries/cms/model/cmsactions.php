@@ -282,7 +282,7 @@ abstract class JModelCmsactions extends JModelCms
 		$table = $this->getTable();
 		$tableName = $table->getTableName();
 		$key = $table->getKeyName();
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		$query->delete($db->quoteName($tableName));
