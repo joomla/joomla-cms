@@ -105,13 +105,41 @@ abstract class JViewCms implements JView
 	}
 
 	/**
-	 * Retrieves the data array from the default model
+	 * Retrieves the data array from the default model. Will
+	 * automatically deal with the 3 CMS interfaces for single
+	 * model items. For any other situations the method will
+	 * need to be overwritten
 	 *
 	 * @return  array
 	 *
 	 * @since   3.4
 	 */
-	abstract public function getData();
+	public function getData()
+	{
+		$model = $this->getModel();
+
+		if ($model instanceof JModelFormInterface)
+		{
+			return array(
+				'form' => $model->getForm();
+				'item' => $model->getItem();
+			);
+		}
+		elseif ($model instanceof JModelItemInterface)
+		{
+			return array(
+				'item' => $model->getItem();
+			);
+		}
+		elseif ($model instanceof JModelListInterface)
+		{
+			return array(
+				'items' => $model->getItems();
+			);
+		}
+
+		return array();
+	}
 
 	/**
 	 * Method to get the view layout.
