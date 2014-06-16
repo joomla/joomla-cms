@@ -284,7 +284,14 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	protected function downloadPackage($url, $target)
 	{
 		JLoader::import('helpers.download', JPATH_COMPONENT_ADMINISTRATOR);
-		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $packageURL), JLog::INFO, 'Update');
+		try
+		{
+			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $packageURL), JLog::INFO, 'Update');
+		}
+		catch (Exception $e)
+		{
+			// Do nothing; the logs directory is probably not writeable (usually Plesk-based hosts)
+		}
 		$result = AdmintoolsHelperDownload::download($url, $target);
 
 		if (!$result)
