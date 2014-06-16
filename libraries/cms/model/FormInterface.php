@@ -12,7 +12,7 @@
  *
  * @since  3.4
  */
-interface JModelFormInterface
+interface JModelFormInterface extends JModelItemInterface
 {
 	/**
 	 * Method to get a form object.
