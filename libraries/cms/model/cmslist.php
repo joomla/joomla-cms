@@ -432,6 +432,7 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
 	 *
 	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function checkin($pks = array())
 	{
@@ -456,12 +457,13 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 					{
 						return false;
 					}
+
 					$count++;
 				}
 			}
 			else
 			{
-				$this->setError($table->getError());
+				throw new RuntimeException($table->getError());
 
 				return false;
 			}
@@ -479,10 +481,10 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$dispatcher = JEventDispatcher::getInstance();
 		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
@@ -511,17 +513,17 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 		// Attempt to change the state of the records.
 		if (!$table->publish($pks, $value, $user->get('id')))
 		{
-			$this->setError($table->getError());
+			throw new RuntimeException($table->getError());
 
 			return false;
 		}
 
 		// Trigger the onContentChangeState event.
-		$result = $dispatcher->trigger($this->event_change_state, array($this->contentType, $pks, $value));
+		$result = $this->dispatcher->trigger($this->event_change_state, array($this->contentType, $pks, $value));
 
 		if (in_array(false, $result, true))
 		{
-			$this->setError($table->getError());
+			throw new RuntimeException($table->getError());
 
 			return false;
 		}
@@ -541,6 +543,7 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 	 * @return  mixed
 	 *
 	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function saveorder($pks = null, $order = null)
 	{
@@ -548,11 +551,13 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 		$tableClassName = get_class($table);
 		$contentType = new JUcmType;
 		$type = $contentType->getTypeByTable($tableClassName);
+
 		if ($type)
 		{
 			$typeAlias = $type->type_alias;
 			$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
 		}
+
 		$conditions = array();
 
 		if (empty($pks))
@@ -583,7 +588,8 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 
 				if (!$table->store())
 				{
-					$this->setError($table->getError());
+					throw new RuntimeException($table->getError());
+
 					return false;
 				}
 
