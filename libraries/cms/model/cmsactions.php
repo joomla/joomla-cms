@@ -334,6 +334,7 @@ abstract class JModelCmsactions extends JModelCms
 	 * @return  boolean  True on success, False on error.
 	 *
 	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function save(&$data)
 	{
@@ -364,7 +365,7 @@ abstract class JModelCmsactions extends JModelCms
 			// Bind the data.
 			if (!$table->bind($data))
 			{
-				$this->setError($table->getError());
+				throw new RuntimeException($table->getError());
 
 				return false;
 			}
@@ -375,7 +376,8 @@ abstract class JModelCmsactions extends JModelCms
 			// Check the data.
 			if (!$table->check())
 			{
-				$this->setError($table->getError());
+				throw new RuntimeException($table->getError());
+
 				return false;
 			}
 
@@ -384,14 +386,15 @@ abstract class JModelCmsactions extends JModelCms
 
 			if (in_array(false, $result, true))
 			{
-				$this->setError($table->getError());
+				throw new RuntimeException($this->dispatcher->getError());
+
 				return false;
 			}
 
 			// Store the data.
 			if (!$table->store())
 			{
-				$this->setError($table->getError());
+				throw new RuntimeException($table->getError());
 
 				return false;
 			}
@@ -404,7 +407,7 @@ abstract class JModelCmsactions extends JModelCms
 		}
 		catch (Exception $e)
 		{
-			$this->setError($e->getMessage());
+			throw new RuntimeException($e->getMessage());
 
 			return false;
 		}
