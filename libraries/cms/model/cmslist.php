@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Model
  * @since       3.4
  */
-class JModelCmslist extends JModelCmsitem
+class JModelCmslist extends JModelCmsactions
 {
 	/**
 	 * Internal memory based cache array of data.
