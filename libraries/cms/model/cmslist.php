@@ -69,12 +69,6 @@ class JModelCmslist extends JModelCmsactions
 		{
 			$this->filter_fields = $config['filter_fields'];
 		}
-
-		// Guess the context as Option.ModelName.
-		if (empty($this->context))
-		{
-			$this->context = strtolower($this->option . '.' . $this->getName());
-		}
 	}
 
 	/**
@@ -208,7 +202,7 @@ class JModelCmslist extends JModelCmsactions
 		$id .= ':' . $this->state->get('list.ordering');
 		$id .= ':' . $this->state->get('list.direction');
 
-		return md5($this->context . ':' . $id);
+		return md5($this->contentType . ':' . $id);
 	}
 
 	/**
@@ -298,8 +292,8 @@ class JModelCmslist extends JModelCmsactions
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// If the context is set, assume that stateful lists are used.
-		if ($this->context)
+		// If the content type is set, assume that stateful lists are used.
+		if ($this->contentType)
 		{
 			$app = JFactory::getApplication();
 
@@ -307,25 +301,25 @@ class JModelCmslist extends JModelCmsactions
 			$limit = $value;
 			$this->state->set('list.limit', $limit);
 
-			$value = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', 0);
+			$value = $app->getUserStateFromRequest($this->contentType . '.limitstart', 'limitstart', 0);
 			$limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
 			$this->state->set('list.start', $limitstart);
 
 			// Check if the ordering field is in the white list, otherwise use the incoming value.
-			$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
+			$value = $app->getUserStateFromRequest($this->contentType . '.ordercol', 'filter_order', $ordering);
 			if (!in_array($value, $this->filter_fields))
 			{
 				$value = $ordering;
-				$app->setUserState($this->context . '.ordercol', $value);
+				$app->setUserState($this->contentType . '.ordercol', $value);
 			}
 			$this->state->set('list.ordering', $value);
 
 			// Check if the ordering direction is valid, otherwise use the incoming value.
-			$value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
+			$value = $app->getUserStateFromRequest($this->contentType . '.orderdirn', 'filter_order_Dir', $direction);
 			if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
 			{
 				$value = $direction;
-				$app->setUserState($this->context . '.orderdirn', $value);
+				$app->setUserState($this->contentType . '.orderdirn', $value);
 			}
 
 			$this->state->set('list.direction', $value);
@@ -522,10 +516,8 @@ class JModelCmslist extends JModelCmsactions
 			return false;
 		}
 
-		$context = $this->option . '.' . $this->name;
-
 		// Trigger the onContentChangeState event.
-		$result = $dispatcher->trigger($this->event_change_state, array($context, $pks, $value));
+		$result = $dispatcher->trigger($this->event_change_state, array($this->contentType, $pks, $value));
 
 		if (in_array(false, $result, true))
 		{
