@@ -207,11 +207,11 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		$conf = JFactory::getConfig();
+		$app = JFactory::getApplication();
 
 		$options = array(
 			'defaultgroup' => ($group) ? $group : $this->option,
-			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
+			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $app->get('cache_path', JPATH_SITE . '/cache')
 		);
 
 		$cache = JCache::getInstance('callback', $options);
