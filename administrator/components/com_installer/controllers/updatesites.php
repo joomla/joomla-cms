@@ -66,17 +66,10 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 		{
 			throw new Exception(implode('<br />', $model->getErrors()), 500);
 		}
-		else
-		{
-			$ntext = 'COM_INSTALLER_N_EXTENSIONS_PUBLISHED';
 
-			if ($value == 0)
-			{
-				$ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
-			}
+		$ntext = ($value == 0) ? 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED' : 'COM_INSTALLER_N_EXTENSIONS_PUBLISHED';
 
-			$this->setMessage(JText::plural($ntext, count($ids)));
-		}
+		$this->setMessage(JText::plural($ntext, count($ids)));
 
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=updatesites', false));
 	}
