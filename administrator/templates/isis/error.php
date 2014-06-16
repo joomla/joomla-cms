@@ -165,8 +165,8 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 					foreach ($this->menumodules as $menumodule)
 					{
 						$output = JModuleHelper::renderModule($menumodule, array('style' => 'none'));
-						$this->params = new JRegistry;
-						$this->params->loadString($menumodule->params);
+						$params = new JRegistry;
+						$params->loadString($menumodule->params);
 						echo $output;
 					}
 					?>
@@ -225,8 +225,8 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				foreach ($this->statusmodules as $statusmodule)
 				{
 					$output = JModuleHelper::renderModule($statusmodule, array('style' => 'no'));
-					$this->params = new JRegistry;
-					$this->params->loadString($statusmodule->params);
+					$params = new JRegistry;
+					$params->loadString($statusmodule->params);
 					echo $output;
 				}
 				?>
