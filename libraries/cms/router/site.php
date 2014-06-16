@@ -73,7 +73,7 @@ class JRouterSite extends JRouter
 	{
 		$vars = array();
 
-		if ($this->app->getCfg('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https')
+		if ($this->app->get('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https')
 		{
 			// Forward to https
 			$uri->setScheme('https');
@@ -106,7 +106,7 @@ class JRouterSite extends JRouter
 		// Identify format
 		if ($this->_mode == JROUTER_MODE_SEF)
 		{
-			if ($this->app->getCfg('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/'))
+			if ($this->app->get('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/'))
 			{
 				if ($suffix = pathinfo($path, PATHINFO_EXTENSION))
 				{
@@ -142,7 +142,7 @@ class JRouterSite extends JRouter
 		// Add the suffix to the uri
 		if ($this->_mode == JROUTER_MODE_SEF && $route)
 		{
-			if ($this->app->getCfg('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/'))
+			if ($this->app->get('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/'))
 			{
 				if ($format = $uri->getVar('format', 'html'))
 				{
@@ -151,7 +151,7 @@ class JRouterSite extends JRouter
 				}
 			}
 
-			if ($this->app->getCfg('sef_rewrite'))
+			if ($this->app->get('sef_rewrite'))
 			{
 				// Transform the route
 				if ($route == 'index.php')
@@ -246,7 +246,7 @@ class JRouterSite extends JRouter
 		// Remove the suffix
 		if ($this->_mode == JROUTER_MODE_SEF)
 		{
-			if ($this->app->getCfg('sef_suffix'))
+			if ($this->app->get('sef_suffix'))
 			{
 				if ($suffix = pathinfo($route, PATHINFO_EXTENSION))
 				{

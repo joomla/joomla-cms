@@ -122,21 +122,12 @@ class JRouterSiteTest extends TestCase
 		
 		/**
 		 * This test is commented until the PR 3758 is accepted to fix JApplication 
-		 
-		$clear = false;
-		if(!isset($_SERVER['HTTP_HOST'])) {
-			$_SERVER['HTTP_HOST'] = 'http://localhost';
-			$clear = true;
-		}
+		$_SERVER['HTTP_HOST'] = 'http://localhost';
 		JApplicationCms::getInstance('site', new JRegistry(array('session' => false)));
 		$options = array();
 		$menu = TestMockMenu::create($this);
 		$object = new JRouterSiteInspector($options, null, $menu);
 		$this->assertInstanceOf('JRouterSite', $object);
-		
-		if($clear) {
-			unset($_SERVER['HTTP_HOST']);
-		}
 		 */
 	}
 
@@ -202,16 +193,13 @@ class JRouterSiteTest extends TestCase
 	public function testParse($url, $mode, $map, $server, $expected, $expected2)
 	{
 		//Set $_SERVER variable
-		foreach($server as $key => $value)
-		{
-			$_SERVER[$key] = $value;
-		}
+		$_SERVER = array_merge($_SERVER, $server);
 
 		$options = array(
 			'mode' => $mode,
 		);
 		$app = $this->getMockCmsApp();
-		$app->expects($this->any())->method('getCfg')->will($this->returnValueMap($map));
+		$app->expects($this->any())->method('get')->will($this->returnValueMap($map));
 		$menu = TestMockMenu::create($this);
 		$uri = new JUri($url);
 
@@ -232,7 +220,7 @@ class JRouterSiteTest extends TestCase
 	{
 		$uri = new JUri('http://www.example.com/index.php');
 		$app = $this->object->getApp();
-		$app->expects($this->any())->method('getCfg')->will($this->returnValue(2));
+		$app->expects($this->any())->method('get')->will($this->returnValue(2));
 		$app->expects($this->once())->method('redirect');
 		$this->object->setApp($app);
 
@@ -405,7 +393,7 @@ class JRouterSiteTest extends TestCase
 	 * @param   string   $uri       The URL
 	 * @param   integer  $mode      JROUTER_MODE_RAW or JROUTER_MODE_SEF
 	 * @param   array    $vars      An associative array with global variables
-	 * @param   array    $map       Valuemap for JApplication::getCfg() Mock
+	 * @param   array    $map       Valuemap for JApplication::get() Mock
 	 * @param   array    $server    Values for $_SERVER
 	 * @param   array    $expected  Expected value
 	 *
@@ -416,17 +404,14 @@ class JRouterSiteTest extends TestCase
 	public function testBuild($uri, $mode, $vars, $map, $server, $expected)
 	{
 		//Set $_SERVER variable
-		foreach($server as $key => $value)
-		{
-			$_SERVER[$key] = $value;
-		}
+		$_SERVER = array_merge($_SERVER, $server);
 
 		// Set up the constructor params
 		$options = array(
 			'mode' => $mode,
 		);
 		$app = $this->object->getApp();
-		$app->expects($this->any())->method('getCfg')->will($this->returnValueMap($map));
+		$app->expects($this->any())->method('get')->will($this->returnValueMap($map));
 		$this->object->setApp($app);
 
 		$juri = $this->object->build($uri);
