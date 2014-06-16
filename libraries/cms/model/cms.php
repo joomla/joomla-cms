@@ -27,12 +27,28 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	protected $name;
 
 	/**
+	 * The object content type
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $contentType;
+
+	/**
 	 * The URL option for the component.
 	 *
 	 * @var    string
 	 * @since  3.4
 	 */
 	protected $option = null;
+
+	/**
+	 * The global dispatcher object.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $dispatcher = null;
 
 	/**
 	 * The prefix to use with controller messages.
@@ -75,10 +91,21 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * @since   3.4
 	 * @throws  Exception
 	 */
-	public function __construct(JDatabaseDriver $db = null, $config = array())
+	public function __construct(JDatabaseDriver $db = null, JEventDispatcher $dispatcher, $config = array())
 	{
 		$this->name = $config['view'];
 		$this->option = $config['option'];
+
+		if (array_key_exists('contentType', $config))
+		{
+			$this->contentType = $config['contentType'];
+		}
+		else
+		{
+			$this->contentType = $this->getOption() . '.' . $this->getName() ;
+		}
+
+		$this->dispatcher = $dispatcher ? $dispatcher : JEventDispatcher::getInstance();
 
 		// If we don't have a db param see if one got set in the config for legacy purposes
 		if (!$db && array_key_exists('dbo', $config) && $config['dbo'] instanceof JDatabaseDriver)
@@ -215,10 +242,9 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	protected function cleanCache($group = null, $client_id = 0)
 	{
 		$conf = JFactory::getConfig();
-		$dispatcher = JEventDispatcher::getInstance();
 
 		$options = array(
-			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
+			'defaultgroup' => ($group) ? $group : $this->getOption(),
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
 		);
 
@@ -226,7 +252,17 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 		$cache->clean();
 
 		// Trigger the onContentCleanCache event.
-		$dispatcher->trigger($this->event_clean_cache, $options);
+		$this->dispatcher->trigger($this->event_clean_cache, $options);
+	}
+
+	/**
+	 * Get the content type for ucm
+	 *
+	 * @return  string  The content type alias
+	 */
+	public function getContentType()
+	{
+		return $this->contentType;
 	}
 
 	/**
