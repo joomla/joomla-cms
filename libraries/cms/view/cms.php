@@ -138,6 +138,8 @@ abstract class JViewCms implements JView
 			);
 		}
 
+		// We don't know what type of model we have.
+		// Just return an empty array.
 		return array();
 	}
 
