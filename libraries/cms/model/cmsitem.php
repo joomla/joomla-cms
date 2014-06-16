@@ -50,10 +50,13 @@ class JModelCmsitem extends JModelCmsactions implements JModelItemInterface
 	 * @param   integer  $id  The id of the object to get.
 	 *
 	 * @return  mixed  Object on success, false on failure.
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function getItem($id = null)
 	{
-		if (empty($this->item) && $this->getTable())
+		if (empty($this->item))
 		{
 			$table = $this->getTable();
 			$tableClassName = get_class($table);
@@ -95,22 +98,22 @@ class JModelCmsitem extends JModelCmsactions implements JModelItemInterface
 						// Should there be an exception here? or should we load ucm_content?
 						return;
 					}
+
 					$table = JTable::getInstance($typeTable->common->type, $typeTable->common->prefix);
 					// Get the special field mapping here
 				}
 			}
 
 			// Attempt to load the row.
-			if ($table->load($id))
+			if (!$table->load($id))
 			{
-				// Convert the JTable to a clean object.
-				$properties = $table->getProperties(1);
-				$this->item = JArrayHelper::toObject($properties);
+				throw new RuntimeException($error);
 			}
-			elseif ($error = $table->getError())
-			{
-				$this->setError($error);
-			}
+
+			// Convert the JTable to a clean object.
+			$properties = $table->getProperties(1);
+			$this->item = JArrayHelper::toObject($properties);
+
 		}
 
 		return $this->item;
