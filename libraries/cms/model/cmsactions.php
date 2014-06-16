@@ -99,6 +99,69 @@ abstract class JModelCmsactions extends JModelCms
 	}
 
 	/**
+	 * Method to authorise the current user for an action.
+	 * This method is intended to be overridden to allow for customized access rights
+	 *
+	 * @param   string  $action     ACL action string. e.g. 'core.create'.
+	 * @param   string  $assetName  Asset name to check against.
+	 * @param   JUser   $user       The user to check the action against
+	 *
+	 * @return bool
+	 * @see JUser::authorise
+	 */
+	public function allowAction($action, $assetName = null, JUser $user = null)
+	{
+		// If we have a user instance use it. If we don't have an assetname
+		// Use the component name by default
+		$assetName = $assetName ? $assetName : $this->option;
+		$user = $user ? $user : JFactory::getUser();
+
+		return $user->authorise($action, $assetName);
+	}
+
+	/**
+	 * Method to test whether a record can be deleted.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 *
+	 * @since   3.4
+	 */
+	protected function canDelete($record)
+	{
+		// If we can't find a record ID just return false
+		if (!empty($record->id))
+		{
+			// The record is trashed and therefore already deleted!
+			if ($record->published != -2)
+			{
+				return false;
+			}
+
+			return $this->allowAction('core.delete', $this->option;
+
+		}
+
+		return false;
+	}
+
+	/**
+	 * Method to test whether a record can have its state changed. Proxies to allowAction.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
+	 * @since   3.4
+	 */
+	protected function canEditState($record)
+	{
+		return $this->allowAction('core.edit.state', $this->option;
+	}
+
+
+	/**
 	 * Method to checkin a row.
 	 *
 	 * @param   integer  $pk  The numeric id of the primary key.
@@ -203,13 +266,13 @@ abstract class JModelCmsactions extends JModelCms
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   mixed  &$pks  A primary key or array of record primary keys.
+	 * @param   mixed  $pks  A primary key or array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
 	 * @since   3.4
 	 */
-	public function delete(&$pks)
+	public function delete($pks)
 	{
 		if (empty($pks))
 		{
