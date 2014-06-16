@@ -12,7 +12,7 @@
  *
  * @since  3.4
  */
-interface JModelItemsInterface extends JModelCmsInterface
+interface JModelListInterface extends JModelCmsInterface
 {
 	/**
 	 * Method to get an array of data items.
