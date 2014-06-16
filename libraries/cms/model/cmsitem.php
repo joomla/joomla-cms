@@ -334,22 +334,6 @@ class JModelCmsitem extends JModelCms implements JModelFormInterface
 	}
 
 	/**
-	 * Returns a reference to the a Table object, always creating it.
-	 *
-	 * @param   string  $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  JTable  A database object
-	 *
-	 * @since   3.4
-	 */
-	public function getTable($name = '', $prefix = 'JTable', $options = array())
-	{
-		return JTable::getInstance($name, $prefix, $options);
-	}
-
-	/**
 	 * Method to increment the hit counter for the weblink
 	 *
 	 * @param   integer  $id  Optional ID of the weblink.
