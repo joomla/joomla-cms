@@ -16,7 +16,7 @@ $this->language  = $doc->language;
 $this->direction = $doc->direction;
 
 // Getting params from template
-$params = $app->getTemplate(true)->params;
+$params = $this->params;
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
