@@ -19,30 +19,6 @@ require_once __DIR__ . '/stubs/JRouterSiteInspector.php';
 class JRouterSiteTest extends TestCase
 {
 	/**
-	 * Value for test host.
-	 *
-	 * @var    string
-	 * @since  3.4
-	 */
-	const TEST_HTTP_HOST = 'mydomain.com';
-
-	/**
-	 * Value for test user agent.
-	 *
-	 * @var    string
-	 * @since  3.4
-	 */
-	const TEST_USER_AGENT = 'Mozilla/5.0';
-
-	/**
-	 * Value for test user agent.
-	 *
-	 * @var    string
-	 * @since  3.4
-	 */
-	const TEST_REQUEST_URI = '/index.php';
-
-	/**
 	 * Object under test
 	 *
 	 * @var    JRouter
@@ -72,9 +48,9 @@ class JRouterSiteTest extends TestCase
 		
 		$this->server = $_SERVER;
 
-		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
-		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;
-		$_SERVER['REQUEST_URI'] = self::TEST_REQUEST_URI;
+		$_SERVER['HTTP_HOST'] = 'mydomain.com';
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
+		$_SERVER['REQUEST_URI'] = '/index.php';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 		
 		JUri::reset();
