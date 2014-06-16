@@ -450,7 +450,6 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 		{
 			if ($table->load($pk))
 			{
-
 				if ($table->checked_out > 0)
 				{
 					if (!parent::checkin($pk))
