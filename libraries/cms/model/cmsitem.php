@@ -160,4 +160,25 @@ class JModelCmsitem extends JModelCmsactions implements JModelItemInterface
 
 		return array($title, $alias);
 	}
+
+	/**
+	 * Stock method to auto-populate the state.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function populateState()
+	{
+		$table = $this->getTable();
+		$key = $table->getKeyName();
+
+		// Get the pk of the record from the request.
+		$pk = JFactory::getApplication()->input->getInt($key);
+		$this->state->set($this->name . '.id', $pk);
+
+		// Load the parameters.
+		$value = JComponentHelper::getParams($this->option);
+		$this->state->set('params', $value);
+	}
 }
