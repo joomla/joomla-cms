@@ -80,7 +80,7 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 	 *
 	 * @since   3.4
 	 */
-	protected function _getListQuery()
+	protected function getListQuery()
 	{
 		// Capture the last store id used.
 		static $lastStoreId;
@@ -92,7 +92,7 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 		if ($lastStoreId != $currentStoreId || empty($this->query))
 		{
 			$lastStoreId = $currentStoreId;
-			$this->query = $this->getListQuery();
+			$this->query = $this->createListQuery();
 		}
 
 		return $this->query;
@@ -105,14 +105,13 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 	 *
 	 * @since   3.4
 	 */
-	protected function getListQuery()
+	protected function createListQuery()
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		return $query;
 	}
-
 
 	/**
 	 * Method to get an array of data items.
