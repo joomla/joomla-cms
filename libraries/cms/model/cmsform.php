@@ -39,20 +39,6 @@ abstract class JModelCmsform extends JModelCmsitem implements JModelFormInterfac
 	abstract public function getForm($data = array(), $loadData = true)
 
 	/**
-	 * Prepare and sanitise the table data prior to saving.
-	 *
-	 * @param   JTable  $table  A reference to a JTable object.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 */
-	protected function prepareTable($table)
-	{
-		// Derived class will provide its own implementation if required.
-	}
-
-	/**
 	 * Method to get a form object.
 	 *
 	 * @param   string   $name     The name of the form.
