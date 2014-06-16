@@ -15,7 +15,7 @@ $showbottom      = 0;
 
 // Get params
 $app         = JFactory::getApplication()
-$params      = $app->getTemplate(true)->params;
+$params      = $this->params;
 $logo        = $params->get('logo');
 $color       = $params->get('templatecolor');
 $navposition = $params->get('navposition');
