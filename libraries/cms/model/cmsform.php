@@ -182,7 +182,6 @@ abstract class JModelCmsform extends JModelCmsitem implements JModelFormInterfac
 	 * @param   JForm            $form   The form to validate against.
 	 * @param   array            $data   The data to validate.
 	 * @param   string           $group  The name of the field group to validate.
-	 * @param   JApplicationCms  $app    An application object (optional)
 	 *
 	 * @return  mixed  Array of filtered data if valid, false otherwise.
 	 *
@@ -190,9 +189,9 @@ abstract class JModelCmsform extends JModelCmsitem implements JModelFormInterfac
 	 * @see     JFilterInput
 	 * @since   3.4
 	 */
-	public function validate($form, $data, $group = null, JApplicationCms $app)
+	public function validate($form, $data, $group = null)
 	{
-	  $app = $app ? $app : JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Filter and validate the form data.
 		$data = $form->filter($data);
