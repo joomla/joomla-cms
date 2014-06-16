@@ -289,10 +289,6 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 			$prefix = $this->option . 'Table';
 		}
 
-		// CLean the name and prefix variables up
-		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-
 		// Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $options))
 		{
