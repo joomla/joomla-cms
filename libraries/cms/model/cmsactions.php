@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JModelCmsactions extends JModelCms
 {
-  /**
+	/**
 	 * The event to trigger after deleting the data.
 	 *
 	 * @var    string
