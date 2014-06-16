@@ -16,6 +16,26 @@
  */
 class JRouterSiteInspector extends JRouterSite
 {
+	public function getApp()
+	{
+		return $this->app;
+	}
+	
+	public function setApp($app)
+	{
+		$this->app = $app;
+	}
+	
+	public function getMenu()
+	{
+		return $this->menu;
+	}
+	
+	public function setMenu($menu)
+	{
+		$this->menu = $menu;
+	}
+	
 	/**
 	 * Runs the protected parseRawRoute() method
 	 *

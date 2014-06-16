@@ -38,6 +38,8 @@ class JRouterTest extends TestCase
 	{
 		parent::setUp();
 
+		JUri::reset();
+		
 		$this->object = new JRouter;
 	}
 

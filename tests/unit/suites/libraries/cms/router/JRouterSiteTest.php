@@ -49,6 +49,14 @@ class JRouterSiteTest extends TestCase
 	 * @since  3.4
 	 */
 	protected $object;
+	
+	/**
+	 * Backup of the $_SERVER variable
+	 * 
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected $server;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -61,16 +69,35 @@ class JRouterSiteTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
+		
+		$this->server = $_SERVER;
 
 		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
 		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;
 		$_SERVER['REQUEST_URI'] = self::TEST_REQUEST_URI;
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 		
+		JUri::reset();
+		
 		$options = array();
 		$app = $this->getMockCmsApp();
 		$menu = TestMockMenu::create($this);
 		$this->object = new JRouterSiteInspector($options, $app, $menu);
+	}
+	
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.2
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->server;
+
+		parent::tearDown();
 	}
 	
 	/**
@@ -174,23 +201,11 @@ class JRouterSiteTest extends TestCase
 	 */
 	public function testParse($url, $mode, $map, $server, $expected, $expected2)
 	{
-		JUri::reset();
-
-		//Set $_SERVER variable START
-		$bkp = array();
+		//Set $_SERVER variable
 		foreach($server as $key => $value)
 		{
-			if (isset($_SERVER[$key]))
-			{
-				$bkp[$key] = $_SERVER[$key];
-			}
-			else
-			{
-				$bkp[$key] = null;
-			}
 			$_SERVER[$key] = $value;
 		}
-		//Set $_SERVER variable END
 
 		$options = array(
 			'mode' => $mode,
@@ -204,20 +219,6 @@ class JRouterSiteTest extends TestCase
 		$this->assertEquals($expected, $this->object->parse($uri));
 
 		$this->assertEquals($expected2, $uri->toString());
-
-		//Cleanup $_SERVER variable START
-		foreach($bkp as $key => $value)
-		{
-			if (is_null($value))
-			{
-				unset($_SERVER[$key]);
-			}
-			else
-			{
-				$_SERVER[$key] = $value;
-			}
-		}
-		//Cleanup $_SERVER variable END
 	}
 	
 	/**
@@ -230,12 +231,12 @@ class JRouterSiteTest extends TestCase
 	public function testParseRedirect()
 	{
 		$uri = new JUri('http://www.example.com/index.php');
-		$app = $this->getMockCmsApp();
+		$app = $this->object->getApp();
 		$app->expects($this->any())->method('getCfg')->will($this->returnValue(2));
 		$app->expects($this->once())->method('redirect');
-		$menu = TestMockMenu::create($this);
-		$object = new JRouterSiteInspector(array(), $app, $menu);
-		$object->parse($uri);
+		$this->object->setApp($app);
+
+		$this->object->parse($uri);
 	}
 
 	/**
@@ -414,33 +415,20 @@ class JRouterSiteTest extends TestCase
 	 */
 	public function testBuild($uri, $mode, $vars, $map, $server, $expected)
 	{
-		JUri::reset();
-
-		//Set $_SERVER variable START
-		$bkp = array();
+		//Set $_SERVER variable
 		foreach($server as $key => $value)
 		{
-			if (isset($_SERVER[$key]))
-			{
-				$bkp[$key] = $_SERVER[$key];
-			}
-			else
-			{
-				$bkp[$key] = null;
-			}
 			$_SERVER[$key] = $value;
 		}
-		//Set $_SERVER variable END
 
 		// Set up the constructor params
 		$options = array(
 			'mode' => $mode,
 		);
-		$app = $this->getMockCmsApp();
+		$app = $this->object->getApp();
 		$app->expects($this->any())->method('getCfg')->will($this->returnValueMap($map));
-		$menu = TestMockMenu::create($this);
+		$this->object->setApp($app);
 
-		$this->object = new JRouterSiteInspector($options, $app, $menu);		
 		$juri = $this->object->build($uri);
 
 		// Check the expected values
@@ -449,20 +437,6 @@ class JRouterSiteTest extends TestCase
 		// Check that caching works
 		$juri2 = $this->object->build($uri);
 		$this->assertEquals($juri, $juri2);
-		
-		//Cleanup $_SERVER variable START
-		foreach($bkp as $key => $value)
-		{
-			if (is_null($value))
-			{
-				unset($_SERVER[$key]);
-			}
-			else
-			{
-				$_SERVER[$key] = $value;
-			}
-		}
-		//Cleanup $_SERVER variable END
 	}
 
 	/**
