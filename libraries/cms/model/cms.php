@@ -27,6 +27,14 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	protected $name;
 
 	/**
+	 * The injected config
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $config;
+
+	/**
 	 * The object content type
 	 *
 	 * @var    string
@@ -64,7 +72,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * @var    boolean
 	 * @since  3.4
 	 */
-	protected $stateSet = null;
+	protected $stateSet = false;
 
 	/**
 	 * Flag if the internal state should be updated
@@ -85,16 +93,21 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db      The database adpater.
-	 * @param   array            $config  An array of configuration options. Must have view and option elements.
+	 * @param   JDatabaseDriver   $db          The database adpater.
+	 * @param   JEventDispatcher  $dispatcher  The event dispatcher
+	 * @param   array             $config      An array of configuration options. Must have view
+	 *                                         and option keys.
 	 *
 	 * @since   3.4
 	 * @throws  Exception
 	 */
 	public function __construct(JDatabaseDriver $db = null, JEventDispatcher $dispatcher, $config = array())
 	{
+		// Set the view name, component name, config and event dispatcher
 		$this->name = $config['view'];
 		$this->option = $config['option'];
+		$this->config = $config;
+		$this->dispatcher = $dispatcher ? $dispatcher : JEventDispatcher::getInstance();
 
 		if (array_key_exists('contentType', $config))
 		{
@@ -105,29 +118,29 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 			$this->contentType = $this->getOption() . '.' . $this->getName() ;
 		}
 
-		$this->dispatcher = $dispatcher ? $dispatcher : JEventDispatcher::getInstance();
-
 		// If we don't have a db param see if one got set in the config for legacy purposes
+		// @deprecated This if block is deprecated and will be removed in Joomla 4.
 		if (!$db && array_key_exists('dbo', $config) && $config['dbo'] instanceof JDatabaseDriver)
 		{
 			$db = $config['dbo'];
 
-			JLog::add('Passing the database object via the config is deprecated. Use the second parameter of the constructor instead', JLog::WARNING, 'deprecated');
+			JLog::add('Passing the database object via the config is deprecated. Use the constructor parameter instead', JLog::WARNING, 'deprecated');
 		}
 
-		// Register the paths for the table
-		if (array_key_exists('table_path', $config))
+		// Register the path for the table object
+		$this->addTablePath();
+
+		// Guess the JText message prefix. Defaults to the option.
+		if (isset($config['text_prefix']))
 		{
-			$this->addTablePath($config['table_path']);
+			$this->text_prefix = strtoupper($config['text_prefix']);
 		}
-		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		elseif (empty($this->text_prefix))
 		{
-			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
+			$this->text_prefix = strtoupper($this->option);
 		}
 
-
-		// Set the internal state marker - used to ignore setting state from the request
+		// Used to ignore setting state from the request
 		if (!empty($config['ignore_request']))
 		{
 			$this->ignoreRequest = true;
@@ -162,9 +175,25 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 *
 	 * @since   3.4
 	 */
-	public static function addTablePath($path)
+	public static function addTablePath($path = null)
 	{
-		JTable::addIncludePath($path);
+		if($path)
+		{
+			JTable::addIncludePath($path);
+
+			return;
+		}
+
+		// If we haven't been given a path then if there is one set in the config we register that
+		// else try constructing a path.
+		if (array_key_exists('table_path', $this->config))
+		{
+			JTable::addIncludePath($config['table_path']);
+		}
+		else
+		{
+			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/table');
+		}
 	}
 
 	/**
@@ -182,7 +211,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	{
 		// If we have a user instance use it. If we don't have an assetname
 		// Use the component name by default
-		$assetName = $assetName ? $assetName : $this->getOption();
+		$assetName = $assetName ? $assetName : $this->option;
 		$user = $user ? $user : JFactory::getUser();
 
 		return $user->authorise($action, $assetName);
@@ -208,7 +237,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 				return false;
 			}
 
-			return $this->allowAction('core.delete', $this->getOption());
+			return $this->allowAction('core.delete', $this->option;
 
 		}
 
@@ -226,7 +255,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 */
 	protected function canEditState($record)
 	{
-		return $this->allowAction('core.edit.state', $this->getOption());
+		return $this->allowAction('core.edit.state', $this->option;
 	}
 
 	/**
@@ -244,7 +273,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 		$conf = JFactory::getConfig();
 
 		$options = array(
-			'defaultgroup' => ($group) ? $group : $this->getOption(),
+			'defaultgroup' => ($group) ? $group : $this->option,
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
 		);
 
@@ -275,18 +304,6 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	public function getName()
 	{
 		return $this->name;
-	}
-
-	/**
-	 * Method to get the component name
-	 *
-	 * @return  string  The name of the component
-	 *
-	 * @since   3.4
-	 */
-	public function getOption()
-	{
-		return $this->option;
 	}
 
 	/**
