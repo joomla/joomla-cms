@@ -199,7 +199,7 @@ class JFormFieldText extends JFormField
 
 		if ($options)
 		{
-			$datalist = JHtml::_('select.suggestionlist', $options, 'value', 'text', $this->id . '_datalist"');
+			$datalist = JHtml::_('select.suggestionlist', $options, 'value', 'text', $this->id . '_datalist');
 			$list     = ' list="' . $this->id . '_datalist"';
 		}
 
