@@ -15,10 +15,9 @@ $showbottom      = 0;
 
 // Get params
 $app         = JFactory::getApplication()
-$params      = $app->getTemplate(true)->params;
-$logo        = $params->get('logo');
-$color       = $params->get('templatecolor');
-$navposition = $params->get('navposition');
+$logo        = $this->params->get('logo');
+$color       = $this->params->get('templatecolor');
+$navposition = $this->params->get('navposition');
 
 // Get language and direction
 $doc             = JFactory::getDocument();
@@ -93,12 +92,12 @@ $this->direction = $doc->direction;
 					<div class="logoheader">
 						<h1 id="logo">
 							<?php if ($logo) : ?>
-								<img src="<?php echo $this->baseurl; ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($params->get('sitetitle')); ?>" />
+								<img src="<?php echo $this->baseurl; ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>" />
 							<?php else : ?>
-								<?php echo htmlspecialchars($params->get('sitetitle')); ?>
+								<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>
 							<?php endif; ?>
 							<span class="header1">
-								<?php echo htmlspecialchars($params->get('sitedescription')); ?>
+								<?php echo htmlspecialchars($this->params->get('sitedescription')); ?>
 							</span>
 						</h1>
 					</div><!-- end logoheader -->

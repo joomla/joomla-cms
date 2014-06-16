@@ -15,16 +15,13 @@ $user            = JFactory::getUser();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
 
-// Getting params from template
-$params = $app->getTemplate(true)->params;
-
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
 $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$sitename = $app->getCfg('sitename');
+$sitename = $app->get('sitename');
 
 if($task == "edit" || $layout == "form" )
 {
@@ -39,13 +36,13 @@ else
 JHtml::_('bootstrap.framework');
 
 // Logo file or site title param
-if ($params->get('logoFile'))
+if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="' . JUri::root() . $params->get('logoFile') . '" alt="' . $sitename . '" />';
+	$logo = '<img src="' . JUri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '" />';
 }
-elseif ($params->get('sitetitle'))
+elseif ($this->params->get('sitetitle'))
 {
-	$logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($params->get('sitetitle')) . '</span>';
+	$logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($this->params->get('sitetitle')) . '</span>';
 }
 else
 {
@@ -59,11 +56,11 @@ else
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php // Use of Google Font ?>
-	<?php if ($params->get('googleFont')) : ?>
-		<link href='//fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName'); ?>' rel='stylesheet' type='text/css' />
+	<?php if ($this->params->get('googleFont')) : ?>
+		<link href='//fonts.googleapis.com/css?family=<?php echo $this->params->get('googleFontName'); ?>' rel='stylesheet' type='text/css' />
 		<style type="text/css">
 			h1,h2,h3,h4,h5,h6,.site-title{
-				font-family: '<?php echo str_replace('+', ' ', $params->get('googleFontName')); ?>', sans-serif;
+				font-family: '<?php echo str_replace('+', ' ', $this->params->get('googleFontName')); ?>', sans-serif;
 			}
 		</style>
 	<?php endif; ?>
@@ -78,20 +75,20 @@ else
 	<?php endif; ?>
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 	<?php // Template color ?>
-	<?php if ($params->get('templateColor')) : ?>
+	<?php if ($this->params->get('templateColor')) : ?>
 	<style type="text/css">
 		body.site
 		{
-			border-top: 3px solid <?php echo $params->get('templateColor'); ?>;
-			background-color: <?php echo $params->get('templateBackgroundColor'); ?>
+			border-top: 3px solid <?php echo $this->params->get('templateColor'); ?>;
+			background-color: <?php echo $this->params->get('templateBackgroundColor'); ?>
 		}
 		a
 		{
-			color: <?php echo $params->get('templateColor'); ?>;
+			color: <?php echo $this->params->get('templateColor'); ?>;
 		}
 		.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover
 		{
-			background: <?php echo $params->get('templateColor'); ?>;
+			background: <?php echo $this->params->get('templateColor'); ?>;
 		}
 		.navbar-inner
 		{
@@ -111,12 +108,12 @@ else
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ($params->get('fluidContainer') ? ' fluid' : '');
+	. ($this->params->get('fluidContainer') ? ' fluid' : '');
 ?>">
 
 	<!-- Body -->
 	<div class="body">
-		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
+		<div class="container<?php echo ($this->params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<!-- Header -->
 			<div class="header">
 				<div class="header-inner clearfix">
@@ -176,7 +173,7 @@ else
 	</div>
 	<!-- Footer -->
 	<div class="footer">
-		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
+		<div class="container<?php echo ($this->params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<hr />
 			<?php echo $doc->getBuffer('modules', 'footer', array('style' => 'none')); ?>
 			<p class="pull-right">

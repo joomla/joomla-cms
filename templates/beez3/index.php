@@ -31,9 +31,8 @@ $navposition    = $this->params->get('navposition');
 $headerImage    = $this->params->get('headerImage');
 $doc            = JFactory::getDocument();
 $app            = JFactory::getApplication();
-$templateparams	= $app->getTemplate(true)->params;
 $config         = JFactory::getConfig();
-$bootstrap      = explode(',', $templateparams->get('bootstrap'));
+$bootstrap      = explode(',', $this->params->get('bootstrap'));
 $jinput         = JFactory::getApplication()->input;
 $option         = $jinput->get('option', '', 'cmd');
 
@@ -89,7 +88,7 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 					background:url('<?php echo $this->baseurl . '/' . htmlspecialchars($headerImage); ?>') no-repeat right;
 				}
 				body {
-					background: <?php echo $templateparams->get('backgroundcolor'); ?>;
+					background: <?php echo $this->params->get('backgroundcolor'); ?>;
 				}
 			</style>
 		<?php endif; ?>
@@ -100,15 +99,15 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 					<div class="logoheader">
 						<h1 id="logo">
 						<?php if ($logo) : ?>
-							<img src="<?php echo $this->baseurl; ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($templateparams->get('sitetitle')); ?>" />
+							<img src="<?php echo $this->baseurl; ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>" />
 						<?php endif;?>
-						<?php if (!$logo AND $templateparams->get('sitetitle')) : ?>
-							<?php echo htmlspecialchars($templateparams->get('sitetitle')); ?>
+						<?php if (!$logo AND $this->params->get('sitetitle')) : ?>
+							<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>
 						<?php elseif (!$logo AND $config->get('sitename')) : ?>
 							<?php echo htmlspecialchars($config->get('sitename')); ?>
 						<?php endif; ?>
 						<span class="header1">
-						<?php echo htmlspecialchars($templateparams->get('sitedescription')); ?>
+						<?php echo htmlspecialchars($this->params->get('sitedescription')); ?>
 						</span></h1>
 					</div><!-- end logoheader -->
 					<ul class="skiplinks">
