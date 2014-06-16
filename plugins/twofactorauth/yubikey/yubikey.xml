@@ -33,6 +33,11 @@
 					<option value="2">PLG_TWOFACTORAUTH_YUBIKEY_SECTION_ADMIN</option>
 					<option value="3">PLG_TWOFACTORAUTH_YUBIKEY_SECTION_BOTH</option>
 				</field>
+
+                <field name="customserver" type="text"
+                       default=""
+                       description="PLG_TWOFACTORAUTH_YUBIKEY_CUSTOMSERVER_DESC"
+                       label="PLG_TWOFACTORAUTH_YUBIKEY_CUSTOMSERVER_LABEL" />
 			</fieldset>
 		</fields>
 	</config>
