@@ -115,7 +115,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 		}
 		else
 		{
-			$this->contentType = $this->getOption() . '.' . $this->getName() ;
+			$this->contentType = $this->option . '.' . $this->name;
 		}
 
 		// If we don't have a db param see if one got set in the config for legacy purposes
@@ -292,18 +292,6 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	public function getContentType()
 	{
 		return $this->contentType;
-	}
-
-	/**
-	 * Method to get the model name
-	 *
-	 * @return  string  The name of the model
-	 *
-	 * @since   3.4
-	 */
-	public function getName()
-	{
-		return $this->name;
 	}
 
 	/**
