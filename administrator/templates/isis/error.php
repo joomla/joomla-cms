@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Getting params from template
-$params = JFactory::getApplication()->getTemplate(true)->params;
+$params = $this->params;
 
 $app   = JFactory::getApplication();
 $doc   = JFactory::getDocument();
