@@ -48,7 +48,15 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * @var    boolean
 	 * @since  3.4
 	 */
-	protected $__state_set = null;
+	protected $stateSet = null;
+
+	/**
+	 * Flag if the internal state should be updated
+	 * from request
+	 *
+	 * @var boolean
+	 */
+	protected $ignoreRequest;
 
 	/**
 	 * The event to trigger on clearing the cache.
@@ -80,13 +88,22 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 			JLog::add('Passing the database object via the config is deprecated. Use the second parameter of the constructor instead', JLog::WARNING, 'deprecated');
 		}
 
-		// Register the paths for the form
-		$paths = $this->registerTablePaths($config);
+		// Register the paths for the table
+		if (array_key_exists('table_path', $config))
+		{
+			$this->addTablePath($config['table_path']);
+		}
+		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		{
+			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
+			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
+		}
+
 
 		// Set the internal state marker - used to ignore setting state from the request
 		if (!empty($config['ignore_request']))
 		{
-			$this->__state_set = true;
+			$this->ignoreRequest = true;
 		}
 
 		// Set the clean cache event
@@ -95,7 +112,8 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 			$this->event_clean_cache = $config['event_clean_cache'];
 		}
 
-		// Set the model state
+		// Set the model state. Check we have a JRegistry instance as state was a JObject in
+		// legacy MVC
 		if (array_key_exists('state', $config) && $config['state'] instanceof JRegistry)
 		{
 			$state = $config['state'];
@@ -106,6 +124,109 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 		}
 
 		parent::__construct($state, $db);
+	}
+
+	/**
+	 * Adds to the stack of model table paths in LIFO order.
+	 *
+	 * @param   mixed  $path  The directory as a string or directories as an array to add.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public static function addTablePath($path)
+	{
+		JTable::addIncludePath($path);
+	}
+
+	/**
+	 * Method to authorise the current user for an action.
+	 * This method is intended to be overridden to allow for customized access rights
+	 *
+	 * @param   string  $action     ACL action string. e.g. 'core.create'.
+	 * @param   string  $assetName  Asset name to check against.
+	 * @param   JUser   $user       The user to check the action against
+	 *
+	 * @return bool
+	 * @see JUser::authorise
+	 */
+	public function allowAction($action, $assetName = null, JUser $user = null)
+	{
+		// If we have a user instance use it. If we don't have an assetname
+		// Use the component name by default
+		$assetName = $assetName ? $assetName : $this->getOption();
+		$user = $user ? $user : JFactory::getUser();
+
+		return $user->authorise($action, $assetName);
+	}
+
+	/**
+	 * Method to test whether a record can be deleted.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 *
+	 * @since   3.4
+	 */
+	protected function canDelete($record)
+	{
+		// If we can't find a record ID just return false
+		if (!empty($record->id))
+		{
+			// The record is trashed and therefore already deleted!
+			if ($record->published != -2)
+			{
+				return false;
+			}
+
+			return $this->allowAction('core.delete', $this->getOption());
+
+		}
+
+		return false;
+	}
+
+	/**
+	 * Method to test whether a record can have its state changed. Proxies to allowAction.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
+	 * @since   3.4
+	 */
+	protected function canEditState($record)
+	{
+		return $this->allowAction('core.edit.state', $this->getOption());
+	}
+
+	/**
+	 * Clean the cache
+	 *
+	 * @param   string   $group      The cache group
+	 * @param   integer  $client_id  The ID of the client
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function cleanCache($group = null, $client_id = 0)
+	{
+		$conf = JFactory::getConfig();
+		$dispatcher = JEventDispatcher::getInstance();
+
+		$options = array(
+			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
+			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
+		);
+
+		$cache = JCache::getInstance('callback', $options);
+		$cache->clean();
+
+		// Trigger the onContentCleanCache event.
+		$dispatcher->trigger($this->event_clean_cache, $options);
 	}
 
 	/**
@@ -121,24 +242,36 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	}
 
 	/**
+	 * Method to get the component name
+	 *
+	 * @return  string  The name of the component
+	 *
+	 * @since   3.4
+	 */
+	public function getOption()
+	{
+		return $this->option;
+	}
+
+	/**
 	 * Method to get model state variables
 	 *
-	 * @return  object  The property where specified, the state object where omitted
+	 * @return  JRegistry  The state object
 	 *
 	 * @since   3.4
 	 */
 	public function getState()
 	{
-		if (!$this->__state_set)
+		if (!$this->ignoreRequest && !$this->stateIsSet)
 		{
 			// Protected method to auto-populate the model state.
 			$this->populateState();
 
 			// Set the model state set flag to true.
-			$this->__state_set = true;
+			$this->stateSet = true;
 		}
 
-		return $this->state;
+		return parent::getState();
 	}
 
 	/**
@@ -188,57 +321,6 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	}
 
 	/**
-	 * Method to register paths for tables
-	 *
-	 * @return  object  The property where specified, the state object where omitted
-	 *
-	 * @since   3.4
-	 */
-	public function registerTablePaths($config = array())
-	{
-		// Set the default view search path
-		if (array_key_exists('table_path', $config))
-		{
-			$this->addTablePath($config['table_path']);
-		}
-		else
-		{
-			// Register the paths for the form
-			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/table');
-
-			// @deprecated For legacy purposes. Will be removed in 4.0
-			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/tables');
-		}
-	}
-
-	/**
-	 * Clean the cache
-	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 */
-	protected function cleanCache($group = null, $client_id = 0)
-	{
-		$conf = JFactory::getConfig();
-		$dispatcher = JEventDispatcher::getInstance();
-
-		$options = array(
-			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
-			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
-		);
-
-		$cache = JCache::getInstance('callback', $options);
-		$cache->clean();
-
-		// Trigger the onContentCleanCache event.
-		$dispatcher->trigger($this->event_clean_cache, $options);
-	}
-
-	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * This method should only be called once per instantiation and is designed
@@ -250,63 +332,5 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * @note    Calling getState in this method will result in recursion.
 	 * @since   3.4
 	 */
-	protected function populateState()
-	{
-		$this->loadState();
-	}
-
-	/**
-	 * Method to test whether a record can be deleted.
-	 *
-	 * @param   object  $record  A record object.
-	 *
-	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
-	 *
-	 * @since   3.4
-	 */
-	protected function canDelete($record)
-	{
-		if (!empty($record->id))
-		{
-			if ($record->published != -2)
-			{
-				return;
-			}
-			$user = JFactory::getUser();
-
-			return $user->authorise('core.delete', $this->option);
-
-		}
-	}
-
-	/**
-	 * Method to test whether a record can have its state changed.
-	 *
-	 * @param   object  $record  A record object.
-	 *
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 *
-	 * @since   3.4
-	 */
-	protected function canEditState($record)
-	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit.state', $this->option);
-	}
-
-	/**
-	 * Adds to the stack of model table paths in LIFO order.
-	 *
-	 * @param   mixed  $path  The directory as a string or directories as an array to add.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.3
-	 */
-	public function addTablePath($path)
-	{
-		JTable::addIncludePath($path);
-	}
-
+	abstract protected function populateState()
 }
