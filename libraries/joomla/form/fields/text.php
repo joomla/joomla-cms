@@ -199,19 +199,7 @@ class JFormFieldText extends JFormField
 
 		if ($options)
 		{
-			$datalist = '<datalist id="' . $this->id . '_datalist">';
-
-			foreach ($options as $option)
-			{
-				if (!$option->value)
-				{
-					continue;
-				}
-
-				$datalist .= '<option value="' . $option->value . '">' . $option->text . '</option>';
-			}
-
-			$datalist .= '</datalist>';
+			$datalist = JHtml::_('select.suggestionlist', $options, 'value', 'text', $this->id . '_datalist"');
 			$list     = ' list="' . $this->id . '_datalist"';
 		}
 
@@ -242,11 +230,28 @@ class JFormFieldText extends JFormField
 				continue;
 			}
 
+			$value = (string) $option['value'];
+
+			$disabled = (string) $option['disabled'];
+			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+
+			$disabled = $disabled || ($this->readonly && $value != $this->value);
+
 			// Create a new option object based on the <option /> element.
-			$options[] = JHtml::_(
-				'select.option', (string) $option['value'],
-				JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text'
+			$tmp = JHtml::_(
+				'select.option', $value,
+				JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
+				$disabled
 			);
+
+			// Set some option attributes.
+			$tmp->class = (string) $option['class'];
+
+			// Set some JavaScript option attributes.
+			$tmp->onclick = (string) $option['onclick'];
+
+			// Add the option object to the result set.
+			$options[] = $tmp;
 		}
 
 		return $options;
