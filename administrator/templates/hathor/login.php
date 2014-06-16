@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
-$app = JFactory::getApplication();
-JHtml::_('behavior.noframes');
+$app  = JFactory::getApplication();
 $lang = JFactory::getLanguage();
-$doc	= JFactory::getDocument();
+$doc  = JFactory::getDocument();
+
+JHtml::_('behavior.noframes');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
