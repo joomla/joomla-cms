@@ -116,37 +116,33 @@ class JRouterSiteTest extends TestCase
 	 */
 	public function casesParse()
 	{
+		$server1 = array(
+			'HTTP_HOST' => '',
+			'SCRIPT_NAME' => '',
+			'PHP_SELF' => '',
+			'REQUEST_URI' => ''
+		);
+		
+		$server2 = array(
+			'HTTP_HOST' => 'www.example.com:80',
+			'SCRIPT_NAME' => '/joomla/index.php',
+			'PHP_SELF' => '/joomla/index.php',
+			'REQUEST_URI' => '/joomla/index.php?var=value 10'
+		);
+		
 		$cases = array();
-		$cases[] = array('', JROUTER_MODE_RAW, array(), array(), array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), '');
+		$cases[] = array('', JROUTER_MODE_RAW, array(), $server1, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), '');
 
-		$cases[] = array('/index.php?var1=value1', JROUTER_MODE_RAW, array(), array(), array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'index.php?var1=value1');
-		$cases[] = array('index.php?var1=value1', JROUTER_MODE_RAW, array(), array(), array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'index.php?var1=value1');
+		$cases[] = array('/index.php?var1=value1', JROUTER_MODE_RAW, array(), $server1, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'index.php?var1=value1');
+		$cases[] = array('index.php?var1=value1', JROUTER_MODE_RAW, array(), $server1, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'index.php?var1=value1');
 		
-		$cases[] = array('/joomla/blog/test.json', JROUTER_MODE_SEF, array(array('sef_suffix', null, '1')), array(), array('format' => 'json', 'option' => 'com_test3', 'Itemid' => '45'), 'joomla/blog/test.json');
-		$cases[] = array('/joomla/blog/test.json/', JROUTER_MODE_SEF, array(array('sef_suffix', null, '1')), array(), array('option' => 'com_test3', 'Itemid' => '45'), 'joomla/blog/test.json');
+		$cases[] = array('/joomla/blog/test.json', JROUTER_MODE_SEF, array(array('sef_suffix', null, '1')), $server1, array('format' => 'json', 'option' => 'com_test3', 'Itemid' => '45'), 'joomla/blog/test.json');
+		$cases[] = array('/joomla/blog/test.json/', JROUTER_MODE_SEF, array(array('sef_suffix', null, '1')), $server1, array('option' => 'com_test3', 'Itemid' => '45'), 'joomla/blog/test.json');
 		
-		$cases[] = array('/joomla/blog/test%202', JROUTER_MODE_RAW, array(), array(), array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'joomla/blog/test 2');
-		$cases[] = array('/joomla/blog/test', JROUTER_MODE_RAW, array(), 
-			array(
-				'HTTP_HOST' => 'www.example.com:80',
-				'SCRIPT_NAME' => '/joomla/index.php',
-				'PHP_SELF' => '/joomla/index.php',
-				'REQUEST_URI' => '/joomla/index.php?var=value 10'
-			), array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'blog/test');
-		$cases[] = array('/joomla/blog/te%20st', JROUTER_MODE_RAW, array(), 
-			array(
-				'HTTP_HOST' => 'www.example.com:80',
-				'SCRIPT_NAME' => '/joomla/index.php',
-				'PHP_SELF' => '/joomla/index.php',
-				'REQUEST_URI' => '/joomla/index.php?var=value 10'
-			), array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'blog/te st');
-		$cases[] = array('/otherfolder/blog/test', JROUTER_MODE_RAW, array(), 
-			array(
-				'HTTP_HOST' => 'www.example.com:80',
-				'SCRIPT_NAME' => '/joomla/index.php',
-				'PHP_SELF' => '/joomla/index.php',
-				'REQUEST_URI' => '/joomla/index.php?var=value 10'
-			), array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'older/blog/test');
+		$cases[] = array('/joomla/blog/test%202', JROUTER_MODE_RAW, array(), $server1, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'joomla/blog/test 2');
+		$cases[] = array('/joomla/blog/test', JROUTER_MODE_RAW, array(), $server2, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'blog/test');
+		$cases[] = array('/joomla/blog/te%20st', JROUTER_MODE_RAW, array(), $server2, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'blog/te st');
+		$cases[] = array('/otherfolder/blog/test', JROUTER_MODE_RAW, array(), $server2, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'older/blog/test');
 		
 		return $cases;
 	}
@@ -212,153 +208,107 @@ class JRouterSiteTest extends TestCase
 	 */
 	public function casesBuild()
 	{
+		$server1 = array(
+			'HTTP_HOST' => '',
+			'SCRIPT_NAME' => '',
+			'PHP_SELF' => '',
+			'REQUEST_URI' => ''
+		);
+		
+		$server2 = array(
+			'HTTP_HOST' => 'www.example.com:80',
+			'SCRIPT_NAME' => '/joomla/index.php',
+			'PHP_SELF' => '/joomla/index.php',
+			'REQUEST_URI' => '/joomla/index.php?var=value 10'
+		);
+		
 		$cases = array();
 		
-		$cases[] = array('', JROUTER_MODE_RAW, array(), array(), array(), '/');
+		$cases[] = array('', JROUTER_MODE_RAW, array(), array(), $server1, '/');
 
-		$cases[] = array('blog/test', JROUTER_MODE_RAW, array(), array(), array(), '/blog/test');
+		$cases[] = array('blog/test', JROUTER_MODE_RAW, array(), array(), $server1, '/blog/test');
 		
-		$cases[] = array('', JROUTER_MODE_RAW, array(), array(), 
-			array(
-				'HTTP_HOST' => 'www.example.com:80',
-				'SCRIPT_NAME' => '/joomla/index.php',
-				'PHP_SELF' => '/joomla/index.php',
-				'REQUEST_URI' => '/joomla/index.php?var=value 10'
-			), '/joomla/');
+		$cases[] = array('', JROUTER_MODE_RAW, array(), array(), $server2, '/joomla/');
 		
-		$cases[] = array('blog/test', JROUTER_MODE_RAW, array(), array(), 
-			array(
-				'HTTP_HOST' => 'www.example.com:80',
-				'SCRIPT_NAME' => '/joomla/index.php',
-				'PHP_SELF' => '/joomla/index.php',
-				'REQUEST_URI' => '/joomla/index.php?var=value 10'
-			), '/joomla/blog/test');
+		$cases[] = array('blog/test', JROUTER_MODE_RAW, array(), array(), $server2, '/joomla/blog/test');
 		
-		$cases[] = array('', JROUTER_MODE_SEF, array(), array(), array(), '/');
+		$cases[] = array('', JROUTER_MODE_SEF, array(), array(), $server1, '/');
 
-		$cases[] = array('blog/test', JROUTER_MODE_SEF, array(), array(), array(), '/blog/test');
+		$cases[] = array('blog/test', JROUTER_MODE_SEF, array(), array(), $server1, '/blog/test');
 		
-		$cases[] = array('', JROUTER_MODE_SEF, array(), array(), 
-			array(
-				'HTTP_HOST' => 'www.example.com:80',
-				'SCRIPT_NAME' => '/joomla/index.php',
-				'PHP_SELF' => '/joomla/index.php',
-				'REQUEST_URI' => '/joomla/index.php?var=value 10'
-			), '/joomla/');
+		$cases[] = array('', JROUTER_MODE_SEF, array(), array(), $server2, '/joomla/');
 		
-		$cases[] = array('blog/test', JROUTER_MODE_SEF, array(), array(), 
+		$cases[] = array('blog/test', JROUTER_MODE_SEF, array(), array(), $server2, '/joomla/blog/test');
+		
+		$cases[] = array('index.php', JROUTER_MODE_SEF, array(), 
 			array(
-				'HTTP_HOST' => 'www.example.com:80',
-				'SCRIPT_NAME' => '/joomla/index.php',
-				'PHP_SELF' => '/joomla/index.php',
-				'REQUEST_URI' => '/joomla/index.php?var=value 10'
-			), '/joomla/blog/test');
+				array('sef_rewrite', null, 1)
+			), $server2, '/joomla/');
+		
+		$cases[] = array('index.php/blog/test', JROUTER_MODE_SEF, array(), 
+			array(
+				array('sef_rewrite', null, 1)
+			), $server2, '/joomla/blog/test');
 		
 		$cases[] = array('index.php', JROUTER_MODE_SEF, array(), 
 			array(
 				array('sef_rewrite', null, 1)
 			), 
-			array(
-				'HTTP_HOST' => 'www.example.com:80',
-				'SCRIPT_NAME' => '/joomla/index.php',
-				'PHP_SELF' => '/joomla/index.php',
-				'REQUEST_URI' => '/joomla/index.php?var=value 10'
-			), '/joomla/');
+			$server1, '/');
 		
 		$cases[] = array('index.php/blog/test', JROUTER_MODE_SEF, array(), 
 			array(
 				array('sef_rewrite', null, 1)
 			), 
-			array(
-				'HTTP_HOST' => 'www.example.com:80',
-				'SCRIPT_NAME' => '/joomla/index.php',
-				'PHP_SELF' => '/joomla/index.php',
-				'REQUEST_URI' => '/joomla/index.php?var=value 10'
-			), '/joomla/blog/test');
-		
-		$cases[] = array('index.php', JROUTER_MODE_SEF, array(), 
-			array(
-				array('sef_rewrite', null, 1)
-			), 
-			array(), '/');
-		
-		$cases[] = array('index.php/blog/test', JROUTER_MODE_SEF, array(), 
-			array(
-				array('sef_rewrite', null, 1)
-			), 
-			array(), '/blog/test');
+			$server1, '/blog/test');
 
 		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(), 
 			array(
 				array('sef_suffix', null, 1)
-			), 
-			array(
-				'HTTP_HOST' => 'www.example.com:80',
-				'SCRIPT_NAME' => '/joomla/index.php',
-				'PHP_SELF' => '/joomla/index.php',
-				'REQUEST_URI' => '/joomla/index.php?var=value 10'
-			), '/joomla/index.php?format=json');
+			), $server2, '/joomla/index.php?format=json');
 		
 		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(), 
 			array(
 				array('sef_suffix', null, 1)
-			), 
-			array(
-				'HTTP_HOST' => 'www.example.com:80',
-				'SCRIPT_NAME' => '/joomla/index.php',
-				'PHP_SELF' => '/joomla/index.php',
-				'REQUEST_URI' => '/joomla/index.php?var=value 10'
-			), '/joomla/index.php/blog/test.json');
+			), $server2, '/joomla/index.php/blog/test.json');
 		
 		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(), 
 			array(
 				array('sef_suffix', null, 1)
 			), 
-			array(), '/index.php?format=json');
+			$server1, '/index.php?format=json');
 		
 		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(), 
 			array(
 				array('sef_suffix', null, 1)
 			), 
-			array(), '/index.php/blog/test.json');
+			$server1, '/index.php/blog/test.json');
 
 		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(), 
 			array(
 				array('sef_rewrite', null, 1),
 				array('sef_suffix', null, 1)
-			), 
-			array(
-				'HTTP_HOST' => 'www.example.com:80',
-				'SCRIPT_NAME' => '/joomla/index.php',
-				'PHP_SELF' => '/joomla/index.php',
-				'REQUEST_URI' => '/joomla/index.php?var=value 10'
-			), '/joomla/?format=json');
+			), $server2, '/joomla/?format=json');
 		
 		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(), 
 			array(
 				array('sef_rewrite', null, 1),
 				array('sef_suffix', null, 1)
-			), 
-			array(
-				'HTTP_HOST' => 'www.example.com:80',
-				'SCRIPT_NAME' => '/joomla/index.php',
-				'PHP_SELF' => '/joomla/index.php',
-				'REQUEST_URI' => '/joomla/index.php?var=value 10'
-			), '/joomla/blog/test.json');
+			), $server2, '/joomla/blog/test.json');
 		
 		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(), 
 			array(
 				array('sef_rewrite', null, 1),
 				array('sef_suffix', null, 1)
 			), 
-			array(), '/?format=json');
+			$server1, '/?format=json');
 		
 		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(), 
 			array(
 				array('sef_rewrite', null, 1),
 				array('sef_suffix', null, 1)
 			), 
-			array(), '/blog/test.json');
+			$server1, '/blog/test.json');
 
 		return $cases;
 	}
@@ -366,7 +316,7 @@ class JRouterSiteTest extends TestCase
 	/**
 	 * testBuild().
 	 *
-	 * @param   string   $uri       The URL
+	 * @param   string   $url       The URL
 	 * @param   integer  $mode      JROUTER_MODE_RAW or JROUTER_MODE_SEF
 	 * @param   array    $vars      An associative array with global variables
 	 * @param   array    $map       Valuemap for JApplication::get() Mock
@@ -377,27 +327,24 @@ class JRouterSiteTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testBuild($uri, $mode, $vars, $map, $server, $expected)
+	public function testBuild($url, $mode, $vars, $map, $server, $expected)
 	{
 		//Set $_SERVER variable
 		$_SERVER = array_merge($_SERVER, $server);
 
-		// Set up the constructor params
-		$options = array(
-			'mode' => $mode,
-		);
+		$this->object->setMode($mode);
 		$app = $this->object->getApp();
 		$app->expects($this->any())->method('get')->will($this->returnValueMap($map));
 		$this->object->setApp($app);
 
-		$juri = $this->object->build($uri);
+		$uri = $this->object->build($url);
 
 		// Check the expected values
-		$this->assertEquals($expected, $juri->toString());
+		$this->assertEquals($expected, $uri->toString());
 		
 		// Check that caching works
-		$juri2 = $this->object->build($uri);
-		$this->assertEquals($juri, $juri2);
+		$juri = $this->object->build($url);
+		$this->assertEquals($uri, $juri);
 	}
 
 	/**
