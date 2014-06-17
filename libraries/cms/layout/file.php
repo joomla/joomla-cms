@@ -175,7 +175,7 @@ class JLayoutFile extends JLayoutBase
 	/**
 	 * Add one or more paths to include in layout search
 	 *
-	 * @param   string  $paths  The path or array of paths to search for layouts
+	 * @param   mixed  $paths  The path or array, or Priority queue of paths to search for layouts
 	 *
 	 * @return  void
 	 *
@@ -183,6 +183,22 @@ class JLayoutFile extends JLayoutBase
 	 */
 	public function addIncludePaths($paths)
 	{
+		if ($paths instanceof SplPriorityQueue && !$paths->isEmpty())
+		{
+			$pathArray = array();
+			$objPQ->top();
+
+			// We start at the top and loop through each element of the Priority Queue
+			// and then add this array
+			while ($paths->valid())
+			{
+				$pathArray[] = $paths->current();
+				$objPQ->next(); 
+			}
+
+			$this->includePaths = array_unique(array_merge($pathArray, $this->includePaths));
+		}
+
 		if (!empty($paths))
 		{
 			if (is_array($paths))
