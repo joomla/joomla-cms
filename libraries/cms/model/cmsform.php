@@ -51,6 +51,7 @@ abstract class JModelCmsform extends JModelCmsitem implements JModelFormInterfac
 	 *
 	 * @see     JForm
 	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
@@ -97,11 +98,8 @@ abstract class JModelCmsform extends JModelCmsitem implements JModelFormInterfac
 		}
 		catch (Exception $e)
 		{
-
-			$app = JFactory::getApplication();
-			$app->enqueueMessage($e->getMessage());
-
-			return false;
+			// Throw any exceptions upstream
+			throw new RuntimeException($e->getMessage());
 		}
 
 		// Store the form for later.
