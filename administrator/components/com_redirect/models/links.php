@@ -160,9 +160,9 @@ class RedirectModelLinks extends JModelList
 	 * @return bool
 	 */
 	public function batchProcess($batch_urls)
-    {
-        $db = JFactory::getDbo();
-        $query = $db->getQuery(true);
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
         $columns = array(
             $db->quoteName('old_url'),
@@ -174,33 +174,32 @@ class RedirectModelLinks extends JModelList
             $db->quoteName('created_date')
         );
 
-        $query->columns($columns);
+		$query->columns($columns);
 
-        foreach($batch_urls as $batch_url)
-        {
-            // Source URLs need to have the correct URL format to work properly
-            if(strpos($batch_url[0], JUri::root()) === false)
-            {
-                $old_url = JUri::root().$batch_url[0];
-            }
-            else
-            {
-                $old_url = $batch_url[0];
-            }
+		foreach ($batch_urls as $batch_url)
+		{
+			// Source URLs need to have the correct URL format to work properly
+			if (strpos($batch_url[0], JUri::root()) === false)
+			{
+				$old_url = JUri::root() . $batch_url[0];
+			}
+			else
+			{
+				$old_url = $batch_url[0];
+			}
 
-            // Destination URL can also be an external URL
-            if(!empty($batch_url[1]))
-            {
-                $new_url = $batch_url[1];
-            }
-            else
-            {
-                $new_url = '';
-            }
+			// Destination URL can also be an external URL
+			if (!empty($batch_url[1]))
+			{
+				$new_url = $batch_url[1];
+			}
+			else
+			{
+				$new_url = '';
+			}
 
             $query->insert($db->quoteName('#__redirect_links'), false)
-                ->values(
-                    $db->quote($old_url) . ', ' . $db->quote($new_url) .
+                ->values($db->quote($old_url) . ', ' . $db->quote($new_url) .
                     ' ,' . $db->quote('') . ', ' . $db->quote('') . ',0,0, ' .
                     $db->quote(JFactory::getDate()->toSql())
                 );

@@ -72,13 +72,13 @@ class RedirectControllerLinks extends JControllerAdmin
 	public function batch()
 	{
 		$batch_urls_request = $this->input->post->get('batch_urls', array(), 'array');
-		$batch_urls_lines = array_map('trim', explode("\n", $batch_urls_request[0]));
+		$batch_urls_lines   = array_map('trim', explode("\n", $batch_urls_request[0]));
 
 		$batch_urls = array();
 
-		foreach($batch_urls_lines as $batch_urls_line)
+		foreach ($batch_urls_lines as $batch_urls_line)
 		{
-			$batch_urls[] = array_map('trim', explode('|',$batch_urls_line));
+			$batch_urls[] = array_map('trim', explode('|', $batch_urls_line));
 		}
 
 		if (empty($batch_urls))
