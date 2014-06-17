@@ -203,11 +203,11 @@ class RedirectModelLinks extends JModelList
 					' ,' . $db->quote('') . ', ' . $db->quote('') . ',0,0, ' .
 					$db->quote(JFactory::getDate()->toSql())
 				);
-        }
+		}
 
-        $db->setQuery($query);
-        $db->execute();
+		$db->setQuery($query);
+		$db->execute();
 
-        return true;
-    }
+		return true;
+	}
 }
