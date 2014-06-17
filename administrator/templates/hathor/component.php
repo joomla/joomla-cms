@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 // Get additional language strings prefixed with TPL_HATHOR
+// @todo: Do we realy need this?
 $lang = JFactory::getLanguage();
 $lang->load('tpl_hathor', JPATH_ADMINISTRATOR)
 || $lang->load('tpl_hathor', JPATH_ADMINISTRATOR . '/templates/hathor/language');
@@ -56,7 +57,7 @@ if ($this->direction == 'rtl')
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag().'.css';
 
-if (file_exists($file))
+if (JFile::exists($file))
 {
 	$doc->addStyleSheet($file);
 }
