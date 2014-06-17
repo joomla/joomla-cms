@@ -158,7 +158,7 @@ class Test2Router implements JComponentRouterInterface
 	}
 
 	public function parse(&$segments) {
-		return array();
+		return array('testvar' => 'testvalue');
 	}
 
 	public function build(&$query) {

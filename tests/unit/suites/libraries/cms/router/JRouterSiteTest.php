@@ -95,16 +95,6 @@ class JRouterSiteTest extends TestCase
 		$app = $this->getMockCmsApp();
 		$object = new JRouterSiteInspector($options, $app);
 		$this->assertInstanceOf('JRouterSite', $object);
-		
-		/**
-		 * This test is commented until the PR 3758 is accepted to fix JApplication 
-		$_SERVER['HTTP_HOST'] = 'http://localhost';
-		JApplicationCms::getInstance('site', new JRegistry(array('session' => false)));
-		$options = array();
-		$menu = TestMockMenu::create($this);
-		$object = new JRouterSiteInspector($options, null, $menu);
-		$this->assertInstanceOf('JRouterSite', $object);
-		 */
 	}
 
 	/**
@@ -164,20 +154,16 @@ class JRouterSiteTest extends TestCase
 	 */
 	public function testParse($url, $mode, $map, $server, $expected, $expected2)
 	{
-		//Set $_SERVER variable
 		$_SERVER = array_merge($_SERVER, $server);
-
-		$options = array(
-			'mode' => $mode,
-		);
-		$app = $this->getMockCmsApp();
+		$app = $this->object->getApp();
 		$app->expects($this->any())->method('get')->will($this->returnValueMap($map));
-		$menu = TestMockMenu::create($this);
+		$this->object->setApp($app);
+		$this->object->setMode($mode);
 		$uri = new JUri($url);
 
-		$this->object = new JRouterSiteInspector($options, $app, $menu);
-		$this->assertEquals($expected, $this->object->parse($uri));
-
+		$vars = $this->object->parse($uri);
+		
+		$this->assertEquals($expected, $vars);
 		$this->assertEquals($expected2, $uri->toString());
 	}
 	
@@ -357,11 +343,11 @@ class JRouterSiteTest extends TestCase
 	public function casesParseRawRoute()
 	{
 		$cases = array();
-		$cases[] = array('', true, '', array(), array());
-		$cases[] = array('', false, '', array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), array());
+		$cases[] = array('', true, array(), array());
+		$cases[] = array('', false, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), array());
 		
-		$cases[] = array('index.php?option=com_test&Itemid=42&testvar=testvalue', true, 'index.php?option=com_test&Itemid=42&testvar=testvalue', array(), array('option' => 'com_test', 'Itemid' => '42', 'testvar' => 'testvalue'));
-		$cases[] = array('index.php?Itemid=42', true, 'index.php?Itemid=42', array('option' => 'com_test', 'view' => 'test'), array('Itemid' => 42));
+		$cases[] = array('index.php?option=com_test&Itemid=42&testvar=testvalue', true, array(), array('option' => 'com_test', 'Itemid' => '42', 'testvar' => 'testvalue'));
+		$cases[] = array('index.php?Itemid=42', true, array('option' => 'com_test', 'view' => 'test'), array('Itemid' => 42));
 		
 		return $cases;
 	}
@@ -371,7 +357,6 @@ class JRouterSiteTest extends TestCase
 	 *
 	 * @param   string   $url                 An associative array with variables
 	 * @param   integer  $menubool            JROUTER_MODE_RAW or JROUTER_MODE_SEF
-	 * @param   array    $expectedURI         An associative array with app config vars
 	 * @param   array    $expectedVars        An associative array with $_SERVER vars
 	 * @param   array    $expectedGlobalVars  An associative array with $_SERVER vars
 	 *
@@ -380,40 +365,138 @@ class JRouterSiteTest extends TestCase
 	 * @dataProvider  casesParseRawRoute
 	 * @since         3.4
 	 */
-	public function testParseRawRoute($url, $menubool, $expectedURI, $expectedVars, $expectedGlobalVars)
+	public function testParseRawRoute($url, $menubool, $expectedVars, $expectedGlobalVars)
 	{
 		$uri = new JUri($url);
-		
-		$options = array();
-		$app = $this->getMockCmsApp();
-				
+
+		if (isset($expectedGlobalVars['Itemid']))
+		{
+			$app = $this->object->getApp();
+			$app->input->set('Itemid', $expectedGlobalVars['Itemid']);
+			$this->object->setApp($app);
+		}
+
 		if ($menubool)
 		{
 			$menu = TestMockMenu::create($this, false);
 			$menu->expects($this->any())->method('getDefault')->will($this->returnValue(null));
-		}
-		else
-		{
-			$menu = TestMockMenu::create($this);
+			$this->object->setMenu($menu);
 		}
 		
-		if (isset($expectedGlobalVars['Itemid']))
-		{
-			$app->input->set('Itemid', $expectedGlobalVars['Itemid']);
-		}
+		$vars = $this->object->runParseRawRoute($uri);
 		
-		$this->object = new JRouterSiteInspector($options, $app, $menu);
+		$this->assertEquals($expectedVars, $vars);
 		
-		$this->assertEquals($expectedVars, $this->object->runParseRawRoute($uri));
-		
-		$this->assertEquals($expectedURI, $uri->toString());
 		$this->assertEquals($expectedGlobalVars, $this->object->getVars());
 	}
 
-	public function testParseSefRoute()
+	/**
+	 * Cases for testParseSefRoute
+	 *
+	 * @return  array
+	 *
+	 * @since   3.4
+	 */
+	public function casesParseSefRoute()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$cases = array();
+		// Empty URLs without a default menu item return nothing
+		$cases[] = array('', true, array(), array(), array());
+		
+		// Absolute URLs to the domain of the site
+		$cases[] = array('/test/path', true, array(), array(), array());
+		$cases[] = array('/test/path?testvar=testvalue', true, array(), array('testvar' => 'testvalue'), array('testvar' => 'testvalue'));
+		$cases[] = array('?testvar=testvalue', true, array(), array('testvar' => 'testvalue'), array());
+		
+		$cases[] = array('/test/path.json', true, array(), array(), array());
+		$cases[] = array('/test/path.json?testvar=testvalue', true, array(), array('testvar' => 'testvalue'), array('testvar' => 'testvalue'));
+		
+		$cases[] = array('/test/path.json', true, array(array('sef_suffix', null, '1')), array(), array());
+		$cases[] = array('/test/path.json?testvar=testvalue', true, array(array('sef_suffix', null, '1')), array('testvar' => 'testvalue'), array('testvar' => 'testvalue'));
+		
+		$cases[] = array('', false, array(), array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'), array());
+		$cases[] = array('/test/path', false, array(), array(), array('Itemid' => '45', 'option' => 'com_test3'));
+		$cases[] = array('/test/path?testvar=testvalue', false, array(), array(), array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3'));
+		$cases[] = array('?testvar=testvalue', false, array(), array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'), array());
+		
+		$cases[] = array('/test/path.json', false, array(), array(), array('Itemid' => '45', 'option' => 'com_test3'));
+		$cases[] = array('/test/path.json?testvar=testvalue', false, array(), array(), array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3'));
+		
+		$cases[] = array('/test/path.json', false, array(array('sef_suffix', null, '1')), array(), array('Itemid' => '45', 'option' => 'com_test3'));
+		$cases[] = array('/test/path.json?testvar=testvalue', false, array(array('sef_suffix', null, '1')), array(), array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3'));
+
+		// Non-SEF URLs
+		$cases[] = array('?option=com_test', true, array(), array(), array('option' => 'com_test', 'Itemid' => NULL));
+		$cases[] = array('?Itemid=42', true, array(), array(), array('Itemid' => NULL));
+		$cases[] = array('?Itemid=42&option=com_test', true, array(), array(), array('option' => 'com_test', 'Itemid' => NULL));
+		$cases[] = array('?option=com_test', false, array(), array(), array('option' => 'com_test', 'Itemid' => NULL));
+		/*20*/$cases[] = array('?Itemid=42', false, array(), array(), array('Itemid' => NULL));
+		$cases[] = array('?Itemid=42&option=com_test', false, array(), array(), array('option' => 'com_test', 'Itemid' => NULL));
+		
+		// URLs with /component/something
+		$cases[] = array('component/test', true, array(), array('option' => 'com_test', 'Itemid' => NULL), array('option' => 'com_test', 'Itemid' => NULL));
+		$cases[] = array('component/test', false, array(), array('option' => 'com_test', 'Itemid' => NULL), array('option' => 'com_test', 'Itemid' => NULL));
+		$cases[] = array('component/test2/something', true, array(), array('testvar' => 'testvalue'), array('testvar' => 'testvalue', 'option' => 'com_test2', 'Itemid' => NULL));
+		$cases[] = array('component/test2/something', false, array(), array('testvar' => 'testvalue'), array('option' => 'com_test2', 'Itemid' => NULL, 'testvar' => 'testvalue'));
+		
+		// Parse actual menu items
+		$cases[] = array('test2/sub-menu', true, array(), array('option' => 'com_test2', 'Itemid' => 44), array('option' => 'com_test2', 'Itemid' => 44));
+		$cases[] = array('test2/sub-menu', false, array(), array('option' => 'com_test2', 'Itemid' => 44), array('option' => 'com_test2', 'Itemid' => 44));
+		$cases[] = array('test2/sub-menu/something', true, array(), array('testvar' => 'testvalue'), array('testvar' => 'testvalue', 'option' => 'com_test2', 'Itemid' => 44));
+		$cases[] = array('test2/sub-menu/something', false, array(), array('testvar' => 'testvalue'), array('option' => 'com_test2', 'Itemid' => 44, 'testvar' => 'testvalue'));
+		
+		$cases[] = array('test2/sub-menu', true, array('languagefilter' => true), array('option' => 'com_test2', 'Itemid' => 44), array('option' => 'com_test2', 'Itemid' => 44));
+		$cases[] = array('test2/sub-menu', false, array('languagefilter' => true), array('option' => 'com_test2', 'Itemid' => 44), array('option' => 'com_test2', 'Itemid' => 44));
+		$cases[] = array('test2/sub-menu/something', true, array('languagefilter' => true), array('testvar' => 'testvalue'), array('testvar' => 'testvalue', 'option' => 'com_test2', 'Itemid' => 44));
+		$cases[] = array('test2/sub-menu/something', false, array('languagefilter' => true), array('testvar' => 'testvalue'), array('option' => 'com_test2', 'Itemid' => 44, 'testvar' => 'testvalue'));
+		
+		return $cases;
+	}
+	
+	/**
+	 * Tests the parseSefRoute method
+	 *
+	 * @param   string   $url              An associative array with variables
+	 * @param   integer  $menubool         JROUTER_MODE_RAW or JROUTER_MODE_SEF
+	 * @param   array    $appConfig        An associative array with app config vars
+	 * @param   array    $expected         An associative array with $_SERVER vars
+	 * @param   array    $expectedGlobals  An associative array with $_SERVER vars
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  casesParseSefRoute
+	 * @since         3.4
+	 */
+	public function testParseSefRoute($url, $menubool, $appConfig, $expected, $expectedGlobals)
+	{
+		$uri = new JUri($url);
+
+		$app = $this->object->getApp();
+		if (isset($expected['Itemid']))
+		{
+			$app->input->set('Itemid', $expected['Itemid']);	
+		}
+		
+		if (isset($appConfig['languagefilter']))
+		{
+			$app->expects($this->any())->method('getLanguageFilter')->will($this->returnValue(true));
+			unset($appConfig['languagefilter']);
+		}
+		$app->expects($this->any())->method('get')->will($this->returnValueMap($appConfig));
+		$this->object->setApp($app);
+		
+		if ($menubool)
+		{
+			$menu = TestMockMenu::create($this, false);
+			$menu->expects($this->any())->method('getDefault')->will($this->returnValue(null));
+			$this->object->setMenu($menu);
+		}
+		
+		// The method should return an array of variables
+		$vars = $this->object->runParseSefRoute($uri);
+		$this->assertEquals($expected, $vars);
+
+		$this->assertEquals($expectedGlobals, $this->object->getVars(), 'global vars');
 	}
 
 	/**

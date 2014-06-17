@@ -187,7 +187,7 @@ class JRouterSite extends JRouter
 		// Handle an empty URL (special case)
 		if (!$uri->getVar('Itemid') && !$uri->getVar('option'))
 		{
-			$item = $this->menu->getDefault(JFactory::getLanguage()->getTag());
+			$item = $this->menu->getDefault($this->app->getLanguage()->getTag());
 
 			if (!is_object($item))
 			{
@@ -244,14 +244,11 @@ class JRouterSite extends JRouter
 		$route = $uri->getPath();
 
 		// Remove the suffix
-		if ($this->_mode == JROUTER_MODE_SEF)
+		if ($this->app->get('sef_suffix'))
 		{
-			if ($this->app->get('sef_suffix'))
+			if ($suffix = pathinfo($route, PATHINFO_EXTENSION))
 			{
-				if ($suffix = pathinfo($route, PATHINFO_EXTENSION))
-				{
-					$route = str_replace('.' . $suffix, '', $route);
-				}
+				$route = str_replace('.' . $suffix, '', $route);
 			}
 		}
 
@@ -267,7 +264,7 @@ class JRouterSite extends JRouter
 				return $this->parseRawRoute($uri);
 			}
 
-			$item = $this->menu->getDefault(JFactory::getLanguage()->getTag());
+			$item = $this->menu->getDefault($this->app->getLanguage()->getTag());
 
 			// If user not allowed to see default menu item then avoid notices
 			if (is_object($item))
@@ -301,7 +298,7 @@ class JRouterSite extends JRouter
 
 			$found           = false;
 			$route_lowercase = JString::strtolower($route);
-			$lang_tag        = JFactory::getLanguage()->getTag();
+			$lang_tag        = $this->app->getLanguage()->getTag();
 
 			// Iterate through all items and check route matches.
 			foreach ($items as $item)
@@ -362,8 +359,11 @@ class JRouterSite extends JRouter
 				}
 			}
 
-			$vars['Itemid'] = $found->id;
-			$vars['option'] = $found->component;
+			if ($found)
+			{
+				$vars['Itemid'] = $found->id;
+				$vars['option'] = $found->component;
+			}
 		}
 
 		// Set the active menu item
