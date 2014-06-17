@@ -42,7 +42,7 @@ abstract class JViewHtmlCms extends JViewCms
 		if (!$renderer)
 		{
 			$options = array();
-			$options['paths'] = $this->getPaths();
+			$options['paths'] = $this->loadPaths();
 
 			$renderer = new JRendererJlayout($options);
 		}
@@ -51,34 +51,6 @@ abstract class JViewHtmlCms extends JViewCms
 		$this->setRenderer($renderer);
 
 		parent::__construct($model, $config);
-	}
-
-	/**
-	 * The paths for the JLayoutRenderer to check in
-	 *
-	 * @return  array  The paths for the layout
-	 *
-	 * @since   3.4
-	 */
-	protected function getPaths()
-	{
-		// @todo investigate whether we should inject JApplicationCms in the constructor?
-		// I don't really want to though because it's only for the fallback if a renderer isn't set
-
-		// Find the root path - either site or administrator
-		$app = JFactory::getApplication();
-		$rootPath = $app->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
-
-		$input = $app->input;
-		$componentFolder = strtolower($this->getOption());
-		$viewName = strtolower($this->getName());
-
-		// Add the default paths
-		$paths = array();
-		$paths[] = $rootPath . '/templates/' . $app->getTemplate() . '/html/' . $componentFolder . '/' . $viewName;
-		$paths[] = $rootPath . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl';
-
-		return $paths;
 	}
 
 	/**

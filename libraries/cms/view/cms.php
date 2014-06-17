@@ -198,6 +198,33 @@ abstract class JViewCms implements JView
 	}
 
 	/**
+	 * Method to load the paths queue.
+	 *
+	 * @return  SplPriorityQueue  The paths for the layout
+	 *
+	 * @since   3.4
+	 */
+	protected function loadPaths()
+	{
+		// @todo investigate whether we should inject JApplicationCms in the constructor?
+		// Find the root path - either site or administrator
+		$app = JFactory::getApplication();
+		$rootPath = $app->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
+
+		$input = $app->input;
+		$componentFolder = strtolower($this->getOption());
+		$viewName = strtolower($this->getName());
+
+		// Add the default paths. Use exponential priorities to allow developers to
+		// insert their own paths in between
+		$paths = new SplPriorityQueue;
+		$paths->insert($rootPath . '/templates/' . $app->getTemplate() . '/html/' . $componentFolder . '/' . $viewName, 100);
+		$paths->insert($rootPath . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 10);
+
+		return $paths;
+	}
+
+	/**
 	 * Method to render the view.
 	 *
 	 * @return  string  The rendered view.
