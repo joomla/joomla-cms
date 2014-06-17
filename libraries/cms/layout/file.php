@@ -197,6 +197,8 @@ class JLayoutFile extends JLayoutBase
 			}
 
 			$this->includePaths = array_unique(array_merge($pathArray, $this->includePaths));
+
+			return;
 		}
 
 		if (!empty($paths))
