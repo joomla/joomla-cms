@@ -36,7 +36,18 @@ abstract class JModelCmsform extends JModelCmsitem implements JModelFormInterfac
 	 *
 	 * @since   3.4
 	 */
-	abstract public function getForm($data = array(), $loadData = true);
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$form = $this->loadForm($this->option . '.' . $this->name, $this->name, array('control' => 'jform', 'load_data' => $loadData));
+
+		if (empty($form))
+		{
+			return false;
+		}
+
+		return $form;
+	}
 
 	/**
 	 * Method to get a form object.
