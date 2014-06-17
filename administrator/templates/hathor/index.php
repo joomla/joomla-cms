@@ -79,6 +79,7 @@ else
 }
 
 // Display an harcoded logout
+// @todo: Looks like this whole block isn't used at all and could be removed
 $task = $app->input->get('task');
 
 if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu'))
@@ -131,6 +132,7 @@ $output    = array();
 	<!-- Status Module -->
 	<div id="module-status">
 		<jdoc:include type="modules" name="status"/>
+			<?php // @todo: $output is every empty (see ca line 95). Can we remove this lines? ?>
 			<?php foreach ($output as $item) : ?>
 				<?php echo $item; ?>
 			<?php endforeach; ?>
