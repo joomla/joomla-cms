@@ -48,7 +48,7 @@ $this->submenumodules = JModuleHelper::getModules('submenu');
 foreach ($this->submenumodules as $submenumodule)
 {
 	$output = JModuleHelper::renderModule($submenumodule);
-	
+
 	if (strlen($output))
 	{
 		$showSubmenu = true;
