@@ -164,15 +164,15 @@ class RedirectModelLinks extends JModelList
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-        $columns = array(
-            $db->quoteName('old_url'),
-            $db->quoteName('new_url'),
-            $db->quoteName('referer'),
-            $db->quoteName('comment'),
-            $db->quoteName('hits'),
-            $db->quoteName('published'),
-            $db->quoteName('created_date')
-        );
+		$columns = array(
+			$db->quoteName('old_url'),
+			$db->quoteName('new_url'),
+			$db->quoteName('referer'),
+			$db->quoteName('comment'),
+			$db->quoteName('hits'),
+			$db->quoteName('published'),
+			$db->quoteName('created_date')
+		);
 
 		$query->columns($columns);
 
@@ -198,11 +198,11 @@ class RedirectModelLinks extends JModelList
 				$new_url = '';
 			}
 
-            $query->insert($db->quoteName('#__redirect_links'), false)
-                ->values($db->quote($old_url) . ', ' . $db->quote($new_url) .
-                    ' ,' . $db->quote('') . ', ' . $db->quote('') . ',0,0, ' .
-                    $db->quote(JFactory::getDate()->toSql())
-                );
+			$query->insert($db->quoteName('#__redirect_links'), false)
+				->values($db->quote($old_url) . ', ' . $db->quote($new_url) .
+					' ,' . $db->quote('') . ', ' . $db->quote('') . ',0,0, ' .
+					$db->quote(JFactory::getDate()->toSql())
+				);
         }
 
         $db->setQuery($query);
