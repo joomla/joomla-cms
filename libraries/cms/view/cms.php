@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry as JRegistry;
+
 /**
  * Prototype JView class.
  *
@@ -114,34 +116,7 @@ abstract class JViewCms implements JView
 	 *
 	 * @since   3.4
 	 */
-	public function getData()
-	{
-		$model = $this->getModel();
-
-		if ($model instanceof JModelFormInterface)
-		{
-			return array(
-				'form' => $model->getForm();
-				'item' => $model->getItem();
-			);
-		}
-		elseif ($model instanceof JModelItemInterface)
-		{
-			return array(
-				'item' => $model->getItem();
-			);
-		}
-		elseif ($model instanceof JModelListInterface)
-		{
-			return array(
-				'items' => $model->getItems();
-			);
-		}
-
-		// We don't know what type of model we have.
-		// Just return an empty array.
-		return array();
-	}
+	abstract public function getData();
 
 	/**
 	 * Method to get the view layout.
@@ -210,8 +185,6 @@ abstract class JViewCms implements JView
 		// Find the root path - either site or administrator
 		$app = JFactory::getApplication();
 		$rootPath = $app->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
-
-		$input = $app->input;
 		$componentFolder = strtolower($this->getOption());
 		$viewName = strtolower($this->getName());
 
