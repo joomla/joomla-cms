@@ -452,7 +452,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 */
 	public function setUTF()
 	{
-		mysqli_query($this->connection, "SET NAMES 'utf8'");
+		mysqli_set_charset($this->connection, 'utf8');
 	}
 
 	/**
