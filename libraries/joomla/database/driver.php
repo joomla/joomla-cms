@@ -814,27 +814,25 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @throws  RuntimeException
 	 */
 	public function getQuery($new = false)
-	{			
+	{
 		if ($new)
 		{
 			// Derive the class name from the driver.
 			$class = 'JDatabaseQuery' . ucfirst($this->name);
-						
+
 			// Make sure we have a query class for this driver.
 			if (!class_exists($class))
 			{
 				// If it doesn't exist we are at an impasse so throw an exception.
 				throw new RuntimeException('Database Query Class not found.');
 			}
-			
+
 			return new $class($this);
 		}
 		else
 		{
 			return $this->sql;
 		}
-		
-		die();		
 	}
 
 	/**
