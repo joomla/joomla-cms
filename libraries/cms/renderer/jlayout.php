@@ -68,9 +68,40 @@ class JRendererJlayout implements RendererInterface
 		// If any paths are set in the config we'll replace the default ones
 		if (isset($this->config['paths']) && $this->config['paths'] instanceof SplPriorityQueue)
 		{
-			$layout->setIncludePaths($this->config['paths']);
+			$layout->setIncludePaths($this->convertQueueToArray($this->config['paths']));
 		}
 
 		return $layout;
+	}
+
+	/**
+	 * Render a layout with the same include paths & options
+	 *
+	 * @param   SplPriorityQueue  $queue  The SPL Priority Queue Item
+	 *
+	 * @return  array  An array of paths ordered ordered by priority
+	 *
+	 * @since   3.3
+	 */
+	protected function convertQueueToArray(SplPriorityQueue $queue)
+	{
+		// Initialise the array
+		$items = array();
+
+		// If there are no paths registered return empty array
+		if (!$queue->isEmpty())
+		{
+			$queue->top();
+
+			// We start at the top and loop through each element of the Priority Queue
+			// and then add this item to the array
+			while ($queue->valid())
+			{
+				$items[] = $queue->current();
+				$queue->next(); 
+			}
+		}
+
+		return $items;
 	}
 }
