@@ -448,7 +448,7 @@ class JLayoutFile extends JLayoutBase
 	 *
 	 * @since   3.3
 	 */
-	protected function convertQueueToArray($queue)
+	protected function convertQueueToArray(SplPriorityQueue $queue)
 	{
 		// Initialise the array
 		$items = array();
