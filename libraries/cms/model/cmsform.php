@@ -197,14 +197,6 @@ abstract class JModelCmsform extends JModelCmsitem implements JModelFormInterfac
 		$data = $form->filter($data);
 		$return = $form->validate($data, $group);
 
-		// Check for an error.
-		if ($return instanceof Exception)
-		{
-			$app->enqueueMessage($return->getMessage());
-
-			return false;
-		}
-
 		// Check the validation results.
 		if ($return === false)
 		{
