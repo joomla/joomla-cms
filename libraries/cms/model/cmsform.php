@@ -126,9 +126,19 @@ abstract class JModelCmsform extends JModelCmsitem implements JModelFormInterfac
 	 *
 	 * @since   3.4
 	 */
-	public function loadFormData()
+	protected function loadFormData()
 	{
-		return array();
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState($this->option . '.edit.' . $this->name . '.data', array());
+
+		if (empty($data))
+		{
+			$data = $this->getItem();
+		}
+
+		$this->preprocessData($this->option . '.' . $this->name, $data);
+
+		return $data;
 	}
 
 	/**
