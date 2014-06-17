@@ -186,14 +186,14 @@ class JLayoutFile extends JLayoutBase
 		if ($paths instanceof SplPriorityQueue && !$paths->isEmpty())
 		{
 			$pathArray = array();
-			$objPQ->top();
+			$paths->top();
 
 			// We start at the top and loop through each element of the Priority Queue
 			// and then add this array
 			while ($paths->valid())
 			{
 				$pathArray[] = $paths->current();
-				$objPQ->next(); 
+				$paths->next(); 
 			}
 
 			$this->includePaths = array_unique(array_merge($pathArray, $this->includePaths));
