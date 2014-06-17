@@ -41,7 +41,7 @@ $doc->addStyleSheet('templates/' . $this->template . '/css/colour_' . $colour . 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
-if (file_exists($file))
+if (is_file($file))
 {
 	$doc->addStyleSheet($file);
 }
