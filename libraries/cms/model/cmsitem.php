@@ -155,13 +155,18 @@ class JModelCmsitem extends JModelCmsactions implements JModelItemInterface
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
 		{
-			$title = JString::increment($title);
+			if ($name == $table->title)
+			{
+				$name = JString::increment($name);
+			}
+
 			$alias = JString::increment($alias, 'dash');
 		}
 
-		return array($title, $alias);
+		return array($name, $alias);
 	}
 
 	/**
