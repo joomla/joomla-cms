@@ -372,6 +372,31 @@ class JLayoutFile extends JLayoutBase
 	 */
 	public function setIncludePaths($paths)
 	{
+		// Check if we have a priority queue instance
+		if ($paths instanceof SplPriorityQueue)
+		{
+			// If there are no paths registered return
+			if ($paths->isEmpty())
+			{
+				return $this;
+			}
+
+			$pathArray = array();
+			$paths->top();
+
+			// We start at the top and loop through each element of the Priority Queue
+			// and then add this array to the front of the include paths array
+			while ($paths->valid())
+			{
+				$pathArray[] = $paths->current();
+				$paths->next(); 
+			}
+
+			$this->includePaths = $pathArray;
+
+			return $this;
+		}
+
 		$this->includePaths = (array) $paths;
 
 		return $this;
