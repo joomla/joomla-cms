@@ -40,9 +40,9 @@ class JRouterSite extends JRouter
 		$vars = array();
 
 		// Get the application
-		$app = JApplication::getInstance('site');
+		$app = JApplicationCms::getInstance('site');
 
-		if ($app->getCfg('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https')
+		if ($app->get('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https')
 		{
 			// Forward to https
 			$uri->setScheme('https');
@@ -75,7 +75,7 @@ class JRouterSite extends JRouter
 		// Identify format
 		if ($this->_mode == JROUTER_MODE_SEF)
 		{
-			if ($app->getCfg('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/'))
+			if ($app->get('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/'))
 			{
 				if ($suffix = pathinfo($path, PATHINFO_EXTENSION))
 				{
@@ -111,9 +111,9 @@ class JRouterSite extends JRouter
 		// Add the suffix to the uri
 		if ($this->_mode == JROUTER_MODE_SEF && $route)
 		{
-			$app = JApplication::getInstance('site');
+			$app = JApplicationCms::getInstance('site');
 
-			if ($app->getCfg('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/'))
+			if ($app->get('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/'))
 			{
 				if ($format = $uri->getVar('format', 'html'))
 				{
@@ -122,7 +122,7 @@ class JRouterSite extends JRouter
 				}
 			}
 
-			if ($app->getCfg('sef_rewrite'))
+			if ($app->get('sef_rewrite'))
 			{
 				// Transform the route
 				if ($route == 'index.php')
@@ -154,7 +154,7 @@ class JRouterSite extends JRouter
 	protected function parseRawRoute(&$uri)
 	{
 		$vars = array();
-		$app  = JApplication::getInstance('site');
+		$app  = JApplicationCms::getInstance('site');
 		$menu = $app->getMenu();
 
 		// Handle an empty URL (special case)
@@ -214,14 +214,14 @@ class JRouterSite extends JRouter
 	 */
 	protected function parseSefRoute(&$uri)
 	{
-		$app   = JApplication::getInstance('site');
+		$app   = JApplicationCms::getInstance('site');
 		$menu  = $app->getMenu();
 		$route = $uri->getPath();
 
 		// Remove the suffix
 		if ($this->_mode == JROUTER_MODE_SEF)
 		{
-			if ($app->getCfg('sef_suffix'))
+			if ($app->get('sef_suffix'))
 			{
 				if ($suffix = pathinfo($route, PATHINFO_EXTENSION))
 				{
@@ -448,7 +448,7 @@ class JRouterSite extends JRouter
 			return;
 		}
 
-		$app  = JApplication::getInstance('site');
+		$app  = JApplicationCms::getInstance('site');
 		$menu = $app->getMenu();
 
 		// Build the component route
@@ -556,7 +556,7 @@ class JRouterSite extends JRouter
 		// Make sure any menu vars are used if no others are specified
 		if (($this->_mode != JROUTER_MODE_SEF) && $uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
 		{
-			$app  = JApplication::getInstance('site');
+			$app  = JApplicationCms::getInstance('site');
 			$menu = $app->getMenu();
 
 			// Get the active menu item
@@ -604,7 +604,7 @@ class JRouterSite extends JRouter
 		$uri = parent::createURI($url);
 
 		// Set URI defaults
-		$app  = JApplication::getInstance('site');
+		$app  = JApplicationCms::getInstance('site');
 		$menu = $app->getMenu();
 
 		// Get the itemid form the URI
