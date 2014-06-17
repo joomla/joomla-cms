@@ -65,8 +65,8 @@ class JRendererJlayout implements RendererInterface
 	{
 		$layout = new JLayoutFile($template);
 
-		// If any paths are set in the config we'll replace the existing ones
-		if (isset($this->config['paths']))
+		// If any paths are set in the config we'll replace the default ones
+		if (isset($this->config['paths']) && $this->config['paths'] instanceof SplPriorityQueue)
 		{
 			$layout->setIncludePaths($this->config['paths']);
 		}
