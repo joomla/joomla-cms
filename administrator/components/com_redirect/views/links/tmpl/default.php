@@ -137,6 +137,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<?php echo $this->loadTemplate('addform'); ?>
 		<?php endif; ?>
 
+		<?php echo $this->loadTemplate('batch'); ?>
+
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
