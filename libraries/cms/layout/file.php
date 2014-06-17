@@ -183,8 +183,13 @@ class JLayoutFile extends JLayoutBase
 	 */
 	public function addIncludePaths($paths)
 	{
-		if ($paths instanceof SplPriorityQueue && !$paths->isEmpty())
+		if ($paths instanceof SplPriorityQueue)
 		{
+			if ($paths->isEmpty())
+			{
+				return;
+			}
+
 			$pathArray = array();
 			$paths->top();
 
