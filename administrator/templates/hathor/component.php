@@ -28,11 +28,11 @@ $doc->addStyleSheet('templates/system/css/system.css');
 $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 
 // Load additional CSS styles for colors
-if (!$this->params->get('colourChoice')) 
+if (!$this->params->get('colourChoice'))
 {
 	$colour = 'standard';
 }
-else 
+else
 {
 	$colour = htmlspecialchars($this->params->get('colourChoice'));
 }
