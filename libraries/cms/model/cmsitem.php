@@ -82,7 +82,6 @@ class JModelCmsitem extends JModelCmsactions implements JModelItemInterface
 
 			if (!empty($type))
 			{
-				$prefix = $this->state->get($table, 'prefix');
 				$typeTable = $type->table;
 				$typeTable = json_decode($typeTable);
 
@@ -96,7 +95,7 @@ class JModelCmsitem extends JModelCmsactions implements JModelItemInterface
 					if (empty($typeTable->common))
 					{
 						// Should there be an exception here? or should we load ucm_content?
-						return;
+						return false;
 					}
 
 					$table = JTable::getInstance($typeTable->common->type, $typeTable->common->prefix);
@@ -107,7 +106,7 @@ class JModelCmsitem extends JModelCmsactions implements JModelItemInterface
 			// Attempt to load the row.
 			if (!$table->load($id))
 			{
-				throw new RuntimeException($error);
+				throw new RuntimeException($table->getError());
 			}
 
 			// Convert the JTable to a clean object.
@@ -132,12 +131,13 @@ class JModelCmsitem extends JModelCmsactions implements JModelItemInterface
 	{
 		if (empty($id))
 		{
+			$type = $this->name;
 			$id = $this->getState($type . 'id');
 		}
 
-		$item = $this->getTable($type, $prefix);
+		$table = $this->getTable();
 
-		return $item->hit($id);
+		return $table->hit($id);
 	}
 
 	/**

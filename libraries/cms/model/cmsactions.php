@@ -139,7 +139,7 @@ abstract class JModelCmsactions extends JModelCms
 				return false;
 			}
 
-			return $this->allowAction('core.delete', $this->option;
+			return $this->allowAction('core.delete', $this->option);
 
 		}
 
@@ -157,7 +157,7 @@ abstract class JModelCmsactions extends JModelCms
 	 */
 	protected function canEditState($record)
 	{
-		return $this->allowAction('core.edit.state', $this->option;
+		return $this->allowAction('core.edit.state', $this->option);
 	}
 
 
@@ -177,8 +177,6 @@ abstract class JModelCmsactions extends JModelCms
 		if ($pk)
 		{
 			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_NO_KEY'));
-
-			return false;
 		}
 
 		$user = JFactory::getUser();
@@ -189,24 +187,18 @@ abstract class JModelCmsactions extends JModelCms
 		if (!$table->load($pk))
 		{
 			throw new RuntimeException($table->getError());
-
-			return false;
 		}
 
 		// Check if this is the user has previously checked out the row.
 		if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 		{
 			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
-
-			return false;
 		}
 
 		// Attempt to check the row in.
 		if (!$table->checkin($pk))
 		{
 			throw new RuntimeException($table->getError());
-
-			return false;
 		}
 
 		return true;
@@ -228,8 +220,6 @@ abstract class JModelCmsactions extends JModelCms
 		if ($pk)
 		{
 			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_NO_KEY'));
-
-			return false;
 		}
 
 		$user = JFactory::getUser();
@@ -240,24 +230,18 @@ abstract class JModelCmsactions extends JModelCms
 		if (!$table->load($pk))
 		{
 			throw new RuntimeException($table->getError());
-
-			return false;
 		}
 
 		// Check if this is the user having previously checked out the row.
 		if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
 		{
 			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
-
-			return false;
 		}
 
 		// Attempt to check the row out.
 		if (!$table->checkout($user->get('id'), $pk))
 		{
 			throw new RuntimeException($table->getError());
-
-			return false;
 		}
 
 		return true;
@@ -271,6 +255,7 @@ abstract class JModelCmsactions extends JModelCms
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
 	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function delete($pks)
 	{
@@ -282,14 +267,14 @@ abstract class JModelCmsactions extends JModelCms
 		$table = $this->getTable();
 		$tableName = $table->getTableName();
 		$key = $table->getKeyName();
-		$db = $this->getDbo();
+		$db = $this->getDb();
 		$query = $db->getQuery(true);
 
 		$query->delete($db->quoteName($tableName));
 
 		if (!is_array($pks))
 		{
-			$query->where($db->setQuery($key) . ' = ' . $pk);
+			$query->where($db->setQuery($key) . ' = ' . $pks);
 		}
 		else
 		{
@@ -366,8 +351,6 @@ abstract class JModelCmsactions extends JModelCms
 			if (!$table->bind($data))
 			{
 				throw new RuntimeException($table->getError());
-
-				return false;
 			}
 
 			// Prepare the row for saving
@@ -377,8 +360,6 @@ abstract class JModelCmsactions extends JModelCms
 			if (!$table->check())
 			{
 				throw new RuntimeException($table->getError());
-
-				return false;
 			}
 
 			// Trigger the onContentBeforeSave event.
@@ -387,16 +368,12 @@ abstract class JModelCmsactions extends JModelCms
 			if (in_array(false, $result, true))
 			{
 				throw new RuntimeException($this->dispatcher->getError());
-
-				return false;
 			}
 
 			// Store the data.
 			if (!$table->store())
 			{
 				throw new RuntimeException($table->getError());
-
-				return false;
 			}
 
 			// Clean the cache.
@@ -408,8 +385,6 @@ abstract class JModelCmsactions extends JModelCms
 		catch (Exception $e)
 		{
 			throw new RuntimeException($e->getMessage());
-
-			return false;
 		}
 
 		return true;

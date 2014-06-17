@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry as JRegistry;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -174,7 +176,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 *
 	 * @since   3.4
 	 */
-	public static function addTablePath($path = null)
+	public function addTablePath($path = null)
 	{
 		if($path)
 		{
@@ -187,7 +189,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 		// else try constructing a path.
 		if (array_key_exists('table_path', $this->config))
 		{
-			JTable::addIncludePath($config['table_path']);
+			JTable::addIncludePath($this->config['table_path']);
 		}
 		else
 		{
@@ -253,7 +255,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 */
 	public function getState()
 	{
-		if (!$this->ignoreRequest && !$this->stateIsSet)
+		if (!$this->ignoreRequest && !$this->stateSet)
 		{
 			// Protected method to auto-populate the model state.
 			$this->populateState();
@@ -277,7 +279,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
-	public function getTable($name, $prefix, $options = array())
+	public function getTable($name = null, $prefix = null, $options = array())
 	{
 		if (!$name)
 		{
@@ -292,7 +294,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 		// Make sure we are giving a JDatabaseDriver object to the table
 		if (!array_key_exists('dbo', $options))
 		{
-			$options['dbo'] = $this->getDbo();
+			$options['dbo'] = $this->getDb();
 		}
 
 		// Try and get table instance
@@ -300,7 +302,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 
 		if ($table instanceof JTableInterface)
 		{
-			return $table
+			return $table;
 		}
 
 		// If the table isn't a instance of JTableInterface throw an exception
@@ -319,5 +321,5 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * @note    Calling getState in this method will result in recursion.
 	 * @since   3.4
 	 */
-	abstract protected function populateState()
+	abstract protected function populateState();
 }
