@@ -78,23 +78,21 @@ class RedirectControllerLinks extends JControllerAdmin
 
 		foreach ($batch_urls_lines as $batch_urls_line)
 		{
-			$batch_urls[] = array_map('trim', explode('|', $batch_urls_line));
+			if (!empty($batch_urls_line))
+			{
+				$batch_urls[] = array_map('trim', explode('|', $batch_urls_line));
+			}
 		}
 
-		if (empty($batch_urls))
-		{
-			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_ITEM_ADDED'));
-		}
-		else
+		// Set default message on error - overwrite if successful
+		$this->setMessage(JText::_('COM_REDIRECT_NO_ITEM_ADDED'), 'error');
+
+		if (!empty($batch_urls))
 		{
 			$model = $this->getModel('Links');
 
 			// Execute the batch process
-			if (!$model->batchProcess($batch_urls))
-			{
-				JError::raiseWarning(500, $model->getError());
-			}
-			else
+			if ($model->batchProcess($batch_urls))
 			{
 				$this->setMessage(JText::plural('COM_REDIRECT_N_LINKS_ADDED', count($batch_urls)));
 			}
