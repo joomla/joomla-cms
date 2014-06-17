@@ -189,7 +189,7 @@ abstract class JModelCmsform extends JModelCmsitem implements JModelFormInterfac
 	 * @see     JFilterInput
 	 * @since   3.4
 	 */
-	public function validate($form, $data, $group = null)
+	public function validate(JForm $form, $data, $group = null)
 	{
 		$app = JFactory::getApplication();
 
