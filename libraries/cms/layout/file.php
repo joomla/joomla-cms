@@ -186,7 +186,7 @@ class JLayoutFile extends JLayoutBase
 		// Check if we have a priority queue instance and convert it to an array
 		if ($paths instanceof SplPriorityQueue)
 		{
-			$paths = $this->convertQueueToArray();
+			$paths = $this->convertQueueToArray($paths);
 		}
 
 		if (!empty($paths))
