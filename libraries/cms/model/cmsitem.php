@@ -56,64 +56,66 @@ class JModelCmsitem extends JModelCmsactions implements JModelItemInterface
 	 */
 	public function getItem($id = null)
 	{
-		if (empty($this->item))
+		// If we already have an item set just return it.
+		if (!empty($this->item))
 		{
-			$table = $this->getTable();
-			$tableClassName = get_class($table);
+			return $this->item;
+		}
 
-			$this->item = false;
-			$contentType = new JUcmType;
+		$table = $this->getTable();
+		$tableClassName = get_class($table);
 
-			if ($tableClassName != 'JTableCorecontent')
-			{
-				$type = $contentType->getTypeByTable($tableClassName);
-			}
-			elseif (!empty($id))
-			{
-				$table->load($id);
-				$type = $contentType->getType($table->core_type_id);
+		$this->item = false;
+		$contentType = new JUcmType;
 
-			}
-			elseif (empty($id))
-			// Deal with examples where there is no row in type table?
-			{
-				$type = null;
-			}
-
-			if (!empty($type))
-			{
-				$typeTable = $type->table;
-				$typeTable = json_decode($typeTable);
-
-				// Check to see if special exists .. if it doesn't use common
-				if (!empty($typeTable->special) && $tableClassName != 'JTableCorecontent')
-				{
-					$table = JTable::getInstance($typeTable->special->type, $typeTable->special->prefix);
-				}
-				else
-				{
-					if (empty($typeTable->common))
-					{
-						// Should there be an exception here? or should we load ucm_content?
-						return false;
-					}
-
-					$table = JTable::getInstance($typeTable->common->type, $typeTable->common->prefix);
-					// Get the special field mapping here
-				}
-			}
-
-			// Attempt to load the row.
-			if (!$table->load($id))
-			{
-				throw new RuntimeException($table->getError());
-			}
-
-			// Convert the JTable to a clean object.
-			$properties = $table->getProperties(1);
-			$this->item = JArrayHelper::toObject($properties);
+		if ($tableClassName != 'JTableCorecontent')
+		{
+			$type = $contentType->getTypeByTable($tableClassName);
+		}
+		elseif (!empty($id))
+		{
+			$table->load($id);
+			$type = $contentType->getType($table->core_type_id);
 
 		}
+		elseif (empty($id))
+		{
+			// Deal with examples where there is no row in type table?
+			$type = null;
+		}
+
+		if (!empty($type))
+		{
+			$typeTable = $type->table;
+			$typeTable = json_decode($typeTable);
+
+			// Check to see if special exists .. if it doesn't use common
+			if (!empty($typeTable->special) && $tableClassName != 'JTableCorecontent')
+			{
+				$table = JTable::getInstance($typeTable->special->type, $typeTable->special->prefix);
+			}
+			else
+			{
+				if (empty($typeTable->common))
+				{
+					// Should there be an exception here? or should we load ucm_content?
+					return false;
+				}
+
+				$table = JTable::getInstance($typeTable->common->type, $typeTable->common->prefix);
+				// Get the special field mapping here
+			}
+		}
+
+		// Attempt to load the row.
+		if (!$table->load($id))
+		{
+			throw new RuntimeException($table->getError());
+		}
+
+		// Convert the JTable to a clean object.
+		$properties = $table->getProperties(1);
+		$this->item = JArrayHelper::toObject($properties);
 
 		return $this->item;
 	}
