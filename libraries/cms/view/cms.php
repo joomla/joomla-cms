@@ -83,10 +83,10 @@ abstract class JViewCms implements JView
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(JModelCmsInterface $model, $config = array())
+	public function __construct(JModelCmsInterface $model, array $config)
 	{
 		// Setup dependencies.
-		$this->setModel($model, true);
+		$this->setModel($model, null, true);
 		$this->config = new JRegistry($config);
 		$this->name = $config['view'];
 		$this->option = $config['option'];
