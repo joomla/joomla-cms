@@ -361,7 +361,6 @@ abstract class JModelCmsactions extends JModelCms
 			throw new RuntimeException($table->getError());
 		}
 
-
 		try
 		{
 			// Trigger the onContentBeforeSave event.
