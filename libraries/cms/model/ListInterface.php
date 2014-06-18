@@ -22,4 +22,13 @@ interface JModelListInterface extends JModelCmsInterface
 	 * @since   3.4
 	 */
 	public function getItems();
+
+	/**
+	 * Method to get a JPagination object for the data set.
+	 *
+	 * @return  JPagination  A JPagination object for the data set.
+	 *
+	 * @since   3.4
+	 */
+	public function getPagination();
 }
