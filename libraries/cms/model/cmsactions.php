@@ -139,7 +139,6 @@ abstract class JModelCmsactions extends JModelCms
 			}
 
 			return $this->allowAction('core.delete', $this->option);
-
 		}
 
 		return false;
