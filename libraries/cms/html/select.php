@@ -665,7 +665,7 @@ abstract class JHtmlSelect
 			else
 			{
 				// If no string after hyphen - take hyphen out
-				$splitText = preg_split('/ -[\s]*/', $text, 2, PREG_SPLIT_NO_EMPTY);
+				$splitText = preg_split('/ -[\s]*/', $text, 1, PREG_SPLIT_NO_EMPTY);
 				$text = isset($splitText[0]) ? $splitText[0] : '';
 
 				if (!empty($splitText[1]))
