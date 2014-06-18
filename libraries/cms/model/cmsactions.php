@@ -188,7 +188,10 @@ abstract class JModelCmsactions extends JModelCms
 		}
 
 		// Check if this is the user has previously checked out the row.
-		if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+		$isCheckedOut = ($table->checked_out > 0);
+		$canCheckIn = ($table->checked_out == $user->get('id') && $user->authorise('core.admin', 'com_checkin'));
+
+		if($isCheckedOut && !$canCheckIn)
 		{
 			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 		}
@@ -292,6 +295,7 @@ abstract class JModelCmsactions extends JModelCms
 			throw new RuntimeException('Error in query', 404);
 		}
 
+		// @todo This should be in the controller.
 		if ($result && $db->getAffectedRows())
 		{
 			$app = JFactory::getApplication();
@@ -335,55 +339,56 @@ abstract class JModelCmsactions extends JModelCms
 		// Include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
 
-		// Allow an exception to be thrown.
+		// Load the row if saving an existing record.
+		if ($pk > 0)
+		{
+			$table->load($pk);
+			$isNew = false;
+		}
+
+		// Bind the data.
+		if (!$table->bind($data))
+		{
+			throw new RuntimeException($table->getError());
+		}
+
+		// Prepare the row for saving
+		$table = $this->prepareTable($table);
+
+		// Check the data.
+		if (!$table->check())
+		{
+			throw new RuntimeException($table->getError());
+		}
+
+
 		try
 		{
-			// Load the row if saving an existing record.
-			if ($pk > 0)
-			{
-				$table->load($pk);
-				$isNew = false;
-			}
-
-			// Bind the data.
-			if (!$table->bind($data))
-			{
-				throw new RuntimeException($table->getError());
-			}
-
-			// Prepare the row for saving
-			$table = $this->prepareTable($table);
-
-			// Check the data.
-			if (!$table->check())
-			{
-				throw new RuntimeException($table->getError());
-			}
-
 			// Trigger the onContentBeforeSave event.
 			$result = $this->dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, $table, $isNew));
 
+			// Handle if the plugin is still using JError to set errors
 			if (in_array(false, $result, true))
 			{
 				throw new RuntimeException($this->dispatcher->getError());
 			}
-
-			// Store the data.
-			if (!$table->store())
-			{
-				throw new RuntimeException($table->getError());
-			}
-
-			// Clean the cache.
-			$this->cleanCache();
-
-			// Trigger the onContentAfterSave event.
-			$this->dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, $table, $isNew));
 		}
 		catch (Exception $e)
 		{
 			throw new RuntimeException($e->getMessage());
 		}
+
+		// Store the data.
+		if (!$table->store())
+		{
+			throw new RuntimeException($table->getError());
+		}
+
+		// Clean the cache.
+		$this->cleanCache();
+
+		// Trigger the onContentAfterSave event.
+		$this->dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, $table, $isNew));
 
 		return true;
 	}
