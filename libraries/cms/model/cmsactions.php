@@ -109,12 +109,11 @@ abstract class JModelCmsactions extends JModelCms
 	 * @return bool
 	 * @see JUser::authorise
 	 */
-	public function allowAction($action, $assetName = null, JUser $user = null)
+	public function allowAction($action, $assetName = null)
 	{
-		// If we have a user instance use it. If we don't have an assetname
-		// Use the component name by default
+		// If we don't have an assetname use the component name by default
 		$assetName = $assetName ? $assetName : $this->option;
-		$user = $user ? $user : JFactory::getUser();
+		$user = JFactory::getUser();
 
 		return $user->authorise($action, $assetName);
 	}
