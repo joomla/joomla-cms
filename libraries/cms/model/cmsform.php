@@ -88,15 +88,12 @@ abstract class JModelCmsform extends JModelCmsitem implements JModelFormInterfac
 		try
 		{
 			$form = JForm::getInstance($name, $source, $options, false, $xpath);
+			$data = array();
 
 			if (isset($options['load_data']) && $options['load_data'])
 			{
 				// Get the data for the form.
 				$data = $this->loadFormData();
-			}
-			else
-			{
-				$data = array();
 			}
 
 			// Allow for additional modification of the form, and events to be triggered.
