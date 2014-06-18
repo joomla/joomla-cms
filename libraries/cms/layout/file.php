@@ -175,7 +175,7 @@ class JLayoutFile extends JLayoutBase
 	/**
 	 * Add one or more paths to include in layout search
 	 *
-	 * @param   string  $paths  The path or array of paths to search for layouts
+	 * @param   mixed  $paths  The path or array, or Priority queue of paths to search for layouts
 	 *
 	 * @return  void
 	 *
@@ -183,6 +183,12 @@ class JLayoutFile extends JLayoutBase
 	 */
 	public function addIncludePaths($paths)
 	{
+		// Check if we have a priority queue instance and convert it to an array
+		if ($paths instanceof SplPriorityQueue)
+		{
+			$paths = $this->convertQueueToArray($paths);
+		}
+
 		if (!empty($paths))
 		{
 			if (is_array($paths))
@@ -431,5 +437,36 @@ class JLayoutFile extends JLayoutBase
 		$sublayout->includePaths = $this->includePaths;
 
 		return $sublayout->render($displayData);
+	}
+
+	/**
+	 * Render a layout with the same include paths & options
+	 *
+	 * @param   SplPriorityQueue  $queue  The SPL Priority Queue Item
+	 *
+	 * @return  array  An array of paths ordered ordered by priority
+	 *
+	 * @since   3.3
+	 */
+	protected function convertQueueToArray(SplPriorityQueue $queue)
+	{
+		// Initialise the array
+		$items = array();
+
+		// If there are no paths registered return empty array
+		if (!$queue->isEmpty())
+		{
+			$queue->top();
+		
+			// We start at the top and loop through each element of the Priority Queue
+			// and then add this item to the array
+			while ($queue->valid())
+			{
+				$items[] = $queue->current();
+				$queue->next(); 
+			}
+		}
+
+		return $items;
 	}
 }
