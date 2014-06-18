@@ -225,6 +225,7 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 
 		// Load the total.
 		$query = $this->getListQuery();
+
 		try
 		{
 			$total = (int) $this->getListCount($query);
