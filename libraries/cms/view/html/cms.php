@@ -66,30 +66,27 @@ abstract class JViewHtmlCms extends JViewCms
 	public function getData()
 	{
 		$model = $this->getModel();
+		$data = array(
+			'state' => $model->getState(),
+		);
 
 		if ($model instanceof JModelFormInterface)
 		{
-			return array(
-				'form' => $model->getForm(),
-				'item' => $model->getItem()
-			);
+			$data['form'] = $model->getForm();
+			$data['item'] = $model->getItem();
 		}
 		elseif ($model instanceof JModelItemInterface)
 		{
-			return array(
-				'item' => $model->getItem()
-			);
+			$data['item'] = $model->getItem();
 		}
 		elseif ($model instanceof JModelListInterface)
 		{
-			return array(
-				'items' => $model->getItems()
-			);
+			$data['items'] = $model->getItems();
+			$data['pagination'] = $model->getPagination();
 		}
 
-		// We don't know what type of model we have.
-		// Just return an empty array.
-		return array();
+		// Else just return the state
+		return $data;
 	}
 
 	/**
