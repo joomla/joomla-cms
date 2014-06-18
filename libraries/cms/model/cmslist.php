@@ -140,6 +140,7 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 		}
 		catch (RuntimeException $e)
 		{
+			// @todo This really should be done in the controller. Throw an exception upstream?
 			$app = JFactory::getApplication();
 			$app->enqueueMessage($e->getMessage(), 'error');
 
@@ -501,16 +502,13 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 		{
 			$table->reset();
 
-			if ($table->load($pk))
+			if ($table->load($pk) && !$this->canEditState($table))
 			{
-				if (!$this->canEditState($table))
-				{
-					// Prune items that you can't change.
-					unset($pks[$i]);
-					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+				// Prune items that you can't change.
+				unset($pks[$i]);
+				JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
 
-					return false;
-				}
+				return false;
 			}
 		}
 
@@ -518,18 +516,23 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 		if (!$table->publish($pks, $value, $user->get('id')))
 		{
 			throw new RuntimeException($table->getError());
-
-			return false;
 		}
 
-		// Trigger the onContentChangeState event.
-		$result = $this->dispatcher->trigger($this->event_change_state, array($this->contentType, $pks, $value));
-
-		if (in_array(false, $result, true))
+		// If the dispatcher throws an exception abort here
+		try
 		{
-			throw new RuntimeException($table->getError());
+			// Trigger the onContentChangeState event.
+			$result = $this->dispatcher->trigger($this->event_change_state, array($this->contentType, $pks, $value));
 
-			return false;
+			if (in_array(false, $result, true))
+			{
+				// Handle if the plugin is still using JError to set errors
+				throw new RuntimeException($this->dispatcher->getError());
+			}
+		}
+		catch (Exception $e)
+		{
+			throw new RuntimeException($e->getMessage());
 		}
 
 		// Clear the component's cache
@@ -568,8 +571,6 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 		if (empty($pks))
 		{
 			throw new InvalidArgumentException(JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'), 500);
-
-			return false;
 		}
 
 		// Update ordering values
@@ -596,8 +597,6 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 				if (!$table->store())
 				{
 					throw new RuntimeException($table->getError());
-
-					return false;
 				}
 
 				// Remember to reorder within position and client_id
