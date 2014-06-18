@@ -50,31 +50,4 @@ class JTableUpdatesite extends JTable
 		}
 		return true;
 	}
-
-	/**
-	 * Method to create and execute a SELECT WHERE query.
-	 *
-	 * @param   array  $options  Array of options
-	 *
-	 * @return  string  Results of query
-	 *
-	 * @since   3.4
-	 */
-	public function find($options = array())
-	{
-		$where = array();
-
-		foreach ($options as $col => $val)
-		{
-			$where[] = $col . ' = ' . $this->_db->quote($val);
-		}
-
-		$query = $this->_db->getQuery(true)
-			->select($this->_db->quoteName($this->_tbl_key))
-			->from($this->_db->quoteName($this->_tbl))
-			->where(implode(' AND ', $where));
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
-	}
 }
