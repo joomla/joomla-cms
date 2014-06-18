@@ -95,7 +95,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	/**
 	 * Constructor
 	 *
-	 * @param   array             $config      An array of configuration options. Must have view
+	 * @param   array             $config      An array of configuration options. Must have model
 	 *                                         and option keys.
 	 * @param   JDatabaseDriver   $db          The database adpater.
 	 * @param   JEventDispatcher  $dispatcher  The event dispatcher
@@ -104,8 +104,8 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 */
 	public function __construct(array $config, JDatabaseDriver $db = null, JEventDispatcher $dispatcher = null)
 	{
-		// Set the view name, component name, config and event dispatcher
-		$this->name = $config['view'];
+		// Set the model name, component name, config and event dispatcher
+		$this->name = $config['model'];
 		$this->option = $config['option'];
 		$this->config = $config;
 		$this->dispatcher = $dispatcher ? $dispatcher : JEventDispatcher::getInstance();
