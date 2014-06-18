@@ -361,14 +361,15 @@ abstract class JModelCmsactions extends JModelCms
 			throw new RuntimeException($table->getError());
 		}
 
+		// If the dispatcher throws an exception abort here
 		try
 		{
 			// Trigger the onContentBeforeSave event.
 			$result = $this->dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, $table, $isNew));
 
-			// Handle if the plugin is still using JError to set errors
 			if (in_array(false, $result, true))
 			{
+				// Handle if the plugin is still using JError to set errors
 				throw new RuntimeException($this->dispatcher->getError());
 			}
 		}
