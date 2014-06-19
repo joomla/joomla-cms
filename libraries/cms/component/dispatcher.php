@@ -163,35 +163,32 @@ class JComponentDispatcher
 	 */
 	public function getController(JApplicationCms $app = null)
 	{
-		// Assemble the controller name
-		$classArray = $this->buildControllerName();
-		$prefix = $classArray['prefix'];
-		$controllerName = $classArray['name'];
+		// Assemble the queue of potential classes
+		$class = null;
+		$classQueue = $this->getControllerNames();
+		$classQueue->top();
 
-		// @todo Work out how to register any classes that haven't been autoloaded already
-		$class = $prefix .  'Controller' . $controllerName;
-
-		// If we can't find the class get the fallback
-		if (!class_exists($class))
+		// Loop through each class and see if one exists
+		while($classQueue->valid())
 		{
-			// If we're told not to have a fallback controller we'll just abort here and throw an exception
-			if (!$this->tryFallback)
-			{
-				$format = $this->input->getWord('format', 'html');
+			$potentialClass = $classQueue->current();
 
-				throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $controllerName, $format));
+			if (class_exists($potentialClass))
+			{
+				// We've found a class - we can stop searching
+				$class = $potentialClass;
+
+				break;
 			}
 
-			// Try and get a fallback class from the CMS
-			$class = $this->getFallbackClassName($controllerName);
+			$classQueue->next();
+		}
 
-			// If we can't find the fallback class throw an exception.
-			if (!class_exists($class)) 
-			{
-				$format = $this->input->getWord('format', 'html');
+		if (!$class)
+		{
+			$format = $this->input->getWord('format', 'html');
 
-				throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $controllerName, $format));
-			}
+			throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $controllerName, $format));
 		}
 
 		$this->controller = new $class($this->input, $app, $this->config);
@@ -202,12 +199,11 @@ class JComponentDispatcher
 	/**
 	 * Gets the controller name
 	 *
-	 * @return  array  An array with elements prefix and name corresponding to the controller name
-	 *                 PrefixControllerName
+	 * @return  SplPriorityQueue  An SplPriorityQueue containing potential class names
 	 *
 	 * @throws  InvalidArgumentException
 	 */
-	protected function buildControllerName()
+	protected function getControllerNames()
 	{
 		$tasks = $this->getTasks();
 
@@ -240,26 +236,13 @@ class JComponentDispatcher
 			$view = ucfirst(strtolower($tasks[self::CONTROLLER_VIEW_FOLDER]));
 		}
 
-		$return = array(
-			'prefix' => $location,
-			'name' => $view . $activity
-		);
+		// Create the priority queue now we've sorted things out
+		$queue = new SplPriorityQueue;
+		$queue->insert($location . 'Controller' . $view . $activity, 100);
+		$queue->insert($location . 'Controller' . $activity, 10);
+		$queue->insert('JController' . $activity, 1);
 
-		return $return;
-	}
-
-	/**
-	 * Method to get a the default task controller.
-	 *
-	 * @param   string  $task  The task from the input
-	 *
-	 * @return  string  The fallback class name
-	 */
-	protected function getFallbackClassName($task)
-	{
-		$className = 'JController' . ucfirst($task);
-
-		return $className;
+		return $queue;
 	}
 
 	/**
@@ -298,8 +281,8 @@ class JComponentDispatcher
 		}
 		else
 		{
-				// In the absence of a named controller default to display.
-				$tasks = array('j', 'displaylist');
+			// In the absence of a named controller default to display.
+			$tasks = array('j', 'displaylist');
 		}
 
 		return $tasks;
