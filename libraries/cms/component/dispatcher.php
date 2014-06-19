@@ -1,0 +1,309 @@
+<?php
+/**
+ * @package     Joomla.Libraries
+ * @subpackage  Dispatcher
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+defined('JPATH_PLATFORM') or die;
+
+class JComponentDispatcher
+{
+	const CONTROLLER_PREFIX = 0;
+	const CONTROLLER_ACTIVITY = 1;
+	const CONTROLLER_VIEW_FOLDER = 2;
+
+	/**
+	 * @var    JControllerCms  The Task Controller.
+	 * @since  3.4
+	 */
+	protected $controller;
+
+	/**
+	 * @var    string  The name of the default view, in case none is specified.
+	 * @since  3.4
+	 */
+	public $defaultView = 'cpanel';
+
+	/**
+	 * @var    boolean  Should we try and create a fallback controller if the custom one can't be found.
+	 * @since  3.4
+	 */
+	public $tryFallback = true;
+
+	/**
+	 * @var    JInput  The input object.
+	 * @since  3.4
+	 */
+	protected $input = null;
+
+	/**
+	 * @var    array  The configuration to be injected.
+	 * @since  3.4
+	 */
+	protected $config = array();
+
+	/**
+	 * Gets an instance of a Dispatcher, creating one if one does not exist
+	 *
+	 * @param   string  $option  The component name
+	 * @param   string  $view    The View name
+	 * @param   JInput  $input   An input object
+	 * @param   array   $config  Configuration data
+	 *
+	 * @return  JComponentDispatcher
+	 */
+	public static function getInstance($option, $view = null, JInput $input = null, $config = array())
+	{
+		// Create an input object if one isn't given.
+		if (!$input)
+		{
+			$input = new JInput;
+		}
+
+		// Set the view in the input object
+		$input->set('view', $view);
+
+		// Get the dispatcher class name
+		$className = ucfirst(substr($option, 4)) . 'Dispatcher';
+
+		// If we can't find a component specific dispatcher use this.
+		if (!class_exists($className))
+		{
+			$className = 'JComponentDispatcher';
+		}
+
+		$instance = new $className($option, $input, $config);
+
+		return $instance;
+	}
+
+	/**
+	 * Uses the input to select the task controller.
+	 *
+	 * @param   string  $option  The application object
+	 * @param   JInput  $input   The input class
+	 * @param   array   $config  A config array
+	 *
+	 * @throws InvalidArgumentException
+	 */
+	public function __construct($option, JInput $input = null, $config = array())
+	{
+		// Create an input object if one doesn't exist.
+		if (!$input)
+		{
+			$input = new JInput;
+		}
+
+		$this->input = $input;
+		$this->config = (array) $config;
+
+		// Set the option value in the config and input
+		$this->config['option'] = $option;
+		$input->set('option', $option);
+
+		// Set the view value in config and input object. To get the view we check the input
+		// object. If we aren't given one in the input object then we use the default view
+		$view = $this->input->getCmd('view', $this->defaultView);
+		$this->config['view'] = $view;
+		$this->input->set('view', $view);
+	}
+
+	/**
+	 * Gets a controller and dispatches it. If there is a redirect it is
+	 * performed
+	 *
+	 * @param   JApplicationCms  $app  The application object.
+	 *
+	 * @return  void
+	 *
+	 * @throws  InvalidArgumentException
+	 */
+	public function dispatch(JApplicationCms $app = null)
+	{
+		$controller = $this->getController($app);
+
+		try
+		{
+			$result = $controller->execute();
+		}
+		catch (Exception $e)
+		{
+			// @todo Do something with the exception generated from the execute method!
+			return;
+		}
+
+		// @todo Do something if the execute method returns false.
+		if (!$result)
+		{
+			return;
+		}
+
+		$controller->redirect();
+	}
+
+	/**
+	 * Gets the controller
+	 *
+	 * @param   JApplicationCms  $app  The application object.
+	 *
+	 * @return  JControllerCms
+	 *
+	 * @throws  InvalidArgumentException
+	 */
+	public function getController(JApplicationCms $app = null)
+	{
+		// Assemble the controller name
+		$classArray = $this->buildControllerName();
+		$prefix = $classArray['prefix'];
+		$controllerName = $classArray['name'];
+
+		// @todo Work out how to register any classes that haven't been autoloaded already
+		$class = $prefix .  'Controller' . $controllerName;
+
+		// If we can't find the class get the fallback
+		if (!class_exists($class))
+		{
+			// If we're told not to have a fallback controller we'll just abort here and throw an exception
+			if (!$this->tryFallback)
+			{
+				$format = $this->input->getWord('format', 'html');
+
+				throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $controllerName, $format));
+			}
+
+			// Try and get a fallback class from the CMS
+			$class = $this->getFallbackClassName($controllerName);
+
+			// If we can't find the fallback class throw an exception.
+			if (!class_exists($class)) 
+			{
+				$format = $this->input->getWord('format', 'html');
+
+				throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $controllerName, $format));
+			}
+		}
+
+		$this->controller = new $class($this->input, $app, $this->config);
+
+		return $this->controller;
+	}
+
+	/**
+	 * Gets the controller name
+	 *
+	 * @return  array  An array with elements prefix and name corresponding to the controller name
+	 *                 PrefixControllerName
+	 *
+	 * @throws  InvalidArgumentException
+	 */
+	protected function buildControllerName()
+	{
+		$tasks = $this->getTasks();
+
+		if (empty($tasks[self::CONTROLLER_PREFIX]) || $tasks[self::CONTROLLER_PREFIX] == 'j')
+		{
+			$location = 'J';
+		}
+		else
+		{
+			$location = ucfirst(strtolower($tasks[self::CONTROLLER_PREFIX]));
+		}
+
+		if (empty($tasks[self::CONTROLLER_ACTIVITY]))
+		{
+			$activity = 'Displaylist';
+		}
+		else
+		{
+			$activity = ucfirst(strtolower($tasks[self::CONTROLLER_ACTIVITY]));
+		}
+
+		$view = '';
+
+		if (empty($tasks[self::CONTROLLER_VIEW_FOLDER]) && $location != 'J')
+		{
+			$view = ucfirst(strtolower($this->input->get('view')));
+		}
+		elseif ($location != 'J')
+		{
+			$view = ucfirst(strtolower($tasks[self::CONTROLLER_VIEW_FOLDER]));
+		}
+
+		$return = array(
+			'prefix' => $location,
+			'name' => $view . $activity
+		);
+
+		return $return;
+	}
+
+	/**
+	 * Method to get a the default task controller.
+	 *
+	 * @param   string  $task  The task from the input
+	 *
+	 * @return  string  The fallback class name
+	 */
+	protected function getFallbackClassName($task)
+	{
+		$className = 'JController' . ucfirst($task);
+
+		return $className;
+	}
+
+	/**
+	 * Method to get the controller information from the URL
+	 * Defaults to the base controllers.
+	 *      $tasks[CONTROLLER_PREFIX] is the location of the controller which defaults to the core libraries (referenced as 'j'
+	 *      and then the named folder within the component entry point file.
+	 *      $tasks[CONTROLLER_ACTIVITY] is the name of the controller file,
+	 *      $tasks[CONTROLLER_VIEW_FOLDER] is the name of the folder found in the component controller folder for controllers
+	 *      not prefixed with J.
+	 *
+	 * @return   array  The tasks in the form listed above
+	 */
+	public function getTasks()
+	{
+		$controllerTask = $this->input->get('task');
+
+		if (empty($controllerTask))
+		{
+			$controllerTask = $this->input->get('controller');
+		}
+
+		if (!empty($controllerTask))
+		{
+			// Temporary solution - Toolbar expects old style but we are using new style
+			// Remove when toolbar can handle either directly
+			// @todo Talk with Buddhima/Elin about what this actually means!?
+			if (strpos($controllerTask, '/') !== false)
+			{
+				$tasks = explode('/', $controllerTask);
+			}
+			else
+			{
+				$tasks = explode('.', $controllerTask);
+			}
+		}
+		else
+		{
+				// In the absence of a named controller default to display.
+				$tasks = array('j', 'displaylist');
+		}
+
+		return $tasks;
+	}
+
+	/**
+	 * Adds the redirect in the controller
+	 *
+	 * @see JControllerCms::redirect()
+	 */
+	public function redirect()
+	{
+		return $this->controller->redirect();
+	}
+}
