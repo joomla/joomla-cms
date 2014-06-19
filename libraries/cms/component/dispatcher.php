@@ -66,8 +66,16 @@ class JComponentDispatcher
 		// Set the view in the input object
 		$input->set('view', $view);
 
+		$prefix = ucfirst(substr($option, 4));
+
+		// We can't let people use JDispatcher as that is a unrelated legacy class name in Joomla 3.x
+		if ($prefix === 'J')
+		{
+			throw new InvalidArgumentException('The prefix J for a class name is not allowed');
+		}
+
 		// Get the dispatcher class name
-		$className = ucfirst(substr($option, 4)) . 'Dispatcher';
+		$className = $prefix . 'Dispatcher';
 
 		// If we can't find a component specific dispatcher use this.
 		if (!class_exists($className))
