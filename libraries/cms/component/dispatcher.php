@@ -54,6 +54,8 @@ class JComponentDispatcher
 	 * @param   array   $config  Configuration data
 	 *
 	 * @return  JComponentDispatcher
+	 *
+	 * @throws  InvalidArgumentException
 	 */
 	public static function getInstance($option, $view = null, JInput $input = null, $config = array())
 	{
@@ -168,10 +170,19 @@ class JComponentDispatcher
 		$classQueue = $this->getControllerNames();
 		$classQueue->top();
 
+		$first = null;
+
 		// Loop through each class and see if one exists
 		while($classQueue->valid())
 		{
 			$potentialClass = $classQueue->current();
+
+			// Log the primary controller name so if we can't find any classes
+			// we can add this name to the log later
+			if(!$first)
+			{
+				$first = $potentialClass;
+			}
 
 			if (class_exists($potentialClass))
 			{
@@ -188,7 +199,7 @@ class JComponentDispatcher
 		{
 			$format = $this->input->getWord('format', 'html');
 
-			throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $controllerName, $format));
+			throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $first, $format));
 		}
 
 		$this->controller = new $class($this->input, $app, $this->config);
