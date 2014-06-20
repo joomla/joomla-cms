@@ -67,7 +67,7 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 			// Access check.
 			if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
 			{
-				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 				return;
 			}
