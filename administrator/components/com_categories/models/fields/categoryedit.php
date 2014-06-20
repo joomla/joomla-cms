@@ -112,7 +112,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		}
 
 		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.extension, a.parent_id, a.published')
-			->order('a.lft ASC');
+			->order('a.title ASC, a.lft ASC');
 
 		// Get the options.
 		$db->setQuery($query);
