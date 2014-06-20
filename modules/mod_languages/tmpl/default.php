@@ -35,9 +35,8 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 							<?php
 							if ($params->get('encode'))
 							{
-								$flag = preg_match('/\< *[img][^\>]*[src] *= *[\"\']{0,1}([^\"\'\ >]*)/i', JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true), $match);
-
-								echo '<img src="data:image/gif;base64,' . base64_encode(file_get_contents(JPATH_ROOT . $match[1])) . '" alt="' . $language->title_native . '" title="' . $language->title_native . '">';
+								$flag = JHtml::_('image', 'mod_languages/' . $language->image . '.gif', null, true, true, true);
+								echo '<img src="data:image/gif;base64,' . base64_encode(file_get_contents(JPATH_ROOT . $flag)) . '" alt="' . $language->title_native . '" title="' . $language->title_native . '">';
 							}
 							else
 							{
