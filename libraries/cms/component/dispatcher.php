@@ -91,7 +91,7 @@ class JComponentDispatcher
 	}
 
 	/**
-	 * Uses the input to select the task controller.
+	 * Sets the input, option, config and view variables for use elsewhere in the class.
 	 *
 	 * @param   string  $option  The application object
 	 * @param   JInput  $input   The input class
