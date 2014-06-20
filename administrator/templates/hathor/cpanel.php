@@ -125,9 +125,9 @@ else
 			}
 			else
 			{
-				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');
+				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1');
 			}
-			
+
 			$hideLinks = $app->input->getBool('hidemainmenu');
 			$output = array();
 			// Print the Preview link to Main site.
