@@ -81,7 +81,7 @@ class InstallerModelInstall extends JModelLegacy
 		$package = null;
 
 		// This event allows an input pre-treatment, a custom pre-packing or custom installation
-		// (e.g. from a JSON description)
+		// (e.g. from a JSON description)
 		$results = $dispatcher->trigger('onInstallerBeforeInstallation', array($this, &$package));
 
 		if (in_array(true, $results, true))
