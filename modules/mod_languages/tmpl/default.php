@@ -33,7 +33,7 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 			<a href="<?php echo $language->link;?>">
 			<?php if ($params->get('image', 1)):?>
 				<?php
-				if ($params->get('encode', 1))
+				if ($params->get('encode'))
 				{
 					echo '<img src="data:image/gif;base64,' . base64_encode(file_get_contents(JPATH_ROOT . '/media/mod_languages/images/' . $language->image . '.gif')) . '" alt="' . $language->title_native . '" title="' . $language->title_native . '">';
 				}
