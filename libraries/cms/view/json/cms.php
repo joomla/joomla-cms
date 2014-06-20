@@ -57,6 +57,8 @@ abstract class JViewJsonCms extends JViewCms
 	 */
 	public function render()
 	{
-		return json_encode($this->getData());
+		$data = $this->getData();
+
+		return new JResponseJson ($data);
 	}
 }
