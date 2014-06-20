@@ -78,6 +78,16 @@
 					<option value="0">JNO</option>
 				</field>
 				<field
+						name="encode"
+						type="radio"
+						class="btn-group btn-group-yesno"
+						default="0"
+						label="MOD_LANGUAGES_FIELD_ENCODE_LABEL"
+						description="MOD_LANGUAGES_FIELD_ENCODE_DESC" >
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
 					name="inline"
 					type="radio"
 					class="btn-group btn-group-yesno"
