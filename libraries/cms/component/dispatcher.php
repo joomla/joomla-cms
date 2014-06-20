@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 class JComponentDispatcher
 {
+	// Constants that define the form of the controller passed in the URL
 	const CONTROLLER_PREFIX = 0;
 	const CONTROLLER_ACTIVITY = 1;
 	const CONTROLLER_VIEW_FOLDER = 2;
