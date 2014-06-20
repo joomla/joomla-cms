@@ -38,7 +38,7 @@ $view     = $input->get('view', '');
 $layout   = $input->get('layout', '');
 $task     = $input->get('task', '');
 $itemid   = $input->get('Itemid', '');
-$sitename = $app->getCfg('sitename');
+$sitename = $app->get('sitename');
 
 $cpanel   = ($option === 'com_cpanel');
 
