@@ -27,29 +27,28 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 	</form>
 <?php else : ?>
 	<ul class="<?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block';?>">
-		<?php foreach ($list as $language) : ?>
-			<?php if ($params->get('show_active', 0) || !$language->active):?>
-				<li class="<?php echo $language->active ? 'lang-active' : '';?>" dir="<?php echo JLanguage::getInstance($language->lang_code)->isRTL() ? 'rtl' : 'ltr' ?>">
-					<a href="<?php echo $language->link;?>">
-						<?php if ($params->get('image', 1)):?>
-							<?php
-							if ($params->get('encode'))
-							{
-								$flag = JHtml::_('image', 'mod_languages/' . $language->image . '.gif', null, null, true, true);
-								echo '<img src="data:image/gif;base64,' . base64_encode(file_get_contents(JPATH_ROOT . $flag)) . '" alt="' . $language->title_native . '" title="' . $language->title_native . '">';
-							}
-							else
-							{
-								echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true);
-							}
-							?>
-						<?php else : ?>
-							<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef);?>
-						<?php endif; ?>
-					</a>
-				</li>
-			<?php endif;?>
-		<?php endforeach;?>
+	<?php foreach ($list as $language) : ?>
+		<?php if ($params->get('show_active', 0) || !$language->active):?>
+			<li class="<?php echo $language->active ? 'lang-active' : '';?>" dir="<?php echo JLanguage::getInstance($language->lang_code)->isRTL() ? 'rtl' : 'ltr' ?>">
+			<a href="<?php echo $language->link;?>">
+			<?php if ($params->get('image', 1)):?>
+				<?php
+				if ($params->get('encode', 1))
+				{
+					echo '<img src="data:image/gif;base64,' . base64_encode(file_get_contents(JPATH_ROOT . '/media/mod_languages/images/' . $language->image . '.gif')) . '" alt="' . $language->title_native . '" title="' . $language->title_native . '">';
+				}
+				else
+				{
+					echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true);
+				}
+				?>
+			<?php else : ?>
+				<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef);?>
+			<?php endif; ?>
+			</a>
+			</li>
+		<?php endif;?>
+	<?php endforeach;?>
 	</ul>
 <?php endif; ?>
 
