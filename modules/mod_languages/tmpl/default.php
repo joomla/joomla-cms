@@ -35,7 +35,7 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 							<?php
 							if ($params->get('encode'))
 							{
-								$flag = JHtml::_('image', 'mod_languages/' . $language->image . '.gif', null, true, true, true);
+								$flag = JHtml::_('image', 'mod_languages/' . $language->image . '.gif', null, null, true, true);
 								echo '<img src="data:image/gif;base64,' . base64_encode(file_get_contents(JPATH_ROOT . $flag)) . '" alt="' . $language->title_native . '" title="' . $language->title_native . '">';
 							}
 							else
