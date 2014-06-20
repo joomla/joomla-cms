@@ -78,22 +78,6 @@ else
 	$logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
 }
 
-// Display an harcoded logout
-// @todo: Looks like this whole block isn't used at all and could be removed
-$task = $app->input->get('task');
-
-if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu'))
-{
-	$logoutLink = '';
-}
-else
-{
-	$logoutLink = JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1');
-}
-
-$hideLinks = $app->input->getBool('hidemainmenu');
-$output    = array();
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>">
@@ -132,10 +116,6 @@ $output    = array();
 	<!-- Status Module -->
 	<div id="module-status">
 		<jdoc:include type="modules" name="status"/>
-			<?php // @todo: $output is every empty (see ca line 95). Can we remove this lines? ?>
-			<?php foreach ($output as $item) : ?>
-				<?php echo $item; ?>
-			<?php endforeach; ?>
 	</div>
 	<!-- Content Area -->
 	<div id="content">
@@ -148,7 +128,7 @@ $output    = array();
 			<?php if (!$app->input->getInt('hidemainmenu')) : ?>
 				<h3 class="element-invisible"><?php echo JText::_('TPL_HATHOR_SUB_MENU'); ?></h3>
 				<jdoc:include type="modules" name="submenu" style="xhtmlid" id="submenu-box" />
-			<?php echo " " ?>
+				<?php echo " " ?>
 			<?php else : ?>
 				<div id="no-submenu"></div>
 			<?php endif; ?>
