@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  Joomla.Libraries
+ * @package     Joomla.Libraries
+ * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,12 +13,11 @@ defined('_JEXEC') or die('Restricted access');
  * Base Display Controller
  *
  * @package     Joomla.Libraries
- * @subpackage  controller
+ * @subpackage  Controller
  * @since       3.2
 */
 class JControllerUpdatestatelist extends JControllerCmsbase
 {
-
 	/*
 	 * Prefix for the view and model classes
 	 *
@@ -47,6 +46,7 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 	 * @return  mixed  A rendered view or true
 	 *
 	 * @since   3.2
+	 * @throws  RuntimeException
 	 */
 	public function execute()
 	{
@@ -56,7 +56,7 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 
 		if (empty($ids))
 		{
-			JError::raiseWarning(500, JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
+			throw new RuntimeException(JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'), 500);
 		}
 		else
 		{
