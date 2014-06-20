@@ -115,30 +115,6 @@ else
 	<!-- Status Module -->
 	<div id="module-status">
 		<jdoc:include type="modules" name="status"/>
-			<?php
-			// @todo: we can remove this lines since we don't use it.
-			//Display an harcoded logout
-			$task = $app->input->get('task');
-			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu'))
-			{
-				$logoutLink = '';
-			}
-			else
-			{
-				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');
-			}
-			
-			$hideLinks = $app->input->getBool('hidemainmenu');
-			$output = array();
-			// Print the Preview link to Main site.
-			//$output[] = '<span class="viewsite"><a href="'.JUri::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';
-			// Print the logout link.
-			//$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
-			// Output the items.
-			foreach ($output as $item) :
-			echo $item;
-			endforeach;
-			?>
 	</div>
 	<!-- Content Area -->
 	<div id="content">
