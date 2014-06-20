@@ -211,9 +211,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 			'Tests input injection.'
 		);
 
-		$this->assertThat(
+		$this->assertFalse(
 			$inspector->get('session'),
-			$this->isFalse(),
 			'Tests config injection.'
 		);
 
@@ -440,9 +439,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testIsAdmin()
 	{
-		$this->assertThat(
+		$this->assertFalse(
 			$this->class->isAdmin(),
-			$this->isFalse(),
 			'By default, JApplicationCms is neither a site or admin app'
 		);
 	}
