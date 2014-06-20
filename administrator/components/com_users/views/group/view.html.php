@@ -20,8 +20,20 @@ class UsersViewGroup extends JViewLegacy
 {
 	protected $form;
 
+	/**
+	 * The item data.
+	 *
+	 * @var   object
+	 * @since 1.6
+	 */
 	protected $item;
 
+	/**
+	 * The model state.
+	 *
+	 * @var   JObject
+	 * @since 1.6
+	 */
 	protected $state;
 
 	/**
@@ -29,9 +41,9 @@ class UsersViewGroup extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->state	= $this->get('State');
-		$this->item		= $this->get('Item');
-		$this->form		= $this->get('Form');
+		$this->state = $this->get('State');
+		$this->item  = $this->get('Item');
+		$this->form  = $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -63,10 +75,12 @@ class UsersViewGroup extends JViewLegacy
 			JToolbarHelper::apply('group.apply');
 			JToolbarHelper::save('group.save');
 		}
+
 		if ($canDo->get('core.create'))
 		{
 			JToolbarHelper::save2new('group.save2new');
 		}
+
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
