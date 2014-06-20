@@ -34,7 +34,7 @@ class JFormFieldNumber extends JFormField
 	 * @var    float
 	 * @since  3.2
 	 */
-	protected $max = 0;
+	protected $max = null;
 
 	/**
 	 * The allowable minimum value of the field.
@@ -42,7 +42,7 @@ class JFormFieldNumber extends JFormField
 	 * @var    float
 	 * @since  3.2
 	 */
-	protected $min = 0;
+	protected $min = null;
 
 	/**
 	 * The step by which value of the field increased or decreased.
@@ -119,8 +119,9 @@ class JFormFieldNumber extends JFormField
 
 		if ($return)
 		{
-			$this->max  = isset($this->element['max']) ? (float) $this->element['max'] : 100;
-			$this->min  = isset($this->element['min']) ? (float) $this->element['min'] : 0;
+			// It is better not to force any default limits if none is specified
+			$this->max  = isset($this->element['max']) ? (float) $this->element['max'] : null;
+			$this->min  = isset($this->element['min']) ? (float) $this->element['min'] : null;
 			$this->step = isset($this->element['step']) ? (float) $this->element['step'] : 1;
 		}
 
@@ -141,8 +142,11 @@ class JFormFieldNumber extends JFormField
 
 		// Initialize some field attributes.
 		$size     = !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$max      = !empty($this->max) ? ' max="' . $this->max . '"' : '';
-		$min      = !empty($this->min) ? ' min="' . $this->min . '"' : '';
+
+		// Must use isset instead of !empty for max/min because "zero" boundaries are always acceptable
+		$max      = isset($this->max) ? ' max="' . $this->max . '"' : '';
+		$min      = isset($this->min) ? ' min="' . $this->min . '"' : '';
+
 		$step     = !empty($this->step) ? ' step="' . $this->step . '"' : '';
 		$class    = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$readonly = $this->readonly ? ' readonly' : '';

@@ -56,14 +56,8 @@ class GenerateCss extends JApplicationCli
 			__DIR__ . '/less/bootstrap-rtl.less' => JPATH_SITE . '/media/jui/css/bootstrap-rtl.css'
 		);
 
-		// Load the RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			require_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-
-		$less = new FOFLess;
-		$less->setFormatter(new FOFLessFormatterJoomla);
+		$less = new JLess;
+		$less->setFormatter(new JLessFormatterJoomla);
 
 		foreach ($templates as $source => $output)
 		{

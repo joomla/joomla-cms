@@ -21,14 +21,14 @@ class UsersController extends JControllerLegacy
 	/**
 	 * Checks whether a user can see this view.
 	 *
-	 * @param   string	$view	The view name.
+	 * @param   string   $view  The view name.
 	 *
 	 * @return  boolean
 	 * @since   1.6
 	 */
 	protected function canView($view)
 	{
-		$canDo	= JHelperContent::getActions('com_users');
+		$canDo = JHelperContent::getActions('com_users');
 
 		switch ($view)
 		{
@@ -49,10 +49,10 @@ class UsersController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean      If true, the view output will be cached
+	 * @param   array        An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  JController	 This object to support chaining.
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
