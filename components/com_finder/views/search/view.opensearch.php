@@ -33,8 +33,8 @@ class FinderViewSearch extends JViewLegacy
 		$app = JFactory::getApplication();
 
 		$params = JComponentHelper::getParams('com_finder');
-		$doc->setShortName($params->get('opensearch_name', $app->getCfg('sitename')));
-		$doc->setDescription($params->get('opensearch_description', $app->getCfg('MetaDesc')));
+		$doc->setShortName($params->get('opensearch_name', $app->get('sitename')));
+		$doc->setDescription($params->get('opensearch_description', $app->get('MetaDesc')));
 
 		// Add the URL for the search
 		$searchUri = JUri::base() . 'index.php?option=com_finder&q={searchTerms}';
