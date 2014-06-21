@@ -251,4 +251,21 @@ class JControllerCmsbase extends JControllerBase
 
 		return $prefix;
 	}
+
+	/**
+	 * Method to save the user input into state.
+	 * This is intended to be used to preserve form data when server side validation fails
+	 *
+	 * @param string $key dot delimited string format $context.$dataIdentifier
+	 * @param mixed $data the data to store
+	 *
+	 * @return void
+	 */
+	protected function setUserState($key = null, $data = null)
+	{
+		if(!is_null($key))
+		{
+			$this->app->setUserState($key, $data);
+		}
+	}
 }
