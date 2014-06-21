@@ -44,9 +44,6 @@ class JControllerDisplayform extends JControllerDisplay
 	 */
 	public function execute()
 	{
-		// Get the application
-		$app = $this->getApplication();
-
 		// Get the document object.
 		$document = JFactory::getDocument();
 
@@ -99,7 +96,7 @@ class JControllerDisplayform extends JControllerDisplay
 			// Access check.
 			if (!JFactory::getUser()->authorise($this->permission, $this->input->getString('option')))
 			{
-				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 				return;
 			}
@@ -109,7 +106,7 @@ class JControllerDisplayform extends JControllerDisplay
 			$view->setLayout($layoutName);
 
 			$context = $componentFolder . '.' . $this->viewName;
-			$this->editCheck($app, $context, $idName);
+			$this->editCheck($this->app, $context, $idName);
 
 			// Push document object into the view.
 			$view->document = $document;
@@ -133,7 +130,7 @@ class JControllerDisplayform extends JControllerDisplay
 	/*
 	 * Method to check if the user has permission to edit this item
 	 *
-	 * @param   JApplication  $app  The application
+	 * @param   JApplicationCms  $app  The application
 	 *
 	 * @return  boolean
 	 *
@@ -171,10 +168,9 @@ class JControllerDisplayform extends JControllerDisplay
 	{
 		if ($id)
 		{
-			$app = JFactory::getApplication();
 			// Fix this check which is also a bug
 			/*
-			$values = (array) $app->getUserState($context . '.id');
+			$values = (array) $this->app->getUserState($context . '.id');
 
 
 			$result = in_array((int) $id, $values);
@@ -215,9 +211,8 @@ class JControllerDisplayform extends JControllerDisplay
 	 */
 	public function registerPaths($componentFolder, $viewName)
 	{
-		$app = JFactory::getApplication();
-		$jpath = $app->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		$template = $app->getTemplate();
+		$jpath = $this->app->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$template = $this->app->getTemplate();
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;

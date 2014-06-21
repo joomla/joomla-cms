@@ -46,10 +46,7 @@ class JControllerDisplay extends JControllerCmsbase
 	 */
 	public function execute()
 	{
-		// Get the application
-		$app = $this->getApplication();
-
-		!$app->isAdmin() ? : $this->permission = 'core.manage';
+		!$this->app->isAdmin() ? : $this->permission = 'core.manage';
 
 		// Get the document object.
 		$document     = JFactory::getDocument();
@@ -61,7 +58,7 @@ class JControllerDisplay extends JControllerCmsbase
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;
-		$jpath = $app->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$jpath = $this->app->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
 		$paths->insert($jpath . '/templates/html' . $componentFolder . '/' . $this->viewName , '1000');
 		$paths->insert($jpath . '/components/' . $componentFolder . '/view/' . $this->viewName . '/tmpl', '950');
@@ -77,9 +74,9 @@ class JControllerDisplay extends JControllerCmsbase
 			// Access check.
 			if (!empty($this->permission) && !JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
 			{
-				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
-				return;
+				return false;
 			}
 
 			$view = new $viewClass($model, $paths);

@@ -53,7 +53,7 @@ class JControllerDelete extends JControllerCmsbase
 		{
 			// Set the internal error and also the redirect error.
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'));
-			$this->enqueueMessage($this->getError(), 'error');
+			$this->app->enqueueMessage($this->getError(), 'error');
 
 			$this->setRedirect(
 				JRoute::_(

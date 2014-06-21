@@ -50,6 +50,6 @@ class JControllerSaveorderajax extends JControllerCmsbase
 		}
 
 		// Close the application
-		JFactory::getApplication()->close();
+		$this->app->close();
 	}
 }

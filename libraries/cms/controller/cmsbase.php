@@ -18,45 +18,49 @@ defined('_JEXEC') or die('Restricted access');
 */
 class JControllerCmsbase extends JControllerBase
 {
+	/**
+	 * Redeclaration of the application object as
+	 * the CMS application for typehinting.
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.4
+	 */
+	protected $app;
+
 	/*
 	 * Prefix for the view and model classes
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  3.4
 	 */
 	public $prefix;
 
 	/*
 	 * Prefix for the view and model classes
 	 *
-	 * @var  string
+	 * @var  array
+	 * @since  3.4
 	 */
 	public $config;	
 
 	/*
 	 * Permission needed for the action. Defaults to most restrictive
-	*
-	* @var  string
-	*/
-	public $permission = '';
-
-	/**
-	 * The injected config
 	 *
-	 * @var    string
+	 * @var  string
 	 * @since  3.4
 	 */
-	public $config = array();
+	public $permission = '';
 
 	/**
 	 * Constructor
 	 *
-	 * @param   array             $config  An array of configuration options. Must have option key.
-	 * @param   JInput            $input   The input object.
-	 * @param   JApplicationBase  $app     The application object.
+	 * @param   array            $config  An array of configuration options. Must have option key.
+	 * @param   JInput           $input   The input object.
+	 * @param   JApplicationCms  $app     The application object.
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(array $config, JInput $input = null, JApplicationBase $app = null)
+	public function __construct(array $config, JInput $input = null, JApplicationCms $app = null)
 	{
 		$this->config = $config;
 
