@@ -48,12 +48,9 @@ class JControllerDisplay extends JControllerCmsbase
 	{
 		!$this->app->isAdmin() ? : $this->permission = 'core.manage';
 
-		// Get the document object.
-		$document     = JFactory::getDocument();
-
 		$componentFolder = $this->input->getWord('option', 'com_content');
 		$this->viewName     = $this->input->getWord('view', 'articles');
-		$viewFormat   = $document->getType();
+		$viewFormat   = JFactory::getDocument()->getType();
 		$layoutName   = $this->input->getWord('layout', 'default');
 
 		// Register the layout paths for the view
@@ -94,9 +91,6 @@ class JControllerDisplay extends JControllerCmsbase
 		{
 			$view->setLayout($layoutName);
 		}
-
-		// Push document object into the view.
-		$view->document = $document;
 
 		// Reply for service requests
 		if ($viewFormat == 'json')
