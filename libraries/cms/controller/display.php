@@ -63,57 +63,50 @@ class JControllerDisplay extends JControllerCmsbase
 		$paths->insert($jpath . '/templates/html' . $componentFolder . '/' . $this->viewName , '1000');
 		$paths->insert($jpath . '/components/' . $componentFolder . '/view/' . $this->viewName . '/tmpl', '950');
 
-		$viewClass  = $this->prefix . 'View' . ucfirst($this->viewName) . ucfirst($viewFormat);
-
-		$modelClass = $this->prefix . 'Model' . ucfirst($this->viewName);
-
-		if (class_exists($viewClass))
+		try
 		{
-			$model = new $modelClass;
-
-			// Access check.
-			if (!empty($this->permission) && !JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
-			{
-				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-
-				return false;
-			}
-
-			$view = new $viewClass($model, $paths);
-
-			if ($viewFormat == 'html')
-			{
-				$view->setLayout($layoutName);
-			}
-
-			// Push document object into the view.
-			$view->document = $document;
-
-			$this->getModelData($view, $model);
-
-			// Reply for service requests
-			if ($viewFormat == 'json')
-			{
-				return $view->render();
-			}
-
-			// Render view.
-			echo $view->render();
+			$model = $this->getModel();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		return true;
-	}
+		// Access check.
+		if (!empty($this->permission) && !JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
+		{
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
-	/**
-	 * Method to get appropriate data from the model. This should be overridden based
-	 * on needs of the display.
-	 *
-	 * @param JView $view  The view object to be rendered
-	 */
-	protected function getModelData($view, $model)
-	{
-		// Defaults to a single item
-		$view->state = $model->getState();
-		$view->item = $model->getItems();
+			return false;
+		}
+
+		// Initialise the view class.
+		$viewClass  = $this->prefix . 'View' . ucfirst($this->viewName) . ucfirst($viewFormat);
+
+		if (!class_exists($viewClass))
+		{
+			throw new RuntimeException('View not found');
+		}
+
+		$view = new $viewClass($model, $paths);
+
+		if ($viewFormat == 'html')
+		{
+			$view->setLayout($layoutName);
+		}
+
+		// Push document object into the view.
+		$view->document = $document;
+
+		// Reply for service requests
+		if ($viewFormat == 'json')
+		{
+			return $view->render();
+		}
+
+		// Render view.
+		echo $view->render();
+
+		return true;
 	}
 }
