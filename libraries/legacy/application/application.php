@@ -198,11 +198,11 @@ class JApplication extends JApplicationBase
 
 		// Set user specific editor.
 		$user = JFactory::getUser();
-		$editor = $user->getParam('editor', $this->get('editor'));
+		$editor = $user->getParam('editor', $this->getCfg('editor'));
 
 		if (!JPluginHelper::isEnabled('editors', $editor))
 		{
-			$editor = $this->get('editor');
+			$editor = $this->getCfg('editor');
 
 			if (!JPluginHelper::isEnabled('editors', $editor))
 			{
@@ -301,7 +301,7 @@ class JApplication extends JApplicationBase
 		$this->triggerEvent('onBeforeRender');
 
 		// Render the document.
-		$caching = ($this->get('caching') >= 2) ? true : false;
+		$caching = ($this->getCfg('caching') >= 2) ? true : false;
 		JResponse::setBody($document->render($caching, $params));
 
 		// Trigger the onAfterRender event.
@@ -468,7 +468,7 @@ class JApplication extends JApplicationBase
 	/**
 	 * Gets a configuration value.
 	 *
-	 * An example is in application/japplication-get.php Getting a configuration
+	 * An example is in application/japplication-getcfg.php Getting a configuration
 	 *
 	 * @param   string  $varname  The name of the value to get.
 	 * @param   string  $default  Default value to return
@@ -968,14 +968,14 @@ class JApplication extends JApplicationBase
 		switch ($this->_clientId)
 		{
 			case 0:
-				if ($this->get('force_ssl') == 2)
+				if ($this->getCfg('force_ssl') == 2)
 				{
 					$options['force_ssl'] = true;
 				}
 				break;
 
 			case 1:
-				if ($this->get('force_ssl') >= 1)
+				if ($this->getCfg('force_ssl') >= 1)
 				{
 					$options['force_ssl'] = true;
 				}
@@ -1008,7 +1008,7 @@ class JApplication extends JApplicationBase
 		}
 
 		// Check to see the the session already exists.
-		$handler = $this->get('session_handler');
+		$handler = $this->getCfg('session_handler');
 
 		if (($handler != 'database' && ($time % 2 || $session->isNew()))
 			|| ($handler == 'database' && $session->isNew()))
@@ -1179,7 +1179,7 @@ class JApplication extends JApplicationBase
 	 */
 	public function __toString()
 	{
-		$compress = $this->get('gzip', false);
+		$compress = $this->getCfg('gzip', false);
 
 		return JResponse::toString($compress);
 	}
