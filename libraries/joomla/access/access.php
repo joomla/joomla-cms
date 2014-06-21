@@ -220,35 +220,51 @@ class JAccess
 		// Get the database connection object.
 		$db = JFactory::getDbo();
 
-		// Build the database query to get the rules for the asset.
 		$query = $db->getQuery(true)
-			->select($recursive ? 'b.rules' : 'a.rules')
-			->from('#__assets AS a');
-
-		// SQLsrv change
-		$query->group($recursive ? 'b.id, b.rules, b.lft' : 'a.id, a.rules, a.lft');
+			->select($recursive ? 'lft,rgt' : 'rules')
+			->from('#__assets');
 
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
 		if (is_numeric($asset))
 		{
-			$query->where('(a.id = ' . (int) $asset . ')');
+			$query->where('(id = ' . (int) $asset . ')');
 		}
 		else
 		{
-			$query->where('(a.name = ' . $db->quote($asset) . ')');
+			$query->where('(name = ' . $db->quote($asset) . ')');
 		}
 
-		// If we want the rules cascading up to the global asset node we need a self-join.
 		if ($recursive)
 		{
-			$query->join('LEFT', '#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt')
-				->order('b.lft');
+			$db->setQuery($query);
+			$row = $db->loadObject();
+
+			$query = $db->getQuery(true)
+				->select('rules,lft')
+				->from('#__assets')
+				->where('lft <= ' . $row->lft . ' AND rgt >= ' . $row->rgt);
 		}
 
 		// Execute the query and load the rules from the result.
 		$db->setQuery($query);
-		$result = $db->loadColumn();
+		$result = $db->loadRowList();
 
+		// If the $recursive variable is true then the database result is sorted according to the lft value
+		if ($recursive)
+		{
+			usort($result, function ($a, $b){return $a[1] - $b[1];});
+
+			$i = 0;
+
+			// Extract the rules from the result array
+			foreach ($result as $key => $value)
+			{
+				$temp[$key] = $value[0];
+				$i++;
+			}
+
+			$result = $temp;
+		}
 		// Get the root even if the asset is not found and in recursive mode
 		if (empty($result))
 		{
