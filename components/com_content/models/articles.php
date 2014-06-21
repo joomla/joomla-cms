@@ -76,7 +76,7 @@ class ContentModelArticles extends JModelList
 		$app = JFactory::getApplication();
 
 		// List state information
-		$value = $app->input->get('limit', $app->getCfg('list_limit', 0), 'uint');
+		$value = $app->input->get('limit', $app->get('list_limit', 0), 'uint');
 		$this->setState('list.limit', $value);
 
 		$value = $app->input->get('limitstart', 0, 'uint');
