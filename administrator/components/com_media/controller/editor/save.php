@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_media
- * @since       3.4
+ * @since       3.5
 */
 class MediaControllerEditorSave extends JControllerBase
 {
@@ -22,7 +22,7 @@ class MediaControllerEditorSave extends JControllerBase
 	 *
 	 * @return  bool	True on success.
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function execute()
 	{
@@ -108,6 +108,8 @@ class MediaControllerEditorSave extends JControllerBase
 	 *
 	 * @param   JModel  $model  Instance of model class
 	 * @param   array   $data   Array which contains data
+	 *
+	 * @since   3.5
 	 */
 	protected function postSaveHook($model, $data = array())
 	{

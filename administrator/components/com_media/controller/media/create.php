@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_media
- * @since       3.4
+ * @since       3.5
 */
 class MediaControllerMediaCreate extends JControllerBase
 {
@@ -22,7 +22,7 @@ class MediaControllerMediaCreate extends JControllerBase
 	 * Prefix for the view and model classes
 	 *
 	 * @var    string
-	 * @since  3.4
+	 * @since  3.5
 	 */
 	public $prefix = 'Media';
 
@@ -31,7 +31,7 @@ class MediaControllerMediaCreate extends JControllerBase
 	 *
 	 * @return  mixed  A rendered view or true
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function execute()
 	{

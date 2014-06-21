@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_media
- * @since       3.4
+ * @since       3.5
  */
 class MediaHelperMedia extends JHelperContent
 {
@@ -25,7 +25,7 @@ class MediaHelperMedia extends JHelperContent
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public static function addSubmenu($vName)
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,26 +14,26 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_media
- * @since       3.3
+ * @since       3.5
  */
 class MediaModelEditor extends JModelCmsitem
 {
 
 	/**
 	 * @var     string  The help screen key for the edit screen.
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	protected $helpKey = 'JHELP_MEDIA_MANAGER_EDITOR';
 
 	/**
 	 * @var   string  The help screen base URL for the module.
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $helpURL;
 
 	/**
 	 * @var   object  The cache for this item
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $cache;
 
@@ -44,7 +44,7 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function checkin($pk = null)
 	{
@@ -91,7 +91,7 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function checkout($pk = null)
 	{
@@ -137,6 +137,8 @@ class MediaModelEditor extends JModelCmsitem
 	 * @param   integer  $pk  The id of the primary key.
 	 *
 	 * @return  mixed   Object on success, false on failure.
+	 *
+	 * @since 3.5
 	 */
 	public function getItem($pk = null)
 	{
@@ -188,6 +190,8 @@ class MediaModelEditor extends JModelCmsitem
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return  JTable   A database object
+	 *
+	 * @since 3.5
 	 */
 	public function getTable($type = 'Media', $prefix = 'MediaTable', $config = array())
 	{
@@ -202,7 +206,7 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   1.6
+	 * @since   3.5
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -222,7 +226,7 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @return  mixed  The data for the form.
 	 *
-	 * @since   1.6
+	 * @since   3.5
 	 */
 	protected function loadFormData()
 	{
@@ -262,7 +266,7 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   3.5
 	 */
 	protected function populateState()
 	{
@@ -284,7 +288,7 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @return  object  An object with key, url, and local properties for loading the item help screen.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function getHelp()
 	{
@@ -294,7 +298,7 @@ class MediaModelEditor extends JModelCmsitem
 	/**
 	 * Custom clean cache method, plugins are cached in 2 places for different clients
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
@@ -339,7 +343,7 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @return  array an associative array containing image address, height and width.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function getImage()
 	{
@@ -385,7 +389,7 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @return  boolean     true if image cropped successfully, false otherwise.
 	 *
-	 * @since   3.3
+	 * @since   3.5
 	 */
 	public function cropImage($id, $w, $h, $x, $y)
 	{
@@ -421,7 +425,7 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @return   boolean  true if image resize successful, false otherwise.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function resizeImage($id, $width, $height)
 	{
@@ -456,7 +460,7 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @return   boolean  true if image rotate successful, false otherwise.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function rotateImage($id, $angle)
 	{
@@ -493,7 +497,7 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @return   boolean  true if image rotate successful, false otherwise.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function createThumbs($id, $sizes, $creationMethod = JImage::SCALE_INSIDE, $thumbsFolder = null)
 	{
@@ -526,7 +530,7 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @return   boolean  true if image filtering successful, false otherwise.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function filterImage($id, $filter, $value = null)
 	{
@@ -571,7 +575,7 @@ class MediaModelEditor extends JModelCmsitem
 	 *
 	 * @return  string   Comma separated list of tag Ids.
 	 *
-	 * @since   3.1
+	 * @since   3.5
 	 */
 	public function getTagIds($ids, $prefix)
 	{

@@ -16,7 +16,7 @@ jimport('joomla.filesystem.folder');
  *
  * @package     Joomla.Administrator
  * @subpackage  com_media
- * @since       3.2
+ * @since       3.5
 */
 class MediaControllerMediaDelete extends JControllerBase
 {
@@ -24,7 +24,7 @@ class MediaControllerMediaDelete extends JControllerBase
 	 * Application object - Redeclared for proper typehinting
 	 *
 	 * @var    JApplicationCms
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $app;
 
@@ -33,7 +33,7 @@ class MediaControllerMediaDelete extends JControllerBase
 	 *
 	 * @return  mixed  Calls $app->redirect() for all cases except JSON
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function execute()
 	{

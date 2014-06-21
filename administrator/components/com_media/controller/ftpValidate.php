@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_media
- * @since       3.2
+ * @since       3.5
  */
 class MediaControllerFtpValidate extends ConfigControllerDisplay
 {
@@ -22,14 +22,14 @@ class MediaControllerFtpValidate extends ConfigControllerDisplay
 	 * Prefix for the view and model classes
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	public $prefix = 'Media';
 
 	/**
 	 * Execute the controller.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function execute()
 	{

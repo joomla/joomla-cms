@@ -17,7 +17,7 @@ jimport('joomla.filesystem.folder');
  *
  * @package     Joomla.Administrator
  * @subpackage  com_media
- * @since       3.3
+ * @since       3.5
 */
 class MediaControllerMediaUpload extends JControllerBase
 {
@@ -25,7 +25,7 @@ class MediaControllerMediaUpload extends JControllerBase
 	 * Application object - Redeclared for proper typehinting
 	 *
 	 * @var    JApplicationCms
-	 * @since  3.3
+	 * @since  3.5
 	 */
 	protected $app;
 
@@ -33,7 +33,7 @@ class MediaControllerMediaUpload extends JControllerBase
 	 * Prefix for the view and model classes
 	 *
 	 * @var    string
-	 * @since  3.3
+	 * @since  3.5
 	 */
 	public $prefix = 'Media';
 
@@ -42,7 +42,7 @@ class MediaControllerMediaUpload extends JControllerBase
 	 *
 	 * @return  mixed  A rendered view or true
 	 *
-	 * @since   3.3
+	 * @since   3.5
 	 */
 	public function execute()
 	{

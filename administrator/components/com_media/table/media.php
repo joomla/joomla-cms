@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_media
- * @since       3.4
+ * @since       3.5
  */
 class MediaTableMedia extends JTableCorecontent
 {
@@ -28,7 +28,7 @@ class MediaTableMedia extends JTableCorecontent
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 * @throws  UnexpectedValueException
 	 */
 	public function checkOut($userId, $pk = null)
@@ -89,7 +89,7 @@ class MediaTableMedia extends JTableCorecontent
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 * @throws  UnexpectedValueException
 	 */
 	public function checkIn($pk = null)

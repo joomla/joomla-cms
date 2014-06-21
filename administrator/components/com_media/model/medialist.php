@@ -17,7 +17,7 @@ jimport('joomla.filesystem.file');
  *
  * @package     Joomla.Administrator
  * @subpackage  com_media
- * @since       3.3
+ * @since       3.5
 */
 class MediaModelMedialist extends ConfigModelForm
 {
@@ -54,6 +54,8 @@ class MediaModelMedialist extends ConfigModelForm
 	 * Get Images from the list
 	 *
 	 * @return   array  Array containing list of images
+	 * 
+	 * @since  3.5
 	 */
 	public function getImages()
 	{
@@ -66,6 +68,8 @@ class MediaModelMedialist extends ConfigModelForm
 	 * Get Folders from the list
 	 *
 	 * @return   array  Array containing list of folders
+	 *
+	 * @since  3.5
 	 */
 	public function getFolders()
 	{
@@ -78,6 +82,8 @@ class MediaModelMedialist extends ConfigModelForm
 	 * Get Documents from the list
 	 *
 	 * @return   array  Array containing list of documents
+	 *
+	 * @since  3.5
 	 */
 	public function getDocuments()
 	{
@@ -91,7 +97,7 @@ class MediaModelMedialist extends ConfigModelForm
 	 *
 	 * @return array List of items in the folder
 	 *
-	 * @since 1.5
+	 * @since 3.5
 	 */
 	public function getList()
 	{

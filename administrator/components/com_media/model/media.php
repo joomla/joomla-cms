@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_media
- * @since       3.3
+ * @since       3.5
  */
 class MediaModelMedia extends ConfigModelForm
 {
@@ -59,7 +59,7 @@ class MediaModelMedia extends ConfigModelForm
 	 *
 	 * @return  JHtml  Object that contains folder list to display
 	 *
-	 * @since 3.3
+	 * @since 3.5
 	 */
 	public function getFolderList($base = null)
 	{
@@ -122,6 +122,7 @@ class MediaModelMedia extends ConfigModelForm
 	 *
 	 * @return multitype:StdClass
 	 *
+	 * @since 3.5
 	 */
 	public function getFolderTree($base = null)
 	{
@@ -187,6 +188,7 @@ class MediaModelMedia extends ConfigModelForm
 	 *
 	 * @return boolean  Record created in the table or not
 	 *
+	 * @since 3.5
 	 */
 	public function create($file)
 	{
@@ -238,6 +240,7 @@ class MediaModelMedia extends ConfigModelForm
 	 *
 	 * @return void
 	 *
+	 * @since 3.5
 	 */
 	public function deleteMediaFromTable($url)
 	{

@@ -1,7 +1,22 @@
 <?php
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  Joomla.Media
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die;
+
+/**
+ * Mediafilter field
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ * @since       3.5
+ */
 class JFormFieldMediafilter extends JFormField {
 
 	protected $type = 'Mediafilter';
