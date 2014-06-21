@@ -38,15 +38,17 @@ class JControllerDisplayform extends JControllerDisplay
 	public $permission = 'core.edit';
 
 	/**
-	 * @return  mixed  A rendered view or true
+	 * Execute the controller.
 	 *
-	 * @since   3.2
+	 * @return  boolean  True if controller finished execution, false if the controller did not
+	 *                   finish execution. A controller might return false if some precondition for
+	 *                   the controller to run has not been satisfied.
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function execute()
 	{
-		// Get the document object.
-		$document = JFactory::getDocument();
-
 		$componentFolder = $this->input->getWord('option', 'com_content');
 
 		if (empty($this->options))
@@ -64,65 +66,54 @@ class JControllerDisplayform extends JControllerDisplay
 			$this->viewName = $this->options[parent::CONTROLLER_VIEW_FOLDER];
 		}
 
-		$viewFormat   = $document->getType();
+		$viewFormat   = JFactory::getDocument()->getType();
 		$layoutName   = $this->input->getWord('layout', 'edit');
 
 		$paths = $this->registerPaths($componentFolder, $this->viewName);
 
-		$viewClass  = $this->prefix . 'View' . ucfirst($this->viewName) . ucfirst($viewFormat);
-		$modelClass = $this->prefix . 'Model' . ucfirst($this->viewName);
+		$model = $this->getModel();
 
-		if (class_exists($viewClass))
+		$idName = $model->getTable()->get('_tbl_key');
+		$model->id = $this->input->get($idName);
+
+		if (empty($model->id))
 		{
-			$model = new $modelClass;
-			$idName = $model->getTable()->get('_tbl_key');
-			$model->id = $this->input->get($idName);
+			// Get ids from checkboxes
+			$ids = $this->input->get('cid', array(), 'array');
 
-			if (empty($model->id))
+			// This base  controller always displays a single form.
+			if (!empty($ids[0]))
 			{
-				// Get ids from checkboxes
-				$ids = $this->input->get('cid', array(), 'array');
-
-				// This base  controller always displays a single form.
-				if (!empty($ids[0]))
-				{
-					$model->id = $ids[0];
-				}
+				$model->id = $ids[0];
 			}
-
-			// Add better fall back check or get from model
-			$model->typeAlias = $this->input->get('type', 'article');
-
-			// Access check.
-			if (!JFactory::getUser()->authorise($this->permission, $this->input->getString('option')))
-			{
-				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-
-				return;
-			}
-
-			$view = new $viewClass($model, $paths);
-
-			$view->setLayout($layoutName);
-
-			$context = $componentFolder . '.' . $this->viewName;
-			$this->editCheck($this->app, $context, $idName);
-
-			// Push document object into the view.
-			$view->document = $document;
-
-			$this->getModelData($view, $model);
-
-			// Reply for service requests
-			if ($viewFormat == 'json')
-			{
-
-				return $view->render();
-			}
-
-			echo $view->render();
-
 		}
+
+		// Add better fall back check or get from model
+		$model->typeAlias = $this->input->get('type', 'article');
+
+		// Access check.
+		if (!JFactory::getUser()->authorise($this->permission, $this->input->getString('option')))
+		{
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+			return false;
+		}
+
+		$viewClass  = $this->prefix . 'View' . ucfirst($this->viewName) . ucfirst($viewFormat);
+
+		if (!class_exists($viewClass))
+		{
+			throw new RuntimeException('View not found');
+		}
+
+		$view = new $viewClass($model, $paths);
+
+		$view->setLayout($layoutName);
+
+		$context = $componentFolder . '.' . $this->viewName;
+		$this->editCheck($this->app, $context, $idName);
+
+		echo $view->render();
 
 		return true;
 	}
@@ -222,19 +213,5 @@ class JControllerDisplayform extends JControllerDisplay
 		$paths->insert($jpath . '/templates/' . $template . '/'  . $componentFolder . '/' . $viewName, 'normal');
 
 		return $paths;
-	}
-
-	/**
-	 * Method to get appropriate data from the model. This should be overridden based
-	 * on needs of the display.
-	 *
-	 * @param JView $view  The view object to be rendered
-	 */
-	protected function getModelData($view, $model)
-	{
-		// Defaults to a single item form
-		$view->state = $model->getState();
-		$view->form = $model->getForm();
-
 	}
 }
