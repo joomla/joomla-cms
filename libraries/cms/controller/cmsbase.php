@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @package     Joomla.Libraries
  * @subpackage  controller
- * @since       3.2
+ * @since       3.4
 */
 class JControllerCmsbase extends JControllerBase
 {
@@ -64,22 +64,23 @@ class JControllerCmsbase extends JControllerBase
 	}
 
 	/**
-	 * @return  mixed  A rendered view or true
+	 * Execute the controller.
+	 * 
+	 * @return  boolean  True if controller finished execution, false if the controller did not
+	 *                   finish execution. A controller might return false if some precondition for
+	 *                   the controller to run has not been satisfied.
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	public function execute()
 	{
-		// Get the application
-		$this->app = $this->getApplication();
-
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$this->componentFolder = $this->input->getWord('option', 'com_content');
 		$this->viewName     = $this->input->getWord('view', 'articles');
 
-		return $this;
+		return true;
 	}
 
 	/**
@@ -91,11 +92,12 @@ class JControllerCmsbase extends JControllerBase
 	 *
 	 * @return  JControllerLegacy  This object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	public function setRedirect($url, $msg = null, $type = null)
 	{
 		$this->redirect = $url;
+
 		if ($msg !== null)
 		{
 			// Controller may have set this directly
@@ -110,9 +112,9 @@ class JControllerCmsbase extends JControllerBase
 				$this->messageType = 'message';
 			}
 		}
-		// If the type is explicitly set, set it.
 		else
 		{
+			// If the type is explicitly set, set it.
 			$this->messageType = $type;
 		}
 
@@ -127,7 +129,7 @@ class JControllerCmsbase extends JControllerBase
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
