@@ -49,13 +49,13 @@ class MediaControllerEditorRotate extends JControllerBase
 		if ($model->rotateImage($id, $angle))
 		{
 			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_ROTATE_SUCCESS'));
-			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file. '&id=' . $id;
+			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id;
 			$this->app->redirect(JRoute::_($url, false));
 		}
 		else
 		{
 			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_ROTATE_ERROR'), 'error');
-			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file. '&id=' . $id;
+			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id;
 			$this->app->redirect(JRoute::_($url, false));
 		}
 	}

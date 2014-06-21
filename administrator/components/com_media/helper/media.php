@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper class for Media Manager
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_media
  * @since       3.4
@@ -27,13 +29,13 @@ class MediaHelperMedia extends JHelperContent
 	 */
 	public static function addSubmenu($vName)
 	{
-	
+
 		JHtmlSidebar::addEntry(
 		JText::_('COM_MEDIA_SUBMENU_MEDIA'),
 		'index.php?option=com_media&view=media&controller=media.display.media',
 		$vName == 'media'
 		);
-		
+
 		JHtmlSidebar::addEntry(
 		JText::_('COM_MEDIA_SUBMENU_CATEGORIES'),
 		'index.php?option=com_categories&extension=com_media',

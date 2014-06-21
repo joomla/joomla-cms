@@ -52,11 +52,15 @@ class MediaViewMedialistHtml extends ConfigViewCmsHtml
 		$state = $this->model->getState();
 
 		// Check for invalid folder name
-		if ($state->get('folder') == null) {
+		if ($state->get('folder') == null)
+		{
 			$dirname = JRequest::getVar('folder', '', '', 'string');
-			if (!empty($dirname)) {
+
+			if (!empty($dirname))
+			{
 				$dirname = htmlspecialchars($dirname, ENT_COMPAT, 'UTF-8');
 				$app->enqueueMessage(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_BROWSE_FOLDER_WARNDIRNAME', $dirname), 'error');
+
 				return;
 			}
 		}

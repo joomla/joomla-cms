@@ -18,7 +18,7 @@ jimport('joomla.filesystem.file');
  * @package     Joomla.Administrator
  * @subpackage  com_media
  * @since       3.3
- */
+*/
 class MediaModelMedialist extends ConfigModelForm
 {
 	public function getState($property = null, $default = null)
@@ -37,19 +37,24 @@ class MediaModelMedialist extends ConfigModelForm
 			$set = true;
 		}
 
-		if(!$property)
+		if (!$property)
 		{
-			
+
 			return parent::getState();
 		}
 		else
 		{
-			
+
 			return parent::getState()->get($property, $default);
 		}
 
 	}
 
+	/**
+	 * Get Images from the list
+	 *
+	 * @return   array  Array containing list of images
+	 */
 	public function getImages()
 	{
 		$list = $this->getList();
@@ -57,6 +62,11 @@ class MediaModelMedialist extends ConfigModelForm
 		return $list['images'];
 	}
 
+	/**
+	 * Get Folders from the list
+	 *
+	 * @return   array  Array containing list of folders
+	 */
 	public function getFolders()
 	{
 		$list = $this->getList();
@@ -64,6 +74,11 @@ class MediaModelMedialist extends ConfigModelForm
 		return $list['folders'];
 	}
 
+	/**
+	 * Get Documents from the list
+	 *
+	 * @return   array  Array containing list of documents
+	 */
 	public function getDocuments()
 	{
 		$list = $this->getList();
@@ -72,9 +87,10 @@ class MediaModelMedialist extends ConfigModelForm
 	}
 
 	/**
-	 * Build imagelist
+	 * Build media list
 	 *
-	 * @param string $listFolder The image directory to display
+	 * @return array List of items in the folder
+	 *
 	 * @since 1.5
 	 */
 	public function getList()
@@ -100,14 +116,14 @@ class MediaModelMedialist extends ConfigModelForm
 
 		if (strlen($current) > 0)
 		{
-			$basePath = COM_MEDIA_BASE.'/'.$current;
+			$basePath = COM_MEDIA_BASE . '/' . $current;
 		}
 		else
 		{
 			$basePath = COM_MEDIA_BASE;
 		}
 
-		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE.'/');
+		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
 
 		$images		= array ();
 		$folders	= array ();
@@ -115,6 +131,7 @@ class MediaModelMedialist extends ConfigModelForm
 
 		$fileList = false;
 		$folderList = false;
+
 		if (file_exists($basePath))
 		{
 			// Get the list of files and folders from the given folder
@@ -127,7 +144,7 @@ class MediaModelMedialist extends ConfigModelForm
 		{
 			foreach ($fileList as $file)
 			{
-				if (is_file($basePath.'/'.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
+				if (is_file($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
 				{
 					$tmp = new stdClass;
 					$tmp->name = $file;
@@ -137,6 +154,7 @@ class MediaModelMedialist extends ConfigModelForm
 					$tmp->size = filesize($tmp->path);
 
 					$ext = strtolower(JFile::getExt($file));
+
 					switch ($ext)
 					{
 						// Image
@@ -160,18 +178,20 @@ class MediaModelMedialist extends ConfigModelForm
 								$tmp->width_120 = $dimensions[0];
 								$tmp->height_120 = $dimensions[1];
 							}
-							else {
+							else
+							{
 								$tmp->width_120 = $tmp->width;
 								$tmp->height_120 = $tmp->height;
 							}
-							
+
 							if (($info[0] > 60) || ($info[1] > 60))
 							{
 								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 60);
 								$tmp->width_60 = $dimensions[0];
 								$tmp->height_60 = $dimensions[1];
 							}
-							else {
+							else
+							{
 								$tmp->width_60 = $tmp->width;
 								$tmp->height_60 = $tmp->height;
 							}
@@ -182,7 +202,8 @@ class MediaModelMedialist extends ConfigModelForm
 								$tmp->width_16 = $dimensions[0];
 								$tmp->height_16 = $dimensions[1];
 							}
-							else {
+							else
+							{
 								$tmp->width_16 = $tmp->width;
 								$tmp->height_16 = $tmp->height;
 							}
@@ -190,31 +211,32 @@ class MediaModelMedialist extends ConfigModelForm
 							$images[] = $tmp;
 							break;
 
-						// Non-image document
+							// Non-image document
 						default:
-							$tmp->icon_32 = "media/mime-icon-32/".$ext.".png";
-							$tmp->icon_16 = "media/mime-icon-16/".$ext.".png";
+							$tmp->icon_32 = "media/mime-icon-32/" . $ext . ".png";
+							$tmp->icon_16 = "media/mime-icon-16/" . $ext . ".png";
 							$docs[] = $tmp;
 							break;
 					}
-					
+
 					// Get image id from #__ucm_content table
 					$url = str_replace('/', '\\', $tmp->path);
+
 					// Get the relative path
 					$url = str_replace(JPATH_ROOT, "", $url);
-					
+
 					$db = JFactory::getDbo();
 					$query = $db->getQuery(true);
-					
+
 					$query 	-> select($db->quoteName('core_content_id') . ',' . $db->quoteName('core_title'))
-							-> from($db->quoteName('#__ucm_content'))
-							-> where($db->quoteName('core_urls') . ' = '. $db->quote($url));
+					-> from($db->quoteName('#__ucm_content'))
+					-> where($db->quoteName('core_urls') . ' = ' . $db->quote($url));
 
 					$db->setQuery($query);
 
 					$result = $db->loadObject();
 
-					if($result != null)
+					if ($result != null)
 					{
 						$tmp->id = $result->core_content_id;
 						$tmp->title = $result->core_title;
@@ -228,26 +250,26 @@ class MediaModelMedialist extends ConfigModelForm
 						$newfile['type'] = $tmp->type;
 						$newfile['filepath'] = $url;
 						$newfile['size'] = $tmp->size;
-						
+
 						// Using create controller to create a new record
-						$createController = new MediaControllerMediaCreate();
+						$createController = new MediaControllerMediaCreate;
 						$input = JFactory::getApplication()->input;
 						$input->set('file', $newfile);
-						
+
 						$createController->execute();
-						
+
 						// Get core_content_id of newly created record
 						$db = JFactory::getDbo();
 						$query = $db->getQuery(true);
-							
+
 						$query 	-> select($db->quoteName('core_content_id'))
-								-> from($db->quoteName('#__ucm_content'))
-								-> where($db->quoteName('core_urls') . ' = '. $db->quote($url));
-						
+						-> from($db->quoteName('#__ucm_content'))
+						-> where($db->quoteName('core_urls') . ' = ' . $db->quote($url));
+
 						$db->setQuery($query);
-						
+
 						$result = $db->loadObject();
-						
+
 						$tmp->id = $result->core_content_id;
 					}
 				}

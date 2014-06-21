@@ -22,7 +22,7 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 	 * For loading image information
 	 */
 	protected $image;
-	
+
 	public $item;
 
 	public function render()
@@ -46,19 +46,15 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 
 		$document = JFactory::getDocument();
 
-		/*
-		 * Display form for FTP credentials?
-		 * Don't set them here, as there are other functions called before this one if there is any file write operation
-		 */
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
 		$session	= JFactory::getSession();
 		$state		= $this->model->getState();
-		
+
 		$this->id		= $app->input->get('id');
 		$this->item		= $this->model->getItem($this->id);
 		$this->form		= $this->model->getForm();
-		
+
 		$this->session = $session;
 		$this->config = &$config;
 		$this->state = &$state;
@@ -71,7 +67,7 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 		$explodeArray   = explode('.', $this->file);
 		$ext            = end($explodeArray);
 		$imageExts      = explode(',', $config->get('image_extensions'));
-		
+
 		if (in_array($ext, $imageExts))
 		{
 			$this->image = $this->model->getImage();
@@ -81,7 +77,7 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 			// File extension not allowed
 			return $app->enqueueMessage(JText::_('JERROR'), 'warning');
 		}
-		
+
 		// Set the toolbar
 		$this->addToolbar();
 
@@ -90,6 +86,8 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return void
 	 *
 	 * @since   1.6
 	 */
@@ -105,28 +103,20 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 			JToolbarHelper::apply('media.save.editor.apply');
 			JToolbarHelper::save('media.save.editor.save');
 
-			JToolbarHelper::spacer('15');
-
 			// Actions on media
 			JToolbarHelper::custom('media.crop.editor', 'move', 'move', 'COM_MEDIA_EDITOR_BUTTON_CROP', false);
 			JToolbarHelper::modal('resizeModal', 'icon-refresh', 'COM_MEDIA_EDITOR_BUTTON_RESIZE');
 			JToolbarHelper::modal('rotateModal', 'icon-refresh', 'COM_MEDIA_EDITOR_BUTTON_ROTATE');
 			JToolbarHelper::modal('filterModal', 'icon-refresh', 'COM_MEDIA_EDITOR_BUTTON_FILTER');
 			JToolbarHelper::modal('thumbsModal', 'icon-refresh', 'COM_MEDIA_EDITOR_BUTTON_THUMBS');
-		
+
 			JToolbarHelper::divider();
 		}
 
-		// If an existing item, can save to a copy.
-// 		if ($user->authorise('core.create', 'com_media'))
-// 		{
-// 			JToolbarHelper::save2copy('media.save.editor.save2copy');
-// 		}
+			JToolbarHelper::cancel('media.cancel.editor');
 
-		JToolbarHelper::cancel('media.cancel.editor');
-
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER_EDITOR');
+			JToolbarHelper::divider();
+			JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER_EDITOR');
 	}
 
 }

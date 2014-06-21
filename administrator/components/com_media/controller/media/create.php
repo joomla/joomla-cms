@@ -35,13 +35,6 @@ class MediaControllerMediaCreate extends JControllerBase
 	 */
 	public function execute()
 	{
-		// Check for request forgeries
-// 		if (!JSession::checkToken('request'))
-// 		{
-// 			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'));
-
-// 			return false;
-// 		}
 
 		$user  = JFactory::getUser();
 
@@ -57,11 +50,11 @@ class MediaControllerMediaCreate extends JControllerBase
 			return false;
 		}
 
-		$model = new MediaModelMedia();
+		$model = new MediaModelMedia;
 
 		$result = $model->create($file);
 
-		if($result == false)
+		if ($result == false)
 		{
 			$this->app->enqueueMessage(JText::_('JERROR'));
 

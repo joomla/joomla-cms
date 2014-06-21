@@ -45,7 +45,7 @@ class MediaControllerEditorDisplay extends ConfigControllerDisplay
 		{
 			$viewName = $this->input->getWord('view', 'editor');
 		}
-		
+
 		$viewFormat = $document->getType();
 		$layoutName = $this->input->getWord('layout', 'default');
 
@@ -86,11 +86,11 @@ class MediaControllerEditorDisplay extends ConfigControllerDisplay
 			$id = $this->input->getInt('id');
 
 			// Check if another user already checked-out
-			if(!$model->checkout($id))
+			if (!$model->checkout($id))
 			{
 				$this->app->redirect(JRoute::_('index.php?option=com_media&folder=' . $folder, false));
 			}
-			
+
 			// Reply for service requests
 			if ($viewFormat == 'json')
 			{
@@ -101,5 +101,5 @@ class MediaControllerEditorDisplay extends ConfigControllerDisplay
 			echo $view->render();
 		}
 	}
-	
+
 }

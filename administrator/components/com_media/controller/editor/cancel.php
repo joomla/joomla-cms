@@ -36,8 +36,8 @@ class MediaControllerEditorCancel extends ConfigControllerCanceladmin
 	public function execute()
 	{
 		$folder = $this->app->input->get('folder', '', 'path');
-		
-		$checkinController = new MediaControllerEditorCheckin();
+
+		$checkinController = new MediaControllerEditorCheckin;
 		$checkinController->execute();
 
 		$this->redirect = 'index.php?option=com_media&controller=media.display.media&folder=' . $folder;

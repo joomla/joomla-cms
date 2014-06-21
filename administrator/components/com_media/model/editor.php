@@ -18,26 +18,25 @@ defined('_JEXEC') or die;
  */
 class MediaModelEditor extends JModelCmsitem
 {
-	
+
 	/**
 	 * @var     string  The help screen key for the edit screen.
 	 * @since   3.2
 	 */
 	protected $helpKey = 'JHELP_MEDIA_MANAGER_EDITOR';
-	
+
 	/**
 	 * @var   string  The help screen base URL for the module.
 	 * @since  3.2
 	 */
 	protected $helpURL;
-	
+
 	/**
 	 * @var   object  The cache for this item
 	 * @since  3.2
 	 */
 	protected $cache;
-	
-	
+
 	/**
 	 * Method to checkin a row in #__ucm_content.
 	 *
@@ -54,37 +53,37 @@ class MediaModelEditor extends JModelCmsitem
 		{
 			$user = JFactory::getUser();
 			$app = JFactory::getApplication();
-	
+
 			// Get an instance of the row to checkin.
 			$table = $this->getTable();
-	
+
 			if (!$table->load($pk))
 			{
 				$app->enqueueMessage($table->getError(), 'error');
-	
+
 				return false;
 			}
-	
+
 			// Check if this is the user has previously checked out the row.
 			if ($table->core_checked_out_user_id > 0 && $table->core_checked_out_user_id != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
 				$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), 'error');
-	
+
 				return false;
 			}
-	
+
 			// Attempt to check the row in.
 			if (!$table->checkin($pk))
 			{
 				$app->enqueueMessage($table->getError(), 'error');
-	
+
 				return false;
 			}
 		}
-	
+
 		return true;
 	}
-	
+
 	/**
 	 * Method to check-out a row for editing in #__ucm_content.
 	 *
@@ -101,13 +100,14 @@ class MediaModelEditor extends JModelCmsitem
 		{
 			$user = JFactory::getUser();
 			$app = JFactory::getApplication();
-	
+
 			// Get an instance of the row to checkout.
 			$table = $this->getTable();
-	
+
 			if (!$table->load($pk))
 			{
 				$app->enqueueMessage($table->getError(), 'error');
+
 				return false;
 			}
 
@@ -115,20 +115,22 @@ class MediaModelEditor extends JModelCmsitem
 			if ($table->core_checked_out_user_id > 0 && $table->core_checked_out_user_id != $user->get('id'))
 			{
 				$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'), 'error');
+
 				return false;
 			}
-	
+
 			// Attempt to check the row out.
 			if (!$table->checkout($user->get('id'), $pk))
 			{
 				$app->enqueueMessage($table->getError(), 'error');
+
 				return false;
 			}
 		}
 
 		return true;
 	}
-	
+
 	/**
 	 * Method to get a single record.
 	 *
@@ -140,7 +142,7 @@ class MediaModelEditor extends JModelCmsitem
 	{
 		$input = JFactory::getApplication()->input;
 		$pk = (!empty($pk)) ? $pk :$input->get('id');
-	
+
 		if (!isset($this->item))
 		{
 			// Get a row instance.
@@ -153,6 +155,7 @@ class MediaModelEditor extends JModelCmsitem
 			if ($return === false && $table->getError())
 			{
 				throw new Exception($table->getError());
+
 				return false;
 			}
 
@@ -167,20 +170,16 @@ class MediaModelEditor extends JModelCmsitem
 
 			if (!empty($this->item->core_content_id))
 			{
-				// This is not the proper way
-// 				$this->item->tags = new JHelperTags;
-// 				$this->item->tags->getTagIds($this->item->core_content_id, $this->item->core_type_alias);
 
 				// Overriding getTagIds in JHelperTags
 				$this->item->tags = $this->getTagIds($this->item->core_content_id, $this->item->core_type_alias);
 			}
-			
-	
+
 		}
 
 		return $this->item;
 	}
-	
+
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
@@ -214,63 +213,66 @@ class MediaModelEditor extends JModelCmsitem
 		{
 			return false;
 		}
-		
+
 		return $form;
 	}
-	
+
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
+	 *
 	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_media.edit.item.data', array());
-	
+
 		if (empty($data))
 		{
 			$data = $this->getItem();
 		}
-	
+
 		$this->preprocessData('com_media.editor', $data);
-	
+
 		return $data;
 	}
-	
-	
-	// update modified user and date after a change
+
+	/**
+	 * Update modified user and date after a change
+	 */
 	private function updateData()
 	{
 
 		$input = JFactory::getApplication()->input;
 		$pk = $input->get('id');
-		
+
 		$row = $this->getTable();
 		$row->core_content_id = $pk;
 
 		$row->store();
 
 	}
-	
+
 	/**
 	 * Auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState()
 	{
 
 		$app = JFactory::getApplication();
-		
+
 		$id = isset($this->id) && $this->id != 0 ? $this->id : $app->input->getInt('id');
-		
+
 		$this->state->set('core_content_id', $id);
-		
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_media');
 		$this->state->set('core_params', $params);
@@ -288,7 +290,7 @@ class MediaModelEditor extends JModelCmsitem
 	{
 		return (object) array('key' => $this->helpKey, 'url' => $this->helpURL);
 	}
-	
+
 	/**
 	 * Custom clean cache method, plugins are cached in 2 places for different clients
 	 *
@@ -298,8 +300,7 @@ class MediaModelEditor extends JModelCmsitem
 	{
 		parent::cleanCache('com_media');
 	}
-	
-	
+
 	public function getState($property = null, $default = null)
 	{
 		static $set;
@@ -320,7 +321,7 @@ class MediaModelEditor extends JModelCmsitem
 			$set = true;
 		}
 
-		if(!$property)
+		if (!$property)
 		{
 
 			return parent::getState();
@@ -348,10 +349,10 @@ class MediaModelEditor extends JModelCmsitem
 		$path     = JPath::clean(COM_MEDIA_BASE . '/');
 		$uri      = COM_MEDIA_BASEURL . '/';
 
-		if(!empty($folder))
+		if (!empty($folder))
 		{
 			$path     = JPath::clean(COM_MEDIA_BASE . '/' . $folder . '/');
-			$uri      = COM_MEDIA_BASEURL . '/' . $folder .'/';
+			$uri      = COM_MEDIA_BASEURL . '/' . $folder . '/';
 		}
 
 		if (file_exists(JPath::clean($path . $fileName)))
@@ -376,11 +377,11 @@ class MediaModelEditor extends JModelCmsitem
 	/**
 	 * Crop an image.
 	 *
-	 * @param   int     $id    The id of the entry
-	 * @param   string  $w     width.
-	 * @param   string  $h     height.
-	 * @param   string  $x     x-coordinate.
-	 * @param   string  $y     y-coordinate.
+	 * @param   int     $id  The id of the entry
+	 * @param   string  $w   Width.
+	 * @param   string  $h   Height.
+	 * @param   string  $x   x-coordinate.
+	 * @param   string  $y   y-coordinate.
 	 *
 	 * @return  boolean     true if image cropped successfully, false otherwise.
 	 *
@@ -428,7 +429,7 @@ class MediaModelEditor extends JModelCmsitem
 		$table   = $this->getTable();
 		$table->load($id);
 		$file	= JPATH_ROOT . $table->core_urls;
-		
+
 		$JImage = new JImage($file);
 
 		try
@@ -444,14 +445,14 @@ class MediaModelEditor extends JModelCmsitem
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
-		
+
 	}
 
 	/**
 	 * Rotate an image.
 	 *
-	 * @param   int     $id      The id of the entry
-	 * @param   string  $angle   The new angle of the image.
+	 * @param   int     $id     The id of the entry
+	 * @param   string  $angle  The new angle of the image.
 	 *
 	 * @return   boolean  true if image rotate successful, false otherwise.
 	 *
@@ -485,10 +486,10 @@ class MediaModelEditor extends JModelCmsitem
 	/**
 	 * Generating thumbs an image.
 	 *
-	 * @param   int     $id               The id of the entry
-	 * @param   mixed   $size             The thumbnail sizes as a string or an array
-	 * @param   int     $creationMethod   The thumbnail creation method
-	 * @param   string  $thumbsFolder     The folder to save thumbnails
+	 * @param   int     $id              The id of the entry
+	 * @param   mixed   $sizes           The thumbnail sizes as a string or an array
+	 * @param   int     $creationMethod  The thumbnail creation method
+	 * @param   string  $thumbsFolder    The folder to save thumbnails
 	 *
 	 * @return   boolean  true if image rotate successful, false otherwise.
 	 *
@@ -516,16 +517,6 @@ class MediaModelEditor extends JModelCmsitem
 
 	}
 
-	public function getFilterList()
-	{
-		return array("smooth" => "Smooth", "contrast" => "Contrast", "edgedetect" => "Edge Detect", "grayscale" => "Grayscale", "sketchy" => "Sketchy", "emboss" => "Emboss", "brightness" => "Brightness", "negate" => "Negate");
-	}
-
-	public function getCreationMethodsList()
-	{
-		return array(JImage::SCALE_FILL => "Scale Fill", JImage::SCALE_INSIDE => "Scale Inside", JImage::SCALE_OUTSIDE => "Scale Outside", JImage::CROP => "Crop", JImage::CROP_RESIZE => "Crop Resize", JImage::SCALE_FIT => "Scale Fit");
-	}
-
 	/**
 	 * Filter an image.
 	 *
@@ -543,13 +534,13 @@ class MediaModelEditor extends JModelCmsitem
 		$table   = $this->getTable();
 		$table->load($id);
 		$file	= JPATH_ROOT . $table->core_urls;
-		
+
 		$options = array_fill(0, 11, 0);
 
-		if(!empty($value))
+		if (!empty($value))
 		{
 			$key = constant('IMG_FILTER_' . strtoupper($filter));
-			$options[$key]= $value;
+			$options[$key] = $value;
 		}
 
 		$JImage = new JImage($file);
@@ -568,9 +559,8 @@ class MediaModelEditor extends JModelCmsitem
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
 
-
 	}
-	
+
 	/**
 	 * Method to get a list of tags for a given core content item.
 	 * Normally used for displaying a list of tags within a layout
@@ -589,7 +579,7 @@ class MediaModelEditor extends JModelCmsitem
 		{
 			return;
 		}
-	
+
 		/**
 		 * Ids possible formats:
 		 * ---------------------
@@ -602,9 +592,9 @@ class MediaModelEditor extends JModelCmsitem
 		$ids = implode(',', $ids);
 		$ids = explode(',', $ids);
 		JArrayHelper::toInteger($ids);
-	
+
 		$db = JFactory::getDbo();
-	
+
 		// Load the tags.
 		$query = $db->getQuery(true)
 		->select($db->quoteName('t.id'))
@@ -612,16 +602,16 @@ class MediaModelEditor extends JModelCmsitem
 		->join(
 				'INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'
 				. ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id')
-	
+
 				. ' AND ' . $db->quoteName('m.core_content_id') . ' IN ( ' . implode(',', $ids) . ')'
 		);
-	
+
 		$db->setQuery($query);
-	
+
 		// Add the tags to the content data.
 		$tagsList = $db->loadColumn();
 		$this->tags = implode(',', $tagsList);
-	
+
 		return $this->tags;
 	}
 }

@@ -37,33 +37,33 @@ class MediaControllerEditorCheckin extends JControllerBase
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
-		
+
 		$componentFolder = $this->input->getWord('option', 'com_media');
 
 		$viewName = $this->input->getWord('view', 'editor');
-				
+
 		$modelClass = $this->prefix . 'Model' . ucfirst($viewName);
-		
+
 		$id   = $this->input->get('id');
-		
+
 		$model = new $modelClass;
-	
+
 		// Access check.
 		if (!JFactory::getUser()->authorise('core.admin', $model->getState()->get('component.option')))
 		{
 			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-	
+
 			return false;
 		}
-		
-		if(!$model->checkin($id))
+
+		if (!$model->checkin($id))
 		{
 			$this->app->enqueueMessage(JText::_('MEDIA_EDITOR_ITEM_CHECKED_IN'));
-			
+
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 }

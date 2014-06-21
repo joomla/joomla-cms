@@ -79,16 +79,16 @@ class MediaControllerMediaUpload extends JControllerBase
 
 		// Maximum allowed size of script execution in MB.
 		$memoryLimit = (int) ini_get('memory_limit');
-		
+
 		// Check for the total size of post back data.
 		if (($postMaxSize > 0 && $contentLength > $postMaxSize * 1024 * 1024)
-		|| ($memoryLimit != -1 && $contentLength > $memoryLimit * 1024 * 1024))
+			|| ($memoryLimit != -1 && $contentLength > $memoryLimit * 1024 * 1024))
 		{
 			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
-		
+
 			return false;
 		}
-		
+
 		$uploadMaxSize = $params->get('upload_maxsize', 0) * 1024 * 1024;
 		$uploadMaxFileSize = (int) ini_get('upload_max_filesize') * 1024 * 1024;
 
@@ -99,7 +99,7 @@ class MediaControllerMediaUpload extends JControllerBase
 			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $file['name'])));
 
 			if (($file['error'] == 1)
-					|| ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize))
+				|| ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize))
 			{
 				// File size exceed either 'upload_max_filesize' or 'upload_maxsize'.
 				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'warning');
@@ -169,18 +169,18 @@ class MediaControllerMediaUpload extends JControllerBase
 			}
 			else
 			{
-				// add to table
+				// Add to table
 				$this->input->set('file', $object_file->getProperties());
-				
+
 				// Create controller instance
-				$createController = new MediaControllerMediaCreate();
-				
+				$createController = new MediaControllerMediaCreate;
+
 				if (!$createController->execute())
 				{
-					
+
 					return false;
-				}			
-				
+				}
+
 				// Trigger the onContentAfterSave event.
 				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
 				$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));

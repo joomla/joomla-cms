@@ -39,14 +39,14 @@ class MediaModelMedia extends ConfigModelForm
 			$set = true;
 		}
 
-		if(!$property)
+		if (!$property)
 		{
-			
+
 			return parent::getState();
 		}
 		else
 		{
-			
+
 			return parent::getState()->get($property, $default);
 		}
 
@@ -55,17 +55,20 @@ class MediaModelMedia extends ConfigModelForm
 	/**
 	 * Image Manager Popup
 	 *
-	 * @param string $listFolder The image directory to display
+	 * @param   string  $base  The image directory to display
+	 *
+	 * @return  JHtml  Object that contains folder list to display
+	 *
 	 * @since 3.3
 	 */
-	function getFolderList($base = null)
+	public function getFolderList($base = null)
 	{
 		// Get some paths from the request
 		if (empty($base))
 		{
 			$base = COM_MEDIA_BASE;
 		}
-		//corrections for windows paths
+		// Corrections for windows paths
 		$base = str_replace(DIRECTORY_SEPARATOR, '/', $base);
 		$com_media_base_uri = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE);
 
@@ -107,12 +110,20 @@ class MediaModelMedia extends ConfigModelForm
 		$author = $input->get('author', 0, 'integer');
 
 		// Create the drop-down folder select list
-		$list = JHtml::_('select.genericlist', $options, 'folderlist', 'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, '.$asset.', '.$author.')" ', 'value', 'text', $base);
+		$list = JHtml::_('select.genericlist', $options, 'folderlist', 'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, ' . $asset . ', ' . $author . ')" ', 'value', 'text', $base);
 
 		return $list;
 	}
 
-	function getFolderTree($base = null)
+	/**
+	 * Construct the folder tree for Media Manager
+	 *
+	 * @param   string  $base  Base for folder tree
+	 *
+	 * @return multitype:StdClass
+	 *
+	 */
+	public function getFolderTree($base = null)
 	{
 		// Get some paths from the request
 		if (empty($base))
@@ -120,7 +131,7 @@ class MediaModelMedia extends ConfigModelForm
 			$base = COM_MEDIA_BASE;
 		}
 
-		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE.'/');
+		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
 
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
@@ -138,6 +149,7 @@ class MediaModelMedia extends ConfigModelForm
 			$node		= (object) array('name' => $name, 'relative' => $relative, 'absolute' => $absolute);
 
 			$tmp = &$tree;
+
 			for ($i = 0, $n = count($path); $i < $n; $i++)
 			{
 				if (!isset($tmp['children']))
@@ -168,10 +180,17 @@ class MediaModelMedia extends ConfigModelForm
 		return;
 	}
 
-
+	/**
+	 * Create a table record for a media in table
+	 *
+	 * @param   JObject  $file  Instance contain media information
+	 *
+	 * @return boolean  Record created in the table or not
+	 *
+	 */
 	public function create($file)
 	{
-		
+
 		$row = JTable::getInstance('Corecontent');
 
 		// Get type_id fron content_type table
@@ -192,7 +211,7 @@ class MediaModelMedia extends ConfigModelForm
 		$data['core_alias'] = JFilterOutput::stringURLSafe($fname[0]);
 		$data['core_state'] = '1';
 
-		$metadata = new stdClass();
+		$metadata = new stdClass;
 		$metadata->name 	= $file['name'];
 		$metadata->type 	= $file['type'];
 		$metadata->filepath = $rel_path;
@@ -200,11 +219,26 @@ class MediaModelMedia extends ConfigModelForm
 		$data['core_metadata'] = json_encode($metadata);
 
 		$row->bind($data);
-		
-		if($row->store()) return true;
+
+		if ($row->store())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 
 	}
 
+	/**
+	 * Delete a media entry from table
+	 *
+	 * @param   string  $url  Path of the media in file system
+	 *
+	 * @return void
+	 *
+	 */
 	public function deleteMediaFromTable($url)
 	{
 		// Get relative path
@@ -214,17 +248,17 @@ class MediaModelMedia extends ConfigModelForm
 		$query = $db->getQuery(true);
 
 		$query 	-> select($db->quoteName('core_content_id'))
-				-> from($db->quoteName('#__ucm_content'))
-				-> where($db->quoteName('core_urls') . ' = '. $db->quote($url));
-		
+		-> from($db->quoteName('#__ucm_content'))
+		-> where($db->quoteName('core_urls') . ' = ' . $db->quote($url));
+
 		$db->setQuery($query);
-		
+
 		$result = $db->loadObject();
-		
+
 		$pk = $result->core_content_id;
 
 		$row = JTable::getInstance('Corecontent');
 		$row->delete($pk);
-		
+
 	}
 }

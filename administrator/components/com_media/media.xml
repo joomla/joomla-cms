@@ -25,15 +25,19 @@
 			<filename>controller.php</filename>
 			<filename>index.html</filename>
 			<filename>media.php</filename>
+			
+			<!-- For legacy compatability -->
 			<folder>controllers</folder>
 			<folder>helpers</folder>
 			<folder>layouts</folder>
 			<folder>models</folder>
 			<folder>views</folder>
 			
+			<!-- new MVC classes -->
 			<folder>controller</folder>
-			<!--  folder>helpers</folder-->
+			<folder>helper</folder>
 			<folder>layout</folder>
+			<folder>table</folder>
 			<folder>model</folder>
 			<folder>view</folder>
 		</files>

@@ -78,7 +78,7 @@ class MediaControllerMediaDelete extends JControllerBase
 		{
 			if ($path !== JFile::makeSafe($path))
 			{
-				// filename is not safe
+				// Filename is not safe
 				$filename = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
 				$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', substr($filename, strlen(COM_MEDIA_BASE))));
 				continue;
@@ -91,6 +91,7 @@ class MediaControllerMediaDelete extends JControllerBase
 			{
 				// Trigger the onContentBeforeDelete event.
 				$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.file', &$object_file));
+
 				if (in_array(false, $result, true))
 				{
 					// There are some errors in the plugins
@@ -99,9 +100,9 @@ class MediaControllerMediaDelete extends JControllerBase
 				}
 
 				$ret &= JFile::delete($object_file->filepath);
-				
-				// delete from table
-				$model = new MediaModelMedia();
+
+				// Delete from table
+				$model = new MediaModelMedia;
 				$model->deleteMediaFromTable($object_file->filepath);
 
 				// Trigger the onContentAfterDelete event.

@@ -61,7 +61,7 @@ class MediaControllerImageslistDisplay extends JControllerBase
 
 		$viewClass  = $this->prefix . 'View' . ucfirst($viewName) . ucfirst($viewFormat);
 		$modelClass = $this->prefix . 'Model' . ucfirst('medialist');
-		
+
 		if (class_exists($viewClass))
 		{
 			$model = new $modelClass;

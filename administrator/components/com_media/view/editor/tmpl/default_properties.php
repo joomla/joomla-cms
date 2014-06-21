@@ -20,7 +20,8 @@ JHtml::_('behavior.tabstate');
 echo $this->form->getControlGroup('core_title');
 echo $this->form->getControlGroup('core_alias');
 
-echo $this->form->getControlGroup('core_type_alias'); // Hidden field
+// Hidden field
+echo $this->form->getControlGroup('core_type_alias');
 
 echo $this->form->getControlGroup('core_body');
 echo $this->form->getControlGroup('core_catid');

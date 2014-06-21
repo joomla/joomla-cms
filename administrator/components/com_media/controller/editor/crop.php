@@ -68,7 +68,6 @@ class MediaControllerEditorCrop extends JControllerBase
 			$this->app->redirect(JRoute::_($url, false));
 		}
 
-
 		return;
 	}
 

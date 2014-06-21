@@ -43,7 +43,7 @@ class MediaControllerEditorThumbs extends JControllerBase
 		$folder = $this->app->input->get('folder', '', 'path');
 		$id		= $this->app->input->get('id');
 
-		if(!empty($thumbsFolder))
+		if (!empty($thumbsFolder))
 		{
 			$thumbsFolder = JPath::clean(COM_MEDIA_BASE . '/' . $folder . '/' . $thumbsFolder);
 		}

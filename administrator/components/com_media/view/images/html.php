@@ -42,7 +42,7 @@ class MediaViewImagesHtml extends ConfigViewCmsHtml
 		$this->config = $config;
 		$this->state = $this->model->getState();
 		$this->folderList = $this->model->getFolderList();
-		
+
 		$this->require_ftp = $ftp;
 
 		return parent::render();

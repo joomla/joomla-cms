@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('formbehavior.chosen', 'select');
+
 // Load tooltip instance without HTML support because we have a HTML tag in the tip
 JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
 
@@ -48,7 +49,7 @@ echo $params->get('image_path', 'images'); ?>/';
 					<fieldset>
 						<label class="control-label"><?php echo JText::_('COM_MEDIA_DIRECTORY') ?></label>
 						<div class="controls">
-						<div class="input-append">			  	
+							<div class="input-append">			  	
 							<?php echo $this->folderList; ?>
 							<button class="btn btn-medium" type="button" id="upbutton" title="<?php echo JText::_('COM_MEDIA_DIRECTORY_UP') ?>"><i class="icon-chevron-up"></i></button>
 							</div>	
@@ -60,7 +61,9 @@ echo $params->get('image_path', 'images'); ?>/';
 			<div class="pull-right">
 				<ul class="nav nav-pills">
 					<li class="active">
-						<a href="#" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.id('f_url').value,'<?php echo $this->state->get('field.id');?>');<?php else:?>ImageManager.onok();<?php endif;?>window.parent.SqueezeBox.close();"><?php echo JText::_('COM_MEDIA_INSERT') ?></a>
+						<a href="#" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.id('f_url').value,'<?php echo $this->state->get('field.id');?>');<?php else:?>ImageManager.onok();<?php endif;?>window.parent.SqueezeBox.close();">
+							<?php echo JText::_('COM_MEDIA_INSERT') ?>
+						</a>
 					</li>
 					<li>
 						<a href="#" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('JCANCEL') ?></a>
@@ -70,14 +73,13 @@ echo $params->get('image_path', 'images'); ?>/';
 		</div>
 	</div>
 
-<!-- 	<div class="row"> -->
 	
 	<iframe id="imageframe" name="imageframe" class="span9" src="index.php?option=com_media&amp;view=imageslist&amp;controller=media.display.imageslist&amp;tmpl=component&amp;folder=<?php echo $this->state->get('folder')?>&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>"></iframe>
 
 
       <div class="well well-small span3">
-		<div class="row">
-			<div class="span3 control-group">
+
+			<div class="control-group">
 				<div class="control-label">
 					<label for="f_url"><?php echo JText::_('COM_MEDIA_IMAGE_URL') ?></label>
 				</div>
@@ -86,7 +88,7 @@ echo $params->get('image_path', 'images'); ?>/';
 				</div>
 			</div>
 			<?php if (!$this->state->get('field.id')):?>
-			<div class="span3 control-group">
+			<div class="control-group">
 				<div class="control-label">
 					<label title="<?php echo JText::_('COM_MEDIA_ALIGN_DESC'); ?>" class="noHtmlTip" for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label>
 				</div>
@@ -100,10 +102,10 @@ echo $params->get('image_path', 'images'); ?>/';
 				</div>
 			</div>
 			<?php endif;?>
-		</div>
+
 		<?php if (!$this->state->get('field.id')):?>
-		<div class="row">
-			<div class="span3 control-group">
+
+			<div class="control-group">
 				<div class="control-label">
 					<label for="f_alt"><?php echo JText::_('COM_MEDIA_IMAGE_DESCRIPTION') ?></label>
 				</div>
@@ -111,7 +113,7 @@ echo $params->get('image_path', 'images'); ?>/';
 					<input type="text" id="f_alt" value="" />
 				</div>
 			</div>
-			<div class="span3 control-group">
+			<div class="control-group">
 				<div class="control-label">
 					<label for="f_title"><?php echo JText::_('COM_MEDIA_TITLE') ?></label>
 				</div>
@@ -119,9 +121,8 @@ echo $params->get('image_path', 'images'); ?>/';
 					<input type="text" id="f_title" value="" />
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="span3 control-group">
+
+			<div class="control-group">
 				<div class="control-label">
 					<label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label>
 				</div>
@@ -129,7 +130,7 @@ echo $params->get('image_path', 'images'); ?>/';
 					<input type="text" id="f_caption" value="" />
 				</div>
 			</div>
-			<div class="span3 control-group">
+			<div class="control-group">
 				<div class="control-label">
 					<label title="<?php echo JText::_('COM_MEDIA_CAPTION_CLASS_DESC'); ?>" class="noHtmlTip" for="f_caption_class"><?php echo JText::_('COM_MEDIA_CAPTION_CLASS_LABEL') ?></label>
 				</div>
@@ -142,7 +143,7 @@ echo $params->get('image_path', 'images'); ?>/';
 					</datalist>
 				</div>
 			</div>
-		</div>
+
 		<?php endif;?>
 
 		<input type="hidden" id="dirPath" name="dirPath" />
@@ -150,9 +151,7 @@ echo $params->get('image_path', 'images'); ?>/';
 		<input type="hidden" id="tmpl" name="component" />
 
 	</div>
-        	
-<!--   </div> -->
-	
+
 </form>
 
 </div>

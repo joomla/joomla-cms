@@ -18,7 +18,7 @@ JHtml::_('jquery.framework');
  * @package     Joomla.Administrator
  * @subpackage  com_media
  * @since       1.0
- */
+*/
 class MediaViewMediaHtml extends ConfigViewCmsHtml
 {
 	public function render()
@@ -41,26 +41,26 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 
 		JHtml::_('script', 'media/mediamanager.js', true, true);
 		/*
-		JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
+		 JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
 		if ($lang->isRTL()) :
-			JHtml::_('stylesheet', 'media/mediamanager_rtl.css', array(), true);
+		JHtml::_('stylesheet', 'media/mediamanager_rtl.css', array(), true);
 		endif;
 		*/
 		JHtml::_('behavior.modal');
 		$document->addScriptDeclaration("
-		window.addEvent('domready', function()
-		{
-			document.preview = SqueezeBox;
+				window.addEvent('domready', function()
+				{
+				document.preview = SqueezeBox;
 		});");
 
 		// JHtml::_('script', 'system/mootree.js', true, true, false, false);
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
+
 		if ($lang->isRTL()) :
-			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
+		JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
 		endif;
 
-		//For Drag & Drop Upload
-// 		JHtml::_('jquery.framework', false);
+		// For Drag & Drop Upload
 		JHtml::_('script', 'media/dragndrop_upload.js', true, true);
 		JHtml::stylesheet('media/media/css/dragndrop_upload.css');
 
@@ -73,10 +73,8 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 			$base = COM_MEDIA_BASE;
 		}
 
-		$js = "
-			var basepath = '".$base."';
-			var viewstyle = '".$style."';
-		";
+		$js = "	var basepath = '" . $base . "';
+				var viewstyle = '" . $style . "';	";
 		$document->addScriptDeclaration($js);
 
 		/*
@@ -93,18 +91,18 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 		$this->require_ftp = $ftp;
 		$this->folders_id = ' id="media-tree"';
 		$this->folders = $this->model->getFolderTree();
-		
+
 		// Add sidebar
 		JLoader::register('MediaHelperMedia', JPATH_ADMINISTRATOR . '/components/com_media/helper/media.php');
-		
+
 		MediaHelperMedia::addSubmenu('media');
 		$this->sidebar = JHtmlSidebar::render();
-		
+
 		// Set the toolbar
 		$this->addToolbar();
-		
+
 		return parent::render();
-// 		echo JHtml::_('behavior.keepalive');//**
+
 	}
 
 	/**
@@ -140,7 +138,7 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 		{
 			// Instantiate a new JLayoutFile instance and render the layout
 			$layout = new JLayoutFile('toolbar.newfolder');
-			
+
 			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 
 			JToolbarHelper::divider();
@@ -171,6 +169,7 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 	{
 		$this->folders_id = null;
 		$txt = null;
+
 		if (isset($folder['children']) && count($folder['children']))
 		{
 			$tmp = $this->folders;

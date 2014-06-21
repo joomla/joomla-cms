@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Include the component HTML helpers.
-// JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
@@ -25,50 +22,11 @@ $input = JFactory::getApplication()->input;
 JHtml::_('script', 'system/jquery.Jcrop.min.js', false, true);
 JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 
+JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
+
 ?>
 <script type="text/javascript">
 	jQuery(document).ready(function($){
-
-		// Hide all the folder when the page loads
-		$('.folder ul, .component-folder ul').hide();
-
-		// Display the tree after loading
-		$('.directory-tree').removeClass("directory-tree");
-
-		// Show all the lists in the path of an open file
-		$('.show > ul').show();
-
-		// Stop the default action of anchor tag on a click event
-		$('.folder-url, .component-folder-url').click(function(event){
-			event.preventDefault();
-		});
-
-		// Prevent the click event from proliferating
-		$('.file, .component-file-url').bind('click',function(e){
-			e.stopPropagation();
-		});
-
-		// Toggle the child indented list on a click event
-		$('.folder, .component-folder').bind('click',function(e){
-			$(this).children('ul').toggle();
-			e.stopPropagation();
-		});
-
-		// New file tree
-		$('#fileModal .folder-url').bind('click',function(e){
-			$('.folder-url').removeClass('selected');
-			e.stopPropagation();
-			$('#fileModal input.address').val($(this).attr('data-id'));
-			$(this).addClass('selected');
-		});
-
-		// Folder manager tree
-		$('#folderModal .folder-url').bind('click',function(e){
-			$('.folder-url').removeClass('selected');
-			e.stopPropagation();
-			$('#folderModal input.address').val($(this).attr('data-id'));
-			$(this).addClass('selected');
-		});
 
 			var jcrop_api;
 
@@ -114,11 +72,9 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 			});
 
 	});
-
-
-	
 	
 </script>
+
 <style>
 
 /* Styles for modals */
@@ -137,31 +93,19 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 	float: left;
 }
 
-#deleteFolder {
-	margin: 0;
-}
-
 #image-crop {
 	max-width: 100% !important;
 	width: auto;
 	height: auto;
 }
 
-.directory-tree {
-	display: none;
-}
-
-.tree-holder {
-	overflow-x: auto;
-}
 </style>
 
 <div class="row-fluid">
 
 	<div class="span9">
 
-
-<!-- Display Image with Crop -->
+		<!-- Display Image with Crop -->
 		<img id="image-crop"
 			src="<?php echo $this->image['address'] . '?' . time(); ?>" />
 		<form
@@ -177,27 +121,27 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 			</fieldset>
 		</form>
 
-
 	</div>
+
 	<div class="span3">
-		
-<script type="text/javascript">
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'media.cancel.editor' || document.formvalidator.isValid(document.id('media-form')))
-		{
-			Joomla.submitform(task, document.getElementById('media-form'));
-		}
-	}
-</script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_media&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>" method="post" name="adminForm2" id="media-form" class="form-validate">
+		<script type="text/javascript">
+			Joomla.submitbutton = function(task)
+			{
+				if (task == 'media.cancel.editor' || document.formvalidator.isValid(document.id('media-form')))
+				{
+					Joomla.submitform(task, document.getElementById('media-form'));
+				}
+			}
+		</script>
 		
-			<?php echo $this->loadTemplate('properties'); ?>
-
-			<input type="hidden" name="task" value="" />
-			<?php echo JHtml::_('form.token'); ?>
-</form>			
+		<form action="<?php echo JRoute::_('index.php?option=com_media&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>" method="post" name="adminForm2" id="media-form" class="form-validate">
+				
+					<?php echo $this->loadTemplate('properties'); ?>
+		
+					<input type="hidden" name="task" value="" />
+					<?php echo JHtml::_('form.token'); ?>
+		</form>
 			
 	</div>
 
@@ -301,23 +245,15 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 		<div class="modal-body">
 			<div id="" class="form-horizontal" >
 				<div class="control-group">
-					<label for="filter" class="control-label hasTooltip"
-						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_FILTER_NAME'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_FILTER_NAME')?>
-					</label>
-					<?php
-						$filters = $this->model->getFilterList();
-// 						$filterWithValue = array("brightness", "contrast", "smooth");
+					<?php 
+						$mediafilter = JFormHelper::loadFieldType('Mediafilter', false);
 					?>
+						<?php echo $mediafilter->getLabel();?>
 					<div class="controls">
-					<select class="input-xlarge" type="list" name="filter" required>
-							<?php foreach ($filters as $k => $v):?>
-							<option value="<?php echo $k;?>"> <?php echo $v;?> </option>
-							<?php endforeach;?>
-						</select>
+						<?php echo $mediafilter->getInput(); ?>
 					</div>
 					<br /> 
 					<!-- Only for filters require a value -->
-					
 					<label for="value" class="control-label hasTooltip"
 						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_FILTER_VALUE'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_FILTER_VALUE')?>
 					</label>
@@ -363,21 +299,16 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 						<input class="input-xlarge" type="text" name="s"
 							placeholder="100x100" required />
 					</div>
-					
-					<label for="c" class="control-label hasTooltip"
-						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_THUMBS_CREATION_METHOD'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_THUMBS_CREATION_METHOD')?>
-					</label>
-					<?php
-						$creationMethods = $this->model->getCreationMethodsList();
+
+					<?php 
+						$mediathumbs = JFormHelper::loadFieldType('Mediathumbs', false);
+
+						echo $mediathumbs->getLabel();
 					?>
 					<div class="controls">
-					<select class="input-xlarge" type="list" name="c" required>
-							<?php foreach ($creationMethods as $k => $v):?>
-							<option value="<?php echo $k;?>"> <?php echo $v;?> </option>
-							<?php endforeach;?>
-						</select>
+						<?php echo $mediathumbs->getInput(); ?>
 					</div>
-					
+
 					<label for="t" class="control-label hasTooltip"
 						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_THUMBS_FOLDER'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_FOLDER')?>
 					</label>
