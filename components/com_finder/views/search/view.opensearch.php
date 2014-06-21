@@ -40,14 +40,15 @@ class FinderViewSearch extends JViewLegacy
 		$searchUri = JUri::base() . 'index.php?option=com_finder&q={searchTerms}';
 
 		// Find the menu item for the search
-		$menu = $app->getMenu();
+		$menu  = $app->getMenu();
 		$items = $menu->getItems('link', 'index.php?option=com_finder&view=search');
+
 		if (isset($items[0]))
 		{
 			$searchUri .= '&Itemid=' . $items[0]->id;
 		}
 
-		$htmlSearch = new JOpenSearchUrl;
+		$htmlSearch           = new JOpenSearchUrl;
 		$htmlSearch->template = JRoute::_($searchUri);
 		$doc->addUrl($htmlSearch);
 	}
