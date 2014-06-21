@@ -44,7 +44,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$app = JFactory::getApplication();
 
 		// Gets and sets timezone offset from site configuration
-		$tz = new DateTimeZone($app->getCfg('offset'));
+		$tz = new DateTimeZone($app->get('offset'));
 		$now = JFactory::getDate();
 		$now->setTimeZone($tz);
 
@@ -54,13 +54,13 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=rss');
 
-		if ($app->getCfg('sitename_pagetitles', 0) == 1)
+		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $data->title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $data->title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $data->title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $data->title, $app->get('sitename'));
 		}
 		else
 		{
