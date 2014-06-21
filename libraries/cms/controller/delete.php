@@ -66,7 +66,7 @@ class JControllerDelete extends JControllerCmsbase
 		}
 
 		// Get items to remove from the request.
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$cid = $this->app->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -90,11 +90,11 @@ class JControllerDelete extends JControllerCmsbase
 			// Remove the items.
 			if ($model->delete($cid))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::plural($this->prefix . '_N_ITEMS_DELETED', count($cid)), 'notice');
+				$this->app->enqueueMessage(JText::plural($this->prefix . '_N_ITEMS_DELETED', count($cid)), 'notice');
 			}
 			else
 			{
-				JFactory::getApplication()->enqueueMessage('NO_ITEMS_FOUND', 'error');
+				$this->app->enqueueMessage('NO_ITEMS_FOUND', 'error');
 				$this->app->redirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 			}
 		}
