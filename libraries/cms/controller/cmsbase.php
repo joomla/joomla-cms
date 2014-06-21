@@ -18,13 +18,6 @@ defined('_JEXEC') or die('Restricted access');
 */
 class JControllerCmsbase extends JControllerBase
 {
-	// Standard values for the exploded controller input
-	const CONTROLLER_PREFIX = 0;
-	const CONTROLLER_ACTIVITY = 1;
-	const CONTROLLER_VIEW_FOLDER = 2;
-	const CONTROLLER_OPTION = 3;
-	const CONTROLLER_CORE_OPTION = 2;
-
 	/*
 	 * Prefix for the view and model classes
 	 *
@@ -33,11 +26,42 @@ class JControllerCmsbase extends JControllerBase
 	public $prefix;
 
 	/*
+	 * Prefix for the view and model classes
+	 *
+	 * @var  string
+	 */
+	public $config;	
+
+	/*
 	 * Permission needed for the action. Defaults to most restrictive
 	*
 	* @var  string
 	*/
 	public $permission = '';
+
+	/**
+	 * The injected config
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	public $config = array();
+
+	/**
+	 * Constructor
+	 *
+	 * @param   array             $config  An array of configuration options. Must have option key.
+	 * @param   JInput            $input   The input object.
+	 * @param   JApplicationBase  $app     The application object.
+	 *
+	 * @since   3.4
+	 */
+	public function __construct(array $config, JInput $input = null, JApplicationBase $app = null)
+	{
+		$this->config = $config;
+
+		parent::__construct($input, $app);
+	}
 
 	/**
 	 * @return  mixed  A rendered view or true
@@ -56,8 +80,8 @@ class JControllerCmsbase extends JControllerBase
 		$this->viewName     = $this->input->getWord('view', 'articles');
 
 		return $this;
-
 	}
+
 	/**
 	 * Set a URL for browser redirection.
 	 *
