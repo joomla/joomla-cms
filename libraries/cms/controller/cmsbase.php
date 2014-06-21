@@ -36,9 +36,9 @@ class JControllerCmsbase extends JControllerBase
 	public $prefix;
 
 	/*
-	 * Prefix for the view and model classes
+	 * Injected configuration array
 	 *
-	 * @var  array
+	 * @var    array
 	 * @since  3.4
 	 */
 	public $config;	
