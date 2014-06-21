@@ -27,20 +27,21 @@ class UsersViewRemind extends JViewLegacy
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string	$tpl	The template file to include
+	 * @param   string	$tpl  The template file to include
 	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
 		// Get the view data.
-		$this->form		= $this->get('Form');
-		$this->state	= $this->get('State');
-		$this->params	= $this->state->params;
+		$this->form   = $this->get('Form');
+		$this->state  = $this->get('State');
+		$this->params = $this->state->params;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode('<br />', $errors));
+
 			return false;
 		}
 
@@ -66,9 +67,9 @@ class UsersViewRemind extends JViewLegacy
 	 */
 	protected function prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$title 		= null;
+		$app   = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -83,18 +84,20 @@ class UsersViewRemind extends JViewLegacy
 		}
 
 		$title = $this->params->get('page_title', '');
+
 		if (empty($title))
 		{
-			$title = $app->getCfg('sitename');
+			$title = $app->get('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->params->get('menu-meta_description'))
