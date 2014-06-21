@@ -71,32 +71,28 @@ class JControllerDelete extends JControllerCmsbase
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JLog::add(JText::_($this->prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		// Get the model.
+		$viewName     = $this->input->getWord('view', 'articles');
+
+		$model = $this->getModel($this->prefix, ucfirst($viewName));
+
+		// Make sure the item ids are integers
+		jimport('joomla.utilities.arrayhelper');
+		JArrayHelper::toInteger($cid);
+
+		// Remove the items.
+		if ($model->delete($cid))
+		{
+			$this->app->enqueueMessage(JText::plural($this->prefix . '_N_ITEMS_DELETED', count($cid)), 'notice');
 		}
 		else
 		{
-			// Get the model.
-			$viewName     = $this->input->getWord('view', 'articles');
-			$modelClass = $this->prefix . 'Model' . ucfirst($viewName);
-
-			if (class_exists($modelClass))
-			{
-				$model = new $modelClass;
-			}
-
-			// Make sure the item ids are integers
-			jimport('joomla.utilities.arrayhelper');
-			JArrayHelper::toInteger($cid);
-
-			// Remove the items.
-			if ($model->delete($cid))
-			{
-				$this->app->enqueueMessage(JText::plural($this->prefix . '_N_ITEMS_DELETED', count($cid)), 'notice');
-			}
-			else
-			{
-				$this->app->enqueueMessage('NO_ITEMS_FOUND', 'error');
-				$this->app->redirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
-			}
+			$this->app->enqueueMessage('NO_ITEMS_FOUND', 'error');
+			$this->app->redirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 		}
 
 		// Invoke the postDelete method to allow for the child class to access the model.

@@ -52,6 +52,37 @@ class JControllerCmsbase extends JControllerBase
 	public $permission = '';
 
 	/**
+	 * Associative array of models
+	 * stored as $models[$prefix][$name] used by get models
+	 * @var array
+	 */
+	protected $models = array();
+
+	/**
+	 * Redirect message.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $message;
+
+	/**
+	 * Redirect message type.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $messageType;
+
+	/**
+	 * URL for redirection.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $redirect;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array            $config  An array of configuration options. Must have option key.
@@ -158,5 +189,66 @@ class JControllerCmsbase extends JControllerBase
 		}
 
 		return $append;
+	}
+
+	/**
+	 * Method to get a model, creating it if it does not already exist.
+	 * Uses the prefix and $name to create the class name. Format $prefix.'Model'.$name
+	 *
+	 * @param   string  $prefix  The model prefix
+	 * @param   string  $name    The model name
+	 *
+	 * @return JModelCms
+	 * @throws ErrorException
+	 */
+	public function getModel($prefix = null, $name = null)
+	{
+		if (is_null($prefix))
+		{
+			$prefix = $this->getPrefix();
+		}
+
+		if (is_null($name))
+		{
+			$name = $this->config['subject'];
+		}
+
+		$prefix = ucfirst($prefix);
+		$name   = ucfirst($name);
+
+		if (isset($this->models[$prefix][$name]))
+		{
+			return $this->models[$prefix][$name];
+		}
+
+		$class = $prefix . 'Model' . $name;
+
+		if (!class_exists($class))
+		{
+			throw new ErrorException(JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $class));
+		}
+
+		$this->models[$prefix][$name] = new $class($this->config);
+
+		return $this->models[$prefix][$name];
+	}
+
+	/**
+	 * Method to get the option prefix from the input
+	 *
+	 * @param   string  $option  Component option string 'com_{componentName}'
+	 *
+	 * @return  string  The prefix for models and views
+	 */
+	protected function getPrefix($option = null)
+	{
+		if (is_null($option))
+		{
+			$option = $this->config['option'];
+		}
+
+		$prefix = ucfirst(substr($option, 4));
+
+		return $prefix;
 	}
 }
