@@ -36,7 +36,7 @@ class SearchViewSearch extends JViewLegacy
 
 		if (isset($items[0]))
 		{
-			$searchUri .= '&Itemid='.$items[0]->id;
+			$searchUri .= '&Itemid=' . $items[0]->id;
 		}
 
 		$htmlSearch           = new JOpenSearchUrl;
