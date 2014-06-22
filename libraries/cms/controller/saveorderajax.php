@@ -53,6 +53,7 @@ class JControllerSaveorderajax extends JControllerCms
 
 		if ($return)
 		{
+			// @todo Convert this to use JResponseJson
 			echo "1";
 		}
 
