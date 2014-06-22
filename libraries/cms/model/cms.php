@@ -321,5 +321,8 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * @note    Calling getState in this method will result in recursion.
 	 * @since   3.4
 	 */
-	abstract protected function populateState();
+	protected function populateState()
+	{
+		$this->loadState();
+	}
 }

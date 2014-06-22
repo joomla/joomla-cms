@@ -70,7 +70,7 @@ abstract class JModelCmsactions extends JModelCms
 	 */
 	public function __construct(array $config, JDatabaseDriver $db = null, JEventDispatcher $dispatcher = null)
 	{
-		parent::__construct($db, $dispatcher, $config);
+		parent::__construct($config, $db, $dispatcher);
 
 		if (isset($config['event_after_delete']))
 		{

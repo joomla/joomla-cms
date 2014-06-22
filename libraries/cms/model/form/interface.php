@@ -15,22 +15,6 @@
 interface JModelFormInterface extends JModelItemInterface
 {
 	/**
-	 * Method to get a form object.
-	 *
-	 * @param   string   $name     The name of the form.
-	 * @param   string   $source   The form source. Can be XML string if file flag is set to false.
-	 * @param   array    $options  Optional array of options for the form creation.
-	 * @param   boolean  $clear    Optional argument to force load a new form.
-	 * @param   string   $xpath    An optional xpath to search for the fields.
-	 *
-	 * @return  mixed  JForm object on success, False on error.
-	 *
-	 * @see     JForm
-	 * @since   3.2
-	 */
-	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
-
-	/**
 	 * Method for getting the form from the model.
 	 *
 	 * @param   array    $data      Data for the form.

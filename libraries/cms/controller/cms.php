@@ -51,6 +51,14 @@ class JControllerCms extends JControllerBase implements JControllerCmsInterface
 	public $options;
 
 	/*
+	 * The JDocument object
+	 *
+	 * @var    JDocument
+	 * @since  3.4
+	 */
+	public $doc;
+
+	/*
 	 * Injected configuration array
 	 *
 	 * @var    array
@@ -111,12 +119,14 @@ class JControllerCms extends JControllerBase implements JControllerCmsInterface
 	 * @param   array            $config  An array of configuration options. Must have option key.
 	 * @param   JInput           $input   The input object.
 	 * @param   JApplicationCms  $app     The application object.
+	 * @param   JDocument        $doc     The JDocument object
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(array $config, JInput $input = null, JApplicationCms $app = null)
+	public function __construct(array $config, JInput $input = null, JApplicationCms $app = null, JDocument $doc = null)
 	{
 		$this->config = $config;
+		$this->doc = $doc ? $doc : JFactory::getDocument();
 
 		parent::__construct($input, $app);
 	}
@@ -251,9 +261,17 @@ class JControllerCms extends JControllerBase implements JControllerCmsInterface
 
 		if (is_null($name))
 		{
-			$name = $this->config['subject'];
+			if (isset($this->config['model']))
+			{
+				$name = $this->config['model'];
+			}
+			else
+			{
+				$name = $this->config['view'];
+			}
 		}
 
+		$this->config['model'] = $name;
 		$prefix = ucfirst($prefix);
 		$name   = ucfirst($name);
 

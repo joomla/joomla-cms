@@ -91,7 +91,7 @@ class JControllerDisplayform extends JControllerDisplay
 		}
 
 		// Initialise the view class.
-		$viewFormat   = JFactory::getDocument()->getType();
+		$viewFormat   = $this->doc->getType();
 		$view = $this->getView($model, $this->prefix, $this->viewName, $viewFormat);
 
 		// If in html view then we set the layout

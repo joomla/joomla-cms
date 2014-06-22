@@ -16,7 +16,6 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  Controller
  * @since       3.4
 */
-
 class JControllerUpdate extends JControllerCms
 {
 	/*
@@ -50,7 +49,7 @@ class JControllerUpdate extends JControllerCms
 
 		$tasks = explode('.', $this->input->get('task'));
 		$this->viewName     = ucfirst($tasks[parent::CONTROLLER_VIEW_FOLDER]);
-		$saveFormat   = JFactory::getDocument()->getType();
+		$saveFormat   = $this->doc->getType();
 
 		try
 		{

@@ -57,9 +57,8 @@ class JControllerDisplay extends JControllerCms
 	{
 		!$this->app->isAdmin() ? : $this->permission = 'core.manage';
 
-		$componentFolder = $this->input->getWord('option', 'com_content');
 		$this->viewName     = $this->input->getWord('view', 'articles');
-		$viewFormat   = JFactory::getDocument()->getType();
+		$viewFormat   = $this->doc->getType();
 
 		try
 		{
@@ -132,7 +131,7 @@ class JControllerDisplay extends JControllerCms
 		// Get the document type
 		if (is_null($name))
 		{
-			$type   = JFactory::getDocument()->getType();
+			$type   = $this->doc->getType();
 		}
 
 		$class = ucfirst($prefix) . 'View' . ucfirst($name) . ucfirst($type);
