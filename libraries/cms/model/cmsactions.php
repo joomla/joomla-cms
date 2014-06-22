@@ -295,13 +295,9 @@ abstract class JModelCmsactions extends JModelCms
 			throw new RuntimeException('Error in query', 404);
 		}
 
-		// @todo This should be in the controller.
 		if ($result && $db->getAffectedRows())
 		{
-			$app = JFactory::getApplication();
-			$app->setHeader('status', '204 Deleted');
-
-			return true;
+			return $db->getAffectedRows();
 		}
 		elseif ($result)
 		{

@@ -38,7 +38,6 @@ class JControllerDelete extends JControllerCms
 	public function execute()
 	{
 		$option = $this->input->getWord('option', 'com_content');
-		$context = $option . $this->options[self::CONTROLLER_VIEW_FOLDER];
 
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
@@ -84,15 +83,20 @@ class JControllerDelete extends JControllerCms
 		JArrayHelper::toInteger($cid);
 
 		// Remove the items.
-		if ($model->delete($cid))
+		try
 		{
-			$this->app->enqueueMessage(JText::plural($this->prefix . '_N_ITEMS_DELETED', count($cid)), 'notice');
+			$result = $model->delete($cid);
 		}
-		else
+		catch (RuntimeException $e)
 		{
-			$this->app->enqueueMessage('NO_ITEMS_FOUND', 'error');
+			$this->app->enqueueMessage($e->getMessage(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=' . $option . '&view=' . $this->view_list, false));
+
+			return false;
 		}
+
+		$this->app->enqueueMessage(JText::plural($this->prefix . '_N_ITEMS_DELETED', $result), 'notice');
+		$this->app->setHeader('status', '204 Deleted');
 
 		// Invoke the postDelete method to allow for the child class to access the model.
 		if (isset($model) && isset($cid))
