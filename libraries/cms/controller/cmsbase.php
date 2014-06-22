@@ -83,6 +83,14 @@ class JControllerCmsbase extends JControllerBase
 	protected $redirect;
 
 	/**
+	 * The view name.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $viewName;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array            $config  An array of configuration options. Must have option key.
@@ -154,6 +162,27 @@ class JControllerCmsbase extends JControllerBase
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Redirects the browser or returns false if no redirect is set.
+	 *
+	 * @return  boolean  False if no redirect exists.
+	 *
+	 * @since   3.4
+	 */
+	public function redirect()
+	{
+		if ($this->redirect)
+		{
+			// Enqueue the redirect message
+			$this->app->enqueueMessage($this->message, $this->messageType);
+
+			// Execute the redirect
+			$this->app->redirect($this->redirect);
+		}
+
+		return false;
 	}
 
 	/**

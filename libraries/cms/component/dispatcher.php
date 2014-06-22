@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-class JComponentDispatcher
+class JComponentDispatcher implements JComponentDispatcherInterface
 {
 	// Constants that define the form of the controller passed in the URL
 	const CONTROLLER_PREFIX = 0;
@@ -17,7 +17,7 @@ class JComponentDispatcher
 	const CONTROLLER_VIEW_FOLDER = 2;
 
 	/**
-	 * @var    JControllerCms  The Task Controller.
+	 * @var    JControllerCmsbase  The Task Controller.
 	 * @since  3.4
 	 */
 	protected $controller;
@@ -27,12 +27,6 @@ class JComponentDispatcher
 	 * @since  3.4
 	 */
 	public $defaultView = 'cpanel';
-
-	/**
-	 * @var    boolean  Should we try and create a fallback controller if the custom one can't be found.
-	 * @since  3.4
-	 */
-	public $tryFallback = true;
 
 	/**
 	 * @var    JInput  The input object.
@@ -160,7 +154,7 @@ class JComponentDispatcher
 	 *
 	 * @param   JApplicationCms  $app  The application object.
 	 *
-	 * @return  JControllerCms
+	 * @return  JControllerCmsbase
 	 *
 	 * @throws  InvalidArgumentException
 	 */
@@ -298,15 +292,5 @@ class JComponentDispatcher
 		}
 
 		return $tasks;
-	}
-
-	/**
-	 * Adds the redirect in the controller
-	 *
-	 * @see JControllerCms::redirect()
-	 */
-	public function redirect()
-	{
-		return $this->controller->redirect();
 	}
 }
