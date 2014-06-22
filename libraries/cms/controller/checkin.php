@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  Controller
  * @since       3.4
 */
-class JControllerCheckin extends JControllerCmsbase
+class JControllerCheckin extends JControllerCms
 {
 	/*
 	 * Prefix for the view and model classes

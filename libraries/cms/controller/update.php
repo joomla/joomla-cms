@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
  * @since       3.2
 */
 
-class JControllerUpdate extends JControllerCmsbase
+class JControllerUpdate extends JControllerCms
 {
 	/*
 	 * Prefix for the view and model classes

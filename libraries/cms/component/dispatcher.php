@@ -155,7 +155,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	 *
 	 * @param   JApplicationCms  $app  The application object.
 	 *
-	 * @return  JControllerCmsbase
+	 * @return  JControllerCms
 	 *
 	 * @throws  InvalidArgumentException
 	 */

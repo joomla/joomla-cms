@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
  * @since       3.2
 */
 
-class JControllerSaveorderajax extends JControllerCmsbase
+class JControllerSaveorderajax extends JControllerCms
 {
 	/**
 	 * Method to save the submitted ordering values for records via AJAX.

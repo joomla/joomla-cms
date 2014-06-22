@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  controller
  * @since       3.2
 */
-class JControllerCreate extends JControllerCmsbase
+class JControllerCreate extends JControllerCms
 {
 	/*
 	 * Prefix for the view and model classes

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       3.4
  */
-class JControllerCancel extends JControllerCmsbase
+class JControllerCancel extends JControllerCms
 {
 	/**
 	 * Generic method to cancel

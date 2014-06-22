@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  Controller
  * @since       3.2
 */
-class JControllerUpdatestatelist extends JControllerCmsbase
+class JControllerUpdatestatelist extends JControllerCms
 {
 	/*
 	 * Prefix for the view and model classes
