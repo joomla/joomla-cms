@@ -10,13 +10,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Base Display Controller
+ * Base Controller
  *
  * @package     Joomla.Libraries
  * @subpackage  Controller
  * @since       3.4
 */
-class JControllerCms extends JControllerBase
+class JControllerCms extends JControllerBase implements JControllerCmsInterface
 {
 	// Constants that define the form of the controller passed in options params
 	const CONTROLLER_PREFIX = 0;
