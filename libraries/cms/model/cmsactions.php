@@ -253,7 +253,7 @@ abstract class JModelCmsactions extends JModelCms
 	 *
 	 * @param   mixed  $pks  A primary key or array of record primary keys.
 	 *
-	 * @return  boolean  True if successful, false if an error occurs.
+	 * @return  integer  Number of rows affected if successful
 	 *
 	 * @since   3.4
 	 * @throws  RuntimeException
@@ -281,7 +281,6 @@ abstract class JModelCmsactions extends JModelCms
 		{
 			$pksImploded = implode(',', $pks);
 			$query->where($db->quoteName($key) . ' IN (' . $pksImploded . ')');
-
 		}
 
 		$db->setQuery($query);
@@ -292,21 +291,22 @@ abstract class JModelCmsactions extends JModelCms
 		}
 		catch (Exception $e)
 		{
-			throw new RuntimeException('Error in query', 404);
+			throw new RuntimeException($e->getMessage(), 404);
 		}
 
 		if ($result && $db->getAffectedRows())
 		{
+			// Successful result. Return the number of rows affected
 			return $db->getAffectedRows();
 		}
 		elseif ($result)
 		{
+			// We have no rows affected. Throw an exception.
 			throw new RuntimeException('Record Not Found', 404);
 		}
-		else
-		{
-			throw new RuntimeException('Delete failed', 500);
-		}
+
+		// We don't have a result from the database. Throw an exception
+		throw new RuntimeException('Delete failed', 500);
 	}
 
 	/**
