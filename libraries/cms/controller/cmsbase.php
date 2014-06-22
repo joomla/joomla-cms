@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  Joomla.Libraries
+ * @package     Joomla.Libraries
+ * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -13,11 +13,18 @@ defined('_JEXEC') or die('Restricted access');
  * Base Display Controller
  *
  * @package     Joomla.Libraries
- * @subpackage  controller
+ * @subpackage  Controller
  * @since       3.4
 */
 class JControllerCmsbase extends JControllerBase
 {
+	// Constants that define the form of the controller passed in options params
+	const CONTROLLER_PREFIX = 0;
+	const CONTROLLER_ACTIVITY = 1;
+	const CONTROLLER_VIEW_FOLDER = 2;
+	const CONTROLLER_OPTION = 3;
+	const CONTROLLER_CORE_OPTION = 2;
+
 	/**
 	 * Redeclaration of the application object as
 	 * the CMS application for typehinting.
@@ -34,6 +41,14 @@ class JControllerCmsbase extends JControllerBase
 	 * @since  3.4
 	 */
 	public $prefix;
+
+	/*
+	 * An array of options
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	public $options;
 
 	/*
 	 * Injected configuration array

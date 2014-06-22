@@ -34,9 +34,14 @@ class JControllerUpdate extends JControllerCmsbase
 	public $permission = 'core.edit';
 
 	/**
-	 * @return  mixed  A rendered view or true
+	 * Method to update a record.
 	 *
-	 * @since   3.2
+	 * @return  boolean  True if controller finished execution, false if the controller did not
+	 *                   finish execution. A controller might return false if some precondition for
+	 *                   the controller to run has not been satisfied.
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function execute()
 	{
@@ -54,15 +59,12 @@ class JControllerUpdate extends JControllerCmsbase
 		$this->viewName     = ucfirst($tasks[parent::CONTROLLER_VIEW_FOLDER]);
 		$saveFormat   = JFactory::getDocument()->getType();
 
-		$modelClass = $this->prefix . 'Model' . ucfirst($this->viewName);
-		$model = new $modelClass;
+		$model = $this->getModel();
 
 		// Access check.
 		if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-
-			return false;
+			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'), 401);
 		}
 
 		$data  = $this->input->post->get('jform', array(), 'array');

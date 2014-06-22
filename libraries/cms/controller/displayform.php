@@ -132,7 +132,6 @@ class JControllerDisplayform extends JControllerDisplay
 		$id = $this->input->getInt($idName, 0);
 
 		// Check for edit form.
-
 		if (!$this->checkEditId($context, $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.

@@ -129,6 +129,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	public function dispatch(JApplicationCms $app = null)
 	{
 		$controller = $this->getController($app);
+		$controller->options = $this->getTasks();
 
 		try
 		{

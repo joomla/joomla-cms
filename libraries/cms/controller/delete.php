@@ -18,10 +18,6 @@ defined('_JEXEC') or die('Restricted access');
 */
 class JControllerDelete extends JControllerCmsbase
 {
-	const CONTROLLER_PREFIX = 0;
-	const CONTROLLER_ACTIVITY = 1;
-	const CONTROLLER_VIEW_FOLDER = 2;
-
 	/*
 	 * Prefix for the view and model classes
 	 *
@@ -29,21 +25,20 @@ class JControllerDelete extends JControllerCmsbase
 	 */
 	public $prefix = null;
 
-	/*
-	 * Option to send to the model.
-	*
-	* @var  array
-	*/
-	public $options;
-
 	/**
-	 * @return  mixed  A rendered view or true
+	 * Execute the controller.
 	 *
-	 * @since   3.2
+	 * @return  boolean  True if controller finished execution, false if the controller did not
+	 *                   finish execution. A controller might return false if some precondition for
+	 *                   the controller to run has not been satisfied.
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function execute()
 	{
-		$context = $this->input->getWord('option', 'com_content') . $this->options[self::CONTROLLER_VIEW_FOLDER];
+		$option = $this->input->getWord('option', 'com_content');
+		$context = $option . $this->options[self::CONTROLLER_VIEW_FOLDER];
 
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
@@ -52,17 +47,14 @@ class JControllerDelete extends JControllerCmsbase
 		if (!$this->allowDelete())
 		{
 			// Set the internal error and also the redirect error.
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'));
-			$this->app->enqueueMessage($this->getError(), 'error');
-
 			$this->setRedirect(
 				JRoute::_(
-					'index.php?option=' . $this->input->get('option') . '&controller=j.display.' . $options[self::CONTROLLER_PREFIX],
+					'index.php?option=' . $this->input->get('option') . '&controller=j.display.' . $this->options[parent::CONTROLLER_PREFIX],
 					false
 				)
 			);
 
-			return false;
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 401);
 		}
 
 		// Get items to remove from the request.
@@ -92,7 +84,7 @@ class JControllerDelete extends JControllerCmsbase
 		else
 		{
 			$this->app->enqueueMessage('NO_ITEMS_FOUND', 'error');
-			$this->app->redirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+			$this->app->redirect(JRoute::_('index.php?option=' . $option . '&view=' . $this->view_list, false));
 		}
 
 		// Invoke the postDelete method to allow for the child class to access the model.
@@ -102,26 +94,27 @@ class JControllerDelete extends JControllerCmsbase
 		}
 
 		$this->app->redirect(
-				JRoute::_(
-					'index.php?option=' . $this->input->get('option') . '&controller=j.display.' . $options[self::CONTROLLER_PREFIX],
-					false
-				)
-			);
+			JRoute::_(
+				'index.php?option=' . $this->input->get('option') . '&controller=j.display.' . $this->options[parent::CONTROLLER_PREFIX],
+				false
+			)
+		);
 
+		return true;
 	}
 
 	/**
 	 * Function that allows child controller access to model data
 	 * after the item has been deleted.
 	 *
-	 * @param   JModel        $model  The data model object.
-	 * @param   integer       $id     The validated data.
+	 * @param   JModelCms   $model  The data model object.
+	 * @param   integer     $id     The validated data.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
-	protected function postDeleteHook(JModel $model, $id = null)
+	protected function postDeleteHook(JModelCms $model, $id = null)
 	{
 	}
 
@@ -134,7 +127,7 @@ class JControllerDelete extends JControllerCmsbase
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.3
+	 * @since   3.4
 	 */
 	protected function allowDelete($data = array())
 	{

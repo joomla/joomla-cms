@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Cancel Controller for global configuration
+ * Cancel Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       3.2
+ * @package     Joomla.Libraries
+ * @subpackage  Controller
+ * @since       3.4
  */
 class JControllerCancel extends JControllerCmsbase
 {
@@ -23,7 +23,7 @@ class JControllerCancel extends JControllerCmsbase
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	public function execute()
 	{
@@ -38,10 +38,9 @@ class JControllerCancel extends JControllerCmsbase
 
 		$redirectUrl = '';
 
-		//By default we go to the default component view of the current component
+		// By default we go to the default component view of the current component
 		$redirectUrl     .= $this->input->getWord('option', 'com_content');
-		$this->viewName     = $this->input->getWord('view');
-		$this->context = $this->input->get('option') . ' . ' . $this->viewName;
+		$this->context = $this->input->get('option') . ' . ' . $this->input->getWord('view');
 
 		if (!empty($this->options[parent::CONTROLLER_VIEW_FOLDER]))
 		{
@@ -54,6 +53,8 @@ class JControllerCancel extends JControllerCmsbase
 		$input = $this->input;
 		$pk    = $input->getInt($keyName, 0);
 
+		// If we are cancelling an item that already exists then we should
+		// check if back in.
 		if ($pk != 0)
 		{
 			try
@@ -71,8 +72,7 @@ class JControllerCancel extends JControllerCmsbase
 
 		// Clear the form state
 		$key = $model->getContext() . '.jform.data';
-		$this->setUserState($key,null);
-
+		$this->setUserState($key, null);
 
 		// By default cancel goes to the default component view.
 		$this->app->redirect(JRoute::_('index.php?option=' . $redirectUrl, false));

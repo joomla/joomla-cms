@@ -18,18 +18,6 @@ defined('_JEXEC') or die('Restricted access');
 */
 class JControllerCreate extends JControllerCmsbase
 {
-	const CONTROLLER_PREFIX = 0;
-	const CONTROLLER_ACTIVITY = 1;
-	const CONTROLLER_VIEW_FOLDER = 2;
-	const CONTROLLER_OPTION = 3;
-
-	/**
-	 * Method to add a new record.
-	 *
-	 * @return  mixed  True if the record can be added, a error object if not.
-	 *
-	 * @since   12.2
-	 */
 	/*
 	 * Prefix for the view and model classes
 	 *
@@ -45,13 +33,18 @@ class JControllerCreate extends JControllerCmsbase
 	public $options;
 
 	/**
-	 * @return  mixed  A rendered view or true
+	 * Method to add a new record.
 	 *
-	 * @since   3.2
+	 * @return  boolean  True if controller finished execution, false if the controller did not
+	 *                   finish execution. A controller might return false if some precondition for
+	 *                   the controller to run has not been satisfied.
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function execute()
 	{
-		$context = $this->input->getWord('option', 'com_content') . '.edit.' .  $this->options[self::CONTROLLER_VIEW_FOLDER];
+		$context = $this->input->getWord('option', 'com_content') . '.edit.' .  $this->options[parent::CONTROLLER_VIEW_FOLDER];
 
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
@@ -60,21 +53,19 @@ class JControllerCreate extends JControllerCmsbase
 		if (!$this->allowAdd())
 		{
 			// Set the internal error and also the redirect error.
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'));
-			$this->app->enqueueMessage($this->getError(), 'error');
 
 			$this->setRedirect(
 				JRoute::_(
-					'index.php?option=' . $this->input->get('option') . '&controller=j.display.' . $options[self::CONTROLLER_PREFIX],
+					'index.php?option=' . $this->input->get('option') . '&controller=j.display.' . $this->options[parent::CONTROLLER_PREFIX],
 					false
 				)
 			);
 
-			return false;
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 401);
 		}
 
 		// Clear the record edit information from the session if this is not a copy.
-		if (empty($this->options[self::CONTROLLER_OPTION]) || $this->options[self::CONTROLLER_OPTION] != 'copy')
+		if (empty($this->options[parent::CONTROLLER_OPTION]) || $this->options[parent::CONTROLLER_OPTION] != 'copy')
 		{
 			$this->app->setUserState($context . '.data', null);
 		}
@@ -83,15 +74,16 @@ class JControllerCreate extends JControllerCmsbase
 		$this->setRedirect(
 			JRoute::_(
 				'index.php?option=' . $this->input->getWord('option') . '&view='
-				. $this->options[self::CONTROLLER_VIEW_FOLDER] . '&layout=edit', false
+				. $this->options[parent::CONTROLLER_VIEW_FOLDER] . '&layout=edit', false
 			)
 		);
 
 		$this->app->redirect('index.php?option=' . $this->input->getWord('option') . '&view='
-				. $this->options[self::CONTROLLER_VIEW_FOLDER] . '&layout=edit');
+				. $this->options[parent::CONTROLLER_VIEW_FOLDER] . '&layout=edit');
 
 		return true;
 	}
+
 	/**
 	 * Method to check if you can add a new record.
 	 *
@@ -101,7 +93,7 @@ class JControllerCreate extends JControllerCmsbase
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	protected function allowAdd($data = array())
 	{

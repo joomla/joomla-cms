@@ -10,7 +10,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Base Display Controller
+ * Base Controller for updating the state of items
  *
  * @package     Joomla.Libraries
  * @subpackage  Controller
@@ -43,9 +43,13 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 				'trashed' => -2, 'reported' => -3, 'publish' => 1, 'unpublish' => 0);
 
 	/**
-	 * @return  mixed  A rendered view or true
+	 * Method to update the state of a record.
 	 *
-	 * @since   3.2
+	 * @return  boolean  True if controller finished execution, false if the controller did not
+	 *                   finish execution. A controller might return false if some precondition for
+	 *                   the controller to run has not been satisfied.
+	 *
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	public function execute()
@@ -60,8 +64,7 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 		}
 		else
 		{
-			$modelClassName = ucfirst($this->prefix) . 'Model' . ucfirst($this->viewName);
-			$model = new $modelClassName;
+			$model = $this->getModel();
 			$newState = $this->stateOptions[$this->options[parent::CONTROLLER_CORE_OPTION]];
 
 			// Access check.

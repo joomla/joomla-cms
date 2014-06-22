@@ -40,9 +40,14 @@ class JControllerDisplay extends JControllerCmsbase
 	public $urlparams = array();
 
 	/**
-	 * @return  mixed  A rendered view or true
+	 * Execute the controller.
 	 *
-	 * @since   3.2
+	 * @return  boolean  True if controller finished execution, false if the controller did not
+	 *                   finish execution. A controller might return false if some precondition for
+	 *                   the controller to run has not been satisfied.
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function execute()
 	{
