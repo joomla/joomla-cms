@@ -62,32 +62,30 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 		{
 			throw new RuntimeException(JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'), 500);
 		}
-		else
+
+		try
 		{
-			try
-			{
-				$model = $this->getModel();
-			}
-			catch (RuntimeException $e)
-			{
-				throw new RuntimeException($e->getMessage(), $e->getCode());
-			}
-
-			$newState = $this->stateOptions[$this->options[parent::CONTROLLER_CORE_OPTION]];
-
-			// Access check.
-			if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
-			{
-				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-
-				return;
-			}
-
-			// Check in the items.
-			$this->app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_PUBLISHED', $model->publish($ids, $newState)));
+			$model = $this->getModel();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		$this->app->redirect('index.php?option=' . $this->input->get('option', 'com_cpanel'));
+		$newState = $this->stateOptions[$this->options[parent::CONTROLLER_CORE_OPTION]];
+
+		// Access check.
+		if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
+		{
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+			return;
+		}
+
+		// Check in the items.
+		$this->app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_PUBLISHED', $model->publish($ids, $newState)));
+
+		$this->setRedirect('index.php?option=' . $this->input->get('option', 'com_cpanel'));
 
 	}
 }

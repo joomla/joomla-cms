@@ -50,7 +50,7 @@ class JControllerUpdate extends JControllerCmsbase
 		// Check if the user is authorized to do this.
 		if ($this->app->isAdmin() && !JFactory::getUser()->authorise('core.manage'))
 		{
-			$this->app->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->setRedirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 
 			return false;
 		}
@@ -86,6 +86,6 @@ class JControllerUpdate extends JControllerCmsbase
 		$form  = $model->getForm();
 
 		// Validate the posted data.
-		return  $model->validate($form, $this->data);
+		return  $model->validate($form, $data);
 	}
 }

@@ -72,7 +72,7 @@ class JControllerCheckin extends JControllerCmsbase
 			$this->app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_CHECKED_IN', $model->checkin($ids)));
 		}
 
-		$this->app->redirect('index.php?option=' . $this->input->get('option', 'com_cpanel'));
+		$this->setRedirect('index.php?option=' . $this->input->get('option', 'com_cpanel'));
 
 		return true;
 	}

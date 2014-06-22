@@ -31,7 +31,7 @@ class JControllerCancel extends JControllerCmsbase
 		if (!JFactory::getUser()->authorise('core.edit'))
 		{
 			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
-			$this->app->redirect('index.php');
+			$this->setRedirect('index.php');
 
 			return false;
 		}
@@ -82,7 +82,7 @@ class JControllerCancel extends JControllerCmsbase
 		$this->setUserState($key, null);
 
 		// By default cancel goes to the default component view.
-		$this->app->redirect(JRoute::_('index.php?option=' . $redirectUrl, false));
+		$this->setRedirect(JRoute::_('index.php?option=' . $redirectUrl, false));
 
 		return true;
 	}
