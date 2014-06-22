@@ -25,6 +25,7 @@ class JControllerSaveorderajax extends JControllerCms
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @throws  RuntimeException
 	 */
 	public function execute()
 	{
