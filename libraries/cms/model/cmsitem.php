@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Prototype item model.
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Model
- * @since       12.2
+ * @since       3.5
  */
 class JModelCmsitem extends JModelCms
 {
@@ -29,7 +29,7 @@ class JModelCmsitem extends JModelCms
 	 * Model context string.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.5
 	 */
 	protected $context = 'group.type';
 
@@ -37,7 +37,7 @@ class JModelCmsitem extends JModelCms
 	 * The event to trigger after deleting the data.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $event_after_delete = null;
 
@@ -45,7 +45,7 @@ class JModelCmsitem extends JModelCms
 	 * The event to trigger after saving the data.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $event_after_save = null;
 
@@ -53,7 +53,7 @@ class JModelCmsitem extends JModelCms
 	 * The event to trigger before deleting the data.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $event_before_delete = null;
 
@@ -61,7 +61,7 @@ class JModelCmsitem extends JModelCms
 	 * The event to trigger before saving the data.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $event_before_save = null;
 
@@ -69,7 +69,7 @@ class JModelCmsitem extends JModelCms
 	 * The event to trigger after changing the published state of the data.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $event_change_state = null;
 
@@ -77,7 +77,7 @@ class JModelCmsitem extends JModelCms
 	 * Array of form objects.
 	 *
 	 * @var    array
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $forms = array();
 
@@ -87,7 +87,7 @@ class JModelCmsitem extends JModelCms
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JModel
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function __construct($config = array())
 	{
@@ -156,7 +156,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function checkin($pk = null)
 	{
@@ -202,7 +202,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function checkout($pk = null)
 	{
@@ -246,7 +246,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -265,7 +265,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   12.2
+	 * @since   3.5
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -278,7 +278,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since   1.6
+	 * @since   3.5
 	 */
 	protected function populateState()
 	{
@@ -353,7 +353,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * @return  JTable  A database object
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function getTable($name = '', $prefix = 'Table', $options = array())
 	{
@@ -367,7 +367,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	public function hit($id = null)
 	{
@@ -387,7 +387,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function delete(&$pks)
 	{
@@ -450,7 +450,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.5
 	 */
 	protected function prepareTable($table)
 	{
@@ -464,7 +464,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   12.2
+	 * @since   3.5
 	 */
 	public function save($data)
 	{
@@ -554,7 +554,7 @@ class JModelCmsitem extends JModelCms
 	 * @return  mixed  JForm object on success, False on error.
 	 *
 	 * @see     JForm
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
@@ -630,7 +630,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * @return  array    The default data is an empty array.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	protected function loadFormData()
 	{
@@ -645,7 +645,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	protected function preprocessData($context, &$data)
 	{
@@ -673,7 +673,7 @@ class JModelCmsitem extends JModelCms
 	 * @return  void
 	 *
 	 * @see     JFormField
-	 * @since   3.2
+	 * @since   3.5
 	 * @throws  Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
@@ -711,7 +711,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * @see     JFormRule
 	 * @see     JFilterInput
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function validate($form, $data, $group = null)
 	{
@@ -751,7 +751,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
-	 * @since	12.2
+	 * @since	3.5
 	 */
 	protected function generateNewTitle($category_id, $alias, $title)
 	{

@@ -28,9 +28,9 @@ class JFormFieldMediathumbs extends JFormField {
 	public function getLabel()
 	{		 
 		$label = '<label for="c" class="control-label hasTooltip" title="' ;
-		$label .= JHtml::tooltipText('COM_MEDIA_EDITOR_THUMBS_CREATION_METHOD');
+		$label .= JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_THUMBS_CREATION_METHOD');
 		$label .= '">';
-		$label .= JText::_('COM_MEDIA_EDITOR_THUMBS_CREATION_METHOD');
+		$label .= JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_CREATION_METHOD');
 		$label .= '</label>';
 
 		return $label;

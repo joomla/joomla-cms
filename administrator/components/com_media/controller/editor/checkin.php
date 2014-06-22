@@ -58,7 +58,7 @@ class MediaControllerEditorCheckin extends JControllerBase
 
 		if (!$model->checkin($id))
 		{
-			$this->app->enqueueMessage(JText::_('MEDIA_EDITOR_ITEM_CHECKED_IN'));
+			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_ITEM_CHECKED_IN_FAILED'));
 
 			return false;
 		}

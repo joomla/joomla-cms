@@ -103,14 +103,29 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 
 <div class="row-fluid">
 
+	<script type="text/javascript">
+		Joomla.submitbutton = function(task)
+		{
+			if (task == 'media.crop.editor' && document.formvalidator.isValid(document.id('media-crop-form')))
+			{
+				Joomla.submitform(task, document.getElementById('media-crop-form'));
+			}
+			else if (task == 'media.cancel.editor' || document.formvalidator.isValid(document.id('media-form')))
+			{
+				Joomla.submitform(task, document.getElementById('media-form'));
+			}
+		}
+	</script>
+
 	<div class="span9">
 
 		<!-- Display Image with Crop -->
 		<img id="image-crop"
 			src="<?php echo $this->image['address'] . '?' . time(); ?>" />
+
 		<form
 			action="<?php echo JRoute::_('index.php?option=com_media&controller=media.crop.editor&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>"
-			method="post" name="adminForm" id="media-form" class="form-horizontal">
+			method="post" name="adminForm" id="media-crop-form" class="form-horizontal">
 			<fieldset class="adminform">
 				<input type="hidden" id="x" name="x" />
 				<input type="hidden" id="y"	name="y" />
@@ -125,20 +140,10 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 
 	<div class="span3">
 
-		<script type="text/javascript">
-			Joomla.submitbutton = function(task)
-			{
-				if (task == 'media.cancel.editor' || document.formvalidator.isValid(document.id('media-form')))
-				{
-					Joomla.submitform(task, document.getElementById('media-form'));
-				}
-			}
-		</script>
-		
-		<form action="<?php echo JRoute::_('index.php?option=com_media&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>" method="post" name="adminForm2" id="media-form" class="form-validate">
-				
+		<form action="<?php echo JRoute::_('index.php?option=com_media&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>" method="post" name="adminForm" id="media-form" class="form-validate">
+
 					<?php echo $this->loadTemplate('properties'); ?>
-		
+
 					<input type="hidden" name="task" value="" />
 					<?php echo JHtml::_('form.token'); ?>
 		</form>
@@ -184,7 +189,7 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 			</div>
 		</div>
 		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_RESIZE_CLOSE'); ?>
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
 			</a>
 			<button class="btn btn-primary" type="submit">
 				<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_RESIZE'); ?>
@@ -220,7 +225,7 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 			</div>
 		</div>
 		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_ROTATE_CLOSE'); ?>
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
 			</a>
 			<button class="btn btn-primary" type="submit">
 				<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_ROTATE'); ?>
@@ -255,7 +260,7 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 					<br /> 
 					<!-- Only for filters require a value -->
 					<label for="value" class="control-label hasTooltip"
-						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_FILTER_VALUE'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_FILTER_VALUE')?>
+						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_FILTER_VALUE'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_FILTER_VALUE')?>
 					</label>
 					<div class="controls">
 						<input class="input-small" type="number" name="value"
@@ -267,7 +272,7 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 			</div>
 		</div>
 		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_FILTER_CLOSE'); ?>
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
 			</a>
 			<button class="btn btn-primary" type="submit">
 				<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_FILTER'); ?>
@@ -299,7 +304,9 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 						<input class="input-xlarge" type="text" name="s"
 							placeholder="100x100" required />
 					</div>
+				</div>
 
+				<div class="control-group">
 					<?php 
 						$mediathumbs = JFormHelper::loadFieldType('Mediathumbs', false);
 
@@ -308,18 +315,20 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 					<div class="controls">
 						<?php echo $mediathumbs->getInput(); ?>
 					</div>
+				</div>
 
+				<div class="control-group">
 					<label for="t" class="control-label hasTooltip"
 						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_THUMBS_FOLDER'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_FOLDER')?>
 					</label>
 					<div class="controls">
-						<input class="input-xlarge" type="text" name="t" />
+						<input class="input-xlarge" type="text" name="t" required />
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_THUMBS_CLOSE'); ?>
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
 			</a>
 			<button class="btn btn-primary" type="submit">
 				<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_THUMBS'); ?>

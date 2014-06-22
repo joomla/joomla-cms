@@ -28,9 +28,9 @@ class JFormFieldMediafilter extends JFormField {
 	public function getLabel()
 	{		 
 		$label = '<label for="filter" class="control-label hasTooltip" title="' ;
-		$label .= JHtml::tooltipText('COM_MEDIA_EDITOR_FILTER_NAME');
+		$label .= JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_FILTER_NAME');
 		$label .= '">';
-		$label .= JText::_('COM_MEDIA_EDITOR_FILTER_NAME');
+		$label .= JText::_('COM_MEDIA_EDITOR_IMAGE_FILTER_NAME');
 		$label .= '</label>';
 
 		return $label;

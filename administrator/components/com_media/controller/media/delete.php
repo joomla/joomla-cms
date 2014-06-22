@@ -80,7 +80,8 @@ class MediaControllerMediaDelete extends JControllerBase
 			{
 				// Filename is not safe
 				$filename = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
-// 				$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', substr($filename, strlen(COM_MEDIA_BASE))));
+
+				// Seperate method to make this class reusable for folder deletion
 				$this->unableToDeleteMessage($filename);
 				continue;
 			}

@@ -18,7 +18,7 @@ $input = JFactory::getApplication()->input;
 		<?php echo $this->sidebar; ?>
 		<hr>
 		<b>
-		<?php echo JText::_('COM_MEDIA_FOLDER_TREE');?>
+		<?php echo JText::_('COM_MEDIA_FOLDERS');?>
 		</b>
 		<hr>
 		<div id="treeview">
@@ -69,7 +69,7 @@ $input = JFactory::getApplication()->input;
 			<?php 
 			echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'collapse_dragndrop'));
 
-			echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_('COM_MEDIA_DRAGNDROP_UPLOAD'), 'collapse_dragndrop');
+			echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_('COM_MEDIA_UPLOADER_DRAGNDROP'), 'collapse_dragndrop');
 			?>
 
 				<!-- Ajax based Drag&Drop Uploader -->
@@ -83,7 +83,7 @@ $input = JFactory::getApplication()->input;
 				<input type="hidden" id="form-token" value="<?php echo JSession::getFormToken();?>" />
 			<?php echo JHtml::_('bootstrap.endSlide'); ?>
 
-			<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_('COM_MEDIA_REGULAR_UPLOAD'), 'collapse_regular'); ?>
+			<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_('COM_MEDIA_UPLOADER_REGULAR'), 'collapse_regular'); ?>
 
 				<!-- Regular Uploader -->
 				<div id="" class="form-horizontal">
@@ -105,7 +105,7 @@ $input = JFactory::getApplication()->input;
 
 		</div>
 		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_UPLOAD_CLOSE'); ?>
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
 			</a>
 			
 		</div>
@@ -132,7 +132,7 @@ $input = JFactory::getApplication()->input;
 			</div>
 		</div>
 		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CREATE_FOLDER_CLOSE'); ?>
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
 			</a>
 			<button class="btn btn-primary" type="submit">
 				<i class="icon-folder-open"></i> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?>

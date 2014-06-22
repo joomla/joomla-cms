@@ -30,7 +30,7 @@ echo $params->get('image_path', 'images'); ?>/';
 
 <div class="tabbable">
 <ul class="nav nav-tabs">
-	<li class="active"><a href="#browse_tab" data-toggle="tab"><?php echo JText::_('COM_MEDIA_BROWSE_DIRECTORY') ?></a></li>
+	<li class="active"><a href="#browse_tab" data-toggle="tab"><?php echo JText::_('COM_MEDIA_BROWSE_FILES') ?></a></li>
 	<li><a href="#upload_tab" data-toggle="tab"><?php echo JText::_('COM_MEDIA_UPLOAD') ?></a></li>
 </ul>
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Libraries
  * @subpackage  Model
- * @since       3.2
+ * @since       3.5
  */
 abstract class JModelCms extends JModelDatabase
 {
@@ -22,7 +22,7 @@ abstract class JModelCms extends JModelDatabase
 	 * The model (base) name
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $name;
 
@@ -30,7 +30,7 @@ abstract class JModelCms extends JModelDatabase
 	 * The URL option for the component.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $option = null;
 
@@ -38,7 +38,7 @@ abstract class JModelCms extends JModelDatabase
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $text_prefix = null;
 
@@ -46,7 +46,7 @@ abstract class JModelCms extends JModelDatabase
 	 * Indicates if the internal state has been set
 	 *
 	 * @var    boolean
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $__state_set = null;
 
@@ -55,7 +55,7 @@ abstract class JModelCms extends JModelDatabase
 	 *
 	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 * @throws  Exception
 	 */
 	public function __construct($config = array())
@@ -138,7 +138,7 @@ abstract class JModelCms extends JModelDatabase
 	 *
 	 * @return  string  The name of the model
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 * @throws  Exception
 	 */
 	public function getName()
@@ -162,7 +162,7 @@ abstract class JModelCms extends JModelDatabase
 	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function getState()
 	{
@@ -187,7 +187,7 @@ abstract class JModelCms extends JModelDatabase
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 * @throws  Exception
 	 */
 	public function getTable($name = '', $prefix = 'Table', $options = array())
@@ -210,7 +210,7 @@ abstract class JModelCms extends JModelDatabase
 	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function registerTablePaths($config = array())
 	{
@@ -239,7 +239,7 @@ abstract class JModelCms extends JModelDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
@@ -267,7 +267,7 @@ abstract class JModelCms extends JModelDatabase
 	 * @return  void
 	 *
 	 * @note    Calling getState in this method will result in recursion.
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	protected function populateState()
 	{
@@ -280,7 +280,7 @@ abstract class JModelCms extends JModelDatabase
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	protected function canDelete($record)
 	{
@@ -304,7 +304,7 @@ abstract class JModelCms extends JModelDatabase
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	protected function canEditState($record)
 	{

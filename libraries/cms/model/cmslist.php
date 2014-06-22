@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Libraries
  * @subpackage  Model
- * @since       3.2
+ * @since       3.5
  */
 class JModelCmslist extends JModelCmsitem
 {
@@ -22,7 +22,7 @@ class JModelCmslist extends JModelCmsitem
 	 * Internal memory based cache array of data.
 	 *
 	 * @var    array
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $cache = array();
 
@@ -30,7 +30,7 @@ class JModelCmslist extends JModelCmsitem
 	 * Valid filter fields or ordering.
 	 *
 	 * @var    array
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $filter_fields = array();
 
@@ -38,7 +38,7 @@ class JModelCmslist extends JModelCmsitem
 	 * An internal cache for the last query used.
 	 *
 	 * @var    JDatabaseQuery
-	 * @since  3.2
+	 * @since  3.5
 	 */
 	protected $query = array();
 
@@ -46,7 +46,7 @@ class JModelCmslist extends JModelCmsitem
 	 * The data type of the key that defines the list, usually integer, array, or string.
 	 *
 	 * @var    string
-	 * @since  3.3
+	 * @since  3.5
 	 */
 	public $idSchema;
 
@@ -57,7 +57,7 @@ class JModelCmslist extends JModelCmsitem
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JModel
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function __construct($config = array())
 	{
@@ -83,7 +83,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  JDatabaseQuery  A JDatabaseQuery object
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	protected function _getListQuery()
 	{
@@ -108,7 +108,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.5
 	 */
 	protected function getListQuery()
 	{
@@ -124,7 +124,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function getItems()
 	{
@@ -163,7 +163,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  JPagination  A JPagination object for the data set.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function getPagination()
 	{
@@ -197,7 +197,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -215,7 +215,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  integer  The total number of items available in the data set.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function getTotal()
 	{
@@ -253,7 +253,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  integer  The starting number of items available in the data set.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function getStart()
 	{
@@ -293,7 +293,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -350,7 +350,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  The request user state.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
@@ -387,7 +387,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  array  An array of results.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 * @throws  RuntimeException
 	 */
 	protected function getList($query, $limitstart = 0, $limit = 0)
@@ -405,7 +405,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  integer  Number of rows for query.
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	protected function getListCount($query)
 	{
@@ -436,7 +436,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
 	 *
-	 * @since   12.2
+	 * @since   3.5
 	 */
 	public function checkin($pks = array())
 	{
@@ -483,7 +483,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   12.2
+	 * @since   3.5
 	 */
 	public function publish(&$pks, $value = 1)
 	{
@@ -547,7 +547,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  mixed
 	 *
-	 * @since   12.2
+	 * @since   3.5
 	 */
 	public function saveorder($pks = null, $order = null)
 	{
@@ -635,7 +635,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @since   12.2
+	 * @since   3.5
 	 */
 	protected function getReorderConditions($table)
 	{

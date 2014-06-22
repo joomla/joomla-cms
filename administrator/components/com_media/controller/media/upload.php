@@ -59,16 +59,16 @@ class MediaControllerMediaUpload extends JControllerBase
 
 		// Get some data from the request
 		$files        = $this->input->files->get('Filedata', '', 'array');
-		$return       = JFactory::getSession()->get('com_media.return_url');
+		$return       = JFactory::getSession()->get('com_media.return_url', 'index.php?option=com_media');
 		$this->folder = $this->input->get('folder', '', 'path');
 
 		// Authorize the user
 		if (!$user->authorise('core.create', 'com_media'))
 		{
 			// User is not authorised to create
-			$this->app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_CREATE_NOT_PERMITTED'));
+			$this->app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_CREATE_NOT_PERMITTED'), 'error');
 
-			return false;
+			$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
 		}
 
 		// Total length of post back data in bytes.
@@ -84,9 +84,9 @@ class MediaControllerMediaUpload extends JControllerBase
 		if (($postMaxSize > 0 && $contentLength > $postMaxSize * 1024 * 1024)
 			|| ($memoryLimit != -1 && $contentLength > $memoryLimit * 1024 * 1024))
 		{
-			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
+			$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'warning');
 
-			return false;
+			$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
 		}
 
 		$uploadMaxSize = $params->get('upload_maxsize', 0) * 1024 * 1024;
@@ -104,7 +104,7 @@ class MediaControllerMediaUpload extends JControllerBase
 				// File size exceed either 'upload_max_filesize' or 'upload_maxsize'.
 				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'warning');
 
-				return false;
+				$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));;
 			}
 
 			if (JFile::exists($file['filepath']))
@@ -112,7 +112,7 @@ class MediaControllerMediaUpload extends JControllerBase
 				// A file with this name already exists
 				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_FILE_EXISTS'), 'warning');
 
-				return false;
+				$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
 			}
 
 			if (!isset($file['name']))
@@ -120,7 +120,7 @@ class MediaControllerMediaUpload extends JControllerBase
 				// No filename (after the name was cleaned by JFile::makeSafe)
 				$this->app->enqueueMessage(JText::_('COM_MEDIA_INVALID_REQUEST'), 'error');
 
-				return false;
+				$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
 
 			}
 
@@ -144,8 +144,7 @@ class MediaControllerMediaUpload extends JControllerBase
 			if (!JHelperMedia::canUpload($file, 'com_media'))
 			{
 				// The file can't be uploaded
-
-				return false;
+				$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
 			}
 
 			// Trigger the onContentBeforeSave event.
@@ -157,7 +156,7 @@ class MediaControllerMediaUpload extends JControllerBase
 				// There are some errors in the plugins
 				$this->app->enqueueMessage(JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors)), 'warning');
 
-				return false;
+				$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
 			}
 
 			if (!JFile::upload($object_file->tmp_name, $object_file->filepath))
@@ -165,7 +164,7 @@ class MediaControllerMediaUpload extends JControllerBase
 				// Error in upload
 				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'), 'warning');
 
-				return false;
+				$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
 			}
 			else
 			{
@@ -177,8 +176,8 @@ class MediaControllerMediaUpload extends JControllerBase
 
 				if (!$createController->execute())
 				{
-
-					return false;
+					// Can't create a record in database
+					$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
 				}
 
 				// Trigger the onContentAfterSave event.
@@ -187,13 +186,7 @@ class MediaControllerMediaUpload extends JControllerBase
 			}
 		}
 
-		// Set the redirect
-		if ($return)
-		{
-			$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
-		}
-
-		return true;
+		$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
 
 	}
 }
