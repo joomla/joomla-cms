@@ -47,7 +47,15 @@ class JControllerCancel extends JControllerCmsbase
 			$redirectUrl .= '&view=' . $this->options[parent::CONTROLLER_VIEW_FOLDER];
 		}
 
-		$model   = $this->getModel();
+		try
+		{
+			$model = $this->getModel();
+		}
+		catch (ErrorException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
+
 		$keyName = $model->getKeyName();
 
 		$input = $this->input;

@@ -38,7 +38,14 @@ class JControllerSaveorderajax extends JControllerCmsbase
 		JArrayHelper::toInteger($pks);
 		JArrayHelper::toInteger($order);
 
-		$model = $this->getModel();
+		try
+		{
+			$model = $this->getModel();
+		}
+		catch (ErrorException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
 
 		// Save the ordering
 		$return = $model->saveorder($pks, $order);

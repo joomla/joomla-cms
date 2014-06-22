@@ -242,8 +242,8 @@ class JControllerCmsbase extends JControllerBase
 	 * @param   string  $prefix  The model prefix
 	 * @param   string  $name    The model name
 	 *
-	 * @return JModelCms
-	 * @throws ErrorException
+	 * @return  JModelCms
+	 * @throws  ErrorException
 	 */
 	public function getModel($prefix = null, $name = null)
 	{

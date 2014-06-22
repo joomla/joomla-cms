@@ -59,7 +59,14 @@ class JControllerUpdate extends JControllerCmsbase
 		$this->viewName     = ucfirst($tasks[parent::CONTROLLER_VIEW_FOLDER]);
 		$saveFormat   = JFactory::getDocument()->getType();
 
-		$model = $this->getModel();
+		try
+		{
+			$model = $this->getModel();
+		}
+		catch (ErrorException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
 
 		// Access check.
 		if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))

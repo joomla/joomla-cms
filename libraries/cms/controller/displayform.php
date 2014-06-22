@@ -71,7 +71,14 @@ class JControllerDisplayform extends JControllerDisplay
 
 		$paths = $this->registerPaths($componentFolder, $this->viewName);
 
-		$model = $this->getModel();
+		try
+		{
+			$model = $this->getModel();
+		}
+		catch (ErrorException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
 
 		$idName = $model->getTable()->get('_tbl_key');
 		$model->id = $this->input->get($idName);

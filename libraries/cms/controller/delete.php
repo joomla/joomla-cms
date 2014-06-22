@@ -70,7 +70,14 @@ class JControllerDelete extends JControllerCmsbase
 		// Get the model.
 		$viewName     = $this->input->getWord('view', 'articles');
 
-		$model = $this->getModel($this->prefix, ucfirst($viewName));
+		try
+		{
+			$model = $this->getModel($this->prefix, ucfirst($viewName));
+		}
+		catch (ErrorException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
 
 		// Make sure the item ids are integers
 		jimport('joomla.utilities.arrayhelper');

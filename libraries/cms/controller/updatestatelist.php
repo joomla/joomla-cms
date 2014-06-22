@@ -64,7 +64,15 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 		}
 		else
 		{
-			$model = $this->getModel();
+			try
+			{
+				$model = $this->getModel();
+			}
+			catch (ErrorException $e)
+			{
+				throw new RuntimeException($e->getMessage(), $e->getCode());
+			}
+
 			$newState = $this->stateOptions[$this->options[parent::CONTROLLER_CORE_OPTION]];
 
 			// Access check.

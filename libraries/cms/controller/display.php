@@ -69,7 +69,7 @@ class JControllerDisplay extends JControllerCmsbase
 		{
 			$model = $this->getModel();
 		}
-		catch (RuntimeException $e)
+		catch (ErrorException $e)
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
