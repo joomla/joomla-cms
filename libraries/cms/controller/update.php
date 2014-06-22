@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  Joomla.Libraries
+ * @package     Joomla.Libraries
+ * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -10,22 +10,15 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Base Display Controller
+ * Base Update Controller
  *
  * @package     Joomla.Libraries
- * @subpackage  controller
- * @since       3.2
+ * @subpackage  Controller
+ * @since       3.4
 */
 
 class JControllerUpdate extends JControllerCms
 {
-	/*
-	 * Prefix for the view and model classes
-	 *
-	 * @var  string
-	 */
-	public $prefix = 'Content';
-
 	/*
 	 * Permission needed for the action. Defaults to most restrictive
 	*

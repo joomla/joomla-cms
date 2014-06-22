@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  Joomla.Libraries
+ * @package     Joomla.Libraries
+ * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -13,8 +13,8 @@ defined('_JEXEC') or die('Restricted access');
  * Base Display Controller
  *
  * @package     Joomla.Libraries
- * @subpackage  controller
- * @since       3.2
+ * @subpackage  Controller
+ * @since       3.4
 */
 
 class JControllerSaveorderajax extends JControllerCms
@@ -24,7 +24,7 @@ class JControllerSaveorderajax extends JControllerCms
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	public function execute()

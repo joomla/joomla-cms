@@ -18,13 +18,6 @@ defined('_JEXEC') or die('Restricted access');
 */
 class JControllerCheckin extends JControllerCms
 {
-	/*
-	 * Prefix for the view and model classes
-	 *
-	 * @var  string
-	 */
-	public $prefix;
-
 	/**
 	 * Method to checkin a record.
 	 *

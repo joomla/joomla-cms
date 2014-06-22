@@ -14,22 +14,16 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @package     Joomla.Libraries
  * @subpackage  Controller
- * @since       3.2
+ * @since       3.4
 */
 class JControllerUpdatestatelist extends JControllerCms
 {
 	/*
-	 * Prefix for the view and model classes
-	 *
-	 * @var  string
-	 */
-	public $prefix;
-
-	/*
 	 * Permission needed for the action
-	*
-	* @var  string
-	*/
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
 	public $permission = 'core.edit.state';
 
 
@@ -79,7 +73,7 @@ class JControllerUpdatestatelist extends JControllerCms
 		{
 			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
-			return;
+			return false;
 		}
 
 		// Check in the items.
@@ -87,5 +81,6 @@ class JControllerUpdatestatelist extends JControllerCms
 
 		$this->setRedirect('index.php?option=' . $this->input->get('option', 'com_cpanel'));
 
+		return true;
 	}
 }

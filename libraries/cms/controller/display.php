@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  Joomla.Libraries
+ * @package     Joomla.Libraries
+ * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -13,36 +13,33 @@ defined('_JEXEC') or die('Restricted access');
  * Base Display Controller
  *
  * @package     Joomla.Libraries
- * @subpackage  controller
- * @since       3.2
+ * @subpackage  Controller
+ * @since       3.4
 */
 class JControllerDisplay extends JControllerCms
 {
 	/*
-	 * Prefix for the view and model classes
+	 * If true, the view output will be cached
 	 *
-	 * @var  string
+	 * @var    boolean
+	 * @since  3.4
 	 */
-	public $prefix = 'Content';
-
-	/*
-	 * @var boolean  If true, the view output will be cached
-	 */
-
 	public $cacheable = false;
 
 	/*
 	 * An array of safe url parameters and their variable types
 	 *
-	 * @var  array
-	 * @note  For valid values see JFilterInput::clean().
+	 * @var    array
+	 * @since  3.4
+	 * @note   For valid values see JFilterInput::clean().
 	 */
 	public $urlparams = array();
 
 	/**
 	 * The view to display
 	 *
-	 * @var  JViewCms
+	 * @var    JViewCms
+	 * @since  3.4
 	 */
 	protected $view;
 

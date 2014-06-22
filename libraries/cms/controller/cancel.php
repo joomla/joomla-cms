@@ -24,6 +24,7 @@ class JControllerCancel extends JControllerCms
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function execute()
 	{

@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  Joomla.Libraries
+ * @package     Joomla.Libraries
+ * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -13,25 +13,11 @@ defined('_JEXEC') or die('Restricted access');
  * Base Display Controller
  *
  * @package     Joomla.Libraries
- * @subpackage  controller
- * @since       3.2
+ * @subpackage  Controller
+ * @since       3.4
 */
 class JControllerCreate extends JControllerCms
 {
-	/*
-	 * Prefix for the view and model classes
-	 *
-	 * @var  string
-	 */
-	public $prefix;
-
-	/*
-	 * Option to send to the model.
-	*
-	* @var  array
-	*/
-	public $options;
-
 	/**
 	 * Method to add a new record.
 	 *
