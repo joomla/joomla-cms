@@ -17,7 +17,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	const CONTROLLER_VIEW_FOLDER = 2;
 
 	/**
-	 * @var    JControllerCmsbase  The Task Controller.
+	 * @var    JControllerCmsInterface  The Task Controller.
 	 * @since  3.4
 	 */
 	protected $controller;
@@ -155,7 +155,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	 *
 	 * @param   JApplicationCms  $app  The application object.
 	 *
-	 * @return  JControllerCms
+	 * @return  JControllerCmsInterface
 	 *
 	 * @throws  InvalidArgumentException
 	 */
@@ -180,7 +180,8 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 				$first = $potentialClass;
 			}
 
-			if (class_exists($potentialClass))
+			// Check if the class exists and implements the interface
+			if (class_exists($potentialClass) && $potentialClass instanceof JControllerCmsInterface)
 			{
 				// We've found a class - we can stop searching
 				$class = $potentialClass;

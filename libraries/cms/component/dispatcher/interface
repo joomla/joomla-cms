@@ -30,7 +30,7 @@ interface JComponentDispatcherInterface
 	 *
 	 * @param   JApplicationCms  $app  The application object.
 	 *
-	 * @return  JControllerCms
+	 * @return  JControllerCmsInterface
 	 */
 	public function getController(JApplicationCms $app = null);
 }
