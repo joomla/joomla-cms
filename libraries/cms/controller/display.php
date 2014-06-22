@@ -40,6 +40,13 @@ class JControllerDisplay extends JControllerCmsbase
 	public $urlparams = array();
 
 	/**
+	 * The view to display
+	 *
+	 * @var  JViewCms
+	 */
+	protected $view;
+
+	/**
 	 * Execute the controller.
 	 *
 	 * @return  boolean  True if controller finished execution, false if the controller did not
@@ -56,14 +63,6 @@ class JControllerDisplay extends JControllerCmsbase
 		$componentFolder = $this->input->getWord('option', 'com_content');
 		$this->viewName     = $this->input->getWord('view', 'articles');
 		$viewFormat   = JFactory::getDocument()->getType();
-		$layoutName   = $this->input->getWord('layout', 'default');
-
-		// Register the layout paths for the view
-		$paths = new SplPriorityQueue;
-		$jpath = $this->app->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
-
-		$paths->insert($jpath . '/templates/html' . $componentFolder . '/' . $this->viewName , '1000');
-		$paths->insert($jpath . '/components/' . $componentFolder . '/view/' . $this->viewName . '/tmpl', '950');
 
 		try
 		{
@@ -83,21 +82,17 @@ class JControllerDisplay extends JControllerCmsbase
 		}
 
 		// Initialise the view class.
-		$viewClass  = $this->prefix . 'View' . ucfirst($this->viewName) . ucfirst($viewFormat);
+		$view = $this->getView($model, $this->prefix, $this->viewName, $viewFormat);
 
-		if (!class_exists($viewClass))
-		{
-			throw new RuntimeException('View not found');
-		}
-
-		$view = new $viewClass($model, $paths);
-
+		// If in html view then we set the layout
 		if ($viewFormat == 'html')
 		{
+			$layoutName   = $this->input->getWord('layout', 'default');
 			$view->setLayout($layoutName);
 		}
 
 		// Reply for service requests
+		// @todo this shouldn't happen - we need to fix this.
 		if ($viewFormat == 'json')
 		{
 			return $view->render();
@@ -108,4 +103,66 @@ class JControllerDisplay extends JControllerCmsbase
 
 		return true;
 	}
+
+	/**
+	 * Method to get a view, initiating it if it does not already exist.
+	 * This method assumes auto-loading format is $prefix . 'View' . $name . $type
+	 * The
+	 *
+	 * @param   JModelCmsInterface  $model   The model to be injected
+	 * @param   string              $prefix  Option prefix exp. com_content
+	 * @param   string              $name    Name of the view folder exp. articles
+	 * @param   string              $type    Name of the file exp. html = html.php
+	 * @param   array               $config  An array of config options
+	 *
+	 * @throws  RuntimeException
+	 * @return  JViewCms
+	 */
+	protected function getView(JModelCmsInterface $model, $prefix = null, $name = null, $type = null, $config = array())
+	{
+		// Get the prefix if not given
+		if (is_null($prefix))
+		{
+			$prefix = $this->getPrefix();
+		}
+
+		// Get the name if not given
+		if (is_null($name))
+		{
+			$name = $this->config['subject'];
+		}
+
+		// Get the document type
+		if (is_null($name))
+		{
+			$type   = JFactory::getDocument()->getType();
+		}
+
+		$class = ucfirst($prefix) . 'View' . ucfirst($name) . ucfirst($type);
+
+		if ($this->view instanceof $class)
+		{
+			return $this->view;
+		}
+
+		// If a custom class doesn't exist fall back to the Joomla class if it exists
+		if (!class_exists($class))
+		{
+			$joomlaClass = 'JView' . ucfirst($type);
+
+			if (!class_exists($joomlaClass))
+			{
+				// @todo convert to a proper language string
+				throw new RuntimeException(JText::sprintf('The view %s could not be found', $class));
+			}
+
+			// We've found a relevant Joomla class - use it.
+			$class = $joomlaClass;
+		}
+
+		$this->view = new $class($model, $config);
+
+		return $this->view;
+	}
+
 }

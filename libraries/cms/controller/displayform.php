@@ -66,11 +66,6 @@ class JControllerDisplayform extends JControllerDisplay
 			$this->viewName = $this->options[parent::CONTROLLER_VIEW_FOLDER];
 		}
 
-		$viewFormat   = JFactory::getDocument()->getType();
-		$layoutName   = $this->input->getWord('layout', 'edit');
-
-		$paths = $this->registerPaths($componentFolder, $this->viewName);
-
 		try
 		{
 			$model = $this->getModel();
@@ -106,19 +101,27 @@ class JControllerDisplayform extends JControllerDisplay
 			return false;
 		}
 
-		$viewClass  = $this->prefix . 'View' . ucfirst($this->viewName) . ucfirst($viewFormat);
+		// Initialise the view class.
+		$viewFormat   = JFactory::getDocument()->getType();
+		$view = $this->getView($model, $this->prefix, $this->viewName, $viewFormat);
 
-		if (!class_exists($viewClass))
+		// If in html view then we set the layout
+		if ($viewFormat == 'html')
 		{
-			throw new RuntimeException('View not found');
+			$layoutName   = $this->input->getWord('layout', 'default');
+			$view->setLayout($layoutName);
 		}
-
-		$view = new $viewClass($model, $paths);
-
-		$view->setLayout($layoutName);
 
 		$context = $componentFolder . '.' . $this->viewName;
 		$this->editCheck($this->app, $context, $idName);
+
+		// Reply for service requests
+		// @todo this shouldn't happen - we need to fix this.
+		if ($viewFormat == 'json')
+		{
+
+			return $view->render();
+		}
 
 		echo $view->render();
 
@@ -134,7 +137,7 @@ class JControllerDisplayform extends JControllerDisplay
 	 *
 	 * @since 3.2
 	 */
-	protected function editCheck($app, $context, $idName)
+	protected function editCheck(JApplicationCms $app, $context, $idName)
 	{
 		$id = $this->input->getInt($idName, 0);
 
@@ -194,30 +197,5 @@ class JControllerDisplayform extends JControllerDisplay
 			// No id for a new item.
 			return true;
 		}
-	}
-
-	/*
-	 * Method to register paths for the layouts
-	 *
-	 * @param   string  $componentFolder  Folder name for the paths, defauts to the request option.
-	 * @param   string  $this->viewName         Folder containing the view.
-	 *
-	 * @return  SplPriorityQueue  Priority queue of paths to search for layouts
-	 *
-	 * @since  3.2
-	 */
-	public function registerPaths($componentFolder, $viewName)
-	{
-		$jpath = $this->app->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		$template = $this->app->getTemplate();
-
-		// Register the layout paths for the view
-		$paths = new SplPriorityQueue;
-
-		// Look in the separate component folder
-		$paths->insert($jpath . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 'normal');
-		$paths->insert($jpath . '/templates/' . $template . '/'  . $componentFolder . '/' . $viewName, 'normal');
-
-		return $paths;
 	}
 }
