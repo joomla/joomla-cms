@@ -23,7 +23,7 @@ interface JComponentDispatcherInterface
 	 *
 	 * @since   3.4
 	 */
-	public function dispatch(JApplicationCms $app);
+	public function dispatch(JApplicationCms $app = null);
 
 	/**
 	 * Gets the controller
