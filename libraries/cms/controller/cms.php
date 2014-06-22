@@ -146,7 +146,7 @@ class JControllerCms extends JControllerBase implements JControllerCmsInterface
 	 *
 	 * @param   string  $url   URL to redirect to.
 	 * @param   string  $msg   Message to display on redirect. Optional, defaults to value set internally by controller, if any.
-	 * @param   string  $type  Message type. Optional, defaults to 'message' or the type set by a previous call to setMessage.
+	 * @param   string  $type  Message type. Optional, defaults to 'message'.
 	 *
 	 * @return  JControllerCms  This object to support chaining.
 	 *
@@ -162,13 +162,10 @@ class JControllerCms extends JControllerBase implements JControllerCmsInterface
 			$this->message = $msg;
 		}
 
-		// Ensure the type is not overwritten by a previous call to setMessage.
+		// Set the message type.
 		if (empty($type))
 		{
-			if (empty($this->messageType))
-			{
-				$this->messageType = 'message';
-			}
+			$this->messageType = 'message';
 		}
 		else
 		{
