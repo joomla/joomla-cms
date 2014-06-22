@@ -107,7 +107,7 @@ class JModelCmslist extends JModelCmsactions implements JModelListInterface
 	 */
 	protected function createListQuery()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDb();
 		$query = $db->getQuery(true);
 
 		return $query;
