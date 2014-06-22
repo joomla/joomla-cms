@@ -61,7 +61,10 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 		}
 
 		// Set the view in the input object
-		$input->set('view', $view);
+		if ($view)
+		{
+			$input->set('view', $view);
+		}
 
 		$prefix = ucfirst(substr($option, 4));
 
