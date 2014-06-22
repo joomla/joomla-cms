@@ -243,7 +243,7 @@ class JControllerCmsbase extends JControllerBase
 	 * @param   string  $name    The model name
 	 *
 	 * @return  JModelCms
-	 * @throws  ErrorException
+	 * @throws  RuntimeException
 	 */
 	public function getModel($prefix = null, $name = null)
 	{
@@ -269,7 +269,7 @@ class JControllerCmsbase extends JControllerBase
 
 		if (!class_exists($class))
 		{
-			throw new ErrorException(JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $class));
+			throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $class));
 		}
 
 		$this->models[$prefix][$name] = new $class($this->config);

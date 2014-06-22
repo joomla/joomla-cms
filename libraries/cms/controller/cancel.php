@@ -40,7 +40,6 @@ class JControllerCancel extends JControllerCmsbase
 
 		// By default we go to the default component view of the current component
 		$redirectUrl     .= $this->input->getWord('option', 'com_content');
-		$this->context = $this->input->get('option') . ' . ' . $this->input->getWord('view');
 
 		if (!empty($this->options[parent::CONTROLLER_VIEW_FOLDER]))
 		{
@@ -51,7 +50,7 @@ class JControllerCancel extends JControllerCmsbase
 		{
 			$model = $this->getModel();
 		}
-		catch (ErrorException $e)
+		catch (RuntimeException $e)
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}

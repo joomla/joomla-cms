@@ -63,7 +63,7 @@ class JControllerUpdate extends JControllerCmsbase
 		{
 			$model = $this->getModel();
 		}
-		catch (ErrorException $e)
+		catch (RuntimeException $e)
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}

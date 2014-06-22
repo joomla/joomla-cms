@@ -53,7 +53,6 @@ class JControllerCreate extends JControllerCmsbase
 		if (!$this->allowAdd())
 		{
 			// Set the internal error and also the redirect error.
-
 			$this->setRedirect(
 				JRoute::_(
 					'index.php?option=' . $this->input->get('option') . '&controller=j.display.' . $this->options[parent::CONTROLLER_PREFIX],
@@ -77,9 +76,6 @@ class JControllerCreate extends JControllerCmsbase
 				. $this->options[parent::CONTROLLER_VIEW_FOLDER] . '&layout=edit', false
 			)
 		);
-
-		$this->app->redirect('index.php?option=' . $this->input->getWord('option') . '&view='
-				. $this->options[parent::CONTROLLER_VIEW_FOLDER] . '&layout=edit');
 
 		return true;
 	}

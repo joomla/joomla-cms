@@ -68,13 +68,13 @@ class JControllerDelete extends JControllerCmsbase
 		}
 
 		// Get the model.
-		$viewName     = $this->input->getWord('view', 'articles');
+		$viewName = $this->input->getWord('view', 'articles');
 
 		try
 		{
 			$model = $this->getModel($this->prefix, ucfirst($viewName));
 		}
-		catch (ErrorException $e)
+		catch (RuntimeException $e)
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
@@ -91,7 +91,7 @@ class JControllerDelete extends JControllerCmsbase
 		else
 		{
 			$this->app->enqueueMessage('NO_ITEMS_FOUND', 'error');
-			$this->app->redirect(JRoute::_('index.php?option=' . $option . '&view=' . $this->view_list, false));
+			$this->setRedirect(JRoute::_('index.php?option=' . $option . '&view=' . $this->view_list, false));
 		}
 
 		// Invoke the postDelete method to allow for the child class to access the model.
@@ -100,7 +100,7 @@ class JControllerDelete extends JControllerCmsbase
 			$this->postDeleteHook($model, $cid);
 		}
 
-		$this->app->redirect(
+		$this->setRedirect(
 			JRoute::_(
 				'index.php?option=' . $this->input->get('option') . '&controller=j.display.' . $this->options[parent::CONTROLLER_PREFIX],
 				false
