@@ -12,7 +12,7 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 /**
- * Delete Controller for Media Manager
+ * Delete Controller for Media Manager files
  *
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -29,7 +29,7 @@ class MediaControllerMediaDelete extends JControllerBase
 	protected $app;
 
 	/**
-	 * Method to delete media manager file.
+	 * Method to delete media manager files.
 	 *
 	 * @return  mixed  Calls $app->redirect() for all cases except JSON
 	 *
@@ -80,7 +80,8 @@ class MediaControllerMediaDelete extends JControllerBase
 			{
 				// Filename is not safe
 				$filename = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
-				$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', substr($filename, strlen(COM_MEDIA_BASE))));
+// 				$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', substr($filename, strlen(COM_MEDIA_BASE))));
+				$this->unableToDeleteMessage($filename);
 				continue;
 			}
 
@@ -151,5 +152,17 @@ class MediaControllerMediaDelete extends JControllerBase
 
 		return $ret;
 
+	}
+	
+	/**
+	 * Enqueue error when delete failed
+	 *
+	 * @param  string  $name  Delete failed file name
+	 *
+	 * @since  3.5
+	 */
+	protected function unableToDeleteMessage($name)
+	{
+		$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', substr($name, strlen(COM_MEDIA_BASE))));
 	}
 }

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Base Create Controller
+ * Base Create Controller for media in table
  *
  * @package     Joomla.Administrator
  * @subpackage  com_media

@@ -13,7 +13,7 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 /**
- * Base Create Controller
+ * Base Create Controller for folders
  *
  * @package     Joomla.Administrator
  * @subpackage  com_media
