@@ -37,25 +37,4 @@ JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 $app = JFactory::getApplication('site');
 
 // Execute the application.
-try
-{
-	$app->execute();
-}
-catch (Exception $e)
-{
-	/*
-	 * When URL rewriting is enabled on the web server, remap any "500"
-	 * error codes generated in JControllerLegacy::getView() to "404".
-	 */
-	if ($e->getCode() == 500 && $app->get('sef_rewrite'))
-	{
-		$lastCall = $e->getTrace()[0];
-
-		if ($lastCall['class'] == 'JControllerLegacy' && $lastCall['function'] == 'getView')
-		{
-			throw new Exception($e->getMessage(), 404, $e);
-		}
-	}
-
-	throw $e;
-}
+$app->execute();
