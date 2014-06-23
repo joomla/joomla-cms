@@ -265,6 +265,7 @@ class JAccess
 
 			$result = $temp;
 		}
+
 		// Get the root even if the asset is not found and in recursive mode
 		if (empty($result))
 		{
