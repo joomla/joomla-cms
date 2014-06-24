@@ -127,7 +127,7 @@ class MediaControllerMediaUpload extends JControllerBase
 			// Hash destination filename
 			$fileparts = pathinfo($file['filepath']);
 			$date	   = JFactory::getDate();
-			$file['filepath'] = $fileparts['dirname'] . '\\' . md5($fileparts['filename'] . $date->toUnix()) . '.' . $fileparts['extension'];
+			$file['filepath'] = $fileparts['dirname'] . DIRECTORY_SEPARATOR . md5($fileparts['filename'] . $date->toUnix()) . '.' . $fileparts['extension'];
 
 		}
 

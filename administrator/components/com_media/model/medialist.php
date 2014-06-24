@@ -31,7 +31,7 @@ class MediaModelMedialist extends ConfigModelForm
 			$folder = $input->get('folder', '', 'path');
 			$this->state->set('folder', $folder);
 
-			$parent = str_replace("\\", "/", dirname($folder));
+			$parent = str_replace(DIRECTORY_SEPARATOR, "/", dirname($folder));
 			$parent = ($parent == '.') ? null : $parent;
 			$this->state->set('parent', $parent);
 			$set = true;
@@ -226,7 +226,7 @@ class MediaModelMedialist extends ConfigModelForm
 					}
 
 					// Get image id from #__ucm_content table
-					$url = str_replace('/', '\\', $tmp->path);
+					$url = str_replace('/', DIRECTORY_SEPARATOR, $tmp->path);
 
 					// Get the relative path
 					$url = str_replace(JPATH_ROOT, "", $url);

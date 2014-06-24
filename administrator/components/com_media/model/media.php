@@ -33,7 +33,7 @@ class MediaModelMedia extends ConfigModelForm
 			$fieldid = $input->get('fieldid', '');
 			$this->state->set('field.id', $fieldid);
 
-			$parent = str_replace("\\", "/", dirname($folder));
+			$parent = str_replace(DIRECTORY_SEPARATOR, "/", dirname($folder));
 			$parent = ($parent == '.') ? null : $parent;
 			$this->state->set('parent', $parent);
 			$set = true;
