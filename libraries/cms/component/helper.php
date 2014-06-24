@@ -81,9 +81,9 @@ class JComponentHelper
 	 * @param   string   $option  The option for the component.
 	 * @param   boolean  $strict  If set and the component does not exist, false will be returned
 	 *
-	 * @return  JRegistry  A JRegistry object.
+	 * @return  Joomla\Registry\Registry  A Registry object.
 	 *
-	 * @see     JRegistry
+	 * @see     Joomla\Registry\Registry
 	 * @since   1.5
 	 */
 	public static function getParams($option, $strict = false)

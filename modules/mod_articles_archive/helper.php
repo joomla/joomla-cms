@@ -21,7 +21,7 @@ class ModArchiveHelper
 	/**
 	 * Retrieve list of archived articles
 	 *
-	 * @param   JRegistry  &$params  module parameters
+	 * @param   Joomla\Registry\Registry  &$params  module parameters
 	 *
 	 * @return array
 	 */

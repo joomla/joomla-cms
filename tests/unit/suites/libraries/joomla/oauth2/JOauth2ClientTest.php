@@ -17,7 +17,7 @@
 class JOAuth2ClientTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var    Joomla\Registry\Registry  Options for the JOAuth2Client object.
 	 */
 	protected $options;
 

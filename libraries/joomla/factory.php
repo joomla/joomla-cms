@@ -130,15 +130,15 @@ abstract class JFactory
 	/**
 	 * Get a configuration object
 	 *
-	 * Returns the global {@link JRegistry} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link Joomla\Registry\Registry} object, only creating it if it doesn't already exist.
 	 *
 	 * @param   string  $file       The path to the configuration file
 	 * @param   string  $type       The type of the configuration file
 	 * @param   string  $namespace  The namespace of the configuration file
 	 *
-	 * @return  JRegistry
+	 * @return  Joomla\Registry\Registry
 	 *
-	 * @see     JRegistry
+	 * @see     Joomla\Registry\Registry
 	 * @since   11.1
 	 */
 	public static function getConfig($file = null, $type = 'PHP', $namespace = '')
@@ -540,9 +540,9 @@ abstract class JFactory
 	 * @param   string  $type       The type of the configuration file.
 	 * @param   string  $namespace  The namespace of the configuration file.
 	 *
-	 * @return  JRegistry
+	 * @return  Joomla\Registry\Registry
 	 *
-	 * @see     JRegistry
+	 * @see     Joomla\Registry\Registry
 	 * @since   11.1
 	 */
 	protected static function createConfig($file, $type = 'PHP', $namespace = '')

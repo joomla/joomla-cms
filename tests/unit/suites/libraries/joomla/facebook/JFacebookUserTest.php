@@ -17,7 +17,7 @@
 class JFacebookUserTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the Facebook object.
+	 * @var    Joomla\Registry\Registry  Options for the Facebook object.
 	 * @since  13.1
 	 */
 	protected $options;

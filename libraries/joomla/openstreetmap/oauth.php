@@ -21,7 +21,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	/**
 	 * Options for the JOpenstreetmapOauth object.
 	 *
-	 * @var    JRegistry
+	 * @var    Joomla\Registry\Registry
 	 * @since  13.1
 	 */
 	protected $options;

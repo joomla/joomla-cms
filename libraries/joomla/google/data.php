@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 abstract class JGoogleData
 {
 	/**
-	 * @var    JRegistry  Options for the Google data object.
+	 * @var    Joomla\Registry\Registry  Options for the Google data object.
 	 * @since  12.3
 	 */
 	protected $options;

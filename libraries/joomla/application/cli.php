@@ -21,7 +21,7 @@ use Joomla\Application\Cli\CliOutput;
 class JApplicationCli extends JApplicationBase
 {
 	/**
-	 * @var    JRegistry  The application configuration object.
+	 * @var    Joomla\Registry\Registry  The application configuration object.
 	 * @since  11.1
 	 */
 	protected $config;
@@ -45,7 +45,7 @@ class JApplicationCli extends JApplicationBase
 	 *                              input object.  If the argument is a JInputCli object that object will become
 	 *                              the application's input object, otherwise a default input object is created.
 	 * @param   mixed  $config      An optional argument to provide dependency injection for the application's
-	 *                              config object.  If the argument is a JRegistry object that object will become
+	 *                              config object.  If the argument is a Registry object that object will become
 	 *                              the application's config object, otherwise a default config object is created.
 	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
 	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become

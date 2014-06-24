@@ -18,7 +18,7 @@
 class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
+	 * @var    Joomla\Registry\Registry  Options for the GitHub object.
 	 * @since  12.3
 	 */
 	protected $options;

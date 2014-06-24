@@ -22,7 +22,7 @@ defined('JPATH_PLATFORM') or die;
 class JGoogle
 {
 	/**
-	 * @var    JRegistry  Options for the Google object.
+	 * @var    Joomla\Registry\Registry  Options for the Google object.
 	 * @since  12.3
 	 */
 	protected $options;
@@ -62,9 +62,9 @@ class JGoogle
 	/**
 	 * Method to create JGoogleData objects
 	 *
-	 * @param   string     $name     Name of property to retrieve
-	 * @param   JRegistry  $options  Google options object.
-	 * @param   JAuth      $auth     The authentication client object.
+	 * @param   string                    $name     Name of property to retrieve
+	 * @param   Joomla\Registry\Registry  $options  Google options object.
+	 * @param   JAuth                     $auth     The authentication client object.
 	 *
 	 * @return  JGoogleData  Google data API object.
 	 *
@@ -102,8 +102,8 @@ class JGoogle
 	/**
 	 * Method to create JGoogleEmbed objects
 	 *
-	 * @param   string     $name     Name of property to retrieve
-	 * @param   JRegistry  $options  Google options object.
+	 * @param   string                    $name     Name of property to retrieve
+	 * @param   Joomla\Registry\Registry  $options  Google options object.
 	 *
 	 * @return  JGoogleEmbed  Google embed API object.
 	 *

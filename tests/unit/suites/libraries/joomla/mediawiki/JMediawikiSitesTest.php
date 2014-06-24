@@ -22,7 +22,7 @@ require_once JPATH_PLATFORM . '/joomla/mediawiki/sites.php';
 class JMediawikiSitesTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the Mediawiki object.
+	 * @var    Joomla\Registry\Registry  Options for the Mediawiki object.
 	 * @since  12.3
 	 */
 	protected $options;

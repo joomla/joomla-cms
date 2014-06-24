@@ -16,7 +16,7 @@
 class JGoogleDataPicasaAlbumTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var    Joomla\Registry\Registry  Options for the JOAuth2Client object.
 	 */
 	protected $options;
 

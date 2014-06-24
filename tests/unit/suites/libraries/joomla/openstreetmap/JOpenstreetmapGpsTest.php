@@ -18,7 +18,7 @@
 class JOpenstreetmapGpsTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the Openstreetmap object.
+	 * @var    Joomla\Registry\Registry  Options for the Openstreetmap object.
 	 * @since  13.1
 	 */
 	protected $options;

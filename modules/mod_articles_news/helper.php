@@ -26,7 +26,7 @@ abstract class ModArticlesNewsHelper
 	/**
 	 * Get a list of the latest articles from the article model
 	 *
-	 * @param   JRegistry  &$params  object holding the models parameters
+	 * @param   Joomla\Registry\Registry  &$params  object holding the models parameters
 	 *
 	 * @return  mixed
 	 */

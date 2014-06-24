@@ -255,7 +255,7 @@ class ConfigModelApplication extends ConfigModelForm
 	/**
 	 * Method to write the configuration to a file.
 	 *
-	 * @param   JRegistry  $config  A JRegistry object containing all global config data.
+	 * @param   Joomla\Registry\Registry  $config  A Registry object containing all global config data.
 	 *
 	 * @return	boolean  True on success, false on failure.
 	 *

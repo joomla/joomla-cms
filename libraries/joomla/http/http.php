@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JHttp
 {
 	/**
-	 * @var    JRegistry  Options for the HTTP client.
+	 * @var    Joomla\Registry\Registry  Options for the HTTP client.
 	 * @since  11.3
 	 */
 	protected $options;

@@ -21,7 +21,7 @@ abstract class ModVersionHelper
 	/**
 	 * Get the member items of the submenu.
 	 *
-	 * @param   JRegistry  &$params  The parameters object.
+	 * @param   Joomla\Registry\Registry  &$params  The parameters object.
 	 *
 	 * @return  string  String containing the current Joomla version based on the selected format.
 	 */

@@ -21,7 +21,7 @@ class InstallationViewCompleteHtml extends JViewHtml
 	/**
 	 * The JConfiguration data if present
 	 *
-	 * @var    JRegistry
+	 * @var    Joomla\Registry\Registry
 	 * @since  3.1
 	 */
 	protected $config;

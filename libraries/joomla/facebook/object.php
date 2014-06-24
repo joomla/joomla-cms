@@ -22,7 +22,7 @@ defined('JPATH_PLATFORM') or die();
 abstract class JFacebookObject
 {
 	/**
-	 * @var    JRegistry  Options for the Facebook object.
+	 * @var    Joomla\Registry\Registry  Options for the Facebook object.
 	 * @since  13.1
 	 */
 	protected $options;

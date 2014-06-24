@@ -21,7 +21,7 @@ class ModBannersHelper
 	/**
 	 * Retrieve list of banners
 	 *
-	 * @param   JRegistry  &$params  module parameters
+	 * @param   Joomla\Registry\Registry  &$params  module parameters
 	 *
 	 * @return  mixed
 	 */

@@ -22,7 +22,7 @@ require_once __DIR__ . '/stubs/JGithubObjectMock.php';
 class JGithubObjectTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
+	 * @var    Joomla\Registry\Registry  Options for the GitHub object.
 	 * @since  11.3
 	 */
 	protected $options;

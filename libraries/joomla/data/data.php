@@ -229,7 +229,7 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 * Dumps a data property.
 	 *
 	 * If recursion is set, this method will dump any object implementing JDumpable (like JData and JDataSet); it will
-	 * convert a JDate object to a string; and it will convert a JRegistry to an object.
+	 * convert a JDate object to a string; and it will convert a Registry to an object.
 	 *
 	 * @param   string            $property  The name of the data property.
 	 * @param   integer           $depth     The current depth of recursion (a value of 0 will ignore recursion).

@@ -21,7 +21,7 @@ class ModBreadCrumbsHelper
 	/**
 	 * Retrieve breadcrumb items
 	 *
-	 * @param   JRegistry  &$params  module parameters
+	 * @param   Joomla\Registry\Registry  &$params  module parameters
 	 *
 	 * @return array
 	 */

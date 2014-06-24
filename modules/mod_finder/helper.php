@@ -61,7 +61,7 @@ class ModFinderHelper
 	/**
 	 * Get Smart Search query object.
 	 *
-	 * @param   JRegistry  $params  Module parameters.
+	 * @param   Joomla\Registry\Registry  $params  Module parameters.
 	 *
 	 * @return  FinderIndexerQuery object
 	 *

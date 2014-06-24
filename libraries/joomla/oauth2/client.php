@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JOAuth2Client
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var    Joomla\Registry\Registry  Options for the JOAuth2Client object.
 	 * @since  12.3
 	 */
 	protected $options;

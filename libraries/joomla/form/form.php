@@ -28,8 +28,8 @@ jimport('joomla.utilities.arrayhelper');
 class JForm
 {
 	/**
-	 * The JRegistry data store for form fields during display.
-	 * @var    object
+	 * The Registry data store for form fields during display.
+	 * @var    Joomla\Registry\Registry
 	 * @since  11.1
 	 */
 	protected $data;
@@ -2249,7 +2249,7 @@ class JForm
 	/**
 	 * Getter for the form data
 	 *
-	 * @return   JRegistry  Object with the data
+	 * @return   Joomla\Registry\Registry  Object with the data
 	 *
 	 * @since    3.2
 	 */

@@ -23,7 +23,7 @@ abstract class ModRelatedItemsHelper
 	/**
 	 * Get a list of related articles
 	 *
-	 * @param   JRegistry  &$params  module parameters
+	 * @param   Joomla\Registry\Registry  &$params  module parameters
 	 *
 	 * @return array
 	 */

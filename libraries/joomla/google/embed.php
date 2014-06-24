@@ -20,7 +20,7 @@ jimport('joomla.environment.uri');
 abstract class JGoogleEmbed
 {
 	/**
-	 * @var    JRegistry  Options for the Google data object.
+	 * @var    Joomla\Registry\Registry  Options for the Google data object.
 	 * @since  12.3
 	 */
 	protected $options;

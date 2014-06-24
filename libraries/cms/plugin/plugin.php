@@ -19,9 +19,9 @@ defined('JPATH_PLATFORM') or die;
 abstract class JPlugin extends JEvent
 {
 	/**
-	 * A JRegistry object holding the parameters for the plugin
+	 * A Registry object holding the parameters for the plugin
 	 *
-	 * @var    JRegistry
+	 * @var    Joomla\Registry\Registry
 	 * @since  1.5
 	 */
 	public $params = null;

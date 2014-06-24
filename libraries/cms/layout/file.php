@@ -51,7 +51,7 @@ class JLayoutFile extends JLayoutBase
 	 *
 	 * @param   string  $layoutId  Dot separated path to the layout file, relative to base path
 	 * @param   string  $basePath  Base path to use when loading layout files
-	 * @param   mixed   $options   Optional custom options to load. JRegistry or array format [@since 3.2]
+	 * @param   mixed   $options   Optional custom options to load. Registry or array format [@since 3.2]
 	 *
 	 * @since   3.0
 	 */

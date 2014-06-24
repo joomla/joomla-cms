@@ -27,7 +27,7 @@ defined('JPATH_PLATFORM') or die;
 class JMediawiki
 {
 	/**
-	 * @var    JRegistry  Options for the MediaWiki object.
+	 * @var    Joomla\Registry\Registry  Options for the MediaWiki object.
 	 * @since  12.1
 	 */
 	protected $options;

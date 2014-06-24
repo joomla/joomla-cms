@@ -21,7 +21,7 @@ class JOpenstreetmap
 	/**
 	 * Options for the Openstreetmap object.
 	 *
-	 * @var    JRegistry
+	 * @var    Joomla\Registry\Registry
 	 * @since  13.1
 	 */
 	protected $options;
