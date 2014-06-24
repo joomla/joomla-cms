@@ -154,3 +154,21 @@
 	overflow: visible;
     }
 }
+@media (max-width: 979px) {
+	#sbox-window {
+		overflow: none;
+	}
+	#sbox-btn-close {
+		right: -10px;
+		top: -10px;
+	}
+}
+@media (max-device-width: 979px) {
+	#sbox-content {
+		-webkit-overflow-scrolling: touch;
+	}
+	#sbox-content.sbox-content-iframe {
+		overflow: scroll;
+		-webkit-overflow-scrolling: touch;
+	}
+}
