@@ -77,6 +77,48 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 		// Get the dispatcher class name
 		$className = $prefix . 'Dispatcher';
 
+		if (!class_exists($className))
+		{
+			if (JFactory::getApplication()->isSite())
+			{
+				$mainPath	= JPATH_SITE . '/components/' . $option;
+				$altPath	= JPATH_ADMINISTRATOR . '/components/' . $option;
+			}
+			else
+			{
+				$mainPath	= JPATH_ADMINISTRATOR . '/components/' . $option;
+				$altPath	= JPATH_SITE . '/components/' . $option;
+			}
+
+			$componentPaths = array(
+				'main'	=> $mainPath,
+				'alt'	=> $altPath,
+				'site'	=> JPATH_SITE . '/components/' . $option,
+				'admin'	=> JPATH_ADMINISTRATOR . '/components/' . $option,
+			);
+
+			$searchPaths = array(
+				$componentPaths['main'],
+				$componentPaths['main'] . '/dispatchers',
+				$componentPaths['admin'],
+				$componentPaths['admin'] . '/dispatchers'
+			);
+
+			if (array_key_exists('searchpath', $config))
+			{
+				array_unshift($searchPaths, $config['searchpath']);
+			}
+
+			$path = JPath::find(
+					$searchPaths, 'dispatcher.php'
+			);
+
+			if ($path)
+			{
+				require_once $path;
+			}
+		}
+
 		// If we can't find a component specific dispatcher use this.
 		if (!class_exists($className))
 		{
@@ -110,7 +152,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 
 		// Set the option value in the config and input
 		$this->config['option'] = $option;
-		$input->set('option', $option);
+		$this->input->set('option', $option);
 
 		// Set the view value in config and input object. To get the view we check the input
 		// object. If we aren't given one in the input object then we use the default view
@@ -184,7 +226,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 			}
 
 			// Check if the class exists and implements the interface
-			if (class_exists($potentialClass) && $potentialClass instanceof JControllerCmsInterface)
+			if (class_exists($potentialClass))
 			{
 				// We've found a class - we can stop searching
 				$class = $potentialClass;
@@ -218,8 +260,14 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	{
 		$tasks = $this->getTasks();
 
-		if (empty($tasks[self::CONTROLLER_PREFIX]) || $tasks[self::CONTROLLER_PREFIX] == 'j')
+		if (empty($tasks[self::CONTROLLER_PREFIX]))
 		{
+			$prefix = ucfirst(substr($this->input->get('option'), 4));
+			$location = $prefix;
+		}
+		elseif ($tasks[self::CONTROLLER_PREFIX] == 'j')
+		{
+			// Ensure lower case j is made uppercase
 			$location = 'J';
 		}
 		else
@@ -229,7 +277,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 
 		if (empty($tasks[self::CONTROLLER_ACTIVITY]))
 		{
-			$activity = 'Displaylist';
+			$activity = 'Display';
 		}
 		else
 		{
@@ -270,6 +318,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	public function getTasks()
 	{
 		$controllerTask = $this->input->get('task');
+		$tasks = array();
 
 		if (empty($controllerTask))
 		{
@@ -289,11 +338,6 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 			{
 				$tasks = explode('.', $controllerTask);
 			}
-		}
-		else
-		{
-			// In the absence of a named controller default to display.
-			$tasks = array('j', 'displaylist');
 		}
 
 		return $tasks;
