@@ -178,17 +178,15 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 
 		try
 		{
+			// Note we won't use the result because if the controller has executed successfully it still
+			// should have set a relevent error and redirect
 			$result = $controller->execute();
 		}
 		catch (Exception $e)
 		{
-			// @todo Do something with the exception generated from the execute method!
-			return;
-		}
+			// Throw the error upstream. JErrorPage will deal with the uncaught exception
+			throw new RuntimeException($e->getMessage(), $e->getCode());
 
-		// @todo Do something if the execute method returns false.
-		if (!$result)
-		{
 			return;
 		}
 
@@ -262,8 +260,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 
 		if (empty($tasks[self::CONTROLLER_PREFIX]))
 		{
-			$prefix = ucfirst(substr($this->input->get('option'), 4));
-			$location = $prefix;
+			$location = $this->getDefaultPrefix();
 		}
 		elseif ($tasks[self::CONTROLLER_PREFIX] == 'j')
 		{
@@ -277,7 +274,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 
 		if (empty($tasks[self::CONTROLLER_ACTIVITY]))
 		{
-			$activity = 'Display';
+			$activity = $this->getDefaultActivity();
 		}
 		else
 		{
@@ -288,7 +285,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 
 		if (empty($tasks[self::CONTROLLER_VIEW_FOLDER]) && $location != 'J')
 		{
-			$view = ucfirst(strtolower($this->input->get('view')));
+			$view = $this->getDefaultView();
 		}
 		elseif ($location != 'J')
 		{
@@ -302,6 +299,36 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 		$queue->insert('JController' . $activity, 1);
 
 		return $queue;
+	}
+
+	/**
+	 * Gets the default controller prefix
+	 *
+	 * @return  string  The default component view
+	 */
+	protected function getControllerPrefix()
+	{
+		return ucfirst(substr($this->input->get('option'), 4));
+	}
+
+	/**
+	 * Gets the default controller activity
+	 *
+	 * @return  string  The default component view
+	 */
+	protected function getControllerActivity()
+	{
+		return 'Display';
+	}
+
+	/**
+	 * Gets the default controller view
+	 *
+	 * @return  string  The default component view
+	 */
+	protected function getControllerView()
+	{
+		return ucfirst(strtolower($this->input->get('view')));
 	}
 
 	/**
