@@ -268,6 +268,15 @@ class JCrypt
 	 */
 	public static function timingSafeCompare($known, $unknown)
 	{
+		/*
+		 
+		 // PROPOSAL:
+		 // Simpler, less error-prone method to solve this problem.
+		 
+		 $nonce = self::getRandomBytes(32);
+		 return hash_hmac('sha256', $known, $nonce) === hash_hmac('sha256', $unknown, $nonce);
+		 
+		 */
 		// Prevent issues if string length is 0
 		$known .= chr(0);
 		$unknown .= chr(0);
@@ -279,10 +288,10 @@ class JCrypt
 		$result = $knownLength - $unknownLength;
 
 		// Note that we ALWAYS iterate over the user-supplied length to prevent leaking length info.
-		for ($i = 0; $i < $unknownLength; $i++)
+		for ($i = 0; $i < $unknownLength && $i < $knownLength; $i++)
 		{
 			// Using % here is a trick to prevent notices. It's safe, since if the lengths are different, $result is already non-0
-			$result |= (ord($known[$i % $knownLength]) ^ ord($unknown[$i]));
+			$result |= (ord($known[$i]) ^ ord($unknown[$i]));
 		}
 
 		// They are only identical strings if $result is exactly 0...
