@@ -167,7 +167,7 @@ class JCryptPasswordSimple implements JCryptPassword
 		// Check if the hash is a Joomla hash.
 		if (preg_match('#[a-z0-9]{32}:[A-Za-z0-9]{32}#', $hash) === 1)
 		{
-			return hash_hmac('sha256', md5($password . substr($hash, 33), $nonce)) === hash_hmac('sha256', substr($hash, 0, 32), $nonce);
+			return hash_hmac('sha256', md5($password . substr($hash, 33)), $nonce) === hash_hmac('sha256', substr($hash, 0, 32), $nonce);
 		}
 
 		return false;
