@@ -136,22 +136,25 @@ abstract class JFactory
 	 * @param   string  $file       The path to the configuration file
 	 * @param   string  $type       The type of the configuration file
 	 * @param   string  $namespace  The namespace of the configuration file
+	 * @param   bool    $env        Use the environment loader as fallback. (Only works with PHP type)
 	 *
 	 * @return  JRegistry
 	 *
 	 * @see     JRegistry
 	 * @since   11.1
 	 */
-	public static function getConfig($file = null, $type = 'PHP', $namespace = '')
+	public static function getConfig($file = null, $type = 'PHP', $namespace = '', $env = true)
 	{
 		if (!self::$config)
 		{
-			if ($file === null)
+			if (('PHP' === $type) and (! is_null($file)))
 			{
-				$file = JPATH_PLATFORM . '/config.php';
+				$file = JPATH_CONFIGURATION . '/config.php';
 			}
 
-			self::$config = self::createConfig($file, $type, $namespace);
+			$options = array('namespace' => $namespace, 'enable-environment' => $env);
+
+			self::$config = new JConfigLoader($type, $options);
 		}
 
 		return self::$config;
@@ -532,47 +535,6 @@ abstract class JFactory
 		$date = clone self::$dates[$classname][$key];
 
 		return $date;
-	}
-
-	/**
-	 * Create a configuration object
-	 *
-	 * @param   string  $file       The path to the configuration file.
-	 * @param   string  $type       The type of the configuration file.
-	 * @param   string  $namespace  The namespace of the configuration file.
-	 *
-	 * @return  JRegistry
-	 *
-	 * @see     JRegistry
-	 * @since   11.1
-	 */
-	protected static function createConfig($file, $type = 'PHP', $namespace = '')
-	{
-		if (is_file($file))
-		{
-			include_once $file;
-		}
-
-		// Create the registry with a default namespace of config
-		$registry = new JRegistry;
-
-		// Sanitize the namespace.
-		$namespace = ucfirst((string) preg_replace('/[^A-Z_]/i', '', $namespace));
-
-		// Build the config name.
-		$name = 'JConfig' . $namespace;
-
-		// Handle the PHP configuration type.
-		if ($type == 'PHP' && class_exists($name))
-		{
-			// Create the JConfig object
-			$config = new $name;
-
-			// Load the configuration values into the registry
-			$registry->loadObject($config);
-		}
-
-		return $registry;
 	}
 
 	/**

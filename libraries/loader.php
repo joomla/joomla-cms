@@ -563,6 +563,19 @@ function jexit($message = 0)
 }
 
 /**
+ * Useful for creating an object and using the response.
+ * 
+ * e.g `with(new className)->callMethod()`
+ * 
+ * @param mixed $value
+ * @return mixed
+ */
+function with($value)
+{
+	return $value;
+}
+
+/**
  * Intelligent file importer.
  *
  * @param   string  $path  A dot syntax path.

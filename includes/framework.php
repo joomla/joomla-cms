@@ -40,13 +40,8 @@ JError::setErrorHandling(E_ERROR, 'callback', array('JError', 'customErrorPage')
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
 
-// Pre-Load configuration. Don't remove the Output Buffering due to BOM issues, see JCode 26026
-ob_start();
-require_once JPATH_CONFIGURATION . '/configuration.php';
-ob_end_clean();
-
 // System configuration.
-$config = new JConfig;
+$config = JFactory::getConfig();
 
 // Set the error_reporting
 switch ($config->error_reporting)

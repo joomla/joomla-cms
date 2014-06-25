@@ -13,6 +13,7 @@
 /configuration.php
 /.htaccess
 /web.config
+/.env.php
 
 # Test Related Files #
 /phpunit.xml
