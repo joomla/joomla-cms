@@ -300,7 +300,7 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * This method must be invoked as: $web = JApplicationCms::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the JApplicationCms class to instantiate.
+	 * @param   string  $name    The name (optional) of the JApplicationCms class to instantiate.
 	 * @param   array   $config  Configuration array
 	 *
 	 * @return  JApplicationCms
