@@ -127,6 +127,8 @@ class JCryptPasswordSimple implements JCryptPassword
 	 */
 	public function verify($password, $hash)
 	{
+		// A nonce for double-HMAC comparison
+		$nonce = JCrypt::genRandomBytes(32);
 		// Check if the hash is a blowfish hash.
 		if (substr($hash, 0, 4) == '$2a$' || substr($hash, 0, 4) == '$2y$')
 		{
@@ -141,19 +143,35 @@ class JCryptPasswordSimple implements JCryptPassword
 
 			$hash = $type . substr($hash, 4);
 
-			return (crypt($password, $hash) === $hash);
+			// Use HMAC with a random key to make the comparison operation
+			// resistant to remote timing attacks
+			return (
+				hash_hmac('sha256', crypt($password, $hash), $nonce)
+					===
+				hash_hmac('sha256', $hash, $nonce)
+			);
 		}
 
 		// Check if the hash is an MD5 hash.
 		if (substr($hash, 0, 3) == '$1$')
 		{
-			return (crypt($password, $hash) === $hash);
+			// Use HMAC with a random key to make the comparison operation
+			// resistant to remote timing attacks
+			return (
+				hash_hmac('sha256', crypt($password, $hash), $nonce)
+					===
+				hash_hmac('sha256', $hash, $nonce)
+			);
 		}
 
 		// Check if the hash is a Joomla hash.
 		if (preg_match('#[a-z0-9]{32}:[A-Za-z0-9]{32}#', $hash) === 1)
 		{
-			return md5($password . substr($hash, 33)) == substr($hash, 0, 32);
+			return (
+				hash_hmac('sha256', md5($password . substr($hash, 33), $nonce)
+					=== 
+				hash_hmac('sha256', substr($hash, 0, 32), $nonce)
+			);
 		}
 
 		return false;
