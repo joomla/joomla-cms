@@ -31,7 +31,7 @@ class PlgSystemSef extends JPlugin
 
 		if ($app->getName() != 'site' || $doc->getType() !== 'html')
 		{
-			return true;
+			return;
 		}
 
 		$router = $app::getRouter();
