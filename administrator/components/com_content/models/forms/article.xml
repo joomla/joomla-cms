@@ -23,7 +23,7 @@
 			class="span12"
 			size="45" />
 
-		<field name="articletext" type="editor"
+		<field name="articletext" type="editor" class="inputbox" syntax="html"
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL" description="COM_CONTENT_FIELD_ARTICLETEXT_DESC"
 			filter="JComponentHelper::filterText" buttons="true" />
 

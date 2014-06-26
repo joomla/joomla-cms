@@ -93,6 +93,7 @@
 	<field
 		name="description"
 		type="editor"
+		syntax="html"
 		label="JGLOBAL_DESCRIPTION"
 		description="COM_CATEGORIES_DESCRIPTION_DESC"
 		filter="JComponentHelper::filterText"
