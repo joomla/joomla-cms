@@ -32,8 +32,8 @@ class PlgContentPagenavigation extends JPlugin
 	 */
 	public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
 	{
-		$app = JFactory::getApplication();
-		$view = $app->input->get('view');
+		$app   = JFactory::getApplication();
+		$view  = $app->input->get('view');
 		$print = $app->input->getBool('print');
 
 		if ($print)
@@ -43,16 +43,16 @@ class PlgContentPagenavigation extends JPlugin
 
 		if (($context == 'com_content.article') && ($view == 'article') && $params->get('show_item_navigation'))
 		{
-			$db = JFactory::getDbo();
-			$user = JFactory::getUser();
-			$lang = JFactory::getLanguage();
+			$db       = JFactory::getDbo();
+			$user     = JFactory::getUser();
+			$lang     = JFactory::getLanguage();
 			$nullDate = $db->getNullDate();
 
 			$date = JFactory::getDate();
-			$now = $date->toSql();
+			$now  = $date->toSql();
 
-			$uid = $row->id;
-			$option = 'com_content';
+			$uid        = $row->id;
+			$option     = 'com_content';
 			$canPublish = $user->authorise('core.edit.state', $option . '.article.' . $row->id);
 
 			/**
@@ -77,14 +77,18 @@ class PlgContentPagenavigation extends JPlugin
 				$order_method = '';
 			}
 
+			// Get the order code
+			$orderDate = $params->get('order_date');
+			$queryDate = $this->getQueryDate($orderDate);
+
 			// Determine sort order.
 			switch ($order_method)
 			{
 				case 'date' :
-					$orderby = 'a.created';
+					$orderby = $queryDate;
 					break;
 				case 'rdate' :
-					$orderby = 'a.created DESC';
+					$orderby = $queryDate . ' DESC ';
 					break;
 				case 'alpha' :
 					$orderby = 'a.title';
@@ -165,8 +169,7 @@ class PlgContentPagenavigation extends JPlugin
 
 			// Location of current content item in array list.
 			$location = array_search($uid, array_keys($list));
-
-			$rows = array_values($list);
+			$rows     = array_values($list);
 
 			$row->prev = null;
 			$row->next = null;
@@ -228,5 +231,40 @@ class PlgContentPagenavigation extends JPlugin
 		}
 
 		return;
+	}
+
+	/**
+	 * Translate an order code to a field for primary ordering.
+	 *
+	 * @param   string  $orderDate  The ordering code.
+	 *
+	 * @return  string  The SQL field(s) to order by.
+	 *
+	 * @since   3.3
+	 */
+	private static function getQueryDate($orderDate)
+	{
+		$db = JFactory::getDbo();
+
+		switch ($orderDate)
+		{
+			// Use created if modified is not set
+			case 'modified' :
+				$queryDate = ' CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END';
+				break;
+
+			// Use created if publish_up is not set
+			case 'published' :
+				$queryDate = ' CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END ';
+				break;
+
+			// Use created as default
+			case 'created' :
+			default :
+				$queryDate = ' a.created ';
+				break;
+		}
+
+		return $queryDate;
 	}
 }
