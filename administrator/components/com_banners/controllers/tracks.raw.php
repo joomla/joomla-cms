@@ -89,7 +89,7 @@ class BannersControllerTracks extends JControllerLegacy
 			$model->setState('list.start', 0);
 
 			$input = JFactory::getApplication()->input;
-			$form  = $input->getCmd('jform');
+			$form  = $input->getArray('jform');
 
 			$model->setState('basename', $form['basename']);
 			$model->setState('compressed', $form['compressed']);
