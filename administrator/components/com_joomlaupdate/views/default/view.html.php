@@ -50,6 +50,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		{
 			JToolbarHelper::preferences('com_joomlaupdate');
 		}
+
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
@@ -66,7 +67,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 
 		if (!is_null($this->updateInfo['object']))
 		{
-			// Show the message if a update is found 
+			// Show the message if a update is found.
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'notice');
 		}
 
