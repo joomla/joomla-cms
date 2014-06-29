@@ -44,6 +44,9 @@ class JFormFieldAdjuntos extends JFormField
         // Path subida de archivos
         $path       = $this->element['path'];       
 
+        // Icono eliminar adjunto
+        $caneca     = JHtml::_('image', 'media/adjuntos/caneca.png', 'Eliminar adjunto', 'class="img-eliminar"', false);
+
         $style = array();
         $style[] = '#controles-adjuntos {';
         $style[] = '    width: 180px;';
@@ -88,6 +91,9 @@ class JFormFieldAdjuntos extends JFormField
         $style[] = '    position: absolute;';
         $style[] = '    right: 0;';
         $style[] = '    top: 0;';
+        $style[] = '}';
+        $style[] = '.img-eliminar {';
+        $style[] = '    margin: 4px 0;';
         $style[] = '}';
 
         $script = array();
@@ -152,7 +158,7 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '               eliminarAdjunto(this)';
         $script[] = '           }';
         $script[] = '       }';
-        $script[] = '   }).set({"text": "-", "data-id": formAdjunto.id})';
+        $script[] = '   }).set({"html": "'.addslashes($caneca).'", "data-id": formAdjunto.id})';
 
         $script[] = '   fieldArchivo.inject(formAdjunto);';
         $script[] = '   btnEliminarAdjunto.inject(formAdjunto);';
