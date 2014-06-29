@@ -29,7 +29,7 @@ class TagsModelTags extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
+	 * @note Calling getState in this method will result in recursion.
 	 *
 	 * @param   string  $ordering   An optional ordering field.
 	 * @param   string  $direction  An optional direction (asc|desc).
@@ -151,21 +151,23 @@ class TagsModelTags extends JModelList
 
 		// List state information
 		$format = $app->input->getWord('format');
+
 		if ($format == 'feed')
 		{
-			$limit = $app->getCfg('feed_limit');
+			$limit = $app->get('feed_limit');
 		}
 		else
 		{
 			if ($this->state->params->get('show_pagination_limit'))
 			{
-				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
 			}
 			else
 			{
 				$limit = $this->state->params->get('maximum', 20);
 			}
 		}
+
 		$this->setState('list.limit', $limit);
 
 		$offset = $app->input->get('limitstart', 0, 'uint');
@@ -177,7 +179,7 @@ class TagsModelTags extends JModelList
 			$query->where($db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $this->state->get('list.filter') . '%'));
 		}
 
-		$query->where($db->quoteName('a.published'). ' = ' . $published);
+		$query->where($db->quoteName('a.published') . ' = ' . $published);
 
 		$query->order($db->quoteName($orderby) . ' ' . $orderDirection . ', a.title ASC');
 
