@@ -121,7 +121,7 @@ class ContentControllerAdjuntos extends JControllerForm
                         $data["msg"] = "#".$err.": ".JText::_('COM_CONTENT_ADJUNTOS_MSG_FALLO_ESCRIBIR_EN_DISCO');
                         break;
                     case 8:
-                        $data["msg"] = "#".$err.": ".JText::('COM_CONTENT_ADJUNTOS_MSG_NO_EXTENSION_PHP');
+                        $data["msg"] = "#".$err.": ".JText::_('COM_CONTENT_ADJUNTOS_MSG_NO_EXTENSION_PHP');
                         break;
                 }
 
