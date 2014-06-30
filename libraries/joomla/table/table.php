@@ -129,6 +129,10 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		{
 			$key = (array) $key;
 		}
+		elseif (!$key)
+		{
+			$key = array();
+		}
 
 		$this->_tbl_keys = $key;
 
