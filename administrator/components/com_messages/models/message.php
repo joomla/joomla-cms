@@ -192,7 +192,7 @@ class MessagesModelMessage extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->loadForm('com_messages.message', 'message', array('control' => 'jform', 'load_data' => $loadData));
-		
+
 		if (empty($form))
 		{
 			return false;

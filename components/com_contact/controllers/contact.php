@@ -159,7 +159,7 @@ class ContactControllerContact extends JControllerForm
 			$fromname = $app->get('fromname');
 			$sitename = $app->get('sitename');
 
- 			$name    = $data['contact_name'];
+			$name    = $data['contact_name'];
 			$email   = JStringPunycode::emailToPunycode($data['contact_email']);
 			$subject = $data['contact_subject'];
 			$body    = $data['contact_message'];

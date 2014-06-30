@@ -32,7 +32,7 @@ class UsersModelMail extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.mail', 'mail', array('control' => 'jform', 'load_data' => $loadData));
-		
+
 		if (empty($form))
 		{
 			return false;
