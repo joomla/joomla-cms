@@ -130,22 +130,6 @@ class JApplicationAdministrator extends JApplicationCms
 			}
 		}
 
-		// Check if the user is required to reset their password
-		$user = JFactory::getUser();
-
-		if ($user->get('requireReset', 0) === '1')
-		{
-			if ($this->input->getCmd('option') != 'com_admin' && $this->input->getCmd('view') != 'profile' && $this->input->getCmd('layout') != 'edit')
-			{
-				if ($this->input->getCmd('task') != 'profile.save')
-				{
-					// Redirect to the profile edit page
-					$this->enqueueMessage(JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
-					$this->redirect(JRoute::_('index.php?option=com_admin&task=profile.edit&id=' . $user->id, false));
-				}
-			}
-		}
-
 		// Mark afterInitialise in the profiler.
 		JDEBUG ? $this->profiler->mark('afterInitialise') : null;
 
@@ -154,6 +138,15 @@ class JApplicationAdministrator extends JApplicationCms
 
 		// Mark afterRoute in the profiler.
 		JDEBUG ? $this->profiler->mark('afterRoute') : null;
+
+		/*
+		 * Check if the user is required to reset their password
+		 *
+		 * Before $this->route(); "option" and "view" can't be safely read using:
+		 * $this->input->getCmd('option'); or $this->input->getCmd('view');
+		 * ex: due of the sef urls
+		 */
+		$this->checkUserRequireReset('com_admin', 'profile', 'edit', 'profile.save,profile.apply');
 
 		// Dispatch the application
 		$this->dispatch();
