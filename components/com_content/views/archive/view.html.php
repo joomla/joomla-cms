@@ -77,7 +77,6 @@ class ContentViewArchive extends JViewLegacy
 
 				$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.archive', &$item, &$item->params, 0));
 				$item->event->afterDisplayContent = trim(implode("\n", $results));
-
 			}
 		}
 
