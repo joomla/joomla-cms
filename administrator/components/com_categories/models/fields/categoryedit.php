@@ -39,80 +39,105 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$options = array();
+		$options   = array();
 		$published = $this->element['published'] ? $this->element['published'] : array(0, 1);
-		$name = (string) $this->element['name'];
+		$name      = (string) $this->element['name'];
 
 		// Let's get the id for the current item, either category or content item.
 		$jinput = JFactory::getApplication()->input;
-		// Load the category options for a given extension.
 
+		// Load the category options for a given extension.
 		// For categories the old category is the category id or 0 for new category.
 		if ($this->element['parent'] || $jinput->get('option') == 'com_categories')
 		{
-			$oldCat = $jinput->get('id', 0);
+			$oldCat    = $jinput->get('id', 0);
 			$oldParent = $this->form->getValue($name, 0);
 			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension', 'com_content');
 		}
 		else
 			// For items the old category is the category they are in when opened or 0 if new.
 		{
-			$oldCat = $this->form->getValue($name, 0);
+			$oldCat    = $this->form->getValue($name, 0);
 			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option', 'com_content');
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level, a.published')
-			->from('#__categories AS a')
-			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			->select('DISTINCT a.id AS value, a.title AS text, a.level, a.published');
 
-		// Filter by the extension type
-		if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
+		// Check if the $published is an array
+		if (is_array($published))
 		{
-			$query->where('(a.extension = ' . $db->quote($extension) . ' OR a.parent_id = 0)');
-		}
-		else
-		{
-			$query->where('(a.extension = ' . $db->quote($extension) . ')');
-		}
-		// If parent isn't explicitly stated but we are in com_categories assume we want parents
-		if ($oldCat != 0 && ($this->element['parent'] == true || $jinput->get('option') == 'com_categories'))
-		{
-			// Prevent parenting to children of this item.
-			// To rearrange parents and children move the children up, not the parents down.
-			$query->join('LEFT', $db->quoteName('#__categories') . ' AS p ON p.id = ' . (int) $oldCat)
-				->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
+			$subSelect = JFactory::getDbo()
+				->getQuery(true)
+				->select('*');
 
-			$rowQuery = $db->getQuery(true);
-			$rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id')
-				->from('#__categories AS a')
-				->where('a.id = ' . (int) $oldCat);
-			$db->setQuery($rowQuery);
-			$row = $db->loadObject();
-		}
+			$q1 = $db->getQuery(true)
+				->select('id,title,level,published,parent_id,extension,lft,rgt')
+				->from('#__categories');
+			$q2 = $db->getQuery(true)
+				->select('id,title,level,published,parent_id,extension,lft,rgt')
+				->from('#__categories');
 
-		// Filter language
-		if (!empty($this->element['language']))
-		{
+			// Filter by the extension type
+			if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
+			{
+				$q1->where('(extension = ' . $db->quote($extension) . ' OR parent_id = 0)');
+				$q2->where('(extension = ' . $db->quote($extension) . ' OR parent_id = 0)');
+			}
+			else
+			{
+				$q1->where('(extension = ' . $db->quote($extension) . ')');
+				$q2->where('(extension = ' . $db->quote($extension) . ')');
+			}
 
-			$query->where('a.language = ' . $db->quote($this->element['language']));
-		}
+			// Filter language
+			if (!empty($this->element['language']))
+			{
+				$q1->where('language = ' . $db->quote($this->element['language']));
+				$q2->where('language = ' . $db->quote($this->element['language']));
+			}
 
-		// Filter on the published state
+			$q1->where('published = ' . $published[0]);
+			$q2->where('published = ' . $published[1]);
 
-		if (is_numeric($published))
-		{
-			$query->where('a.published = ' . (int) $published);
-		}
-		elseif (is_array($published))
-		{
-			JArrayHelper::toInteger($published);
-			$query->where('a.published IN (' . implode(',', $published) . ')');
+			$subSelect->from('(' . ($q1->union($q2)) . ')AS s')
+				->group('s.id, s.title, s.level, s.lft, s.rgt, s.extension, s.parent_id,s.published')
+				->order('s.lft ASC');
+			$query->from('(' . $subSelect->__toString() . ') AS a')
+				->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 		}
 
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.extension, a.parent_id, a.published')
-			->order('a.lft ASC');
+		// If $published is not an array and it is a numeric value
+		elseif (is_numeric($published))
+		{
+			$subQuery = $db->getQuery(true)
+				->select('id,title,level,published,parent_id,extension,lft,rgt')
+				->from('#__categories');
+
+			// Filter by the extension type
+			if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
+			{
+				$subQuery->where('(extension = ' . $db->quote($extension) . ' OR parent_id = 0)');
+			}
+			else
+			{
+				$subQuery->where('(extension = ' . $db->quote($extension) . ')');
+			}
+
+			// Filter language
+			if (!empty($this->element['language']))
+			{
+				$subQuery->where('language = ' . $db->quote($this->element['language']));
+			}
+
+			$subQuery->where('published = ' . (int) $published);
+
+			$subQuery->group('id, title, level, lft, rgt, extension, parent_id,published')
+				->order('lft ASC');
+			$query->from('(' . $subQuery->__toString() . ') AS a')
+				->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		}
 
 		// Get the options.
 		$db->setQuery($query);
@@ -137,6 +162,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 					$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
 				}
 			}
+
 			if ($options[$i]->published == 1)
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
@@ -155,9 +181,11 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		{
 			foreach ($options as $i => $option)
 			{
-				// To take save or create in a category you need to have create rights for that category
-				// unless the item is already in that category.
-				// Unset the option if the user isn't authorised for it. In this field assets are always categories.
+				/**
+				* To take save or create in a category you need to have create rights for that category
+				* unless the item is already in that category.
+				* Unset the option if the user isn't authorised for it. In this field assets are always categories.
+				*/
 				if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
 				{
 					unset($options[$i]);
@@ -167,9 +195,11 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		// If you have an existing category id things are more complex.
 		else
 		{
-			// If you are only allowed to edit in this category but not edit.state, you should not get any
-			// option to change the category parent for a category or the category for a content item,
-			// but you should be able to save in that category.
+			/**
+			* If you are only allowed to edit in this category but not edit.state, you should not get any
+			* option to change the category parent for a category or the category for a content item,
+			* but you should be able to save in that category.
+			*/
 			foreach ($options as $i => $option)
 			{
 				if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true && !isset($oldParent))
@@ -179,10 +209,9 @@ class JFormFieldCategoryEdit extends JFormFieldList
 						unset($options[$i]);
 					}
 				}
-				if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true
-					&& (isset($oldParent))
-					&& $option->value != $oldParent
-				)
+
+				if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true && (isset($oldParent))
+					&& $option->value != $oldParent)
 				{
 					unset($options[$i]);
 				}
@@ -190,17 +219,16 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				// However, if you can edit.state you can also move this to another category for which you have
 				// create permission and you should also still be able to save in the current category.
 				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
-					&& ($option->value != $oldCat && !isset($oldParent))
-				)
+					&& ($option->value != $oldCat && !isset($oldParent)))
 				{
 					{
 						unset($options[$i]);
 					}
 				}
+
 				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
 					&& (isset($oldParent))
-					&& $option->value != $oldParent
-				)
+					&& $option->value != $oldParent)
 				{
 					{
 						unset($options[$i]);
@@ -208,17 +236,18 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				}
 			}
 		}
+
 		if (($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
 			&& (isset($row) && !isset($options[0]))
-			&& isset($this->element['show_root'])
-		)
+			&& isset($this->element['show_root']))
 		{
 			if ($row->parent_id == '1')
 			{
-				$parent = new stdClass;
+				$parent       = new stdClass;
 				$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
 				array_unshift($options, $parent);
 			}
+
 			array_unshift($options, JHtml::_('select.option', '0', JText::_('JGLOBAL_ROOT')));
 		}
 
