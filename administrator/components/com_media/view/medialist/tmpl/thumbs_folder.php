@@ -17,7 +17,7 @@ $user = JFactory::getUser();
 				</div>
 				<div class="height-60">
 					<a href="index.php?option=com_media&amp;controller=media.display.medialist&amp;view=medialist&amp;tmpl=component&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>" target="folderframe">
-						<i class="icon-folder-2"></i>
+						<i class="icon-folder-2" style="font-size: 40px;display: initial;"></i>
 					</a>
 				</div>
 				<div class="height-20">
