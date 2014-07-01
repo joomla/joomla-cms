@@ -82,9 +82,8 @@ abstract class ModTagsPopularHelper
 
 		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = t.id')
 			->join('INNER', $db->quoteName('#__ucm_content', 'c') . ' ON ' . $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')) 
-
 			->order($order_value . ' ' . $order_direction);
-		
+
 		$query->where($db->quoteName('m.type_alias') . ' = ' . $db->quoteName('c.core_type_alias'));
 		// Only return tags connected to published articles
 		$query->where($db->quoteName('c.core_state') . ' = 1')
