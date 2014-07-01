@@ -135,7 +135,8 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					'access',
 					'ordering',
 					'language',
-					'note'
+					'note',
+					'id'
 				);
 
 				?>
