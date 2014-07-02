@@ -61,7 +61,14 @@ $class = ' class="first"';
 					</div>
 				<?php endif; ?>
 			<?php endif; ?>
-
+			<?php if ($this->params->get('show_description_image', 1) && json_decode($child->params)) :?>
+				<?php $catImg = json_decode($child->params)->image; ?>
+				<?php if (isset($catImg) && !empty($catImg) ) : ?>
+					<div class=item-image">
+						<img src="<?php echo htmlspecialchars($catImg); ?>" />
+					</div>
+				<?php endif; ?>
+			<?php endif; ?>
 			<?php if (count($child->getChildren()) > 0) :?>
 			<div class="collapse fade" id="category-<?php echo $child->id;?>">
 				<?php
