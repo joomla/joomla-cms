@@ -193,6 +193,21 @@ abstract class JModuleHelper
 
 			$chrome[$chromePath] = true;
 		}
+		
+		//Make sure that $attribs is a array
+		if (is_string($attribs)) 
+		{
+			$t = explode(',', $attribs);
+			$attribs = array();
+			foreach ($t as $a) 
+			{
+				if (!empty($a)) 
+				{
+					$b = explode('=', $a);
+					$attribs[$b[0]] = $b[1];
+				}
+			}
+		}
 
 		// Make sure a style is set
 		if (!isset($attribs['style']))
