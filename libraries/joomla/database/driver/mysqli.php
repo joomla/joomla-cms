@@ -63,13 +63,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	public function __construct($options)
 	{
 		// Get some basic values from the options.
-		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
-		$options['user'] = (isset($options['user'])) ? $options['user'] : 'root';
+		$options['host']     = (isset($options['host'])) ? $options['host'] : 'localhost';
+		$options['user']     = (isset($options['user'])) ? $options['user'] : 'root';
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
-		$options['select'] = (isset($options['select'])) ? (bool) $options['select'] : true;
-		$options['port'] = null;
-		$options['socket'] = null;
+		$options['select']   = (isset($options['select'])) ? (bool) $options['select'] : true;
+		$options['port']     = null;
+		$options['socket']   = null;
 
 		// Finalize initialisation.
 		parent::__construct($options);
@@ -318,7 +318,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		$tables = $this->getTableList();
 
-		$this->setQuery('SHOW FULL COLUMNS FROM ' . $tables[0]);
+		/*
+		@todo: $this->quoteName($tables[0]) is not the best solution as
+		we test possible on a non-Joomla table if we have e.g. different
+		tables (application) in the same database.
+		*/
+		$this->setQuery('SHOW FULL COLUMNS FROM ' . $this->quoteName($tables[0]));
 		$array = $this->loadAssocList();
 
 		foreach ($array as $field)
@@ -536,7 +541,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Reset the error values.
 		$this->errorNum = 0;
 		$this->errorMsg = '';
-		$memoryBefore = null;
+		$memoryBefore   = null;
 
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
@@ -553,6 +558,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				// Avoid warning if result already freed by third-party library
 				@$this->freeResult();
 			}
+
 			$memoryBefore = memory_get_usage();
 		}
 
@@ -562,6 +568,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
+
 			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -570,6 +577,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			{
 				$this->callStacks[] = debug_backtrace();
 			}
+
 			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array($memoryBefore, memory_get_usage(), is_object($this->cursor) ? $this->getNumRows() : null);
 		}
 
@@ -818,6 +826,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	protected function freeResult($cursor = null)
 	{
 		mysqli_free_result($cursor ? $cursor : $this->cursor);
+
 		if ((! $cursor) || ($cursor === $this->cursor))
 		{
 			$this->cursor = null;
