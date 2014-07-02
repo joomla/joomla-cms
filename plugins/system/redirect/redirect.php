@@ -65,13 +65,16 @@ class PlgSystemRedirect extends JPlugin
 
 			// See if the current url exists in the database as a redirect.
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->quoteName('new_url'))
-				->select($db->quoteName('published'))
-				->from($db->quoteName('#__redirect_links'))
-				->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
-			$db->setQuery($query, 0, 1);
-			$link = $db->loadObject();
+			$link = self::getRedirectLink($db, $current);
+
+			$base = JUri::base();
+			if (!$link && strpos($current, $base) === 0)
+			{
+
+				// No absolute URL match.  Try trimming off the base URL and searching for a relative path match.
+				$current = substr($current, -(strlen($current) - strlen($base)));
+				$link = self::getRedirectLink($db, $current);
+			}
 
 			// If a redirect exists and is published, permanently redirect.
 			if ($link and ($link->published == 1))
@@ -133,5 +136,16 @@ class PlgSystemRedirect extends JPlugin
 			// Render the error page.
 			JError::customErrorPage($error);
 		}
+	}
+
+	protected static function getRedirectLink($db, $url)
+	{
+		$query = $db->getQuery(true)
+			->select($db->quoteName('new_url'))
+			->select($db->quoteName('published'))
+			->from($db->quoteName('#__redirect_links'))
+			->where($db->quoteName('old_url') . ' = ' . $db->quote($url));
+		$db->setQuery($query, 0, 1);
+		return $db->loadObject();
 	}
 }
