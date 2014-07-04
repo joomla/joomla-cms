@@ -55,10 +55,17 @@ class JCacheStorageXcache extends JCacheStorage
 	public function getAll()
 	{
 		parent::getAll();
-
-		$allinfo = xcache_list(XC_TYPE_VAR, 0);
-		$keys = $allinfo['cache_list'];
-		$secret = $this->_hash;
+		// Make sure XCache is configured properly
+		if (self::isSupported())
+		{
+			$allinfo = xcache_list(XC_TYPE_VAR, 0);
+			$keys = $allinfo['cache_list'];
+			$secret = $this->_hash;
+		}
+		else
+		{
+			$keys = array();
+		}
 
 		$data = array();
 
@@ -145,10 +152,19 @@ class JCacheStorageXcache extends JCacheStorage
 	 */
 	public function clean($group, $mode = null)
 	{
-		$allinfo = xcache_list(XC_TYPE_VAR, 0);
-		$keys = $allinfo['cache_list'];
 
-		$secret = $this->_hash;
+		// Make sure XCache is configured properly
+		if (self::isSupported())
+		{
+			$allinfo = xcache_list(XC_TYPE_VAR, 0);
+			$keys = $allinfo['cache_list'];
+			$secret = $this->_hash;
+		}
+		else
+		{
+			$keys = array();
+		}
+
 		foreach ($keys as $key)
 		{
 			if (strpos($key['name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
@@ -204,6 +220,24 @@ class JCacheStorageXcache extends JCacheStorage
 	 */
 	public static function isSupported()
 	{
-		return (extension_loaded('xcache'));
+		if (extension_loaded('xcache'))
+		{
+			// XCache Admin must be disabled for Joomla to use XCache
+			$xcache_admin_enable_auth  = ini_get('xcache.admin.enable_auth');
+			// Some extensions ini variables are reported as strings
+			if ($xcache_admin_enable_auth == 'Off')
+			{
+				return true;
+			}
+
+			// We require an  string with contents 0, not a null value because it is not set since that then defaults to On/True
+			if (($xcache_admin_enable_auth === '0'))
+			{
+				return true;
+			}
+		}
+
+		// If the settings are not correct, give up
+		return false;
 	}
 }
