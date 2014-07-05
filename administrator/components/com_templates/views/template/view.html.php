@@ -219,7 +219,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		}
 
 		// Add a copy template button (Hathor may not be available)
-		if ($this->hathor && $this->hathor->home == 0)
+		if (empty($this->hathor->home))
 		{
 			if ($showButton)
 			{
@@ -246,7 +246,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		}
 
 		// Add a Rename file Button
-		if ($this->hathor && $this->hathor->home == 0)
+		if (empty($this->hathor->home))
 		{
 			if ($showButton && $this->type != 'home')
 			{
