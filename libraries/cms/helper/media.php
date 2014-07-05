@@ -58,7 +58,7 @@ class JHelperMedia
 	 *
 	 * @since   3.2
 	 */
-	public function canUpload($file, $component = 'com_media')
+	public static function canUpload($file, $component = 'com_media')
 	{
 		$app    = JFactory::getApplication();
 		$params = JComponentHelper::getParams($component);

@@ -3,8 +3,9 @@ function sendFileToUploadController(formData,status)
 {
 	
 	var uploadURL =jQuery('#uploadForm').attr('action');
+	uploadURL = uploadURL.replace("format=html", "format=json");
     var jqXHR=jQuery.ajax({
-            xhr: function() {
+         xhr: function() {
             var xhrobj = jQuery.ajaxSettings.xhr();
             if (xhrobj.upload) {
                     xhrobj.upload.addEventListener('progress', function(event) {
@@ -20,15 +21,23 @@ function sendFileToUploadController(formData,status)
                 }
             return xhrobj;
         },
-    url: uploadURL,
-    type: "POST",
-    contentType:false,
-    processData: false,
+        url: uploadURL,
+        type: "POST",
+        contentType:false,
+        processData: false,
         cache: false,
         data: formData,
         success: function(data){
-            status.setProgress(100);
-          
+
+        	if(data.success)
+        	{
+        		status.setProgress(100);
+        	}
+        	else
+        	{
+        		status.setProgressError(data.message);
+        	}
+        	
         }
     }); 
  
@@ -72,6 +81,12 @@ function createStatusbar(obj)
          	this.abort.find('span').addClass('badge-success').removeClass('badge-important');
             this.abort.find('span').html('OK');
         }
+    }
+    this.setProgressError = function(error)
+    {
+    	this.progressBar.find('div').addClass('progress progress-danger').removeClass('progress');
+    	this.progressBar.find('.bar').animate({ width: this.progressBar.width() }, 10).html("<div style='color: white;'>" + error + "</div>");
+    	this.abort.find('span').addClass('badge-important').removeClass('badge-success').html ("error");
     }
     this.setAbort = function(jqxhr)
     {

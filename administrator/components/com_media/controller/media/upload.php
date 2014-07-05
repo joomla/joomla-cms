@@ -68,7 +68,7 @@ class MediaControllerMediaUpload extends JControllerBase
 			// User is not authorised to create
 			$this->app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_CREATE_NOT_PERMITTED'), 'error');
 
-			$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
+			return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), false);
 		}
 
 		// Total length of post back data in bytes.
@@ -86,7 +86,7 @@ class MediaControllerMediaUpload extends JControllerBase
 		{
 			$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'warning');
 
-			$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
+			return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), false);
 		}
 
 		$uploadMaxSize = $params->get('upload_maxsize', 0) * 1024 * 1024;
@@ -104,7 +104,7 @@ class MediaControllerMediaUpload extends JControllerBase
 				// File size exceed either 'upload_max_filesize' or 'upload_maxsize'.
 				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'warning');
 
-				$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));;
+				return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), false);
 			}
 
 			if (JFile::exists($file['filepath']))
@@ -112,7 +112,7 @@ class MediaControllerMediaUpload extends JControllerBase
 				// A file with this name already exists
 				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_FILE_EXISTS'), 'warning');
 
-				$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
+				return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), false);
 			}
 
 			if (!isset($file['name']))
@@ -120,14 +120,15 @@ class MediaControllerMediaUpload extends JControllerBase
 				// No filename (after the name was cleaned by JFile::makeSafe)
 				$this->app->enqueueMessage(JText::_('COM_MEDIA_INVALID_REQUEST'), 'error');
 
-				$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
+				return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), false);
 
 			}
 
 			// Hash destination filename
 			$fileparts = pathinfo($file['filepath']);
 			$date	   = JFactory::getDate();
-			$file['filepath'] = $fileparts['dirname'] . DIRECTORY_SEPARATOR . md5($fileparts['filename'] . $date->toUnix()) . '.' . $fileparts['extension'];
+
+// 			$file['filepath'] = $fileparts['dirname'] . DIRECTORY_SEPARATOR . md5($fileparts['filename'] . $date->toUnix()) . '.' . $fileparts['extension'];
 
 		}
 
@@ -138,13 +139,11 @@ class MediaControllerMediaUpload extends JControllerBase
 
 		foreach ($files as &$file)
 		{
-			// The request is valid
-			$err = null;
 
 			if (!JHelperMedia::canUpload($file, 'com_media'))
 			{
 				// The file can't be uploaded
-				$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
+				return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), false);
 			}
 
 			// Trigger the onContentBeforeSave event.
@@ -156,7 +155,7 @@ class MediaControllerMediaUpload extends JControllerBase
 				// There are some errors in the plugins
 				$this->app->enqueueMessage(JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors)), 'warning');
 
-				$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
+				return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), false);
 			}
 
 			if (!JFile::upload($object_file->tmp_name, $object_file->filepath))
@@ -164,7 +163,7 @@ class MediaControllerMediaUpload extends JControllerBase
 				// Error in upload
 				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'), 'warning');
 
-				$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
+				return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), false);
 			}
 			else
 			{
@@ -177,7 +176,7 @@ class MediaControllerMediaUpload extends JControllerBase
 				if (!$createController->execute())
 				{
 					// Can't create a record in database
-					$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
+					return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), false);
 				}
 
 				// Trigger the onContentAfterSave event.
@@ -186,7 +185,44 @@ class MediaControllerMediaUpload extends JControllerBase
 			}
 		}
 
-		$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
+		return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), true);
 
+	}
+
+	/**
+	 * Redirect after uploading media
+	 *
+	 * @param   mixed    $redirectTo  Redirecting location
+	 * @param   boolean  $success     Failure or Success
+	 *
+	 * @return void
+	 *
+	 * @since 3.5
+	 */
+	private function redirect($redirectTo, $success = true)
+	{
+		$format = JFactory::getDocument()->getType();
+		$response = $redirectTo;
+
+		// Handle JSON requests
+		if ($format == 'json')
+		{
+			// For failed requests
+			if (!$success)
+			{
+				$messages = $this->app->getMessageQueue();
+				$message = $messages[0]['message'];
+				$response = new Exception($message);
+			}
+
+			echo new JResponseJson($response);
+
+			return;
+		}
+
+			// For HTML Requests
+			$this->app->redirect($response);
+
+			return;
 	}
 }

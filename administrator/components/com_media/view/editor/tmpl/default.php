@@ -270,6 +270,7 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 
 				</div>
 			</div>
+			<div name="spacer" id="spacer" style="height: 120px;"></div>
 		</div>
 		<div class="modal-footer">
 			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
@@ -326,6 +327,7 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 					</div>
 				</div>
 			</div>
+			<div name="spacer" id="spacer" style="height: 120px;"></div>
 		</div>
 		<div class="modal-footer">
 			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
