@@ -168,14 +168,14 @@ abstract class FinderIndexer
 			$data->startTime = JFactory::getDate()->toSQL();
 
 			// Set the remaining default values.
-			$data->batchSize = (int) $data->options->get('batch_size', 50);
+			$data->batchSize   = (int) $data->options->get('batch_size', 50);
 			$data->batchOffset = 0;
-			$data->totalItems = 0;
+			$data->totalItems  = 0;
 			$data->pluginState = array();
 		}
 
 		// Setup the profiler if debugging is enabled.
-		if (JFactory::getApplication()->getCfg('debug'))
+		if (JFactory::getApplication()->get('debug'))
 		{
 			self::$profiler = JProfiler::getInstance('FinderIndexer');
 		}
