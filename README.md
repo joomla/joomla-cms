@@ -1,10 +1,3 @@
-SQL Optimisation Google Summer of Code - 2014
-====================
-
-This is a repository for [GSoC - 2014 SQL Optimisation project](https://www.google-melange.com/gsoc/project/details/google/gsoc2014/nadeeshaan/5657382461898752).
-
----------------------
-
 Joomla! CMS [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon)
 ====================
 
