@@ -521,6 +521,7 @@ class JDocumentHTML extends JDocument
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$children = 0;
+
 			if ($active)
 			{
 				$query = $db->getQuery(true)
