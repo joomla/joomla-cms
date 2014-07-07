@@ -524,6 +524,7 @@ class JDocumentHTML extends JDocument
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
+			$children = 0;
 			if ($active)
 			{
 				$query = $db->getQuery(true)
@@ -533,10 +534,6 @@ class JDocumentHTML extends JDocument
 					->where('published = 1');
 				$db->setQuery($query);
 				$children = $db->loadResult();
-			}
-			else
-			{
-				$children = 0;
 			}
 		}
 
