@@ -106,20 +106,20 @@ class RedirectViewLinks extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 
-        if ($canDo->get('core.create'))
-        {
-            // Get the toolbar object instance
-            $bar = JToolBar::getInstance('toolbar');
+		if ($canDo->get('core.create'))
+		{
+			// Get the toolbar object instance
+			$bar = JToolBar::getInstance('toolbar');
 
-            JHtml::_('bootstrap.modal', 'collapseModal');
-            $title = JText::_('JTOOLBAR_BATCH');
+			JHtml::_('bootstrap.modal', 'collapseModal');
+			$title = JText::_('JTOOLBAR_BATCH');
 
-            // Instantiate a new JLayoutFile instance and render the batch button
-            $layout = new JLayoutFile('joomla.toolbar.batch');
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
 
-            $dhtml = $layout->render(array('title' => $title));
-            $bar->appendButton('Custom', $dhtml, 'batch');
-        }
+			$dhtml = $layout->render(array('title' => $title));
+			$bar->appendButton('Custom', $dhtml, 'batch');
+		}
 
 		if ($canDo->get('core.admin'))
 		{
