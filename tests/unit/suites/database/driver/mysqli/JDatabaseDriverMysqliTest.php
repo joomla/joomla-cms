@@ -126,7 +126,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	{
 		$this->assertThat(
 			self::$driver->getCollation(),
-			$this->equalTo('utf8_general_ci'),
+			$this->equalTo('utf8_unicode_ci'),
 			'Line:' . __LINE__ . ' The getCollation method should return the collation of the database.'
 		);
 	}

@@ -316,6 +316,22 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
+		// Attempt to get the real Db colaltion.
+		$this->setQuery('SHOW VARIABLES LIKE "collation_database"');
+		try
+		{
+			$res = $this->loadObject();
+
+			if (isset($res->Value))
+			{
+				return $res->Value;
+			}
+		}
+		catch (RuntimeException $e)
+		{
+		}
+
+		// Fall back to querying the collation of the first db table.
 		$tables = $this->getTableList();
 
 		$this->setQuery('SHOW FULL COLUMNS FROM ' . $tables[0]);
