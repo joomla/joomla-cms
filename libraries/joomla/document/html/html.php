@@ -466,16 +466,12 @@ class JDocumentHTML extends JDocument
 	{
 		$this->_caching = $caching;
 
-		if (!empty($this->_template))
-		{
-			$data = $this->_renderTemplate();
-		}
-		else
+		if (empty($this->_template))
 		{
 			$this->parse($params);
-			$data = $this->_renderTemplate();
 		}
 
+		$data = $this->_renderTemplate();
 		parent::render();
 		return $data;
 	}
@@ -524,6 +520,7 @@ class JDocumentHTML extends JDocument
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
+			$children = 0;
 			if ($active)
 			{
 				$query = $db->getQuery(true)
@@ -533,10 +530,6 @@ class JDocumentHTML extends JDocument
 					->where('published = 1');
 				$db->setQuery($query);
 				$children = $db->loadResult();
-			}
-			else
-			{
-				$children = 0;
 			}
 		}
 
