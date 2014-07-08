@@ -14,7 +14,7 @@ $showleft        = 0;
 $showbottom      = 0;
 
 // Get params
-$app         = JFactory::getApplication()
+$app         = JFactory::getApplication();
 $params      = $app->getTemplate(true)->params;
 $logo        = $params->get('logo');
 $color       = $params->get('templatecolor');
