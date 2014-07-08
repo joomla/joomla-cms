@@ -125,11 +125,7 @@
 			showon="cache_handler:memcached"
 			filter="integer"
 			size="5" />
-	</fieldset>
 
-	<fieldset
-		name="redis"
-		label="COM_CONFIG_REDIS_SETTINGS_LABEL">
 		<field
 			name="redis_persist"
 			type="radio"
