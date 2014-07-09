@@ -88,7 +88,7 @@ class MenusControllerItem extends JControllerForm
 			$app->setUserState($context . '.type', null);
 			$app->setUserState($context . '.link', null);
 		}
-		
+
 		return $result;
 	}
 
@@ -325,7 +325,7 @@ class MenusControllerItem extends JControllerForm
 				$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 				break;
 		}
-		
+
 		return true;
 	}
 
