@@ -1,4 +1,4 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
@@ -1196,8 +1196,9 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
   UNIQUE KEY `idx_image` (`image`),
   UNIQUE KEY `idx_langcode` (`lang_code`),
   KEY `idx_access` (`access`),
-  KEY `idx_ordering` (`ordering`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `idx_ordering` (`ordering`),
+  KEY 'idx_published_ordering' ('published','ordering')
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `#__languages`
