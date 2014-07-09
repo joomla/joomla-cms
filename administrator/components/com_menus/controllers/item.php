@@ -325,6 +325,8 @@ class MenusControllerItem extends JControllerForm
 				$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 				break;
 		}
+		
+		return true;
 	}
 
 	/**
