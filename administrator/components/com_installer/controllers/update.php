@@ -94,7 +94,11 @@ class InstallerControllerUpdate extends JControllerLegacy
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$model = $this->getModel('update');
 		$model->purge();
-		$model->enableSites();
+
+		// We no longer need to enable update sites in Joomla! 3.4 as we now allow the users to manage update sites
+		// themselves.
+		// $model->enableSites();
+
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=update', false), $model->_message);
 	}
 
