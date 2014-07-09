@@ -115,7 +115,7 @@ class MenusControllerItem extends JControllerForm
 			$app->setUserState('com_menus.edit.item.link', null);
 		}
 
-		return true;
+		return $result;
 	}
 
 	/**
