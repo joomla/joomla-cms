@@ -76,7 +76,7 @@ class JRoute
 		if ((int) $ssl || $current_uri->isSSL())
 		{
 			// Determine which scheme we want.
-			$uri->setScheme(((int)$ssl === 1 || $current_uri->isSSL()) ? 'https' : 'http');
+			$uri->setScheme(( (int) $ssl === 1 || ((int) $ssl !== 2 && $current_uri->isSSL()) ) ? 'https' : 'http');
 			$uri->setHost( $current_uri->getHost() );
 			$uri->setPort( $current_uri->getPort() );
 			$scheme = array_merge($scheme, array('host', 'port', 'scheme'));
