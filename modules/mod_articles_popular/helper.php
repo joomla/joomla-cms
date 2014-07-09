@@ -54,6 +54,18 @@ abstract class ModArticlesPopularHelper
 		// Category filter
 		$model->setState('filter.category_id', $params->get('catid', array()));
 
+		// Date filter
+		$date_filtering = $params->get('date_filtering', 'off');
+
+		if ($date_filtering !== 'off')
+		{
+			$model->setState('filter.date_filtering', $date_filtering);
+			$model->setState('filter.date_field', $params->get('date_field', 'a.created'));
+			$model->setState('filter.start_date_range', $params->get('start_date_range', '1000-01-01 00:00:00'));
+			$model->setState('filter.end_date_range', $params->get('end_date_range', '9999-12-31 23:59:59'));
+			$model->setState('filter.relative_date', $params->get('relative_date', 30));
+		}
+
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
