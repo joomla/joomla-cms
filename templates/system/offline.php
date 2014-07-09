@@ -31,21 +31,21 @@ $twofactormethods = UsersHelper::getTwoFactorMethods();
 <body>
 <jdoc:include type="message" />
 	<div id="frame" class="outline">
-		<?php if ($app->getCfg('offline_image') && file_exists($app->getCfg('offline_image'))) : ?>
-			<img src="<?php echo $app->getCfg('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->getCfg('sitename')); ?>" />
+		<?php if ($app->get('offline_image') && file_exists($app->get('offline_image'))) : ?>
+			<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->get('sitename')); ?>" />
 		<?php endif; ?>
 		<h1>
-			<?php echo htmlspecialchars($app->getCfg('sitename')); ?>
+			<?php echo htmlspecialchars($app->get('sitename')); ?>
 		</h1>
-	<?php if ($app->getCfg('display_offline_message', 1) == 1 && str_replace(' ', '', $app->getCfg('offline_message')) != '') : ?>
+	<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) != '') : ?>
 		<p>
-			<?php echo $app->getCfg('offline_message'); ?>
+			<?php echo $app->get('offline_message'); ?>
 		</p>
-	<?php elseif ($app->getCfg('display_offline_message', 1) == 2 && str_replace(' ', '', JText::_('JOFFLINE_MESSAGE')) != '') : ?>
+	<?php elseif ($app->get('display_offline_message', 1) == 2 && str_replace(' ', '', JText::_('JOFFLINE_MESSAGE')) != '') : ?>
 		<p>
 			<?php echo JText::_('JOFFLINE_MESSAGE'); ?>
 		</p>
-	<?php  endif; ?>
+	<?php endif; ?>
 	<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset class="input">
 		<p id="form-login-username">
@@ -57,16 +57,16 @@ $twofactormethods = UsersHelper::getTwoFactorMethods();
 			<input type="password" name="password" class="inputbox" size="18" alt="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" id="passwd" />
 		</p>
 		<?php if (count($twofactormethods) > 1) : ?>
-		<p id="form-login-secretkey">
-			<label for="secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
-			<input type="text" name="secretkey" class="inputbox" size="18" alt="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
-		</p>
+			<p id="form-login-secretkey">
+				<label for="secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
+				<input type="text" name="secretkey" class="inputbox" size="18" alt="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
+			</p>
 		<?php endif; ?>
 		<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
-		<p id="form-login-remember">
-			<label for="remember"><?php echo JText::_('JGLOBAL_REMEMBER_ME'); ?></label>
-			<input type="checkbox" name="remember" class="inputbox" value="yes" alt="<?php echo JText::_('JGLOBAL_REMEMBER_ME'); ?>" id="remember" />
-		</p>
+			<p id="form-login-remember">
+				<label for="remember"><?php echo JText::_('JGLOBAL_REMEMBER_ME'); ?></label>
+				<input type="checkbox" name="remember" class="inputbox" value="yes" alt="<?php echo JText::_('JGLOBAL_REMEMBER_ME'); ?>" id="remember" />
+			</p>
 		<?php endif; ?>
 		<p id="submit-buton">
 			<label>&nbsp;</label>

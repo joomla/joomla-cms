@@ -38,7 +38,7 @@ $view     = $input->get('view', '');
 $layout   = $input->get('layout', '');
 $task     = $input->get('task', '');
 $itemid   = $input->get('Itemid', '');
-$sitename = $app->getCfg('sitename');
+$sitename = $app->get('sitename');
 
 $cpanel   = ($option === 'com_cpanel');
 
@@ -146,7 +146,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 							</li>
 							<li class="divider"></li>
 							<li class="">
-								<a href="index.php?option=com_admin&task=profile.edit&id=<?php echo $user->id; ?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT'); ?></a>
+								<a href="index.php?option=com_admin&amp;task=profile.edit&amp;id=<?php echo $user->id; ?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT'); ?></a>
 							</li>
 							<li class="divider"></li>
 							<li class="">
