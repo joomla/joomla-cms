@@ -26,8 +26,8 @@ class JHtmlEmailTest extends PHPUnit_Framework_TestCase
 	public function testCloak()
 	{
 		$this->assertThat(
-			JHtmlEmail::cloak('admin@joomla.org'),
-			$this->StringContains(".innerHTML += '<a ' + path + '\'' + prefix + ':' + addy23364 + '\'>'"),
+			JHtmlEmail::cloak('admin@joomla.org')
+			$this->StringContains(".innerHTML += '<a ' + path + '\'' + prefix + ':' + addy + '\'>'"),
 			'Cloak e-mail with mailto link'
 		);
 
