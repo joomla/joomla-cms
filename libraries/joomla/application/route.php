@@ -63,6 +63,8 @@ class JRoute
 		$uri = self::$_router->build($url);
 
 		$scheme = array('path', 'query', 'fragment');
+		
+		$current_uri = JUri::getInstance();
 
 		/*
 		 * Get the secure/unsecure URLs.
@@ -71,20 +73,12 @@ class JRoute
 		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
-		if ((int) $ssl || $uri->isSSL())
+		if ((int) $ssl || $current_uri->isSSL())
 		{
-			static $host_port;
-
-			if (!is_array($host_port))
-			{
-				$uri2 = JUri::getInstance();
-				$host_port = array($uri2->getHost(), $uri2->getPort());
-			}
-
 			// Determine which scheme we want.
-			$uri->setScheme(($ssl === 1 || $uri->isSSL()) ? 'https' : 'http');
-			$uri->setHost($host_port[0]);
-			$uri->setPort($host_port[1]);
+			$uri->setScheme(((int)$ssl === 1 || $current_uri->isSSL()) ? 'https' : 'http');
+			$uri->setHost( $current_uri->getHost() );
+			$uri->setPort( $current_uri->getPort() );
 			$scheme = array_merge($scheme, array('host', 'port', 'scheme'));
 		}
 
