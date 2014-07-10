@@ -371,6 +371,17 @@
 					</option>
 				</field>
 
+				<field name="clean_introtext" type="radio" default="1"
+					class="btn-group btn-group-yesno"
+					label="MOD_ARTICLES_CATEGORY_FIELD_CLEANINTROTEXT_LABEL"
+					description="MOD_ARTICLES_CATEGORY_FIELD_CLEANINTROTEXT_DESC"
+				>
+					<option value="1">JYES
+					</option>
+					<option value="0">JNO
+					</option>
+				</field>
+
 				<field name="introtext_limit" type="text" default="100"
 					label="MOD_ARTICLES_CATEGORY_FIELD_INTROTEXTLIMIT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_INTROTEXTLIMIT_DESC" />
