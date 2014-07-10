@@ -208,6 +208,7 @@ abstract class ModArticlesCategoryHelper
 		$show_author = $params->get('show_author', 0);
 		$show_introtext = $params->get('show_introtext', 0);
 		$introtext_limit = $params->get('introtext_limit', 100);
+		$clean_introtext = $params->get('clean_introtext', 100);
 
 		// Find current Article ID if on an article page
 		$option = $app->input->get('option');
