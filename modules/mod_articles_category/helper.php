@@ -208,6 +208,7 @@ abstract class ModArticlesCategoryHelper
 		$show_author = $params->get('show_author', 0);
 		$show_introtext = $params->get('show_introtext', 0);
 		$introtext_limit = $params->get('introtext_limit', 100);
+		$clean_introtext = $params->get('clean_introtext', 100);
 
 		// Find current Article ID if on an article page
 		$option = $app->input->get('option');
@@ -278,7 +279,10 @@ abstract class ModArticlesCategoryHelper
 			if ($show_introtext)
 			{
 				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
-				$item->introtext = self::_cleanIntrotext($item->introtext);
+				if ($clean_introtext)
+				{
+					$item->introtext = self::_cleanIntrotext($item->introtext);
+				}
 			}
 
 			$item->displayIntrotext = $show_introtext ? self::truncate($item->introtext, $introtext_limit) : '';
