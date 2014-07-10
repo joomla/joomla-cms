@@ -19,6 +19,34 @@ JFormHelper::loadFieldClass('hidden');
 class JFormFieldHiddenTest extends TestCase
 {
 	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return void
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockCmsApp();
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+
+		parent::teardown();
+	}
+
+	/**
 	 * Test the getInput method.
 	 *
 	 * @return void
@@ -35,11 +63,8 @@ class JFormFieldHiddenTest extends TestCase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldHidden($form);
-
-		$this->assertThat(
+		$this->assertEmpty(
 			$form->getLabel('hidden'),
-			$this->equalTo(''),
 			'Line:' . __LINE__ . ' The label of a hidden element should be nothing.'
 		);
 
@@ -51,11 +76,8 @@ class JFormFieldHiddenTest extends TestCase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldHidden($form);
-
-		$this->assertThat(
+		$this->assertEmpty(
 			$form->getLabel('hidden'),
-			$this->equalTo(''),
 			'Line:' . __LINE__ . ' The label of a hidden element should be nothing.'
 		);
 
@@ -67,11 +89,19 @@ class JFormFieldHiddenTest extends TestCase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldHidden($form);
+		$matcher = array(
+				'id'         => 'hidden-lbl',
+				'tag'        => 'label',
+				'attributes' => array(
+						'for'   => 'hidden',
+						'class' => ''
+					),
+				'content'    => 'regexp:/foo/'
+			);
 
-		$this->assertThat(
+		$this->assertTag(
+			$matcher,
 			$form->getLabel('hidden'),
-			$this->equalTo('<label id="hidden-lbl" for="hidden" class="">foo</label>'),
 			'Line:' . __LINE__ . ' The label of a non-hidden element should be some HTML.'
 		);
 	}
