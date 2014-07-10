@@ -697,10 +697,6 @@ class JCache
 		{
 			$registeredurlparams = $app->registeredurlparams;
 		}
-		else
-		{
-			$registeredurlparams = new stdClass;
-		}
 
 		// Platform defaults
 		$defaulturlparams = array(
