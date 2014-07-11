@@ -62,11 +62,26 @@ class SearchModelSearch extends JModelLegacy
 		// Get the pagination request variables
 		$this->setState('limit', $app->getUserStateFromRequest('com_search.limit', 'limit', $config->get('list_limit'), 'uint'));
 		$this->setState('limitstart', $app->input->get('limitstart', 0, 'uint'));
+		
+		// Get parameters.
+ 		$params = $app->getParams();
+ 		if($params->get('searchphrase') == 1)
+ 		{
+ 			$searchphrase = 'any';
+ 		}
+ 		elseif($params->get('searchphrase') == 2)
+ 		{
+ 			$searchphrase = 'exact';
+ 		}
+ 		else
+ 		{
+ 			$searchphrase = 'all';
+ 		}
 
 		// Set the search parameters
 		$keyword  = urldecode($app->input->getString('searchword'));
-		$match    = $app->input->get('searchphrase', 'all', 'word');
-		$ordering = $app->input->get('ordering', 'newest', 'word');
+		$match    = $app->input->get('searchphrase', $searchphrase, 'word');
+		$ordering = $app->input->get('ordering', $params->get('ordering', 'newest'), 'word');
 		$this->setSearch($keyword, $match, $ordering);
 
 		//Set the search areas
