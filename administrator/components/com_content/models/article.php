@@ -102,7 +102,7 @@ class ContentModelArticle extends JModelAdmin
 			// Check the row.
 			if (!$this->table->check())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
@@ -111,7 +111,7 @@ class ContentModelArticle extends JModelAdmin
 			// Store the row.
 			if (!$this->table->store())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 

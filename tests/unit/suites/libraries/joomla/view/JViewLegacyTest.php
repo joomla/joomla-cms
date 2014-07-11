@@ -392,18 +392,18 @@ class JViewLegacyTest extends TestCase
 		// Reset the internal _path property so we can track it more easily.
 		TestReflection::setValue($this->class, '_path', array('helper' => array(), 'template' => array()));
 
-		$this->class->addTemplatePath(JPATH_ROOT . '/libraries');
+		$this->class->addTemplatePath(JPATH_ROOT . $ds . 'libraries');
 
 		$this->assertAttributeEquals(
-			array('helper' => array(), 'template' => array(realpath(JPATH_ROOT . '/libraries') . $ds)),
+			array('helper' => array(), 'template' => array(realpath(JPATH_ROOT . $ds . 'libraries') . $ds)),
 			'_path',
 			$this->class
 		);
 
-		$this->class->addTemplatePath(JPATH_ROOT . '/cache');
+		$this->class->addTemplatePath(JPATH_ROOT . $ds . 'cache');
 
 		$this->assertAttributeEquals(
-			array('helper' => array(), 'template' => array(realpath(JPATH_ROOT . '/cache') . $ds, realpath(JPATH_ROOT . '/libraries') . $ds)),
+			array('helper' => array(), 'template' => array(realpath(JPATH_ROOT . $ds . 'cache') . $ds, realpath(JPATH_ROOT . $ds . 'libraries') . $ds)),
 			'_path',
 			$this->class
 		);
@@ -423,18 +423,18 @@ class JViewLegacyTest extends TestCase
 		// Reset the internal _path property so we can track it more easily.
 		TestReflection::setValue($this->class, '_path', array('helper' => array(), 'template' => array()));
 
-		$this->class->addHelperPath(JPATH_ROOT . '/libraries');
+		$this->class->addHelperPath(JPATH_ROOT . $ds . 'libraries');
 
 		$this->assertAttributeEquals(
-			array('helper' => array(realpath(JPATH_ROOT . '/libraries') . $ds), 'template' => array()),
+			array('helper' => array(realpath(JPATH_ROOT . $ds . 'libraries') . $ds), 'template' => array()),
 			'_path',
 			$this->class
 		);
 
-		$this->class->addHelperPath(JPATH_ROOT . '/cache');
+		$this->class->addHelperPath(JPATH_ROOT . $ds . 'cache');
 
 		$this->assertAttributeEquals(
-			array('helper' => array(realpath(JPATH_ROOT . '/cache') . $ds, realpath(JPATH_ROOT . '/libraries') . $ds), 'template' => array()),
+			array('helper' => array(realpath(JPATH_ROOT . $ds . 'cache') . $ds, realpath(JPATH_ROOT . $ds . 'libraries') . $ds), 'template' => array()),
 			'_path',
 			$this->class
 		);
@@ -493,39 +493,39 @@ class JViewLegacyTest extends TestCase
 		// Reset the internal _path property so we can track it more easily.
 		TestReflection::setValue($this->class, '_path', array('helper' => array(), 'template' => array()));
 
-		TestReflection::invoke($this->class, '_addPath', 'template', JPATH_ROOT . '/libraries');
+		TestReflection::invoke($this->class, '_addPath', 'template', JPATH_ROOT . $ds . 'libraries');
 
 		$this->assertAttributeEquals(
-			array('helper' => array(), 'template' => array(realpath(JPATH_ROOT . '/libraries') . $ds)),
+			array('helper' => array(), 'template' => array(realpath(JPATH_ROOT . $ds . 'libraries') . $ds)),
 			'_path',
 			$this->class
 		);
 
-		TestReflection::invoke($this->class, '_addPath', 'helper', realpath(JPATH_ROOT . '/tests'));
+		TestReflection::invoke($this->class, '_addPath', 'helper', realpath(JPATH_ROOT . $ds . 'tests'));
 
 		$this->assertAttributeEquals(
-			array('helper' => array(realpath(JPATH_ROOT . '/tests') . $ds), 'template' => array(realpath(JPATH_ROOT . '/libraries') . $ds)),
+			array('helper' => array(realpath(JPATH_ROOT . $ds . 'tests') . $ds), 'template' => array(realpath(JPATH_ROOT . $ds . 'libraries') . $ds)),
 			'_path',
 			$this->class
 		);
 
-		TestReflection::invoke($this->class, '_addPath', 'template', realpath(JPATH_ROOT . '/tests'));
+		TestReflection::invoke($this->class, '_addPath', 'template', realpath(JPATH_ROOT . $ds . 'tests'));
 
 		$this->assertAttributeEquals(
 			array(
-				'helper' => array(realpath(JPATH_ROOT . '/tests') . $ds),
-				'template' => array(realpath(JPATH_ROOT . '/tests') . $ds, realpath(JPATH_ROOT . '/libraries') . $ds)
+				'helper' => array(realpath(JPATH_ROOT . $ds . 'tests') . $ds),
+				'template' => array(realpath(JPATH_ROOT . $ds . 'tests') . $ds, realpath(JPATH_ROOT . $ds . 'libraries') . $ds)
 			),
 			'_path',
 			$this->class
 		);
 
-		TestReflection::invoke($this->class, '_addPath', 'helper', realpath(JPATH_ROOT . '/libraries'));
+		TestReflection::invoke($this->class, '_addPath', 'helper', realpath(JPATH_ROOT . $ds . 'libraries'));
 
 		$this->assertAttributeEquals(
 			array(
-				'helper' => array(realpath(JPATH_ROOT . '/libraries') . $ds, realpath(JPATH_ROOT . '/tests') . $ds),
-				'template' => array(realpath(JPATH_ROOT . '/tests') . $ds, realpath(JPATH_ROOT . '/libraries') . $ds)
+				'helper' => array(realpath(JPATH_ROOT . $ds . 'libraries') . $ds, realpath(JPATH_ROOT . $ds . 'tests') . $ds),
+				'template' => array(realpath(JPATH_ROOT . $ds . 'tests') . $ds, realpath(JPATH_ROOT . $ds . 'libraries') . $ds)
 			),
 			'_path',
 			$this->class
