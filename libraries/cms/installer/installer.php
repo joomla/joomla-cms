@@ -1098,7 +1098,7 @@ class JInstaller extends JAdapter
 					$version = $db->loadResult();
 
 					// No version - use initial version.
-					if ($version === null)
+					if (!$version)
 					{
 						$version = '0.0.0';
 					}
