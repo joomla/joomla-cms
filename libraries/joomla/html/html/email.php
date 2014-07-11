@@ -30,12 +30,12 @@ abstract class JHtmlEmail
 	 *
 	 * @return  string  The cloaked email.
 	 *
-	 * @since   1.5
+	 * @since   11.1
 	 */
 	public static function cloak($mail, $mailto = true, $text = '', $email = true)
 	{
 		// Convert mail
-		$mail = static::convertEncoding($mail);
+		$mail = self::_convertEncoding($mail);
 
 		// Split email by @ symbol
 		$mail = explode('@', $mail);
@@ -100,9 +100,9 @@ abstract class JHtmlEmail
 	 *
 	 * @return  string  The converted text.
 	 *
-	 * @since   1.5
+	 * @since   11.1
 	 */
-	protected static function convertEncoding($text)
+	protected static function _convertEncoding($text)
 	{
 		// Replace vowels with character encoding
 		$text = str_replace('a', '&#97;', $text);
