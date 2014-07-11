@@ -64,7 +64,7 @@ class SearchModelSearch extends JModelLegacy
 		$this->setState('limitstart', $app->input->get('limitstart', 0, 'uint'));
 
 		// Get parameters.
- 		$params = $app->getParams();
+		$params = $app->getParams();
 
 		if ($params->get('searchphrase') == 1)
 		{
