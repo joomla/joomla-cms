@@ -58,7 +58,7 @@ abstract class JHtmlEmail
 			if ($text)
 			{
 				// Convert text - here is the right place
-				$text = static::convertEncoding($text);
+				$text = static::_convertEncoding($text);
 
 				if ($email)
 				{
