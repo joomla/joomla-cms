@@ -12,11 +12,12 @@ defined('JPATH_BASE') or die;
 $blockPosition = $displayData['params']->get('info_block_position', 0);
 
 ?>
-	<dl class="article-info  muted">
+	
 
-		<?php if ($displayData['position'] == 'above' && ($blockPosition == 0 || $blockPosition == 2)
+	<?php if ($displayData['position'] == 'above' && ($blockPosition == 0 || $blockPosition == 2)
 				|| $displayData['position'] == 'below' && ($blockPosition == 1)
 				) : ?>
+			<dl class="article-info  muted">
 
 			<dt class="article-info-term">
 				<?php // TODO: implement info_block_show_title param to hide article info title ?>
@@ -56,5 +57,6 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
 			<?php if ($displayData['params']->get('show_hits')) : ?>
 				<?php echo JLayoutHelper::render('joomla.content.info_block.hits', $displayData); ?>
 			<?php endif; ?>
-		<?php endif; ?>
-	</dl>
+		
+		</dl>
+	<?php endif; ?>
