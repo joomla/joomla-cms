@@ -129,7 +129,7 @@ var SqueezeBox = {
 			return !SqueezeBox.fromElement(this, options);
 		});
 	},
-	
+
 	open: function(subject, options) {
 		this.initialize();
 
@@ -158,7 +158,7 @@ var SqueezeBox = {
 			return false;
 		}, this);
 	},
-	
+
 	fromElement: function(from, options) {
 		return this.open(from, options);
 	},
@@ -216,7 +216,7 @@ var SqueezeBox = {
 		if (content) {
 			if (['string', 'array'].contains(typeOf(content))) {
 				this.content.set('html', content);
-			} else if (!(content !== this.content && this.content.contains(content))) {
+			} else {
 				this.content.adopt(content);
 			}
 		}
