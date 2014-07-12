@@ -732,7 +732,7 @@ class JApplicationCms extends JApplicationWeb
 		$response = $authenticate->authenticate($credentials, $options);
 
 		// Import the user plugin group.
-		JPluginHelper::importPlugin('user');	
+		JPluginHelper::importPlugin('user');
 
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
