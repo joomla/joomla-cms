@@ -310,7 +310,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						$sef = isset(self::$lang_codes[$lang_code]) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
 						$uri->setPath($sef . '/' . $path);
 
-						if ($app->getCfg('sef_rewrite'))
+						if ($app->get('sef_rewrite'))
 						{
 							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
 						}
@@ -329,7 +329,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						$sef = isset(self::$lang_codes[$lang_code]) && empty($path) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
 						$uri->setPath($sef . '/' . $path);
 
-						if ($app->getCfg('sef_rewrite'))
+						if ($app->get('sef_rewrite'))
 						{
 							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
 						}
@@ -348,7 +348,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						array_shift($parts);
 						$uri->setPath(implode('/', $parts));
 
-						if ($app->getCfg('sef_rewrite'))
+						if ($app->get('sef_rewrite'))
 						{
 							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
 						}
@@ -564,7 +564,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			if ($active)
 			{
 				// Get menu item link.
-				if ($app->getCfg('sef'))
+				if ($app->get('sef'))
 				{
 					$active_link = JRoute::_('index.php?Itemid=' . $active->id, false);
 				}
@@ -641,7 +641,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 						if ($item)
 						{
-							if ($app->getCfg('sef'))
+							if ($app->get('sef'))
 							{
 								$link = JRoute::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
 							}
@@ -669,7 +669,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 					if ($item && $item->language != $active->language && $item->language != '*')
 					{
-						if ($app->getCfg('sef'))
+						if ($app->get('sef'))
 						{
 							$link = JRoute::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
 						}

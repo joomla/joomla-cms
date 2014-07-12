@@ -12,13 +12,13 @@ defined('_JEXEC') or die;
 // Getting params from template
 $params = JFactory::getApplication()->getTemplate(true)->params;
 
-$app   = JFactory::getApplication();
-$doc   = JFactory::getDocument();
-$lang  = JFactory::getLanguage();
-$this->language = $doc->language;
+$app             = JFactory::getApplication();
+$doc             = JFactory::getDocument();
+$lang            = JFactory::getLanguage();
+$this->language  = $doc->language;
 $this->direction = $doc->direction;
-$input = $app->input;
-$user  = JFactory::getUser();
+$input           = $app->input;
+$user            = JFactory::getUser();
 
 // Detecting Active Variables
 $option   = $input->get('option', '');
@@ -26,7 +26,7 @@ $view     = $input->get('view', '');
 $layout   = $input->get('layout', '');
 $task     = $input->get('task', '');
 $itemid   = $input->get('Itemid', '');
-$sitename = $app->getCfg('sitename');
+$sitename = $app->get('sitename');
 
 $cpanel = ($option === 'com_cpanel');
 
@@ -49,12 +49,12 @@ if ($params->get('logoFile'))
 }
 else
 {
-	$logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
+	$logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
 }
 
 // Template Parameters
 $displayHeader = $params->get('displayHeader', '1');
-$statusFixed = $params->get('statusFixed', '1');
+$statusFixed   = $params->get('statusFixed', '1');
 $stickyToolbar = $params->get('stickyToolbar', '1');
 ?>
 <!DOCTYPE html>
@@ -62,37 +62,27 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
 	<?php // If debug  mode
 		$debug = JFactory::getConfig()->get('debug_lang');
 		if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
 		<!-- Load additional CSS styles for debug mode-->
-		<link rel="stylesheet" href="<?php echo JUri::root() ?>/media/cms/css/debug.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo JUri::root(); ?>/media/cms/css/debug.css" type="text/css" />
 	<?php endif; ?>
-	<?php
-	// If Right-to-Left
-	if ($this->direction == 'rtl')
-	{
-	?>
-		<link rel="stylesheet" href="<?php echo JUri::root() ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
-	<?php
-	}
-	// Load specific language related CSS
-	$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-	if (is_file($file))
-	{
-	?>
-		<link rel="stylesheet" href="<?php echo $file;?>" type="text/css" />
-	<?php
-	}
-	?>
+	<?php // If Right-to-Left ?>
+	<?php if ($this->direction == 'rtl') : ?>
+		<link rel="stylesheet" href="<?php echo JUri::root(); ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
+	<?php endif; ?>
+	<?php // Load specific language related CSS ?>
+	<?php $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css'; ?>
+	<?php if (is_file($file)) : ?>
+		<link rel="stylesheet" href="<?php echo $file; ?>" type="text/css" />
+	<?php endif; ?>
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template<?php echo ($this->direction == 'rtl' ? '-rtl' : ''); ?>.css" type="text/css" />
 	<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
-	<?php
-	// Template color
-	if ($params->get('templateColor'))
-	{
-	?>
+	<?php // Template color ?>
+	<?php if ($params->get('templateColor')) : ?>
 	<style type="text/css">
 		.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle
 		{
@@ -104,27 +94,18 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 			box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
 		}
 	</style>
-	<?php
-	}
-	?>
-	<?php
-	// Template header color
-	if ($params->get('headerColor'))
-	{
-	?>
+	<?php endif; ?>
+	<?php // Template header color ?>
+	<?php if ($params->get('headerColor')) : ?>
 	<style type="text/css">
 		.header
 		{
 			background: <?php echo $params->get('headerColor');?>;
 		}
 	</style>
-	<?php
-	}
-	?>
-
-	<?php
-	// Sidebar background color
-	if ($params->get('sidebarColor')) : ?>
+	<?php endif; ?>
+	<?php // Sidebar background color ?>
+	<?php if ($params->get('sidebarColor')) : ?>
 		<style type="text/css">
 			.nav-list > .active > a, .nav-list > .active > a:hover {
 				background: <?php echo $params->get('sidebarColor'); ?>;
@@ -162,17 +143,14 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 				<?php else : ?>
 				<div>
 				<?php endif; ?>
-					<?php
-					// Display menu modules
-					$this->menumodules = JModuleHelper::getModules('menu');
-					foreach ($this->menumodules as $menumodule)
-					{
-						$output = JModuleHelper::renderModule($menumodule, array('style' => 'none'));
-						$params = new JRegistry;
-						$params->loadString($menumodule->params);
-						echo $output;
-					}
-					?>
+					<?php // Display menu modules ?>
+					<?php $this->menumodules = JModuleHelper::getModules('menu'); ?>
+					<?php foreach ($this->menumodules as $menumodule) : ?>
+						<?php $output = JModuleHelper::renderModule($menumodule, array('style' => 'none')); ?>
+						<?php $params = new JRegistry; ?>
+						<?php $params->loadString($menumodule->params); ?>
+						<?php echo $output; ?>
+					<?php endforeach; ?>
 					<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-cog"></span>
@@ -186,7 +164,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 								</li>
 								<li class="divider"></li>
 								<li class="">
-									<a href="index.php?option=com_admin&task=profile.edit&id=<?php echo $user->id; ?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT'); ?></a>
+									<a href="index.php?option=com_admin&amp;task=profile.edit&amp;id=<?php echo $user->id; ?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT'); ?></a>
 								</li>
 								<li class="divider"></li>
 								<li class="">
@@ -222,17 +200,14 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 						&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
 					</p>
 				</div>
-				<?php
-				// Display status modules
-				$this->statusmodules = JModuleHelper::getModules('status');
-				foreach ($this->statusmodules as $statusmodule)
-				{
-					$output = JModuleHelper::renderModule($statusmodule, array('style' => 'no'));
-					$params = new JRegistry;
-					$params->loadString($statusmodule->params);
-					echo $output;
-				}
-				?>
+				<?php // Display status modules ?>
+				<?php $this->statusmodules = JModuleHelper::getModules('status'); ?>
+				<?php foreach ($this->statusmodules as $statusmodule) : ?>
+					<?php $output = JModuleHelper::renderModule($statusmodule, array('style' => 'no')); ?>
+					<?php $params = new JRegistry; ?>
+					<?php $params->loadString($statusmodule->params); ?>
+					<?php echo $output; ?>
+				<?php endforeach; ?>
 			</div>
 			<div class="clearfix"></div>
 		</div>
@@ -261,9 +236,9 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<script>
 		(function($){
 			// fix sub nav on scroll
-			var $win = $(window)
-			  , $nav = $('.subhead')
-			  , navTop = $('.subhead').length && $('.subhead').offset().top - 40
+			var $win    = $(window)
+			  , $nav    = $('.subhead')
+			  , navTop  = $('.subhead').length && $('.subhead').offset().top - 40
 			  , isFixed = 0
 
 			processScroll()
