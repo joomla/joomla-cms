@@ -175,7 +175,7 @@ $sortFields = $this->getSortFields();
 						<?php endif; ?>
 						</span>
 					</td>
-					<td>
+					<td class="hidden-phone">
 						<?php echo $this->escape($item->title_native); ?>
 					</td>
 					<td class="center hidden-phone">
