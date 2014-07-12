@@ -44,16 +44,16 @@ $clientId	= $this->state->get('filter.client_id', 0);
 					<th>
 						<?php echo JText::_('COM_LANGUAGES_HEADING_DEFAULT'); ?>
 					</th>
-					<th>
+					<th class="hidden-phone">
 						<?php echo JText::_('JVERSION'); ?>
 					</th>
-					<th>
+					<th class="hidden-phone">
 						<?php echo JText::_('JDATE'); ?>
 					</th>
-					<th>
+					<th class="hidden-phone">
 						<?php echo JText::_('JAUTHOR'); ?>
 					</th>
-					<th>
+					<th class="hidden-phone">
 						<?php echo JText::_('COM_LANGUAGES_HEADING_AUTHOR_EMAIL'); ?>
 					</th>
 				</tr>
@@ -87,16 +87,16 @@ $clientId	= $this->state->get('filter.client_id', 0);
 					<td align="center">
 						<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.', !$row->published && $canChange);?>
 					</td>
-					<td align="center">
+					<td align="center" class="hidden-phone">
 						<?php echo $this->escape($row->version); ?>
 					</td>
-					<td align="center">
+					<td align="center" class="hidden-phone">
 						<?php echo $this->escape($row->creationDate); ?>
 					</td>
-					<td align="center">
+					<td align="center" class="hidden-phone">
 						<?php echo $this->escape($row->author); ?>
 					</td>
-					<td align="center">
+					<td align="center" class="hidden-phone">
 						<?php echo JStringPunycode::emailToUTF8($this->escape($row->authorEmail)); ?>
 					</td>
 				</tr>
