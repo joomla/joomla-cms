@@ -85,6 +85,33 @@ class JViewCategories extends JViewLegacy
 
 		$items = array($parent->id => $items);
 
+		foreach ($items as $itemElement)
+		{
+			$itemElement = (object) $itemElement;
+			$itemElement->event = new stdClass;
+
+			// For some plugins.
+			!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
+
+			// Get Dispatcher Instance and content plugins
+			$dispatcher = JEventDispatcher::getInstance();
+			JPluginHelper::importPlugin('content');
+
+			$results = $dispatcher->trigger('onContentAfterTitle', array($this->extension . '.categories', &$itemElement, &$itemElement->core_params, 0));
+			$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
+
+			$results = $dispatcher->trigger('onContentBeforeDisplay', array($this->extension . '.categories', &$itemElement, &$itemElement->core_params, 0));
+			$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
+
+			$results = $dispatcher->trigger('onContentAfterDisplay', array($this->extension . '.categories', &$itemElement, &$itemElement->core_params, 0));
+			$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
+
+			if ($itemElement->text)
+			{
+				$itemElement->description = $itemElement->text;
+			}
+		}
+
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
