@@ -252,7 +252,7 @@ class JModelLegacyTest extends TestCase
 	{
 		$paths = JModelLegacy::addIncludePath(__DIR__ . '/stubs');
 
-		$this->assertContains(__DIR__ . '/stubs', $paths);
+		$this->assertContains(__DIR__ . DIRECTORY_SEPARATOR . 'stubs', $paths);
 
 		$this->fixture = JModelLegacy::getInstance('Foobar', 'StubModel');
 		$this->assertTrue($this->fixture instanceof StubModelFoobar);

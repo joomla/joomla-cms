@@ -27,22 +27,24 @@ class TagsViewTags extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
+		$app            = JFactory::getApplication();
+		$document       = JFactory::getDocument();
 		$document->link = JRoute::_('index.php?option=com_tags&view=tags');
 
-		$app->input->set('limit', $app->getCfg('feed_limit'));
-		$siteEmail = $app->getCfg('mailfrom');
-		$fromName  = $app->getCfg('fromname');
-		$feedEmail = $app->getCfg('feed_email', 'author');
+		$app->input->set('limit', $app->get('feed_limit'));
+		$siteEmail        = $app->get('mailfrom');
+		$fromName         = $app->get('fromname');
+		$feedEmail        = $app->get('feed_email', 'author');
 		$document->editor = $fromName;
+
 		if ($feedEmail != "none")
 		{
 			$document->editorEmail = $siteEmail;
 		}
 
 		// Get some data from the model
-		$items    = $this->get('Items');
+		$items = $this->get('Items');
+
 		foreach ($items as $item)
 		{
 			// Strip HTML from feed item title
@@ -51,8 +53,8 @@ class TagsViewTags extends JViewLegacy
 
 			// Strip HTML from feed item description text
 			$description = $item->description;
-			$author			= $item->created_by_alias ? $item->created_by_alias : $item->author;
-			$date = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
+			$author      = $item->created_by_alias ? $item->created_by_alias : $item->author;
+			$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 			// Load individual item creator class
 			$feeditem = new JFeedItem;

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! CMS Application class
@@ -226,17 +226,7 @@ class JApplicationCms extends JApplicationWeb
 	public function enqueueMessage($msg, $type = 'message')
 	{
 		// For empty queue, if messages exists in the session, enqueue them first.
-		if (!count($this->_messageQueue))
-		{
-			$session = JFactory::getSession();
-			$sessionQueue = $session->get('application.queue');
-
-			if (count($sessionQueue))
-			{
-				$this->_messageQueue = $sessionQueue;
-				$session->set('application.queue', null);
-			}
-		}
+		$this->getMessageQueue();
 
 		// Enqueue the message.
 		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
@@ -310,15 +300,22 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * This method must be invoked as: $web = JApplicationCms::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the JApplicationCms class to instantiate.
+	 * @param   string  $name    The name (optional) of the JApplicationCms class to instantiate.
+	 * @param   array   $config  Configuration array
 	 *
 	 * @return  JApplicationCms
 	 *
 	 * @since   3.2
 	 * @throws  RuntimeException
 	 */
-	public static function getInstance($name = null)
+	public static function getInstance($name = null, $config = null)
 	{
+		// If we have an array or a standard class for the config convert it to a JRegistry object
+		if ((is_array($config) || is_object($config)) && !($config instanceof JRegistry))
+		{
+			$config = new JRegistry($config);
+		}
+
 		if (empty(static::$instances[$name]))
 		{
 			// Create a JApplicationCms object.
@@ -329,7 +326,7 @@ class JApplicationCms extends JApplicationWeb
 				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
-			static::$instances[$name] = new $classname;
+			static::$instances[$name] = new $classname(null, $config);
 		}
 
 		return static::$instances[$name];
@@ -548,8 +545,9 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	protected function initialiseApp($options = array())
 	{
-		// Set the configuration in the API.
-		$this->config = JFactory::getConfig();
+		// Get the configuration set in the API. Recursively merge it in. Note this will take
+		// Priority over any intialized values.
+		$this->config->merge(JFactory::getConfig(), true);
 
 		// Check that we were given a language in the array (since by default may be blank).
 		if (isset($options['language']))

@@ -63,9 +63,11 @@ class UsersModelReset extends JModelForm
 	/**
 	 * Method to get the password reset confirm form.
 	 *
-	 * @param   array      $data        Data for the form.
-	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
-	 * @return  JForm    A JForm object on success, false on failure
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  JForm  A JForm object on success, false on failure
+	 *
 	 * @since   1.6
 	 */
 	public function getResetConfirmForm($data = array(), $loadData = true)
@@ -76,6 +78,10 @@ class UsersModelReset extends JModelForm
 		if (empty($form))
 		{
 			return false;
+		}
+		else
+		{
+			$form->setValue('token', '', JFactory::getApplication()->input->get('token'));
 		}
 
 		return $form;
@@ -420,7 +426,7 @@ class UsersModelReset extends JModelForm
 		$mode = $config->get('force_ssl', 0) == 2 ? 1 : -1;
 		$itemid = UsersHelperRoute::getLoginRoute();
 		$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-		$link = 'index.php?option=com_users&view=reset&layout=confirm' . $itemid;
+		$link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token . $itemid;
 
 		// Put together the email template data.
 		$data = $user->getProperties();

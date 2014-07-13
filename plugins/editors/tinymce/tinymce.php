@@ -188,7 +188,12 @@ class PlgEditorTinymce extends JPlugin
 
 		// Advanced Options
 		$html_height		= $this->params->get('html_height', '550');
-		$html_width			= $this->params->get('html_width', '750');
+		$html_width			= $this->params->get('html_width', '');
+
+		if ($html_width == 750)
+		{
+			$html_width = '';
+		}
 
 		// Image advanced options
 		$image_advtab = $this->params->get('image_advtab', 1);
@@ -219,7 +224,7 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar3_add = array();
 		$toolbar4_add = array();
 		$elements = array();
-		$plugins = array('autolink', 'lists', 'image', 'charmap', 'print', 'preview', 'anchor', 'pagebreak', 'code', 'save', 'textcolor', 'importcss');
+		$plugins = array('autolink', 'lists', 'image', 'charmap', 'print', 'preview', 'anchor', 'pagebreak', 'code', 'save', 'textcolor', 'colorpicker', 'importcss');
 		$toolbar1_add[] = 'bold';
 		$toolbar1_add[] = 'italic';
 		$toolbar1_add[] = 'underline';
@@ -450,7 +455,8 @@ class PlgEditorTinymce extends JPlugin
 					preg_match_all('/\".*\"/', $match, $values);
 					$result = trim($values["0"]["0"], '"');
 					$final_result = explode(',', $result);
-					$templates .= "{title: '" . trim($final_result['0'], ' " ') . "', description: '" . trim($final_result['2'], ' " ') . "', url: '" . JUri::root() . trim($final_result['1'], ' " ') . "'},";
+					$templates .= "{title: '" . trim($final_result['0'], ' " ') . "', description: '"
+						. trim($final_result['2'], ' " ') . "', url: '" . JUri::root() . trim($final_result['1'], ' " ') . "'},";
 				}
 
 				$templates .= "],";

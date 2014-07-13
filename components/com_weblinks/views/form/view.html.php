@@ -28,13 +28,13 @@ class WeblinksViewForm extends JViewLegacy
 
 	public function display($tpl = null)
 	{
-		$user		= JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Get model data.
-		$this->state		= $this->get('State');
-		$this->item			= $this->get('Item');
-		$this->form			= $this->get('Form');
-		$this->return_page	= $this->get('ReturnPage');
+		$this->state       = $this->get('State');
+		$this->item        = $this->get('Item');
+		$this->form        = $this->get('Form');
+		$this->return_page = $this->get('ReturnPage');
 
 		if (empty($this->item->id))
 		{
@@ -43,7 +43,6 @@ class WeblinksViewForm extends JViewLegacy
 		else
 		{
 			$authorised = $user->authorise('core.edit', 'com_weblinks.category.'.$this->item->catid);
-
 		}
 
 		if ($authorised !== true)
@@ -61,17 +60,18 @@ class WeblinksViewForm extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseWarning(500, implode("\n", $errors));
+
 			return false;
 		}
 
 		// Create a shortcut to the parameters.
-		$params	= &$this->state->params;
+		$params = &$this->state->params;
 
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->params	= $params;
-		$this->user		= $user;
+		$this->params = $params;
+		$this->user   = $user;
 
 		$this->_prepareDocument();
 		parent::display($tpl);
@@ -91,12 +91,12 @@ class WeblinksViewForm extends JViewLegacy
 		$menu = $menus->getActive();
 
 		if (empty($this->item->id))
-	{
-		$head = JText::_('COM_WEBLINKS_FORM_SUBMIT_WEBLINK');
+		{
+			$head = JText::_('COM_WEBLINKS_FORM_SUBMIT_WEBLINK');
 		}
 		else
 		{
-		$head = JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK');
+			$head = JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK');
 		}
 
 		if ($menu)
@@ -109,14 +109,16 @@ class WeblinksViewForm extends JViewLegacy
 		}
 
 		$title = $this->params->def('page_title', $head);
-		if ($app->getCfg('sitename_pagetitles', 0) == 1)
+
+		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->params->get('menu-meta_description'))

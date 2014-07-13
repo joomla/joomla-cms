@@ -9,13 +9,14 @@
 
 defined('_JEXEC') or die;
 
-// Getting params from template
-$params = JFactory::getApplication()->getTemplate(true)->params;
-
-$app = JFactory::getApplication();
-$doc = JFactory::getDocument();
-$this->language = $doc->language;
+$app             = JFactory::getApplication();
+$doc             = JFactory::getDocument();
+$user            = JFactory::getUser();
+$this->language  = $doc->language;
 $this->direction = $doc->direction;
+
+// Getting params from template
+$params = $app->getTemplate(true)->params;
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -23,7 +24,7 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$sitename = $app->getCfg('sitename');
+$sitename = $app->get('sitename');
 
 if($task == "edit" || $layout == "form" )
 {
@@ -37,22 +38,18 @@ else
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-// Add current user information
-$user = JFactory::getUser();
-
-
 // Logo file or site title param
 if ($params->get('logoFile'))
 {
-	$logo = '<img src="'. JUri::root() . $params->get('logoFile') .'" alt="'. $sitename .'" />';
+	$logo = '<img src="' . JUri::root() . $params->get('logoFile') . '" alt="' . $sitename . '" />';
 }
 elseif ($params->get('sitetitle'))
 {
-	$logo = '<span class="site-title" title="'. $sitename .'">'. htmlspecialchars($params->get('sitetitle')) .'</span>';
+	$logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($params->get('sitetitle')) . '</span>';
 }
 else
 {
-	$logo = '<span class="site-title" title="'. $sitename .'">'. $sitename .'</span>';
+	$logo = '<span class="site-title" title="' . $sitename . '">' . $sitename . '</span>';
 }
 ?>
 <!DOCTYPE html>
@@ -61,72 +58,51 @@ else
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<?php
-		// Use of Google Font
-		if ($params->get('googleFont'))
-		{
-	?>
-		<link href='//fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName');?>' rel='stylesheet' type='text/css' />
+	<?php // Use of Google Font ?>
+	<?php if ($params->get('googleFont')) : ?>
+		<link href='//fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName'); ?>' rel='stylesheet' type='text/css' />
 		<style type="text/css">
 			h1,h2,h3,h4,h5,h6,.site-title{
-				font-family: '<?php echo str_replace('+', ' ', $params->get('googleFontName'));?>', sans-serif;
+				font-family: '<?php echo str_replace('+', ' ', $params->get('googleFontName')); ?>', sans-serif;
 			}
 		</style>
-	<?php
-		}
-	?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
-
-	<?php
-		$debug = JFactory::getConfig()->get('debug_lang');
-		if ((defined('JDEBUG') && JDEBUG) || $debug)
-		{
-	?>
-		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" type="text/css" />
-	<?php
-		}
-	?>
-	<?php
-	// If Right-to-Left
-	if ($this->direction == 'rtl')
-	{
-	?>
-		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
-	<?php
-	}
-	?>
-	<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
-	<?php
-	// Template color
-	if ($params->get('templateColor'))
-	{
-	?>
-	<style type="text/css">
-		body.site
-		{
-			border-top: 3px solid <?php echo $params->get('templateColor');?>;
-			background-color: <?php echo $params->get('templateBackgroundColor');?>
-		}
-		a
-		{
-			color: <?php echo $params->get('templateColor');?>;
-		}
-		.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover
-		{
-			background: <?php echo $params->get('templateColor');?>;
-		}
-		.navbar-inner
-		{
-			-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-			box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-		}
-	</style>
-	<?php
-	}
-	?>
+	<?php endif; ?>
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+		<?php $debug = JFactory::getConfig()->get('debug_lang'); ?>
+		<?php if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
+			<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/cms/css/debug.css" type="text/css" />
+		<?php endif; ?>
+	<?php // If Right-to-Left ?>
+	<?php if ($this->direction == 'rtl') : ?>
+		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
+	<?php endif; ?>
+	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+	<?php // Template color ?>
+	<?php if ($params->get('templateColor')) : ?>
+		<style type="text/css">
+			body.site
+			{
+				border-top: 3px solid <?php echo $params->get('templateColor'); ?>;
+				background-color: <?php echo $params->get('templateBackgroundColor'); ?>
+			}
+			a
+			{
+				color: <?php echo $params->get('templateColor'); ?>;
+			}
+			.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover
+			{
+				background: <?php echo $params->get('templateColor'); ?>;
+			}
+			.navbar-inner
+			{
+				-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+				-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+				box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+			}
+		</style>
+	<?php endif; ?>
 	<!--[if lt IE 9]>
-		<script src="<?php echo $this->baseurl ?>/media/jui/js/html5.js"></script>
+		<script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
 </head>
 
@@ -140,26 +116,22 @@ else
 
 	<!-- Body -->
 	<div class="body">
-		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<!-- Header -->
 			<div class="header">
 				<div class="header-inner clearfix">
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
-						<?php echo $logo;?>
+						<?php echo $logo; ?>
 					</a>
 					<div class="header-search pull-right">
-						<?php
-						// Display position-0 modules
-						echo $doc->getBuffer('modules', 'position-0', array('style' => 'none'));
-						?>
+						<?php // Display position-0 modules ?>
+						<?php echo $doc->getBuffer('modules', 'position-0', array('style' => 'none')); ?>
 					</div>
 				</div>
 			</div>
 			<div class="navigation">
-				<?php
-				// Display position-1 modules
-				echo $doc->getBuffer('modules', 'position-1', array('style' => 'none'));
-				?>
+				<?php // Display position-1 modules ?>
+				<?php echo $doc->getBuffer('modules', 'position-1', array('style' => 'none')); ?>
 			</div>
 			<!-- Banner -->
 			<div class="banner">
@@ -204,7 +176,7 @@ else
 	</div>
 	<!-- Footer -->
 	<div class="footer">
-		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<hr />
 			<?php echo $doc->getBuffer('modules', 'footer', array('style' => 'none')); ?>
 			<p class="pull-right">

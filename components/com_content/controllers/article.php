@@ -172,6 +172,11 @@ class ContentControllerArticle extends JControllerForm
 	{
 		$result = parent::edit($key, $urlVar);
 
+		if (!$result)
+		{
+			$this->setRedirect($this->getReturnPage());
+		}
+
 		return $result;
 	}
 

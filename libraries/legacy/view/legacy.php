@@ -754,8 +754,8 @@ class JViewLegacy extends JObject
 		// Loop through the path directories
 		foreach ($path as $dir)
 		{
-			// No surrounding spaces allowed!
-			$dir = trim($dir);
+			// Clean up the path
+			$dir = JPath::clean($dir);
 
 			// Add trailing separators as needed
 			if (substr($dir, -1) != DIRECTORY_SEPARATOR)

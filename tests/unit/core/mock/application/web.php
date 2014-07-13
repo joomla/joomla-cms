@@ -39,76 +39,54 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	public static $cachable = false;
 
 	/**
-	 * Creates and instance of the mock JApplicationWeb object.
+	 * Gets the methods of the JApplicationWeb object.
 	 *
-	 * The test can implement the following overrides:
-	 * - mockAppendBody
-	 * - mockGetBody
-	 * - mockPrepentBody
-	 * - mockSetBody
-	 * - mockGetHeaders
-	 * - mockSetHeaders
-	 * - mockAllowCache
+	 * @return  array
 	 *
-	 * If any *Body methods are implemented in the test class, all should be implemented otherwise behaviour will be unreliable.
-	 *
-	 * @param   TestCase  $test     A test object.
-	 * @param   array     $options  A set of options to configure the mock.
-	 *
-	 * @return  PHPUnit_Framework_MockObject_MockObject
-	 *
-	 * @since   11.3
+	 * @since   3.4
 	 */
-	public static function create($test, $options = array())
+	public static function getMethods()
 	{
-		// Set expected server variables.
-		if (!isset($_SERVER['HTTP_HOST']))
-		{
-			$_SERVER['HTTP_HOST'] = 'localhost';
-		}
-
 		// Collect all the relevant methods in JApplicationWeb (work in progress).
 		$methods = array(
 			'allowCache',
 			'appendBody',
 			'clearHeaders',
-			'close',
 			'execute',
 			'get',
 			'getBody',
 			'getDocument',
 			'getHeaders',
-			'getIdentity',
 			'getLanguage',
 			'getSession',
 			'loadConfiguration',
-			'loadDispatcher',
 			'loadDocument',
-			'loadIdentity',
 			'loadLanguage',
 			'loadSession',
 			'prependBody',
 			'redirect',
-			'registerEvent',
 			'sendHeaders',
 			'set',
 			'setBody',
 			'setHeader',
-			'triggerEvent',
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JApplicationWeb',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			true
-		);
+		return array_merge($methods, parent::getMethods());
+	}
 
+	/**
+	 * Adds mock objects for some methods.
+	 *
+	 * @param  TestCase                                 $test        A test object.
+	 * @param  PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
+	 * @param  array                                    $options     A set of options to configure the mock.
+	 *
+	 * @return  PHPUnit_Framework_MockObject_MockObject  The object with the behaviours added
+	 *
+	 * @since   3.4
+	 */
+	public static function addBehaviours($test, $mockObject, $options)
+	{
 		// Mock calls to JApplicationWeb::getDocument().
 		$mockObject->expects($test->any())->method('getDocument')->will($test->returnValue(TestMockDocument::create($test)));
 
@@ -147,6 +125,55 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 
 		// Reset the cache storage.
 		static::$cachable = false;
+
+		return parent::addBehaviours($test, $mockObject, $options);
+	}
+
+	/**
+	 * Creates and instance of the mock JApplicationWeb object.
+	 *
+	 * The test can implement the following overrides:
+	 * - mockAppendBody
+	 * - mockGetBody
+	 * - mockPrepentBody
+	 * - mockSetBody
+	 * - mockGetHeaders
+	 * - mockSetHeaders
+	 * - mockAllowCache
+	 *
+	 * If any *Body methods are implemented in the test class, all should be implemented otherwise behaviour will be unreliable.
+	 *
+	 * @param   TestCase  $test     A test object.
+	 * @param   array     $options  A set of options to configure the mock.
+	 *
+	 * @return  PHPUnit_Framework_MockObject_MockObject
+	 *
+	 * @since   11.3
+	 */
+	public static function create($test, $options = array())
+	{
+		// Set expected server variables.
+		if (!isset($_SERVER['HTTP_HOST']))
+		{
+			$_SERVER['HTTP_HOST'] = 'localhost';
+		}
+
+		// Collect all the relevant methods in JApplicationWeb (work in progress).
+		$methods = self::getMethods();
+
+		// Create the mock.
+		$mockObject = $test->getMock(
+			'JApplicationWeb',
+			$methods,
+			// Constructor arguments.
+			array(),
+			// Mock class name.
+			'',
+			// Call original constructor.
+			true
+		);
+
+		$mockObject = self::addBehaviours($test, $mockObject, $options);
 
 		return $mockObject;
 	}
