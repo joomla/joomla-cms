@@ -424,32 +424,18 @@ class UsersModelRegistration extends JModelForm
 		else
 		{
 
-		$emailSubject = JText::sprintf(
-		'COM_USERS_EMAIL_ACCOUNT_DETAILS',
-		$data['name'],
-		$data['sitename']
-		);
- 
-		if ($sendpassword)
- 
-		$emailBody = JText::sprintf(
-		'COM_USERS_EMAIL_REGISTERED_BODY',
-		$data['name'],
-		$data['sitename'],
-		$data['siteurl'],
-		$data['username'],
-		$data['password_clear']
-		);
- 
-		else
- 
-		$emailBody = JText::sprintf(
-		'COM_USERS_EMAIL_REGISTERED_BODY_NOPW',
-		$data['name'],
-		$data['sitename'],
-		$data['siteurl']
-		);
+			$emailSubject	= JText::sprintf(
+				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
+				$data['name'],
+				$data['sitename']
+			);
 
+			$emailBody = JText::sprintf(
+				'COM_USERS_EMAIL_REGISTERED_BODY',
+				$data['name'],
+				$data['sitename'],
+				$data['siteurl']
+			);
 		}
 
 		// Send the registration email.
