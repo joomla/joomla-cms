@@ -64,7 +64,9 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 	</div>
 	<?php endif; ?>
 	<?php if (!$this->print) : ?>
-		<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
+		<?php if ($this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
+			<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
+		<?php endif; ?>
 	<?php else : ?>
 		<?php if ($useDefList) : ?>
 			<div id="pop-print" class="btn hidden-print">
