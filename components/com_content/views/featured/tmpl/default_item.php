@@ -44,7 +44,9 @@ $info    = $this->item->params->get('info_block_position', 0);
 	<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
 <?php endif; ?>
 
-<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
+<?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
+	<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
+<?php endif; ?>
 
 <?php // Todo Not that elegant would be nice to group the params ?>
 <?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
