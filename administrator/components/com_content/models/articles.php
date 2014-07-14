@@ -132,7 +132,7 @@ class ContentModelArticles extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db		= $this->getDbo();
+		$db	= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$user	= JFactory::getUser();
 
@@ -173,18 +173,20 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Implement View Level Access
-		if (!$user->authorise('core.admin'))
+		if (!$user->authorise('core.admin', 'com_content'))
 		{
-		    $groups	= implode(',', $user->getAuthorisedViewLevels());
+			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
 		}
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			$query->where('a.state = ' . (int) $published);
 		}
-		elseif ($published === '') {
+		elseif ($published === '')
+		{
 			$query->where('(a.state = 0 OR a.state = 1)');
 		}
 
