@@ -133,7 +133,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	3.0
+	 * @since   3.0
 	 */
 	public function purge()
 	{
@@ -155,7 +155,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  JoomlaupdateControllerUpdate  This object to support chaining.
 	 *
-	 * @since	2.5.4
+	 * @since   2.5.4
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -204,7 +204,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 				// Add credentials to the session
 				if (!JClientHelper::setCredentials('ftp', $user, $pass))
 				{
-					JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
+					JFactory::getApplication()->enqueueMessage(JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'), 'warning');
 				}
 			}
 		}

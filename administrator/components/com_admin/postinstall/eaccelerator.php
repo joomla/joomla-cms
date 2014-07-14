@@ -42,6 +42,9 @@ function admin_postinstall_eaccelerator_condition()
  */
 function admin_postinstall_eaccelerator_action()
 {
+	// Get a handle to the Joomla! application object
+	$app  = JFactory::getApplication();
+	
 	$prev = new JConfig;
 	$prev = JArrayHelper::fromObject($prev);
 
@@ -64,7 +67,7 @@ function admin_postinstall_eaccelerator_action()
 	// Attempt to make the file writeable if using FTP.
 	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
 	{
-		JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'));
+		$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'warning');
 	}
 
 	// Attempt to write the configuration file as a PHP class named JConfig.
@@ -72,7 +75,7 @@ function admin_postinstall_eaccelerator_action()
 
 	if (!JFile::write($file, $configuration))
 	{
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
+		$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
 
 		return;
 	}
@@ -80,6 +83,5 @@ function admin_postinstall_eaccelerator_action()
 	// Attempt to make the file unwriteable if using FTP.
 	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
 	{
-		JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));
+		$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'warning');
 	}
-}

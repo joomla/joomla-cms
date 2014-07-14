@@ -263,7 +263,6 @@ class JToolbar
 
 		if (!class_exists($buttonClass) && !class_exists($buttonClassOld))
 		{
-			// @todo remove code: return	JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
 			return false;
 		}
 
