@@ -119,6 +119,9 @@ class JFormFieldList extends JFormField
 				}
 			}
 
+			$value = (string) $option['value'];
+			$text = trim((string) $option) ? trim((string) $option) : $value;
+
 			$disabled = (string) $option['disabled'];
 			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
 			$disabled = $disabled || ($this->readonly && $value != $this->value);
@@ -128,9 +131,6 @@ class JFormFieldList extends JFormField
 
 			$selected = (string) $option['selected'];
 			$selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
-
-			$value = (string) $option['value'];
-			$text = trim((string) $option) ? trim((string) $option) : $value;
 
 			$tmp = array(
 					'value'    => $value,
@@ -142,15 +142,8 @@ class JFormFieldList extends JFormField
 				);
 
 			// Set some event handler attributes. But really, should be using unobtrusive js.
-			if (isset($option['onclick']))
-			{
-				$tmp['onclick']  = (string) $option['onclick'];
-			}
-
-			if (isset($option['onchange']))
-			{
-				$tmp['onchange']  = (string) $option['onchange'];
-			}
+			$tmp['onclick']  = (string) $option['onclick'];
+			$tmp['onchange']  = (string) $option['onchange'];
 
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
