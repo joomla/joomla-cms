@@ -790,7 +790,7 @@ class JImage
 			imagealphablending($handle, false);
 			imagesavealpha($handle, true);
 
-			$background = imagecolorallocatealpha($handle , 0, 0, 0, 127);
+			$background = imagecolorallocatealpha($handle, 0, 0, 0, 127);
 		}
 
 		// Copy the image
