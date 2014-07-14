@@ -98,16 +98,11 @@ class JFormFieldList extends JFormField
 	 */
 	protected function getOptions()
 	{
+		$fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 		$options = array();
 
-		foreach ($this->element->children() as $option)
+		foreach ($this->element->xpath('option') as $option)
 		{
-			// Only add <option /> elements.
-			if ($option->getName() != 'option')
-			{
-				continue;
-			}
-
 			// Filter requirements
 			if ($requires = explode(',', (string) $option['requires']))
 			{
@@ -124,8 +119,6 @@ class JFormFieldList extends JFormField
 				}
 			}
 
-			$value = (string) $option['value'];
-
 			$disabled = (string) $option['disabled'];
 			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
 			$disabled = $disabled || ($this->readonly && $value != $this->value);
@@ -136,25 +129,31 @@ class JFormFieldList extends JFormField
 			$selected = (string) $option['selected'];
 			$selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
 
-			// Create a new option object based on the <option /> element.
-			$tmp = JHtml::_(
-				'select.option', $value,
-				JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
-				$disabled
-			);
+			$value = (string) $option['value'];
+			$text = trim((string) $option) ? trim((string) $option) : $value;
 
-			// Set some option attributes.
-			$tmp->class = (string) $option['class'];
+			$tmp = array(
+					'value'    => $value,
+					'text'     => JText::alt($text, $fieldname),
+					'disable'  => $disabled,
+					'class'    => (string) $option['class'],
+					'selected' => ($checked || $selected),
+					'checked'  => ($checked || $selected)
+				);
 
-			// The option is checked and selected whether it is marked as 'checked' or 'selected'
-			$tmp->checked = $tmp->selected = ($checked || $selected);
+			// Set some event handler attributes. But really, should be using unobtrusive js.
+			if (isset($option['onclick']))
+			{
+				$tmp['onclick']  = (string) $option['onclick'];
+			}
 
-			// Set some JavaScript option attributes.
-			$tmp->onclick = (string) $option['onclick'];
-			$tmp->onchange = (string) $option['onchange'];
+			if (isset($option['onchange']))
+			{
+				$tmp['onchange']  = (string) $option['onchange'];
+			}
 
 			// Add the option object to the result set.
-			$options[] = $tmp;
+			$options[] = (object) $tmp;
 		}
 
 		reset($options);
