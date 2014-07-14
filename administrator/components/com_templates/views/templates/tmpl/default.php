@@ -50,13 +50,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<th width="10%" class="center">
 					<?php echo JHtml::_('grid.sort', 'JCLIENT', 'a.client_id', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="center">
+				<th width="10%" class="center hidden-phone">
 					<?php echo JText::_('JVERSION'); ?>
 				</th>
-				<th width="15%" class="center">
+				<th width="15%" class="center hidden-phone">
 					<?php echo JText::_('JDATE'); ?>
 				</th>
-				<th width="25%" >
+				<th width="25%" class="center hidden-phone" >
 					<?php echo JText::_('JAUTHOR'); ?>
 				</th>
 			</tr>
@@ -92,13 +92,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<td class="small center">
 					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 				</td>
-				<td class="small center">
+				<td class="small center hidden-phone">
 					<?php echo $this->escape($item->xmldata->get('version')); ?>
 				</td>
-				<td class="small center">
+				<td class="small center hidden-phone">
 					<?php echo $this->escape($item->xmldata->get('creationDate')); ?>
 				</td>
-				<td>
+				<td class="hidden-phone">
 					<?php if ($author = $item->xmldata->get('author')) : ?>
 						<p><?php echo $this->escape($author); ?></p>
 					<?php else : ?>
