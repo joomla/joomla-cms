@@ -136,14 +136,15 @@ abstract class JHtmlGrid
 	 * @param   integer  $recId       The record id
 	 * @param   boolean  $checkedOut  True if item is checke out
 	 * @param   string   $name        The name of the form element
+	 * @param   string   $stub        The name of stub identifier
 	 *
 	 * @return  mixed    String of html with a checkbox if item is not checked out, null if checked out.
 	 *
 	 * @since   1.5
 	 */
-	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid')
+	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb')
 	{
-		return $checkedOut ? '' : '<input type="checkbox" id="cb' . $rowNum . '" name="' . $name . '[]" value="' . $recId
+		return $checkedOut ? '' : '<input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
 			. '" onclick="Joomla.isChecked(this.checked);" />';
 	}
 
