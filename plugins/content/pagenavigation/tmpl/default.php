@@ -12,12 +12,16 @@ defined('_JEXEC') or die;
 <ul class="pager pagenav">
 <?php if ($row->prev) : ?>
 	<li class="previous">
-		<a href="<?php echo $row->prev; ?>" rel="prev"><?php echo JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV'); ?></a>
+		<a href="<?php echo $row->prev; ?>" rel="prev">
+			<?php echo '<i class="icon-chevron-left"></i> ' . $row->prev_label; ?>
+		</a>
 	</li>
 <?php endif; ?>
 <?php if ($row->next) : ?>
 	<li class="next">
-		<a href="<?php echo $row->next; ?>" rel="next"><?php echo JText::_('JNEXT') . $pnSpace . JText::_('JGLOBAL_GT'); ?></a>
+		<a href="<?php echo $row->next; ?>" rel="next">
+			<?php echo $row->next_label . ' <i class="icon-chevron-right"></i>'; ?>
+		</a>
 	</li>
 <?php endif; ?>
 </ul>

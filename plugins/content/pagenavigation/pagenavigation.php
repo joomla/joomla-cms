@@ -183,33 +183,31 @@ class PlgContentPagenavigation extends JPlugin
 				$row->next = $rows[$location + 1];
 			}
 
-			// $pnSpace is/can be used in the include file
-			$pnSpace = "";
-
-			if (JText::_('JGLOBAL_LT') || JText::_('JGLOBAL_GT'))
-			{
-				$pnSpace = " ";
-			}
-
 			if ($row->prev)
 			{
-				$row->prev_title = $row->prev->title;
+				if ($this->params->get('display', 0) == 0)
+					$row->prev_label = JText::_('JPREV');
+				else
+					$row->prev_label = $row->prev->title;
 				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catslug));
 			}
 			else
 			{
-				$row->prev_title = '';
+				$row->prev_label = '';
 				$row->prev = '';
 			}
 
 			if ($row->next)
 			{
-				$row->next_title = $row->next->title;
+				if ($this->params->get('display', 0) == 0)
+					$row->next_label = JText::_('JNEXT');
+				else
+					$row->next_label = $row->next->title;
 				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catslug));
 			}
 			else
 			{
-				$row->next_title = '';
+				$row->next_label = '';
 				$row->next = '';
 			}
 
