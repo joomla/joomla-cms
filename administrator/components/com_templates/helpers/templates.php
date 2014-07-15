@@ -177,7 +177,7 @@ class TemplatesHelper
 
 			if (isset($positions['position']))
 			{
-				$positions = $positions['position'];
+				$positions = (array) $positions['position'];
 			}
 			else
 			{
