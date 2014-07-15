@@ -42,8 +42,8 @@
 					   label="PLG_PAGENAVIGATION_FIELD_DISPLAY_LABEL"
 					   description="PLG_PAGENAVIGATION_FIELD_DISPLAY_DESC"
 				>
-					<option value="0">PLG_PAGENAVIGATIONTITLES_FIELD_DISPLAY_VALUE_NEXTPREV</option>
-					<option value="1">PLG_PAGENAVIGATIONTITLES_FIELD_DISPLAY_VALUE_TITLE</option>
+					<option value="0">PLG_PAGENAVIGATION_FIELD_VALUE_NEXTPREV</option>
+					<option value="1">PLG_PAGENAVIGATION_FIELD_VALUE_TITLE</option>
 				</field>
 			</fieldset>
 		</fields>

@@ -185,10 +185,7 @@ class PlgContentPagenavigation extends JPlugin
 
 			if ($row->prev)
 			{
-				if ($this->params->get('display', 0) == 0)
-					$row->prev_label = JText::_('JPREV');
-				else
-					$row->prev_label = $row->prev->title;
+				$row->prev_label = ($this->params->get('display', 0) == 0) ? JText::_('JPREV') : $row->prev->title;
 				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catslug));
 			}
 			else
@@ -199,10 +196,7 @@ class PlgContentPagenavigation extends JPlugin
 
 			if ($row->next)
 			{
-				if ($this->params->get('display', 0) == 0)
-					$row->next_label = JText::_('JNEXT');
-				else
-					$row->next_label = $row->next->title;
+				$row->next_label = ($this->params->get('display', 0) == 0) ? JText::_('JNEXT') : $row->next->title;
 				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catslug));
 			}
 			else
