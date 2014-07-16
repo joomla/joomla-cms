@@ -76,8 +76,8 @@ class PlgUserProfile extends JPlugin
 				$db = JFactory::getDbo();
 				$db->setQuery(
 					'SELECT profile_key, profile_value FROM #__user_profiles' .
-					' WHERE user_id = ' . (int) $userId . " AND profile_key LIKE 'profile.%'" .
-					' ORDER BY ordering'
+						' WHERE user_id = ' . (int) $userId . " AND profile_key LIKE 'profile.%'" .
+						' ORDER BY ordering'
 				);
 
 				try
@@ -443,7 +443,7 @@ class PlgUserProfile extends JPlugin
 				$db = JFactory::getDbo();
 				$db->setQuery(
 					'DELETE FROM #__user_profiles WHERE user_id = ' . $userId .
-					" AND profile_key LIKE 'profile.%'"
+						" AND profile_key LIKE 'profile.%'"
 				);
 
 				$db->execute();
