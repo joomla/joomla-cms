@@ -196,7 +196,7 @@ class PlgUserProfile extends JPlugin
 	 * adds additional fields to the user editing form
 	 *
 	 * @param   JForm  $form  The form to be altered.
-	 * @param   array  $data  The associated data for the form.
+	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
