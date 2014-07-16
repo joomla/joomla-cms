@@ -76,8 +76,8 @@ class PlgUserProfile extends JPlugin
 				$db = JFactory::getDbo();
 				$db->setQuery(
 					'SELECT profile_key, profile_value FROM #__user_profiles' .
-						' WHERE user_id = ' . (int) $userId . " AND profile_key LIKE 'profile.%'" .
-						' ORDER BY ordering'
+					' WHERE user_id = ' . (int) $userId . " AND profile_key LIKE 'profile.%'" .
+					' ORDER BY ordering'
 				);
 
 				try
@@ -353,7 +353,7 @@ class PlgUserProfile extends JPlugin
 				$data['profile']['website'] = JStringPunycode::urlToPunycode($data['profile']['website']);
 
 				$date = new JDate($data['profile']['dob']);
-				$this->date = $date->format('Y-m-d');
+				$this->date = $date->format('Y-m-d H:i:s');
 			}
 			catch (Exception $e)
 			{
@@ -443,7 +443,7 @@ class PlgUserProfile extends JPlugin
 				$db = JFactory::getDbo();
 				$db->setQuery(
 					'DELETE FROM #__user_profiles WHERE user_id = ' . $userId .
-						" AND profile_key LIKE 'profile.%'"
+					" AND profile_key LIKE 'profile.%'"
 				);
 
 				$db->execute();
