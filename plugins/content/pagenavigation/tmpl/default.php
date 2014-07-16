@@ -8,19 +8,23 @@
  */
 
 defined('_JEXEC') or die;
-?>
+
+$lang = JFactory::getLanguage(); ?>
+
 <ul class="pager pagenav">
-<?php if ($row->prev) : ?>
+<?php if ($row->prev) :
+    $direction = $lang->isRTL() ? 'right' : 'left'; ?>
 	<li class="previous">
 		<a href="<?php echo $row->prev; ?>" rel="prev">
-			<?php echo '<i class="icon-chevron-left"></i> ' . $row->prev_label; ?>
+			<?php echo '<i class="icon-chevron-' . $direction . '"></i> ' . $row->prev_label; ?>
 		</a>
 	</li>
 <?php endif; ?>
-<?php if ($row->next) : ?>
+<?php if ($row->next) :
+    $direction = $lang->isRTL() ? 'left' : 'right'; ?>
 	<li class="next">
 		<a href="<?php echo $row->next; ?>" rel="next">
-			<?php echo $row->next_label . ' <i class="icon-chevron-right"></i>'; ?>
+			<?php echo $row->next_label . ' <i class="icon-chevron-' . $direction . '"></i>'; ?>
 		</a>
 	</li>
 <?php endif; ?>
