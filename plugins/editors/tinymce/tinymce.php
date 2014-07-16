@@ -463,10 +463,16 @@ class PlgEditorTinymce extends JPlugin
 			}
 			else
 			{
-				$templates = "templates: [
-					{title: 'Layout', description: 'HTMLLayout', url:'" . JUri::root() . "media/editors/tinymce/templates/layout1.html'},
-					{title: 'Simple snippet', description: 'Simple HTML snippet', url:'" . JUri::root() . "media/editors/tinymce/templates/snippet1.html'}
-				],";
+				$templates = 'templates: [';
+				foreach(glob(JPATH_ROOT.'/media/editors/tinymce/templates/*') as $filename) 
+				{
+					$filename = basename($filename,'.html');
+					if( $filename != 'index' )
+					{
+						$templates .= '{title: \'' . $filename . '\', url:\'' . JUri::root() . 'media/editors/tinymce/templates/' . $filename . '.html\'},';
+					}
+				}
+				$templates .= '],';
 			}
 		}
 		else
