@@ -10,6 +10,10 @@
 defined('_JEXEC') or die;
 
 $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
+$params = JComponentHelper::getParams('com_joomlaupdate');
+$updateOption = strtoupper($params->get('updatesource', 'lts'));
+$langKey = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_' . $updateOption;
+$updateSourceKey = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_' . $updateOption);
 JHtml::_('formbehavior.chosen', 'select');
 
 ?>
