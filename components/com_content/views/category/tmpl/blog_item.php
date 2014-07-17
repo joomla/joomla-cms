@@ -22,7 +22,9 @@ $info    = $params->get('info_block_position', 0);
 
 <?php echo JLayoutHelper::render('joomla.content.blog_style_default_item_title', $this->item); ?>
 
-<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
+<?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
+	<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
+<?php endif; ?>
 
 <?php if ($params->get('show_tags') && !empty($this->item->tags->itemTags)) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
@@ -61,23 +63,7 @@ $info    = $params->get('info_block_position', 0);
 		$link->setVar('return', base64_encode($returnURL));
 	endif; ?>
 
-	<p class="readmore"><a class="btn" href="<?php echo $link; ?>"> <span class="icon-chevron-right"></span>
-
-	<?php if (!$params->get('access-view')) :
-		echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
-	elseif ($readmore = $this->item->alternative_readmore) :
-		echo $readmore;
-		if ($params->get('show_readmore_title', 0) != 0) :
-		echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
-		endif;
-	elseif ($params->get('show_readmore_title', 0) == 0) :
-		echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
-	else :
-		echo JText::_('COM_CONTENT_READ_MORE');
-		echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
-	endif; ?>
-
-	</a></p>
+	<?php echo JLayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
 
 <?php endif; ?>
 

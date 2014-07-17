@@ -34,7 +34,7 @@ abstract class JHtmlEmail
 	 */
 	public static function cloak($mail, $mailto = true, $text = '', $email = true)
 	{
-		// Convert text
+		// Convert mail
 		$mail = static::convertEncoding($mail);
 
 		// Split email by @ symbol
@@ -44,8 +44,9 @@ abstract class JHtmlEmail
 		// Random number
 		$rand = rand(1, 100000);
 
-		$replacement = "<script type='text/javascript'>";
+		$replacement = '<div id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</div>' . "<script type='text/javascript'>";
 		$replacement .= "\n <!--";
+		$replacement .= "\n document.getElementById('cloak$rand').innerHTML = '';";
 		$replacement .= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
 		$replacement .= "\n var path = 'hr' + 'ef' + '=';";
 		$replacement .= "\n var addy" . $rand . " = '" . @$mail[0] . "' + '&#64;';";
@@ -61,7 +62,6 @@ abstract class JHtmlEmail
 
 				if ($email)
 				{
-
 					// Split email by @ symbol
 					$text = explode('@', $text);
 					$text_parts = explode('.', $text[1]);
@@ -73,34 +73,20 @@ abstract class JHtmlEmail
 					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
 				}
 
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'";
-				$replacement .= "+ addy_text" . $rand;
-				$replacement .= "+ '<\/a>');";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';";
 			}
 			else
 			{
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'";
-				$replacement .= "+ addy" . $rand;
-				$replacement .= "+ '<\/a>');";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>' +addy" . $rand . "+'<\/a>';";
 			}
 		}
 		else
 		{
-			$replacement .= "\n document.write(addy" . $rand . ");";
+			$replacement .= "\n document.getElementById('cloak$rand').innerHTML += 'addy" . $rand . "';";
 		}
 
 		$replacement .= "\n //-->";
 		$replacement .= '\n </script>';
-
-		// XHTML compliance no Javascript text handling
-		$replacement .= "<script type='text/javascript'>";
-		$replacement .= "\n <!--";
-		$replacement .= "\n document.write('<span style=\'display: none;\'>'+ '";
-		$replacement .= JText::_('JLIB_HTML_CLOAKING');
-		$replacement .= "'+ '</'";
-		$replacement .= "+ 'span>');";
-		$replacement .= "\n //-->";
-		$replacement .= "\n </script>";
 
 		return $replacement;
 	}
