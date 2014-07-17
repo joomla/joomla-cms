@@ -35,7 +35,6 @@ class TagsViewTag extends JViewLegacy
 		}
 
 		// Get some data from the model
-		$tag      = $this->get('Item');
 		$items    = $this->get('Items');
 		foreach ($items as $item)
 		{
@@ -58,13 +57,9 @@ class TagsViewTag extends JViewLegacy
 			$feeditem->link        = $link;
 			$feeditem->description = $description;
 			$feeditem->date        = $date;
+			$feeditem->category    = $title;
 			$feeditem->author      = $author;
 			
-			if (isset($tag[0]->title))
-			{
-				$feeditem->category = $tag[0]->title;
-			}
-
 			if ($feedEmail == 'site')
 			{
 				$item->authorEmail = $siteEmail;
