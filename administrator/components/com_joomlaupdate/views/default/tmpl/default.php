@@ -110,7 +110,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD') ?>
 				</td>
 				<td>
-					<input type="text" name="ftp_pass" value="<?php echo $this->ftp['password'] ?>" />
+					<input type="password" name="ftp_pass" value="<?php echo $this->ftp['password'] ?>" />
 				</td>
 			</tr>
 			<tr id="row_ftp_directory" <?php echo $ftpFieldsDisplay ?>>
@@ -128,7 +128,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					&nbsp;
 				</td>
 				<td>
-					<button class="submit" type="submit">
+					<button class="btn btn-primary" type="submit">
 						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE') ?>
 					</button>
 				</td>
