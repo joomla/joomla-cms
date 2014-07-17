@@ -10,6 +10,11 @@
 defined('_JEXEC') or die;
 
 $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
+$params = JComponentHelper::getParams('com_joomlaupdate');
+$updateOption = strtoupper($params->get('updatesource', 'lts'));
+$langKey = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_' . $updateOption;
+$updateSourceKey = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_' . $updateOption);
+JHtml::_('formbehavior.chosen', 'select');
 
 ?>
 
@@ -22,8 +27,12 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES') ?>
 	</legend>
 	<p>
+		<?php echo JText::sprintf($langKey, $updateSourceKey ) ?>
+	</p>
+	<p>
 		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?>
 	</p>
+
 </fieldset>
 
 <?php else: ?>
@@ -32,6 +41,9 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 	<legend>
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATEFOUND') ?>
 	</legend>
+	<p>
+		<?php echo JText::sprintf($langKey, $updateSourceKey ) ?>
+	</p>
 
 	<table class="table table-striped">
 		<tbody>
@@ -98,7 +110,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD') ?>
 				</td>
 				<td>
-					<input type="text" name="ftp_pass" value="<?php echo $this->ftp['password'] ?>" />
+					<input type="password" name="ftp_pass" value="<?php echo $this->ftp['password'] ?>" />
 				</td>
 			</tr>
 			<tr id="row_ftp_directory" <?php echo $ftpFieldsDisplay ?>>
@@ -116,7 +128,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 					&nbsp;
 				</td>
 				<td>
-					<button class="submit" type="submit">
+					<button class="btn btn-primary" type="submit">
 						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE') ?>
 					</button>
 				</td>
