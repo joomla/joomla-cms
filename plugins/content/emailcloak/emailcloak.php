@@ -162,7 +162,7 @@ class plgContentEmailcloak extends JPlugin
 			$mail = $regs[1][0];
 			$mailText = $regs[2][0];
 
-			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
+			$replacement = html_entity_decode(JHtml::_('email.cloak', $mail, $mode, $mailText, 0));
 
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
