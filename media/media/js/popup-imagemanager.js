@@ -11,257 +11,229 @@
  * @since		1.5
  */
 
-(function($) {
-var ImageManager = this.ImageManager = {
-	initialize: function()
-	{
-		o = this._getUriObject(window.self.location.href);
-		q = this._getQueryObject(o.query);
-		this.editor = decodeURIComponent(q['e_name']);
+(function($, doc) {
+	'use strict';
 
-		// Setup image manager fields object
-		this.fields         = new Object();
-		this.fields.url     = document.getElementById("f_url");
-		this.fields.alt     = document.getElementById("f_alt");
-		this.fields.align   = document.getElementById("f_align");
-		this.fields.title   = document.getElementById("f_title");
-		this.fields.caption = document.getElementById("f_caption");
-		this.fields.c_class = document.getElementById("f_caption_class");
+	window.ImageManager = {
 
-		// Setup image listing objects
-		this.folderlist = document.getElementById('folderlist');
-
-		this.frame    = window.frames['imageframe'];
-		this.frameurl = this.frame.location.href;
-
-		// Setup imave listing frame
-		this.imageframe = document.getElementById('imageframe');
-		this.imageframe.manager = this;
-		$(this.imageframe).on('load', function(){ ImageManager.onloadimageview(); });
-
-		// Setup folder up button
-		this.upbutton = document.getElementById('upbutton');
-		$(this.upbutton).off('click');
-		$(this.upbutton).on('click', function(){ ImageManager.upFolder(); });
-	},
-
-	onloadimageview: function()
-	{
-		// Update the frame url
-		this.frameurl = this.frame.location.href;
-
-		var folder = this.getImageFolder();
-		for(var i = 0; i < this.folderlist.length; i++)
+		initialize: function()
 		{
-			if (folder == this.folderlist.options[i].value) {
-				this.folderlist.selectedIndex = i;
-				if (this.folderlist.className.test(/\bchzn-done\b/)) {
-					$(this.folderlist).trigger('liszt:updated');
-				}
-				break;
-			}
-		}
+			var o = this.getUriObject(window.self.location.href),
+				q = this.getQueryObject(o.query);
 
-		a = this._getUriObject($('#uploadForm').attr('action'));
-		q = this._getQueryObject(a.query);
-		q['folder'] = folder;
-		var query = [];
-		for (var k in q) {
-			var v = q[k];
-			if (q.hasOwnProperty(k) && v !== null) {
-				query.push(k+'='+v);
-			}
-		}
-		a.query = query.join('&');
-		var portString = '';
-		if (typeof(a.port) !== 'undefined' && a.port != 80) {
-			portString = ':'+a.port;
-		}
-		$('#uploadForm').attr('action', a.scheme+'://'+a.domain+portString+a.path+'?'+a.query);
-	},
+			this.editor = decodeURIComponent(q.e_name);
 
-	getImageFolder: function()
-	{
-		var url  = this.frame.location.search.substring(1);
-		var args = this.parseQuery(url);
+			// Setup image manager fields object
+			this.fields = {
+				'url':     doc.getElementById("f_url"),
+				'alt':     doc.getElementById("f_alt"),
+				'align':   doc.getElementById("f_align"),
+				'title':   doc.getElementById("f_title"),
+				'caption': doc.getElementById("f_caption"),
+				'c_class': doc.getElementById("f_caption_class")
+			};
 
-		return args['folder'];
-	},
+			// Setup image listing objects
+			this.folderlist = doc.getElementById('folderlist');
+			this.frame      = window.frames.imageframe;
+			this.frameurl   = this.frame.location.href;
 
-	onok: function()
-	{
-		var tag   = '';
-		var extra = '';
+			// Setup image listing frame
+			$('#imageframe').on('load', function(){ ImageManager.onloadimageview(); });
 
-		// Get the image tag field information
-		var url     = this.fields.url.value;
-		var alt     = this.fields.alt.value;
-		var align   = this.fields.align.value;
-		var title   = this.fields.title.value;
-		var caption = this.fields.caption.value;
-		var c_class = this.fields.c_class.value;
+			// Setup folder up button
+			$('#upbutton').off('click').on('click', function(){ ImageManager.upFolder(); });
+		},
 
-		if (url != '') {
-			// Set alt attribute
-			if (alt != '') {
-				extra = extra + 'alt="'+alt+'" ';
-			} else {
-				extra = extra + 'alt="" ';
-			}
-			// Set align attribute
-			if (align != '' && caption == '') {
-				extra = extra + 'class="pull-'+align+'" ';
-			}
-			// Set title attribute
-			if (title != '') {
-				extra = extra + 'title="'+title+'" ';
-			}
-
-			tag = '<img src="'+url+'" '+extra+'/>';
-
-			// Process caption
-			if (caption != '') {
-				var figclass = '';
-				var captionclass = '';
-				if (align != '') {
-					figclass = ' class="pull-'+align+'"';
-				}
-				if (c_class != '') {
-					captionclass = ' class="'+c_class+'"';
-				}
-				tag = '<figure'+figclass+'>'+tag+'<figcaption'+captionclass+'>'+caption+'</figcaption></figure>';
-			}
-		}
-
-		window.parent.jInsertEditorText(tag, this.editor);
-		return false;
-	},
-
-	setFolder: function(folder,asset,author)
-	{
-		for(var i = 0; i < this.folderlist.length; i++)
+		onloadimageview: function()
 		{
-			if (folder == this.folderlist.options[i].value) {
-				this.folderlist.selectedIndex = i;
-				if (this.folderlist.className.test(/\bchzn-done\b/)) {
-					$(this.folderlist).trigger('liszt:updated');
-				}
-				break;
-			}
-		}
-		this.frame.location.href='index.php?option=com_media&view=imagesList&tmpl=component&folder=' + folder + '&asset=' + asset + '&author=' + author;
-	},
+			var folder = this.getImageFolder(),
+				$form = $('uploadForm'),
+				portString = '',
+				i, l, a, q;
 
-	getFolder: function() {
-		return this.folderlist.value;
-	},
+			// Update the frame url
+			this.frameurl = this.frame.location.href;
+			this.setFolder(folder);
 
-	upFolder: function()
-	{
-		var currentFolder = this.getFolder();
+			a = this.getUriObject($form.attr('action'));
+			q = this.getQueryObject(a.query);
+			q.folder = folder;
+			a.query = $.param(q);
 
-		if (currentFolder.length < 2) {
-			return false;
-		}
-
-		var folders = currentFolder.split('/');
-		var search = '';
-
-		for(var i = 0; i < folders.length - 1; i++) {
-			search += folders[i];
-			search += '/';
-		}
-
-		// remove the trailing slash
-		search = search.substring(0, search.length - 1);
-
-		for(var i = 0; i < this.folderlist.length; i++)
-		{
-			var thisFolder = this.folderlist.options[i].value;
-
-			if (thisFolder == search)
+			if (typeof(a.port) !== 'undefined' && a.port != 80)
 			{
-				this.folderlist.selectedIndex = i;
-				var newFolder = this.folderlist.options[i].value;
-				this.setFolder(newFolder);
-				break;
+				portString = ':' + a.port;
 			}
-		}
-	},
 
-	populateFields: function(file)
-	{
-		$("#f_url").val(image_base_path+file);
-	},
+			$form.attr('action', a.scheme + '://' + a.domain + portString + a.path + '?' + a.query);
+		},
 
-	showMessage: function(text)
-	{
-		var message  = document.id('message');
-		var messages = document.id('messages');
-
-		if (message.firstChild)
-			message.removeChild(message.firstChild);
-
-		message.appendChild(document.createTextNode(text));
-		messages.style.display = "block";
-	},
-
-	parseQuery: function(query)
-	{
-		var params = new Object();
-		if (!query) {
-			return params;
-		}
-		var pairs = query.split(/[;&]/);
-		for ( var i = 0; i < pairs.length; i++ )
+		getImageFolder: function()
 		{
-			var KeyVal = pairs[i].split('=');
-			if ( ! KeyVal || KeyVal.length != 2 ) {
-				continue;
+			return this.getUriObject(this.frame.location.search.substring(1)).folder;
+		},
+
+		/* Called from outside. */
+		onok: function()
+		{
+			var tag     = '',
+				attr    = [],
+				figclass = '',
+				captionclass = '',
+				// Get the image tag field information
+				url     = this.fields.url.value,
+				alt     = this.fields.alt.value,
+				align   = this.fields.align.value,
+				title   = this.fields.title.value,
+				caption = this.fields.caption.value,
+				c_class = this.fields.c_class.value;
+
+			if (url) {
+				// Set alt attribute
+				attr.push('alt="' + alt + '"');
+
+				// Set align attribute
+				if (align && !caption)
+				{
+					attr.push('class="pull-' + align + '"');
+				}
+
+				// Set title attribute
+				if (title)
+				{
+					attr.push('title="' + title + '"');
+				}
+
+				tag = '<img src="' + url + '" ' + attr.join(' ') + '/>';
+
+				// Process caption
+				if (caption)
+				{
+					if (align)
+					{
+						figclass = ' class="pull-' + align + '"';
+					}
+
+					if (c_class)
+					{
+						captionclass = ' class="' + c_class + '"';
+					}
+
+					tag = '<figure' + figclass + '>' + tag + '<figcaption' + captionclass + '>' + caption + '</figcaption></figure>';
+				}
 			}
-			var key = unescape( KeyVal[0] );
-			var val = unescape( KeyVal[1] ).replace(/\+ /g, ' ');
-			params[key] = val;
-	   }
-	   return params;
-	},
 
-	refreshFrame: function()
-	{
-		this._setFrameUrl();
-	},
+			window.parent.jInsertEditorText(tag, this.editor);
 
-	_setFrameUrl: function(url)
-	{
-		if (url != null) {
-			this.frameurl = url;
+			return true;
+		},
+
+		/* Called from outside. */
+		setFolder: function(folder, asset, author)
+		{
+			for(var i = 0, l = this.folderlist.length; i < l; i++)
+			{
+				if (folder == this.folderlist.options[i].value)
+				{
+					this.folderlist.selectedIndex = i;
+					$(this.folderlist)
+						.trigger('liszt:updated') // Mootools
+						.trigger('chosen:updated'); // jQuery
+
+					break;
+				}
+			}
+
+			if (!!asset || !!author)
+			{
+				this.setFrameUrl(folder, asset, author);
+			}
+		},
+
+		upFolder: function()
+		{
+			var path = this.folderlist.value.split('/'),
+				search;
+
+			path.pop();
+			search = path.join('/');
+
+			this.setFolder(search);
+			this.setFrameUrl(search);
+		},
+
+		/* Called from outside. */
+		populateFields: function(file)
+		{
+			$("#f_url").val(image_base_path + file);
+		},
+
+		/* Does not appear to be used at all */
+		showMessage: function(text)
+		{
+			var $message = $('#message');
+
+			$message.find('>:first-child').remove();
+			$message.append(text);
+			$('#messages').css('display', 'block');
+		},
+
+		/* Does not appear to be used at all */
+		refreshFrame: function()
+		{
+			this.frame.location.href = this.frameurl;
+		},
+
+		setFrameUrl: function(folder, asset, author)
+		{
+			var qs = {
+					option: 'com_media',
+					view:   'imagesList',
+					tmpl:   'component',
+					folder: folder,
+					asset:  asset,
+					author: author
+				};
+
+			this.frameurl = 'index.php?' + $.param(qs);
+			this.frame.location.href = this.frameurl;
+		},
+
+		getQueryObject: function(q)
+		{
+			var rs = {};
+
+			$.each((q || '').split(/[&;]/), function (key, val) {
+				var keys = val.split('=');
+
+				if (keys.length == 2)
+				{
+					rs[encodeURIComponent(keys[0])] = encodeURIComponent(keys[1]);
+				}
+			});
+
+			return rs;
+		},
+
+		getUriObject: function(u)
+		{
+			var bitsAssociate = {},
+				bits = u.match(/^(?:([^:\/?#.]+):)?(?:\/\/)?(([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[\?#]|$)))*\/?)?([^?#\/]*))?(?:\?([^#]*))?(?:#(.*))?/);
+
+			if (!bits)
+			{
+				return null;
+			}
+
+			$.each(['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'], function(key, index) {
+				bitsAssociate[key] = bits[index];
+			});
+
+			return bitsAssociate;
 		}
-		this.frame.location.href = this.frameurl;
-	},
+	};
 
-	_getQueryObject: function(q) {
-		var vars = q.split(/[&;]/);
-		var rs = {};
-		if (vars.length) vars.forEach(function(val) {
-			var keys = val.split('=');
-			if (keys.length && keys.length == 2) rs[encodeURIComponent(keys[0])] = encodeURIComponent(keys[1]);
-		});
-		return rs;
-	},
+	$(function () { window.ImageManager.initialize(); });
 
-	_getUriObject: function(u){
-		var bitsAssociate = {}, bits = u.match(/^(?:([^:\/?#.]+):)?(?:\/\/)?(([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[\?#]|$)))*\/?)?([^?#\/]*))?(?:\?([^#]*))?(?:#(.*))?/);
-		['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'].forEach(function(key, index) {
-			bitsAssociate[key] = bits[index];
-		});
-
-		return (bits)
-			? bitsAssociate
-			: null;
-	}
-};
-})(jQuery);
-
-jQuery(function(){
-	ImageManager.initialize();
-});
+}(jQuery, document));
