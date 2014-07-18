@@ -120,7 +120,7 @@ $script .= "
 							jQuery('#position-" . $this->item->id . "', parent.document).text(updPosition);
 							jQuery('#access-" . $this->item->id . "', parent.document).html(parent.viewLevels[updAccess]);
 					}
-					window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
+					window.top.setTimeout('window.parent.jModalClose()', 1000);
 				}
 			}
 	};";
