@@ -461,34 +461,30 @@ abstract class JHtmlBootstrap
 			$options = JHtml::getJSObject($opt);
 
 			// Build the script.
-			$script = array();
-			$script[] = "jQuery(function($){";
-			$script[] = "\t$(" . json_encode($selector) . ").tooltip(" . $options . ");";
+			$script = array('$(' . json_encode($selector) . ').tooltip(' . $options . ')');
 
 			if ($onShow)
 			{
-				$script[] = "\t$(" . json_encode($selector) . ").on('show.bs.tooltip', " . $onShow . ");";
+				$script[] = 'on("show.bs.tooltip", ' . $onShow . ')';
 			}
 
 			if ($onShown)
 			{
-				$script[] = "\t$(" . json_encode($selector) . ").on('shown.bs.tooltip', " . $onShown . ");";
+				$script[] = 'on("shown.bs.tooltip", ' . $onShown . ')';
 			}
 
 			if ($onHide)
 			{
-				$script[] = "\t$(" . json_encode($selector) . ").on('hide.bs.tooltip', " . $onHide . ");";
+				$script[] = 'on("hide.bs.tooltip", ' . $onHide . ')';
 			}
 
 			if ($onHidden)
 			{
-				$script[] = "\t$(" . json_encode($selector) . ").on('hidden.bs.tooltip', " . $onHidden . ");";
+				$script[] = 'on("hidden.bs.tooltip", ' . $onHidden . ')';
 			}
 
-			$script[] = "});";
-
 			// Attach tooltips to document
-			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+			JFactory::getDocument()->addScriptDeclaration('jQuery(function ($) { ' . implode('.', $script) . '; });');
 
 			// Set static array
 			static::$loaded[__METHOD__][$selector] = true;
