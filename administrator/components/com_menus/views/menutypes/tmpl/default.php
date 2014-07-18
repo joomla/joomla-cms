@@ -16,19 +16,18 @@ $tmpl = ($input->getCmd('tmpl') != '') ? '1' : '';
 
 JFactory::getDocument()->addScriptDeclaration('
 		setmenutype = function(type) {
-			var tmpl = "' . $tmpl . '";
+			var tmpl = ' . json_encode($tmpl) . ';
 			if (tmpl)
 			{
-				window.parent.Joomla.submitbutton(\'item.setType\', type);
-				window.parent.SqueezeBox.close();
+				window.parent.Joomla.submitbutton("item.setType", type);
+				window.parent.jModalClose();
 			}
 			else
 			{
-				window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+(\'item.setType\', type);
+				window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+("item.setType", type);
 			}
 		};
 ');
-?>
 
 <?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
 	<?php

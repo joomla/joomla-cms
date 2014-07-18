@@ -403,7 +403,10 @@ abstract class JHtmlBehavior
 			SqueezeBox.assign($('" . $selector . "').get(), {
 				parse: 'rel'
 			});
-		});"
+		});
+		function jModalClose() {
+			SqueezeBox.close();
+		}"
 		);
 
 		// Set static array
