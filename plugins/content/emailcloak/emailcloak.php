@@ -203,6 +203,25 @@ class plgContentEmailcloak extends JPlugin
 			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
 		}
 
+		/*
+		 * Search for derivatives of link code
+		 * <a href="mailto:email@amail.com?subject=Text"><img anything></a>
+		 */
+		$pattern = $this->_getPattern($searchEmailLink, $searchImage);
+		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
+			$mail = $regs[1][0] . $regs[2][0];
+			$mailText = $regs[3][0];
+
+			// Needed for handling of Body parameter
+			$mail = str_replace('&amp;', '&', $mail);
+
+			// Check to see if mail text is different from mail addy
+			$replacement = html_entity_decode(JHtml::_('email.cloak', $mail, $mode, $mailText, 0));
+
+			// Replace the found address with the js cloaked email
+			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+		}
+
 		// Search for plain text email@amail.com
 		$pattern = '~' . $searchEmail . '([^a-z0-9]|$)~i';
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
