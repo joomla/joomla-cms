@@ -469,7 +469,7 @@ class PlgEditorTinymce extends JPlugin
 				{
 					$filename = basename($filename, '.html');
 					
-					if ( $filename != 'index' )
+					if ($filename != 'index')
 					{
 						$templates .= '{title: \'' . $filename . '\', url:\'' . JUri::root() . 'media/editors/tinymce/templates/' . $filename . '.html\'},';
 					}
