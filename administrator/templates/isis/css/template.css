@@ -3328,9 +3328,15 @@ input[type="submit"].btn.btn-mini {
 	-moz-border-radius: 0;
 	border-radius: 0;
 }
-.navbar-fixed-top,
-.navbar-fixed-bottom {
+.navbar-fixed-top {
 	position: static;
+	right: 0;
+	left: 0;
+	z-index: 1030;
+	margin-bottom: 0;
+}
+.navbar-fixed-bottom {
+	position: fixed;
 	right: 0;
 	left: 0;
 	z-index: 1030;
