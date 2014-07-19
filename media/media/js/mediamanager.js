@@ -28,6 +28,7 @@ var MediaManager = this.MediaManager = {
 	{
 		form = window.frames['folderframe'].document.getElementById('mediamanager-form');
 		form.task.value = task;
+		form.action += ('&controller=' + task);
 		if ($('#username').length) {
 			form.username.value = $('#username').val();
 			form.password.value = $('#password').val();

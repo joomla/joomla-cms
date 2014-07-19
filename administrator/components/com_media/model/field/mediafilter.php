@@ -44,14 +44,14 @@ class JFormFieldMediafilter extends JFormField {
 	public function getInput()
 	{
 		return '<select name="filter" class="input-xlarge">'.
-				'<option value="smooth" >Smooth</option>'.
-				'<option value="contrast" >Contrast</option>'.
-				'<option value="edgedetect" >Edge Detect</option>'.
-				'<option value="grayscale" >Grayscale</option>'.
-				'<option value="sketchy" >Sketchy</option>'.
-				'<option value="emboss" >Emboss</option>'.
-				'<option value="brightness" >Brightness</option>'.
-				'<option value="negate" >Negate</option>'.
+				'<option value="smooth" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_FILTER_SMOOTH') . '</option>'.
+				'<option value="contrast" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_FILTER_CONTRAST') . '</option>'.
+				'<option value="edgedetect" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_FILTER_EDGE_DETECT') . '</option>'.
+				'<option value="grayscale" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_FILTER_GRAYSCALE') . '</option>'.
+				'<option value="sketchy" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_FILTER_SKETCHY') . '</option>'.
+				'<option value="emboss" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_FILTER_EMBOSS') . '</option>'.
+				'<option value="brightness" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_FILTER_BRIGHTNESS') . '</option>'.
+				'<option value="negate" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_FILTER_NEGATE') . '</option>'.
 				'</select>';
 	}
 }

@@ -218,7 +218,7 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_ANGLE'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_ANGLE')?>
 					</label>
 					<div class="controls">
-						<input class="input-xlarge" type="number" name="angle"
+						<input class="input-small" type="number" name="angle"
 							placeholder="0" required />
 					</div>
 				</div>

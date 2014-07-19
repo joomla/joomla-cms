@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_media
  * @since       3.5
  */
-class MediaModelEditor extends JModelCmsitem
+class MediaModelEditor extends MediaModelCmsitem
 {
 
 	/**

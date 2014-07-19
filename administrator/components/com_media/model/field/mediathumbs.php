@@ -44,12 +44,12 @@ class JFormFieldMediathumbs extends JFormField {
 	public function getInput()
 	{
 		return '<select name="c" class="input-xlarge">'.
-				'<option value="' . JImage::SCALE_FILL . '" >Scale Fill</option>'.
-				'<option value="' . JImage::SCALE_INSIDE . '" >Scale Inside</option>'.
-				'<option value="' . JImage::SCALE_OUTSIDE . '" >Scale Outside</option>'.
-				'<option value="' . JImage::CROP . '" >Crop</option>'.
-				'<option value="' . JImage::CROP_RESIZE . '" >Crop Resize</option>'.
-				'<option value="' . JImage::SCALE_FIT . '" >Scale Fit</option>'.
+				'<option value="' . JImage::SCALE_FILL . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_SCALE_FILL') . '</option>'.
+				'<option value="' . JImage::SCALE_INSIDE . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_SCALE_INSIDE') . '</option>'.
+				'<option value="' . JImage::SCALE_OUTSIDE . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_SCALE_OUTSIDE') . '</option>'.
+				'<option value="' . JImage::CROP . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_CROP') . '</option>'.
+				'<option value="' . JImage::CROP_RESIZE . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_CROP_RESIZE') . '</option>'.
+				'<option value="' . JImage::SCALE_FIT . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_SCALE_FIT') . '</option>'.
 				'</select>';
 	}
 }

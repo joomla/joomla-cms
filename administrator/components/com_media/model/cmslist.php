@@ -1,22 +1,22 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Model
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
 
 /**
  * Prototype model for an item or collection of items.
  *
- * @package     Joomla.Libraries
- * @subpackage  Model
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
  * @since       3.5
  */
-class JModelCmslist extends JModelCmsitem
+class MediaModelCmslist extends MediaModelCmsitem
 {
 	/**
 	 * Internal memory based cache array of data.

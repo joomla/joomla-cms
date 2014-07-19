@@ -23,8 +23,8 @@ echo $params->get('image_path', 'images'); ?>/';
 </script>
 
 <style>
-.span9 {
-	width: 870px;
+.span8 {
+	width: 780px;
 }
 </style>
 
@@ -74,7 +74,7 @@ echo $params->get('image_path', 'images'); ?>/';
 	</div>
 
 	
-	<iframe id="imageframe" name="imageframe" class="span9" src="index.php?option=com_media&amp;view=imageslist&amp;controller=media.display.imageslist&amp;tmpl=component&amp;folder=<?php echo $this->state->get('folder')?>&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>"></iframe>
+	<iframe id="imageframe" name="imageframe" class="span8" src="index.php?option=com_media&amp;view=imageslist&amp;controller=media.display.imageslist&amp;tmpl=component&amp;folder=<?php echo $this->state->get('folder')?>&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>"></iframe>
 
 
       <div class="well well-small span3">

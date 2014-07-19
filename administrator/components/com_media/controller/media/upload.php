@@ -109,10 +109,29 @@ class MediaControllerMediaUpload extends JControllerBase
 
 			if (JFile::exists($file['filepath']))
 			{
-				// A file with this name already exists
-				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_FILE_EXISTS'), 'warning');
+				if ($params->get('overwrite_files', 0) == 1 && $user->authorise('core.delete', 'com_media'))
+				{
+					/*
+					 * A file with this name already exists,
+					* the option to overwrite the file is set to yes and
+					* the current user is authorised to delete files
+					* so we delete it here and upload the new later.
+					* Note that we can't restore the old file if the uplaod fails.
+					*/
+					JFile::delete($file['filepath']);
+					$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_FILE_EXISTS_OVERWRITE'), 'notice');
+				}
+				else
+				{
+					/*
+					 * A file with this name already exists and
+					* the option to overwrite the file is set to no
+					* or the user is not authorised to delete files.
+					*/
+					$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_FILE_EXISTS'), 'error');
 
-				return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), false);
+					return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), false);
+				}
 			}
 
 			if (!isset($file['name']))

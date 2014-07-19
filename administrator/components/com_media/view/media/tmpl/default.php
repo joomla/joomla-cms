@@ -144,6 +144,34 @@ $input = JFactory::getApplication()->input;
 		
 		<?php endif;?>
 
+		<?php if ($user->authorise('core.delete', 'com_media')):?>
+	<!-- Delete Media Modal -->
+	
+	<div id="deleteMediaModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+			<h3>
+				<?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?>
+			</h3>
+		</div>
+		<div class="modal-body">
+			<p id="" class="lead">
+						<?php echo JText::_('COM_MEDIA_DELETE_MEDIA_MSG'); ?>
+			</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
+			</a>
+			<button class="btn btn-danger" type="submit" onclick="MediaManager.submit('media.delete.media')">
+				<i class="icon-remove"></i> <?php echo JText::_('COM_MEDIA_DELETE_MEDIA'); ?>
+			</button>
+		</div>
+	</div>
+
+		<?php endif;?>
+
+
 		<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" method="post">
 			<div id="folderview">
 				<div class="view">
