@@ -219,51 +219,58 @@ class JAccess
 	{
 		// Get the database connection object.
 		$db = JFactory::getDbo();
-
-		$query = $db->getQuery(true)
-			->select($recursive ? 'lft,rgt' : 'rules')
-			->from('#__assets');
-
-		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
-		if (is_numeric($asset))
-		{
-			$query->where('(id = ' . (int) $asset . ')');
-		}
-		else
-		{
-			$query->where('(name = ' . $db->quote($asset) . ')');
-		}
+		$query = $db->getQuery(true);
 
 		if ($recursive)
 		{
-			$db->setQuery($query);
-			$row = $db->loadObject();
+			$query_lft_rgt = $db->getQuery(true)
+				->select('lft,rgt')
+				->from('#__assets');
 
-			$query = $db->getQuery(true)
-				->select('rules,lft')
-				->from('#__assets')
-				->where('lft <= ' . $row->lft . ' AND rgt >= ' . $row->rgt);
-		}
-
-		// Execute the query and load the rules from the result.
-		$db->setQuery($query);
-		$result = $db->loadRowList();
-
-		// If the $recursive variable is true then the database result is sorted according to the lft value
-		if ($recursive)
-		{
-			usort($result, function ($a, $b){return $a[1] - $b[1];});
-
-			$i = 0;
-
-			// Extract the rules from the result array
-			foreach ($result as $key => $value)
+			if (is_numeric($asset))
 			{
-				$temp[$key] = $value[0];
-				$i++;
+				$query_lft_rgt->where('(id = ' . (int) $asset . ')');
+			}
+			else
+			{
+				$query_lft_rgt->where('(name = ' . $db->quote($asset) . ')');
 			}
 
-			$result = $temp;
+			$db->setQuery($query_lft_rgt);
+			$lft_rgt_result = $db->loadRow();
+
+			if (empty($lft_rgt_result))
+			{
+				$result = null;
+			}
+			else
+			{
+				$query ->select('rules,lft')
+					->from('#__assets')
+					->where('lft<=' . $lft_rgt_result[0])
+					->where('rgt>=' . $lft_rgt_result[1])
+					->order('lft');
+				$db->setQuery($query);
+				$result = $db->loadColumn();
+			}
+		}
+		elseif (!$recursive)
+		{
+			$query ->select('rules')
+				->from('#__assets');
+
+			if (is_numeric($asset))
+			{
+				$query->where('(id = ' . (int) $asset . ')');
+			}
+			else
+			{
+				$query->where('(name = ' . $db->quote($asset) . ')');
+			}
+
+			$query->group('id');
+			$db->setQuery($query);
+			$result = $db->loadColumn();
 		}
 
 		// Get the root even if the asset is not found and in recursive mode
