@@ -110,6 +110,7 @@
 				label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
 				description="PLG_USER_PROFILE_FIELD_DOB_DESC"
 				format="%Y-%m-%d"
+				filter="none"
 			/>
 			<field
 				name="tos"
