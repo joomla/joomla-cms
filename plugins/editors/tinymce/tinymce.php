@@ -780,13 +780,6 @@ class PlgEditorTinymce extends JPlugin
 
 			function jInsertEditorText( text, editor )
 			{
-				if (isBrowserIE())
-				{
-					if (window.parent.tinyMCE)
-					{
-						window.parent.tinyMCE.selectedInstance.selection.moveToBookmark(window.parent.global_ie_bookmark);
-					}
-				}
 				tinyMCE.execCommand('mceInsertContent', false, text);
 			}
 
