@@ -14,8 +14,8 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.modal', 'a.modal');
 
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn = $this->escape($this->state->get('list.direction'));
+$listOrder  = $this->escape($this->state->get('list.ordering'));
+$listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
 $sortFields = $this->getSortFields();
 ?>
@@ -52,7 +52,7 @@ $sortFields = $this->getSortFields();
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th width="1%" class="nowrap center">
+				<th width="1%" class="nowrap center hidden-phone">
 					<?php echo JHtml::_('grid.checkall'); ?>
 				</th>
 				<th class="left">
@@ -70,16 +70,16 @@ $sortFields = $this->getSortFields();
 				<th width="10%" class="nowrap center">
 					<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 				</th>
-				<th width="15%" class="nowrap center">
+				<th width="15%" class="nowrap center hidden-phone">
 					<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="nowrap center">
+				<th width="10%" class="nowrap center hidden-phone">
 					<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="nowrap center">
+				<th width="10%" class="nowrap center hidden-phone">
 					<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 				</th>
-				<th width="1%" class="nowrap center">
+				<th width="1%" class="nowrap center hidden-phone">
 					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
@@ -104,7 +104,7 @@ $sortFields = $this->getSortFields();
 			}
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
-				<td class="center">
+				<td class="center hidden-phone">
 					<?php if ($canEdit) : ?>
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					<?php endif; ?>
@@ -155,20 +155,20 @@ $sortFields = $this->getSortFields();
 						<?php echo nl2br($item->group_names); ?>
 					<?php endif; ?>
 				</td>
-				<td class="center">
+				<td class="center hidden-phone">
 					<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 				</td>
-				<td class="center">
+				<td class="center hidden-phone">
 					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'):?>
 						<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 					<?php else:?>
 						<?php echo JText::_('JNEVER'); ?>
 					<?php endif;?>
 				</td>
-				<td class="center">
+				<td class="center hidden-phone">
 					<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
 				</td>
-				<td class="center">
+				<td class="center hidden-phone">
 					<?php echo (int) $item->id; ?>
 				</td>
 			</tr>
