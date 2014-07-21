@@ -11,4 +11,9 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal');
 ?>
-<div class="btn-group multilanguage"><a class="modal" href="<?php echo JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component');?>" rel="{handler:'iframe', size:{x:700,y:400}}"><i class="icon-comment"></i> <?php echo JText::_('MOD_MULTILANGSTATUS');?></a></div>
+<div class="btn-group multilanguage">
+  <a class="modal" href="<?php echo JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'); ?>" rel="{handler:'iframe', size:{x:700,y:400}}">
+      <i class="icon-comment"></i>
+    <?php echo JText::_('MOD_MULTILANGSTATUS'); ?>
+  </a>
+</div>
