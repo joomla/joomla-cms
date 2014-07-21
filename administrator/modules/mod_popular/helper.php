@@ -103,7 +103,7 @@ abstract class ModPopularHelper
 	 */
 	public static function getTitle($params)
 	{
-		$who = $params->get('user_id');
+		$who   = $params->get('user_id');
 		$catid = (int) $params->get('catid');
 
 		if ($catid)
