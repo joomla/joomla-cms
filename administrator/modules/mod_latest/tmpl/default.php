@@ -24,19 +24,20 @@ JHtml::_('bootstrap.tooltip');
 					<strong class="row-title">
 						<?php if ($item->link) : ?>
 							<a href="<?php echo $item->link; ?>">
-								<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');?></a>
+								<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></a>
 						<?php else : ?>
 							<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 						<?php endif; ?>
 					</strong>
 
 					<small class="hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LATEST_CREATED_BY'); ?>">
-						<?php echo $item->author_name;?>
+						<?php echo $item->author_name; ?>
 					</small>
 				</div>
 				<div class="span3">
-					<span class="small"><i
-							class="icon-calendar"></i> <?php echo JHtml::_('date', $item->created, 'Y-m-d'); ?></span>
+					<span class="small">
+						<i class="icon-calendar"></i> <?php echo JHtml::_('date', $item->created, 'Y-m-d'); ?>
+					</span>
 				</div>
 			</div>
 		<?php endforeach; ?>
