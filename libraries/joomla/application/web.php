@@ -1162,7 +1162,7 @@ class JApplicationWeb extends JApplicationBase
 		$this->set('uri.base.path', $path . '/');
 
 		// Set the extended (non-base) part of the request URI as the route.
-		if(stripos($this->get('uri.request'), $this->get('uri.base.full')) === 0)
+		if (stripos($this->get('uri.request'), $this->get('uri.base.full')) === 0)
 		{
 			$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, strlen($this->get('uri.base.full'))));
 		}
