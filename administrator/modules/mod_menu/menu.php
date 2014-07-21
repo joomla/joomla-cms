@@ -394,7 +394,7 @@ class JMenuNode extends JObject
 
 		if (!empty($link) && $link !== '#')
 		{
-			$uri   = new JUri($link);
+			$uri    = new JUri($link);
 			$params = $uri->getQuery(true);
 			$parts  = array();
 
