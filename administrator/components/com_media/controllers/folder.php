@@ -75,13 +75,6 @@ class MediaControllerFolder extends JControllerLegacy
 		{
 			foreach ($paths as $path)
 			{
-				if ($path !== JFile::makeSafe($path))
-				{
-					$dirname = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
-					JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_WARNDIRNAME', substr($dirname, strlen(COM_MEDIA_BASE))));
-					continue;
-				}
-
 				$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
 				$object_file = new JObject(array('filepath' => $fullPath));
 
