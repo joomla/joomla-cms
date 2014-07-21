@@ -27,7 +27,7 @@ abstract class ModMenuHelper
 	 */
 	public static function getMenus()
 	{
-		$db		= JFactory::getDbo();
+		$db     = JFactory::getDbo();
 		$query	= $db->getQuery(true)
 			->select('a.*, SUM(b.home) AS home')
 			->from('#__menu_types AS a')
@@ -60,11 +60,11 @@ abstract class ModMenuHelper
 	 */
 	public static function getComponents($authCheck = true)
 	{
-		$lang	= JFactory::getLanguage();
-		$user	= JFactory::getUser();
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-		$result	= array();
+		$lang   = JFactory::getLanguage();
+		$user   = JFactory::getUser();
+		$db     = JFactory::getDbo();
+		$query  = $db->getQuery(true);
+		$result = array();
 
 		// Prepare the query.
 		$query->select('m.id, m.title, m.alias, m.link, m.parent_id, m.img, e.element')
@@ -82,7 +82,7 @@ abstract class ModMenuHelper
 		$db->setQuery($query);
 
 		// Component list
-		$components	= $db->loadObjectList();
+		$components = $db->loadObjectList();
 
 		// Parse the list of extensions.
 		foreach ($components as &$component)
@@ -128,7 +128,7 @@ abstract class ModMenuHelper
 					// Add the submenu link if it is defined.
 					if (isset($result[$component->parent_id]->submenu) && !empty($component->link))
 					{
-						$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
+						$component->text                          = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
 						$result[$component->parent_id]->submenu[] = &$component;
 					}
 				}
