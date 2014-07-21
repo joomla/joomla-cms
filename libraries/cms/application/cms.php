@@ -290,6 +290,7 @@ class JApplicationCms extends JApplicationWeb
 			 * (can be configured using the file: configuration.php, or if extended, through the global configuration form)
 			 */
 			$name = $this->getName();
+
 			if ($this->get($name . '_reset_password_override', 0))
 			{
 				$option = $this->get($name . '_reset_password_option', '');
