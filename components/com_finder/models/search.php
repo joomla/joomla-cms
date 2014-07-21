@@ -1070,7 +1070,6 @@ class FinderModelSearch extends JModelList
 		$input = $app->input;
 		$params = $app->getParams();
 		$user = JFactory::getUser();
-		$filter = JFilterInput::getInstance();
 
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
@@ -1079,41 +1078,33 @@ class FinderModelSearch extends JModelList
 		{
 			FinderIndexerHelper::$stemmer = FinderIndexerStemmer::getInstance($params->get('stemmer', 'porter_en'));
 		}
-
+		
 		$request = $input->request;
 		$options = array();
 
-		// Get the query string.
-		$options['input'] = !is_null($request->get('q')) ? $request->get('q', '', 'string') : $params->get('q');
-		$options['input'] = $filter->clean($options['input'], 'string');
-
 		// Get the empty query setting.
-		$options['empty'] = $params->get('allow_empty_query', 0);
-
-		// Get the query language.
-		$options['language'] = !is_null($request->get('l')) ? $request->get('l', '', 'cmd') : $params->get('l');
-		$options['language'] = $filter->clean($options['language'], 'cmd');
+		$options['empty']    = $params->get('allow_empty_query', 0);
 
 		// Get the static taxonomy filters.
-		$options['filter'] = !is_null($request->get('f')) ? $request->get('f', '', 'int') : $params->get('f');
-		$options['filter'] = $filter->clean($options['filter'], 'int');
+		$options['filter']   = $request->getInt('f', $params->get('f', ''));
 
 		// Get the dynamic taxonomy filters.
-		$options['filters'] = !is_null($request->get('t', '', 'array')) ? $request->get('t', '', 'array') : $params->get('t');
-		$options['filters'] = $filter->clean($options['filters'], 'array');
+		$options['filters']  = $request->get('t', $params->get('t', array()), '', 'array');
 		JArrayHelper::toInteger($options['filters']);
 
+		// Get the query string.
+		$options['input']    = $request->getString('q', $params->get('q', ''));
+
+		// Get the query language.
+		$options['language'] = $request->getCmd('l', $params->get('l', ''));
+
 		// Get the start date and start date modifier filters.
-		$options['date1'] = !is_null($request->get('d1')) ? $request->get('d1', '', 'string') : $params->get('d1');
-		$options['date1'] = $filter->clean($options['date1'], 'string');
-		$options['when1'] = !is_null($request->get('w1')) ? $request->get('w1', '', 'string') : $params->get('w1');
-		$options['when1'] = $filter->clean($options['when1'], 'string');
+		$options['date1']    = $request->getString('d1', $params->get('d1', ''));
+		$options['when1']    = $request->getString('w1', $params->get('w1', ''));
 
 		// Get the end date and end date modifier filters.
-		$options['date2'] = !is_null($request->get('d2')) ? $request->get('d2', '', 'string') : $params->get('d2');
-		$options['date2'] = $filter->clean($options['date2'], 'string');
-		$options['when2'] = !is_null($request->get('w2')) ? $request->get('w2', '', 'string') : $params->get('w2');
-		$options['when2'] = $filter->clean($options['when2'], 'string');
+		$options['date2']    = $request->getString('d2', $params->get('d2', ''));
+		$options['when2']    = $request->getString('w2', $params->get('w2', ''));
 
 		// Load the query object.
 		$this->query = new FinderIndexerQuery($options);
