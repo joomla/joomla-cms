@@ -64,7 +64,7 @@ $sortFields = $this->getSortFields();
 				<th width="5%" class="nowrap center">
 					<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%" class="nowrap center">
+				<th width="5%" class="nowrap center hidden-phone">
 					<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%" class="nowrap center">
@@ -142,7 +142,7 @@ $sortFields = $this->getSortFields();
 						<?php echo JText::_($item->block ? 'JNO' : 'JYES'); ?>
 					<?php endif; ?>
 				</td>
-				<td class="center">
+				<td class="center hidden-phone">
 					<?php
 					$activated = empty( $item->activation) ? 0 : 1;
 					echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);
