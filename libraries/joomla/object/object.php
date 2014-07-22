@@ -139,6 +139,9 @@ class JObject
 	 */
 	public function getError($i = null, $toString = true)
 	{
+		// Filter out entries with no value.
+		$this->_errors = array_filter($this->_errors);
+		
 		// Find the error
 		if ($i === null)
 		{
