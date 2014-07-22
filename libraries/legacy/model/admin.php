@@ -1113,9 +1113,11 @@ abstract class JModelAdmin extends JModelForm
 			return false;
 		}
 
-		if (isset($table->$key))
+		$pkName = $table->getKeyName();
+
+		if (isset($table->$pkName))
 		{
-			$this->setState($this->getName() . '.id', $table->$key);
+			$this->setState($this->getName() . '.id', $table->$pkName);
 		}
 		$this->setState($this->getName() . '.new', $isNew);
 
