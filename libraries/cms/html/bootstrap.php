@@ -365,7 +365,7 @@ abstract class JHtmlBootstrap
 
 		// Attach the popover to the document
 		JFactory::getDocument()->addScriptDeclaration(
-			'jQuery(function($) { $(' . json_encode($selector) . ').popover(' . $options . '); });'
+			'jQuery(function($){ $(' . json_encode($selector) . ').popover(' . $options . '); });'
 		);
 
 		static::$loaded[__METHOD__][$selector] = true;
@@ -484,7 +484,7 @@ abstract class JHtmlBootstrap
 			}
 
 			// Attach tooltips to document
-			JFactory::getDocument()->addScriptDeclaration('jQuery(function ($) { ' . implode('.', $script) . '; });');
+			JFactory::getDocument()->addScriptDeclaration('jQuery(function($){ ' . implode('.', $script) . '; });');
 
 			// Set static array
 			static::$loaded[__METHOD__][$selector] = true;
@@ -527,7 +527,7 @@ abstract class JHtmlBootstrap
 			static::framework();
 
 			// Setup options object
-			$opt['source']      = isset($params['source']) ? $params['source'] : '[]';
+			$opt['source']      = isset($params['source']) ? $params['source'] : null;
 			$opt['items']       = isset($params['items']) ? (int) $params['items'] : 8;
 			$opt['minLength']   = isset($params['minLength']) ? (int) $params['minLength'] : 1;
 			$opt['matcher']     = isset($params['matcher']) ? (string) $params['matcher'] : null;
@@ -539,7 +539,7 @@ abstract class JHtmlBootstrap
 
 			// Attach typehead to document
 			JFactory::getDocument()->addScriptDeclaration(
-				'jQuery(function($) { $(' . json_encode($selector) . ').typeahead(' . $options . '); });'
+				'jQuery(function($){ $(' . json_encode($selector) . ').typeahead(' . $options . '); });'
 			);
 
 			// Set static array
@@ -713,9 +713,7 @@ abstract class JHtmlBootstrap
 			static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 		}
 
-		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.starttabset', array('selector' => $selector));
-
-		return $html;
+		return JLayoutHelper::render('libraries.cms.html.bootstrap.starttabset', array('selector' => $selector));
 	}
 
 	/**
@@ -727,9 +725,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endTabSet()
 	{
-		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.endtabset');
-
-		return $html;
+		return JLayoutHelper::render('libraries.cms.html.bootstrap.endtabset');
 	}
 
 	/**
@@ -755,11 +751,9 @@ abstract class JHtmlBootstrap
 
 		// Inject tab into UL
 		JFactory::getDocument()
-		->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector,'id' => $id, 'active' => $active, 'title' => $title)));
+			->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector,'id' => $id, 'active' => $active, 'title' => $title)));
 
-		$html = $tabLayout->render(array('id' => $id, 'active' => $active));
-
-		return $html;
+		return $tabLayout->render(array('id' => $id, 'active' => $active));
 	}
 
 	/**
@@ -771,9 +765,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endTab()
 	{
-		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.endtab');
-
-		return $html;
+		return JLayoutHelper::render('libraries.cms.html.bootstrap.endtab');
 	}
 
 	/**
