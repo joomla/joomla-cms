@@ -32,7 +32,7 @@ foreach ($fieldsets as $group => $fieldset): // Iterate through the form fieldse
 	<?php endif; ?>
 	<dl class="dl-horizontal">
 	<?php foreach ($fields as $field) :
-		if (!$field->hidden && $field->type != 'spacer') : ?>
+		if (!$field->hidden && $field->type != 'Spacer') : ?>
 		<dt><?php echo $field->title; ?></dt>
 		<dd>
 			<?php if (JHtml::isRegistered('users.'.$field->id)) : ?>
