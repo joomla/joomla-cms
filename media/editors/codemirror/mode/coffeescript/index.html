@@ -652,9 +652,9 @@ _.template = (str, data) ->
     str.replace(/\r/g, '\\r')
        .replace(/\n/g, '\\n')
        .replace(/\t/g, '\\t')
-       .replace(endMatch,"���")
+       .replace(endMatch,"         ")
        .split("'").join("\\'")
-       .split("���").join("'")
+       .split("         ").join("'")
        .replace(c.interpolate, "',$1,'")
        .split(c.start).join("');")
        .split(c.end).join("p.push('") +

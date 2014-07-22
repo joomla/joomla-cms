@@ -46,16 +46,30 @@ CodeMirror.defineMode("ruby", function(config) {
     var ch = stream.next(), m;
     if (ch == "`" || ch == "'" || ch == '"') {
       return chain(readQuoted(ch, "string", ch == '"' || ch == "`"), stream, state);
-    } else if (ch == "/" && !stream.eol() && stream.peek() != " ") {
-      if (stream.eat("=")) return "operator";
-      return chain(readQuoted(ch, "string-2", true), stream, state);
+    } else if (ch == "/") {
+      var currentIndex = stream.current().length;
+      if (stream.skipTo("/")) {
+        var search_till = stream.current().length;
+        stream.backUp(stream.current().length - currentIndex);
+        var balance = 0;  // balance brackets
+        while (stream.current().length < search_till) {
+          var chchr = stream.next();
+          if (chchr == "(") balance += 1;
+          else if (chchr == ")") balance -= 1;
+          if (balance < 0) break;
+        }
+        stream.backUp(stream.current().length - currentIndex);
+        if (balance == 0)
+          return chain(readQuoted(ch, "string-2", true), stream, state);
+      }
+      return "operator";
     } else if (ch == "%") {
       var style = "string", embed = true;
       if (stream.eat("s")) style = "atom";
       else if (stream.eat(/[WQ]/)) style = "string";
       else if (stream.eat(/[r]/)) style = "string-2";
       else if (stream.eat(/[wxq]/)) { style = "string"; embed = false; }
-      var delim = stream.eat(/[^\w\s]/);
+      var delim = stream.eat(/[^\w\s=]/);
       if (!delim) return "operator";
       if (matching.propertyIsEnumerable(delim)) delim = matching[delim];
       return chain(readQuoted(delim, style, embed, true), stream, state);
