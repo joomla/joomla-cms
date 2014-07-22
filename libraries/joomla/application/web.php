@@ -112,9 +112,9 @@ class JApplicationWeb
 	 */
 	public function __construct(JInput $input = null, JRegistry $config = null, JWebClient $client = null)
 	{
-		$this->input  = ($input instanceof JInput)      ? $input  : new JInput;
-		$this->config = ($config instanceof JRegistry)  ? $config : new JRegistry;
-		$this->client = ($client instanceof JWebClient) ? $client : new JWebClient;
+		$this->input  = $input  ?: new JInput;
+		$this->config = $config ?: new JRegistry;
+		$this->client = $client ?: new JWebClient;
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
