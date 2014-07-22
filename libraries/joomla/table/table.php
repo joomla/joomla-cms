@@ -477,8 +477,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			}
 			else
 			{
-				// If we want the standard method, just return the first key.
-				return $this->_tbl_keys[0];
+				// If we want the standard method, just return the first key if there is any.
+				return current($this->_tbl_keys);
 			}
 		}
 
@@ -782,7 +782,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		}
 		else
 		{
-			$result = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
+			$result = $this->_db->insertObject($this->_tbl, $this, current($this->_tbl_keys));
 		}
 
 		// If the table is not set to track assets return true.
