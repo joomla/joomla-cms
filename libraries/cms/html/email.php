@@ -86,7 +86,7 @@ abstract class JHtmlEmail
 		}
 
 		$replacement .= "\n //-->";
-		$replacement .= '\n </script>';
+		$replacement .= "\n </script>";
 
 		return $replacement;
 	}
