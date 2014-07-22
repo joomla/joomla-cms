@@ -259,7 +259,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			'jQuery(function($){ $("#modal").modal({"backdrop": true,"keyboard": true,"show": true,"remote": ""}); });',
+			'jQuery(function($){ $("#modal").modal({"backdrop": true,"keyboard": true,"show": false,"remote": ""}); });',
 			'Verify that the modal script is initialised'
 		);
 	}
@@ -287,7 +287,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			'jQuery(function($){ $("#modal").modal({"backdrop": true,"keyboard": true,"show": true,"remote": ""}); });',
+			'jQuery(function($){ $("#modal").modal({"backdrop": true,"keyboard": true,"show": false,"remote": ""}); });',
 			'Verify that the modal script is initialised'
 		);
 
