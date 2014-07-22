@@ -39,7 +39,7 @@ if (!defined("FTP_ASCII"))
 }
 
 // Is FTP extension loaded?  If not try to load it
-if (!extension_loaded('ftp'))
+if (!extension_loaded('ftp') && function_exists('dl'))
 {
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
 	{
