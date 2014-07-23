@@ -18,6 +18,13 @@ defined('_JEXEC') or die;
  */
 class ModStatsHelper
 {
+	/**
+	 * Get list of stats
+	 *
+	 * @param   JRegistry  &$params  module parameters
+	 *
+	 * @return  array
+	 */
 	public static function &getList(&$params)
 	{
 		$app	= JFactory::getApplication();
@@ -31,6 +38,7 @@ class ModStatsHelper
 		$increase	= $params->get('increase');
 
 		$i = 0;
+
 		if ($serverinfo)
 		{
 			$rows[$i] = new stdClass;
@@ -55,12 +63,12 @@ class ModStatsHelper
 
 			$rows[$i] = new stdClass;
 			$rows[$i]->title	= JText::_('MOD_STATS_CACHING');
-			$rows[$i]->data	= $app->getCfg('caching') ? JText::_('JENABLED'):JText::_('JDISABLED');
+			$rows[$i]->data	= $app->get('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 
 			$rows[$i] = new stdClass;
 			$rows[$i]->title	= JText::_('MOD_STATS_GZIP');
-			$rows[$i]->data	= $app->getCfg('gzip') ? JText::_('JENABLED'):JText::_('JDISABLED');
+			$rows[$i]->data	= $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 		}
 

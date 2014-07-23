@@ -13,7 +13,7 @@ $app = JFactory::getApplication();
 $template = $app->getTemplate();
 
 // Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 ?>

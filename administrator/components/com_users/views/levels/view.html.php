@@ -18,10 +18,28 @@ defined('_JEXEC') or die;
  */
 class UsersViewLevels extends JViewLegacy
 {
+	/**
+	 * The item data.
+	 *
+	 * @var   object
+	 * @since 1.6
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object.
+	 *
+	 * @var   JPagination
+	 * @since 1.6
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state.
+	 *
+	 * @var   JObject
+	 * @since 1.6
+	 */
 	protected $state;
 
 	/**
@@ -29,9 +47,9 @@ class UsersViewLevels extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		UsersHelper::addSubmenu('levels');
 
@@ -62,21 +80,25 @@ class UsersViewLevels extends JViewLegacy
 		{
 			JToolbarHelper::addNew('level.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('level.edit');
 			JToolbarHelper::divider();
 		}
+
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'level.delete');
 			JToolbarHelper::divider();
 		}
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_users');
 			JToolbarHelper::divider();
 		}
+
 		JToolbarHelper::help('JHELP_USERS_ACCESS_LEVELS');
 	}
 

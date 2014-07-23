@@ -11,39 +11,38 @@
  * @since		1.5
  */
 
-(function() {
+(function($) {
 var ImageManager = this.ImageManager = {
 	initialize: function()
 	{
 		o = this._getUriObject(window.self.location.href);
-		//console.log(o);
-		q = new Hash(this._getQueryObject(o.query));
-		this.editor = decodeURIComponent(q.get('e_name'));
+		q = this._getQueryObject(o.query);
+		this.editor = decodeURIComponent(q['e_name']);
 
 		// Setup image manager fields object
 		this.fields			= new Object();
-		this.fields.url		= document.id("f_url");
-		this.fields.alt		= document.id("f_alt");
-		this.fields.align	= document.id("f_align");
-		this.fields.title	= document.id("f_title");
-		this.fields.caption	= document.id("f_caption");
-		this.fields.c_class	= document.id("f_caption_class");
+		this.fields.url		= document.getElementById("f_url");
+		this.fields.alt		= document.getElementById("f_alt");
+		this.fields.align	= document.getElementById("f_align");
+		this.fields.title	= document.getElementById("f_title");
+		this.fields.caption	= document.getElementById("f_caption");
+		this.fields.c_class	= document.getElementById("f_caption_class");
 
 		// Setup image listing objects
-		this.folderlist = document.id('folderlist');
+		this.folderlist = document.getElementById('folderlist');
 
 		this.frame		= window.frames['imageframe'];
 		this.frameurl	= this.frame.location.href;
 
 		// Setup imave listing frame
-		this.imageframe = document.id('imageframe');
+		this.imageframe = document.getElementById('imageframe');
 		this.imageframe.manager = this;
-		this.imageframe.addEvent('load', function(){ ImageManager.onloadimageview(); });
+		$(this.imageframe).on('load', function(){ ImageManager.onloadimageview(); });
 
 		// Setup folder up button
-		this.upbutton = document.id('upbutton');
-		this.upbutton.removeEvents('click');
-		this.upbutton.addEvent('click', function(){ ImageManager.upFolder(); });
+		this.upbutton = document.getElementById('upbutton');
+		$(this.upbutton).off('click');
+		$(this.upbutton).on('click', function(){ ImageManager.upFolder(); });
 	},
 
 	onloadimageview: function()
@@ -56,29 +55,29 @@ var ImageManager = this.ImageManager = {
 		{
 			if (folder == this.folderlist.options[i].value) {
 				this.folderlist.selectedIndex = i;
-				if ( typeof jQuery !== 'undefined' && this.folderlist.className.test( /\bchzn-done\b/ )) {
-					jQuery( this.folderlist ).trigger( 'liszt:updated' );
+				if (this.folderlist.className.test(/\bchzn-done\b/)) {
+					$(this.folderlist).trigger('liszt:updated');
 				}
 				break;
 			}
 		}
 
-		a = this._getUriObject(document.id('uploadForm').getProperty('action'));
-		//console.log(a);
-		q = new Hash(this._getQueryObject(a.query));
-		q.set('folder', folder);
+		a = this._getUriObject($('#uploadForm').attr('action'));
+		q = this._getQueryObject(a.query);
+		q['folder'] = folder;
 		var query = [];
-		q.each(function(v, k){
-			if (v !== null) {
-				this.push(k+'='+v);
+		for (var k in q) {
+			var v = q[k];
+			if (q.hasOwnProperty(k) && v !== null) {
+				query.push(k+'='+v);
 			}
-		}, query);
+		}
 		a.query = query.join('&');
 		var portString = '';
 		if (typeof(a.port) !== 'undefined' && a.port != 80) {
 			portString = ':'+a.port;
 		}
-		document.id('uploadForm').setProperty('action', a.scheme+'://'+a.domain+portString+a.path+'?'+a.query);
+		$('#uploadForm').attr('action', a.scheme+'://'+a.domain+portString+a.path+'?'+a.query);
 	},
 
 	getImageFolder: function()
@@ -95,12 +94,12 @@ var ImageManager = this.ImageManager = {
 		var extra	= '';
 
 		// Get the image tag field information
-		var url		= this.fields.url.get('value');
-		var alt		= this.fields.alt.get('value');
-		var align	= this.fields.align.get('value');
-		var title	= this.fields.title.get('value');
-		var caption	= this.fields.caption.get('value');
-		var c_class	= this.fields.c_class.get('value');
+		var url		= this.fields.url.value;
+		var alt		= this.fields.alt.value;
+		var align	= this.fields.align.value;
+		var title	= this.fields.title.value;
+		var caption	= this.fields.caption.value;
+		var c_class	= this.fields.c_class.value;
 
 		if (url != '') {
 			// Set alt attribute
@@ -140,14 +139,12 @@ var ImageManager = this.ImageManager = {
 
 	setFolder: function(folder,asset,author)
 	{
-		//this.showMessage('Loading');
-
 		for(var i = 0; i < this.folderlist.length; i++)
 		{
 			if (folder == this.folderlist.options[i].value) {
 				this.folderlist.selectedIndex = i;
-				if ( typeof jQuery !== 'undefined' && this.folderlist.className.test( /\bchzn-done\b/ )) {
-					jQuery( this.folderlist ).trigger( 'liszt:updated' );
+				if (this.folderlist.className.test(/\bchzn-done\b/)) {
+					$(this.folderlist).trigger('liszt:updated');
 				}
 				break;
 			}
@@ -156,7 +153,7 @@ var ImageManager = this.ImageManager = {
 	},
 
 	getFolder: function() {
-		return this.folderlist.get('value');
+		return this.folderlist.value;
 	},
 
 	upFolder: function()
@@ -194,7 +191,7 @@ var ImageManager = this.ImageManager = {
 
 	populateFields: function(file)
 	{
-		document.id("f_url").value = image_base_path+file;
+		$("#f_url").val(image_base_path+file);
 	},
 
 	showMessage: function(text)
@@ -245,7 +242,7 @@ var ImageManager = this.ImageManager = {
 	_getQueryObject: function(q) {
 		var vars = q.split(/[&;]/);
 		var rs = {};
-		if (vars.length) vars.each(function(val) {
+		if (vars.length) vars.forEach(function(val) {
 			var keys = val.split('=');
 			if (keys.length && keys.length == 2) rs[encodeURIComponent(keys[0])] = encodeURIComponent(keys[1]);
 		});
@@ -253,14 +250,18 @@ var ImageManager = this.ImageManager = {
 	},
 
 	_getUriObject: function(u){
-		var bits = u.match(/^(?:([^:\/?#.]+):)?(?:\/\/)?(([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[\?#]|$)))*\/?)?([^?#\/]*))?(?:\?([^#]*))?(?:#(.*))?/);
+		var bitsAssociate = {}, bits = u.match(/^(?:([^:\/?#.]+):)?(?:\/\/)?(([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[\?#]|$)))*\/?)?([^?#\/]*))?(?:\?([^#]*))?(?:#(.*))?/);
+		['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'].forEach(function(key, index) {
+			bitsAssociate[key] = bits[index];
+		});
+
 		return (bits)
-			? bits.associate(['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'])
+			? bitsAssociate
 			: null;
 	}
 };
-})(document.id);
+})(jQuery);
 
-window.addEvent('domready', function(){
+jQuery(function(){
 	ImageManager.initialize();
 });

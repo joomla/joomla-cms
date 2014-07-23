@@ -19,6 +19,14 @@ defined('_JEXEC') or die;
 class PlgContentContact extends JPlugin
 {
 	/**
+	 * Database object
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.3
+	 */
+	protected $db;
+
+	/**
 	 * Plugin that retrieves contact information for contact
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin.
@@ -31,6 +39,7 @@ class PlgContentContact extends JPlugin
 	public function onContentPrepare($context, &$row, $params, $page = 0)
 	{
 		$allowed_contexts = array('com_content.category', 'com_content.article', 'com_content.featured');
+
 		if (!in_array($context, $allowed_contexts))
 		{
 			return true;
@@ -69,36 +78,36 @@ class PlgContentContact extends JPlugin
 	/**
 	 * Retrieve Contact
 	 *
-	 * @param   int    $created_by
+	 * @param   int  $created_by  Id of the user who created the contact
 	 *
 	 * @return  mixed|null|integer
 	 */
 	protected function getContactID($created_by)
 	{
 		static $contacts = array();
-		if(isset($contacts[$created_by]))
+
+		if (isset($contacts[$created_by]))
 		{
 			return $contacts[$created_by];
 		}
 
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$query = $this->db->getQuery(true);
 
 		$query->select('MAX(contact.id) AS contactid');
-		$query->from('#__contact_details AS contact');
+		$query->from($this->db->quoteName('#__contact_details', 'contact'));
 		$query->where('contact.published = 1');
 		$query->where('contact.user_id = ' . (int) $created_by);
 
 		if (JLanguageMultilang::isEnabled() == 1)
 		{
 			$query->where('(contact.language in '
-				. '(' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') '
+				. '(' . $this->db->quote(JFactory::getLanguage()->getTag()) . ',' . $this->db->quote('*') . ') '
 				. ' OR contact.language IS NULL)');
 		}
 
-		$db->setQuery($query);
+		$this->db->setQuery($query);
 
-		$contacts[$created_by] = $db->loadResult();
+		$contacts[$created_by] = $this->db->loadResult();
 
 		return $contacts[$created_by];
 	}

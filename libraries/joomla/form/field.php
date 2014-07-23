@@ -305,6 +305,13 @@ abstract class JFormField
 	protected static $generated_fieldname = '__field';
 
 	/**
+	 * Layout to render the form field
+	 *
+	 * @var  string
+	 */
+	protected $renderLayout = 'joomla.form.renderfield';
+
+	/**
 	 * Method to instantiate the form field object.
 	 *
 	 * @param   JForm  $form  The form to attach to the form field object.
@@ -865,21 +872,55 @@ abstract class JFormField
 	/**
 	 * Method to get a control group with label and input.
 	 *
-	 * @return  string  A string containing the html for the control goup
+	 * @return  string  A string containing the html for the control group
+	 *
+	 * @since      3.2
+	 * @deprecated 3.2.3 Use renderField() instead
+	 */
+	public function getControlGroup()
+	{
+		JLog::add('JFormField->getControlGroup() is deprecated use JFormField->renderField().', JLog::WARNING, 'deprecated');
+
+		return $this->renderField();
+	}
+
+	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @param   array  $options  Options to be passed into the rendering of the field
+	 *
+	 * @return  string  A string containing the html for the control group
 	 *
 	 * @since   3.2
 	 */
-	public function getControlGroup()
+	public function renderField($options = array())
 	{
 		if ($this->hidden)
 		{
 			return $this->getInput();
 		}
 
-		return
-			'<div class="control-group">'
-			. '<div class="control-label">' . $this->getLabel() . '</div>'
-			. '<div class="controls">' . $this->getInput() . '</div>'
-			. '</div>';
+		if (!isset($options['class']))
+		{
+			$options['class'] = '';
+		}
+
+		$options['rel'] = '';
+
+		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel'))
+		{
+			$options['hiddenLabel'] = true;
+		}
+
+		if ($showon = $this->getAttribute('showon'))
+		{
+			$showon   = explode(':', $showon, 2);
+			$options['class'] .= ' showon_' . implode(' showon_', explode(',', $showon[1]));
+			$id = $this->getName($showon[0]);
+			$options['rel'] = ' rel="showon_' . $id . '"';
+			$options['showonEnabled'] = true;
+		}
+
+		return JLayoutHelper::render($this->renderLayout, array('input' => $this->getInput(), 'label' => $this->getLabel(), 'options' => $options));
 	}
 }

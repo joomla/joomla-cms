@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 ?>
 
 
-<div class="items-more">
 <ol class="nav nav-tabs nav-stacked">
 <?php
 	foreach ($this->link_items as &$item) :
@@ -22,4 +21,3 @@ defined('_JEXEC') or die;
 	</li>
 <?php endforeach; ?>
 </ol>
-</div>

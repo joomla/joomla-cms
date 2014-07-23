@@ -29,6 +29,8 @@ class JGithubMilestones extends JGithubObject
 	 * @param   integer  $page       The page number from which to get items.
 	 * @param   integer  $limit      The number of items on a page.
 	 *
+	 * @deprecated  use issues->milestones->getList()
+	 *
 	 * @return  array
 	 *
 	 * @since   12.3
@@ -63,6 +65,8 @@ class JGithubMilestones extends JGithubObject
 	 * @param   string   $repo         The name of the GitHub repository.
 	 * @param   integer  $milestoneId  The milestone id to get.
 	 *
+	 * @deprecated  use issues->milestones->get()
+	 *
 	 * @return  object
 	 *
 	 * @since   12.3
@@ -95,6 +99,8 @@ class JGithubMilestones extends JGithubObject
 	 * @param   string   $state        Can be open (default) or closed.
 	 * @param   string   $description  Optional description for milestone.
 	 * @param   string   $due_on       Optional ISO 8601 time.
+	 *
+	 * @deprecated  use issues->milestones->create()
 	 *
 	 * @return  object
 	 *
@@ -152,6 +158,8 @@ class JGithubMilestones extends JGithubObject
 	 * @param   string   $description  Optional description for milestone.
 	 * @param   string   $due_on       Optional ISO 8601 time.
 	 *
+	 * @deprecated  use issues->milestones->edit()
+	 *
 	 * @return  object
 	 *
 	 * @since   12.3
@@ -206,6 +214,8 @@ class JGithubMilestones extends JGithubObject
 	 * @param   string   $user         The name of the owner of the GitHub repository.
 	 * @param   string   $repo         The name of the GitHub repository.
 	 * @param   integer  $milestoneId  The id of the milestone to delete.
+	 *
+	 * @deprecated  use issues->milestones->delete()
 	 *
 	 * @return  void
 	 *

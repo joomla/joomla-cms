@@ -67,6 +67,7 @@ class PlgSystemHighlight extends JPlugin
 		$filter = JFilterInput::getInstance();
 
 		$cleanTerms = array();
+
 		foreach ($terms as $term)
 		{
 			$cleanTerms[] = htmlspecialchars($filter->clean($term, 'string'));

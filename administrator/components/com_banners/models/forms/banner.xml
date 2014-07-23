@@ -8,18 +8,18 @@
 			label="JGLOBAL_FIELD_ID_LABEL" description="JGLOBAL_FIELD_ID_DESC" />
 
 		<field name="name" type="text"
-			class="inputbox input-xxlarge input-large-text"
+			class="input-xxlarge input-large-text"
 			size="40" label="COM_BANNERS_FIELD_NAME_LABEL"
 			description="COM_BANNERS_FIELD_NAME_DESC" required="true" />
 
-		<field name="alias" type="text" class="inputbox"
+		<field name="alias" type="text"
 			size="40" label="JFIELD_ALIAS_LABEL"
 			description="COM_BANNERS_FIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER" />
 
 		<field name="catid" type="categoryedit" extension="com_banners"
 			label="JCATEGORY" description="COM_BANNERS_FIELD_CATEGORY_DESC"
-			class="inputbox" required="true"
+			required="true"
 			addfieldpath="/administrator/components/com_categories/models/fields" />
 
 		<field name="state" type="list"
@@ -33,11 +33,11 @@
 		</field>
 
 		<field name="ordering" type="ordering" label="JFIELD_ORDERING_LABEL"
-			class="inputbox" description="JFIELD_ORDERING_DESC"
+			description="JFIELD_ORDERING_DESC"
 			table="#__banners" />
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_BANNERS_FIELD_LANGUAGE_DESC" class="inputbox">
+			description="COM_BANNERS_FIELD_LANGUAGE_DESC">
 			<option value="*">JALL</option>
 		</field>
 
@@ -45,28 +45,28 @@
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
-			class="inputbox span12" size="45"
+			class="span12" size="45"
 			labelclass="control-label"
 		/>
 
-		<field name="description" type="textarea" class="inputbox"
+		<field name="description" type="textarea"
 			rows="3" cols="30" label="JGLOBAL_DESCRIPTION"
 			description="COM_BANNERS_FIELD_DESCRIPTION_DESC" />
 
 		<field name="type" type="list"
 			label="COM_BANNERS_FIELD_TYPE_LABEL" description="COM_BANNERS_FIELD_TYPE_DESC"
-			default="0" class="inputbox">
+			default="0">
 			<option value="0">COM_BANNERS_FIELD_VALUE_IMAGE
 			</option>
 			<option value="1">COM_BANNERS_FIELD_VALUE_CUSTOM
 			</option>
 		</field>
 
-		<field name="custombannercode" type="textarea" class="inputbox"
+		<field name="custombannercode" type="textarea"
 			rows="3" cols="30" filter="raw"
 			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL" description="COM_BANNERS_FIELD_CUSTOMCODE_DESC" />
 
-		<field name="clickurl" type="url" class="inputbox" filter="url"
+		<field name="clickurl" type="url" filter="url"
 			label="COM_BANNERS_FIELD_CLICKURL_LABEL" description="COM_BANNERS_FIELD_CLICKURL_DESC" />
 	</fieldset>
 
@@ -75,7 +75,7 @@
 
 		<field name="created" type="calendar"
 			label="COM_BANNERS_FIELD_CREATED_LABEL" description="COM_BANNERS_FIELD_CREATED_DESC"
-			class="inputbox" size="22" format="%Y-%m-%d %H:%M:%S"
+			size="22" format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc" />
 
 		<field name="created_by" type="user"
@@ -83,7 +83,7 @@
 
 		<field name="created_by_alias" type="text"
 			label="COM_BANNERS_FIELD_CREATED_BY_ALIAS_LABEL" description="COM_BANNERS_FIELD_CREATED_BY_ALIAS_DESC"
-			class="inputbox" size="20" />
+			size="20" />
 
 		<field name="modified" type="calendar" class="readonly"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL" description="COM_BANNERS_FIELD_MODIFIED_DESC"
@@ -101,12 +101,12 @@
 
 		<field name="publish_up" type="calendar"
 			label="COM_BANNERS_FIELD_PUBLISH_UP_LABEL" description="COM_BANNERS_FIELD_PUBLISH_UP_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
+			format="%Y-%m-%d %H:%M:%S" size="22"
 			filter="user_utc" />
 
 		<field name="publish_down" type="calendar"
 			label="COM_BANNERS_FIELD_PUBLISH_DOWN_LABEL" description="COM_BANNERS_FIELD_PUBLISH_DOWN_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
+			format="%Y-%m-%d %H:%M:%S" size="22"
 			filter="user_utc" />
 	</fieldset>
 
@@ -137,7 +137,7 @@
 
 		<field name="purchase_type" type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL" description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
-			default="0" class="inputbox">
+			default="0">
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
 			</option>
 			<option value="1">COM_BANNERS_FIELD_VALUE_1
@@ -173,7 +173,7 @@
 	<fieldset name="metadata"
 		label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
-		<field name="metakey" type="textarea" class="inputbox"
+		<field name="metakey" type="textarea"
 			rows="3" cols="30" label="JFIELD_META_KEYWORDS_LABEL"
 			description="COM_BANNERS_FIELD_METAKEYWORDS_DESC" />
 
@@ -199,20 +199,20 @@
 				description="COM_BANNERS_FIELD_IMAGE_DESC" />
 
 			<field name="width" type="text"
-				class="inputbox input-mini validate-numeric" label="COM_BANNERS_FIELD_WIDTH_LABEL"
+				class="input-mini validate-numeric" label="COM_BANNERS_FIELD_WIDTH_LABEL"
 				description="COM_BANNERS_FIELD_WIDTH_DESC" />
 
 			<field name="height" type="text"
-				class="inputbox input-mini validate-numeric" label="COM_BANNERS_FIELD_HEIGHT_LABEL"
+				class="input-mini validate-numeric" label="COM_BANNERS_FIELD_HEIGHT_LABEL"
 				description="COM_BANNERS_FIELD_HEIGHT_DESC" />
 
-			<field name="alt" type="text" class="inputbox"
+			<field name="alt" type="text"
 				label="COM_BANNERS_FIELD_ALT_LABEL" description="COM_BANNERS_FIELD_ALT_DESC" />
 		</fieldset>
 	</fields>
 
 	<fieldset name="custom">
-		<field name="bannercode" type="textarea" class="inputbox"
+		<field name="bannercode" type="textarea"
 			rows="3" cols="30" filter="raw"
 			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL" description="COM_BANNERS_FIELD_CUSTOMCODE_DESC" />
 	</fieldset>

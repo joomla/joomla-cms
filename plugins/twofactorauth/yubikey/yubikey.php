@@ -225,8 +225,8 @@ class PlgTwofactorauthYubikey extends JPlugin
 	 * This method should handle any two factor authentication and report back
 	 * to the subject.
 	 *
-	 * @param   array   $credentials  Array holding the user credentials
-	 * @param   array   $options      Array of extra options
+	 * @param   array  $credentials  Array holding the user credentials
+	 * @param   array  $options      Array of extra options
 	 *
 	 * @return  boolean  True if the user is authorised with this two-factor authentication method
 	 *
