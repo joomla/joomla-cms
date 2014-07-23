@@ -233,6 +233,52 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$buffer .= $tab . $custom . $lnEnd;
 		}
 
+		// Generate Javascript modules initialization
+		if (!empty($document->_modules))
+		{
+			$modules = array();
+
+			// Generate config
+			$config = array(
+					'baseUrl' => JUri::root(true),
+					'paths' => array()
+			);
+
+			foreach ($document->_modules as $name => $options)
+			{
+				$modules[] = $name;
+
+				// To collect all paths in the loader configuration
+				$config['paths'][$name] = str_replace('.js', '', $options['url']);
+
+				// Shim
+				// To load all dependencies in the loader configuration
+				if (!empty($options['dependencies']))
+				{
+					$config['shim'][$name]['deps'] = $options['dependencies'];
+				}
+				if (!empty($options['exports']))
+				{
+					$config['shim'][$name]['exports'] = $options['exports'];
+				}
+				if (!empty($options['init']))
+				{
+					$config['shim'][$name]['init'] = $options['init'];
+				}
+			}
+
+			// Final require.js config render
+			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
+			$buffer .= $tab . $tab . '(function() {' . $lnEnd;
+
+			// Loader configuration
+			$buffer .= $tab . $tab . $tab . 'var config = ' . json_encode($config) . ';' . $lnEnd;
+			$buffer .= $tab . $tab . $tab . 'require.config(config)' . $lnEnd;
+			$buffer .= $tab . $tab . $tab . 'require(' . stripslashes(json_encode($modules)) . ');' . $lnEnd;
+			$buffer .= $tab . $tab . '})();' . $lnEnd;
+			$buffer .= $tab . '</script>' . $lnEnd;
+		}
+
 		return $buffer;
 	}
 }
