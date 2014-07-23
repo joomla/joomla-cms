@@ -221,7 +221,9 @@ class JURI extends JObject
 		if (empty(self::$base))
 		{
 			$config = JFactory::getConfig();
-			$live_site = $config->get('live_site');
+			$uri = self::getInstance();
+			$live_site = ($uri->isSSL()) ? str_replace("http://","https://",$config->get('live_site')) : $config->get('live_site');
+
 			if (trim($live_site) != '')
 			{
 				$uri = self::getInstance($live_site);
@@ -235,7 +237,6 @@ class JURI extends JObject
 			}
 			else
 			{
-				$uri = self::getInstance();
 				self::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 
 				if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
