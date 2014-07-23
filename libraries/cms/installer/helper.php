@@ -27,12 +27,13 @@ abstract class JInstallerHelper
 	 *
 	 * @param   string  $url     URL of file to download
 	 * @param   string  $target  Download target filename [optional]
+	 * @param   int     $jumps   Number of redirects allowed [optional]
 	 *
 	 * @return  mixed  Path to downloaded package or boolean false on failure
 	 *
 	 * @since   3.1
 	 */
-	public static function downloadPackage($url, $target = false)
+	public static function downloadPackage($url, $target = false, $jumps = 5)
 	{
 		$config = JFactory::getConfig();
 
@@ -54,9 +55,9 @@ abstract class JInstallerHelper
 
 		$response = $http->get($url, $headers);
 
-		if (302 == $response->code && isset($response->headers['Location']))
+		if (302 == $response->code && isset($response->headers['Location']) && $jumps > 0)
 		{
-			return self::downloadPackage($response->headers['Location']);
+			return self::downloadPackage($response->headers['Location'], $target, $jumps-1);
 		}
 		elseif (200 != $response->code)
 		{
