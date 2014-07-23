@@ -480,6 +480,7 @@ abstract class JHtml
 									}
 								}
 							}
+
 							// Try to deal with system files in the media folder
 							else
 							{
@@ -498,6 +499,7 @@ abstract class JHtml
 					}
 				}
 			}
+
 			// If not relative and http is not present in filename
 			else
 			{
@@ -644,6 +646,7 @@ abstract class JHtml
 				return $includes;
 			}
 		}
+
 		// If inclusion is required
 		else
 		{
@@ -697,6 +700,7 @@ abstract class JHtml
 				return $includes;
 			}
 		}
+
 		// If inclusion is required
 		else
 		{
@@ -761,6 +765,7 @@ abstract class JHtml
 			// Set the correct time zone based on the user configuration.
 			$date->setTimeZone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
 		}
+
 		// UTC date converted to server time zone.
 		elseif ($tz === false)
 		{
@@ -770,11 +775,13 @@ abstract class JHtml
 			// Set the correct time zone based on the server configuration.
 			$date->setTimeZone(new DateTimeZone($config->get('offset')));
 		}
+
 		// No date conversion.
 		elseif ($tz === null)
 		{
 			$date = JFactory::getDate($input);
 		}
+
 		// UTC date converted to given time zone.
 		else
 		{
@@ -790,6 +797,7 @@ abstract class JHtml
 		{
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
+
 		// $format is an existing language key
 		elseif (JFactory::getLanguage()->hasKey($format))
 		{
@@ -892,52 +900,55 @@ abstract class JHtml
 	 */
 	public static function tooltipText($title = '', $content = '', $translate = 1, $escape = 1)
 	{
-		// Return empty in no title or content is given.
-		if ($title == '' && $content == '')
+		// Initialise return value.
+		$result = '';
+
+		// Don't process empty strings
+		if ($content != '' || $title != '')
 		{
-			return '';
+			// Split title into title and content if the title contains '::' (old Mootools format).
+			if ($content == '' && !(strpos($title, '::') === false))
+			{
+				list($title, $content) = explode('::', $title, 2);
+			}
+
+			// Pass texts through the JText if required.
+			if ($translate)
+			{
+				$title = JText::_($title);
+				$content = JText::_($content);
+			}
+
+			// Use only the content if no title is given.
+			if ($title == '')
+			{
+				$result = $content;
+			}
+
+			// Use only the title, if title and text are the same.
+			elseif ($title == $content)
+			{
+				$result = '<strong>' . $title . '</strong>';
+			}
+
+			// Use a formatted string combining the title and content.
+			elseif ($content != '')
+			{
+				$result = '<strong>' . $title . '</strong><br />' . $content;
+			}
+			else
+			{
+				$result = $title;
+			}
+
+			// Escape everything, if required.
+			if ($escape)
+			{
+				$result = htmlspecialchars($result);
+			}
 		}
 
-		// Split title into title and content if the title contains '::' (old Mootools format).
-		if ($content == '' && !(strpos($title, '::') === false))
-		{
-			list($title, $content) = explode('::', $title, 2);
-		}
-
-		// Pass texts through the JText.
-		if ($translate)
-		{
-			$title = JText::_($title);
-			$content = JText::_($content);
-		}
-
-		// Escape the texts.
-		if ($escape)
-		{
-			$title = str_replace('"', '&quot;', $title);
-			$content = str_replace('"', '&quot;', $content);
-		}
-
-		// Return only the content if no title is given.
-		if ($title == '')
-		{
-			return $content;
-		}
-
-		// Return only the title if title and text are the same.
-		if ($title == $content)
-		{
-			return '<strong>' . $title . '</strong>';
-		}
-
-		// Return the formated sting combining the title and  content.
-		if ($content != '')
-		{
-			return '<strong>' . $title . '</strong><br />' . $content;
-		}
-
-		// Return only the title.
-		return $title;
+		return $result;
 	}
 
 	/**
