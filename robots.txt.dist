@@ -23,16 +23,8 @@ Disallow: /language/
 Disallow: /layouts/
 Disallow: /libraries/
 Disallow: /logs/
-Disallow: /media/
+# Disallow: /media/
 Disallow: /modules/
 Disallow: /plugins/
-Disallow: /templates/
+# Disallow: /templates/
 Disallow: /tmp/
-
-# Filter exception to allow bots (in particular Google) to read .css and .js files for a better SEO
-# see https://github.com/joomla/joomla-cms/issues/3937
-
-Allowed: /templates/*.css$
-Allowed: /templates/*.js$
-Allowed: /media/*.css$
-Allowed: /media/*.js$
