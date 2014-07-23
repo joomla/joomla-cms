@@ -371,14 +371,18 @@ class ContentModelArticle extends JModelAdmin
 		$assoc = JLanguageAssociations::isEnabled();
 
 		// Check if article is associated
-		$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
-
-		if ($app->isSite() && $assoc && $this->getState('article.id') && !empty($associations))
+		if ($id && $app->isSite() && $assoc)
 		{
-			$form->setFieldAttribute('language', 'readonly', 'true');
-			$form->setFieldAttribute('catid', 'readonly', 'true');
-			$form->setFieldAttribute('language', 'filter', 'unset');
-			$form->setFieldAttribute('catid', 'filter', 'unset');
+			$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+
+			// Make fields read only
+			if ($associations)
+			{
+				$form->setFieldAttribute('language', 'readonly', 'true');
+				$form->setFieldAttribute('catid', 'readonly', 'true');
+				$form->setFieldAttribute('language', 'filter', 'unset');
+				$form->setFieldAttribute('catid', 'filter', 'unset');
+			}
 		}
 
 		return $form;
