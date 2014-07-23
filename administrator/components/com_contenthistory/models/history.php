@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -296,12 +296,12 @@ class ContenthistoryModelHistory extends JModelList
 	protected function getSha1Hash()
 	{
 		$result = false;
-		$typesTable = JTable::getInstance('Contenttype', 'JTable');
+		$typeTable = JTable::getInstance('Contenttype', 'JTable');
 		$typeId = JFactory::getApplication()->input->getInteger('type_id', 0);
-		$typesTable->load($typeId);
-		$typeAliasArray = explode('.', $typesTable->type_alias);
+		$typeTable->load($typeId);
+		$typeAliasArray = explode('.', $typeTable->type_alias);
 		JTable::addIncludePath(JPATH_ROOT . '/administrator/components/' . $typeAliasArray[0] . '/tables');
-		$contentTable = $typesTable->getContentTable();
+		$contentTable = $typeTable->getContentTable();
 		$keyValue = JFactory::getApplication()->input->getInteger('item_id', 0);
 
 		if ($contentTable && $contentTable->load($keyValue))
@@ -309,7 +309,7 @@ class ContenthistoryModelHistory extends JModelList
 			$helper = new JHelper;
 
 			$dataObject = $helper->getDataObject($contentTable);
-			$result = $this->getTable('Contenthistory', 'JTable')->getSha1(json_encode($dataObject));
+			$result = $this->getTable('Contenthistory', 'JTable')->getSha1(json_encode($dataObject), $typeTable);
 		}
 
 		return $result;

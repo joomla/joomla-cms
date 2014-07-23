@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Crypt
  * @since       12.1
+ * @deprecated  4.0 (CMS)
  */
 class JCryptCipherSimple implements JCryptCipher
 {
@@ -115,32 +116,8 @@ class JCryptCipherSimple implements JCryptCipher
 		$key = new JCryptKey('simple');
 
 		// Just a random key of a given length.
-		$key->private = $this->_getRandomKey();
+		$key->private = JCrypt::genRandomBytes(256);
 		$key->public  = $key->private;
-
-		return $key;
-	}
-
-	/**
-	 * Method to generate a random key of a given length.
-	 *
-	 * @param   integer  $length  The length of the key to generate.
-	 *
-	 * @return  string
-	 *
-	 * @since   12.1
-	 */
-	private function _getRandomKey($length = 256)
-	{
-		$key = '';
-		$salt = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-		$saltLength = strlen($salt);
-
-		// Build the random key.
-		for ($i = 0; $i < $length; $i++)
-		{
-			$key .= $salt[mt_rand(0, $saltLength - 1)];
-		}
 
 		return $key;
 	}

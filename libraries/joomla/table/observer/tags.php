@@ -1,18 +1,22 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Table class supporting modified pre-order tree traversal behavior.
+ * Abstract class defining methods that can be
+ * implemented by an Observer class of a JTable class (which is an Observable).
+ * Attaches $this Observer to the $table in the constructor.
+ * The classes extending this class should not be instanciated directly, as they
+ * are automatically instanciated by the JObserverMapper
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Table
  * @link        http://docs.joomla.org/JTableObserver
  * @since       3.1.2
@@ -20,7 +24,7 @@ defined('JPATH_PLATFORM') or die;
 class JTableObserverTags extends JTableObserver
 {
 	/**
-	 * Helper object for storing and deleting tag information associated with this table observer
+	 * Helper object for managing tags
 	 *
 	 * @var    JHelperTags
 	 * @since  3.1.2
@@ -28,7 +32,7 @@ class JTableObserverTags extends JTableObserver
 	protected $tagsHelper;
 
 	/**
-	 * The pattern for this tag's TypeAlias
+	 * The pattern for this table's TypeAlias
 	 *
 	 * @var    string
 	 * @since  3.1.2
@@ -36,15 +40,15 @@ class JTableObserverTags extends JTableObserver
 	protected $typeAliasPattern = null;
 
 	/**
-	 * Override for postStoreProcess param newTags, Set by setNewTagsToAdd, used by onAfterStore
+	 * Override for postStoreProcess param newTags, Set by setNewTags, used by onAfterStore and onBeforeStore
 	 *
 	 * @var    array
 	 * @since  3.1.2
 	 */
-	protected $newTags = array();
+	protected $newTags = false;
 
 	/**
-	 * Override for postStoreProcess param replaceTags. Set by setNewTagsToAdd, used by onAfterStore
+	 * Override for postStoreProcess param replaceTags. Set by setNewTags, used by onAfterStore
 	 *
 	 * @var    boolean
 	 * @since  3.1.2
@@ -99,7 +103,14 @@ class JTableObserverTags extends JTableObserver
 	public function onBeforeStore($updateNulls, $tableKey)
 	{
 		$this->parseTypeAlias();
-		$this->tagsHelper->preStoreProcess($this->table);
+		if (empty($this->table->tagsHelper->tags))
+		{
+			$this->tagsHelper->preStoreProcess($this->table);
+		}
+		else
+		{
+			$this->tagsHelper->preStoreProcess($this->table, (array) $this->table->tagsHelper->tags);
+		}
 	}
 
 	/**
@@ -116,8 +127,14 @@ class JTableObserverTags extends JTableObserver
 	{
 		if ($result)
 		{
-			$result = $this->tagsHelper->postStoreProcess($this->table);
-
+			if (empty($this->table->tagsHelper->tags))
+			{
+				$result = $this->tagsHelper->postStoreProcess($this->table);
+			}
+			else
+			{
+				$result = $this->tagsHelper->postStoreProcess($this->table, $this->table->tagsHelper->tags);
+			}
 			// Restore default values for the optional params:
 			$this->newTags = array();
 			$this->replaceTags = true;
@@ -141,9 +158,9 @@ class JTableObserverTags extends JTableObserver
 	}
 
 	/**
-	 * Sets the new tags to be added/replaced to the table row
+	 * Sets the new tags to be added or to replace existing tags
 	 *
-	 * @param   array    $newTags      New tags to be added or replaced
+	 * @param   array    $newTags      New tags to be added to or replace current tags for an item
 	 * @param   boolean  $replaceTags  Replace tags (true) or add them (false)
 	 *
 	 * @return  boolean

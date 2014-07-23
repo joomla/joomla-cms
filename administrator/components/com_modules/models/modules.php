@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -186,10 +186,8 @@ class ModulesModelModules extends JModelList
 		{
 			$extension = $item->module;
 			$source = constant('JPATH_' . strtoupper($client)) . "/modules/$extension";
-			$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), null, false, false)
-				|| $lang->load("$extension.sys", $source, null, false, false)
-				|| $lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false)
-				|| $lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
+			$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), null, false, true)
+				|| $lang->load("$extension.sys", $source, null, false, true);
 			$item->name = JText::_($item->name);
 			if (is_null($item->pages))
 			{

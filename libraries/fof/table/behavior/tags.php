@@ -1,11 +1,12 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  table
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework table behavior class for tags
@@ -156,29 +157,29 @@ class FOFTableBehaviorTags extends FOFTableBehavior
 					'common' => array(
 						0 => array(
 							"core_content_item_id" => $table->getKeyName(),
-							"core_title"           => $this->getUcmCoreAlias('title'),
-							"core_state"           => $this->getUcmCoreAlias('enabled'),
-							"core_alias"           => $this->getUcmCoreAlias('alias'),
-							"core_created_time"    => $this->getUcmCoreAlias('created_on'),
-							"core_modified_time"   => $this->getUcmCoreAlias('created_by'),
-							"core_body"            => $this->getUcmCoreAlias('body'),
-							"core_hits"            => $this->getUcmCoreAlias('hits'),
-							"core_publish_up"      => $this->getUcmCoreAlias('publish_up'),
-							"core_publish_down"    => $this->getUcmCoreAlias('publish_down'),
-							"core_access"          => $this->getUcmCoreAlias('access'),
-							"core_params"          => $this->getUcmCoreAlias('params'),
-							"core_featured"        => $this->getUcmCoreAlias('featured'),
-							"core_metadata"        => $this->getUcmCoreAlias('metadata'),
-							"core_language"        => $this->getUcmCoreAlias('language'),
-							"core_images"          => $this->getUcmCoreAlias('images'),
-							"core_urls"            => $this->getUcmCoreAlias('urls'),
-							"core_version"         => $this->getUcmCoreAlias('version'),
-							"core_ordering"        => $this->getUcmCoreAlias('ordering'),
-							"core_metakey"         => $this->getUcmCoreAlias('metakey'),
-							"core_metadesc"        => $this->getUcmCoreAlias('metadesc'),
-							"core_catid"           => $this->getUcmCoreAlias('cat_id'),
-							"core_xreference"      => $this->getUcmCoreAlias('xreference'),
-							"asset_id"             => $this->getUcmCoreAlias('asset_id')
+							"core_title"           => $this->getUcmCoreAlias($table, 'title'),
+							"core_state"           => $this->getUcmCoreAlias($table, 'enabled'),
+							"core_alias"           => $this->getUcmCoreAlias($table, 'alias'),
+							"core_created_time"    => $this->getUcmCoreAlias($table, 'created_on'),
+							"core_modified_time"   => $this->getUcmCoreAlias($table, 'created_by'),
+							"core_body"            => $this->getUcmCoreAlias($table, 'body'),
+							"core_hits"            => $this->getUcmCoreAlias($table, 'hits'),
+							"core_publish_up"      => $this->getUcmCoreAlias($table, 'publish_up'),
+							"core_publish_down"    => $this->getUcmCoreAlias($table, 'publish_down'),
+							"core_access"          => $this->getUcmCoreAlias($table, 'access'),
+							"core_params"          => $this->getUcmCoreAlias($table, 'params'),
+							"core_featured"        => $this->getUcmCoreAlias($table, 'featured'),
+							"core_metadata"        => $this->getUcmCoreAlias($table, 'metadata'),
+							"core_language"        => $this->getUcmCoreAlias($table, 'language'),
+							"core_images"          => $this->getUcmCoreAlias($table, 'images'),
+							"core_urls"            => $this->getUcmCoreAlias($table, 'urls'),
+							"core_version"         => $this->getUcmCoreAlias($table, 'version'),
+							"core_ordering"        => $this->getUcmCoreAlias($table, 'ordering'),
+							"core_metakey"         => $this->getUcmCoreAlias($table, 'metakey'),
+							"core_metadesc"        => $this->getUcmCoreAlias($table, 'metadesc'),
+							"core_catid"           => $this->getUcmCoreAlias($table, 'cat_id'),
+							"core_xreference"      => $this->getUcmCoreAlias($table, 'xreference'),
+							"asset_id"             => $this->getUcmCoreAlias($table, 'asset_id')
 						)
 					),
 					'special' => array(

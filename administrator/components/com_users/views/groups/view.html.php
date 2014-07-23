@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,10 +18,28 @@ defined('_JEXEC') or die;
  */
 class UsersViewGroups extends JViewLegacy
 {
+	/**
+	 * The item data.
+	 *
+	 * @var   object
+	 * @since 1.6
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object.
+	 *
+	 * @var   JPagination
+	 * @since 1.6
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state.
+	 *
+	 * @var   JObject
+	 * @since 1.6
+	 */
 	protected $state;
 
 	/**
@@ -29,9 +47,9 @@ class UsersViewGroups extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		UsersHelper::addSubmenu('groups');
 
@@ -54,19 +72,21 @@ class UsersViewGroups extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= UsersHelper::getActions();
+		$canDo = JHelperContent::getActions('com_users');
 
-		JToolbarHelper::title(JText::_('COM_USERS_VIEW_GROUPS_TITLE'), 'groups');
+		JToolbarHelper::title(JText::_('COM_USERS_VIEW_GROUPS_TITLE'), 'users groups');
 
 		if ($canDo->get('core.create'))
 		{
 			JToolbarHelper::addNew('group.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('group.edit');
 			JToolbarHelper::divider();
 		}
+
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'groups.delete');
@@ -78,6 +98,7 @@ class UsersViewGroups extends JViewLegacy
 			JToolbarHelper::preferences('com_users');
 			JToolbarHelper::divider();
 		}
+
 		JToolbarHelper::help('JHELP_USERS_GROUPS');
 	}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,16 +18,23 @@ defined('_JEXEC') or die;
  */
 class TagsViewTag extends JViewLegacy
 {
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
 	public function display($tpl = null)
 	{
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
+		$app            = JFactory::getApplication();
+		$document       = JFactory::getDocument();
 		$document->link = JRoute::_(TagsHelperRoute::getTagRoute($app->input->getInt('id')));
 
-		$app->input->set('limit', $app->getCfg('feed_limit'));
-		$siteEmail = $app->getCfg('mailfrom');
-		$fromName  = $app->getCfg('fromname');
-		$feedEmail = $app->getCfg('feed_email', 'author');
+		$app->input->set('limit', $app->get('feed_limit'));
+		$siteEmail        = $app->get('mailfrom');
+		$fromName         = $app->get('fromname');
+		$feedEmail        = $app->get('feed_email', 'author');
 		$document->editor = $fromName;
 		if ($feedEmail != "none")
 		{
@@ -48,11 +55,11 @@ class TagsViewTag extends JViewLegacy
 
 			// Strip HTML from feed item description text
 			$description = $item->core_body;
-			$author			= $item->core_created_by_alias ? $item->core_created_by_alias : $item->author;
-			$date = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
+			$author      = $item->core_created_by_alias ? $item->core_created_by_alias : $item->author;
+			$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 			// Load individual item creator class
-			$feeditem = new JFeedItem;
+			$feeditem              = new JFeedItem;
 			$feeditem->title       = $title;
 			$feeditem->link        = $link;
 			$feeditem->description = $description;

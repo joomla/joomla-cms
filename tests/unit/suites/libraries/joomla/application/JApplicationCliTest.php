@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -87,6 +87,11 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function test__constructDependancyInjection()
 	{
+		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13')
+		{
+			$this->markTestSkipped('Test is skipped due to a PHP bug in PHP versions 5.4.29 and 5.5.13');
+		}
+
 		$mockInput = $this->getMock('JInputCli', array('test'), array(), '', false);
 		$mockInput
 			->expects($this->any())

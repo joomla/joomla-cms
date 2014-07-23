@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,11 +34,11 @@ class PostinstallModelMessages extends FOFModel
 		$db = $this->getDbo();
 
 		// Add a forced extension filtering to the list
-		$eid = $this->input->getInt('eid', 700);
+		$eid = $this->getState('eid', 700);
 		$query->where($db->qn('extension_id') . ' = ' . $db->q($eid));
 
 		// Force filter only enabled messages
-		$published = $this->input->getInt('published', 1);
+		$published = $this->getState('published', 1, 'int');
 		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
 
 		return $query;
@@ -133,9 +133,11 @@ class PostinstallModelMessages extends FOFModel
 			// Filter out messages based on dynamically loaded programmatic conditions
 			if (!empty($item->condition_file) && !empty($item->condition_method))
 			{
+				jimport('joomla.filesystem.file');
+
 				$file = FOFTemplateUtils::parsePath($item->condition_file, true);
 
-				if (is_file($file))
+				if (JFile::exists($file))
 				{
 					require_once $file;
 

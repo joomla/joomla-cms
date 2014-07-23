@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -204,13 +204,13 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new DirectoryIterator(__DIR__ . '/driver');
 
+		/* @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-			if (!$file->isFile() || substr($fileName, strrpos($fileName, '.') + 1) != 'php')
+			if (!$file->isFile() || $file->getExtension() != 'php')
 			{
 				continue;
 			}
@@ -1553,26 +1553,92 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
-		/*
-		 * Pattern is: find any non-quoted (which is not including single or double quotes) string being the prefix
-		 * in $sql possibly followed by a double or single quoted one:
-		 *  							(
-		 * not including quotes:
-		 *		positive lookahead:			(?=
-		 *		not including " or ':			[^"\']+
-		 *									)
-		 * including exactly the prefix to replace:		preg_quote( $prefix, '/' )
-		 * 								)(
-		 * Followed by a double-quoted:		"(?:[^\\"]|\\.)*"
-		 * Or:								|
-		 * single-quoted:					\'(?:[^\\\']|\\.)*\'
-		 * 								)
-		 * possibly:						?
-		 * $pattern = '/((?=[^"\']+)' . preg_quote($prefix, '/') . ')("(?:[^\\"]|\\.)*"|\'(?:[^\\\']|\\.)*\')?/';
-		 */
-		$pattern = '/(?<=[^"\'])(' . preg_quote($prefix, '/') . ')("(?:[^\\\\"]|\.)*"|\'(?:[^\\\\\']|\.)*\')?/';
+		$startPos = 0;
+		$literal = '';
 
-		return preg_replace($pattern, $this->getPrefix() . '\\2', $sql);
+		$sql = trim($sql);
+		$n = strlen($sql);
+
+		while ($startPos < $n)
+		{
+			$ip = strpos($sql, $prefix, $startPos);
+
+			if ($ip === false)
+			{
+				break;
+			}
+
+			$j = strpos($sql, "'", $startPos);
+			$k = strpos($sql, '"', $startPos);
+
+			if (($k !== false) && (($k < $j) || ($j === false)))
+			{
+				$quoteChar = '"';
+				$j = $k;
+			}
+			else
+			{
+				$quoteChar = "'";
+			}
+
+			if ($j === false)
+			{
+				$j = $n;
+			}
+
+			$literal .= str_replace($prefix, $this->tablePrefix, substr($sql, $startPos, $j - $startPos));
+			$startPos = $j;
+
+			$j = $startPos + 1;
+
+			if ($j >= $n)
+			{
+				break;
+			}
+
+			// Quote comes first, find end of quote
+			while (true)
+			{
+				$k = strpos($sql, $quoteChar, $j);
+				$escaped = false;
+
+				if ($k === false)
+				{
+					break;
+				}
+				$l = $k - 1;
+
+				while ($l >= 0 && $sql{$l} == '\\')
+				{
+					$l--;
+					$escaped = !$escaped;
+				}
+
+				if ($escaped)
+				{
+					$j = $k + 1;
+					continue;
+				}
+
+				break;
+			}
+
+			if ($k === false)
+			{
+				// Error in the query - no end quote; ignore it
+				break;
+			}
+
+			$literal .= substr($sql, $startPos, $k - $startPos + 1);
+			$startPos = $k + 1;
+		}
+
+		if ($startPos < $n)
+		{
+			$literal .= substr($sql, $startPos, $n - $startPos);
+		}
+
+		return $literal;
 	}
 
 	/**
@@ -1633,8 +1699,16 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function setQuery($query, $offset = 0, $limit = 0)
 	{
 		$this->sql = $query;
-		$this->limit = (int) max(0, $limit);
-		$this->offset = (int) max(0, $offset);
+
+		if ($query instanceof JDatabaseQueryLimitable)
+		{
+			$query->setLimit($limit, $offset);
+		}
+		else
+		{
+			$this->limit = (int) max(0, $limit);
+			$this->offset = (int) max(0, $offset);
+		}
 
 		return $this;
 	}

@@ -1,11 +1,12 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  input
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework input handling class. Extends upon the JInput class.
@@ -131,7 +132,7 @@ class FOFInput extends JInput
 	 */
 	public static function __callStatic($name, $arguments)
 	{
-		JLog::add('FOFInput: static getXXX() methods are deprecated. Use the input object\'s methods instead.', JLog::WARNING, 'deprecated');
+		FOFPlatform::getInstance()->logDeprecated('FOFInput: static getXXX() methods are deprecated. Use the input object\'s methods instead.');
 
 		if (substr($name, 0, 3) == 'get')
 		{
@@ -216,7 +217,7 @@ class FOFInput extends JInput
 	 */
 	public static function setVar($name, $value = null, &$input = array(), $overwrite = true)
 	{
-		JLog::add('FOFInput::setVar() is deprecated. Use set() instead.', JLog::WARNING, 'deprecated');
+		FOFPlatform::getInstance()->logDeprecated('FOFInput::setVar() is deprecated. Use set() instead.');
 
 		if (empty($input))
 		{

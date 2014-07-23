@@ -10,8 +10,22 @@ namespace Joomla\DI;
 
 use Joomla\DI\Exception\DependencyResolutionException;
 
+/**
+ * The Container class.
+ *
+ * @since  1.0
+ */
 class Container
 {
+	/**
+	 * Holds the key aliases.
+	 *
+	 * @var    array  $aliases
+	 *
+	 * @since  1.0
+	 */
+	protected $aliases = array();
+
 	/**
 	 * Holds the shared instances.
 	 *
@@ -19,7 +33,7 @@ class Container
 	 *
 	 * @since  1.0
 	 */
-	private $instances = array();
+	protected $instances = array();
 
 	/**
 	 * Holds the keys, their callbacks, and whether or not
@@ -29,7 +43,7 @@ class Container
 	 *
 	 * @since  1.0
 	 */
-	private $dataStore = array();
+	protected $dataStore = array();
 
 	/**
 	 * Parent for hierarchical containers.
@@ -38,12 +52,12 @@ class Container
 	 *
 	 * @since  1.0
 	 */
-	private $parent;
+	protected $parent;
 
 	/**
 	 * Constructor for the DI Container
 	 *
-	 * @param  Container  $parent  Parent for hierarchical containers.
+	 * @param   Container  $parent  Parent for hierarchical containers.
 	 *
 	 * @since  1.0
 	 */
@@ -53,12 +67,47 @@ class Container
 	}
 
 	/**
+	 * Create an alias for a given key for easy access.
+	 *
+	 * @param   string  $alias  The alias name
+	 * @param   string  $key    The key to alias
+	 *
+	 * @return  Container
+	 */
+	public function alias($alias, $key)
+	{
+		$this->aliases[$alias] = $key;
+
+		return $this;
+	}
+
+	/**
+	 * Search the aliases property for a matching alias key.
+	 *
+	 * @param   string  $key  The key to search for.
+	 *
+	 * @return  string
+	 *
+	 * @since   1.0
+	 */
+	protected function resolveAlias($key)
+	{
+		if (isset($this->aliases[$key]))
+		{
+			return $this->aliases[$key];
+		}
+
+		return $key;
+	}
+
+	/**
 	 * Build an object of class $key;
 	 *
 	 * @param   string   $key     The class name to build.
 	 * @param   boolean  $shared  True to create a shared resource.
 	 *
-	 * @return  object  Instance of class specified by $key with all dependencies injected.
+	 * @return  mixed  Instance of class specified by $key with all dependencies injected.
+	 *                 Returns an object if the class exists and false otherwise
 	 *
 	 * @since   1.0
 	 */
@@ -78,7 +127,9 @@ class Container
 		// If there are no parameters, just return a new object.
 		if (is_null($constructor))
 		{
-			$callback = function () use ($key) { return new $key; };
+			$callback = function () use ($key) {
+				return new $key;
+			};
 		}
 		else
 		{
@@ -96,9 +147,7 @@ class Container
 	/**
 	 * Convenience method for building a shared object.
 	 *
-	 * @param   string   $key                The class name to build.
-	 * @param   array    $constructorParams  Array of named parameters to pass to constructor.
-	 * @param   boolean  $shared             True to create a shared resource.
+	 * @param   string  $key  The class name to build.
 	 *
 	 * @return  object  Instance of class specified by $key with all dependencies injected.
 	 *
@@ -114,6 +163,8 @@ class Container
 	 * that has the ability to access the parent scope when resolving.
 	 *
 	 * @return Container
+	 *
+	 * @since  1.0
 	 */
 	public function createChild()
 	{
@@ -125,7 +176,7 @@ class Container
 	 * works very similar to a decorator pattern.  Note that this only works on service Closures
 	 * that have been defined in the current Provider, not parent providers.
 	 *
-	 * @param   string   $key       The unique identifier for the Closure or property.
+	 * @param   string    $key       The unique identifier for the Closure or property.
 	 * @param   \Closure  $callable  A Closure to wrap the original service Closure.
 	 *
 	 * @return  void
@@ -153,9 +204,11 @@ class Container
 	 * Build an array of constructor parameters.
 	 *
 	 * @param   \ReflectionMethod  $method  Method for which to build the argument array.
-	 * @param   array              $params  Array of parameters from which to pull named dependencies.
 	 *
 	 * @return  array  Array of arguments to pass to the method.
+	 *
+	 * @since   1.0
+	 * @throws  DependencyResolutionException
 	 */
 	protected function getMethodArgs(\ReflectionMethod $method)
 	{
@@ -205,15 +258,14 @@ class Container
 	/**
 	 * Method to set the key and callback to the dataStore array.
 	 *
-	 * @param   string    $key        Name of dataStore key to set.
-	 * @param   callable  $callback   Callable function to run when requesting the specified $key.
-	 * @param   boolean   $shared     True to create and store a shared instance.
-	 * @param   boolean   $protected  True to protect this item from being overwritten. Useful for services.
+	 * @param   string   $key        Name of dataStore key to set.
+	 * @param   mixed    $value      Callable function to run or string to retrive when requesting the specified $key.
+	 * @param   boolean  $shared     True to create and store a shared instance.
+	 * @param   boolean  $protected  True to protect this item from being overwritten. Useful for services.
 	 *
 	 * @return  \Joomla\DI\Container  This instance to support chaining.
 	 *
 	 * @throws  \OutOfBoundsException      Thrown if the provided key is already set and is protected.
-	 * @throws  \UnexpectedValueException  Thrown if the provided callback is not valid.
 	 *
 	 * @since   1.0
 	 */
@@ -282,6 +334,7 @@ class Container
 	 * @return  mixed   Results of running the $callback for the specified $key.
 	 *
 	 * @since   1.0
+	 * @throws  \InvalidArgumentException
 	 */
 	public function get($key, $forceNew = false)
 	{
@@ -314,6 +367,8 @@ class Container
 	 */
 	protected function getRaw($key)
 	{
+		$key = $this->resolveAlias($key);
+
 		if (isset($this->dataStore[$key]))
 		{
 			return $this->dataStore[$key];
@@ -344,7 +399,7 @@ class Container
 	/**
 	 * Register a service provider to the container.
 	 *
-	 * @param   ServiceProviderInterface $provider
+	 * @param   ServiceProviderInterface  $provider  The service provider to register.w
 	 *
 	 * @return  Container  This object for chaining.
 	 *
@@ -357,4 +412,3 @@ class Container
 		return $this;
 	}
 }
-

@@ -1,11 +1,12 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  model
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework model behavior class to filter front-end access to items
@@ -34,7 +35,7 @@ class FOFModelBehaviorAccess extends FOFModelBehavior
 		}
 
 		// Get the name of the access field
-		$table = $model->getTable();
+		$table       = $model->getTable();
 		$accessField = $table->getColumnAlias('access');
 
 		// Make sure the field actually exists

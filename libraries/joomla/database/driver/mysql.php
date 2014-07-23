@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -258,7 +258,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
 
-		if ($this->limit > 0 || $this->offset > 0)
+		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$query .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
 		}
@@ -301,6 +301,10 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
+			// Get the error number and message.
+			$this->errorNum = (int) mysql_errno($this->connection);
+			$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $query;
+
 			// Check if the server was disconnected.
 			if (!$this->connected())
 			{
@@ -313,10 +317,6 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
-					// Get the error number and message.
-					$this->errorNum = (int) mysql_errno($this->connection);
-					$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $query;
-
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
 					throw new RuntimeException($this->errorMsg, $this->errorNum);
@@ -328,10 +328,6 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 			// The server was not disconnected.
 			else
 			{
-				// Get the error number and message.
-				$this->errorNum = (int) mysql_errno($this->connection);
-				$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $query;
-
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
 				throw new RuntimeException($this->errorMsg, $this->errorNum);

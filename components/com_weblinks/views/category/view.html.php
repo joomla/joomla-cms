@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,11 +33,11 @@ class WeblinksViewCategory extends JViewCategory
 		// Compute the weblink slug & link url.
 		foreach ($this->items as $item)
 		{
-			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
+			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 			if ($item->params->get('count_clicks', $this->params->get('count_clicks')) == 1)
 			{
-				$item->link = JRoute::_('index.php?option=com_weblinks&task=weblink.go&id='. $item->id);
+				$item->link = JRoute::_('index.php?option=com_weblinks&task=weblink.go&id=' . $item->id);
 			}
 			else
 			{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,9 +21,10 @@ class TagsModelTags extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param    array    An optional associative array of configuration settings.
-	 * @see        JController
-	 * @since      3.0.3
+	 * @param    array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see    JController
+	 * @since  3.0.3
 	 */
 	public function __construct($config = array())
 	{

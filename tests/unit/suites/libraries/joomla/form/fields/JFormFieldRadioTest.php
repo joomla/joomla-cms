@@ -3,11 +3,12 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 JFormHelper::loadFieldClass('radio');
+require_once __DIR__ . '/TestHelpers/JHtmlFieldRadio-helper-dataset.php';
 
 /**
  * Test class for JFormFieldRadio.
@@ -19,35 +20,47 @@ JFormHelper::loadFieldClass('radio');
 class JFormFieldRadioTest extends TestCase
 {
 	/**
-	 * Test the getInput method.
+	 * Test...
 	 *
-	 * @return void
+	 * @return  array
+	 *
+	 * @since   3.1
 	 */
-	public function testGetInput()
+	public function getInputData()
 	{
-		$form = new JForm('form1');
+		return JHtmlFieldRadioTest_DataSet::$getInputTest;
+	}
 
-		$this->assertThat(
-			$form->load('<form><field name="radio" type="radio" /></form>'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
+	/**
+	 * Test the getInput method where there is no value from the element
+	 * and no checked attribute.
+	 *
+	 * @param   string  $element   @todo
+	 * @param   array   $data  	   @todo
+	 * @param   string  $expected  @todo
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 *
+	 * @dataProvider  getInputData
+	 */
+	public function testGetInput($element, $data, $expected)
+	{
+		$formField = new JFormFieldRadio;
+
+		TestReflection::setValue($formField, 'element', simplexml_load_string($element));
+
+		foreach ($data as $attr => $value)
+		{
+			TestReflection::setValue($formField, $attr, $value);
+		}
+
+		$this->assertEquals(
+			$expected,
+			TestReflection::invoke($formField, 'getInput'),
+			'Line:' . __LINE__ . ' The field with no value and no checked attribute did not produce the right html'
 		);
-
-		$field = new JFormFieldRadio($form);
-
-		$this->assertThat(
-			$field->setup($form->getXml()->field, 'value'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setup method should return true.'
-		);
-
-		$this->assertThat(
-			strlen($field->input),
-			$this->greaterThan(0),
-			'Line:' . __LINE__ . ' The getInput method should return something without error.'
-		);
-
-		// TODO: Should check all the attributes have come in properly.
 	}
 
 	/**

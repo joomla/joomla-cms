@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,20 +18,45 @@ defined('_JEXEC') or die;
  */
 class UsersViewUsers extends JViewLegacy
 {
+	/**
+	 * The item data.
+	 *
+	 * @var   object
+	 * @since 1.6
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object.
+	 *
+	 * @var   JPagination
+	 * @since 1.6
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state.
+	 *
+	 * @var   JObject
+	 * @since 1.6
+	 */
 	protected $state;
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+		$this->canDo         = JHelperContent::getActions('com_users');
 
 		UsersHelper::addSubmenu('users');
 
@@ -39,6 +64,7 @@ class UsersViewUsers extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -47,28 +73,32 @@ class UsersViewUsers extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
+
 		parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= UsersHelper::getActions();
+		$canDo	= $this->canDo;
 		$user 	= JFactory::getUser();
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'user');
+		JToolbarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'users user');
 
 		if ($canDo->get('core.create'))
 		{
 			JToolbarHelper::addNew('user.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('user.edit');
@@ -109,32 +139,6 @@ class UsersViewUsers extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_USERS_USER_MANAGER');
-
-		JHtmlSidebar::setAction('index.php?option=com_users&view=users');
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_FILTER_STATE'),
-			'filter_state',
-			JHtml::_('select.options', UsersHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_FILTER_ACTIVE'),
-			'filter_active',
-			JHtml::_('select.options', UsersHelper::getActiveOptions(), 'value', 'text', $this->state->get('filter.active'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_FILTER_USERGROUP'),
-			'filter_group_id',
-			JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_OPTION_FILTER_DATE'),
-			'filter_range',
-			JHtml::_('select.options', UsersHelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'))
-		);
 	}
 
 	/**
