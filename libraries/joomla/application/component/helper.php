@@ -406,7 +406,7 @@ class JComponentHelper
 
 		self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
 
-		if ($error = $db->getErrorMsg() || empty(self::$components[$option]))
+		if (($error = $db->getErrorMsg()) || (empty(self::$components[$option])))
 		{
 			// Fatal error.
 			JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error));
