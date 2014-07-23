@@ -168,7 +168,13 @@ class ContentViewCategory extends JViewCategory
 
 			$this->columns = max(1, $params->def('num_columns', 1));
 
-			$params->def('multi_column_order', 1);
+			$order = $params->def('multi_column_order', 1);
+
+			if ($order == 0 && $this->columns > 1)
+			{
+				// call order down helper
+				$this->intro_items = ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
+			}
 		}
 
 		return parent::display($tpl);

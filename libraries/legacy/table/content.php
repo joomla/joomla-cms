@@ -30,16 +30,8 @@ class JTableContent extends JTable
 	{
 		parent::__construct('#__content', 'id', $db);
 
-		/*
-		 * This is left here for reference:
-		 *
-		 * This would set up the tags observer in $this from here (so not entirely decoupled):
-		 * JTableObserverTags::createObserver($this, array('typeAlias' => 'com_content.article'));
-		 *
-		 * But this makes the relation between content and tags completely external to Content as JTable is observable:
-		 * So we are doing this only once in libraries/cms.php:
-		 * JObserverFactory::addObserverClassToClass('JTableObserverTags', 'JTableContent', array('typeAlias' => 'com_content.article'));
-		 */
+		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_content.article'));
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_content.article'));
 	}
 
 	/**

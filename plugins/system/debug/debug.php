@@ -75,6 +75,14 @@ class PlgSystemDebug extends JPlugin
 	private $totalQueries = 0;
 
 	/**
+	 * Application object.
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.3
+	 */
+	protected $app;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -92,14 +100,19 @@ class PlgSystemDebug extends JPlugin
 			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
 		}
 
+		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
+		if (!$this->app)
+		{
+			$this->app = JFactory::getApplication();
+		}
+
+		$this->debugLang = $this->app->get('debug_lang');
+
 		// Skip the plugin if debug is off
-		$app = JFactory::getApplication();
-		if ($app->getCfg('debug_lang') == '0' && $app->getCfg('debug') == '0')
+		if ($this->debugLang == '0' && $this->app->get('debug') == '0')
 		{
 			return;
 		}
-
-		$this->debugLang = JFactory::getApplication()->getCfg('debug_lang');
 
 		// Only if debugging or language debug is enabled.
 		if (JDEBUG || $this->debugLang)
@@ -198,10 +211,10 @@ class PlgSystemDebug extends JPlugin
 
 		// No debug for Safari and Chrome redirection.
 		if (strstr(strtolower($_SERVER['HTTP_USER_AGENT']), 'webkit') !== false
-			&& substr($contents, 0, 50) == '<html><head><meta http-equiv="refresh" content="0;'
-		)
+			&& substr($contents, 0, 50) == '<html><head><meta http-equiv="refresh" content="0;')
 		{
 			echo $contents;
+
 			return;
 		}
 
@@ -641,7 +654,7 @@ class PlgSystemDebug extends JPlugin
 		$bytes = memory_get_usage();
 
 		return '<span class="label">' . JHtml::_('number.bytes', $bytes) . '</span>'
-			. ' (<span class="label">' . number_format($bytes) . ' ' . JText::_('PLG_DEBUG_BYTES') . '</span>)';
+			. ' (<span class="label">' . number_format($bytes, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')) . ' ' . JText::_('PLG_DEBUG_BYTES') . '</span>)';
 	}
 
 	/**
@@ -747,7 +760,7 @@ class PlgSystemDebug extends JPlugin
 
 				// How heavy should the string length count: 0 - 1.
 				$ratio = 0.5;
-				$timeScore = $queryTime / (strlen($query) * $ratio) * 200;
+				$timeScore = $queryTime / ((strlen($query) + 1) * $ratio) * 200;
 
 				// Determine color of bargraph depending on query speed and presence of warnings in EXPLAIN.
 				if ($timeScore > 10)
@@ -887,7 +900,8 @@ class PlgSystemDebug extends JPlugin
 				$queryTime = ($timings[$id * 2 + 1] - $timings[$id * 2]) * 1000;
 
 				// Timing.  Formats the output for the query time with EXPLAIN query results as tooltip.
-				$htmlTiming = '<div style="margin: 0px 0 5px;"><span class="dbg-query-time">' . JText::sprintf('PLG_DEBUG_QUERY_TIME', sprintf('<span class="label ' . $info[$id]->class . '">%.2f&nbsp;ms</span>', $timing[$id]['0']));
+				$htmlTiming = '<div style="margin: 0px 0 5px;"><span class="dbg-query-time">'
+					. JText::sprintf('PLG_DEBUG_QUERY_TIME', sprintf('<span class="label ' . $info[$id]->class . '">%.2f&nbsp;ms</span>', $timing[$id]['0']));
 
 				if ($timing[$id]['1'])
 				{
@@ -944,7 +958,8 @@ class PlgSystemDebug extends JPlugin
 						}
 
 						$htmlResultsReturned = '<span class="label ' . $labelClass . '">' . (int) $resultsReturned . '</span>';
-						$htmlTiming .= ' ' . '<span class="dbg-query-rowsnumber">' . JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
+						$htmlTiming .= ' ' . '<span class="dbg-query-rowsnumber">'
+							. JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
 					}
 				}
 
@@ -984,7 +999,8 @@ class PlgSystemDebug extends JPlugin
 
 					if (!$this->linkFormat)
 					{
-						$htmlCallStack .= '<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
+						$htmlCallStack .= '<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">'
+							. JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
 					}
 				}
 
@@ -1180,7 +1196,8 @@ class PlgSystemDebug extends JPlugin
 				$tip = JHtml::tooltipText($bar->tip, '', 0);
 			}
 
-			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: ' . $bar->width . '%;" href="#dbg-' . $class . '-' . ($i + 1) . '"></a>';
+			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: '
+				. $bar->width . '%;" href="#dbg-' . $class . '-' . ($i + 1) . '"></a>';
 		}
 
 		return '<div class="progress dbg-bars dbg-bars-' . $class . '">' . implode('', $html) . '</div>';
@@ -1266,7 +1283,8 @@ class PlgSystemDebug extends JPlugin
 					if ($td === 'NULL')
 					{
 						// Displays query parts which don't use a key with warning.
-						$html[] = '<td><strong>' . '<span class="dbg-warning hasTooltip" title="' . JHtml::tooltipText('PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">' . JText::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
+						$html[] = '<td><strong>' . '<span class="dbg-warning hasTooltip" title="' . JHtml::tooltipText('PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">'
+							. JText::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
 						$hasWarnings = true;
 					}
 					else
@@ -1282,7 +1300,9 @@ class PlgSystemDebug extends JPlugin
 					$htmlTd = preg_replace('/([^;]) /', '\1&nbsp;', $htmlTd);
 
 					// Displays warnings for "Using filesort".
-					$htmlTdWithWarnings = str_replace('Using&nbsp;filesort', '<span class="dbg-warning hasTooltip" title="' . JHtml::tooltipText('PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">' . JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>', $htmlTd);
+					$htmlTdWithWarnings = str_replace('Using&nbsp;filesort', '<span class="dbg-warning hasTooltip" title="'
+						. JHtml::tooltipText('PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">' . JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>', $htmlTd
+					);
 
 					if ($htmlTdWithWarnings !== $htmlTd)
 					{
@@ -1353,7 +1373,8 @@ class PlgSystemDebug extends JPlugin
 					$this->sqlShowProfileEach[0] = array(array('Error' => 'MySql have_profiling = off'));
 				}
 			}
-			catch (Exception $e) {
+			catch (Exception $e)
+			{
 				$this->sqlShowProfileEach[0] = array(array('Error' => $e->getMessage()));
 			}
 		}
@@ -1373,7 +1394,8 @@ class PlgSystemDebug extends JPlugin
 						$db->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
 						$this->explains[$k] = $db->loadAssocList();
 					}
-					catch (Exception $e) {
+					catch (Exception $e)
+					{
 						$this->explains[$k] = array(array('Error' => $e->getMessage()));
 					}
 				}

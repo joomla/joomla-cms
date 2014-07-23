@@ -997,7 +997,7 @@ abstract class JHtml
 			$document = JFactory::getDocument();
 			$document
 				->addScriptDeclaration(
-				'window.addEvent(\'domready\', function() {Calendar.setup({
+				'jQuery(document).ready(function($) {Calendar.setup({
 			// Id of the input field
 			inputField: "' . $id . '",
 			// Format of the input field

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Extended Utility class for batch processing widgets.
@@ -44,8 +44,6 @@ abstract class JHtmlBatch
 					'id' => 'batch-access'
 				)
 			);
-
-		return implode("\n", $lines);
 	}
 
 	/**

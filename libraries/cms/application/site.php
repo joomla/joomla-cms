@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! Site Application class
@@ -194,6 +194,22 @@ final class JApplicationSite extends JApplicationCms
 	{
 		// Initialise the application
 		$this->initialiseApp();
+
+		// Check if the user is required to reset their password
+		$user = JFactory::getUser();
+
+		if ($user->get('requireReset', 0) === '1')
+		{
+			if ($this->input->getCmd('option') != 'com_users' && $this->input->getCmd('view') != 'profile' && $this->input->getCmd('layout') != 'edit')
+			{
+				if ($this->input->getCmd('task') != 'profile.save')
+				{
+					// Redirect to the profile edit page
+					$this->enqueueMessage(JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+					$this->redirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit'));
+				}
+			}
+		}
 
 		// Mark afterInitialise in the profiler.
 		JDEBUG ? $this->profiler->mark('afterInitialise') : null;

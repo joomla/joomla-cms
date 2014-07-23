@@ -120,6 +120,9 @@ $sortFields = $this->getSortFields();
 						<?php echo JHtml::_('users.filterNotes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.addNote', $item->id); ?>
+						<?php if ($item->requireReset == '1') : ?>
+						<span class="label label-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
+						<?php endif; ?>
 					</div>
 					<?php if (JDEBUG) : ?>
 						<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id='.(int) $item->id);?>">

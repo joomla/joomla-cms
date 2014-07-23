@@ -69,7 +69,7 @@ class JText
 			}
 		}
 
-		if (!(strpos($string, ',') === false))
+		if (strpos($string, ','))
 		{
 			$test = substr($string, strpos($string, ','));
 

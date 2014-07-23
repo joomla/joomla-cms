@@ -46,7 +46,7 @@ class ArticleEditPage extends AdminEditPage
 	 * @var    array
 	 * @since  3.0
 	 */
-	public $tabs = array('general', 'publishing', 'images', 'permissions', 'attrib-basic');
+	public $tabs = array('general', 'publishing', 'images', 'permissions', 'attrib-basic', 'editor');
 
 	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
@@ -122,7 +122,10 @@ class ArticleEditPage extends AdminEditPage
 			array('label' => 'Positioning of the Links', 'id' => 'jform_attribs_urls_position', 'type' => 'select', 'tab' => 'attrib-basic'),
 			array('label' => 'Read More Text', 'id' => 'jform_attribs_alternative_readmore', 'type' => 'input', 'tab' => 'attrib-basic'),
 			array('label' => 'Alternative Layout', 'id' => 'jform_attribs_article_layout', 'type' => 'select', 'tab' => 'attrib-basic'),
-
+			array('label' => 'Show Publishing Options', 'id' => 'jform_attribs_show_publishing_options', 'type' => 'select', 'tab' => 'editor'),
+			array('label' => 'Show Article Options', 'id' => 'jform_attribs_show_article_options', 'type' => 'select', 'tab' => 'editor'),
+			array('label' => 'Administrator Images and Links', 'id' => 'jform_attribs_show_urls_images_backend', 'type' => 'select', 'tab' => 'editor'),
+			array('label' => 'Frontend Images and Links', 'id' => 'jform_attribs_show_urls_images_frontend', 'type' => 'select', 'tab' => 'editor'),
 			);
 
 	public function addArticleText($text)

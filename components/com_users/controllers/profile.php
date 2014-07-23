@@ -27,13 +27,13 @@ class UsersControllerProfile extends UsersController
 	 */
 	public function edit()
 	{
-		$app			= JFactory::getApplication();
-		$user			= JFactory::getUser();
+		$app		= JFactory::getApplication();
+		$user		= JFactory::getUser();
 		$loginUserId	= (int) $user->get('id');
 
 		// Get the previous user id (if any) and the current user id.
 		$previousId = (int) $app->getUserState('com_users.edit.profile.id');
-		$userId = $this->input->getInt('user_id', null, 'array');
+		$userId     = $this->input->getInt('user_id', null, 'array');
 
 		// Check if the user is trying to edit another users profile.
 		if ($userId != $loginUserId)
@@ -121,7 +121,9 @@ class UsersControllerProfile extends UsersController
 				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				} else {
+				}
+				else
+				{
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
@@ -131,7 +133,7 @@ class UsersControllerProfile extends UsersController
 
 			// Redirect back to the edit screen.
 			$userId = (int) $app->getUserState('com_users.edit.profile.id');
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id='.$userId, false));
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
 			return false;
 		}
 
@@ -147,7 +149,7 @@ class UsersControllerProfile extends UsersController
 			// Redirect back to the edit screen.
 			$userId = (int) $app->getUserState('com_users.edit.profile.id');
 			$this->setMessage(JText::sprintf('COM_USERS_PROFILE_SAVE_FAILED', $model->getError()), 'warning');
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id='.$userId, false));
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
 			return false;
 		}
 
