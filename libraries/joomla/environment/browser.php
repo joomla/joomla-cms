@@ -263,6 +263,12 @@ class JBrowser
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 				$this->mobile = true;
 			}
+			elseif (preg_match('|GSA[/ ]([0-9.]+)|', $this->agent, $version))
+			{
+				$this->setBrowser('gsa');
+				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+				$this->mobile = true;
+			}
 			elseif (strpos($this->lowerAgent, 'elaine/') !== false
 				|| strpos($this->lowerAgent, 'palmsource') !== false
 				|| strpos($this->lowerAgent, 'digital paths') !== false)
