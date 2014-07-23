@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,7 +45,14 @@ abstract class JInstallerHelper
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
+
+		// Load installer plugins, and allow url and headers modification
+		$headers = array();
+		JPluginHelper::importPlugin('installer');
+		$dispatcher = JEventDispatcher::getInstance();
+		$results = $dispatcher->trigger('onInstallerBeforePackageDownload', array(&$url, &$headers));
+
+		$response = $http->get($url, $headers);
 
 		if (302 == $response->code && isset($response->headers['Location']))
 		{
@@ -53,15 +60,16 @@ abstract class JInstallerHelper
 		}
 		elseif (200 != $response->code)
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT'), JLog::WARNING, 'jerror');
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), JLog::WARNING, 'jerror');
 
 			return false;
 		}
 
-		if (isset($response->headers['Content-Disposition']))
+		// Parse the Content-Disposition header to get the file name
+		if (isset($response->headers['Content-Disposition'])
+			&& preg_match("/\s*filename\s?=\s?(.*)/", $response->headers['Content-Disposition'], $parts))
 		{
-			$contentfilename = explode("\"", $response->headers['Content-Disposition']);
-			$target = $contentfilename[1];
+			$target = trim($parts[1], '"');
 		}
 
 		// Set the target path if not given
@@ -91,13 +99,14 @@ abstract class JInstallerHelper
 	 * Unpacks a file and verifies it as a Joomla element package
 	 * Supports .gz .tar .tar.gz and .zip
 	 *
-	 * @param   string  $p_filename  The uploaded package filename or install directory
+	 * @param   string   $p_filename         The uploaded package filename or install directory
+	 * @param   boolean  $alwaysReturnArray  If should return false (and leave garbage behind) or return $retval['type']=false
 	 *
 	 * @return  mixed  Array on success or boolean false on failure
 	 *
 	 * @since   3.1
 	 */
-	public static function unpack($p_filename)
+	public static function unpack($p_filename, $alwaysReturnArray = false)
 	{
 		// Path to the archive
 		$archivename = $p_filename;
@@ -116,6 +125,15 @@ abstract class JInstallerHelper
 		}
 		catch (Exception $e)
 		{
+			if ($alwaysReturnArray)
+			{
+				$retval['extractdir'] = null;
+				$retval['packagefile'] = $archivename;
+				$retval['type'] = false;
+
+				return $retval;
+			}
+
 			return false;
 		}
 
@@ -155,7 +173,7 @@ abstract class JInstallerHelper
 		 */
 		$retval['type'] = self::detectType($extractdir);
 
-		if ($retval['type'])
+		if ($retval['type'] || $alwaysReturnArray)
 		{
 			return $retval;
 		}
@@ -234,6 +252,7 @@ abstract class JInstallerHelper
 
 			return $parts[count($parts) - 1];
 		}
+
 		return false;
 	}
 
@@ -252,7 +271,7 @@ abstract class JInstallerHelper
 		$config = JFactory::getConfig();
 
 		// Does the unpacked extension directory exist?
-		if (is_dir($resultdir))
+		if ($resultdir && is_dir($resultdir))
 		{
 			JFolder::delete($resultdir);
 		}
@@ -273,7 +292,7 @@ abstract class JInstallerHelper
 	 * Splits contents of a sql file into array of discreet queries.
 	 * Queries need to be delimited with end of statement marker ';'
 	 *
-	 * @param   string  $sql  The SQL statement.
+	 * @param   string  $query  The SQL statement.
 	 *
 	 * @return  array  Array of queries
 	 *
@@ -281,11 +300,11 @@ abstract class JInstallerHelper
 	 * @deprecated  13.3  Use JDatabaseDriver::splitSql() directly
 	 * @codeCoverageIgnore
 	 */
-	public static function splitSql($sql)
+	public static function splitSql($query)
 	{
 		JLog::add('JInstallerHelper::splitSql() is deprecated. Use JDatabaseDriver::splitSql() instead.', JLog::WARNING, 'deprecated');
 		$db = JFactory::getDbo();
 
-		return $db->splitSql($sql);
+		return $db->splitSql($query);
 	}
 }

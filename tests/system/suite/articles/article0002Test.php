@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Tests editing an article on the front end
  */
@@ -46,7 +46,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    }
 
 	    $this->jPrint ("Check that new text shows on page\n");
-	    $this->assertEquals($testText, $this->getText("//div[@class='items-leading']/div[@class='leading-0']//p"));
+	    $this->assertEquals($testText, $this->getText("//div[contains(@class, 'items-leading')]/div[contains(@class, 'leading-0')]//p"));
 
 	    $this->jPrint ("Open again for editing in front end\n");
 	    $this->click("//span[contains(@class, 'icon-edit')]");
@@ -75,7 +75,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
 	    $this->jPrint ("Check that new text shows on page\n");
-	    $this->assertTrue($this->isElementPresent("//div[@class='items-leading']/div[@class='leading-0']//p[contains(text(), 'Congratulations!')]"));
+	    $this->assertTrue($this->isElementPresent("//div[contains(@class, 'items-leading')]/div[contains(@class, 'leading-0')]//p[contains(text(), 'Congratulations!')]"));
 
 
 	    $this->doFrontEndLogout();

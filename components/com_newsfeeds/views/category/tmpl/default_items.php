@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,18 +52,19 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</span>
 				<?php  endif; ?>
 				<span class="list pull-left">
-					<strong class="list-title">
+					<div class="list-title">
 						<a href="<?php echo JRoute::_(NewsFeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catid)); ?>">
 							<?php echo $item->name; ?></a>
-					</strong>
+					</div>
 				</span>
 				<?php if ($this->items[$i]->published == 0) : ?>
 					<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
 				<br />
 				<?php  if ($this->params->get('show_link')) : ?>
+					<?php $link = JStringPunycode::urlToUTF8($item->link); ?>
 					<span class="list pull-left">
-							<a href="<?php echo $item->link; ?>"><?php echo $item->link; ?></a>
+							<a href="<?php echo $item->link; ?>"><?php echo $link; ?></a>
 					</span>
 					<br/>
 				<?php  endif; ?>

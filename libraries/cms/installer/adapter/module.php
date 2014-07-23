@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,38 +25,47 @@ class JInstallerAdapterModule extends JAdapterInstance
 	 * Install function routing
 	 *
 	 * @var    string
-	 * @since 3.1
+	 * @since  3.1
 	 */
 	protected $route = 'Install';
 
 	/**
-	 * @var
-	 * @since 3.1
+	 * The installation manifest XML object
+	 *
+	 * @var    SimpleXMLElement
+	 * @since  3.1
 	 */
 	protected $manifest = null;
 
 	/**
-	 * @var
-	 * @since 3.1
+	 * A path to the PHP file that the scriptfile declaration in
+	 * the manifest refers to.
+	 *
+	 * @var    string
+	 * @since  3.1
 	 */
 	protected $manifest_script = null;
 
 	/**
 	 * Extension name
 	 *
-	 * @var
-	 * @since   3.1
+	 * @var    string
+	 * @since  3.1
 	 */
 	protected $name = null;
 
 	/**
-	 * @var
+	 * Extension element
+	 *
+	 * @var    string
 	 * @since  3.1
 	 */
 	protected $element = null;
 
 	/**
-	 * @var    string
+	 * <scriptfile> element of the extension manifest
+	 *
+	 * @var    object
 	 * @since  3.1
 	 */
 	protected $scriptElement = null;
@@ -114,10 +123,8 @@ class JInstallerAdapterModule extends JAdapterInstance
 				}
 
 				$client = (string) $this->manifest->attributes()->client;
-				$lang->load($extension . '.sys', $source, null, false, false)
-					|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), null, false, false)
-					|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-					|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false);
+				$lang->load($extension . '.sys', $source, null, false, true)
+					|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), null, false, true);
 			}
 		}
 	}
@@ -186,7 +193,6 @@ class JInstallerAdapterModule extends JAdapterInstance
 		else
 		{
 			// No client attribute was found so we assume the site as the client
-			$cname = 'site';
 			$basePath = JPATH_SITE;
 			$clientId = 0;
 		}
@@ -207,6 +213,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 				}
 			}
 		}
+
 		if (!empty($element))
 		{
 			$this->parent->setPath('extension_root', $basePath . '/modules/' . $element);
@@ -224,9 +231,11 @@ class JInstallerAdapterModule extends JAdapterInstance
 		 * we can assume that it was (badly) uninstalled
 		 * If it isn't, add an entry to extensions
 		 */
-		$query = $db->getQuery(true);
-		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
-		$query->where($query->qn('element') . ' = ' . $query->q($element))->where($query->qn('client_id') . ' = ' . (int) $clientId);
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($element))
+			->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
 		$db->setQuery($query);
 
 		try
@@ -618,9 +627,11 @@ class JInstallerAdapterModule extends JAdapterInstance
 			$extension->set('type', 'module');
 			$extension->set('client_id', $site_info->id);
 			$extension->set('element', $module);
+			$extension->set('folder', '');
 			$extension->set('name', $module);
 			$extension->set('state', -1);
 			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
 			$results[] = clone $extension;
 		}
 
@@ -631,9 +642,11 @@ class JInstallerAdapterModule extends JAdapterInstance
 			$extension->set('type', 'module');
 			$extension->set('client_id', $admin_info->id);
 			$extension->set('element', $module);
+			$extension->set('folder', '');
 			$extension->set('name', $module);
 			$extension->set('state', -1);
 			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
 			$results[] = clone $extension;
 		}
 
@@ -761,6 +774,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 
 			return false;
 		}
+
 		$this->parent->setPath('extension_root', $client->path . '/modules/' . $element);
 
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
@@ -837,8 +851,9 @@ class JInstallerAdapterModule extends JAdapterInstance
 		}
 
 		// Remove the schema version
-		$query = $db->getQuery(true);
-		$query->delete()->from('#__schemas')->where('extension_id = ' . $row->extension_id);
+		$query = $db->getQuery(true)
+			->delete('#__schemas')
+			->where('extension_id = ' . $row->extension_id);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -847,10 +862,11 @@ class JInstallerAdapterModule extends JAdapterInstance
 		$this->parent->removeFiles($this->manifest->languages, $row->client_id);
 
 		// Let's delete all the module copies for the type we are uninstalling
-		$query = $db->getQuery(true);
-		$query->select($query->qn('id'))->from($query->qn('#__modules'));
-		$query->where($query->qn('module') . ' = ' . $query->q($row->element));
-		$query->where($query->qn('client_id') . ' = ' . (int) $row->client_id);
+		$query->clear()
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote($row->element))
+			->where($db->quoteName('client_id') . ' = ' . (int) $row->client_id);
 		$db->setQuery($query);
 
 		try
@@ -870,7 +886,9 @@ class JInstallerAdapterModule extends JAdapterInstance
 			$modID = implode(',', $modules);
 
 			// Wipe out any items assigned to menus
-			$query = 'DELETE' . ' FROM #__modules_menu' . ' WHERE moduleid IN (' . $modID . ')';
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__modules_menu'))
+				->where($db->quoteName('moduleid') . ' IN (' . $modID . ')');
 			$db->setQuery($query);
 
 			try
@@ -884,7 +902,9 @@ class JInstallerAdapterModule extends JAdapterInstance
 			}
 
 			// Wipe out any instances in the modules table
-			$query = 'DELETE' . ' FROM #__modules' . ' WHERE id IN (' . $modID . ')';
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__modules'))
+				->where($db->quoteName('id') . ' IN (' . $modID . ')');
 			$db->setQuery($query);
 
 			try
@@ -900,7 +920,10 @@ class JInstallerAdapterModule extends JAdapterInstance
 
 		// Now we will no longer need the module object, so let's delete it and free up memory
 		$row->delete($row->extension_id);
-		$query = 'DELETE FROM #__modules WHERE module = ' . $db->Quote($row->element) . ' AND client_id = ' . $row->client_id;
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote($row->element))
+			->where($db->quote('client_id') . ' = ' . $row->client_id);
 		$db->setQuery($query);
 
 		try
@@ -941,7 +964,9 @@ class JInstallerAdapterModule extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules_menu table
-		$query = 'DELETE' . ' FROM #__modules_menu' . ' WHERE moduleid=' . (int) $arg['id'];
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__modules_menu'))
+			->where($db->quoteName('moduleid') . ' = ' . (int) $arg['id']);
 		$db->setQuery($query);
 
 		try
@@ -970,7 +995,9 @@ class JInstallerAdapterModule extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules table
-		$query = 'DELETE' . ' FROM #__modules' . ' WHERE id=' . (int) $arg['id'];
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__modules'))
+			->where($db->quoteName('id') . ' = ' . (int) $arg['id']);
 		$db->setQuery($query);
 
 		try

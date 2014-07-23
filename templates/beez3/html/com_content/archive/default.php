@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.beez5
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,8 @@ if (!$templateparams->get('html5', 0))
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
 } else {
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+
+JHtml::_('behavior.caption');
 ?><div class="archive<?php echo $this->pageclass_sfx;?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
 <h1>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,6 +20,13 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.'/models/weblink.php';
  */
 class WeblinksModelForm extends WeblinksModelWeblink
 {
+	/**
+	 * Model typeAlias string. Used for version history.
+	 *
+	 * @var        string
+	 */
+	public $typeAlias = 'com_weblinks.weblink';
+
 	/**
 	 * Get the return URL.
 	 *
@@ -64,39 +71,6 @@ class WeblinksModelForm extends WeblinksModelWeblink
 		$params	= $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('layout', $app->input->get('layout'));
-	}
-
-	/**
-	 * Method to get a single record.
-	 *
-	 * @param	integer	The id of the primary key.
-	 *
-	 * @return	mixed	Object on success, false on failure.
-	 * @since	1.6
-	 */
-	public function getItem($pk = null)
-	{
-
-		if ($item = parent::getItem($pk))
-		{
-			// Convert the params field to an array.
-			$registry = new JRegistry;
-			$registry->loadString($item->metadata);
-			$item->metadata = $registry->toArray();
-
-			// Convert the images field to an array.
-			$registry = new JRegistry;
-			$registry->loadString($item->images);
-			$item->images = $registry->toArray();
-
-			if (!empty($item->id))
-			{
-				$item->tags = new JTags;
-				$item->tags->getTagIds($item->id, 'com_weblinks.weblink');
-			}
-		}
-
-		return $item;
+		$this->setState('layout', $app->input->getString('layout'));
 	}
 }

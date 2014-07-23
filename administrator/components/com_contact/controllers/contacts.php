@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,37 +99,6 @@ class ContactControllerContacts extends JControllerAdmin
 	}
 
 	/**
-	 * Method to save the submitted ordering values for records via AJAX.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function saveOrderAjax()
-	{
-		// Get the input
-		$pks   = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
-
-		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
-
-		// Get the model
-		$model = $this->getModel();
-
-		// Save the ordering
-		$return = $model->saveorder($pks, $order);
-
-		if ($return)
-		{
-			echo "1";
-		}
-
-		// Close the application
-		JFactory::getApplication()->close();
-	}
-	/**
 	 * Function that allows child controller access to model data
 	 * after the item has been deleted.
 	 *
@@ -142,14 +111,6 @@ class ContactControllerContacts extends JControllerAdmin
 	 */
 	protected function postDeleteHook(JModelLegacy $model, $ids = null)
 	{
-		// If an item has been tagged we need to untag it and delete it from #__core_content.
-		$task = $this->getTask();
-
-		$item = $model->getItem();
-
-		$tags = new JTags;
-		$tags->deleteTagData($ids, 'com_contact.contact');
-
 	}
 
 }

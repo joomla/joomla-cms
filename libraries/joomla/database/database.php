@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       11.1
- * @deprecated  13.1
+ * @deprecated  13.3 (Platform) & 4.0 (CMS)
  */
 abstract class JDatabase
 {
@@ -26,6 +26,7 @@ abstract class JDatabase
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
+	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
 	 */
 	public function query()
 	{
@@ -42,7 +43,7 @@ abstract class JDatabase
 	 * @return  array  An array of available database connectors.
 	 *
 	 * @since   11.1
-	 * @deprecated  13.1
+	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
 	 */
 	public static function getConnectors()
 	{
@@ -58,7 +59,7 @@ abstract class JDatabase
 	 *
 	 * @return  string  The error message for the most recent query.
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
 	 * @since   11.1
 	 */
 	public function getErrorMsg($escaped = false)
@@ -81,7 +82,7 @@ abstract class JDatabase
 	 * @return      integer  The error number for the most recent query.
 	 *
 	 * @since       11.1
-	 * @deprecated  12.1
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
 	 */
 	public function getErrorNum()
 	{
@@ -105,7 +106,7 @@ abstract class JDatabase
 	 * @return  JDatabaseDriver  A database object.
 	 *
 	 * @since       11.1
-	 * @deprecated  13.1
+	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
 	 */
 	public static function getInstance($options = array())
 	{
@@ -117,18 +118,18 @@ abstract class JDatabase
 	/**
 	 * Splits a string of multiple queries into an array of individual queries.
 	 *
-	 * @param   string  $sql  Input SQL string with which to split into individual queries.
+	 * @param   string  $query  Input SQL string with which to split into individual queries.
 	 *
 	 * @return  array  The queries from the input string separated into an array.
 	 *
 	 * @since   11.1
-	 * @deprecated  13.1
+	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
 	 */
-	public static function splitSql($sql)
+	public static function splitSql($query)
 	{
 		JLog::add('JDatabase::splitSql() is deprecated, use JDatabaseDriver::splitSql() instead.', JLog::WARNING, 'deprecated');
 
-		return JDatabaseDriver::splitSql($sql);
+		return JDatabaseDriver::splitSql($query);
 	}
 
 	/**
@@ -139,7 +140,7 @@ abstract class JDatabase
 	 * @return  string  The error message for the most recent query.
 	 *
 	 * @since   11.1
-	 * @deprecated  12.1
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
 	 */
 	public function stderr($showSQL = false)
 	{
@@ -162,7 +163,7 @@ abstract class JDatabase
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   11.1
-	 * @deprecated  12.3 Use JDatabaseDriver::isSupported() instead.
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JDatabaseDriver::isSupported() instead.
 	 */
 	public static function test()
 	{

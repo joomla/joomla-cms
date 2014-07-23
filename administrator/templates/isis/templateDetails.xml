@@ -6,7 +6,7 @@
 	<creationDate>3/30/2012</creationDate>
 	<author>Kyle Ledbetter</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.</copyright>
 	<description>TPL_ISIS_XML_DESCRIPTION</description>
 	<files>
 		<filename>component.php</filename>
@@ -34,6 +34,7 @@
 		<position>icon</position>
 		<position>cp_shell</position>
 		<position>cpanel</position>
+		<position>bottom</position>
 		<position>footer</position>
 		<position>login</position>
 		<position>debug</position>
@@ -56,12 +57,17 @@
 				label="TPL_ISIS_COLOR_HEADER_LABEL"
 				description="TPL_ISIS_COLOR_HEADER_DESC" />
 
+				<field name="sidebarColor" class="" type="color" default="#0088CC"
+				validate="color"
+				label="TPL_ISIS_COLOR_SIDEBAR_LABEL"
+				description="TPL_ISIS_COLOR_SIDEBAR_DESC" />
+
 				<field name="logoFile" class="" type="media" default=""
 				label="TPL_ISIS_LOGO_LABEL"
 				description="TPL_ISIS_LOGO_DESC" />
 
 				<field name="admin_menus" type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="1"
 				label="TPL_ISIS_FIELD_ADMIN_MENUS_LABEL"
 				description="TPL_ISIS_FIELD_ADMIN_MENUS_DESC"
@@ -73,7 +79,7 @@
 				</field>
 
 				<field name="displayHeader" type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="1"
 				label="TPL_ISIS_HEADER_LABEL"
 				description="TPL_ISIS_HEADER_DESC"
@@ -96,7 +102,7 @@
 				</field>
 
 				<field name="stickyToolbar" type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="1"
 				label="TPL_ISIS_STICKY_LABEL"
 				description="TPL_ISIS_STICKY_DESC"

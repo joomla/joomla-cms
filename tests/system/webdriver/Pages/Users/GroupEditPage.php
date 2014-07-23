@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -22,7 +28,7 @@ class GroupEditPage extends AdminEditPage
 	 * @var unknown_type
 	 */
 	public $inputFields = array (
-			array('label' => 'Group Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'none'),
-			array('label' => 'Group Parent', 'id' => 'jform_parent_id', 'type' => 'select', 'tab' => 'none'),
+			array('label' => 'Group Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'header'),
+			array('label' => 'Group Parent', 'id' => 'jform_parent_id', 'type' => 'select', 'tab' => 'header'),
 	);
 }

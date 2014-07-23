@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -63,13 +63,11 @@ class JFormRuleEmail extends JFormRule
 		// Determine if the multiple attribute is present
 		$multiple = ((string) $element['multiple'] == 'true' || (string) $element['multiple'] == 'multiple');
 
-		if ($multiple)
-		{
-			$values = explode(',', $value);
-		}
-
 		if (!$multiple)
 		{
+			// Handle idn e-mail addresses by converting to punycode.
+			$value = JStringPunycode::emailToPunycode($value);
+
 			// Test the value against the regular expression.
 			if (!parent::test($element, $value, $group, $input, $form))
 			{
@@ -78,8 +76,13 @@ class JFormRuleEmail extends JFormRule
 		}
 		else
 		{
+			$values = explode(',', $value);
+
 			foreach ($values as $value)
 			{
+				// Handle idn e-mail addresses by converting to punycode.
+				$value = JStringPunycode::emailToPunycode($value);
+
 				// Test the value against the regular expression.
 				if (!parent::test($element, $value, $group, $input, $form))
 				{
@@ -95,13 +98,13 @@ class JFormRuleEmail extends JFormRule
 		{
 
 			// Get the database object and a new query object.
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.
-			$query->select('COUNT(*)');
-			$query->from('#__users');
-			$query->where('email = ' . $db->quote($value));
+			$query->select('COUNT(*)')
+				->from('#__users')
+				->where('email = ' . $db->quote($value));
 
 			// Get the extra field check attribute.
 			$userId = ($form instanceof JForm) ? $form->getValue('id') : '';

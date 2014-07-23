@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Creates test group and assigns priviledges with the ACL.
  */
@@ -67,17 +67,22 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
 
+		$this->click("link=Fruit Shop");
+		$this->waitForPageToLoad("30000");
+		$this->click("link=User Menu");
+		$this->waitForPageToLoad("30000");
+
 		$this->type("filter_search", "Test Menu Item");
 
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 
-		$this->click("cb0");
+		$this->click("checkall-toggle");
 		$this->click("//div[@id='toolbar-trash']/button");
 		$this->waitForPageToLoad("30000");
 		$this->select("filter_published", "label=Trashed");
 		$this->waitForPageToLoad("30000");
-		$this->click("cb0");
+		$this->click("checkall-toggle");
 		$this->click("//div[@id='toolbar-delete']/button");
 		$this->waitForPageToLoad("30000");
 
@@ -135,6 +140,11 @@ class Menu0002 extends SeleniumJoomlaTestCase
 
 		$this->assertEquals("Test Menu Item - Edit Again", $this->getValue("jform_title"), 'Our title edits were not retained.');
 		$this->click("//div[@id='toolbar-cancel']/button");
+		$this->waitForPageToLoad("30000");
+
+		$this->click("link=Fruit Shop");
+		$this->waitForPageToLoad("30000");
+		$this->click("link=User Menu");
 		$this->waitForPageToLoad("30000");
 
 		$this->jPrint ("Clean up - we trash and delete our item and then log out\n");

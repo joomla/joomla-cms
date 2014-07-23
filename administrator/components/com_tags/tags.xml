@@ -3,18 +3,13 @@
 	<name>com_tags</name>
 		<author>Joomla! Project</author>
 	<creationDate>December 2013</creationDate>
-		<copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+		<copyright>(C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
 		<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 		<authorEmail>admin@joomla.org</authorEmail>
 		<authorUrl>www.joomla.org</authorUrl>
 		<version>3.1.0</version>
 		<description>COM_TAGS_XML_DESCRIPTION</description>
 
-	<install> <!-- Runs on install -->
-		<sql>
-			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
-		</sql>
-	</install>
 	<files folder="site">
 		<filename>controller.php</filename>
 		<filename>index.html</filename>
@@ -40,8 +35,8 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_tags.ini
-			</language>
+			<language tag="en-GB">language/en-GB.com_tags.ini</language>
+			<language tag="en-GB">language/en-GB.com_tags.sys.ini</language>
 		</languages>
 		<menu link="option=com_tags" img="class:tags">com_tags</menu>
 

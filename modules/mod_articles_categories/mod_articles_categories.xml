@@ -4,7 +4,7 @@
 	<name>mod_articles_categories</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -35,26 +35,32 @@
 			<field
 				name="show_description"
 				type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="0"
 				label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_LABEL"
 				description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_DESC">
-				<option
-					value="0">JNO</option>
-				<option
-					 value="1">JYES</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="numitems"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_LABEL"
+				description="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field
 				name="show_children"
 				type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="0"
 				label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_LABEL"
 				description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_DESC">
-				<option
-					value="0">JNO</option>
-				<option
-					 value="1">JYES</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="count" type="list"
 				label="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_LABEL"
@@ -107,7 +113,7 @@
 				<option value="5">JH5</option>
 			</field>
 
-			<field name="moduleclass_sfx" type="text"
+			<field name="moduleclass_sfx" type="textarea" rows="3"
 				label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 				description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 

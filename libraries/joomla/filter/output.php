@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -70,6 +70,7 @@ class JFilterOutput
 	public static function linkXHTMLSafe($input)
 	{
 		$regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
+
 		return preg_replace_callback("#$regex#i", array('JFilterOutput', '_ampReplaceCallback'), $input);
 	}
 

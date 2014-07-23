@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,13 +36,13 @@ class JFormRuleUsername extends JFormRule
 	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
 		// Get the database object and a new query object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('COUNT(*)');
-		$query->from('#__users');
-		$query->where('username = ' . $db->quote($value));
+		$query->select('COUNT(*)')
+			->from('#__users')
+			->where('username = ' . $db->quote($value));
 
 		// Get the extra field check attribute.
 		$userId = ($form instanceof JForm) ? $form->getValue('id') : '';

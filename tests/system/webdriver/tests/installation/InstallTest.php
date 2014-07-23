@@ -16,14 +16,18 @@ class InstallTest extends JoomlaWebdriverTestCase
 	 */
 	public function install_NormalInstallFromConfig_ShouldInstall()
 	{
-		$this->deleteConfigurationFile();
-		$url = $this->cfg->host . $this->cfg->path . 'installation/';
-		$installPage = $this->getPageObject('InstallationPage', true, $url);
-		$installPage->install($this->cfg);
+		if ($this->cfg->doInstall == 'true') {
+			$this->deleteConfigurationFile();
+			$url = $this->cfg->host . $this->cfg->path . 'installation/';
+			$installPage = $this->getPageObject('InstallationPage', true, $url);
+			$installPage->install($this->cfg);
+		}
+
 		$cpPage = $this->doAdminLogin();
+		$cpPage->clearInstallMessages();
 		$gcPage = $cpPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
 		$gcPage->setFieldValue('Cache', 'OFF');
-		$gcPage->setFieldValue('Error Reporting', 'Maximum');
+		$gcPage->setFieldValue('Error Reporting', 'Development');
 		$gcPage->saveAndClose('ControlPanelPage');
 		$this->doAdminLogout();
 	}

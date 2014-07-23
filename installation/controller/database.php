@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,10 +48,10 @@ class InstallationControllerDatabase extends JControllerBase
 		$r->view = $useftp ? 'ftp' : 'summary';
 
 		// Get the database model.
-		$database = new InstallationModelDatabase;
+		$db = new InstallationModelDatabase;
 
 		// Attempt to initialise the database.
-		$return = $database->createDatabase($vars);
+		$return = $db->createDatabase($vars);
 
 		// Check if the database was initialised
 		if (!$return)

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class UsersControllerLevel extends JControllerForm
 {
 	/**
-	 * @var		string	The prefix to use with controller messages.
+	 * @var     string  The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_USERS_LEVEL';
@@ -29,8 +29,8 @@ class UsersControllerLevel extends JControllerForm
 	 *
 	 * Overrides JControllerForm::allowSave to check the core.admin permission.
 	 *
-	 * @param   array  An array of input data.
-	 * @param   string	The name of the key for the primary key.
+	 * @param   array   An array of input data.
+	 * @param   string  The name of the key for the primary key.
 	 *
 	 * @return  boolean
 	 * @since   1.6
@@ -46,10 +46,9 @@ class UsersControllerLevel extends JControllerForm
 	public function delete()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$user = JFactory::getUser();
-		$ids  = $this->input->get('cid', array(), 'array');
+		$ids = $this->input->get('cid', array(), 'array');
 
 		if (!JFactory::getUser()->authorise('core.admin', $this->option))
 		{
@@ -72,7 +71,8 @@ class UsersControllerLevel extends JControllerForm
 			{
 				JError::raiseWarning(500, $model->getError());
 			}
-			else {
+			else
+			{
 				$this->setMessage(JText::plural('COM_USERS_N_LEVELS_DELETED', count($ids)));
 			}
 		}

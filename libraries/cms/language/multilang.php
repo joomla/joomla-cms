@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,6 +41,7 @@ class JLanguageMultilang
 		if ($app->isSite())
 		{
 			$enabled = $app->getLanguageFilter();
+
 			return $enabled;
 		}
 
@@ -48,14 +49,13 @@ class JLanguageMultilang
 		if (!$tested)
 		{
 			// Determine status of language filter plug-in.
-			$db = JFactory::getDBO();
-			$query = $db->getQuery(true);
-
-			$query->select('enabled');
-			$query->from($db->quoteName('#__extensions'));
-			$query->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
-			$query->where($db->quoteName('folder') . ' = ' . $db->quote('system'));
-			$query->where($db->quoteName('element') . ' = ' . $db->quote('languagefilter'));
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('enabled')
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+				->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+				->where($db->quoteName('element') . ' = ' . $db->quote('languagefilter'));
 			$db->setQuery($query);
 
 			$enabled = $db->loadResult();

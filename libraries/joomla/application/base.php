@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -73,7 +73,7 @@ abstract class JApplicationBase
 	 * Registers a handler to a particular event group.
 	 *
 	 * @param   string    $event    The event name.
-	 * @param   callback  $handler  The handler, a function or an instance of a event object.
+	 * @param   callable  $handler  The handler, a function or an instance of a event object.
 	 *
 	 * @return  JApplicationBase  The application to allow chaining.
 	 *

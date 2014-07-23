@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,18 +31,25 @@ abstract class ModulesHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
+	 * @param   integer  The module ID.
+	 *
 	 * @return  JObject
+	 *
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
-	public static function getActions()
+	public static function getActions($moduleId = 0)
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
-		$actions = JAccess::getActions('com_modules');
-
-		foreach ($actions as $action)
+		// Get list of actions
+		if (empty($moduleId))
 		{
-			$result->set($action->name, $user->authorise($action->name, 'com_modules'));
+			$result = JHelperContent::getActions('com_modules');
+		}
+		else
+		{
+			$result = JHelperContent::getActions('com_modules', 'module', $moduleId);
 		}
 
 		return $result;
@@ -87,12 +94,11 @@ abstract class ModulesHelper
 	public static function getPositions($clientId, $editPositions = false)
 	{
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('DISTINCT(position)');
-		$query->from('#__modules');
-		$query->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
-		$query->order('position');
+		$query	= $db->getQuery(true)
+			->select('DISTINCT(position)')
+			->from('#__modules')
+			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
+			->order('position');
 
 		$db->setQuery($query);
 
@@ -141,10 +147,10 @@ abstract class ModulesHelper
 		$query	= $db->getQuery(true);
 
 		// Build the query.
-		$query->select('element, name, enabled');
-		$query->from('#__extensions');
-		$query->where('client_id = ' . (int) $clientId);
-		$query->where('type = ' . $db->quote('template'));
+		$query->select('element, name, enabled')
+			->from('#__extensions')
+			->where('client_id = ' . (int) $clientId)
+			->where('type = ' . $db->quote('template'));
 		if ($state != '')
 		{
 			$query->where('enabled = ' . $db->quote($state));
@@ -171,15 +177,14 @@ abstract class ModulesHelper
 	public static function getModules($clientId)
 	{
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('element AS value, name AS text');
-		$query->from('#__extensions as e');
-		$query->where('e.client_id = ' . (int) $clientId);
-		$query->where('type = ' . $db->quote('module'));
-		$query->leftJoin('#__modules as m ON m.module=e.element AND m.client_id=e.client_id');
-		$query->where('m.module IS NOT NULL');
-		$query->group('element,name');
+		$query	= $db->getQuery(true)
+			->select('element AS value, name AS text')
+			->from('#__extensions as e')
+			->where('e.client_id = ' . (int) $clientId)
+			->where('type = ' . $db->quote('module'))
+			->join('LEFT', '#__modules as m ON m.module=e.element AND m.client_id=e.client_id')
+			->where('m.module IS NOT NULL')
+			->group('element,name');
 
 		$db->setQuery($query);
 		$modules = $db->loadObjectList();
@@ -190,13 +195,11 @@ abstract class ModulesHelper
 			$extension = $module->value;
 			$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 			$source = $path . "/modules/$extension";
-				$lang->load("$extension.sys", $path, null, false, false)
-			||	$lang->load("$extension.sys", $source, null, false, false)
-			||	$lang->load("$extension.sys", $path, $lang->getDefault(), false, false)
-			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
+				$lang->load("$extension.sys", $path, null, false, true)
+			||	$lang->load("$extension.sys", $source, null, false, true);
 			$modules[$i]->text = JText::_($module->text);
 		}
-		JArrayHelper::sortObjects($modules, 'text', 1, true, $lang->getLocale());
+		JArrayHelper::sortObjects($modules, 'text', 1, true, true);
 		return $modules;
 	}
 

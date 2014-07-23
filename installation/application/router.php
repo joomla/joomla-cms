@@ -2,13 +2,11 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.router');
 
 /**
  * Class to create and parse routes
@@ -21,7 +19,7 @@ class JRouterInstallation extends JRouter
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @param   JURI  $url  The uri.
+	 * @param   JUri  $url  The uri.
 	 *
 	 * @return  boolean
 	 *

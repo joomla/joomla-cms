@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,44 +26,46 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 	 *
 	 * @var    string
 	 * @since  3.1
-	 * */
+	 */
 	protected $route = 'install';
 
 	/**
 	 * The installation manifest XML object
 	 *
-	 * @var
+	 * @var    SimpleXMLElement
 	 * @since  3.1
-	 * */
+	 */
 	protected $manifest = null;
 
 	/**
 	 * A path to the PHP file that the scriptfile declaration in
 	 * the manifest refers to.
 	 *
-	 * @var
+	 * @var    string
 	 * @since  3.1
-	 * */
+	 */
 	protected $manifest_script = null;
 
 	/**
 	 * Name of the extension
 	 *
-	 * @var
+	 * @var    string
 	 * @since  3.1
-	 * */
+	 */
 	protected $name = null;
 
 	/**
+	 * <scriptfile> element of the extension manifest
 	 *
-	 *
-	 * @var
+	 * @var    object
 	 * @since  3.1
-	 * */
+	 */
 	protected $scriptElement = null;
 
 	/**
-	 * @var
+	 * <files> element of the old extension manifest
+	 *
+	 * @var    object
 	 * @since  3.1
 	 */
 	protected $oldFiles = null;
@@ -85,6 +87,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		{
 			$this->parent->setPath('source', JPATH_PLUGINS . '/' . $this->parent->extension->folder . '/' . $this->parent->extension->element);
 		}
+
 		$this->manifest = $this->parent->getManifest();
 		$element = $this->manifest->files;
 
@@ -104,6 +107,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 					}
 				}
 			}
+
 			if ($name)
 			{
 				$extension = "plg_${group}_${name}";
@@ -115,10 +119,9 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				{
 					$source = "$path/$folder";
 				}
-				$lang->load($extension . '.sys', $source, null, false, false)
-					|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-					|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-					|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+
+				$lang->load($extension . '.sys', $source, null, false, true)
+					|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true);
 			}
 		}
 	}
@@ -181,6 +184,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				}
 			}
 		}
+
 		$group = (string) $xml->attributes()->group;
 
 		if (!empty($element) && !empty($group))
@@ -197,10 +201,11 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		// Check if we should enable overwrite settings
 
 		// Check to see if a plugin by the same name is already installed.
-		$query = $db->getQuery(true);
-		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
-		$query->where($query->qn('folder') . ' = ' . $query->q($group));
-		$query->where($query->qn('element') . ' = ' . $query->q($element));
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote($group))
+			->where($db->quoteName('element') . ' = ' . $db->quote($element));
 		$db->setQuery($query);
 
 		try
@@ -415,6 +420,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 
 				return false;
 			}
+
 			$row->load($id);
 			$row->name = $this->get('name');
 			$row->manifest_cache = $this->parent->generateManifestCache();
@@ -721,8 +727,9 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		$this->parent->removeFiles($this->manifest->languages, 1);
 
 		// Remove the schema version
-		$query = $db->getQuery(true);
-		$query->delete()->from('#__schemas')->where('extension_id = ' . $row->extension_id);
+		$query = $db->getQuery(true)
+			->delete('#__schemas')
+			->where('extension_id = ' . $row->extension_id);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -776,8 +783,10 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				$extension->set('name', $file);
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
 				$results[] = $extension;
 			}
+
 			$folder_list = JFolder::folders(JPATH_SITE . '/plugins/' . $folder);
 
 			foreach ($folder_list as $plugin_folder)
@@ -805,10 +814,12 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 					$extension->set('name', $file);
 					$extension->set('state', -1);
 					$extension->set('manifest_cache', json_encode($manifest_details));
+					$extension->set('params', '{}');
 					$results[] = $extension;
 				}
 			}
 		}
+
 		return $results;
 	}
 
@@ -837,6 +848,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		{
 			$manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '.xml';
 		}
+
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$description = (string) $this->parent->manifest->description;
 
@@ -848,6 +860,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		{
 			$this->parent->set('message', '');
 		}
+
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JInstaller::parseXMLInstallFile($manifestPath);
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);

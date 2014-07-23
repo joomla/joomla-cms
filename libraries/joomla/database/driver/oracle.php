@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -140,9 +140,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	{
 		$this->connect();
 
-		$query = $this->getQuery(true);
-
-		$query->setQuery('DROP TABLE :tableName');
+		$query = $this->getQuery(true)
+			->setQuery('DROP TABLE :tableName');
 		$query->bind(':tableName', $tableName);
 
 		$this->setQuery($query);
@@ -210,12 +209,10 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$this->connect();
 
 		$result = array();
-		$query = $this->getQuery(true);
-
-		$query->select('dbms_metadata.get_ddl(:type, :tableName)');
-		$query->from('dual');
-
-		$query->bind(':type', 'TABLE');
+		$query = $this->getQuery(true)
+			->select('dbms_metadata.get_ddl(:type, :tableName)')
+			->from('dual')
+			->bind(':type', 'TABLE');
 
 		// Sanitize input to an array and iterate over the list.
 		settype($tables, 'array');
@@ -305,11 +302,10 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$this->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
 
 		$table = strtoupper($table);
-		$query->select('*');
-		$query->from('ALL_CONSTRAINTS');
-		$query->where('table_name = :tableName');
-
-		$query->bind(':tableName', $table);
+		$query->select('*')
+			->from('ALL_CONSTRAINTS')
+			->where('table_name = :tableName')
+			->bind(':tableName', $table);
 
 		$this->setQuery($query);
 		$keys = $this->loadObjectList();
@@ -336,8 +332,6 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 
 		$query = $this->getQuery(true);
 
-		$tables = array();
-
 		if ($includeDatabaseName)
 		{
 			$query->select('owner, table_name');
@@ -350,8 +344,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$query->from('all_tables');
 		if ($databaseName)
 		{
-			$query->where('owner = :database');
-			$query->bind(':database', $databaseName);
+			$query->where('owner = :database')
+				->bind(':database', $databaseName);
 		}
 
 		$query->order('table_name');
@@ -364,7 +358,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		}
 		else
 		{
-			$tables = $this->loadResultArray();
+			$tables = $this->loadColumn();
 		}
 
 		return $tables;
@@ -382,6 +376,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$this->connect();
 
 		$this->setQuery("select value from nls_database_parameters where parameter = 'NLS_RDBMS_VERSION'");
+
 		return $this->loadResult();
 	}
 
@@ -421,6 +416,12 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$this->connect();
 
 		$this->setQuery("ALTER SESSION SET NLS_DATE_FORMAT = '$dateFormat'");
+
+		if (!$this->execute())
+		{
+			return false;
+		}
+
 		$this->setQuery("ALTER SESSION SET NLS_TIMESTAMP_FORMAT = '$dateFormat'");
 		if (!$this->execute())
 		{
@@ -516,39 +517,38 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 * This function replaces a string identifier <var>$prefix</var> with the string held is the
 	 * <var>tablePrefix</var> class variable.
 	 *
-	 * @param   string  $sql     The SQL statement to prepare.
+	 * @param   string  $query   The SQL statement to prepare.
 	 * @param   string  $prefix  The common table prefix.
 	 *
 	 * @return  string  The processed SQL statement.
 	 *
 	 * @since   11.1
 	 */
-	public function replacePrefix($sql, $prefix = '#__')
+	public function replacePrefix($query, $prefix = '#__')
 	{
-		$escaped = false;
 		$startPos = 0;
 		$quoteChar = "'";
 		$literal = '';
 
-		$sql = trim($sql);
-		$n = strlen($sql);
+		$query = trim($query);
+		$n = strlen($query);
 
 		while ($startPos < $n)
 		{
-			$ip = strpos($sql, $prefix, $startPos);
+			$ip = strpos($query, $prefix, $startPos);
 			if ($ip === false)
 			{
 				break;
 			}
 
-			$j = strpos($sql, "'", $startPos);
+			$j = strpos($query, "'", $startPos);
 
 			if ($j === false)
 			{
 				$j = $n;
 			}
 
-			$literal .= str_replace($prefix, $this->tablePrefix, substr($sql, $startPos, $j - $startPos));
+			$literal .= str_replace($prefix, $this->tablePrefix, substr($query, $startPos, $j - $startPos));
 			$startPos = $j;
 
 			$j = $startPos + 1;
@@ -561,14 +561,14 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 			// Quote comes first, find end of quote
 			while (true)
 			{
-				$k = strpos($sql, $quoteChar, $j);
+				$k = strpos($query, $quoteChar, $j);
 				$escaped = false;
 				if ($k === false)
 				{
 					break;
 				}
 				$l = $k - 1;
-				while ($l >= 0 && $sql{$l} == '\\')
+				while ($l >= 0 && $query{$l} == '\\')
 				{
 					$l--;
 					$escaped = !$escaped;
@@ -585,14 +585,96 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 				// Error in the query - no end quote; ignore it
 				break;
 			}
-			$literal .= substr($sql, $startPos, $k - $startPos + 1);
+			$literal .= substr($query, $startPos, $k - $startPos + 1);
 			$startPos = $k + 1;
 		}
 		if ($startPos < $n)
 		{
-			$literal .= substr($sql, $startPos, $n - $startPos);
+			$literal .= substr($query, $startPos, $n - $startPos);
 		}
 
 		return $literal;
+	}
+
+	/**
+	 * Method to commit a transaction.
+	 *
+	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @throws  RuntimeException
+	 */
+	public function transactionCommit($toSavepoint = false)
+	{
+		$this->connect();
+
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			parent::transactionCommit($toSavepoint);
+		}
+		else
+		{
+			$this->transactionDepth--;
+		}
+	}
+
+	/**
+	 * Method to roll back a transaction.
+	 *
+	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @throws  RuntimeException
+	 */
+	public function transactionRollback($toSavepoint = false)
+	{
+		$this->connect();
+
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			parent::transactionRollback($toSavepoint);
+		}
+		else
+		{
+			$savepoint = 'SP_' . ($this->transactionDepth - 1);
+			$this->setQuery('ROLLBACK TO SAVEPOINT ' . $this->quoteName($savepoint));
+
+			if ($this->execute())
+			{
+				$this->transactionDepth--;
+			}
+		}
+	}
+
+	/**
+	 * Method to initialize a transaction.
+	 *
+	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @throws  RuntimeException
+	 */
+	public function transactionStart($asSavepoint = false)
+	{
+		$this->connect();
+
+		if (!$asSavepoint || !$this->transactionDepth)
+		{
+			return parent::transactionStart($asSavepoint);
+		}
+
+		$savepoint = 'SP_' . $this->transactionDepth;
+		$this->setQuery('SAVEPOINT ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth++;
+		}
 	}
 }

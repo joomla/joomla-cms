@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -186,9 +186,9 @@ class InstallerModelManage extends InstallerModel
 	public function remove($eid = array())
 	{
 		$user = JFactory::getUser();
+
 		if ($user->authorise('core.delete', 'com_installer'))
 		{
-
 			$failed = array();
 
 			/*
@@ -205,10 +205,20 @@ class InstallerModelManage extends InstallerModel
 			$row = JTable::getInstance('extension');
 
 			// Uninstall the chosen extensions
+			$msgs = array();
+			$result = false;
 			foreach ($eid as $id)
 			{
 				$id = trim($id);
 				$row->load($id);
+
+				$langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
+				$rowtype = JText::_($langstring);
+				if (strpos($rowtype, $langstring) !== false)
+				{
+					$rowtype = $row->type;
+				}
+
 				if ($row->type && $row->type != 'language')
 				{
 					$result = $installer->uninstall($row->type, $id);
@@ -216,46 +226,36 @@ class InstallerModelManage extends InstallerModel
 					// Build an array of extensions that failed to uninstall
 					if ($result === false)
 					{
-						$failed[] = $id;
+						// There was an error in uninstalling the package
+						$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+						$result = false;
+					}
+					else
+					{
+						// Package uninstalled sucessfully
+						$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
+						$result = true;
 					}
 				}
 				else
 				{
-					$failed[] = $id;
+					if ($row->type == 'language')
+					{
+
+						// One should always uninstall a language package, not a single language
+						$msgs[] = JText::_('COM_INSTALLER_UNINSTALL_LANGUAGE');
+						$result = false;
+					}
+					else
+					{
+
+						// There was an error in uninstalling the package
+						$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+						$result = false;
+					}
 				}
 			}
-
-			$langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
-			$rowtype = JText::_($langstring);
-			if (strpos($rowtype, $langstring) !== false)
-			{
-				$rowtype = $row->type;
-			}
-
-			if (count($failed))
-			{
-				if ($row->type == 'language')
-				{
-
-					// One should always uninstall a language package, not a single language
-					$msg = JText::_('COM_INSTALLER_UNINSTALL_LANGUAGE');
-					$result = false;
-				}
-				else
-				{
-
-					// There was an error in uninstalling the package
-					$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
-					$result = false;
-				}
-			}
-			else
-			{
-
-				// Package uninstalled sucessfully
-				$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
-				$result = true;
-			}
+			$msg = implode("<br />", $msgs);
 			$app = JFactory::getApplication();
 			$app->enqueueMessage($msg);
 			$this->setState('action', 'remove');
@@ -266,7 +266,6 @@ class InstallerModelManage extends InstallerModel
 		}
 		else
 		{
-			$result = false;
 			JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 		}
 	}
@@ -284,26 +283,30 @@ class InstallerModelManage extends InstallerModel
 		$type = $this->getState('filter.type');
 		$client = $this->getState('filter.client_id');
 		$group = $this->getState('filter.group');
-		$query = JFactory::getDBO()->getQuery(true);
-		$query->select('*');
-		$query->select('2*protected+(1-protected)*enabled as status');
-		$query->from('#__extensions');
-		$query->where('state=0');
+		$query = JFactory::getDbo()->getQuery(true)
+			->select('*')
+			->select('2*protected+(1-protected)*enabled as status')
+			->from('#__extensions')
+			->where('state=0');
 		if ($status != '')
 		{
 			if ($status == '2')
 			{
 				$query->where('protected = 1');
 			}
-			else
+			elseif ($status == '3')
 			{
 				$query->where('protected = 0');
-				$query->where('enabled=' . (int) $status);
+			}
+			else
+			{
+				$query->where('protected = 0')
+					->where('enabled=' . (int) $status);
 			}
 		}
 		if ($type)
 		{
-			$query->where('type=' . $this->_db->Quote($type));
+			$query->where('type=' . $this->_db->quote($type));
 		}
 		if ($client != '')
 		{
@@ -311,7 +314,7 @@ class InstallerModelManage extends InstallerModel
 		}
 		if ($group != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where('folder=' . $this->_db->Quote($group == '*' ? '' : $group));
+			$query->where('folder=' . $this->_db->quote($group == '*' ? '' : $group));
 		}
 
 		// Filter by search in id

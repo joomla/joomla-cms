@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,18 +30,27 @@ class TagsViewTag extends JViewLegacy
 
 	protected $params;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   3.1
+	 */
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
-		$params		= $app->getParams();
+		$app    = JFactory::getApplication();
+		$params = $app->getParams();
 
 		// Get some data from the models
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$item		= $this->get('Item');
-		$children	= $this->get('Children');
-		$parent 	= $this->get('Parent');
-		$pagination	= $this->get('Pagination');
+		$state      = $this->get('State');
+		$items      = $this->get('Items');
+		$item       = $this->get('Item');
+		$children   = $this->get('Children');
+		$parent     = $this->get('Parent');
+		$pagination = $this->get('Pagination');
 
 		// Change to catch
 		/*if (count($errors = $this->get('Errors'))) {
@@ -50,9 +59,9 @@ class TagsViewTag extends JViewLegacy
 		}*/
 
 		// Check whether access level allows access.
-		// TODO: SHould already be computed in $item->params->get('access-view')
-		$user	= JFactory::getUser();
-		$groups	= $user->getAuthorisedViewLevels();
+		// @TODO: Should already be computed in $item->params->get('access-view')
+		$user   = JFactory::getUser();
+		$groups = $user->getAuthorisedViewLevels();
 		foreach ($item as $itemElement)
 		{
 			if (!in_array($itemElement->access, $groups))
@@ -71,6 +80,37 @@ class TagsViewTag extends JViewLegacy
 			}
 		}
 
+		if ($items !== false)
+		{
+			foreach ($items as $itemElement)
+			{
+				$itemElement->event = new stdClass;
+
+				// For some plugins.
+				!empty($itemElement->core_body)? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
+
+				$dispatcher = JEventDispatcher::getInstance();
+
+				JPluginHelper::importPlugin('content');
+				$dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+
+				$results = $dispatcher->trigger('onContentAfterTitle', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
+
+				$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
+
+				$results = $dispatcher->trigger('onContentAfterDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
+
+				// Write the results back into the body
+				if (!empty($itemElement->core_body))
+				{
+					$itemElement->core_body = $itemElement->text;
+				}
+			}
+		}
+
 		$this->state      = &$state;
 		$this->items      = &$items;
 		$this->children   = &$children;
@@ -79,25 +119,27 @@ class TagsViewTag extends JViewLegacy
 		$this->user       = &$user;
 		$this->item       = &$item;
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		// Merge tag params. If this is single-tag view, menu params override tag params
 		// Otherwise, article params override menu item params
-		$this->params	= $this->state->get('params');
-		$active	= $app->getMenu()->getActive();
-		$temp	= clone ($this->params);
+		$this->params = $this->state->get('params');
+		$active       = $app->getMenu()->getActive();
+		$temp         = clone ($this->params);
 
 		// Check to see which parameters should take priority
 		if ($active)
 		{
 			$currentLink = $active->link;
+
 			// If the current view is the active item and an tag view for one tag, then the menu item params take priority
 			if (strpos($currentLink, 'view=tag') && (strpos($currentLink, '&id[0]='.(string) $item[0]->id)))
 			{
 				// $item->params are the article params, $temp are the menu item params
 				// Merge so that the menu item params take priority
 				$this->params->merge($temp);
+
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout'])) {
 					$this->setLayout($active->query['layout']);
@@ -108,11 +150,11 @@ class TagsViewTag extends JViewLegacy
 				// Current view is not tags, so the global params take priority since tags is not an item.
 				// Merge the menu item params with the global params so that the article params take priority
 				$temp->merge($this->state->params);
-				$this->state->params = $temp;
+				$this->params = $temp;
 
 				// Check for alternative layouts (since we are not in a single-article menu item)
 				// Single-article menu item layout takes priority over alt layout for an article
-				if ($layout = $this->state->params->get('tags_layout'))
+				if ($layout = $this->params->get('tags_layout'))
 				{
 					$this->setLayout($layout);
 				}
@@ -123,6 +165,7 @@ class TagsViewTag extends JViewLegacy
 			// Merge so that item params take priority
 			$temp->merge($item[0]->params);
 			$item[0]->params = $temp;
+
 			// Check for alternative layouts (since we are not in a single-tag menu item)
 			// Single-tag menu item layout takes priority over alt layout for an article
 			if ($layout = $item[0]->params->get('tag_layout'))
@@ -130,6 +173,10 @@ class TagsViewTag extends JViewLegacy
 				$this->setLayout($layout);
 			}
 		}
+
+		// Increment the hit counter
+		$model = $this->getModel();
+		$model->hit();
 
 		$this->_prepareDocument();
 
@@ -141,10 +188,9 @@ class TagsViewTag extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
-		$title 		= null;
+		$app   = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -159,44 +205,29 @@ class TagsViewTag extends JViewLegacy
 			$this->params->def('page_heading', JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
-		$id = (int) @$menu->query['id'];
-
-		if ($menu && ($menu->query['option'] != 'com_tags' /* || $id != $this->id */))
+		if ($menu && ($menu->query['option'] != 'com_tags'))
 		{
-			$this->params->set('page_subheading', $item->title);
+			$this->params->set('page_subheading', $menu->title);
 		}
 
-		// If this is not a single tag menu item, set the page title to the tag titles
-		$title = '';
-		foreach ($this->item as $i => $itemElement)
-		{
-			if ($itemElement->title)
-			{
-				if ($i != 0)
-				{
-					$title .= ', ';
-				}
-				$title .= $itemElement->title;
-			}
-		}
-		$path = array(array('title' => $title, 'link' => ''));
+		$title = $this->state->params->get('page_title');
 
 		if (empty($title))
 		{
-			$title = $app->getCfg('sitename');
+			$title = $app->get('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
 
-		foreach ($this->item as $j => $itemElement)
+		foreach ($this->item as $itemElement)
 		{
 			if ($itemElement->metadesc)
 			{
@@ -221,31 +252,23 @@ class TagsViewTag extends JViewLegacy
 				$this->document->setMetadata('robots', $this->params->get('robots'));
 			}
 
-			if ($app->getCfg('MetaAuthor') == '1')
+			if ($app->get('MetaAuthor') == '1')
 			{
 				$this->document->setMetaData('author', $itemElement->created_user_id);
 			}
 
-			/* $mdata = $this->item->metadata->toArray();*/
-			/*foreach ($mdata as $k => $v)
-			{
-				if ($v)
-				{
-					$this->document->setMetadata($k, $v);
-				}
-			}*/
 		}
 
-		// TODO create tag feed document
+		// @TODO: create tag feed document
 		// Add alternative feed link
 
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{
-			$link	= '&format=feed&limitstart=';
+			$link    = '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
 	}
 }

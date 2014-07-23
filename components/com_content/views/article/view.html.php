@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,34 +28,39 @@ class ContentViewArticle extends JViewLegacy
 
 	protected $user;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
 		$dispatcher	= JEventDispatcher::getInstance();
 
-		$this->item  = $this->get('Item');
-		$this->print = $app->input->getBool('print');
-		$this->state = $this->get('State');
-		$this->user  = $user;
+		$this->item		= $this->get('Item');
+		$this->print	= $app->input->getBool('print');
+		$this->state	= $this->get('State');
+		$this->user		= $user;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseWarning(500, implode("\n", $errors));
-
 			return false;
 		}
 
 		// Create a shortcut for $item.
 		$item = $this->item;
-		$item->tagLayout      = new JLayoutFile('joomla.content.tags');
+		$item->tagLayout = new JLayoutFile('joomla.content.tags');
 
 		// Add router helpers.
 		$item->slug			= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
 		$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
-		$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+		$item->parent_slug	= $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 		// No link for ROOT category
 		if ($item->parent_alias == 'root')
@@ -68,27 +73,35 @@ class ContentViewArticle extends JViewLegacy
 
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
-		$this->params	= $this->state->get('params');
-		$active	= $app->getMenu()->getActive();
-		$temp	= clone ($this->params);
+		$this->params = $this->state->get('params');
+		$active = $app->getMenu()->getActive();
+		$temp = clone ($this->params);
 
 		// Check to see which parameters should take priority
 		if ($active)
 		{
 			$currentLink = $active->link;
+
 			// If the current view is the active item and an article view for this article, then the menu item params take priority
 			if (strpos($currentLink, 'view=article') && (strpos($currentLink, '&id='.(string) $item->id)))
 			{
-				// $item->params are the article params, $temp are the menu item params
-				// Merge so that the menu item params take priority
-				$item->params->merge($temp);
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout']))
 				{
 					$this->setLayout($active->query['layout']);
 				}
+				// Check for alternative layout of article
+				elseif ($layout = $item->params->get('article_layout'))
+				{
+					$this->setLayout($layout);
+				}
+
+				// $item->params are the article params, $temp are the menu item params
+				// Merge so that the menu item params take priority
+				$item->params->merge($temp);
 			}
-			else {
+			else
+			{
 				// Current view is not a single article, so the article params take priority here
 				// Merge the menu item params with the article params so that the article params take priority
 				$temp->merge($item->params);
@@ -107,6 +120,7 @@ class ContentViewArticle extends JViewLegacy
 			// Merge so that article params take priority
 			$temp->merge($item->params);
 			$item->params = $temp;
+
 			// Check for alternative layouts (since we are not in a single-article menu item)
 			// Single-article menu item layout takes priority over alt layout for an article
 			if ($layout = $item->params->get('article_layout'))
@@ -118,31 +132,32 @@ class ContentViewArticle extends JViewLegacy
 		$offset = $this->state->get('list.offset');
 
 		// Check the view access to the article (the model has already computed the values).
-		if ($item->params->get('access-view') != true && (($item->params->get('show_noauth') != true &&  $user->get('guest') ))) {
-
-						JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
-
-				return;
+		if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0'))
+		{
+			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+			return;
 		}
 
 		if ($item->params->get('show_intro', '1') == '1')
 		{
-			$item->text = $item->introtext.' '.$item->fulltext;
+			$item->text = $item->introtext . ' ' . $item->fulltext;
 		}
 		elseif ($item->fulltext)
 		{
 			$item->text = $item->fulltext;
 		}
-		else  {
+		else
+		{
 			$item->text = $item->introtext;
 		}
-		$item->tags = new JTags;
+
+		$item->tags = new JHelperTags;
 		$item->tags->getItemTags('com_content.article', $this->item->id);
 
 		// Process the content plugins.
 
 		JPluginHelper::importPlugin('content');
-		$results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
+		$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
 
 		$item->event = new stdClass;
 		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$this->params, $offset));
@@ -174,14 +189,15 @@ class ContentViewArticle extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app	= JFactory::getApplication();
-		$menus	= $app->getMenu();
-		$pathway = $app->getPathway();
-		$title = null;
+		$app		= JFactory::getApplication();
+		$menus		= $app->getMenu();
+		$pathway	= $app->getPathway();
+		$title		= null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
+
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
@@ -205,12 +221,14 @@ class ContentViewArticle extends JViewLegacy
 			}
 			$path = array(array('title' => $this->item->title, 'link' => ''));
 			$category = JCategories::getInstance('Content')->get($this->item->catid);
+
 			while ($category && ($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $category->id) && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
 			}
 			$path = array_reverse($path);
+
 			foreach ($path as $item)
 			{
 				$pathway->addItem($item['title'], $item['link']);
@@ -220,16 +238,17 @@ class ContentViewArticle extends JViewLegacy
 		// Check for empty title and add site name if param is set
 		if (empty($title))
 		{
-			$title = $app->getCfg('sitename');
+			$title = $app->get('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
+
 		if (empty($title))
 		{
 			$title = $this->item->title;
@@ -259,12 +278,13 @@ class ContentViewArticle extends JViewLegacy
 			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
 
-		if ($app->getCfg('MetaAuthor') == '1')
+		if ($app->get('MetaAuthor') == '1')
 		{
 			$this->document->setMetaData('author', $this->item->author);
 		}
 
 		$mdata = $this->item->metadata->toArray();
+
 		foreach ($mdata as $k => $v)
 		{
 			if ($v)

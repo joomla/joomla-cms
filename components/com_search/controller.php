@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,7 +82,7 @@ class SearchController extends JControllerLegacy
 		unset($post['task']);
 		unset($post['submit']);
 
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 		$uri->setQuery($post);
 		$uri->setVar('option', 'com_search');
 

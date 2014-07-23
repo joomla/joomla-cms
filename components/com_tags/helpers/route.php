@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,7 +117,8 @@ class TagsHelperRoute extends JHelperRoute
 			if ($items) {
 				foreach ($items as $item)
 				{
-					if (isset($item->query) && isset($item->query['view'])) {
+					if (isset($item->query) && isset($item->query['view']))
+					{
 						$view = $item->query['view'];
 
 						if (!isset(self::$lookup[$view]))
@@ -125,7 +126,8 @@ class TagsHelperRoute extends JHelperRoute
 							self::$lookup[$view] = array();
 						}
 
-						if (isset($item->query['id'][0]))
+						// Only match menu items that list one tag
+						if (isset($item->query['id'][0]) && count($item->query['id']) == 1)
 						{
 							// Here it will become a bit tricky
 							// language != * can override existing entries

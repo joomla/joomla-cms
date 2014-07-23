@@ -3,14 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 
 // Create shortcut to parameters.
@@ -70,6 +69,14 @@ $params = $this->state->get('params');
 			</div>
 			<div class="controls">
 				<?php echo $this->form->getInput('catid'); ?>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('tags'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('tags'); ?>
 			</div>
 		</div>
 		<div class="control-group">

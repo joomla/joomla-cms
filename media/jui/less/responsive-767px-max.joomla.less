@@ -1,0 +1,37 @@
+//
+// Responsive: Landscape phone to desktop/tablet
+// --------------------------------------------------
+
+/* Joomla JUI NOTE: Original .modal definition has to be commented */
+
+// > Joomla JUI
+@media (max-width: 767px) {
+  
+  // Modals
+  div.modal {
+    position: fixed;
+    top:   20px;
+    left:  20px;
+    right: 20px;
+    width: auto;
+    margin: 0;
+    &.fade  { top: -100px; }
+    &.fade.in { top: 20px; }
+  }
+
+}
+
+// UP TO LANDSCAPE PHONE
+// ---------------------
+
+@media (max-width: 480px) {
+
+  // Modals
+  div.modal {
+    top:   10px;
+    left:  10px;
+    right: 10px;
+  }
+
+}
+// < Joomla JUI
