@@ -1029,7 +1029,10 @@ SELECT 448, 'plg_twofactorauth_totp', 'plugin', 'totp', 'twofactorauth', 0, 0, 1
 UNION ALL
 SELECT 449, 'plg_authentication_cookie', 'plugin', 'cookie', 'authentication', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 450, 'plg_twofactorauth_yubikey', 'plugin', 'yubikey', 'twofactorauth', 0, 0, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+SELECT 450, 'plg_twofactorauth_yubikey', 'plugin', 'yubikey', 'twofactorauth', 0, 0, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 451, 'plg_search_tags', 'plugin', 'tags', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","show_tagged_items":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+
 
 INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 503, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -2746,9 +2749,9 @@ CREATE TABLE [#__update_sites](
 SET IDENTITY_INSERT [#__update_sites] ON;
 
 INSERT INTO [#__update_sites] ([update_site_id], [name], [type], [location], [enabled], [last_check_timestamp])
-SELECT 1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0
+SELECT 1, 'Joomla! Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0
 UNION ALL
-SELECT 2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0
+SELECT 2, 'Joomla! Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0
 UNION ALL
 SELECT 3, 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.org/language/translationlist_3.xml', 1, 0;
 
@@ -2974,6 +2977,7 @@ CREATE TABLE [#__users](
 	[resetCount] [int] NOT NULL DEFAULT 0,
 	[otpKey] [nvarchar](1000) NOT NULL DEFAULT '',
 	[otep] [nvarchar](1000) NOT NULL DEFAULT '',
+	[requireReset] [smallint] NULL DEFAULT 0,
  CONSTRAINT [PK_#__users_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC

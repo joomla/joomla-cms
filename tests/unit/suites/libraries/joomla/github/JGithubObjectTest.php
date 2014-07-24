@@ -34,7 +34,7 @@ class JGithubObjectTest extends PHPUnit_Framework_TestCase
 	protected $client;
 
 	/**
-	 * @var    JGithubIssues  Object under test.
+	 * @var    JGithubObject  Object under test.
 	 * @since  11.3
 	 */
 	protected $object;

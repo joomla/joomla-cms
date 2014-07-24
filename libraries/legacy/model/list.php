@@ -549,7 +549,7 @@ class JModelList extends JModelLegacy
 			// Keep B/C for components previous to jform forms for filters
 			{
 				// Pre-fill the limits
-				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
 				$this->setState('list.limit', $limit);
 
 				// Check if the ordering field is in the white list, otherwise use the incoming value.
@@ -656,7 +656,7 @@ class JModelList extends JModelLegacy
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
-		$app = JFactory::getApplication();
+		$app       = JFactory::getApplication();
 		$input     = $app->input;
 		$old_state = $app->getUserState($key);
 		$cur_state = (!is_null($old_state)) ? $old_state : $default;

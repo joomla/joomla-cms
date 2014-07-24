@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Tags table
@@ -108,11 +108,11 @@ class JTableContenttype extends JTable
 		$db = $this->_db;
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('type_id'))
-			->from($db->quoteName('#__content_types'))
+			->from($db->quoteName($this->_tbl))
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
 		$db->setQuery($query);
 
-		return $db->loadResult($query);
+		return $db->loadResult();
 	}
 
 	/**

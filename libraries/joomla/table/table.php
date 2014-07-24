@@ -22,7 +22,7 @@ jimport('joomla.filesystem.path');
  * @since       11.1
  * @tutorial	Joomla.Platform/jtable.cls
  */
-abstract class JTable extends JObject implements JObservableInterface
+abstract class JTable extends JObject implements JObservableInterface, JTableInterface
 {
 	/**
 	 * Include paths for searching for JTable classes.

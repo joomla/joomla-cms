@@ -18,12 +18,16 @@ defined('_JEXEC') or die;
  */
 class ModArchiveHelper
 {
-	/*
-	 * @since  1.5
+	/**
+	 * Retrieve list of archived articles
+	 *
+	 * @param   JRegistry  &$params  module parameters
+	 *
+	 * @return array
 	 */
 	public static function getList(&$params)
 	{
-		//get database
+		// Get database
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
@@ -49,6 +53,7 @@ class ModArchiveHelper
 
 		$i = 0;
 		$lists = array();
+
 		foreach ($rows as $row)
 		{
 			$date = JFactory::getDate($row->created);
@@ -66,6 +71,7 @@ class ModArchiveHelper
 
 			$i++;
 		}
+
 		return $lists;
 	}
 }

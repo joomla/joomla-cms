@@ -32,6 +32,7 @@ class PlgSearchContent extends JPlugin
 		static $areas = array(
 			'content' => 'JGLOBAL_ARTICLES'
 		);
+
 		return $areas;
 	}
 
@@ -61,6 +62,7 @@ class PlgSearchContent extends JPlugin
 		require_once JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php';
 
 		$searchText = $text;
+
 		if (is_array($areas))
 		{
 			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
@@ -78,6 +80,7 @@ class PlgSearchContent extends JPlugin
 		$now = $date->toSql();
 
 		$text = trim($text);
+
 		if ($text == '')
 		{
 			return array();
@@ -101,6 +104,7 @@ class PlgSearchContent extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
+
 				foreach ($words as $word)
 				{
 					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
@@ -112,6 +116,7 @@ class PlgSearchContent extends JPlugin
 					$wheres2[] = 'a.metadesc LIKE ' . $word;
 					$wheres[] = implode(' OR ', $wheres2);
 				}
+
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
@@ -198,6 +203,7 @@ class PlgSearchContent extends JPlugin
 					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
 				}
 			}
+
 			$rows[] = $list;
 		}
 
@@ -272,11 +278,13 @@ class PlgSearchContent extends JPlugin
 		}
 
 		$results = array();
+
 		if (count($rows))
 		{
 			foreach ($rows as $row)
 			{
 				$new_row = array();
+
 				foreach ($row as $article)
 				{
 					if (SearchHelper::checkNoHTML($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))
@@ -284,6 +292,7 @@ class PlgSearchContent extends JPlugin
 						$new_row[] = $article;
 					}
 				}
+
 				$results = array_merge($results, (array) $new_row);
 			}
 		}

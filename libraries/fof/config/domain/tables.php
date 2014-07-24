@@ -2,7 +2,7 @@
 /**
  *  @package     FrameworkOnFramework
  *  @subpackage  config
- *  @copyright   Copyright (c)2010-2012 Nicholas K. Dionysopoulos
+ *  @copyright   Copyright (c)2010-2014 Nicholas K. Dionysopoulos
  *  @license     GNU General Public License version 2, or later
  */
 
@@ -45,6 +45,8 @@ class FOFConfigDomainTables implements FOFConfigDomainInterface
 			$ret['tables'][$key]['behaviors'] = (string) $aTable->behaviors;
 			$ret['tables'][$key]['tablealias'] = $aTable->xpath('tablealias');
 			$ret['tables'][$key]['fields'] = array();
+			$ret['tables'][$key]['relations'] = array();
+
 			$fieldData = $aTable->xpath('field');
 
 			if (!empty($fieldData))
@@ -53,6 +55,50 @@ class FOFConfigDomainTables implements FOFConfigDomainInterface
 				{
 					$k = (string) $field['name'];
 					$ret['tables'][$key]['fields'][$k] = (string) $field;
+				}
+			}
+
+			$relationsData = $aTable->xpath('relation');
+
+			if (!empty($relationsData))
+			{
+				foreach ($relationsData as $relationData)
+				{
+					$type = (string)$relationData['type'];
+					$itemName = (string)$relationData['name'];
+
+					if (empty($type) || empty($itemName))
+					{
+						continue;
+					}
+
+					$tableClass		= (string)$relationData['tableClass'];
+					$localKey		= (string)$relationData['localKey'];
+					$remoteKey		= (string)$relationData['remoteKey'];
+					$ourPivotKey	= (string)$relationData['ourPivotKey'];
+					$theirPivotKey	= (string)$relationData['theirPivotKey'];
+					$pivotTable		= (string)$relationData['pivotTable'];
+					$default		= (string)$relationData['default'];
+
+					$default = !in_array($default, array('no', 'false', 0));
+
+					$relation = array(
+						'type'			=> $type,
+						'itemName'		=> $itemName,
+						'tableClass'	=> empty($tableClass) ? null : $tableClass,
+						'localKey'		=> empty($localKey) ? null : $localKey,
+						'remoteKey'		=> empty($remoteKey) ? null : $remoteKey,
+						'default'		=> $default,
+					);
+
+					if (!empty($ourPivotKey) || !empty($theirPivotKey) || !empty($pivotTable))
+					{
+						$relation['ourPivotKey']	= empty($ourPivotKey) ? null : $ourPivotKey;
+						$relation['theirPivotKey']	= empty($theirPivotKey) ? null : $theirPivotKey;
+						$relation['pivotTable']	= empty($pivotTable) ? null : $pivotTable;
+					}
+
+					$ret['tables'][$key]['relations'][] = $relation;
 				}
 			}
 		}
@@ -157,33 +203,60 @@ class FOFConfigDomainTables implements FOFConfigDomainInterface
 	}
 
 	/**
-	 * Internal method to get table alias
+	 * Internal method to get table behaviours
 	 *
 	 * @param   string  $table           The table for which we will be fetching table alias
 	 * @param   array   &$configuration  The configuration parameters hash array
 	 * @param   array   $params          Extra options; key 0 defines the table we want to fetch
 	 * @param   string  $default         Default table alias
 	 *
-	 * @return  string  Table alias
+	 * @return  string  Table behaviours
 	 */
 	protected function getBehaviors($table, &$configuration, $params, $default = '')
 	{
 		$behaviors = $default;
 
 		if (isset($configuration['tables']['*'])
-			&& isset($configuration['tables']['*']['behaviors'])
 			&& isset($configuration['tables']['*']['behaviors']))
 		{
 			$behaviors = (string) $configuration['tables']['*']['behaviors'];
 		}
 
 		if (isset($configuration['tables'][$table])
-			&& isset($configuration['tables'][$table]['behaviors'])
 			&& isset($configuration['tables'][$table]['behaviors']))
 		{
 			$behaviors = (string) $configuration['tables'][$table]['behaviors'];
 		}
 
 		return $behaviors;
+	}
+
+	/**
+	 * Internal method to get table relations
+	 *
+	 * @param   string  $table           The table for which we will be fetching table alias
+	 * @param   array   &$configuration  The configuration parameters hash array
+	 * @param   array   $params          Extra options; key 0 defines the table we want to fetch
+	 * @param   string  $default         Default table alias
+	 *
+	 * @return  array   Table relations
+	 */
+	protected function getRelations($table, &$configuration, $params, $default = '')
+	{
+		$relations = $default;
+
+		if (isset($configuration['tables']['*'])
+			&& isset($configuration['tables']['*']['relations']))
+		{
+			$relations = $configuration['tables']['*']['relations'];
+		}
+
+		if (isset($configuration['tables'][$table])
+			&& isset($configuration['tables'][$table]['relations']))
+		{
+			$relations = $configuration['tables'][$table]['relations'];
+		}
+
+		return $relations;
 	}
 }

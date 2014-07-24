@@ -178,7 +178,7 @@ class CategoriesModelCategory extends JModelAdmin
 			$result->metadata = $registry->toArray();
 
 			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
+			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
 
 			if ((int) $result->created_time)
 			{

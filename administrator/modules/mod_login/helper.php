@@ -34,7 +34,7 @@ abstract class ModLoginHelper
 
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULTLANGUAGE')));
 
-		return JHtml::_('select.genericlist', $languages, 'lang', ' class="inputbox advancedSelect"', 'value', 'text', null);
+		return JHtml::_('select.genericlist', $languages, 'lang', ' class="advancedSelect"', 'value', 'text', null);
 	}
 
 	/**
@@ -57,6 +57,12 @@ abstract class ModLoginHelper
 		}
 	}
 
+	/**
+	 * Creates a list of two factor authentication methods used in com_users
+	 * on user view
+	 *
+	 * @return  array
+	 */
 	public static function getTwoFactorMethods()
 	{
 		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';

@@ -42,25 +42,25 @@ $n			= count($this->items);
 
 		<div class="filter-select">
 			<label class="selectlabel" for="filter_published"><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></label>
-			<select name="filter_published" class="inputbox" id="filter_published">
+			<select name="filter_published" id="filter_published">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_access"><?php echo JText::_('JOPTION_SELECT_ACCESS'); ?></label>
-			<select name="filter_access" class="inputbox" id="filter_access">
+			<select name="filter_access" id="filter_access">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS'); ?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_author_id"><?php echo JText::_('JOPTION_SELECT_AUTHOR'); ?></label>
-			<select name="filter_author_id" class="inputbox"  id="filter_author_id">
+			<select name="filter_author_id" id="filter_author_id">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_AUTHOR'); ?></option>
 				<?php echo JHtml::_('select.options', $this->authors, 'value', 'text', $this->state->get('filter.author_id')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_language"><?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?></label>
-			<select name="filter_language" class="inputbox" id="filter_language">
+			<select name="filter_language" id="filter_language">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language')); ?>
 			</select>

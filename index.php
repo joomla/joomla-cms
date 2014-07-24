@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-if (version_compare(PHP_VERSION, '5.3.1', '<'))
+if (version_compare(PHP_VERSION, '5.3.10', '<'))
 {
-	die('Your host needs to use PHP 5.3.1 or higher to run this version of Joomla!');
+	die('Your host needs to use PHP 5.3.10 or higher to run this version of Joomla!');
 }
 
 /**

@@ -54,7 +54,7 @@ class JToolbarButtonPopup extends JToolbarButton
 
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['name'] = trim(JText::_($name), '*?');
+		$options['name'] = $name;
 		$options['text'] = JText::_($text);
 		$options['title'] = JText::_($title);
 		$options['class'] = $this->fetchIconClass($name);

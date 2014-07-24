@@ -9,15 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$buttons = $displayData;
+JLog::add('The layout joomla.tinymce.buttons is deprecated, use joomla.editors.buttons instead.', JLog::WARNING, 'deprecated');
+echo JLayoutHelper::render('joomla.editors.buttons', $displayData);
 
-// Load modal popup behavior
-JHtml::_('behavior.modal', 'a.modal-button');
 ?>
-<div id="editor-xtd-buttons" class="btn-toolbar pull-left">
-	<?php if ($buttons) : ?>
-		<?php foreach ($buttons as $button) : ?>
-			<?php echo JLayoutHelper::render('joomla.tinymce.buttons.button', $button); ?>
-		<?php endforeach; ?>
-	<?php endif; ?>
-</div>

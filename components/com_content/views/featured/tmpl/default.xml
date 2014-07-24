@@ -342,6 +342,16 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="show_tags"
+				type="list"
+				description="COM_CONTENT_FIELD_SHOW_TAGS_DESC"
+				label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
 			<field name="show_noauth" type="list"
 				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
 				label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"

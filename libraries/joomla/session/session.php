@@ -386,13 +386,13 @@ class JSession implements IteratorAggregate
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new DirectoryIterator(__DIR__ . '/storage');
 
+		/* @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-			if (!$file->isFile() || substr($fileName, strrpos($fileName, '.') + 1) != 'php')
+			if (!$file->isFile() || $file->getExtension() != 'php')
 			{
 				continue;
 			}

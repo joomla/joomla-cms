@@ -1157,36 +1157,6 @@ class TemplatesModelTemplate extends JModelForm
 	}
 
 	/**
-	 * Check the admin template.
-	 *
-	 * @return  object  object containing the id of the template.
-	 *
-	 * @since   3.2
-	 */
-	public function getHathor()
-	{
-		$app = JFactory::getApplication();
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('home');
-		$query->from('#__template_styles');
-		$query->where($db->quoteName('template') . ' = ' . $db->quote('hathor'));
-		$db->setQuery($query);
-
-		try
-		{
-			$result = $db->loadObject();
-		}
-		catch (RuntimeException $e)
-		{
-			$app->enqueueMessage($e->getMessage(), 'error');
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Copy a file.
 	 *
 	 * @param   string  $newName    The name of the copied file

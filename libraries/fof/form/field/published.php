@@ -2,11 +2,11 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 if (!class_exists('JFormFieldList'))
 {
@@ -95,32 +95,56 @@ class FOFFormFieldPublished extends JFormFieldList implements FOFFormField
 			'all'			 => 0,
 		);
 
-		$stack = array();
+		$configMap = array(
+			'show_published'	=> array('published', 1),
+			'show_unpublished'	=> array('unpublished', 1),
+			'show_archived'		=> array('archived', 0),
+			'show_trash'		=> array('trash', 0),
+			'show_all'			=> array('all', 0),
+		);
 
-		// We are no longer using jgrid.publishedOptions as it's returning
-		// untranslated strings, unsuitable for our purposes.
+		foreach ($configMap as $attribute => $preferences)
+		{
+			list($configKey, $default) = $preferences;
 
-		if ($this->element['show_published'] == 'false')
+			switch (strtolower($this->element[$attribute]))
+			{
+				case 'true':
+				case '1':
+				case 'yes':
+					$config[$configKey] = true;
+
+				case 'false':
+				case '0':
+				case 'no':
+					$config[$configKey] = false;
+
+				default:
+					$config[$configKey] = $default;
+			}
+		}
+
+		if ($config['published'])
 		{
 			$stack[] = JHtml::_('select.option', '1', JText::_('JPUBLISHED'));
 		}
 
-		if ($this->element['show_unpublished'] == 'false')
+		if ($config['unpublished'])
 		{
 			$stack[] = JHtml::_('select.option', '0', JText::_('JUNPUBLISHED'));
 		}
 
-		if ($this->element['show_archived'] == 'true')
+		if ($config['archived'])
 		{
 			$stack[] = JHtml::_('select.option', '2', JText::_('JARCHIVED'));
 		}
 
-		if ($this->element['show_trash'] == 'true')
+		if ($config['trash'])
 		{
 			$stack[] = JHtml::_('select.option', '-2', JText::_('JTRASHED'));
 		}
 
-		if ($this->element['show_all'] == 'true')
+		if ($config['all'])
 		{
 			$stack[] = JHtml::_('select.option', '*', JText::_('JALL'));
 		}
