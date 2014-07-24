@@ -92,6 +92,8 @@ final class JApplicationSite extends JApplicationCms
 			else
 			{
 				$this->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				//stop the access to stuff you're not authorized to see
+		                throw new Exception( JText::_('JERROR_ALERTNOAUTHOR'), 401 );
 			}
 		}
 	}
