@@ -34,7 +34,8 @@ class CategoriesViewCategory extends JViewLegacy
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = JHelperContent::getActions($this->state->get('category.extension'), 'category', $this->item->id);
+		$section = $this->state->get('category.section') ? $this->state->get('category.section') . '.' : '';
+		$this->canDo = JHelperContent::getActions($this->state->get('category.component'), $section . 'category', $this->item->id);
 		$this->assoc = $this->get('Assoc');
 
 		$input = JFactory::getApplication()->input;

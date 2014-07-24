@@ -1113,10 +1113,10 @@ class JFormTest extends TestCase
 			$form->getInput('colours', 'params', 'blue'),
 			$this->equalTo(
 				'<select id="jform_params_colours" name="jform[params][colours][]" multiple>' .
-					"\n" . '	<option value="red">Red</option>' .
-					"\n" . '	<option value="blue" selected="selected">Blue</option>' .
-					"\n" . '	<option value="green">Green</option>' .
-					"\n" . '	<option value="yellow">Yellow</option>' .
+					"\n\t" . '<option value="red">Red</option>' .
+					"\n\t" . '<option value="blue" selected="selected">Blue</option>' .
+					"\n\t" . '<option value="green">Green</option>' .
+					"\n\t" . '<option value="yellow">Yellow</option>' .
 					"\n" . '</select>' .
 					"\n"
 			),

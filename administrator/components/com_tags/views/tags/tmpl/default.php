@@ -125,7 +125,6 @@ $sortFields = $this->getSortFields();
 				</tfoot>
 				<tbody>
 				<?php
-				$originalOrders = array();
 				foreach ($this->items as $i => $item) :
 					$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
 					$canCreate  = $user->authorise('core.create',     'com_tags');
@@ -232,7 +231,6 @@ $sortFields = $this->getSortFields();
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-		<input type="hidden" name="original_order_values" value="<?php echo implode($originalOrders, ','); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

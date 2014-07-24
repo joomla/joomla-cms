@@ -900,8 +900,27 @@ abstract class JFormField
 			return $this->getInput();
 		}
 
-		$hiddenLabel = isset($options['hiddenLabel']) ? $options['hiddenLabel'] : false;
+		if (!isset($options['class']))
+		{
+			$options['class'] = '';
+		}
 
-		return JLayoutHelper::render($this->renderLayout, array('input' => $this->getInput(), 'label' => $this->getLabel(), 'hiddenLabel' => $hiddenLabel));
+		$options['rel'] = '';
+
+		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel'))
+		{
+			$options['hiddenLabel'] = true;
+		}
+
+		if ($showon = $this->getAttribute('showon'))
+		{
+			$showon   = explode(':', $showon, 2);
+			$options['class'] .= ' showon_' . implode(' showon_', explode(',', $showon[1]));
+			$id = $this->getName($showon[0]);
+			$options['rel'] = ' rel="showon_' . $id . '"';
+			$options['showonEnabled'] = true;
+		}
+
+		return JLayoutHelper::render($this->renderLayout, array('input' => $this->getInput(), 'label' => $this->getLabel(), 'options' => $options));
 	}
 }

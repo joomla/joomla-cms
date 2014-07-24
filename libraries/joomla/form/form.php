@@ -677,7 +677,7 @@ class JForm
 
 		if ($field)
 		{
-			return $field->getControlGroup($options);
+			return $field->renderField($options);
 		}
 
 		return '';
@@ -696,11 +696,11 @@ class JForm
 	public function renderFieldset($name, $options = array())
 	{
 		$fields = $this->getFieldset($name);
-
 		$html = array();
+
 		foreach ($fields as $field)
 		{
-			$html[] = $field->getControlGroup($options);
+			$html[] = $field->renderField($options);
 		}
 
 		return implode('', $html);

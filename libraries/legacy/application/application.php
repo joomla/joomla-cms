@@ -172,7 +172,7 @@ class JApplication extends JApplicationBase
 	 */
 	public static function getInstance($client, $config = array(), $prefix = 'J')
 	{
-		return JApplicationCms::getInstance($client);
+		return JApplicationCms::getInstance($client, $config);
 	}
 
 	/**

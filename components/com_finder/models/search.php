@@ -225,7 +225,8 @@ class FinderModelSearch extends JModelList
 			->select('l.link_id')
 			->from($db->quoteName('#__finder_links') . ' AS l')
 			->where('l.access IN (' . $groups . ')')
-			->where('l.state = 1');
+			->where('l.state = 1')
+			->where('l.published = 1');
 
 		// Get the null date and the current date, minus seconds.
 		$nullDate = $db->quote($db->getNullDate());
@@ -1124,7 +1125,7 @@ class FinderModelSearch extends JModelList
 
 		// Load the list state.
 		$this->setState('list.start', $input->get('limitstart', 0, 'uint'));
-		$this->setState('list.limit', $input->get('limit', $app->getCfg('list_limit', 20), 'uint'));
+		$this->setState('list.limit', $input->get('limit', $app->get('list_limit', 20), 'uint'));
 
 		// Load the sort ordering.
 		$order = $params->get('sort_order', 'relevance');

@@ -158,7 +158,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$ret['latest'] = $updateObject->version;
 		}
 
-		// Fetch the full udpate details from the update details URL
+		// Fetch the full update details from the update details URL
 		jimport('joomla.updater.update');
 		$update = new JUpdate;
 		$update->loadFromXML($updateObject->detailsurl);
@@ -402,7 +402,7 @@ ENDDATA;
 				{
 
 					JFolder::create($tempdir, 511);
-					JFile::write($tempdir . '/.htaccess', "order deny, allow\ndeny from all\nallow from none\n");
+					JFile::write($tempdir . '/.htaccess', "order deny,allow\ndeny from all\nallow from none\n");
 				}
 
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory

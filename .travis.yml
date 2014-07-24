@@ -3,10 +3,12 @@ language: php
 php:
   - 5.3
   - 5.4
+  - 5.5
 
 before_script:
   - composer self-update
   - pyrus channel-discover pear.phpunit.de
+  - pyrus channel-discover pear.symfony.com
   - pyrus install --force phpunit/DbUnit
   - phpenv rehash
   - mysql -e 'create database joomla_ut;'

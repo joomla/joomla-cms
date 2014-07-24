@@ -15,7 +15,7 @@ include_once JPATH_PLATFORM . '/joomla/document/html/renderer/message.php';
  * @subpackage  Document
  * @since       11.1
  */
-class JDocumentRendererMessageTest extends TestCase
+class JDocumentRendererMessageTest extends TestCaseDatabase
 {
 	/**
 	 * The instance of the object to test.
