@@ -473,7 +473,7 @@ class PlgEditorTinymce extends JPlugin
 					{
 						$lang = JFactory::getLanguage();
 						$title = $filename;
-						$description = '';
+						$description = ' ';
 
 						if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE'))
 						{
