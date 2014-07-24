@@ -328,7 +328,7 @@ figcaption {
 		display: block;
 	}
 	.nav > li > .nav-child {
-		.nav-child:before {
+		&:before {
 		  position: absolute;
 		  top: -7px;
 		  left: 9px;
@@ -339,7 +339,7 @@ figcaption {
 		  border-bottom-color: rgba(0, 0, 0, 0.2);
 		  content: '';
 		}
-		.nav-child:after {
+		&:after {
 		  position: absolute;
 		  top: -6px;
 		  left: 10px;
@@ -351,8 +351,8 @@ figcaption {
 		}
 	}
 	.nav li li .nav-child {
-		top: -4px;
-		left: 102%;
+		top: -8px;
+		left: 100%;
 
 		&:before {
 			position: absolute;

@@ -7196,7 +7196,7 @@ figcaption {
 .navigation .nav li li > a:focus + .nav-child {
 	display: block;
 }
-.navigation .nav > li > .nav-child .nav-child:before {
+.navigation .nav > li > .nav-child:before {
 	position: absolute;
 	top: -7px;
 	left: 9px;
@@ -7207,7 +7207,7 @@ figcaption {
 	border-bottom-color: rgba(0,0,0,0.2);
 	content: '';
 }
-.navigation .nav > li > .nav-child .nav-child:after {
+.navigation .nav > li > .nav-child:after {
 	position: absolute;
 	top: -6px;
 	left: 10px;
@@ -7218,8 +7218,8 @@ figcaption {
 	content: '';
 }
 .navigation .nav li li .nav-child {
-	top: -4px;
-	left: 102%;
+	top: -6px;
+	left: 100%;
 }
 .navigation .nav li li .nav-child:before {
 	position: absolute;
