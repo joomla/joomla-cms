@@ -464,17 +464,31 @@ class PlgEditorTinymce extends JPlugin
 			else
 			{
 				$templates = 'templates: [';
-				
+
 				foreach (glob(JPATH_ROOT . '/media/editors/tinymce/templates/*.html') as $filename) 
 				{
 					$filename = basename($filename, '.html');
-					
+
 					if ($filename !== 'index')
 					{
-						$templates .= '{title: \'' . $filename . '\', url:\'' . JUri::root() . 'media/editors/tinymce/templates/' . $filename . '.html\'},';
+						$lang = JFactory::getLanguage();
+						$title = $filename;
+						$description = '';
+
+						if ($lang->hasKey('PLG_TINY_' . strtoupper($filename) . '_TITLE'))
+						{
+							$title = JText::_('PLG_TINY_' . strtoupper($filename) . '_TITLE');
+						}
+
+						if ($lang->hasKey('PLG_TINY_' . strtoupper($filename) . '_DESC'))
+						{
+							$description = JText::_('PLG_TINY_' . strtoupper($filename) . '_DESC');
+						}
+
+						$templates .= '{title: \'' . $title . '\', description: \'' . $description . '\', url:\'' . JUri::root() . 'media/editors/tinymce/templates/' . $filename . '.html\'},';
 					}
 				}
-				
+
 				$templates .= '],';
 			}
 		}
