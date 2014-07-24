@@ -108,7 +108,7 @@ class ModMenuHelper
 							{
 								$item->flink = 'index.php?Itemid=' . $item->id;
 
-								if (isset($item->query['format']) && $app->getCfg('sef_suffix'))
+								if (isset($item->query['format']) && $app->get('sef_suffix'))
 								{
 									$item->flink .= '&format=' . $item->query['format'];
 								}

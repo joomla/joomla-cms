@@ -57,7 +57,7 @@ else
 		?>
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed<?php echo $moduleclass_sfx; ?>">
 		<?php
-		// feed description
+		// Feed description
 		if (!is_null($feed->title) && $params->get('rsstitle', 1))
 		{
 			?>

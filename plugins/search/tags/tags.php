@@ -171,7 +171,7 @@ class PlgSearchTags extends JPlugin
 
 				if ($tagged_items)
 				{
-					foreach($tagged_items as $k => $item)
+					foreach ($tagged_items as $k => $item)
 					{
 						$new_item = new stdClass;
 						$new_item->href = $item->link;

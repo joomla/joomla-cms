@@ -101,10 +101,10 @@ $sortFields = $this->getSortFields();
 					<th class="title">
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-					<th class="title">
+					<th class="title hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'a.title_native', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap">
+					<th width="5%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_FIELD_LANG_TAG_LABEL', 'a.lang_code', $listDirn, $listOrder); ?>
 					</th>
 					<th width="5%" class="nowrap">
@@ -116,10 +116,10 @@ $sortFields = $this->getSortFields();
 					<th width="5%" class="center nowrap">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap">
+					<th width="5%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_HOMEPAGE', '', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="center nowrap">
+					<th width="1%" class="center nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.lang_id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -175,10 +175,10 @@ $sortFields = $this->getSortFields();
 						<?php endif; ?>
 						</span>
 					</td>
-					<td>
+					<td class="hidden-phone">
 						<?php echo $this->escape($item->title_native); ?>
 					</td>
-					<td class="center">
+					<td class="center hidden-phone">
 						<?php echo $this->escape($item->lang_code); ?>
 					</td>
 					<td class="center">
@@ -190,14 +190,14 @@ $sortFields = $this->getSortFields();
 					<td class="center">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
-					<td class="center">
+					<td class="center hidden-phone">
 						<?php if ($item->home == '1') : ?>
 							<?php echo JText::_('JYES');?>
 						<?php else:?>
 							<?php echo JText::_('JNO');?>
 						<?php endif;?>
 					</td>
-					<td class="center">
+					<td class="center hidden-phone">
 						<?php echo $this->escape($item->lang_id); ?>
 					</td>
 				</tr>

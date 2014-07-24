@@ -41,16 +41,16 @@ class TagsViewTag extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
-		$params		= $app->getParams();
+		$app    = JFactory::getApplication();
+		$params = $app->getParams();
 
 		// Get some data from the models
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$item		= $this->get('Item');
-		$children	= $this->get('Children');
-		$parent 	= $this->get('Parent');
-		$pagination	= $this->get('Pagination');
+		$state      = $this->get('State');
+		$items      = $this->get('Items');
+		$item       = $this->get('Item');
+		$children   = $this->get('Children');
+		$parent     = $this->get('Parent');
+		$pagination = $this->get('Pagination');
 
 		// Change to catch
 		/*if (count($errors = $this->get('Errors'))) {
@@ -59,9 +59,9 @@ class TagsViewTag extends JViewLegacy
 		}*/
 
 		// Check whether access level allows access.
-		// TODO: SHould already be computed in $item->params->get('access-view')
-		$user	= JFactory::getUser();
-		$groups	= $user->getAuthorisedViewLevels();
+		// @TODO: Should already be computed in $item->params->get('access-view')
+		$user   = JFactory::getUser();
+		$groups = $user->getAuthorisedViewLevels();
 		foreach ($item as $itemElement)
 		{
 			if (!in_array($itemElement->access, $groups))
@@ -124,20 +124,22 @@ class TagsViewTag extends JViewLegacy
 
 		// Merge tag params. If this is single-tag view, menu params override tag params
 		// Otherwise, article params override menu item params
-		$this->params	= $this->state->get('params');
-		$active	= $app->getMenu()->getActive();
-		$temp	= clone ($this->params);
+		$this->params = $this->state->get('params');
+		$active       = $app->getMenu()->getActive();
+		$temp         = clone ($this->params);
 
 		// Check to see which parameters should take priority
 		if ($active)
 		{
 			$currentLink = $active->link;
+
 			// If the current view is the active item and an tag view for one tag, then the menu item params take priority
 			if (strpos($currentLink, 'view=tag') && (strpos($currentLink, '&id[0]='.(string) $item[0]->id)))
 			{
 				// $item->params are the article params, $temp are the menu item params
 				// Merge so that the menu item params take priority
 				$this->params->merge($temp);
+
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout'])) {
 					$this->setLayout($active->query['layout']);
@@ -163,6 +165,7 @@ class TagsViewTag extends JViewLegacy
 			// Merge so that item params take priority
 			$temp->merge($item[0]->params);
 			$item[0]->params = $temp;
+
 			// Check for alternative layouts (since we are not in a single-tag menu item)
 			// Single-tag menu item layout takes priority over alt layout for an article
 			if ($layout = $item[0]->params->get('tag_layout'))
@@ -185,9 +188,9 @@ class TagsViewTag extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$title 		= null;
+		$app   = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -211,15 +214,15 @@ class TagsViewTag extends JViewLegacy
 
 		if (empty($title))
 		{
-			$title = $app->getCfg('sitename');
+			$title = $app->get('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -249,23 +252,23 @@ class TagsViewTag extends JViewLegacy
 				$this->document->setMetadata('robots', $this->params->get('robots'));
 			}
 
-			if ($app->getCfg('MetaAuthor') == '1')
+			if ($app->get('MetaAuthor') == '1')
 			{
 				$this->document->setMetaData('author', $itemElement->created_user_id);
 			}
 
 		}
 
-		// TODO create tag feed document
+		// @TODO: create tag feed document
 		// Add alternative feed link
 
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{
-			$link	= '&format=feed&limitstart=';
+			$link    = '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
 	}
 }

@@ -29,14 +29,17 @@ class UsersControllerUser extends UsersController
 	{
 		JSession::checkToken('post') or jexit(JText::_('JInvalid_Token'));
 
-		$app = JFactory::getApplication();
+		$app    = JFactory::getApplication();
+		$input  = $app->input;
+		$method = $input->getMethod();
 
 		// Populate the data array:
 		$data = array();
+
 		$data['return']    = base64_decode($app->input->post->get('return', '', 'BASE64'));
-		$data['username']  = JRequest::getVar('username', '', 'method', 'username');
-		$data['password']  = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
-		$data['secretkey'] = JRequest::getString('secretkey', '');
+		$data['username']  = $input->$method->get('username', '', 'USERNAME');
+		$data['password']  = $input->$method->get('password', '', 'RAW');
+		$data['secretkey'] = $input->$method->get('secretkey', '', 'RAW');
 
 		// Set the return URL if empty.
 		if (empty($data['return']))
@@ -91,13 +94,15 @@ class UsersControllerUser extends UsersController
 		$app = JFactory::getApplication();
 
 		// Perform the log in.
-		$error = $app->logout();
+		$error  = $app->logout();
+		$input  = $app->input;
+		$method = $input->getMethod();
 
 		// Check if the log out succeeded.
 		if (!($error instanceof Exception))
 		{
 			// Get the return url from the request and validate that it is internal.
-			$return = JRequest::getVar('return', '', 'method', 'base64');
+			$return = $input->$method->get('return', '', 'BASE64');
 			$return = base64_decode($return);
 			if (!JUri::isInternal($return))
 			{
@@ -126,7 +131,7 @@ class UsersControllerUser extends UsersController
 		$app = JFactory::getApplication();
 
 		// Get the form data.
-		$data  = $this->input->post->get('user', array(), 'array');
+		$data = $this->input->post->get('user', array(), 'array');
 
 		// Get the model and validate the data.
 		$model  = $this->getModel('Registration', 'UsersModel');
@@ -201,7 +206,7 @@ class UsersControllerUser extends UsersController
 		if ($return instanceof Exception)
 		{
 			// Get the error message to display.
-			if ($app->getCfg('error_reporting'))
+			if ($app->get('error_reporting'))
 			{
 				$message = $return->getMessage();
 			}
@@ -213,10 +218,11 @@ class UsersControllerUser extends UsersController
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getRemindRoute();
 			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-			$route	= 'index.php?option=com_users&view=remind' . $itemid;
+			$route  = 'index.php?option=com_users&view=remind' . $itemid;
 
 			// Go back to the complete form.
 			$this->setRedirect(JRoute::_($route, false), $message, 'error');
+
 			return false;
 		}
 		elseif ($return === false)
@@ -225,11 +231,12 @@ class UsersControllerUser extends UsersController
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getRemindRoute();
 			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-			$route	= 'index.php?option=com_users&view=remind' . $itemid;
+			$route  = 'index.php?option=com_users&view=remind' . $itemid;
 
 			// Go back to the complete form.
 			$message = JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
+
 			return false;
 		}
 		else
@@ -243,6 +250,7 @@ class UsersControllerUser extends UsersController
 			// Proceed to the login form.
 			$message = JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
 			$this->setRedirect(JRoute::_($route, false), $message);
+
 			return true;
 		}
 	}

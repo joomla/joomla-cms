@@ -401,7 +401,7 @@ abstract class JModelAdmin extends JModelForm
 			// Store the row.
 			if (!$this->table->store())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 
 				return false;
 			}
