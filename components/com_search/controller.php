@@ -75,7 +75,7 @@ class SearchController extends JControllerLegacy
 
 		if (!$component->enabled)
 		{
-			throw new RuntimeException('The search component is not enabled.');
+			throw new RuntimeException(JText::_('COM_SEARCH_EXCEPTION_COMPONENT_DISABLED'));
 		}
 
 		// Set Itemid id for links from menu
