@@ -635,7 +635,7 @@ class PlgEditorTinymce extends JPlugin
 					$smallButtons
 					invalid_elements : \"$invalid_elements\",
 					// Plugins
-					plugins : \"table link image code charmap autolink lists importcss\",
+					plugins : \"table link image code hr charmap autolink lists importcss\",
 					// Toolbar
 					toolbar1: \"$toolbar1\",
 					toolbar2: \"$toolbar2\",

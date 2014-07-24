@@ -297,11 +297,11 @@ class UsersModelUsers extends JModelList
 		{
 			if ($active == '0')
 			{
-				$query->where('a.activation = ' . $db->quote(''));
+				$query->where('a.activation IN (' . $db->quote('') . ', 0)');
 			}
 			elseif ($active == '1')
 			{
-				$query->where($query->length('a.activation') . ' = 32');
+				$query->where($query->length('a.activation') . ' > 1');
 			}
 		}
 

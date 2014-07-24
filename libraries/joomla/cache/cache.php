@@ -647,7 +647,7 @@ class JCache
 		if ($app->isSite() && $loptions['nopathway'] != 1)
 		{
 			$pathway = $app->getPathWay();
-			$cached['pathway'] = isset($data['pathway']) ? $data['pathway'] : $pathway->getPathway();
+			$cached['pathway'] = is_array($data) && isset($data['pathway']) ? $data['pathway'] : $pathway->getPathway();
 		}
 
 		if ($loptions['nomodules'] != 1)

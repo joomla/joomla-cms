@@ -77,9 +77,7 @@ abstract class JHtmlEmail
 			}
 			else
 			{
-				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>';";
-				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += 'addy" . $rand . "';";
-				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<\/a>';";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>' +addy" . $rand . "+'<\/a>';";
 			}
 		}
 		else
