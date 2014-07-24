@@ -70,24 +70,16 @@ class SearchController extends JControllerLegacy
 		// The Itemid from the request, we will use this if it's a search page or if there is no search page available
 		$post['Itemid'] = $this->input->getInt('Itemid');
 
-		jimport('cms.component.helper');
-		$component = JComponentHelper::getComponent('com_search', true);
-
-		if (!$component->enabled)
-		{
-			throw new RuntimeException(JText::_('COM_SEARCH_EXCEPTION_COMPONENT_DISABLED'));
-		}
-
 		// Set Itemid id for links from menu
 		$app	= JFactory::getApplication();
 		$menu	= $app->getMenu();
 		$item = $menu->getItem($post['Itemid']);
 
 		// The request Item is not a search page so we need to find one
-		if ($item->component_id != $component->id || $item->query['view'] != 'search')
+		if ($item->component != 'com_search' || $item->query['view'] != 'search')
 		{
-			// Get item based on component id, not link. link is not reliable.
-			$item = $menu->getItems('component_id', $component->id, true);
+			// Get item based on component, not link. link is not reliable.
+			$item = $menu->getItems('component', 'com_search', true);
 
 			// If we found a search page, use that.
 			if (!empty($item))
