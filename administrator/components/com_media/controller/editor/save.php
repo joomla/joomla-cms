@@ -55,7 +55,7 @@ class MediaControllerEditorSave extends JControllerBase
 		$item = $model->getItem($id);
 
 		// Replace array with non-existing properties
-		$data = array_replace_recursive((array) $item, $data);
+// 		$data = array_replace_recursive((array) $item, $data);
 
 		// Validate the posted data
 		$return = $model->validate($form, $data);
@@ -75,8 +75,6 @@ class MediaControllerEditorSave extends JControllerBase
 		{
 			$return = $model->save($data);
 		}
-
-		$this->postSaveHook($model, $data);
 
 		// Check the return value
 		if ($return === false)
@@ -101,22 +99,5 @@ class MediaControllerEditorSave extends JControllerBase
 				break;
 		}
 
-	}
-
-	/**
-	 * To handle tags when saving media
-	 *
-	 * @param   JModel  $model  Instance of model class
-	 * @param   array   $data   Array which contains data
-	 *
-	 * @since   3.5
-	 */
-	protected function postSaveHook($model, $data = array())
-	{
-		$table = $model->getTable();
-
-		$tags = new JHelperTags;
-		$tags->typeAlias = 'com_media.image';
-		$tags->tagItem($data['core_content_id'], $table, $data['tags']);
 	}
 }

@@ -18,6 +18,20 @@ defined('_JEXEC') or die;
  */
 class MediaTableMedia extends JTableCorecontent
 {
+	/**
+	 * Constructor
+	 *
+	 * @param   JDatabaseDriver  $db  A database connector object
+	 *
+	 * @since   3.5
+	 */
+	public function __construct($db)
+	{
+		parent::__construct($db);
+
+		// Observer for manipulating tags
+		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_media.image'));
+	}
 
 	/**
 	 * Overriding JTable checkout method for #__ucm_core_content

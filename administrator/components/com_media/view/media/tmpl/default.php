@@ -152,7 +152,7 @@ $input = JFactory::getApplication()->input;
 			<button type="button" class="close" data-dismiss="modal"
 				aria-hidden="true">&times;</button>
 			<h3>
-				<?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?>
+				<?php echo JText::_('COM_MEDIA_DELETE_MEDIA'); ?>
 			</h3>
 		</div>
 		<div class="modal-body">
