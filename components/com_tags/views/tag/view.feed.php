@@ -66,7 +66,7 @@ class TagsViewTag extends JViewLegacy
 			$feeditem->date        = $date;
 			$feeditem->category    = $title;
 			$feeditem->author      = $author;
-			
+
 			if ($feedEmail == 'site')
 			{
 				$item->authorEmail = $siteEmail;
