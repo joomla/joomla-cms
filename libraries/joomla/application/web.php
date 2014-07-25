@@ -96,9 +96,9 @@ class JApplicationWeb extends JApplicationBase
 	public function __construct(JInput $input = null, JRegistry $config = null, JApplicationWebClient $client = null)
 	{
 		
-        $this->input  = $input  ?: new JInput;
-        $this->config = $config ?: new JRegistry;
-        $this->client = $client ?: new JApplicationWebClient;
+                $this->input  = $input  ?: new JInput;
+                $this->config = $config ?: new JRegistry;
+                $this->client = $client ?: new JApplicationWebClient;
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
