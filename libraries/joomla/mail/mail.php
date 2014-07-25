@@ -55,15 +55,13 @@ class JMail extends PHPMailer
 	 * @return  JMail  The global JMail object
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS)
 	 */
 	public static function getInstance($id = 'Joomla')
 	{
-		if (empty(self::$instances[$id]))
-		{
-			self::$instances[$id] = new JMail;
-		}
-
-		return self::$instances[$id];
+		JLog::add('JMail::getInstance is deprecated. Use a new JMail object every time instead.', JLog::WARNING, 'deprecated');
+		
+		return new JMail;
 	}
 
 	/**
