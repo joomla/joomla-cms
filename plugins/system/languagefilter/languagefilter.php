@@ -165,7 +165,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if (isset($languages[self::$tag]) && $languages[self::$tag]->sitename)
 			{
-				JFactory::getConfig()->set('sitename', $languages[self::$tag]->sitename);
+				$app->set('sitename', $languages[self::$tag]->sitename);
 			}
 		}
 	}
