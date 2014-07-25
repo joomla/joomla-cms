@@ -7218,7 +7218,7 @@ figcaption {
 	content: '';
 }
 .navigation .nav li li .nav-child {
-	top: -6px;
+	top: -8px;
 	left: 100%;
 }
 .navigation .nav li li .nav-child:before {
