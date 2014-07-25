@@ -104,13 +104,12 @@ abstract class JFactory
 	 *
 	 * @param   mixed   $id      A client identifier or name.
 	 * @param   array   $config  An optional associative array of configuration settings.
-	 * @param   string  $prefix  Application prefix (@deprecated)
+	 * @param   string  $prefix  Application prefix
 	 *
 	 * @return  JApplicationCms object
 	 *
 	 * @see     JApplication
 	 * @since   11.1
-	 * @note    The prefix parameter is deprecated and will be removed in Joomla 4
 	 * @throws  Exception
 	 */
 	public static function getApplication($id = null, array $config = array(), $prefix = 'J')
@@ -122,7 +121,7 @@ abstract class JFactory
 				throw new Exception('Application Instantiation Error', 500);
 			}
 
-			self::$application = JApplicationCms::getInstance($id, $config);
+			self::$application = JApplicationCms::getInstance($id);
 		}
 
 		return self::$application;
