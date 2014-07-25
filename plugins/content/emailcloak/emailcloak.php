@@ -80,7 +80,7 @@ class PlgContentEmailcloak extends JPlugin
 		if ($after !== "")
 		{
 			$after = str_replace("'", "\'", $after);
-			$jsEmail = str_replace("'\'>');", "'\'{$after}>');", $jsEmail);
+			$jsEmail = str_replace("'\'>'", "'\'{$after}>'", $jsEmail);
 		}
 
 		return $jsEmail;
