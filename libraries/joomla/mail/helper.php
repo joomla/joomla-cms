@@ -136,10 +136,8 @@ abstract class JMailHelper
 			return false;
 		}
 
-		// No problem if the domain looks like an IP address, ish
-		$regex = '/^[0-9\.]+$/';
-
-		if (preg_match($regex, $domain))
+		// No problem if the domain looks like an IPv4 and IPv6 address
+		if (inet_pton($domain))
 		{
 			return true;
 		}
