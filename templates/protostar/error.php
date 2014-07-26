@@ -51,6 +51,7 @@ else
 {
 	$logo = '<span class="site-title" title="' . $sitename . '">' . $sitename . '</span>';
 }
+
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -68,10 +69,9 @@ else
 		</style>
 	<?php endif; ?>
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
-		<?php $debug = JFactory::getConfig()->get('debug_lang'); ?>
-		<?php if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
-			<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/cms/css/debug.css" type="text/css" />
-		<?php endif; ?>
+	<?php if ($app->get('debug_lang') == '1' || $app->get('debug') == '1') : ?>
+		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/cms/css/debug.css" type="text/css" />
+	<?php endif; ?>
 	<?php // If Right-to-Left ?>
 	<?php if ($this->direction == 'rtl') : ?>
 		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />

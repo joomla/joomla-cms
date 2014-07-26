@@ -32,14 +32,12 @@ $this->direction = $doc->direction;
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
-
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/system.css" type="text/css" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error.css" type="text/css" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/position.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/layout.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/print.css" type="text/css" media="Print" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color); ?>.css" type="text/css" />
-
 	<?php $files = JHtml::_('stylesheet', 'templates/' . $this->template . '/css/general.css', null, false, true); ?>
 	<?php if ($files) : ?>
 		<?php if (!is_array($files)) : ?>
@@ -56,8 +54,7 @@ $this->direction = $doc->direction;
 			<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo $color ?>_rtl.css" type="text/css" />
 		<?php endif; ?>
 	<?php endif; ?>
-	<?php $debug = JFactory::getConfig()->get('debug_lang'); ?>
-	<?php if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
+	<?php if ($app->get('debug_lang') == '1' || $app->get('debug') == '1') : ?>
 		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/cms/css/debug.css" type="text/css" />
 	<?php endif; ?>
 	<!--[if lte IE 6]>
