@@ -70,10 +70,10 @@ class JUpdater extends JAdapter
 	 */
 	public function findUpdates($eid = 0, $cacheTimeout = 0)
 	{
-		$db	= $this->getDBO();
-		$query	= $db->getQuery(true);
+		$db     = $this->getDBO();
+		$query  = $db->getQuery(true);
 
-		$retval	= false;
+		$retval = false;
 
 		$query->select('DISTINCT a.update_site_id, a.type, a.location, a.last_check_timestamp, a.extra_query')
 			->from('#__update_sites AS a')
@@ -82,13 +82,14 @@ class JUpdater extends JAdapter
 		if ($eid)
 		{
 			$query->join('INNER', '#__update_sites_extensions AS b ON a.update_site_id = b.update_site_id');
-			if (is_int($eid))
-			{
-				$query->where('b.extension_id = ' . $eid);
-			}
-			elseif (is_array($eid))
+
+			if (is_array($eid))
 			{
 				$query->where('b.extension_id IN (' . implode(',', $eid) . ')');
+			}
+			elseif ((int) $eid)
+			{
+				$query->where('b.extension_id = ' . $eid);
 			}
 		}
 
