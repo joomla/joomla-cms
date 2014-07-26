@@ -576,6 +576,12 @@ abstract class JFormField
 		// Set the visibility.
 		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
 
+		// Add required to class list if field is required.
+		if ($this->required)
+		{
+			$this->class = trim($this->class . ' required');
+		}
+
 		return true;
 	}
 
