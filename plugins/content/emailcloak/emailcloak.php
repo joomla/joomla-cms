@@ -64,13 +64,13 @@ class plgContentEmailcloak extends JPlugin
 		if ($before !== "")
 		{
 			$before = str_replace("'", "\'", $before);
-			$jsEmail = str_replace("document.write('<a '", "document.write('<a {$before}'", $jsEmail);
+			$jsEmail = str_replace(".innerHTML += '<a '", ".innerHTML += '<a {$before}'", $jsEmail);
 		}
 
 		if ($after !== "")
 		{
 			$after = str_replace("'", "\'", $after);
-			$jsEmail = str_replace("'\'>');", "'\'{$after}>');", $jsEmail);
+			$jsEmail = str_replace("'\'>'", "'\'{$after}>'", $jsEmail);
 		}
 
 		return $jsEmail;
