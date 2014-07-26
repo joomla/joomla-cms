@@ -52,7 +52,7 @@ class MediaControllerFile extends JControllerLegacy
 		$folder = $this->input->get('folder', '', 'path');
 
 		// Instantiate the media helper
-		$mediaHelper = new JHelperMedia();
+		$mediaHelper = new JHelperMedia;
 
 		if (
 			$_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024) ||
