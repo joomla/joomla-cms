@@ -292,7 +292,6 @@ abstract class JHtml
 	 *
 	 * @return  array    files to be included.
 	 *
-	 * @see     JBrowser
 	 * @since   1.6
 	 */
 	protected static function includeRelativeFiles($folder, $file, $relative, $detect_browser, $detect_debug)
@@ -314,10 +313,9 @@ abstract class JHtml
 			// Detect browser and compute potential files
 			if ($detect_browser)
 			{
-				$navigator = JBrowser::getInstance();
-				$browser = $navigator->getBrowser();
-				$major = $navigator->getMajor();
-				$minor = $navigator->getMinor();
+				$browser = JFactory::getApplication()->client->browser;
+				$version = JFactory::getApplication()->client->browserVersion;
+				list ($major, $minor) = explode('.', $version);
 
 				// Try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
 				// where major and minor are the browser version names
@@ -621,7 +619,6 @@ abstract class JHtml
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific css browser files were detected
 	 *
-	 * @see     JBrowser
 	 * @since   1.5
 	 */
 	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
