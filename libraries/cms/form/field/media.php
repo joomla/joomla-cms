@@ -262,6 +262,20 @@ class JFormFieldMedia extends JFormField
 		$html = array();
 		$attr = '';
 
+		// Tooltip for INPUT showing whole image path
+		if (!empty($this->value))
+		{
+			if (!empty($this->class))
+			{
+				$this->class .= ' hasTooltip';
+			}
+			else
+			{
+				$this->class = 'hasTooltip';
+			}
+			$attr .= ' title="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"';
+		}
+
 		// Initialize some field attributes.
 		$attr .= !empty($this->class) ? ' class="input-small ' . $this->class . '"' : ' class="input-small"';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
