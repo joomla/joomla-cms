@@ -13,6 +13,10 @@
 	<files folder="site">
 		<filename>ajax.php</filename>
 		<filename>index.html</filename>
+		<folder>helper</folder>
+		<folder>controller</folder>
+		<folder>model</folder>
+		<folder>view</folder>
 	</files>
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB.com_ajax.ini</language>
