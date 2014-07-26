@@ -118,7 +118,7 @@ else
 	<div class="body">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<!-- Header -->
-			<div class="header">
+			<header class="header" role="banner">
 				<div class="header-inner clearfix">
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
 						<?php echo $logo; ?>
@@ -128,7 +128,7 @@ else
 						<?php echo $doc->getBuffer('modules', 'position-0', array('style' => 'none')); ?>
 					</div>
 				</div>
-			</div>
+			</header>
 			<div class="navigation">
 				<?php // Display position-1 modules ?>
 				<?php echo $doc->getBuffer('modules', 'position-1', array('style' => 'none')); ?>
