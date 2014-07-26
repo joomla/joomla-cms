@@ -128,7 +128,7 @@ else
 						<?php echo $doc->getBuffer('modules', 'position-0', array('style' => 'none')); ?>
 					</div>
 				</div>
-			</div>
+			</header>
 			<div class="navigation">
 				<?php // Display position-1 modules ?>
 				<?php echo $doc->getBuffer('modules', 'position-1', array('style' => 'none')); ?>
