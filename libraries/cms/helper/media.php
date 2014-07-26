@@ -290,8 +290,6 @@ class JHelperMedia
 	* Small helper function that properly converts any
 	* configuration options to their byte representation.
 	*
-	* @link http://www.php.net/manual/en/function.ini-get.php
-	*
 	* @param   string|integer  $val  The value to be converted to bytes.
 	*
 	* @return integer The calculated bytes value from the input.
