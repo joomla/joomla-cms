@@ -53,7 +53,7 @@ class ContentModelFeature extends ContentModelArticle
 	 *
 	 * @return  mixed
 	 *
-	 * @since   3.2
+	 * @since   3.3
 	 */
 	public function saveorder($pks = null, $order = null)
 	{
