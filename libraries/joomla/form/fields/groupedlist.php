@@ -144,8 +144,14 @@ class JFormFieldGroupedList extends JFormField
 		$html = array();
 		$attr = '';
 
+		// Default to the class "advancedSelect" to support Chosen.
+		if (empty($this->class))
+		{
+			$this->class = 'advancedSelect';
+		}
+
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$attr .= $this->class ? ' class="' . $this->class . '"' : '';
 		$attr .= $this->disabled ? ' disabled' : '';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
