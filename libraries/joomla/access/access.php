@@ -268,7 +268,6 @@ class JAccess
 				$query->where('(name = ' . $db->quote($asset) . ')');
 			}
 
-			$query->group('id');
 			$db->setQuery($query);
 			$result = $db->loadColumn();
 		}
