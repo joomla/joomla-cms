@@ -17,13 +17,15 @@ defined('_JEXEC') or die;
  * 	$for          : (string)  The id of the input this label is for
  * 	$required     : (boolean) True if a required field
  * 	$classes      : (array)   A list of classes
+ * 	$position     : (string)  The tooltip position. Bottom for alias
  */
 
-$text    = $displayData['text'];
-$desc    = $displayData['description'];
-$for     = $displayData['for'];
-$req     = $displayData['required'];
-$classes = array_filter((array) $displayData['classes']);
+$text		= $displayData['text'];
+$desc		= $displayData['description'];
+$for		= $displayData['for'];
+$req		= $displayData['required'];
+$classes	= array_filter((array) $displayData['classes']);
+$position	= $displayData['position'];
 
 $id = $for . '-lbl';
 $title = '';
@@ -43,6 +45,6 @@ if ($req)
 }
 
 ?>
-<label id="<?php echo $id; ?>" for="<?php echo $for; ?>" class="<?php echo implode(' ', $classes); ?>"<?php echo $title; ?>>
+<label id="<?php echo $id; ?>" for="<?php echo $for; ?>" class="<?php echo implode(' ', $classes); ?>"<?php echo $title; ?><?php echo $position; ?>>
 	<?php echo $text; ?><?php if ($req) : ?><span class="star">&#160;*</span><?php endif; ?>
 </label>
