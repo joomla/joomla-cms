@@ -474,6 +474,12 @@ class JCache
 			$document->setHeadData($data['head']);
 		}
 
+		// Get the document MIME encoding out of the cache
+		if (isset($data['mime_encoding']))
+		{
+			$document->setMimeEncoding($data['mime_encoding'], true);
+		}
+
 		// If the pathway buffer is set in the cache data, get it.
 		if (isset($data['pathway']) && is_array($data['pathway']))
 		{
@@ -642,6 +648,9 @@ class JCache
 				$cached['head'] = $document->getHeadData();
 			}
 		}
+
+		// Document MIME encoding
+		$cached['mime_encoding'] = $document->getMimeEncoding();
 
 		// Pathway data
 		if ($app->isSite() && $loptions['nopathway'] != 1)
