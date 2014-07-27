@@ -25,17 +25,12 @@ $app = JFactory::getApplication();
 $input = $app->input;
 
 // Requested format passed via URL
-$format = strtolower($input->getWord('format'));
+$format = strtolower($input->getWord('format', 'raw'));
 
 // Initialize default response and module name
 $results = null;
 $parts = null;
 
-// Check for valid format
-if (!$format)
-{
-	$results = new InvalidArgumentException('Please specify response format other that HTML (json, raw, etc.)', 404);
-}
 /*
  * Module support.
  *
@@ -44,7 +39,7 @@ if (!$format)
  * (i.e. index.php?option=com_ajax&module=foo).
  *
  */
-elseif ($input->get('module'))
+if ($input->get('module'))
 {
 	$module       = $input->get('module');
 	$moduleObject = JModuleHelper::getModule('mod_' . $module, null);
@@ -154,6 +149,7 @@ switch ($format)
 		break;
 
 	// Handle as raw format
+	case 'raw':
 	default:
 		// Output exception
 		if ($results instanceof Exception)
