@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class PlgSystemCache extends JPlugin
 {
-
 	var $_cache		= null;
 
 	var $_cache_key	= null;
@@ -31,7 +30,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	function __construct(& $subject, $config)
+	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
 
@@ -53,7 +52,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	function onAfterInitialise()
+	public function onAfterInitialise()
 	{
 		global $_PROFILER;
 
@@ -82,7 +81,7 @@ class PlgSystemCache extends JPlugin
 			// Set cached body.
 			$app->setBody($data);
 
-			echo $app->toString($app->getCfg('gzip'));
+			echo $app->toString($app->get('gzip'));
 
 			if (JDEBUG)
 			{
@@ -100,7 +99,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	function onAfterRender()
+	public function onAfterRender()
 	{
 		$app = JFactory::getApplication();
 
@@ -115,6 +114,7 @@ class PlgSystemCache extends JPlugin
 		}
 
 		$user = JFactory::getUser();
+
 		if ($user->get('guest'))
 		{
 			// We need to check again here, because auto-login plugins have not been fired before the first aid check.

@@ -117,7 +117,8 @@ class PlgEditorCodemirror extends JPlugin
 	 *
 	 * @return  string  HTML Output
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true,
+		$id = null, $asset = null, $author = null, $params = array())
 	{
 		if (empty($id))
 		{
@@ -336,50 +337,33 @@ class PlgEditorCodemirror extends JPlugin
 	 */
 	protected function _displayButtons($name, $buttons, $asset, $author)
 	{
-		// Load modal popup behavior
-		JHtml::_('behavior.modal', 'a.modal-button');
+		$return = '';
 
-		$args['name'] = $name;
-		$args['event'] = 'onGetInsertMethod';
+		$args = array(
+			'name'  => $name,
+			'event' => 'onGetInsertMethod'
+		);
 
-		$html = array();
-		$results[] = $this->update($args);
+		$results = (array) $this->update($args);
 
-		foreach ($results as $result)
+		if ($results)
 		{
-			if (is_string($result) && trim($result))
+			foreach ($results as $result)
 			{
-				$html[] = $result;
+				if (is_string($result) && trim($result))
+				{
+					$return .= $result;
+				}
 			}
 		}
 
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
-			$results = $this->_subject->getButtons($name, $buttons, $asset, $author);
+			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
-			// This will allow plugins to attach buttons or change the behavior on the fly using AJAX
-			$html[] = '<div id="editor-xtd-buttons">';
-			$html[] = '<div class="btn-toolbar">';
-
-			foreach ($results as $button)
-			{
-				// Results should be an object
-				if ($button->get('name'))
-				{
-					$modal		= ($button->get('modal')) ? 'class="modal-button btn"' : null;
-					$href		= ($button->get('link')) ? ' class="btn" href="' . JUri::base() . $button->get('link') . '"' : null;
-					$onclick	= ($button->get('onclick')) ? 'onclick="' . $button->get('onclick') . '"' : null;
-					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$html[] = '<a ' . $modal . ' title="' . $title . '" ' . $href . ' ' . $onclick . ' rel="' . $button->get('options') . '">';
-					$html[] = '<i class="icon-' . $button->get('name') . '"></i> ';
-					$html[] = $button->get('text') . '</a>';
-				}
-			}
-
-			$html[] = '</div>';
-			$html[] = '</div>';
+			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 
-		return implode("\n", $html);
+		return $return;
 	}
 }

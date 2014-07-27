@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-$com_path = JPATH_SITE.'/components/com_content/';
-require_once $com_path.'router.php';
-require_once $com_path.'helpers/route.php';
+$com_path = JPATH_SITE . '/components/com_content/';
+require_once $com_path . 'router.php';
+require_once $com_path . 'helpers/route.php';
 
 JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
 
@@ -20,9 +20,18 @@ JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
  *
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
+ *
+ * @since       1.6.0
  */
 abstract class ModArticlesCategoryHelper
 {
+	/**
+	 * Get a list of articles from a specific category
+	 *
+	 * @param   JRegistry  &$params  object holding the models parameters
+	 *
+	 * @return mixed
+	 */
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
@@ -45,14 +54,16 @@ abstract class ModArticlesCategoryHelper
 
 		// Prep for Normal or Dynamic Modes
 		$mode = $params->get('mode', 'normal');
+
 		switch ($mode)
 		{
 			case 'dynamic':
 				$option = $app->input->get('option');
 				$view = $app->input->get('view');
+
 				if ($option === 'com_content')
 				{
-					switch($view)
+					switch ($view)
 					{
 						case 'category':
 							$catids = array($app->input->getInt('id'));
@@ -83,7 +94,8 @@ abstract class ModArticlesCategoryHelper
 									$catids = array($catid);
 								}
 							}
-							else {
+							else
+							{
 								// Return right away if show_on_article_page option is off
 								return;
 							}
@@ -95,7 +107,8 @@ abstract class ModArticlesCategoryHelper
 							return;
 					}
 				}
-				else {
+				else
+				{
 					// Return right away if not on a com_content page
 					return;
 				}
@@ -134,11 +147,11 @@ abstract class ModArticlesCategoryHelper
 						foreach ($items as $category)
 						{
 							$condition = (($category->level - $categories->getParent()->level) <= $levels);
+
 							if ($condition)
 							{
 								$additional_catids[] = $category->id;
 							}
-
 						}
 					}
 				}
@@ -165,10 +178,13 @@ abstract class ModArticlesCategoryHelper
 		{
 			$excluded_articles = explode("\r\n", $excluded_articles);
 			$articles->setState('filter.article_id', $excluded_articles);
-			$articles->setState('filter.article_id.include', false); // Exclude
+
+			// Exclude
+			$articles->setState('filter.article_id.include', false);
 		}
 
 		$date_filtering = $params->get('date_filtering', 'off');
+
 		if ($date_filtering !== 'off')
 		{
 			$articles->setState('filter.date_filtering', $date_filtering);
@@ -209,8 +225,8 @@ abstract class ModArticlesCategoryHelper
 		// Prepare data for display using display options
 		foreach ($items as &$item)
 		{
-			$item->slug = $item->id.':'.$item->alias;
-			$item->catslug = $item->catid ? $item->catid .':'.$item->category_alias : $item->catid;
+			$item->slug = $item->id . ':' . $item->alias;
+			$item->catslug = $item->catid ? $item->catid . ':' . $item->category_alias : $item->catid;
 
 			if ($access || in_array($item->access, $authorised))
 			{
@@ -222,6 +238,7 @@ abstract class ModArticlesCategoryHelper
 				$app  = JFactory::getApplication();
 				$menu = $app->getMenu();
 				$menuitems = $menu->getItems('link', 'index.php?option=com_users&view=login');
+
 				if (isset($menuitems[0]))
 				{
 					$Itemid = $menuitems[0]->id;
@@ -232,13 +249,14 @@ abstract class ModArticlesCategoryHelper
 					$Itemid = $app->input->getInt('Itemid');
 				}
 
-				$item->link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$Itemid);
+				$item->link = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $Itemid);
 			}
 
 			// Used for styling the active article
 			$item->active = $item->id == $active_article_id ? 'active' : '';
 
 			$item->displayDate = '';
+
 			if ($show_date)
 			{
 				$item->displayDate = JHTML::_('date', $item->$show_date_field, $show_date_format);
@@ -247,27 +265,36 @@ abstract class ModArticlesCategoryHelper
 			if ($item->catid)
 			{
 				$item->displayCategoryLink = JRoute::_(ContentHelperRoute::getCategoryRoute($item->catid));
-				$item->displayCategoryTitle = $show_category ? '<a href="'.$item->displayCategoryLink.'">'.$item->category_title.'</a>' : '';
+				$item->displayCategoryTitle = $show_category ? '<a href="' . $item->displayCategoryLink . '">' . $item->category_title . '</a>' : '';
 			}
-			else {
+			else
+			{
 				$item->displayCategoryTitle = $show_category ? $item->category_title : '';
 			}
 
 			$item->displayHits = $show_hits ? $item->hits : '';
 			$item->displayAuthorName = $show_author ? $item->author : '';
+
 			if ($show_introtext)
 			{
 				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
 				$item->introtext = self::_cleanIntrotext($item->introtext);
 			}
+
 			$item->displayIntrotext = $show_introtext ? self::truncate($item->introtext, $introtext_limit) : '';
 			$item->displayReadmore = $item->alternative_readmore;
-
 		}
 
 		return $items;
 	}
 
+	/**
+	 * Strips unnecessary tags from the introtext
+	 *
+	 * @param   string  $introtext  introtext to sanitize
+	 *
+	 * @return mixed|string
+	 */
 	public static function _cleanIntrotext($introtext)
 	{
 		$introtext = str_replace('<p>', ' ', $introtext);
@@ -280,16 +307,16 @@ abstract class ModArticlesCategoryHelper
 	}
 
 	/**
-	* Method to truncate introtext
-	*
-	* The goal is to get the proper length plain text string with as much of
-	* the html intact as possible with all tags properly closed.
-	*
-	* @param string   $html       The content of the introtext to be truncated
-	* @param integer  $maxLength  The maximum number of charactes to render
-	*
-	* @return  string  The truncated string
-	*/
+	 * Method to truncate introtext
+	 *
+	 * The goal is to get the proper length plain text string with as much of
+	 * the html intact as possible with all tags properly closed.
+	 *
+	 * @param   string   $html       The content of the introtext to be truncated
+	 * @param   integer  $maxLength  The maximum number of charactes to render
+	 *
+	 * @return  string  The truncated string
+	 */
 	public static function truncate($html, $maxLength = 0)
 	{
 		$baseLength = strlen($html);
@@ -310,19 +337,32 @@ abstract class ModArticlesCategoryHelper
 			{
 				return $htmlString;
 			}
+
 			// Get the number of html tag characters in the first $maxlength characters
 			$diffLength = strlen($ptString) - strlen($htmlStringToPtString);
 
 			// Set new $maxlength that adjusts for the html tags
 			$maxLength += $diffLength;
+
 			if ($baseLength <= $maxLength || $diffLength <= 0)
 			{
 				return $htmlString;
 			}
 		}
+
 		return $html;
 	}
 
+	/**
+	 * Groups items by field
+	 *
+	 * @param   array   $list                        list of items
+	 * @param   string  $fieldName                   name of field that is used for grouping
+	 * @param   string  $article_grouping_direction  ordering direction
+	 * @param   null    $fieldNameToKeep             field name to keep
+	 *
+	 * @return array
+	 */
 	public static function groupBy($list, $fieldName, $article_grouping_direction, $fieldNameToKeep = null)
 	{
 		$grouped = array();
@@ -348,7 +388,8 @@ abstract class ModArticlesCategoryHelper
 			{
 				$grouped[$item->$fieldName][$key] = $item;
 			}
-			else {
+			else
+			{
 				$grouped[$item->$fieldName][$key] = $item->$fieldNameToKeep;
 			}
 
@@ -360,6 +401,16 @@ abstract class ModArticlesCategoryHelper
 		return $grouped;
 	}
 
+	/**
+	 * Groups items by date
+	 *
+	 * @param   array   $list                        list of items
+	 * @param   string  $type                        type of grouping
+	 * @param   string  $article_grouping_direction  ordering direction
+	 * @param   string  $month_year_format           date format to use
+	 *
+	 * @return array
+	 */
 	public static function groupByDate($list, $type = 'year', $article_grouping_direction, $month_year_format = 'F Y')
 	{
 		$grouped = array();
@@ -376,7 +427,7 @@ abstract class ModArticlesCategoryHelper
 
 		foreach ($list as $key => $item)
 		{
-			switch($type)
+			switch ($type)
 			{
 				case 'month_year':
 					$month_year = JString::substr($item->created, 0, 7);

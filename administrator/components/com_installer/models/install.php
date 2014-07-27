@@ -54,7 +54,7 @@ class InstallerModelInstall extends JModelLegacy
 		$app->setUserState('com_installer.extension_message', '');
 
 		// Recall the 'Install from Directory' path.
-		$path = $app->getUserStateFromRequest($this->_context . '.install_directory', 'install_directory', $app->getCfg('tmp_path'));
+		$path = $app->getUserStateFromRequest($this->_context . '.install_directory', 'install_directory', $app->get('tmp_path'));
 		$this->setState('install.directory', $path);
 		parent::populateState();
 	}
@@ -80,7 +80,8 @@ class InstallerModelInstall extends JModelLegacy
 
 		$package = null;
 
-		// This event allows an input pre-treatment, a custom pre-packing or custom installation (e.g. from a JSON description)
+		// This event allows an input pre-treatment, a custom pre-packing or custom installation
+		// (e.g. from a JSON description)
 		$results = $dispatcher->trigger('onInstallerBeforeInstallation', array($this, &$package));
 
 		if (in_array(true, $results, true))

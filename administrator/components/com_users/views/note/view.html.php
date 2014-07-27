@@ -55,8 +55,8 @@ class UsersViewNote extends JViewLegacy
 	{
 		// Initialise view variables.
 		$this->state = $this->get('State');
-		$this->item = $this->get('Item');
-		$this->form = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->form  = $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -65,7 +65,7 @@ class UsersViewNote extends JViewLegacy
 		}
 
 		// Get the component HTML helpers
-		JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		parent::display($tpl);
 		$this->addToolbar();
@@ -83,12 +83,12 @@ class UsersViewNote extends JViewLegacy
 		$input = JFactory::getApplication()->input;
 		$input->set('hidemainmenu', 1);
 
-		$user		= JFactory::getUser();
-		$isNew		= ($this->item->id == 0);
-		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+		$user       = JFactory::getUser();
+		$isNew      = ($this->item->id == 0);
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo		= JHelperContent::getActions('com_users', 'category', $this->item->catid);
+		$canDo = JHelperContent::getActions('com_users', 'category', $this->item->catid);
 
 		JToolbarHelper::title(JText::_('COM_USERS_NOTES'), 'users user');
 
@@ -109,6 +109,7 @@ class UsersViewNote extends JViewLegacy
 		{
 			JToolbarHelper::save2copy('note.save2copy');
 		}
+
 		if (empty($this->item->id))
 		{
 			JToolbarHelper::cancel('note.cancel');

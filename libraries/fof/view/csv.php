@@ -2,13 +2,11 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  view
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
-
-JLoader::import('joomla.application.component.view');
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework CSV View class. Automatically renders the data in CSV
@@ -105,29 +103,27 @@ class FOFViewCsv extends FOFViewHtml
 		$items = $model->getItemList();
 		$this->items = $items;
 
-		$document = FOFPlatform::getInstance()->getDocument();
+        $platform = FOFPlatform::getInstance();
+		$document = $platform->getDocument();
 
 		if ($document instanceof JDocument)
 		{
 			$document->setMimeEncoding('text/csv');
 		}
 
-		JResponse::setHeader('Pragma', 'public');
-		JResponse::setHeader('Expires', '0');
-		JResponse::setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
-		JResponse::setHeader('Cache-Control', 'public', false);
-		JResponse::setHeader('Content-Description', 'File Transfer');
-		JResponse::setHeader('Content-Disposition', 'attachment; filename="' . $this->csvFilename . '"');
+		$platform->setHeader('Pragma', 'public');
+        $platform->setHeader('Expires', '0');
+        $platform->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
+        $platform->setHeader('Cache-Control', 'public', false);
+        $platform->setHeader('Content-Description', 'File Transfer');
+        $platform->setHeader('Content-Disposition', 'attachment; filename="' . $this->csvFilename . '"');
 
 		if (is_null($tpl))
 		{
 			$tpl = 'csv';
 		}
 
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'lt'))
-		{
-			FOFPlatform::getInstance()->setErrorHandling(E_ALL, 'ignore');
-		}
+		FOFPlatform::getInstance()->setErrorHandling(E_ALL, 'ignore');
 
 		$hasFailed = false;
 
@@ -143,14 +139,6 @@ class FOFViewCsv extends FOFViewHtml
 		catch (Exception $e)
 		{
 			$hasFailed = true;
-		}
-
-		if (version_compare(JVERSION, '3.0', 'lt'))
-		{
-			if ($result instanceof Exception)
-			{
-				$hasFailed = true;
-			}
 		}
 
 		if (!$hasFailed)

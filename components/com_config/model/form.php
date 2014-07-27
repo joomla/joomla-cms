@@ -157,7 +157,7 @@ abstract class ConfigModelForm extends ConfigModelCms
 		$paths->insert(JPATH_COMPONENT . '/model/field', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/model/rule', 'normal');
 
-		//Legacy support to be removed in 4.0.  -- failing here
+		// Legacy support to be removed in 4.0.  -- failing here
 		$paths->insert(JPATH_COMPONENT . '/models/forms', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/models/fields', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/models/rules', 'normal');

@@ -227,7 +227,7 @@ class JControllerAdmin extends JControllerLegacy
 			}
 			catch (Exception $e)
 			{
-				$this->setMessage(JText::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE'), 'error');
+				$this->setMessage($e->getMessage(), 'error');
 			}
 
 		}

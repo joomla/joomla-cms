@@ -17,7 +17,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldUrl-helper-dataset.php';
  * @subpackage  Form
  * @since       12.1
  */
-class JFormFieldUrlTest extends TestCase
+class JFormFieldUrlTest extends TestCaseDatabase
 {
 	/**
 	 * Backup of the SERVER superglobal

@@ -174,7 +174,8 @@ class MediaControllerFolder extends JControllerLegacy
 
 			if (($folderCheck !== null) && ($folder !== $folderCheck))
 			{
-				$this->setMessage(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'));
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'), 'warning');
 
 				return false;
 			}

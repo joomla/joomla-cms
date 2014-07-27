@@ -33,6 +33,9 @@ class ContactTableContact extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__contact_details', 'id', $db);
+
+		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_contact.contact'));
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_contact.contact'));
 	}
 
 	/**
@@ -140,15 +143,9 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		if (empty($this->alias))
-		{
-			$this->alias = $this->name;
-		}
-		$this->alias = JApplication::stringURLSafe($this->alias);
-		if (trim(str_replace('-', '', $this->alias)) == '')
-		{
-			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
-		}
+		// Generate a valid alias
+		$this->generateAlias();
+
 		/** check for valid category */
 		if (trim($this->catid) == '')
 		{
@@ -193,5 +190,28 @@ class ContactTableContact extends JTable
 		}
 
 		return true;
+	}
+
+	/**
+	 * Generate a valid alias from title / date.
+	 * Remains public to be able to check for duplicated alias before saving
+	 *
+	 * @return  string
+	 */
+	public function generateAlias()
+	{
+		if (empty($this->alias))
+		{
+			$this->alias = $this->name;
+		}
+
+		$this->alias = JApplication::stringURLSafe($this->alias);
+
+		if (trim(str_replace('-', '', $this->alias)) == '')
+		{
+			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
+		}
+
+		return $this->alias;
 	}
 }

@@ -68,7 +68,7 @@ class CheckinModelCheckin extends JModelList
 		foreach ($ids as $tn)
 		{
 			// make sure we get the right tables based on prefix
-			if (stripos($tn, $app->getCfg('dbprefix')) !== 0)
+			if (stripos($tn, $app->get('dbprefix')) !== 0)
 			{
 				continue;
 			}
@@ -122,8 +122,8 @@ class CheckinModelCheckin extends JModelList
 	{
 		if (!isset($this->items))
 		{
-			$app = JFactory::getApplication();
-			$db = $this->_db;
+			$app    = JFactory::getApplication();
+			$db     = $this->_db;
 			$tables = $db->getTableList();
 
 			// this array will hold table name as key and checked in item count as value
@@ -132,7 +132,7 @@ class CheckinModelCheckin extends JModelList
 			foreach ($tables as $i => $tn)
 			{
 				// make sure we get the right tables based on prefix
-				if (stripos($tn, $app->getCfg('dbprefix')) !== 0)
+				if (stripos($tn, $app->get('dbprefix')) !== 0)
 				{
 					unset($tables[$i]);
 					continue;
@@ -152,6 +152,7 @@ class CheckinModelCheckin extends JModelList
 					continue;
 				}
 			}
+
 			foreach ($tables as $tn)
 			{
 				$query = $db->getQuery(true)
@@ -160,6 +161,7 @@ class CheckinModelCheckin extends JModelList
 					->where('checked_out > 0');
 
 				$db->setQuery($query);
+
 				if ($db->execute())
 				{
 					$results[$tn] = $db->loadResult();
@@ -169,7 +171,9 @@ class CheckinModelCheckin extends JModelList
 					continue;
 				}
 			}
+
 			$this->total = count($results);
+
 			if ($this->getState('list.ordering') == 'table')
 			{
 				if ($this->getState('list.direction') == 'asc')
@@ -192,9 +196,11 @@ class CheckinModelCheckin extends JModelList
 					arsort($results);
 				}
 			}
+
 			$results = array_slice($results, $this->getState('list.start'), $this->getState('list.limit') ? $this->getState('list.limit') : null);
 			$this->items = $results;
 		}
+
 		return $this->items;
 	}
 }

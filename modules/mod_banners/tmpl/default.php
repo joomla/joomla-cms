@@ -69,8 +69,8 @@ $baseurl = JUri::base();
 							<img
 								src="<?php echo $baseurl . $imageurl;?>"
 								alt="<?php echo $alt;?>"
-								<?php if (!empty($width)) echo 'width ="'. $width.'"';?>
-								<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
+								<?php if (!empty($width)) echo 'width ="' . $width . '"';?>
+								<?php if (!empty($height)) echo 'height ="' . $height . '"';?>
 							/>
 						</a>
 					<?php endif;?>
@@ -79,8 +79,8 @@ $baseurl = JUri::base();
 					<img
 						src="<?php echo $baseurl . $imageurl;?>"
 						alt="<?php echo $alt;?>"
-						<?php if (!empty($width)) echo 'width ="'. $width.'"';?>
-						<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
+						<?php if (!empty($width)) echo 'width ="' . $width . '"';?>
+						<?php if (!empty($height)) echo 'height ="' . $height . '"';?>
 					/>
 				<?php endif;?>
 			<?php elseif (BannerHelper::isFlash($imageurl)) :?>
