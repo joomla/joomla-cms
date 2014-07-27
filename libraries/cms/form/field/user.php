@@ -47,24 +47,27 @@ class JFormFieldUser extends JFormField
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->required ? ' required' : '';
 
-		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal_' . $this->id);
-
-		// Build the script.
-		$script = array();
-		$script[] = '	function jSelectUser_' . $this->id . '(id, title) {';
-		$script[] = '		var old_id = document.getElementById("' . $this->id . '_id").value;';
-		$script[] = '		if (old_id != id) {';
-		$script[] = '			document.getElementById("' . $this->id . '_id").value = id;';
-		$script[] = '			document.getElementById("' . $this->id . '").value = title;';
-		$script[] = '			document.getElementById("' . $this->id . '").className = document.getElementById("' . $this->id . '").className.replace(" invalid" , "");';
-		$script[] = '			' . $this->onchange;
-		$script[] = '		}';
-		$script[] = '		SqueezeBox.close();';
-		$script[] = '	}';
-
-		// Add the script to the document head.
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		if ($this->readonly === false)
+		{
+			// Load the modal behavior script.
+			JHtml::_('behavior.modal', 'a.modal_' . $this->id);
+	
+			// Build the script.
+			$script = array();
+			$script[] = '	function jSelectUser_' . $this->id . '(id, title) {';
+			$script[] = '		var old_id = document.getElementById("' . $this->id . '_id").value;';
+			$script[] = '		if (old_id != id) {';
+			$script[] = '			document.getElementById("' . $this->id . '_id").value = id;';
+			$script[] = '			document.getElementById("' . $this->id . '").value = title;';
+			$script[] = '			document.getElementById("' . $this->id . '").className = document.getElementById("' . $this->id . '").className.replace(" invalid" , "");';
+			$script[] = '			' . $this->onchange;
+			$script[] = '		}';
+			$script[] = '		SqueezeBox.close();';
+			$script[] = '	}';
+	
+			// Add the script to the document head.
+			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		}
 
 		// Load the current username if available.
 		$table = JTable::getInstance('user');
