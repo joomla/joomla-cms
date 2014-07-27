@@ -847,14 +847,19 @@ class JControllerLegacy extends JObject
 
 		if (empty($prefix))
 		{
-			$prefix = $this->getName() . 'View';
+			$prefix = $this->getName() . 'view';
 		}
 
-		if (empty($views[$name]))
+		$layout = isset($config['layout']) ? $config['layout'] : '';
+		
+		$prefix = strtolower($prefix);
+		
+
+		if (empty($views[$name][$type][$prefix][$layout]))
 		{
 			if ($view = $this->createView($name, $prefix, $type, $config))
 			{
-				$views[$name] = & $view;
+				$views[$name][$type][$prefix][$layout] = & $view;
 			}
 			else
 			{
@@ -878,7 +883,7 @@ class JControllerLegacy extends JObject
 			}
 		}
 
-		return $views[$name];
+		return $views[$name][$type][$prefix][$layout];
 	}
 
 	/**
