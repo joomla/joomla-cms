@@ -20,6 +20,44 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldRadio-helper-dataset.php';
 class JFormFieldRadioTest extends TestCase
 {
 	/**
+	 * Sets up dependencies for the test.
+	 *
+	 * @since       11.3
+	 *
+	 * @return void
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockApplication();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+
+		$this->restoreFactoryState();
+
+		parent::tearDown();
+	}
+
+	/**
 	 * Test...
 	 *
 	 * @return  array
@@ -56,10 +94,16 @@ class JFormFieldRadioTest extends TestCase
 			TestReflection::setValue($formField, $attr, $value);
 		}
 
-		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formField, 'getInput'),
-			'Line:' . __LINE__ . ' The field with no value and no checked attribute did not produce the right html'
+		// Get the result once, we may perform multiple tests
+		$result = TestReflection::invoke($formField, 'getInput');
+
+		// Test that the tag exists
+		$matcher = array('id' => 'myTestId');
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'The tag did not have the correct id.'
 		);
 	}
 
