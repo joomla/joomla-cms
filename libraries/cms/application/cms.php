@@ -3,11 +3,11 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! CMS Application class
@@ -84,15 +84,6 @@ class JApplicationCms extends JApplicationWeb
 	 * @since  3.2
 	 */
 	protected $template = null;
-
-	/**
-	 * Indicates that strong encryption should be used.
-	 *
-	 * @var    boolean
-	 * @since  3.2
-	 * @note   Default has been changed as of 3.2. If salted md5 is required, it must be explictly set.
-	 */
-	protected $useStrongEncryption = false;
 
 	/**
 	 * Class constructor.
@@ -235,17 +226,7 @@ class JApplicationCms extends JApplicationWeb
 	public function enqueueMessage($msg, $type = 'message')
 	{
 		// For empty queue, if messages exists in the session, enqueue them first.
-		if (!count($this->_messageQueue))
-		{
-			$session = JFactory::getSession();
-			$sessionQueue = $session->get('application.queue');
-
-			if (count($sessionQueue))
-			{
-				$this->_messageQueue = $sessionQueue;
-				$session->set('application.queue', null);
-			}
-		}
+		$this->getMessageQueue();
 
 		// Enqueue the message.
 		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
@@ -566,6 +547,15 @@ class JApplicationCms extends JApplicationWeb
 			$this->set('language', $options['language']);
 		}
 
+		// Build our language object
+		$lang = JLanguage::getInstance($this->get('language'), $this->get('debug_lang'));
+
+		// Load the language to the API
+		$this->loadLanguage($lang);
+
+		// Register the language object with JFactory
+		JFactory::$language = $this->getLanguage();
+
 		// Set user specific editor.
 		$user = JFactory::getUser();
 		$editor = $user->getParam('editor', $this->get('editor'));
@@ -581,20 +571,6 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		$this->set('editor', $editor);
-
-		/*
-		 * Set the encryption to use. The availability of strong encryption must always be checked separately.
-		 * Use JCrypt::hasStrongPasswordSupport() to check PHP for this support.
-		 */
-		if (JPluginHelper::isEnabled('user', 'joomla'))
-		{
-			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
-			$userPluginParams = new JRegistry;
-			$userPluginParams->loadString($userPlugin->params);
-			$useStrongEncryption = $userPluginParams->get('strong_passwords', 0);
-
-			$this->config->set('useStrongEncryption', $useStrongEncryption);
-		}
 
 		// Trigger the onAfterInitialise event.
 		JPluginHelper::importPlugin('system');
@@ -745,6 +721,9 @@ class JApplicationCms extends JApplicationWeb
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
+		// Import the user plugin group.
+		JPluginHelper::importPlugin('user');
+
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
 			/*
@@ -789,9 +768,6 @@ class JApplicationCms extends JApplicationWeb
 				}
 			}
 
-			// Import the user plugin group.
-			JPluginHelper::importPlugin('user');
-
 			// OK, the credentials are authenticated and user is authorised.  Let's fire the onLogin event.
 			$results = $this->triggerEvent('onUserLogin', array((array) $response, $options));
 
@@ -813,13 +789,6 @@ class JApplicationCms extends JApplicationWeb
 			{
 				$options['user'] = $user;
 				$options['responseType'] = $response->type;
-
-				if (isset($response->length) && isset($response->secure) && isset($response->lifetime))
-				{
-					$options['length'] = $response->length;
-					$options['secure'] = $response->secure;
-					$options['lifetime'] = $response->lifetime;
-				}
 
 				// The user is successfully logged in. Run the after login events
 				$this->triggerEvent('onUserAfterLogin', array($options));
@@ -1039,7 +1008,7 @@ class JApplicationCms extends JApplicationWeb
 		// Get the full request URI.
 		$uri = clone JUri::getInstance();
 
-		$router = $this->getRouter();
+		$router = static::getRouter();
 		$result = $router->parse($uri);
 
 		foreach ($result as $key => $value)

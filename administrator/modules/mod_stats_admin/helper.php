@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,13 +70,13 @@ class ModStatsHelper
 			$rows[$i]        = new stdClass;
 			$rows[$i]->title = JText::_('MOD_STATS_CACHING');
 			$rows[$i]->icon  = 'dashboard';
-			$rows[$i]->data  = $app->getCfg('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
+			$rows[$i]->data  = $app->get('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 
 			$rows[$i]        = new stdClass;
 			$rows[$i]->title = JText::_('MOD_STATS_GZIP');
 			$rows[$i]->icon  = 'lightning';
-			$rows[$i]->data  = $app->getCfg('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
+			$rows[$i]->data  = $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 		}
 

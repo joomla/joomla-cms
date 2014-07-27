@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -213,6 +213,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 				}
 			}
 		}
+
 		if (!empty($element))
 		{
 			$this->parent->setPath('extension_root', $basePath . '/modules/' . $element);
@@ -773,6 +774,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 
 			return false;
 		}
+
 		$this->parent->setPath('extension_root', $client->path . '/modules/' . $element);
 
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
@@ -884,7 +886,9 @@ class JInstallerAdapterModule extends JAdapterInstance
 			$modID = implode(',', $modules);
 
 			// Wipe out any items assigned to menus
-			$query = 'DELETE FROM #__modules_menu WHERE moduleid IN (' . $modID . ')';
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__modules_menu'))
+				->where($db->quoteName('moduleid') . ' IN (' . $modID . ')');
 			$db->setQuery($query);
 
 			try
@@ -898,7 +902,9 @@ class JInstallerAdapterModule extends JAdapterInstance
 			}
 
 			// Wipe out any instances in the modules table
-			$query = 'DELETE FROM #__modules WHERE id IN (' . $modID . ')';
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__modules'))
+				->where($db->quoteName('id') . ' IN (' . $modID . ')');
 			$db->setQuery($query);
 
 			try
@@ -914,7 +920,10 @@ class JInstallerAdapterModule extends JAdapterInstance
 
 		// Now we will no longer need the module object, so let's delete it and free up memory
 		$row->delete($row->extension_id);
-		$query = 'DELETE FROM #__modules WHERE module = ' . $db->quote($row->element) . ' AND client_id = ' . $row->client_id;
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote($row->element))
+			->where($db->quote('client_id') . ' = ' . $row->client_id);
 		$db->setQuery($query);
 
 		try
@@ -955,7 +964,9 @@ class JInstallerAdapterModule extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules_menu table
-		$query = 'DELETE FROM #__modules_menu WHERE moduleid=' . (int) $arg['id'];
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__modules_menu'))
+			->where($db->quoteName('moduleid') . ' = ' . (int) $arg['id']);
 		$db->setQuery($query);
 
 		try
@@ -984,7 +995,9 @@ class JInstallerAdapterModule extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules table
-		$query = 'DELETE FROM #__modules WHERE id=' . (int) $arg['id'];
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__modules'))
+			->where($db->quoteName('id') . ' = ' . (int) $arg['id']);
 		$db->setQuery($query);
 
 		try

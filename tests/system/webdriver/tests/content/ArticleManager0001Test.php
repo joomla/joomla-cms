@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ use SeleniumClient\DesiredCapabilities;
  */
 class ArticleManager0001Test extends JoomlaWebdriverTestCase
 {
-  /**
+	/**
 	 * The page class being tested.
 	 *
 	 * @var     ArticleManagerPage
@@ -121,18 +121,18 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 		$expected_category = '- - Joomla!';
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName), 'Test Article should not be present');
-		$this->articleManagerPage->addArticle($articleName,$category);
+		$this->articleManagerPage->addArticle($articleName, $category);
 		$message = $this->articleManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Article successfully saved') >= 0, 'Article save should return success');
 		$values = $this->articleManagerPage->getFieldValues('ArticleEditPage', $articleName, array('Title', 'Category'));
-		$this->assertEquals(array($articleName,$expected_category), $values, 'Actual name, category should match expected');
+		$this->assertEquals(array($articleName, $expected_category), $values, 'Actual name, category should match expected');
 		$this->articleManagerPage->trashAndDelete($articleName);
 		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName), 'Test article should not be present');
 	}
 
 	/**
 	 * @test
-	*/
+	 */
 	public function editArticle_ChangeFields_FieldsChanged()
 	{
 		$salt = rand();
@@ -170,19 +170,19 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	public function changeArticleStatus_TestAtFrontEnd()
 	{
 		$cfg = new SeleniumConfig();
-		$this->driver->get($cfg->host.$cfg->path);
+		$this->driver->get($cfg->host . $cfg->path);
 		$this->assertTrue($this->driver->findElement(By::xPath("//h2//a[contains(text(), 'Professionals')]"))->isDisplayed(), 'Professionals Must be Present');
-		$article_manager='administrator/index.php?option=com_content';
-		$this->driver->get($cfg->host.$cfg->path.$article_manager);
+		$article_manager = 'administrator/index.php?option=com_content';
+		$this->driver->get($cfg->host . $cfg->path . $article_manager);
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->articleManagerPage->changeArticleState('Professionals', 'unpublished');
-		$this->driver->get($cfg->host.$cfg->path);
+		$this->driver->get($cfg->host . $cfg->path);
 		$arrayElement = $this->driver->findElements(By::xPath("//h2//a[contains(text(), 'Professionals')]"));
-		$this->assertEquals(count($arrayElement),0, 'Professionals Must Not be Present');
-		$this->driver->get($cfg->host.$cfg->path.$article_manager);
+		$this->assertEquals(count($arrayElement), 0, 'Professionals Must Not be Present');
+		$this->driver->get($cfg->host . $cfg->path . $article_manager);
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->articleManagerPage->changeArticleState('Professionals', 'published');
-		$this->driver->get($cfg->host.$cfg->path);
+		$this->driver->get($cfg->host . $cfg->path);
 		$this->assertTrue($this->driver->findElement(By::xPath("//h2//a[contains(text(), 'Professionals')]"))->isDisplayed(), 'Professionals Must be Present');
 	}
 
@@ -191,28 +191,26 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function articleEditPermission_TestAtFrontEnd()
 	{
-		$cfg=new SeleniumConfig();
-		$this->driver->get($cfg->host.$cfg->path);
+		$cfg = new SeleniumConfig();
+		$this->driver->get($cfg->host . $cfg->path);
 		$this->doSiteLogin();
-		$this->driver->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Home')]"),10);
-		$arrayElement=$this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
-		$this->assertTrue(count($arrayElement)>0,'Edit Icons Must be Present');
+		$this->driver->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Home')]"), 10);
+		$arrayElement = $this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
+		$this->assertTrue(count($arrayElement) > 0, 'Edit Icons Must be Present');
 		$d = $this->driver;
 		$d->findElement(By::xPath("//a[contains(text(),'Sample Sites')]"))->click();
 		$d->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Sample Sites')]"));
 		$d->waitForElementUntilIsPresent(By::xPath("//a[contains(text(), 'Edit')]"));
-		$arrayElement=$this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
-		$this->assertTrue(count($arrayElement)>0,'Edit Icons Must be Present');
+		$arrayElement = $this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
+		$this->assertTrue(count($arrayElement) > 0, 'Edit Icons Must be Present');
 		$d->findElement(By::xPath("//a[contains(text(), 'Home')]"))->click();
-		$d->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Login')]"),10);
+		$d->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Login')]"), 10);
 		$this->doSiteLogout();
-		$arrayElement=$this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
-		$this->assertEquals(count($arrayElement),0,'Edit Icons Must Not be Present');
+		$arrayElement = $this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
+		$this->assertEquals(count($arrayElement), 0, 'Edit Icons Must Not be Present');
 		$d->findElement(By::xPath("//a[contains(text(),'Sample Sites')]"))->click();
-		$d->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Sample Sites')]"),10);
-		$arrayElement=$this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
-		$this->assertEquals(count($arrayElement),0,'Edit Icons Must Not be Present');
+		$d->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Sample Sites')]"), 10);
+		$arrayElement = $this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
+		$this->assertEquals(count($arrayElement), 0, 'Edit Icons Must Not be Present');
 	}
-
-
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,14 +17,16 @@ $input = JFactory::getApplication()->input;
 		// Prep for Normal or Dynamic Modes
 		$mode = $params->get('mode', 'normal');
 		$idbase = null;
-		switch($mode)
+
+		switch ($mode)
 		{
 			case 'dynamic':
 				$option = $input->get('option');
 				$view = $input->get('view');
+
 				if ($option === 'com_content')
 				{
-					switch($view)
+					switch ($view)
 					{
 						case 'category':
 							$idbase = $input->getInt('id');
@@ -72,7 +74,8 @@ if (!empty($list))
 	if ($article_grouping !== 'none')
 	{
 		$grouped = true;
-		switch($article_grouping)
+
+		switch ($article_grouping)
 		{
 			case 'year':
 			case 'month_year':
@@ -86,5 +89,6 @@ if (!empty($list))
 				break;
 		}
 	}
+
 	require JModuleHelper::getLayoutPath('mod_articles_category', $params->get('layout', 'default'));
 }

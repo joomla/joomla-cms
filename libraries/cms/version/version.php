@@ -3,11 +3,11 @@
  * @package     Joomla.Libraries
  * @subpackage  Version
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Version information class for the Joomla CMS.
@@ -22,13 +22,13 @@ final class JVersion
 	public $PRODUCT = 'Joomla!';
 
 	/** @var  string  Release version. */
-	public $RELEASE = '3.2';
+	public $RELEASE = '3.3';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '1';
+	public $DEV_LEVEL = '3-dev';
 
 	/** @var  string  Development STATUS. */
-	public $DEV_STATUS = 'Stable';
+	public $DEV_STATUS = 'Development';
 
 	/** @var  string  Build number. */
 	public $BUILD = '';
@@ -37,7 +37,7 @@ final class JVersion
 	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELDATE = '6-November-2013';
+	public $RELDATE = '24-July-2014';
 
 	/** @var  string  Release time. */
 	public $RELTIME = '14:00';
@@ -46,7 +46,7 @@ final class JVersion
 	public $RELTZ = 'GMT';
 
 	/** @var  string  Copyright Notice. */
-	public $COPYRIGHT = 'Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.';
+	public $COPYRIGHT = 'Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.';
 
 	/** @var  string  Link text. */
 	public $URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
@@ -144,7 +144,7 @@ final class JVersion
 	 *
 	 * @return  string
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
 	public function generateMediaVersion()
 	{
@@ -163,7 +163,7 @@ final class JVersion
 	 *
 	 * @return  string  The media version.
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
 	public function getMediaVersion()
 	{
@@ -198,7 +198,7 @@ final class JVersion
 	 *
 	 * @return  JVersion  Instance of $this to allow chaining.
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
 	public function refreshMediaVersion()
 	{
@@ -214,7 +214,7 @@ final class JVersion
 	 *
 	 * @return  JVersion  Instance of $this to allow chaining.
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
 	public function setMediaVersion($mediaVersion)
 	{

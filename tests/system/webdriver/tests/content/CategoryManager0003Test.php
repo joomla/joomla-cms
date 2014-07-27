@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ use SeleniumClient\DesiredCapabilities;
  */
 class CategoryManager0003Test extends JoomlaWebdriverTestCase
 {
-  /**
+	/**
 	 * The page class being tested.
 	 *
 	 * @var     CategoryManagerPage
@@ -74,7 +74,6 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');
 	}
 
-
 	/**
 	 * @test
 	 */
@@ -110,38 +109,37 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	{
 		$salt = rand();
 		$categoryName = 'ABC' . $salt;
-		$alias = 'ABC_Alias'. $salt;
-		$expected_alias='abc-alias'.$salt;
-		$desc = 'ABC_Desc';
+		$expected_alias = 'abc-alias' . $salt;
+		$desc = $categoryName . ' Description';
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');
 		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test Category should not be present');
-		$this->categoryManagerPage->addCategory($categoryName,$alias,$desc);
+		$this->categoryManagerPage->addCategory($categoryName, $desc, array('Alias' => $expected_alias));
 		$message = $this->categoryManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Category successfully saved') >= 0, 'Category save should return success');
 		$values = $this->categoryManagerPage->getFieldValues('CategoryEditPage', $categoryName, array('Title', 'Alias'));
-		$this->assertEquals(array($categoryName,$expected_alias), $values, 'Actual name, alias should match expected');
+		$this->assertEquals(array($categoryName, $expected_alias), $values, 'Actual name, alias should match expected');
 		$this->categoryManagerPage->trashAndDelete($categoryName);
 		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test category should not be present');
 	}
 
 	/**
 	 * @test
-	*/
+	 */
 	public function editCategory_ChangeFields_FieldsChanged()
 	{
 		$salt = rand();
 		$categoryName = 'ABC' . $salt;
-		$alias = 'ABC_Alias'. $salt;
-		$expected_alias='abc-alias'.$salt;
+		$alias = 'abc-alias' . $salt;
 		$desc = 'ABC_Description';
-		$expected_desc='<p>ABC_Description</p>';
+		$expected_desc = '<p>ABC_Description</p>';
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');
 		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test Category should not be present');
 		$this->categoryManagerPage->addCategory($categoryName);
 		$this->categoryManagerPage->editCategory($categoryName, array('Alias' => $alias, 'Description' => $desc));
 		$values = $this->categoryManagerPage->getFieldValues('CategoryEditPage', $categoryName, array('Alias', 'Description'));
-		$this->assertEquals(array($expected_alias, $expected_desc), $values, 'Actual values should match expected');
+		$this->assertEquals(array($alias, $expected_desc), $values, 'Actual values should match expected');
 		$this->categoryManagerPage->trashAndDelete($categoryName);
+		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test category should not be present');
 	}
 
 	/**
@@ -150,15 +148,15 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	public function changeCategoryState_ChangeEnabledUsingToolbar_EnabledChanged()
 	{
 		$salt = rand();
+		$categoryName = 'Test Category ' . $salt;
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');
-		$this->categoryManagerPage->addCategory('ABC_Test', $salt);
-		$state = $this->categoryManagerPage->getState('ABC_Test');
+		$this->categoryManagerPage->addCategory($categoryName);
+		$state = $this->categoryManagerPage->getState($categoryName);
 		$this->assertEquals('published', $state, 'Initial state should be published');
-		$this->categoryManagerPage->changeCategoryState('ABC_Test', 'unpublished');
-		$state = $this->categoryManagerPage->getState('ABC_Test');
+		$this->categoryManagerPage->changeCategoryState($categoryName, 'unpublished');
+		$state = $this->categoryManagerPage->getState($categoryName);
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
-		$this->categoryManagerPage->trashAndDelete('ABC_Test');
+		$this->categoryManagerPage->trashAndDelete($categoryName);
+		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test category should not be present');
 	}
-
-
 }

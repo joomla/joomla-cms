@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -142,17 +142,17 @@
 			}
 			var	self = elem.form.H5Form,
 				$elem = $(elem),
-				isMissing = false;
-			elem.isRequired = !!($(elem).attr("required")),
-			elem.isDisabled = !!($(elem).attr("disabled"));
+				isMissing = false,
+				isRequired = !!($(elem).attr("required")),
+				isDisabled = !!($elem.attr("disabled"));
 			if(!elem.isDisabled){
-				isMissing = !self.browser.isRequiredNative && elem.isRequired && self.isValueMissing(self, elem);
+				isMissing = !self.browser.isRequiredNative && isRequired && self.isValueMissing(self, elem);
 				isPatternMismatched = !self.browser.isPatternNative && self.matchPattern(self, elem);
 			}
 			elem.validityState = {
 				valueMissing: isMissing,
 				patterMismatch : isPatternMismatched,
-				valid: (!isMissing && !isPatternMismatched &&  !elem.isDisabled)
+				valid: (!isMissing && !isPatternMismatched &&  !isDisabled)
 			};
 			if(elem.validityState.valueMissing){
 				$elem.addClass(self.options.requiredClass);
@@ -223,9 +223,9 @@
 
 		matchPattern : function(self, elem){
 			var $elem = $(elem),
-				val = !self.browser.isPlaceholderNative && 
-						$elem.attr('placeholder') && 
-						$elem.hasClass(self.options.placeholderClass) ? 
+				val = !self.browser.isPlaceholderNative &&
+						$elem.attr('placeholder') &&
+						$elem.hasClass(self.options.placeholderClass) ?
 							'' : $elem.attr('value'),
 				pattern = $elem.attr('pattern'),
 				type = $elem.attr('type');

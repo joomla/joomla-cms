@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -387,7 +387,20 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->column_name] = $field;
+				// Do some dirty translation to MySQL output.
+				// TODO: Come up with and implement a standard across databases.
+				$result[$field->column_name] = (object) array(
+					'column_name' => $field->column_name,
+					'type' => $field->type,
+					'null' => $field->null,
+					'Default' => $field->Default,
+					'comments' => '',
+					'Field' => $field->column_name,
+					'Type' => $field->type,
+					'Null' => $field->null,
+					// TODO: Improve query above to return primary key info as well
+					// 'Key' => ($field->PK == '1' ? 'PRI' : '')
+				);
 			}
 		}
 
@@ -1056,8 +1069,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				continue;
 			}
 
-			// Ignore any internal fields.
-			if ($k[0] == '_')
+			// Ignore any internal fields or primary keys with value 0.
+			if (($k[0] == "_") || ($k == $key && $v === 0))
 			{
 				continue;
 			}

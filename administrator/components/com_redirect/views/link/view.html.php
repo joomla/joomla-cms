@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ class RedirectViewLink extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$canDo		= RedirectHelper::getActions();
+		$canDo		= JHelperContent::getActions('com_redirect');
 
 		JToolbarHelper::title(JText::_('COM_REDIRECT_MANAGER_LINK'), 'refresh redirect');
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -168,14 +168,14 @@ abstract class FinderIndexer
 			$data->startTime = JFactory::getDate()->toSQL();
 
 			// Set the remaining default values.
-			$data->batchSize = (int) $data->options->get('batch_size', 50);
+			$data->batchSize   = (int) $data->options->get('batch_size', 50);
 			$data->batchOffset = 0;
-			$data->totalItems = 0;
+			$data->totalItems  = 0;
 			$data->pluginState = array();
 		}
 
 		// Setup the profiler if debugging is enabled.
-		if (JFactory::getApplication()->getCfg('debug'))
+		if (JFactory::getApplication()->get('debug'))
 		{
 			self::$profiler = JProfiler::getInstance('FinderIndexer');
 		}

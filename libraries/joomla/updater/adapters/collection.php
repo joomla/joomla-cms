@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -215,7 +215,7 @@ class JUpdaterCollection extends JUpdateAdapter
 	 */
 	public function findUpdate($options)
 	{
-		$url = $options['location'];
+		$url = trim($options['location']);
 		$this->updateSiteId = $options['update_site_id'];
 
 		$appendExtension = false;
@@ -240,19 +240,18 @@ class JUpdaterCollection extends JUpdateAdapter
 		$db = $this->parent->getDBO();
 
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
 
 		// JHttp transport throws an exception when there's no response.
 		try
 		{
 			$response = $http->get($url);
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			$response = null;
 		}
 
-		if (!isset($response) || 200 != $response->code)
+		if ($response === null || $response->code !== 200)
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
 			if (!$appendExtension && (substr($url, -4) != '.xml'))

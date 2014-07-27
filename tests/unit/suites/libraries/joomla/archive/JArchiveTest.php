@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -107,7 +107,7 @@ class JArchiveTest extends JArchiveTestCase
 			return;
 		}
 
-		JArchive::extract(__DIR__ . '/logo.gz', static::$outputPath . '/logo-gz.png');
+		JArchive::extract(__DIR__ . '/logo.gz', static::$outputPath);
 		$this->assertTrue(is_file(static::$outputPath . '/logo-gz.png'));
 
 		if (is_file(static::$outputPath . '/logo-gz.png'))
@@ -144,7 +144,7 @@ class JArchiveTest extends JArchiveTestCase
 			return;
 		}
 
-		JArchive::extract(__DIR__ . '/logo.bz2', static::$outputPath . '/logo-bz2.png');
+		JArchive::extract(__DIR__ . '/logo-bz2.png.bz2', static::$outputPath);
 		$this->assertTrue(is_file(static::$outputPath . '/logo-bz2.png'));
 
 		if (is_file(static::$outputPath . '/logo-bz2.png'))

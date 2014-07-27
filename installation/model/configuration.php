@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -245,19 +245,7 @@ class InstallationModelConfiguration extends JModelBase
 			return false;
 		}
 
-		$useStrongPasswords = JCrypt::hasStrongPasswordSupport();
-
-		if ($useStrongPasswords)
-		{
-			$cryptpass = JUserHelper::getCryptedPassword($options->admin_password);
-		}
-		else
-		{
-			$salt = JUserHelper::genRandomPassword(16);
-			//$cryptpass = JUserHelper::getCryptedPassword($options->admin_password, $salt, 'sha256') . ':' . $salt;
-			$cryptpass = JUserHelper::getCryptedPassword($options->admin_password, $salt, 'sha256');
-
-		}
+		$cryptpass = JUserHelper::hashPassword($options->admin_password);
 
 		// Take the admin user id
 		$userId = InstallationModelDatabase::getUserId();
@@ -283,7 +271,7 @@ class InstallationModelConfiguration extends JModelBase
 			$query->clear()
 				->update($db->quoteName('#__users'))
 				->set($db->quoteName('name') . ' = ' . $db->quote('Super User'))
-				->set($db->quoteName('username') . ' = ' . $db->quote($options->admin_user))
+				->set($db->quoteName('username') . ' = ' . $db->quote(trim($options->admin_user)))
 				->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email))
 				->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass))
 				->set($db->quoteName('block') . ' = 0')
@@ -305,7 +293,7 @@ class InstallationModelConfiguration extends JModelBase
 				->insert('#__users', true)
 				->columns($columns)
 				->values(
-				$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote($options->admin_user) . ', ' .
+				$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
 				$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
 				$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
 				$db->quote('0') . ', ' . $db->quote('')

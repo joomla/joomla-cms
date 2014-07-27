@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_latest
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,9 +18,17 @@ JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'Con
  *
  * @package     Joomla.Site
  * @subpackage  mod_articles_latest
+ * @since       1.6.0
  */
 abstract class ModArticlesLatestHelper
 {
+	/**
+	 * Retrieve a list of article
+	 *
+	 * @param   JRegistry  &$params  module parameters
+	 *
+	 * @return  mixed
+	 */
 	public static function getList(&$params)
 	{
 		// Get the dbo
@@ -49,6 +57,7 @@ abstract class ModArticlesLatestHelper
 
 		// User filter
 		$userId = JFactory::getUser()->get('id');
+
 		switch ($params->get('user_id'))
 		{
 			case 'by_me':

@@ -125,8 +125,19 @@ div.toggle-editor {
 	margin-left:auto;
 	margin-right:auto;
 }
-
-
+/* New captions */
+figure {
+	display: table;
+}
+figure.pull-center,
+img.pull-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+figcaption {
+	display: table-caption;
+	caption-side: bottom;
+}
 /* Calendar */
 #jform_publish_down_img {
 	width: 18px;
@@ -448,4 +459,14 @@ body input[type="text"].search-query {
     height: auto;
     border-radius: 4px;
 
+}
+/* Text alignments */
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+.text-center {
+	text-align: center;
 }

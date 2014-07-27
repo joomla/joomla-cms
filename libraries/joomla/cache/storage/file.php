@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -407,7 +407,7 @@ class JCacheStorageFile extends JCacheStorage
 		// Sanity check
 		if (!$path || !is_dir($path) || empty($this->_root))
 		{
-			// Bad programmer! Bad Bad programmer!
+			// Bad programmer! Bad, bad programmer!
 			JLog::add('JCacheStorageFile::_deleteFolder ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), JLog::WARNING, 'jerror');
 			return false;
 		}

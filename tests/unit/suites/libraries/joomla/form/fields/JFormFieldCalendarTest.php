@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -179,7 +179,7 @@ class JFormFieldCalendarTest extends TestCase
 						'size' => 25,
 						'maxlength' => 45,
 						'class' => 'myClass',
-						'readonly' => '',
+						'readonly' => 'readonly',
 					)
 				)
 			),
@@ -207,7 +207,7 @@ class JFormFieldCalendarTest extends TestCase
 					array(
 						'size' => 25,
 						'maxlength' => 45,
-						'disabled' => '',
+						'disabled' => 'disabled',
 						'onchange' => 'This is my onchange value',
 					)
 				)
@@ -380,7 +380,7 @@ class JFormFieldCalendarTest extends TestCase
 				'size' => 25,
 				'maxlength' => 45,
 				'class' => 'myClass',
-				'readonly' => ''
+				'readonly' => 'readonly'
 			)
 		);
 
@@ -452,7 +452,7 @@ class JFormFieldCalendarTest extends TestCase
 				'size' => 25,
 				'maxlength' => 45,
 				'class' => 'myClass',
-				'readonly' => ''
+				'readonly' => 'readonly'
 			)
 		);
 
@@ -476,7 +476,7 @@ class JFormFieldCalendarTest extends TestCase
 				'size' => 25,
 				'maxlength' => 45,
 				'class' => 'myClass',
-				'readonly' => ''
+				'readonly' => 'readonly'
 			)
 		);
 

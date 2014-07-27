@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -463,7 +463,7 @@ class JControllerForm extends JControllerLegacy
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$tmpl   = $this->input->get('tmpl');
-		$layout = $this->input->get('layout', 'edit');
+		$layout = $this->input->get('layout', 'edit', 'string');
 		$append = '';
 
 		// Setup redirect info.

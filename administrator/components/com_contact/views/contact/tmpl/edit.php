@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,76 +36,29 @@ $assoc = JLanguageAssociations::isEnabled();
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT', true) : JText::sprintf('COM_CONTACT_EDIT_CONTACT', $this->item->id, true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT', true) : JText::_('COM_CONTACT_EDIT_CONTACT', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="row-fluid form-horizontal-desktop">
 					<div class="span6">
-						<div >
-							<?php echo $this->form->getControlGroup('user_id'); ?>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('image'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('image'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('con_position'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('con_position'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('email_to'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('email_to'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('address'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('address'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('suburb'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('suburb'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('state'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('state'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('postcode'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('postcode'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('country'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('country'); ?></div>
-						</div>
+						<?php echo $this->form->renderField('user_id'); ?>
+						<?php echo $this->form->renderField('image'); ?>
+						<?php echo $this->form->renderField('con_position'); ?>
+						<?php echo $this->form->renderField('email_to'); ?>
+						<?php echo $this->form->renderField('address'); ?>
+						<?php echo $this->form->renderField('suburb'); ?>
+						<?php echo $this->form->renderField('state'); ?>
+						<?php echo $this->form->renderField('postcode'); ?>
+						<?php echo $this->form->renderField('country'); ?>
 					</div>
 					<div class="span6">
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('telephone'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('telephone'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('mobile'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('mobile'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('fax'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('fax'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('webpage'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('webpage'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('sortname1'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('sortname1'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('sortname2'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('sortname2'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('sortname3'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('sortname3'); ?></div>
-						</div>
+						<?php echo $this->form->renderField('telephone'); ?>
+						<?php echo $this->form->renderField('mobile'); ?>
+						<?php echo $this->form->renderField('fax'); ?>
+						<?php echo $this->form->renderField('webpage'); ?>
+						<?php echo $this->form->renderField('sortname1'); ?>
+						<?php echo $this->form->renderField('sortname2'); ?>
+						<?php echo $this->form->renderField('sortname3'); ?>
 					</div>
 				</div>
 			</div>
@@ -118,7 +71,7 @@ $assoc = JLanguageAssociations::isEnabled();
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'misc', JText::_('JGLOBAL_FIELDSET_MISCELLANEOUS', true)); ?>
 		<div class="row-fluid form-horizontal-desktop">
 				<div class="form-vertical">
-					<?php echo $this->form->getControlGroup('misc'); ?>
+					<?php echo $this->form->renderField('misc'); ?>
 				</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
