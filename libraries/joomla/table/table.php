@@ -104,36 +104,11 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	protected $_observers;
 
 	/**
-	 * The column title for the published/unpublished field
+	 * Array with alias for "special" columns such as ordering, hits etc etc
 	 *
-	 * @var    boolean
-	 * @since  3.3
+	 * @var    array
 	 */
-	protected $columnPublished = 'published';
-
-	/**
-	 * The column title for the checked out field
-	 *
-	 * @var    boolean
-	 * @since  3.3
-	 */
-	protected $columnCheckedOut = 'checked_out';
-
-	/**
-	 * The column title for the checked out time field
-	 *
-	 * @var    boolean
-	 * @since  3.3
-	 */
-	protected $columnCheckedOutTime = 'checked_out_time';
-
-	/**
-	 * The column title for the hits field
-	 *
-	 * @var    boolean
-	 * @since  3.3
-	 */
-	protected $columnHits = 'hits';
+	protected $_columnAlias = array();
 
 	/**
 	 * Object constructor to set table and key fields.  In most cases this will
@@ -1078,8 +1053,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName($this->columnCheckedOut) . ' = ' . (int) $userId)
-			->set($this->_db->quoteName($this->columnCheckedOutTime) . ' = ' . $this->_db->quote($time));
+			->set($this->_db->quoteName($this->getColumnAlias('checked_out') . ' = ' . (int) $userId)
+			->set($this->_db->quoteName($this->getColumnAlias('checked_out_time')) . ' = ' . $this->_db->quote($time));
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
@@ -1138,8 +1113,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName($this->columnCheckedOut) . ' = 0')
-			->set($this->_db->quoteName($this->columnCheckedOutTime) . ' = ' . $this->_db->quote($this->_db->getNullDate()));
+			->set($this->_db->quoteName($this->getColumnAlias('checked_out')) . ' = 0')
+			->set($this->_db->quoteName($this->getColumnAlias('checked_out_time')) . ' = ' . $this->_db->quote($this->_db->getNullDate()));
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 
@@ -1240,7 +1215,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName($this->columnHits) . ' = (' . $this->_db->quoteName($this->columnHits) . ' + 1)');
+			->set($this->_db->quoteName($this->getColumnAlias('hits')) . ' = (' . $this->_db->quoteName($this->getColumnAlias('hits')) . ' + 1)');
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
@@ -1569,12 +1544,12 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// Update the publishing state for rows with the given primary keys.
 			$query = $this->_db->getQuery(true)
 				->update($this->_tbl)
-				->set($this->_db->quoteName($this->columnPublished) . ' = ' . (int) $state);
+				->set($this->_db->quoteName($this->getColumnAlias('published')) . ' = ' . (int) $state);
 
 			// Determine if there is checkin support for the table.
 			if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
 			{
-				$query->where('(' . $this->columnCheckedOut . ' = 0 OR ' . $this->columnCheckedOut . ' = ' . (int) $userId . ')');
+				$query->where('(' . $this->getColumnAlias('checked_out') . ' = 0 OR ' . $this->getColumnAlias('checked_out') . ' = ' . (int) $userId . ')');
 				$checkin = true;
 			}
 			else
@@ -1629,6 +1604,47 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		$this->_locked = true;
 
 		return true;
+	}
+
+	/**
+	 * Method to return the real name of a "special" column such as ordering, hits, published
+	 * etc etc. In this way you are free to follow your db naming convention and use the
+	 * built in Joomla functions.
+	 *
+	 * @param   string  $column  Name of the "special" column (ie ordering, hits etc etc)
+	 *
+	 * @return  string  The string that identify the special
+	 */
+	public function getColumnAlias($column)
+	{
+		if (isset($this->_columnAlias[$column]))
+		{
+			$return = $this->_columnAlias[$column];
+		}
+		else
+		{
+			$return = $column;
+		}
+
+		$return = preg_replace('#[^A-Z0-9_]#i', '', $return);
+
+		return $return;
+	}
+
+	/**
+	 * Method to register a column alias for a "special" column.
+	 *
+	 * @param   string  $column       The "special" column (ie ordering)
+	 * @param   string  $columnAlias  The real column name (ie foo_ordering)
+	 *
+	 * @return  void
+	 */
+	public function setColumnAlias($column, $columnAlias)
+	{
+		$column = strtolower($column);
+
+		$column                      = preg_replace('#[^A-Z0-9_]#i', '', $column);
+		$this->_columnAlias[$column] = $columnAlias;
 	}
 
 	/**
