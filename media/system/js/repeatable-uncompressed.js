@@ -55,7 +55,7 @@
                 cancelled = true;
                 e.stopPropagation();
                 $(el).find('tbody').replaceWith(origContent);
-                origContainer.find('table').replaceWith(el);
+                origContainer.find('table tr').replaceWith(el);
                 close();
                 win = null;
             });
