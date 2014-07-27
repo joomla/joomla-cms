@@ -204,13 +204,13 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new DirectoryIterator(__DIR__ . '/driver');
 
+		/* @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-			if (!$file->isFile() || substr($fileName, strrpos($fileName, '.') + 1) != 'php')
+			if (!$file->isFile() || $file->getExtension() != 'php')
 			{
 				continue;
 			}
@@ -1702,6 +1702,16 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 		if ($query instanceof JDatabaseQueryLimitable)
 		{
+			if (!$limit && $query->limit)
+			{
+				$limit = $query->limit;
+			}
+
+			if (!$offset && $query->offset)
+			{
+				$offset = $query->offset;
+			}
+
 			$query->setLimit($limit, $offset);
 		}
 		else

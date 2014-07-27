@@ -18,6 +18,13 @@ defined('_JEXEC') or die;
  */
 class BannersController extends JControllerLegacy
 {
+	/**
+	 * Method when a banner is clicked on.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 */
 	public function click()
 	{
 		$id = $this->input->getInt('id', 0);
