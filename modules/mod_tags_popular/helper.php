@@ -33,7 +33,7 @@ abstract class ModTagsPopularHelper
 		$timeframe		= $params->get('timeframe', 'alltime');
 		$maximum		= $params->get('maximum', 5);
 		$order_value	= $params->get('order_value', 'count');
-		$nowDate		= $db->quote(JFactory::getDate()->toSql());
+		$nowDate		= JFactory::getDate()->toSql();
 		$nullDate		= $db->quote($db->getNullDate());
 
 		if ($order_value == 'rand()')
@@ -88,8 +88,8 @@ abstract class ModTagsPopularHelper
 
 		// Only return tags connected to published articles
 		$query->where($db->quoteName('c.core_state') . ' = 1')
-			->where('(' . $db->quoteName('c.core_publish_up') . ' = ' . $nullDate . ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $nowDate . ')')
-			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate . ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $nowDate . ')');
+			->where('(' . $db->quoteName('c.core_publish_up') . ' = ' . $nullDate . ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $db->quote($nowDate) . ')')
+			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate . ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')');
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 
