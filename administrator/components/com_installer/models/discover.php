@@ -159,8 +159,10 @@ class InstallerModelDiscover extends InstallerModel
 	public function discover_install()
 	{
 		$app       = JFactory::getApplication();
+		$input     = $app->input;
 		$installer = JInstaller::getInstance();
-		$eid       = JRequest::getVar('cid', 0);
+		
+		$eid = $input->get('cid', 0, 'array');
 
 		if (is_array($eid) || $eid)
 		{
