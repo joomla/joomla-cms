@@ -885,7 +885,7 @@ class JControllerLegacy extends JObject
 			}
 		}
 
-		return $views[$name];
+		return $views[$name][$type][$prefix];
 	}
 
 	/**
