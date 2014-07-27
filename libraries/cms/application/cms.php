@@ -916,7 +916,7 @@ class JApplicationCms extends JApplicationWeb
 				}
 				else
 				{
-					$type = null;
+					$type = 'message';
 				}
 
 				// Enqueue the message
