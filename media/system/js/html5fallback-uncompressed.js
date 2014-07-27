@@ -12,11 +12,11 @@
  * @subpackage	Forms
  */
 
-(function($,document,undefined){
+(function ($, doc, undef) {
 	// Utility function
 	if(typeof Object.create !== 'function'){
 		Object.create = function(obj){
-			function F(){};
+			function F(){}
 			F.prototype = obj;
 			return new F();
 		};
@@ -29,7 +29,7 @@
 			self.$elem = $(elem);
 			elem.H5Form = self;
 			self.options = $.extend({}, $.fn.h5f.options, options);
-			self.field = document.createElement("input");
+			self.field = doc.createElement("input");
 			self.checkSupport(self);
 			//check whether the element is form or not
 			if(elem.nodeName.toLowerCase() === "form"){
@@ -44,7 +44,7 @@
 				flen = f.length;
 			if(self.options.formValidationEvent === "onSubmit"){
 				$form.on('submit',function(e){
-					var formnovalidate = this.H5Form.donotValidate != undefined ? this.H5Form.donotValidate : false;
+					var formnovalidate = this.H5Form.donotValidate != undef ? this.H5Form.donotValidate : false;
 					if(!formnovalidate && !novalidate && !self.validateForm(self)){
 						//prevent form from submit
 						e.preventDefault();
@@ -120,13 +120,12 @@
 				var elem = f[i];
 
 				//Do Validation
-				if(!elem.isDisabled) {
-					isFieldValid = self.validateField(elem);
-					// Set focus to first invalid field
-					if(form.isValid && !isFieldValid){
+				if (!self.validateField(elem)) {
+					if (form.isValid) {
 						self.setFocusOn(elem);
 					}
-					form.isValid = isFieldValid && form.isValid;
+
+					form.isValid = false;
 				}
 			}
 			if(self.options.doRenderMessage){
@@ -137,22 +136,28 @@
 
 		validateField : function(e) {
 			var elem = e.target || e;
-			if(elem.form === undefined){
+
+			if(elem.form === undef){
 				return null;
 			}
+
 			var	self = elem.form.H5Form,
 				$elem = $(elem),
 				isMissing = false,
-				isRequired = !!($(elem).attr("required")),
-				isDisabled = !!($elem.attr("disabled"));
+				isPatternMismatched = false,
+				$labelref = self.findLabel($elem);
+
+			elem.isRequired = !!($elem.attr("required"));
+			elem.isDisabled = !!($elem.attr("disabled"));
+
 			if(!elem.isDisabled){
-				isMissing = !self.browser.isRequiredNative && isRequired && self.isValueMissing(self, elem);
+				isMissing = !self.browser.isRequiredNative && elem.isRequired && self.isValueMissing(self, elem);
 				isPatternMismatched = !self.browser.isPatternNative && self.matchPattern(self, elem);
 			}
 			elem.validityState = {
 				valueMissing: isMissing,
-				patterMismatch : isPatternMismatched,
-				valid: (!isMissing && !isPatternMismatched &&  !isDisabled)
+				patternMismatch : isPatternMismatched,
+				valid: (!isMissing && !isPatternMismatched)
 			};
 			if(elem.validityState.valueMissing){
 				$elem.addClass(self.options.requiredClass);
@@ -160,7 +165,7 @@
 			else{
 				$elem.removeClass(self.options.requiredClass);
 			}
-			if(elem.validityState.patterMismatch){
+			if(elem.validityState.patternMismatch){
 				$elem.addClass(self.options.patternClass);
 			}
 			else{
@@ -168,14 +173,12 @@
 			}
 			if(!elem.validityState.valid){
 				$elem.addClass(self.options.invalidClass);
-				var $labelref = self.findLabel($elem);
 				$labelref.addClass(self.options.invalidClass);
 				$labelref.attr('aria-invalid', 'true');
 			}
 			else{
 				$elem.removeClass(self.options.invalidClass);
-				var $labelref = self.findLabel($elem);
-				$labelref.removeClass(self.options.invalidClass)
+				$labelref.removeClass(self.options.invalidClass);
 				$labelref.attr('aria-invalid', 'false');
 			}
 			return elem.validityState.valid;
@@ -184,10 +187,11 @@
 		isValueMissing : function(self, elem){
 			var $elem = $(elem),
 				node = /^(input|textarea|select)$/i,
-	            ignoredType = /^submit$/i,
+				ignoredType = /^submit$/i,
 				val = $elem.val(),
-				type = elem.type !== undefined ? elem.type : elem.tagName.toLowerCase(),
+				type = elem.type !== undef ? elem.type : elem.tagName.toLowerCase(),
 				specialTypes = /^(checkbox|radio|fieldset)$/i;
+
 			if(!specialTypes.test(type) && !ignoredType.test(type)){
 				if(val === ""){
 					return true;
@@ -207,15 +211,15 @@
 						elements = $elem.find('input');
 					}
 					else{
-						elements = document.getElementsByName(elem.name);
+						elements = doc.getElementsByName(elem.name);
 					}
-			        for(var i=0; i<elements.length; i++){
+					for(var i=0; i<elements.length; i++){
 						if($(elements[i]).is(':checked')){
 							return false;
 						}
-			        }
-			        // Since no checkbox or radio box is checked value is missing.
-			        return true;
+					}
+					// Since no checkbox or radio box is checked value is missing.
+					return true;
 				}
 			}
 			return false;
@@ -232,7 +236,7 @@
 			if(val !== ""){
 				if(type === "email") {
 					var emailMatched = true;
-					if($elem.attr('multiple') !== undefined){
+					if($elem.attr('multiple') !== undef){
 						val = val.split(self.options.mutipleDelimiter);
 						for (var i = 0; i < val.length; i++) {
 							emailMatched = self.options.emailPatt.test(val[i].replace(/[ ]*/g,''));
@@ -245,7 +249,7 @@
 				} else if(type === "url") {
 					return !self.options.urlPatt.test(val);
 				} else if(type === 'text') {
-					if(pattern !== undefined){
+					if(pattern !== undef){
 						usrPatt = new RegExp('^(?:' + pattern + ')$');
 						return !usrPatt.test(val);
 					}
@@ -255,28 +259,28 @@
 		},
 
 		placeholder : function(self, elem, event) {
-	        var $elem = $(elem),
-	        	attrs = { placeholder: $elem.attr("placeholder") },
-	            focus = /^(focusin|submit)$/i, //events on which field should be blank
-	            node = /^(input|textarea)$/i,
-	            ignoredType = /^password$/i,
-	            isNative = self.browser.isPlaceholderNative;
-	        if(!isNative && node.test(elem.nodeName) && !ignoredType.test(elem.type) && attrs.placeholder !== undefined) {
-	            if(elem.value === "" && !focus.test(event)) {
-	                elem.value = attrs.placeholder;
-	                $elem.addClass(self.options.placeholderClass);
+			var $elem = $(elem),
+				attrs = { placeholder: $elem.attr("placeholder") },
+				focus = /^(focusin|submit)$/i, //events on which field should be blank
+				node = /^(input|textarea)$/i,
+				ignoredType = /^password$/i,
+				isNative = self.browser.isPlaceholderNative;
+			if(!isNative && node.test(elem.nodeName) && !ignoredType.test(elem.type) && attrs.placeholder !== undef) {
+				if(elem.value === "" && !focus.test(event)) {
+					elem.value = attrs.placeholder;
+					$elem.addClass(self.options.placeholderClass);
 
-	            } else if(elem.value === attrs.placeholder && focus.test(event)) {
-	                elem.value = "";
-	                $elem.removeClass(self.options.placeholderClass);
-	            }
-	        }
-	    },
+				} else if(elem.value === attrs.placeholder && focus.test(event)) {
+					elem.value = "";
+					$elem.removeClass(self.options.placeholderClass);
+				}
+			}
+		},
 
-	    numberType : function(self, elem) {
-	    	var $elem = $(elem);
-	    		node = /^input$/i,
-	    		type = $elem.attr('type');
+		numberType : function(self, elem) {
+			var $elem = $(elem),
+				node = /^input$/i,
+				type = $elem.attr('type');
 
 			if(node.test(elem.nodeName) && ((type == "number" && !self.browser.isNumberNative) || (type == "range" && !self.browser.isRangeNative)))
 			{
@@ -307,36 +311,37 @@
 
 				$elem.replaceWith($select);
 			}
-	    },
+		},
 
-	    autofocus : function(self, elem){
-	    	var $elem = $(elem),
+		autofocus : function(self, elem){
+			var $elem = $(elem),
 				doAutofocus = !!$elem.attr("autofocus"),
-	            node = /^(input|textarea|select|fieldset)$/i,
-	            ignoredType = /^submit$/i,
-	            isNative = self.browser.isAutofocusNative;
-	        if(!isNative && node.test(elem.nodeName) && !ignoredType.test(elem.type) && doAutofocus){
-				$(document).ready(function(){
+				node = /^(input|textarea|select|fieldset)$/i,
+				ignoredType = /^submit$/i,
+				isNative = self.browser.isAutofocusNative;
+
+			if(!isNative && node.test(elem.nodeName) && !ignoredType.test(elem.type) && doAutofocus){
+				$(doc).ready(function(){
 					self.setFocusOn(elem);
 				});
 			}
-	    },
-	    //Extras
-	    findLabel : function($elem){
-	    	var $label = $('label[for="'+$elem.attr('id')+'"]');
+		},
+		//Extras
+		findLabel : function($elem){
+			var $label = $('label[for="'+$elem.attr('id')+'"]');
 
 			if($label.length <= 0) {
-			    var $parentElem = $elem.parent(),
-			        parentTagName = $parentElem.get(0).tagName.toLowerCase();
+				var $parentElem = $elem.parent(),
+					parentTagName = $parentElem.get(0).tagName.toLowerCase();
 
-			    if(parentTagName == "label") {
-			        $label = $parentElem;
-			    }
+				if(parentTagName == "label") {
+					$label = $parentElem;
+				}
 			}
 			return $label;
-	    },
+		},
 
-	    setFocusOn : function(elem){
+		setFocusOn : function(elem){
 			if(elem.tagName.toLowerCase() === "fieldset"){
 				$(elem).find(":first").focus();
 			}
@@ -345,45 +350,54 @@
 			}
 		},
 
-	    renderErrorMessages : function(self, form){
-	    	var f = form.elements,
+		renderErrorMessages : function(self, form){
+			var f = form.elements,
 				flen = f.length,
-				error = {};
-				error.errors = new Array();
-			while(flen--) {
-				var $elem = $(f[flen]),
-					$label = self.findLabel($elem);
-				if($elem.hasClass(self.options.requiredClass)) {
+				error = {'errors': []},
+				$elem,
+				$label;
+
+			while (flen--) {
+				$elem = $(f[flen]);
+				$label = self.findLabel($elem);
+
+				if ($elem.hasClass(self.options.requiredClass)) {
 						error.errors[flen] = $label.text().replace("*", "") + self.options.requiredMessage;
 				}
-				if($elem.hasClass(self.options.patternClass)) {
+
+				if ($elem.hasClass(self.options.patternClass)) {
 						error.errors[flen] = $label.text().replace("*", "") + self.options.patternMessage;
 				}
 			}
-			if(error.errors.length > 0){
+
+			if (error.errors.length > 0) {
 				Joomla.renderMessages(error);
 			}
-	    }
+		}
 	};
+
 	$.fn.h5f = function(options){
 		return this.each(function(){
 			var h5form = Object.create(H5Form);
 			h5form.init(options, this);
 		});
 	};
+
 	$.fn.h5f.options = {
-	    invalidClass : "invalid",
-	    requiredClass : "required",
-	    requiredMessage : " is required.",
-	    placeholderClass : "placeholder",
-	    patternClass : "pattern",
-	    patternMessage : " doesn't match pattern.",
-	    doRenderMessage : false,
-	    formValidationEvent : 'onSubmit',
-	    emailPatt : /^[a-zA-Z0-9.!#$%&‚Äô*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-	    urlPatt : /[a-z][\-\.+a-z]*:\/\//i
+		invalidClass : "invalid",
+		requiredClass : "required",
+		requiredMessage : " is required.",
+		placeholderClass : "placeholder",
+		patternClass : "pattern",
+		patternMessage : " doesn't match pattern.",
+		doRenderMessage : false,
+		formValidationEvent : 'onSubmit',
+		emailPatt : /^[a-zA-Z0-9.!#$%&‚Äô*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+		urlPatt : /[a-z][\-\.+a-z]*:\/\//i
 	};
+
 	$(function(){
 		$('form').h5f({doRenderMessage : true});
 	});
-})(jQuery,document);
+
+}(jQuery, document));
