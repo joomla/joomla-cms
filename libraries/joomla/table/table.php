@@ -1618,6 +1618,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 */
 	public function getColumnAlias($column)
 	{
+		// Get the column data if set
 		if (isset($this->_columnAlias[$column]))
 		{
 			$return = $this->_columnAlias[$column];
@@ -1627,6 +1628,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$return = $column;
 		}
 
+		// Sanitize the name
 		$return = preg_replace('#[^A-Z0-9_]#i', '', $return);
 
 		return $return;
@@ -1643,9 +1645,11 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 */
 	public function setColumnAlias($column, $columnAlias)
 	{
+		// Santize the column name alias
 		$column = strtolower($column);
+		$column = preg_replace('#[^A-Z0-9_]#i', '', $column);
 
-		$column                      = preg_replace('#[^A-Z0-9_]#i', '', $column);
+		// Set the column alias internally
 		$this->_columnAlias[$column] = $columnAlias;
 	}
 
