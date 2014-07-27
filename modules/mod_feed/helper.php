@@ -33,8 +33,27 @@ class ModFeedHelper
 		// Get RSS parsed object
 		try
 		{
-			$feed = new JFeedFactory;
-			$rssDoc = $feed->getFeed($rssurl);
+			if ($params->get('cache', 1) == 2)
+			{
+				$cache = JFactory::getCache('mod_feed', '');
+				$cache->setLifeTime($params->get('cache_time', 900));
+				$cache->setCaching(true);
+				
+				$rssDoc = $cache->get($rssurl);
+				
+				if ($rssDoc === false)
+				{
+					$feed = new JFeedFactory;
+					$rssDoc = $feed->getFeed($rssurl);
+					
+					$cache->store($rssDoc, $rssurl);
+				}
+			}
+			else
+			{
+				$feed = new JFeedFactory;
+				$rssDoc = $feed->getFeed($rssurl);
+			}
 		}
 		catch (InvalidArgumentException $e)
 		{
