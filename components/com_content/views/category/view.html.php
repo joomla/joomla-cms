@@ -122,6 +122,9 @@ class ContentViewCategory extends JViewCategory
 		// If it is the active menu item, then the view and category id will match
 		$app = JFactory::getApplication();
 		$active	= $app->getMenu()->getActive();
+		$menus		= $app->getMenu();
+		$pathway	= $app->getPathway();
+		$title		= null;
 
 		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
 		{
@@ -174,6 +177,83 @@ class ContentViewCategory extends JViewCategory
 			{
 				// call order down helper
 				$this->intro_items = ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
+			}
+		}
+
+		// Because the application sets a default page title,
+		// we need to get it from the menu item itself
+		$menu = $menus->getActive();
+
+		if ($menu)
+		{
+			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+		}
+
+		$title = $this->params->get('page_title', '');
+
+		$id = (int) @$menu->query['id'];
+
+		// Check for empty title and add site name if param is set
+		if (empty($title))
+		{
+			$title = $app->get('sitename');
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
+		{
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
+		{
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+		}
+
+		if (empty($title))
+		{
+			$title = $this->category->title;
+		}
+
+		$this->document->setTitle($title);
+
+		if ($this->category->metadesc)
+		{
+			$this->document->setDescription($this->category->metadesc);
+		}
+		elseif (!$this->category->metadesc && $this->params->get('menu-meta_description'))
+		{
+			$this->document->setDescription($this->params->get('menu-meta_description'));
+		}
+
+		if ($this->category->metakey)
+		{
+			$this->document->setMetadata('keywords', $this->category->metakey);
+		}
+		elseif (!$this->category->metakey && $this->params->get('menu-meta_keywords'))
+		{
+			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+		}
+
+		if ($this->params->get('robots'))
+		{
+			$this->document->setMetadata('robots', $this->params->get('robots'));
+		}
+
+		if (!is_object($this->category->metadata))
+		{
+			$this->category->metadata = new JRegistry($this->category->metadata);
+		}
+
+		if (($app->get('MetaAuthor') == '1') && $this->category->get('author', ''))
+		{
+			$this->document->setMetaData('author', $this->category->get('author', ''));
+		}
+
+		$mdata = $this->category->metadata->toArray();
+
+		foreach ($mdata as $k => $v)
+		{
+			if ($v)
+			{
+				$this->document->setMetadata($k, $v);
 			}
 		}
 
