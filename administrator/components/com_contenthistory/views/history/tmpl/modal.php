@@ -148,7 +148,11 @@ JFactory::getDocument()->addScriptDeclaration("
 				<td align="left">
 					<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"
 						href="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1&version_id=' . $item->version_id);?>">
-						<?php echo $item->save_date; ?>
+						<?php $config = Jfactory::getConfig();
+							$date = JFactory::getDate($item->save_date, 'UTC');
+							$user = JFactory::getUser();
+							$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+							echo $date; ?>
 					</a>
 					<?php if ($item->sha1_hash == $hash) :?>
 						<i class="icon-featured"></i>&nbsp;
