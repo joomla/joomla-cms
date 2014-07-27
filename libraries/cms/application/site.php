@@ -188,12 +188,12 @@ final class JApplicationSite extends JApplicationCms
 			$document->setGenerator('Joomla! - Open Source Content Management');
 		}
 
-		$contents = JComponentHelper::renderComponent($component);
-		$document->setBuffer($contents, 'component');
-
 		// Trigger the onAfterDispatch event.
 		JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterDispatch');
+
+		$contents = JComponentHelper::renderComponent($component);
+		$document->setBuffer($contents, 'component');
 	}
 
 	/**
