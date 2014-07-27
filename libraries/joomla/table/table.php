@@ -1611,9 +1611,10 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 * etc etc. In this way you are free to follow your db naming convention and use the
 	 * built in Joomla functions.
 	 *
-	 * @param   string  $column  Name of the "special" column (ie ordering, hits etc etc)
+	 * @param   string  $column  Name of the "special" column (ie ordering, hits)
 	 *
 	 * @return  string  The string that identify the special
+	 * @since   3.4
 	 */
 	public function getColumnAlias($column)
 	{
@@ -1638,6 +1639,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 * @param   string  $columnAlias  The real column name (ie foo_ordering)
 	 *
 	 * @return  void
+	 * @since   3.4
 	 */
 	public function setColumnAlias($column, $columnAlias)
 	{
