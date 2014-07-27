@@ -19,7 +19,10 @@
  */
 
 // Make sure we're being called from the command line, not a web interface
-if (PHP_SAPI !== 'cli') die('This is a command line only application.');
+if (PHP_SAPI !== 'cli')
+{
+	die('This is a command line only application.');
+}
 
 // We are a valid entry point.
 const _JEXEC = 1;
@@ -376,4 +379,3 @@ class FinderCli extends JApplicationCli
 // Instantiate the application object, passing the class name to JCli::getInstance
 // and use chaining to execute the application.
 JApplicationCli::getInstance('FinderCli')->execute();
-
