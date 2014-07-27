@@ -926,6 +926,10 @@ abstract class JModelAdmin extends JModelForm
 
 		// Include the content plugins for the change of state event.
 		JPluginHelper::importPlugin('content');
+		
+		
+		//Count to itens that can not be updated
+		$count = 0;
 
 		// Access checks.
 		foreach ($pks as $i => $pk)
@@ -938,11 +942,21 @@ abstract class JModelAdmin extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
-
-					return false;
+					$count++;
 				}
 			}
+		}
+
+		if ($count && count($pks))
+		{
+			JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_SOME_ITENS_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+		}
+
+		if (!count($pks))
+		{
+			JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
+			return false;
 		}
 
 		// Attempt to change the state of the records.
