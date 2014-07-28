@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ class JFormFieldFilters extends JFormField
 	 * TODO: Add access check.
 	 *
 	 * @return	string	The field input markup.
-	 * 
+	 *
 	 * @since	1.6
 	 */
 	protected function getInput()
@@ -73,7 +73,11 @@ class JFormFieldFilters extends JFormField
 			{
 				$this->value[$group->value] = array('filter_type' => 'BL', 'filter_tags' => '', 'filter_attributes' => '');
 			}
+
 			$group_filter = $this->value[$group->value];
+
+			$group_filter['filter_tags']       = !empty($group_filter['filter_tags']) ? $group_filter['filter_tags'] : '';
+			$group_filter['filter_attributes'] = !empty($group_filter['filter_attributes']) ? $group_filter['filter_attributes'] : '';
 
 			$html[] = '	<tr>';
 			$html[] = '		<th class="acl-groups left">';
@@ -96,6 +100,7 @@ class JFormFieldFilters extends JFormField
 			$html[] = '		</td>';
 			$html[] = '	</tr>';
 		}
+
 		$html[] = '	</tbody>';
 
 		// Close the table.
@@ -115,7 +120,7 @@ class JFormFieldFilters extends JFormField
 	 * A helper to get the list of user groups.
 	 *
 	 * @return	array
-	 * 
+	 *
 	 * @since	1.6
 	 */
 	protected function getUserGroups()

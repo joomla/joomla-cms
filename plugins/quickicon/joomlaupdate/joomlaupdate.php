@@ -3,14 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Joomla! udpate notification plugin
+ * Joomla! update notification plugin
  *
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomlaupdate
@@ -53,7 +53,7 @@ class PlgQuickiconJoomlaupdate extends JPlugin
 		$script = array();
 		$script[] = 'var plg_quickicon_joomlaupdate_url = \'' . $url . '\';';
 		$script[] = 'var plg_quickicon_joomlaupdate_ajax_url = \'' . $ajax_url . '\';';
-		$script[] = 'var plg_quickicon_jupdatecheck_jversion = \''.JVERSION.'\'';
+		$script[] = 'var plg_quickicon_jupdatecheck_jversion = \'' . JVERSION . '\'';
 		$script[] = 'var plg_quickicon_joomlaupdate_text = {'
 			. '"UPTODATE" : "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true) . '",'
 			. '"UPDATEFOUND": "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true) . '",'

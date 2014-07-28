@@ -2,10 +2,10 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  render
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * Akeeba Strapper view renderer class.
@@ -52,11 +52,14 @@ class FOFRenderStrapper extends FOFRenderAbstract
 		{
 			// Wrap output in a Joomla-versioned div
 			$version = new JVersion;
-			$version = str_replace('.', '', $version->RELEASE);
-			echo "<div class=\"joomla-version-$version\">\n";
+			$versionParts = explode('.', $version->RELEASE);
+			$minorVersion = str_replace('.', '', $version->RELEASE);
+			$majorVersion = array_shift($versionParts);
+			echo "<div class=\"joomla-version-$majorVersion joomla-version-$minorVersion\">\n";
 
 			// Wrap output in an akeeba-bootstrap class div
 			echo "<div class=\"akeeba-bootstrap\">\n";
+            echo "<div class=\"row-fluid\">\n";
 		}
 
 		// Render submenu and toolbar (only if asked to)
@@ -86,7 +89,7 @@ class FOFRenderStrapper extends FOFRenderAbstract
 			return;
 		}
 
-		if (!FOFPlatform::getInstance()->isCli() && FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+		if (!FOFPlatform::getInstance()->isCli() && version_compare(JVERSION, '3.0', 'ge'))
 		{
 			$sidebarEntries = JHtmlSidebar::getEntries();
 
@@ -96,8 +99,9 @@ class FOFRenderStrapper extends FOFRenderAbstract
 			}
 		}
 
-		echo "</div>\n";
-		echo "</div>\n";
+		echo "</div>\n";    // Closes row-fluid div
+		echo "</div>\n";    // Closes akeeba-bootstrap div
+		echo "</div>\n";    // Closes joomla-version div
 	}
 
 	/**
@@ -151,7 +155,7 @@ ENDJAVASCRIPT;
 			$style = $config['linkbar_style'];
 		}
 
-		if (!FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+		if (!version_compare(JVERSION, '3.0', 'ge'))
 		{
 			$style = 'classic';
 		}
@@ -254,7 +258,7 @@ ENDJAVASCRIPT;
 
 						if ($item['link'])
 						{
-							echo "<a tabindex=\"-1\" href=\"" . $item['link'] . "\">" . $item['name'] . "</a>";
+							echo "<a href=\"" . $item['link'] . "\">" . $item['name'] . "</a>";
 						}
 						else
 						{
@@ -387,6 +391,10 @@ ENDJAVASCRIPT;
 		$toolbar				 = FOFToolbar::getAnInstance($input->getCmd('option', 'com_foobar'), $config);
 		$renderFrontendButtons	 = $toolbar->getRenderFrontendButtons();
 
+        // Load main backend language, in order to display toolbar strings
+        // (JTOOLBAR_BACK, JTOOLBAR_PUBLISH etc etc)
+        FOFPlatform::getInstance()->loadTranslations('joomla');
+
 		if (FOFPlatform::getInstance()->isBackend() || !$renderFrontendButtons)
 		{
 			return;
@@ -409,8 +417,24 @@ ENDJAVASCRIPT;
 			'icon-32-save-new'	 => 'icon-repeat',
 		);
 
-		$html	 = array();
-		$html[]	 = '<div class="well" id="' . $bar->getName() . '">';
+        if(isset(JFactory::getApplication()->JComponentTitle))
+        {
+            $title	 = JFactory::getApplication()->JComponentTitle;
+        }
+		else
+		{
+			$title = '';
+		}
+
+        $html	 = array();
+        $actions = array();
+
+        // For BC we have to use the same id we're using inside other renderers (FOFHeaderHolder)
+        //$html[]	 = '<div class="well" id="' . $bar->getName() . '">';
+
+        $html[]	 = '<div class="well" id="FOFHeaderHolder">';
+        $html[]  =      '<div class="titleHolder">'.$title.'</div>';
+        $html[]  =      '<div class="buttonsHolder">';
 
 		foreach ($items as $node)
 		{
@@ -428,18 +452,20 @@ ENDJAVASCRIPT;
 					$id = null;
 				}
 
-				$action	 = call_user_func_array(array(&$button, 'fetchButton'), $node);
-				$action	 = str_replace('class="toolbar"', 'class="toolbar btn"', $action);
-				$action	 = str_replace('<span ', '<i ', $action);
-				$action	 = str_replace('</span>', '</i>', $action);
-				$action	 = str_replace(array_keys($substitutions), array_values($substitutions), $action);
-				$html[]	 = $action;
+				$action	    = call_user_func_array(array(&$button, 'fetchButton'), $node);
+				$action	    = str_replace('class="toolbar"', 'class="toolbar btn"', $action);
+				$action	    = str_replace('<span ', '<i ', $action);
+				$action	    = str_replace('</span>', '</i>', $action);
+				$action	    = str_replace(array_keys($substitutions), array_values($substitutions), $action);
+				$actions[]	= $action;
 			}
 		}
 
+        $html   = array_merge($html, $actions);
+		$html[] = '</div>';
 		$html[] = '</div>';
 
-		echo implode("\n", $html);
+        echo implode("\n", $html);
 	}
 
 	/**
@@ -458,14 +484,14 @@ ENDJAVASCRIPT;
 		JHtml::_('behavior.multiselect');
 
 		// Joomla! 3.0+ support
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+		if (version_compare(JVERSION, '3.0', 'ge'))
 		{
 			JHtml::_('bootstrap.tooltip');
 			JHtml::_('dropdown.init');
 			JHtml::_('formbehavior.chosen', 'select');
 			$view	 = $form->getView();
 			$order	 = $view->escape($view->getLists()->order);
-			$html .= <<<ENDJS
+			$html .= <<<JS
 <script type="text/javascript">
 	Joomla.orderTable = function() {
 		table = document.getElementById("sortTable");
@@ -482,7 +508,7 @@ ENDJAVASCRIPT;
 	}
 </script>
 
-ENDJS;
+JS;
 		}
 
 		// Getting all header row elements
@@ -496,8 +522,10 @@ ENDJS;
 
 		// Joomla! 3.0 sidebar support
 
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'gt'))
+		if (version_compare(JVERSION, '3.0', 'gt'))
 		{
+			$form_class = '';
+
 			if ($show_filters)
 			{
 				JHtmlSidebar::setAction("index.php?option=" .
@@ -528,6 +556,10 @@ ENDJS;
 			$headerFields = $tmpFields;
 			ksort($headerFields, SORT_NUMERIC);
 		}
+		else
+		{
+			$form_class = 'class="form-horizontal"';
+		}
 
 		// Pre-render the header and filter rows
 		$header_html = '';
@@ -547,7 +579,7 @@ ENDJS;
 
 				// Under Joomla! < 3.0 we can't have filter-only fields
 
-				if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'lt') && empty($header))
+				if (version_compare(JVERSION, '3.0', 'lt') && empty($header))
 				{
 					continue;
 				}
@@ -577,11 +609,9 @@ ENDJS;
 					$header_html .= "\t\t\t\t\t</th>" . PHP_EOL;
 				}
 
-				if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+				if (version_compare(JVERSION, '3.0', 'ge'))
 				{
 					// Joomla! 3.0 or later
-					$form_class = '';
-					
 					if (!empty($filter))
 					{
 						$filter_html .= '<div class="filter-search btn-group pull-left">' . "\n";
@@ -617,7 +647,6 @@ ENDJS;
 				else
 				{
 					// Joomla! 2.5
-					$form_class = 'class="form-horizontal"';
 					$filter_html .= "\t\t\t\t\t<td>" . PHP_EOL;
 
 					if (!empty($filter))
@@ -654,7 +683,7 @@ ENDJS;
 
 		$html .= '<form action="index.php" method="post" name="adminForm" id="adminForm" ' . $form_class . '>' . PHP_EOL;
 
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+		if (version_compare(JVERSION, '3.0', 'ge'))
 		{
 			// Joomla! 3.0+
 			// Get and output the sidebar, if present
@@ -722,7 +751,7 @@ ENDJS;
 
 		// Open the table header region if required
 
-		if ($show_header || ($show_filters && FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'lt')))
+		if ($show_header || ($show_filters && version_compare(JVERSION, '3.0', 'lt')))
 		{
 			$html .= "\t\t\t<thead>" . PHP_EOL;
 		}
@@ -738,7 +767,7 @@ ENDJS;
 
 		// Render filter row if enabled
 
-		if ($show_filters && FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'lt'))
+		if ($show_filters && version_compare(JVERSION, '3.0', 'lt'))
 		{
 			$html .= "\t\t\t\t<tr>";
 			$html .= $filter_html;
@@ -747,7 +776,7 @@ ENDJS;
 
 		// Close the table header region if required
 
-		if ($show_header || ($show_filters && FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'lt')))
+		if ($show_header || ($show_filters && version_compare(JVERSION, '3.0', 'lt')))
 		{
 			$html .= "\t\t\t</thead>" . PHP_EOL;
 		}
@@ -778,7 +807,7 @@ ENDJS;
 				$fields = $form->getFieldset('items');
 
 				// Reorder the fields to have ordering first
-				if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'gt'))
+				if (version_compare(JVERSION, '3.0', 'gt'))
 				{
 					$tmpFields = array();
 					$j = 1;
@@ -806,7 +835,8 @@ ENDJS;
 				{
 					$field->rowid	 = $i;
 					$field->item	 = $table_item;
-					$class			 = $field->labelClass ? 'class ="' . $field->labelClass . '"' : '';
+					$labelClass = $field->labelClass ? $field->labelClass : $field->labelclass; // Joomla! 2.5/3.x use different case for the same name
+					$class			 = $labelClass ? 'class ="' . $labelClass . '"' : '';
 					$html .= "\t\t\t\t\t<td $class>" . $field->getRepeatable() . '</td>' . PHP_EOL;
 				}
 
@@ -823,7 +853,7 @@ ENDJS;
 		$html .= "\t\t\t</tbody>" . PHP_EOL;
 
 		// Render the pagination bar, if enabled, on J! 2.5
-		if ($show_pagination && FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'lt'))
+		if ($show_pagination && version_compare(JVERSION, '3.0', 'lt'))
 		{
 			$pagination = $model->getPagination();
 			$html .= "\t\t\t<tfoot>" . PHP_EOL;
@@ -843,14 +873,14 @@ ENDJS;
 
 		// Render the pagination bar, if enabled, on J! 3.0+
 
-		if ($show_pagination && FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+		if ($show_pagination && version_compare(JVERSION, '3.0', 'ge'))
 		{
 			$html .= $model->getPagination()->getListFooter();
 		}
 
 		// Close the wrapper element div on Joomla! 3.0+
 
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+		if (version_compare(JVERSION, '3.0', 'ge'))
 		{
 			$html .= "</div>\n";
 		}
@@ -861,7 +891,7 @@ ENDJS;
 
 		// The id field is required in Joomla! 3 front-end to prevent the pagination limit box from screwing it up. Huh!!
 
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge') && FOFPlatform::getInstance()->isFrontend())
+		if (version_compare(JVERSION, '3.0', 'ge') && FOFPlatform::getInstance()->isFrontend())
 		{
 			$html .= "\t" . '<input type="hidden" name="id" value="' . $input->getCmd('id', '') . '" />' . PHP_EOL;
 		}
@@ -870,6 +900,12 @@ ENDJS;
 		$html .= "\t" . '<input type="hidden" name="hidemainmenu" value="" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="filter_order" value="' . $filter_order . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="filter_order_Dir" value="' . $filter_order_Dir . '" />' . PHP_EOL;
+
+		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
+		{
+			$html .= "\t" . '<input type="hidden" name="Itemid" value="' . $input->getCmd('Itemid', 0) . '" />' . PHP_EOL;
+		}
+
 		$html .= "\t" . '<input type="hidden" name="' . JFactory::getSession()->getFormToken() . '" value="1" />' . PHP_EOL;
 
 		// End the form
@@ -960,6 +996,12 @@ ENDJS;
 		$html .= "\t" . '<input type="hidden" name="view" value="' . $input->getCmd('view', 'edit') . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="task" value="" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="' . $key . '" value="' . $keyValue . '" />' . PHP_EOL;
+
+		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
+		{
+			$html .= "\t" . '<input type="hidden" name="Itemid" value="' . $input->getCmd('Itemid', 0) . '" />' . PHP_EOL;
+		}
+
 		$html .= "\t" . '<input type="hidden" name="' . JFactory::getSession()->getFormToken() . '" value="1" />' . PHP_EOL;
 
 		$html .= $this->renderFormRaw($form, $model, $input, 'edit');

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ class CpanelViewCpanel extends JViewLegacy
 			require_once JPATH_LIBRARIES . '/fof/include.php';
 		}
 
-		$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel', array('input' => array('eid' => 700)));
+		$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel')->eid(700);
 		$messages = $messages_model->getItemList();
 
 		$this->postinstall_message_count = count($messages);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,11 +51,14 @@ class MediaControllerFile extends JControllerLegacy
 		$file   = $this->input->files->get('Filedata', '', 'array');
 		$folder = $this->input->get('folder', '', 'path');
 
+		// Instantiate the media helper
+		$mediaHelper = new JHelperMedia;
+
 		if (
 			$_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024) ||
-			$_SERVER['CONTENT_LENGTH'] > (int) (ini_get('upload_max_filesize')) * 1024 * 1024 ||
-			$_SERVER['CONTENT_LENGTH'] > (int) (ini_get('post_max_size')) * 1024 * 1024 ||
-			$_SERVER['CONTENT_LENGTH'] > (int) (ini_get('memory_limit')) * 1024 * 1024
+			$_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('upload_max_filesize')) ||
+			$_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('post_max_size')) ||
+			$_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('memory_limit'))
 		)
 		{
 			$response = array(

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,6 +26,13 @@ class ContentViewArchive extends JViewLegacy
 
 	protected $pagination = null;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
 	public function display($tpl = null)
 	{
 		$user		= JFactory::getUser();
@@ -79,7 +86,7 @@ class ContentViewArchive extends JViewLegacy
 		// Year Field
 		$years = array();
 		$years[] = JHtml::_('select.option', null, JText::_('JYEAR'));
-		for ($i = 2000; $i <= 2020; $i++)
+		for ($year = date('Y'), $i = $year - 10; $i <= $year; $i++)
 		{
 			$years[] = JHtml::_('select.option', $i, $i);
 		}
@@ -111,9 +118,9 @@ class ContentViewArchive extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$title 		= null;
+		$app   = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -128,18 +135,20 @@ class ContentViewArchive extends JViewLegacy
 		}
 
 		$title = $this->params->get('page_title', '');
+
 		if (empty($title))
 		{
-			$title = $app->getCfg('sitename');
+			$title = $app->get('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->params->get('menu-meta_description'))

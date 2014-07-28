@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ class ContentModelArticle extends JModelAdmin
 			// Check the row.
 			if (!$this->table->check())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
@@ -111,7 +111,7 @@ class ContentModelArticle extends JModelAdmin
 			// Store the row.
 			if (!$this->table->store())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
@@ -370,12 +370,19 @@ class ContentModelArticle extends JModelAdmin
 		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
 
-		if ($app->isSite() && $assoc && $this->getState('article.id'))
+		// Check if article is associated
+		if ($id && $app->isSite() && $assoc)
 		{
-			$form->setFieldAttribute('language', 'readonly', 'true');
-			$form->setFieldAttribute('catid', 'readonly', 'true');
-			$form->setFieldAttribute('language', 'filter', 'unset');
-			$form->setFieldAttribute('catid', 'filter', 'unset');
+			$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+
+			// Make fields read only
+			if ($associations)
+			{
+				$form->setFieldAttribute('language', 'readonly', 'true');
+				$form->setFieldAttribute('catid', 'readonly', 'true');
+				$form->setFieldAttribute('language', 'filter', 'unset');
+				$form->setFieldAttribute('catid', 'filter', 'unset');
+			}
 		}
 
 		return $form;
@@ -400,7 +407,10 @@ class ContentModelArticle extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('article.id') == 0)
 			{
-				$data->set('catid', $app->input->getInt('catid', $app->getUserState('com_content.articles.filter.category_id')));
+				$filters = (array) $app->getUserState('com_content.articles.filter');
+				$filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
+
+				$data->set('catid', $app->input->getInt('catid', $filterCatId));
 			}
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -858,7 +858,23 @@ class JControllerLegacy extends JObject
 			}
 			else
 			{
-				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 500);
+				$response = 500;
+				$app = JFactory::getApplication();
+
+				/*
+				 * With URL rewriting enabled on the server, all client
+				 * requests for non-existent files are being forwarded to
+				 * Joomla.  Return a 404 response here and assume the client
+				 * was requesting a non-existent file for which there is no
+				 * view type that matches the file's extension (the most
+				 * likely scenario).
+				 */
+				if ($app->get('sef_rewrite'))
+				{
+					$response = 404;
+				}
+
+				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), $response);
 			}
 		}
 

@@ -2,11 +2,11 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * Generic field header, with text input (search) filter
@@ -79,8 +79,8 @@ class FOFFormHeaderFielddate extends FOFFormHeaderField
 		}
 
 		// Get some system objects.
-		$config = JFactory::getConfig();
-		$user = JFactory::getUser();
+		$config = FOFPlatform::getInstance()->getConfig();
+		$user   = JFactory::getUser();
 
 		// If a known filter is given use it.
 		switch (strtoupper((string) $this->element['filter']))
@@ -90,7 +90,7 @@ class FOFFormHeaderFielddate extends FOFFormHeaderField
 				if ((int) $this->value)
 				{
 					// Get a date object based on the correct timezone.
-					$date = JFactory::getDate($searchvalue, 'UTC');
+					$date = FOFPlatform::getInstance()->getDate($searchvalue, 'UTC');
 					$date->setTimezone(new DateTimeZone($config->get('offset')));
 
 					// Transform the date string.
@@ -103,7 +103,7 @@ class FOFFormHeaderFielddate extends FOFFormHeaderField
 				if ((int) $searchvalue)
 				{
 					// Get a date object based on the correct timezone.
-					$date = JFactory::getDate($this->value, 'UTC');
+					$date = FOFPlatform::getInstance()->getDate($this->value, 'UTC');
 					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
 
 					// Transform the date string.

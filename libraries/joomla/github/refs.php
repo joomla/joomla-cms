@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,6 +25,8 @@ class JGithubRefs extends JGithubObject
 	 * @param   string  $repo  The name of the GitHub repository.
 	 * @param   string  $ref   The name of the fully qualified reference.
 	 * @param   string  $sha   The SHA1 value to set this reference to.
+	 *
+	 * @deprecated  use data->refs->create()
 	 *
 	 * @return  object
 	 *
@@ -65,6 +67,8 @@ class JGithubRefs extends JGithubObject
 	 * @param   string  $ref    The reference to update.
 	 * @param   string  $sha    The SHA1 value to set the reference to.
 	 * @param   string  $force  Whether the update should be forced. Default to false.
+	 *
+	 * @deprecated  use data->refs->edit()
 	 *
 	 * @return  object
 	 *
@@ -110,6 +114,8 @@ class JGithubRefs extends JGithubObject
 	 * @param   string  $repo  The name of the GitHub repository.
 	 * @param   string  $ref   The reference to get.
 	 *
+	 * @deprecated  use data->refs->get()
+	 *
 	 * @return  object
 	 *
 	 * @since   11.3
@@ -141,6 +147,8 @@ class JGithubRefs extends JGithubObject
 	 * @param   string   $namespace  Optional sub-namespace to limit the returned references.
 	 * @param   integer  $page       Page to request
 	 * @param   integer  $limit      Number of results to return per page
+	 *
+	 * @deprecated  use data->refs->getList()
 	 *
 	 * @return  array
 	 *

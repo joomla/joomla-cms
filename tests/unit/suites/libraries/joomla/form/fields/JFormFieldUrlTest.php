@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldUrl-helper-dataset.php';
  * @subpackage  Form
  * @since       12.1
  */
-class JFormFieldUrlTest extends TestCase
+class JFormFieldUrlTest extends TestCaseDatabase
 {
 	/**
 	 * Backup of the SERVER superglobal
