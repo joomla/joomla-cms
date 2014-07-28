@@ -307,6 +307,7 @@ class JApplicationCms extends JApplicationWeb
 			else
 			{
 				$task = $this->input->getCmd('task', '');
+
 				// Empty task are always permitted
 				if (!empty($task) && array_search($task, $tasks) === false)
 				{
