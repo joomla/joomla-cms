@@ -61,7 +61,7 @@ class BannersModelBanners extends JModelList
 		$keywords = $this->getState('filter.keywords');
 		$randomise = ($ordering == 'random');
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->Quote(JFactory::getDate()->toSql());
+		$nowDate = $db->quote(JFactory::getDate()->toSql());
 
 		$query->select(
 			'a.id as id,' .
