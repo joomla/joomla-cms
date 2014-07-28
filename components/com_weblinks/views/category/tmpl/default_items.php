@@ -30,8 +30,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 
 <?php if (empty($this->items)) : ?>
-	<p> <?php echo JText::_('COM_WEBLINKS_NO_WEBLINKS'); ?></p>
-<?php else : ?>
+	<p class="alert alert-info"> <?php echo JText::_('COM_WEBLINKS_NO_WEBLINKS'); ?></p>
+<?php endif; ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
@@ -176,4 +176,3 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</div>
 		<?php endif; ?>
 	</form>
-<?php endif; ?>
