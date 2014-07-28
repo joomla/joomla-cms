@@ -122,10 +122,10 @@ $params = $this->params;
 			</div>
 		<?php endif; ?>
 
-                <?php if (!$params->get('show_intro')) : ?>
-                        <?php echo $item->event->afterDisplayTitle; ?>
-                <?php endif; ?>
-                <?php echo $item->event->beforeDisplayContent; ?>
+		<?php if (!$params->get('show_intro')) : ?>
+			<?php echo $item->event->afterDisplayTitle; ?>
+		<?php endif; ?>
+		<?php echo $item->event->beforeDisplayContent; ?>
 		<?php if ($params->get('show_intro')) :?>
 			<div class="intro" itemprop="articleBody"> <?php echo JHtml::_('string.truncateComplex', $item->introtext, $params->get('introtext_limit')); ?> </div>
 		<?php endif; ?>
@@ -206,7 +206,7 @@ $params = $this->params;
 			</dl>
 		</div>
 		<?php endif; ?>
-                <?php echo $item->event->afterDisplayContent; ?>
+		<?php echo $item->event->afterDisplayContent; ?>
 	</div>
 	<?php endforeach; ?>
 </div>

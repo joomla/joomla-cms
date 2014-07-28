@@ -54,30 +54,30 @@ class ContentViewArchive extends JViewLegacy
 			{
 				$item->parent_slug = null;
 			}
-                        
-                        $item->event = new stdClass;
 
-                        $dispatcher = JEventDispatcher::getInstance();
+			$item->event = new stdClass;
 
-                        // Old plugins: Ensure that text property is available
-                        if (!isset($item->text))
-                        {
-                                $item->text = $item->introtext;
-                        }
-                        JPluginHelper::importPlugin('content');
-                        $dispatcher->trigger('onContentPrepare', array ('com_content.archive', &$item, &$item->params, 0));
+			$dispatcher = JEventDispatcher::getInstance();
 
-                        // Old plugins: Use processed text as introtext
-                        $item->introtext = $item->text;
+			// Old plugins: Ensure that text property is available
+			if (!isset($item->text))
+			{
+				$item->text = $item->introtext;
+			}
+			JPluginHelper::importPlugin('content');
+			$dispatcher->trigger('onContentPrepare', array ('com_content.archive', &$item, &$item->params, 0));
 
-                        $results = $dispatcher->trigger('onContentAfterTitle', array('com_content.archive', &$item, &$item->params, 0));
-                        $item->event->afterDisplayTitle = trim(implode("\n", $results));
+			// Old plugins: Use processed text as introtext
+			$item->introtext = $item->text;
 
-                        $results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.archive', &$item, &$item->params, 0));
-                        $item->event->beforeDisplayContent = trim(implode("\n", $results));
+			$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.archive', &$item, &$item->params, 0));
+			$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-                        $results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.archive', &$item, &$item->params, 0));
-                        $item->event->afterDisplayContent = trim(implode("\n", $results));
+			$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.archive', &$item, &$item->params, 0));
+			$item->event->beforeDisplayContent = trim(implode("\n", $results));
+
+			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.archive', &$item, &$item->params, 0));
+			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
 		$form = new stdClass;
