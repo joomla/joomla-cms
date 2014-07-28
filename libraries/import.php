@@ -5,7 +5,7 @@
  *
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -51,12 +51,15 @@ JLoader::setup();
 // Import the base Joomla Platform libraries.
 JLoader::import('joomla.factory');
 
-// Register classes for compatability with PHP 5.3
-if (version_compare(PHP_VERSION, '5.4.0', '<'))
+// Check if the JsonSerializable interface exists already
+if (!interface_exists('JsonSerializable'))
 {
-	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/compat/jsonserializable.php');
+	JLoader::register('JsonSerializable', __DIR__ . '/compat/jsonserializable.php');
 }
 
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
+
+// Register the PasswordHash lib
+JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');

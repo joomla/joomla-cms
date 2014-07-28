@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,6 @@ class SearchViewSearch extends JViewLegacy
 
 		$app     = JFactory::getApplication();
 		$uri     = JUri::getInstance();
-
 		$error   = null;
 		$rows    = null;
 		$results = null;
@@ -64,13 +63,13 @@ class SearchViewSearch extends JViewLegacy
 
 		$title = $params->get('page_title');
 
-		if ($app->getCfg('sitename_pagetitles', 0) == 1)
+		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -172,7 +171,8 @@ class SearchViewSearch extends JViewLegacy
 					{
 						if (($pos = mb_strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
 						{
-							$pos += $cnt++ * mb_strlen($hl1 . $hl2);
+							$pos += $cnt * mb_strlen($hl1 . $hl2);
+							$cnt++;
 
 							// iconv transliterates '€' to 'EUR'
 							// TODO: add other expanding translations?
@@ -185,7 +185,8 @@ class SearchViewSearch extends JViewLegacy
 					{
 						if (($pos = JString::strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
 						{
-							$pos += $cnt++ * JString::strlen($hl1 . $hl2);
+							$pos += $cnt * JString::strlen($hl1 . $hl2);
+							$cnt++;
 
 							// iconv transliterates '€' to 'EUR'
 							// TODO: add other expanding translations?

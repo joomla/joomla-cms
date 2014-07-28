@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,7 +61,7 @@ foreach ($fields as $field)
 				$form->setFieldAttribute($f, 'type', 'hidden');
 			}
 
-			$html[] = $form->getControlGroup($f);
+			$html[] = $form->renderField($f);
 			break;
 		}
 	}

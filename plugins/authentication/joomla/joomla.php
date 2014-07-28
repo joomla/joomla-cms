@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.joomla
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -191,7 +191,7 @@ class PlgAuthenticationJoomla extends JPlugin
 						 */
 						return false;
 					}
-					}
+				}
 
 				// Clean up the OTEP (remove dashes, spaces and other funny stuff
 				// our beloved users may have unwittingly stuffed in it)

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,7 +45,14 @@ abstract class JInstallerHelper
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
+
+		// Load installer plugins, and allow url and headers modification
+		$headers = array();
+		JPluginHelper::importPlugin('installer');
+		$dispatcher = JEventDispatcher::getInstance();
+		$results = $dispatcher->trigger('onInstallerBeforePackageDownload', array(&$url, &$headers));
+
+		$response = $http->get($url, $headers);
 
 		if (302 == $response->code && isset($response->headers['Location']))
 		{
@@ -58,10 +65,11 @@ abstract class JInstallerHelper
 			return false;
 		}
 
-		if (isset($response->headers['Content-Disposition']))
+		// Parse the Content-Disposition header to get the file name
+		if (isset($response->headers['Content-Disposition'])
+			&& preg_match("/\s*filename\s?=\s?(.*)/", $response->headers['Content-Disposition'], $parts))
 		{
-			$contentfilename = explode("\"", $response->headers['Content-Disposition']);
-			$target = $contentfilename[1];
+			$target = trim($parts[1], '"');
 		}
 
 		// Set the target path if not given
@@ -122,6 +130,7 @@ abstract class JInstallerHelper
 				$retval['extractdir'] = null;
 				$retval['packagefile'] = $archivename;
 				$retval['type'] = false;
+
 				return $retval;
 			}
 
@@ -243,6 +252,7 @@ abstract class JInstallerHelper
 
 			return $parts[count($parts) - 1];
 		}
+
 		return false;
 	}
 

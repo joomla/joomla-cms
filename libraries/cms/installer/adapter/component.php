@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -145,6 +145,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 				$source = $path . '/' . $folder;
 			}
 		}
+
 		$lang->load($extension . '.sys', $source, null, false, true) || $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true);
 	}
 
@@ -251,6 +252,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 						JLog::WARNING, 'jerror'
 					);
 				}
+
 				return false;
 			}
 		}
@@ -1514,8 +1516,8 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			}
 			// Rebuild the whole tree
 			$table->rebuild();
-
 		}
+
 		return true;
 	}
 
@@ -1586,6 +1588,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 				$results[] = $extension;
 			}
 		}
+
 		return $results;
 	}
 
@@ -1724,7 +1727,6 @@ class JInstallerAdapterComponent extends JAdapterInstance
 
 		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight'))
 		{
-
 			if ($this->parent->manifestClass->preflight('discover_install', $this) === false)
 			{
 				// Install failed, rollback changes
@@ -1780,6 +1782,12 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			// @todo remove code: return false;
 		}
 
+		// Set the schema version to be the latest update version
+		if ($this->manifest->update)
+		{
+			$this->parent->setSchemaVersion($this->manifest->update->schemas, $this->parent->extension->extension_id);
+		}
+
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Custom Installation Script Section
@@ -1796,7 +1804,6 @@ class JInstallerAdapterComponent extends JAdapterInstance
 
 		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'install'))
 		{
-
 			if ($this->parent->manifestClass->install($this) === false)
 			{
 				// Install failed, rollback changes

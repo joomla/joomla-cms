@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -127,7 +127,7 @@ class JFormFieldCheckboxes extends JFormField
 		$html = array();
 
 		// Initialize some field attributes.
-		$class          = !empty($this->class) ? ' class=checkboxes "' . $this->class . '"' : ' class="checkboxes"';
+		$class          = !empty($this->class) ? ' class="checkboxes ' . $this->class . '"' : ' class="checkboxes"';
 		$checkedOptions = explode(',', (string) $this->checkedOptions);
 		$required       = $this->required ? ' required aria-required="true"' : '';
 		$autofocus      = $this->autofocus ? ' autofocus' : '';

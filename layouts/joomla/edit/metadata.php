@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,16 +24,16 @@ $fieldSets = $form->getFieldsets('metadata');
 	// Include the real fields in this panel.
 	if ($name == 'jmetadata')
 	{
-		echo $form->getControlGroup('metadesc');
-		echo $form->getControlGroup('metakey');
-		echo $form->getControlGroup('xreference');
+		echo $form->renderField('metadesc');
+		echo $form->renderField('metakey');
+		echo $form->renderField('xreference');
 	}
 
 	foreach ($form->getFieldset($name) as $field)
 	{
 		if ($field->name != 'jform[metadata][tags][]')
 		{
-			echo $field->getControlGroup();
+			echo $field->renderField();
 		}
 	} ?>
 <?php endforeach; ?>
