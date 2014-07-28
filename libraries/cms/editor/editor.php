@@ -256,7 +256,7 @@ class JEditor extends JObject
 		}
 
 		$document = JFactory::getDocument();
-		
+
 		if (method_exists($document, "addCustomTag"))
 		{
 			$document->addCustomTag($return);
