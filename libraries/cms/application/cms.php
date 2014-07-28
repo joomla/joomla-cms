@@ -230,7 +230,7 @@ class JApplicationCms extends JApplicationWeb
 		{
 			return;
 		}
-		
+
 		// For empty queue, if messages exists in the session, enqueue them first.
 		$this->getMessageQueue();
 
@@ -278,10 +278,11 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * If the user is required to reset their password will be redirected to the page that manage the password reset.
 	 *
-	 * @param   string $option The option that manage the password reset
-	 * @param   string $view The view that manage the password reset
-	 * @param   string $layout The layout of the view that manage the password reset
-	 * @param   string $tasks Permitted tasks
+	 * @param   string $option  The option that manage the password reset
+	 * @param   string $view    The view that manage the password reset
+	 * @param   string $layout  The layout of the view that manage the password reset
+	 * @param   string $tasks   Permitted tasks
+	 *
 	 */
 	protected function checkUserRequireReset($option, $view, $layout, $tasks)
 	{
@@ -313,6 +314,7 @@ class JApplicationCms extends JApplicationWeb
 			else
 			{
 				$task = $this->input->getCmd('task', '');
+
 				// Empty task are always permitted
 				if (!empty($task) && array_search($task, $tasks) === false)
 				{

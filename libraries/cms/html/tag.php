@@ -165,8 +165,8 @@ abstract class JHtmlTag
 	{
 
 		// Get the component parameters
- 		$params = JComponentHelper::getParams("com_tags");
- 		$minTermLength = (int) $params->get("min_term_length");
+		$params = JComponentHelper::getParams("com_tags");
+		$minTermLength = (int) $params->get("min_term_length");
 
 		// Tags field ajax
 		$chosenAjaxSettings = new JRegistry(
@@ -194,7 +194,7 @@ abstract class JHtmlTag
 						$('" . $selector . "_chzn input').keyup(function(event) {
 
 							// Tag is greater than 3 chars and enter pressed
-							if (this.value.length >= ".$minTermLength." && (event.which === 13 || event.which === 188)) {
+							if (this.value.length >= " . $minTermLength . " && (event.which === 13 || event.which === 188)) {
 
 								// Search an highlighted result
 								var highlighted = $('" . $selector . "_chzn').find('li.active-result.highlighted').first();
