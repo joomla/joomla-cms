@@ -970,7 +970,7 @@
           high.removeClass("active-result");
         } else {
           if (this.result_single_selected) {
-            this.result_single_selected.removeClass("result-selected");
+            this.dropdown.find(".chzn-results").children().removeClass("result-selected");
             selected_index = this.result_single_selected[0].getAttribute('data-option-array-index');
             this.results_data[selected_index].selected = false;
           }
@@ -982,8 +982,19 @@
         this.form_field.options[item.options_index].selected = true;
         this.selected_option_count = null;
         if (this.is_multiple) {
+          $(this.form_field.options[item.options_index]).attr("selected','selected").prop("selected", true);
           this.choice_build(item);
         } else {
+          $.map(this.form_field.options, function(el,idx) {
+             if (idx != item.options_index)
+             {
+                $(el).removeAttr("selected").prop("selected", false);
+             }
+             else
+             {
+                $(el).attr("selected","selected").prop("selected", true);
+             }
+          });
           this.single_set_selected_text(item.text);
         }
         if (!((evt.metaKey || evt.ctrlKey) && this.is_multiple)) {
@@ -1058,7 +1069,8 @@
       result_data = this.results_data[pos];
       if (!this.form_field.options[result_data.options_index].disabled) {
         result_data.selected = false;
-        this.form_field.options[result_data.options_index].selected = false;
+        $(this.form_field.options[result_data.options_index]).removeAttr("selected").prop("selected",false);
+        this.dropdown.find(".chzn-results").find('[data-option-array-index="' + pos + '"]').removeClass("result-selected");
         this.selected_option_count = null;
         this.result_clear_highlight();
         if (this.results_showing) {
