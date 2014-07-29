@@ -592,7 +592,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			$onload = "function() {";
 			$onload .= 'var script = document.createElement("script");';
 			$onload .= 'script.type = "text/javascript";';
-			$onload .= "script.src = " . $this->buildJavascriptSrc($scheme, $key, $sensor, $asynccallback) . ";";
+			$onload .= "script.src = '" . $this->buildJavascriptSrc($scheme, $key, $sensor, $asynccallback) . "';";
 			$onload .= 'document.body.appendChild(script);';
 			$onload .= '}';
 		}
