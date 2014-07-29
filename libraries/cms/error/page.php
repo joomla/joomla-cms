@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Displays the custom error page when an uncaught exception occurs.
@@ -78,7 +78,7 @@ class JErrorPage
 		}
 		catch (Exception $e)
 		{
-			exit('Error displaying the error page: ' . $e->getMessage());
+			exit('Error displaying the error page: ' . $e->getMessage() . ': ' . $error->getMessage());
 		}
 	}
 }

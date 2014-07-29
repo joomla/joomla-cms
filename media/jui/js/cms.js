@@ -27,9 +27,9 @@ if (jQuery) {
 				$('[rel=\"showon_'+target+'\"]').each(function(){
 					var i = jQuery(this);
 					if (i.hasClass('showon_' + v))
-						i.show();
+						i.slideDown();
 					else
-						i.hide();
+						i.slideUp();
 				});
 			};
 		$('[rel^=\"showon_\"]').each(function(){

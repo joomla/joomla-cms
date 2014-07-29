@@ -16,22 +16,15 @@ JHtml::_('bootstrap.tooltip');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
-<div id="installer-update">
+<div id="installer-update" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=update');?>" method="post" name="adminForm" id="adminForm">
-	<?php if (!empty($this->sidebar)) : ?>
-		<div id="j-sidebar-container" class="span2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div id="j-main-container" class="span10">
-	<?php else : ?>
-		<div id="j-main-container">
-	<?php endif; ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
 
 	<?php if ($this->showMessage) : ?>
-		<div class="alert alert-info">
-			<a class="close" data-dismiss="alert" href="#">&times;</a>
-			<?php echo $this->loadTemplate('message'); ?>
-		</div>
+		<?php echo $this->loadTemplate('message'); ?>
 	<?php endif; ?>
 
 	<?php if ($this->ftp) : ?>

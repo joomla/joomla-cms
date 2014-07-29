@@ -140,6 +140,18 @@ abstract class JModuleHelper
 	{
 		static $chrome;
 
+		// Check that $module is a valid module object
+		if (!is_object($module) || !isset($module->module) || !isset($module->params))
+		{
+			if (defined('JDEBUG') && JDEBUG)
+			{
+				JLog::addLogger(array('text_file' => 'jmodulehelper.log.php'), JLog::ALL, array('modulehelper'));
+				JLog::add('JModuleHelper::renderModule($module) expects a module object', JLog::DEBUG, 'modulehelper');
+			}
+
+			return;
+		}
+
 		if (defined('JDEBUG'))
 		{
 			JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');

@@ -16,7 +16,7 @@ jimport('joomla.language.help');
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_ADMIN_SEARCH'); ?></legend>
 		<input class="textarea" type="hidden" name="option" value="com_admin" />
-		<input type="text" name="helpsearch" size="40"  value="<?php echo $this->escape($this->help_search);?>" class="inputbox" />
+		<input type="text" name="helpsearch" size="40"  value="<?php echo $this->escape($this->help_search);?>" />
 		<input type="submit" value="<?php echo JText::_('COM_ADMIN_GO'); ?>" class="button" />
 		<input type="button" value="<?php echo JText::_('COM_ADMIN_CLEAR_RESULTS'); ?>" class="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" />
 	</fieldset>

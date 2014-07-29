@@ -72,7 +72,7 @@ class TemplatesViewStyles extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = TemplatesHelper::getActions();
+		$canDo = JHelperContent::getActions('com_templates');
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'eye thememanager');
 

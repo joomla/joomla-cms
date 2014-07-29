@@ -34,28 +34,22 @@ abstract class ModulesHelper
 	 * @param   integer  The module ID.
 	 *
 	 * @return  JObject
+	 *
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions($moduleId = 0)
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
+		// Get list of actions
 		if (empty($moduleId))
 		{
-			$assetName = 'com_modules';
+			$result = JHelperContent::getActions('com_modules');
 		}
 		else
 		{
-			$assetName = 'com_modules.module.'.(int) $moduleId;
-		}
-
-		$actions = JAccess::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/com_modules/access.xml', "/access/section[@name='component']/"
-		);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
+			$result = JHelperContent::getActions('com_modules', 'module', $moduleId);
 		}
 
 		return $result;

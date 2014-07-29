@@ -48,10 +48,10 @@ class CacheModelCache extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$clientId = $this->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', 0, 'int');
+		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', 0, 'int');
 		$this->setState('clientId', $clientId == 1 ? 1 : 0);
 
-		$client	= JApplicationHelper::getClientInfo($clientId);
+		$client = JApplicationHelper::getClientInfo($clientId);
 		$this->setState('client', $client);
 
 		parent::populateState('group', 'asc');
@@ -67,7 +67,7 @@ class CacheModelCache extends JModelList
 		if (empty($this->_data))
 		{
 			$cache = $this->getCache();
-			$data  = $cache->getAll();
+			$data = $cache->getAll();
 
 			if ($data != false)
 			{
@@ -77,8 +77,8 @@ class CacheModelCache extends JModelList
 				if ($this->_total)
 				{
 					// Apply custom ordering
-					$ordering 	= $this->getState('list.ordering');
-					$direction 	= ($this->getState('list.direction') == 'asc') ? 1 : -1;
+					$ordering = $this->getState('list.ordering');
+					$direction = ($this->getState('list.direction') == 'asc') ? 1 : -1;
 
 					jimport('joomla.utilities.arrayhelper');
 					$this->_data = JArrayHelper::sortObjects($data, $ordering, $direction);
@@ -89,7 +89,9 @@ class CacheModelCache extends JModelList
 						$this->_data = array_slice($this->_data, $this->getState('list.start'), $this->getState('list.limit'));
 					}
 				}
-			} else {
+			}
+			else
+			{
 				$this->_data = array();
 			}
 		}

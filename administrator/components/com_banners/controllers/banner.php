@@ -43,7 +43,7 @@ class BannersControllerBanner extends JControllerForm
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow	= $user->authorise('core.create', $this->option . '.category.' . $categoryId);
+			$allow = $user->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -111,5 +111,4 @@ class BannersControllerBanner extends JControllerForm
 
 		return parent::batch($model);
 	}
-
 }

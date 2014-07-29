@@ -70,6 +70,7 @@ class PlgExtensionJoomla extends JPlugin
 				->columns(array($db->quoteName('name'), $db->quoteName('type'), $db->quoteName('location'), $db->quoteName('enabled')))
 				->values($db->quote($name) . ', ' . $db->quote($type) . ', ' . $db->quote($location) . ', ' . (int) $enabled);
 			$db->setQuery($query);
+
 			if ($db->execute())
 			{
 				// Link up this extension to the update site
@@ -88,6 +89,7 @@ class PlgExtensionJoomla extends JPlugin
 				->where('extension_id = ' . $this->eid);
 			$db->setQuery($query);
 			$tmpid = (int) $db->loadResult();
+
 			if (!$tmpid)
 			{
 				// Link this extension to the relevant update site
@@ -187,13 +189,12 @@ class PlgExtensionJoomla extends JPlugin
 				// Note: this might wipe out the entire table if there are no extensions linked
 				$db->setQuery($updatesite_delete);
 				$db->execute();
-
 			}
 
 			// Last but not least we wipe out any pending updates for the extension
 			$query->clear()
 				->delete('#__updates')
-				->where('extension_id = '. $eid);
+				->where('extension_id = ' . $eid);
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -216,7 +217,7 @@ class PlgExtensionJoomla extends JPlugin
 			$this->installer = $installer;
 			$this->eid = $eid;
 
-			// handle any update sites
+			// Handle any update sites
 			$this->processUpdateSites();
 		}
 	}

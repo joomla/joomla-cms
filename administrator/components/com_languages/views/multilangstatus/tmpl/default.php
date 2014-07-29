@@ -64,6 +64,16 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 					</td>
 				</tr>
 			<?php endif; ?>
+			<?php if (!array_key_exists($contentlang->lang_code, $this->site_langs)) : ?>
+				<tr class="warning">
+					<td>
+						<i class="icon-pending"></i>
+					</td>
+					<td>
+						<?php echo JText::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_LANGUAGE_TAG', $contentlang->lang_code); ?>
+					</td>
+				</tr>
+			<?php endif; ?>
 		<?php endforeach; ?>
 		<?php if ($this->listUsersError) : ?>
 			<tr class="info">
@@ -145,13 +155,13 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<th>
 					<?php echo JText::_('JGRID_HEADING_LANGUAGE'); ?>
 				</th>
-				<th>
+				<th class="center">
 					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_SITE_LANG_PUBLISHED'); ?>
 				</th>
-				<th>
+				<th class="center">
 					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_PUBLISHED'); ?>
 				</th>
-				<th>
+				<th class="center">
 					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_PUBLISHED'); ?>
 				</th>
 			</tr>

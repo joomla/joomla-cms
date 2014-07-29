@@ -31,12 +31,13 @@ abstract class JHtmlFormbehavior
 	 *
 	 * @param   string  $selector  Class for Chosen elements.
 	 * @param   mixed   $debug     Is debugging mode on? [optional]
+	 * @param   array   $options   the possible Chosen options as name => value [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public static function chosen($selector = '.advancedSelect', $debug = null)
+	public static function chosen($selector = '.advancedSelect', $debug = null, $options = array())
 	{
 		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
@@ -46,11 +47,6 @@ abstract class JHtmlFormbehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		// Add chosen.jquery.js language strings
-		JText::script('JGLOBAL_SELECT_SOME_OPTIONS');
-		JText::script('JGLOBAL_SELECT_AN_OPTION');
-		JText::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
-
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
@@ -58,14 +54,21 @@ abstract class JHtmlFormbehavior
 			$debug  = (boolean) $config->get('debug');
 		}
 
+		// Default settings
+		$options['disable_search_threshold']  = isset($options['disable_search_threshold']) ? $options['disable_search_threshold'] : 10;
+		$options['allow_single_deselect']     = isset($options['allow_single_deselect']) ? $options['allow_single_deselect'] : true;
+		$options['placeholder_text_multiple'] = isset($options['placeholder_text_multiple']) ? $options['placeholder_text_multiple']: JText::_('JGLOBAL_SELECT_SOME_OPTIONS');
+		$options['placeholder_text_single']   = isset($options['placeholder_text_single']) ? $options['placeholder_text_single'] : JText::_('JGLOBAL_SELECT_AN_OPTION');
+		$options['no_results_text']           = isset($options['no_results_text']) ? $options['no_results_text'] : JText::_('JGLOBAL_SELECT_NO_RESULTS_MATCH');
+
+		// Options array to json options string
+		$options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
+
 		JHtml::_('script', 'jui/chosen.jquery.min.js', false, true, false, false, $debug);
 		JHtml::_('stylesheet', 'jui/chosen.css', false, true);
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
-					jQuery('" . $selector . "').chosen({
-						disable_search_threshold : 10,
-						allow_single_deselect : true
-					});
+					jQuery('" . $selector . "').chosen(" . $options_str . ");
 				});
 			"
 		);
@@ -108,6 +111,7 @@ abstract class JHtmlFormbehavior
 			{
 				return;
 			}
+
 			// Include jQuery
 			JHtml::_('jquery.framework');
 

@@ -35,6 +35,7 @@ class SearchViewSearches extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 		$this->enabled		= $this->state->params->get('enabled');
+		$this->canDo		= JHelperContent::getActions('com_search');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -54,7 +55,7 @@ class SearchViewSearches extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= SearchHelper::getActions();
+		$canDo	= $this->canDo;
 
 		JToolbarHelper::title(JText::_('COM_SEARCH_MANAGER_SEARCHES'), 'search');
 

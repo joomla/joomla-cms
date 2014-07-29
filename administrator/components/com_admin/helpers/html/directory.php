@@ -46,7 +46,7 @@ abstract class JHtmlDirectory
 	 *
 	 * @return  string	html code
 	 */
-	public static function message($dir, $message, $visible=true)
+	public static function message($dir, $message, $visible = true)
 	{
 		if ($visible)
 		{

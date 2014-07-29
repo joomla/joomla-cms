@@ -75,7 +75,7 @@ class LanguagesModelLanguages extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.title', 'asc');
+		parent::populateState('a.ordering', 'asc');
 	}
 
 	/**

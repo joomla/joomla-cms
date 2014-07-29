@@ -57,9 +57,7 @@ class MenusViewMenus extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/menus.php';
-
-		$canDo	= MenusHelper::getActions($this->state->get('filter.parent_id'));
+		$canDo	= JHelperContent::getActions('com_menus');
 
 		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_MENUS_TITLE'), 'list menumgr');
 

@@ -44,6 +44,7 @@ abstract class CategoryHelperAssociation
 			$helperClassname = ucfirst(substr($extension, 4)) . 'HelperRoute';
 
 			$associations = CategoriesHelper::getAssociations($id, $extension);
+
 			foreach ($associations as $tag => $item)
 			{
 				if (class_exists($helperClassname) && is_callable(array($helperClassname, 'getCategoryRoute')))

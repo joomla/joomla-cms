@@ -41,6 +41,6 @@ class JFormFieldBannerClient extends JFormFieldList
 	{
 		$options = BannersHelper::getClientOptions();
 
-		return  array_merge(parent::getOptions(), $options);
+		return array_merge(parent::getOptions(), $options);
 	}
 }

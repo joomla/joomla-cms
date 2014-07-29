@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class for tags
@@ -185,7 +185,7 @@ abstract class JHtmlTag
 						var customTagPrefix = '#new#';
 
 						// Method to add tags pressing enter
-						$('" . $selector . "_chzn input').keydown(function(event) {
+						$('" . $selector . "_chzn input').keyup(function(event) {
 
 							// Tag is greater than 3 chars and enter pressed
 							if (this.value.length >= 3 && (event.which === 13 || event.which === 188)) {

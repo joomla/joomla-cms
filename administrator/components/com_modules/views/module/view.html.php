@@ -32,7 +32,7 @@ class ModulesViewModule extends JViewLegacy
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
-		$this->canDo	= ModulesHelper::getActions($this->item->id);
+		$this->canDo	= JHelperContent::getActions('com_modules', 'module', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -57,7 +57,7 @@ class ModulesViewModule extends JViewLegacy
 		$user		= JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
-		$canDo		= ModulesHelper::getActions($this->item->id);
+		$canDo		= $this->canDo;
 
 		JToolbarHelper::title(JText::sprintf('COM_MODULES_MANAGER_MODULE', JText::_($this->item->module)), 'cube module');
 

@@ -39,10 +39,7 @@ class JFormFieldImageList extends JFormFieldFileList
 	protected function getOptions()
 	{
 		// Define the image file type filter.
-		$filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$|\.jpeg$|\.psd$|\.eps$';
-
-		// Set the form field element attribute for file type filter.
-		$this->element->addAttribute('filter', $filter);
+		$this->filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$|\.jpeg$|\.psd$|\.eps$';
 
 		// Get the field options.
 		return parent::getOptions();

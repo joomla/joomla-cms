@@ -52,19 +52,24 @@ class PlgContentJoomla extends JPlugin
 			return true;
 		}
 
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('sendEmail') . ' = 1');
+		$db->setQuery($query);
+		$users = (array) $db->loadColumn();
+
+		if (empty($users))
+		{
+			return true;
+		}
+
 		$user = JFactory::getUser();
 
 		// Messaging for new items
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
-
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-		->select($db->quoteName('id'))
-		->from($db->quoteName('#__users'))
-		->where($db->quoteName('sendEmail') . ' = 1');
-		$db->setQuery($query);
-		$users = (array) $db->loadColumn();
 
 		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
 		$debug = JFactory::getConfig()->get('debug_lang');

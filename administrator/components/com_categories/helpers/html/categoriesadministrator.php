@@ -12,8 +12,12 @@ defined('_JEXEC') or die;
 JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
 /**
+ * Administrator category HTML
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_categories
+ *
+ * @since       3.2
  */
 abstract class JHtmlCategoriesAdministrator
 {

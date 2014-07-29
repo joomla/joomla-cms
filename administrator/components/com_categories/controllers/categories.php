@@ -23,6 +23,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 *
 	 * @param   string  $name    The model name. Optional.
 	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  The array of possible config values. Optional.
 	 *
 	 * @return  object  The model.
 	 *
@@ -31,6 +32,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	public function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 
@@ -54,12 +56,14 @@ class CategoriesControllerCategories extends JControllerAdmin
 		{
 			// Rebuild succeeded.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_SUCCESS'));
+
 			return true;
 		}
 		else
 		{
 			// Rebuild failed.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
+
 			return false;
 		}
 	}
@@ -67,13 +71,17 @@ class CategoriesControllerCategories extends JControllerAdmin
 	/**
 	 * Save the manual order inputs from the categories list page.
 	 *
-	 * @return  void
+	 * @return      void
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @see         JControllerAdmin::saveorder()
+	 * @deprecated  4.0
 	 */
 	public function saveorder()
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		JLog::add('CategoriesControllerCategories::saveorder() is deprecated. Function will be removed in 4.0', JLog::WARNING, 'deprecated');
 
 		// Get the arrays from the Request
 		$order = $this->input->post->get('order', null, 'array');
@@ -88,6 +96,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 		{
 			// Nothing to reorder
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+
 			return true;
 		}
 	}

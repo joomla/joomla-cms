@@ -54,7 +54,7 @@ class LanguagesViewOverride extends JViewLegacy
 	public function display($tpl = null)
 	{
 		JHtml::_('stylesheet', 'overrider/overrider.css', array(), true);
-		JHtml::_('behavior.framework');
+		JHtml::_('behavior.framework', true);
 		JHtml::_('script', 'overrider/overrider.js', false, true);
 
 		$this->form  = $this->get('Form');
@@ -93,7 +93,7 @@ class LanguagesViewOverride extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$canDo	= LanguagesHelper::getActions();
+		$canDo	= JHelperContent::getActions('com_languages');
 
 		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'comments-2 langmanager');
 

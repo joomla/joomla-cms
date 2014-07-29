@@ -14,7 +14,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 $user = JFactory::getUser();
-$canDo = TemplatesHelper::getActions();
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -76,7 +75,7 @@ $canDo = TemplatesHelper::getActions();
 	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 	<?php if ($user->authorise('core.edit', 'com_menu') && $this->item->client_id == 0):?>
-		<?php if ($canDo->get('core.edit.state')) : ?>
+		<?php if ($this->canDo->get('core.edit.state')) : ?>
 			<div class="width-60 fltlft">
 			<?php echo $this->loadTemplate('assignment'); ?>
 			</div>

@@ -28,7 +28,7 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories&layout=modal&tmpl=component&function='.$function.'&'.JSession::getFormToken().'=1');?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories&layout=modal&tmpl=component&function=' . $function . '&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filter clearfix">
 		<div class="btn-toolbar">
 			<div class="btn-group pull-left">
@@ -50,23 +50,23 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<hr class="hr-condensed" />
 		<div class="filters pull-left">
 			<select name="filter_access" class="input-medium" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access')); ?>
 			</select>
 
 			<select name="filter_published" class="input-medium" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true); ?>
 			</select>
 
 			<?php if ($this->state->get('filter.forcedLanguage')) : ?>
-			<input type="hidden" name="forcedLanguage" value="<?php echo $this->escape($this->state->get('filter.forcedLanguage')); ?>" />
-			<input type="hidden" name="filter_language" value="<?php echo $this->escape($this->state->get('filter.language')); ?>" />
+				<input type="hidden" name="forcedLanguage" value="<?php echo $this->escape($this->state->get('filter.forcedLanguage')); ?>" />
+				<input type="hidden" name="filter_language" value="<?php echo $this->escape($this->state->get('filter.language')); ?>" />
 			<?php else : ?>
-			<select name="filter_language" class="input-medium" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
-			</select>
+				<select name="filter_language" class="input-medium" onchange="this.form.submit()">
+					<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?></option>
+					<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language')); ?>
+				</select>
 			<?php endif; ?>
 		</div>
 	</fieldset>
@@ -74,15 +74,23 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<table class="table table-striped" id="categoryList">
 		<thead>
 			<tr>
-			<th>
-				<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
-			</th>
-			<th width="10%" class="nowrap hidden-phone">
-				<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-			</th>
-			<th width="5%" class="nowrap hidden-phone">
-				<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-			</th>
+				<th>
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+				</th>
+				<th width="10%" class="nowrap hidden-phone">
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+				</th>
+				<th width="5%" class="nowrap hidden-phone">
+					<?php
+					echo JHtml::_(
+						'grid.sort',
+						'JGRID_HEADING_LANGUAGE',
+						'language',
+						$this->state->get('list.direction'),
+						$this->state->get('list.ordering')
+					);
+					?>
+				</th>
 				<th width="1%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
@@ -108,7 +116,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					{
 						$lang = substr($item->language, 0, 3);
 					}
-					else {
+					else
+					{
 						$lang = "";
 					}
 				}
@@ -120,7 +129,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<tr class="row<?php echo $i % 2; ?>">
 					<td>
 						<?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1) ?>
-						<a href="javascript:void()" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
+						<a href="javascript:void()" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
 							<?php echo $this->escape($item->title); ?>
 						</a>
 					</td>
@@ -128,11 +137,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="center nowrap">
-						<?php if ($item->language == '*'):?>
+						<?php if ($item->language == '*'): ?>
 							<?php echo JText::alt('JALL', 'language'); ?>
-						<?php else:?>
+						<?php else: ?>
 							<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-						<?php endif;?>
+						<?php endif; ?>
 					</td>
 					<td class="center hidden-phone">
 						<?php echo (int) $item->id; ?></span>

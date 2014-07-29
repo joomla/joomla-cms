@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 ?>
 <form
-	action="<?php echo JRoute::_('index.php?option=com_banners&task=tracks.display&format=raw');?>"
+	action="<?php echo JRoute::_('index.php?option=com_banners&task=tracks.display&format=raw'); ?>"
 	method="post"
 	name="adminForm"
 	id="download-form"
 	class="form-validate">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_BANNERS_TRACKS_DOWNLOAD');?></legend>
+		<legend><?php echo JText::_('COM_BANNERS_TRACKS_DOWNLOAD'); ?></legend>
 
 		<?php foreach ($this->form->getFieldset() as $field) : ?>
 			<?php if (!$field->hidden) : ?>
@@ -25,8 +25,8 @@ defined('_JEXEC') or die;
 			<?php echo $field->input; ?>
 		<?php endforeach; ?>
 		<div class="clr"></div>
-		<button type="button" class="btn" onclick="this.form.submit();window.top.setTimeout('window.parent.SqueezeBox.close()', 700);"><?php echo JText::_('COM_BANNERS_TRACKS_EXPORT');?></button>
-		<button type="button" class="btn" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('COM_BANNERS_CANCEL');?></button>
+		<button type="button" class="btn" onclick="this.form.submit();window.top.setTimeout('window.parent.SqueezeBox.close()', 700);"><?php echo JText::_('COM_BANNERS_TRACKS_EXPORT'); ?></button>
+		<button type="button" class="btn" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('COM_BANNERS_CANCEL'); ?></button>
 
 	</fieldset>
 </form>

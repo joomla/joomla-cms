@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Joomla! P3P Header Plugin
+ * Joomla! P3P Header Plugin.
  *
  * @package     Joomla.Plugin
  * @subpackage  System.p3p
@@ -18,20 +18,26 @@ defined('_JEXEC') or die;
  */
 class PlgSystemP3p extends JPlugin
 {
-	/*
+	/**
+	 * After initialise.
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function onAfterInitialise()
 	{
-		// Get the header
+		// Get the header.
 		$header = $this->params->get('header', 'NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM');
 		$header = trim($header);
-		// Bail out on empty header (why would anyone do that?!)
+
+		// Bail out on empty header (why would anyone do that?!).
 		if ( empty($header) )
 		{
 			return;
 		}
-		// Replace any existing P3P headers in the response
-		JFactory::getApplication()->setHeader('P3P', 'CP="'.$header.'"', true);
+
+		// Replace any existing P3P headers in the response.
+		JFactory::getApplication()->setHeader('P3P', 'CP="' . $header . '"', true);
 	}
 }

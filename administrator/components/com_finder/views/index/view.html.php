@@ -66,7 +66,7 @@ class FinderViewIndex extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= FinderHelper::getActions();
+		$canDo	= JHelperContent::getActions('com_finder');
 
 		JToolbarHelper::title(JText::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'zoom-in finder');
 

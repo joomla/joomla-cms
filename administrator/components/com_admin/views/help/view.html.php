@@ -62,6 +62,7 @@ class AdminViewHelp extends JViewLegacy
 		$this->addToolbar();
 		parent::display($tpl);
 	}
+
 	/**
 	 * Setup the Toolbar
 	 *

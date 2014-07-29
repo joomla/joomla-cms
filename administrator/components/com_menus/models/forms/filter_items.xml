@@ -89,7 +89,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="inputbox input-mini"
+			class="input-mini"
 			default="25"
 			label="COM_MENUS_LIST_LIMIT"
 			description="COM_MENUS_LIST_LIMIT_DESC"

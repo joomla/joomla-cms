@@ -76,7 +76,7 @@ class InstallerViewManage extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= InstallerHelper::getActions();
+		$canDo	= JHelperContent::getActions('com_installer');
 		if ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::publish('manage.publish', 'JTOOLBAR_ENABLE', true);

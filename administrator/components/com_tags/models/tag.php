@@ -84,7 +84,7 @@ class TagsModelTag extends JModelAdmin
 	/**
 	 * Auto-populate the model state.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
+	 * @note Calling getState in this method will result in recursion.
 	 *
 	 * @return  void
 	 *
@@ -142,7 +142,7 @@ class TagsModelTag extends JModelAdmin
 			$result->urls = $registry->toArray();
 
 			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
+			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
 
 			if ((int) $result->created_time)
 			{
@@ -260,10 +260,10 @@ class TagsModelTag extends JModelAdmin
 	public function save($data)
 	{
 		$dispatcher = JEventDispatcher::getInstance();
-		$table = $this->getTable();
-		$input = JFactory::getApplication()->input;
-		$pk = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
-		$isNew = true;
+		$table      = $this->getTable();
+		$input      = JFactory::getApplication()->input;
+		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
+		$isNew      = true;
 
 		// Include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
@@ -299,8 +299,8 @@ class TagsModelTag extends JModelAdmin
 		if ($input->get('task') == 'save2copy')
 		{
 			list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-			$data['title'] = $title;
-			$data['alias'] = $alias;
+			$data['title']       = $title;
+			$data['alias']       = $alias;
 		}
 
 		// Bind the data.
@@ -433,6 +433,7 @@ class TagsModelTag extends JModelAdmin
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
 		{
 			$title = ($table->title != $title) ? $title : JString::increment($title);

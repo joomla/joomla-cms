@@ -49,8 +49,21 @@ class MenusControllerMenu extends JControllerForm
 		$recordId = $this->input->getInt('id');
 
 		// Make sure we are not trying to modify an administrator menu.
-		if (isset($data['client_id']) && $data['client_id'] == 1){
+		if (isset($data['client_id']) && $data['client_id'] == 1)
+		{
 			JError::raiseNotice(0, JText::_('COM_MENUS_MENU_TYPE_NOT_ALLOWED'));
+
+			// Redirect back to the edit screen.
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
+
+			return false;
+		}
+
+		// Prevent using 'menu' or 'main' as menutype as this is reserved for back-end menus
+		if (strtolower($data['menutype']) == 'menu' || strtolower($data['menutype']) == 'main')
+		{
+			$msg = JText::_('COM_MENUS_ERROR_MENUTYPE');
+			JFactory::getApplication()->enqueueMessage($msg, 'error');
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));

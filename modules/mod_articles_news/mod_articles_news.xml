@@ -142,7 +142,21 @@
 					<option
 						value="a.ordering">MOD_ARTICLES_NEWS_FIELD_ORDERING_ORDERING</option>
 					<option
+						value="a.hits">JGLOBAL_HITS</option>
+					<option
 						value="rand()">MOD_ARTICLES_NEWS_FIELD_ORDERING_RANDOM</option>
+				</field>
+
+				<field
+					name="direction"
+					type="list"
+					default="1"
+					label="JGLOBAL_ORDER_DIRECTION_LABEL"
+					description="JGLOBAL_ORDER_DIRECTION_DESC">
+					<option
+						value="0">JGLOBAL_ORDER_ASCENDING</option>
+					<option
+						value="1">JGLOBAL_ORDER_DESCENDING</option>
 				</field>
 
 			</fieldset>

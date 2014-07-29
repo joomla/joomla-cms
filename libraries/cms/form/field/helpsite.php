@@ -59,7 +59,14 @@ class JFormFieldHelpsite extends JFormFieldList
 		);
 
 		$html = parent::getInput();
-		$button = '<button type="button" class="btn btn-small" id="helpsite-refresh" rel="' . $this->id . '"><span>' . JText::_('JGLOBAL_HELPREFRESH_BUTTON') . '</span></button>';
+		$button = '<button
+						type="button"
+						class="btn btn-small"
+						id="helpsite-refresh"
+						rel="' . $this->id . '"
+					>
+					<span>' . JText::_('JGLOBAL_HELPREFRESH_BUTTON') . '</span>
+					</button>';
 
 		return $html . $button;
 	}

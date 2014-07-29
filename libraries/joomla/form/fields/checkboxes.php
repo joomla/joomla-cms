@@ -127,7 +127,7 @@ class JFormFieldCheckboxes extends JFormField
 		$html = array();
 
 		// Initialize some field attributes.
-		$class          = !empty($this->class) ? ' class=checkboxes "' . $this->class . '"' : ' class="checkboxes"';
+		$class          = !empty($this->class) ? ' class="checkboxes ' . $this->class . '"' : ' class="checkboxes"';
 		$checkedOptions = explode(',', (string) $this->checkedOptions);
 		$required       = $this->required ? ' required aria-required="true"' : '';
 		$autofocus      = $this->autofocus ? ' autofocus' : '';

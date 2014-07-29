@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_config
  * @since       3.2
-*/
+ */
 class ConfigControllerApplicationRefreshhelp extends JControllerBase
 {
 	/**

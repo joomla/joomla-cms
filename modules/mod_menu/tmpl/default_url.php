@@ -10,16 +10,20 @@
 defined('_JEXEC') or die;
 
 // Note. It is important to remove spaces between elements.
-$class = $item->anchor_css ? 'class="'.$item->anchor_css.'" ' : '';
-$title = $item->anchor_title ? 'title="'.$item->anchor_title.'" ' : '';
+$class = $item->anchor_css ? 'class="' . $item->anchor_css . '" ' : '';
+$title = $item->anchor_title ? 'title="' . $item->anchor_title . '" ' : '';
+
 if ($item->menu_image)
 	{
 		$item->params->get('menu_text', 1) ?
-		$linktype = '<img src="'.$item->menu_image.'" alt="'.$item->title.'" /><span class="image-title">'.$item->title.'</span> ' :
-		$linktype = '<img src="'.$item->menu_image.'" alt="'.$item->title.'" />';
+		$linktype = '<img src="' . $item->menu_image . '" alt="' . $item->title . '" /><span class="image-title">' . $item->title . '</span> ' :
+		$linktype = '<img src="' . $item->menu_image . '" alt="' . $item->title . '" />';
 }
-else { $linktype = $item->title;
+else
+{
+	$linktype = $item->title;
 }
+
 $flink = $item->flink;
 $flink = JFilterOutput::ampReplace(htmlspecialchars($flink));
 
