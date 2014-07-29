@@ -144,6 +144,14 @@ class JControllerLegacy extends JObject
 	protected static $instance;
 
 	/**
+	 * Instance container containing the views.
+	 *
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected static $views;
+
+	/**
 	 * Adds to the stack of model paths in LIFO order.
 	 *
 	 * @param   mixed   $path    The directory (string), or list of directories (array) to add.
@@ -833,11 +841,10 @@ class JControllerLegacy extends JObject
 	 */
 	public function getView($name = '', $type = '', $prefix = '', $config = array())
 	{
-		static $views;
-
-		if (!isset($views))
+		// @note We use self so we only access stuff in this class rather than in all classes.
+		if (!isset(self::$views))
 		{
-			$views = array();
+			self::$views = array();
 		}
 
 		if (empty($name))
@@ -850,11 +857,11 @@ class JControllerLegacy extends JObject
 			$prefix = $this->getName() . 'View';
 		}
 
-		if (empty($views[$name]))
+		if (empty(self::$views[$name][$type][$prefix]))
 		{
 			if ($view = $this->createView($name, $prefix, $type, $config))
 			{
-				$views[$name] = & $view;
+				self::$views[$name][$type][$prefix] = & $view;
 			}
 			else
 			{
@@ -878,7 +885,7 @@ class JControllerLegacy extends JObject
 			}
 		}
 
-		return $views[$name];
+		return self::$views[$name][$type][$prefix];
 	}
 
 	/**

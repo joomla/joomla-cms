@@ -77,9 +77,9 @@ class PlgSystemSef extends JPlugin
 		$this->checkBuffer($buffer);
 
 		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
-		$protocols = '[a-zA-Z0-9]+:';
-		$regex     = '#(src|href|poster)="(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
-		$buffer    = preg_replace($regex, "$1=\"$base\$2\"", $buffer);
+		$protocols = '[a-zA-Z0-9\-]+:';
+		$regex     = '#\s+(src|href|poster)="(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+		$buffer    = preg_replace($regex, " $1=\"$base\$2\"", $buffer);
 		$this->checkBuffer($buffer);
 
 		$regex  = '#(onclick="window.open\(\')(?!/|' . $protocols . '|\#)([^/]+[^\']*?\')#m';

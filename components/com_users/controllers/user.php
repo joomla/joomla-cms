@@ -65,7 +65,7 @@ class UsersControllerUser extends UsersController
 		if (true === $app->login($credentials, $options))
 		{
 			// Success
-			if ($options['remember'] = true)
+			if ($options['remember'] == true)
 			{
 				$app->setUserState('rememberLogin', true);
 			}

@@ -1702,6 +1702,16 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 		if ($query instanceof JDatabaseQueryLimitable)
 		{
+			if (!$limit && $query->limit)
+			{
+				$limit = $query->limit;
+			}
+
+			if (!$offset && $query->offset)
+			{
+				$offset = $query->offset;
+			}
+
 			$query->setLimit($limit, $offset);
 		}
 		else

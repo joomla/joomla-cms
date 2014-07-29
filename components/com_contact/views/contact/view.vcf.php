@@ -38,7 +38,7 @@ class ContactViewContact extends JViewLegacy
 			return false;
 		}
 
-		JFactory::getDocument()->setMetaData('Content-Type', 'text/directory', true);
+		JFactory::getDocument()->setMimeEncoding('text/directory', true);
 
 		// Compute lastname, firstname and middlename
 		$item->name = trim($item->name);
