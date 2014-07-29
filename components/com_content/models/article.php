@@ -82,7 +82,7 @@ class ContentModelArticle extends JModelItem
 		if (!isset($this->_item[$pk]))
 		{
 			try
-			{	
+			{
 				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select(
@@ -268,9 +268,7 @@ class ContentModelArticle extends JModelItem
 	 */
 	public function hit($pk = 0)
 	{
-		$params = JFactory::getApplication()->getParams();
-		
-		if(!$params->get('hitcounter', 1))
+		if(!$this->getState('params')->get('hitcounter', 1))
 		{
 			return true;
 		}
