@@ -42,10 +42,9 @@ abstract class JHtmlAccess
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName('a.id', 'value') . ', ' . $db->quoteName('a.title', 'text'))
-			->from($db->quoteName('#__viewlevels', 'a'))
-			->group($db->quoteName(array('a.id', 'a.title', 'a.ordering')))
-			->order($db->quoteName('a.ordering') . ' ASC')
+			->select('DISTINCT a.id AS value, a.title AS text')
+			->from('#__viewlevels AS a')
+			->order('a.ordering ASC')
 			->order($db->quoteName('title') . ' ASC');
 
 		// Get the options.
