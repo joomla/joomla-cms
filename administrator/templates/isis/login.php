@@ -98,7 +98,7 @@ $sitename = $app->get('sitename');
 		<div id="content">
 			<!-- Begin Content -->
 			<div id="element-box" class="login well">
-				<?php if ($loginLogoFile = $this->params->get('loginLogoFile') && file_exists($this->params->get('loginLogoFile'))) : ?>
+				<?php if ($loginLogoFile = $this->params->get('loginLogoFile')) : ?>
 					<img src="<?php echo JUri::root() . $loginLogoFile; ?>" alt="<?php echo $sitename; ?>" />
 				<?php else: ?>
 					<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/joomla.png" alt="<?php echo $sitename; ?>" />
