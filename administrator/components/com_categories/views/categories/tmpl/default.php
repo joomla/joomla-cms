@@ -97,7 +97,7 @@ $sortFields = $this->getSortFields();
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="15">
+						<td colspan="<?php echo ($this->assoc) ? '8' : '7'; ?>">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>

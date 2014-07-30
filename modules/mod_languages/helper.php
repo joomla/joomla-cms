@@ -71,6 +71,7 @@ abstract class ModLanguagesHelper
 
 		$levels		= $user->getAuthorisedViewLevels();
 		$languages	= JLanguageHelper::getLanguages();
+		$activeLanguage = JFactory::getLanguage()->getTag();
 
 		// Filter allowed languages
 		foreach ($languages as $i => &$language)
@@ -103,7 +104,7 @@ abstract class ModLanguagesHelper
 					{
 						$itemid = $associations[$language->lang_code];
 
-						if ($app->getCfg('sef') == '1')
+						if ($app->get('sef') == '1')
 						{
 							$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
 						}
@@ -114,7 +115,11 @@ abstract class ModLanguagesHelper
 					}
 					else
 					{
-						if ($app->getCfg('sef') == '1')
+						if ($language->lang_code == $activeLanguage)
+						{
+							$language->link = JUri::current();
+						}
+						elseif ($app->get('sef') == '1')
 						{
 							$itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
 							$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);

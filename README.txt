@@ -66,6 +66,6 @@
 
 Copyright:
 	* Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
-	* Credits: http://docs.joomla.org/Joomla_3_Credits
+	* Credits: http://docs.joomla.org/Joomla!_Credits_and_Thanks
 	* Distributed under the GNU General Public License version 2 or later
 	* See Licenses details at http://docs.joomla.org/Joomla_Licenses

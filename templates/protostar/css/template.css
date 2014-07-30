@@ -3911,6 +3911,10 @@ input[type="submit"].btn.btn-mini {
 	max-height: 400px;
 	padding: 15px;
 }
+.modal-body iframe {
+	max-height: 390px;
+	border: 0 !important;
+}
 .modal-form {
 	margin-bottom: 0;
 }
@@ -7418,9 +7422,8 @@ code {
 	overflow: hidden;
 	position: relative;
 }
-
 .search span.highlight {
-	background-color:#FFFFCC;
-	font-weight:bold;
-	padding:1px 4px;
+	background-color: #FFFFCC;
+	font-weight: bold;
+	padding: 1px 4px;
 }

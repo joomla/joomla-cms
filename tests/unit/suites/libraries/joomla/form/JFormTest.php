@@ -1084,7 +1084,7 @@ class JFormTest extends TestCase
 
 		$this->assertThat(
 			$form->getInput('title', null, 'The Title'),
-			$this->equalTo('<input type="text" name="title" id="title_id" value="The Title" class="inputbox" required aria-required="true" />'),
+			$this->equalTo('<input type="text" name="title" id="title_id" value="The Title" class="inputbox required" required aria-required="true" />'),
 			'Line:' . __LINE__ . ' The method should return a simple input text field.'
 		);
 
@@ -1169,12 +1169,25 @@ class JFormTest extends TestCase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$expected = '<label id="title_id-lbl" for="title_id" class="hasTooltip required" ' .
-				'title="<strong>Title</strong><br />The title.">Title<span class="star">&#160;*</span></label>';
+		$matcher = array(
+				'id'         => 'title_id-lbl',
+				'tag'        => 'label',
+				'attributes' => array(
+						'for'   => 'title_id',
+						'class' => 'hasTooltip required',
+						'title' => '<strong>Title</strong><br />The title.'
+					),
+				'content'    => 'regexp:/Title.*\*/',
+				'child'      => array(
+						'tag'        => 'span',
+						'attributes' => array('class' => 'star'),
+						'content'    => 'regexp:/\*/'
+					)
+			);
 
-		$this->assertThat(
+		$this->assertTag(
+			$matcher,
 			$form->getLabel('title'),
-			$this->equalTo($expected),
 			'Line:' . __LINE__ . ' The method should return a simple label field.'
 		);
 	}
@@ -1317,7 +1330,6 @@ class JFormTest extends TestCase
 			$this->equalTo('params-legacy'),
 			'Line:' . __LINE__ . ' Ensure the fieldset name is correct.'
 		);
-
 	}
 
 	/**

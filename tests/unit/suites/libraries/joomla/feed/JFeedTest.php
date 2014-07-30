@@ -229,11 +229,16 @@ class JFeedTest extends TestCase
 	 */
 	public function testOffsetExists()
 	{
+		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13')
+		{
+			$this->markTestSkipped('Test is skipped due to a PHP bug in PHP versions 5.4.29 and 5.5.13');
+		}
+
 		$offset = new stdClass;
 
 		$mock = $this->getMockBuilder('SplObjectStorage')
-					->disableOriginalConstructor()
-					->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 
 		$mock->expects($this->once())
 			->method('offsetExists')
@@ -253,11 +258,16 @@ class JFeedTest extends TestCase
 	 */
 	public function testOffsetGet()
 	{
+		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13')
+		{
+			$this->markTestSkipped('Test is skipped due to a PHP bug in PHP versions 5.4.29 and 5.5.13');
+		}
+
 		$offset = new stdClass;
 
 		$mock = $this->getMockBuilder('SplObjectStorage')
-					->disableOriginalConstructor()
-					->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 
 		$mock->expects($this->once())
 			->method('offsetGet')

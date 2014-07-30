@@ -24,21 +24,22 @@ class SearchViewSearch extends JViewLegacy
 		$app = JFactory::getApplication();
 
 		$params = JComponentHelper::getParams('com_search');
-		$doc->setShortName($params->get('opensearch_name', $app->getCfg('sitename')));
-		$doc->setDescription($params->get('opensearch_description', $app->getCfg('MetaDesc')));
+		$doc->setShortName($params->get('opensearch_name', $app->get('sitename')));
+		$doc->setDescription($params->get('opensearch_description', $app->get('MetaDesc')));
 
 		// Add the URL for the search
-		$searchUri = JUri::base().'index.php?option=com_search&searchword={searchTerms}';
+		$searchUri = JUri::base() . 'index.php?option=com_search&searchword={searchTerms}';
 
 		// Find the menu item for the search
-		$menu	= $app->getMenu();
-		$items	= $menu->getItems('link', 'index.php?option=com_search&view=search');
+		$menu  = $app->getMenu();
+		$items = $menu->getItems('link', 'index.php?option=com_search&view=search');
+
 		if (isset($items[0]))
 		{
-			$searchUri .= '&Itemid='.$items[0]->id;
+			$searchUri .= '&Itemid=' . $items[0]->id;
 		}
 
-		$htmlSearch = new JOpenSearchUrl;
+		$htmlSearch           = new JOpenSearchUrl;
 		$htmlSearch->template = JRoute::_($searchUri);
 		$doc->addUrl($htmlSearch);
 	}

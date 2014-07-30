@@ -36,6 +36,11 @@ $sortFields = $this->getSortFields();
 		}
 		Joomla.tableOrdering(order, dirn, '');
 	}
+
+	Joomla.closeModalDialog = function()
+	{
+		window.jQuery('#modal-export').modal('hide');
+	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=tracks'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
