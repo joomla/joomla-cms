@@ -176,7 +176,7 @@ class JFormFieldMedia extends JFormField
 			$this->link          = (string) $this->element['link'];
 			$this->preview       = (string) $this->element['preview'];
 			$this->directory     = (string) $this->element['directory'];
-			$this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 300;
+			$this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
 			$this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
 		}
 

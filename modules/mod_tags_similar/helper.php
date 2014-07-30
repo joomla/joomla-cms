@@ -82,6 +82,7 @@ abstract class ModTagssimilarHelper
 
 		$query->where($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')');
 		$query->where('t.access IN (' . $groups . ')');
+		$query->where('(cc.core_access IN (' . $groups . ') OR cc.core_access = 0)');
 
 		// Don't show current item
 		$query->where('(' . $db->quoteName('m.content_item_id') . ' <> ' . $id . ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')');

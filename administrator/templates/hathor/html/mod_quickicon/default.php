@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $html = JHtml::_('icons.buttons', $buttons);
 ?>
 <?php if (!empty($html)): ?>
-	<div class="cpanel">
+	<div class="cpanel clearfix">
 		<?php echo $html;?>
 	</div>
 <?php endif;?>

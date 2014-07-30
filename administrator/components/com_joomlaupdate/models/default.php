@@ -402,7 +402,7 @@ ENDDATA;
 				{
 
 					JFolder::create($tempdir, 511);
-					JFile::write($tempdir . '/.htaccess', "order deny, allow\ndeny from all\nallow from none\n");
+					JFile::write($tempdir . '/.htaccess', "order deny,allow\ndeny from all\nallow from none\n");
 				}
 
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory

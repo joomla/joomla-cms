@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 $params = $displayData->params;
 $canEdit = $displayData->params->get('access-edit');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.framework');
 ?>
 
 	<?php if ($params->get('show_title') || $displayData->state == 0 || ($params->get('show_author') && !empty($displayData->author ))) : ?>

@@ -67,22 +67,3 @@ JLoader::register('JInstallerTemplate',  JPATH_PLATFORM . '/cms/installer/adapte
 JLoader::register('JExtension',  JPATH_PLATFORM . '/cms/installer/extension.php');
 JLoader::registerAlias('JAdministrator',  'JApplicationAdministrator');
 JLoader::registerAlias('JSite',  'JApplicationSite');
-
-// Register Observers:
-// Add Tags to Content, Contact, NewsFeeds, WebLinks and Categories: (this is the only link between them here!):
-JObserverMapper::addObserverClassToClass('JTableObserverTags', 'JTableContent', array('typeAlias' => 'com_content.article'));
-JObserverMapper::addObserverClassToClass('JTableObserverTags', 'ContactTableContact', array('typeAlias' => 'com_contact.contact'));
-JObserverMapper::addObserverClassToClass('JTableObserverTags', 'NewsfeedsTableNewsfeed', array('typeAlias' => 'com_newsfeeds.newsfeed'));
-JObserverMapper::addObserverClassToClass('JTableObserverTags', 'WeblinksTableWeblink', array('typeAlias' => 'com_weblinks.weblink'));
-JObserverMapper::addObserverClassToClass('JTableObserverTags', 'JTableCategory', array('typeAlias' => '{extension}.category'));
-
-// Register Observers for Version History
-JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'ContactTableContact', array('typeAlias' => 'com_contact.contact'));
-JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'JTableContent', array('typeAlias' => 'com_content.article'));
-JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'JTableCategory', array('typeAlias' => '{extension}.category'));
-JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'NewsfeedsTableNewsfeed', array('typeAlias' => 'com_newsfeeds.newsfeed'));
-JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'WeblinksTableWeblink', array('typeAlias' => 'com_weblinks.weblink'));
-JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'BannersTableBanner', array('typeAlias' => 'com_banners.banner'));
-JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'BannersTableClient', array('typeAlias' => 'com_banners.client'));
-JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'TagsTableTag', array('typeAlias' => 'com_tags.tag'));
-JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'UsersTableNote', array('typeAlias' => 'com_users.note'));

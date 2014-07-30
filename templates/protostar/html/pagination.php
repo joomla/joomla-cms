@@ -62,9 +62,9 @@ defined('_JEXEC') or die;
 /**
  * Renders the pagination footer
  *
- * @param   array  $list  Array containing pagination footer
+ * @param   array   $list  Array containing pagination footer
  *
- * @return  string  HTML markup for the full pagination footer
+ * @return  string         HTML markup for the full pagination footer
  *
  * @since   3.0
  */
@@ -81,9 +81,9 @@ function pagination_list_footer($list)
 /**
  * Renders the pagination list
  *
- * @param   array  $list  Array containing pagination information
+ * @param   array   $list  Array containing pagination information
  *
- * @return  string  HTML markup for the full pagination object
+ * @return  string         HTML markup for the full pagination object
  *
  * @since   3.0
  */
@@ -141,7 +141,7 @@ function pagination_list_render($list)
  *
  * @param   JPaginationObject  $item  The current pagination object
  *
- * @return  string  HTML markup for active item
+ * @return  string                    HTML markup for active item
  *
  * @since   3.0
  */

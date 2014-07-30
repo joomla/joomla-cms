@@ -19,7 +19,7 @@ if ($params->get('opensearch', 1))
 {
 	$doc = JFactory::getDocument();
 
-	$ostitle = $params->get('opensearch_title', JText::_('MOD_SEARCH_SEARCHBUTTON_TEXT') . ' ' . $app->getCfg('sitename'));
+	$ostitle = $params->get('opensearch_title', JText::_('MOD_SEARCH_SEARCHBUTTON_TEXT') . ' ' . $app->get('sitename'));
 	$doc->addHeadLink(
 			JUri::getInstance()->toString(array('scheme', 'host', 'port'))
 			. JRoute::_('&option=com_search&format=opensearch'), 'search', 'rel',
