@@ -198,7 +198,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 							</div>
 						</div>
 					</td>
-					<td align="small hidden-phone">
+					<td align="center" class="small hidden-phone">
 						<?php if (!empty($item->linked_user)) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.$item->user_id);?>"><?php echo $item->linked_user;?></a>
 						<?php endif; ?>
@@ -206,7 +206,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 					<td class="center hidden-phone">
 						<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
 					</td>
-					<td align="small hidden-phone">
+					<td align="center" class="small hidden-phone">
 						<?php echo $item->access_level; ?>
 					</td>
 					<?php if ($assoc) : ?>
@@ -223,7 +223,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 							<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 						<?php endif;?>
 					</td>
-					<td align="center hidden-phone">
+					<td align="center" class="hidden-phone">
 						<?php echo $item->id; ?>
 					</td>
 				</tr>
