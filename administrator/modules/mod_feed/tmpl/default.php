@@ -18,7 +18,7 @@ else
 	$lang      = JFactory::getLanguage();
 	$myrtl     = $params->get('rssrtl');
 	$direction = " ";
-	
+
 	if ($lang->isRTL() && $myrtl == 0)
 	{
 		$direction = " redirect-rtl";
@@ -79,7 +79,7 @@ else
 	<?php if (!empty($feed)) : ?>
 		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
 		<?php for ($i = 0; $i < $params->get('rssitems', 5); $i++) :
-			
+
 			if (!$feed->offsetExists($i)) :
 				break;
 			endif;
