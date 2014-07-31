@@ -8,9 +8,6 @@
  */
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE . '/libraries/joomla/filesystem/path.php';
-require_once JPATH_BASE . '/libraries/joomla/html/html.php';
-
 /**
  * Test class for Loader.
  *
