@@ -288,7 +288,7 @@ abstract class JLoader
 	 *
 	 * @param   string  $class  The class to be loaded.
 	 *
-	 * @return  boolean  True if the class was loaded, false otherwise.
+	 * @return  void
 	 *
 	 * @since   11.3
 	 */
@@ -303,8 +303,6 @@ abstract class JLoader
 				return self::_load(substr($class, strlen($prefix)), $lookup);
 			}
 		}
-
-		return false;
 	}
 
 	/**
