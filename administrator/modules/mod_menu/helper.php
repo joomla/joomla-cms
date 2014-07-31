@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,10 +101,8 @@ abstract class ModMenuHelper
 					if (!empty($component->element)) {
 						// Load the core file then
 						// Load extension-local file.
-						$lang->load($component->element.'.sys', JPATH_BASE, null, false, false)
-					||	$lang->load($component->element.'.sys', JPATH_ADMINISTRATOR.'/components/'.$component->element, null, false, false)
-					||	$lang->load($component->element.'.sys', JPATH_BASE, $lang->getDefault(), false, false)
-					||	$lang->load($component->element.'.sys', JPATH_ADMINISTRATOR.'/components/'.$component->element, $lang->getDefault(), false, false);
+						$lang->load($component->element . '.sys', JPATH_BASE, null, false, true)
+					||	$lang->load($component->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component->element, null, false, true);
 					}
 					$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
 				}

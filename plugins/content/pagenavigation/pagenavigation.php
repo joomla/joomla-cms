@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,7 +116,7 @@ class plgContentPagenavigation extends JPlugin
 	        $case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
 	        $case_when1 .= ' ELSE ';
 	        $case_when1 .= $c_id.' END as catslug';
-      		$query->select('a.id,'.$case_when.','.$case_when1);
+      		$query->select('a.id, a.language,'.$case_when.','.$case_when1);
 			$query->from('#__content AS a');
 			$query->leftJoin('#__categories AS cc ON cc.id = a.catid');
 			$query->where('a.catid = '. (int)$row->catid .' AND a.state = '. (int)$row->state
@@ -160,13 +160,13 @@ class plgContentPagenavigation extends JPlugin
 			}
 
 			if ($row->prev) {
-				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catslug));
+				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catslug, $row->prev->language));
 			} else {
 				$row->prev = '';
 			}
 
 			if ($row->next) {
-				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catslug));
+				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catslug, $row->next->language));
 			} else {
 				$row->next = '';
 			}

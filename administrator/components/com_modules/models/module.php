@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -808,10 +808,8 @@ class ModulesModelModule extends JModelAdmin
 		$formFile	= JPath::clean($client->path.'/modules/'.$module.'/'.$module.'.xml');
 
 		// Load the core and/or local language file(s).
-			$lang->load($module, $client->path, null, false, false)
-		||	$lang->load($module, $client->path.'/modules/'.$module, null, false, false)
-		||	$lang->load($module, $client->path, $lang->getDefault(), false, false)
-		||	$lang->load($module, $client->path.'/modules/'.$module, $lang->getDefault(), false, false);
+			$lang->load($module, $client->path, null, false, true)
+		||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
 
 		if (file_exists($formFile))
 		{

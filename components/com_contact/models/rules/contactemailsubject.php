@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Site
  * @subpackage	Contact
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ class JFormRuleContactEmailSubject extends JFormRule
 		$banned = $params->get('banned_subject');
 
 		foreach(explode(';', $banned) as $item){
-			if (JString::stristr($item, $value) !== false)
+			if ($item != '' && JString::stristr($item, $value) !== false)
 					return false;
 		}
 

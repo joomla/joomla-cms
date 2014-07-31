@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ class MediaControllerFile extends JControllerLegacy
 		$file		= JRequest::getVar('Filedata', '', 'files', 'array');
 		$folder		= JRequest::getVar('folder', '', '', 'path');
 		$return		= JRequest::getVar('return-url', null, 'post', 'base64');
-		
+
 		if (
 			$_SERVER['CONTENT_LENGTH']>($params->get('upload_maxsize', 0) * 1024 * 1024) ||
 			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('upload_max_filesize'))* 1024 * 1024 ||
@@ -60,7 +60,7 @@ class MediaControllerFile extends JControllerLegacy
 			echo json_encode($response);
 			return;
 		}
-		
+
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
 
@@ -90,7 +90,7 @@ class MediaControllerFile extends JControllerLegacy
 			$dispatcher	= JDispatcher::getInstance();
 			$object_file = new JObject($file);
 			$object_file->filepath = $filepath;
-			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file));
+			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file, true));
 			if (in_array(false, $result, true)) {
 				// There are some errors in the plugins
 				$log->addEntry(array('comment' => 'Errors before save: '.$filepath.' : '.implode(', ', $object_file->getErrors())));

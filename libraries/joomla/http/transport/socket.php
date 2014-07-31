@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -63,7 +63,7 @@ class JHttpTransportSocket implements JHttpTransport
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
+	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = 30, $userAgent = null)
 	{
 		$connection = $this->connect($uri, $timeout);
 

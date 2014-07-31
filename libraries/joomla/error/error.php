@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -800,7 +800,7 @@ abstract class JError
 			}
 
 			@ob_end_clean();
-			$document->setTitle(JText::_('Error') . ': ' . $error->get('code'));
+			$document->setTitle(JText::_('Error') . ': ' . $error->getCode());
 			$data = $document->render(false, array('template' => $template, 'directory' => JPATH_THEMES, 'debug' => $config->get('debug')));
 
 			// Failsafe to get the error displayed.

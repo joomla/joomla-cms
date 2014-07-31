@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       2.5.4
  */
@@ -23,6 +23,18 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?>
 	</p>
 </fieldset>
+
+<?php elseif (!isset($this->updateInfo['object']->downloadurl->_data)): ?>
+
+<fieldset>
+	<legend>
+		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CANT_INSTALL_UPDATE') ?>
+	</legend>
+	<p>
+		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_CANT_INSTALL_UPDATE_DESC', $this->updateInfo['latest'], $this->updateInfo['latest']); ?>
+	</p>
+</fieldset>
+
 
 <?php else: ?>
 

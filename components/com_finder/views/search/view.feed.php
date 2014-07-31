@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,6 +31,7 @@ class FinderViewSearch extends JViewLegacy
 	{
 		// Get the application
 		$app = JFactory::getApplication();
+
 		// Adjust the list limit to the feed limit.
 		$app->input->set('limit', $app->getCfg('feed_limit'));
 
@@ -72,6 +73,12 @@ class FinderViewSearch extends JViewLegacy
 		// Set the document link.
 		$this->document->link = JRoute::_($query->toURI());
 
+		// If we don't have any results, we are done.
+		if (empty($results))
+		{
+			return;
+		}
+
 		// Convert the results to feed entries.
 		foreach ($results as $result)
 		{
@@ -92,7 +99,7 @@ class FinderViewSearch extends JViewLegacy
 				$item->category = $node->title;
 			}
 
-			// loads item info into rss array
+			// Loads item info into rss array.
 			$this->document->addItem($item);
 		}
 	}

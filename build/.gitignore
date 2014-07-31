@@ -1,0 +1,8 @@
+# Ignore test report folders so they do not push to the repo #
+/api
+/coverage
+/logs
+/pdepend
+
+# Ignore the folder the build script creates for packages
+/tmp

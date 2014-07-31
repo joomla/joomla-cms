@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -719,6 +719,13 @@ class JLanguage extends JObject
 	 */
 	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
 	{
+		// Load the default language first if we're not debugging and a non-default language is requested to be loaded
+		// with $default set to true
+		if (!JFactory::getConfig()->get('debug_lang') && ($lang != $this->default) && $default)
+		{
+			$this->load($extension, $basePath, $this->default, false, true);
+		}
+
 		if (!$lang)
 		{
 			$lang = $this->lang;

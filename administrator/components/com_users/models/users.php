@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -332,7 +332,7 @@ class UsersModelUsers extends JModelList
 		$range = $this->getState('filter.range');
 
 		// Apply the range filter.
-		if ($range = $this->getState('filter.range'))
+		if ($range)
 		{
 			jimport('joomla.utilities.date');
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Event
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -202,7 +202,6 @@ class JDispatcher extends JObject
 			}
 
 			$this->_observers[] = $observer;
-			end($this->_observers);
 			$methods = array($observer['event']);
 		}
 		else
@@ -227,6 +226,7 @@ class JDispatcher extends JObject
 			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
 		}
 
+		end($this->_observers);
 		$key = key($this->_observers);
 
 		foreach ($methods as $method)

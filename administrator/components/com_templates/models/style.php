@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_templates
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -325,10 +325,8 @@ class TemplatesModelStyle extends JModelAdmin
 		$formFile	= JPath::clean($client->path.'/templates/'.$template.'/templateDetails.xml');
 
 		// Load the core and/or local language file(s).
-			$lang->load('tpl_'.$template, $client->path, null, false, false)
-		||	$lang->load('tpl_'.$template, $client->path.'/templates/'.$template, null, false, false)
-		||	$lang->load('tpl_'.$template, $client->path, $lang->getDefault(), false, false)
-		||	$lang->load('tpl_'.$template, $client->path.'/templates/'.$template, $lang->getDefault(), false, false);
+			$lang->load('tpl_'.$template, $client->path, null, false, true)
+		||	$lang->load('tpl_'.$template, $client->path.'/templates/'.$template, null, false, true);
 
 		if (file_exists($formFile)) {
 			// Get the template form.

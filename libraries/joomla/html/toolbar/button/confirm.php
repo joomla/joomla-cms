@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,6 +60,7 @@ class JButtonConfirm extends JButton
 	 * Get the button CSS Id
 	 *
 	 * @param   string   $type      Button type
+	 * @param   object   $msg   	The message
 	 * @param   string   $name      Name to be used as apart of the id
 	 * @param   string   $text      Button text
 	 * @param   string   $task      The task associated with the button
@@ -70,7 +71,7 @@ class JButtonConfirm extends JButton
 	 *
 	 * @since   11.1
 	 */
-	public function fetchId($type = 'Confirm', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
+	public function fetchId($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
 		return $this->_parent->getName() . '-' . $name;
 	}

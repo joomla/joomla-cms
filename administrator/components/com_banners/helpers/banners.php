@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -178,6 +178,7 @@ class BannersHelper
 
 		$query->select('id As value, name As text');
 		$query->from('#__banner_clients AS a');
+		$query->where('a.state = 1');
 		$query->order('a.name');
 
 		// Get the options.

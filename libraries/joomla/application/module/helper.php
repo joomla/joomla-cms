@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -165,10 +165,8 @@ abstract class JModuleHelper
 		{
 			$lang = JFactory::getLanguage();
 			// 1.5 or Core then 1.6 3PD
-			$lang->load($module->module, JPATH_BASE, null, false, false) ||
-				$lang->load($module->module, dirname($path), null, false, false) ||
-				$lang->load($module->module, JPATH_BASE, $lang->getDefault(), false, false) ||
-				$lang->load($module->module, dirname($path), $lang->getDefault(), false, false);
+				$lang->load($module->module, JPATH_BASE, null, false, true)
+			||	$lang->load($module->module, dirname($path), null, false, true);
 
 			$content = '';
 			ob_start();

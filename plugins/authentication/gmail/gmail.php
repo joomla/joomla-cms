@@ -1,109 +1,211 @@
 <?php
-
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Authentication.gmail
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * GMail Authentication Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Authentication.gmail
- * @since 1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Authentication.gmail
+ * @since       1.5
  */
-class plgAuthenticationGMail extends JPlugin {
+class PlgAuthenticationGMail extends JPlugin
+{
 	/**
 	 * This method should handle any authentication and report back to the subject
 	 *
-	 * @access	public
-	 * @param   array	$credentials Array holding the user credentials
-	 * @param	array   $options	Array of extra options
-	 * @param	object	$response	Authentication response object
-	 * @return	boolean
-	 * @since 1.5
+	 * @param   array   $credentials  Array holding the user credentials
+	 * @param   array   $options      Array of extra options
+	 * @param   object  &$response    Authentication response object
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.5
 	 */
-	function onUserAuthenticate($credentials, $options, & $response) {
-		$message = '';
-		$success = 0;
-		// check if we have curl or not
-		if (function_exists('curl_init')) {
-			// check if we have a username and password
-			if (strlen($credentials['username']) && strlen($credentials['password'])) {
-				$blacklist = explode(',', $this->params->get('user_blacklist', ''));
-				// check if the username isn't blacklisted
-				if (!in_array($credentials['username'], $blacklist)) {
-				$suffix = $this->params->get('suffix', '');
-				$applysuffix = $this->params->get('applysuffix', 0);
-				// check if we want to do suffix stuff, typically for Google Apps for Your Domain
-				if($suffix && $applysuffix) {
-					$offset = strpos($credentials['username'], '@');
-					if($applysuffix == 1 && $offset === false) {
-						// Apply suffix if missing
-						$credentials['username'] .= '@'.$suffix;
-					}
-					else if($applysuffix == 2) {
-						// Always use suffix
-						if ($offset) {
-							// if we already have an @, get rid of it and replace it
-							$credentials['username'] = substr($credentials['username'], 0, $offset);
-						}
-						$credentials['username'] .= '@'. $suffix;
-					}
-				}
-				$curl = curl_init('https://mail.google.com/mail/feed/atom');
-				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->params->get('verifypeer', 1));
-				//curl_setopt($curl, CURLOPT_HEADER, 1);
-				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-				curl_setopt($curl, CURLOPT_USERPWD, $credentials['username'].':'.$credentials['password']);
-				$result = curl_exec($curl);
-				$code = curl_getinfo ($curl, CURLINFO_HTTP_CODE);
+	public function onUserAuthenticate($credentials, $options, &$response)
+	{
+		// Load plugin language
+		$this->loadLanguage();
 
-					switch ($code) {
-					case 200:
-						$message = JText::_('JGLOBAL_AUTH_ACCESS_GRANTED');
-						$success = 1;
-					break;
-					case 401:
-						$message = JText::_('JGLOBAL_AUTH_ACCESS_DENIED');
-					break;
-					default:
-						$message = JText::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
-						break;
+		// No backend authentication
+		if (JFactory::getApplication()->isAdmin() && !$this->params->get('backendLogin', 0))
+		{
+			return;
+		}
+
+		$success = 0;
+
+		// Check if we have curl or not
+		if (function_exists('curl_init'))
+		{
+			// Check if we have a username and password
+			if (strlen($credentials['username']) && strlen($credentials['password']))
+			{
+				$blacklist = explode(',', $this->params->get('user_blacklist', ''));
+
+				// Check if the username isn't blacklisted
+				if (!in_array($credentials['username'], $blacklist))
+				{
+					$suffix = $this->params->get('suffix', '');
+					$applysuffix = $this->params->get('applysuffix', 0);
+					$offset = strpos($credentials['username'], '@');
+
+					// Check if we want to do suffix stuff, typically for Google Apps for Your Domain
+					if ($suffix && $applysuffix)
+					{
+						if ($applysuffix == 1 && $offset === false)
+						{
+							// Apply suffix if missing
+							$credentials['username'] .= '@' . $suffix;
+						}
+						elseif ($applysuffix == 2)
+						{
+							// Always use suffix
+							if ($offset)
+							{
+								// If we already have an @, get rid of it and replace it
+								$credentials['username'] = substr($credentials['username'], 0, $offset);
+							}
+
+							$credentials['username'] .= '@' . $suffix;
+						}
+					}
+
+					$curl = curl_init('https://mail.google.com/mail/feed/atom');
+					curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+					curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->params->get('verifypeer', 1));
+					curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+					curl_setopt($curl, CURLOPT_USERPWD, $credentials['username'] . ':' . $credentials['password']);
+					curl_exec($curl);
+					$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+					switch ($code)
+					{
+						case 200:
+							$message = JText::_('JGLOBAL_AUTH_ACCESS_GRANTED');
+							$success = 1;
+							break;
+
+						case 401:
+							$message = JText::_('JGLOBAL_AUTH_ACCESS_DENIED');
+							break;
+
+						default:
+							$message = JText::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
+							break;
+					}
 				}
-				} else {
-					// the username is black listed
-					$message = 'User is blacklisted';
+				else
+				{
+					// The username is black listed
+					$message = JText::_('JGLOBAL_AUTH_USER_BLACKLISTED');
+				}
 			}
-			} else {
+			else
+			{
 				$message = JText::_('JGLOBAL_AUTH_USER_BLACKLISTED');
 			}
-		} else {
-			$message = 'curl isn\'t installed';
 		}
+		else
+		{
+			$message = JText::_('JGLOBAL_AUTH_CURL_NOT_INSTALLED');
+		}
+
 		$response->type = 'GMail';
-		if ($success) {
-			$response->status		= JAuthentication::STATUS_SUCCESS;
-			$response->error_message = '';
-			if (strpos($credentials['username'], '@') === FALSE) {
-				if ($suffix) { // if there is a suffix then we want to apply it
-					$response->email = $credentials['username'] . '@' . $suffix;
-				} else { // if there isn't a suffix just use the default gmail one
-					$response->email = $credentials['username'] . '@gmail.com';
+
+		if ($success)
+		{
+			if (strpos($credentials['username'], '@') === false)
+			{
+				if ($suffix)
+				{
+					// If there is a suffix then we want to apply it
+					$email = $credentials['username'] . '@' . $suffix;
 				}
-			} else { // the username looks like an email address (probably is) so use that
-			$response->email	= $credentials['username'];
+				else
+				{
+					// If there isn't a suffix just use the default gmail one
+					$email = $credentials['username'] . '@gmail.com';
+				}
 			}
-			// reset the username to what we ended up using
+			else
+			{
+				// The username looks like an email address (probably is) so use that
+				$email = $credentials['username'];
+			}
+
+			// Extra security checks with existing local accounts
+			$db = JFactory::getDbo();
+
+			$localUsernameChecks = array(strstr($email, '@', true), $email);
+
+			$query = $db->getQuery(true)
+				->select('id, activation, username, email, block')
+				->from('#__users')
+				->where('username IN(' . implode(',', array_map(array($db, 'quote'), $localUsernameChecks)) . ')'
+					. ' OR email = ' . $db->quote($email)
+				);
+
+			$db->setQuery($query);
+
+			if ($localUsers = $db->loadObjectList())
+			{
+				foreach ($localUsers as $localUser)
+				{
+					// Local user exists with same username but different email address
+					if ($email != $localUser->email)
+					{
+						$response->status        = JAuthentication::STATUS_FAILURE;
+						$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('PLG_GMAIL_ERROR_LOCAL_USERNAME_CONFLICT'));
+
+						return;
+					}
+					else
+					{
+						// Existing user disabled locally
+						if ($localUser->block || !empty($localUser->activation))
+						{
+							$response->status        = JAuthentication::STATUS_FAILURE;
+							$response->error_message = JText::_('JGLOBAL_AUTH_ACCESS_DENIED');
+
+							return;
+						}
+
+						// We will always keep the local username for existing accounts
+						$credentials['username'] = $localUser->username;
+
+						break;
+					}
+				}
+			}
+			elseif (JFactory::getApplication()->isAdmin())
+			// We wont' allow backend access without local account
+			{
+				$response->status        = JAuthentication::STATUS_FAILURE;
+				$response->error_message = JText::_('JERROR_LOGIN_DENIED');
+
+				return;
+			}
+
+			$response->status        = JAuthentication::STATUS_SUCCESS;
+			$response->error_message = '';
+			$response->email         = $email;
+
+			// Reset the username to what we ended up using
 			$response->username = $credentials['username'];
 			$response->fullname = $credentials['username'];
-		} else {
-			$response->status		= JAuthentication::STATUS_FAILURE;
-			$response->error_message	= JText::sprintf('JGLOBAL_AUTH_FAILED', $message);
+		}
+		else
+		{
+			$response->status        = JAuthentication::STATUS_FAILURE;
+			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', $message);
 		}
 	}
 }

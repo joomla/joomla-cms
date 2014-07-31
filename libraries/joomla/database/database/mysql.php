@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -624,7 +624,7 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function setUTF()
 	{
-		return mysql_query("SET NAMES 'utf8'", $this->connection);
+		return mysql_set_charset('utf8', $this->connection);
 	}
 
 	/**

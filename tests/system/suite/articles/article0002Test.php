@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Tests editing an article on the front end
  */
@@ -29,6 +29,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 //		Use no editor until tinymce issue fixes
 // 	    $this->setTinyText($testText);
 	    $this->type("id=jform_articletext", "<p>$testText</p>");
+
 
 	    echo "Save article\n";
 	    $this->click("//button[@type='button']");
@@ -75,6 +76,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    }
 	    echo "Check that new text shows on page\n";
 	    $this->assertTrue($this->isElementPresent("//div[@class='items-leading']/div[@class='leading-0']//p[contains(text(), 'Congratulations!')]"));
+
 
 	    $this->doFrontEndLogout();
 	    $this->gotoAdmin();

@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Site
  * @subpackage	mod_related_items
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,6 +68,7 @@ abstract class modRelatedItemsHelper
 					$query->select('a.title');
 					$query->select('DATE_FORMAT(a.created, "%Y-%m-%d") as created');
 					$query->select('a.catid');
+					$query->select('a.language');
 					$query->select('cc.access AS cat_access');
 					$query->select('cc.published AS cat_state');
 
@@ -115,7 +116,7 @@ abstract class modRelatedItemsHelper
 						{
 							if ($row->cat_state == 1)
 							{
-								$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug));
+								$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->language));
 								$related[] = $row;
 							}
 						}

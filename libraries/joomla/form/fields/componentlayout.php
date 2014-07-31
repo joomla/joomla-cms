@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -84,10 +84,8 @@ class JFormFieldComponentLayout extends JFormField
 
 			// Load language file
 			$lang = JFactory::getLanguage();
-			$lang->load($extn . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-				|| $lang->load($extn . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extn, null, false, false)
-				|| $lang->load($extn . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-				|| $lang->load($extn . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extn, $lang->getDefault(), false, false);
+				$lang->load($extn . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+			||	$lang->load($extn . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extn, null, false, true);
 
 			// Get the database object and a new query object.
 			$db = JFactory::getDBO();
@@ -179,12 +177,8 @@ class JFormFieldComponentLayout extends JFormField
 				foreach ($templates as $template)
 				{
 					// Load language file
-					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, false)
-						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, false)
-						|| $lang->load('tpl_' . $template->element . '.sys', $client->path, $lang->getDefault(), false, false)
-						|| $lang->load(
-						'tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, $lang->getDefault(), false, false
-					);
+						$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
+					||	$lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
 
 					$template_path = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $extn . '/' . $view);
 
