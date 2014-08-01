@@ -21,7 +21,7 @@ $isSingleTag = (count($this->item) == 1);
 	<?php endif; ?>
 	<?php if ($this->params->get('show_tag_title', 1)) : ?>
 		<h2>
-			<?php echo JHtml::_('content.prepare', $this->item[0]->title, '', 'com_tag.tag'); ?>
+			<?php echo JHtml::_('content.prepare', $this->tags_title, '', 'com_tag.tag'); ?>
 		</h2>
 	<?php endif; ?>
 	<?php // We only show a tag description if there is a single tag. ?>

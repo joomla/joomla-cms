@@ -24,7 +24,7 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$sitename = $app->getCfg('sitename');
+$sitename = $app->get('sitename');
 
 if($task == "edit" || $layout == "form" )
 {
@@ -56,7 +56,7 @@ else
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
+	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php // Use of Google Font ?>
 	<?php if ($params->get('googleFont')) : ?>
@@ -79,27 +79,27 @@ else
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 	<?php // Template color ?>
 	<?php if ($params->get('templateColor')) : ?>
-	<style type="text/css">
-		body.site
-		{
-			border-top: 3px solid <?php echo $params->get('templateColor'); ?>;
-			background-color: <?php echo $params->get('templateBackgroundColor'); ?>
-		}
-		a
-		{
-			color: <?php echo $params->get('templateColor'); ?>;
-		}
-		.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover
-		{
-			background: <?php echo $params->get('templateColor'); ?>;
-		}
-		.navbar-inner
-		{
-			-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-			box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-		}
-	</style>
+		<style type="text/css">
+			body.site
+			{
+				border-top: 3px solid <?php echo $params->get('templateColor'); ?>;
+				background-color: <?php echo $params->get('templateBackgroundColor'); ?>
+			}
+			a
+			{
+				color: <?php echo $params->get('templateColor'); ?>;
+			}
+			.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover
+			{
+				background: <?php echo $params->get('templateColor'); ?>;
+			}
+			.navbar-inner
+			{
+				-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+				-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+				box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+			}
+		</style>
 	<?php endif; ?>
 	<!--[if lt IE 9]>
 		<script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script>
@@ -118,7 +118,7 @@ else
 	<div class="body">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<!-- Header -->
-			<div class="header">
+			<header class="header" role="banner">
 				<div class="header-inner clearfix">
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
 						<?php echo $logo; ?>
@@ -128,7 +128,7 @@ else
 						<?php echo $doc->getBuffer('modules', 'position-0', array('style' => 'none')); ?>
 					</div>
 				</div>
-			</div>
+			</header>
 			<div class="navigation">
 				<?php // Display position-1 modules ?>
 				<?php echo $doc->getBuffer('modules', 'position-1', array('style' => 'none')); ?>
@@ -166,7 +166,7 @@ else
 						<hr />
 						<p><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
 						<blockquote>
-							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo $this->error->getMessage();?>
+							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
 						</blockquote>
 					</div>
 					<!-- End Content -->

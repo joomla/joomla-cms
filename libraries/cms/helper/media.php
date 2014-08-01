@@ -79,7 +79,17 @@ class JHelperMedia
 			return false;
 		}
 
-		$format = strtolower(JFile::getExt($file['name']));
+		$filetypes = explode('.', $file['name']);
+
+		if (count($filetypes) < 2)
+		{
+			// There seems to be no extension
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
+
+			return false;
+		}
+
+		array_shift($filetypes);
 
 		// Media file names should never have executable extensions buried in them.
 		$executable = array(
@@ -87,25 +97,19 @@ class JHelperMedia
 			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh'
 		);
 
-		$explodedFileName = explode('.', $file['name']);
+		$check = array_intersect($filetypes, $executable);
 
-		if (count($explodedFileName > 2))
+		if (!empty($check))
 		{
-			foreach ($executable as $extensionName)
-			{
-				if (in_array($extensionName, $explodedFileName))
-				{
-					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
-
-					return false;
-				}
-			}
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
+			return false;
 		}
 
+		$filetype = array_pop($filetypes);
 		$allowable = explode(',', $params->get('upload_extensions'));
 		$ignored   = explode(',', $params->get('ignore_extensions'));
 
-		if ($format == '' || $format == false || (!in_array($format, $allowable) && !in_array($format, $ignored)))
+		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))
 		{
 			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
 
@@ -125,7 +129,7 @@ class JHelperMedia
 		{
 			$images = explode(',', $params->get('image_extensions'));
 
-			if (in_array($format, $images))
+			if (in_array($filetype, $images))
 			{
 				// If it is an image run it through getimagesize
 				// If tmp_name is empty, then the file was bigger than the PHP limit
@@ -145,7 +149,7 @@ class JHelperMedia
 					return false;
 				}
 			}
-			elseif (!in_array($format, $ignored))
+			elseif (!in_array($filetype, $ignored))
 			{
 				// If it's not an image, and we're not ignoring it
 				$allowed_mime = explode(',', $params->get('upload_mime'));
@@ -284,5 +288,33 @@ class JHelperMedia
 		}
 
 		return array($total_file, $total_dir);
+	}
+
+	/**
+	* Small helper function that properly converts any
+	* configuration options to their byte representation.
+	*
+	* @param   string|integer  $val  The value to be converted to bytes.
+	*
+	* @return integer The calculated bytes value from the input.
+	*
+	* @since 3.3
+	*/
+	public function toBytes($val)
+	{
+		switch ($val[strlen($val) - 1])
+		{
+			case 'M':
+			case 'm':
+				return (int) $val * 1048576;
+			case 'K':
+			case 'k':
+				return (int) $val * 1024;
+			case 'G':
+			case 'g':
+				return (int) $val * 1073741824;
+			default:
+				return $val;
+		}
 	}
 }

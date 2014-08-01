@@ -129,14 +129,15 @@ class ContentViewForm extends JViewLegacy
 
 		$title = $this->params->def('page_title', JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
 
-		if ($app->getCfg('sitename_pagetitles', 0) == 1)
+		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
+
 		$this->document->setTitle($title);
 
 		$pathway = $app->getPathWay();

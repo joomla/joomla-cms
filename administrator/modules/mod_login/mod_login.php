@@ -15,4 +15,5 @@ require_once __DIR__ . '/helper.php';
 $langs            = ModLoginHelper::getLanguageList();
 $twofactormethods = ModLoginHelper::getTwoFactorMethods();
 $return           = ModLoginHelper::getReturnURI();
+
 require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'default'));

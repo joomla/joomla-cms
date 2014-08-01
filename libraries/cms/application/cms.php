@@ -225,6 +225,12 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function enqueueMessage($msg, $type = 'message')
 	{
+		// Don't add empty messages.
+		if (!strlen($msg))
+		{
+			return;
+		}
+
 		// For empty queue, if messages exists in the session, enqueue them first.
 		$this->getMessageQueue();
 
@@ -268,6 +274,66 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
+	 * Check if the user is required to reset their password.
+	 *
+	 * If the user is required to reset their password will be redirected to the page that manage the password reset.
+	 *
+	 * @param   string  $option  The option that manage the password reset
+	 * @param   string  $view    The view that manage the password reset
+	 * @param   string  $layout  The layout of the view that manage the password reset
+	 * @param   string  $tasks   Permitted tasks
+	 *
+	 * @return  void
+	 */
+	protected function checkUserRequireReset($option, $view, $layout, $tasks)
+	{
+		if (JFactory::getUser()->get('requireReset', 0))
+		{
+			$redirect = false;
+
+			/*
+			 * By default user profile edit page is used.
+			 * That page allows you to change more than just the password and might not be the desired behavior.
+			 * This allows a developer to override the page that manage the password reset.
+			 * (can be configured using the file: configuration.php, or if extended, through the global configuration form)
+			 */
+			$name = $this->getName();
+
+			if ($this->get($name . '_reset_password_override', 0))
+			{
+				$option = $this->get($name . '_reset_password_option', '');
+				$view = $this->get($name . '_reset_password_view', '');
+				$layout = $this->get($name . '_reset_password_layout', '');
+				$tasks = explode(',', $this->get($name . '_reset_password_tasks', ''));
+			}
+
+			if ($this->input->getCmd('option', '') != $option || $this->input->getCmd('view', '') != $view || $this->input->getCmd('layout', '') != $layout)
+			{
+				// Requested a different page
+				$redirect = true;
+			}
+			else
+			{
+				$task = $this->input->getCmd('task', '');
+
+				// Empty task are always permitted
+				if (!empty($task) && array_search($task, $tasks) === false)
+				{
+					// Not permitted task
+					$redirect = true;
+				}
+			}
+
+			if ($redirect)
+			{
+				// Redirect to the profile edit page
+				$this->enqueueMessage(JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+				$this->redirect(JRoute::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
+			}
+		}
+	}
+
+	/**
 	 * Gets a configuration value.
 	 *
 	 * @param   string  $varname  The name of the value to get.
@@ -307,14 +373,8 @@ class JApplicationCms extends JApplicationWeb
 	 * @since   3.2
 	 * @throws  RuntimeException
 	 */
-	public static function getInstance($name = null, $config = null)
+	public static function getInstance($name = null)
 	{
-		// If we have an array or a standard class for the config convert it to a JRegistry object
-		if ((is_array($config) || is_object($config)) && !($config instanceof JRegistry))
-		{
-			$config = new JRegistry($config);
-		}
-
 		if (empty(static::$instances[$name]))
 		{
 			// Create a JApplicationCms object.
@@ -325,7 +385,7 @@ class JApplicationCms extends JApplicationWeb
 				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
-			static::$instances[$name] = new $classname(null, $config);
+			static::$instances[$name] = new $classname;
 		}
 
 		return static::$instances[$name];
@@ -544,9 +604,8 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	protected function initialiseApp($options = array())
 	{
-		// Get the configuration set in the API. Recursively merge it in. Note this will take
-		// Priority over any intialized values.
-		$this->config->merge(JFactory::getConfig(), true);
+		// Set the configuration in the API.
+		$this->config = JFactory::getConfig();
 
 		// Check that we were given a language in the array (since by default may be blank).
 		if (isset($options['language']))
@@ -728,6 +787,9 @@ class JApplicationCms extends JApplicationWeb
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
+		// Import the user plugin group.
+		JPluginHelper::importPlugin('user');
+
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
 			/*
@@ -771,9 +833,6 @@ class JApplicationCms extends JApplicationWeb
 					}
 				}
 			}
-
-			// Import the user plugin group.
-			JPluginHelper::importPlugin('user');
 
 			// OK, the credentials are authenticated and user is authorised.  Let's fire the onLogin event.
 			$results = $this->triggerEvent('onUserLogin', array((array) $response, $options));
