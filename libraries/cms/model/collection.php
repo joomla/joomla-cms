@@ -1,16 +1,22 @@
 <?php
 /**
- * @version   0.0.2
- * @package   Babel-U-Lib
- * @copyright Copyright (C) 2011 - 2014 Mathew Lenning. All rights reserved.
- * @license   GNU General Public License version 2 or later; see LICENSE.txt
- * @author    Mathew Lenning - http://babel-university.com/
+ * @package     Joomla.Libraries
+ * @subpackage  Model
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
-abstract class Babelu_libModelCollection extends Babelu_libModelRecord
+/**
+ * Base Cms Model Class for a collection of records (e.g. list views)
+ *
+ * @package     Joomla.Libraries
+ * @subpackage  Model
+ * @since       3.4
+ */
+abstract class JModelCollection extends JModelRecord
 {
 	/**
 	 * Valid filter fields.

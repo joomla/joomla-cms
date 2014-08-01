@@ -1,16 +1,22 @@
 <?php
 /**
- * @version   0.0.2
- * @package   Babel-U-Lib
- * @copyright Copyright (C) 2011 - 2014 Mathew Lenning. All rights reserved.
- * @license   GNU General Public License version 2 or later; see LICENSE.txt
- * @author    Mathew Lenning - http://babel-university.com/
+ * @package     Joomla.Libraries
+ * @subpackage  Model
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
-abstract class Babelu_libModelAdministrator extends Babelu_libModelUcm
+/**
+ * Base Cms Model Class for administrative functions
+ *
+ * @package     Joomla.Libraries
+ * @subpackage  Model
+ * @since       3.4
+ */
+abstract class JModelAdministrator extends JModelUcm
 {
 	/**
 	 * Array of form objects.
@@ -41,13 +47,13 @@ abstract class Babelu_libModelAdministrator extends Babelu_libModelUcm
 			$table->newTags = $validData['tags'];
 		}
 
-		//prepare the table for store
+		// Prepare the table for store
 		$table->bind($validData);
 		$table->check();
 
 		// Get dispatcher and include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
-		$dispatcher = $this->getDispatcher();
+		$dispatcher = $this->dispatcher;
 		$context    = $this->getContext();
 
 		$result = $dispatcher->trigger('onContentBeforeSave', array($context, $table, true));

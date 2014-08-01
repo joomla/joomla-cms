@@ -1,32 +1,28 @@
 <?php
 /**
- * @version   0.0.2
- * @package   Babel-U-Lib
- * @copyright Copyright (C) 2011 - 2014 Mathew Lenning. All rights reserved.
- * @license   GNU General Public License version 2 or later; see LICENSE.txt
- * @author    Mathew Lenning - http://babel-university.com/
+ * @package     Joomla.Libraries
+ * @subpackage  Model
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
-abstract class Babelu_libModelData extends Babelu_libModelCms
+/**
+ * Base Cms Model Class for data
+ *
+ * @package     Joomla.Libraries
+ * @subpackage  Model
+ * @since       3.4
+ */
+abstract class JModelData extends JModelCms
 {
 	/**
 	 * Array of JTables
 	 * @var array
 	 */
 	protected $tables = array();
-
-	/**
-	 * Method to get the database driver object
-	 *
-	 * @return  JDatabaseDriver
-	 */
-	public function getDbo()
-	{
-		return JFactory::getDbo();
-	}
 
 	/**
 	 * Method to get the name of the primary key from table
@@ -59,19 +55,6 @@ abstract class Babelu_libModelData extends Babelu_libModelCms
 	 */
 	public function getTable($prefix = null, $name = null, $config = array())
 	{
-		if (count($config) == 0)
-		{
-			$config = $this->config;
-		}
-		else
-		{
-			//merge sent config to
-			//make sure both subject and options
-			//are always set.
-			//Will not overwrite existing keys
-			$config += $this->config;
-		}
-
 		if (empty($name))
 		{
 			$name = ucfirst($config['subject']);
@@ -191,8 +174,8 @@ abstract class Babelu_libModelData extends Babelu_libModelCms
 	{
 		$hasCheckedOut     = (property_exists($table, 'checked_out'));
 		$hasCheckedOutTime = (property_exists($table, 'checked_out_time'));
-		// If there is no checked_out or checked_out_time field, just return true.
 
+		// If there is no checked_out or checked_out_time field, just return true.
 		if ($hasCheckedOut && $hasCheckedOutTime)
 		{
 			return true; // is lockable
@@ -219,11 +202,14 @@ abstract class Babelu_libModelData extends Babelu_libModelCms
 			$isCurrentEditor = ($activeRecord->checked_out == $user->get('id'));
 			$canOverride     = ($user->authorise('core.admin', 'com_checkin'));
 
+			// Record is locked
 			if ($isCheckedOut && !$isCurrentEditor && !$canOverride)
 			{
-				return true; // record is locked
+				return true;
 			}
 		}
-		return false; // record is not locked
+
+		// Record is not locked
+		return false;
 	}
 }

@@ -1,16 +1,22 @@
 <?php
 /**
- * @version   0.0.2
- * @package   Babel-U-Lib
- * @copyright Copyright (C) 2011 - 2014 Mathew Lenning. All rights reserved.
- * @license   GNU General Public License version 2 or later; see LICENSE.txt
- * @author    Mathew Lenning - http://babel-university.com/
+ * @package     Joomla.Libraries
+ * @subpackage  Model
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
-abstract class Babelu_libModelCms
+/**
+ * Base Cms Model Class
+ *
+ * @package     Joomla.Libraries
+ * @subpackage  Model
+ * @since       3.4
+ */
+abstract class JModelCms extends JModelDatabase
 {
 	/**
 	 * Configuration array
@@ -18,14 +24,6 @@ abstract class Babelu_libModelCms
 	 * @var array
 	 */
 	protected $config = array();
-
-	/**
-	 * A state object
-	 *
-	 * @var    string
-	 * @since  12.2
-	 */
-	protected $state;
 
 	/**
 	 * Indicates if the internal state has been set
@@ -43,22 +41,72 @@ abstract class Babelu_libModelCms
 	 */
 	protected $ignoreRequest;
 
-	public function __construct($config = array())
+	/**
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $text_prefix = null;
+
+	/**
+	 * The global dispatcher object.
+	 *
+	 * @var    JEventDispatcher
+	 * @since  3.4
+	 */
+	protected $dispatcher = null;
+
+	/**
+	 * Public constructor
+	 *
+	 * @param  JRegistry         $state       The state for the model
+	 * @param  JDatabaseDriver   $db          The database object
+	 * @param  JEventDispatcher  $dispatcher  The dispatcher object
+	 * @param  array             $config      Array of config variables
+	 *
+	 * @since  3.4
+	 */
+	public function __construct(JRegistry $state = null, JDatabaseDriver $db = null, JEventDispatcher $dispatcher, $config = array())
 	{
 		$this->config = $config;
+		$this->dispatcher = $dispatcher ? $dispatcher : JEventDispatcher::getInstance();
 
-		if (array_key_exists('state', $config) && ($config['state'] instanceof JObject))
+		// Set the model state. Check we have a JRegistry instance as state was a JObject in
+		// legacy MVC
+		if (array_key_exists('state', $config) && $config['state'] instanceof JRegistry)
 		{
-			$this->state = $config['state'];
+			$state = $config['state'];
 		}
 		else
 		{
-			$this->state = new JObject();
+			$state = new JRegistry;
 		}
+
+		// If we don't have a db param see if one got set in the config for legacy purposes
+		// @deprecated This if block is deprecated and will be removed in Joomla 4.
+		if (!$db && array_key_exists('dbo', $config) && $config['dbo'] instanceof JDatabaseDriver)
+		{
+			$db = $config['dbo'];
+
+			JLog::add('Passing the database object via the config is deprecated. Use the constructor parameter instead', JLog::WARNING, 'deprecated');
+		}
+
+		parent::__construct($state, $db);
 
 		if (!empty($config['ignore_request']))
 		{
 			$this->ignoreRequest = true;
+		}
+
+		// Guess the JText message prefix. Defaults to the option.
+		if (isset($config['text_prefix']))
+		{
+			$this->text_prefix = strtoupper($config['text_prefix']);
+		}
+		elseif (empty($this->text_prefix))
+		{
+			$this->text_prefix = strtoupper($this->option);
 		}
 	}
 
@@ -68,12 +116,18 @@ abstract class Babelu_libModelCms
 	 * @param   string $property Optional parameter name
 	 * @param   mixed  $default  Optional default value
 	 *
-	 * @return  object  The property where specified, the state object where omitted
+	 * @return  object  The property in the state
 	 *
-	 * @since   12.2
+	 * @since   3.4
+	 * @throws  InvalidArgumentException
 	 */
-	public function getState($property = null, $default = null)
+	public function getStateVar($property = null, $default = null)
 	{
+		if (!$property)
+		{
+			throw new InvalidArgumentException('You must specify a property');
+		}
+
 		if (!$this->ignoreRequest && !$this->stateIsSet)
 		{
 			// Protected method to auto-populate the model state.
@@ -83,31 +137,7 @@ abstract class Babelu_libModelCms
 			$this->stateIsSet = true;
 		}
 
-		if ($property === null)
-		{
-			$returnProperty = $this->state;
-		}
-		else
-		{
-			$returnProperty = $this->state->get($property, $default);
-		}
-
-		return $returnProperty;
-	}
-
-	/**
-	 * Method to set model state variables
-	 *
-	 * @param   string $property The name of the property.
-	 * @param   mixed  $value    The value of the property to set or null.
-	 *
-	 * @return  mixed  The previous value of the property or null if not set.
-	 *
-	 * @since   12.2
-	 */
-	public function setState($property, $value = null)
-	{
-		return $this->state->set($property, $value);
+		return $this->state->get($property, $default);
 	}
 
 	/**
@@ -155,11 +185,13 @@ abstract class Babelu_libModelCms
 		$user = JFactory::getUser();
 		if($action == 'core.edit.own')
 		{
-			if(is_null($activeRecord) || !isset($activeRecord->owner)) //not a record or isn't tracking ownership
+			// Not a record or isn't tracking ownership
+			if(is_null($activeRecord) || !isset($activeRecord->owner))
 			{
 				$action = 'core.edit';
 			}
-			elseif($user->id != $activeRecord->owner && !$user->authorise('core.admin', $assetName)) //not the owner so the answer is no
+			// Not the owner so the answer is no
+			elseif($user->id != $activeRecord->owner && !$user->authorise('core.admin', $assetName))
 			{
 				return false;
 			}
@@ -171,7 +203,10 @@ abstract class Babelu_libModelCms
 	/**
 	 * Method to get the model context.
 	 * $context = $config['option'].'.'.$config['subject'];
+	 *
 	 * @return string
+	 *
+	 * @since  3.4
 	 */
 	public function getContext()
 	{
@@ -189,12 +224,11 @@ abstract class Babelu_libModelCms
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
 		$localConfig = $this->config;
-		$dispatcher  = $this->getDispatcher();
 
 		$options = array();
 
@@ -221,36 +255,6 @@ abstract class Babelu_libModelCms
 		$cache->clean();
 
 		// Trigger the onContentCleanCache event.
-		$dispatcher->trigger('onContentCleanCache', $options);
+		$this->dispatcher->trigger('onContentCleanCache', $options);
 	}
-
-	/**
-	 * Method to get a dispatcher
-	 * @return JEventDispatcher
-	 */
-	public function getDispatcher()
-	{
-		$version = new JVersion();
-		if ($version->isCompatible('3.0'))
-		{
-			// Get the dispatcher.
-			$dispatcher = JEventDispatcher::getInstance();
-		}
-		else
-		{
-			// Get the dispatcher.
-			$dispatcher = JDispatcher::getInstance();
-		}
-
-		return $dispatcher;
-	}
-
-	/**
-	 * Method to check the session token
-	 */
-	protected function validateSession()
-	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-	}
-
 }
