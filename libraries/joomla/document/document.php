@@ -1011,9 +1011,9 @@ class JDocument
 		{
 			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
 
-			if (is_dir(pathinfo($this->_file)['dirname'].'/document'))
+			if (is_dir(dirname($this->_file) . '/document'))
 			{
-				$path = pathinfo($this->_file)['dirname'] . '/document/' . $this->_type . '/renderer/' . $type . '.php';
+				$path = dirname($this->_file) . '/document/' . $this->_type . '/renderer/' . $type . '.php';
 			}
 
 			if (file_exists($path))
