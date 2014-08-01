@@ -1,80 +1,39 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Model
- *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @version   0.0.2
+ * @package   Babel-U-Lib
+ * @copyright Copyright (C) 2011 - 2014 Mathew Lenning. All rights reserved.
+ * @license   GNU General Public License version 2 or later; see LICENSE.txt
+ * @author    Mathew Lenning - http://babel-university.com/
  */
 
-use Joomla\Registry\Registry as JRegistry;
+// No direct access
+defined('_JEXEC') or die;
 
-defined('JPATH_PLATFORM') or die;
-
-/**
- * Base Cms model.
- *
- * @package     Joomla.Libraries
- * @subpackage  Model
- * @since       3.4
- */
-abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
+abstract class Babelu_libModelCms
 {
 	/**
-	 * The model (base) name
+	 * Configuration array
 	 *
-	 * @var    string
-	 * @since  3.4
-	 */
-	protected $name = null;
-
-	/**
-	 * The injected config
-	 *
-	 * @var    string
-	 * @since  3.4
+	 * @var array
 	 */
 	protected $config = array();
 
 	/**
-	 * The object content type
+	 * A state object
 	 *
 	 * @var    string
-	 * @since  3.4
+	 * @since  12.2
 	 */
-	protected $contentType = null;
-
-	/**
-	 * The URL option for the component.
-	 *
-	 * @var    string
-	 * @since  3.4
-	 */
-	protected $option = null;
-
-	/**
-	 * The global dispatcher object.
-	 *
-	 * @var    string
-	 * @since  3.4
-	 */
-	protected $dispatcher = null;
-
-	/**
-	 * The prefix to use with controller messages.
-	 *
-	 * @var    string
-	 * @since  3.4
-	 */
-	protected $text_prefix = null;
+	protected $state;
 
 	/**
 	 * Indicates if the internal state has been set
 	 *
 	 * @var    boolean
-	 * @since  3.4
+	 * @since  12.2
 	 */
-	protected $stateSet = false;
+	protected $stateIsSet = false;
 
 	/**
 	 * Flag if the internal state should be updated
@@ -82,231 +41,73 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 *
 	 * @var boolean
 	 */
-	protected $ignoreRequest = false;
+	protected $ignoreRequest;
 
-	/**
-	 * The event to trigger on clearing the cache.
-	 *
-	 * @var    string
-	 * @since  3.4
-	 */
-	protected $event_clean_cache = 'onContentCleanCache';
-
-	/**
-	 * Constructor
-	 *
-	 * @param   array             $config      An array of configuration options. Must have model
-	 *                                         and option keys.
-	 * @param   JDatabaseDriver   $db          The database adpater.
-	 * @param   JEventDispatcher  $dispatcher  The event dispatcher
-	 *
-	 * @since   3.4
-	 */
-	public function __construct(array $config, JDatabaseDriver $db = null, JEventDispatcher $dispatcher = null)
+	public function __construct($config = array())
 	{
-		// Set the model name, component name, config and event dispatcher
-		$this->name = $config['model'];
-		$this->option = $config['option'];
 		$this->config = $config;
-		$this->dispatcher = $dispatcher ? $dispatcher : JEventDispatcher::getInstance();
 
-		if (array_key_exists('contentType', $config))
+		if (array_key_exists('state', $config) && ($config['state'] instanceof JObject))
 		{
-			$this->contentType = $config['contentType'];
+			$this->state = $config['state'];
 		}
 		else
 		{
-			$this->contentType = $this->option . '.' . $this->name;
+			$this->state = new JObject();
 		}
 
-		// If we don't have a db param see if one got set in the config for legacy purposes
-		// @deprecated This if block is deprecated and will be removed in Joomla 4.
-		if (!$db && array_key_exists('dbo', $config) && $config['dbo'] instanceof JDatabaseDriver)
-		{
-			$db = $config['dbo'];
-
-			JLog::add('Passing the database object via the config is deprecated. Use the constructor parameter instead', JLog::WARNING, 'deprecated');
-		}
-
-		// Register the path for the table object
-		$this->addTablePath();
-
-		// Guess the JText message prefix. Defaults to the option.
-		if (isset($config['text_prefix']))
-		{
-			$this->text_prefix = strtoupper($config['text_prefix']);
-		}
-		elseif (empty($this->text_prefix))
-		{
-			$this->text_prefix = strtoupper($this->option);
-		}
-
-		// Used to ignore setting state from the request
 		if (!empty($config['ignore_request']))
 		{
 			$this->ignoreRequest = true;
 		}
-
-		// Set the clean cache event
-		if (isset($config['event_clean_cache']))
-		{
-			$this->event_clean_cache = $config['event_clean_cache'];
-		}
-
-		// Set the model state. Check we have a JRegistry instance as state was a JObject in
-		// legacy MVC
-		if (array_key_exists('state', $config) && $config['state'] instanceof JRegistry)
-		{
-			$state = $config['state'];
-		}
-		else
-		{
-			$state = new JRegistry;
-		}
-
-		parent::__construct($state, $db);
-	}
-
-	/**
-	 * Adds to the stack of model table paths in LIFO order.
-	 *
-	 * @param   mixed  $path  The directory as a string or directories as an array to add.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 */
-	public function addTablePath($path = null)
-	{
-		if($path)
-		{
-			JTable::addIncludePath($path);
-
-			return;
-		}
-
-		// If we haven't been given a path then if there is one set in the config we register that
-		// else try constructing a path.
-		if (array_key_exists('table_path', $this->config))
-		{
-			JTable::addIncludePath($this->config['table_path']);
-		}
-		else
-		{
-			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/table');
-		}
-	}
-
-	/**
-	 * Clean the cache
-	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 */
-	protected function cleanCache($group = null, $client_id = 0)
-	{
-		$app = JFactory::getApplication();
-
-		$options = array(
-			'defaultgroup' => ($group) ? $group : $this->option,
-			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $app->get('cache_path', JPATH_SITE . '/cache')
-		);
-
-		$cache = JCache::getInstance('callback', $options);
-		$cache->clean();
-
-		// Trigger the onContentCleanCache event.
-		$this->dispatcher->trigger($this->event_clean_cache, $options);
-	}
-
-	/**
-	 * Get the content type for ucm
-	 *
-	 * @return  string  The content type alias
-	 */
-	public function getContentType()
-	{
-		return $this->contentType;
-	}
-
-	/**
-	 * Method to get the model name. Required for implementation of the CMS
-	 * interface
-	 *
-	 * @return  string  The name of the model
-	 *
-	 * @since   3.4
-	 */
-	public function getName()
-	{
-		return $this->name;
 	}
 
 	/**
 	 * Method to get model state variables
 	 *
-	 * @return  JRegistry  The state object
+	 * @param   string $property Optional parameter name
+	 * @param   mixed  $default  Optional default value
 	 *
-	 * @since   3.4
+	 * @return  object  The property where specified, the state object where omitted
+	 *
+	 * @since   12.2
 	 */
-	public function getState()
+	public function getState($property = null, $default = null)
 	{
-		if (!$this->ignoreRequest && !$this->stateSet)
+		if (!$this->ignoreRequest && !$this->stateIsSet)
 		{
 			// Protected method to auto-populate the model state.
 			$this->populateState();
 
 			// Set the model state set flag to true.
-			$this->stateSet = true;
+			$this->stateIsSet = true;
 		}
 
-		return parent::getState();
+		if ($property === null)
+		{
+			$returnProperty = $this->state;
+		}
+		else
+		{
+			$returnProperty = $this->state->get($property, $default);
+		}
+
+		return $returnProperty;
 	}
 
 	/**
-	 * Method to get a table object, load it if necessary.
+	 * Method to set model state variables
 	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
+	 * @param   string $property The name of the property.
+	 * @param   mixed  $value    The value of the property to set or null.
 	 *
-	 * @return  JTableInterface  A JTableInterface object
+	 * @return  mixed  The previous value of the property or null if not set.
 	 *
-	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @since   12.2
 	 */
-	public function getTable($name = null, $prefix = null, $options = array())
+	public function setState($property, $value = null)
 	{
-		if (!$name)
-		{
-			$name = $this->name;
-		}
-
-		if (!$prefix)
-		{
-			$prefix = $this->option . 'Table';
-		}
-
-		// Make sure we are giving a JDatabaseDriver object to the table
-		if (!array_key_exists('dbo', $options))
-		{
-			$options['dbo'] = $this->getDb();
-		}
-
-		// Try and get table instance
-		$table = JTable::getInstance($name, $prefix, $options);
-
-		if ($table instanceof JTableInterface)
-		{
-			return $table;
-		}
-
-		// If the table isn't a instance of JTableInterface throw an exception
-		throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
+		return $this->state->set($property, $value);
 	}
 
 	/**
@@ -316,13 +117,140 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
 	 *
+	 * @param string $ordering  column to order by. I.E. 'a.title'
+	 * @param string $direction 'ASC' or 'DESC'
+	 *
 	 * @return  void
 	 *
 	 * @note    Calling getState in this method will result in recursion.
-	 * @since   3.4
+	 * @since   12.2
 	 */
-	protected function populateState()
+	protected function populateState($ordering = null, $direction = null)
 	{
-		$this->loadState();
+		if (!$this->stateIsSet)
+		{
+			//do something
+		}
 	}
+
+	/**
+	 * Method to authorise the current user for an action.
+	 * This method is intended to be overridden to allow for customized access rights
+	 *
+	 * @param string $action       ACL action string. I.E. 'core.create'
+	 * @param string $assetName    asset name to check against.
+	 * @param object $activeRecord active record data to check against
+	 *
+	 * @return bool
+	 * @see JUser::authorise
+	 */
+	public function allowAction($action, $assetName = null, $activeRecord = null)
+	{
+		if (is_null($assetName))
+		{
+			$config    = $this->config;
+			$assetName = $config['option'];
+		}
+
+		$user = JFactory::getUser();
+		if($action == 'core.edit.own')
+		{
+			if(is_null($activeRecord) || !isset($activeRecord->owner)) //not a record or isn't tracking ownership
+			{
+				$action = 'core.edit';
+			}
+			elseif($user->id != $activeRecord->owner && !$user->authorise('core.admin', $assetName)) //not the owner so the answer is no
+			{
+				return false;
+			}
+		}
+
+		return $user->authorise($action, $assetName);
+	}
+
+	/**
+	 * Method to get the model context.
+	 * $context = $config['option'].'.'.$config['subject'];
+	 * @return string
+	 */
+	public function getContext()
+	{
+		$config  = $this->config;
+		$context = $config['option'] . '.' . $config['subject'];
+
+		return $context;
+	}
+
+	/**
+	 * Clean the cache
+	 *
+	 * @param   string  $group     The cache group
+	 * @param   integer $client_id The ID of the client
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	protected function cleanCache($group = null, $client_id = 0)
+	{
+		$localConfig = $this->config;
+		$dispatcher  = $this->getDispatcher();
+
+		$options = array();
+
+		if ($group)
+		{
+			$options['defaultgroup'] = $group;
+		}
+		else
+		{
+			$options['defaultgroup'] = $localConfig['option'];
+		}
+
+		if ($client_id)
+		{
+			$options['cachebase'] = JPATH_ADMINISTRATOR . '/cache';
+		}
+		else
+		{
+			$globalConfig        = JFactory::getConfig();
+			$options['cachbase'] = $globalConfig->get('cache_path', JPATH_SITE . '/cache');
+		}
+
+		$cache = JCache::getInstance('callback', $options);
+		$cache->clean();
+
+		// Trigger the onContentCleanCache event.
+		$dispatcher->trigger('onContentCleanCache', $options);
+	}
+
+	/**
+	 * Method to get a dispatcher
+	 * @return JEventDispatcher
+	 */
+	public function getDispatcher()
+	{
+		$version = new JVersion();
+		if ($version->isCompatible('3.0'))
+		{
+			// Get the dispatcher.
+			$dispatcher = JEventDispatcher::getInstance();
+		}
+		else
+		{
+			// Get the dispatcher.
+			$dispatcher = JDispatcher::getInstance();
+		}
+
+		return $dispatcher;
+	}
+
+	/**
+	 * Method to check the session token
+	 */
+	protected function validateSession()
+	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+	}
+
 }
