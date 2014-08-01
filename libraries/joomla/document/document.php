@@ -130,6 +130,14 @@ class JDocument
 	public $_profile = '';
 
 	/**
+	 * The full path to active template index.php
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	public $_file = '';
+
+	/**
 	 * Array of linked scripts
 	 *
 	 * @var    array
@@ -1011,7 +1019,7 @@ class JDocument
 		{
 			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
 
-			if (is_dir(dirname($this->_file) . '/document'))
+			if (is_dir(dirname($this->_file) . '/document/' . $this->_type . '/renderer'))
 			{
 				$path = dirname($this->_file) . '/document/' . $this->_type . '/renderer/' . $type . '.php';
 			}
