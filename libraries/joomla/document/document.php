@@ -1011,6 +1011,11 @@ class JDocument
 		{
 			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
 
+			if (is_dir(pathinfo($this->_file)['dirname'].'/document'))
+			{
+				$path = pathinfo($this->_file)['dirname'] . '/document/' . $this->_type . '/renderer/' . $type . '.php';
+			}
+
 			if (file_exists($path))
 			{
 				require_once $path;
