@@ -128,9 +128,6 @@ class PlgContentEmailcloak extends JPlugin
 		// Any Image link
 		$searchImage	=	"(<img[^>]+>)";
 
-		// Any image link + any text
-		$searchAny	= '(<img[^>]+>)+((?:[\x20-\x7f]|[\xA1-\xFF]|[\xC2-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF4][\x80-\xBF]{3})[^<>]+)';
-
 		/*
 		 * Search and fix derivatives of link code <a href="http://mce_host/ourdirectory/email@example.org"
 		 * >email@example.org</a>. This happens when inserting an email in TinyMCE, cancelling its suggestion to add
@@ -242,7 +239,7 @@ class PlgContentEmailcloak extends JPlugin
 		 * Search for derivatives of link code <a href="mailto:email@example.org">
 		 * <img anything>any text</a>
 		 */
-		$pattern = $this->_getPattern($searchEmail, $searchAny);
+		$pattern = $this->_getPattern($searchEmail, ($searchImage . $searchText));
 
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
@@ -331,9 +328,9 @@ class PlgContentEmailcloak extends JPlugin
 
 		/*
 		 * Search for derivatives of link code
-		* <a href="mailto:email@amail.com?subject=Text"><img anything>any text</a>
-		*/
-		$pattern = $this->_getPattern($searchEmailLink, $searchAny);
+		 * <a href="mailto:email@amail.com?subject=Text"><img anything>any text</a>
+		 */
+		$pattern = $this->_getPattern($searchEmailLink, ($searchImage . $searchText));
 
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
