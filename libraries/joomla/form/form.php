@@ -2052,14 +2052,14 @@ class JForm
 	/**
 	 * Method to get an instance of a form.
 	 *
-	 * @param   string  $name     The name of the form.
-	 * @param   string  $data     The name of an XML file or string to load as the form definition.
-	 * @param   array   $options  An array of form options.
-	 * @param   string  $replace  Flag to toggle whether form fields should be replaced if a field
+	 * @param   string   $name     The name of the form.
+	 * @param   string   $data     The name of an XML file or string to load as the form definition.
+	 * @param   array    $options  An array of form options.
+	 * @param   boolean  $replace  Flag to toggle whether form fields should be replaced if a field
 	 *                            already exists with the same group/name.
-	 * @param   string  $xpath    An optional xpath to search for the fields.
+	 * @param   boolean  $xpath    An optional xpath to search for the fields.
 	 *
-	 * @return  object  JForm instance.
+	 * @return  JForm  JForm instance.
 	 *
 	 * @since   11.1
 	 * @throws  InvalidArgumentException if no data provided.
