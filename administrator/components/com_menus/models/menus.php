@@ -160,8 +160,9 @@ class MenusModelMenus extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select all fields from the table.
-		$query->select($this->getState('list.select', 'DISTINCT a.id, a.menutype, a.title, a.description'))
-			->from($db->quoteName('#__menu_types') . ' AS a');
+		$query->select($this->getState('list.select', 'a.id, a.menutype, a.title, a.description'))
+			->from($db->quoteName('#__menu_types') . ' AS a')
+			->where('a.id > 0');
 
 		// Filter by search in title or menutype
 		if ($search = trim($this->getState('filter.search')))
@@ -169,9 +170,6 @@ class MenusModelMenus extends JModelList
 			$search = $db->quote('%' . $db->escape($search, true) . '%');
 			$query->where('(' . 'a.title LIKE ' . $search . ' OR a.menutype LIKE ' . $search . ')');
 		}
-
-		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.id')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
