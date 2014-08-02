@@ -311,7 +311,7 @@ class JMail extends PHPMailer
 	}
 
 	/**
-	 * Add file attachments to the email
+	 * Add file attachment to the email
 	 *
 	 * @param   mixed  $path        Either a string or array of strings [filenames]
 	 * @param   mixed  $name       	Either a string or array of strings [names]
@@ -351,6 +351,39 @@ class JMail extends PHPMailer
 			{
 				parent::addAttachment($path, $name, $encoding, $type);
 			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Unset all file attachments from the email
+	 *
+	 * @return  JMail  Returns this object for chaining.
+	 *
+	 * @since   12.2
+	 */
+	public function clearAttachments()
+	{
+		parent::clearAttachments();
+
+		return $this;
+	}
+
+	/**
+	 * Unset file attachments specified by array index.
+	 *
+	 * @param   integer  $index     The numerical index of the attachment to remove
+	 *
+	 * @return  JMail  Returns this object for chaining.
+	 *
+	 * @since   12.2
+	 */
+	public function removeAttachment($index = 0)
+	{
+		if (isset($this->attachment[0]))
+		{
+			unset($this->attachment[0]);
 		}
 
 		return $this;
