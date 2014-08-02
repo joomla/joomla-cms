@@ -351,7 +351,17 @@ class JHelperTags extends JHelper
 		 */
 		$ucmContentTable = JTable::getInstance('Corecontent');
 
-		return $result && $ucmContentTable->deleteByContentId($contentItemId, $this->typeAlias);
+		// Avoid deleting complete UCM entries
+		if ($table instanceof JTableCorecontent)
+		{
+
+			return $result;
+		}
+		else
+		{
+
+			return $result && $ucmContentTable->deleteByContentId($contentItemId, $this->typeAlias);
+		}
 	}
 
 	/**
