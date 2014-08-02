@@ -89,7 +89,7 @@ class ContentModelArticle extends JModelAdmin
 
 			// Reset the ID because we are making a copy
 			$this->table->id = 0;
-			
+
 			// Reset hits because we are making a copy
 			$this->table->hits = 0;
 
