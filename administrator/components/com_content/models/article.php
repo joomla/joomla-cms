@@ -384,7 +384,6 @@ class ContentModelArticle extends JModelAdmin
 				$form->setFieldAttribute('language', 'readonly', 'true');
 				$form->setFieldAttribute('catid', 'readonly', 'true');
 				$form->setFieldAttribute('language', 'filter', 'unset');
-				$form->setFieldAttribute('catid', 'filter', 'unset');
 			}
 		}
 
