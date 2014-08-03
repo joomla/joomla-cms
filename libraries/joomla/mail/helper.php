@@ -107,7 +107,6 @@ abstract class JMailHelper
 	 * @return  boolean  True if string has the correct format; false otherwise.
 	 *
 	 * @since   11.1
-	 * @note    At CMS 4.0, this method is scheduled to convert to a wrapper for filter_var($email, FILTER_VALIDATE_EMAIL);
 	 */
 	public static function isEmailAddress($email)
 	{
@@ -137,8 +136,10 @@ abstract class JMailHelper
 			return false;
 		}
 
-		// No problem if the domain looks like an IPv4 and IPv6 address
-		if (inet_pton($domain))
+		// No problem if the domain looks like an IP address, ish
+		$regex = '/^[0-9\.]+$/';
+
+		if (preg_match($regex, $domain))
 		{
 			return true;
 		}
