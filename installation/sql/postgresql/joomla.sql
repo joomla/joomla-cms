@@ -1863,7 +1863,7 @@ CREATE INDEX "#__user_notes_idx_category_id" ON "#__user_notes" ("catid");
 CREATE TABLE "#__user_profiles" (
   "user_id" bigint NOT NULL,
   "profile_key" varchar(100) NOT NULL,
-  "profile_value" varchar(255) NOT NULL,
+  "profile_value" text NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
   CONSTRAINT "#__user_profiles_idx_user_id_profile_key" UNIQUE ("user_id", "profile_key")
 );
