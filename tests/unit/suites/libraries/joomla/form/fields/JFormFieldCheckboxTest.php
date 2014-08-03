@@ -17,7 +17,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldCheckbox-helper-dataset.php';
  * @subpackage  Form
  * @since       11.1
  */
-class JFormFieldCheckboxTest extends TestCase
+class JFormFieldCheckboxTest extends TestCaseDatabase
 {
 	/**
 	 * Backup of the SERVER superglobal
