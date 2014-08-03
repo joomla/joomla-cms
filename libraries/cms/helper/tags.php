@@ -357,11 +357,8 @@ class JHelperTags extends JHelper
 
 			return $result;
 		}
-		else
-		{
 
-			return $result && $ucmContentTable->deleteByContentId($contentItemId, $this->typeAlias);
-		}
+		return $result && $ucmContentTable->deleteByContentId($contentItemId, $this->typeAlias);
 	}
 
 	/**
