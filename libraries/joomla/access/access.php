@@ -141,10 +141,8 @@ class JAccess
 		// Default to the root asset node.
 		if (empty($asset))
 		{
-			// TODO: $rootId doesn't seem to be used!
 			$db = JFactory::getDbo();
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
-			$rootId = $assets->getRootId();
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
