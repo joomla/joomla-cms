@@ -51,7 +51,7 @@
 				validate="color"
 				label="TPL_ISIS_COLOR_LABEL"
 				description="TPL_ISIS_COLOR_DESC" />
-				
+
 				<field name="headerColor" class="" type="color" default="#184A7D"
 				validate="color"
 				label="TPL_ISIS_COLOR_HEADER_LABEL"
@@ -65,6 +65,10 @@
 				<field name="logoFile" class="" type="media" default=""
 				label="TPL_ISIS_LOGO_LABEL"
 				description="TPL_ISIS_LOGO_DESC" />
+				
+				<field name="loginLogoFile" class="" type="media" default=""
+				label="TPL_ISIS_LOGIN_LOGO_LABEL"
+				description="TPL_ISIS_LOGIN_LOGO_DESC" />
 
 				<field name="admin_menus" type="radio"
 				class="btn-group btn-group-yesno"
