@@ -947,7 +947,7 @@ abstract class JHtml
 	 * @param   string  $name     The name of the text field
 	 * @param   string  $id       The id of the text field
 	 * @param   string  $format   The date format
-	 * @param   array   $attribs  Additional HTML attributes
+	 * @param   mixed   $attribs  Additional HTML attributes
 	 *
 	 * @return  string  HTML markup for a calendar field
 	 *
@@ -962,14 +962,14 @@ abstract class JHtml
 			$done = array();
 		}
 
-		$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
-		$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
-
 		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
 
 		if (is_array($attribs))
 		{
+			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
+			$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
+
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
