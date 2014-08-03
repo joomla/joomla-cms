@@ -71,6 +71,10 @@
 				label="TPL_ISIS_LOGO_LABEL"
 				description="TPL_ISIS_LOGO_DESC" />
 
+				<field name="loginLogoFile" class="" type="media" default=""
+				label="TPL_ISIS_LOGIN_LOGO_LABEL"
+				description="TPL_ISIS_LOGIN_LOGO_DESC" />
+
 				<field name="admin_menus" type="radio"
 				class="btn-group btn-group-yesno"
 				default="1"
