@@ -351,6 +351,13 @@ class JHelperTags extends JHelper
 		 */
 		$ucmContentTable = JTable::getInstance('Corecontent');
 
+		// Avoid deleting complete UCM entries
+		if ($table instanceof JTableCorecontent)
+		{
+
+			return $result;
+		}
+
 		return $result && $ucmContentTable->deleteByContentId($contentItemId, $this->typeAlias);
 	}
 
@@ -751,7 +758,7 @@ class JHelperTags extends JHelper
 	 * @since   3.1
 	 */
 	public function postStoreProcess(JTableInterface $table, $newTags = array(), $replace = true)
-	{
+	{//throw new uiyi();
 		if (!empty($table->newTags) && empty($newTags))
 		{
 				$newTags = $table->newTags;
@@ -1025,4 +1032,5 @@ class JHelperTags extends JHelper
 
 		return (boolean) $db->execute();
 	}
+
 }

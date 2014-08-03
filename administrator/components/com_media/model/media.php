@@ -207,7 +207,7 @@ class MediaModelMedia extends ConfigModelForm
 
 		$fname = explode('.', $file['name']);
 		$data['core_type_id'] = $typeId;
-		$data['core_content_item_id'] = $typeId;
+//		$data['core_content_item_id'] = $typeId;
 		$data['core_type_alias'] = 'com_media.image';
 		$data['core_title'] = $fname[0];
 		$data['core_alias'] = JFilterOutput::stringURLSafe($fname[0]);
@@ -224,6 +224,34 @@ class MediaModelMedia extends ConfigModelForm
 
 		if ($row->store())
 		{
+			// Need to fix _ucm_base & _ucm_content tables here
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+
+			$query 	-> select($db->quoteName('core_content_id'))
+			-> from($db->quoteName('#__ucm_content'))
+			-> where($db->quoteName('core_urls') . ' = ' . $db->quote($rel_path));
+
+			$db->setQuery($query);
+			$result = $db->loadObject();
+			$pk = $result->core_content_id;
+
+			$query = $db->getQuery(true);
+			$query -> update($db->quoteName('#__ucm_content'))
+			-> set($db->quoteName('core_content_item_id') . ' = ' . $db->quote($pk))
+			-> where($db->quoteName('core_content_id') . ' = ' . $db->quote($pk));
+
+			$db->setQuery($query);
+			$db->execute();
+
+			$query = $db->getQuery(true);
+			$query -> update($db->quoteName('#__ucm_base'))
+			-> set($db->quoteName('ucm_item_id') . ' = ' . $db->quote($pk))
+			-> where($db->quoteName('ucm_id') . ' = ' . $db->quote($pk));
+
+			$db->setQuery($query);
+			$db->execute();
+			
 			return true;
 		}
 		else
