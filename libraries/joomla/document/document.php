@@ -1014,14 +1014,15 @@ class JDocument
 	public function loadRenderer($type)
 	{
 		$class = 'JDocumentRenderer' . $type;
+		$file = $this->_file;
 
 		if (!class_exists($class))
 		{
 			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
 
-			if (file_exists(dirname($this->_file) . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
+			if (file_exists(dirname($file) . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
 			{
-				$path = dirname($this->_file) . '/document/' . $this->_type . '/renderer/' . $type . '.php';
+				$path = dirname($file) . '/document/' . $this->_type . '/renderer/' . $type . '.php';
 			}
 
 			if (file_exists($path))
