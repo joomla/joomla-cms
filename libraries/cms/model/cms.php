@@ -21,7 +21,8 @@ abstract class JModelCms extends JModelDatabase
 	/**
 	 * Configuration array
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.4
 	 */
 	protected $config = array();
 
@@ -29,7 +30,7 @@ abstract class JModelCms extends JModelDatabase
 	 * Indicates if the internal state has been set
 	 *
 	 * @var    boolean
-	 * @since  12.2
+	 * @since  3.4
 	 */
 	protected $stateIsSet = false;
 
@@ -37,7 +38,8 @@ abstract class JModelCms extends JModelDatabase
 	 * Flag if the internal state should be updated
 	 * from request
 	 *
-	 * @var boolean
+	 * @var    boolean
+	 * @since  3.4
 	 */
 	protected $ignoreRequest;
 
@@ -67,7 +69,7 @@ abstract class JModelCms extends JModelDatabase
 	 *
 	 * @since  3.4
 	 */
-	public function __construct(JRegistry $state = null, JDatabaseDriver $db = null, JEventDispatcher $dispatcher, $config = array())
+	public function __construct(JRegistry $state = null, JDatabaseDriver $db = null, JEventDispatcher $dispatcher = null, $config = array())
 	{
 		$this->config = $config;
 		$this->dispatcher = $dispatcher ? $dispatcher : JEventDispatcher::getInstance();
@@ -153,7 +155,7 @@ abstract class JModelCms extends JModelDatabase
 	 * @return  void
 	 *
 	 * @note    Calling getState in this method will result in recursion.
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -172,7 +174,9 @@ abstract class JModelCms extends JModelDatabase
 	 * @param object $activeRecord active record data to check against
 	 *
 	 * @return bool
-	 * @see JUser::authorise
+	 *
+	 * @since  3.4
+	 * @see    JUser::authorise
 	 */
 	public function allowAction($action, $assetName = null, $activeRecord = null)
 	{

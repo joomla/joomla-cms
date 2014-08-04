@@ -18,7 +18,14 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JModelUcm extends JModelCollection
 {
+	/**
+	 * The type alias for the UCM table.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
 	protected $typeAlias;
+
 	/**
 	 * Method to load a row for editing from the version history table.
 	 *
@@ -26,7 +33,8 @@ abstract class JModelUcm extends JModelCollection
 	 * @param   JTable  $table      Content table object being loaded.
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
-	 * @throws ErrorException
+	 *
+	 * @throws  RuntimeException
 	 * @since   12.2
 	 */
 	public function loadHistory($version_id, JTable $table)
@@ -40,7 +48,7 @@ abstract class JModelUcm extends JModelCollection
 		{
 			if (!$historyTable->load($version_id))
 			{
-				throw new ErrorException($historyTable->getError());
+				throw new RuntimeException($historyTable->getError());
 			}
 
 			$rowArray = JArrayHelper::fromObject(json_decode($historyTable->version_data));
@@ -56,7 +64,7 @@ abstract class JModelUcm extends JModelCollection
 					$table->checkIn($rowArray[$key]);
 				}
 
-				throw new ErrorException(JText::_('BABELU_LIB_MODEL_ERROR_HISTORY_ID_MISMATCH'));
+				throw new RuntimeException(JText::_($this->text_prefix . '_LIB_MODEL_ERROR_HISTORY_ID_MISMATCH'));
 			}
 		}
 

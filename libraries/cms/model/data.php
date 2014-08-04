@@ -50,8 +50,8 @@ abstract class JModelData extends JModelCms
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   12.2
-	 * @throws  ErrorException
+	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function getTable($prefix = null, $name = null, $config = array())
 	{
@@ -67,7 +67,7 @@ abstract class JModelData extends JModelCms
 
 		if (!$table = $this->createTable( $prefix, $name, $config))
 		{
-			throw new ErrorException(JText::_('BABELU_LIB_MODEL_ERROR_TABLE_NAME_NOT_SUPPORTED').': '. $prefix . 'Table' . $name);
+			throw new RuntimeException(JText::_($this->text_prefix . '_LIB_MODEL_ERROR_TABLE_NAME_NOT_SUPPORTED').': '. $prefix . 'Table' . $name);
 		}
 		return $table;
 
@@ -94,7 +94,7 @@ abstract class JModelData extends JModelCms
 		// Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config))
 		{
-			$config['dbo'] = $this->getDbo();
+			$config['dbo'] = $this->getDb();
 		}
 
 		$className = $prefix . 'Table' . $name;
@@ -107,8 +107,6 @@ abstract class JModelData extends JModelCms
 	 *
 	 * @param int $pk primary key of record
 	 *
-	 * @throws InvalidArgumentException
-	 * @throws ErrorException
 	 * @return boolean
 	 * @see JCmsModelData::checkin
 	 */
@@ -127,8 +125,6 @@ abstract class JModelData extends JModelCms
 	 *
 	 * @param int $pk primary key
 	 *
-	 * @throws InvalidArgumentException
-	 * @throws ErrorException
 	 * @return boolean
 	 * @see JCmsModelData::checkout
 	 */
@@ -147,7 +143,7 @@ abstract class JModelData extends JModelCms
 	 *
 	 * @param int $pk primary key
 	 *
-	 * @throws ErrorException
+	 * @throws RuntimeException
 	 * @return JTable
 	 */
 	protected function getActiveRecord($pk)
@@ -157,7 +153,7 @@ abstract class JModelData extends JModelCms
 
 		if (!$table->load($pk))
 		{
-			throw new ErrorException($table->getError());
+			throw new RuntimeException($table->getError());
 		}
 
 		return $table;
@@ -175,13 +171,14 @@ abstract class JModelData extends JModelCms
 		$hasCheckedOut     = (property_exists($table, 'checked_out'));
 		$hasCheckedOutTime = (property_exists($table, 'checked_out_time'));
 
-		// If there is no checked_out or checked_out_time field, just return true.
+		// If there is no checked_out or checked_out_time field or it is empty, return true.
 		if ($hasCheckedOut && $hasCheckedOutTime)
 		{
-			return true; // is lockable
+			return true;
 		}
 
-		return false; // is not lockable
+		// Is not lockable
+		return false;
 	}
 
 

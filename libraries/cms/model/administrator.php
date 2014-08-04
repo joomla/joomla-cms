@@ -31,8 +31,9 @@ abstract class JModelAdministrator extends JModelUcm
 	 *
 	 * @param array $data
 	 *
-	 * @throws ErrorException
 	 * @return boolean
+	 *
+	 * @throws RuntimeException
 	 */
 	public function create($data)
 	{
@@ -60,13 +61,13 @@ abstract class JModelAdministrator extends JModelUcm
 
 		if (in_array(false, $result, true))
 		{
-			throw new ErrorException($table->getError());
+			throw new RuntimeException($table->getError());
 		}
 
 		// Store the data.
 		if (!$table->store())
 		{
-			throw new ErrorException($table->getError());
+			throw new RuntimeException($table->getError());
 		}
 
 		// Clean the cache.
@@ -218,14 +219,15 @@ abstract class JModelAdministrator extends JModelUcm
 	 *
 	 * @see     JFormField
 	 * @since   12.2
-	 * @throws  Exception if there is an error in the form event.
+	 *
+	 * @throws  RuntimeException if there is an error in the form event.
 	 */
 	protected function preprocessForm($form, $data, $group = 'content')
 	{
 		// Import the appropriate plugin group.
 		JPluginHelper::importPlugin($group);
 
-		$dispatcher = $this->getDispatcher();
+		$dispatcher = $this->dispatcher;
 
 		// Trigger the form preparation event.
 		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
@@ -238,7 +240,7 @@ abstract class JModelAdministrator extends JModelUcm
 
 			if (!($error instanceof Exception))
 			{
-				throw new Exception($error);
+				throw new RuntimeException($error);
 			}
 		}
 	}
@@ -250,12 +252,12 @@ abstract class JModelAdministrator extends JModelUcm
 	 * @param   array  $data  The data to validate.
 	 * @param   string $group The name of the field group to validate.
 	 *
-	 * @throws ErrorException
 	 * @return  mixed  Array of filtered data if valid
 	 *
 	 * @see     JFormRule
 	 * @see     JFilterInput
 	 * @since   12.2
+	 * @throws  RuntimeException
 	 */
 	public function validate($form, $data, $group = null)
 	{
@@ -268,7 +270,7 @@ abstract class JModelAdministrator extends JModelUcm
 		}
 		catch (Exception $e)
 		{
-			throw new ErrorException($e->getMessage());
+			throw new RuntimeException($e->getMessage());
 		}
 
 		// Check the validation results.
@@ -289,7 +291,7 @@ abstract class JModelAdministrator extends JModelUcm
 				$i++;
 			}
 
-			throw new ErrorException($msg);
+			throw new RuntimeException($msg);
 		}
 
 		// Tags B/C break at 3.1.2
@@ -306,8 +308,10 @@ abstract class JModelAdministrator extends JModelUcm
 	 *
 	 * @param array $data
 	 *
-	 * @throws ErrorException
 	 * @return boolean
+	 *
+	 * @since  3.4
+	 * @throws RuntimeException
 	 */
 	public function update($data)
 	{
@@ -330,20 +334,20 @@ abstract class JModelAdministrator extends JModelUcm
 
 		// Get dispatcher and include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
-		$dispatcher = $this->getDispatcher();
+		$dispatcher = $this->dispatcher;
 		$config     = $this->config;
 
 		$result = $dispatcher->trigger('onContentBeforeSave', array($config['option'] . '.' . $config['subject'], $table, false));
 
 		if (in_array(false, $result, true))
 		{
-			throw new ErrorException($table->getError());
+			throw new RuntimeException($table->getError());
 		}
 
 		// Store the data.
 		if (!$table->store())
 		{
-			throw new ErrorException($table->getError());
+			throw new RuntimeException($table->getError());
 		}
 
 		// Clean the cache.
@@ -367,18 +371,18 @@ abstract class JModelAdministrator extends JModelUcm
 	 *
 	 * @param array $cid array of record primary keys.
 	 *
-	 * @throws ErrorException
-	 * @internal param array $pks
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
 	 * @since    12.2
+	 * @throws   RuntimeException
+	 * @internal  param array $pks
 	 */
 	public function delete($cid)
 	{
 		// Include the content plugins for the on delete events.
 		JPluginHelper::importPlugin('content');
-		$dispatcher = $this->getDispatcher();
+		$dispatcher = $this->dispatcher;
 
 		$config = $this->config;
 		$pks    = (array) $cid;
@@ -396,7 +400,7 @@ abstract class JModelAdministrator extends JModelUcm
 
 				if (in_array(false, $result, true))
 				{
-					throw new ErrorException($activeRecord->getError());
+					throw new RuntimeException($activeRecord->getError());
 				}
 
 				$activeRecord->delete($pk);
@@ -406,7 +410,7 @@ abstract class JModelAdministrator extends JModelUcm
 			}
 			else
 			{
-				throw new ErrorException('BABELU_LIB_ACL_ERROR_DELETE_NOT_PERMITTED');
+				throw new RuntimeException($this->text_prefix . '_LIB_ACL_ERROR_DELETE_NOT_PERMITTED');
 
 			}
 		}
@@ -424,7 +428,7 @@ abstract class JModelAdministrator extends JModelUcm
 	 * @param string $type type of state change.
 	 *
 	 * @see JCmsModelAdministrator::getStateTypes
-	 * @throws ErrorException
+	 * @throws RuntimeException
 	 * @return boolean
 	 */
 	public function updateRecordState($cid, $type)
@@ -433,7 +437,7 @@ abstract class JModelAdministrator extends JModelUcm
 
 		if (!array_key_exists($type, $stateChangeTypes))
 		{
-			throw new ErrorException('BABELU_LIB_MODEL_ERROR_UNRECOGNIZED_STATE_CHANGE');
+			throw new RuntimeException($this->text_prefix . '_LIB_MODEL_ERROR_UNRECOGNIZED_STATE_CHANGE');
 		}
 
 		$newState = $stateChangeTypes[$type];
@@ -459,7 +463,7 @@ abstract class JModelAdministrator extends JModelUcm
 
 		// Include the content plugins for the change of state event.
 		JPluginHelper::importPlugin('content');
-		$dispatcher = $this->getDispatcher();
+		$dispatcher = $this->dispatcher;
 
 		$context = $this->getContext();
 
@@ -499,7 +503,7 @@ abstract class JModelAdministrator extends JModelUcm
 	 * @param array  $cid
 	 * @param string $direction up or down
 	 *
-	 * @throws ErrorException
+	 * @throws RuntimeException
 	 * @return boolean
 	 */
 	public function reorder($cid, $direction)
@@ -533,7 +537,7 @@ abstract class JModelAdministrator extends JModelUcm
 			}
 			else
 			{
-				throw new ErrorException('BABELU_LIB_ACL_ERROR_EDIT_STATE_NOT_PERMITTED');
+				throw new ErrorException($this->text_prefix . '_LIB_ACL_ERROR_EDIT_STATE_NOT_PERMITTED');
 			}
 		}
 
@@ -549,16 +553,16 @@ abstract class JModelAdministrator extends JModelUcm
 	 * @param   array   $cid   An array of primary key ids.
 	 * @param   integer $order +1 or -1
 	 *
-	 * @throws ErrorException
 	 * @return  mixed
 	 *
 	 * @since   12.2
+	 * @throws  RuntimeException
 	 */
 	public function saveorder($cid = null, $order = null)
 	{
 		if (empty($cid))
 		{
-			throw new ErrorException(JText::_('BABELU_LIB_MODEL_ERROR_NO_ITEMS_SELECTED'));
+			throw new RuntimeException(JText::_($this->text_prefix . '_LIB_MODEL_ERROR_NO_ITEMS_SELECTED'));
 		}
 
 
@@ -588,7 +592,7 @@ abstract class JModelAdministrator extends JModelUcm
 				// Store the data.
 				if (!$activeRecord->store())
 				{
-					throw new ErrorException($activeRecord->getError());
+					throw new RuntimeException($activeRecord->getError());
 				}
 
 				// Remember to reorder within position and client_id
@@ -634,11 +638,11 @@ abstract class JModelAdministrator extends JModelUcm
 	 * @param array $data  post data from the input
 	 * @param array $files files data from the input
 	 *
-	 * @throws ErrorException
+	 * @throws  RuntimeException
 	 */
 	public function import($data, $files)
 	{
-		throw new ErrorException(JText::_('BABELU_LIB_MODEL_ERROR_IMPORT_NOT_SUPPORTED'));
+		throw new RuntimeException(JText::_($this->text_prefix . '_LIB_MODEL_ERROR_IMPORT_NOT_SUPPORTED'));
 	}
 
 	/**
@@ -647,15 +651,15 @@ abstract class JModelAdministrator extends JModelUcm
 	 * @param   string $context The context identifier.
 	 * @param   mixed  &$data   The data to be processed. It gets altered directly.
 	 *
-	 * @throws Exception
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @throws  RuntimeException
 	 */
 	protected function preprocessData($context, &$data)
 	{
 		// Get the dispatcher and load the users plugins.
-		$dispatcher = $this->getDispatcher();
+		$dispatcher = $this->dispatcher;
 		JPluginHelper::importPlugin('content');
 
 		// Trigger the data preparation event.
@@ -669,7 +673,7 @@ abstract class JModelAdministrator extends JModelUcm
 
 			if (!($error instanceof Exception))
 			{
-				throw new Exception($error);
+				throw new RuntimeException($error);
 			}
 		}
 	}

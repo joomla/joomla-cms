@@ -23,9 +23,9 @@ abstract class JModelRecord extends JModelData
 	 *
 	 * @param   integer $pk The id of the primary key.
 	 *
-	 * @return  mixed    JObject on success, false on failure.
+	 * @return  mixed  Item in stdClass on success, false on failure
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	public function getItem($pk = null)
 	{
@@ -37,9 +37,9 @@ abstract class JModelRecord extends JModelData
 
 		$activeRecord = $this->getActiveRecord($pk);
 
-		// Convert to the JObject before adding other data.
+		// Convert to a stdClass before adding other data.
 		$properties = $activeRecord->getProperties(1);
-		$item       = JArrayHelper::toObject($properties, 'JObject');
+		$item       = JArrayHelper::toObject($properties);
 
 		if (property_exists($item, 'params'))
 		{

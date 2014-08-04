@@ -22,20 +22,22 @@ abstract class JModelCollection extends JModelRecord
 	 * Valid filter fields.
 	 *
 	 * @var    array
-	 * @since  12.2
+	 * @since  3.4
 	 */
 	protected $filterFields = array();
 
 	/**
 	 * Array of field dataKeyNames to search in
-	 * @var array
+	 *
+	 * @var    array
+	 * @since  3.4
 	 */
 	protected $searchFields = array();
 
 
-	public function __construct($config = array())
+	public function __construct(JRegistry $state = null, JDatabaseDriver $db = null, JEventDispatcher $dispatcher = null, $config = array())
 	{
-		parent::__construct($config);
+		parent::__construct($state, $db, $dispatcher, $config);
 
 		// Add the ordering filtering fields white list.
 		if (isset($config['filter_fields']))
@@ -82,7 +84,8 @@ abstract class JModelCollection extends JModelRecord
 	 * @param bool   $sortable    true to add to the filterFields array
 	 * @param bool   $searchable  true to add to the searchFields array
 	 *
-	 * @return JModelList $this to allow for chaining
+	 * @return  JModelCollection  $this to allow for chaining
+	 * @since   3.4
 	 */
 	public function addFilterField($name, $dataKeyName, $sortable = true, $searchable = false)
 	{
@@ -106,11 +109,11 @@ abstract class JModelCollection extends JModelRecord
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	public function getItems()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDb();
 		// Load the list items.
 		$query = $this->getListQuery();
 
@@ -144,7 +147,7 @@ abstract class JModelCollection extends JModelRecord
 	 */
 	protected function getListQuery(JDatabaseQuery $query = null)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDb();
 
 		if (is_null($query))
 		{
@@ -184,8 +187,8 @@ abstract class JModelCollection extends JModelRecord
 			$query->where($search);
 		}
 
-		$orderCol  = $this->state->get('list.ordering');
-		$orderDirn = $this->state->get('list.direction');
+		$orderCol  = $this->getStateVar('list.ordering');
+		$orderDirn = $this->getStateVar('list.direction');
 
 		if ($orderCol && $orderDirn)
 		{
@@ -251,7 +254,7 @@ abstract class JModelCollection extends JModelRecord
 
 					if ($validState && !$isPublishFilter)
 					{
-						$activeFilters[$filterField['dataKeyName']] = $this->state->get($filterName);
+						$activeFilters[$filterField['dataKeyName']] = $this->getStateVar($filterName);
 					}
 				}
 			}
@@ -361,7 +364,7 @@ abstract class JModelCollection extends JModelRecord
 	 */
 	protected function _getListCount(JDatabaseQuery $query)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDb();
 
 		//if this is a select and there are no GROUP BY or HAVING clause
 		//Use COUNT(*) method to improve performance.
@@ -397,7 +400,6 @@ abstract class JModelCollection extends JModelRecord
 	public function getPagination()
 	{
 		// Create the pagination object.
-		jimport('joomla.html.pagination');
 		$limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
 		$page  = new JPagination($this->getTotal(), $this->getStart(), $limit);
 
