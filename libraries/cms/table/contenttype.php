@@ -108,11 +108,11 @@ class JTableContenttype extends JTable
 		$db = $this->_db;
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('type_id'))
-			->from($db->quoteName('#__content_types'))
+			->from($db->quoteName($this->_tbl))
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
 		$db->setQuery($query);
 
-		return $db->loadResult($query);
+		return $db->loadResult();
 	}
 
 	/**
@@ -131,7 +131,17 @@ class JTableContenttype extends JTable
 		{
 			if (is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix))
 			{
-				$result = JTable::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
+				$class = isset($tableInfo->special->class) ? $tableInfo->special->class : 'JTable';
+
+				if (!class_implements($class, 'JTableInterface'))
+				{
+					// This isn't an instance of JTableInterface. Abort.
+					throw new RuntimeException('Class must be an instance of JTableInterface');
+
+					return false;
+				}
+
+				$result = $class::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
 			}
 		}
 

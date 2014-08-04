@@ -474,6 +474,12 @@ class JCache
 			$document->setHeadData($data['head']);
 		}
 
+		// Get the document MIME encoding out of the cache
+		if (isset($data['mime_encoding']))
+		{
+			$document->setMimeEncoding($data['mime_encoding'], true);
+		}
+
 		// If the pathway buffer is set in the cache data, get it.
 		if (isset($data['pathway']) && is_array($data['pathway']))
 		{
@@ -643,11 +649,14 @@ class JCache
 			}
 		}
 
+		// Document MIME encoding
+		$cached['mime_encoding'] = $document->getMimeEncoding();
+
 		// Pathway data
 		if ($app->isSite() && $loptions['nopathway'] != 1)
 		{
 			$pathway = $app->getPathWay();
-			$cached['pathway'] = isset($data['pathway']) ? $data['pathway'] : $pathway->getPathway();
+			$cached['pathway'] = is_array($data) && isset($data['pathway']) ? $data['pathway'] : $pathway->getPathway();
 		}
 
 		if ($loptions['nomodules'] != 1)
@@ -699,12 +708,23 @@ class JCache
 		}
 
 		// Platform defaults
-		$registeredurlparams->format = 'WORD';
-		$registeredurlparams->option = 'WORD';
-		$registeredurlparams->view = 'WORD';
-		$registeredurlparams->layout = 'WORD';
-		$registeredurlparams->tpl = 'CMD';
-		$registeredurlparams->id = 'INT';
+		$defaulturlparams = array(
+			'format' 	=> 'WORD',
+			'option' 	=> 'WORD',
+			'view' 		=> 'WORD',
+			'layout' 	=> 'WORD',
+			'tpl' 		=> 'CMD',
+			'id' 		=> 'INT'
+		);
+		
+		// Use platform defaults if parameter doesn't already exist.
+		foreach($defaulturlparams as $param => $type)
+		{
+			if (!property_exists($registeredurlparams, $param))
+			{
+				$registeredurlparams->$param = $type;
+			}
+		}
 
 		$safeuriaddon = new stdClass;
 

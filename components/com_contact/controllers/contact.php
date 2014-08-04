@@ -32,8 +32,7 @@ class ContactControllerContact extends JControllerForm
 		$id     = (int) $stub;
 
 		// Get the data from POST
-		$data  = $this->input->post->get('jform', array(), 'array');
-
+		$data    = $this->input->post->get('jform', array(), 'array');
 		$contact = $model->getItem($id);
 
 		$params->merge($contact->params);
@@ -57,7 +56,7 @@ class ContactControllerContact extends JControllerForm
 
 		// Contact plugins
 		JPluginHelper::importPlugin('contact');
-		$dispatcher	= JEventDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Validate the posted data.
 		$form = $model->getForm();
@@ -99,7 +98,7 @@ class ContactControllerContact extends JControllerForm
 		}
 
 		// Validation succeeded, continue with custom handlers
-		$results	= $dispatcher->trigger('onValidateContact', array(&$contact, &$data));
+		$results = $dispatcher->trigger('onValidateContact', array(&$contact, &$data));
 
 		foreach ($results as $result)
 		{
@@ -148,22 +147,22 @@ class ContactControllerContact extends JControllerForm
 
 	private function _sendEmail($data, $contact, $copy_email_activated)
 	{
-			$app		= JFactory::getApplication();
+			$app = JFactory::getApplication();
 
 			if ($contact->email_to == '' && $contact->user_id != 0)
 			{
-				$contact_user = JUser::getInstance($contact->user_id);
+				$contact_user      = JUser::getInstance($contact->user_id);
 				$contact->email_to = $contact_user->get('email');
 			}
 
-			$mailfrom	= $app->getCfg('mailfrom');
-			$fromname	= $app->getCfg('fromname');
-			$sitename	= $app->getCfg('sitename');
+			$mailfrom = $app->get('mailfrom');
+			$fromname = $app->get('fromname');
+			$sitename = $app->get('sitename');
 
-			$name		= $data['contact_name'];
-			$email		= JStringPunycode::emailToPunycode($data['contact_email']);
-			$subject	= $data['contact_subject'];
-			$body		= $data['contact_message'];
+			$name    = $data['contact_name'];
+			$email   = JStringPunycode::emailToPunycode($data['contact_email']);
+			$subject = $data['contact_subject'];
+			$body    = $data['contact_message'];
 
 			// Prepare email body
 			$prefix = JText::sprintf('COM_CONTACT_ENQUIRY_TEXT', JUri::base());
@@ -182,9 +181,9 @@ class ContactControllerContact extends JControllerForm
 			// Check whether email copy function activated
 			if ($copy_email_activated == true && !empty($data['contact_email_copy']))
 			{
-				$copytext		= JText::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
-				$copytext		.= "\r\n\r\n" . $body;
-				$copysubject	= JText::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
+				$copytext    = JText::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
+				$copytext    .= "\r\n\r\n" . $body;
+				$copysubject = JText::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
 
 				$mail = JFactory::getMailer();
 				$mail->addRecipient($email);

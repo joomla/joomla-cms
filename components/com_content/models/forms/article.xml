@@ -229,6 +229,7 @@
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="right">COM_CONTENT_RIGHT</option>
 					<option value="left">COM_CONTENT_LEFT</option>
+					<option value="none">COM_CONTENT_NONE</option>
 			</field>
 			</fieldset>
 			<fieldset name="image-full">
@@ -257,6 +258,7 @@
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="right">COM_CONTENT_RIGHT</option>
 					<option value="left">COM_CONTENT_LEFT</option>
+					<option value="none">COM_CONTENT_NONE</option>
 			</field>
 			</fieldset>
 		</fields>

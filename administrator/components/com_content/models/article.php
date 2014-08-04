@@ -90,6 +90,9 @@ class ContentModelArticle extends JModelAdmin
 			// Reset the ID because we are making a copy
 			$this->table->id = 0;
 
+			// Reset hits because we are making a copy
+			$this->table->hits = 0;
+
 			// New category ID
 			$this->table->catid = $categoryId;
 
@@ -102,7 +105,7 @@ class ContentModelArticle extends JModelAdmin
 			// Check the row.
 			if (!$this->table->check())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
@@ -111,7 +114,7 @@ class ContentModelArticle extends JModelAdmin
 			// Store the row.
 			if (!$this->table->store())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
@@ -370,12 +373,19 @@ class ContentModelArticle extends JModelAdmin
 		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
 
-		if ($app->isSite() && $assoc && $this->getState('article.id'))
+		// Check if article is associated
+		if ($this->getState('article.id') && $app->isSite() && $assoc)
 		{
-			$form->setFieldAttribute('language', 'readonly', 'true');
-			$form->setFieldAttribute('catid', 'readonly', 'true');
-			$form->setFieldAttribute('language', 'filter', 'unset');
-			$form->setFieldAttribute('catid', 'filter', 'unset');
+			$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+
+			// Make fields read only
+			if ($associations)
+			{
+				$form->setFieldAttribute('language', 'readonly', 'true');
+				$form->setFieldAttribute('catid', 'readonly', 'true');
+				$form->setFieldAttribute('language', 'filter', 'unset');
+				$form->setFieldAttribute('catid', 'filter', 'unset');
+			}
 		}
 
 		return $form;

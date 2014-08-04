@@ -75,6 +75,14 @@ class PlgSystemDebug extends JPlugin
 	private $totalQueries = 0;
 
 	/**
+	 * Application object.
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.3
+	 */
+	protected $app;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -92,15 +100,19 @@ class PlgSystemDebug extends JPlugin
 			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
 		}
 
-		// Skip the plugin if debug is off
-		$app = JFactory::getApplication();
+		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
+		if (!$this->app)
+		{
+			$this->app = JFactory::getApplication();
+		}
 
-		if ($app->getCfg('debug_lang') == '0' && $app->getCfg('debug') == '0')
+		$this->debugLang = $this->app->get('debug_lang');
+
+		// Skip the plugin if debug is off
+		if ($this->debugLang == '0' && $this->app->get('debug') == '0')
 		{
 			return;
 		}
-
-		$this->debugLang = JFactory::getApplication()->getCfg('debug_lang');
 
 		// Only if debugging or language debug is enabled.
 		if (JDEBUG || $this->debugLang)
