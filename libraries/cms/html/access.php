@@ -44,9 +44,10 @@ abstract class JHtmlAccess
 		$query = $db->getQuery(true)
 			->select('a.id AS value, a.title AS text')
 			->from('#__viewlevels AS a')
-			->where('a.id <> 0')
-			->order('a.ordering ASC')
-			->order($db->quoteName('title') . ' ASC');
+			->where('a.ordering > -1')
+			->where('a.title > "" ')
+			->order('a.ordering')
+			->order($db->quoteName('title'));
 
 		// Get the options.
 		$db->setQuery($query);
