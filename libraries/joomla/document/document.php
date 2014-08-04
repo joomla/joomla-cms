@@ -135,7 +135,7 @@ class JDocument
 	 * @var    string
 	 * @since  3.4
 	 */
-	public $file = '';
+	public $_file = '';
 
 	/**
 	 * Array of linked scripts
@@ -1030,9 +1030,9 @@ class JDocument
 		{
 			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
 
-			if (file_exists(dirname($this->_file;) . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
+			if (file_exists(dirname($this->_file) . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
 			{
-				$path = dirname($this->_file;) . '/document/' . $this->_type . '/renderer/' . $type . '.php';
+				$path = dirname($this->_file) . '/document/' . $this->_type . '/renderer/' . $type . '.php';
 			}
 
 			if (file_exists($path))
