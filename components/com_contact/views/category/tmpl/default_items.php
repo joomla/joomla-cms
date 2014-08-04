@@ -94,7 +94,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<?php endforeach; ?>
 		</ul>
 
-		<?php if ($this->params->get('show_pagination')) : ?>
+		<?php if ($this->params->get('show_pagination', 2)) : ?>
 		<div class="pagination">
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 			<p class="counter">
