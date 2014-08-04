@@ -114,6 +114,9 @@ class ContentModelArticle extends JModelAdmin
 
 			// Reset the ID because we are making a copy
 			$table->id = 0;
+			
+			// Reset hits because we are making a copy
+ 			$table->hits = 0;			
 
 			// New category ID
 			$table->catid = $categoryId;
