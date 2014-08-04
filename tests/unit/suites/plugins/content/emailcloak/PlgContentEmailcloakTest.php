@@ -39,8 +39,8 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 		$dispatcher = TestCaseDatabase::getMockDispatcher();
 
 		$plugin = array();
-		$plugin['type'] = 'emailcloak';
 		$plugin['name'] = 'emailcloak';
+		$plugin['type'] = 'Content';
 		$plugin['params'] = new JRegistry;
 
 		$this->class = new PlgContentEmailcloak($dispatcher, (array) ($plugin));
