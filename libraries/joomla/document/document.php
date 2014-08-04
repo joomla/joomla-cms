@@ -285,9 +285,20 @@ class JDocument
 
 		if (empty(self::$instances[$signature]))
 		{
+			$app = JFactory::getApplication();
 			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 			$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 			$ntype = null;
+
+			if ($app->isSite())
+			{
+				$templateDir = JPATH_ROOT . '/templates/' . $app->getTemplate();
+
+				if (file_exists(dirname($templateDir) . '/document/' . $type . '/renderer/' . $type . '.php'))
+				{
+					$path = dirname($templateDir) . '/document/' . $type . '/renderer/' . $type . '.php';
+				}
+			}
 
 			// Check if the document type exists
 			if (!file_exists($path))
@@ -1014,15 +1025,14 @@ class JDocument
 	public function loadRenderer($type)
 	{
 		$class = 'JDocumentRenderer' . $type;
-		$file = $this->_file;
 
 		if (!class_exists($class))
 		{
 			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
 
-			if (file_exists(dirname($file) . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
+			if (file_exists(dirname($this->_file;) . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
 			{
-				$path = dirname($file) . '/document/' . $this->_type . '/renderer/' . $type . '.php';
+				$path = dirname($this->_file;) . '/document/' . $this->_type . '/renderer/' . $type . '.php';
 			}
 
 			if (file_exists($path))
