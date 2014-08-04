@@ -171,6 +171,9 @@ class MenusModelMenus extends JModelList
 			$query->where('(' . 'a.title LIKE ' . $search . ' OR a.menutype LIKE ' . $search . ')');
 		}
 
+		// Add the list ordering clause.
+		$query->order($db->escape($this->getState('list.ordering', 'a.id')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+
 		return $query;
 	}
 
