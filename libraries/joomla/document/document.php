@@ -1024,15 +1024,19 @@ class JDocument
 	 */
 	public function loadRenderer($type)
 	{
+		$app = JFactory::getApplication();
 		$class = 'JDocumentRenderer' . $type;
 
 		if (!class_exists($class))
 		{
 			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
 
-			if (file_exists(dirname($this->_file) . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
+			if ($app->isSite())
 			{
-				$path = dirname($this->_file) . '/document/' . $this->_type . '/renderer/' . $type . '.php';
+				if (file_exists(dirname($this->_file) . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
+				{
+					$path = dirname($this->_file) . '/document/' . $this->_type . '/renderer/' . $type . '.php';
+				}
 			}
 
 			if (file_exists($path))
