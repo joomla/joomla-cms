@@ -38,10 +38,10 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 		// Create a mock dispatcher instance
 		$dispatcher = TestCaseDatabase::getMockDispatcher();
 
-		$plugin = new stdClass;
-		$plugin->type = 'emailcloak';
-		$plugin->name = 'emailcloak';
-		$plugin->params = new JRegistry;
+		$plugin = array();
+		$plugin['type'] = 'emailcloak';
+		$plugin['name'] = 'emailcloak';
+		$plugin['params'] = new JRegistry;
 
 		$this->class = new PlgContentEmailcloak($dispatcher, (array) ($plugin));
 	}
@@ -91,6 +91,12 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 			),
 			array(
 				'<a href="mailto:email@amail.com?subject=Text"><img src="path/to/something.jpg">email@amail.com</img></a>', '<span style="font-style: 8pt;">Joe_fontsize8</span>'
+			),
+			array(
+				'<a href="http://mce_host/ourdirectory/email@example.org">email@example.org</a>', '<a href="http://mce_host/ourdirectory/email@example.org">email@example.org</a>'
+			),
+			array(
+				'<a href="mailto:email@example.org">email@example.org</a>', '<a href="mailto:email@example.org">email@example.org</a>'
 			),
 		);
 	}
