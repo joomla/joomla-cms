@@ -45,7 +45,7 @@ abstract class JHtmlAccess
 			->select('a.id AS value, a.title AS text')
 			->from('#__viewlevels AS a')
 			->where('a.ordering > -1')
-			->where('a.title > "" ')
+			->where('a.title <> "" ')
 			->order('a.ordering')
 			->order($db->quoteName('title'));
 
