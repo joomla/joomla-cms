@@ -286,9 +286,19 @@ class JDocument
 		if (empty(self::$instances[$signature]))
 		{
 			$app = JFactory::getApplication();
+			$template = $app->getTemplate();
+			$site = $app->isSite();
 			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 			$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 			$ntype = null;
+
+			if ($site)
+			{
+				if (file_exists(JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
+				{
+					$path = JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php';
+				}
+			}
 
 			// Check if the document type exists
 			if (!file_exists($path))
@@ -305,11 +315,11 @@ class JDocument
 			{
 				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 
-				if ($app->isSite())
+				if ($site)
 				{
-					if (file_exists(JPATH_ROOT . '/templates/' . $app->getTemplate() . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
+					if (file_exists(JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
 					{
-						$path = JPATH_ROOT . '/templates/' . $app->getTemplate() . '/' . 'document' . '/' . $type . '/' . $type . '.php';
+						$path = JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php';
 					}
 				}
 
