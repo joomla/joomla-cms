@@ -130,14 +130,6 @@ class JDocument
 	public $_profile = '';
 
 	/**
-	 * The full path to active template index.php
-	 *
-	 * @var    string
-	 * @since  3.4
-	 */
-	public $_file = '';
-
-	/**
 	 * Array of linked scripts
 	 *
 	 * @var    array

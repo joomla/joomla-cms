@@ -785,6 +785,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLoadRenderer()
 	{
+		$this->object->_file = 'path to template';
 		$this->object->setType('html');
 		$renderer = $this->object->loadRenderer('head');
 		$this->assertThat(
@@ -801,6 +802,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLoadRendererException()
 	{
+		$this->object->_file = 'path to template';
 		$this->object->setType('html');
 		$this->object->loadRenderer('unknown');
 	}
