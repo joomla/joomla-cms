@@ -44,6 +44,11 @@ abstract class JHtmlEmail
 		// Random number
 		$rand = rand(1, 100000);
 
+		if (static::isCommandLineInterface())
+		{
+			$rand = 999;
+		}
+
 		$replacement = '<span id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</span>' . "<script type='text/javascript'>";
 		$replacement .= "\n //<!--";
 		$replacement .= "\n document.getElementById('cloak$rand').innerHTML = '';";
@@ -89,6 +94,11 @@ abstract class JHtmlEmail
 		$replacement .= "\n </script>";
 
 		return $replacement;
+	}
+
+	private static function isCommandLineInterface()
+	{
+		return (php_sapi_name() === 'cli');
 	}
 
 	/**
