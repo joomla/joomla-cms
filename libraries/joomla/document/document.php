@@ -290,16 +290,6 @@ class JDocument
 			$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 			$ntype = null;
 
-			if ($app->isSite())
-			{
-				$templateDir = JPATH_ROOT . '/templates/' . $app->getTemplate();
-
-				if (file_exists(dirname($templateDir) . '/document/' . $type . '/renderer/' . $type . '.php'))
-				{
-					$path = dirname($templateDir) . '/document/' . $type . '/renderer/' . $type . '.php';
-				}
-			}
-
 			// Check if the document type exists
 			if (!file_exists($path))
 			{
@@ -314,6 +304,14 @@ class JDocument
 			if (!class_exists($class))
 			{
 				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
+
+				if ($app->isSite())
+				{
+					if (file_exists(JPATH_ROOT . '/templates/' . $app->getTemplate() . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
+					{
+						$path = JPATH_ROOT . '/templates/' . $app->getTemplate() . '/' . 'document' . '/' . $type . '/' . $type . '.php';
+					}
+				}
 
 				if (file_exists($path))
 				{
