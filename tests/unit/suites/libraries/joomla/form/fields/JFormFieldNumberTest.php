@@ -16,7 +16,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldNumber-helper-dataset.php';
  * @subpackage  Form
  * @since       12.1
  */
-class JFormFieldNumberTest extends TestCase
+class JFormFieldNumberTest extends TestCaseDatabase
 {
 	/**
 	 * Backup of the SERVER superglobal

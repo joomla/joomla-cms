@@ -90,6 +90,9 @@ class ContentModelArticle extends JModelAdmin
 			// Reset the ID because we are making a copy
 			$this->table->id = 0;
 
+			// Reset hits because we are making a copy
+			$this->table->hits = 0;
+
 			// New category ID
 			$this->table->catid = $categoryId;
 
@@ -371,7 +374,7 @@ class ContentModelArticle extends JModelAdmin
 		$assoc = JLanguageAssociations::isEnabled();
 
 		// Check if article is associated
-		if ($id && $app->isSite() && $assoc)
+		if ($this->getState('article.id') && $app->isSite() && $assoc)
 		{
 			$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
