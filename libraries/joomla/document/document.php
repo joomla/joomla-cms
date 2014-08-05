@@ -279,17 +279,13 @@ class JDocument
 		{
 			$app = JFactory::getApplication();
 			$template = $app->getTemplate();
-			$site = $app->isSite();
 			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 			$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 			$ntype = null;
 
-			if ($site)
+			if (file_exists(JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
 			{
-				if (file_exists(JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
-				{
-					$path = JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php';
-				}
+				$path = JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php';
 			}
 
 			// Check if the document type exists
@@ -307,12 +303,9 @@ class JDocument
 			{
 				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 
-				if ($site)
+				if (file_exists(JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
 				{
-					if (file_exists(JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
-					{
-						$path = JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php';
-					}
+					$path = JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php';
 				}
 
 				if (file_exists($path))
@@ -1024,19 +1017,17 @@ class JDocument
 	 */
 	public function loadRenderer($type)
 	{
-		$app = JFactory::getApplication();
 		$class = 'JDocumentRenderer' . $type;
+		$app = JFactory::getApplication();
+		$template = $app->getTemplate();
 
 		if (!class_exists($class))
 		{
 			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
 
-			if ($app->isSite())
+			if (file_exists(JPATH_THEMES .'/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
 			{
-				if (file_exists(dirname($this->_file) . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
-				{
-					$path = dirname($this->_file) . '/document/' . $this->_type . '/renderer/' . $type . '.php';
-				}
+				$path = JPATH_THEMES .'/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php';
 			}
 
 			if (file_exists($path))
