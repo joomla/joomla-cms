@@ -45,9 +45,35 @@ class plgContentEmailcloak extends JPlugin
 	 * @return	string	A regular expression that matches a link containing the parameters.
 	 */
 	protected function _getPattern ($link, $text) {
-		$pattern = '~(?:<a [\w "\'=\@\.\-]*href\s*=\s*"mailto:'
-			. $link . '"[\w "\'=\@\.\-]*)>' . $text . '</a>~i';
+		$pattern = '~(?:<a ([\w "\'=\@\.\-:;]*)href\s*=\s*"mailto:'
+			. $link . '"([\w "\'=\@\.\-:;]*))>' . $text . '</a>~i';
 		return $pattern;
+	}
+
+	/**
+	 * Adds an attributes to the js cloaked email.
+	 *
+	 * @param   string  $jsEmail  Js cloaked email.
+	 * @param   string  $before   Attributes before email.
+	 * @param   string  $after    Attributes after email.
+	 *
+	 * @return string Js cloaked email with attributes.
+	 */
+	protected function _addAttributesToEmail($jsEmail, $before, $after)
+	{
+		if ($before !== "")
+		{
+			$before = str_replace("'", "\'", $before);
+			$jsEmail = str_replace(".innerHTML += '<a '", ".innerHTML += '<a {$before}'", $jsEmail);
+		}
+
+		if ($after !== "")
+		{
+			$after = str_replace("'", "\'", $after);
+			$jsEmail = str_replace("'\'>'", "'\'{$after}>'", $jsEmail);
+		}
+
+		return $jsEmail;
 	}
 
 	/**
@@ -77,7 +103,7 @@ class plgContentEmailcloak extends JPlugin
 		$mode = $this->params->def('mode', 1);
 
 		// any@email.address.com
-		$searchEmail = '([\w\.\-]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-z0-9\-]{2,4}))';
+		$searchEmail = '([\w\.\-\+]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,10}))';
 		// any@email.address.com?subject=anyText
 		$searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';
 		// anyText
@@ -85,7 +111,13 @@ class plgContentEmailcloak extends JPlugin
 
 		//Any Image link
 		$searchImage	=	"(<img[^>]+>)";
-
+		
+		// Any Text with <span
+		$searchTextSpan = '(<span[^>]+>|<span>|<strong>|<strong><span[^>]+>|<strong><span>)' . $searchText . '(</span>|</strong>|</span></strong>)';
+		
+		// Any address with <span
+		$searchEmailSpan = '(<span[^>]+>|<span>|<strong>|<strong><span[^>]+>|<strong><span>)' . $searchEmail . '(</span>|</strong>|</span></strong>)';
+		
 		/*
 		 * Search and fix derivatives of link code <a href="http://mce_host/ourdirectory/email@amail.com"
 		 * >email@email.com</a>. This happens when inserting an email in TinyMCE, cancelling its suggestion to add
@@ -94,11 +126,14 @@ class plgContentEmailcloak extends JPlugin
 		$pattern = $this->_getPattern($searchEmail, $searchEmail);
 		$pattern = str_replace('"mailto:', '"http://mce_host([\x20-\x7f][^<>]+/)', $pattern);
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-			$mail = $regs[2][0];
-			$mailText = $regs[3][0];
+			$mail = $regs[3][0];
+			$mailText = $regs[5][0];
 
 			// Check to see if mail text is different from mail addy
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = $this->_addAttributesToEmail($replacement, $regs[1][0], $regs[4][0]);
 
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -112,11 +147,14 @@ class plgContentEmailcloak extends JPlugin
 		$pattern = $this->_getPattern($searchEmail, $searchText);
 		$pattern = str_replace('"mailto:', '"http://mce_host([\x20-\x7f][^<>]+/)', $pattern);
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-			$mail = $regs[2][0];
-			$mailText = $regs[3][0];
+			$mail = $regs[3][0];
+			$mailText = $regs[5][0];
 
 			// Check to see if mail text is different from mail addy
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = $this->_addAttributesToEmail($replacement, $regs[1][0], $regs[4][0]);
 
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -128,11 +166,55 @@ class plgContentEmailcloak extends JPlugin
 		 */
 		$pattern = $this->_getPattern($searchEmail, $searchEmail);
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-			$mail = $regs[1][0];
-			$mailText = $regs[2][0];
+			$mail = $regs[2][0];
+			$mailText = $regs[4][0];
 
 			// Check to see if mail text is different from mail addy
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = $this->_addAttributesToEmail($replacement, $regs[1][0], $regs[3][0]);
+
+			// Replace the found address with the js cloaked email
+			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+		}
+
+		/*
+		 * Search for derivatives of link code <a href="mailto:email@amail.com"
+		 * ><anyspan >email@amail.com</anyspan></a>
+		 */
+		$pattern = $this->_getPattern($searchEmail, $searchEmailSpan);
+
+		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
+		{
+			$mail = $regs[2][0];
+			$mailText = $regs[4][0] . $regs[5][0] . $regs[6][0];
+
+			// Check to see if mail text is different from mail addy
+			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = html_entity_decode($this->_addAttributesToEmail($replacement, $regs[1][0], $regs[3][0]));
+
+			// Replace the found address with the js cloaked email
+			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+		}
+
+		/*
+		 * Search for derivatives of link code <a href="mailto:email@amail.com">
+		 * <anyspan >anytext</anyspan></a>
+		 */
+		$pattern = $this->_getPattern($searchEmail, $searchTextSpan);
+
+		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
+		{
+			$mail = $regs[2][0];
+			$mailText = $regs[4][0] . $regs[5][0] . $regs[6][0];
+
+			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = html_entity_decode($this->_addAttributesToEmail($replacement, $regs[1][0], $regs[3][0]));
 
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -144,10 +226,13 @@ class plgContentEmailcloak extends JPlugin
 		 */
 		$pattern = $this->_getPattern($searchEmail, $searchText);
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-			$mail = $regs[1][0];
-			$mailText = $regs[2][0];
+			$mail = $regs[2][0];
+			$mailText = $regs[4][0];
 
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = $this->_addAttributesToEmail($replacement, $regs[1][0], $regs[3][0]);
 
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -159,10 +244,53 @@ class plgContentEmailcloak extends JPlugin
 		 */
 		$pattern = $this->_getPattern($searchEmail, $searchImage);
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-			$mail = $regs[1][0];
-			$mailText = $regs[2][0];
+			$mail = $regs[2][0];
+			$mailText = $regs[4][0];
 
-			$replacement = html_entity_decode(JHtml::_('email.cloak', $mail, $mode, $mailText, 0));
+			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = html_entity_decode($this->_addAttributesToEmail($replacement, $regs[1][0], $regs[3][0]));
+
+			// Replace the found address with the js cloaked email
+			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+		}
+
+		/*
+		 * Search for derivatives of link code <a href="mailto:email@example.org">
+		 * <img anything>email@example.org</a>
+		 */
+		$pattern = $this->_getPattern($searchEmail, ($searchImage . $searchEmail));
+
+		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
+		{
+			$mail = $regs[2][0];
+			$mailText = $regs[4][0] . ($regs[5][0]);
+
+			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = html_entity_decode($this->_addAttributesToEmail($replacement, $regs[1][0], $regs[3][0]));
+
+			// Replace the found address with the js cloaked email
+			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+		}
+
+		/*
+		 * Search for derivatives of link code <a href="mailto:email@example.org">
+		* <img anything>any text</a>
+		*/
+		$pattern = $this->_getPattern($searchEmail, ($searchImage . $searchText));
+
+		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
+		{
+			$mail = $regs[2][0];
+			$mailText = $regs[4][0] . ($regs[5][0]);
+
+			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = html_entity_decode($this->_addAttributesToEmail($replacement, $regs[1][0], $regs[3][0]));
 
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -174,13 +302,17 @@ class plgContentEmailcloak extends JPlugin
 		 */
 		$pattern = $this->_getPattern($searchEmailLink, $searchEmail);
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-			$mail = $regs[1][0] . $regs[2][0];
-			$mailText = $regs[3][0];
+			$mail = $regs[2][0] . $regs[3][0];
+			$mailText = $regs[5][0];
+
 			// Needed for handling of Body parameter
 			$mail = str_replace('&amp;', '&', $mail);
 
 			// Check to see if mail text is different from mail addy
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = $this->_addAttributesToEmail($replacement, $regs[1][0], $regs[4][0]);
 
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -192,12 +324,57 @@ class plgContentEmailcloak extends JPlugin
 		 */
 		$pattern = $this->_getPattern($searchEmailLink, $searchText);
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-			$mail = $regs[1][0] . $regs[2][0];
-			$mailText = $regs[3][0];
+			$mail = $regs[2][0] . $regs[3][0];
+			$mailText = $regs[5][0];
+
 			// Needed for handling of Body parameter
 			$mail = str_replace('&amp;', '&', $mail);
 
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = $this->_addAttributesToEmail($replacement, $regs[1][0], $regs[4][0]);
+
+			// Replace the found address with the js cloaked email
+			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+		}
+
+		/*
+		 * Search for derivatives of link code <a href="mailto:email@amail.com?subject= Text"
+		 * ><anyspan >email@amail.com</anyspan></a>
+		 */
+		$pattern = $this->_getPattern($searchEmailLink, $searchEmailSpan);
+
+		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
+		{
+			$mail = $regs[2][0] . $regs[3][0];
+			$mailText = $regs[4][0] . $regs[5][0] . $regs[6][0] . $regs[7][0];
+
+			// Check to see if mail text is different from mail addy
+			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = html_entity_decode($this->_addAttributesToEmail($replacement, $regs[1][0], $regs[3][0]));
+
+			// Replace the found address with the js cloaked email
+			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+		}
+
+		/*
+		 * Search for derivatives of link code <a href="mailto:email@amail.com?subject= Text">
+		 * <anyspan >anytext</anyspan></a>
+		 */
+		$pattern = $this->_getPattern($searchEmailLink, $searchTextSpan);
+
+		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
+		{
+			$mail = $regs[2][0] . $regs[3][0];
+			$mailText = $regs[4][0] . $regs[5][0] . $regs[6][0] . $regs[7][0];
+
+			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = html_entity_decode($this->_addAttributesToEmail($replacement, $regs[1][0], $regs[3][0]));
 
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -209,14 +386,65 @@ class plgContentEmailcloak extends JPlugin
 		 */
 		$pattern = $this->_getPattern($searchEmailLink, $searchImage);
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-			$mail = $regs[1][0] . $regs[2][0];
-			$mailText = $regs[3][0];
+			$mail = $regs[1][0] . $regs[2][0] . $regs[3][0];
+			$mailText = $regs[5][0];
 
 			// Needed for handling of Body parameter
 			$mail = str_replace('&amp;', '&', $mail);
 
 			// Check to see if mail text is different from mail addy
-			$replacement = html_entity_decode(JHtml::_('email.cloak', $mail, $mode, $mailText, 0));
+			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = html_entity_decode($this->_addAttributesToEmail($replacement, $regs[1][0], $regs[4][0]));
+
+			// Replace the found address with the js cloaked email
+			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+		}
+
+		/*
+		 * Search for derivatives of link code
+		 * <a href="mailto:email@amail.com?subject=Text"><img anything>email@amail.com</a>
+		 */
+		$pattern = $this->_getPattern($searchEmailLink, ($searchImage . $searchEmail));
+
+		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
+		{
+			$mail = $regs[1][0] . $regs[2][0] . $regs[3][0];
+			$mailText = $regs[4][0] . $regs[5][0] . $regs[6][0];
+
+			// Needed for handling of Body parameter
+			$mail = str_replace('&amp;', '&', $mail);
+
+			// Check to see if mail text is different from mail addy
+			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = html_entity_decode($this->_addAttributesToEmail($replacement, $regs[1][0], $regs[4][0]));
+
+			// Replace the found address with the js cloaked email
+			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+		}
+
+		/*
+		 * Search for derivatives of link code
+		 * <a href="mailto:email@amail.com?subject=Text"><img anything>any text</a>
+		 */
+		$pattern = $this->_getPattern($searchEmailLink, ($searchImage . $searchText));
+
+		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
+		{
+			$mail = $regs[1][0] . $regs[2][0] . $regs[3][0];
+			$mailText = $regs[4][0] . $regs[5][0] . $regs[6][0];
+
+			// Needed for handling of Body parameter
+			$mail = str_replace('&amp;', '&', $mail);
+
+			// Check to see if mail text is different from mail addy
+			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
+
+			// Ensure that attributes is not stripped out by email cloaking
+			$replacement = html_entity_decode($this->_addAttributesToEmail($replacement, $regs[1][0], $regs[4][0]));
 
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -231,6 +459,7 @@ class plgContentEmailcloak extends JPlugin
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));
 		}
+		
 		return true;
 	}
 }
