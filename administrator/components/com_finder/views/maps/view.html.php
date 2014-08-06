@@ -87,7 +87,7 @@ class FinderViewMaps extends JViewLegacy
 			JToolbarHelper::preferences('com_finder');
 		}
 		JToolbarHelper::divider();
-		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
 
