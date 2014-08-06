@@ -128,14 +128,6 @@ class JDocument
 	public $_profile = '';
 
 	/**
-	 * The full path to active template index.php
-	 *
-	 * @var    string
-	 * @since  3.4
-	 */
-	public $_file = '';
-
-	/**
 	 * Array of linked scripts
 	 *
 	 * @var    array
@@ -307,7 +299,7 @@ class JDocument
 
 			if (!class_exists($class))
 			{
-				if (file_exists(__DIR__ . '/' . $type . '/' . $type . '.php') || file_exists(JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
+				if (file_exists(__DIR__ . '/' . $type . '/' . $type . '.php'))
 				{
 					$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 
@@ -1032,19 +1024,11 @@ class JDocument
 		if (!class_exists($class))
 		{
 			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
+			$template = $app->getTemplate();
 
-			if (!empty($this->_file) && file_exists(dirname($this->_file) . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
+			if (file_exists( JPATH_THEMES .'/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
 			{
-				$path = dirname($this->_file) . '/document/' . $this->_type . '/renderer/' . $type . '.php';
-			}
-			else
-			{
-				$template = $app->getTemplate();
-
-				if (file_exists( JPATH_THEMES . '/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
-				{
-					$path =  JPATH_THEMES . '/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php';
-				}
+				$path =  JPATH_THEMES .'/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php';
 			}
 
 			if (file_exists($path))
