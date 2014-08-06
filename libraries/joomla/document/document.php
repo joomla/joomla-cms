@@ -277,9 +277,16 @@ class JDocument
 
 		if (empty(self::$instances[$signature]))
 		{
+			$app = JFactory::getApplication();
+			$template = $app->getTemplate();
 			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 			$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 			$ntype = null;
+
+			if (file_exists(JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
+			{
+				$path = JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php';
+			}
 
 			// Check if the document type exists
 			if (!file_exists($path))
@@ -295,6 +302,11 @@ class JDocument
 			if (!class_exists($class))
 			{
 				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
+
+				if (file_exists(JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
+				{
+					$path = JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php';
+				}
 
 				if (file_exists($path))
 				{
@@ -1006,10 +1018,17 @@ class JDocument
 	public function loadRenderer($type)
 	{
 		$class = 'JDocumentRenderer' . $type;
+		$app = JFactory::getApplication();
+		$template = $app->getTemplate();
 
 		if (!class_exists($class))
 		{
 			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
+
+			if (file_exists(JPATH_THEMES .'/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
+			{
+				$path = JPATH_THEMES .'/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php';
+			}
 
 			if (file_exists($path))
 			{
