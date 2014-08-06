@@ -1026,9 +1026,9 @@ class JDocument
 			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
 			$template = $app->getTemplate();
 
-			if (file_exists( JPATH_THEMES .'/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
+			if (file_exists(JPATH_THEMES . '/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
 			{
-				$path =  JPATH_THEMES .'/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php';
+				$path =  JPATH_THEMES . '/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php';
 			}
 
 			if (file_exists($path))
