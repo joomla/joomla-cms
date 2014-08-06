@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+// Getting params from template
+$params = JFactory::getApplication()->getTemplate(true)->params;
+
 $app             = JFactory::getApplication();
 $doc             = JFactory::getDocument();
 $lang            = JFactory::getLanguage();
@@ -29,7 +32,6 @@ $cpanel = ($option === 'com_cpanel');
 
 $showSubmenu = false;
 $this->submenumodules = JModuleHelper::getModules('submenu');
-
 foreach ($this->submenumodules as $submenumodule)
 {
 	$output = JModuleHelper::renderModule($submenumodule);
@@ -41,9 +43,9 @@ foreach ($this->submenumodules as $submenumodule)
 }
 
 // Logo file
-if ($this->params->get('logoFile'))
+if ($params->get('logoFile'))
 {
-	$logo = JUri::root() . $this->params->get('logoFile');
+	$logo = JUri::root() . $params->get('logoFile');
 }
 else
 {
@@ -51,9 +53,9 @@ else
 }
 
 // Template Parameters
-$displayHeader = $this->params->get('displayHeader', '1');
-$statusFixed   = $this->params->get('statusFixed', '1');
-$stickyToolbar = $this->params->get('stickyToolbar', '1');
+$displayHeader = $params->get('displayHeader', '1');
+$statusFixed   = $params->get('statusFixed', '1');
+$stickyToolbar = $params->get('stickyToolbar', '1');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -80,33 +82,33 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template<?php echo ($this->direction == 'rtl' ? '-rtl' : ''); ?>.css" type="text/css" />
 	<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 	<?php // Template color ?>
-	<?php if ($this->params->get('templateColor')) : ?>
-		<style type="text/css">
-			.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle
-			{
-				background: <?php echo $this->params->get('templateColor');?>;
-			}
-			.navbar-inner, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle{
-				-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-				-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-				box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-			}
-		</style>
+	<?php if ($params->get('templateColor')) : ?>
+	<style type="text/css">
+		.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle
+		{
+			background: <?php echo $params->get('templateColor');?>;
+		}
+		.navbar-inner, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle{
+			-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+			box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+		}
+	</style>
 	<?php endif; ?>
 	<?php // Template header color ?>
-	<?php if ($this->params->get('headerColor')) : ?>
-		<style type="text/css">
-			.header
-			{
-				background: <?php echo $this->params->get('headerColor');?>;
-			}
-		</style>
+	<?php if ($params->get('headerColor')) : ?>
+	<style type="text/css">
+		.header
+		{
+			background: <?php echo $params->get('headerColor');?>;
+		}
+	</style>
 	<?php endif; ?>
 	<?php // Sidebar background color ?>
-	<?php if ($this->params->get('sidebarColor')) : ?>
+	<?php if ($params->get('sidebarColor')) : ?>
 		<style type="text/css">
 			.nav-list > .active > a, .nav-list > .active > a:hover {
-				background: <?php echo $this->params->get('sidebarColor'); ?>;
+				background: <?php echo $params->get('sidebarColor'); ?>;
 			}
 		</style>
 	<?php endif; ?>
@@ -124,7 +126,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
-				<?php if ($this->params->get('admin_menus') != '0') : ?>
+				<?php if ($params->get('admin_menus') != '0') : ?>
 					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
@@ -136,10 +138,10 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				<a class="brand hidden-desktop hidden-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
 					<span class="icon-out-2 small"></span></a>
 
-				<?php if ($this->params->get('admin_menus') != '0') : ?>
-					<div class="nav-collapse">
+				<?php if ($params->get('admin_menus') != '0') : ?>
+				<div class="nav-collapse">
 				<?php else : ?>
-					<div>
+				<div>
 				<?php endif; ?>
 					<?php // Display menu modules ?>
 					<?php $this->menumodules = JModuleHelper::getModules('menu'); ?>
@@ -181,9 +183,9 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<!-- Header -->
 	<header class="header">
 		<?php if ($displayHeader) : ?>
-			<div class="container-logo">
-				<img src="<?php echo $logo; ?>" class="logo" />
-			</div>
+		<div class="container-logo">
+			<img src="<?php echo $logo; ?>" class="logo" />
+		</div>
 		<?php endif; ?>
 		<div class="container-title">
 			<h1 class="page-title"><?php echo JText::_('ERROR'); ?></h1>
