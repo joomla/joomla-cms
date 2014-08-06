@@ -100,8 +100,7 @@ class JAccess
 		{
 			$db = JFactory::getDbo();
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
-			$rootId = $assets->getRootId();
-			$asset = $rootId;
+			$asset = $assets->getRootId();
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
