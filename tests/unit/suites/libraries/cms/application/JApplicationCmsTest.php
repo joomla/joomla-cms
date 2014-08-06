@@ -179,9 +179,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function test__constructDependancyInjection()
 	{
-		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13')
+		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
 		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in PHP versions 5.4.29 and 5.5.13');
+			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
 		}
 
 		$mockInput = $this->getMock('JInput', array('test'), array(), '', false);
