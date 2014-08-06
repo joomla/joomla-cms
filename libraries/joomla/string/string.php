@@ -970,7 +970,7 @@ abstract class JString
 		$encodedParts = parse_url($encodedURL);
 
 		// Now, decode each value of the resulting array
-		if (encodedParts)
+		if ($encodedParts)
 		{
 			foreach ($encodedParts as $key => $value)
 			{
