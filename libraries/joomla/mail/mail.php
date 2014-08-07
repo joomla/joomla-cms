@@ -381,9 +381,9 @@ class JMail extends PHPMailer
 	 */
 	public function removeAttachment($index = 0)
 	{
-		if (isset($this->attachment[0]))
+		if (isset($this->attachment[$index]))
 		{
-			unset($this->attachment[0]);
+			unset($this->attachment[$index]);
 		}
 
 		return $this;
