@@ -146,7 +146,7 @@ JHtml::_('behavior.framework');
 		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
 		$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
 		$link = new JURI($link1);
-		$link->setVar('return', base64_encode(urlencode($returnURL)));
+		$link->setVar('return', base64_encode($returnURL));
 	endif;
 ?>
 		<p class="readmore">
