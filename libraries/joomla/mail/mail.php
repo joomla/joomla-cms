@@ -92,7 +92,6 @@ class JMail extends PHPMailer
 				}
 			}
 
-			// Don't suppress errors here! This will suppress PHP errors as well and might end up the user with a blank page rather than an error.
 			$result = parent::send();
 
 			if ($result == false)
