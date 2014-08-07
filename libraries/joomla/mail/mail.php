@@ -207,7 +207,7 @@ class JMail extends PHPMailer
 	 * @since   11.1
 	 * @throws  InvalidArgumentException
 	 */
-	protected function add($recipient, $name = '', $method = 'AddAddress')
+	protected function add($recipient, $name = '', $method = 'addAddress')
 	{
 		$method = lcfirst($method);
 
