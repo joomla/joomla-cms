@@ -231,7 +231,6 @@
 				type="text"
 				label="COM_CATEGORIES_FIELD_IMAGE_ALT_LABEL"
 				description="COM_CATEGORIES_FIELD_IMAGE_ALT_DESC"
-				class="inputbox"
 				size="20" />
 
 		</fieldset>
