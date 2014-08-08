@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JHtml::addIncludePath(JPATH_PLATFORM . '/joomla/html/html');
+JHtml::addIncludePath(JPATH_PLATFORM . '/joomla/htcaml/html');
 
 jimport('joomla.environment.uri');
 jimport('joomla.environment.browser');
@@ -863,20 +863,29 @@ abstract class JHtml
 		{
 			$attribs = JArrayHelper::toString($attribs);
 		}
-
-		if (!$readonly && !$disabled)
-		{
-			// Load the calendar behavior
-			self::_('behavior.calendar');
-			self::_('behavior.tooltip');
-
+		
+		// Format value when not '0000-00-00 00:00:00', otherwise blank it as it would result in 1970-01-01.
+	    	if ((int)$value)
+	    	{
+		$tz = date_default_timezone_get();
+	        date_default_timezone_set('UTC');
+	        $inputvalue = strftime($format, strtotime($value));
+	        date_default_timezone_set($tz);
+	        }
+	      	else
+	      	{
+ 			$inputvalue = '';
+		}
+		
+		// Load the calendar behavior
+		self::_('behavior.calendar');
+		self::_('behavior.tooltip');
 			// Only display the triggers once for each control.
-			if (!in_array($id, $done))
-			{
-				$document = JFactory::getDocument();
-				$document
-					->addScriptDeclaration(
-					'window.addEvent(\'domready\', function() {Calendar.setup({
+		if (!in_array($id, $done))
+		{
+			$document = JFactory::getDocument();
+			$document->addScriptDeclaration(
+				'window.addEvent(\'domready\', function() {Calendar.setup({
 				// Id of the input field
 				inputField: "' . $id . '",
 				// Format of the input field
@@ -888,19 +897,15 @@ abstract class JHtml
 				singleClick: true,
 				firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
 				});});'
-				);
-				$done[] = $id;
-			}
-			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '') . '" name="' . $name . '" id="' . $id
-				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. self::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true);
+			);
+			$done[] = $id;
 		}
-		else
-		{
-			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
-				. '" value="' . (0 !== (int) $value ? self::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
-				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
-		}
+		
+		$style = ($readonly || $disabled) ? 'display:none' : '';
+		return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '') . '" name="' . $name . '" id="' . $id
+				. '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+				. self::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img', 'style' => $style), true);
+		
 	}
 
 	/**
