@@ -747,13 +747,13 @@ abstract class JModelAdmin extends JModelForm
 
 					if (in_array(false, $result, true))
 					{
-						$this->setError($table->getError());
+						$this->setError($dispatcher->getError());
 						return false;
 					}
 
 					if (!$table->delete($pk))
 					{
-						$this->setError($table->getError());
+						$this->setError($dispatcher->getError());
 						return false;
 					}
 
@@ -782,8 +782,19 @@ abstract class JModelAdmin extends JModelForm
 			}
 			else
 			{
-				$this->setError($table->getError());
-				return false;
+				if ($table->getError())
+				{
+					$this->setError($table->getError());
+					return false;
+				}
+
+				$key = $table->getKeyName();
+
+				if (empty($table->$key))
+				{
+					$this->setError(JText::_('JLIB_DATABASE_ERROR_EMPTY_ROW_RETURNED'));
+					return false;
+				}
 			}
 		}
 
