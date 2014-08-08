@@ -361,6 +361,11 @@ class JCategories
 		{
 			$this->_nodes[$id] = null;
 		}
+		
+		if (isset($this->_options['countItems']))
+		{
+			$this->_nodes[$id]->childrennumitems = $this->_nodes[$id]->getNumItems(true) - $this->_nodes[$id]->getNumItems(false);
+		}
 	}
 }
 

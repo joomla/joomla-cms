@@ -52,13 +52,16 @@ $tagsData  = $displayData->get('category')->tags->itemTags;
 		<?php echo $displayData->loadTemplate($displayData->subtemplatename); ?>
 
 		<?php if ($displayData->get('children') && $displayData->maxLevel != 0) : ?>
+			<?php if ($params->get('show_empty_categories', 1) || $displayData->get('category')->childrennumitems > 0) : ?>
 			<div class="cat-children">
-				<h3>
-					<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
-				</h3>
-
+				<?php if ($params->get('show_category_heading_title_text', 1)) : ?>
+					<h3>
+						<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
+					</h3>
+				<?php endif; ?>
 				<?php echo $displayData->loadTemplate('children'); ?>
 			</div>
+			<?php endif; ?>
 		<?php endif; ?>
 	</div>
 </div>
