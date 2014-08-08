@@ -88,6 +88,7 @@ class ContentViewCategory extends JViewLegacy
 				$item->parent_slug = null;
 			}
 
+			$item->catslug = $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
 			$item->event = new stdClass();
 
 			$dispatcher = JDispatcher::getInstance();

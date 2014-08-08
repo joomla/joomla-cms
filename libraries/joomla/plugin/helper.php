@@ -221,7 +221,7 @@ abstract class JPluginHelper
 
 		$levels = implode(',', $user->getAuthorisedViewLevels());
 
-		if (!self::$plugins = $cache->get($levels))
+		if (!(self::$plugins = $cache->get($levels)))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);

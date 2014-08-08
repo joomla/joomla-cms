@@ -81,6 +81,15 @@ class plgUserContactCreator extends JPlugin
 		$contact->catid = $category;
 		$contact->language = '*';
 
+		// check for already existing alias
+		$table = JTable::getInstance('contact', 'ContactTable');
+		$contact->alias = JApplication::stringURLSafe($contact->name);
+
+		while ($table->load(array('alias' => $contact->alias, 'catid' => $contact->catid)))
+		{
+			$contact->alias = JString::increment($contact->alias, 'dash');
+		}
+
 		$autowebpage = $this->params->get('autowebpage', '');
 
 		if (!empty($autowebpage)) {

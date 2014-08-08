@@ -624,7 +624,7 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function setUTF()
 	{
-		return mysql_query("SET NAMES 'utf8'", $this->connection);
+		return mysql_set_charset('utf8', $this->connection);
 	}
 
 	/**

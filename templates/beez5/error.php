@@ -25,7 +25,7 @@ if(!$templateparams->get('html5', 0)): ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
+<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
 <?php if ($this->error->getCode()>=400 && $this->error->getCode() < 500) { 	?>
 
 
@@ -152,7 +152,7 @@ if(!$templateparams->get('html5', 0)): ?>
 
 					<h3><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></h3>
 
-					<h2>#<?php echo $this->error->getCode() ; ?>&nbsp;<?php echo htmlspecialchars($this->error->getMessage()); ?></h2><br />
+					<h2>#<?php echo $this->error->getCode() ; ?>&nbsp;<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></h2><br />
 
 				</div><!-- end wrapper -->
 			</div><!-- end contentarea -->
@@ -200,7 +200,7 @@ if (!isset($this->error)) {
 	<div class="error">
 		<div id="outline">
 		<div id="errorboxoutline">
-			<div id="errorboxheader"> <?php echo $this->title; ?></div>
+			<div id="errorboxheader"><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></div>
 			<div id="errorboxbody">
 			<p><strong><?php echo JText::_('JERROR_LAYOUT_NOT_ABLE_TO_VISIT'); ?></strong></p>
 				<ol>
@@ -219,7 +219,7 @@ if (!isset($this->error)) {
 
 				</ul>
 			<div id="techinfo">
-			<p><?php echo $this->error->getMessage(); ?></p>
+			<p><?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
 
 			<p><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
 

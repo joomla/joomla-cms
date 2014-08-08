@@ -24,6 +24,18 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 	</p>
 </fieldset>
 
+<?php elseif (!isset($this->updateInfo['object']->downloadurl->_data)): ?>
+
+<fieldset>
+	<legend>
+		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_CANT_INSTALL_UPDATE') ?>
+	</legend>
+	<p>
+		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_CANT_INSTALL_UPDATE_DESC', $this->updateInfo['latest'], $this->updateInfo['latest']); ?>
+	</p>
+</fieldset>
+
+
 <?php else: ?>
 
 <form action="index.php" method="post" id="adminForm">
