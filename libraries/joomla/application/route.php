@@ -83,7 +83,7 @@ class JRoute
 			}
 
 			// Determine which scheme we want.
-			$uri->setScheme(((int)$ssl === 1 || $uri->isSSL()) ? 'https' : 'http');
+			$uri->setScheme(((int) $ssl === 1 || $uri->isSSL()) ? 'https' : 'http');
 			$uri->setHost($host_port[0]);
 			$uri->setPort($host_port[1]);
 			$scheme = array_merge($scheme, array('host', 'port', 'scheme'));
