@@ -128,7 +128,7 @@ class MenusModelMenus extends JModelList
 		}
 		catch (RuntimeException $e)
 		{
-			$this->setError($e->getMessage);
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -168,7 +168,7 @@ class MenusModelMenus extends JModelList
 		// Filter by search in title or menutype
 		if ($search = trim($this->getState('filter.search')))
 		{
-			$search = $db->quote('%' . $db->escape($search, true) . '%');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 			$query->where('(' . 'a.title LIKE ' . $search . ' OR a.menutype LIKE ' . $search . ')');
 		}
 

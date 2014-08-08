@@ -130,7 +130,8 @@ class InstallerModelUpdate extends JModelList
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$query->where('name LIKE ' . $db->quote('%' . $search . '%'));
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+			$query->where('name LIKE ' . $search);
 		}
 		return $query;
 	}

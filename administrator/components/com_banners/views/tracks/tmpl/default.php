@@ -14,10 +14,10 @@ JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal', 'a.modal');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$user       = JFactory::getUser();
+$userId     = $user->get('id');
+$listOrder  = $this->escape($this->state->get('list.ordering'));
+$listDirn   = $this->escape($this->state->get('list.direction'));
 $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
@@ -39,7 +39,7 @@ $sortFields = $this->getSortFields();
 
 	Joomla.closeModalDialog = function()
 	{
-		window.jQuery('#modal-export').modal('hide');
+		window.jQuery('#modal-download').modal('hide');
 	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=tracks'); ?>" method="post" name="adminForm" id="adminForm">

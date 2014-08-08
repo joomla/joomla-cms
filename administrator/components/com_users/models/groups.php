@@ -133,7 +133,7 @@ class UsersModelGroups extends JModelList
 			}
 			catch (RuntimeException $e)
 			{
-				$this->setError($e->getMessage);
+				$this->setError($e->getMessage());
 				return false;
 			}
 
@@ -188,7 +188,7 @@ class UsersModelGroups extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('a.title LIKE ' . $search);
 			}
 		}
