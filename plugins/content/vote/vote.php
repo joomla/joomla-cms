@@ -70,14 +70,13 @@ class PlgContentVote extends JPlugin
 				$img .= $starImageOff;
 			}
 
-			$html .= '<div class="content_rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">';
-			$html .= '<p class="unseen element-invisible">'
-					. JText::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>')
-					. '<meta itemprop="ratingCount" content="' . (int) $row->rating_count . '" />'
-					. '<meta itemprop="worstRating" content="0" />'
-					. '</p>';
-			$html .= $img;
-			$html .= '</div>';
+			// Get the path for the rating layout file
+			$path = JPluginHelper::getLayoutPath('content', 'vote');
+
+			// Render the rating
+			ob_start();
+			include $path;
+			$html .= ob_get_clean();
 
 			if ($view == 'article' && $row->state == 1)
 			{
@@ -92,18 +91,14 @@ class PlgContentVote extends JPlugin
 					$options[] = JHtml::_('select.option', $i, JText::sprintf('PLG_VOTE_VOTE', $i));
 				}
 
-				// Generate voting form
-				$html .= '<form method="post" action="' . htmlspecialchars($uri->toString()) . '" class="form-inline">';
-				$html .= '<span class="content_vote">';
-				$html .= '<label class="unseen element-invisible" for="content_vote_' . $row->id . '">' . JText::_('PLG_VOTE_LABEL') . '</label>';
-				$html .= JHtml::_('select.genericlist', $options, 'user_rating', null, 'value', 'text', '5', 'content_vote_' . $row->id);
-				$html .= '&#160;<input class="btn btn-mini" type="submit" name="submit_vote" value="' . JText::_('PLG_VOTE_RATE') . '" />';
-				$html .= '<input type="hidden" name="task" value="article.vote" />';
-				$html .= '<input type="hidden" name="hitcount" value="0" />';
-				$html .= '<input type="hidden" name="url" value="' . htmlspecialchars($uri->toString()) . '" />';
-				$html .= JHtml::_('form.token');
-				$html .= '</span>';
-				$html .= '</form>';
+				// Get the path for the rating layout file
+				$path = JPluginHelper::getLayoutPath('content', 'vote', 'form');
+
+				// Render the rating
+				ob_start();
+				include $path;
+				$html .= ob_get_clean();
+
 			}
 		}
 
