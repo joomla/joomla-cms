@@ -50,7 +50,7 @@ class JFormFieldPlugins extends JFormFieldList
 		switch ($name)
 		{
 			case 'folder':
-				return $this->$name;
+				return $this->folder;
 		}
 
 		return parent::__get($name);
@@ -71,7 +71,7 @@ class JFormFieldPlugins extends JFormFieldList
 		switch ($name)
 		{
 			case 'folder':
-				$this->$name = (string) $value;
+				$this->folder = (string) $value;
 				break;
 
 			default:
