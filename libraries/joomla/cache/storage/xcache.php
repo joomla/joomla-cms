@@ -251,13 +251,12 @@ class JCacheStorageXcache extends JCacheStorage
 			{
 				return true;
 			}
-			
+
 			// In some enviorments empty is equivalent to Off; See #34044
 			if (empty($xcache_admin_enable_auth))
 			{
 				return true;
 			}
-			
 		}
 
 		// If the settings are not correct, give up
