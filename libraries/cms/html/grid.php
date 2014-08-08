@@ -66,6 +66,7 @@ abstract class JHtmlGrid
 	 * @param   string  $task           An optional task override
 	 * @param   string  $new_direction  An optional direction for the new column
 	 * @param   string  $tip            An optional text shown as tooltip title instead of $title
+	 * @param   string  $form	    An ID of the form
 	 *
 	 * @return  string
 	 *
