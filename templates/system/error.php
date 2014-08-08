@@ -57,9 +57,9 @@ $this->direction = $doc->direction;
 			<div id="techinfo">
 			<p><?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
 			<p>
-+				<?php if ($this->debug) : ?>
-+					<?php echo $this->renderBacktrace(); ?>
-+				<?php endif; ?>
+				<?php if ($this->debug) : ?>
+					<?php echo $this->renderBacktrace(); ?>
+				<?php endif; ?>
 			</p>
 			</div>
 			</div>
