@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('checkboxes');
  * @subpackage  Form
  * @since       11.3
  */
-class JFormFieldCheckboxesTest extends TestCase
+class JFormFieldCheckboxesTest extends TestCaseDatabase
 {
 	/**
 	 * Sets up dependencies for the test.
