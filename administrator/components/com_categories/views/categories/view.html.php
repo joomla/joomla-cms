@@ -143,9 +143,23 @@ class CategoriesViewCategories extends JViewLegacy
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolbarHelper::unpublish('categories.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::archiveList('categories.archive');
+			if ($this->state->get('filter.published') != 2)
+			{
+				JToolbarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
+				JToolbarHelper::unpublish('categories.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			}
+			
+			if ($this->state->get('filter.published') != -1)
+			{
+				if ($this->state->get('filter.published') != 2)
+				{
+					JToolbarHelper::archiveList('categories.archive');
+				}
+				elseif ($this->state->get('filter.published') == 2)
+				{
+					JToolbarHelper::unarchiveList('categories.publish');
+				}
+			}
 		}
 
 		if (JFactory::getUser()->authorise('core.admin'))
