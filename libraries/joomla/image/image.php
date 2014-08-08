@@ -697,13 +697,12 @@ class JImage
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
+		}
 
-			imagecopyresized($handle, $this->handle, $offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
-		}
-		else
-		{
-			imagecopyresampled($handle, $this->handle, $offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
-		}
+		imagecopyresampled(
+			$handle, $this->handle, 
+			$offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight()
+		);
 
 		// If we are resizing to a new image, create a new JImage object.
 		if ($createNew)
