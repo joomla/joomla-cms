@@ -47,7 +47,7 @@ class PlgContentVote extends JPlugin
 			return false;
 		}
 
-        $html = '';
+		$html = '';
 
 		if (!empty($params) && $params->get('show_vote', null))
 		{
@@ -70,13 +70,13 @@ class PlgContentVote extends JPlugin
 				$img .= $starImageOff;
 			}
 
-            // Get the path for the rating layout file
-            $path = JPluginHelper::getLayoutPath('content', 'vote');
+			// Get the path for the rating layout file
+			$path = JPluginHelper::getLayoutPath('content', 'vote');
 
-            // Render the rating
-            ob_start();
-            include $path;
-            $html .= ob_get_clean();
+			// Render the rating
+			ob_start();
+			include $path;
+			$html .= ob_get_clean();
 
 			if ($view == 'article' && $row->state == 1)
 			{
@@ -91,13 +91,13 @@ class PlgContentVote extends JPlugin
 					$options[] = JHtml::_('select.option', $i, JText::sprintf('PLG_VOTE_VOTE', $i));
 				}
 
-                // Get the path for the rating layout file
-                $path = JPluginHelper::getLayoutPath('content', 'vote', 'form');
+				// Get the path for the rating layout file
+				$path = JPluginHelper::getLayoutPath('content', 'vote', 'form');
 
-                // Render the rating
-                ob_start();
-                include $path;
-                $html .= ob_get_clean();
+				// Render the rating
+				ob_start();
+				include $path;
+				$html .= ob_get_clean();
 
 			}
 		}
