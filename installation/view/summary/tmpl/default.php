@@ -282,6 +282,9 @@ $prev = $useftp ? 'ftp' : 'database';
 		<div class="span6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_TITLE'); ?></h3>
 			<hr class="hr-condensed" />
+			<p class="install-text">
+				<?php echo JText::_('INSTL_PRECHECK_DESC'); ?>
+			</p>
 			<table class="table table-striped table-condensed">
 				<tbody>
 				<?php foreach ($this->phpoptions as $option) : ?>

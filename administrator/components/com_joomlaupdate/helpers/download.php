@@ -43,10 +43,12 @@ class AdmintoolsHelperDownload
 
 		// Try to open the output file for writing
 		$fp = @fopen($target, 'wb');
+
 		if ($fp === false)
 		{
 			// The file can not be opened for writing. Let's try a hack.
 			$empty = '';
+
 			if ( JFile::write($target, $empty) )
 			{
 				if ( self::chmod($target, 511) )
@@ -57,6 +59,7 @@ class AdmintoolsHelperDownload
 		}
 
 		$result = false;
+
 		if ($fp !== false)
 		{
 			// First try to download directly to file if $fp !== false
@@ -405,7 +408,7 @@ class AdmintoolsHelperDownload
 
 			// Connect the FTP client
 			$ftp = JClientFtp::getInstance(
-				$ftpOptions['host'], $ftpOptions['port'], null,
+				$ftpOptions['host'], $ftpOptions['port'], array(),
 				$ftpOptions['user'], $ftpOptions['pass']
 			);
 		}

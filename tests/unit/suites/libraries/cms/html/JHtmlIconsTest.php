@@ -31,7 +31,7 @@ class JHtmlIconsTest extends TestCase
 		// We need to mock the application
 		$this->saveFactoryState();
 
-		JFactory::$application = TestCase::getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**

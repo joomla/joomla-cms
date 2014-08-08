@@ -15,12 +15,47 @@
 class TestMockApplicationBase
 {
 	/**
+	 * Gets the methods of the JApplicationBase object.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.4
+	 */
+	public static function getMethods()
+	{
+		return array(
+			'close',
+			'getIdentity',
+			'registerEvent',
+			'triggerEvent',
+			'loadDispatcher',
+			'loadIdentity',
+		);
+	}
+
+	/**
+	 * Adds mock objects for some methods.
+	 *
+	 * @param  TestCase                                 $test        A test object.
+	 * @param  PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
+	 * @param  array                                    $options     A set of options to configure the mock.
+	 *
+	 * @return  PHPUnit_Framework_MockObject_MockObject  The object with the behaviours added
+	 *
+	 * @since   3.4
+	 */
+	public static function addBehaviours($test, $mockObject, $options)
+	{
+		return $mockObject;
+	}
+
+	/**
 	 * Creates and instance of the mock JApplicationBase object.
 	 *
-	 * @param   object  $test     A test object.
-	 * @param   array   $options  A set of options to configure the mock.
+	 * @param   TestCase  $test     A test object.
+	 * @param   array     $options  A set of options to configure the mock.
 	 *
-	 * @return  object
+	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   11.3
 	 */
@@ -32,16 +67,8 @@ class TestMockApplicationBase
 			$_SERVER['HTTP_HOST'] = 'localhost';
 		}
 
-		// Collect all the relevant methods in JApplicationBase (work in progress).
-		$methods = array(
-			'close',
-			'getIdentity',
-			'loadDispatcher',
-			'loadDocument',
-			'loadIdentity',
-			'registerEvent',
-			'triggerEvent',
-		);
+		// Collect all the relevant methods in JApplicationBase.
+		$methods = self::getMethods();
 
 		// Create the mock.
 		$mockObject = $test->getMock(
@@ -54,6 +81,8 @@ class TestMockApplicationBase
 			// Call original constructor.
 			true
 		);
+
+		$mockObject = self::addBehaviours($test, $mockObject, $options);
 
 		return $mockObject;
 	}

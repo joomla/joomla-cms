@@ -46,6 +46,9 @@ class JoomlaupdateViewUpdate extends JViewLegacy
 		// Load mooTools
 		JHtml::_('behavior.framework', true);
 
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
 		$updateScript = <<<ENDSCRIPT
 var joomlaupdate_password = '$password';
 var joomlaupdate_totalsize = '$filesize';

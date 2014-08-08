@@ -31,10 +31,10 @@ class PlgSystemSef extends JPlugin
 
 		if ($app->getName() != 'site' || $doc->getType() !== 'html')
 		{
-			return true;
+			return;
 		}
 
-		$router = $app->getRouter();
+		$router = $app::getRouter();
 
 		$uri     = clone JUri::getInstance();
 		$domain  = $this->params->get('domain');
@@ -63,7 +63,7 @@ class PlgSystemSef extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->getName() != 'site' || $app->getCfg('sef') == '0')
+		if ($app->getName() != 'site' || $app->get('sef') == '0')
 		{
 			return true;
 		}
@@ -77,9 +77,9 @@ class PlgSystemSef extends JPlugin
 		$this->checkBuffer($buffer);
 
 		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
-		$protocols = '[a-zA-Z0-9]+:';
-		$regex     = '#(src|href|poster)="(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
-		$buffer    = preg_replace($regex, "$1=\"$base\$2\"", $buffer);
+		$protocols = '[a-zA-Z0-9\-]+:';
+		$regex     = '#\s+(src|href|poster)="(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+		$buffer    = preg_replace($regex, " $1=\"$base\$2\"", $buffer);
 		$this->checkBuffer($buffer);
 
 		$regex  = '#(onclick="window.open\(\')(?!/|' . $protocols . '|\#)([^/]+[^\']*?\')#m';

@@ -33,12 +33,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 */
 	public function render($head, $params = array(), $content = null)
 	{
-		ob_start();
-		echo $this->fetchHead($this->_doc);
-		$buffer = ob_get_contents();
-		ob_end_clean();
-
-		return $buffer;
+		return $this->fetchHead($this->_doc);
 	}
 
 	/**

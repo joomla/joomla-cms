@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! Administrator Application class
@@ -138,6 +138,15 @@ class JApplicationAdministrator extends JApplicationCms
 
 		// Mark afterRoute in the profiler.
 		JDEBUG ? $this->profiler->mark('afterRoute') : null;
+
+		/*
+		 * Check if the user is required to reset their password
+		 *
+		 * Before $this->route(); "option" and "view" can't be safely read using:
+		 * $this->input->getCmd('option'); or $this->input->getCmd('view');
+		 * ex: due of the sef urls
+		 */
+		$this->checkUserRequireReset('com_admin', 'profile', 'edit', 'profile.save,profile.apply');
 
 		// Dispatch the application
 		$this->dispatch();

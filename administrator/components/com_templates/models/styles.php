@@ -154,7 +154,7 @@ class TemplatesModelStyles extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('a.template LIKE ' . $search . ' OR a.title LIKE ' . $search);
 			}
 		}

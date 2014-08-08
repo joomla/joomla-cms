@@ -85,7 +85,7 @@ $user = JFactory::getUser();
 
 		<?php
 		$this->fieldsets = array();
-		$this->ignore_fieldsets = array('basic');
+		$this->ignore_fieldsets = array('basic', 'description');
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
 

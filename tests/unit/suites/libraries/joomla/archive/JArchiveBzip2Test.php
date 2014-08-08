@@ -51,7 +51,7 @@ class JArchiveBzip2Test extends JArchiveTestCase
 			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo.bz2', static::$outputPath . '/logo-bz2.png');
+		$this->object->extract(__DIR__ . '/logo-bz2.png.bz2', static::$outputPath . '/logo-bz2.png');
 		$this->assertTrue(is_file(static::$outputPath . '/logo-bz2.png'));
 
 		if (is_file(static::$outputPath . '/logo-bz2.png'))
@@ -74,7 +74,7 @@ class JArchiveBzip2Test extends JArchiveTestCase
 			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo.bz2', static::$outputPath . '/logo-bz2.png', array('use_streams' => true));
+		$this->object->extract(__DIR__ . '/logo-bz2.png.bz2', static::$outputPath . '/logo-bz2.png', array('use_streams' => true));
 		$this->assertTrue(is_file(static::$outputPath . '/logo-bz2.png'));
 
 		if (is_file(static::$outputPath . '/logo-bz2.png'))

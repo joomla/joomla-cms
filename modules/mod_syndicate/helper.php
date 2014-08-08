@@ -25,7 +25,8 @@ class ModSyndicateHelper
 		foreach ($document->_links as $link => $value)
 		{
 			$value = JArrayHelper::toString($value);
-			if (strpos($value, 'application/'.$params->get('format').'+xml'))
+
+			if (strpos($value, 'application/' . $params->get('format') . '+xml'))
 			{
 				return $link;
 			}

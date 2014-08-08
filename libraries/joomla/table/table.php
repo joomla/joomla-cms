@@ -22,7 +22,7 @@ jimport('joomla.filesystem.path');
  * @since       11.1
  * @tutorial	Joomla.Platform/jtable.cls
  */
-abstract class JTable extends JObject implements JObservableInterface
+abstract class JTable extends JObject implements JObservableInterface, JTableInterface
 {
 	/**
 	 * Include paths for searching for JTable classes.
@@ -263,22 +263,21 @@ abstract class JTable extends JObject implements JObservableInterface
 		if (!class_exists($tableClass))
 		{
 			// Search for the class file in the JTable include paths.
-			$path = JPath::find(self::addIncludePath(), strtolower($type) . '.php');
+			jimport('joomla.filesystem.path');
 
-			if ($path)
+			$paths = self::addIncludePath();
+			$pathIndex = 0;
+
+			while (!class_exists($tableClass) && $pathIndex < count($paths))
 			{
-				// Import the class file.
-				include_once $path;
-
-				// If we were unable to load the proper class, raise a warning and return false.
-				if (!class_exists($tableClass))
+				if ($tryThis = JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
 				{
-					JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_NOT_FOUND_IN_FILE', $tableClass), JLog::WARNING, 'jerror');
-
-					return false;
+					// Import the class file.
+					include_once $tryThis;
 				}
 			}
-			else
+
+			if (!class_exists($tableClass))
 			{
 				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
 				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type), JLog::WARNING, 'jerror');

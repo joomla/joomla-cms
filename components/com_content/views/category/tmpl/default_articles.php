@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.framework');
-
 // Create some shortcuts.
 $params		= &$this->item->params;
 $n			= count($this->items);
@@ -123,7 +121,7 @@ if (!empty($this->items))
 							$active		= $menu->getActive();
 							$itemId		= $active->id;
 							$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
-							$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug));
+							$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid));
 							$fullURL = new JUri($link);
 							$fullURL->setVar('return', base64_encode($returnURL));
 							?>

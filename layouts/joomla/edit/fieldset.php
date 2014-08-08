@@ -25,11 +25,6 @@ $extraFields = $displayData->get('extra_fields') ? : array();
 
 if ($displayData->get('show_options', 1))
 {
-	if (isset($fieldSet->description) && trim($fieldSet->description))
-	{
-		echo '<p class="alert alert-info">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
-	}
-
 	if (isset($extraFields[$name]))
 	{
 		foreach ($extraFields[$name] as $f)
@@ -49,7 +44,7 @@ if ($displayData->get('show_options', 1))
 
 	foreach ($fieldSet as $field)
 	{
-		$html[] = $field->getControlGroup();
+		$html[] = $field->renderField();
 	}
 
 	echo implode('', $html);

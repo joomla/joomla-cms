@@ -15,20 +15,22 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$app		= JFactory::getApplication();
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$archived	= $this->state->get('filter.published') == 2 ? true : false;
-$trashed	= $this->state->get('filter.published') == -2 ? true : false;
-$canOrder	= $user->authorise('core.edit.state', 'com_contact.category');
-$saveOrder	= $listOrder == 'a.ordering';
+$app       = JFactory::getApplication();
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$archived  = $this->state->get('filter.published') == 2 ? true : false;
+$trashed   = $this->state->get('filter.published') == -2 ? true : false;
+$canOrder  = $user->authorise('core.edit.state', 'com_contact.category');
+$saveOrder = $listOrder == 'a.ordering';
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_contact&task=contacts.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
+
 $sortFields = $this->getSortFields();
 $assoc		= JLanguageAssociations::isEnabled();
 ?>
@@ -130,12 +132,12 @@ $assoc		= JLanguageAssociations::isEnabled();
 			<?php
 			$n = count($this->items);
 			foreach ($this->items as $i => $item) :
-				$ordering	= $listOrder == 'a.ordering';
-				$canCreate	= $user->authorise('core.create',     'com_contact.category.'.$item->catid);
-				$canEdit	= $user->authorise('core.edit',       'com_contact.category.'.$item->catid);
-				$canCheckin	= $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-				$canEditOwn	= $user->authorise('core.edit.own',   'com_contact.category.'.$item->catid) && $item->created_by == $userId;
-				$canChange	= $user->authorise('core.edit.state', 'com_contact.category.'.$item->catid) && $canCheckin;
+				$ordering   = $listOrder == 'a.ordering';
+				$canCreate  = $user->authorise('core.create',     'com_contact.category.'.$item->catid);
+				$canEdit    = $user->authorise('core.edit',       'com_contact.category.'.$item->catid);
+				$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+				$canEditOwn = $user->authorise('core.edit.own',   'com_contact.category.'.$item->catid) && $item->created_by == $userId;
+				$canChange  = $user->authorise('core.edit.state', 'com_contact.category.'.$item->catid) && $canCheckin;
 
 				$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id='.$item->catid);
 				?>
@@ -198,7 +200,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 							</div>
 						</div>
 					</td>
-					<td align="small hidden-phone">
+					<td align="center" class="small hidden-phone">
 						<?php if (!empty($item->linked_user)) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.$item->user_id);?>"><?php echo $item->linked_user;?></a>
 						<?php endif; ?>
@@ -206,7 +208,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 					<td class="center hidden-phone">
 						<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
 					</td>
-					<td align="small hidden-phone">
+					<td align="center" class="small hidden-phone">
 						<?php echo $item->access_level; ?>
 					</td>
 					<?php if ($assoc) : ?>
@@ -223,7 +225,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 							<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 						<?php endif;?>
 					</td>
-					<td align="center hidden-phone">
+					<td align="center" class="hidden-phone">
 						<?php echo $item->id; ?>
 					</td>
 				</tr>

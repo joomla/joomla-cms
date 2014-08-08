@@ -54,7 +54,7 @@ class UsersControllerUser extends JControllerForm
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   object  $model  The model.
+	 * @param   object   $model  The model.
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *

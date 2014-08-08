@@ -41,7 +41,7 @@ class AdminModelProfile extends UsersModelUser
 		}
 
 		// Check for username compliance and parameter set
-		$usernameCompliant = true;
+		$isUsernameCompliant = true;
 
 		if ($this->loadFormData()->username)
 		{
@@ -57,6 +57,13 @@ class AdminModelProfile extends UsersModelUser
 			$form->setFieldAttribute('username', 'required', 'false');
 			$form->setFieldAttribute('username', 'readonly', 'true');
 			$form->setFieldAttribute('username', 'description', 'COM_ADMIN_USER_FIELD_NOCHANGE_USERNAME_DESC');
+		}
+
+		// If the user needs to change their password, mark the password fields as required
+		if (JFactory::getUser()->requireReset)
+		{
+			$form->setFieldAttribute('password', 'required', 'true');
+			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
 		return $form;
@@ -121,8 +128,6 @@ class AdminModelProfile extends UsersModelUser
 		unset($data['sendEmail']);
 		unset($data['block']);
 
-		// Unset the username if it should not be overwritten
-		$username = $data['username'];
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
 		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)

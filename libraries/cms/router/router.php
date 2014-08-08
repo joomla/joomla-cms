@@ -82,6 +82,14 @@ class JRouter
 	);
 
 	/**
+	 * Caching of processed URIs
+	 *
+	 * @var    array
+	 * @since  3.3
+	 */
+	protected $cache = array();
+
+	/**
 	 * JRouter instances container.
 	 *
 	 * @var    array
@@ -190,7 +198,7 @@ class JRouter
 	/**
 	 * Function to convert an internal URI to a route
 	 *
-	 * @param   string  $url  The internal URL
+	 * @param   string  $url  The internal URL or an associative array
 	 *
 	 * @return  string  The absolute search engine friendly URL
 	 *
@@ -198,8 +206,15 @@ class JRouter
 	 */
 	public function build($url)
 	{
+		$key = md5(serialize($url));
+
+		if (isset($this->cache[$key]))
+		{
+			return clone $this->cache[$key];
+		}
+
 		// Create the URI object
-		$uri = $this->_createURI($url);
+		$uri = $this->createURI($url);
 
 		// Process the uri information based on custom defined rules
 		$this->_processBuildRules($uri);
@@ -215,6 +230,8 @@ class JRouter
 		{
 			$this->_buildSefRoute($uri);
 		}
+
+		$this->cache[$key] = clone $uri;
 
 		return $uri;
 	}
@@ -547,7 +564,7 @@ class JRouter
 	/**
 	 * Create a uri based on a full or partial url string
 	 *
-	 * @param   string  $url  The URI
+	 * @param   string  $url  The URI or an associative array
 	 *
 	 * @return  JUri
 	 *
@@ -555,8 +572,15 @@ class JRouter
 	 */
 	protected function createURI($url)
 	{
+		if (is_array($url))
+		{
+			$uri = new JUri('index.php');
+			$uri->setQuery($url);
+
+			return $uri;
+		}
 		// Create full URL if we are only appending variables to it
-		if (substr($url, 0, 1) == '&')
+		elseif (substr($url, 0, 1) == '&')
 		{
 			$vars = array();
 
@@ -592,7 +616,7 @@ class JRouter
 	 * @return  array  Array of encoded route segments
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use encodeSegments() instead
+	 * @deprecated  4.0  This should be performed in the component router instead
 	 */
 	protected function _encodeSegments($segments)
 	{
@@ -607,6 +631,7 @@ class JRouter
 	 * @return  array  Array of encoded route segments
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  This should be performed in the component router instead
 	 */
 	protected function encodeSegments($segments)
 	{
@@ -628,7 +653,7 @@ class JRouter
 	 * @return  array  Array of decoded route segments
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use decodeSegments() instead
+	 * @deprecated  4.0  This should be performed in the component router instead
 	 */
 	protected function _decodeSegments($segments)
 	{
@@ -643,6 +668,7 @@ class JRouter
 	 * @return  array  Array of decoded route segments
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  This should be performed in the component router instead
 	 */
 	protected function decodeSegments($segments)
 	{

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! CMS Application class
@@ -225,18 +225,14 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function enqueueMessage($msg, $type = 'message')
 	{
-		// For empty queue, if messages exists in the session, enqueue them first.
-		if (!count($this->_messageQueue))
+		// Don't add empty messages.
+		if (!strlen($msg))
 		{
-			$session = JFactory::getSession();
-			$sessionQueue = $session->get('application.queue');
-
-			if (count($sessionQueue))
-			{
-				$this->_messageQueue = $sessionQueue;
-				$session->set('application.queue', null);
-			}
+			return;
 		}
+
+		// For empty queue, if messages exists in the session, enqueue them first.
+		$this->getMessageQueue();
 
 		// Enqueue the message.
 		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
@@ -275,6 +271,66 @@ class JApplicationCms extends JApplicationWeb
 
 		// Trigger the onAfterRespond event.
 		$this->triggerEvent('onAfterRespond');
+	}
+
+	/**
+	 * Check if the user is required to reset their password.
+	 *
+	 * If the user is required to reset their password will be redirected to the page that manage the password reset.
+	 *
+	 * @param   string  $option  The option that manage the password reset
+	 * @param   string  $view    The view that manage the password reset
+	 * @param   string  $layout  The layout of the view that manage the password reset
+	 * @param   string  $tasks   Permitted tasks
+	 *
+	 * @return  void
+	 */
+	protected function checkUserRequireReset($option, $view, $layout, $tasks)
+	{
+		if (JFactory::getUser()->get('requireReset', 0))
+		{
+			$redirect = false;
+
+			/*
+			 * By default user profile edit page is used.
+			 * That page allows you to change more than just the password and might not be the desired behavior.
+			 * This allows a developer to override the page that manage the password reset.
+			 * (can be configured using the file: configuration.php, or if extended, through the global configuration form)
+			 */
+			$name = $this->getName();
+
+			if ($this->get($name . '_reset_password_override', 0))
+			{
+				$option = $this->get($name . '_reset_password_option', '');
+				$view = $this->get($name . '_reset_password_view', '');
+				$layout = $this->get($name . '_reset_password_layout', '');
+				$tasks = explode(',', $this->get($name . '_reset_password_tasks', ''));
+			}
+
+			if ($this->input->getCmd('option', '') != $option || $this->input->getCmd('view', '') != $view || $this->input->getCmd('layout', '') != $layout)
+			{
+				// Requested a different page
+				$redirect = true;
+			}
+			else
+			{
+				$task = $this->input->getCmd('task', '');
+
+				// Empty task are always permitted
+				if (!empty($task) && array_search($task, $tasks) === false)
+				{
+					// Not permitted task
+					$redirect = true;
+				}
+			}
+
+			if ($redirect)
+			{
+				// Redirect to the profile edit page
+				$this->enqueueMessage(JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+				$this->redirect(JRoute::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
+			}
+		}
 	}
 
 	/**
@@ -731,6 +787,9 @@ class JApplicationCms extends JApplicationWeb
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
+		// Import the user plugin group.
+		JPluginHelper::importPlugin('user');
+
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
 			/*
@@ -774,9 +833,6 @@ class JApplicationCms extends JApplicationWeb
 					}
 				}
 			}
-
-			// Import the user plugin group.
-			JPluginHelper::importPlugin('user');
 
 			// OK, the credentials are authenticated and user is authorised.  Let's fire the onLogin event.
 			$results = $this->triggerEvent('onUserLogin', array((array) $response, $options));
@@ -926,7 +982,7 @@ class JApplicationCms extends JApplicationWeb
 				}
 				else
 				{
-					$type = null;
+					$type = 'message';
 				}
 
 				// Enqueue the message
@@ -1018,7 +1074,7 @@ class JApplicationCms extends JApplicationWeb
 		// Get the full request URI.
 		$uri = clone JUri::getInstance();
 
-		$router = $this->getRouter();
+		$router = static::getRouter();
 		$result = $router->parse($uri);
 
 		foreach ($result as $key => $value)

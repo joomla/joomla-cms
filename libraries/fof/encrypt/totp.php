@@ -90,7 +90,7 @@ class FOFEncryptTotp
 
 		for ($i = -1; $i <= 1; $i++)
 		{
-			if ($this->getCode($secret, $time + $i) == $code)
+			if ($this->getCode($secret, ($time + $i) * $this->_timeStep) == $code)
 			{
 				return true;
 			}

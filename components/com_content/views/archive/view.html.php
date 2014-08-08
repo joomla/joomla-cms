@@ -26,6 +26,13 @@ class ContentViewArchive extends JViewLegacy
 
 	protected $pagination = null;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
 	public function display($tpl = null)
 	{
 		$user		= JFactory::getUser();
@@ -47,6 +54,31 @@ class ContentViewArchive extends JViewLegacy
 			{
 				$item->parent_slug = null;
 			}
+
+			$item->event = new stdClass;
+
+			$dispatcher = JEventDispatcher::getInstance();
+
+			// Old plugins: Ensure that text property is available
+			if (!isset($item->text))
+			{
+				$item->text = $item->introtext;
+			}
+
+			JPluginHelper::importPlugin('content');
+			$dispatcher->trigger('onContentPrepare', array ('com_content.archive', &$item, &$item->params, 0));
+
+			// Old plugins: Use processed text as introtext
+			$item->introtext = $item->text;
+
+			$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.archive', &$item, &$item->params, 0));
+			$item->event->afterDisplayTitle = trim(implode("\n", $results));
+
+			$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.archive', &$item, &$item->params, 0));
+			$item->event->beforeDisplayContent = trim(implode("\n", $results));
+
+			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.archive', &$item, &$item->params, 0));
+			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
 		$form = new stdClass;
@@ -111,9 +143,9 @@ class ContentViewArchive extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$title 		= null;
+		$app   = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -128,18 +160,20 @@ class ContentViewArchive extends JViewLegacy
 		}
 
 		$title = $this->params->get('page_title', '');
+
 		if (empty($title))
 		{
-			$title = $app->getCfg('sitename');
+			$title = $app->get('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->params->get('menu-meta_description'))
