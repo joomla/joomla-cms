@@ -240,6 +240,11 @@ Joomla.tableOrdering = function(order, dir, task, form) {
     if (typeof(form) === 'undefined') {
         form = document.getElementById('adminForm');
     }
+    
+    if (typeof form == 'string' || form instanceof String) {
+        form = document.getElementById(form);
+    }
+
 
     form.filter_order.value = order;
     form.filter_order_Dir.value = dir;
