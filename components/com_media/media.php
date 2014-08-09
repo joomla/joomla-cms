@@ -14,6 +14,24 @@ $lang = JFactory::getLanguage();
 $lang->load('com_media', JPATH_ADMINISTRATOR, null, false, true)
 ||	$lang->load('com_media', JPATH_SITE, null, false, true);
 
+$input = JFactory::getApplication()->input;
+
+if($input->get('view') == 'image' && $input->get('id') && $input->get('Itemid'))
+{
+	JLoader::registerPrefix('Media', JPATH_ADMINISTRATOR . '/components/com_media');
+	JLoader::registerPrefix('Media', JPATH_SITE . '/components/com_media');
+	JLoader::registerPrefix('Config', JPATH_SITE . '/components/com_config');
+	
+	$paths = new SplPriorityQueue;
+	$paths->insert(JPATH_COMPONENT . '/view/' . '/tmpl', 'normal');
+		
+	$model= new MediaModelEditor;
+	$view = new MediaViewHtml($model, $paths);
+	echo $view->render();
+	
+	return;
+}
+
 // Register Media prefix to load backend classes
 JLoader::registerPrefix('Media', JPATH_ADMINISTRATOR . '/components/com_media');
 
