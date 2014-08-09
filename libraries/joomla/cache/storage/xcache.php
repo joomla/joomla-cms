@@ -247,7 +247,13 @@ class JCacheStorageXcache extends JCacheStorage
 			}
 
 			// We require a string with contents 0, not a null value because it is not set since that then defaults to On/True
-			if (($xcache_admin_enable_auth === '0'))
+			if ($xcache_admin_enable_auth === '0')
+			{
+				return true;
+			}
+
+			// In some enviorments empty is equivalent to Off; See JC: #34044 && Github: #4083
+			if ($xcache_admin_enable_auth === '')
 			{
 				return true;
 			}
