@@ -217,4 +217,66 @@ abstract class FOFRenderAbstract
 	 * @return  string    The HTML rendering of the form
 	 */
 	abstract protected function renderFormRaw(FOFForm &$form, FOFModel $model, FOFInput $input, $formType);
+
+	/**
+	 * Renders a raw fieldset of a FOFForm and returns the corresponding HTML
+	 *
+	 * @TODO: Convert to an abstract method or interface at FOF3
+	 *
+	 * @param   stdClass  &$fieldset   The fieldset to render
+	 * @param   FOFForm   &$form       The form to render
+	 * @param   FOFModel  $model       The model providing our data
+	 * @param   FOFInput  $input       The input object
+	 * @param   string    $formType    The form type e.g. 'edit' or 'read'
+	 * @param   boolean   $showHeader  Should I render the fieldset's header?
+	 *
+	 * @return  string    The HTML rendering of the fieldset
+	 */
+	protected function renderFieldset(stdClass &$fieldset, FOFForm &$form, FOFModel $model, FOFInput $input, $formType, $showHeader = true)
+	{
+
+	}
+
+	/**
+	 * Renders a label for a fieldset.
+	 *
+	 * @TODO: Convert to an abstract method or interface at FOF3
+	 *
+	 * @param   object  	$field  	The field of the label to render
+	 * @param   FOFForm   	&$form      The form to render
+	 * @param 	string		$title		The title of the label
+	 *
+	 * @return 	string		The rendered label
+	 */
+	protected function renderFieldsetLabel($field, FOFForm &$form, $title)
+	{
+
+	}
+
+	/**
+	 * Checks if the fieldset defines a tab pane
+	 *
+	 * @param   SimpleXMLElement  $fieldset
+	 *
+	 * @return  boolean
+	 */
+	protected function isTabFieldset($fieldset)
+	{
+		if (!isset($fieldset->class) || !$fieldset->class)
+		{
+			return false;
+		}
+
+		$class = $fieldset->class;
+		$classes = explode(' ', $class);
+
+		if (!in_array('tab-pane', $classes))
+		{
+			return false;
+		}
+		else
+		{
+			return in_array('active', $classes) ? 2 : 1;
+		}
+	}
 }
