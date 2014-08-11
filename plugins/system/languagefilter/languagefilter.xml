@@ -58,12 +58,12 @@
 				<field name="lang_cookie" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_LABEL"
-					default="1"
+					default="0"
 					class="btn-group btn-group-yesno"
 				>
-					<option value="2">PLG_SYSTEM_LANGUAGEFILTER_OPTION_YEAR</option>
-					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_OPTION_SESSION</option>
-					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_OPTION_NONE</option>
+					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_OPTION_YEAR</option>
+					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_OPTION_SESSION</option>
+					<option value="2">PLG_SYSTEM_LANGUAGEFILTER_OPTION_NONE</option>
 				</field>
 				<field name="alternate_meta" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_DESC"

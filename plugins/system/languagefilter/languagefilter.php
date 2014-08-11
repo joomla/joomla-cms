@@ -115,7 +115,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					$lang_code = self::$sefs[$sef]->lang_code;
 
 					// Create a cookie.
-					if ($this->params->get('lang_cookie', 2)!=0)
+					if ($this->params->get('lang_cookie', 1) != 2)
 					{
 						$conf = JFactory::getConfig();
 						$cookie_domain 	= $conf->get('cookie_domain', '');
@@ -466,7 +466,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					);
 					self::$tag = $lang_code;
 
-					if ($this->params->get('lang_cookie', 2) != 0)
+					if ($this->params->get('lang_cookie', 1) != 2)
 					{
 						// Create a cookie.
 						$conf = JFactory::getConfig();
@@ -521,7 +521,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				// Change language.
 				self::$tag = $lang_code;
 
-				if ($this->params->get('lang_cookie', 2) != 0)
+				if ($this->params->get('lang_cookie', 1) != 2)
 				{
 					// Create a cookie.
 					$conf = JFactory::getConfig();
@@ -703,7 +703,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	private function getLangCookieTime()
 	{
-		if ($this->params->get('lang_cookie', 2) == 2)
+		if ($this->params->get('lang_cookie', 1) == 1)
 		{
 			$lang_cookie = time() + 365 * 86400;
 		}
