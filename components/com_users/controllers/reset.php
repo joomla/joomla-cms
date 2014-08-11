@@ -41,7 +41,7 @@ class UsersControllerReset extends UsersController
 		if ($return instanceof Exception)
 		{
 			// Get the error message to display.
-			if ($app->getCfg('error_reporting'))
+			if ($app->get('error_reporting'))
 			{
 				$message = $return->getMessage();
 			}
@@ -108,7 +108,7 @@ class UsersControllerReset extends UsersController
 		if ($return instanceof Exception)
 		{
 			// Get the error message to display.
-			if ($app->getCfg('error_reporting'))
+			if ($app->get('error_reporting'))
 			{
 				$message = $return->getMessage();
 			}
@@ -174,7 +174,7 @@ class UsersControllerReset extends UsersController
 		if ($return instanceof Exception)
 		{
 			// Get the error message to display.
-			if ($app->getCfg('error_reporting'))
+			if ($app->get('error_reporting'))
 			{
 				$message = $return->getMessage();
 			}
@@ -190,6 +190,7 @@ class UsersControllerReset extends UsersController
 
 			// Go back to the complete form.
 			$this->setRedirect(JRoute::_($route, false), $message, 'error');
+
 			return false;
 		}
 		elseif ($return === false)
@@ -203,6 +204,7 @@ class UsersControllerReset extends UsersController
 			// Go back to the complete form.
 			$message = JText::sprintf('COM_USERS_RESET_COMPLETE_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
+
 			return false;
 		}
 		else
@@ -211,11 +213,12 @@ class UsersControllerReset extends UsersController
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getLoginRoute();
 			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-			$route	= 'index.php?option=com_users&view=login' . $itemid;
+			$route  = 'index.php?option=com_users&view=login' . $itemid;
 
 			// Proceed to the login form.
 			$message = JText::_('COM_USERS_RESET_COMPLETE_SUCCESS');
 			$this->setRedirect(JRoute::_($route, false), $message);
+
 			return true;
 		}
 	}

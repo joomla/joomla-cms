@@ -67,6 +67,9 @@ class JHelperTags extends JHelper
 			$tags = self::createTagsFromField($tags);
 		}
 
+		// Prevent saving duplicate tags
+		$tags = array_unique($tags);
+
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
 		$query->columns(array($db->quoteName('type_alias'), $db->quoteName('core_content_id'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'),  $db->quoteName('type_id')));

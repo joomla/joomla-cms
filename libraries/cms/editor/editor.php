@@ -243,7 +243,7 @@ class JEditor extends JObject
 
 		$args['event'] = 'onInit';
 
-		$return = '';
+		$return    = '';
 		$results[] = $this->_editor->update($args);
 
 		foreach ($results as $result)
@@ -256,7 +256,11 @@ class JEditor extends JObject
 		}
 
 		$document = JFactory::getDocument();
-		$document->addCustomTag($return);
+
+		if (method_exists($document, "addCustomTag"))
+		{
+			$document->addCustomTag($return);
+		}
 	}
 
 	/**

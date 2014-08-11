@@ -101,7 +101,7 @@ class UsersModelNotes extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('((a.subject LIKE ' . $search . ') OR (u.name LIKE ' . $search . ') OR (u.username LIKE ' . $search . '))');
 			}
 		}

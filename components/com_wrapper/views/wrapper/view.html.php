@@ -21,25 +21,26 @@ class WrapperViewWrapper extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
-
+		$app    = JFactory::getApplication();
 		$params = $app->getParams();
 
 		// because the application sets a default page title, we need to get it
 		// right from the menu item itself
 		$title = $params->get('page_title', '');
+
 		if (empty($title))
 		{
-			$title = $app->getCfg('sitename');
+			$title = $app->get('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
+
 		$this->document->setTitle($title);
 
 		if ($params->get('menu-meta_description'))
@@ -69,19 +70,21 @@ class WrapperViewWrapper extends JViewLegacy
 		}
 
 		$url = $params->def('url', '');
+
 		if ($params->def('add_scheme', 1))
 		{
 			// adds 'http://' if none is set
 			if (substr($url, 0, 1) == '/')
 			{
 				// relative url in component. use server http_host.
-				$wrapper->url = 'http://'. $_SERVER['HTTP_HOST'] . $url;
+				$wrapper->url = 'http://' . $_SERVER['HTTP_HOST'] . $url;
 			}
 			elseif (!strstr($url, 'http') && !strstr($url, 'https'))
 			{
-				$wrapper->url = 'http://'. $url;
+				$wrapper->url = 'http://' . $url;
 			}
-			else {
+			else
+			{
 				$wrapper->url = $url;
 			}
 		}
@@ -92,9 +95,8 @@ class WrapperViewWrapper extends JViewLegacy
 
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
-
-		$this->params = &$params;
-		$this->wrapper = &$wrapper;
+		$this->params        = &$params;
+		$this->wrapper       = &$wrapper;
 
 		parent::display($tpl);
 	}

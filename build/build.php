@@ -39,7 +39,7 @@ if (substr($systemGit, 0, -1) != $gitPath)
 umask(022);
 
 // Import JVersion to set the version information
-define('_JEXEC', 1);
+define('JPATH_PLATFORM', 1);
 require_once dirname(__DIR__) . '/libraries/cms/version/version.php';
 $jversion = new JVersion;
 

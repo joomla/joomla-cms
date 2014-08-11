@@ -1714,8 +1714,8 @@ COMMENT ON TABLE "#__update_sites" IS 'Update Sites';
 -- Dumping data for table #__update_sites
 --
 INSERT INTO "#__update_sites" ("update_site_id", "name", "type", "location", "enabled", "last_check_timestamp") VALUES
-(1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0),
-(2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0),
+(1, 'Joomla! Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0),
+(2, 'Joomla! Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0),
 (3, 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.org/language/translationlist_3.xml', 1, 0);
 
 --
@@ -1863,7 +1863,7 @@ CREATE INDEX "#__user_notes_idx_category_id" ON "#__user_notes" ("catid");
 CREATE TABLE "#__user_profiles" (
   "user_id" bigint NOT NULL,
   "profile_key" varchar(100) NOT NULL,
-  "profile_value" varchar(255) NOT NULL,
+  "profile_value" text NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
   CONSTRAINT "#__user_profiles_idx_user_id_profile_key" UNIQUE ("user_id", "profile_key")
 );

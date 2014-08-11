@@ -1788,8 +1788,8 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
 --
 
 INSERT INTO `#__update_sites` (`update_site_id`, `name`, `type`, `location`, `enabled`, `last_check_timestamp`) VALUES
-(1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0),
-(2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0),
+(1, 'Joomla! Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0),
+(2, 'Joomla! Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0),
 (3, 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.org/language/translationlist_3.xml', 1, 0);
 
 -- --------------------------------------------------------
@@ -1934,7 +1934,7 @@ CREATE TABLE IF NOT EXISTS `#__user_notes` (
 CREATE TABLE IF NOT EXISTS `#__user_profiles` (
   `user_id` int(11) NOT NULL,
   `profile_key` varchar(100) NOT NULL,
-  `profile_value` varchar(255) NOT NULL,
+  `profile_value` text NOT NULL,
   `ordering` int(11) NOT NULL DEFAULT 0,
   UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Simple user profile storage table';

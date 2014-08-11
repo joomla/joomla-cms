@@ -196,7 +196,7 @@ class PlgUserProfile extends JPlugin
 	 * adds additional fields to the user editing form
 	 *
 	 * @param   JForm  $form  The form to be altered.
-	 * @param   array  $data  The associated data for the form.
+	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
@@ -353,7 +353,7 @@ class PlgUserProfile extends JPlugin
 				$data['profile']['website'] = JStringPunycode::urlToPunycode($data['profile']['website']);
 
 				$date = new JDate($data['profile']['dob']);
-				$this->date = $date->format('Y-m-d');
+				$this->date = $date->format('Y-m-d H:i:s');
 			}
 			catch (Exception $e)
 			{

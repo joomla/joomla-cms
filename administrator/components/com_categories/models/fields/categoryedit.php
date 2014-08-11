@@ -125,7 +125,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage);
+			JError::raiseWarning(500, $e->getMessage());
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
@@ -161,7 +161,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				// To take save or create in a category you need to have create rights for that category
 				// unless the item is already in that category.
 				// Unset the option if the user isn't authorised for it. In this field assets are always categories.
-				if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
+				if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true && $option->level != 0)
 				{
 					unset($options[$i]);
 				}
