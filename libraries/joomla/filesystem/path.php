@@ -200,6 +200,12 @@ class JPath
 		}
 
 		$path = trim($path);
+		
+		$isPhar = false;
+		if (substr($path, 0, 7) == 'phar://') {
+			$isPhar = true;
+			$path = substr($path, 7);
+		}
 
 		if (empty($path))
 		{
@@ -214,6 +220,10 @@ class JPath
 		else
 		{
 			$path = preg_replace('#[/\\\\]+#', $ds, $path);
+		}
+		
+		if ($isPhar) {
+			$path = 'phar://' . $path;
 		}
 
 		return $path;
