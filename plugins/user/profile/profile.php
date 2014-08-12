@@ -76,8 +76,8 @@ class PlgUserProfile extends JPlugin
 				$db = JFactory::getDbo();
 				$db->setQuery(
 					'SELECT profile_key, profile_value FROM #__user_profiles' .
-						' WHERE user_id = ' . (int) $userId . " AND profile_key LIKE 'profile.%'" .
-						' ORDER BY ordering'
+					' WHERE user_id = ' . (int) $userId . " AND profile_key LIKE 'profile.%'" .
+					' ORDER BY ordering'
 				);
 
 				try
@@ -282,16 +282,6 @@ class PlgUserProfile extends JPlugin
 					&& $this->params->get('profile-require_' . $field, 1) == 0)
 				{
 					$form->removeField($field, 'profile');
-
-					if ($field == 'dob')
-					{
-						$form->removeField('dob_spacer', 'profile');
-					}
-				}
-
-				if ($this->params->get('profile-require_dob', 1) > 0)
-				{
-					$form->setFieldAttribute('spacer', 'type', 'spacer', 'profile');
 				}
 			}
 			// Case registration
@@ -305,16 +295,6 @@ class PlgUserProfile extends JPlugin
 				else
 				{
 					$form->removeField($field, 'profile');
-
-					if ($field == 'dob')
-					{
-						$form->removeField('dob_spacer', 'profile');
-					}
-				}
-
-				if ($this->params->get('register-require_dob', 1) > 0)
-				{
-					$form->setFieldAttribute('spacer', 'type', 'spacer', 'profile');
 				}
 			}
 			// Case profile in site or admin
@@ -328,16 +308,6 @@ class PlgUserProfile extends JPlugin
 				else
 				{
 					$form->removeField($field, 'profile');
-
-					if ($field == 'dob')
-					{
-						$form->removeField('dob_spacer', 'profile');
-					}
-				}
-
-				if ($this->params->get('profile-require_dob', 1) > 0)
-				{
-					$form->setFieldAttribute('spacer', 'type', 'spacer', 'profile');
 				}
 			}
 		}
@@ -458,7 +428,7 @@ class PlgUserProfile extends JPlugin
 				$db = JFactory::getDbo();
 				$db->setQuery(
 					'DELETE FROM #__user_profiles WHERE user_id = ' . $userId .
-						" AND profile_key LIKE 'profile.%'"
+					" AND profile_key LIKE 'profile.%'"
 				);
 
 				$db->execute();
