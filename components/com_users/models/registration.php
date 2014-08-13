@@ -61,9 +61,9 @@ class UsersModelRegistration extends JModelForm
 		$user = JFactory::getUser($userId);
 
 		// Permissions check for admin to activate user
- 		$admin = JFactory::getUser();
- 		$allow	= $admin->authorise('core.edit.state', 'com_users');
-		
+		$admin = JFactory::getUser();
+		$allow = $admin->authorise('core.edit.state', 'com_users');
+
 		// Admin activation is on and user is verifying their email
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
 		{
