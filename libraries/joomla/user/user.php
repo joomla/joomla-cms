@@ -397,7 +397,7 @@ class JUser extends JObject
 
 		$query = $db->getQuery(true)
 			->select('c.id AS id, a.name AS asset_name')
-			->from('('.$subQuery->__toString().') AS c')
+			->from('(' . $subQuery->__toString() . ') AS c')
 			->join('INNER', '#__assets AS a ON c.asset_id = a.id');
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
