@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('calendar');
  *
  * @package     Joomla.Plugin
  * @subpackage  User.profile
- * @since       3.3.3
+ * @since       3.3.4
  */
 class JFormFieldDob extends JFormFieldCalendar
 {
@@ -24,7 +24,7 @@ class JFormFieldDob extends JFormFieldCalendar
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  2.5.5
+	 * @since  3.3.4
 	 */
 	protected $type = 'Dob';
 
@@ -33,7 +33,7 @@ class JFormFieldDob extends JFormFieldCalendar
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   3.3.3
+	 * @since   3.3.4
 	 */
 	protected function getLabel()
 	{
