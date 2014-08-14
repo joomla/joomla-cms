@@ -305,7 +305,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	}
 
 	/**
-	 * Method to get the database collation.
+	 * Method to get the database collation in use by sampling a text field of a table in the database.
 	 *
 	 * @return  mixed  The collation in use by the database (string) or boolean false if not supported.
 	 *
@@ -316,18 +316,25 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		// Attempt to get the database collation by accessing the server system variable.
-		$this->setQuery('SHOW VARIABLES LIKE "collation_database"');
-		$result = $this->loadObject();
+		$tables = $this->getTableList();
 
-		if (property_exists($result, 'Value'))
+		/*
+		@todo: $this->quoteName($tables[0]) is not the best solution as
+		we test possible on a non-Joomla table if we have e.g. different
+		tables (application) in the same database.
+		*/
+		$this->setQuery('SHOW FULL COLUMNS FROM ' . $this->quoteName($tables[0]));
+		$array = $this->loadAssocList();
+
+		foreach ($array as $field)
 		{
-			return $result->Value;
+			if (!is_null($field['Collation']))
+			{
+				return $field['Collation'];
+			}
 		}
-		else
-		{
-			return false;
-		}
+
+		return null;
 	}
 
 	/**
