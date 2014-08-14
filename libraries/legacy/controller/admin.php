@@ -133,7 +133,7 @@ class JControllerAdmin extends JControllerLegacy
 			}
 			else
 			{
-				$this->setMessage($model->getError());
+				$this->setMessage($model->getError(), 'error');
 			}
 		}
 		// Invoke the postDelete method to allow for the child class to access the model.
@@ -227,7 +227,7 @@ class JControllerAdmin extends JControllerLegacy
 			}
 			catch (Exception $e)
 			{
-				$this->setMessage(JText::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE'), 'error');
+				$this->setMessage($e->getMessage(), 'error');
 			}
 
 		}

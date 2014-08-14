@@ -18,10 +18,28 @@ defined('_JEXEC') or die;
  */
 class UsersViewGroups extends JViewLegacy
 {
+	/**
+	 * The item data.
+	 *
+	 * @var   object
+	 * @since 1.6
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object.
+	 *
+	 * @var   JPagination
+	 * @since 1.6
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state.
+	 *
+	 * @var   JObject
+	 * @since 1.6
+	 */
 	protected $state;
 
 	/**
@@ -29,9 +47,9 @@ class UsersViewGroups extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		UsersHelper::addSubmenu('groups');
 
@@ -54,7 +72,7 @@ class UsersViewGroups extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= JHelperContent::getActions('com_users');
+		$canDo = JHelperContent::getActions('com_users');
 
 		JToolbarHelper::title(JText::_('COM_USERS_VIEW_GROUPS_TITLE'), 'users groups');
 
@@ -62,11 +80,13 @@ class UsersViewGroups extends JViewLegacy
 		{
 			JToolbarHelper::addNew('group.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('group.edit');
 			JToolbarHelper::divider();
 		}
+
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'groups.delete');
@@ -78,6 +98,7 @@ class UsersViewGroups extends JViewLegacy
 			JToolbarHelper::preferences('com_users');
 			JToolbarHelper::divider();
 		}
+
 		JToolbarHelper::help('JHELP_USERS_GROUPS');
 	}
 

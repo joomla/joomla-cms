@@ -22,32 +22,32 @@ foreach ($fieldsets as $group => $fieldset): // Iterate through the form fieldse
 	if (count($fields)):
 ?>
 <?php //if ($this->params->get('show_tags')) : ?>
-		<?php  //$this->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+		<?php //$this->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 		<?php //echo $this->tagLayout->render($this->tags); ?>
 	<?php // endif; ?>
 
-<fieldset id="users-profile-custom" class="users-profile-custom-<?php echo $group;?>">
-	<?php if (isset($fieldset->label)):// If the fieldset has a label set, display it as the legend.?>
+<fieldset id="users-profile-custom" class="users-profile-custom-<?php echo $group; ?>">
+	<?php if (isset($fieldset->label)): // If the fieldset has a label set, display it as the legend. ?>
 	<legend><?php echo JText::_($fieldset->label); ?></legend>
-	<?php endif;?>
+	<?php endif; ?>
 	<dl class="dl-horizontal">
-	<?php foreach ($fields as $field):
-		if (!$field->hidden) :?>
+	<?php foreach ($fields as $field) :
+		if (!$field->hidden && $field->type != 'Spacer') : ?>
 		<dt><?php echo $field->title; ?></dt>
 		<dd>
-			<?php if (JHtml::isRegistered('users.'.$field->id)):?>
-				<?php echo JHtml::_('users.'.$field->id, $field->value);?>
-			<?php elseif (JHtml::isRegistered('users.'.$field->fieldname)):?>
-				<?php echo JHtml::_('users.'.$field->fieldname, $field->value);?>
-			<?php elseif (JHtml::isRegistered('users.'.$field->type)):?>
-				<?php echo JHtml::_('users.'.$field->type, $field->value);?>
-			<?php else:?>
-				<?php echo JHtml::_('users.value', $field->value);?>
-			<?php endif;?>
+			<?php if (JHtml::isRegistered('users.'.$field->id)) : ?>
+				<?php echo JHtml::_('users.'.$field->id, $field->value); ?>
+			<?php elseif (JHtml::isRegistered('users.'.$field->fieldname)) : ?>
+				<?php echo JHtml::_('users.'.$field->fieldname, $field->value); ?>
+			<?php elseif (JHtml::isRegistered('users.'.$field->type)) : ?>
+				<?php echo JHtml::_('users.'.$field->type, $field->value); ?>
+			<?php else : ?>
+				<?php echo JHtml::_('users.value', $field->value); ?>
+			<?php endif; ?>
 		</dd>
-		<?php endif;?>
-	<?php endforeach;?>
+		<?php endif; ?>
+	<?php endforeach; ?>
 	</dl>
 </fieldset>
-	<?php endif;?>
-<?php endforeach;?>
+	<?php endif; ?>
+<?php endforeach; ?>

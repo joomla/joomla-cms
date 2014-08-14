@@ -29,6 +29,9 @@ class JTableCategory extends JTableNested
 	{
 		parent::__construct('#__categories', 'id', $db);
 
+		JTableObserverTags::createObserver($this, array('typeAlias' => '{extension}.category'));
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => '{extension}.category'));
+
 		$this->access = (int) JFactory::getConfig()->get('access');
 	}
 

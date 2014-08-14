@@ -293,12 +293,15 @@ class ContentModelArticle extends JModelItem
 
 			// Set the query and load the result.
 			$db->setQuery($query);
-			$rating = $db->loadObject();
 
 			// Check for a database error.
-			if ($db->getErrorNum())
+			try
 			{
-				JError::raiseWarning(500, $db->getErrorMsg());
+				$rating = $db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $e->getMessage());
 
 				return false;
 			}

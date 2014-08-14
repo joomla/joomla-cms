@@ -273,7 +273,7 @@ class BannersModelTracks extends JModelList
 		{
 			$app = JFactory::getApplication();
 			$basename = $this->getState('basename');
-			$basename = str_replace('__SITE__', $app->getCfg('sitename'), $basename);
+			$basename = str_replace('__SITE__', $app->get('sitename'), $basename);
 			$categoryId = $this->getState('filter.category_id');
 
 			if (is_numeric($categoryId))
@@ -502,12 +502,12 @@ class BannersModelTracks extends JModelList
 				$files['track']['name'] = $this->getBasename() . '.csv';
 				$files['track']['data'] = $this->content;
 				$files['track']['time'] = time();
-				$ziproot = $app->getCfg('tmp_path') . '/' . uniqid('banners_tracks_') . '.zip';
+				$ziproot = $app->get('tmp_path') . '/' . uniqid('banners_tracks_') . '.zip';
 
 				// Run the packager
 				jimport('joomla.filesystem.folder');
 				jimport('joomla.filesystem.file');
-				$delete = JFolder::files($app->getCfg('tmp_path') . '/', uniqid('banners_tracks_'), false, true);
+				$delete = JFolder::files($app->get('tmp_path') . '/', uniqid('banners_tracks_'), false, true);
 
 				if (!empty($delete))
 				{

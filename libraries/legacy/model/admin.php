@@ -401,7 +401,7 @@ abstract class JModelAdmin extends JModelForm
 			// Store the row.
 			if (!$this->table->store())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 
 				return false;
 			}
@@ -1125,11 +1125,9 @@ abstract class JModelAdmin extends JModelForm
 			return false;
 		}
 
-		$pkName = $table->getKeyName();
-
-		if (isset($table->$pkName))
+		if (isset($table->$key))
 		{
-			$this->setState($this->getName() . '.id', $table->$pkName);
+			$this->setState($this->getName() . '.id', $table->$key);
 		}
 		$this->setState($this->getName() . '.new', $isNew);
 

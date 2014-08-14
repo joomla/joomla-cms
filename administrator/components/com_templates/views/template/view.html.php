@@ -79,11 +79,6 @@ class TemplatesViewTemplate extends JViewLegacy
 	protected $font;
 
 	/**
-	 * For checking if the template is hathor
-	 */
-	protected $hathor;
-
-	/**
 	 * A nested array containing lst of files and folders
 	 */
 	protected $files;
@@ -111,7 +106,6 @@ class TemplatesViewTemplate extends JViewLegacy
 		$this->state    = $this->get('State');
 		$this->template = $this->get('Template');
 		$this->preview  = $this->get('Preview');
-		$this->hathor   = $this->get('Hathor');
 
 		$params       = JComponentHelper::getParams('com_templates');
 		$imageTypes   = explode(',', $params->get('image_formats'));
@@ -171,7 +165,8 @@ class TemplatesViewTemplate extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		$app   = JFactory::getApplication();
+		$app->input->set('hidemainmenu', true);
 		$canDo = JHelperContent::getActions('com_templates');
 
 		if ($canDo->get('core.edit') && $canDo->get('core.create') && $canDo->get('core.admin'))
@@ -218,8 +213,8 @@ class TemplatesViewTemplate extends JViewLegacy
 			}
 		}
 
-		// Add a copy template button (Hathor may not be available)
-		if ($this->hathor && $this->hathor->home == 0)
+		// Add a copy template button (Hathor override doesn't need the button)
+		if ($app->getTemplate() != 'hathor')
 		{
 			if ($showButton)
 			{
@@ -245,8 +240,8 @@ class TemplatesViewTemplate extends JViewLegacy
 			JToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
 		}
 
-		// Add a Rename file Button
-		if ($this->hathor && $this->hathor->home == 0)
+		// Add a Rename file Button (Hathor override doesn't need the button)
+		if ($app->getTemplate() != 'hathor')
 		{
 			if ($showButton && $this->type != 'home')
 			{

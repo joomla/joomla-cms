@@ -105,6 +105,14 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	protected $_observers;
 
 	/**
+	 * An array of key names to be json encoded in the bind function
+	 *
+	 * @var    array
+	 * @since  3.3
+	 */
+	protected $jsonEncode = array();
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
@@ -263,22 +271,21 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		if (!class_exists($tableClass))
 		{
 			// Search for the class file in the JTable include paths.
-			$path = JPath::find(self::addIncludePath(), strtolower($type) . '.php');
+			jimport('joomla.filesystem.path');
 
-			if ($path)
+			$paths = self::addIncludePath();
+			$pathIndex = 0;
+
+			while (!class_exists($tableClass) && $pathIndex < count($paths))
 			{
-				// Import the class file.
-				include_once $path;
-
-				// If we were unable to load the proper class, raise a warning and return false.
-				if (!class_exists($tableClass))
+				if ($tryThis = JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
 				{
-					JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_NOT_FOUND_IN_FILE', $tableClass), JLog::WARNING, 'jerror');
-
-					return false;
+					// Import the class file.
+					include_once $tryThis;
 				}
 			}
-			else
+
+			if (!class_exists($tableClass))
 			{
 				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
 				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type), JLog::WARNING, 'jerror');
@@ -580,12 +587,23 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/bind
 	 * @since   11.1
 	 * @throws  InvalidArgumentException
 	 */
 	public function bind($src, $ignore = array())
 	{
+		// JSON encode any fields required
+		if (!empty($this->jsonEncode))
+		{
+			foreach ($this->jsonEncode as $field)
+			{
+				if (isset($src[$field]) && is_array($src[$field]))
+				{
+					$src[$field] = json_encode($src[$field]);
+				}
+			}
+		}
+
 		// If the source value is not an array or object return false.
 		if (!is_object($src) && !is_array($src))
 		{

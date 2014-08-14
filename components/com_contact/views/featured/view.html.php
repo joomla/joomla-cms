@@ -35,16 +35,16 @@ class ContactViewFeatured extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
-		$params		= $app->getParams();
+		$app    = JFactory::getApplication();
+		$params = $app->getParams();
 
 		// Get some data from the models
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$category	= $this->get('Category');
-		$children	= $this->get('Children');
-		$parent 	= $this->get('Parent');
-		$pagination	= $this->get('Pagination');
+		$state      = $this->get('State');
+		$items      = $this->get('Items');
+		$category   = $this->get('Category');
+		$children   = $this->get('Children');
+		$parent     = $this->get('Parent');
+		$pagination = $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -57,9 +57,10 @@ class ContactViewFeatured extends JViewLegacy
 		// Compute the contact slug.
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
-			$item		= &$items[$i];
-			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
-			$temp		= new JRegistry;
+			$item       = &$items[$i];
+			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+			$temp       = new JRegistry;
+
 			$temp->loadString($item->params);
 			$item->params = clone($params);
 			$item->params->merge($temp);
@@ -98,13 +99,14 @@ class ContactViewFeatured extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$title 		= null;
+		$app   = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
+
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
@@ -115,18 +117,20 @@ class ContactViewFeatured extends JViewLegacy
 		}
 
 		$title = $this->params->get('page_title', '');
+
 		if (empty($title))
 		{
-			$title = $app->getCfg('sitename');
+			$title = $app->get('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->params->get('menu-meta_description'))

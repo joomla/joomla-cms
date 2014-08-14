@@ -474,7 +474,7 @@ class JSession implements IteratorAggregate
 		// Add prefix to namespace to avoid collisions
 		$namespace = '__' . $namespace;
 
-		if ($this->_state !== 'active' && $this->_state !== 'expired')
+		if ($this->_state === 'destroyed')
 		{
 			// @TODO :: generated error here
 			$error = null;

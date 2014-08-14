@@ -191,12 +191,12 @@ class UsersModelDebugUser extends JModelList
 		if ($this->getState('filter.search'))
 		{
 			// Escape the search token.
-			$token = $db->quote('%' . $db->escape($this->getState('filter.search')) . '%');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
 
 			// Compile the different search clauses.
 			$searches = array();
-			$searches[] = 'a.name LIKE ' . $token;
-			$searches[] = 'a.title LIKE ' . $token;
+			$searches[] = 'a.name LIKE ' . $search;
+			$searches[] = 'a.title LIKE ' . $search;
 
 			// Add the clauses to the query.
 			$query->where('(' . implode(' OR ', $searches) . ')');

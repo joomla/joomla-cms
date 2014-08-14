@@ -62,15 +62,15 @@ $input = JFactory::getApplication()->input;
 								<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
 					</fieldset>
 					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
-					<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
+					<?php JFactory::getSession()->set('com_media.return_url', 'index.php?option=com_media'); ?>
 				</div>
 			</form>
 		</div>
 		<div id="collapseFolder" class="collapse">
 			<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" class="form-inline" method="post">
 					<div class="path">
-						<input type="text" id="folderpath" readonly="readonly" />
-						<input type="text" id="foldername" name="foldername"  />
+						<input type="text" id="folderpath" readonly="readonly" class="update-folder" />
+						<input type="text" id="foldername" name="foldername" />
 						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
 						<button type="submit" class="btn"><i class="icon-folder-open"></i> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
 					</div>
