@@ -170,7 +170,24 @@ class JForm
 	protected function bindLevel($group, $data)
 	{
 		// Ensure the input data is an array.
-		settype($data, 'array');
+		if (is_object($data))
+		{
+			if ($data instanceof JRegistry)
+			{
+				// Handle a JRegistry.
+				$data = $data->toArray();
+			}
+			elseif ($data instanceof JObject)
+			{
+				// Handle a JObject.
+				$data = $data->getProperties();
+			}
+			else
+			{
+				// Handle other types of objects.
+				$data = (array) $data;
+			}
+		}
 
 		// Process the input data.
 		foreach ($data as $k => $v)
