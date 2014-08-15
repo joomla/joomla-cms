@@ -45,13 +45,9 @@ class JFormFieldDob extends JFormFieldCalendar
 
 		if ($text)
 		{
-			// Closing the opening control-label div so we can add out info text on own line
-			$info = '</div><div class="controls">' . $text . '</div></div>';
-
-			// Creating new control-group for the actual field
-			$info .= '<div class="control-group"><div class="control-label">';
-
-			$label = $info . $label;
+			$layout = new JLayoutFile('plugins.user.profile.fields.dob');
+			$info   = $layout->render(array('text' => $text));
+			$label  = $info . $label;
 		}
 
 		return $label;
