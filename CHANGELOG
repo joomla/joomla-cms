@@ -28,6 +28,42 @@ $ -> Idioma corrección o cambio
 - -> Eliminado
 ! -> Nota
 
+16-Ago-2014
+ # Fallo en publicación de banners
+ - Subidas en flash
+ # Arreglo en componente Finder
+ ^ Cambios actualizador Jokte (verifica versión de PHP)
+
+17-may-2014
+ # Actualización API Recaptcha
+ # Cambio fechas copyright todos los archivos
+ ^ Actualización ingreso con Gmail
+ ^ Cambios en componentes, módulos y plugins y en URL amigables para sitios multidiomas
+ - Vista de instalación no utilizada (FTP, se configura luego de instalar)
+ + PHPass para autenticación
+ + Filtros para formularios y correos
+ + Filtros para codificación de caracteres
+ + Filtros para entradas en hexadecimal
+ ^ Error 404 redirecciona al index
+ ^ Correcciones en acceso a BD
+ * Seguridad en ataques temporizados
+ ^ Tratamiento especial de scripts y estilos
+ * Filtros registro de usuarios y perfiles
+ ^ Desbloqueo del módulo banners
+ + Filtros para salida de errores
+ ^ Clase inputbox
+ ^ Controlador MySQl
+ ^ Cambios en eventos onContent
+ ^ Arreglos en componente buscador (finder)
+ * Bloqueo de ejecutables en componente Media
+ + Filtro de nombres en archivos de idiomas
+ + Detección JSON
+ + Chequeo nombres de carpetas
+ ^ Ajuste en módulo Hilando Juuntos
+ ^ Soporte entre versiones
+ $ Líneas sin traducir
+ ^ Manifiesto por versionado propio de Jokte
+
 07-nov-2013
  # Fallo al actualizar extensiones de terceros
  # Fallo al agregar adjuntos
