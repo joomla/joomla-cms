@@ -945,28 +945,46 @@ class MenusModelItem extends JModelAdmin
 		}
 		else
 		{
+
 			// We don't have a component. Load the form XML to get the help path
+
 			$xmlFile = JPath::find(JPATH_ROOT . '/administrator/components/com_menus/models/forms', 'item_' . $type . '.xml');
 
+
+
 			// Attempt to load the xml file.
-			if ($xmlFile && !$xml = simplexml_load_file($xmlFile)) 
+
+			if ($xmlFile && !$xml = simplexml_load_file($xmlFile))
 			{
+
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+
 			}
 
+
+
 			// Get the help data from the XML file if present.
+
 			$help = $xml->xpath('/form/help');
 		}
 
 		if (!empty($help))
 		{
+
 			$helpKey = trim((string) $help[0]['key']);
+
 			$helpURL = trim((string) $help[0]['url']);
+
 			$helpLoc = trim((string) $help[0]['local']);
 
+
+
 			$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
+
 			$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
+
 			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
+
 		}
 
 		// Now load the component params.
