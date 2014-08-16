@@ -16,7 +16,7 @@ class JFormRuleContactEmailSubject extends JFormRule
 		$banned = $params->get('banned_subject');
 
 		foreach(explode(';', $banned) as $item){
-			if ($item != '' && JString::stristr($item, $value) !== false)
+			if ($item != '' && JString::stristr($value, $item) !== false)
 					return false;
 		}
 
