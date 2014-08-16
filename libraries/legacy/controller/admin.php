@@ -337,7 +337,7 @@ class JControllerAdmin extends JControllerLegacy
 		else
 		{
 			// Checkin succeeded.
-			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
+			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', $return);
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 			return true;
 		}
