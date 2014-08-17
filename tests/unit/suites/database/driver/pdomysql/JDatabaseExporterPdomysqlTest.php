@@ -203,7 +203,7 @@ class JDatabaseExporterPdomysqlTest extends PHPUnit_Framework_TestCase
 		// Set up the export settings.
 		$instance
 			->setDbo($this->dbo)
-			->from('jos_test')
+			->from('#__test')
 			->withStructure(true);
 
 		$expecting = '<?xml version="1.0"?>
@@ -266,7 +266,7 @@ class JDatabaseExporterPdomysqlTest extends PHPUnit_Framework_TestCase
 		// Set up the export settings.
 		$instance
 			->setDbo($this->dbo)
-			->from('jos_test')
+			->from('#__test')
 			->withStructure(true);
 
 		$expecting = '<?xml version="1.0"?>
@@ -304,7 +304,7 @@ class JDatabaseExporterPdomysqlTest extends PHPUnit_Framework_TestCase
 		// Set up the export settings.
 		$instance
 			->setDbo($this->dbo)
-			->from('jos_test')
+			->from('#__test')
 			->withStructure(true);
 
 		$this->assertThat(
@@ -554,7 +554,7 @@ class JDatabaseExporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	{
 		$instance = new JDatabaseExporterPdomysql;
 
-		$result = $instance->withStructure();
+		$result   = $instance->withStructure();
 
 		$this->assertThat(
 			$result,

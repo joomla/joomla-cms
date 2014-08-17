@@ -150,6 +150,7 @@ class JDatabaseIteratorPdomysqlTest extends TestCaseDatabasePdomysql
 	public function testCount()
 	{
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'));
+
 		$this->assertThat(
 			count(self::$driver->getIterator()),
 			$this->equalTo(4),
@@ -157,6 +158,7 @@ class JDatabaseIteratorPdomysqlTest extends TestCaseDatabasePdomysql
 		);
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 0, 2);
+
 		$this->assertThat(
 			count(self::$driver->getIterator()),
 			$this->equalTo(2),
@@ -164,6 +166,7 @@ class JDatabaseIteratorPdomysqlTest extends TestCaseDatabasePdomysql
 		);
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 3, 2);
+
 		$this->assertThat(
 			count(self::$driver->getIterator()),
 			$this->equalTo(1),

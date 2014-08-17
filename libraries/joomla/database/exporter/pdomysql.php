@@ -28,13 +28,13 @@ class JDatabaseExporterPdomysql extends JDatabaseExporter
 	 */
 	protected function buildXml()
 	{
-		$buffer = array();
+		$buffer   = array();
 
 		$buffer[] = '<?xml version="1.0"?>';
 		$buffer[] = '<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
 		$buffer[] = ' <database name="">';
 
-		$buffer = array_merge($buffer, $this->buildXmlStructure());
+		$buffer   = array_merge($buffer, $this->buildXmlStructure());
 
 		$buffer[] = ' </database>';
 		$buffer[] = '</mysqldump>';

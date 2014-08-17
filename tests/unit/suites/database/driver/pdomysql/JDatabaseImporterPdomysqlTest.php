@@ -832,7 +832,7 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	{
 		$instance = new JDatabaseImporterPdomysql;
 
-		$result = $instance->withStructure();
+		$result   = $instance->withStructure();
 
 		$this->assertThat(
 			$result,

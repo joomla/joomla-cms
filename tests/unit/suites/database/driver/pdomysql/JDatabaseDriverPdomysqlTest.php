@@ -108,7 +108,11 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	 */
 	public function testEscape($text, $extra, $expected)
 	{
-		$this->assertThat(self::$driver->escape($text, $extra), $this->equalTo($expected), 'The string was not escaped properly');
+		$this->assertThat(
+			self::$driver->escape($text, $extra),
+			$this->equalTo($expected),
+			'The string was not escaped properly'
+		);
 	}
 
 	/**
@@ -122,12 +126,16 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->delete();
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		self::$driver->setQuery($query);
 
 		self::$driver->execute();
 
-		$this->assertThat(self::$driver->getAffectedRows(), $this->equalTo(4), __LINE__);
+		$this->assertThat(
+			self::$driver->getAffectedRows(),
+			$this->equalTo(4),
+			__LINE__
+		);
 	}
 
 	/**
@@ -189,13 +197,17 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		$query->where('description = ' . self::$driver->quote('one'));
 		self::$driver->setQuery($query);
 
 		$res = self::$driver->execute();
 
-		$this->assertThat(self::$driver->getNumRows($res), $this->equalTo(2), __LINE__);
+		$this->assertThat(
+			self::$driver->getNumRows($res),
+			$this->equalTo(2),
+			__LINE__
+		);
 	}
 
 	/**
@@ -226,13 +238,13 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 		$tableCol = array('id' => 'int unsigned', 'title' => 'varchar', 'start_date' => 'datetime', 'description' => 'text');
 
 		$this->assertThat(
-			self::$driver->getTableColumns('jos_dbtest'),
+			self::$driver->getTableColumns('#__dbtest'),
 			$this->equalTo($tableCol),
 			__LINE__
 		);
 
-		/* not only type field */
-		$id = new stdClass;
+		/* Not only type field */
+		$id             = new stdClass;
 		$id->Default    = null;
 		$id->Field      = 'id';
 		$id->Type       = 'int(10) unsigned';
@@ -243,7 +255,7 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 		$id->Privileges = 'select,insert,update,references';
 		$id->Comment    = '';
 
-		$title = new stdClass;
+		$title             = new stdClass;
 		$title->Default    = null;
 		$title->Field      = 'title';
 		$title->Type       = 'varchar(50)';
@@ -254,7 +266,7 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 		$title->Privileges = 'select,insert,update,references';
 		$title->Comment    = '';
 
-		$start_date = new stdClass;
+		$start_date             = new stdClass;
 		$start_date->Default    = null;
 		$start_date->Field      = 'start_date';
 		$start_date->Type       = 'datetime';
@@ -265,7 +277,7 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 		$start_date->Privileges = 'select,insert,update,references';
 		$start_date->Comment    = '';
 
-		$description = new stdClass;
+		$description             = new stdClass;
 		$description->Default    = null;
 		$description->Field      = 'description';
 		$description->Type       = 'text';
@@ -277,7 +289,7 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 		$description->Comment    = '';
 
 		$this->assertThat(
-			self::$driver->getTableColumns('jos_dbtest', false),
+			self::$driver->getTableColumns('#__dbtest', false),
 			$this->equalTo(
 				array(
 					'id' => $id,
@@ -361,11 +373,18 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('title');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadAssoc();
 
-		$this->assertThat($result, $this->equalTo(array('title' => 'Testing')), __LINE__);
+		$this->assertThat(
+			$result,
+			$this->equalTo(
+				array(
+					'title' => 'Testing'
+				)),
+				__LINE__
+			);
 	}
 
 	/**
@@ -379,7 +398,7 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('title');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadAssocList();
 
@@ -401,11 +420,15 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('title');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadColumn();
 
-		$this->assertThat($result, $this->equalTo(array('Testing', 'Testing2', 'Testing3', 'Testing4')), __LINE__);
+		$this->assertThat(
+			$result,
+			$this->equalTo(array('Testing', 'Testing2', 'Testing3', 'Testing4')),
+			__LINE__
+		);
 	}
 
 	/**
@@ -443,18 +466,22 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		$query->where('description=' . self::$driver->quote('three'));
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadObject();
 
-		$objCompare = new stdClass;
-		$objCompare->id = 3;
-		$objCompare->title = 'Testing3';
-		$objCompare->start_date = '1980-04-18 00:00:00';
+		$objCompare              = new stdClass;
+		$objCompare->id          = 3;
+		$objCompare->title       = 'Testing3';
+		$objCompare->start_date  = '1980-04-18 00:00:00';
 		$objCompare->description = 'three';
 
-		$this->assertThat($result, $this->equalTo($objCompare), __LINE__);
+		$this->assertThat(
+			$result,
+			$this->equalTo($objCompare),
+			__LINE__
+		);
 	}
 
 	/**
@@ -468,46 +495,50 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		$query->order('id');
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadObjectList();
 
 		$expected = array();
 
-		$objCompare = new stdClass;
-		$objCompare->id = 1;
-		$objCompare->title = 'Testing';
-		$objCompare->start_date = '1980-04-18 00:00:00';
+		$objCompare              = new stdClass;
+		$objCompare->id          = 1;
+		$objCompare->title       = 'Testing';
+		$objCompare->start_date  = '1980-04-18 00:00:00';
 		$objCompare->description = 'one';
 
 		$expected[] = clone $objCompare;
 
-		$objCompare = new stdClass;
-		$objCompare->id = 2;
-		$objCompare->title = 'Testing2';
-		$objCompare->start_date = '1980-04-18 00:00:00';
+		$objCompare              = new stdClass;
+		$objCompare->id          = 2;
+		$objCompare->title       = 'Testing2';
+		$objCompare->start_date  = '1980-04-18 00:00:00';
 		$objCompare->description = 'one';
 
 		$expected[] = clone $objCompare;
 
-		$objCompare = new stdClass;
-		$objCompare->id = 3;
-		$objCompare->title = 'Testing3';
-		$objCompare->start_date = '1980-04-18 00:00:00';
+		$objCompare              = new stdClass;
+		$objCompare->id          = 3;
+		$objCompare->title       = 'Testing3';
+		$objCompare->start_date  = '1980-04-18 00:00:00';
 		$objCompare->description = 'three';
 
 		$expected[] = clone $objCompare;
 
-		$objCompare = new stdClass;
-		$objCompare->id = 4;
-		$objCompare->title = 'Testing4';
-		$objCompare->start_date = '1980-04-18 00:00:00';
+		$objCompare              = new stdClass;
+		$objCompare->id          = 4;
+		$objCompare->title       = 'Testing4';
+		$objCompare->start_date  = '1980-04-18 00:00:00';
 		$objCompare->description = 'four';
 
 		$expected[] = clone $objCompare;
 
-		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+		$this->assertThat(
+			$result,
+			$this->equalTo($expected),
+			__LINE__
+		);
 	}
 
 	/**
@@ -521,13 +552,17 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('id');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		$query->where('title=' . self::$driver->quote('Testing2'));
 
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadResult();
 
-		$this->assertThat($result, $this->equalTo(2), __LINE__);
+		$this->assertThat(
+			$result,
+			$this->equalTo(2),
+			__LINE__
+		);
 
 	}
 
@@ -542,14 +577,18 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		$query->where('description=' . self::$driver->quote('three'));
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadRow();
 
 		$expected = array(3, 'Testing3', '1980-04-18 00:00:00', 'three');
 
-		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+		$this->assertThat(
+			$result,
+			$this->equalTo($expected),
+			__LINE__
+		);
 	}
 
 	/**
@@ -563,14 +602,18 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		$query->where('description=' . self::$driver->quote('one'));
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadRowList();
 
 		$expected = array(array(1, 'Testing', '1980-04-18 00:00:00', 'one'), array(2, 'Testing2', '1980-04-18 00:00:00', 'one'));
 
-		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+		$this->assertThat(
+			$result,
+			$this->equalTo($expected),
+			__LINE__
+		);
 	}
 
 	/**
@@ -586,9 +629,17 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 			"REPLACE INTO `jos_dbtest` SET `id` = 5, `title` = 'testTitle', `start_date` = '2014-08-17 00:00:00', `description` = 'testDescription'"
 		);
 
-		$this->assertThat((bool) self::$driver->execute(), $this->isTrue(), __LINE__);
+		$this->assertThat(
+			(bool) self::$driver->execute(),
+			$this->isTrue(),
+			__LINE__
+		);
 
-		$this->assertThat(self::$driver->insertid(), $this->equalTo(5), __LINE__);
+		$this->assertThat(
+			self::$driver->insertid(),
+			$this->equalTo(5),
+			__LINE__
+		);
 
 	}
 
@@ -607,7 +658,12 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 
 		// Check name change
 		$tableList = self::$driver->getTableList();
-		$this->assertThat(in_array($newTableName, $tableList), $this->isTrue(), __LINE__);
+
+		$this->assertThat(
+			in_array($newTableName, $tableList),
+			$this->isTrue(),
+			__LINE__
+		);
 
 		// Restore initial state
 		self::$driver->renameTable($newTableName, 'jos_dbtest');
@@ -656,7 +712,7 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 
 		self::$driver->transactionCommit();
 
-		/* check if value is present */
+		/* Check if value is present */
 		$queryCheck = self::$driver->getQuery(true);
 		$queryCheck->select('*')
 			->from('#__dbtest')
@@ -666,7 +722,11 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 
 		$expected = array('6', 'testTitle', '1970-01-01 00:00:00', 'testDescription');
 
-		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+		$this->assertThat(
+			$result,
+			$this->equalTo($expected),
+			__LINE__
+		);
 	}
 
 	/**
@@ -684,20 +744,20 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	{
 		self::$driver->transactionStart();
 
-		/* try to insert this tuple, inserted only when savepoint != null */
+		/* Try to insert this tuple, inserted only when savepoint != null */
 		$queryIns = self::$driver->getQuery(true);
 		$queryIns->insert('#__dbtest')
 			->columns('id, title, start_date, description')
 			->values("7, 'testRollback', '1970-01-01', 'testRollbackSp'");
 		self::$driver->setQuery($queryIns)->execute();
 
-		/* create savepoint only if is passed by data provider */
+		/* Create savepoint only if is passed by data provider */
 		if (!is_null($toSavepoint))
 		{
 			self::$driver->transactionStart((boolean) $toSavepoint);
 		}
 
-		/* try to insert this tuple, always rolled back */
+		/* Try to insert this tuple, always rolled back */
 		$queryIns = self::$driver->getQuery(true);
 		$queryIns->insert('#__dbtest')
 			->columns('id, title, start_date, description')
@@ -706,13 +766,13 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 
 		self::$driver->transactionRollback((boolean) $toSavepoint);
 
-		/* release savepoint and commit only if a savepoint exists */
+		/* Release savepoint and commit only if a savepoint exists */
 		if (!is_null($toSavepoint))
 		{
 			self::$driver->transactionCommit();
 		}
 
-		/* find how many rows have description='testRollbackSp' :
+		/* Find how many rows have description='testRollbackSp' :
 		 *   - 0 if a savepoint doesn't exist
 		 *   - 1 if a savepoint exists
 		 */
@@ -723,7 +783,11 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 		self::$driver->setQuery($queryCheck);
 		$result = self::$driver->loadRowList();
 
-		$this->assertThat(count($result), $this->equalTo($tupleCount), __LINE__);
+		$this->assertThat(
+			count($result),
+			$this->equalTo($tupleCount),
+			__LINE__
+		);
 	}
 
 	/**
@@ -735,7 +799,11 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	 */
 	public function testIsSupported()
 	{
-		$this->assertThat(JDatabaseDriverPdomysql::isSupported(), $this->isTrue(), __LINE__);
+		$this->assertThat(
+			JDatabaseDriverPdomysql::isSupported(),
+			$this->isTrue(),
+			__LINE__
+		);
 	}
 
 	/**

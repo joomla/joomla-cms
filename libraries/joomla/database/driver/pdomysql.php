@@ -65,7 +65,7 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	public function __construct($options)
 	{
 		// Get some basic values from the options.
-		$options['driver']	= 'mysql';
+		$options['driver']  = 'mysql';
 		$options['charset'] = (isset($options['charset'])) ? $options['charset'] : 'utf8';
 
 		$this->charset = $options['charset'];
