@@ -83,7 +83,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @param   array  $options  The options to use for configuration
 	 *
-	 * @return  boolean  True on success
+	 * @return  JDatabaseDriver|boolean  Database object on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */
@@ -208,7 +208,25 @@ class InstallationModelDatabase extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'notice');
+			/*
+			 * We may get here if the database doesn't exist, if so then explain that to users instead of showing the database connector's error
+			 * This only supports PostgreSQL and the PDO MySQL drivers presently
+			 *
+			 * Error Messages:
+			 * PDO MySQL: [1049] Unknown database 'database_name'
+			 * PostgreSQL: Error connecting to PGSQL database
+			 */
+			if (($type == 'pdomysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
+				|| ($type == 'postgresql' && strpos($e->getMessage(), 'Error connecting to PGSQL database') === 42))
+			{
+				$app->enqueueMessage(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 'notice');
+			}
+			// Anything getting into this part of the conditional either doesn't support manually creating the database or isn't that type of error
+			else
+			{
+				$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'notice');
+			}
+
 			return false;
 		}
 
