@@ -317,11 +317,7 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 */
 	public function lockTable($table)
 	{
-		$query = $this->getQuery(true);
-
-		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE');
-
-		$this->setQuery($query)->execute();
+		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->execute();
 
 		return $this;
 	}
