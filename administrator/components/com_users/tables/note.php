@@ -46,6 +46,8 @@ class UsersTableNote extends JTable
 		$date = JFactory::getDate()->toSql();
 		$userId = JFactory::getUser()->get('id');
 
+		$this->modified_time = $date;
+
 		if (empty($this->id))
 		{
 			// New record.
@@ -55,7 +57,6 @@ class UsersTableNote extends JTable
 		else
 		{
 			// Existing record.
-			$this->modified_time = $date;
 			$this->modified_user_id = $userId;
 		}
 
