@@ -549,11 +549,6 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 */
 	public function getHeader()
 	{
-		if (!$this->getOption('key'))
-		{
-			throw new UnexpectedValueException('A Google Maps API key is required.');
-		}
-
 		$zoom = $this->getZoom();
 		$center = $this->getCenter();
 		$maptype = $this->getMapType();
@@ -589,7 +584,6 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		if ($this->isAsync())
 		{
 			$asynccallback = $this->getAsyncCallback();
-
 			$output = '<script type="text/javascript">';
 			$output .= "function {$asynccallback}() {";
 			$output .= $setup;
@@ -598,13 +592,13 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			$onload = "function() {";
 			$onload .= 'var script = document.createElement("script");';
 			$onload .= 'script.type = "text/javascript";';
-			$onload .= "script.src = '{$scheme}://maps.googleapis.com/maps/api/js?key={$key}&sensor={$sensor}&callback={$asynccallback}';";
+			$onload .= "script.src = '" . $this->buildJavascriptSrc($scheme, $key, $sensor, $asynccallback) . "';";
 			$onload .= 'document.body.appendChild(script);';
 			$onload .= '}';
 		}
 		else
 		{
-			$output = "<script type='text/javascript' src='{$scheme}://maps.googleapis.com/maps/api/js?key={$key}&sensor={$sensor}'>";
+			$output = "<script type='text/javascript' src='" . $this->buildJavascriptSrc($scheme, $key, $sensor) . "'>";
 			$output .= '</script>';
 			$output .= '<script type="text/javascript">';
 
@@ -631,6 +625,20 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		$output .= '</script>';
 
 		return $output;
+	}
+
+	/**
+	 * @param string $scheme
+	 * @param string $key
+	 * @param string $sensor
+	 * @param string $callback
+	 * @return void
+	 */
+	protected function buildJavascriptSrc($scheme, $key, $sensor, $callback = null)
+	{
+		$params = compact('key', 'sensor', 'callback');
+
+		return $scheme . '://maps.googleapis.com/maps/api/js?' . http_build_query($params);
 	}
 
 	/**
