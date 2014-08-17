@@ -161,20 +161,18 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	{
 		$this->connect();
 
-		$tables = $this->getTableList();
+		// Attempt to get the database collation by accessing the server system variable.
+		$this->setQuery('SHOW VARIABLES LIKE "collation_database"');
+		$result = $this->loadObject();
 
-		$this->setQuery('SHOW FULL COLUMNS FROM ' . $tables[0]);
-		$array = $this->loadAssocList();
-
-		foreach ($array as $field)
+		if (property_exists($result, 'Value'))
 		{
-			if (!is_null($field['Collation']))
-			{
-				return $field['Collation'];
-			}
+			return $result->Value;
 		}
-
-		return null;
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
