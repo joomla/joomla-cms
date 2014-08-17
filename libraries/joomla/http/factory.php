@@ -119,6 +119,13 @@ class JHttpFactory
 				$names[] = substr($fileName, 0, strrpos($fileName, '.'));
 			}
 		}
+		
+		// If curl is available set it to the first position
+		if ($key = array_search('curl', $names))
+		{
+			unset($names[$key]);
+			array_unshift($names, 'curl');
+		}
 
 		return $names;
 	}
