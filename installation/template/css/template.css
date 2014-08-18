@@ -145,7 +145,11 @@ div#cls_style {
 }
 
 #stepbar .stepBarrHigthLight {
-    margin: 50px 0px 90px 0px;
+    margin: 50px 0px 50px 0px;
+}
+
+#stepbar .stepBarrRapid {
+margin: 0px 0px 50px 0px;
 }
 
 #stepbar .stepBarrHigthLight a, #stepbar .stepBarrHigthLight a:link {
