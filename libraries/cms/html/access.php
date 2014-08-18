@@ -43,11 +43,11 @@ abstract class JHtmlAccess
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value, a.title AS text')
-			->from('#__viewlevels AS a')
-			->where('a.ordering > -1')
-			->where('a.title <> "" ')
-			->order('a.ordering')
-			->order($db->quoteName('title'));
+			->from($db->qn('#__viewlevels', 'a'))
+			->where($db->qn('a.ordering') . ' > -1')
+			->where($db->qn('a.title') . ' != ""')
+			->order($db->qn('a.ordering'))
+			->order($db->qn('title'));
 
 		// Get the options.
 		$db->setQuery($query);
