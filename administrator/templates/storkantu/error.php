@@ -29,7 +29,7 @@ defined('_JEXEC') or die;
 </head>
 <body id="minwidth-body">
 	<div id="border-top" class="h_blue">
-		<span class="logo"><a href="http://www.joomla.org" target="_blank"><img src="templates/<?php echo  $this->template ?>/images/logo.png" alt="Joomla!" /></a></span>
+		<span class="logo"><a href="http://www.jokte.org" target="_blank"><img src="templates/<?php echo  $this->template ?>/images/logo.png" alt="Joomla!" /></a></span>
 	</div>
 	<div id="content-box" class="Jkerror">
 		<div class="border">
