@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_media
  * @since       3.5
  */
-class MediaControllerFtpValidate extends ConfigControllerDisplay
+class MediaControllerMediaFtpvalidate extends ConfigControllerDisplay
 {
 	/**
 	 * Prefix for the view and model classes
@@ -35,5 +35,7 @@ class MediaControllerFtpValidate extends ConfigControllerDisplay
 	{
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
+
+		$this->app->redirect(JRoute::_('index.php?option=com_media', false));
 	}
 }

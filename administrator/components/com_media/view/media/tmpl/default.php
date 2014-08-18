@@ -33,17 +33,22 @@ $input = JFactory::getApplication()->input;
 	<div id="j-main-container" class="span10">
 		<?php echo $this->loadTemplate('navigation'); ?>
 		<?php if (($user->authorise('core.create', 'com_media')) and $this->require_ftp) : ?>
-			<form action="<?php echo JRoute::_('index.php?option=com_media&controller=media.ftpValidate'); ?>" name="ftpForm" id="ftpForm" method="post">
+			<div class="well well-small">
 				<fieldset title="<?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?>">
 					<legend><?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?></legend>
-					<?php echo JText::_('COM_MEDIA_DESCFTP'); ?>
-					<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-					<input type="text" id="username" name="username" size="70" value="" />
+					<p><?php echo JText::_('COM_MEDIA_DESCFTP'); ?></p>
 
-					<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-					<input type="password" id="password" name="password" size="70" value="" />
+					<form action="<?php echo JRoute::_('index.php?option=com_media&controller=media.ftpvalidate.media'); ?>" name="ftpForm" id="ftpForm" method="post" class="form-inline">
+						<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?>
+							<input type="text" id="username" name="username" class="input-medium" value="" />
+						</label>
+						<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?>
+							<input type="password" id="password" name="password" class="input-medium" value="" />
+						</label>
+						<button type="submit" class="btn btn-primary"><?php echo JText::_('JSUBMIT'); ?></button>
+					</form>
 				</fieldset>
-			</form>
+			</div>			
 		<?php endif; ?>
 
 		<form action="index.php?option=com_media" name="adminForm" id="mediamanager-form" method="post" enctype="multipart/form-data" >
