@@ -35,6 +35,8 @@ $ -> Idioma corrección o cambio
  ^ Cambios actualizador Jokte (verifica versión de PHP)
  - Eliminado paso de instalación selección idioma. Por defecto se instala en es-LA.
  ^ Cambios por carga sql por defecto Jokte
+ - Registro de instalación
+ + Ayuda rápida emergente durante el proceso de instalación
 
 17-may-2014
  # Actualización API Recaptcha
