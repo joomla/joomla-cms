@@ -39,7 +39,7 @@ class JInstallationController extends JControllerLegacy
 		if (file_exists(JPATH_CONFIGURATION.'/configuration.php') && (filesize(JPATH_CONFIGURATION.'/configuration.php') > 10) && file_exists(JPATH_INSTALLATION.'/index.php')) {
 			$default_view	= 'remove';
 		} else {
-			$default_view	= 'language';
+			$default_view	= 'preinstall';
 		}
 
 		$vName		= JRequest::getWord('view', $default_view);
