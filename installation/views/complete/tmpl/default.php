@@ -59,8 +59,7 @@ $nfo = $this->getDataInstall();
 								</td>
 							</tr>
 							<tr>
-								<td>
-									<input class="button" type="button" name="regInstall" id="regInstall" value="<?php echo JText::_('INSTL_COMPLETE_REG_USER'); ?>" onclick="regInstallUser();"/>
+								<td>									
 									<input type="hidden" name="email" id="emailReg" value="<?php echo $nfo['email']; ?>" />
 									<input type="hidden" name="name" id="nameReg" value="<?php echo $nfo['name']; ?>" />
 									<input type="hidden" name="site" id="siteReg" value="<?php echo $nfo['site']; ?>" />
