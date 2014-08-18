@@ -14,26 +14,22 @@ class JHtmlInstallation
 		$view = JRequest::getWord('view');
 		switch ($view) {
 			case '':
-			case 'language':
 				$on = 1;
 				break;
-			case 'preinstall':
+			case 'license':
 				$on = 2;
 				break;
-			case 'license':
+			case 'database':
 				$on = 3;
 				break;
-			case 'database':
+			case 'filesystem':
 				$on = 4;
 				break;
-			case 'filesystem':
+			case 'site':
 				$on = 5;
 				break;
-			case 'site':
-				$on = 6;
-				break;
 			case 'complete':
-				$on = 7;
+				$on = 6;
 				break;
 			case 'remove':
 				$on = 7;
