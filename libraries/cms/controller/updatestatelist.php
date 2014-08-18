@@ -26,15 +26,14 @@ class JControllerUpdatestatelist extends JControllerCms
 	 */
 	public $permission = 'core.edit.state';
 
-
 	/*
 	 * Optional values needed for the model
 	 * Note that we need to support some values twice for legacy reasons.
 	 *
 	 *  @var  array
 	 */
-	public  $stateOptions = array('published' => 1, 'unpublished' => 0, 'archived' => 2,
-				'trashed' => -2, 'reported' => -3, 'publish' => 1, 'unpublish' => 0);
+	public  $stateOptions = array('published' => 1, 'unpublished' => 0, 'archived' => 2, 'archive' => 2,
+				'trashed' => -2, 'reported' => -3, 'publish' => 1, 'unpublish' => 0, 'trash' => -2);
 
 	/**
 	 * Method to update the state of a record.
@@ -66,7 +65,7 @@ class JControllerUpdatestatelist extends JControllerCms
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		$newState = $this->stateOptions[$this->options[parent::CONTROLLER_CORE_OPTION]];
+		$newState = $this->stateOptions[$this->options[parent::CONTROLLER_ACTIVITY]];
 
 		// Access check.
 		if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
@@ -77,7 +76,7 @@ class JControllerUpdatestatelist extends JControllerCms
 		}
 
 		// Check in the items.
-		$this->app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_PUBLISHED', $model->publish($ids, $newState)));
+		$this->app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_' . strtoupper($this->options[parent::CONTROLLER_ACTIVITY]), $model->publish($ids, $newState)));
 
 		$this->setRedirect('index.php?option=' . $this->input->get('option', 'com_cpanel'));
 

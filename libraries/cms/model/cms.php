@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Model
  * @since       3.4
  */
-abstract class JModelCms extends JModelDatabase
+abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 {
 	/**
 	 * Configuration array
@@ -60,6 +60,14 @@ abstract class JModelCms extends JModelDatabase
 	protected $dispatcher = null;
 
 	/**
+	 * The component name.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $option = null;
+
+	/**
 	 * Public constructor
 	 *
 	 * @param  JRegistry         $state       The state for the model
@@ -82,7 +90,7 @@ abstract class JModelCms extends JModelDatabase
 		}
 		else
 		{
-			$state = new JRegistry;
+			$state = $this->loadState();
 		}
 
 		// If we don't have a db param see if one got set in the config for legacy purposes
@@ -100,6 +108,8 @@ abstract class JModelCms extends JModelDatabase
 		{
 			$this->ignoreRequest = true;
 		}
+
+		$this->option = $config['option'];
 
 		// Guess the JText message prefix. Defaults to the option.
 		if (isset($config['text_prefix']))
@@ -125,12 +135,24 @@ abstract class JModelCms extends JModelDatabase
 	 */
 	public function getStateVar($property = null, $default = null)
 	{
-		if (!$property)
-		{
-			throw new InvalidArgumentException('You must specify a property');
-		}
+		$state = $this->getState();
 
-		if (!$this->ignoreRequest && !$this->stateIsSet)
+		return $state->get($property, $default);
+	}
+
+	/**
+	 * Method to get model state variables
+	 *
+	 * @param   string  $property  Optional parameter name
+	 * @param   mixed   $default   Optional default value
+	 *
+	 * @return  object  The property where specified, the state object where omitted
+	 *
+	 * @since   3.4
+	 */
+	public function getState($property = null, $default = null)
+	{
+		if (!$this->stateIsSet)
 		{
 			// Protected method to auto-populate the model state.
 			$this->populateState();
@@ -139,8 +161,9 @@ abstract class JModelCms extends JModelDatabase
 			$this->stateIsSet = true;
 		}
 
-		return $this->state->get($property, $default);
+		return parent::getState();
 	}
+
 
 	/**
 	 * Method to auto-populate the model state.
@@ -169,9 +192,9 @@ abstract class JModelCms extends JModelDatabase
 	 * Method to authorise the current user for an action.
 	 * This method is intended to be overridden to allow for customized access rights
 	 *
-	 * @param string $action       ACL action string. I.E. 'core.create'
-	 * @param string $assetName    asset name to check against.
-	 * @param object $activeRecord active record data to check against
+	 * @param   string  $action        ACL action string. I.E. 'core.create'
+	 * @param   string  $assetName     Asset name to check against.
+	 * @param   object  $activeRecord  Active record data to check against
 	 *
 	 * @return bool
 	 *
@@ -182,11 +205,11 @@ abstract class JModelCms extends JModelDatabase
 	{
 		if (is_null($assetName))
 		{
-			$config    = $this->config;
-			$assetName = $config['option'];
+			$assetName = $this->option;
 		}
 
 		$user = JFactory::getUser();
+
 		if($action == 'core.edit.own')
 		{
 			// Not a record or isn't tracking ownership
@@ -206,7 +229,6 @@ abstract class JModelCms extends JModelDatabase
 
 	/**
 	 * Method to get the model context.
-	 * $context = $config['option'].'.'.$config['subject'];
 	 *
 	 * @return string
 	 *
@@ -214,8 +236,7 @@ abstract class JModelCms extends JModelDatabase
 	 */
 	public function getContext()
 	{
-		$config  = $this->config;
-		$context = $config['option'] . '.' . $config['subject'];
+		$context = substr($this->option, 4) . '.' . $this->getName();
 
 		return $context;
 	}
@@ -260,5 +281,34 @@ abstract class JModelCms extends JModelDatabase
 
 		// Trigger the onContentCleanCache event.
 		$this->dispatcher->trigger('onContentCleanCache', $options);
+	}
+
+	/**
+	 * Method to get the model name
+	 *
+	 * The model name. By default parsed using the classname or it can be set
+	 * by passing a $config['name'] in the class constructor
+	 *
+	 * @return  string  The name of the model
+	 *
+	 * @since   12.2
+	 * @throws  RuntimeException
+	 */
+	public function getName()
+	{
+		if (empty($this->name))
+		{
+			$className = get_class($this);
+			$modelpos = strpos($className, 'Model');
+
+			if ($modelpos === false)
+			{
+				throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+			}
+
+			$this->name = strtolower(substr($className, $modelpos + 5));
+		}
+
+		return $this->name;
 	}
 }

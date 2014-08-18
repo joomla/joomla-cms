@@ -54,17 +54,14 @@ class JControllerDelete extends JControllerCms
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JLog::add(JText::_($this->prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
+			JLog::add(JText::_($this->getPrefix() . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
 
 			return false;
 		}
 
-		// Get the model.
-		$viewName = $this->input->getWord('view', 'articles');
-
 		try
 		{
-			$model = $this->getModel($this->prefix, ucfirst($viewName));
+			$model = $this->getModel(null, ucfirst($viewName));
 		}
 		catch (RuntimeException $e)
 		{
@@ -88,7 +85,7 @@ class JControllerDelete extends JControllerCms
 			return false;
 		}
 
-		$this->app->enqueueMessage(JText::plural($this->prefix . '_N_ITEMS_DELETED', $result), 'notice');
+		$this->app->enqueueMessage(JText::plural($this->getPrefix() . '_N_ITEMS_DELETED', $result), 'notice');
 		$this->app->setHeader('status', '204 Deleted');
 
 		// Invoke the postDelete method to allow for the child class to access the model.
@@ -99,7 +96,7 @@ class JControllerDelete extends JControllerCms
 
 		$this->setRedirect(
 			JRoute::_(
-				'index.php?option=' . $this->input->get('option') . '&controller=j.display.' . $this->options[parent::CONTROLLER_PREFIX],
+				'index.php?option=' . $this->input->get('option') . '&view=' . $viewName,
 				false
 			)
 		);

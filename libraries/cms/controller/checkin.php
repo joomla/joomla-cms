@@ -31,7 +31,7 @@ class JControllerCheckin extends JControllerCms
 	public function execute()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->factory->checkSession();
 
 		$componentFolder = $this->input->getWord('option', 'com_content');
 		$this->viewName     = $this->input->getWord('view', 'articles');
@@ -40,7 +40,7 @@ class JControllerCheckin extends JControllerCms
 
 		if (empty($ids))
 		{
-			throw new RuntimeException(JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'), 500);
+			throw new RuntimeException($this->factory->translate('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'), 500);
 		}
 		else
 		{
@@ -56,7 +56,7 @@ class JControllerCheckin extends JControllerCms
 			// Access check.
 			if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
 			{
-				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$this->app->enqueueMessage($this->factory->translate('JERROR_ALERTNOAUTHOR'), 'error');
 
 				return false;
 			}

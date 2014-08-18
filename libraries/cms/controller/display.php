@@ -57,7 +57,9 @@ class JControllerDisplay extends JControllerCms
 	{
 		!$this->app->isAdmin() ? : $this->permission = 'core.manage';
 
+		// Get the view name if it hasn't already been set by a controller
 		$this->viewName     = $this->input->getWord('view', 'articles');
+
 		$viewFormat   = $this->doc->getType();
 
 		try
@@ -79,20 +81,6 @@ class JControllerDisplay extends JControllerCms
 
 		// Initialise the view class.
 		$view = $this->getView($model, $this->prefix, $this->viewName, $viewFormat);
-
-		// If in html view then we set the layout
-		if ($viewFormat == 'html')
-		{
-			$layoutName   = $this->input->getWord('layout', 'default');
-			$view->setLayout($layoutName);
-		}
-
-		// Reply for service requests
-		// @todo this shouldn't happen - we need to fix this.
-		if ($viewFormat == 'json')
-		{
-			return $view->render();
-		}
 
 		// Render view.
 		echo $view->render();
@@ -128,8 +116,10 @@ class JControllerDisplay extends JControllerCms
 			$name = $this->config['subject'];
 		}
 
+		$this->config['view'] = $name;
+
 		// Get the document type
-		if (is_null($name))
+		if (is_null($type))
 		{
 			$type   = $this->doc->getType();
 		}
@@ -144,7 +134,7 @@ class JControllerDisplay extends JControllerCms
 		// If a custom class doesn't exist fall back to the Joomla class if it exists
 		if (!class_exists($class))
 		{
-			$joomlaClass = 'JView' . ucfirst($type);
+			$joomlaClass = 'JView' . ucfirst($type) . 'Cms';
 
 			if (!class_exists($joomlaClass))
 			{
@@ -156,9 +146,47 @@ class JControllerDisplay extends JControllerCms
 			$class = $joomlaClass;
 		}
 
-		$this->view = new $class($model, $config);
+		// The Html view must have a renderer object injected into it.
+		// So initalise it separately
+		if(strtolower($type) != 'html')
+		{
+			$view = new $class($model, $this->doc, $this->config);
+		}
+		else
+		{
+			$renderer = $this->getRenderer();
+
+			// Initialise the view class
+			$view = new $class($model, $this->doc, $renderer, $this->config);
+
+			// If in html view then we set the layout
+			$layoutName   = $this->input->getWord('layout', 'default');
+			$view->setLayout($layoutName);
+		}
+
+		// Deal with json hypermedia if requested
+		if (strtolower($type) == 'json')
+		{
+			if (isset($this->config['useHypermedia']) && $this->config['useHypermedia'])
+			{
+				$this->doc->setHypermedia(true);
+			}
+		}
+
+		$this->view = $view;
 
 		return $this->view;
 	}
 
+	/*
+	 * Allows the renderer class to be injected into the model to be set
+	 *
+	 * @return  RendererInterface  The renderer object
+	 *
+	 * @since   3.4
+	 */
+	protected function getRenderer()
+	{
+		return null;
+	}
 }

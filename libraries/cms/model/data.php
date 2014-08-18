@@ -44,62 +44,43 @@ abstract class JModelData extends JModelCms
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
-	 * @param   string $prefix The class prefix. Optional.
-	 * @param   string $name   The table name. Optional.
-	 * @param   array  $config Configuration array for model. Optional.
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  JTableInterface  A JTableInterface object
 	 *
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
-	public function getTable($prefix = null, $name = null, $config = array())
+	public function getTable($name = null, $prefix = null, $options = array())
 	{
-		if (empty($name))
+		if (!$name)
 		{
-			$name = ucfirst($config['subject']);
+			$name = ucfirst($this->getName());
 		}
 
-		if (empty($prefix))
+		if (!$prefix)
 		{
-			$prefix = ucfirst(substr($config['option'], 4));
+			$prefix = ucfirst(substr($this->option, 4)) . 'Table';
 		}
 
-		if (!$table = $this->createTable( $prefix, $name, $config))
+		// Make sure we are giving a JDatabaseDriver object to the table
+		if (!array_key_exists('dbo', $options))
 		{
-			throw new RuntimeException(JText::_($this->text_prefix . '_LIB_MODEL_ERROR_TABLE_NAME_NOT_SUPPORTED').': '. $prefix . 'Table' . $name);
-		}
-		return $table;
-
-	}
-
-	/**
-	 * Method to load and return a model object.
-	 *
-	 * @param   string $prefix The class prefix. Optional.
-	 * @param   string $name   The name of the view
-	 * @param   array  $config Configuration settings to pass to JTable::getInstance
-	 *
-	 * @return  mixed   A JTable object or boolean false if failed
-	 *
-	 * @since   12.2
-	 * @see     JTable::getInstance()
-	 */
-	protected function createTable($prefix, $name, $config = array())
-	{
-		// Clean the model name
-		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
-
-		// Make sure we are returning a DBO object
-		if (!array_key_exists('dbo', $config))
-		{
-			$config['dbo'] = $this->getDb();
+			$options['dbo'] = $this->getDb();
 		}
 
-		$className = $prefix . 'Table' . $name;
+		// Try and get table instance
+		$table = JTable::getInstance($name, $prefix, $options);
 
-		return new $className($config);
+		if ($table instanceof JTableInterface)
+		{
+			return $table;
+		}
+
+		// If the table isn't a instance of JTableInterface throw an exception
+		throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
 	}
 
 	/**
@@ -123,17 +104,27 @@ abstract class JModelData extends JModelCms
 	/**
 	 * Method to unlock a record
 	 *
-	 * @param int $pk primary key
+	 * @param  int  $pk  Integer primary key or array of primary keys
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 * @see JCmsModelData::checkout
 	 */
 	public function checkin($pk)
 	{
-		// Get an instance of the row to checkout.
-		$activeRecord = $this->getActiveRecord($pk);
+		if (is_integer($pk))
+		{
+			$pk = array($pk);
+		}
 
-		$activeRecord->checkin($pk);
+		JArrayHelper::toInteger($pk);
+
+		foreach ($pk as $primaryKey)
+		{
+			// Get an instance of the row to checkout.
+			$activeRecord = $this->getActiveRecord($primaryKey);
+
+			$activeRecord->checkin($primaryKey);
+		}
 
 		return true;
 	}

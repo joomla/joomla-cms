@@ -34,7 +34,16 @@ abstract class JModelCollection extends JModelRecord
 	 */
 	protected $searchFields = array();
 
-
+	/**
+	 * Public constructor
+	 *
+	 * @param  JRegistry         $state       The state for the model
+	 * @param  JDatabaseDriver   $db          The database object
+	 * @param  JEventDispatcher  $dispatcher  The dispatcher object
+	 * @param  array             $config      Array of config variables
+	 *
+	 * @since  3.4
+	 */
 	public function __construct(JRegistry $state = null, JDatabaseDriver $db = null, JEventDispatcher $dispatcher = null, $config = array())
 	{
 		parent::__construct($state, $db, $dispatcher, $config);
@@ -79,10 +88,10 @@ abstract class JModelCollection extends JModelRecord
 	/**
 	 * Method to add field to filterField and/or to searchFields arrays
 	 *
-	 * @param string $name        name of the filter I.E. "title"
-	 * @param string $dataKeyName name of the database key I.E. "a.title"
-	 * @param bool   $sortable    true to add to the filterFields array
-	 * @param bool   $searchable  true to add to the searchFields array
+	 * @param   string  $name         Name of the filter I.E. "title"
+	 * @param   string  $dataKeyName  Name of the database key I.E. "a.title"
+	 * @param   bool    $sortable     True to add to the filterFields array
+	 * @param   bool    $searchable   True to add to the searchFields array
 	 *
 	 * @return  JModelCollection  $this to allow for chaining
 	 * @since   3.4
@@ -118,7 +127,7 @@ abstract class JModelCollection extends JModelRecord
 		$query = $this->getListQuery();
 
 		$start = $this->getStart();
-		$limit = $this->getState('list.limit', 0);
+		$limit = $this->getStateVar('list.limit', 0);
 
 		$db->setQuery($query, $start, (int) $limit);
 
@@ -162,7 +171,7 @@ abstract class JModelCollection extends JModelRecord
 
 		if (array_key_exists('a.state', $this->filterFields))
 		{
-			$state = $this->getState('filter.state');
+			$state = $this->getStateVar('filter.state');
 
 			if (is_numeric($state))
 			{
@@ -175,17 +184,13 @@ abstract class JModelCollection extends JModelRecord
 		}
 
 		$activeFilters = $this->getActiveFilters();
+
 		foreach ($activeFilters AS $dataKeyName => $value)
 		{
 			$query->where($dataKeyName . ' = ' . $db->quote($value));
 		}
 
-		$search = $this->buildSearch();
-
-		if ($search != '' && JString::strlen($search) != 0)
-		{
-			$query->where($search);
-		}
+		$query = $this->buildSearch($query);
 
 		$orderCol  = $this->getStateVar('list.ordering');
 		$orderDirn = $this->getStateVar('list.direction');
@@ -200,10 +205,10 @@ abstract class JModelCollection extends JModelRecord
 
 	/**
 	 * Method to add a left join to the user table for record editor.
-	 * @param JDatabaseQuery $query
-	 * @param string         $rootPrefix
+	 * @param   JDatabaseQuery  $query       The query object
+	 * @param   string          $rootPrefix  The root prefix
 	 *
-	 * @return JDatabaseQuery
+	 * @return  JDatabaseQuery
 	 */
 	protected function addEditorQuery(JDatabaseQuery $query, $rootPrefix = 'a')
 	{
@@ -214,10 +219,10 @@ abstract class JModelCollection extends JModelRecord
 	}
 
 	/**
-	 * Method to add a left join to the viewlevels table for the assess title
+	 * Method to add a left join to the view levels table for the assess title
 	 *
-	 * @param JDatabaseQuery $query
-	 * @param string         $onField the prefixed field name to join on
+	 * @param   JDatabaseQuery  $query
+	 * @param   string          $onField the prefixed field name to join on
 	 *
 	 *
 	 * @return JDatabaseQuery
@@ -229,6 +234,7 @@ abstract class JModelCollection extends JModelRecord
 
 		return $query;
 	}
+
 	/**
 	 * Function to get the active filters
 	 *
@@ -245,16 +251,17 @@ abstract class JModelCollection extends JModelRecord
 			foreach ($this->filterFields as $filterField)
 			{
 				$filterName = 'filter.' . $filterField['name'];
+				$state = $this->getState();
+				$stateHasFilter = $state->exists($filterName);
 
-				$stateHasFilter = property_exists($this->state, $filterName);
 				if ($stateHasFilter)
 				{
-					$validState      = (!empty($this->state->$filterName) || is_numeric($this->state->$filterName));
+					$validState      = (!empty($state->get($filterName)) || is_numeric($state->get($filterName)));
 					$isPublishFilter = ($filterName == 'filter.state');
 
 					if ($validState && !$isPublishFilter)
 					{
-						$activeFilters[$filterField['dataKeyName']] = $this->getStateVar($filterName);
+						$activeFilters[$filterField['dataKeyName']] = $state->get($filterName);
 					}
 				}
 			}
@@ -263,48 +270,59 @@ abstract class JModelCollection extends JModelRecord
 		return $activeFilters;
 	}
 
-	protected function buildSearch()
+	/**
+	 * Function to get build the search query
+	 *
+	 * @param  JDatabaseQuery  $query  The query object
+	 *
+	 * @return  string  Associative array in the format: array('filter_published' => 0)
+	 *
+	 * @since   3.2
+	 */
+	protected function buildSearch($query)
 	{
-		$db     = JFactory::getDbo();
-		$search = $this->getState('filter.search');
-		$where  = null;
+		$db     = $this->getDb();
+		$search = $this->getStateVar('filter.search');
 
-		if (!empty($search))
+		if (!empty($search) && isset($this->searchFields))
 		{
-			if (isset($this->searchFields))
+			$searchInList = (array) $this->searchFields;
+
+			$isExact = (JString::strrpos($search, '"'));
+
+			if ($isExact)
 			{
+				$search = JString::substr($search, 1, -1);
+				$where  = '( ';
 
-				$searchInList = (array) $this->searchFields;
-
-				$isExact = (JString::strrpos($search, '"'));
-
-				if ($isExact)
+				foreach ((array) $searchInList as $search_field)
 				{
-					$search = JString::substr($search, 1, -1);
-					$where  = '( ';
-					foreach ((array) $searchInList as $search_field)
-					{
-						$cleanSearch = $db->Quote($db->escape($search, true));
-						$where .= ' ' . $search_field['dataKeyName'] . ' = ' . $cleanSearch . ' OR';
-					}
-					$where = substr($where, 0, -3);
-					$where .= ')';
+					$cleanSearch = $db->Quote($db->escape($search, true));
+					$where .= ' ' . $search_field['dataKeyName'] . ' = ' . $cleanSearch . ' OR';
 				}
-				else
-				{
-					$search = $db->Quote('%' . $db->escape($search, true) . '%');
+				$where = substr($where, 0, -3);
+				$where .= ')';
 
-					$where = '( ';
-					foreach ((array) $searchInList as $search_field)
-					{
-						$where .= ' ' . $search_field['dataKeyName'] . ' LIKE ' . $search . ' OR ';
-					}
-					$where = substr($where, 0, -3);
-					$where .= ')';
+				$query->where($where);
+			}
+			else
+			{
+				$search = $db->Quote('%' . $db->escape($search, true) . '%');
+				$where = '( ';
+
+				foreach ((array) $searchInList as $search_field)
+				{
+					$where .= ' ' . $search_field['dataKeyName'] . ' LIKE ' . $search . ' OR ';
 				}
+
+				$where = substr($where, 0, -3);
+				$where .= ')';
+
+				$query->where($where);
 			}
 		}
-		return $where; //no search found
+
+		return $query; //no search found
 	}
 
 	/**
@@ -316,9 +334,8 @@ abstract class JModelCollection extends JModelRecord
 	 */
 	public function getStart()
 	{
-
-		$start = $this->getState('list.start');
-		$limit = $this->getState('list.limit');
+		$start = $this->getStateVar('list.start');
+		$limit = $this->getStateVar('list.limit');
 		$total = $this->getTotal();
 
 		if ($start > $total - $limit)
@@ -339,7 +356,7 @@ abstract class JModelCollection extends JModelRecord
 	public function getTotal()
 	{
 		// Get a storage key.
-		$total = $this->getState('list.total', null);
+		$total = $this->getStateVar('list.total', null);
 
 		if ($total == null)
 		{
@@ -347,7 +364,7 @@ abstract class JModelCollection extends JModelRecord
 			$query = $this->getListQuery();
 
 			$total = (int) $this->_getListCount($query);
-			$this->setState('list.total', $total);
+			$this->state->set('list.total', $total);
 		}
 
 		return $total;
@@ -366,8 +383,8 @@ abstract class JModelCollection extends JModelRecord
 	{
 		$db = $this->getDb();
 
-		//if this is a select and there are no GROUP BY or HAVING clause
-		//Use COUNT(*) method to improve performance.
+		// If this is a select and there are no GROUP BY or HAVING clause
+		// Use COUNT(*) method to improve performance.
 
 		$isSelect       = ($query->type == 'select');
 		$hasGroupClause = ($query->group === null);
@@ -400,7 +417,7 @@ abstract class JModelCollection extends JModelRecord
 	public function getPagination()
 	{
 		// Create the pagination object.
-		$limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
+		$limit = (int) $this->getStateVar('list.limit') - (int) $this->getStateVar('list.links');
 		$page  = new JPagination($this->getTotal(), $this->getStart(), $limit);
 
 		return $page;
@@ -427,38 +444,38 @@ abstract class JModelCollection extends JModelRecord
 		$app   = JFactory::getApplication();
 		$input = $app->input;
 
-		$old_state = $app->getUserState($key);
-		if (!is_null($old_state))
+		$oldState = $app->getUserState($key);
+
+		if (!is_null($oldState))
 		{
-			$cur_state = $old_state;
+			$cur_state = $oldState;
 		}
 		else
 		{
 			$cur_state = $default;
 		}
 
-		$new_state = $input->get($request, null, $type);
+		$newState = $input->get($request, null, $type);
 
-		$hasChanged = ($cur_state != $new_state);
+		$hasChanged = ($cur_state != $newState);
 
 		if ($hasChanged && $resetPage)
 		{
 			$input->set('limitstart', 0);
 			$input->set('list.total', null);
-
 		}
 
 		// Save the new value only if it is set in this request.
-		if ($new_state !== null)
+		if ($newState !== null)
 		{
-			$app->setUserState($key, $new_state);
+			$app->setUserState($key, $newState);
 		}
 		else
 		{
-			$new_state = $cur_state;
+			$newState = $cur_state;
 		}
 
-		return $new_state;
+		return $newState;
 	}
 
 	/**
@@ -476,11 +493,11 @@ abstract class JModelCollection extends JModelRecord
 
 			foreach ($filters AS $name => $value)
 			{
-				$this->setState('filter.' . $name, $value);
+				$this->state->set('filter.' . $name, $value);
 			}
 
 			$limit = $app->getUserStateFromRequest($context . 'list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
-			$this->setState('list.limit', $limit);
+			$this->state->set('list.limit', $limit);
 
 			// Check if the ordering field is in the white list, otherwise use the incoming value.
 			$orderColName = $app->getUserStateFromRequest($context . '.ordercol', 'filter_order', $ordering);
@@ -491,7 +508,7 @@ abstract class JModelCollection extends JModelRecord
 				$app->setUserState($context . '.ordercol', $orderColName);
 			}
 
-			$this->setState('list.ordering', $orderColName);
+			$this->state->set('list.ordering', $orderColName);
 
 			// Check if the ordering direction is valid, otherwise use the incoming value.
 			$orderDir = $app->getUserStateFromRequest($context . '.orderdirn', 'filter_order_Dir', $direction);
@@ -502,7 +519,7 @@ abstract class JModelCollection extends JModelRecord
 				$app->setUserState($context . '.orderdirn', $orderDir);
 			}
 
-			$this->setState('list.direction', strtoupper($orderDir));
+			$this->state->set('list.direction', strtoupper($orderDir));
 
 			$limitStartValue = $app->getUserStateFromRequest($context . '.limitstart', 'limitstart', 0, 'int');
 
@@ -515,10 +532,9 @@ abstract class JModelCollection extends JModelRecord
 				$limitStart = 0;
 			}
 
-			$this->setState('list.start', $limitStart);
+			$this->state->set('list.start', $limitStart);
 
 			parent::populateState($ordering, $direction);
 		}
 	}
-
 }

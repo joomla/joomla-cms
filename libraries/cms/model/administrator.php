@@ -27,67 +27,6 @@ abstract class JModelAdministrator extends JModelUcm
 	protected $forms = array();
 
 	/**
-	 * Method to validate data and insert into db
-	 *
-	 * @param array $data
-	 *
-	 * @return boolean
-	 *
-	 * @throws RuntimeException
-	 */
-	public function create($data)
-	{
-		$form = $this->getForm($data, false);
-
-		$validData = $this->validate($form, $data);
-
-		$table = $this->getTable();
-
-		if ((!empty($validData['tags']) && $validData['tags'][0] != ''))
-		{
-			$table->newTags = $validData['tags'];
-		}
-
-		// Prepare the table for store
-		$table->bind($validData);
-		$table->check();
-
-		// Get dispatcher and include the content plugins for the on save events.
-		JPluginHelper::importPlugin('content');
-		$dispatcher = $this->dispatcher;
-		$context    = $this->getContext();
-
-		$result = $dispatcher->trigger('onContentBeforeSave', array($context, $table, true));
-
-		if (in_array(false, $result, true))
-		{
-			throw new RuntimeException($table->getError());
-		}
-
-		// Store the data.
-		if (!$table->store())
-		{
-			throw new RuntimeException($table->getError());
-		}
-
-		// Clean the cache.
-		$this->cleanCache();
-
-		// Trigger the onContentAfterSave event.
-		$dispatcher->trigger('onContentAfterSave', array($context, $table, true));
-
-		$pkName = $table->getKeyName();
-
-		if (isset($table->$pkName))
-		{
-			$context = $this->getContext();
-			$this->setState($context . '.id', $table->$pkName);
-		}
-
-		return true;
-	}
-
-	/**
 	 * method for getting the form from the model.
 	 *
 	 * @param   array   $data     Data for the form.
@@ -100,7 +39,7 @@ abstract class JModelAdministrator extends JModelUcm
 	public function getForm($data = array(), $loadData = true)
 	{
 		$config = $this->config;
-		$form   = $this->loadForm($config['option'] . '.' . $config['subject'], $config['subject'], array('control' => 'jform', 'load_data' => $loadData));
+		$form   = $this->loadForm($config['option'] . '.' . $this->getName(), $this->getName(), array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{
@@ -144,17 +83,19 @@ abstract class JModelAdministrator extends JModelUcm
 		}
 
 		// Get the form.
-		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
-		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-		JForm::addFormPath(JPATH_COMPONENT . '/model/forms');
-		JForm::addFieldPath(JPATH_COMPONENT . '/model/fields');
-
 		if(JFactory::getApplication()->isSite())
+		{
+			JForm::addFormPath(JPATH_COMPONENT . '/model/forms');
+			JForm::addFieldPath(JPATH_COMPONENT . '/model/fields');
+			JForm::addFormPath(JPATH_COMPONENT . '/model/form');
+			JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
+		}
+		else
 		{
 			JForm::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/models/forms');
 			JForm::addFieldPath(JPATH_COMPONENT_ADMINISTRATOR . '/models/fields');
-			JForm::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/model/forms');
-			JForm::addFieldPath(JPATH_COMPONENT_ADMINISTRATOR . '/model/fields');
+			JForm::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/model/form');
+			JForm::addFieldPath(JPATH_COMPONENT_ADMINISTRATOR . '/model/field');
 		}
 
 		$form = JForm::getInstance($name, $source, $config, false, $xpath);
@@ -175,7 +116,6 @@ abstract class JModelAdministrator extends JModelUcm
 
 		// Load the data into the form after the plugins have operated.
 		$form->bind($data);
-
 
 		// Store the form for later.
 		$this->forms[$hash] = $form;
@@ -304,348 +244,6 @@ abstract class JModelAdministrator extends JModelUcm
 	}
 
 	/**
-	 * Method to validate data and update into db
-	 *
-	 * @param array $data
-	 *
-	 * @return boolean
-	 *
-	 * @since  3.4
-	 * @throws RuntimeException
-	 */
-	public function update($data)
-	{
-
-		$form = $this->getForm($data, false);
-		$validData = $this->validate($form, $data);
-
-		$table = $this->getTable();
-
-		if ((!empty($validData['tags']) && $validData['tags'][0] != ''))
-		{
-			$table->newTags = $validData['tags'];
-		}
-
-		//prepare the table for store
-		$pk = $data[$table->getKeyName()];
-		$table->load($pk);
-		$table->bind($validData);
-		$table->check();
-
-		// Get dispatcher and include the content plugins for the on save events.
-		JPluginHelper::importPlugin('content');
-		$dispatcher = $this->dispatcher;
-		$config     = $this->config;
-
-		$result = $dispatcher->trigger('onContentBeforeSave', array($config['option'] . '.' . $config['subject'], $table, false));
-
-		if (in_array(false, $result, true))
-		{
-			throw new RuntimeException($table->getError());
-		}
-
-		// Store the data.
-		if (!$table->store())
-		{
-			throw new RuntimeException($table->getError());
-		}
-
-		// Clean the cache.
-		$this->cleanCache();
-
-		// Trigger the onContentAfterSave event.
-		$dispatcher->trigger('onContentAfterSave', array($config['option'] . '.' . $config['subject'], $table, false));
-
-		$pkName = $table->getKeyName();
-
-		if (isset($table->$pkName))
-		{
-			$this->setState($config['subject'] . '.id', $table->$pkName);
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to delete one or more records.
-	 *
-	 * @param array $cid array of record primary keys.
-	 *
-	 *
-	 * @return  boolean  True if successful, false if an error occurs.
-	 *
-	 * @since    12.2
-	 * @throws   RuntimeException
-	 * @internal  param array $pks
-	 */
-	public function delete($cid)
-	{
-		// Include the content plugins for the on delete events.
-		JPluginHelper::importPlugin('content');
-		$dispatcher = $this->dispatcher;
-
-		$config = $this->config;
-		$pks    = (array) $cid;
-
-		foreach ($pks AS $pk)
-		{
-			$context = $config['option'] . '.' . $config['subject'];
-
-			$activeRecord = $this->getActiveRecord($pk);
-
-			if ($this->allowAction('core.delete', $config['option'], $activeRecord))
-			{
-				// Trigger the onContentBeforeDelete event.
-				$result = $dispatcher->trigger('onContentBeforeDelete', array($context, $activeRecord));
-
-				if (in_array(false, $result, true))
-				{
-					throw new RuntimeException($activeRecord->getError());
-				}
-
-				$activeRecord->delete($pk);
-
-				// Trigger the onContentAfterDelete event.
-				$dispatcher->trigger('onContentAfterDelete', array($context, $activeRecord));
-			}
-			else
-			{
-				throw new RuntimeException($this->text_prefix . '_LIB_ACL_ERROR_DELETE_NOT_PERMITTED');
-
-			}
-		}
-
-		// Clear the component's cache
-		$this->cleanCache();
-
-		return true;
-	}
-
-	/**
-	 * Method to update one or more record states
-	 *
-	 * @param mixed  $cid  primary key or array of primary keys.
-	 * @param string $type type of state change.
-	 *
-	 * @see JCmsModelAdministrator::getStateTypes
-	 * @throws RuntimeException
-	 * @return boolean
-	 */
-	public function updateRecordState($cid, $type)
-	{
-		$stateChangeTypes = $this->getStateTypes();
-
-		if (!array_key_exists($type, $stateChangeTypes))
-		{
-			throw new RuntimeException($this->text_prefix . '_LIB_MODEL_ERROR_UNRECOGNIZED_STATE_CHANGE');
-		}
-
-		$newState = $stateChangeTypes[$type];
-
-		$user = JFactory::getUser();
-		$config = $this->config;
-		$pks    = (array) $cid;
-
-		foreach ($pks AS $i => $pk)
-		{
-			$activeRecord = $this->getActiveRecord($pk);
-
-			if ($this->allowAction('core.edit.state', $config['option'], $activeRecord))
-			{
-				$activeRecord->updateRecordState($pk, $newState, $user->id);
-			}
-			else
-			{
-				//remove items we cannot edit.
-				unset($cid[$i]);
-			}
-		}
-
-		// Include the content plugins for the change of state event.
-		JPluginHelper::importPlugin('content');
-		$dispatcher = $this->dispatcher;
-
-		$context = $this->getContext();
-
-		//trigger 'onContentChangeState'
-		$result = $dispatcher->trigger('onContentChangeState', array($context, $cid, $newState));
-
-		if (!in_array(false, $result, true))
-		{
-			// Clear the component's cache
-			$this->cleanCache();
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to get an associative array of state types.
-	 * Default array has these values 'publish' => 1, 'unpublish' => 0,'archive' => 2,'trash' => -2,'report' => -3
-	 * This allows extensions to add additional states to their records by overloading this function.
-	 * @return array $stateChangeTypes
-	 */
-	protected function getStateTypes()
-	{
-		$stateChangeTypes              = array();
-		$stateChangeTypes['publish']   = 1;
-		$stateChangeTypes['unpublish'] = 0;
-		$stateChangeTypes['archive']   = 2;
-		$stateChangeTypes['trash']     = -2;
-		$stateChangeTypes['report']    = -3;
-
-		return $stateChangeTypes;
-	}
-
-	/**
-	 * Method to reorder one or more records
-	 *
-	 * @param array  $cid
-	 * @param string $direction up or down
-	 *
-	 * @throws RuntimeException
-	 * @return boolean
-	 */
-	public function reorder($cid, $direction)
-	{
-		$direction = strtoupper($direction);
-
-		if ($direction == 'UP')
-		{
-			$delta = -1;
-		}
-		elseif ($direction == 'DOWN')
-		{
-			$delta = 1;
-		}
-		else
-		{
-			$delta = null;
-		}
-
-		$config = $this->config;
-		$pks    = (array) $cid;
-
-		foreach ($pks AS $pk)
-		{
-			$activeRecord = $this->getActiveRecord($pk);
-
-			if ($this->allowAction('core.edit.state', $config['option'], $activeRecord))
-			{
-				$where = $activeRecord->getReorderConditions($activeRecord);
-				$activeRecord->moveOrder($pk, $delta, $where);
-			}
-			else
-			{
-				throw new ErrorException($this->text_prefix . '_LIB_ACL_ERROR_EDIT_STATE_NOT_PERMITTED');
-			}
-		}
-
-		// Clear the component's cache
-		$this->cleanCache();
-
-		return true;
-	}
-
-	/**
-	 * Saves the manually set order of records.
-	 *
-	 * @param   array   $cid   An array of primary key ids.
-	 * @param   integer $order +1 or -1
-	 *
-	 * @return  mixed
-	 *
-	 * @since   12.2
-	 * @throws  RuntimeException
-	 */
-	public function saveorder($cid = null, $order = null)
-	{
-		if (empty($cid))
-		{
-			throw new RuntimeException(JText::_($this->text_prefix . '_LIB_MODEL_ERROR_NO_ITEMS_SELECTED'));
-		}
-
-
-		/*
-		 *  This is something that needs to be worked out once changes to JTable are completed
-		 *  Commented out because I haven't really studied the implementation, so this code might not be correct.
-		 * $table          = $this->getTable();
-		 * $tableClassName = get_class($table);
-		 * $contentType    = new JUcmType;
-		 * $type           = $contentType->getTypeByTable($tableClassName);
-		 * $typeAlias      = $type->type_alias;
-		 * $tagsObserver   = $table->getObserverOfClass('JTableObserverTags');
-		*/
-
-		$conditions     = array();
-		$config = $this->config;
-		$pks    = (array) $cid;
-		// Update ordering values
-		foreach ($pks as $i => $pk)
-		{
-			$activeRecord = $this->getActiveRecord($pk);
-			// Access checks.
-			if ($this->allowAction('core.edit.state', $config['option'], $activeRecord))
-			{
-				$activeRecord->ordering = $order[$i];
-
-				// Store the data.
-				if (!$activeRecord->store())
-				{
-					throw new RuntimeException($activeRecord->getError());
-				}
-
-				// Remember to reorder within position and client_id
-				$condition = $activeRecord->getReorderConditions($activeRecord);
-				$found     = false;
-
-				foreach ($conditions as $cond)
-				{
-					if ($cond[1] == $condition)
-					{
-						$found = true;
-						break;
-					}
-				}
-
-				if (!$found)
-				{
-					$key          = $activeRecord->getKeyName();
-					$conditions[] = array($activeRecord->$key, $condition);
-				}
-			}
-		}
-
-		// Execute reorder for each condition.
-		foreach ($conditions as $cond)
-		{
-			$table = $this->getTable();
-			$table->load($cond[0]);
-			$table->reorder($cond[1]);
-		}
-
-		// Clear the component's cache
-		$this->cleanCache();
-
-		return true;
-	}
-
-	/**
-	 * Method to import one or more files.
-	 *
-	 * This method is intended to be overridden by child classes.
-	 *
-	 * @param array $data  post data from the input
-	 * @param array $files files data from the input
-	 *
-	 * @throws  RuntimeException
-	 */
-	public function import($data, $files)
-	{
-		throw new RuntimeException(JText::_($this->text_prefix . '_LIB_MODEL_ERROR_IMPORT_NOT_SUPPORTED'));
-	}
-
-	/**
 	 * Method to allow derived classes to preprocess the data.
 	 *
 	 * @param   string $context The context identifier.
@@ -682,9 +280,8 @@ abstract class JModelAdministrator extends JModelUcm
 	{
 		if (!$this->stateIsSet)
 		{
-			$config = $this->config;
-			$params = JComponentHelper::getParams($config['option']);
-			$this->setState('params', $params);
+			$params = JComponentHelper::getParams($this->option);
+			$this->state->set('params', $params);
 
 			parent::populateState($ordering, $direction);
 		}

@@ -38,14 +38,6 @@ class JControllerDisplayform extends JControllerDisplay
 	 */
 	public function execute()
 	{
-		$componentFolder = $this->input->getWord('option', 'com_content');
-
-		if (empty($this->options))
-		{
-			$option = $this->input->getString('controller');
-			$this->options = explode('.', $option);
-		}
-
 		if (empty($this->options[parent::CONTROLLER_VIEW_FOLDER]))
 		{
 			$this->viewName     = $this->input->getWord('view', 'article');
@@ -54,6 +46,12 @@ class JControllerDisplayform extends JControllerDisplay
 		{
 			$this->viewName = $this->options[parent::CONTROLLER_VIEW_FOLDER];
 		}
+
+		// Disable the main menu in edit view
+		$this->input->set('hidemainmenu', true);
+
+		$componentFolder = $this->input->getWord('option', 'com_content');
+		$context = $componentFolder . '.' . $this->viewName;
 
 		try
 		{
@@ -64,57 +62,27 @@ class JControllerDisplayform extends JControllerDisplay
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		$idName = $model->getTable()->get('_tbl_key');
-		$model->id = $this->input->get($idName);
-
-		if (empty($model->id))
-		{
-			// Get ids from checkboxes
-			$ids = $this->input->get('cid', array(), 'array');
-
-			// This base  controller always displays a single form.
-			if (!empty($ids[0]))
-			{
-				$model->id = $ids[0];
-			}
-		}
-
-		// Add better fall back check or get from model
-		$model->typeAlias = $this->input->get('type', 'article');
-
-		// Access check.
-		if (!JFactory::getUser()->authorise($this->permission, $this->input->getString('option')))
+		$idName = $model->getTable()->getKeyName(false);
+		
+		if (!$this->editCheck($this->app, $context, $idName))
 		{
 			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 			return false;
 		}
 
-		// Initialise the view class.
-		$viewFormat   = $this->doc->getType();
-		$view = $this->getView($model, $this->prefix, $this->viewName, $viewFormat);
+		// Checkout the item if not new
+		$id = $this->input->get($idName);
 
-		// If in html view then we set the layout
-		if ($viewFormat == 'html')
+		if ($id != 0)
 		{
-			$layoutName   = $this->input->getWord('layout', 'default');
-			$view->setLayout($layoutName);
+			$model->checkout($id);
 		}
 
-		$context = $componentFolder . '.' . $this->viewName;
-		$this->editCheck($this->app, $context, $idName);
+		// The default view for a form is an edit view
+		$layoutName   = $this->input->set('layout', 'edit');
 
-		// Reply for service requests
-		// @todo this shouldn't happen - we need to fix this.
-		if ($viewFormat == 'json')
-		{
-
-			return $view->render();
-		}
-
-		echo $view->render();
-
-		return true;
+		return parent::execute();
 	}
 
 	/*

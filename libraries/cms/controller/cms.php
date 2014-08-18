@@ -114,21 +114,36 @@ class JControllerCms extends JControllerBase implements JControllerCmsInterface
 	protected $viewName;
 
 	/**
+	 * The Cms factory instance.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $factory;
+
+	/**
 	 * Constructor
 	 *
-	 * @param   array            $config  An array of configuration options. Must have option key.
 	 * @param   JInput           $input   The input object.
 	 * @param   JApplicationCms  $app     The application object.
+	 * @param   array            $config  An array of configuration options.
 	 * @param   JDocument        $doc     The JDocument object
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(array $config, JInput $input = null, JApplicationCms $app = null, JDocument $doc = null)
+	public function __construct(JInput $input = null, JApplicationCms $app = null, array $config = array(), JDocument $doc = null)
 	{
 		$this->config = $config;
 		$this->doc = $doc ? $doc : JFactory::getDocument();
+		$this->factory = new JControllerFactoryCms;
 
 		parent::__construct($input, $app);
+
+		if (!isset($this->config['option']) || (isset($this->config['option']) && empty($this->config['option'])))
+		{
+			// If an option key is not set try and get one from the input
+			$this->config['option'] = $this->input->get('option', null);
+		}
 	}
 
 	/**
@@ -143,7 +158,7 @@ class JControllerCms extends JControllerBase implements JControllerCmsInterface
 	public function execute()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
+		$this->factory->checkSession();
 
 		$this->componentFolder = $this->input->getWord('option', 'com_content');
 		$this->viewName     = $this->input->getWord('view', 'articles');
@@ -267,7 +282,7 @@ class JControllerCms extends JControllerBase implements JControllerCmsInterface
 			}
 			else
 			{
-				$name = $this->config['view'];
+				$name = $this->viewName;
 			}
 		}
 
@@ -287,7 +302,7 @@ class JControllerCms extends JControllerBase implements JControllerCmsInterface
 			throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $class));
 		}
 
-		$this->models[$prefix][$name] = new $class($this->config);
+		$this->models[$prefix][$name] = new $class(null, null, null, $this->config);
 
 		return $this->models[$prefix][$name];
 	}

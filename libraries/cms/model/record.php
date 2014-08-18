@@ -31,8 +31,7 @@ abstract class JModelRecord extends JModelData
 	{
 		if (empty($pk))
 		{
-			$context = $this->getContext();
-			$pk      = (int) $this->getState($context . '.id');
+			$pk = (int) $this->getStateVar($this->getName() . '.id');
 		}
 
 		$activeRecord = $this->getActiveRecord($pk);
@@ -48,7 +47,58 @@ abstract class JModelRecord extends JModelData
 			$item->params = $registry->toArray();
 		}
 
-
 		return $item;
+	}
+
+	/**
+	 * Method to increment the hit counter for the record
+	 *
+	 * @param   integer  $id  Optional ID of the record.
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since  3.2
+	 */
+	public function hit($id = null)
+	{
+		$type = $this->getName();
+
+		if (empty($id))
+		{
+			$id = $this->getStateVar($type . '.id');
+		}
+
+		$item = $this->getTable();
+
+		return $item->hit($id);
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
+	 * @param string $ordering  column to order by. I.E. 'a.title'
+	 * @param string $direction 'ASC' or 'DESC'
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 * @since   3.4
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
+		if (!$this->stateIsSet)
+		{
+			$key = $this->getTable()->getKeyName();
+
+			// Get the pk of the record from the request.
+			$pk = JFactory::getApplication()->input->getInt($key);
+			$this->state->set($this->getName() . '.id', $pk);
+
+			parent::populateState($ordering, $direction);
+		}
 	}
 }
