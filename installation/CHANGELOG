@@ -28,6 +28,49 @@ $ -> Idioma corrección o cambio
 - -> Eliminado
 ! -> Nota
 
+16-Ago-2014
+ # Fallo en publicación de banners
+ - Subidas en flash
+ # Arreglo en componente Finder
+ ^ Cambios actualizador Jokte (verifica versión de PHP)
+ - Eliminado paso de instalación selección idioma. Por defecto se instala en es-LA.
+
+17-may-2014
+ # Actualización API Recaptcha
+ # Cambio fechas copyright todos los archivos
+ ^ Actualización ingreso con Gmail
+ ^ Cambios en componentes, módulos y plugins y en URL amigables para sitios multidiomas
+ - Vista de instalación no utilizada (FTP, se configura luego de instalar)
+ + PHPass para autenticación
+ + Filtros para formularios y correos
+ + Filtros para codificación de caracteres
+ + Filtros para entradas en hexadecimal
+ ^ Error 404 redirecciona al index
+ ^ Correcciones en acceso a BD
+ * Seguridad en ataques temporizados
+ ^ Tratamiento especial de scripts y estilos
+ * Filtros registro de usuarios y perfiles
+ ^ Desbloqueo del módulo banners
+ + Filtros para salida de errores
+ ^ Clase inputbox
+ ^ Controlador MySQl
+ ^ Cambios en eventos onContent
+ ^ Arreglos en componente buscador (finder)
+ * Bloqueo de ejecutables en componente Media
+ + Filtro de nombres en archivos de idiomas
+ + Detección JSON
+ + Chequeo nombres de carpetas
+ ^ Ajuste en módulo Hilando Juuntos
+ ^ Soporte entre versiones
+ $ Líneas sin traducir
+ ^ Manifiesto por versionado propio de Jokte
+
+07-nov-2013
+ # Fallo al actualizar extensiones de terceros
+ # Fallo al agregar adjuntos
+ # Ajustes relativos a Joomla 2.5.14
+ ^ Cambios Módulo Hilando Juuntos (URLs por defecto)
+
 26-abr-2013
  + Ajustes relativos a Joomla 2.5.10/2.5.11
  + Agregado en Gestor de Módulo el nombre de la carpeta del módulo.
@@ -61,8 +104,7 @@ $ -> Idioma corrección o cambio
  # Instalación forzosa en es-LA y se define como lenguaje por defecto
  + Minisistema de descargas en los artículos (permite adjuntar hasta 3 archivos)
  + Agregada opción nueva para el módulo Quién está en línea
- + Agregado nuevo campo para parámetros en las extensiones que permite agregar ayuda con pieles
- 
+ + Agregado nuevo campo para parámetros en las extensiones que permite agregar ayuda con pieles 
  
 03-Ene-2013
  ^ Nueva presentación de Epígrafe o Copete.Cambio en la salida HTML Jokte Antu
