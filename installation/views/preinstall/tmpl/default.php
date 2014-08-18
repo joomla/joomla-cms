@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 	<div class="far-right">
 <?php if ($this->document->direction == 'ltr') : ?>
 		<div class="button1-left"><div class="refresh"><a href="index.php?view=preinstall" onclick="return Install.goToPage('preinstall');" title="<?php echo JText::_('JCheck_Again'); ?>"><?php echo JText::_('JCheck_Again'); ?></a></div></div>
-		<div class="button1-right"><div class="prev"><a href="index.php?view=language" onclick="return Install.goToPage('language');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
 	<?php if ($this->sufficient) : ?>
 		<div class="button1-left"><div class="next"><a href="index.php?view=license" onclick="return Install.goToPage('database');" rel="next" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
 	<?php endif; ?>
