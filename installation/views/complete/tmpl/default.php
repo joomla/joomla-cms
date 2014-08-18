@@ -47,7 +47,6 @@ $nfo = $this->getDataInstall();
 			<h3><?php echo JText::_('INSTL_COMPLETE_TITLE'); ?></h3>
 			<div class="install-text">
 				<p><?php echo JText::_('INSTL_COMPLETE_DESC1'); ?></p>
-				<p><?php echo JText::_('INSTL_COMPLETE_DESC2'); ?></p>
 				<p><?php echo JText::_('INSTL_COMPLETE_DESC3'); ?></p>
 			</div>
 			<div class="install-body">
