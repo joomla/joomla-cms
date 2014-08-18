@@ -6,7 +6,7 @@
 			required="true"
 		/>
                 
-                <field name="site_logo" type="file" id="site_logo" class="inputbox"
+        <field name="site_logo" type="file" id="site_logo" class="inputbox"
 			label="INSTL_SITE_LOGO_LABEL"
 			required="false"
 		/>
