@@ -57,9 +57,9 @@ class JInstallationModelDatabase extends JModelLegacy
 		// Load the back-end language files so that the DB error messages work
 		$jlang = JFactory::getLanguage();
 		// Pre-load es-LA in case the chosen language files do not exist
-		$jlang->load('joomla', JPATH_ADMINISTRATOR, 'es-LA', true);
+		$jlang->load('jokte', JPATH_ADMINISTRATOR, 'es-LA', true);
 		// Load the selected language
-		$jlang->load('joomla', JPATH_ADMINISTRATOR, $options->language, true);
+		$jlang->load('jokte', JPATH_ADMINISTRATOR, $options->language, true);
 
 		// Ensure a database type was selected.
 		if (empty($options->db_type)) {
@@ -178,15 +178,15 @@ class JInstallationModelDatabase extends JModelLegacy
 			// Set the appropriate schema script based on UTF-8 support.
 			if ($type == 'mysqli' || $type == 'mysql')
 			{
-				$schema = 'sql/mysql/joomla.sql';
+				$schema = 'sql/mysql/jokte.sql';
 			}
 			elseif ($type == 'sqlsrv' || $type == 'sqlazure')
 			{
-				$schema = 'sql/sqlazure/joomla.sql';
+				$schema = 'sql/sqlazure/jokte.sql';
 			}
 			else
 			{
-				$schema = 'sql/'. $type . '/joomla.sql';
+				$schema = 'sql/'. $type . '/jokte.sql';
 			}
 			// Check if the schema is a valid file
 			if (!JFile::exists($schema)) {
