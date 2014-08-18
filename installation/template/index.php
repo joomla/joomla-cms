@@ -68,6 +68,11 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 				<p class="stepBarrHigthLight">
 					<a rel="{handler: 'iframe', size: {x: 750, y: 600}}" href=" http://jokte.org/foro/11-instalacion-de-jokte-zona-de-ayuda.html" target="_blank" class="modal"><?php echo JText::_('INSTL_HELP'); ?></a>
 				</p>
+				
+				<p class="stepBarrRapid">
+					<a rel="{handler: 'iframe', size: {x: 750, y: 600}}" href="rapida.html" target="_blank" class="modal"><?php echo JText::_('INSTL_HELP_RAPID'); ?></a>
+				</p>
+				
 				<p class="stepBarrLnk">
 					<a href="http://jokte.org" target="_blank">Jokte.org</a>
 				</p>
