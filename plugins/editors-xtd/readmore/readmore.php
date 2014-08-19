@@ -47,11 +47,11 @@ class plgButtonReadmore extends JPlugin
 		$present = JText::_('PLG_READMORE_ALREADY_EXISTS', true) ;
 		$js = "
 			function insertReadmore(editor) {
-				var content = $getContent
+				var content = $getContent;
 				if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i)) {
 					alert('$present');
 					return false;
-				} else {
+				} else {					
 					jInsertEditorText('<hr id=\"system-readmore\" />', editor);
 				}
 			}

@@ -14,7 +14,7 @@
 		<filename>index.html</filename>
 	</files>
 	<languages>
-		<language tag="es-LA">es-LA.plg_editors-xtd_readmore.ini</language>
-		<language tag="es-LA">es-LA.plg_editors-xtd_readmore.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_editors-xtd_readmore.ini</language>
+		<language tag="en-GB">en-GB.plg_editors-xtd_readmore.sys.ini</language>
 	</languages>
 </extension>
