@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package     Joomla.Libraries
  * @subpackage  Controller
  * @since       3.4
-*/
+ */
 class JControllerUpdate extends JControllerCms
 {
 	/*
@@ -37,7 +37,8 @@ class JControllerUpdate extends JControllerCms
 	 */
 	public function execute()
 	{
-		parent::execute();
+		// Check for request forgeries
+		$this->factory->checkSession();
 
 		// Check if the user is authorized to do this.
 		if ($this->app->isAdmin() && !JFactory::getUser()->authorise('core.manage'))
@@ -71,16 +72,48 @@ class JControllerUpdate extends JControllerCms
 		// @todo Potential security risk - we are't validating the data. Data must already be validated if in json view
 		if ($saveFormat == 'json')
 		{
-			return $model->update($data);
+			try
+			{
+				$model->update($data);
+
+				return true;
+			}
+			catch (Exception $e)
+			{
+				return false;
+			}
 		}
 
 		// Must load after serving service-requests
+		// @todo to fix the above validation risk we need to be able to load the backend form in the frontend
 		$form  = $model->getForm();
 
+		$context = $this->config['option'] . '.edit.' . $this->viewName;
+		$urlVar = $model->getTable()->getKeyName();
+
 		// Validate the posted data.
-		if (!$model->validate($form, $data))
+		try
 		{
-			// @todo Throw an appropriate exception/error notice here
+			$model->validate($form, $data);
+		}
+		catch (Exception $e)
+		{
+			$this->app->enqueueMessage($e->getMessage(), $e->getCode());
+
+			// Set the record data in the session and redirect back to the item
+			$modelState = $model->getState();
+			$recordId = $modelState->get($this->viewName . '.id');
+			$this->setUserState($context . '.data', null);
+
+			// Redirect back to the edit screen.
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->config['option'] . '&view=' . $this->viewName
+					. $this->getRedirectToItemAppend($recordId, $urlVar), false
+				)
+			);
+
+			return false;
 		}
 
 		try
@@ -92,8 +125,23 @@ class JControllerUpdate extends JControllerCms
 			throw new RuntimeException ($e->getMessage(), $e->getCode());
 		}
 
-		$context = $this->config['option'] . '.edit.' . $this->viewName;
-		$urlVar = $model->getTable()->getKeyName();
+		$pk    = $this->input->getInt($urlVar, 0);
+
+		// If we are closing an item that already exists then we should check it back in.
+		if ($pk != 0)
+		{
+			try
+			{
+				$model->checkin($pk);
+			}
+			catch (Exception $e)
+			{
+				// Enqueue the error message. We will then perform the appropriate redirect.
+				// This is only checking back in the the item so it doesn't matter too much.
+				$this->app->enqueueMessage($e->getMessage());
+			}
+		}
+
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($this->options[parent::CONTROLLER_ACTIVITY])
@@ -135,7 +183,7 @@ class JControllerUpdate extends JControllerCms
 				// Redirect to the list screen.
 				$this->setRedirect(
 					JRoute::_(
-						'index.php?option=' . $this->config['option'] . '&view=' . $this->viewName
+						'index.php?option=' . $this->config['option'] . '&view=' . FOFInflector::pluralize($this->viewName)
 						. $this->getRedirectToListAppend(), false
 					)
 				);
