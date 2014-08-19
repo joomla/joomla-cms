@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package     Joomla.Libraries
  * @subpackage  Controller
  * @since       3.4
-*/
+ */
 class JControllerDelete extends JControllerCms
 {
 	/**
@@ -35,20 +35,6 @@ class JControllerDelete extends JControllerCms
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Access check.
-		if (!$this->allowDelete())
-		{
-			// Set the internal error and also the redirect error.
-			$this->setRedirect(
-				JRoute::_(
-					'index.php?option=' . $this->input->get('option') . '&controller=j.display.' . $this->options[parent::CONTROLLER_PREFIX],
-					false
-				)
-			);
-
-			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 401);
-		}
-
 		// Get items to remove from the request.
 		$cid = $this->app->input->get('cid', array(), 'array');
 
@@ -61,7 +47,7 @@ class JControllerDelete extends JControllerCms
 
 		try
 		{
-			$model = $this->getModel(null, ucfirst($viewName));
+			$model = $this->getModel(null, $this->options[parent::CONTROLLER_VIEW_FOLDER]);
 		}
 		catch (RuntimeException $e)
 		{
@@ -80,7 +66,7 @@ class JControllerDelete extends JControllerCms
 		catch (RuntimeException $e)
 		{
 			$this->app->enqueueMessage($e->getMessage(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=' . $option . '&view=' . $this->view_list, false));
+			$this->setRedirect(JRoute::_('index.php?option=' . $option . '&view=' . $this->options[parent::CONTROLLER_VIEW_FOLDER], false));
 
 			return false;
 		}
@@ -96,7 +82,7 @@ class JControllerDelete extends JControllerCms
 
 		$this->setRedirect(
 			JRoute::_(
-				'index.php?option=' . $this->input->get('option') . '&view=' . $viewName,
+				'index.php?option=' . $this->input->get('option') . '&view=' . $this->options[parent::CONTROLLER_VIEW_FOLDER],
 				false
 			)
 		);
@@ -117,23 +103,5 @@ class JControllerDelete extends JControllerCms
 	 */
 	protected function postDeleteHook(JModelCms $model, $id = null)
 	{
-	}
-
-	/**
-	 * Method to check if you can delete record.
-	 *
-	 * Extended classes can override this if necessary.
-	 *
-	 * @param   array  $data  An array of input data.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.4
-	 */
-	protected function allowDelete($data = array())
-	{
-		$user = JFactory::getUser();
-
-		return ($user->authorise('core.delete', $this->input->getWord('option')) || count($user->getAuthorisedCategories($this->input->getWord('option'), 'core.delete')));
 	}
 }

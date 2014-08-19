@@ -167,7 +167,7 @@ abstract class JModelActions extends JModelAdministrator
 
 			$activeRecord = $this->getActiveRecord($pk);
 
-			if ($this->canDelete('core.delete', $this->option, $activeRecord))
+			if ($this->canDelete('core.delete', $activeRecord))
 			{
 				// Trigger the onContentBeforeDelete event.
 				$result = $dispatcher->trigger('onContentBeforeDelete', array($context, $activeRecord));
@@ -263,23 +263,28 @@ abstract class JModelActions extends JModelAdministrator
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
+	 * @param   string  $action  The action to check
 	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 *
 	 * @since   3.2
+	 * @throws  RuntimeException
 	 */
-	protected function canDelete($record)
+	protected function canDelete($action = 'core.delete', $record)
 	{
 		if (!empty($record->id))
 		{
+			// We can only delete records that have been trashed
 			if ($record->published != -2)
 			{
-				return;
+				return false;
 			}
 
-			return parent::allowAction('core.delete', $this->option, $record);
+			return parent::allowAction($action, $this->option, $record);
 		}
+
+		throw new RuntimeException('An invalid record was passed');
 	}
 
 	/**
