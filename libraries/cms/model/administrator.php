@@ -22,7 +22,7 @@ abstract class JModelAdministrator extends JModelUcm
 	 * Array of form objects.
 	 *
 	 * @var    array
-	 * @since  12.2
+	 * @since  3.4
 	 */
 	protected $forms = array();
 
@@ -34,7 +34,7 @@ abstract class JModelAdministrator extends JModelUcm
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -66,7 +66,7 @@ abstract class JModelAdministrator extends JModelUcm
 	 * @return  mixed  JForm object on success, False on error.
 	 *
 	 * @see     JForm
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	public function loadForm($name, $source = null, $config = array(), $clear = false, $xpath = false)
 	{
@@ -126,10 +126,11 @@ abstract class JModelAdministrator extends JModelUcm
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @param string $context user state variables context prefix
-	 * @return  array    The default data is an empty array.
+	 * @param   string  $context  User state variables context prefix
 	 *
-	 * @since   12.2
+	 * @return  array  The default data is an empty array.
+	 *
+	 * @since   3.4
 	 */
 	protected function loadFormData($context = null)
 	{
@@ -158,7 +159,7 @@ abstract class JModelAdministrator extends JModelUcm
 	 * @return  void
 	 *
 	 * @see     JFormField
-	 * @since   12.2
+	 * @since   3.4
 	 *
 	 * @throws  RuntimeException if there is an error in the form event.
 	 */
@@ -196,7 +197,7 @@ abstract class JModelAdministrator extends JModelUcm
 	 *
 	 * @see     JFormRule
 	 * @see     JFilterInput
-	 * @since   12.2
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	public function validate($form, $data, $group = null)
@@ -251,7 +252,7 @@ abstract class JModelAdministrator extends JModelUcm
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	protected function preprocessData($context, &$data)
@@ -276,6 +277,21 @@ abstract class JModelAdministrator extends JModelUcm
 		}
 	}
 
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
+	 * @param string  $ordering  column to order by. I.E. 'a.title'
+	 * @param string  $direction 'ASC' or 'DESC'
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 * @since   3.4
+	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
 		if (!$this->stateIsSet)
