@@ -33,7 +33,7 @@ class JControllerDelete extends JControllerCms
 		$option = $this->input->getWord('option', 'com_content');
 
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
+		$this->factory->checkSession();
 
 		// Get items to remove from the request.
 		$cid = $this->app->input->get('cid', array(), 'array');

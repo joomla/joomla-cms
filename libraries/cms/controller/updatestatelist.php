@@ -47,8 +47,10 @@ class JControllerUpdatestatelist extends JControllerCms
 	 */
 	public function execute()
 	{
-		parent::execute();
+		// Check for request forgeries
+		$this->factory->checkSession();
 
+		// Get the id's from the input object
 		$ids = $this->input->get('cid', array(), 'array');
 
 		if (empty($ids))

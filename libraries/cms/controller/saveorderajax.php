@@ -29,7 +29,8 @@ class JControllerSaveorderajax extends JControllerCms
 	 */
 	public function execute()
 	{
-		parent::execute();
+		// Check for request forgeries
+		$this->factory->checkSession();
 
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');

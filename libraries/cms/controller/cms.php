@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  Controller
  * @since       3.4
 */
-class JControllerCms extends JControllerBase implements JControllerCmsInterface
+abstract class JControllerCms extends JControllerBase implements JControllerCmsInterface
 {
 	// Constants that define the form of the controller passed in options params
 	const CONTROLLER_PREFIX = 0;
@@ -155,16 +155,7 @@ class JControllerCms extends JControllerBase implements JControllerCmsInterface
 	 *
 	 * @since   3.4
 	 */
-	public function execute()
-	{
-		// Check for request forgeries
-		$this->factory->checkSession();
-
-		$this->componentFolder = $this->input->getWord('option', 'com_content');
-		$this->viewName     = $this->input->getWord('view', 'articles');
-
-		return true;
-	}
+	abstract public function execute();
 
 	/**
 	 * Set a URL for browser redirection.

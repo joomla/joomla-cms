@@ -33,7 +33,7 @@ class JControllerCreate extends JControllerCms
 		$context = $this->input->getWord('option', 'com_content') . '.edit.' .  $this->options[parent::CONTROLLER_VIEW_FOLDER];
 
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
+		$this->factory->checkSession();
 
 		// Access check.
 		if (!$this->allowAdd())

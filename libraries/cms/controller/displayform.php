@@ -80,7 +80,7 @@ class JControllerDisplayform extends JControllerDisplay
 		}
 
 		// The default view for a form is an edit view
-		$layoutName   = $this->input->set('layout', 'edit');
+		$this->input->set('layout', 'edit');
 
 		return parent::execute();
 	}
