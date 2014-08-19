@@ -28,6 +28,12 @@ $ -> Idioma corrección o cambio
 - -> Eliminado
 ! -> Nota
 
+18-Ago-2014
+ + Nuevo filtro para utilizar el componente de medios para gestionar diferente tipos de archivos
+ + Nuevo Imagen en el perfil de usuario
+ + Nuevo Utilización de imagen en el perfil de usuario o gravatar en artículos con enlaces
+ $ Nuevas traducciones
+
 16-Ago-2014
  # Fallo en publicación de banners
  - Subidas en flash
