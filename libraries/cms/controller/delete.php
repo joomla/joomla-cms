@@ -30,10 +30,9 @@ class JControllerDelete extends JControllerCms
 	 */
 	public function execute()
 	{
-		$option = $this->input->getWord('option', 'com_content');
-
 		// Check for request forgeries
 		$this->factory->checkSession();
+		$option = $this->input->getWord('option', 'com_content');
 
 		// Get items to remove from the request.
 		$cid = $this->app->input->get('cid', array(), 'array');
@@ -74,12 +73,6 @@ class JControllerDelete extends JControllerCms
 		$this->app->enqueueMessage(JText::plural($this->getPrefix() . '_N_ITEMS_DELETED', $result), 'notice');
 		$this->app->setHeader('status', '204 Deleted');
 
-		// Invoke the postDelete method to allow for the child class to access the model.
-		if (isset($model) && isset($cid))
-		{
-			$this->postDeleteHook($model, $cid);
-		}
-
 		$this->setRedirect(
 			JRoute::_(
 				'index.php?option=' . $this->input->get('option') . '&view=' . $this->options[parent::CONTROLLER_VIEW_FOLDER],
@@ -88,20 +81,5 @@ class JControllerDelete extends JControllerCms
 		);
 
 		return true;
-	}
-
-	/**
-	 * Function that allows child controller access to model data
-	 * after the item has been deleted.
-	 *
-	 * @param   JModelCms   $model  The data model object.
-	 * @param   integer     $id     The validated data.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 */
-	protected function postDeleteHook(JModelCms $model, $id = null)
-	{
 	}
 }

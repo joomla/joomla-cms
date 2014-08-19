@@ -46,7 +46,7 @@ class JControllerSaveorderajax extends JControllerCms
 		}
 		catch (RuntimeException $e)
 		{
-			throw new RuntimeException($e->getMessage(), $e->getCode());
+			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
 		}
 
 		// Save the ordering

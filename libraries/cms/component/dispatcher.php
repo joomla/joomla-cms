@@ -169,7 +169,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @throws  InvalidArgumentException
+	 * @throws  RuntimeException
 	 */
 	public function dispatch(JApplicationCms $app = null)
 	{
@@ -185,9 +185,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 		catch (Exception $e)
 		{
 			// Throw the error upstream. JErrorPage will deal with the uncaught exception
-			throw new RuntimeException($e->getMessage(), $e->getCode());
-
-			return;
+			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
 		}
 
 		$controller->redirect();

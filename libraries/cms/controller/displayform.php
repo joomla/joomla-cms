@@ -59,7 +59,7 @@ class JControllerDisplayform extends JControllerDisplay
 		}
 		catch (RuntimeException $e)
 		{
-			throw new RuntimeException($e->getMessage(), $e->getCode());
+			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
 		}
 
 		$idName = $model->getTable()->getKeyName(false);

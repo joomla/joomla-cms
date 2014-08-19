@@ -64,7 +64,7 @@ class JControllerUpdatestatelist extends JControllerCms
 		}
 		catch (RuntimeException $e)
 		{
-			throw new RuntimeException($e->getMessage(), $e->getCode());
+			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
 		}
 
 		$newState = $this->stateOptions[$this->options[parent::CONTROLLER_ACTIVITY]];

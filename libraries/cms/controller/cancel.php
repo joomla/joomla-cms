@@ -55,7 +55,7 @@ class JControllerCancel extends JControllerCms
 		}
 		catch (RuntimeException $e)
 		{
-			throw new RuntimeException($e->getMessage(), $e->getCode());
+			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
 		}
 
 		$keyName = $model->getTable()->getKeyName();
@@ -70,8 +70,7 @@ class JControllerCancel extends JControllerCms
 			}
 			catch (Exception $e)
 			{
-				$msg = $e->getMessage();
-				$this->setRedirect(JRoute::_('index.php?option=' . $redirectUrl, false), $msg, 'warning');
+				$this->setRedirect(JRoute::_('index.php?option=' . $redirectUrl, false), $e->getMessage(), 'warning');
 
 				return false;
 			}
