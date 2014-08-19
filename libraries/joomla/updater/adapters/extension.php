@@ -123,7 +123,7 @@ class JUpdaterExtension extends JUpdateAdapter
 					{
 						if (isset($this->latest))
 						{
-							if (version_compare($this->current_update->version->_data, $this->latest->version->_data, '>') == 1)
+							if (version_compare($this->current_update->version, $this->latest->version, '>') == 1)
 							{
 								$this->latest = $this->current_update;
 							}
