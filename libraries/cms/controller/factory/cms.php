@@ -30,16 +30,4 @@ class JControllerFactoryCms
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 	}
-
-	/*
-	 * Translates a language constant into a string
-	 *
-	 * @return  string  The translated string
-	 *
-	 * @since   3.4
-	 */
-	public function translate($text)
-	{
-		return JText::_($text);
-	}
 }
