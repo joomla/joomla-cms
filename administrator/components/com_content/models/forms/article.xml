@@ -238,24 +238,16 @@
 				<option	value="0">JNO</option>
 				<option	value="1">JYES</option>
 			</field>
-			<field
-			  name="avatar_author"
-			  type="list"
-			  label="JGLOBAL_AVATAR_AUTHOR_LABEL"
-			  description="JGLOBAL_AVATAR_AUTHOR_DESC">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
-				<option	value="0">JHIDE</option>
-				<option	value="1">JSHOW</option>
-			</field>
-			  
-			<field
-				name="show_avatar"
-				type="list"
-				label="JGLOBAL_SHOW_AVATAR_LABEL"
-				description="JGLOBAL_SHOW_AVATAR_DESC">
-					<option	value="">JGLOBAL_USE_GLOBAL</option>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+
+            <field
+                name="show_avatar"
+                type="list"
+                label="JGLOBAL_AVATAR_AUTHOR_LABEL"
+                description="JGLOBAL_AVATAR_AUTHOR_DESC">
+                <option	value="">JGLOBAL_USE_GLOBAL</option>
+                <option value="0">SIN_IMAGEN</option>
+                <option value="1">IMAGEN_PERFIL</option>
+                <option value="2">IMAGEN_GRAVATAR</option>
 			</field>
 			
 			<field
