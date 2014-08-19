@@ -52,8 +52,8 @@
 					name="showSiteName"
 					type="list"
 					default="0"
-					label="TPL_BLUESTORK_FIELD_SITENAME_LABEL"
-					description="TPL_BLUESTORK_FIELD_SITENAME_DESC">
+					label="TPL_STORKANTU_FIELD_SITENAME_LABEL"
+					description="TPL_STORKANTU_FIELD_SITENAME_DESC">
 					<option
 						value="0">JDISABLED</option>
 					<option
@@ -64,8 +64,8 @@
 					name="textBig"
 					type="list"
 					default="0"
-					label="TPL_BLUESTORK_FIELD_TEXTBIG_LABEL"
-					description="TPL_BLUESTORK_FIELD_TEXTBIG_DESC">
+					label="TPL_STORKANTU_FIELD_TEXTBIG_LABEL"
+					description="TPL_STORKANTU_FIELD_TEXTBIG_DESC">
 					<option
 						value="0">JDISABLED</option>
 					<option
@@ -76,8 +76,8 @@
 					name="highContrast"
 					type="list"
 					default="0"
-					label="TPL_BLUESTORK_FIELD_CONTRAST_LABEL"
-					description="TPL_BLUESTORK_FIELD_CONTRAST_DESC">
+					label="TPL_STORKANTU_FIELD_CONTRAST_LABEL"
+					description="TPL_STORKANTU_FIELD_CONTRAST_DESC">
 					<option
 						value="0">JDISABLED</option>
 					<option
