@@ -127,9 +127,6 @@ class JFormFieldMedia extends JFormField
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . ' readonly="readonly"' . $attr . ' />';
 		$html[] = '</div>';
 
-		// Agrego nuevo parametro @fileType, que será usado desde la configuración XML
-		$fileType = (string) $this->element['fileType']; 
-		
 		$directory = (string) $this->element['directory'];
 		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
 		{
