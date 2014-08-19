@@ -103,7 +103,7 @@ class ContentController extends JControllerLegacy
 		// Revisar leeching
 		$blocking = false; 
 		if ($home != $domain) {
-			return JError::raiseWarning( 100, JText::_( 'COM_CONTENT_ANTELEECH MESSAGE' ));
+			return JError::raiseWarning( 100, JText::_( 'COM_CONTENT_ANTELEECH_MESSAGE' ));
 		}
 		
 		$basePath = JPATH_SITE.DS.'images';

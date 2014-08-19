@@ -50,8 +50,8 @@
 			label="JFIELD_COPETE_LABEL" 
 			description="JFIELD_COPETE_DESC"
 			class="inputbox" 
-			rows="3" 
-			cols="30" 
+			cols="2" 
+			rows="1"
 		/>
 
 		<field
@@ -306,25 +306,23 @@
 			 />
 	</fields>
 	<fields name="attachments">
-		<field
-			name="attacha"
-			type="media"
-			fileType="document"
-			label="COM_CONTENT_FIELD_ATTACHMENTA_LABEL"
-			description="COM_CONTENT_FIELD_ATTACHMENTA_DESC" />
-		
-		<field
-			name="attachb"
-			type="media"
-			fileType="document"
-			label="COM_CONTENT_FIELD_ATTACHMENTB_LABEL"
-			description="COM_CONTENT_FIELD_ATTACHMENTB_DESC" />
-		
-		<field
-			name="attachc"
-			type="media"
-			fileType="document"
-			label="COM_CONTENT_FIELD_ATTACHMENTC_LABEL"
-			description="COM_CONTENT_FIELD_ATTACHMENTC_DESC" />		
-	</fields>
+	  <field
+		name="adjunto1"
+		type="media"
+		label="COM_CONTENT_ADJUNTO_1"
+		preview="false"
+		description="COM_CONTENT_ADJUNTO_DESC" />
+	  <field
+		name="adjunto2"
+		type="media"
+		label="COM_CONTENT_ADJUNTO_2"
+		preview="false"
+		description="COM_CONTENT_ADJUNTO_DESC" />
+	  <field
+		name="adjunto3"
+		type="media"
+		label="COM_CONTENT_ADJUNTO_3"
+		preview="false"
+		description="COM_CONTENT_ADJUNTO_DESC" />
+	  </fields> 
 </form>

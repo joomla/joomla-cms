@@ -162,19 +162,19 @@ endif;
 		
 		<?php if ($params->get('show_attachments_front_end')  ): ?>
 			<div  class="formelm">
-				<?php echo $this->form->getLabel('attacha', 'attachments'); ?>
-				<?php echo $this->form->getInput('attacha', 'attachments'); ?>
+				<?php echo $this->form->getLabel('adjunto1', 'attachments'); ?>
+				<?php echo $this->form->getInput('adjunto1', 'attachments'); ?>
 			</div>
 			<div style="clear:both"></div>
 			<div  class="formelm">
-				<?php echo $this->form->getLabel('attachb', 'attachments'); ?>
-				<?php echo $this->form->getInput('attachb', 'attachments'); ?>
+				<?php echo $this->form->getLabel('adjunto2', 'attachments'); ?>
+				<?php echo $this->form->getInput('adjunto2', 'attachments'); ?>
 			</div>			
 			<div style="clear:both"></div>
 			<hr />
 			<div  class="formelm">
-				<?php echo $this->form->getLabel('attachc', 'attachments'); ?>
-				<?php echo $this->form->getInput('attachc', 'attachments'); ?>
+				<?php echo $this->form->getLabel('adjunto3', 'attachments'); ?>
+				<?php echo $this->form->getInput('adjunto3', 'attachments'); ?>
 			</div>			
 			<div style="clear:both"></div>
 			<hr />

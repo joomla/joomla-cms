@@ -235,7 +235,7 @@ endif;
 	<?php if(isset($this->item->attachments) AND (!empty($this->item->attachments))) : ?>
 		<?php  
 			// Cargo los archivos
-			$files = json_decode($this->item->attachments);				
+			$files = json_decode($this->item->attachments);
 		?>
 		<div id="attachments">
 			<table class="table">
@@ -263,7 +263,7 @@ endif;
 						<td style="text-align:center">
 							<?php if ($this->item->params->get('attachments_antileech') == '1') : ?>
 								<a href="<?php echo JRoute::_('index.php?task=download&filename='. $fileName) ?>" 
-									title="<?php echo JText::_('CLICK HERE TO DOWNLOADS');?>">
+									title="<?php echo JText::_('COM_MEDIA_IMAGE_TITLE');?>">
 									<?php echo JHtml::_('image', 'media/mime-icon-16/'.$fileExtension.'.png', JText::sprintf('COM_MEDIA_IMAGE_TITLE', $fileName), array('height' => 16, 'width' => 16), true); ?>
 							<?php else: ?>
 								<a class="btn btn-small" href="<?php echo $file ?>">
