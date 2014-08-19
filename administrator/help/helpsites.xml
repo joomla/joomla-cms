@@ -3,9 +3,6 @@
 	<sites>
 		<site
 			tag="es-LA"
-			url="'index.php?option=com_ayuda&amp;task=ayuda&amp;format=raw&amp;tmpl=component&amp;lang={language}&amp;key={keyref}">Ayuda Jokte! en Español</site>
-		<site
-			tag="pt-BR"
-			url="'index.php?option=com_ayuda&amp;task=ayuda&amp;format=raw&amp;tmpl=component&amp;lang={language}&amp;key={keyref}">Ayuda Jokte! en Portugués</site>			
+			url="http://ayuda.juuntos.net">Español (LA) - Wiki de Ayuda Jokte</site>
 	</sites>
 </joshelp>
