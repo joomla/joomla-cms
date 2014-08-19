@@ -32,8 +32,7 @@ JHtml::_('behavior.framework');
 	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
 <?php endif; ?>
 
-<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
-
+<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>"><?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?></a>
 
 <?php if (!$params->get('show_intro')) : ?>
 	<?php echo $this->item->event->afterDisplayTitle; ?>
