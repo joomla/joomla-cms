@@ -52,6 +52,9 @@ class JFormFieldMedia extends JFormField
 		$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 		$authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
 		$asset = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
+		$clave = $this->element['clave'];
+		($clave == '') ? $clave = "normal" : $clave = $clave;
+		
 		if ($asset == '')
 		{
 			$asset = JRequest::getCmd('option');
@@ -117,7 +120,7 @@ class JFormFieldMedia extends JFormField
 		// Initialize some field attributes.
 		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-
+		
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
@@ -150,7 +153,7 @@ class JFormFieldMedia extends JFormField
 			. ($this->element['readonly'] ? ''
 			: ($link ? $link
 				: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
-				. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
+				. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder . '&amp;clave='.$clave) . '"'
 			. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
 		$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
 		$html[] = '	</div>';
