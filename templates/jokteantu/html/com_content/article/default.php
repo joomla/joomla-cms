@@ -187,12 +187,11 @@ endif; ?>
 	<?php echo $this->item->toc; ?>
 <?php endif; ?>
 <?php if ($params->get('access-view')):?>
-	<?php 	
-	// Nuevo Jokte v1.2.2
-	if ($params->get('show_avatar')) :
-		if (in_array('article', $params->get('show_avatar_view'))) :		
-			echo JHtml::_('utiles.avatar',$this->item, $params); 
-		endif; 
+	<?php	
+	if ($params->get('show_avatar') <> '0') :
+	  if (in_array('article', $params->get('show_avatar_view'))) :
+		echo JHtml::_('utiles.avatar',$this->item, $params); 
+	  endif; 
 	endif;
 	?>
 	<?php echo $this->item->text; ?>

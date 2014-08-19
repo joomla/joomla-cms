@@ -23,19 +23,14 @@ class JHtmlUtiles
 	/**
 	 * Función Gravatar
 	 * Nuevo en Jokte v1.2.2
+	 * Mejorado Jokte v1.3.4 (soporte imagen del perfil)
 	 */
 	static function avatar($item, $params)
 	{
 		// Parámetros globales
 		$imgdefault_g = JURI::root().$params->get('avatar_default');
 		$imgsize_g = $params->get('avatar_size');
-		
-		// Correo del autor
-		$autor = JFactory::getUser($item->created_by);
-		$title_g = $item->created_by_alias ? $item->created_by_alias : $item->author;
-		
-		// Creo hash
-		$hash = md5(strtolower(trim($autor->email)));
+		$tipoavatar = $params->get('show_avatar');
 		
 		// Position and style
 		$position = $params->get('avatar_position');
@@ -49,19 +44,43 @@ class JHtmlUtiles
 				break;
 		}
 		
-		// Cargo link a Gravatar
-		$str = @file_get_contents( 'http://www.gravatar.com/'.$hash.'.php' );
-		if($str) {
-			$profile = unserialize($str);				
-			if (is_array($profile) && isset( $profile['entry'])) {
-				$link = $profile['entry'][0]['profileUrl'];
-			}
-			// Imagen Gravatar o por defecto
-			$imgautor = "http://www.gravatar.com/avatar/avatar.php?gravatar_id=" . $hash."?d=".$imgdefault_g. "&s=" . $imgsize_g;		
-		} else {
-			$imgautor = $imgdefault_g;
-			$link = "#";
+		// Si imagen del perfil
+		switch ($tipoavatar) {
+		
+		// Si imagen del perfil
+		case '1':
+		  $profile 	= JUserHelper::getProfile($item->created_by);
+		  ($profile->profile['avatar'] == '') ? $imgautor = $imgdefault_g : $imgautor = $profile->profile['avatar'];
+		  ($profile->profile['website'] != '') ? $link = $profile->profile['website'] : $link = "#" ;
+		  $title_g = $item->created_by_alias ? $item->created_by_alias : $item->author;
+		  break;
+		  
+		// Si es Gravatar
+		case '2':
+		  // Correo del autor
+		  $autor = JFactory::getUser($item->created_by);
+		  $title_g = $item->created_by_alias ? $item->created_by_alias : $item->author;
+		
+		  // Creo hash
+		  $hash = md5(strtolower(trim($autor->email)));
+		
+		  // Cargo link a Gravatar
+		  $str = @file_get_contents( 'http://www.gravatar.com/'.$hash.'.php' );
+		  if($str) {
+			  $profile = unserialize($str);
+			  if (is_array($profile) && isset( $profile['entry'])) {
+				  $link = $profile['entry'][0]['profileUrl'];
+			  }
+			  // Imagen Gravatar o por defecto
+			  $imgautor = "http://www.gravatar.com/avatar/avatar.php?gravatar_id=" . $hash."?d=".$imgdefault_g. "&s=" . $imgsize_g;		
+		  } 
+		  break;
+		
+		default:
+			  $imgautor = $imgdefault_g;
+			  $link = "#";
 		}
+				
 		$gravatar = '<div class="gravatar" style="'.$style.'">'.
 						'<div class="img_gravatar">'.
 							'<a href="'.$link.'" target="_blank"">'.JHtml::_('image', $imgautor, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle')).'</a>'.
@@ -72,7 +91,8 @@ class JHtmlUtiles
 			$gravatar .=' <a href="'.$link.'" target="_blank"">'.$title_g.'</a></small></div></div>';
 		} else {
 			$gravatar .= $title_g.'</small></div></div>';
-		}
+		}		
+		
 		return $gravatar;
 	}
 

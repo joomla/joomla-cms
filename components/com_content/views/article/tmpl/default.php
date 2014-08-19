@@ -212,12 +212,12 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item
  endif;
 ?>
 <?php
-// Nuevo Jokte v1.2.2 
-if ($params->get('show_avatar')) :
-	if (in_array('article', $params->get('show_avatar_view'))) :
+  // Nuevo Jokte v1.2.2 
+  if ($params->get('show_avatar') <> '0') :
+	  if (in_array('article', $params->get('show_avatar_view'))) :
 		echo JHtml::_('utiles.avatar',$this->item, $params); 
-	endif; 
-endif;
+	  endif; 
+  endif;
 ?>
 <?php echo $this->item->text; ?>
 

@@ -111,7 +111,7 @@ class ContentModelArticle extends JModelItem
 				// Join on user table.
 				$query->select('u.name AS author');
 				$query->join('LEFT', '#__users AS u on u.id = a.created_by');
-
+				
 				// Get contact id
 				$subQuery = $db->getQuery(true);
 				$subQuery->select('MAX(contact.id) AS id');

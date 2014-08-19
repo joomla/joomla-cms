@@ -232,18 +232,35 @@
 			type="spacer"
 			hr="true"
 			/>
+		<field
+		  name="show_avatar"
+		  type="list"
+		  label="JGLOBAL_AVATAR_AUTHOR_LABEL"
+		  description="JGLOBAL_AVATAR_AUTHOR_DESC"
+		  default="0">
+		  <option
+			value="0">SIN_IMAGEN</option>
+		  <option
+			value="1">IMAGEN_PERFIL</option>
+		  <option
+			value="2">IMAGEN_GRAVATAR</option>
+		  </field>
+		
+		<field name="ayuda-gravatar" type="spacer" class="text"
+		 label="AYUDA_GRAVATAR"
+		 />
 		
 		<field
-			name="show_avatar"
-			type="radio"
-			label="JGLOBAL_SHOW_AVATAR_AUTHOR_LABEL"
-			description="JGLOBAL_SHOW_AVATAR_AUTHOR_DESC"
-			default="1">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
-		</field>
+		  name="avatar_link"
+		  type="radio"
+		  label="JGLOBAL_LINK_AVATAR_LABEL"
+		  description="JGLOBAL_LINK_AVATAR_DESC"
+		  default="0">
+		  <option
+			value="0">JNO</option>
+		  <option
+			value="1">JYES</option>
+		  </field>
 		
 		<field
 			name="show_avatar_view"

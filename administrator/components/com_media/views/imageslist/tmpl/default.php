@@ -12,6 +12,7 @@
 
 // No direct access.
 defined('_JEXEC') or die;
+
 ?>
 <?php if (count($this->images) > 0 || count($this->folders) > 0 || count($this->documents) > 0) { ?>
 <div class="manager">
@@ -20,11 +21,13 @@ defined('_JEXEC') or die;
 			$this->setFolder($i);
 			echo $this->loadTemplate('folder');
 		endfor; ?>
-		
-		<?php for ($i=0, $n=count($this->documents); $i<$n; $i++) :
-			$this->setDocument($i);
-			echo $this->loadTemplate('document');
-		endfor; ?>
+		<?php if ($this->clave != "normal"):
+			for ($i=0, $n=count($this->documents); $i<$n; $i++) :
+			  $this->setDocument($i);
+			  echo $this->loadTemplate('document');
+			endfor; 
+		  endif;
+		  ?>
 
         <?php for ($i=0, $n=count($this->images); $i<$n; $i++) :
                 $this->setImage($i);

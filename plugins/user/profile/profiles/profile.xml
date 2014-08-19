@@ -4,6 +4,13 @@
 		<fieldset name="profile"
 			label="PLG_USER_PROFILE_SLIDER_LABEL"
 		>
+		  <field
+			name="avatar"
+			type="media"
+			clave="normal"
+			label="PLG_USER_PROFILE_FIELD_AVATAR_LABEL"
+			description="PLG_USER_PROFILE_FIELD_AVATAR_DESC"
+			/>
 			<field
 				name="address1"
 				type="text"

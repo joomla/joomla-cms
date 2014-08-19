@@ -27,7 +27,10 @@ class MediaViewImagesList extends JViewLegacy
 		$app = JFactory::getApplication();
 
 		$lang	= JFactory::getLanguage();
-
+		
+		// Nuevo Jokte 1.3.4
+		$clave	= JRequest::getVar('clave');
+				
 		JHtml::_('stylesheet', 'media/popup-imagelist.css', array(), true);
 		if ($lang->isRTL()) :
 			JHtml::_('stylesheet', 'media/popup-imagelist_rtl.css', array(), true);
@@ -43,6 +46,7 @@ class MediaViewImagesList extends JViewLegacy
 
 		$this->baseURL = COM_MEDIA_BASEURL;
 		$this->assignRef('images', $images);
+		$this->assignRef('clave', $clave);
 		$this->assignRef('documents', $documents);
 		$this->assignRef('folders', $folders);
 		$this->assignRef('state', $state);

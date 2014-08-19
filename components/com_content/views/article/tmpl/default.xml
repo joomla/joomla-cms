@@ -136,7 +136,19 @@
 			<option	value="0">JNO</option>
 			<option	value="1">JYES</option>
 		</field>
-
+		
+		<field
+		  name="avatar_author"
+		  type="list"
+		  label="JGLOBAL_AVATAR_AUTHOR_LABEL"
+		  description="JGLOBAL_AVATAR_AUTHOR_DESC"
+		  default="0">
+		  <option
+			value="0">JNO</option>
+		  <option
+			value="1">JYES</option>
+		  </field>
+		
 		<field
 			name="show_create_date"
 			type="list"

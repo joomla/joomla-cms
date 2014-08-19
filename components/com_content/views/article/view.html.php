@@ -25,6 +25,7 @@ class ContentViewArticle extends JViewLegacy
 	protected $print;
 	protected $state;
 	protected $user;
+	protected $avatar_author;
 
 	function display($tpl = null)
 	{
@@ -33,12 +34,12 @@ class ContentViewArticle extends JViewLegacy
 		$user		= JFactory::getUser();
 		$userId		= $user->get('id');
 		$dispatcher	= JDispatcher::getInstance();
-
+		
 		$this->item		= $this->get('Item');
 		$this->print	= JRequest::getBool('print');
 		$this->state	= $this->get('State');
 		$this->user		= $user;
-
+		
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));

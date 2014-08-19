@@ -239,6 +239,16 @@
 				<option	value="1">JYES</option>
 			</field>
 			<field
+			  name="avatar_author"
+			  type="list"
+			  label="JGLOBAL_AVATAR_AUTHOR_LABEL"
+			  description="JGLOBAL_AVATAR_AUTHOR_DESC">
+				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+			</field>
+			  
+			<field
 				name="show_avatar"
 				type="list"
 				label="JGLOBAL_SHOW_AVATAR_LABEL"
@@ -504,21 +514,15 @@
 			
 			<field
 				name="show_subtitle"
-				type="list"
+				type="hidden"
 				label="JGLOBAL_SHOW_SUBTITLE_LABEL"
 				description="JGLOBAL_SHOW_SUBTITLE_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
 			</field>
 			
 			<field name="show_copete" type="list"
 				description="JGLOBAL_SHOW_COPETE_DESC"
 				label="JGLOBAL_SHOW_COPETE_LABEL"
-				>
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+				>	
 			</field>
 			
 			<field name="show_intro"
@@ -571,65 +575,52 @@
 			</field>
 			
 			<field
+			  name="avatar_author"
+			  type="hidden"
+			  label="JGLOBAL_AVATAR_AUTHOR_LABEL"
+			  description="JGLOBAL_AVATAR_AUTHOR_DESC">
+			</field>
+			
+			<field
 				name="show_avatar"
-				type="list"
+				type="hidden"
 				label="JGLOBAL_SHOW_AVATAR_LABEL"
 				description="JGLOBAL_SHOW_AVATAR_DESC">
-					<option	value="">JGLOBAL_USE_GLOBAL</option>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
 			</field>
 			
 			<field
 				name="avatar_position"
-				type="list"
+				type="hidden"
 				label="JGLOBAL_AVATAR_POSITION_LABEL"
-				description="JGLOBAL_AVATAR_POSITION_DESC"
-				default="1">
-				<option
-					value="1">INTEXT_FLOAT_LEFT</option>
-				<option
-					value="2">INTEXT_FLOAT_RIGHT</option>			
+				description="JGLOBAL_AVATAR_POSITION_DESC">
 			</field>
 			
 			<field
 				name="show_disqus"
-				type="list"
+				type="hidden"
 				label="JGLOBAL_SHOW_DISQUS_LABEL"
 				description="JGLOBAL_SHOW_DISQUS_DESC">
-					<option	value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
 			</field>
 			
 			<field
 				name="show_facebook"
-				type="list"
+				type="hidden"
 				label="JGLOBAL_SHOW_FACEBOOK_LABEL"
 				description="JGLOBAL_SHOW_FACEBOOK_DESC">
-					<option	value="">JGLOBAL_USE_GLOBAL</option>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
 			</field>
 			
 			<field
 				name="show_twitter"
-				type="list"
+				type="hidden"
 				label="JGLOBAL_SHOW_TWEETER_LABEL"
 				description="JGLOBAL_SHOW_TWEETER_DESC">
-					<option	value="">JGLOBAL_USE_GLOBAL</option>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
 			</field>
 			
 			<field
 				name="show_one"
-				type="list"
+				type="hidden"
 				label="JGLOBAL_SHOW_ONE_LABEL"
 				description="JGLOBAL_SHOW_ONE_DESC">
-					<option	value="">JGLOBAL_USE_GLOBAL</option>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
 			</field>
 
 			<field
