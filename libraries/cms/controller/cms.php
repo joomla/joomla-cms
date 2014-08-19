@@ -249,6 +249,27 @@ abstract class JControllerCms extends JControllerBase implements JControllerCmsI
 	}
 
 	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   3.4
+	 */
+	protected function getRedirectToListAppend()
+	{
+		$tmpl = JFactory::getApplication()->input->get('tmpl');
+		$append = '';
+
+		// Setup redirect info.
+		if ($tmpl)
+		{
+			$append .= '&tmpl=' . $tmpl;
+		}
+
+		return $append;
+	}
+
+	/**
 	 * Method to get a model, creating it if it does not already exist.
 	 * Uses the prefix and $name to create the class name. Format $prefix.'Model'.$name
 	 *
