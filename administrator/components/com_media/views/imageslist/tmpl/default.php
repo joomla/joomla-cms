@@ -20,6 +20,11 @@ defined('_JEXEC') or die;
 			$this->setFolder($i);
 			echo $this->loadTemplate('folder');
 		endfor; ?>
+		
+		<?php for ($i=0, $n=count($this->documents); $i<$n; $i++) :
+			$this->setDocument($i);
+			echo $this->loadTemplate('document');
+		endfor; ?>
 
         <?php for ($i=0, $n=count($this->images); $i<$n; $i++) :
                 $this->setImage($i);
