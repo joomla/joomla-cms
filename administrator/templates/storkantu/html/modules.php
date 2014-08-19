@@ -2,8 +2,8 @@
 /**
  * @version		$Id: modules.php 22338 2011-11-04 17:24:53Z github_bot $
  * @package		Joomla.Administrator
- * @subpackage	Templates.bluestork
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @subpackage	Templates.storkantu fork Bluestork (c) Opensource Matters
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
