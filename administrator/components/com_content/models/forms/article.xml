@@ -17,9 +17,9 @@
 		<field name="subtitle" type="text" label="JGLOBAL_SUBTITLE"
 			description="JFIELD_SUBTITLE_DESC" class="inputbox" size="45"/>
 		
-		<field name="copete" type="editor" editor="none"
+		<field name="copete" type="textarea" rows="3" cols="50"
 			label="JFIELD_COPETE_LABEL" description="JFIELD_COPETE_DESC"
-			filter="JComponentHelper::filterText" buttons="true" />
+			filter="JComponentHelper::filterText" buttons="false" />
 
 		<field name="articletext" type="editor" class="inputbox"
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL" description="COM_CONTENT_FIELD_ARTICLETEXT_DESC"
@@ -914,10 +914,23 @@
 	
 	<fields name="attachments">
 		<field
-			name="adjuntos"
-			type="adjuntos"
-			label="Adjuntos"
-            description="Adjuntos" />
+			name="adjunto1"
+			type="media"
+			label="COM_CONTENT_ADJUNTO_1"
+			preview="false"
+			description="COM_CONTENT_ADJUNTO_DESC" />
+		<field
+		  name="adjunto2"
+		  type="media"
+		  label="COM_CONTENT_ADJUNTO_2"
+		  preview="false"
+		  description="COM_CONTENT_ADJUNTO_DESC" />
+		<field
+		  name="adjunto3"
+		  type="media"
+		  label="COM_CONTENT_ADJUNTO_3"
+		  preview="false"
+		  description="COM_CONTENT_ADJUNTO_DESC" />
 	</fields> 
 	
 	<fields name="metadata">

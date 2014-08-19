@@ -73,6 +73,9 @@ endif;
 				
 				<li><?php echo $this->form->getLabel('subtitle'); ?>
 				<?php echo $this->form->getInput('subtitle'); ?></li>
+				
+				<li><?php echo $this->form->getLabel('copete'); ?>
+				<?php echo $this->form->getInput('copete'); ?></li>
 
 				<li><?php echo $this->form->getLabel('catid'); ?>
 				<?php echo $this->form->getInput('catid'); ?></li>
@@ -108,10 +111,7 @@ endif;
 			// Nuevo en Jokte v1.2.2
 			echo JHtml::_('tabs.start');
             echo JHtml::_('tabs.panel', JText::_('COM_TEXT_DETAILS'), 'text-basics'); ?>
-            <div><?php echo $this->form->getInput('articletext'); ?></div>
-			<div class="clr"></div>
-            <?php echo JHtml::_('tabs.panel', JText::_('COM_COPETE_DETAILS'), 'copete-basics'); ?>
-            <div><?php echo $this->form->getInput('copete'); ?></div>
+            <div><?php echo $this->form->getInput('articletext'); ?></div>			
 			<div class="clr"></div>
 			<?php echo JHtml::_('tabs.end'); ?>	
 		</fieldset>
