@@ -2,10 +2,6 @@
 /**
  * @copyright	Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- ***************************************************************************************
- * Warning: Some modifications and improved were made by the Community Juuntos for
- * the latinamerican Project Jokte! CMS
- ***************************************************************************************
  */
 
 defined('_JEXEC') or die;
@@ -778,8 +774,8 @@ class plgEditorTinymce extends JPlugin
 				 * Results should be an object
 				 */
 				if ( $button->get('name') ) {
-					$modal		= ($button->get('modal')) ? ' class="modal-button"' : null;					
-					$href    = ($button->get('link')) ? ' href="'.JURI::base().$button->get('link').'&amp;fileType=image"' : null; 
+					$modal		= ($button->get('modal')) ? ' class="modal-button"' : null;
+					$href		= ($button->get('link')) ? ' href="'.JURI::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? ' onclick="'.$button->get('onclick').'"' : 'onclick="IeCursorFix(); return false;"';
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
 					$return .= '<div class="button2-left"><div class="' . $button->get('name')
