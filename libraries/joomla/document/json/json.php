@@ -59,7 +59,7 @@ class JDocumentJSON extends JDocument
 	 * @param   boolean  $cache   If true, cache the output
 	 * @param   array    $params  Associative array of attributes
 	 *
-	 * @return  The rendered data
+	 * @return  string  The rendered data
 	 *
 	 * @since  11.1
 	 */
@@ -103,6 +103,39 @@ class JDocumentJSON extends JDocument
 	public function setName($name = 'joomla')
 	{
 		$this->_name = $name;
+
+		return $this;
+	}
+
+	/**
+	 * Sets the document name
+	 *
+	 * @param   boolean  $use  Whether to use hypermedia for the json view
+	 *
+	 * @return  JDocumentJSON instance of $this to allow chaining
+	 *
+	 * @since   11.1
+	 */
+	public function setHypermedia($use = false)
+	{
+		// If set to use hypermedia then set to hal+json else use the normal application/json
+		if ($use)
+		{
+			$this->_mime = 'application/hal+json';
+		}
+		else
+		{
+			// Set mime type
+			if (isset($_SERVER['HTTP_ACCEPT']) AND strpos($_SERVER['HTTP_ACCEPT'], 'application/json') === false AND strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false)
+			{
+				// Internet Explorer < 10
+				$this->_mime = 'text/plain';
+			}
+			else
+			{
+				$this->_mime = 'application/json';
+			}
+		}
 
 		return $this;
 	}

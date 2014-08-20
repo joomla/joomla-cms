@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  Joomla.Libraries
+ * @package     Joomla.Libraries
+ * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,110 +13,180 @@ defined('_JEXEC') or die('Restricted access');
  * Base Display Controller
  *
  * @package     Joomla.Libraries
- * @subpackage  controller
- * @since       3.2
+ * @subpackage  Controller
+ * @since       3.4
 */
-class JControllerDisplay extends JControllerCmsbase
+class JControllerDisplay extends JControllerCms
 {
 	/*
-	 * Prefix for the view and model classes
+	 * If true, the view output will be cached
 	 *
-	 * @var  string
+	 * @var    boolean
+	 * @since  3.4
 	 */
-	public $prefix = 'Content';
-
-	/*
-	 * @var boolean  If true, the view output will be cached
-	 */
-
 	public $cacheable = false;
 
 	/*
 	 * An array of safe url parameters and their variable types
 	 *
-	 * @var  array
-	 * @note  For valid values see JFilterInput::clean().
+	 * @var    array
+	 * @since  3.4
+	 * @note   For valid values see JFilterInput::clean().
 	 */
 	public $urlparams = array();
 
 	/**
-	 * @return  mixed  A rendered view or true
+	 * The view to display
 	 *
-	 * @since   3.2
+	 * @var    JViewCms
+	 * @since  3.4
+	 */
+	protected $view;
+
+	/**
+	 * Execute the controller.
+	 *
+	 * @return  boolean  True if controller finished execution, false if the controller did not
+	 *                   finish execution. A controller might return false if some precondition for
+	 *                   the controller to run has not been satisfied.
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function execute()
 	{
-		// Get the application
-		$app = $this->getApplication();
+		!$this->app->isAdmin() ? : $this->permission = 'core.manage';
 
-		!$app->isAdmin() ? : $this->permission = 'core.manage';
-
-		// Get the document object.
-		$document     = JFactory::getDocument();
-
-		$componentFolder = $this->input->getWord('option', 'com_content');
+		// Get the view name if it hasn't already been set by a controller
 		$this->viewName     = $this->input->getWord('view', 'articles');
-		$viewFormat   = $document->getType();
-		$layoutName   = $this->input->getWord('layout', 'default');
 
-		// Register the layout paths for the view
-		$paths = new SplPriorityQueue;
-		$jpath = $app->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$viewFormat   = $this->doc->getType();
 
-		$paths->insert($jpath . '/templates/html' . $componentFolder . '/' . $this->viewName , '1000');
-		$paths->insert($jpath . '/components/' . $componentFolder . '/view/' . $this->viewName . '/tmpl', '950');
-
-		$viewClass  = $this->prefix . 'View' . ucfirst($this->viewName) . ucfirst($viewFormat);
-
-		$modelClass = $this->prefix . 'Model' . ucfirst($this->viewName);
-
-		if (class_exists($viewClass))
+		try
 		{
-			$model = new $modelClass;
-
-			// Access check.
-			if (!empty($this->permission) && !JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
-			{
-				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-
-				return;
-			}
-
-			$view = new $viewClass($model, $paths);
-
-			if ($viewFormat == 'html')
-			{
-				$view->setLayout($layoutName);
-			}
-
-			// Push document object into the view.
-			$view->document = $document;
-
-			$this->getModelData($view, $model);
-
-			// Reply for service requests
-			if ($viewFormat == 'json')
-			{
-				return $view->render();
-			}
-
-			// Render view.
-			echo $view->render();
+			$model = $this->getModel();
 		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
+		}
+
+		// Access check.
+		if (!empty($this->permission) && !JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
+		{
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+			return false;
+		}
+
+		// Initialise the view class.
+		$view = $this->getView($model, $this->prefix, $this->viewName, $viewFormat);
+
+		// Render view.
+		echo $view->render();
 
 		return true;
 	}
 
 	/**
-	 * Method to get appropriate data from the model. This should be overridden based
-	 * on needs of the display.
+	 * Method to get a view, initiating it if it does not already exist.
+	 * This method assumes auto-loading format is $prefix . 'View' . $name . $type
+	 * The
 	 *
-	 * @param JView $view  The view object to be rendered
+	 * @param   JModelCmsInterface  $model   The model to be injected
+	 * @param   string              $prefix  Option prefix exp. com_content
+	 * @param   string              $name    Name of the view folder exp. articles
+	 * @param   string              $type    Name of the file exp. html = html.php
+	 * @param   array               $config  An array of config options
+	 *
+	 * @throws  RuntimeException
+	 * @return  JViewCms
 	 */
-	protected function getModelData($view, $model)
+	protected function getView(JModelCmsInterface $model, $prefix = null, $name = null, $type = null, $config = array())
 	{
-		// Defaults to a single item
-		$view->state = $model->getState();
-		$view->item = $model->getItems();
+		// Get the prefix if not given
+		if (is_null($prefix))
+		{
+			$prefix = $this->getPrefix();
+		}
+
+		// Get the name if not given
+		if (is_null($name))
+		{
+			$name = $this->config['subject'];
+		}
+
+		$this->config['view'] = $name;
+
+		// Get the document type
+		if (is_null($type))
+		{
+			$type   = $this->doc->getType();
+		}
+
+		$class = ucfirst($prefix) . 'View' . ucfirst($name) . ucfirst($type);
+
+		if ($this->view instanceof $class)
+		{
+			return $this->view;
+		}
+
+		// If a custom class doesn't exist fall back to the Joomla class if it exists
+		if (!class_exists($class))
+		{
+			$joomlaClass = 'JView' . ucfirst($type) . 'Cms';
+
+			if (!class_exists($joomlaClass))
+			{
+				// @todo convert to a proper language string
+				throw new RuntimeException(JText::sprintf('The view %s could not be found', $class));
+			}
+
+			// We've found a relevant Joomla class - use it.
+			$class = $joomlaClass;
+		}
+
+		// The Html view must have a renderer object injected into it.
+		// So initalise it separately
+		if(strtolower($type) != 'html')
+		{
+			$view = new $class($model, $this->doc, $this->config);
+		}
+		else
+		{
+			$renderer = $this->getRenderer();
+
+			// Initialise the view class
+			$view = new $class($model, $this->doc, $renderer, $this->config);
+
+			// If in html view then we set the layout
+			$layoutName   = $this->input->getWord('layout', 'default');
+			$view->setLayout($layoutName);
+		}
+
+		// Deal with json hypermedia if requested
+		if (strtolower($type) == 'json')
+		{
+			if (isset($this->config['useHypermedia']) && $this->config['useHypermedia'])
+			{
+				$this->doc->setHypermedia(true);
+			}
+		}
+
+		$this->view = $view;
+
+		return $this->view;
+	}
+
+	/*
+	 * Allows the renderer class to be injected into the model to be set
+	 *
+	 * @return  RendererInterface  The renderer object
+	 *
+	 * @since   3.4
+	 */
+	protected function getRenderer()
+	{
+		return null;
 	}
 }
