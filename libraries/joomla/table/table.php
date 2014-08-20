@@ -628,7 +628,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// Only process fields not in the ignore array.
 			if (!in_array($k, $ignore))
 			{
-				if (isset($src[$k]))
+				if(array_key_exists( $k, $src ))
 				{
 					$this->$k = $src[$k];
 				}
