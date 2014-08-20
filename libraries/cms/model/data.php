@@ -1,32 +1,28 @@
 <?php
 /**
- * @version   0.0.2
- * @package   Babel-U-Lib
- * @copyright Copyright (C) 2011 - 2014 Mathew Lenning. All rights reserved.
- * @license   GNU General Public License version 2 or later; see LICENSE.txt
- * @author    Mathew Lenning - http://babel-university.com/
+ * @package     Joomla.Libraries
+ * @subpackage  Model
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
-abstract class Babelu_libModelData extends Babelu_libModelCms
+/**
+ * Base Cms Model Class for data
+ *
+ * @package     Joomla.Libraries
+ * @subpackage  Model
+ * @since       3.4
+ */
+abstract class JModelData extends JModelCms
 {
 	/**
 	 * Array of JTables
 	 * @var array
 	 */
 	protected $tables = array();
-
-	/**
-	 * Method to get the database driver object
-	 *
-	 * @return  JDatabaseDriver
-	 */
-	public function getDbo()
-	{
-		return JFactory::getDbo();
-	}
 
 	/**
 	 * Method to get the name of the primary key from table
@@ -48,75 +44,43 @@ abstract class Babelu_libModelData extends Babelu_libModelCms
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
-	 * @param   string $prefix The class prefix. Optional.
-	 * @param   string $name   The table name. Optional.
-	 * @param   array  $config Configuration array for model. Optional.
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  JTableInterface  A JTableInterface object
 	 *
-	 * @since   12.2
-	 * @throws  ErrorException
+	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
-	public function getTable($prefix = null, $name = null, $config = array())
+	public function getTable($name = null, $prefix = null, $options = array())
 	{
-		if (count($config) == 0)
+		if (!$name)
 		{
-			$config = $this->config;
-		}
-		else
-		{
-			//merge sent config to
-			//make sure both subject and options
-			//are always set.
-			//Will not overwrite existing keys
-			$config += $this->config;
+			$name = ucfirst($this->getName());
 		}
 
-		if (empty($name))
+		if (!$prefix)
 		{
-			$name = ucfirst($config['subject']);
+			$prefix = ucfirst(substr($this->option, 4)) . 'Table';
 		}
 
-		if (empty($prefix))
+		// Make sure we are giving a JDatabaseDriver object to the table
+		if (!array_key_exists('dbo', $options))
 		{
-			$prefix = ucfirst(substr($config['option'], 4));
+			$options['dbo'] = $this->getDb();
 		}
 
-		if (!$table = $this->createTable( $prefix, $name, $config))
+		// Try and get table instance
+		$table = JTable::getInstance($name, $prefix, $options);
+
+		if ($table instanceof JTableInterface)
 		{
-			throw new ErrorException(JText::_('BABELU_LIB_MODEL_ERROR_TABLE_NAME_NOT_SUPPORTED').': '. $prefix . 'Table' . $name);
-		}
-		return $table;
-
-	}
-
-	/**
-	 * Method to load and return a model object.
-	 *
-	 * @param   string $prefix The class prefix. Optional.
-	 * @param   string $name   The name of the view
-	 * @param   array  $config Configuration settings to pass to JTable::getInstance
-	 *
-	 * @return  mixed   A JTable object or boolean false if failed
-	 *
-	 * @since   12.2
-	 * @see     JTable::getInstance()
-	 */
-	protected function createTable($prefix, $name, $config = array())
-	{
-		// Clean the model name
-		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
-
-		// Make sure we are returning a DBO object
-		if (!array_key_exists('dbo', $config))
-		{
-			$config['dbo'] = $this->getDbo();
+			return $table;
 		}
 
-		$className = $prefix . 'Table' . $name;
-
-		return new $className($config);
+		// If the table isn't a instance of JTableInterface throw an exception
+		throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
 	}
 
 	/**
@@ -124,8 +88,6 @@ abstract class Babelu_libModelData extends Babelu_libModelCms
 	 *
 	 * @param int $pk primary key of record
 	 *
-	 * @throws InvalidArgumentException
-	 * @throws ErrorException
 	 * @return boolean
 	 * @see JCmsModelData::checkin
 	 */
@@ -142,19 +104,27 @@ abstract class Babelu_libModelData extends Babelu_libModelCms
 	/**
 	 * Method to unlock a record
 	 *
-	 * @param int $pk primary key
+	 * @param  int  $pk  Integer primary key or array of primary keys
 	 *
-	 * @throws InvalidArgumentException
-	 * @throws ErrorException
-	 * @return boolean
+	 * @return  boolean
 	 * @see JCmsModelData::checkout
 	 */
 	public function checkin($pk)
 	{
-		// Get an instance of the row to checkout.
-		$activeRecord = $this->getActiveRecord($pk);
+		if (is_integer($pk))
+		{
+			$pk = array($pk);
+		}
 
-		$activeRecord->checkin($pk);
+		JArrayHelper::toInteger($pk);
+
+		foreach ($pk as $primaryKey)
+		{
+			// Get an instance of the row to checkout.
+			$activeRecord = $this->getActiveRecord($primaryKey);
+
+			$activeRecord->checkin($primaryKey);
+		}
 
 		return true;
 	}
@@ -164,7 +134,7 @@ abstract class Babelu_libModelData extends Babelu_libModelCms
 	 *
 	 * @param int $pk primary key
 	 *
-	 * @throws ErrorException
+	 * @throws RuntimeException
 	 * @return JTable
 	 */
 	protected function getActiveRecord($pk)
@@ -174,7 +144,7 @@ abstract class Babelu_libModelData extends Babelu_libModelCms
 
 		if (!$table->load($pk))
 		{
-			throw new ErrorException($table->getError());
+			throw new RuntimeException($table->getError());
 		}
 
 		return $table;
@@ -191,14 +161,15 @@ abstract class Babelu_libModelData extends Babelu_libModelCms
 	{
 		$hasCheckedOut     = (property_exists($table, 'checked_out'));
 		$hasCheckedOutTime = (property_exists($table, 'checked_out_time'));
-		// If there is no checked_out or checked_out_time field, just return true.
 
+		// If there is no checked_out or checked_out_time field or it is empty, return true.
 		if ($hasCheckedOut && $hasCheckedOutTime)
 		{
-			return true; // is lockable
+			return true;
 		}
 
-		return false; // is not lockable
+		// Is not lockable
+		return false;
 	}
 
 
@@ -219,11 +190,14 @@ abstract class Babelu_libModelData extends Babelu_libModelCms
 			$isCurrentEditor = ($activeRecord->checked_out == $user->get('id'));
 			$canOverride     = ($user->authorise('core.admin', 'com_checkin'));
 
+			// Record is locked
 			if ($isCheckedOut && !$isCurrentEditor && !$canOverride)
 			{
-				return true; // record is locked
+				return true;
 			}
 		}
-		return false; // record is not locked
+
+		// Record is not locked
+		return false;
 	}
 }

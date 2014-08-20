@@ -1,18 +1,31 @@
 <?php
 /**
- * @version   0.0.2
- * @package   Babel-U-Lib
- * @copyright Copyright (C) 2011 - 2014 Mathew Lenning. All rights reserved.
- * @license   GNU General Public License version 2 or later; see LICENSE.txt
- * @author    Mathew Lenning - http://babel-university.com/
+ * @package     Joomla.Libraries
+ * @subpackage  Model
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
-abstract class Babelu_libModelUcm extends Babelu_libModelCollection
+/**
+ * Base Cms Model Class for UCM data
+ *
+ * @package     Joomla.Libraries
+ * @subpackage  Model
+ * @since       3.4
+ */
+abstract class JModelUcm extends JModelCollection
 {
+	/**
+	 * The type alias for the UCM table.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
 	protected $typeAlias;
+
 	/**
 	 * Method to load a row for editing from the version history table.
 	 *
@@ -20,7 +33,8 @@ abstract class Babelu_libModelUcm extends Babelu_libModelCollection
 	 * @param   JTable  $table      Content table object being loaded.
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
-	 * @throws ErrorException
+	 *
+	 * @throws  RuntimeException
 	 * @since   12.2
 	 */
 	public function loadHistory($version_id, JTable $table)
@@ -34,7 +48,7 @@ abstract class Babelu_libModelUcm extends Babelu_libModelCollection
 		{
 			if (!$historyTable->load($version_id))
 			{
-				throw new ErrorException($historyTable->getError());
+				throw new RuntimeException($historyTable->getError());
 			}
 
 			$rowArray = JArrayHelper::fromObject(json_decode($historyTable->version_data));
@@ -50,7 +64,7 @@ abstract class Babelu_libModelUcm extends Babelu_libModelCollection
 					$table->checkIn($rowArray[$key]);
 				}
 
-				throw new ErrorException(JText::_('BABELU_LIB_MODEL_ERROR_HISTORY_ID_MISMATCH'));
+				throw new RuntimeException(JText::_($this->text_prefix . '_LIB_MODEL_ERROR_HISTORY_ID_MISMATCH'));
 			}
 		}
 

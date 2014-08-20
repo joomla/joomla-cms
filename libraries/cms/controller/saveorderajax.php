@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  Joomla.Libraries
+ * @package     Joomla.Libraries
+ * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,22 +13,24 @@ defined('_JEXEC') or die('Restricted access');
  * Base Display Controller
  *
  * @package     Joomla.Libraries
- * @subpackage  controller
- * @since       3.2
+ * @subpackage  Controller
+ * @since       3.4
 */
 
-class JControllerSaveorderajax extends JControllerCmsbase
+class JControllerSaveorderajax extends JControllerCms
 {
 	/**
 	 * Method to save the submitted ordering values for records via AJAX.
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function execute()
 	{
-		parent::execute();
+		// Check for request forgeries
+		$this->factory->checkSession();
 
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
@@ -38,18 +40,25 @@ class JControllerSaveorderajax extends JControllerCmsbase
 		JArrayHelper::toInteger($pks);
 		JArrayHelper::toInteger($order);
 
-		$modelClassName = ucfirst($this->prefix) . 'Model' . ucfirst($this->viewName);
-		$model = new $modelClassName;
+		try
+		{
+			$model = $this->getModel();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
+		}
 
 		// Save the ordering
 		$return = $model->saveorder($pks, $order);
 
 		if ($return)
 		{
+			// @todo Convert this to use JResponseJson
 			echo "1";
 		}
 
 		// Close the application
-		JFactory::getApplication()->close();
+		$this->app->close();
 	}
 }

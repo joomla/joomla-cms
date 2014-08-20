@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  Joomla.Libraries
+ * @package     Joomla.Libraries
+ * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,51 +13,31 @@ defined('_JEXEC') or die('Restricted access');
  * Base Display Controller
  *
  * @package     Joomla.Libraries
- * @subpackage  controller
- * @since       3.2
+ * @subpackage  Controller
+ * @since       3.4
 */
 class JControllerDisplayform extends JControllerDisplay
 {
-
-	protected $item;
-
-	protected $form;
-
-	/*
-	 * Option to send to the model.
-	*
-	* @var  array
-	*/
-	public $options;
-
 	/**
 	 * Permission needed for the action
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  3.4
 	 */
 	public $permission = 'core.edit';
 
 	/**
-	 * @return  mixed  A rendered view or true
+	 * Execute the controller.
 	 *
-	 * @since   3.2
+	 * @return  boolean  True if controller finished execution, false if the controller did not
+	 *                   finish execution. A controller might return false if some precondition for
+	 *                   the controller to run has not been satisfied.
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function execute()
 	{
-		// Get the application
-		$app = $this->getApplication();
-
-		// Get the document object.
-		$document = JFactory::getDocument();
-
-		$componentFolder = $this->input->getWord('option', 'com_content');
-
-		if (empty($this->options))
-		{
-			$option = $this->input->getString('controller');
-			$this->options = explode('.', $option);
-		}
-
 		if (empty($this->options[parent::CONTROLLER_VIEW_FOLDER]))
 		{
 			$this->viewName     = $this->input->getWord('view', 'article');
@@ -67,84 +47,58 @@ class JControllerDisplayform extends JControllerDisplay
 			$this->viewName = $this->options[parent::CONTROLLER_VIEW_FOLDER];
 		}
 
-		$viewFormat   = $document->getType();
-		$layoutName   = $this->input->getWord('layout', 'edit');
+		// Disable the main menu in edit view
+		$this->input->set('hidemainmenu', true);
 
-		$paths = $this->registerPaths($componentFolder, $this->viewName);
+		$componentFolder = $this->input->getWord('option', 'com_content');
+		$context = $componentFolder . '.' . $this->viewName;
 
-		$viewClass  = $this->prefix . 'View' . ucfirst($this->viewName) . ucfirst($viewFormat);
-		$modelClass = $this->prefix . 'Model' . ucfirst($this->viewName);
-
-		if (class_exists($viewClass))
+		try
 		{
-			$model = new $modelClass;
-			$idName = $model->getTable()->get('_tbl_key');
-			$model->id = $this->input->get($idName);
-
-			if (empty($model->id))
-			{
-				// Get ids from checkboxes
-				$ids = $this->input->get('cid', array(), 'array');
-
-				// This base  controller always displays a single form.
-				if (!empty($ids[0]))
-				{
-					$model->id = $ids[0];
-				}
-			}
-
-			// Add better fall back check or get from model
-			$model->typeAlias = $this->input->get('type', 'article');
-
-			// Access check.
-			if (!JFactory::getUser()->authorise($this->permission, $this->input->getString('option')))
-			{
-				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-
-				return;
-			}
-
-			$view = new $viewClass($model, $paths);
-
-			$view->setLayout($layoutName);
-
-			$context = $componentFolder . '.' . $this->viewName;
-			$this->editCheck($app, $context, $idName);
-
-			// Push document object into the view.
-			$view->document = $document;
-
-			$this->getModelData($view, $model);
-
-			// Reply for service requests
-			if ($viewFormat == 'json')
-			{
-
-				return $view->render();
-			}
-
-			echo $view->render();
-
+			$model = $this->getModel();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
 		}
 
-		return true;
+		$idName = $model->getTable()->getKeyName(false);
+		
+		if (!$this->editCheck($this->app, $context, $idName))
+		{
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+			return false;
+		}
+
+		// Checkout the item if not new
+		$id = $this->input->get($idName);
+
+		if ($id != 0)
+		{
+			$model->checkout($id);
+		}
+
+		// The default view for a form is an edit view
+		$this->input->set('layout', 'edit');
+
+		return parent::execute();
 	}
 
 	/*
 	 * Method to check if the user has permission to edit this item
 	 *
-	 * @param   JApplication  $app  The application
+	 * @param   JApplicationCms  $app  The application
 	 *
 	 * @return  boolean
 	 *
 	 * @since 3.2
 	 */
-	protected function editCheck($app, $context, $idName)
+	protected function editCheck(JApplicationCms $app, $context, $idName)
 	{
 		$id = $this->input->getInt($idName, 0);
 
 		// Check for edit form.
-
 		if (!$this->checkEditId($context, $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
@@ -171,10 +125,9 @@ class JControllerDisplayform extends JControllerDisplay
 	{
 		if ($id)
 		{
-			$app = JFactory::getApplication();
 			// Fix this check which is also a bug
 			/*
-			$values = (array) $app->getUserState($context . '.id');
+			$values = (array) $this->app->getUserState($context . '.id');
 
 
 			$result = in_array((int) $id, $values);
@@ -201,45 +154,5 @@ class JControllerDisplayform extends JControllerDisplay
 			// No id for a new item.
 			return true;
 		}
-	}
-
-	/*
-	 * Method to register paths for the layouts
-	 *
-	 * @param   string  $componentFolder  Folder name for the paths, defauts to the request option.
-	 * @param   string  $this->viewName         Folder containing the view.
-	 *
-	 * @return  SplPriorityQueue  Priority queue of paths to search for layouts
-	 *
-	 * @since  3.2
-	 */
-	public function registerPaths($componentFolder, $viewName)
-	{
-		$app = JFactory::getApplication();
-		$jpath = $app->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		$template = $app->getTemplate();
-
-		// Register the layout paths for the view
-		$paths = new SplPriorityQueue;
-
-		// Look in the separate component folder
-		$paths->insert($jpath . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 'normal');
-		$paths->insert($jpath . '/templates/' . $template . '/'  . $componentFolder . '/' . $viewName, 'normal');
-
-		return $paths;
-	}
-
-	/**
-	 * Method to get appropriate data from the model. This should be overridden based
-	 * on needs of the display.
-	 *
-	 * @param JView $view  The view object to be rendered
-	 */
-	protected function getModelData($view, $model)
-	{
-		// Defaults to a single item form
-		$view->state = $model->getState();
-		$view->form = $model->getForm();
-
 	}
 }

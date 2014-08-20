@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  Joomla.Libraries
+ * @package     Joomla.Libraries
+ * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,137 +13,73 @@ defined('_JEXEC') or die('Restricted access');
  * Base Display Controller
  *
  * @package     Joomla.Libraries
- * @subpackage  controller
- * @since       3.2
-*/
-class JControllerDelete extends JControllerCmsbase
+ * @subpackage  Controller
+ * @since       3.4
+ */
+class JControllerDelete extends JControllerCms
 {
-	const CONTROLLER_PREFIX = 0;
-	const CONTROLLER_ACTIVITY = 1;
-	const CONTROLLER_VIEW_FOLDER = 2;
-
-	/*
-	 * Prefix for the view and model classes
-	 *
-	 * @var  string
-	 */
-	public $prefix = null;
-
-	/*
-	 * Option to send to the model.
-	*
-	* @var  array
-	*/
-	public $options;
-
 	/**
-	 * @return  mixed  A rendered view or true
+	 * Execute the controller.
 	 *
-	 * @since   3.2
+	 * @return  boolean  True if controller finished execution, false if the controller did not
+	 *                   finish execution. A controller might return false if some precondition for
+	 *                   the controller to run has not been satisfied.
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
 	 */
 	public function execute()
 	{
-		$context = $this->input->getWord('option', 'com_content') . $this->options[self::CONTROLLER_VIEW_FOLDER];
-
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
+		$this->factory->checkSession();
+		$option = $this->input->getWord('option', 'com_content');
 
-		// Access check.
-		if (!$this->allowDelete())
+		// Get items to remove from the request.
+		$cid = $this->app->input->get('cid', array(), 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
 		{
-			// Set the internal error and also the redirect error.
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'));
-			$this->enqueueMessage($this->getError(), 'error');
-
-			$this->setRedirect(
-				JRoute::_(
-					'index.php?option=' . $this->input->get('option') . '&controller=j.display.' . $options[self::CONTROLLER_PREFIX],
-					false
-				)
-			);
+			JLog::add(JText::_($this->getPrefix() . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
 
 			return false;
 		}
 
-		// Get items to remove from the request.
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
+		try
 		{
-			JLog::add(JText::_($this->prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
+			$model = $this->getModel(null, $this->options[parent::CONTROLLER_VIEW_FOLDER]);
 		}
-		else
+		catch (RuntimeException $e)
 		{
-			// Get the model.
-			$viewName     = $this->input->getWord('view', 'articles');
-			$modelClass = $this->prefix . 'Model' . ucfirst($viewName);
-
-			if (class_exists($modelClass))
-			{
-				$model = new $modelClass;
-			}
-
-			// Make sure the item ids are integers
-			jimport('joomla.utilities.arrayhelper');
-			JArrayHelper::toInteger($cid);
-
-			// Remove the items.
-			if ($model->delete($cid))
-			{
-				JFactory::getApplication()->enqueueMessage(JText::plural($this->prefix . '_N_ITEMS_DELETED', count($cid)), 'notice');
-			}
-			else
-			{
-				JFactory::getApplication()->enqueueMessage('NO_ITEMS_FOUND', 'error');
-				$this->app->redirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
-			}
+			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		// Invoke the postDelete method to allow for the child class to access the model.
-		if (isset($model) && isset($cid))
+		// Make sure the item ids are integers
+		jimport('joomla.utilities.arrayhelper');
+		JArrayHelper::toInteger($cid);
+
+		// Remove the items.
+		try
 		{
-			$this->postDeleteHook($model, $cid);
+			$result = $model->delete($cid);
+		}
+		catch (RuntimeException $e)
+		{
+			$this->app->enqueueMessage($e->getMessage(), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=' . $option . '&view=' . $this->options[parent::CONTROLLER_VIEW_FOLDER], false));
+
+			return false;
 		}
 
-		$this->app->redirect(
-				JRoute::_(
-					'index.php?option=' . $this->input->get('option') . '&controller=j.display.' . $options[self::CONTROLLER_PREFIX],
-					false
-				)
-			);
+		$this->app->enqueueMessage(JText::plural($this->getPrefix() . '_N_ITEMS_DELETED', $result), 'notice');
+		$this->app->setHeader('status', '204 Deleted');
 
-	}
+		$this->setRedirect(
+			JRoute::_(
+				'index.php?option=' . $this->input->get('option') . '&view=' . $this->options[parent::CONTROLLER_VIEW_FOLDER],
+				false
+			)
+		);
 
-	/**
-	 * Function that allows child controller access to model data
-	 * after the item has been deleted.
-	 *
-	 * @param   JModel        $model  The data model object.
-	 * @param   integer       $id     The validated data.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 */
-	protected function postDeleteHook(JModel $model, $id = null)
-	{
-	}
-
-	/**
-	 * Method to check if you can delete record.
-	 *
-	 * Extended classes can override this if necessary.
-	 *
-	 * @param   array  $data  An array of input data.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.3
-	 */
-	protected function allowDelete($data = array())
-	{
-		$user = JFactory::getUser();
-
-		return ($user->authorise('core.delete', $this->input->getWord('option')) || count($user->getAuthorisedCategories($this->input->getWord('option'), 'core.delete')));
+		return true;
 	}
 }
