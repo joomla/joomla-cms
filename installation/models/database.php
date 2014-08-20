@@ -54,6 +54,8 @@ class JInstallationModelDatabase extends JModelLegacy
 		// Get the options as a JObject for easier handling.
 		$options = JArrayHelper::toObject($options, 'JObject');
 
+        // Agrego propiedad por eliminacioń de elección de idioma del instalador
+        $options->language = 'es-LA';
 		// Load the back-end language files so that the DB error messages work
 		$jlang = JFactory::getLanguage();
 		// Pre-load es-LA in case the chosen language files do not exist
