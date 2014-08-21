@@ -83,20 +83,10 @@ abstract class JModelAdministrator extends JModelUcm
 		}
 
 		// Get the form.
-		if(JFactory::getApplication()->isSite())
-		{
-			JForm::addFormPath(JPATH_COMPONENT . '/model/forms');
-			JForm::addFieldPath(JPATH_COMPONENT . '/model/fields');
-			JForm::addFormPath(JPATH_COMPONENT . '/model/form');
-			JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
-		}
-		else
-		{
-			JForm::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/models/forms');
-			JForm::addFieldPath(JPATH_COMPONENT_ADMINISTRATOR . '/models/fields');
-			JForm::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/model/form');
-			JForm::addFieldPath(JPATH_COMPONENT_ADMINISTRATOR . '/model/field');
-		}
+		JForm::addFormPath(JPATH_BASE . '/components/' . $this->option . '/models/forms');
+		JForm::addFormPath(JPATH_BASE . '/components/' . $this->option . '/models/fields');
+		JForm::addFormPath(JPATH_BASE . '/components/' . $this->option . '/model/form');
+		JForm::addFormPath(JPATH_BASE . '/components/' . $this->option . '/model/field');
 
 		$form = JForm::getInstance($name, $source, $config, false, $xpath);
 
