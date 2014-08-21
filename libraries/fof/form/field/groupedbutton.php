@@ -8,16 +8,16 @@
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
-JFormHelper::loadFieldClass('plugins');
+JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for FOF
- * Plugins installed on the site
+ * Supports a generic list of options.
  *
  * @package  FrameworkOnFramework
  * @since    2.0
  */
-class FOFFormFieldPlugins extends JFormFieldPlugins implements FOFFormField
+class FOFFormFieldGroupedbutton extends JFormFieldText implements FOFFormField
 {
 	protected $static;
 
@@ -75,11 +75,7 @@ class FOFFormFieldPlugins extends JFormFieldPlugins implements FOFFormField
 	 */
 	public function getStatic()
 	{
-		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-
-		return '<span id="' . $this->id . '" ' . $class . '>' .
-			htmlspecialchars(FOFFormFieldList::getOptionName($this->getOptions(), $this->value), ENT_COMPAT, 'UTF-8') .
-			'</span>';
+		return $this->getInput();
 	}
 
 	/**
@@ -92,10 +88,47 @@ class FOFFormFieldPlugins extends JFormFieldPlugins implements FOFFormField
 	 */
 	public function getRepeatable()
 	{
+		return $this->getInput();
+	}
+
+	/**
+	 * Get the rendering of this field type for static display, e.g. in a single
+	 * item view (typically a "read" task).
+	 *
+	 * @since 2.0
+	 *
+	 * @return  string  The field HTML
+	 */
+	public function getInput()
+	{
 		$class = $this->element['class'] ? (string) $this->element['class'] : '';
 
-		return '<span class="' . $this->id . ' ' . $class . '">' .
-			htmlspecialchars(FOFFormFieldList::getOptionName($this->getOptions(), $this->value), ENT_COMPAT, 'UTF-8') .
-			'</span>';
+		$html = '<div id="' . $this->id . '" class="btn-group ' . $class . '">';
+
+		foreach ($this->element->children() as $option)
+		{
+			$renderedAttributes = array();
+
+			foreach ($option->attributes() as $name => $value)
+			{
+				if (!is_null($value))
+				{
+					$renderedAttributes[] = $name . '="' . $value . '"';
+				}
+			}
+
+			$buttonXML   = new SimpleXMLElement('<field ' . implode(' ', $renderedAttributes) . ' />');
+			$buttonField = new FOFFormFieldButton($this->form);
+		
+			// Pass required objects to the field
+			$buttonField->item = $this->item;
+			$buttonField->rowid = $this->rowid;
+			$buttonField->setup($buttonXML, null);
+
+			$html .= $buttonField->getRepeatable();
+		}
+		$html .= '</div>';
+
+		return $html;
 	}
 }
