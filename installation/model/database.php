@@ -216,18 +216,62 @@ class InstallationModelDatabase extends JModelBase
 			 * PDO MySQL: [1049] Unknown database 'database_name'
 			 * PostgreSQL: Error connecting to PGSQL database
 			 */
-			if (($type == 'pdomysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
-				|| ($type == 'postgresql' && strpos($e->getMessage(), 'Error connecting to PGSQL database') === 42))
+			if ($type == 'pdomysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
+			{
+				/*
+				 * Now we're really getting insane here; we're going to try building a new JDatabaseDriver instance without the database name
+				 * in order to trick the connection into creating the database
+				 */
+				$altDBoptions = array(
+					'driver' => $options->db_type,
+					'host' => $options->db_host,
+					'user' => $options->db_user,
+					'password' => $options->db_pass,
+					'prefix' => $options->db_prefix,
+					'select' => $options->db_select
+				);
+
+				$altDB = JDatabaseDriver::getInstance($altDBoptions);
+
+				// Try to create the database now using the alternate driver
+				try
+				{
+					$this->createDB($altDB, $options, $altDB->hasUTFSupport());
+				}
+				catch (RuntimeException $e)
+				{
+					// We did everything we could
+					$app->enqueueMessage(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 'notice');
+
+					return false;
+				}
+
+				// If we got here, the database should have been successfully created, now try one more time to get the version
+				try
+				{
+					$db_version = $db->getVersion();
+				}
+				catch (RuntimeException $e)
+				{
+					// We did everything we could
+					$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'notice');
+
+					return false;
+				}
+			}
+			elseif ($type == 'postgresql' && strpos($e->getMessage(), 'Error connecting to PGSQL database') === 42)
 			{
 				$app->enqueueMessage(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 'notice');
+
+				return false;
 			}
 			// Anything getting into this part of the conditional either doesn't support manually creating the database or isn't that type of error
 			else
 			{
 				$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'notice');
-			}
 
-			return false;
+				return false;
+			}
 		}
 
 		if (!$db->isMinimumVersion())
