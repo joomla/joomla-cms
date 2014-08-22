@@ -3,12 +3,13 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_admin
- * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  ***************************************************************************************
  * Warning: Some modifications and improved were made by the Community Juuntos for
  * the latinamerican Project Jokte! CMS
  ***************************************************************************************
+ * 
  */
 
 // no direct access
@@ -41,7 +42,7 @@ class joomlaInstallerScript
 		{
 			$query = $db->getQuery(true);
 			$query->insert('#__schemas');
-			$query->set('extension_id=700, version_id='.$db->quote('1.3.0'));
+			$query->set('extension_id=700, version_id='.$db->quote('1.1.8'));
 			$db->setQuery($query);
 			$db->query();
 		}
@@ -66,8 +67,8 @@ class joomlaInstallerScript
 	{
 		// Borrar JoomlaUpdate
 		$table = JTable::getInstance('Extension');
-		if ($table->load(array('element'=> 'com_joomlaupdate', 'type'=>'component', 'client_id'=>1))) {
-			if (!file_exists(JPATH_ADMINISTRATOR . '/components/com_joomlaupdate')) {
+		if ($table->load(array('element'=> 'com_jokteupdate', 'type'=>'component', 'client_id'=>1))) {
+			if (!file_exists(JPATH_ADMINISTRATOR . '/components/com_jokteupdate')) {
 				// Delete this extension
 				if (!$table->delete()) {
 					echo $table->getError().'<br />';
@@ -146,7 +147,6 @@ class joomlaInstallerScript
 		$extensions[] = array('component', 'com_redirect', '', 1);
 		$extensions[] = array('component', 'com_users', '', 1);
 		$extensions[] = array('component', 'com_jokteupdate', '', 1);
-		$extensions[] = array('component', 'com_ayuda', '', 1);
 
 		// Libraries
 		$extensions[] = array('library', 'phpmailer', '', 0);
@@ -160,9 +160,6 @@ class joomlaInstallerScript
 		$extensions[] = array('module', 'mod_articles_archive', '', 0);
 		$extensions[] = array('module', 'mod_articles_latest', '', 0);
 		$extensions[] = array('module', 'mod_articles_popular', '', 0);
-		$extensions[] = array('module', 'mod_hilandojuuntos', '', 0);
-		$extensions[] = array('module', 'mod_juuntosasamblea', '', 0);
-		$extensions[] = array('module', 'mod_librehtml', '', 0);
 		$extensions[] = array('module', 'mod_banners', '', 0);
 		$extensions[] = array('module', 'mod_breadcrumbs', '', 0);
 		$extensions[] = array('module', 'mod_custom', '', 0);
@@ -183,7 +180,11 @@ class joomlaInstallerScript
 		$extensions[] = array('module', 'mod_articles_category', '', 0);
 		$extensions[] = array('module', 'mod_articles_categories', '', 0);
 		$extensions[] = array('module', 'mod_languages', '', 0);
-
+		$extensions[] = array('module', 'mod_librehtml', '', 0);
+		$extensions[] = array('module', 'mod_hilandojuuntos', '', 0);
+		$extensions[] = array('module', 'mod_juuntosasamblea', '', 0);
+		
+		
 		// Administrator
 		$extensions[] = array('module', 'mod_custom', '', 1);
 		$extensions[] = array('module', 'mod_feed', '', 1);
@@ -240,26 +241,20 @@ class joomlaInstallerScript
 		$extensions[] = array('plugin', 'joomlaupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'extensionupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'recaptcha', 'captcha', 0);
-		$extensions[] = array('plugin', 'admin_bar_unlocker', 'system', 0);
 
 		// Templates
-
-		$extensions[] = array('template', 'atomic', '', 0);
-		$extensions[] = array('template', 'jokteantu', '', 0);
-		$extensions[] = array('template', 'hathor', '', 1);
 		$extensions[] = array('template', 'storkantu', '', 1);
+		$extensions[] = array('template', 'jokteantu', '', 0);
 
 		// Languages
-		$extensions[] = array('language', 'pt-BR', '', 0);
-		$extensions[] = array('language', 'pt-BR', '', 1);
 		$extensions[] = array('language', 'es-LA', '', 0);
 		$extensions[] = array('language', 'es-LA', '', 1);
 
 		// Files
-		$extensions[] = array('file', 'joomla', '', 0);
+		$extensions[] = array('file', 'jokte', '', 0);
 
 		// Packages
-		$extensions[] = array('package', 'pkg_joomla', '', 0);
+		$extensions[] = array('package', 'pkg_jokte', '', 0);
 
 		// Attempt to refresh manifest caches
 		$db = JFactory::getDbo();
@@ -328,15 +323,20 @@ class joomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlazure/2.5.6.sql',
 			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.2-2012-03-05.sql',
 			'/includes/version.php',
+			'/administrator/languages/es-LA.tpl_bluestork.ini',
+			'/administrator/languages/es-LA.tpl_bluestork.sys.ini',
+			'/administrator/languages/es-LA.tpl_hathor.ini',
+			'/administrator/languages/es-LA.tpl_hathor.sys.ini',
+			'/administrator/languages/es-LA.plg_system_nnframework.ini',
+			'/administrator/languages/es-LA.plg_system_nnframework.sys.ini',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
 		$folders = array(
 			'/administrator/components/com_joomlaupdate',
-			'/media/plg_highlight',
-			'/media/mod_finder_status',
-			'/administrator/components/com_admin/sql/updates/sqlsrv',			
-			'/media/system/swf/',
+			'/administrator/language/pt-BR',
+			'/language/pt-BR',
+			
 		);
 
 		foreach ($files as $file) {
