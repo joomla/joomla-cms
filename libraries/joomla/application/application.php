@@ -809,6 +809,7 @@ class JApplication extends JObject
 				// Use domain and path set in config for cookie if it exists.
 				$cookie_domain = $this->getCfg('cookie_domain', '');
 				$cookie_path = $this->getCfg('cookie_path', '/');
+				// Check for SSL connection
 				$secure = ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
 				setcookie(self::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain, $secure, true);
 			}
