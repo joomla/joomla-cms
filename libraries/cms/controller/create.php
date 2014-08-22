@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base Display Controller
@@ -80,6 +80,7 @@ class JControllerCreate extends JControllerCms
 	protected function allowAdd($data = array())
 	{
 		$user = JFactory::getUser();
+
 		return ($user->authorise('core.create', $this->input->getWord('option')) || count($user->getAuthorisedCategories($this->input->getWord('option'), 'core.create')));
 	}
 }

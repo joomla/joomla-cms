@@ -7,9 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('JPATH_PLATFORM') or die;
+
 /**
  * Interface for a CMS controller needed for dispatching
  *
+ * @package     Joomla.Libraries
+ * @subpackage  Controller
  * @since  3.4
  */
 interface JControllerCmsInterface extends JController

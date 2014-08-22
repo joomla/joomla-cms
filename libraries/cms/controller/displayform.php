@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base Display Controller
@@ -40,7 +40,7 @@ class JControllerDisplayform extends JControllerDisplay
 	{
 		if (empty($this->options[parent::CONTROLLER_VIEW_FOLDER]))
 		{
-			$this->viewName     = $this->input->getWord('view', 'article');
+			$this->viewName = $this->input->getWord('view', 'article');
 		}
 		else
 		{
@@ -51,7 +51,7 @@ class JControllerDisplayform extends JControllerDisplay
 		$this->input->set('hidemainmenu', true);
 
 		$componentFolder = $this->input->getWord('option', 'com_content');
-		$context = $componentFolder . '.' . $this->viewName;
+		$context         = $componentFolder . '.' . $this->viewName;
 
 		try
 		{
@@ -92,7 +92,7 @@ class JControllerDisplayform extends JControllerDisplay
 	 *
 	 * @return  boolean
 	 *
-	 * @since 3.2
+	 * @since 3.4
 	 */
 	protected function editCheck(JApplicationCms $app, $context, $idName)
 	{
@@ -119,7 +119,7 @@ class JControllerDisplayform extends JControllerDisplay
 	 *
 	 * @return  boolean  True if the ID is in the edit list.
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	protected function checkEditId($context, $id)
 	{
