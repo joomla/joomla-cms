@@ -578,7 +578,7 @@ abstract class JHtmlBootstrap
 	 * @param   array   $params    An array of options for the tooltip.
 	 *                             Options for the tooltip can be:
 	 *                             - parent  selector  If selector then all collapsible elements under the specified parent will be closed when this
-	 *                                                 collapsible item is shown. (similar to traditional accordion behavior)
+	 *                                                 collapsible item is shown. (similar to tJCmsitional accordion behavior)
 	 *                             - toggle  boolean   Toggles the collapsible element on invocation
 	 *                             - active  string    Sets the active slide during load
 	 *

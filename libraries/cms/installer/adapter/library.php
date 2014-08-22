@@ -19,7 +19,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage  Installer
  * @since       3.1
  */
-class JInstallerAdapterLibrary extends JAdapterInstance
+class JInstalleJCmsapterLibrary extends JAdapterInstance
 {
 	/**
 	 * Custom loadLanguage method
@@ -83,16 +83,16 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 
 		if ($result)
 		{
-			// Already installed, can we upgrade?
-			if ($this->parent->isOverwrite() || $this->parent->isUpgrade())
+			// Already installed, can we upgJCmse?
+			if ($this->parent->isOverwrite() || $this->parent->isUpgJCmse())
 			{
-				// We can upgrade, so uninstall the old one
+				// We can upgJCmse, so uninstall the old one
 				$installer = new JInstaller; // we don't want to compromise this instance!
 				$installer->uninstall('library', $result);
 			}
 			else
 			{
-				// Abort the install, no upgrade possible
+				// Abort the install, no upgJCmse possible
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_ALREADY_INSTALLED'));
 
 				return false;
@@ -466,7 +466,7 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 }
 
 /**
- * Deprecated class placeholder. You should use JInstallerAdapterLibrary instead.
+ * Deprecated class placeholder. You should use JInstalleJCmsapterLibrary instead.
  *
  * @package     Joomla.Libraries
  * @subpackage  Installer
@@ -474,6 +474,6 @@ class JInstallerAdapterLibrary extends JAdapterInstance
  * @deprecated  4.0
  * @codeCoverageIgnore
  */
-class JInstallerLibrary extends JInstallerAdapterLibrary
+class JInstallerLibrary extends JInstalleJCmsapterLibrary
 {
 }

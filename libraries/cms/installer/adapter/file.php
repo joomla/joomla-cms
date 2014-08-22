@@ -19,7 +19,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage  Installer
  * @since       3.1
  */
-class JInstallerAdapterFile extends JAdapterInstance
+class JInstalleJCmsapterFile extends JAdapterInstance
 {
 	/**
 	 * Install function routing
@@ -439,7 +439,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 	{
 		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
-		$this->parent->setUpgrade(true);
+		$this->parent->setUpgJCmse(true);
 		$this->route = 'update';
 
 		// ...and adds new files
@@ -808,7 +808,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 }
 
 /**
- * Deprecated class placeholder. You should use JInstallerAdapterFile instead.
+ * Deprecated class placeholder. You should use JInstalleJCmsapterFile instead.
  *
  * @package     Joomla.Libraries
  * @subpackage  Installer
@@ -816,6 +816,6 @@ class JInstallerAdapterFile extends JAdapterInstance
  * @deprecated  4.0
  * @codeCoverageIgnore
  */
-class JInstallerFile extends JInstallerAdapterFile
+class JInstallerFile extends JInstalleJCmsapterFile
 {
 }

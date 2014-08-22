@@ -74,7 +74,8 @@ class WeblinksViewWeblinks extends JViewLegacy
 		{
 			JToolbarHelper::editList('weblink.edit');
 		}
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state')) 
+		{
 
 			JToolbarHelper::publish('weblinks.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('weblinks.unpublish', 'JTOOLBAR_UNPUBLISH', true);

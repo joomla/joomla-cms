@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Router
  * @since       1.5
  */
-class JRouterAdministrator extends JRouter
+class JRouteJCmsministrator extends JRouter
 {
 	/**
 	 * Function to convert a route to an internal URI.

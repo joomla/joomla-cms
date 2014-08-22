@@ -123,19 +123,19 @@ abstract class JHtmlAccess
 	 *
 	 * @param   string   $name             The name of the checkbox controls array
 	 * @param   array    $selected         An array of the checked boxes
-	 * @param   boolean  $checkSuperAdmin  If false only super admins can add to super admin groups
+	 * @param   boolean  $checkSupeJCmsmin  If false only super admins can add to super admin groups
 	 *
 	 * @return  string
 	 *
 	 * @since   1.6
 	 */
-	public static function usergroups($name, $selected, $checkSuperAdmin = false)
+	public static function usergroups($name, $selected, $checkSupeJCmsmin = false)
 	{
 		static $count;
 
 		$count++;
 
-		$isSuperAdmin = JFactory::getUser()->authorise('core.admin');
+		$isSupeJCmsmin = JFactory::getUser()->authorise('core.admin');
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -153,8 +153,8 @@ abstract class JHtmlAccess
 		{
 			$item = &$groups[$i];
 
-			// If checkSuperAdmin is true, only add item if the user is superadmin or the group is not super admin
-			if ((!$checkSuperAdmin) || $isSuperAdmin || (!JAccess::checkGroup($item->id, 'core.admin')))
+			// If checkSupeJCmsmin is true, only add item if the user is supeJCmsmin or the group is not super admin
+			if ((!$checkSupeJCmsmin) || $isSupeJCmsmin || (!JAccess::checkGroup($item->id, 'core.admin')))
 			{
 				// Setup  the variable attributes.
 				$eid = $count . 'group_' . $item->id;

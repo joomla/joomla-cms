@@ -18,7 +18,7 @@ jimport('joomla.base.adapterinstance');
  * @subpackage  Installer
  * @since       3.1
  */
-class JInstallerAdapterPackage extends JAdapterInstance
+class JInstalleJCmsapterPackage extends JAdapterInstance
 {
 	/**
 	 * Method of system
@@ -120,8 +120,8 @@ class JInstallerAdapterPackage extends JAdapterInstance
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
 
-			// If $this->upgrade has already been set, or an update property exists in the manifest, update the extensions
-			if ($this->parent->isUpgrade() || $updateElement)
+			// If $this->upgJCmse has already been set, or an update property exists in the manifest, update the extensions
+			if ($this->parent->isUpgJCmse() || $updateElement)
 			{
 				// Use the update route for all packaged extensions
 				$this->route = 'update';
@@ -627,7 +627,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 }
 
 /**
- * Deprecated class placeholder. You should use JInstallerAdapterPackage instead.
+ * Deprecated class placeholder. You should use JInstalleJCmsapterPackage instead.
  *
  * @package     Joomla.Libraries
  * @subpackage  Installer
@@ -635,6 +635,6 @@ class JInstallerAdapterPackage extends JAdapterInstance
  * @deprecated  4.0
  * @codeCoverageIgnore
  */
-class JInstallerPackage extends JInstallerAdapterPackage
+class JInstallerPackage extends JInstalleJCmsapterPackage
 {
 }

@@ -32,12 +32,12 @@ class JInstaller extends JAdapter
 	protected $paths = array();
 
 	/**
-	 * True if package is an upgrade
+	 * True if package is an upgJCmse
 	 *
 	 * @var    boolean
 	 * @since  3.1
 	 */
-	protected $upgrade = null;
+	protected $upgJCmse = null;
 
 	/**
 	 * The manifest trigger class
@@ -119,7 +119,7 @@ class JInstaller extends JAdapter
 	 */
 	public function __construct()
 	{
-		parent::__construct(__DIR__, 'JInstallerAdapter', __DIR__ . '/adapter');
+		parent::__construct(__DIR__, 'JInstalleJCmsapter', __DIR__ . '/adapter');
 
 		// Override the default adapter folder
 		$this->_adapterfolder = 'adapter';
@@ -207,37 +207,37 @@ class JInstaller extends JAdapter
 	}
 
 	/**
-	 * Get the upgrade switch
+	 * Get the upgJCmse switch
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
-	public function isUpgrade()
+	public function isUpgJCmse()
 	{
-		return $this->upgrade;
+		return $this->upgJCmse;
 	}
 
 	/**
-	 * Set the upgrade switch
+	 * Set the upgJCmse switch
 	 *
-	 * @param   boolean  $state  Upgrade switch state
+	 * @param   boolean  $state  UpgJCmse switch state
 	 *
-	 * @return  boolean  True if upgrade, false otherwise
+	 * @return  boolean  True if upgJCmse, false otherwise
 	 *
 	 * @since   3.1
 	 */
-	public function setUpgrade($state = false)
+	public function setUpgJCmse($state = false)
 	{
-		$tmp = $this->upgrade;
+		$tmp = $this->upgJCmse;
 
 		if ($state)
 		{
-			$this->upgrade = true;
+			$this->upgJCmse = true;
 		}
 		else
 		{
-			$this->upgrade = false;
+			$this->upgJCmse = false;
 		}
 
 		return $tmp;
@@ -1884,10 +1884,10 @@ class JInstaller extends JAdapter
 
 				if (!is_null($manifest))
 				{
-					// If the root method attribute is set to upgrade, allow file overwrite
-					if ((string) $manifest->attributes()->method == 'upgrade')
+					// If the root method attribute is set to upgJCmse, allow file overwrite
+					if ((string) $manifest->attributes()->method == 'upgJCmse')
 					{
-						$this->upgrade = true;
+						$this->upgJCmse = true;
 						$this->overwrite = true;
 					}
 
