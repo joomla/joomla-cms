@@ -246,7 +246,7 @@ class MessagesModelMessage extends JModelAdmin
 
 			if ($table->load($pk))
 			{
-				if ($table->user_id_to !== $user->id)
+				if ($table->user_id_to != $user->id)
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
