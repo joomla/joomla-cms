@@ -295,7 +295,7 @@ class JViewJsonCms extends JViewCms
 
 		if (is_null($root))
 		{
-			$root = rtrim(FOFPlatform::getInstance()->URIbase(), '/');
+			$root = rtrim(JUri::base(), '/');
 			$rootlen = strlen($root);
 		}
 
