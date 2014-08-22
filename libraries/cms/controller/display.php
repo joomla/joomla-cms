@@ -138,8 +138,7 @@ class JControllerDisplay extends JControllerCms
 
 			if (!class_exists($joomlaClass))
 			{
-				// @todo convert to a proper language string
-				throw new RuntimeException(JText::sprintf('The view %s could not be found', $class));
+				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix));
 			}
 
 			// We've found a relevant Joomla class - use it.
