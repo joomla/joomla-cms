@@ -193,12 +193,6 @@ class JViewJsonCms extends JViewCms
 	 */
 	protected function createDocumentWithHypermedia($data, $model = null)
 	{
-		// Load the RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			require_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-
 		// Create a new HAL document
 		if (is_array($data))
 		{
