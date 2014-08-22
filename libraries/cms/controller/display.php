@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base Display Controller
@@ -58,9 +58,8 @@ class JControllerDisplay extends JControllerCms
 		!$this->app->isAdmin() ? : $this->permission = 'core.manage';
 
 		// Get the view name if it hasn't already been set by a controller
-		$this->viewName     = $this->input->getWord('view', 'articles');
-
-		$viewFormat   = $this->doc->getType();
+		$this->viewName = $this->input->getWord('view', 'articles');
+		$viewFormat     = $this->doc->getType();
 
 		try
 		{
@@ -99,6 +98,7 @@ class JControllerDisplay extends JControllerCms
 	 * @param   string              $type    Name of the file exp. html = html.php
 	 * @param   array               $config  An array of config options
 	 *
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 * @return  JViewCms
 	 */
@@ -148,7 +148,7 @@ class JControllerDisplay extends JControllerCms
 
 		// The Html view must have a renderer object injected into it.
 		// So initalise it separately
-		if(strtolower($type) != 'html')
+		if (strtolower($type) != 'html')
 		{
 			$view = new $class($model, $this->doc, $this->config);
 		}
@@ -160,7 +160,7 @@ class JControllerDisplay extends JControllerCms
 			$view = new $class($model, $this->doc, $renderer, $this->config);
 
 			// If in html view then we set the layout
-			$layoutName   = $this->input->getWord('layout', 'default');
+			$layoutName = $this->input->getWord('layout', 'default');
 			$view->setLayout($layoutName);
 		}
 

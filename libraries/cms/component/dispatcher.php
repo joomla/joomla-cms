@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 class JComponentDispatcher implements JComponentDispatcherInterface
 {
 	// Constants that define the form of the controller passed in the URL
-	const CONTROLLER_PREFIX = 0;
-	const CONTROLLER_ACTIVITY = 1;
+	const CONTROLLER_PREFIX      = 0;
+	const CONTROLLER_ACTIVITY    = 1;
 	const CONTROLLER_VIEW_FOLDER = 2;
 
 	/**
@@ -81,13 +81,13 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 		{
 			if (JFactory::getApplication()->isSite())
 			{
-				$mainPath	= JPATH_SITE . '/components/' . $option;
-				$altPath	= JPATH_ADMINISTRATOR . '/components/' . $option;
+				$mainPath = JPATH_SITE . '/components/' . $option;
+				$altPath  = JPATH_ADMINISTRATOR . '/components/' . $option;
 			}
 			else
 			{
-				$mainPath	= JPATH_ADMINISTRATOR . '/components/' . $option;
-				$altPath	= JPATH_SITE . '/components/' . $option;
+				$mainPath = JPATH_ADMINISTRATOR . '/components/' . $option;
+				$altPath  = JPATH_SITE . '/components/' . $option;
 			}
 
 			$componentPaths = array(
@@ -147,7 +147,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 			$input = new JInput;
 		}
 
-		$this->input = $input;
+		$this->input  = $input;
 		$this->config = (array) $config;
 
 		// Set the option value in the config and input
@@ -173,7 +173,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	 */
 	public function dispatch(JApplicationCms $app = null)
 	{
-		$controller = $this->getController($app);
+		$controller          = $this->getController($app);
 		$controller->options = $this->getTasks();
 
 		try
@@ -203,11 +203,10 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	public function getController(JApplicationCms $app = null)
 	{
 		// Assemble the queue of potential classes
-		$class = null;
+		$first      = null;
+		$class      = null;
 		$classQueue = $this->getControllerNames();
 		$classQueue->top();
-
-		$first = null;
 
 		// Loop through each class and see if one exists
 		while($classQueue->valid())
@@ -343,7 +342,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	public function getTasks()
 	{
 		$controllerTask = $this->input->get('task');
-		$tasks = array();
+		$tasks          = array();
 
 		if (empty($controllerTask))
 		{

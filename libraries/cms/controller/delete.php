@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base Display Controller
@@ -70,7 +70,7 @@ class JControllerDelete extends JControllerCms
 			return false;
 		}
 
-		$this->app->enqueueMessage(JText::plural($this->getPrefix() . '_N_ITEMS_DELETED', $result), 'notice');
+		$this->app->enqueueMessage(JText::plural($this->getPrefix() . '_N_ITEMS_DELETED', $result), 'message');
 		$this->app->setHeader('status', '204 Deleted');
 
 		$this->setRedirect(

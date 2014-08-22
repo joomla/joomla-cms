@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Cancel Controller
@@ -31,7 +31,7 @@ class JControllerCancel extends JControllerCms
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.edit'))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$this->setRedirect('index.php');
 
 			return false;
@@ -40,7 +40,7 @@ class JControllerCancel extends JControllerCms
 		$redirectUrl = '';
 
 		// By default we go to the default component view of the current component
-		$redirectUrl     .= $this->input->getWord('option', 'com_content');
+		$redirectUrl .= $this->input->getWord('option', 'com_content');
 
 		if (!empty($this->options[parent::CONTROLLER_VIEW_FOLDER]))
 		{
@@ -59,7 +59,7 @@ class JControllerCancel extends JControllerCms
 		}
 
 		$keyName = $model->getTable()->getKeyName();
-		$pk    = $this->input->getInt($keyName, 0);
+		$pk      = $this->input->getInt($keyName, 0);
 
 		// If we are cancelling an item that already exists then we should check it back in.
 		if ($pk != 0)

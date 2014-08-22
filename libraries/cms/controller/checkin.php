@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base Display Controller
@@ -60,7 +60,7 @@ class JControllerCheckin extends JControllerCms
 			}
 
 			// Check in the items.
-			$this->app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_CHECKED_IN', $model->checkin($ids)));
+			$this->app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_CHECKED_IN', $model->checkin($ids)), 'message');
 		}
 
 		$this->setRedirect('index.php?option=' . $this->input->get('option', 'com_cpanel'));

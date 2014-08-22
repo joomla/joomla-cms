@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base Controller for updating the state of items
@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
 */
 class JControllerUpdatestatelist extends JControllerCms
 {
-	/*
+	/**
 	 * Permission needed for the action
 	 *
 	 * @var    string
@@ -26,13 +26,14 @@ class JControllerUpdatestatelist extends JControllerCms
 	 */
 	public $permission = 'core.edit.state';
 
-	/*
+	/**
 	 * Optional values needed for the model
 	 * Note that we need to support some values twice for legacy reasons.
 	 *
-	 *  @var  array
+	 * @var    array
+	 * @since  3.4
 	 */
-	public  $stateOptions = array('published' => 1, 'unpublished' => 0, 'archived' => 2, 'archive' => 2,
+	public $stateOptions = array('published' => 1, 'unpublished' => 0, 'archived' => 2, 'archive' => 2,
 				'trashed' => -2, 'reported' => -3, 'publish' => 1, 'unpublish' => 0, 'trash' => -2);
 
 	/**

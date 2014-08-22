@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base Update Controller
@@ -18,11 +18,12 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JControllerUpdate extends JControllerCms
 {
-	/*
+	/**
 	 * Permission needed for the action. Defaults to most restrictive
-	*
-	* @var  string
-	*/
+	 *
+	 * @var   string
+	 * @since 3.4
+	 */
 	public $permission = 'core.edit';
 
 	/**
@@ -43,13 +44,13 @@ class JControllerUpdate extends JControllerCms
 		// Check if the user is authorized to do this.
 		if ($this->app->isAdmin() && !JFactory::getUser()->authorise('core.manage'))
 		{
-			$this->setRedirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->setRedirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 			return false;
 		}
 
 		$this->viewName = $this->options[parent::CONTROLLER_VIEW_FOLDER];
-		$saveFormat   = $this->doc->getType();
+		$saveFormat     = $this->doc->getType();
 
 		try
 		{
@@ -86,10 +87,10 @@ class JControllerUpdate extends JControllerCms
 
 		// Must load after serving service-requests
 		// @todo to fix the above validation risk we need to be able to load the backend form in the frontend
-		$form  = $model->getForm();
+		$form = $model->getForm();
 
 		$context = $this->config['option'] . '.edit.' . $this->viewName;
-		$urlVar = $model->getTable()->getKeyName();
+		$urlVar  = $model->getTable()->getKeyName();
 
 		// Validate the posted data.
 		try
@@ -102,7 +103,7 @@ class JControllerUpdate extends JControllerCms
 
 			// Set the record data in the session and redirect back to the item
 			$modelState = $model->getState();
-			$recordId = $modelState->get($this->viewName . '.id');
+			$recordId   = $modelState->get($this->viewName . '.id');
 			$this->setUserState($context . '.data', null);
 
 			// Redirect back to the edit screen.
@@ -125,7 +126,7 @@ class JControllerUpdate extends JControllerCms
 			throw new RuntimeException ($e->getMessage(), $e->getCode());
 		}
 
-		$pk    = $this->input->getInt($urlVar, 0);
+		$pk = $this->input->getInt($urlVar, 0);
 
 		// If we are closing an item that already exists then we should check it back in.
 		if ($pk != 0)
@@ -149,7 +150,7 @@ class JControllerUpdate extends JControllerCms
 			case 'apply':
 				// Set the record data in the session.
 				$modelState = $model->getState();
-				$recordId = $modelState->get($this->viewName . '.id');
+				$recordId   = $modelState->get($this->viewName . '.id');
 				$this->setUserState($context . '.data', null);
 				$model->checkout($recordId);
 
