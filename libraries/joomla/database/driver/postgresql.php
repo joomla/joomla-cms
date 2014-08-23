@@ -115,8 +115,16 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			throw new RuntimeException('PHP extension pg_connect is not available.');
 		}
 
+		// Fix database with port connection
+		$e_host = $this->options['host'];
+		if(strpos($e_host, ':')) {
+			list($e_host, $port)=explode(':', $e_host, 2);
+		} else {
+			$port=false;
+		}
+
 		// Build the DSN for the connection.
-		$dsn = "host={$this->options['host']} dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
+		$dsn = "host='$e_host' port='$port' dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @pg_connect($dsn)))
