@@ -53,7 +53,7 @@ function createStatusbar(obj)
      this.progressBar = jQuery("<td style='width: 50%;'><div class='progress' ><div class='bar'></div></div></td>").appendTo(this.statusbar);
      this.abort = jQuery("<td 'width: 10%;'><span class='badge badge-important'>&times;</span></td>").appendTo(this.statusbar);
 
-     jQuery("#upload-container").append(this.statusbar);
+     jQuery("#upload-container").prepend(this.statusbar);
  
     this.setFileNameSize = function(name,size)
     {

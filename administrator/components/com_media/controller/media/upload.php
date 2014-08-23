@@ -49,7 +49,7 @@ class MediaControllerMediaUpload extends JControllerBase
 		// Check for request forgeries
 		if (!JSession::checkToken('request'))
 		{
-			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'));
+			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
 
 			return false;
 		}
