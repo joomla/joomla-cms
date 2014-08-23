@@ -168,7 +168,7 @@ class JInstaller extends JAdapter
 	{
 		$tmp = $this->overwrite;
 
-		$this->overwrite = $state ? true : false;
+		$this->overwrite = (boolean) $state;
 
 		return $tmp;
 	}
@@ -224,7 +224,7 @@ class JInstaller extends JAdapter
 	{
 		$tmp = $this->upgrade;
 
-		$this->upgrade = $state ? true : false;
+		$this->upgrade = (boolean) $state;
 
 		return $tmp;
 	}
@@ -1689,7 +1689,7 @@ class JInstaller extends JAdapter
 					$client = JApplicationHelper::getClientInfo($lang_client, true);
 					$source = $client->path . '/language';
 				}
-				else if ($client)
+				elseif ($client)
 				{
 					$source = $client->path . '/language';
 				}
