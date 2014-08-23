@@ -82,8 +82,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
 
 		// Fix database with port connection
-		if(strpos($options['host'], ':')) {
+		if(strpos($options['host'], ':') !== false) {
 			list($options['host'], $options['port']) = explode(':', $options['host'], 2);
+			$options['host'] = ($options['host'] != '') ? $options['host'] : 'localhost';
 		}
 
 		// Finalize initialization
