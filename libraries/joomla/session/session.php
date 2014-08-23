@@ -523,7 +523,8 @@ class JSession extends JObject
 				if (JRequest::getVar($session_name))
 				{
 					session_id(JRequest::getVar($session_name));
-					setcookie($session_name, '', time() - 3600);
+					$cookie = session_get_cookie_params();
+					setcookie($session_name, '', time() - 42000, $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']);
 				}
 			}
 		}
@@ -562,10 +563,8 @@ class JSession extends JObject
 		 */
 		if (isset($_COOKIE[session_name()]))
 		{
-			$config = JFactory::getConfig();
-			$cookie_domain = $config->get('cookie_domain', '');
-			$cookie_path = $config->get('cookie_path', '/');
-			setcookie(session_name(), '', time() - 42000, $cookie_path, $cookie_domain);
+			$cookie = session_get_cookie_params();
+			setcookie(session_name(), '', time() - 42000, $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']);
 		}
 
 		session_unset();
@@ -721,7 +720,7 @@ class JSession extends JObject
 		{
 			$cookie['path'] = $config->get('cookie_path');
 		}
-		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure']);
+		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], true);
 	}
 
 	/**
