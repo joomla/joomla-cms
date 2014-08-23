@@ -135,18 +135,8 @@ class AdminModelProfile extends UsersModelUser
 			unset($data['username']);
 		}
 
-		// Bind the data.
-		if (!$user->bind($data))
-		{
-			$this->setError($user->getError());
-
-			return false;
-		}
-
-		$user->groups = null;
-
 		// Store the data.
-		if (!$user->save())
+		if (!$user->save($data))
 		{
 			$this->setError($user->getError());
 
