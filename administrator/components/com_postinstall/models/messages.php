@@ -174,6 +174,10 @@ class PostinstallModelMessages extends FOFModel
 
 	/**
 	 * Get the drop-down options for the list of component with post-installation messages
+	 *
+	 * @since 3.4
+	 *
+	 * @return  array  Compatible with JHtmlSelect::genericList
 	 */
 	public function getComponentOptions()
 	{
