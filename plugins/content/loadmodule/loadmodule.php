@@ -133,4 +133,5 @@ class plgContentLoadmodule extends JPlugin
 			self::$mods[$moduleinstance] = ob_get_clean();
 		}
 		return self::$mods[$moduleinstance];
-	}}
+	}
+}
