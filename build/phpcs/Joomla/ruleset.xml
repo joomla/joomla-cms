@@ -37,6 +37,7 @@
 	 <!-- These exceptions are temporary -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
+  <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
   <exclude-pattern type="relative">libraries/*</exclude-pattern>
   <!-- These exceptions are permanent -->
