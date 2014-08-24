@@ -48,7 +48,7 @@ $baseurl = JUri::base();
 							/>
 						</a>
 					<?php elseif ($target == 2):?>
-						<?php // open in a popup window?>
+						<?php // Open in a popup window?>
 						<a
 							href="<?php echo $link;?>" onclick="window.open(this.href, '',
 								'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550');
@@ -62,7 +62,7 @@ $baseurl = JUri::base();
 							/>
 						</a>
 					<?php else :?>
-						<?php // open in parent window?>
+						<?php // Open in parent window?>
 						<a
 							href="<?php echo $link;?>"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8');?>">
