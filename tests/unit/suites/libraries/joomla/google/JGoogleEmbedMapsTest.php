@@ -629,18 +629,6 @@ class JGoogleEmbedMapsTest extends TestCase
 	}
 
 	/**
-	 * Tests the getHeader method without a key
-	 *
-	 * @group	JGoogle
-	 * @expectedException UnexpectedValueException
-	 * @return void
-	 */
-	public function testGetHeaderException()
-	{
-		$this->object->getHeader();
-	}
-
-	/**
 	 * Tests the getBody method
 	 *
 	 * @group	JGoogle
