@@ -36,7 +36,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 */
 	public function __construct(JRegistry $options = null, JUri $uri = null, JHttp $http = null)
 	{
-		parent::__construct($options = null, $uri = null);
+		parent::__construct($option, $uri);
 		$this->http = $http ? $http : new JHttp($this->options);
 	}
 
