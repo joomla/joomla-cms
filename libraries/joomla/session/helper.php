@@ -14,10 +14,9 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Session
+ * @author      Frits van Campen <Frits.vanCampen@moxio.com>
  * @link        http://www.php.net/manual/en/function.session-decode.php#108037
  * @since       3.4
- *
- * @author      Frits van Campen <Frits.vanCampen@moxio.com>
  */
 abstract class JSessionHelper
 {
