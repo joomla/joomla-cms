@@ -19,7 +19,8 @@
 IndexIgnore *
 
 ## Can be commented out if causes errors, see notes above.
-Options +FollowSymLinks All -Indexes
+Options +FollowSymlinks
+Options -Indexes
 
 ## Mod_rewrite in use.
 
