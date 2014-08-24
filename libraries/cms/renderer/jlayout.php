@@ -27,7 +27,7 @@ class JRendererJlayout implements RendererInterface
 	/**
 	 * Public constructor
 	 *
-	 * @param  array            $config  An array of configuration options
+	 * @param  array  $config  An array of configuration options
 	 *
 	 * @since  3.4
 	 */

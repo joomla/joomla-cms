@@ -161,7 +161,7 @@ abstract class JModelActions extends JModelAdministrator
 		// Get the id's of the items to delete
 		$pks    = (array) $cid;
 
-		foreach ($pks AS $pk)
+		foreach ($pks as $pk)
 		{
 			$context = $this->option . '.' . $this->getName();
 
@@ -329,7 +329,7 @@ abstract class JModelActions extends JModelAdministrator
 
 		$pks    = (array) $cid;
 
-		foreach ($pks AS $pk)
+		foreach ($pks as $pk)
 		{
 			$activeRecord = $this->getActiveRecord($pk);
 
