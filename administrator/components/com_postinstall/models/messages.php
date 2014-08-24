@@ -171,4 +171,35 @@ class PostinstallModelMessages extends FOFModel
 			}
 		}
 	}
+
+	/**
+	 * Get the drop-down options for the list of component with post-installation messages
+	 */
+	public function getComponentOptions()
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->select('extension_id')
+			->from($db->qn('#__postinstall_messages'))
+			->group(array($db->qn('extension_id')));
+		$db->setQuery($query);
+		$extension_ids = $db->loadColumn();
+
+		$options = array();
+
+		foreach ($extension_ids as $eid)
+		{
+			$extension_name = $this->getExtensionName($eid);
+
+			if ($extension_name == 'files_joomla')
+			{
+				$extension_name = JText::_('COM_POSTINSTALL_TITLE_JOOMLA');
+			}
+
+			$options[] = JHtml::_('select.option', $eid, $extension_name);
+		}
+
+		return $options;
+	}
 }

@@ -29,8 +29,18 @@ class PostinstallViewMessages extends FOFViewHtml
 	 */
 	protected function onBrowse($tpl = null)
 	{
-		$this->eid = $this->input->getInt('eid', '700');
+		/** @var PostinstallModelMessages $model */
+		$model = $this->getModel();
+
+		$this->eid = (int)$model->getState('eid', '700', 'int');
+
+		if (empty($this->eid))
+		{
+			$this->eid = 700;
+		}
+
 		$this->token = JFactory::getSession()->getFormToken();
+		$this->extension_options = $model->getComponentOptions();
 
 		return parent::onBrowse($tpl);
 	}

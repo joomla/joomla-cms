@@ -10,6 +10,12 @@
 defined('_JEXEC') or die;
 ?>
 
+<form action="index.php" method="post" name="adminForm" class="form-inline">
+	<input type="hidden" name="option" value="com_postinstall">
+	<label for="eid"><?php echo JText::_('COM_POSTINSTALL_MESSAGES_FOR') ?></label>
+	<?php echo JHTML::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'input-xlarge'), 'value', 'text', $this->eid, 'eid'); ?>
+</form>
+
 <?php if (empty($this->items)): ?>
 <div class="hero-unit">
 	<h2><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE') ?></h2>
@@ -24,7 +30,6 @@ defined('_JEXEC') or die;
 <div class="row-fluid">
 	<div class="span8">
 <?php endif; ?>
-	<h2><?php echo JText::_('COM_POSTINSTALL_LBL_MESSAGES') ?></h2>
 	<?php foreach($this->items as $item): ?>
 	<fieldset>
 		<legend><?php echo JText::_($item->title_key) ?></legend>
