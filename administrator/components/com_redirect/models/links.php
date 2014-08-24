@@ -199,8 +199,8 @@ class RedirectModelLinks extends JModelList
 			}
 
 			$query->insert($db->quoteName('#__redirect_links'), false)
-				->values($db->quote($old_url) . ', ' . $db->quote($new_url) .
-					' ,' . $db->quote('') . ', ' . $db->quote('') . ',0,0, ' .
+				->values(
+					$db->quote($old_url) . ', ' . $db->quote($new_url) . ' ,' . $db->quote('') . ', ' . $db->quote('') . ', 0, 0, ' .
 					$db->quote(JFactory::getDate()->toSql())
 				);
 		}

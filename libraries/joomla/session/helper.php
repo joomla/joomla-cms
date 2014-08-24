@@ -14,10 +14,10 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Session
+ * @link        http://www.php.net/manual/en/function.session-decode.php#108037
  * @since       3.4
  *
  * @author      Frits van Campen <Frits.vanCampen@moxio.com>
- * @link        http://www.php.net/manual/en/function.session-decode.php#108037
  */
 abstract class JSessionHelper
 {
@@ -102,8 +102,8 @@ abstract class JSessionHelper
 
 		while ($offset < strlen($session_data))
 		{
-			$length  = ord($session_data[$offset]);
-			$offset  += 1;
+			$length = ord($session_data[$offset]);
+			$offset++;
 			$varname = substr($session_data, $offset, $length);
 			$offset  += $length;
 			$data    = unserialize(substr($session_data, $offset));

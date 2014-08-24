@@ -45,7 +45,7 @@ class PlgQuickiconExtensionupdate extends JPlugin
 		}
 
 		JHtml::_('jquery.framework');
-		
+
 		$url = JUri::base() . 'index.php?option=com_installer&view=update';
 		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax';
 		$script = array();

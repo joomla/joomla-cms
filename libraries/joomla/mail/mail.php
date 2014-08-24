@@ -312,10 +312,11 @@ class JMail extends PHPMailer
 	/**
 	 * Add file attachment to the email
 	 *
-	 * @param   mixed  $path        Either a string or array of strings [filenames]
-	 * @param   mixed  $name       	Either a string or array of strings [names]
-	 * @param   mixed  $encoding    The encoding of the attachment
-	 * @param   mixed  $type        The mime type
+	 * @param   mixed   $path         Either a string or array of strings [filenames]
+	 * @param   mixed   $name         Either a string or array of strings [names]
+	 * @param   mixed   $encoding     The encoding of the attachment
+	 * @param   mixed   $type         The mime type
+	 * @param   string  $disposition  The disposition of the attachment
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
@@ -372,7 +373,7 @@ class JMail extends PHPMailer
 	/**
 	 * Unset file attachments specified by array index.
 	 *
-	 * @param   integer  $index     The numerical index of the attachment to remove
+	 * @param   integer  $index  The numerical index of the attachment to remove
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
