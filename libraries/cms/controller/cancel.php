@@ -28,15 +28,6 @@ class JControllerCancel extends JControllerCms
 	 */
 	public function execute()
 	{
-		// Check if the user is authorized to do this.
-		if (!JFactory::getUser()->authorise('core.edit'))
-		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-			$this->setRedirect('index.php');
-
-			return false;
-		}
-
 		$redirectUrl = '';
 
 		// By default we go to the default component view of the current component
@@ -70,7 +61,8 @@ class JControllerCancel extends JControllerCms
 			}
 			catch (Exception $e)
 			{
-				$this->setRedirect(JRoute::_('index.php?option=' . $redirectUrl, false), $e->getMessage(), 'warning');
+				$this->setRedirect(JRoute::_('index.php?option=' . $redirectUrl, false));
+				$this->app->enqueueMessage($e->getMessage(), 'warning');
 
 				return false;
 			}

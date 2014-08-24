@@ -51,7 +51,7 @@ abstract class JViewHtmlLegacy extends JViewLegacy implements JView
 		else
 		{
 			$paths = new SplPriorityQueue;
-			$paths->insert(JPATH_BASE . '/components/' . $component . '/view/' . $viewName . '/tmpl', 1);
+			$paths->insert(JPATH_BASE . '/components/' . $component . '/view/' . $this->getName() . '/tmpl', 1);
 			$paths->insert(JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName(), 2);
 		}
 
@@ -111,7 +111,7 @@ abstract class JViewHtmlLegacy extends JViewLegacy implements JView
 			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
 		} */
 
-		// Prevents adding path twise
+		// Prevents adding path twice
 		if (empty($this->_path['template']))
 		{
 			// Adding template paths

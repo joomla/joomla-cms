@@ -36,34 +36,35 @@ class JControllerCheckin extends JControllerCms
 		$this->viewName = $this->input->getWord('view', 'articles');
 		$ids            = $this->input->get('cid', array(), 'array');
 
+		// If there are no id's to checkin then put in an error, set the redirect and return.
 		if (empty($ids))
 		{
 			$this->app->enqueueMessage(JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'), 'error');
+			$this->setRedirect('index.php?option=' . $this->input->get('option', 'com_cpanel') . '&view=' . $this->viewName);
+
+			return false;
 		}
-		else
+
+		try
 		{
-			try
-			{
-				$model = $this->getModel();
-			}
-			catch (RuntimeException $e)
-			{
-				throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
-			}
-
-			// Access check.
-			if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
-			{
-				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-
-				return false;
-			}
-
-			// Check in the items.
-			$this->app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_CHECKED_IN', $model->checkin($ids)), 'message');
+			$model = $this->getModel();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
 		}
 
-		$this->setRedirect('index.php?option=' . $this->input->get('option', 'com_cpanel'));
+		// Access check.
+		if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
+		{
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+			return false;
+		}
+
+		// Check in the items.
+		$this->app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_CHECKED_IN', $model->checkin($ids)), 'message');
+		$this->setRedirect('index.php?option=' . $this->input->get('option', 'com_cpanel') . '&view=' . $this->viewName);
 
 		return true;
 	}

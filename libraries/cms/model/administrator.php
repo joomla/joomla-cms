@@ -90,14 +90,13 @@ abstract class JModelAdministrator extends JModelUcm
 
 		$form = JForm::getInstance($name, $source, $config, false, $xpath);
 
+		// Crate an empty array of data to insert. Fill it if instructed to.
+		$data = array();
+
 		if (isset($config['load_data']) && $config['load_data'])
 		{
 			// Get the data for the form.
 			$data = $this->loadFormData();
-		}
-		else
-		{
-			$data = array();
 		}
 
 		// Allow for additional modification of the form, and events to be triggered.

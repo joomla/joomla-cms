@@ -19,6 +19,15 @@ defined('JPATH_PLATFORM') or die;
 class JViewFeedCategory extends JViewCms
 {
 	/**
+	 * The name of the view to link individual items to, also used for the content type
+	 * Should be implemented by the feed view.
+	 *
+	 * @var    string  The name of the view to link individual items to
+	 * @since  3.4
+	 */
+	protected $viewName = '';
+
+	/**
 	 * Method to render the view.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Exception.
@@ -121,6 +130,9 @@ class JViewFeedCategory extends JViewCms
 			// Loads item information into RSS array
 			$document->addItem($feeditem);
 		}
+
+		// We have added items here directly into the JDocument, so we return an empty string.
+		return '';
 	}
 
 	/**

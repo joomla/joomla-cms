@@ -58,11 +58,11 @@ class JControllerUpdate extends JControllerCms
 		}
 		catch (RuntimeException $e)
 		{
-			throw new RuntimeException($e->getMessage(), $e->getCode());
+			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
 		}
 
 		// Access check.
-		if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
+		if (!$model->allowAction($this->permission, $model->getState('component.option')))
 		{
 			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'), 401);
 		}
