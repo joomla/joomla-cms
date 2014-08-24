@@ -1,7 +1,7 @@
 <?php
 /**
- * @package		Joomla.Plugin
- * @subpackage	User.session
+ * @package     Joomla.Plugin
+ * @subpackage  User.session
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @subpackage  User.session
  * @since       3.4
  */
-class plgUserSession extends JPlugin
+class PlgUserSession extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.

@@ -461,7 +461,7 @@ class PlgEditorTinymce extends JPlugin
 			{
 				$templates = 'templates: [';
 
-				foreach (glob(JPATH_ROOT . '/media/editors/tinymce/templates/*.html') as $filename) 
+				foreach (glob(JPATH_ROOT . '/media/editors/tinymce/templates/*.html') as $filename)
 				{
 					$filename = basename($filename, '.html');
 

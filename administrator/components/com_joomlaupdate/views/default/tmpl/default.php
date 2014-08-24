@@ -27,7 +27,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES') ?>
 	</legend>
 	<p>
-		<?php echo JText::sprintf($langKey, $updateSourceKey ) ?>
+		<?php echo JText::sprintf($langKey, $updateSourceKey) ?>
 	</p>
 	<p>
 		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?>
@@ -42,7 +42,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATEFOUND') ?>
 	</legend>
 	<p>
-		<?php echo JText::sprintf($langKey, $updateSourceKey ) ?>
+		<?php echo JText::sprintf($langKey, $updateSourceKey) ?>
 	</p>
 
 	<table class="table table-striped">

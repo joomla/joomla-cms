@@ -140,21 +140,23 @@ class InstallerModelUpdatesites extends InstallerModel
 		$group = $this->getState('filter.group');
 
 		$query = JFactory::getDbo()->getQuery(true)
-			->select(array(
-				's.update_site_id',
-				's.name as update_site_name',
-				's.type as update_site_type',
-				's.location',
-				's.enabled',
-				'e.extension_id',
-				'e.name',
-				'e.type',
-				'e.element',
-				'e.folder',
-				'e.client_id',
-				'e.state',
-				'e.manifest_cache',
-			))
+			->select(
+				array(
+					's.update_site_id',
+					's.name as update_site_name',
+					's.type as update_site_type',
+					's.location',
+					's.enabled',
+					'e.extension_id',
+					'e.name',
+					'e.type',
+					'e.element',
+					'e.folder',
+					'e.client_id',
+					'e.state',
+					'e.manifest_cache',
+				)
+			)
 			->from('#__update_sites AS s')
 			->innerJoin('#__update_sites_extensions AS se on(se.update_site_id = s.update_site_id)')
 			->innerJoin('#__extensions AS e ON(e.extension_id = se.extension_id)')
@@ -162,7 +164,7 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		if ($enabled != '')
 		{
-			$query->where('s.enabled=' . (int)$enabled);
+			$query->where('s.enabled=' . (int) $enabled);
 		}
 
 		if ($type)
@@ -172,7 +174,7 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		if ($client != '')
 		{
-			$query->where('client_id=' . (int)$client);
+			$query->where('client_id=' . (int) $client);
 		}
 
 		if ($group != '' && in_array($type, array('plugin', 'library', '')))
@@ -185,7 +187,7 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		if (!empty($search) && stripos($search, 'id:') === 0)
 		{
-			$query->where('s.update_site_id = ' . (int)substr($search, 3));
+			$query->where('s.update_site_id = ' . (int) substr($search, 3));
 		}
 
 		return $query;

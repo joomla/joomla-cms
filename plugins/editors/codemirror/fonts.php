@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.codemirror
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
@@ -14,7 +17,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
- * @since       3.3
+ * @since       3.4
  */
 class JFormFieldFonts extends JFormFieldList
 {
@@ -22,7 +25,7 @@ class JFormFieldFonts extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  12.4
+	 * @since  3.4
 	 */
 	protected $type = 'Fonts';
 
@@ -31,7 +34,7 @@ class JFormFieldFonts extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since  12.4
+	 * @since   3.4
 	 */
 	protected function getOptions()
 	{
