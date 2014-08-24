@@ -124,7 +124,7 @@ abstract class JModelAdministrator extends JModelUcm
 	 */
 	protected function loadFormData($context = null)
 	{
-		if(is_null($context))
+		if (is_null($context))
 		{
 			$context = $this->getContext();
 		}

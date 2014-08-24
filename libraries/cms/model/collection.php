@@ -51,7 +51,7 @@ abstract class JModelCollection extends JModelRecord
 		// Add the ordering filtering fields white list.
 		if (isset($config['filter_fields']))
 		{
-			foreach ($config['filter_fields'] AS $filter_field)
+			foreach ($config['filter_fields'] as $filter_field)
 			{
 				$hasName    = (array_key_exists('name', $filter_field));
 				$hasDataKey = (array_key_exists('dataKeyName', $filter_field));
@@ -185,7 +185,7 @@ abstract class JModelCollection extends JModelRecord
 
 		$activeFilters = $this->getActiveFilters();
 
-		foreach ($activeFilters AS $dataKeyName => $value)
+		foreach ($activeFilters as $dataKeyName => $value)
 		{
 			$query->where($dataKeyName . ' = ' . $db->quote($value));
 		}
@@ -491,7 +491,7 @@ abstract class JModelCollection extends JModelRecord
 
 			$filters = $app->getUserStateFromRequest($context . '.filter', 'filter', array(), 'array');
 
-			foreach ($filters AS $name => $value)
+			foreach ($filters as $name => $value)
 			{
 				$this->state->set('filter.' . $name, $value);
 			}

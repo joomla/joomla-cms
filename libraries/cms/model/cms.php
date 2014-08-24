@@ -210,15 +210,15 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 
 		$user = JFactory::getUser();
 
-		if($action == 'core.edit.own')
+		if ($action == 'core.edit.own')
 		{
 			// Not a record or isn't tracking ownership
-			if(is_null($activeRecord) || !isset($activeRecord->owner))
+			if (is_null($activeRecord) || !isset($activeRecord->owner))
 			{
 				$action = 'core.edit';
 			}
 			// Not the owner so the answer is no
-			elseif($user->id != $activeRecord->owner && !$user->authorise('core.admin', $assetName))
+			elseif ($user->id != $activeRecord->owner && !$user->authorise('core.admin', $assetName))
 			{
 				return false;
 			}
