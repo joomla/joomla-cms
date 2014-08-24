@@ -50,7 +50,7 @@ class JControllerDelete extends JControllerCms
 		}
 		catch (RuntimeException $e)
 		{
-			throw new RuntimeException($e->getMessage(), $e->getCode());
+			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
 		}
 
 		// Make sure the item ids are integers
