@@ -603,7 +603,7 @@ abstract class JHtmlBehavior
 		$lifetime = ($config->get('lifetime') * 60000);
 		$refreshTime = ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
 
-		// Refresh time is 1 minute less than the liftime assined in the configuration.php file.
+		// Refresh time is 1 minute less than the lifetime assigned in the configuration.php file.
 
 		// The longest refresh period is one hour to prevent integer overflow.
 		if ($refreshTime > 3600000 || $refreshTime <= 0)
