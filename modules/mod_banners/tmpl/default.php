@@ -19,7 +19,7 @@ $baseurl = JUri::base();
 
 <?php foreach ($list as $item) : ?>
 	<div class="banneritem">
-		<?php $link = JRoute::_('index.php?option=com_banners&task=click&id='. $item->id);?>
+		<?php $link = JRoute::_('index.php?option=com_banners&task=click&id=' . $item->id);?>
 		<?php if ($item->type == 1) :?>
 			<?php // Text based banners ?>
 			<?php echo str_replace(array('{CLICKURL}', '{NAME}'), array($link, $item->name), $item->custombannercode);?>
@@ -43,8 +43,8 @@ $baseurl = JUri::base();
 							<img
 								src="<?php echo $baseurl . $imageurl;?>"
 								alt="<?php echo $alt;?>"
-								<?php if (!empty($width)) echo 'width ="'. $width.'"';?>
-								<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
+								<?php if (!empty($width)) echo 'width ="' . $width . '"';?>
+								<?php if (!empty($height)) echo 'height ="' . $height . '"';?>
 							/>
 						</a>
 					<?php elseif ($target == 2):?>
@@ -57,8 +57,8 @@ $baseurl = JUri::base();
 							<img
 								src="<?php echo $baseurl . $imageurl;?>"
 								alt="<?php echo $alt;?>"
-								<?php if (!empty($width)) echo 'width ="'. $width.'"';?>
-								<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
+								<?php if (!empty($width)) echo 'width ="' . $width . '"';?>
+								<?php if (!empty($height)) echo 'height ="' . $height . '"';?>
 							/>
 						</a>
 					<?php else :?>
@@ -87,8 +87,8 @@ $baseurl = JUri::base();
 				<object
 					classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 					codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0"
-					<?php if (!empty($width)) echo 'width ="'. $width.'"';?>
-					<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
+					<?php if (!empty($width)) echo 'width ="' . $width . '"';?>
+					<?php if (!empty($height)) echo 'height ="' . $height . '"';?>
 				>
 					<param name="movie" value="<?php echo $imageurl;?>" />
 					<embed
@@ -96,8 +96,8 @@ $baseurl = JUri::base();
 						loop="false"
 						pluginspage="http://www.macromedia.com/go/get/flashplayer"
 						type="application/x-shockwave-flash"
-						<?php if (!empty($width)) echo 'width ="'. $width.'"';?>
-						<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
+						<?php if (!empty($width)) echo 'width ="' . $width . '"';?>
+						<?php if (!empty($height)) echo 'height ="' . $height . '"';?>
 					/>
 				</object>
 			<?php endif;?>
