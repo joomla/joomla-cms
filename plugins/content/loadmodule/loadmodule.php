@@ -113,8 +113,9 @@ class plgContentLoadmodule extends JPlugin
 	// there is a title.
 	protected function _loadmod($module, $title, $style = 'none')
 	{
-		if (!isset(self::$mods[$module])) {
-			self::$mods[$module] = '';
+		$moduleinstance = $module . JStringNormalise::toCamelCase($title);
+		if (!isset(self::$mods[$moduleinstance])) {
+			self::$mods[$moduleinstance] = '';
 			$document	= JFactory::getDocument();
 			$renderer	= $document->loadRenderer('module');
 			$mod		= JModuleHelper::getModule($module, $title);
@@ -129,8 +130,8 @@ class plgContentLoadmodule extends JPlugin
 
 			echo $renderer->render($mod, $params);
 
-			self::$mods[$module] = ob_get_clean();
+			self::$mods[$moduleinstance] = ob_get_clean();
 		}
-		return self::$mods[$module];
+		return self::$mods[$moduleinstance];
 	}
 }
