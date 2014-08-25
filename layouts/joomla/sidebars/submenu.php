@@ -24,7 +24,12 @@ defined('JPATH_BASE') or die;
 				<a class="nolink"><?php echo $item[0]; ?></a>
 			<?php else :
 				if (strlen($item[1])) : ?>
-					<a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a>
+					<a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>">
+						<?php if (!empty($item[3])) : ?>
+							<span class="icon-<?php echo $item[3];?>"></span>
+						<?php endif; ?>
+						<?php echo $item[0]; ?>
+					</a>
 				<?php else : ?>
 					<?php echo $item[0]; ?>
 				<?php endif;

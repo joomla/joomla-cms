@@ -34,16 +34,20 @@ class ContentHelper extends JHelperContent
 		JHtmlSidebar::addEntry(
 			JText::_('JGLOBAL_ARTICLES'),
 			'index.php?option=com_content&view=articles',
-			$vName == 'articles'
+			$vName == 'articles',
+			'stack'
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_CONTENT_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_content',
-			$vName == 'categories');
+			$vName == 'categories',
+			'folder'
+		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_CONTENT_SUBMENU_FEATURED'),
 			'index.php?option=com_content&view=featured',
-			$vName == 'featured'
+			$vName == 'featured',
+			'star'
 		);
 	}
 
