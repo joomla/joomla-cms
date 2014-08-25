@@ -84,7 +84,7 @@ class FinderModelSearch extends JModelList
 		}
 
 		// Check if we should return results.
-		if (empty($this->includedTerms) && ( empty($this->query->filters) || !$this->query->empty ) 
+		if (empty($this->includedTerms) && ( empty($this->query->filters) || !$this->query->empty )
 			&& ((empty($this->query->date1) && empty($this->query->date2) ) || !$this->query->empty))
 		{
 			return null;
@@ -161,7 +161,7 @@ class FinderModelSearch extends JModelList
 		}
 
 		// Check if we should return results.
-		if (empty($this->includedTerms) && ( empty($this->query->filters) || !$this->query->empty ) 
+		if (empty($this->includedTerms) && ( empty($this->query->filters) || !$this->query->empty )
 			&& ((empty($this->query->date1) && empty($this->query->date2) ) || !$this->query->empty))
 		{
 			return null;
