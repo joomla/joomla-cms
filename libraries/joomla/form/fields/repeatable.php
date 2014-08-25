@@ -59,14 +59,13 @@ class JFormFieldRepeatable extends JFormField
 			// Reset name to simple
 			$field->name = (string) $field->element['name'];
 
-			// build heading
+			// Build heading
 			$head_row_str[] = '<th>' . strip_tags($field->getLabel($field->name));
 			$head_row_str[] = '<br /><small style="font-weight:normal">' . JText::_($field->description) . '</small>';
 			$head_row_str[] = '</th>';
 
-			// build body
+			// Build body
 			$body_row_str[] = '<td>' . $field->getInput() . '</td>';
-
 		}
 
 		// Append buttons
@@ -85,15 +84,16 @@ class JFormFieldRepeatable extends JFormField
 		// And finaly build a main container
 		$str = array();
 		$str[] = '<div id="' . $this->id . '_container">';
+
 		// Add the table to modal
 		$str[] = '<div id="' . $this->id . '_modal" class="modal hide">';
 		$str[] =  $table;
 		$str[] = '<div class="modal-footer">';
-			$str[] = '<button class="close-modal btn button btn-link">' . JText::_('JCANCEL') . '</button>';
-			$str[] = '<button class="save-modal-data btn button btn-primary">' . JText::_('JAPPLY') . '</button>';
+		$str[] = '<button class="close-modal btn button btn-link">' . JText::_('JCANCEL') . '</button>';
+		$str[] = '<button class="save-modal-data btn button btn-primary">' . JText::_('JAPPLY') . '</button>';
 		$str[] = '</div>';
-		$str[] = '</div>'; // close modal container
-		$str[] = '</div>'; // close main container
+		$str[] = '</div>'; // Close modal container
+		$str[] = '</div>'; // Close main container
 
 		// Button for display the modal window
 		$select = (string) $this->element['select'] ? JText::_((string) $this->element['select']) : JText::_('JLIB_FORM_BUTTON_SELECT');
