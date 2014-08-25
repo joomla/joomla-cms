@@ -84,7 +84,8 @@ class FinderModelSearch extends JModelList
 		}
 
 		// Check if we should return results.
-		if (empty($this->includedTerms) && (empty($this->query->filters) || !$this->query->empty))
+		if (empty($this->includedTerms) && ( empty($this->query->filters) || !$this->query->empty ) 
+			&& ((empty($this->query->date1) && empty($this->query->date2) ) || !$this->query->empty))
 		{
 			return null;
 		}
@@ -160,7 +161,8 @@ class FinderModelSearch extends JModelList
 		}
 
 		// Check if we should return results.
-		if (empty($this->includedTerms) && (empty($this->query->filters) || !$this->query->empty))
+		if (empty($this->includedTerms) && ( empty($this->query->filters) || !$this->query->empty ) 
+			&& ((empty($this->query->date1) && empty($this->query->date2) ) || !$this->query->empty))
 		{
 			return null;
 		}
@@ -233,7 +235,7 @@ class FinderModelSearch extends JModelList
 		$nowDate = $db->quote(substr_replace(JFactory::getDate()->toSQL(), '00', -2));
 
 		// Add the publish up and publish down filters.
-		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_end_date <= ' . $nowDate . ')')
+		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_start_date <= ' . $nowDate . ')')
 			->where('(l.publish_end_date = ' . $nullDate . ' OR l.publish_end_date >= ' . $nowDate . ')');
 
 		/*
