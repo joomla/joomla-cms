@@ -185,7 +185,7 @@
             self.$input.trigger('weready');
         };
 
-        // prepare a template that we will use repeating
+        // prepare a template that we will use for repeating
         self.prepareTemplate = function(){
         	//find available
         	var $rows = self.$container.find(self.options.repeatableElement);
@@ -259,10 +259,11 @@
       	 	 	modalHalfWidth = self.$modalWindow.width() / 2,
       	 	 	rowsHalfWidth = self.$rowsContainer.width() / 2,
       	 	 	marginLeft = modalHalfWidth >= docHalfWidth ? 0 : -modalHalfWidth,
-      	 	 	left = marginLeft ? '50%' : 0;
+      	 	 	left = marginLeft ? '50%' : 0,
+      	 	 	top = $(document).scrollTop() + $(window).height() * 0.2;//20% from top of visible win
 
         	self.$modalWindow.css({
-       	    	 top: '20%',
+       	    	 top: top,
        	    	 left: left,
        	         'margin-left': marginLeft,
        	         overflow: rowsHalfWidth > modalHalfWidth ? 'auto' : 'visible'
