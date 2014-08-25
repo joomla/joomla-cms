@@ -87,13 +87,17 @@ class JFormFieldRepeatable extends JFormField
 
 		// Add the table to modal
 		$str[] = '<div id="' . $this->id . '_modal" class="modal hide">';
-		$str[] =  $table;
+		$str[] = $table;
 		$str[] = '<div class="modal-footer">';
 		$str[] = '<button class="close-modal btn button btn-link">' . JText::_('JCANCEL') . '</button>';
 		$str[] = '<button class="save-modal-data btn button btn-primary">' . JText::_('JAPPLY') . '</button>';
 		$str[] = '</div>';
-		$str[] = '</div>'; // Close modal container
-		$str[] = '</div>'; // Close main container
+
+		// Close modal container
+		$str[] = '</div>';
+
+		// Close main container
+		$str[] = '</div>';
 
 		// Button for display the modal window
 		$select = (string) $this->element['select'] ? JText::_((string) $this->element['select']) : JText::_('JLIB_FORM_BUTTON_SELECT');
