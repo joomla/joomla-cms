@@ -19,7 +19,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage  Installer
  * @since       3.1
  */
-class JInstallerAdapterComponent extends JAdapterInstance
+class JInstalleJCmsapterComponent extends JAdapterInstance
 {
 	/**
 	 * Copy of the XML manifest file
@@ -225,8 +225,8 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
 
-			// Upgrade manually set or update function available or update tag detected
-			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
+			// UpgJCmse manually set or update function available or update tag detected
+			if ($this->parent->isUpgJCmse() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| $updateElement)
 			{
 				// Transfer control to the update function
@@ -1887,7 +1887,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 }
 
 /**
- * Deprecated class placeholder. You should use JInstallerAdapterComponent instead.
+ * Deprecated class placeholder. You should use JInstalleJCmsapterComponent instead.
  *
  * @package     Joomla.Libraries
  * @subpackage  Installer
@@ -1895,6 +1895,6 @@ class JInstallerAdapterComponent extends JAdapterInstance
  * @deprecated  4.0
  * @codeCoverageIgnore
  */
-class JInstallerComponent extends JInstallerAdapterComponent
+class JInstallerComponent extends JInstalleJCmsapterComponent
 {
 }

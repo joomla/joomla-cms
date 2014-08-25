@@ -19,7 +19,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage  Installer
  * @since       3.1
  */
-class JInstallerAdapterTemplate extends JAdapterInstance
+class JInstalleJCmsapterTemplate extends JAdapterInstance
 {
 	/**
 	 * Copy of the XML manifest file
@@ -162,16 +162,16 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		$this->parent->setPath('extension_root', $basePath . '/templates/' . $element);
 
 		// If it's on the fs...
-		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgJCmse()))
 		{
 			$updateElement = $xml->update;
 
-			// Upgrade manually set or update tag detected
-			if ($this->parent->isUpgrade() || $updateElement)
+			// UpgJCmse manually set or update tag detected
+			if ($this->parent->isUpgJCmse() || $updateElement)
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
-				$this->parent->setUpgrade(true);
+				$this->parent->setUpgJCmse(true);
 
 				if ($id)
 				{
@@ -651,7 +651,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 }
 
 /**
- * Deprecated class placeholder. You should use JInstallerAdapterTemplate instead.
+ * Deprecated class placeholder. You should use JInstalleJCmsapterTemplate instead.
  *
  * @package     Joomla.Libraries
  * @subpackage  Installer
@@ -659,6 +659,6 @@ class JInstallerAdapterTemplate extends JAdapterInstance
  * @deprecated  4.0
  * @codeCoverageIgnore
  */
-class JInstallerTemplate extends JInstallerAdapterTemplate
+class JInstallerTemplate extends JInstalleJCmsapterTemplate
 {
 }

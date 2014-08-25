@@ -19,7 +19,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage  Installer
  * @since       3.1
  */
-class JInstallerAdapterModule extends JAdapterInstance
+class JInstalleJCmsapterModule extends JAdapterInstance
 {
 	/**
 	 * Install function routing
@@ -258,21 +258,21 @@ class JInstallerAdapterModule extends JAdapterInstance
 		 * module is already installed or another module is using that
 		 * directory.
 		 * Check that this is either an issue where its not overwriting or it is
-		 * set to upgrade anyway
+		 * set to upgJCmse anyway
 		 */
 
-		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgJCmse()))
 		{
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
 
-			// Upgrade manually set or update function available or update tag detected
-			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
+			// UpgJCmse manually set or update function available or update tag detected
+			if ($this->parent->isUpgJCmse() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| $updateElement)
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
-				$this->parent->setUpgrade(true);
+				$this->parent->setUpgJCmse(true);
 
 				if ($id)
 				{
@@ -596,7 +596,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 	{
 		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
-		$this->parent->setUpgrade(true);
+		$this->parent->setUpgJCmse(true);
 
 		// Set the route for the install
 		$this->route = 'update';
@@ -1012,7 +1012,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 }
 
 /**
- * Deprecated class placeholder. You should use JInstallerAdapterModule instead.
+ * Deprecated class placeholder. You should use JInstalleJCmsapterModule instead.
  *
  * @package     Joomla.Libraries
  * @subpackage  Installer
@@ -1020,6 +1020,6 @@ class JInstallerAdapterModule extends JAdapterInstance
  * @deprecated  4.0
  * @codeCoverageIgnore
  */
-class JInstallerModule extends JInstallerAdapterModule
+class JInstallerModule extends JInstalleJCmsapterModule
 {
 }

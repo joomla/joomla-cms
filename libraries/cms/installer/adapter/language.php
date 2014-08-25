@@ -19,7 +19,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage  Installer
  * @since       3.1
  */
-class JInstallerAdapterLanguage extends JAdapterInstance
+class JInstalleJCmsapterLanguage extends JAdapterInstance
 {
 	/**
 	 * Core language pack flag
@@ -161,8 +161,8 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
 
-			// Upgrade manually set or update tag detected
-			if ($this->parent->isUpgrade() || $updateElement)
+			// UpgJCmse manually set or update tag detected
+			if ($this->parent->isUpgJCmse() || $updateElement)
 			{
 				// Transfer control to the update function
 				return $this->update();
@@ -667,7 +667,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 }
 
 /**
- * Deprecated class placeholder. You should use JInstallerAdapterLanguage instead.
+ * Deprecated class placeholder. You should use JInstalleJCmsapterLanguage instead.
  *
  * @package     Joomla.Libraries
  * @subpackage  Installer
@@ -675,6 +675,6 @@ class JInstallerAdapterLanguage extends JAdapterInstance
  * @deprecated  4.0
  * @codeCoverageIgnore
  */
-class JInstallerLanguage extends JInstallerAdapterLanguage
+class JInstallerLanguage extends JInstalleJCmsapterLanguage
 {
 }

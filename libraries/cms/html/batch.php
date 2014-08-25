@@ -72,8 +72,8 @@ abstract class JHtmlBatch
 			. JHtml::_('select.options', JHtml::_('category.options', $extension))
 			. '</select>'
 			. '</div>'
-			. '<div id="batch-move-copy" class="control-group radio">'
-			. JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm')
+			. '<div id="batch-move-copy" class="control-group JCmsio">'
+			. JHtml::_('select.JCmsiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm')
 			. '</div>';
 	}
 

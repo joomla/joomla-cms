@@ -357,7 +357,7 @@ class JControllerForm extends JControllerLegacy
 	 * @since   12.2
 	 */
 	public function edit($key = null, $urlVar = null)
-	{
+	{		
 		$app   = JFactory::getApplication();
 		$model = $this->getModel();
 		$table = $model->getTable();

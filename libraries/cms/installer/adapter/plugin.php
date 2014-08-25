@@ -19,7 +19,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage  Installer
  * @since       3.1
  */
-class JInstallerAdapterPlugin extends JAdapterInstance
+class JInstalleJCmsapterPlugin extends JAdapterInstance
 {
 	/**
 	 * Install function routing
@@ -223,17 +223,17 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		$id = $db->loadResult();
 
 		// If it's on the fs...
-		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgJCmse()))
 		{
 			$updateElement = $xml->update;
 
-			// Upgrade manually set or update function available or update tag detected
-			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
+			// UpgJCmse manually set or update function available or update tag detected
+			if ($this->parent->isUpgJCmse() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| $updateElement)
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
-				$this->parent->setUpgrade(true);
+				$this->parent->setUpgJCmse(true);
 
 				if ($id)
 				{
@@ -576,7 +576,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 	{
 		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
-		$this->parent->setUpgrade(true);
+		$this->parent->setUpgJCmse(true);
 
 		// Set the route for the install
 		$this->route = 'update';
@@ -919,7 +919,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 }
 
 /**
- * Deprecated class placeholder. You should use JInstallerAdapterPlugin instead.
+ * Deprecated class placeholder. You should use JInstalleJCmsapterPlugin instead.
  *
  * @package     Joomla.Libraries
  * @subpackage  Installer
@@ -927,6 +927,6 @@ class JInstallerAdapterPlugin extends JAdapterInstance
  * @deprecated  4.0
  * @codeCoverageIgnore
  */
-class JInstallerPlugin extends JInstallerAdapterPlugin
+class JInstallerPlugin extends JInstalleJCmsapterPlugin
 {
 }

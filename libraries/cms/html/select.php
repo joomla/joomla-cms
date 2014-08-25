@@ -30,7 +30,7 @@ abstract class JHtmlSelect
 			'option.text.toHtml' => true, 'option.class' => 'class', 'option.onclick' => 'onclick'));
 
 	/**
-	 * Generates a yes/no radio list.
+	 * Generates a yes/no JCmsio list.
 	 *
 	 * @param   string  $name      The value of the HTML name attribute
 	 * @param   array   $attribs   Additional HTML attributes for the <select> tag
@@ -39,16 +39,16 @@ abstract class JHtmlSelect
 	 * @param   string  $no        Language key for no
 	 * @param   string  $id        The id for the field
 	 *
-	 * @return  string  HTML for the radio list
+	 * @return  string  HTML for the JCmsio list
 	 *
 	 * @since   1.5
-	 * @see     JFormFieldRadio
+	 * @see     JFormFieldJCmsio
 	 */
 	public static function booleanlist($name, $attribs = array(), $selected = null, $yes = 'JYES', $no = 'JNO', $id = false)
 	{
 		$arr = array(JHtml::_('select.option', '0', JText::_($no)), JHtml::_('select.option', '1', JText::_($yes)));
 
-		return JHtml::_('select.radiolist', $arr, $name, $attribs, 'value', 'text', (int) $selected, $id);
+		return JHtml::_('select.JCmsiolist', $arr, $name, $attribs, 'value', 'text', (int) $selected, $id);
 	}
 
 	/**
@@ -729,7 +729,7 @@ abstract class JHtmlSelect
 	}
 
 	/**
-	 * Generates an HTML radio list.
+	 * Generates an HTML JCmsio list.
 	 *
 	 * @param   array    $data       An array of objects
 	 * @param   string   $name       The value of the HTML name attribute
@@ -744,7 +744,7 @@ abstract class JHtmlSelect
 	 *
 	 * @since   1.5
 	 */
-	public static function radiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
+	public static function JCmsiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
 		$translate = false)
 	{
 		reset($data);
@@ -785,8 +785,8 @@ abstract class JHtmlSelect
 				$extra .= ((string) $k == (string) $selected ? ' checked="checked" ' : '');
 			}
 
-			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';
-			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . $k . '" ' . $extra
+			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="JCmsio">';
+			$html .= "\n\t\n\t" . '<input type="JCmsio" name="' . $name . '" id="' . $id . '" value="' . $k . '" ' . $extra
 				. $attribs . ' >' . $t;
 			$html .= "\n\t" . '</label>';
 		}

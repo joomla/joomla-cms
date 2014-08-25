@@ -21,13 +21,13 @@ abstract class JHtmlUser
 	/**
 	 * Displays a list of user groups.
 	 *
-	 * @param   boolean  $includeSuperAdmin  true to include super admin groups, false to exclude them
+	 * @param   boolean  $includeSupeJCmsmin  true to include super admin groups, false to exclude them
 	 *
 	 * @return  array  An array containing a list of user groups.
 	 *
 	 * @since   2.5
 	 */
-	public static function groups($includeSuperAdmin = false)
+	public static function groups($includeSupeJCmsmin = false)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -46,7 +46,7 @@ abstract class JHtmlUser
 		}
 
 		// Exclude super admin groups if requested
-		if (!$includeSuperAdmin)
+		if (!$includeSupeJCmsmin)
 		{
 			$filteredGroups = array();
 
