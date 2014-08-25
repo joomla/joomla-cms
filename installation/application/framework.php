@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
  * Joomla system checks.
  */
 
-error_reporting(E_ALL);
 const JDEBUG = false;
 @ini_set('magic_quotes_runtime', 0);
 
