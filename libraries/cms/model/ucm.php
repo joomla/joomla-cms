@@ -29,19 +29,19 @@ abstract class JModelUcm extends JModelCollection
 	/**
 	 * Method to load a row for editing from the version history table.
 	 *
-	 * @param   integer $version_id Key to the version history table.
-	 * @param   JTable  $table      Content table object being loaded.
+	 * @param   integer  $version_id  Key to the version history table.
+	 * @param   JTable   $table       Content table object being loaded.
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
+	 * @since   3.4
 	 * @throws  RuntimeException
-	 * @since   12.2
 	 */
 	public function loadHistory($version_id, JTable $table)
 	{
 		// Get an instance of the row to checkout.
 		$historyTable = JTable::getInstance('Contenthistory');
-		$rowArray = array();
+		$rowArray     = array();
 
 		// Only attempt to check the row in if it exists.
 		if ($version_id)
@@ -52,8 +52,7 @@ abstract class JModelUcm extends JModelCollection
 			}
 
 			$rowArray = JArrayHelper::fromObject(json_decode($historyTable->version_data));
-
-			$typeId = JTable::getInstance('Contenttype')->getTypeId($this->typeAlias);
+			$typeId   = JTable::getInstance('Contenttype')->getTypeId($this->typeAlias);
 
 			if ($historyTable->ucm_type_id != $typeId)
 			{
