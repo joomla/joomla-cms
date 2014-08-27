@@ -25,15 +25,14 @@ abstract class JModelActions extends JModelAdministrator
 	 *
 	 * @return boolean
 	 *
+	 * @since  3.4
 	 * @throws RuntimeException
 	 */
 	public function create($data)
 	{
-		$form = $this->getForm($data, false);
-
+		$form      = $this->getForm($data, false);
 		$validData = $this->validate($form, $data);
-
-		$table = $this->getTable();
+		$table     = $this->getTable();
 
 		if ((!empty($validData['tags']) && $validData['tags'][0] != ''))
 		{
@@ -91,10 +90,9 @@ abstract class JModelActions extends JModelAdministrator
 	 */
 	public function update($data)
 	{
-		$form = $this->getForm($data, false);
+		$form      = $this->getForm($data, false);
 		$validData = $this->validate($form, $data);
-
-		$table = $this->getTable();
+		$table     = $this->getTable();
 
 		if ((!empty($validData['tags']) && $validData['tags'][0] != ''))
 		{
@@ -145,7 +143,6 @@ abstract class JModelActions extends JModelAdministrator
 	 *
 	 * @param array $cid array of record primary keys.
 	 *
-	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
 	 * @since     3.4
@@ -159,12 +156,11 @@ abstract class JModelActions extends JModelAdministrator
 		$dispatcher = $this->dispatcher;
 
 		// Get the id's of the items to delete
-		$pks    = (array) $cid;
+		$pks = (array) $cid;
 
 		foreach ($pks as $pk)
 		{
-			$context = $this->option . '.' . $this->getName();
-
+			$context      = $this->option . '.' . $this->getName();
 			$activeRecord = $this->getActiveRecord($pk);
 
 			if ($this->canDelete('core.delete', $activeRecord))
@@ -209,9 +205,9 @@ abstract class JModelActions extends JModelAdministrator
 	public function publish($pks, $value = 1)
 	{
 		$dispatcher = JEventDispatcher::getInstance();
-		$user = JFactory::getUser();
-		$table = $this->getTable();
-		$pks = (array) $pks;
+		$user       = JFactory::getUser();
+		$table      = $this->getTable();
+		$pks        = (array) $pks;
 
 		// Include the content plugins for the change of state event.
 		JPluginHelper::importPlugin('content');
@@ -266,9 +262,10 @@ abstract class JModelActions extends JModelAdministrator
 	 * @param   string  $action  The action to check
 	 * @param   object  $record  A record object.
 	 *
-	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @return  boolean  True if allowed to delete the record. 
+	 *                   Defaults to the permission set in the component.
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	protected function canDelete($action = 'core.delete', $record)
@@ -294,7 +291,7 @@ abstract class JModelActions extends JModelAdministrator
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	protected function canEditState($record)
 	{
@@ -304,9 +301,10 @@ abstract class JModelActions extends JModelAdministrator
 	/**
 	 * Method to reorder one or more records
 	 *
-	 * @param array  $cid
-	 * @param string $direction up or down
+	 * @param  array   $cid
+	 * @param  string  $direction up or down
 	 *
+	 * @since  3.4
 	 * @throws RuntimeException
 	 * @return boolean
 	 */
@@ -327,7 +325,7 @@ abstract class JModelActions extends JModelAdministrator
 			$delta = null;
 		}
 
-		$pks    = (array) $cid;
+		$pks = (array) $cid;
 
 		foreach ($pks as $pk)
 		{
@@ -353,12 +351,12 @@ abstract class JModelActions extends JModelAdministrator
 	/**
 	 * Saves the manually set order of records.
 	 *
-	 * @param   array   $cid   An array of primary key ids.
-	 * @param   integer $order +1 or -1
+	 * @param   array   $cid    An array of primary key ids.
+	 * @param   integer $order  +1 or -1
 	 *
 	 * @return  mixed
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	public function saveorder($cid = null, $order = null)
@@ -369,7 +367,7 @@ abstract class JModelActions extends JModelAdministrator
 		}
 
 
-		/*
+		/**
 		 *  This is something that needs to be worked out once changes to JTable are completed
 		 *  Commented out because I haven't really studied the implementation, so this code might not be correct.
 		 * $table          = $this->getTable();
@@ -380,12 +378,14 @@ abstract class JModelActions extends JModelAdministrator
 		 * $tagsObserver   = $table->getObserverOfClass('JTableObserverTags');
 		*/
 
-		$conditions     = array();
-		$pks    = (array) $cid;
+		$conditions = array();
+		$pks       = (array) $cid;
+
 		// Update ordering values
 		foreach ($pks as $i => $pk)
 		{
 			$activeRecord = $this->getActiveRecord($pk);
+
 			// Access checks.
 			if ($this->allowAction('core.edit.state', $this->option, $activeRecord))
 			{
@@ -406,6 +406,7 @@ abstract class JModelActions extends JModelAdministrator
 					if ($cond[1] == $condition)
 					{
 						$found = true;
+
 						break;
 					}
 				}
