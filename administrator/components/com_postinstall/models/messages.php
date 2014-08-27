@@ -61,7 +61,7 @@ class PostinstallModelMessages extends FOFModel
 		$query = $db->getQuery(true)
 			->select(array('name', 'element', 'client_id'))
 			->from($db->qn('#__extensions'))
-			->where($db->qn('extension_id') . ' = ' . $db->q((int)$eid));
+			->where($db->qn('extension_id') . ' = ' . $db->q((int) $eid));
 
 		$db->setQuery($query, 0, 1);
 
@@ -320,9 +320,9 @@ class PostinstallModelMessages extends FOFModel
 		}
 
 		// Normalisation of integer values
-		$options['extension_id'] = (int)$options['extension_id'];
-		$options['language_client_id'] = (int)$options['language_client_id'];
-		$options['enabled'] = (int)$options['enabled'];
+		$options['extension_id'] = (int) $options['extension_id'];
+		$options['language_client_id'] = (int) $options['language_client_id'];
+		$options['enabled'] = (int) $options['enabled'];
 
 		// Normalisation of 0/1 values
 		foreach (array('language_client_id', 'enabled') as $key)
@@ -331,7 +331,7 @@ class PostinstallModelMessages extends FOFModel
 		}
 
 		// Make sure there's an extension_id
-		if (!(int)$options['extension_id'])
+		if (!(int) $options['extension_id'])
 		{
 			throw new Exception('Post-installation message definitions need an extension_id', 500);
 		}

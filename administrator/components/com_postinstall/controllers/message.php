@@ -23,7 +23,7 @@ class PostinstallControllerMessage extends FOFController
 		/** @var PostinstallModelMessages $model */
 		$model = $this->getThisModel();
 
-		$eid = (int)$model->getState('eid', '700', 'int');
+		$eid = (int) $model->getState('eid', '700', 'int');
 
 		if (empty($eid))
 		{

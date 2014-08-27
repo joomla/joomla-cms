@@ -32,7 +32,7 @@ class PostinstallViewMessages extends FOFViewHtml
 		/** @var PostinstallModelMessages $model */
 		$model = $this->getModel();
 
-		$this->eid = (int)$model->getState('eid', '700', 'int');
+		$this->eid = (int) $model->getState('eid', '700', 'int');
 
 		if (empty($this->eid))
 		{
