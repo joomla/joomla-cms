@@ -380,7 +380,7 @@ abstract class JModelActions extends JModelAdministrator
 		*/
 
 		$conditions = array();
-		$pks       = (array) $cid;
+		$pks        = (array) $cid;
 
 		// Update ordering values
 		foreach ($pks as $i => $pk)
