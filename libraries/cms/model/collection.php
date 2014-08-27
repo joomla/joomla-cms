@@ -94,6 +94,7 @@ abstract class JModelCollection extends JModelRecord
 	 * @param   bool    $searchable   True to add to the searchFields array
 	 *
 	 * @return  JModelCollection  $this to allow for chaining
+	 *
 	 * @since   3.4
 	 */
 	public function addFilterField($name, $dataKeyName, $sortable = true, $searchable = false)
@@ -123,9 +124,9 @@ abstract class JModelCollection extends JModelRecord
 	public function getItems()
 	{
 		$db = $this->getDb();
+
 		// Load the list items.
 		$query = $this->getListQuery();
-
 		$start = $this->getStart();
 		$limit = $this->getStateVar('list.limit', 0);
 
@@ -152,7 +153,7 @@ abstract class JModelCollection extends JModelRecord
 	 *
 	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	protected function getListQuery(JDatabaseQuery $query = null)
 	{
@@ -160,8 +161,7 @@ abstract class JModelCollection extends JModelRecord
 
 		if (is_null($query))
 		{
-			$query = $db->getQuery(true);
-
+			$query     = $db->getQuery(true);
 			$table     = $this->getTable();
 			$tableName = $table->getTableName();
 
@@ -190,8 +190,7 @@ abstract class JModelCollection extends JModelRecord
 			$query->where($dataKeyName . ' = ' . $db->quote($value));
 		}
 
-		$query = $this->buildSearch($query);
-
+		$query     = $this->buildSearch($query);
 		$orderCol  = $this->getStateVar('list.ordering');
 		$orderDirn = $this->getStateVar('list.direction');
 
@@ -205,15 +204,18 @@ abstract class JModelCollection extends JModelRecord
 
 	/**
 	 * Method to add a left join to the user table for record editor.
+	 *
 	 * @param   JDatabaseQuery  $query       The query object
 	 * @param   string          $rootPrefix  The root prefix
 	 *
 	 * @return  JDatabaseQuery
+	 *
+	 * @since   3.4
 	 */
 	protected function addEditorQuery(JDatabaseQuery $query, $rootPrefix = 'a')
 	{
 		$query->select('editor.name AS editor');
-		$query->join('LEFT', '#__users AS editor ON editor.id='.$rootPrefix.'.checked_out');
+		$query->join('LEFT', '#__users AS editor ON editor.id=' . $rootPrefix . '.checked_out');
 
 		return $query;
 	}
@@ -224,13 +226,14 @@ abstract class JModelCollection extends JModelRecord
 	 * @param   JDatabaseQuery  $query
 	 * @param   string          $onField the prefixed field name to join on
 	 *
+	 * @return  JDatabaseQuery
 	 *
-	 * @return JDatabaseQuery
+	 * @since   3.4
 	 */
 	protected function addAccessTitle(JDatabaseQuery $query, $onField = 'a.access')
 	{
 		$query->select('access.title AS access_title');
-		$query->join('LEFT', '#__viewlevels AS access ON access.id ='.$onField);
+		$query->join('LEFT', '#__viewlevels AS access ON access.id =' . $onField);
 
 		return $query;
 	}
@@ -240,7 +243,7 @@ abstract class JModelCollection extends JModelRecord
 	 *
 	 * @return  array  Associative array in the format: array('filter_published' => 0)
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	public function getActiveFilters()
 	{
@@ -250,8 +253,8 @@ abstract class JModelCollection extends JModelRecord
 		{
 			foreach ($this->filterFields as $filterField)
 			{
-				$filterName = 'filter.' . $filterField['name'];
-				$state = $this->getState();
+				$filterName     = 'filter.' . $filterField['name'];
+				$state          = $this->getState();
 				$stateHasFilter = $state->exists($filterName);
 
 				if ($stateHasFilter)
@@ -277,7 +280,7 @@ abstract class JModelCollection extends JModelRecord
 	 *
 	 * @return  string  Associative array in the format: array('filter_published' => 0)
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	protected function buildSearch($query)
 	{
@@ -287,8 +290,7 @@ abstract class JModelCollection extends JModelRecord
 		if (!empty($search) && isset($this->searchFields))
 		{
 			$searchInList = (array) $this->searchFields;
-
-			$isExact = (JString::strrpos($search, '"'));
+			$isExact      = (JString::strrpos($search, '"'));
 
 			if ($isExact)
 			{
@@ -298,9 +300,9 @@ abstract class JModelCollection extends JModelRecord
 				foreach ((array) $searchInList as $search_field)
 				{
 					$cleanSearch = $db->Quote($db->escape($search, true));
-					$where .= ' ' . $search_field['dataKeyName'] . ' = ' . $cleanSearch . ' OR';
+					$where      .= ' ' . $search_field['dataKeyName'] . ' = ' . $cleanSearch . ' OR';
 				}
-				$where = substr($where, 0, -3);
+				$where  = substr($where, 0, -3);
 				$where .= ')';
 
 				$query->where($where);
@@ -308,21 +310,22 @@ abstract class JModelCollection extends JModelRecord
 			else
 			{
 				$search = $db->Quote('%' . $db->escape($search, true) . '%');
-				$where = '( ';
+				$where  = '( ';
 
 				foreach ((array) $searchInList as $search_field)
 				{
 					$where .= ' ' . $search_field['dataKeyName'] . ' LIKE ' . $search . ' OR ';
 				}
 
-				$where = substr($where, 0, -3);
+				$where  = substr($where, 0, -3);
 				$where .= ')';
 
 				$query->where($where);
 			}
 		}
 
-		return $query; //no search found
+ 		// No search found
+		return $query;
 	}
 
 	/**
@@ -330,7 +333,7 @@ abstract class JModelCollection extends JModelRecord
 	 *
 	 * @return  integer  The starting number of items available in the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	public function getStart()
 	{
@@ -351,7 +354,7 @@ abstract class JModelCollection extends JModelRecord
 	 *
 	 * @return  integer  The total number of items available in the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	public function getTotal()
 	{
@@ -377,7 +380,7 @@ abstract class JModelCollection extends JModelRecord
 	 *
 	 * @return  integer  Number of rows for query.
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	protected function _getListCount(JDatabaseQuery $query)
 	{
@@ -412,7 +415,7 @@ abstract class JModelCollection extends JModelRecord
 	 *
 	 * @return  JPagination  A JPagination object for the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	public function getPagination()
 	{
@@ -437,13 +440,12 @@ abstract class JModelCollection extends JModelRecord
 	 *
 	 * @return  mixed  The request user state.
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
-		$app   = JFactory::getApplication();
-		$input = $app->input;
-
+		$app      = JFactory::getApplication();
+		$input    = $app->input;
 		$oldState = $app->getUserState($key);
 
 		if (!is_null($oldState))
@@ -455,8 +457,7 @@ abstract class JModelCollection extends JModelRecord
 			$cur_state = $default;
 		}
 
-		$newState = $input->get($request, null, $type);
-
+		$newState   = $input->get($request, null, $type);
 		$hasChanged = ($cur_state != $newState);
 
 		if ($hasChanged && $resetPage)
@@ -479,6 +480,18 @@ abstract class JModelCollection extends JModelRecord
 	}
 
 	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
+	 * @param string $ordering  column to order by. I.E. 'a.title'
+	 * @param string $direction 'ASC' or 'DESC'
+	 *
+	 * @return  void
+	 *
+	 * @since 3.4
 	 * @see JModelCms::populateState()
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -487,8 +500,7 @@ abstract class JModelCollection extends JModelRecord
 
 		if (!$this->stateIsSet)
 		{
-			$app = JFactory::getApplication();
-
+			$app     = JFactory::getApplication();
 			$filters = $app->getUserStateFromRequest($context . '.filter', 'filter', array(), 'array');
 
 			foreach ($filters as $name => $value)
