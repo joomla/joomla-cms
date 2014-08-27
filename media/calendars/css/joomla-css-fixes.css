@@ -1,0 +1,5 @@
+/* this is required to correct the template.css select width */
+
+select.calendars-month-year {
+    width:inherit !important;
+}
