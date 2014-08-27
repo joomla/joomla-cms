@@ -99,9 +99,9 @@ abstract class JHtmlSearchtools
 	/**
 	 * Function to receive & pre-process javascript options
 	 *
-	 * @param   mixed  $options  Associative array/JRegistry object with options
+	 * @param   mixed  $options  Associative array/Registry object with options
 	 *
-	 * @return  JRegistry        Options converted to JRegistry object
+	 * @return  Joomla\Registry\Registry  Options converted to Registry object
 	 */
 	private static function options2Jregistry($options)
 	{

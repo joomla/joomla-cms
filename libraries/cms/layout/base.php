@@ -22,7 +22,7 @@ class JLayoutBase implements JLayout
 	/**
 	 * Options object
 	 *
-	 * @var    JRegistry
+	 * @var    Joomla\Registry\Registry
 	 * @since  3.2
 	 */
 	protected $options = null;
@@ -38,7 +38,7 @@ class JLayoutBase implements JLayout
 	/**
 	 * Set the options
 	 *
-	 * @param   mixed  $options  Array / JRegistry object with the options to load
+	 * @param   mixed  $options  Array / Registry object with the options to load
 	 *
 	 * @return  JLayoutBase  Instance of $this to allow chaining.
 	 *
@@ -67,7 +67,7 @@ class JLayoutBase implements JLayout
 	/**
 	 * Get the options
 	 *
-	 * @return  JRegistry  Object with the options
+	 * @return  Joomla\Registry\Registry  Object with the options
 	 *
 	 * @since   3.2
 	 */

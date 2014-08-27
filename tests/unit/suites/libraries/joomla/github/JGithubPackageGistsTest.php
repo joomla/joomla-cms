@@ -22,7 +22,7 @@ require_once JPATH_PLATFORM . '/joomla/github/gists.php';
 class JGithubPackageGistsTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
+	 * @var    Joomla\Registry\Registry  Options for the GitHub object.
 	 * @since  11.4
 	 */
 	protected $options;

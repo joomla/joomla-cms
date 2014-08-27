@@ -22,7 +22,7 @@ require_once JPATH_PLATFORM . '/joomla/github/commits.php';
 class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
+	 * @var    Joomla\Registry\Registry  Options for the GitHub object.
 	 * @since  12.1
 	 */
 	protected $options;

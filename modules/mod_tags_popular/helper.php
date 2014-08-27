@@ -21,7 +21,7 @@ abstract class ModTagsPopularHelper
 	/**
 	 * Get list of popular tags
 	 *
-	 * @param   JRegistry  &$params  module parameters
+	 * @param   Joomla\Registry\Registry  &$params  module parameters
 	 *
 	 * @return mixed
 	 */

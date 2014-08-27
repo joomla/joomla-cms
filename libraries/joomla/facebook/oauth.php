@@ -21,7 +21,7 @@ defined('JPATH_PLATFORM') or die();
 class JFacebookOAuth extends JOAuth2Client
 {
 	/**
-	 * @var JRegistry Options for the JFacebookOAuth object.
+	 * @var   Joomla\Registry\Registry  Options for the JFacebookOAuth object.
 	 * @since 13.1
 	 */
 	protected $options;

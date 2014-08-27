@@ -80,9 +80,9 @@ class JLibraryHelper
 	 * @param   string   $element  Element of the library in the extensions table.
 	 * @param   boolean  $strict   If set and the library does not exist, false will be returned
 	 *
-	 * @return  JRegistry  A JRegistry object.
+	 * @return  Joomla\Registry\Registry  A Registry object.
 	 *
-	 * @see     JRegistry
+	 * @see     Joomla\Registry\Registry
 	 * @since   3.2
 	 */
 	public static function getParams($element, $strict = false)
@@ -96,11 +96,11 @@ class JLibraryHelper
 	 * Save the parameters object for the library
 	 *
 	 * @param   string     $element  Element of the library in the extensions table.
-	 * @param   JRegistry  $params   Params to save
+	 * @param   Joomla\Registry\Registry  $params   Params to save
 	 *
-	 * @return  JRegistry  A JRegistry object.
+	 * @return  Joomla\Registry\Registry  A Registry object.
 	 *
-	 * @see     JRegistry
+	 * @see     Joomla\Registry\Registry
 	 * @since   3.2
 	 */
 	public static function saveParams($element, $params)

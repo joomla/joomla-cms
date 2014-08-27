@@ -19,7 +19,7 @@ class JHelpTest extends TestCase
 	/**
 	 * The mock config object
 	 *
-	 * @var    JRegistry
+	 * @var    Joomla\Registry\Registry
 	 * @since  3.0
 	 */
 	protected $config;

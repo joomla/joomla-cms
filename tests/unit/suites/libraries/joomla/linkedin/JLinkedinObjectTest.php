@@ -21,7 +21,7 @@ require_once __DIR__ . '/stubs/JLinkedinObjectMock.php';
 class JLinkedinObjectTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the Linkedin object.
+	 * @var    Joomla\Registry\Registry  Options for the Linkedin object.
 	 * @since  13.1
 	 */
 	protected $options;

@@ -21,7 +21,7 @@ interface JModel
 	/**
 	 * Get the model state.
 	 *
-	 * @return  JRegistry  The state object.
+	 * @return  Joomla\Registry\Registry  The state object.
 	 *
 	 * @since   12.1
 	 */

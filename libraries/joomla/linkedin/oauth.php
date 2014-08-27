@@ -20,7 +20,7 @@ defined('JPATH_PLATFORM') or die();
 class JLinkedinOauth extends JOAuth1Client
 {
 	/**
-	* @var    JRegistry  Options for the JLinkedinOauth object.
+	* @var    Joomla\Registry\Registry  Options for the JLinkedinOauth object.
 	* @since  13.1
 	*/
 	protected $options;

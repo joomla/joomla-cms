@@ -26,7 +26,7 @@ class JOAuth1ClientTest extends TestCase
 	protected $input;
 
 	/**
-	 * @var    JRegistry  Options for the OAuth object.
+	 * @var    Joomla\Registry\Registry  Options for the OAuth object.
 	 * @since  13.1
 	 */
 	protected $options;

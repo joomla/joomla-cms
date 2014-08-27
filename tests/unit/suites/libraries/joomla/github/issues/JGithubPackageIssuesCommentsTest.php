@@ -5,7 +5,7 @@
 class JGithubPackageIssuesCommentsTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
+	 * @var    Joomla\Registry\Registry  Options for the GitHub object.
 	 * @since  11.4
 	 */
 	protected $options;

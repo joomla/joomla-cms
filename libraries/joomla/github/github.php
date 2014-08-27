@@ -41,7 +41,7 @@ defined('JPATH_PLATFORM') or die;
 class JGithub
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
+	 * @var    Joomla\Registry\Registry  Options for the GitHub object.
 	 * @since  11.3
 	 */
 	protected $options;

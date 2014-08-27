@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die();
 abstract class JOAuth1Client
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth1Client object.
+	 * @var    Joomla\Registry\Registry  Options for the JOAuth1Client object.
 	 * @since  13.1
 	 */
 	protected $options;

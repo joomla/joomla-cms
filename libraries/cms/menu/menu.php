@@ -301,7 +301,7 @@ class JMenu
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  JRegistry  A JRegistry object
+	 * @return  Joomla\Registry\Registry  A Registry object
 	 *
 	 * @since   1.5
 	 */

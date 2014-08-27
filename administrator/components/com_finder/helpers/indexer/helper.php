@@ -462,8 +462,8 @@ class FinderIndexerHelper
 	/**
 	 * Method to process content text using the onContentPrepare event trigger.
 	 *
-	 * @param   string     $text    The content to process.
-	 * @param   JRegistry  $params  The parameters object. [optional]
+	 * @param   string                    $text    The content to process.
+	 * @param   Joomla\Registry\Registry  $params  The parameters object. [optional]
 	 *
 	 * @return  string  The processed content.
 	 *

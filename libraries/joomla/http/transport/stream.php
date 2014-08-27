@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JHttpTransportStream implements JHttpTransport
 {
 	/**
-	 * @var    JRegistry  The client options.
+	 * @var    Joomla\Registry\Registry  The client options.
 	 * @since  11.3
 	 */
 	protected $options;

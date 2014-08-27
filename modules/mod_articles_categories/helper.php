@@ -24,7 +24,7 @@ abstract class ModArticlesCategoriesHelper
 	/**
 	 * Get list of articles
 	 *
-	 * @param   JRegistry  &$params  module parameters
+	 * @param   Joomla\Registry\Registry  &$params  module parameters
 	 *
 	 * @return array
 	 */

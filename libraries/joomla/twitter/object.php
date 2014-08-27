@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die();
 abstract class JTwitterObject
 {
 	/**
-	 * @var    JRegistry  Options for the Twitter object.
+	 * @var    Joomla\Registry\Registry  Options for the Twitter object.
 	 * @since  12.3
 	 */
 	protected $options;

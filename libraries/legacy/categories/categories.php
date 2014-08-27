@@ -884,7 +884,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category parameters
 	 *
-	 * @return  JRegistry
+	 * @return  Joomla\Registry\Registry
 	 *
 	 * @since   11.1
 	 */
@@ -903,7 +903,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category metadata
 	 *
-	 * @return  JRegistry  A JRegistry object containing the metadata
+	 * @return  Joomla\Registry\Registry  A Registry object containing the metadata
 	 *
 	 * @since   11.1
 	 */

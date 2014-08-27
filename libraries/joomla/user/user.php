@@ -117,7 +117,7 @@ class JUser extends JObject
 	/**
 	 * User parameters
 	 *
-	 * @var    JRegistry
+	 * @var    Joomla\Registry\Registry
 	 * @since  11.1
 	 */
 	public $params = null;
@@ -165,7 +165,7 @@ class JUser extends JObject
 	/**
 	 * User parameters
 	 *
-	 * @var    JRegistry
+	 * @var    Joomla\Registry\Registry
 	 * @since  11.1
 	 */
 	protected $_params = null;

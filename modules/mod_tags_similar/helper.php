@@ -21,7 +21,7 @@ abstract class ModTagssimilarHelper
 	/**
 	 * Get a list of tags
 	 *
-	 * @param   JRegistry  &$params  Module parameters
+	 * @param   Joomla\Registry\Registry  &$params  Module parameters
 	 *
 	 * @return  mixed                Results array / null
 	 */

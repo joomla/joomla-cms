@@ -20,7 +20,7 @@ abstract class JMediawikiObject
 {
 
 	/**
-	 * @var    JRegistry  Options for the MediaWiki object.
+	 * @var    Joomla\Registry\Registry  Options for the MediaWiki object.
 	 * @since  12.3
 	 */
 	protected $options;

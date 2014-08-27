@@ -22,7 +22,7 @@ require_once __DIR__ . '/stubs/JMediawikiObjectMock.php';
 class JMediawikiObjectTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the Mediawiki object.
+	 * @var    Joomla\Registry\Registry  Options for the Mediawiki object.
 	 * @since  12.3
 	 */
 	protected $options;

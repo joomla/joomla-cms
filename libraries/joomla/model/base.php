@@ -21,7 +21,7 @@ abstract class JModelBase implements JModel
 	/**
 	 * The model state.
 	 *
-	 * @var    JRegistry
+	 * @var    Joomla\Registry\Registry
 	 * @since  12.1
 	 */
 	protected $state;
@@ -42,7 +42,7 @@ abstract class JModelBase implements JModel
 	/**
 	 * Get the model state.
 	 *
-	 * @return  JRegistry  The state object.
+	 * @return  Joomla\Registry\Registry  The state object.
 	 *
 	 * @since   12.1
 	 */
