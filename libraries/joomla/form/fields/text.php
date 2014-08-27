@@ -5,6 +5,10 @@
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
+ * ***************************************************************************************
+ * Warning: Some modifications and improved were made by the Community Juuntos for
+ * the latinamerican Project Jokte! CMS
+ ***************************************************************************************
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -44,11 +48,12 @@ class JFormFieldText extends JFormField
 		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$readonly = ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
 		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+        $placeholder = $this->element['placeholder'] ? ' placeholder="' . JText::_($this->element['placeholder'] . '"' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
 		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly . $onchange . $maxLength . '/>';
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $placeholder . $disabled . $readonly . $onchange . $maxLength . '/>';
 	}
 }

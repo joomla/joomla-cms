@@ -5,6 +5,10 @@
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
+ * ***************************************************************************************
+ * Warning: Some modifications and improved were made by the Community Juuntos for
+ * the latinamerican Project Jokte! CMS
+ ***************************************************************************************
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -43,11 +47,12 @@ class JFormFieldTextarea extends JFormField
 		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$columns = $this->element['cols'] ? ' cols="' . (int) $this->element['cols'] . '"' : '';
 		$rows = $this->element['rows'] ? ' rows="' . (int) $this->element['rows'] . '"' : '';
+        $placeholder = $this->element['placeholder'] ? ' placeholder="' . JText::_($this->element['placeholder'] . '"' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
-		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class . $disabled . $onchange . '>'
+		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $placeholder . $columns . $rows . $class . $disabled . $onchange . '>'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea>';
 	}
 }
