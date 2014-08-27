@@ -99,7 +99,7 @@ abstract class JModelActions extends JModelAdministrator
 			$table->newTags = $validData['tags'];
 		}
 
-		//prepare the table for store
+		// Prepare the table for store
 		$pk = $data[$table->getKeyName()];
 		$table->load($pk);
 		$table->bind($validData);
@@ -304,9 +304,10 @@ abstract class JModelActions extends JModelAdministrator
 	 * @param  array   $cid
 	 * @param  string  $direction up or down
 	 *
+	 * @return boolean
+	 *
 	 * @since  3.4
 	 * @throws RuntimeException
-	 * @return boolean
 	 */
 	public function reorder($cid, $direction)
 	{
