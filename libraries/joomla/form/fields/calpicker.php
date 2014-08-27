@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Form
  * @since       11.1
  */
-class JFormFieldDtpicker extends JFormField
+class JFormFieldCalpicker extends JFormField
 {
     /**
      * The form field type.
@@ -27,7 +27,7 @@ class JFormFieldDtpicker extends JFormField
      * @var    string
      * @since  11.1
      */
-    protected $type = 'Dtpicker';
+    protected $type = 'Calpicker';
 
     /**
      * The allowable maxlength of calendar field.
@@ -233,6 +233,7 @@ class JFormFieldDtpicker extends JFormField
         JHtml::_('script','calendars/jquery.calendars.picker.js', true, true);
         JHtml::_('script','calendars/jquery.calendars.setup.js', true, true);
         JHtml::_('stylesheet','calendars/jquery.calendars.picker.css',null, true);
+        JHtml::_('stylesheet','calendars/redmond.calendars.picker.css',null, true);
         JHtml::_('stylesheet','calendars/joomla-css-fixes.css',null, true);
 
         // Including fallback code for HTML5 non supported browsers.
