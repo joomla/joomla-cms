@@ -80,20 +80,23 @@ class JHtmlUtiles
 			  $imgautor = $imgdefault_g;
 			  $link = "#";
 		}
-				
-		$gravatar = '<div class="gravatar" style="'.$style.'">'.
-						'<div class="img_gravatar">'.
-							'<a href="'.$link.'" target="_blank"">'.JHtml::_('image', $imgautor, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle')).'</a>'.
-						'</div>'.
-						'<div class="name_gravatar"><small>';
-		
-		if ($params->get('avatar_link')) {
-			$gravatar .=' <a href="'.$link.'" target="_blank"">'.$title_g.'</a></small></div></div>';
-		} else {
-			$gravatar .= $title_g.'</small></div></div>';
-		}		
-		
-		return $gravatar;
+
+        // Evito errores en parámetros
+        if (isset($imgautor)){
+            $gravatar = '<div class="gravatar" style="'.$style.'">'.
+                '<div class="img_gravatar">'.
+                '<a href="'.$link.'" target="_blank"">'.JHtml::_('image', $imgautor, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle')).'</a>'.
+                '</div>'.
+                '<div class="name_gravatar"><small>';
+
+            if ($params->get('avatar_link')) {
+                $gravatar .=' <a href="'.$link.'" target="_blank"">'.$title_g.'</a></small></div></div>';
+            } else {
+                $gravatar .= $title_g.'</small></div></div>';
+            }
+
+            return $gravatar;
+        }
 	}
 
 	/**
