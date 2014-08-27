@@ -53,37 +53,6 @@ class JFormFieldCalpicker extends JFormField
      */
     protected $filter;
 
-    /**
-     * @todo    this needs to be removed once it's all confirmed working
-     */
-
-    protected function getLabel()
-    {
-        if ($this->hidden)
-        {
-            return '';
-        }
-
-        // Get the label text from the XML element, defaulting to the element name.
-        $text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-        $text = $this->translateLabel ? JText::_($text) : $text;
-
-        // Forcing the Alias field to display the tip below
-        $position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
-
-        $description = ($this->translateDescription && !empty($this->description)) ? JText::_($this->description) : $this->description;
-
-        $displayData = array(
-                'text'        => $text.'**',
-                'description' => $description,
-                'for'         => $this->id,
-                'required'    => (bool) $this->required,
-                'classes'     => explode(' ', $this->labelclass),
-                'position'    => $position
-            );
-
-        return JLayoutHelper::render($this->renderLabelLayout, $displayData);
-    }
 
     /**
      * Method to get certain otherwise inaccessible properties from the form field object.
@@ -177,8 +146,6 @@ class JFormFieldCalpicker extends JFormField
         // Initialize some field attributes.
         $format = $this->format;
 
-        // todo: need to come back and build the attributes properly
-
         // Handle the special case for "now".
         if (strtoupper($this->value) == 'NOW')
         {
@@ -231,10 +198,19 @@ class JFormFieldCalpicker extends JFormField
         JHtml::_('script','calendars/jquery.calendars.plus.js', true, true);
         JHtml::_('script','calendars/jquery.plugin.js', true, true);
         JHtml::_('script','calendars/jquery.calendars.picker.js', true, true);
-        JHtml::_('script','calendars/jquery.calendars.setup.js', true, true);
         JHtml::_('stylesheet','calendars/jquery.calendars.picker.css',null, true);
         JHtml::_('stylesheet','calendars/redmond.calendars.picker.css',null, true);
         JHtml::_('stylesheet','calendars/joomla-css-fixes.css',null, true);
+
+        // Setup the calendar
+        $doc = JFactory::getDocument();
+        $doc->addScriptDeclaration('jQuery(document).ready(function(){
+                jQuery("#' . $this->id . '").calendarsPicker({
+                            dateFormat:"' . $this->format . '",
+                            showTrigger: "<button type=\"button\" class=\"btn trigger\"><i class=\"icon-calendar\"></i></button>"
+                            }
+                        );
+        });');
 
         // Including fallback code for HTML5 non supported browsers.
         JHtml::_('jquery.framework');
@@ -243,12 +219,9 @@ class JFormFieldCalpicker extends JFormField
 
 
         $html = '<div class="input-append"><input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-            . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" class="dtpicker input-medium"/>
+            . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" class="input-medium"/>
             </div>';
 
         return $html;
-
-
-        // return JHtml::_('calendar', $this->value, $this->name, $this->id, $format, $attributes);
     }
 }
