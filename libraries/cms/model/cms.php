@@ -79,11 +79,10 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 */
 	public function __construct(JRegistry $state = null, JDatabaseDriver $db = null, JEventDispatcher $dispatcher = null, $config = array())
 	{
-		$this->config = $config;
+		$this->config     = $config;
 		$this->dispatcher = $dispatcher ? $dispatcher : JEventDispatcher::getInstance();
 
-		// Set the model state. Check we have a JRegistry instance as state was a JObject in
-		// legacy MVC
+		// Set the model state. Check we have a JRegistry instance as state was a JObject in legacy MVC
 		if (array_key_exists('state', $config) && $config['state'] instanceof JRegistry)
 		{
 			$state = $config['state'];
@@ -254,8 +253,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	protected function cleanCache($group = null, $client_id = 0)
 	{
 		$localConfig = $this->config;
-
-		$options = array();
+		$options     = array();
 
 		if ($group)
 		{
@@ -291,7 +289,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 *
 	 * @return  string  The name of the model
 	 *
-	 * @since   12.2
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	public function getName()
@@ -299,7 +297,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 		if (empty($this->name))
 		{
 			$className = get_class($this);
-			$modelpos = strpos($className, 'Model');
+			$modelpos  = strpos($className, 'Model');
 
 			if ($modelpos === false)
 			{
