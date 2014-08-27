@@ -47,7 +47,7 @@ class JFormFieldTextarea extends JFormField
 		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$columns = $this->element['cols'] ? ' cols="' . (int) $this->element['cols'] . '"' : '';
 		$rows = $this->element['rows'] ? ' rows="' . (int) $this->element['rows'] . '"' : '';
-        $placeholder = $this->element['placeholder'] ? ' placeholder="' . JText::_($this->element['placeholder'] . '"' : '';
+        $placeholder = $this->element['placeholder'] ? ' placeholder="' . JText::_($this->element['placeholder']) . '"' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';

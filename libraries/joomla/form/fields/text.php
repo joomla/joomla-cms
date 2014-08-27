@@ -48,7 +48,7 @@ class JFormFieldText extends JFormField
 		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$readonly = ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
 		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-        $placeholder = $this->element['placeholder'] ? ' placeholder="' . JText::_($this->element['placeholder'] . '"' : '';
+        $placeholder = $this->element['placeholder'] ? ' placeholder="' . JText::_($this->element['placeholder']) . '"' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
