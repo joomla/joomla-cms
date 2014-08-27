@@ -224,6 +224,12 @@ class ContentModelArticles extends JModelList
 		if (is_numeric($published))
 		{
 			$query->where('a.state = ' . (int) $published);
+
+			// Join over the assets to optimize the trash delete.
+			if ($published == -2)
+			{
+				$query->join('LEFT', '#__assets AS ast ON ast.id = a.asset_id');
+			}
 		}
 		elseif ($published === '')
 		{
