@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  View
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Base HTML View class for the a Category list
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  View
  * @since       3.2
  */
@@ -22,7 +22,7 @@ class JViewHtmlCategory extends JViewHtmlLegacy
 	 * State data
 	 *
 	 * @var    JRegistry
-	 * @since  3.2
+	 * @since  3.4
 	 */
 	protected $state;
 
@@ -30,7 +30,7 @@ class JViewHtmlCategory extends JViewHtmlLegacy
 	 * Category items data
 	 *
 	 * @var    array
-	 * @since  3.2
+	 * @since  3.4
 	 */
 	protected $items;
 
@@ -38,7 +38,7 @@ class JViewHtmlCategory extends JViewHtmlLegacy
 	 * The category model object for this category
 	 *
 	 * @var    JModelCategory
-	 * @since  3.2
+	 * @since  3.4
 	 */
 	protected $category;
 
@@ -46,7 +46,7 @@ class JViewHtmlCategory extends JViewHtmlLegacy
 	 * The list of other categories for this extension.
 	 *
 	 * @var    array
-	 * @since  3.2
+	 * @since  3.4
 	 */
 	protected $categories;
 
@@ -54,7 +54,7 @@ class JViewHtmlCategory extends JViewHtmlLegacy
 	 * Pagination object
 	 *
 	 * @var    JPagination
-	 * @since  3.2
+	 * @since  3.4
 	 */
 	protected $pagination;
 
@@ -62,7 +62,7 @@ class JViewHtmlCategory extends JViewHtmlLegacy
 	 * Child objects
 	 *
 	 * @var    array
-	 * @since  3.2
+	 * @since  3.4
 	 */
 	protected $children;
 
@@ -70,7 +70,7 @@ class JViewHtmlCategory extends JViewHtmlLegacy
 	 * The name of the extension for the category
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.4
 	 */
 	protected $extension;
 
@@ -78,7 +78,7 @@ class JViewHtmlCategory extends JViewHtmlLegacy
 	 * The name of the view to link individual items to
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.4
 	 */
 	protected $viewName;
 
@@ -86,7 +86,7 @@ class JViewHtmlCategory extends JViewHtmlLegacy
 	 * Default title to use for page title
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.4
 	 */
 	protected $defaultPageTitle;
 
@@ -95,7 +95,7 @@ class JViewHtmlCategory extends JViewHtmlLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	public function commonCategoryDisplay()
 	{
@@ -104,7 +104,7 @@ class JViewHtmlCategory extends JViewHtmlLegacy
 		$params = $app->getParams();
 
 		// Get some data from the models
-		$model = $this->getModel();
+		$model      = $this->getModel();
 		$state      = $model->getState();
 		$items      = $model->getItems();
 		$category   = $model->getCategory();
@@ -179,7 +179,7 @@ class JViewHtmlCategory extends JViewHtmlLegacy
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	public function display($tpl = null)
 	{
@@ -193,7 +193,7 @@ class JViewHtmlCategory extends JViewHtmlLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	protected function prepareDocument()
 	{
@@ -252,7 +252,7 @@ class JViewHtmlCategory extends JViewHtmlLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	protected function addFeed()
 	{
