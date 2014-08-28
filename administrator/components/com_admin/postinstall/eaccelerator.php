@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Checks if the eAccelerator caching method is enabled. This check should be
  * done through the 3.x series as the issue impacts migrated sites which will
@@ -49,7 +51,7 @@ function admin_postinstall_eaccelerator_action()
 
 	$data = array_merge($prev, $data);
 
-	$config = new JRegistry('config');
+	$config = new Registry('config');
 	$config->loadArray($data);
 
 	jimport('joomla.filesystem.path');

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
@@ -170,7 +172,7 @@ class InstallerModelDatabase extends InstallerModel
 	{
 		$table = JTable::getInstance('Extension');
 		$table->load('700');
-		$cache = new JRegistry($table->manifest_cache);
+		$cache = new Registry($table->manifest_cache);
 		return $cache->get('version');
 	}
 
@@ -183,7 +185,7 @@ class InstallerModelDatabase extends InstallerModel
 	{
 		$table = JTable::getInstance('Extension');
 		$table->load('700');
-		$cache = new JRegistry($table->manifest_cache);
+		$cache = new Registry($table->manifest_cache);
 		$updateVersion = $cache->get('version');
 		$cmsVersion = new JVersion;
 		if ($updateVersion == $cmsVersion->getShortVersion())
@@ -236,7 +238,7 @@ class InstallerModelDatabase extends InstallerModel
 			$contentParams = JComponentHelper::getParams('com_content');
 			if ($contentParams->get('filters'))
 			{
-				$newParams = new JRegistry;
+				$newParams = new Registry;
 				$newParams->set('filters', $contentParams->get('filters'));
 				$table->params = (string) $newParams;
 				$table->store();
