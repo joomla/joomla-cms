@@ -9,6 +9,13 @@
 
 defined('JPATH_PLATFORM') or die;
 
+/**
+ * @todo explain here
+ *
+ * @package     Joomla.Libraries
+ * @subpackage  Dispatcher
+ * @since       3.4
+ */
 class JComponentDispatcher implements JComponentDispatcherInterface
 {
 	// Constants that define the form of the controller passed in the URL
@@ -17,25 +24,33 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	const CONTROLLER_VIEW_FOLDER = 2;
 
 	/**
-	 * @var    JControllerCmsInterface  The Task Controller.
+	 * The Task Controller.
+	 *
+	 * @var    JControllerCmsInterface
 	 * @since  3.4
 	 */
 	protected $controller;
 
 	/**
-	 * @var    string  The name of the default view, in case none is specified.
+	 * The name of the default view, in case none is specified.
+	 *
+	 * @var    string
 	 * @since  3.4
 	 */
 	public $defaultView = 'cpanel';
 
 	/**
-	 * @var    JInput  The input object.
+	 * The input object.
+	 *
+	 * @var    JInput
 	 * @since  3.4
 	 */
 	protected $input = null;
 
 	/**
-	 * @var    array  The configuration to be injected.
+	 * The configuration to be injected.
+	 *
+	 * @var    array
 	 * @since  3.4
 	 */
 	protected $config = array();
@@ -50,6 +65,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	 *
 	 * @return  JComponentDispatcher
 	 *
+	 * @since   3.4
 	 * @throws  InvalidArgumentException
 	 */
 	public static function getInstance($option, $view = null, JInput $input = null, $config = array())
@@ -137,6 +153,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	 * @param   JInput  $input   The input class
 	 * @param   array   $config  A config array
 	 *
+	 * @since  3.4
 	 * @throws InvalidArgumentException
 	 */
 	public function __construct($option, JInput $input = null, $config = array())
@@ -169,6 +186,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	 *
 	 * @return  void
 	 *
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	public function dispatch(JApplicationCms $app = null)
@@ -198,6 +216,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	 *
 	 * @return  JControllerCmsInterface
 	 *
+	 * @since   3.4
 	 * @throws  InvalidArgumentException
 	 */
 	public function getController(JApplicationCms $app = null)
@@ -249,6 +268,7 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	 *
 	 * @return  SplPriorityQueue  An SplPriorityQueue containing potential class names
 	 *
+	 * @since   3.4
 	 * @throws  InvalidArgumentException
 	 */
 	protected function getControllerNames()
@@ -302,6 +322,8 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	 * Gets the default controller prefix
 	 *
 	 * @return  string  The default component view
+	 *
+	 * @since   3.4
 	 */
 	protected function getControllerPrefix()
 	{
@@ -312,6 +334,8 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	 * Gets the default controller activity
 	 *
 	 * @return  string  The default component view
+	 *
+	 * @since   3.4
 	 */
 	protected function getControllerActivity()
 	{
@@ -322,6 +346,8 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	 * Gets the default controller view
 	 *
 	 * @return  string  The default component view
+	 *
+	 * @since   3.4
 	 */
 	protected function getControllerView()
 	{
@@ -338,6 +364,8 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 	 *      not prefixed with J.
 	 *
 	 * @return   array  The tasks in the form listed above
+	 *
+	 * @since    3.4
 	 */
 	public function getTasks()
 	{
