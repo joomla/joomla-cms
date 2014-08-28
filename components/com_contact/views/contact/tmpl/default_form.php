@@ -43,7 +43,7 @@ if (isset($this->error)) : ?>
 					<div class="control-label"><?php echo $this->form->getLabel('contact_email_copy'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('contact_email_copy'); ?></div>
 				</div>
-			<?php endif ?>
+			<?php endif; ?>
 			<?php //Dynamically load any additional fields from plugins. ?>
 			<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 				<?php if ($fieldset->name != 'contact') : ?>
@@ -65,7 +65,7 @@ if (isset($this->error)) : ?>
 							<?php endif; ?>
 						</div>
 					<?php endforeach; ?>
-				<?php endif ?>
+				<?php endif; ?>
 			<?php endforeach; ?>
 			<div class="form-actions">
 				<button class="btn btn-primary validate" type="submit"><?php echo JText::_('COM_CONTACT_CONTACT_SEND'); ?></button>
