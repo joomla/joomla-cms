@@ -22,7 +22,9 @@ class JViewJsonCms extends JViewCms
 	 * When set to true we'll add hypermedia to the output, implementing the
 	 * HAL specification (http://stateless.co/hal_specification.html)
 	 *
-	 * @var   boolean
+	 * @var    boolean
+	 *
+	 * @since  3.4
 	 */
 	public $useHypermedia = false;
 
@@ -30,6 +32,7 @@ class JViewJsonCms extends JViewCms
 	 * Method to instantiate the view.
 	 *
 	 * @param   JModelCmsInterface  $model   The model object.
+	 * @param   JDocument           $document
 	 * @param   array               $config  An array of config options. Should contain component
 	 *                                       name and view name.
 	 *
@@ -85,7 +88,7 @@ class JViewJsonCms extends JViewCms
 	 *
 	 * @return  mixed  The layout file name if found, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.4
 	 */
 	public function getPath($layout)
 	{
@@ -94,9 +97,10 @@ class JViewJsonCms extends JViewCms
 
 		$pathSpl = $this->loadPaths();
 		$pathSpl->top();
+
 		$paths = array();
 
-		while($pathSpl->valid())
+		while ($pathSpl->valid())
 		{
 			$paths[] = $pathSpl->current();
 			$pathSpl->next();
@@ -113,7 +117,7 @@ class JViewJsonCms extends JViewCms
 	 *
 	 * @return  string  The rendered view.
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	public function render()
 	{
@@ -148,11 +152,11 @@ class JViewJsonCms extends JViewCms
 			{
 				// Formulate a nice response with JResponseJson
 				$response = new JResponseJson($data);
-				$json = (string) $response;
+				$json     = (string) $response;
 			}
 
 			// JSONP support
-			$input = JFactory::getApplication()->input;
+			$input    = JFactory::getApplication()->input;
 			$callback = $input->get('callback', null);
 
 			if (!empty($callback))
@@ -162,9 +166,9 @@ class JViewJsonCms extends JViewCms
 			else
 			{
 				$defaultName = $input->getCmd('view', 'joomla');
-				$filename = $input->getCmd('basename', $defaultName);
-				
-				$document = $this->document;
+				$filename    = $input->getCmd('basename', $defaultName);
+				$document    = $this->document;
+
 				$document->setName($filename);
 
 				return $json;
@@ -190,6 +194,8 @@ class JViewJsonCms extends JViewCms
 	 * @param   JModelCms  $model  The model of this view
 	 *
 	 * @return  FOFHalDocument  A HAL-enabled document
+	 *
+	 * @since   3.4
 	 */
 	protected function createDocumentWithHypermedia($data, $model = null)
 	{
@@ -220,7 +226,6 @@ class JViewJsonCms extends JViewCms
 		$document->addLink('self', new FOFHalLink($uri));
 
 		// Create relative links in a record list context
-
 		if (is_array($data) && ($model instanceof JModelListInterface))
 		{
 			$pagination = $model->getPagination();
@@ -241,9 +246,9 @@ class JViewJsonCms extends JViewCms
 				// Do we need a "prev" link?
 				if ($pagination->get('pages.current') > 1)
 				{
-					$prevPage = $pagination->get('pages.current') - 1;
+					$prevPage   = $pagination->get('pages.current') - 1;
 					$limitstart = ($prevPage - 1) * $pagination->limit;
-					$uri = clone $protoUri;
+					$uri        = clone $protoUri;
 					$uri->setVar('limitstart', $limitstart);
 					$uri = JRoute::_((string) $uri);
 
@@ -253,9 +258,9 @@ class JViewJsonCms extends JViewCms
 				// Do we need a "next" link?
 				if ($pagination->get('pages.current') < $pagination->get('pages.total'))
 				{
-					$nextPage = $pagination->get('pages.current') + 1;
+					$nextPage   = $pagination->get('pages.current') + 1;
 					$limitstart = ($nextPage - 1) * $pagination->limit;
-					$uri = clone $protoUri;
+					$uri        = clone $protoUri;
 					$uri->setVar('limitstart', $limitstart);
 					$uri = JRoute::_((string) $uri);
 
@@ -263,9 +268,9 @@ class JViewJsonCms extends JViewCms
 				}
 
 				// The "last" link?
-				$lastPage = $pagination->get('pages.total');
+				$lastPage   = $pagination->get('pages.total');
 				$limitstart = ($lastPage - 1) * $pagination->limit;
-				$uri = clone $protoUri;
+				$uri        = clone $protoUri;
 				$uri->setVar('limitstart', $limitstart);
 				$uri = JRoute::_((string) $uri);
 
@@ -282,6 +287,8 @@ class JViewJsonCms extends JViewCms
 	 * @param   string  $uri  The URI to convert
 	 *
 	 * @return  string  The relative URL
+	 *
+	 * @since   3.4
 	 */
 	protected function removeURIBase($uri)
 	{
@@ -289,7 +296,7 @@ class JViewJsonCms extends JViewCms
 
 		if (is_null($root))
 		{
-			$root = rtrim(JUri::base(), '/');
+			$root    = rtrim(JUri::base(), '/');
 			$rootlen = strlen($root);
 		}
 
@@ -306,11 +313,13 @@ class JViewJsonCms extends JViewCms
 	 * other URIs created by the JSON renderer
 	 *
 	 * @return  JUri  The prototype JUri instance
+	 *
+	 * @since   3.4
 	 */
 	protected function getPrototypeURIForPagination()
 	{
 		$protoUri = new JUri('index.php');
-		$input = new FOFInput;
+		$input    = new FOFInput;
 		$protoUri->setQuery($input->getData());
 		$protoUri->delVar('savestate');
 		$protoUri->delVar('base_path');
