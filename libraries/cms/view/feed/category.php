@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  View
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Base feed View class for a category
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  View
  * @since       3.4
  */
