@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Newsfeeds Component Category Model
  *
@@ -87,7 +89,7 @@ class NewsfeedsModelCategory extends JModelList
 		{
 			if (!isset($this->_params))
 			{
-				$params = new JRegistry;
+				$params = new Registry;
 				$item->params = $params;
 				$params->loadString($item->params);
 			}
@@ -236,7 +238,7 @@ class NewsfeedsModelCategory extends JModelList
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry;
+			$params = new Registry;
 
 			if ($active)
 			{

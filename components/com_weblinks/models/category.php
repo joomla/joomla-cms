@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Weblinks Component Weblink Model
  *
@@ -86,7 +88,7 @@ class WeblinksModelCategory extends JModelList
 		{
 			if (!isset($this->_params))
 			{
-				$params = new JRegistry;
+				$params = new Registry;
 				$params->loadString($item->params);
 				$item->params = $params;
 			}
@@ -250,7 +252,7 @@ class WeblinksModelCategory extends JModelList
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry;
+			$params = new Registry;
 
 			if ($active)
 			{
