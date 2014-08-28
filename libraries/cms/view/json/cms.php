@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('JPATH_PLATFORM') or die;
+
 /**
  * Prototype JView class.
  *
@@ -23,7 +25,6 @@ class JViewJsonCms extends JViewCms
 	 * HAL specification (http://stateless.co/hal_specification.html)
 	 *
 	 * @var    boolean
-	 *
 	 * @since  3.4
 	 */
 	public $useHypermedia = false;
