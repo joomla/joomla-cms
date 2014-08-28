@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Legacy
  * @subpackage  View
- * @since       3.2
+ * @since       3.4
  */
 class JViewFeedCategory extends JViewCms
 {
@@ -39,24 +39,24 @@ class JViewFeedCategory extends JViewCms
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
-		$extension      = $app->input->getString('option');
+		$extension   = $app->input->getString('option');
 		$contentType = $extension . '.' . $this->viewName;
 
-		$ucmType = new JUcmType;
-		$ucmRow = $ucmType->getTypeByAlias($contentType);
+		$ucmType      = new JUcmType;
+		$ucmRow       = $ucmType->getTypeByAlias($contentType);
 		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
 		$createdField = null;
-		$titleField = null;
+		$titleField   = null;
 
 		if (is_object($ucmMapCommon))
 		{
 			$createdField = $ucmMapCommon->core_created_time;
-			$titleField = $ucmMapCommon->core_title;
+			$titleField   = $ucmMapCommon->core_title;
 		}
 		elseif (is_array($ucmMapCommon))
 		{
 			$createdField = $ucmMapCommon[0]->core_created_time;
-			$titleField = $ucmMapCommon[0]->core_title;
+			$titleField   = $ucmMapCommon[0]->core_title;
 		}
 
 		$document->link = JRoute::_(JHelperRoute::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
@@ -72,8 +72,8 @@ class JViewFeedCategory extends JViewCms
 			$document->editorEmail = $siteEmail;
 		}
 
-		$data = $this->getData();
-		$items = $data['items'];
+		$data     = $this->getData();
+		$items    = $data['items'];
 		$category = $data['category'];
 
 		foreach ($items as $item)
@@ -143,7 +143,7 @@ class JViewFeedCategory extends JViewCms
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	protected function reconcileNames($item)
 	{
