@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Google Maps embed class for the Joomla Platform.
  *
@@ -18,7 +20,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class JGoogleEmbedMaps extends JGoogleEmbed
 {
-
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
 	 * @since  12.3
@@ -28,13 +29,13 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  Google options object
-	 * @param   JUri       $uri      URL of the page being rendered
-	 * @param   JHttp      $http     Http client for geocoding requests
+	 * @param   Registry  $options  Google options object
+	 * @param   JUri      $uri      URL of the page being rendered
+	 * @param   JHttp     $http     Http client for geocoding requests
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JUri $uri = null, JHttp $http = null)
+	public function __construct(Registry $options = null, JUri $uri = null, JHttp $http = null)
 	{
 		parent::__construct($options, $uri);
 		$this->http = $http ? $http : new JHttp($this->options);
