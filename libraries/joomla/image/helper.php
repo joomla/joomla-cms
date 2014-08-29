@@ -39,6 +39,84 @@ abstract class JImageHelper
 	const ORIENTATION_SQUARE = 'square';
 
 	/**
+	 * Method to return a properties object for an image given a filesystem path.  The
+	 * result object has values for image width, height, type, attributes, mime type, bits,
+	 * and channels.
+	 *
+	 * @static
+	 * @param   string  $path  The filesystem path to the image for which to get properties.
+	 *
+	 * @return  stdClass
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws  InvalidArgumentException
+	 * @throws  RuntimeException
+	 */
+	public static function getImageFileProperties($path)
+	{
+		// Make sure the file exists.
+		if (!file_exists($path))
+		{
+			throw new InvalidArgumentException('The image file does not exist.');
+		}
+
+		// Get the image file information.
+		$info = getimagesize($path);
+
+		if (!$info)
+		{
+			// @codeCoverageIgnoreStart
+			throw new RuntimeException('Unable to get properties for the image.');
+
+			// @codeCoverageIgnoreEnd
+		}
+
+		// Build the response object.
+		$properties = (object) array(
+			'width'       => $info[0],
+			'height'      => $info[1],
+			'type'        => $info[2],
+			'attributes'  => $info[3],
+			'bits'        => isset($info['bits']) ? $info['bits'] : null,
+			'channels'    => isset($info['channels']) ? $info['channels'] : null,
+			'mime'        => $info['mime'],
+			'filesize'    => filesize($path),
+			'orientation' => JImageHelper::getOrientation((int) $info[0], (int) $info[1])
+		);
+
+		return $properties;
+	}
+
+	/**
+	 * Compare width and height integers to determine image orientation.
+	 *
+	 * @param  integer  $width
+	 * @param  integer  $height
+	 *
+	 * @return  mixed   Orientation string or null.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getOrientation($width, $height)
+	{
+	    switch (true)
+	    {
+	        case ($width > $height) :
+	            return self::ORIENTATION_LANDSCAPE;
+
+	        case ($width < $height) :
+	            return self::ORIENTATION_PORTRAIT;
+
+	        case ($width == $height) :
+	            return self::ORIENTATION_SQUARE;
+
+	        default :
+	            return null;
+	    }
+	}
+
+	/**
 	 * Create image file from image file data stream.
 	 *
 	 * @static
@@ -53,6 +131,8 @@ abstract class JImageHelper
 	 * @return	boolean	true on success or false on error
 	 *
 	 * @throws	RuntimeException
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function fromBase64($data, $store = false, $filename = null, $filepath = null)
 	{
@@ -135,6 +215,8 @@ abstract class JImageHelper
 	 * @access	public
 	 *
 	 * @param	string	$filepath	The input file to use. Note, this must be an absolute system path.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function toBase64($filepath)
 	{
@@ -165,12 +247,12 @@ abstract class JImageHelper
 		}
 
 		// We don't trust the file extension. So we read the image type from its mime header.
-		if (!($type = getimagesize($filepath)))
+		if (!($props = static::getImageFileProperties($filepath)))
 		{
 			return '';
 		}
 
-		$type = JArrayHelper::getValue($type, 'mime', null);
+		$type = isset($props->mime) ? $props->mime : null;
 
 		// The file appears to be no image.
 		if (!$type)
