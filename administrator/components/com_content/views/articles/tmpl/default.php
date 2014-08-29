@@ -41,19 +41,25 @@ $assoc		= JLanguageAssociations::isEnabled();
 
 	function toggleSidebar($force)
 	{
-		var $hidden = jQuery('#sidebar').is(":visible")
+		var $visible = jQuery('#sidebar').is(":visible")
 
 		if ($force)
 		{
 			// Load the value from localStorage
-			var $hidden = localStorage.getItem('com_content_sidebar_visible');
+			var $visible = localStorage.getItem('com_content_sidebar_visible');
+
+			// Need to convert the value to a boolean
+			$visible = ($visible == 'true') ? true : false;
 		}
 
-		if ($hidden)
+		if ($visible)
 		{
 			jQuery('#sidebar').hide();
 			jQuery('#j-sidebar-container').removeClass('span2');
 			jQuery('#j-main-container').removeClass('span10').addClass('span12');
+
+			// Set the last selection in localStorage
+			localStorage.setItem('com_content_sidebar_visible', true);
 		}
 		else
 		{
@@ -61,10 +67,9 @@ $assoc		= JLanguageAssociations::isEnabled();
 			jQuery('#j-sidebar-container').addClass('span2');
 			jQuery('#j-main-container').removeClass('span12').addClass('span10');
 
+			// Set the last selection in localStorage
+			localStorage.setItem('com_content_sidebar_visible', false);
 		}
-
-		// Set the last selection in localStorage
-		localStorage.setItem('com_content_sidebar_visible', jQuery('#sidebar').is(":visible"));
 	}
 
 	Joomla.orderTable = function()
