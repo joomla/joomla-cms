@@ -111,13 +111,13 @@ class plgContentEmailcloak extends JPlugin
 
 		//Any Image link
 		$searchImage	=	"(<img[^>]+>)";
-		
+
 		// Any Text with <span
 		$searchTextSpan = '(<span[^>]+>|<span>|<strong>|<strong><span[^>]+>|<strong><span>)' . $searchText . '(</span>|</strong>|</span></strong>)';
-		
+
 		// Any address with <span
 		$searchEmailSpan = '(<span[^>]+>|<span>|<strong>|<strong><span[^>]+>|<strong><span>)' . $searchEmail . '(</span>|</strong>|</span></strong>)';
-		
+
 		/*
 		 * Search and fix derivatives of link code <a href="http://mce_host/ourdirectory/email@amail.com"
 		 * >email@email.com</a>. This happens when inserting an email in TinyMCE, cancelling its suggestion to add
@@ -209,7 +209,7 @@ class plgContentEmailcloak extends JPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[2][0];
-			$mailText = $regs[4][0] . $regs[5][0] . $regs[6][0];
+			$mailText = $regs[4][0] . addslashes($regs[5][0]) . $regs[6][0];
 
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
 
@@ -227,7 +227,7 @@ class plgContentEmailcloak extends JPlugin
 		$pattern = $this->_getPattern($searchEmail, $searchText);
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
 			$mail = $regs[2][0];
-			$mailText = $regs[4][0];
+			$mailText = addslashes($regs[4][0]);
 
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
 
@@ -285,7 +285,7 @@ class plgContentEmailcloak extends JPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[2][0];
-			$mailText = $regs[4][0] . ($regs[5][0]);
+			$mailText = $regs[4][0] . addslashes($regs[5][0]);
 
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
 
@@ -325,7 +325,7 @@ class plgContentEmailcloak extends JPlugin
 		$pattern = $this->_getPattern($searchEmailLink, $searchText);
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
 			$mail = $regs[2][0] . $regs[3][0];
-			$mailText = $regs[5][0];
+			$mailText = addslashes($regs[5][0]);
 
 			// Needed for handling of Body parameter
 			$mail = str_replace('&amp;', '&', $mail);
@@ -369,7 +369,7 @@ class plgContentEmailcloak extends JPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[2][0] . $regs[3][0];
-			$mailText = $regs[4][0] . $regs[5][0] . $regs[6][0] . $regs[7][0];
+			$mailText = $regs[4][0] . $regs[5][0] . addslashes($regs[6][0]) . $regs[7][0];
 
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
 
@@ -435,7 +435,7 @@ class plgContentEmailcloak extends JPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[1][0] . $regs[2][0] . $regs[3][0];
-			$mailText = $regs[4][0] . $regs[5][0] . $regs[6][0];
+			$mailText = $regs[4][0] . $regs[5][0] . addslashes($regs[6][0]);
 
 			// Needed for handling of Body parameter
 			$mail = str_replace('&amp;', '&', $mail);
@@ -459,7 +459,7 @@ class plgContentEmailcloak extends JPlugin
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));
 		}
-		
+
 		return true;
 	}
 }
