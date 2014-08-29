@@ -424,9 +424,9 @@ class PostinstallModelMessages extends FOFModel
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn($tableName))
-			->where($db->q('extension_id') . ' = ' . $db->q($options['extension_id']))
-			->where($db->q('type') . ' = ' . $db->q($options['type']))
-			->where($db->q('title_key') . ' = ' . $db->q($options['title_key']));
+			->where($db->qn('extension_id') . ' = ' . $db->q($options['extension_id']))
+			->where($db->qn('type') . ' = ' . $db->q($options['type']))
+			->where($db->qn('title_key') . ' = ' . $db->q($options['title_key']));
 		$existingRow = $db->setQuery($query)->loadAssoc();
 
 		// Is the existing definition the same as the one we're trying to save?
@@ -436,7 +436,7 @@ class PostinstallModelMessages extends FOFModel
 
 			foreach ($options as $k => $v)
 			{
-				if ($existingRow[$k] == $v)
+				if ($existingRow[$k] != $v)
 				{
 					$same = false;
 					break;
