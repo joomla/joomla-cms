@@ -14,12 +14,14 @@ $data = $displayData;
 // Receive overridable options
 $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
+
 // Set some basic options
 $customOptions = array(
 	'filtersHidden'       => isset($data['options']['filtersHidden']) ? $data['options']['filtersHidden'] : empty($data['view']->activeFilters),
 	'defaultLimit'        => isset($data['options']['defaultLimit']) ? $data['options']['defaultLimit'] : JFactory::getApplication()->get('list_limit', 20),
 	'searchFieldSelector' => '#filter_search',
-	'orderFieldSelector'  => '#list_fullordering'
+	'orderFieldSelector'  => '#list_fullordering',
+	'toggleSidebar'       => isset($data['options']['toggleSidebar']) ? $data['options']['toggleSidebar'] : $this->options->get('toggleSidebar', false)
 );
 
 $data['options'] = array_unique(array_merge($customOptions, $data['options']));
@@ -33,6 +35,13 @@ JHtml::_('searchtools.form', $formSelector, $data['options']);
 <div class="js-stools clearfix">
 	<div class="clearfix">
 		<div class="js-stools-container-bar">
+
+			<?php if ($customOptions['toggleSidebar']) : ?>
+				<button class="btn" onclick="toggleSidebar(false); return false;" class="hidden-phone">
+					<span class="icon-list-2"></span>
+				</button>
+			<?php endif; ?>
+
 			<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
 		</div>
 		<div class="js-stools-container-list hidden-phone hidden-tablet">
