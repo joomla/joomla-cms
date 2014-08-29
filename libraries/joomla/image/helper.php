@@ -108,7 +108,7 @@ abstract class JImageHelper
 
 			// Build save path.
 			$filename = trim($filename, DIRECTORY_SEPARATOR);
-			$filename = JFile::stripext(basename('test.png'));
+			$filename = JFile::stripext(basename($filename));
 			$filepath = trim($filepath, DIRECTORY_SEPARATOR);
 			$fullpath = DIRECTORY_SEPARATOR . $filepath . DIRECTORY_SEPARATOR . "{$filename}.{$type}";
 
