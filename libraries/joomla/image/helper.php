@@ -60,17 +60,21 @@ abstract class JImageHelper
 
 		$stream = JString::str_ireplace('base64,', '', $stream);
 		$stream = base64_decode($stream);
+		$type   = explode('/', $type);
+		$type   = end($type);
 
 		if ($store)
 		{
 			if (!$filename)
 			{
+				// TODO - translate
 				throw new RuntimeException(JText::_('You selected to store the image file. However, you did not specify a file name.'));
 				return false;
 			}
 
 			if (!$filepath)
 			{
+				// TODO - translate
 				throw new RuntimeException(JText::_('You selected to store the image file. However, you did not specify a target path.'));
 				return false;
 			}
@@ -88,21 +92,25 @@ abstract class JImageHelper
 				// Check whether the target path exists.
 				if (!JFolder::exists($filepath))
 				{
+					// TODO - translate
 					throw new RuntimeException(JText::sprintf('You selected to store the image file. However, the specified target %s path does not exist.', $filepath));
 					return false;
 				}
 
 				// Check whether the target path is writable.
 				if (!is_writable($filepath))
-				{ion(JText::sprintf('You selected to store the image file. However, the specified target %s path is not writable.', $filepath));
+				{
+					// TODO - translate
+					throw new RuntimeException(JText::sprintf('You selected to store the image file. However, the specified target %s path is not writable.', $filepath));
 					return false;
 				}
 			}
 
 			// Build save path.
 			$filename = trim($filename, DIRECTORY_SEPARATOR);
+			$filename = JFile::stripext(basename('test.png'));
 			$filepath = trim($filepath, DIRECTORY_SEPARATOR);
-			$fullpath = DIRECTORY_SEPARATOR . $filepath . DIRECTORY_SEPARATOR . $filename;
+			$fullpath = DIRECTORY_SEPARATOR . $filepath . DIRECTORY_SEPARATOR . "{$filename}.{$type}";
 
 			// Attempt to save the file.
 			try
