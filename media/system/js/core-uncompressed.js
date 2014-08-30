@@ -215,12 +215,6 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
 /**
  * USED IN: All list views to hide/show the sidebar
  */
-Object.append(Browser.Features, {
-	localstorage: (function() {
-		return ('localStorage' in window) && window.localStorage !== null;
-	})()
-});
-
 Joomla.toggleSidebar = function(context, force)
 {
 	context = context + '_sidebar_visible';
@@ -230,13 +224,9 @@ Joomla.toggleSidebar = function(context, force)
 	if (force)
 	{
 		// Load the value from localStorage
-		if (Browser.Features.localstorage)
+		if (typeof(Storage) !== "undefined")
 		{
 			var $visible = localStorage.getItem(context);
-		}
-		else
-		{
-			// Add cookie usage
 		}
 
 		// Need to convert the value to a boolean
@@ -251,14 +241,10 @@ Joomla.toggleSidebar = function(context, force)
 		jQuery('#j-toggle-sidebar-icon').removeClass('icon-contract').addClass('icon-expand');
 		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_SHOW_SIDEBAR'));
 
-		if (!Browser.Features.localstorage)
+		if (typeof(Storage) !== "undefined")
 		{
 			// Set the last selection in localStorage
 			localStorage.setItem(context, true);
-		}
-		else
-		{
-			// Add cookie usage
 		}
 	}
 	else
@@ -269,14 +255,10 @@ Joomla.toggleSidebar = function(context, force)
 		jQuery('#j-toggle-sidebar-icon').removeClass('icon-expand').addClass('icon-contract');
 		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_HIDE_SIDEBAR'));
 
-		if (!Browser.Features.localstorage)
+		if (typeof(Storage) !== "undefined")
 		{
 			// Set the last selection in localStorage
 			localStorage.setItem(context, false);
-		}
-		else
-		{
-			// Add cookie usage
 		}
 	}
 }
