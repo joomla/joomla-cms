@@ -61,9 +61,9 @@
 			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
 			type="spacer" />
 
-		<field name="created" type="calpicker" label="COM_CONTENT_FIELD_CREATED_LABEL"
+		<field name="created" type="calendar" label="COM_CONTENT_FIELD_CREATED_LABEL"
 			description="COM_CONTENT_FIELD_CREATED_DESC" size="22"
-			format="yyyy-mm-dd" filter="user_utc" />
+			format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
 
 		<field name="created_by" type="user"
 			label="COM_CONTENT_FIELD_CREATED_BY_LABEL" description="COM_CONTENT_FIELD_CREATED_BY_DESC" />

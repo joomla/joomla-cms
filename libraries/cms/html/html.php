@@ -954,75 +954,51 @@ abstract class JHtml
 	 *
 	 * @since   1.5
 	 */
-	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
+	public static function calendar($value, $name, $id, $format = 'yyy-mm-dd', $attribs = null)
 	{
-		static $done;
+		// Switch the format if needed.  Existing Joomla calendar uses default format: %Y-%m-%d
+		$format = preg_replace(array('/\%Y/','/\%m/','/\%d/'),array('yyyy','mm','dd'),$format);
 
-		if ($done === null)
-		{
-			$done = array();
-		}
+		// Strip out the time formatting strings if set (I have not yet coded the time picker support) -- and in the default
+		// calendar picker the time could not be enabled anyway!
+		$format = preg_replace(array('/\%H/','/\:\%M/','/\:\%S/'),'',$format);
 
-		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
-		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
+        // Including fallback code for HTML5 non supported browsers.
+        JHtml::_('jquery.framework');
+        JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		if (is_array($attribs))
-		{
-			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
-			$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
+        // Inject the calendar scripts into the document
+        JHtml::_('script','calendars/jquery.calendars.js', true, true);
+        JHtml::_('script','calendars/jquery.calendars.plus.js', true, true);
+        JHtml::_('script','calendars/jquery.plugin.js', true, true);
+        JHtml::_('script','calendars/jquery.calendars.picker.js', true, true);
+        JHtml::_('stylesheet','calendars/jquery.calendars.picker.css',null, true);
+        JHtml::_('stylesheet','calendars/redmond.calendars.picker.css',null, true);
+        JHtml::_('stylesheet','calendars/joomla-css-fixes.css',null, true);
 
-			$attribs = JArrayHelper::toString($attribs);
-		}
+        // Setup the calendar
+        $doc = JFactory::getDocument();
+        $doc->addScriptDeclaration('jQuery(document).ready(function(){
+                jQuery("#' . $id . '").calendarsPicker({
+                            dateFormat:"' . $format . '",
+                            showTrigger: "<button type=\"button\" class=\"btn trigger\"><i class=\"icon-calendar\"></i></button>"
+                            }
+                        );
+        });');
 
-		static::_('bootstrap.tooltip');
+        // Including fallback code for HTML5 non supported browsers.
+        JHtml::_('jquery.framework');
+        JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		// Format value when not '0000-00-00 00:00:00', otherwise blank it as it would result in 1970-01-01.
-		if ((int) $value)
-		{
-			$tz = date_default_timezone_get();
-			date_default_timezone_set('UTC');
-			$inputvalue = strftime($format, strtotime($value));
-			date_default_timezone_set($tz);
-		}
-		else
-		{
-			$inputvalue = '';
-		}
 
-		// Load the calendar behavior
-		static::_('behavior.calendar');
 
-		// Only display the triggers once for each control.
-		if (!in_array($id, $done))
-		{
-			$document = JFactory::getDocument();
-			$document
-				->addScriptDeclaration(
-				'jQuery(document).ready(function($) {Calendar.setup({
-			// Id of the input field
-			inputField: "' . $id . '",
-			// Format of the input field
-			ifFormat: "' . $format . '",
-			// Trigger for the calendar (button ID)
-			button: "' . $id . '_img",
-			// Alignment (defaults to "Bl")
-			align: "Tl",
-			singleClick: true,
-			firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
-			});});'
-			);
-			$done[] = $id;
-		}
+        $html = '<div class="input-append"><input type="text" name="' . $name . '" id="' . $id . '"' . ' value="'
+            . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" class="input-medium"/>
+            </div>';
 
-		// Hide button using inline styles for readonly/disabled fields
-		$btn_style	= ($readonly || $disabled) ? ' style="display:none;"' : '';
-		$div_class	= (!$readonly && !$disabled) ? ' class="input-append"' : '';
+        return $html;
 
-		return '<div' . $div_class . '>'
-				. '<input type="text" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
-				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><i class="icon-calendar"></i></button>'
-			. '</div>';
+	
 	}
 
 	/**
