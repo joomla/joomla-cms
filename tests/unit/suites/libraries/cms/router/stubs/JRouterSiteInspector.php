@@ -20,22 +20,22 @@ class JRouterSiteInspector extends JRouterSite
 	{
 		return $this->app;
 	}
-	
+
 	public function setApp($app)
 	{
 		$this->app = $app;
 	}
-	
+
 	public function getMenu()
 	{
 		return $this->menu;
 	}
-	
+
 	public function setMenu($menu)
 	{
 		$this->menu = $menu;
 	}
-	
+
 	/**
 	 * Runs the protected parseRawRoute() method
 	 *
@@ -137,48 +137,58 @@ class JRouterSiteInspector extends JRouterSite
 
 class TestRouter implements JComponentRouterInterface
 {
-	public function preprocess($query) {
+	public function preprocess($query)
+	{
 		$query['testvar'] = 'testvalue';
+
 		return $query;
 	}
 
-	public function parse(&$segments) {
+	public function parse(&$segments)
+	{
 		return array();
 	}
 
-	public function build(&$query) {
+	public function build(&$query)
+	{
 		return array();
 	}
 }
 
 class Test2Router implements JComponentRouterInterface
 {
-	public function preprocess($query) {
+	public function preprocess($query)
+	{
 		return $query;
 	}
 
-	public function parse(&$segments) {
+	public function parse(&$segments)
+	{
 		return array('testvar' => 'testvalue');
 	}
 
-	public function build(&$query) {
+	public function build(&$query)
+	{
 		return array('router-test', 'another-segment');
 	}
 }
 
 class Test3Router implements JComponentRouterInterface
 {
-	public function preprocess($query) {
+	public function preprocess($query)
+	{
 		return $query;
 	}
 
-	public function parse(&$segments) {
+	public function parse(&$segments)
+	{
 		return array();
 	}
 
-	public function build(&$query) {
+	public function build(&$query)
+	{
 		unset($query['Itemid']);
-		
+
 		return array();
 	}
 }
