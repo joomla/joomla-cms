@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<note xmlns="http://developer.joomla.org" xmlns:xsi="http://developer.joomla.org/xsd/v1"
+xsi:schemaLocation="http://developer.joomla.org module.xsd">
 <extension
 	type="module"
 	version="3.1"

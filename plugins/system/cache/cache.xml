@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<note xmlns="http://developer.joomla.org" xmlns:xsi="http://developer.joomla.org/xsd/v1"
+xsi:schemaLocation="http://developer.joomla.org plugin.xsd">
 <extension version="3.1" type="plugin" group="system">
 	<name>plg_system_cache</name>
 	<author>Joomla! Project</author>

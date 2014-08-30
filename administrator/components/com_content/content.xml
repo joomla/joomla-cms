@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<note xmlns="http://developer.joomla.org" xmlns:xsi="http://developer.joomla.org/xsd/v1"
+xsi:schemaLocation="http://developer.joomla.org component.xsd">
 <extension type="component" version="3.1" method="upgrade">
 	<name>com_content</name>
 	<author>Joomla! Project</author>
