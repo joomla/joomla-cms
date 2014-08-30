@@ -39,7 +39,7 @@ class JRouterTest extends TestCase
 		parent::setUp();
 
 		JUri::reset();
-		
+
 		$this->object = new JRouter;
 	}
 
@@ -48,32 +48,33 @@ class JRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since         3.4
+	 * @since   3.4
 	 */
 	public function testGetInstance()
 	{
-		//Check if a proper object is returned and that the mode is properly set
+		// Check if a proper object is returned and that the mode is properly set
 		JRouterInspector::clearInstanceCache();
 		$object = JRouter::getInstance('administrator', array('mode' => 'test', 'randomKey' => 'randomValue'));
 		$this->assertTrue(is_a($object, 'JRouterAdministrator'));
 		$this->assertEquals($object->getMode(), 'test');
-		//This test is commented, since the feature is not implemented (yet)
-		//$this->assertEquals($object->get('randomKey'), 'randomValue');
 		
-		//Check if the same object is returned by getInstance()
+		// This test is commented, since the feature is not implemented (yet)
+		// $this->assertEquals($object->get('randomKey'), 'randomValue');
+		
+		// Check if the same object is returned by getInstance()
 		$object2 = JRouter::getInstance('administrator');
 		$this->assertSame($object, $object2);
 		
-		require_once JPATH_TESTS.'/suites/libraries/cms/application/stubs/JApplicationHelperInspector.php';
-		$apps = JApplicationHelperInspector::get();
-		$obj = new stdClass();
-		$obj->id = 3;
+		require_once JPATH_TESTS . '/suites/libraries/cms/application/stubs/JApplicationHelperInspector.php';
+		$apps      = JApplicationHelperInspector::get();
+		$obj       = new stdClass();
+		$obj->id   = 3;
 		$obj->name = 'tester';
 		$obj->path = dirname(__FILE__).'/example';
-		$apps[3] = $obj;
+		$apps[3]   = $obj;
 		JApplicationHelperInspector::set($apps);
 		
-		//Test if legacy app routers are still loaded
+		// Test if legacy app routers are still loaded
 		$object3 = JRouter::getInstance('tester');
 		$this->assertTrue(is_a($object, 'JRouter'));
 	}
@@ -83,12 +84,12 @@ class JRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since         3.4
+	 * @since   3.4
 	 * @expectedException RuntimeException
 	 */
 	public function testGetInstanceException()
 	{
-		//Check if a proper exception is thrown if there is no router class
+		// Check if a proper exception is thrown if there is no router class
 		$object = JRouter::getInstance('exception');
 	}
 
@@ -101,11 +102,11 @@ class JRouterTest extends TestCase
 	 */
 	public function casesParse()
 	{
-		$cases = array();
+		$cases   = array();
 		$cases[] = array('', JROUTER_MODE_RAW, array(), array());
 		$cases[] = array('index.php?var1=value1', JROUTER_MODE_RAW, array(), array());
 		$cases[] = array('', JROUTER_MODE_RAW, array('var1' => 'value1'), array('var1' => 'value1'));
-		
+
 		$cases[] = array('', JROUTER_MODE_SEF, array(), array());
 		$cases[] = array('index.php?var1=value1', JROUTER_MODE_SEF, array(), array());
 		$cases[] = array('', JROUTER_MODE_SEF, array('var1' => 'value1'), array('var1' => 'value1'));
@@ -140,16 +141,16 @@ class JRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since         3.4
+	 * @since   3.4
 	 */
 	public function testBuild()
 	{
-		$uri = new JUri('index.php?var1=value1');
+		$uri    = new JUri('index.php?var1=value1');
 		$result = $this->object->build('index.php?var1=value1');
 		$this->assertEquals($uri, $result);
-		
+
 		$this->assertEquals($uri, $this->object->build('index.php?var1=value1'));
-		
+
 		$object = new JRouter;
 		$object->setMode(JROUTER_MODE_SEF);
 		$result = $object->build('index.php?var1=value1');
@@ -161,12 +162,12 @@ class JRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since         3.4
+	 * @since   3.4
 	 */
 	public function testGetMode()
 	{
 		$this->assertEquals($this->object->getMode(), JROUTER_MODE_RAW);
-		
+
 		$this->object->setMode(JROUTER_MODE_SEF);
 		$this->assertEquals($this->object->getMode(), JROUTER_MODE_SEF);
 	}
@@ -176,13 +177,13 @@ class JRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since         3.4
+	 * @since   3.4
 	 */
 	public function testSetMode()
 	{
 		$this->object->setMode(JROUTER_MODE_SEF);
 		$this->assertEquals($this->object->getMode(), JROUTER_MODE_SEF);
-		
+
 		$this->object->setMode(42);
 		$this->assertEquals($this->object->getMode(), 42);
 	}
@@ -196,7 +197,7 @@ class JRouterTest extends TestCase
 	 */
 	public function casesSetVar()
 	{
-		$cases = array();
+		$cases   = array();
 		$cases[] = array(array(), 'myvar', 'myvalue', true, 'myvalue');
 		$cases[] = array(array(), 'myvar', 'myvalue', false, null);
 		$cases[] = array(array('myvar' => 'myvalue1'), 'myvar', 'myvalue2', true, 'myvalue2');
@@ -238,13 +239,13 @@ class JRouterTest extends TestCase
 		$this->assertEquals($this->object->getVars(), array());
 		$this->object->setVars(array('var1' => 'value1'));
 		$this->assertEquals($this->object->getVars(), array('var1' => 'value1'));
-		
+
 		$this->object->setVars(array('var2' => 'value2'));
 		$this->assertEquals($this->object->getVars(), array('var1' => 'value1', 'var2' => 'value2'));
-		
+
 		$this->object->setVars(array('var3' => 'value3'), false);
 		$this->assertEquals($this->object->getVars(), array('var3' => 'value3'));
-		
+
 		$this->object->setVars(array(), false);
 		$this->assertEquals($this->object->getVars(), array());
 	}
@@ -258,7 +259,7 @@ class JRouterTest extends TestCase
 	 */
 	public function casesGetVar()
 	{
-		$cases = array();
+		$cases   = array();
 		$cases[] = array(array(), 'myvar', 'myvalue', true, 'myvalue');
 		$cases[] = array(array(), 'myvar', 'myvalue', false, null);
 		$cases[] = array(array('myvar' => 'myvalue1'), 'myvar', 'myvalue2', true, 'myvalue2');
@@ -300,13 +301,13 @@ class JRouterTest extends TestCase
 		$this->assertEquals($this->object->getVars(), array());
 		$this->object->setVars(array('var1' => 'value1'));
 		$this->assertEquals($this->object->getVars(), array('var1' => 'value1'));
-		
+
 		$this->object->setVars(array('var2' => 'value2'));
 		$this->assertEquals($this->object->getVars(), array('var1' => 'value1', 'var2' => 'value2'));
-		
+
 		$this->object->setVars(array('var3' => 'value3'), false);
 		$this->assertEquals($this->object->getVars(), array('var3' => 'value3'));
-		
+
 		$this->object->setVars(array(), false);
 		$this->assertEquals($this->object->getVars(), array());
 	}
@@ -348,7 +349,7 @@ class JRouterTest extends TestCase
 	{
 		$object = new JRouterInspector;
 
-		foreach($callbacks as $callback)
+		foreach ($callbacks as $callback)
 		{
 			$object->attachBuildRule($callback);
 		}
@@ -365,10 +366,10 @@ class JRouterTest extends TestCase
 	 */
 	public function casesAttachParseRule()
 	{
-		$cases = array();
-		$cases[] = array(array(), array('build' => array(), 'parse' => array()));
+		$cases     = array();
+		$cases[]   = array(array(), array('build' => array(), 'parse' => array()));
 		$callbacks = array(function (&$router, &$uri) {});
-		$cases[] = array($callbacks,
+		$cases[]   = array($callbacks,
 			array(
 				'build' => array(),
 				'parse' => $callbacks
@@ -393,7 +394,7 @@ class JRouterTest extends TestCase
 	{
 		$object = new JRouterInspector;
 
-		foreach($callbacks as $callback)
+		foreach ($callbacks as $callback)
 		{
 			$object->attachParseRule($callback);
 		}
@@ -410,7 +411,7 @@ class JRouterTest extends TestCase
 	 */
 	public function casesProcessParseRules()
 	{
-		$cases = array();
+		$cases   = array();
 		$cases[] = array(array(), array());
 		$cases[] = array(
 			array(
@@ -464,6 +465,8 @@ class JRouterTest extends TestCase
 	 * @dataProvider casesProcessParseRules
 	 *
 	 * @return void
+	 *
+	 * @since  3.4
 	 */
 	public function testProcessParseRules($functions, $expected)
 	{
@@ -488,7 +491,7 @@ class JRouterTest extends TestCase
 	 */
 	public function casesProcessBuildRules()
 	{
-		$cases = array();
+		$cases   = array();
 		$cases[] = array(array(), 'index.php?var1=value1&var2=value2');
 		$cases[] = array(
 			array(
@@ -542,11 +545,13 @@ class JRouterTest extends TestCase
 	 * @dataProvider casesProcessBuildRules
 	 *
 	 * @return void
+	 *
+	 * @since  3.4
 	 */
 	public function testProcessBuildRules($functions, $expected)
 	{
 		$myuri = 'index.php?var1=value1&var2=value2';
-		$stub = $this->getMock('JRouter', array('buildRawRoute'));
+		$stub  = $this->getMock('JRouter', array('buildRawRoute'));
 		$stub->expects($this->any())->method('buildRawRoute')->will($this->returnValue(array()));
 
 		foreach ($functions as $function)
@@ -571,7 +576,7 @@ class JRouterTest extends TestCase
 
 		$cases[] = array('', array(), '');
 		$cases[] = array('index.php', array(), 'index.php');
-		
+
 		$cases[] = array(array('var1' => 'value1', 'var2' => 'value2'), array(), 'index.php?var1=value1&var2=value2');
 		$cases[] = array(array('var1' => 'value1', 'var2' => 'value2'), array('var3' => 'value3'), 'index.php?var3=value3&var1=value1&var2=value2');
 		$cases[] = array(array('var1' => 'value1', 'var2' => 'value2'), array('var2' => 'value3'), 'index.php?var2=value2&var1=value1');
@@ -579,11 +584,11 @@ class JRouterTest extends TestCase
 		$cases[] = array('&var1=value1&var2=value2', array(), 'index.php?var1=value1&var2=value2');
 		$cases[] = array('&var1=value1&var2=value2', array('var3' => 'value3'), 'index.php?var3=value3&var1=value1&var2=value2');
 		$cases[] = array('&var1=value1&var2=value2', array('var2' => 'value3'), 'index.php?var2=value2&var1=value1');
-		
+
 		$cases[] = array('&var1=value1&var2=', array(), 'index.php?var1=value1');
-		
+
 		$cases[] = array('&amp;var1=value1&amp;var2=value2', array(), 'index.php?var1=value1&var2=value2');
-		
+
 		return $cases;
 	}
 
@@ -597,13 +602,15 @@ class JRouterTest extends TestCase
 	 * @dataProvider casesCreateURI
 	 *
 	 * @return void
+	 *
+	 * @since  3.4
 	 */
 	public function testCreateURI($url, $globalVars, $expected)
 	{
 		$object = new JRouterInspector;
 		$object->setVars($globalVars, false);
 		$juri = $object->runCreateURI($url);
-		
+
 		$this->assertTrue(is_a($juri, 'JUri'));
 		$this->assertEquals($expected, $juri->toString());
 	}
@@ -617,12 +624,12 @@ class JRouterTest extends TestCase
 	 */
 	public function casesEncodeSegments()
 	{
-		$cases = array();
+		$cases   = array();
 		$cases[] = array(array('test'), array('test'));
 		$cases[] = array(array('1:test'), array('1-test'));
 		$cases[] = array(array('test', '1:test'), array('test', '1-test'));
 		$cases[] = array(array('42:test', 'testing:this:method'), array('42-test', 'testing-this-method'));
-		
+
 		return $cases;
 	}
 
@@ -635,6 +642,8 @@ class JRouterTest extends TestCase
 	 * @dataProvider casesEncodeSegments
 	 *
 	 * @return void
+	 *
+	 * @since  3.4
 	 */
 	public function testEncodeSegments($segments, $expected)
 	{
@@ -651,12 +660,12 @@ class JRouterTest extends TestCase
 	 */
 	public function casesDecodeSegments()
 	{
-		$cases = array();
+		$cases   = array();
 		$cases[] = array(array('test'), array('test'));
 		$cases[] = array(array('1-test'), array('1:test'));
 		$cases[] = array(array('test', '1-test'), array('test', '1:test'));
 		$cases[] = array(array('42-test', 'testing-this-method'), array('42:test', 'testing:this-method'));
-		
+
 		return $cases;
 	}
 
@@ -669,6 +678,8 @@ class JRouterTest extends TestCase
 	 * @dataProvider casesDecodeSegments
 	 *
 	 * @return void
+	 *
+	 * @since  3.4
 	 */
 	public function testDecodeSegments($segments, $expected)
 	{
