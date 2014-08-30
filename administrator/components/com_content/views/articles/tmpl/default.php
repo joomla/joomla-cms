@@ -36,46 +36,8 @@ $assoc		= JLanguageAssociations::isEnabled();
 <script type="text/javascript">
 	jQuery(function()
 	{
-		toggleSidebar(true);
+		Joomla.toggleSidebar('com_content', true);
 	});
-
-	function toggleSidebar($force)
-	{
-		var $visible = jQuery('#sidebar').is(":visible");
-
-		if ($force)
-		{
-			// Load the value from localStorage
-			var $visible = localStorage.getItem('com_content_sidebar_visible');
-
-
-			// Need to convert the value to a boolean
-			$visible = ($visible == 'true') ? true : false;
-		}
-
-		if ($visible)
-		{
-			jQuery('#sidebar').hide();
-			jQuery('#j-sidebar-container').removeClass('span2');
-			jQuery('#j-main-container').removeClass('span10').addClass('span12');
-			jQuery('#j-toggle-sidebar-icon').removeClass('icon-contract').addClass('icon-expand');
-			jQuery('#j-toggle-sidebar-button').attr('data-original-title', '<?php echo JText::_('JSEARCH_SHOW_SIDEBAR'); ?>');
-
-			// Set the last selection in localStorage
-			localStorage.setItem('com_content_sidebar_visible', true);
-		}
-		else
-		{
-			jQuery('#sidebar').show();
-			jQuery('#j-sidebar-container').addClass('span2');
-			jQuery('#j-main-container').removeClass('span12').addClass('span10');
-			jQuery('#j-toggle-sidebar-icon').removeClass('icon-expand').addClass('icon-contract');
-			jQuery('#j-toggle-sidebar-button').attr('data-original-title', '<?php echo JText::_('JSEARCH_HIDE_SIDEBAR'); ?>');
-
-			// Set the last selection in localStorage
-			localStorage.setItem('com_content_sidebar_visible', false);
-		}
-	}
 
 	Joomla.orderTable = function()
 	{

@@ -213,6 +213,75 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
 }
 
 /**
+ * USED IN: All list views to hide/show the sidebar
+ */
+Object.append(Browser.Features, {
+	localstorage: (function() {
+		return ('localStorage' in window) && window.localStorage !== null;
+	})()
+});
+
+Joomla.toggleSidebar = function(context, force)
+{
+	context = context + '_sidebar_visible';
+
+	var $visible = jQuery('#sidebar').is(":visible");
+
+	if (force)
+	{
+		// Load the value from localStorage
+		if (Browser.Features.localstorage)
+		{
+			var $visible = localStorage.getItem(context);
+		}
+		else
+		{
+			// Add cookie usage
+		}
+
+		// Need to convert the value to a boolean
+		$visible = ($visible == 'true') ? true : false;
+	}
+
+	if ($visible)
+	{
+		jQuery('#sidebar').hide();
+		jQuery('#j-sidebar-container').removeClass('span2');
+		jQuery('#j-main-container').removeClass('span10').addClass('span12');
+		jQuery('#j-toggle-sidebar-icon').removeClass('icon-contract').addClass('icon-expand');
+		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_SHOW_SIDEBAR'));
+
+		if (!Browser.Features.localstorage)
+		{
+			// Set the last selection in localStorage
+			localStorage.setItem(context, true);
+		}
+		else
+		{
+			// Add cookie usage
+		}
+	}
+	else
+	{
+		jQuery('#sidebar').show();
+		jQuery('#j-sidebar-container').addClass('span2');
+		jQuery('#j-main-container').removeClass('span12').addClass('span10');
+		jQuery('#j-toggle-sidebar-icon').removeClass('icon-expand').addClass('icon-contract');
+		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_HIDE_SIDEBAR'));
+
+		if (!Browser.Features.localstorage)
+		{
+			// Set the last selection in localStorage
+			localStorage.setItem(context, false);
+		}
+		else
+		{
+			// Add cookie usage
+		}
+	}
+}
+
+/**
  * USED IN: libraries/joomla/html/html/grid.php
  */
 Joomla.tableOrdering = function(order, dir, task, form) {
