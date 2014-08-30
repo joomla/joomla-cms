@@ -48,7 +48,7 @@ class JRouterAdministratorTest extends TestCase
 
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['SCRIPT_NAME'] = '';
-		
+
 		JUri::reset();
 
 		$this->object = new JRouterAdministrator;
