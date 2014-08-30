@@ -39,19 +39,20 @@ abstract class JImageHelper
 	const ORIENTATION_SQUARE = 'square';
 
 	/**
-	 * Method to return a properties object for an image given a filesystem path.  The
-	 * result object has values for image width, height, type, attributes, mime type, bits,
-	 * and channels.
+	 * Method to return a properties object for an image given a filesystem path.
+	 * The result object has values for image width, height, type, attributes,
+	 * bits, channels, mime type, filesize and orientation.
 	 *
 	 * @static
+	 *
 	 * @param   string  $path  The filesystem path to the image for which to get properties.
 	 *
 	 * @return  stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getImageFileProperties($path)
 	{
@@ -90,6 +91,8 @@ abstract class JImageHelper
 	
 	/**
 	 * Compare width and height integers to determine image orientation.
+	 *
+	 * @static
 	 *
 	 * @param  integer  $width
 	 * @param  integer  $height
