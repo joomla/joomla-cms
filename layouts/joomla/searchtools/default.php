@@ -37,8 +37,8 @@ JHtml::_('searchtools.form', $formSelector, $data['options']);
 		<div class="js-stools-container-bar">
 
 			<?php if ($customOptions['toggleSidebar']) : ?>
-				<button class="btn hidden-phone hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_HIDE_SIDEBAR'); ?>" onclick="toggleSidebar(false); return false;">
-					<span class="icon-list-2"></span>
+				<button id="j-toggle-sidebar-button" class="btn hidden-phone hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_HIDE_SIDEBAR'); ?>" onclick="toggleSidebar(false); return false;">
+					<span id="j-toggle-sidebar-icon" class=""></span>
 				</button>
 			<?php endif; ?>
 

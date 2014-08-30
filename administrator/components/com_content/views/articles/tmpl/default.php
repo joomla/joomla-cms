@@ -41,12 +41,13 @@ $assoc		= JLanguageAssociations::isEnabled();
 
 	function toggleSidebar($force)
 	{
-		var $visible = jQuery('#sidebar').is(":visible")
+		var $visible = jQuery('#sidebar').is(":visible");
 
 		if ($force)
 		{
 			// Load the value from localStorage
 			var $visible = localStorage.getItem('com_content_sidebar_visible');
+
 
 			// Need to convert the value to a boolean
 			$visible = ($visible == 'true') ? true : false;
@@ -57,6 +58,8 @@ $assoc		= JLanguageAssociations::isEnabled();
 			jQuery('#sidebar').hide();
 			jQuery('#j-sidebar-container').removeClass('span2');
 			jQuery('#j-main-container').removeClass('span10').addClass('span12');
+			jQuery('#j-toggle-sidebar-icon').removeClass('icon-arrow-left-4').addClass('icon-arrow-right-4');
+			jQuery('#j-toggle-sidebar-button').attr('data-original-title', '<?php echo JText::_('JSEARCH_SHOW_SIDEBAR'); ?>');
 
 			// Set the last selection in localStorage
 			localStorage.setItem('com_content_sidebar_visible', true);
@@ -66,6 +69,8 @@ $assoc		= JLanguageAssociations::isEnabled();
 			jQuery('#sidebar').show();
 			jQuery('#j-sidebar-container').addClass('span2');
 			jQuery('#j-main-container').removeClass('span12').addClass('span10');
+			jQuery('#j-toggle-sidebar-icon').removeClass('icon-arrow-right-4').addClass('icon-arrow-left-4');
+			jQuery('#j-toggle-sidebar-button').attr('data-original-title', '<?php echo JText::_('JSEARCH_HIDE_SIDEBAR'); ?>');
 
 			// Set the last selection in localStorage
 			localStorage.setItem('com_content_sidebar_visible', false);
@@ -100,7 +105,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 		<?php endif;?>
 			<?php
 		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this), '', array('toggleSidebar' => true));
 			?>
 			<?php if (empty($this->items)) : ?>
 				<div class="alert alert-no-items">
