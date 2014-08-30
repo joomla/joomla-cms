@@ -114,15 +114,18 @@ class JImage
 	}
 
 	/**
-	 * Method to return a properties object for an image given a filesystem path.  The
-	 * result object has values for image width, height, type, attributes, mime type, bits,
-	 * and channels.
+	 * Method to return a properties object for an image given a filesystem path.
+	 * The result object has values for image width, height, type, attributes,
+	 * mime type, bits and channels.
+	 *
+	 * @static
 	 *
 	 * @param   string  $path  The filesystem path to the image for which to get properties.
 	 *
 	 * @return  stdClass
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 *
@@ -134,10 +137,11 @@ class JImage
 	}
 	
 	/**
-	 * Method to detect an whether image's orientation is landscape, portrait or square.
+	 * Method to detect whether an image's orientation is landscape, portrait or square.
 	 * The orientation will be returned as string.
 	 *
-	 * @static
+	 * @access  public
+	 *
 	 * @return  mixed   Orientation string or null.
 	 *
 	 * @since   __DEPLOY_VERSION__
