@@ -954,7 +954,7 @@ abstract class JHtml
 	 *
 	 * @since   1.5
 	 */
-	public static function calendar($value, $name, $id, $format = 'yyy-mm-dd', $attribs = null)
+	public static function calendar($value, $name, $id, $format = 'yyyy-mm-dd', $attribs = null)
 	{
 		// Switch the format if needed.  Existing Joomla calendar uses default format: %Y-%m-%d
 		$format = preg_replace(array('/\%Y/','/\%m/','/\%d/'),array('yyyy','mm','dd'),$format);
@@ -972,16 +972,21 @@ abstract class JHtml
         JHtml::_('script','calendars/jquery.calendars.plus.js', true, true);
         JHtml::_('script','calendars/jquery.plugin.js', true, true);
         JHtml::_('script','calendars/jquery.calendars.picker.js', true, true);
-        JHtml::_('stylesheet','calendars/jquery.calendars.picker.css',null, true);
-        JHtml::_('stylesheet','calendars/redmond.calendars.picker.css',null, true);
-        JHtml::_('stylesheet','calendars/joomla-css-fixes.css',null, true);
+        JHtml::_('stylesheet','calendars/jquery.calendars.picker.css', null, true);
+        JHtml::_('stylesheet','calendars/redmond.calendars.picker.css', null, true);
+        JHtml::_('stylesheet','calendars/joomla-css-fixes.css', null, true);
+
+        // Load localisation options
+        JHtml::_('script','calendars/jquery.calendars-en-GB.js', true, true);
+        JHtml::_('script','calendars/jquery.calendars.picker-en-GB.js', true, true);
 
         // Setup the calendar
         $doc = JFactory::getDocument();
         $doc->addScriptDeclaration('jQuery(document).ready(function(){
                 jQuery("#' . $id . '").calendarsPicker({
                             dateFormat:"' . $format . '",
-                            showTrigger: "<button type=\"button\" class=\"btn trigger\"><i class=\"icon-calendar\"></i></button>"
+                            showTrigger: "<button type=\"button\" class=\"btn trigger\"><i class=\"icon-calendar\"></i></button>",
+                            calendar: jQuery.calendars.instance(\'gregorian\',\'en-GB\')
                             }
                         );
         });');
