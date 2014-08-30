@@ -58,7 +58,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 			jQuery('#sidebar').hide();
 			jQuery('#j-sidebar-container').removeClass('span2');
 			jQuery('#j-main-container').removeClass('span10').addClass('span12');
-			jQuery('#j-toggle-sidebar-icon').removeClass('icon-arrow-left-4').addClass('icon-arrow-right-4');
+			jQuery('#j-toggle-sidebar-icon').removeClass('icon-contract').addClass('icon-expand');
 			jQuery('#j-toggle-sidebar-button').attr('data-original-title', '<?php echo JText::_('JSEARCH_SHOW_SIDEBAR'); ?>');
 
 			// Set the last selection in localStorage
@@ -69,7 +69,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 			jQuery('#sidebar').show();
 			jQuery('#j-sidebar-container').addClass('span2');
 			jQuery('#j-main-container').removeClass('span12').addClass('span10');
-			jQuery('#j-toggle-sidebar-icon').removeClass('icon-arrow-right-4').addClass('icon-arrow-left-4');
+			jQuery('#j-toggle-sidebar-icon').removeClass('icon-expand').addClass('icon-contract');
 			jQuery('#j-toggle-sidebar-button').attr('data-original-title', '<?php echo JText::_('JSEARCH_HIDE_SIDEBAR'); ?>');
 
 			// Set the last selection in localStorage
