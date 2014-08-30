@@ -22,7 +22,7 @@ class MediaControllerEditorCheckin extends JControllerBase
 	 * Prefix for the view and model classes
 	 *
 	 * @var    string
-	 * @since  3.3
+	 * @since  3.5
 	 */
 	public $prefix = 'Media';
 
@@ -31,7 +31,7 @@ class MediaControllerEditorCheckin extends JControllerBase
 	 *
 	 * @return  mixed  A rendered view or true
 	 *
-	 * @since   3.3
+	 * @since   3.5
 	 */
 	public function execute()
 	{
@@ -65,5 +65,4 @@ class MediaControllerEditorCheckin extends JControllerBase
 
 		return true;
 	}
-
 }

@@ -40,6 +40,7 @@ class MediaControllerFile extends JControllerLegacy
 				'error' => JText::_('JINVALID_TOKEN')
 			);
 			echo json_encode($response);
+
 			return;
 		}
 
@@ -63,6 +64,7 @@ class MediaControllerFile extends JControllerLegacy
 				'error' => JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE')
 			);
 			echo json_encode($response);
+
 			return;
 		}
 
@@ -89,6 +91,7 @@ class MediaControllerFile extends JControllerLegacy
 				);
 
 				echo json_encode($response);
+
 				return;
 			}
 
@@ -110,6 +113,7 @@ class MediaControllerFile extends JControllerLegacy
 				);
 
 				echo json_encode($response);
+
 				return;
 			}
 
@@ -124,6 +128,7 @@ class MediaControllerFile extends JControllerLegacy
 				);
 
 				echo json_encode($response);
+
 				return;
 			}
 			elseif (!$user->authorise('core.create', 'com_media'))
@@ -137,6 +142,7 @@ class MediaControllerFile extends JControllerLegacy
 				);
 
 				echo json_encode($response);
+
 				return;
 			}
 
@@ -151,6 +157,7 @@ class MediaControllerFile extends JControllerLegacy
 				);
 
 				echo json_encode($response);
+
 				return;
 			}
 			else
@@ -165,6 +172,7 @@ class MediaControllerFile extends JControllerLegacy
 				);
 
 				echo json_encode($response);
+
 				return;
 			}
 		}
@@ -176,6 +184,7 @@ class MediaControllerFile extends JControllerLegacy
 			);
 
 			echo json_encode($response);
+
 			return;
 		}
 	}

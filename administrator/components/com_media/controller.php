@@ -15,18 +15,20 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_media
  * @since       1.5
+ * @deprecated  4.0
  */
 class MediaController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean	 $cachable   If true, the view output will be cached
+	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController		This object to support chaining.
 	 *
 	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -85,6 +87,13 @@ class MediaController extends JControllerLegacy
 		return $this;
 	}
 
+	/**
+	 * Validating FTP connection
+	 *
+	 * @return null
+	 *
+	 * @deprecated  4.0
+	 */
 	public function ftpValidate()
 	{
 		// Set FTP credentials, if given

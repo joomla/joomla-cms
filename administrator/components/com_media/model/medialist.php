@@ -18,9 +18,19 @@ jimport('joomla.filesystem.file');
  * @package     Joomla.Administrator
  * @subpackage  com_media
  * @since       3.5
-*/
+ */
 class MediaModelMedialist extends ConfigModelForm
 {
+	/**
+	 * Method to get model state variables
+	 *
+	 * @param   string  $property  Property to retrieve
+	 * @param   string  $default   Default value
+	 *
+	 * @return  object  The property where specified, the state object where omitted
+	 *
+	 * @since   3.5
+	 */
 	public function getState($property = null, $default = null)
 	{
 		static $set;
@@ -39,15 +49,12 @@ class MediaModelMedialist extends ConfigModelForm
 
 		if (!$property)
 		{
-
 			return parent::getState();
 		}
 		else
 		{
-
 			return parent::getState()->get($property, $default);
 		}
-
 	}
 
 	/**
@@ -246,7 +253,6 @@ class MediaModelMedialist extends ConfigModelForm
 					{
 						$tmp->id = $result->core_content_id;
 						$tmp->title = $result->core_title;
-
 					}
 					else
 					{
@@ -304,6 +310,16 @@ class MediaModelMedialist extends ConfigModelForm
 		return $list;
 	}
 
+	/**
+	 * Method for getting the form from the model.
+	 *
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  null
+	 *
+	 * @since   3.5
+	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		return;

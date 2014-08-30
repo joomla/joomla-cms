@@ -19,12 +19,23 @@ defined('_JEXEC') or die;
 class MediaViewEditorHtml extends ConfigViewCmsHtml
 {
 	/**
-	 * For loading image information
+	 * For loading image
 	 */
 	protected $image;
 
-	public $item;
+	/**
+	 * For loading image information
+	 */
+	protected $item;
 
+	/**
+	 * Method to render the view.
+	 *
+	 * @return  string  The rendered view.
+	 *
+	 * @since   3.5
+	 * @throws  RuntimeException
+	 */
 	public function render()
 	{
 		$app	= JFactory::getApplication();
@@ -118,5 +129,4 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 			JToolbarHelper::divider();
 			JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER_EDITOR');
 	}
-
 }

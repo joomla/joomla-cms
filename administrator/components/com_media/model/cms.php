@@ -146,10 +146,12 @@ abstract class MediaModelCms extends JModelDatabase
 		if (empty($this->name))
 		{
 			$r = null;
+
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
+
 			$this->name = strtolower($r[1]);
 		}
 
@@ -158,7 +160,6 @@ abstract class MediaModelCms extends JModelDatabase
 
 	/**
 	 * Method to get model state variables
-	 *
 	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
@@ -208,6 +209,8 @@ abstract class MediaModelCms extends JModelDatabase
 	/**
 	 * Method to register paths for tables
 	 *
+	 * @param   object  $config  Configuration with table paths.
+	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
 	 * @since   3.5
@@ -227,7 +230,6 @@ abstract class MediaModelCms extends JModelDatabase
 
 			// For legacy purposes. Remove for 4.0
 			$paths->insert(JPATH_COMPONENT_ADMINISTRATOR . '/tables', 'normal');
-
 		}
 	}
 
@@ -273,6 +275,7 @@ abstract class MediaModelCms extends JModelDatabase
 	{
 		$this->loadState();
 	}
+
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
@@ -290,10 +293,10 @@ abstract class MediaModelCms extends JModelDatabase
 			{
 				return;
 			}
+
 			$user = JFactory::getUser();
 
 			return $user->authorise('core.delete', $this->option);
-
 		}
 	}
 

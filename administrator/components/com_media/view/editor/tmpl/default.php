@@ -35,7 +35,8 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 				onChange:   showCoords,
 				onSelect:   showCoords,
 				onRelease:  clearCoords,
-				trueSize:   [<?php echo $this->image['width']; ?>,<?php echo $this->image['height']; ?>]
+				trueSize:   [<?php echo $this->image['width']; ?>,
+								<?php echo $this->image['height']; ?>]
 			},function(){
 				jcrop_api = this;
 			});
@@ -172,15 +173,18 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 					</label>
 					<div class="controls">
 						<input class="span3" type="number" name="height" id="resize-height"
-							placeholder="<?php echo $this->image['height']; ?> " value="<?php echo $this->image['height']; ?> " required />
+							placeholder="<?php echo $this->image['height']; ?> " 
+							value="<?php echo $this->image['height']; ?> " required />
 						<span class="help-inline">px</span>
 					</div>
 					<br /> <label for="width" class="control-label hasTooltip"
-						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_WIDTH'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_WIDTH')?>
+						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_WIDTH'); ?>">
+								<?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_WIDTH')?>
 					</label>
 					<div class="controls">
 						<input class="span3" type="number" name="width" id="resize-width"
-							placeholder="<?php echo $this->image['height']; ?> " value="<?php echo $this->image['width']; ?> " required />
+							placeholder="<?php echo $this->image['height']; ?> " 
+							value="<?php echo $this->image['width']; ?> " required />
 						<span class="help-inline">px</span>
 					</div>
 				</div>

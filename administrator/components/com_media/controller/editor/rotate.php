@@ -59,5 +59,4 @@ class MediaControllerEditorRotate extends JControllerBase
 			$this->app->redirect(JRoute::_($url, false));
 		}
 	}
-
 }

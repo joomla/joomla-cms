@@ -50,7 +50,6 @@ class MediaModelCmslist extends MediaModelCmsitem
 	 */
 	public $idSchema;
 
-
 	/**
 	 * Constructor.
 	 *
@@ -117,7 +116,6 @@ class MediaModelCmslist extends MediaModelCmsitem
 
 		return $query;
 	}
-
 
 	/**
 	 * Method to get an array of data items.
@@ -230,6 +228,7 @@ class MediaModelCmslist extends MediaModelCmsitem
 
 		// Load the total.
 		$query = $this->getListQuery();
+
 		try
 		{
 			$total = (int) $this->getListCount($query);
@@ -268,6 +267,7 @@ class MediaModelCmslist extends MediaModelCmsitem
 		$start = $this->state->get('list.start');
 		$limit = $this->state->get('list.limit');
 		$total = $this->getTotal();
+
 		if ($start > $total - $limit)
 		{
 			$start = max(0, (int) (ceil($total / $limit) - 1) * $limit);
@@ -312,15 +312,18 @@ class MediaModelCmslist extends MediaModelCmsitem
 
 			// Check if the ordering field is in the white list, otherwise use the incoming value.
 			$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
+
 			if (!in_array($value, $this->filter_fields))
 			{
 				$value = $ordering;
 				$app->setUserState($this->context . '.ordercol', $value);
 			}
+
 			$this->state->set('list.ordering', $value);
 
 			// Check if the ordering direction is valid, otherwise use the incoming value.
 			$value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
+
 			if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
 			{
 				$value = $direction;
@@ -411,14 +414,15 @@ class MediaModelCmslist extends MediaModelCmsitem
 	{
 		// Use fast COUNT(*) on JDatabaseQuery objects if there no GROUP BY or HAVING clause:
 		if ($query instanceof JDatabaseQuery
-				&& $query->type == 'select'
-				&& $query->group === null
-				&& $query->having === null)
+			&& $query->type == 'select'
+			&& $query->group === null
+			&& $query->having === null)
 		{
 			$query = clone $query;
 			$query->clear('select')->clear('order')->select('COUNT(*)');
 
 			$this->_db->setQuery($query);
+
 			return (int) $this->_db->loadResult();
 		}
 
@@ -454,13 +458,13 @@ class MediaModelCmslist extends MediaModelCmsitem
 		{
 			if ($table->load($pk))
 			{
-
 				if ($table->checked_out > 0)
 				{
 					if (!parent::checkin($pk))
 					{
 						return false;
 					}
+
 					$count++;
 				}
 			}
@@ -555,11 +559,13 @@ class MediaModelCmslist extends MediaModelCmsitem
 		$tableClassName = get_class($table);
 		$contentType = new JUcmType;
 		$type = $contentType->getTypeByTable($tableClassName);
+
 		if ($type)
 		{
 			$typeAlias = $type->type_alias;
 			$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
 		}
+
 		$conditions = array();
 
 		if (empty($pks))
@@ -591,6 +597,7 @@ class MediaModelCmslist extends MediaModelCmsitem
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
+
 					return false;
 				}
 
@@ -641,5 +648,4 @@ class MediaModelCmslist extends MediaModelCmsitem
 	{
 		return array();
 	}
-
 }

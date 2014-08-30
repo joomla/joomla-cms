@@ -18,7 +18,7 @@ jimport('joomla.filesystem.folder');
  * @package     Joomla.Administrator
  * @subpackage  com_media
  * @since       3.5
-*/
+ */
 class MediaControllerMediaUpload extends JControllerBase
 {
 	/**
@@ -53,6 +53,7 @@ class MediaControllerMediaUpload extends JControllerBase
 
 			return false;
 		}
+
 		$params = JComponentHelper::getParams('com_media');
 
 		$user  = JFactory::getUser();
@@ -140,15 +141,11 @@ class MediaControllerMediaUpload extends JControllerBase
 				$this->app->enqueueMessage(JText::_('COM_MEDIA_INVALID_REQUEST'), 'error');
 
 				return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), false);
-
 			}
 
 			// Hash destination filename
 			$fileparts = pathinfo($file['filepath']);
 			$date	   = JFactory::getDate();
-
-// 			$file['filepath'] = $fileparts['dirname'] . DIRECTORY_SEPARATOR . md5($fileparts['filename'] . $date->toUnix()) . '.' . $fileparts['extension'];
-
 		}
 
 		// Set FTP credentials, if given
@@ -158,7 +155,6 @@ class MediaControllerMediaUpload extends JControllerBase
 
 		foreach ($files as &$file)
 		{
-
 			if (!JHelperMedia::canUpload($file, 'com_media'))
 			{
 				// The file can't be uploaded
@@ -205,7 +201,6 @@ class MediaControllerMediaUpload extends JControllerBase
 		}
 
 		return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), true);
-
 	}
 
 	/**

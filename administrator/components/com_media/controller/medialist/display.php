@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_media
  * @since       3.5
-*/
+ */
 class MediaControllerMedialistDisplay extends JControllerBase
 {
 	/**

@@ -18,7 +18,16 @@ defined('_JEXEC') or die;
  */
 class MediaModelMedia extends ConfigModelForm
 {
-
+	/**
+	 * Method to get model state variables
+	 *
+	 * @param   string  $property  Property to retrieve
+	 * @param   string  $default   Default value
+	 *
+	 * @return  object  The property where specified, the state object where omitted
+	 *
+	 * @since   3.5
+	 */
 	public function getState($property = null, $default = null)
 	{
 		static $set;
@@ -41,15 +50,12 @@ class MediaModelMedia extends ConfigModelForm
 
 		if (!$property)
 		{
-
 			return parent::getState();
 		}
 		else
 		{
-
 			return parent::getState()->get($property, $default);
 		}
-
 	}
 
 	/**
@@ -171,11 +177,22 @@ class MediaModelMedia extends ConfigModelForm
 				}
 			}
 		}
+
 		$tree['data'] = (object) array('name' => JText::_('COM_MEDIA_MEDIA'), 'relative' => '', 'absolute' => $base);
 
 		return $tree;
 	}
 
+	/**
+	 * Method for getting the form from the model.
+	 *
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  null
+	 *
+	 * @since   3.5
+	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		return;
@@ -192,7 +209,6 @@ class MediaModelMedia extends ConfigModelForm
 	 */
 	public function create($file)
 	{
-
 		$row = JTable::getInstance('Corecontent');
 
 		// Get type_id fron content_type table
@@ -207,7 +223,6 @@ class MediaModelMedia extends ConfigModelForm
 
 		$fname = explode('.', $file['name']);
 		$data['core_type_id'] = $typeId;
-//		$data['core_content_item_id'] = $typeId;
 		$data['core_type_alias'] = 'com_media.image';
 		$data['core_title'] = $fname[0];
 		$data['core_alias'] = JFilterOutput::stringURLSafe($fname[0]);
@@ -251,14 +266,13 @@ class MediaModelMedia extends ConfigModelForm
 
 			$db->setQuery($query);
 			$db->execute();
-			
+
 			return true;
 		}
 		else
 		{
 			return false;
 		}
-
 	}
 
 	/**
@@ -290,6 +304,5 @@ class MediaModelMedia extends ConfigModelForm
 
 		$row = JTable::getInstance('Corecontent');
 		$row->delete($pk);
-
 	}
 }

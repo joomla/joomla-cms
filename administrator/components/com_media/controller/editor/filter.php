@@ -60,5 +60,4 @@ class MediaControllerEditorFilter extends JControllerBase
 			$this->app->redirect(JRoute::_($url, false));
 		}
 	}
-
 }

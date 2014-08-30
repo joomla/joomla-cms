@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper class for Media Manager
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_media
  * @since       1.5
@@ -56,8 +58,8 @@ abstract class MediaHelper
 	/**
 	 * Checks if the file can be uploaded
 	 *
-	 * @param   array   File information
-	 * @param   string  An error message to be returned
+	 * @param   array   $file  File information
+	 * @param   string  $err   An error message to be returned
 	 *
 	 * @return  boolean
 	 *
@@ -85,6 +87,7 @@ abstract class MediaHelper
 	public static function parseSize($size)
 	{
 		JLog::add('MediaHelper::parseSize() is deprecated. Use JHtmlNumber::bytes() instead.', JLog::WARNING, 'deprecated');
+
 		return JHtml::_('number.bytes', $size);
 	}
 
@@ -125,7 +128,16 @@ abstract class MediaHelper
 
 		return $mediaHelper->countFiles($dir);
 	}
-	
+
+	/**
+	 * Adding submenu to Media Manager
+	 *
+	 * @param   string  $vName  View name
+	 *
+	 * @return null
+	 *
+	 * @deprecated  4.0  Use JHelperMedia::addSubmenu instead
+	 */
 	public static function addSubmenu($vName)
 	{
 		JLoader::register('MediaHelperMedia', JPATH_ADMINISTRATOR . '/components/com_media/helper/media.php');

@@ -217,6 +217,7 @@ class MediaModelCmsitem extends MediaModelCms
 			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -224,6 +225,7 @@ class MediaModelCmsitem extends MediaModelCms
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
+
 				return false;
 			}
 
@@ -231,6 +233,7 @@ class MediaModelCmsitem extends MediaModelCms
 			if (!$table->checkout($user->get('id'), $pk))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -251,8 +254,6 @@ class MediaModelCmsitem extends MediaModelCms
 	public function getForm($data = array(), $loadData = true)
 	{
 	}
-
-
 
 	/**
 	 * Method to get a store id based on model configuration state.
@@ -276,8 +277,9 @@ class MediaModelCmsitem extends MediaModelCms
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
+	 * @return  void
 	 *
+	 * @note    Calling getState in this method will result in recursion.
 	 * @since   3.5
 	 */
 	protected function populateState()
@@ -322,8 +324,10 @@ class MediaModelCmsitem extends MediaModelCms
 				if (empty($typeTable->common))
 				{
 					// Should there be an exception here?
+
 					return;
 				}
+
 				$table = JTable::getInstance($typeTable->common->type, $typeTable->common->prefix);
 			}
 
@@ -341,15 +345,14 @@ class MediaModelCmsitem extends MediaModelCms
 		}
 
 		return $this->item;
-
 	}
 
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param   string  $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   string  $name     The table type to instantiate
+	 * @param   string  $prefix   A prefix for the table class name. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
 	 *
 	 * @return  JTable  A database object
 	 *
@@ -377,6 +380,7 @@ class MediaModelCmsitem extends MediaModelCms
 		}
 
 		$item = $this->getTable($type, $prefix);
+
 		return $item->hit($id);
 	}
 
@@ -412,7 +416,6 @@ class MediaModelCmsitem extends MediaModelCms
 		{
 			$pksImploded = implode(',', $pks);
 			$query->where($db->quoteName($key) . ' IN (' . $pksImploded . ')');
-
 		}
 
 		$db->setQuery($query);
@@ -508,6 +511,7 @@ class MediaModelCmsitem extends MediaModelCms
 			if (!$table->check())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -517,6 +521,7 @@ class MediaModelCmsitem extends MediaModelCms
 			if (in_array(false, $result, true))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -524,6 +529,7 @@ class MediaModelCmsitem extends MediaModelCms
 			if (!$table->store())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -543,6 +549,7 @@ class MediaModelCmsitem extends MediaModelCms
 
 		return true;
 	}
+
 	/**
 	 * Method to get a form object.
 	 *
@@ -578,12 +585,12 @@ class MediaModelCmsitem extends MediaModelCms
 		$paths->insert(JPATH_COMPONENT . '/model/field', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/model/rule', 'normal');
 
-		//Legacy support to be removed in 4.0.  -- failing here
+		// Legacy support to be removed in 4.0.  -- failing here
 		$paths->insert(JPATH_COMPONENT . '/models/forms', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/models/fields', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/models/rules', 'normal');
 
-		// test -- prob with previous -- tempory solution
+		// Test -- prob with previous -- tempory solution
 		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
 		JForm::addFormPath(JPATH_COMPONENT . '/model/form');
@@ -609,7 +616,6 @@ class MediaModelCmsitem extends MediaModelCms
 
 			// Load the data into the form after the plugins have operated.
 			$form->bind($data);
-
 		}
 		catch (Exception $e)
 		{
@@ -758,6 +764,7 @@ class MediaModelCmsitem extends MediaModelCms
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
 		{
 			$title = JString::increment($title);

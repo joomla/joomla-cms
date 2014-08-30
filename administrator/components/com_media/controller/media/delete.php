@@ -17,7 +17,7 @@ jimport('joomla.filesystem.folder');
  * @package     Joomla.Administrator
  * @subpackage  com_media
  * @since       3.5
-*/
+ */
 class MediaControllerMediaDelete extends JControllerBase
 {
 	/**
@@ -37,7 +37,6 @@ class MediaControllerMediaDelete extends JControllerBase
 	 */
 	public function execute()
 	{
-
 		if (!JSession::checkToken('request'))
 		{
 			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'));
@@ -152,13 +151,14 @@ class MediaControllerMediaDelete extends JControllerBase
 		$this->app->redirect(JRoute::_($redirect, false));
 
 		return $ret;
-
 	}
-	
+
 	/**
 	 * Enqueue error when delete failed
 	 *
-	 * @param  string  $name  Delete failed file name
+	 * @param   string  $name  Delete failed file name
+	 *
+	 * @return null
 	 *
 	 * @since  3.5
 	 */

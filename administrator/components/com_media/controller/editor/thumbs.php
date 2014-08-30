@@ -68,5 +68,4 @@ class MediaControllerEditorThumbs extends JControllerBase
 
 		return;
 	}
-
 }

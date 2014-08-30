@@ -19,6 +19,17 @@ defined('_JEXEC') or die;
  */
 class MediaModelManager extends JModelLegacy
 {
+	/**
+	 * Method to get model state variables
+	 *
+	 * @param   string  $property  Property to retrieve
+	 * @param   string  $default   Default value
+	 *
+	 * @return  object  The property where specified, the state object where omitted
+	 *
+	 * @since   1.5
+	 * @deprecated  4.0
+	 */
 	public function getState($property = null, $default = null)
 	{
 		JLog::add(
@@ -51,10 +62,14 @@ class MediaModelManager extends JModelLegacy
 	/**
 	 * Image Manager Popup
 	 *
-	 * @param string $listFolder The image directory to display
+	 * @param   string  $base  The image directory to display
+	 *
+	 * @return  JHtml  Object that contains folder list to display
+	 *
 	 * @since 1.5
+	 * @deprecated  4.0
 	 */
-	function getFolderList($base = null)
+	public function getFolderList($base = null)
 	{
 		JLog::add(
 		'MediaModelManager is deprecated. Use MediaModelMedia.getFolderList() instead.',
@@ -67,7 +82,7 @@ class MediaModelManager extends JModelLegacy
 		{
 			$base = COM_MEDIA_BASE;
 		}
-		//corrections for windows paths
+		// Corrections for windows paths
 		$base = str_replace(DIRECTORY_SEPARATOR, '/', $base);
 		$com_media_base_uni = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE);
 
@@ -109,12 +124,22 @@ class MediaModelManager extends JModelLegacy
 		$author = $input->get('author', 0, 'integer');
 
 		// Create the drop-down folder select list
-		$list = JHtml::_('select.genericlist', $options, 'folderlist', 'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, '.$asset.', '.$author.')" ', 'value', 'text', $base);
+		$list = JHtml::_('select.genericlist', $options, 'folderlist', 'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, ' . $asset . ', ' . $author . ')" ', 'value', 'text', $base);
 
 		return $list;
 	}
 
-	function getFolderTree($base = null)
+	/**
+	 * Construct the folder tree for Media Manager
+	 *
+	 * @param   string  $base  Base for folder tree
+	 *
+	 * @return multitype:StdClass
+	 *
+	 * @since 1.5
+	 * @deprecated  4.0
+	 */
+	public function getFolderTree($base = null)
 	{
 		JLog::add(
 		'MediaModelManager is deprecated. Use MediaModelMedia.getFolderTree() instead.',
@@ -128,7 +153,7 @@ class MediaModelManager extends JModelLegacy
 			$base = COM_MEDIA_BASE;
 		}
 
-		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE.'/');
+		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
 
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
@@ -146,6 +171,7 @@ class MediaModelManager extends JModelLegacy
 			$node		= (object) array('name' => $name, 'relative' => $relative, 'absolute' => $absolute);
 
 			$tmp = &$tree;
+
 			for ($i = 0, $n = count($path); $i < $n; $i++)
 			{
 				if (!isset($tmp['children']))
@@ -166,6 +192,7 @@ class MediaModelManager extends JModelLegacy
 				}
 			}
 		}
+
 		$tree['data'] = (object) array('name' => JText::_('COM_MEDIA_MEDIA'), 'relative' => '', 'absolute' => $base);
 
 		return $tree;

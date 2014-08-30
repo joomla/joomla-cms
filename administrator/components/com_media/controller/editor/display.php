@@ -101,5 +101,4 @@ class MediaControllerEditorDisplay extends ConfigControllerDisplay
 			echo $view->render();
 		}
 	}
-
 }

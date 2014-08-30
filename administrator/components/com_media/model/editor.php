@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class MediaModelEditor extends MediaModelCmsitem
 {
-
 	/**
 	 * @var     string  The help screen key for the edit screen.
 	 * @since   3.5
@@ -172,11 +171,9 @@ class MediaModelEditor extends MediaModelCmsitem
 
 			if (!empty($this->item->core_content_id))
 			{
-
 				// Overriding getTagIds in JHelperTags
 				$this->item->tags = $this->getTagIds($this->item->core_content_id, $this->item->core_type_alias);
 			}
-
 		}
 
 		return $this->item;
@@ -245,10 +242,11 @@ class MediaModelEditor extends MediaModelCmsitem
 
 	/**
 	 * Update modified user and date after a change
+	 *
+	 * @return null
 	 */
 	private function updateData()
 	{
-
 		$input = JFactory::getApplication()->input;
 		$pk = $input->get('id');
 
@@ -256,7 +254,6 @@ class MediaModelEditor extends MediaModelCmsitem
 		$row->core_content_id = $pk;
 
 		$row->store();
-
 	}
 
 	/**
@@ -270,7 +267,6 @@ class MediaModelEditor extends MediaModelCmsitem
 	 */
 	protected function populateState()
 	{
-
 		$app = JFactory::getApplication();
 
 		$id = isset($this->id) && $this->id != 0 ? $this->id : $app->input->getInt('id');
@@ -280,7 +276,6 @@ class MediaModelEditor extends MediaModelCmsitem
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_media');
 		$this->state->set('core_params', $params);
-
 	}
 
 	/**
@@ -298,6 +293,11 @@ class MediaModelEditor extends MediaModelCmsitem
 	/**
 	 * Custom clean cache method, plugins are cached in 2 places for different clients
 	 *
+	 * @param   string  $group      Group
+	 * @param   int     $client_id  Id of the client
+	 *
+	 * @return null
+	 *
 	 * @since   3.5
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
@@ -305,6 +305,16 @@ class MediaModelEditor extends MediaModelCmsitem
 		parent::cleanCache('com_media');
 	}
 
+	/**
+	 * Method to get model state variables
+	 *
+	 * @param   string  $property  Property to retrieve
+	 * @param   string  $default   Default value
+	 *
+	 * @return  object  The property where specified, the state object where omitted
+	 *
+	 * @since   3.5
+	 */
 	public function getState($property = null, $default = null)
 	{
 		static $set;
@@ -327,15 +337,12 @@ class MediaModelEditor extends MediaModelCmsitem
 
 		if (!$property)
 		{
-
 			return parent::getState();
 		}
 		else
 		{
-
 			return parent::getState()->get($property, $default);
 		}
-
 	}
 
 	/**
@@ -375,7 +382,6 @@ class MediaModelEditor extends MediaModelCmsitem
 		}
 
 		return $image;
-
 	}
 
 	/**
@@ -413,7 +419,6 @@ class MediaModelEditor extends MediaModelCmsitem
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
-
 	}
 
 	/**
@@ -449,7 +454,6 @@ class MediaModelEditor extends MediaModelCmsitem
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
-
 	}
 
 	/**
@@ -484,7 +488,6 @@ class MediaModelEditor extends MediaModelCmsitem
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
-
 	}
 
 	/**
@@ -518,7 +521,6 @@ class MediaModelEditor extends MediaModelCmsitem
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
-
 	}
 
 	/**
@@ -562,7 +564,6 @@ class MediaModelEditor extends MediaModelCmsitem
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
-
 	}
 
 	/**

@@ -29,6 +29,8 @@ class MediaControllerMediaFtpvalidate extends ConfigControllerDisplay
 	/**
 	 * Execute the controller.
 	 *
+	 * @return null
+	 *
 	 * @since   3.5
 	 */
 	public function execute()

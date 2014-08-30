@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_media
  * @since       3.5
-*/
+ */
 class MediaControllerEditorSave extends JControllerBase
 {
 	/**
@@ -98,6 +98,5 @@ class MediaControllerEditorSave extends JControllerBase
 				$this->app->redirect(JRoute::_('index.php?option=com_media&folder=' . $folder, false));
 				break;
 		}
-
 	}
 }

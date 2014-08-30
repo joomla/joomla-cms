@@ -18,6 +18,14 @@ defined('_JEXEC') or die;
  */
 class MediaViewImagesHtml extends ConfigViewCmsHtml
 {
+	/**
+	 * Method to render the view.
+	 *
+	 * @return  string  The rendered view.
+	 *
+	 * @since   3.5
+	 * @throws  RuntimeException
+	 */
 	public function render()
 	{
 		$config = JComponentHelper::getParams('com_media');

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_media
  * @since       1.5
  * @deprecated  4.0
-*/
+ */
 class MediaControllerFolder extends JControllerLegacy
 {
 	/**

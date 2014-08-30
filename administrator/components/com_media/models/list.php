@@ -22,6 +22,17 @@ jimport('joomla.filesystem.file');
  */
 class MediaModelList extends JModelLegacy
 {
+	/**
+	 * Method to get model state variables
+	 *
+	 * @param   string  $property  Property to retrieve
+	 * @param   string  $default   Default value
+	 *
+	 * @return  object  The property where specified, the state object where omitted
+	 *
+	 * @since   1.5
+	 * @deprecated  4.0
+	 */
 	public function getState($property = null, $default = null)
 	{
 		JLog::add(
@@ -47,6 +58,14 @@ class MediaModelList extends JModelLegacy
 		return parent::getState($property, $default);
 	}
 
+	/**
+	 * Get Images from the list
+	 *
+	 * @return   array  Array containing list of images
+	 *
+	 * @since  1.5
+	 * @deprecated  4.0
+	 */
 	public function getImages()
 	{
 		JLog::add(
@@ -60,6 +79,14 @@ class MediaModelList extends JModelLegacy
 		return $list['images'];
 	}
 
+	/**
+	 * Get Folders from the list
+	 *
+	 * @return   array  Array containing list of folders
+	 *
+	 * @since  1.5
+	 * @deprecated  4.0
+	 */
 	public function getFolders()
 	{
 		JLog::add(
@@ -73,6 +100,14 @@ class MediaModelList extends JModelLegacy
 		return $list['folders'];
 	}
 
+	/**
+	 * Get Documents from the list
+	 *
+	 * @return   array  Array containing list of documents
+	 *
+	 * @since  1.5
+	 * @deprecated  4.0
+	 */
 	public function getDocuments()
 	{
 		JLog::add(
@@ -87,10 +122,12 @@ class MediaModelList extends JModelLegacy
 	}
 
 	/**
-	 * Build imagelist
+	 * Build media list
 	 *
-	 * @param string $listFolder The image directory to display
+	 * @return array List of items in the folder
+	 *
 	 * @since 1.5
+	 * @deprecated  4.0
 	 */
 	public function getList()
 	{
@@ -119,14 +156,14 @@ class MediaModelList extends JModelLegacy
 
 		if (strlen($current) > 0)
 		{
-			$basePath = COM_MEDIA_BASE.'/'.$current;
+			$basePath = COM_MEDIA_BASE . '/' . $current;
 		}
 		else
 		{
 			$basePath = COM_MEDIA_BASE;
 		}
 
-		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE.'/');
+		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
 
 		$images		= array ();
 		$folders	= array ();
@@ -134,6 +171,7 @@ class MediaModelList extends JModelLegacy
 
 		$fileList = false;
 		$folderList = false;
+
 		if (file_exists($basePath))
 		{
 			// Get the list of files and folders from the given folder
@@ -146,7 +184,7 @@ class MediaModelList extends JModelLegacy
 		{
 			foreach ($fileList as $file)
 			{
-				if (is_file($basePath.'/'.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
+				if (is_file($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
 				{
 					$tmp = new JObject;
 					$tmp->name = $file;
@@ -156,6 +194,7 @@ class MediaModelList extends JModelLegacy
 					$tmp->size = filesize($tmp->path);
 
 					$ext = strtolower(JFile::getExt($file));
+
 					switch ($ext)
 					{
 						// Image
@@ -179,7 +218,8 @@ class MediaModelList extends JModelLegacy
 								$tmp->width_60 = $dimensions[0];
 								$tmp->height_60 = $dimensions[1];
 							}
-							else {
+							else
+							{
 								$tmp->width_60 = $tmp->width;
 								$tmp->height_60 = $tmp->height;
 							}
@@ -190,7 +230,8 @@ class MediaModelList extends JModelLegacy
 								$tmp->width_16 = $dimensions[0];
 								$tmp->height_16 = $dimensions[1];
 							}
-							else {
+							else
+							{
 								$tmp->width_16 = $tmp->width;
 								$tmp->height_16 = $tmp->height;
 							}
@@ -200,8 +241,8 @@ class MediaModelList extends JModelLegacy
 
 						// Non-image document
 						default:
-							$tmp->icon_32 = "media/mime-icon-32/".$ext.".png";
-							$tmp->icon_16 = "media/mime-icon-16/".$ext.".png";
+							$tmp->icon_32 = "media/mime-icon-32/" . $ext . ".png";
+							$tmp->icon_16 = "media/mime-icon-16/" . $ext . ".png";
 							$docs[] = $tmp;
 							break;
 					}

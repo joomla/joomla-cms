@@ -70,5 +70,4 @@ class MediaControllerEditorCrop extends JControllerBase
 
 		return;
 	}
-
 }

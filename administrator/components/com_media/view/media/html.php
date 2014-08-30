@@ -18,9 +18,17 @@ JHtml::_('jquery.framework');
  * @package     Joomla.Administrator
  * @subpackage  com_media
  * @since       3.5
-*/
+ */
 class MediaViewMediaHtml extends ConfigViewCmsHtml
 {
+	/**
+	 * Method to render the view.
+	 *
+	 * @return  string  The rendered view.
+	 *
+	 * @since   3.5
+	 * @throws  RuntimeException
+	 */
 	public function render()
 	{
 		$app	= JFactory::getApplication();
@@ -56,9 +64,10 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 		// JHtml::_('script', 'system/mootree.js', true, true, false, false);
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
 
-		if ($lang->isRTL()) :
-		JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
-		endif;
+		if ($lang->isRTL())
+		{
+			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
+		}
 
 		// For Drag & Drop Upload
 		JHtml::_('script', 'media/dragndrop_upload.js', true, true);
@@ -102,11 +111,12 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 		$this->addToolbar();
 
 		return parent::render();
-
 	}
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return void
 	 *
 	 * @since   3.5
 	 */
@@ -162,10 +172,18 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 		}
 
 		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
-
 	}
 
-	function getFolderLevel($folder)
+	/**
+	 * Get the folder level
+	 *
+	 * @param   string  $folder  Name of the folder
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function getFolderLevel($folder)
 	{
 		$this->folders_id = null;
 		$txt = null;
@@ -177,6 +195,7 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 			$txt = $this->loadTemplate('folders');
 			$this->folders = $tmp;
 		}
+
 		return $txt;
 	}
 }

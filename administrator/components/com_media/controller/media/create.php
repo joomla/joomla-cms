@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_media
  * @since       3.5
-*/
+ */
 class MediaControllerMediaCreate extends JControllerBase
 {
 	/**
@@ -35,7 +35,6 @@ class MediaControllerMediaCreate extends JControllerBase
 	 */
 	public function execute()
 	{
-
 		$user  = JFactory::getUser();
 
 		// Get some data from the request
@@ -62,6 +61,5 @@ class MediaControllerMediaCreate extends JControllerBase
 		}
 
 		return true;
-
 	}
 }

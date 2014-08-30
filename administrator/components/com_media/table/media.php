@@ -155,5 +155,4 @@ class MediaTableMedia extends JTableCorecontent
 
 		return true;
 	}
-
 }

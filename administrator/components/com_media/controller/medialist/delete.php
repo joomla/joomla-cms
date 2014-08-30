@@ -23,7 +23,9 @@ class MediaControllerMedialistDelete extends MediaControllerMediaDelete
 	/**
 	 * Enqueue error when delete failed
 	 *
-	 * @param  string  $name  Delete failed folder name
+	 * @param   string  $name  Delete failed folder name
+	 *
+	 * @return null
 	 *
 	 * @since  3.5
 	 */

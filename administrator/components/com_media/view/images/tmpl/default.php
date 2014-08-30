@@ -38,7 +38,8 @@ echo $params->get('image_path', 'images'); ?>/';
 
 <div class="tab-pane active" id="browse_tab">
 
-<form action="index.php?option=com_media&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author'); ?>" class="form-vertical" id="imageForm" method="post" enctype="multipart/form-data">
+<form action="index.php?option=com_media&amp;asset=<?php echo $input->getCmd('asset');?>&amp;
+											author=<?php echo $input->getCmd('author'); ?>" class="form-vertical" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
 		<span id="message"></span><?php echo JHtml::_('image', 'media/dots.gif', '...', array('width' => 22, 'height' => 12), true) ?>
 	</div>
@@ -61,7 +62,10 @@ echo $params->get('image_path', 'images'); ?>/';
 			<div class="pull-right">
 				<ul class="nav nav-pills">
 					<li class="active">
-						<a href="#" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.id('f_url').value,'<?php echo $this->state->get('field.id');?>');<?php else:?>ImageManager.onok();<?php endif;?>window.parent.SqueezeBox.close();">
+						<a href="#" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.id('f_url').value,'
+												<?php echo $this->state->get('field.id');?>');
+											<?php else:?>ImageManager.onok();
+												<?php endif;?>window.parent.SqueezeBox.close();">
 							<?php echo JText::_('COM_MEDIA_INSERT') ?>
 						</a>
 					</li>
@@ -90,7 +94,8 @@ echo $params->get('image_path', 'images'); ?>/';
 			<?php if (!$this->state->get('field.id')):?>
 			<div class="control-group">
 				<div class="control-label">
-					<label title="<?php echo JText::_('COM_MEDIA_ALIGN_DESC'); ?>" class="noHtmlTip" for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label>
+					<label title="<?php echo JText::_('COM_MEDIA_ALIGN_DESC'); ?>" class="noHtmlTip" for="f_align">
+									<?php echo JText::_('COM_MEDIA_ALIGN') ?></label>
 				</div>
 				<div class="controls">
 					<select size="1" id="f_align">
@@ -132,7 +137,8 @@ echo $params->get('image_path', 'images'); ?>/';
 			</div>
 			<div class="control-group">
 				<div class="control-label">
-					<label title="<?php echo JText::_('COM_MEDIA_CAPTION_CLASS_DESC'); ?>" class="noHtmlTip" for="f_caption_class"><?php echo JText::_('COM_MEDIA_CAPTION_CLASS_LABEL') ?></label>
+					<label title="<?php echo JText::_('COM_MEDIA_CAPTION_CLASS_DESC'); ?>" class="noHtmlTip" for="f_caption_class">
+									<?php echo JText::_('COM_MEDIA_CAPTION_CLASS_LABEL') ?></label>
 				</div>
 				<div class="controls">
 					<input type="text" list="d_caption_class" id="f_caption_class" value="" />
@@ -159,7 +165,11 @@ echo $params->get('image_path', 'images'); ?>/';
 <div class="tab-pane" id="upload_tab">
 
 <?php if ($user->authorise('core.create', 'com_media')) : ?>
-	<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;controller=media.upload.media&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>&amp;view=media" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
+	<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;controller=media.upload.media&amp;tmpl=component&amp;
+				<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;
+				<?php echo JSession::getFormToken();?>=1&amp;
+				asset=<?php echo $input->getCmd('asset');?>&amp;
+				author=<?php echo $input->getCmd('author');?>&amp;view=media" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
 
 		<div id="uploadform" class="well">
 			<fieldset id="upload-noflash" class="actions">

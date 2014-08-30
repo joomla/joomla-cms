@@ -17,39 +17,44 @@ defined('_JEXEC') or die;
  * @subpackage  com_media
  * @since       3.5
  */
-class JFormFieldMediathumbs extends JFormField {
-
+class JFormFieldMediathumbs extends JFormField
+{
 	protected $type = 'Mediathumbs';
 
 	/**
 	 * Return Label for Mediathumbs field
+	 *
+	 * @return string  Label for Mediathumbs field
+	 *
 	 * @see JFormField::getLabel()
 	 */
 	public function getLabel()
-	{		 
-		$label = '<label for="c" class="control-label hasTooltip" title="' ;
+	{
+		$label = '<label for="c" class="control-label hasTooltip" title="';
 		$label .= JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_THUMBS_CREATION_METHOD');
 		$label .= '">';
 		$label .= JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_CREATION_METHOD');
 		$label .= '</label>';
 
 		return $label;
-
 	}
 
 	/**
 	 * Return Input for Mediathumbs field
+	 *
+	 * @return string  Input for Mediathumbs field
+	 *
 	 * @see JFormField::getInput()
 	 */
 	public function getInput()
 	{
-		return '<select name="c" class="input-xlarge">'.
-				'<option value="' . JImage::SCALE_FILL . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_SCALE_FILL') . '</option>'.
-				'<option value="' . JImage::SCALE_INSIDE . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_SCALE_INSIDE') . '</option>'.
-				'<option value="' . JImage::SCALE_OUTSIDE . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_SCALE_OUTSIDE') . '</option>'.
-				'<option value="' . JImage::CROP . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_CROP') . '</option>'.
-				'<option value="' . JImage::CROP_RESIZE . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_CROP_RESIZE') . '</option>'.
-				'<option value="' . JImage::SCALE_FIT . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_SCALE_FIT') . '</option>'.
+		return '<select name="c" class="input-xlarge">' .
+				'<option value="' . JImage::SCALE_FILL . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_SCALE_FILL') . '</option>' .
+				'<option value="' . JImage::SCALE_INSIDE . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_SCALE_INSIDE') . '</option>' .
+				'<option value="' . JImage::SCALE_OUTSIDE . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_SCALE_OUTSIDE') . '</option>' .
+				'<option value="' . JImage::CROP . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_CROP') . '</option>' .
+				'<option value="' . JImage::CROP_RESIZE . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_CROP_RESIZE') . '</option>' .
+				'<option value="' . JImage::SCALE_FIT . '" >' . JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_SCALE_FIT') . '</option>' .
 				'</select>';
 	}
 }

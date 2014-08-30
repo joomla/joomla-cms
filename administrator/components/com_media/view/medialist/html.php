@@ -18,6 +18,14 @@ defined('_JEXEC') or die;
  */
 class MediaViewMedialistHtml extends ConfigViewCmsHtml
 {
+	/**
+	 * Method to render the view.
+	 *
+	 * @return  string  The rendered view.
+	 *
+	 * @since   3.5
+	 * @throws  RuntimeException
+	 */
 	public function render()
 	{
 		$app = JFactory::getApplication();
@@ -74,7 +82,16 @@ class MediaViewMedialistHtml extends ConfigViewCmsHtml
 		return parent::render();
 	}
 
-	function setFolder($index = 0)
+	/**
+	 * Set the folder
+	 *
+	 * @param   int  $index  Index of the image
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function setFolder($index = 0)
 	{
 		if (isset($this->folders[$index]))
 		{
@@ -86,7 +103,16 @@ class MediaViewMedialistHtml extends ConfigViewCmsHtml
 		}
 	}
 
-	function setImage($index = 0)
+	/**
+	 * Set the image
+	 *
+	 * @param   int  $index  Index of the image
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function setImage($index = 0)
 	{
 		if (isset($this->images[$index]))
 		{
@@ -98,7 +124,16 @@ class MediaViewMedialistHtml extends ConfigViewCmsHtml
 		}
 	}
 
-	function setDoc($index = 0)
+	/**
+	 * Set the doc
+	 *
+	 * @param   int  $index  Index of the doc
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function setDoc($index = 0)
 	{
 		if (isset($this->documents[$index]))
 		{
