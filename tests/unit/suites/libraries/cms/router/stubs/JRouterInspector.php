@@ -57,7 +57,7 @@ class JRouterInspector extends JRouter
 	{
 		return $this->decodeSegments($segments);
 	}
-	
+
 	/**
 	 * Returns the rules-array
 	 * 
@@ -69,7 +69,7 @@ class JRouterInspector extends JRouter
 	{
 		return $this->_rules;
 	}
-	
+
 	/**
 	 * Clear instance of JRouter
 	 * 
@@ -79,7 +79,7 @@ class JRouterInspector extends JRouter
 	 */
 	public static function clearInstanceCache()
 	{
-		foreach(self::$instances as $key => $value)
+		foreach (self::$instances as $key => $value)
 		{
 			unset(self::$instances[$key]);
 		}
