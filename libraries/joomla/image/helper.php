@@ -15,26 +15,25 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Image
- *
- * @since       __DEPLOY_VERSION__
+ * @since       3.4
  */
 abstract class JImageHelper
 {
 	/**
 	 * @const  string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.4
 	 */
 	const ORIENTATION_LANDSCAPE = 'landscape';
 
 	/**
 	 * @const  string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.4
 	 */
 	const ORIENTATION_PORTRAIT = 'portrait';
 
 	/**
 	 * @const  string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.4
 	 */
 	const ORIENTATION_SQUARE = 'square';
 
@@ -43,13 +42,11 @@ abstract class JImageHelper
 	 * result object has values for image width, height, type, attributes, mime type, bits,
 	 * and channels.
 	 *
-	 * @static
 	 * @param   string  $path  The filesystem path to the image for which to get properties.
 	 *
 	 * @return  stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
+	 * @since   3.4
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 */
@@ -91,12 +88,12 @@ abstract class JImageHelper
 	/**
 	 * Compare width and height integers to determine image orientation.
 	 *
-	 * @param  integer  $width
-	 * @param  integer  $height
+	 * @param   integer  $width
+	 * @param   integer  $height
 	 *
 	 * @return  mixed   Orientation string or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.4
 	 */
 	public static function getOrientation($width, $height)
 	{
@@ -119,20 +116,15 @@ abstract class JImageHelper
 	/**
 	 * Create image file from image file data stream.
 	 *
-	 * @static
+	 * @param   string   $data      The base64 encoded input stream including the header portion 'data:image/png;base64'.
+	 * @param   boolean  $store     Flag indicating whether to store the data into a file.
+	 * @param   string   $filename  The file name to use when data should be stored.
+	 * @param   string   $filepath  The file path to use when data should be stored. Note, this must be an absolute system path.
 	 *
-	 * @access	public
+	 * @return	boolean
 	 *
-	 * @param	string	$data	The base64 encoded input stream including the header portion 'data:image/png;base64'.
-	 * @param	boolean	$store	Flag indicating whether to store the data into a file.
-	 * @param	string	$filename	The file name to use when data should be stored.
-	 * @param	string	$filepath	The file path to use when data should be stored. Note, this must be an absolute system path.
-	 *
-	 * @return	boolean	true on success or false on error
-	 *
+	 * @since   3.4
 	 * @throws	RuntimeException
-	 *
-	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function fromBase64($data, $store = false, $filename = null, $filepath = null)
 	{
@@ -149,14 +141,12 @@ abstract class JImageHelper
 			{
 				// TODO - translate
 				throw new RuntimeException(JText::_('You selected to store the image file. However, you did not specify a file name.'));
-				return false;
 			}
 
 			if (!$filepath)
 			{
 				// TODO - translate
 				throw new RuntimeException(JText::_('You selected to store the image file. However, you did not specify a target path.'));
-				return false;
 			}
 			else
 			{
@@ -174,7 +164,6 @@ abstract class JImageHelper
 				{
 					// TODO - translate
 					throw new RuntimeException(JText::sprintf('You selected to store the image file. However, the specified target %s path does not exist.', $filepath));
-					return false;
 				}
 
 				// Check whether the target path is writable.
@@ -182,7 +171,6 @@ abstract class JImageHelper
 				{
 					// TODO - translate
 					throw new RuntimeException(JText::sprintf('You selected to store the image file. However, the specified target %s path is not writable.', $filepath));
-					return false;
 				}
 			}
 
@@ -200,7 +188,6 @@ abstract class JImageHelper
 			catch (Exception $e)
 			{
 				throw new RuntimeException($e->getMessage());
-				return false;
 			}
 		}
 
@@ -210,13 +197,11 @@ abstract class JImageHelper
 	/**
 	 * Create base64 encoded data stream from image file.
 	 *
-	 * @static
+	 * @param   string  $filepath  The input file to use. Note, this must be an absolute system path.
 	 *
-	 * @access	public
+	 * @return  string  base64 image string
 	 *
-	 * @param	string	$filepath	The input file to use. Note, this must be an absolute system path.
-	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.4
 	 */
 	public static function toBase64($filepath)
 	{
@@ -270,7 +255,8 @@ abstract class JImageHelper
 		// Excape slashes as they break CSS parsing.
 		$data = htmlentities($data);
 
-		/* Return escaped string.
+		/*
+		 * Return escaped string.
 		 * NOTE:   Escaping is important as otherwise parsing the data might fail when it contains slashes.
 		 */
 		return "data:image/{$type};base64,{$data}";
