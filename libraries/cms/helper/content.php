@@ -120,7 +120,7 @@ class JHelperContent
 		{
 			$section = 'component';
 		}
-		
+
 		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='" . $section . "']/");
 
 		foreach ($actions as $action)
