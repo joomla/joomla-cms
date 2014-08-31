@@ -13,7 +13,10 @@ $data = $displayData;
 
 // We will get the menutype filter & remove it from the form filters
 $menuTypeField = $data['view']->filterForm->getField('menutype');
+
+echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', 'com_menus_items');
 ?>
+
 <div class="js-stools-field-filter js-stools-menutype hidden-phone hidden-tablet">
 	<?php echo $menuTypeField->input; ?>
 </div>

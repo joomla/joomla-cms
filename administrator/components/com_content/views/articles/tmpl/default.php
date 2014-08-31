@@ -66,8 +66,8 @@ $assoc		= JLanguageAssociations::isEnabled();
 		<div id="j-main-container">
 		<?php endif;?>
 			<?php
-		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this), '', array('toggleSidebar' => true));
+				// Search tools bar
+				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'toggleKey' => 'com_content'), '', array('toggleSidebar' => true));
 			?>
 			<?php if (empty($this->items)) : ?>
 				<div class="alert alert-no-items">

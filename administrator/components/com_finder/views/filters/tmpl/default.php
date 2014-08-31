@@ -21,21 +21,26 @@ JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 ?>
 
 <script type="text/javascript">
-Joomla.submitbutton = function(pressbutton)
-{
-	if (pressbutton == 'filters.delete')
+	jQuery(function()
 	{
-		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')))
+		Joomla.toggleSidebar('com_finder_filters', true);
+	});
+
+	Joomla.submitbutton = function(pressbutton)
+	{
+		if (pressbutton == 'filters.delete')
 		{
-			Joomla.submitform(pressbutton);
+			if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')))
+			{
+				Joomla.submitform(pressbutton);
+			}
+			else
+			{
+				return false;
+			}
 		}
-		else
-		{
-			return false;
-		}
+		Joomla.submitform(pressbutton);
 	}
-	Joomla.submitform(pressbutton);
-}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -47,6 +52,9 @@ Joomla.submitbutton = function(pressbutton)
 	<div id="j-main-container">
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
+			<div class="btn-group pull-left">
+				<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', 'com_finder_filters'); ?>
+			</div>
 			<div class="filter-search btn-group pull-left">
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
 			</div>

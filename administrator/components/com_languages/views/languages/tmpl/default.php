@@ -31,6 +31,11 @@ if ($saveOrder)
 $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
+	jQuery(function()
+	{
+		Joomla.toggleSidebar('com_languages', true);
+	});
+
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -58,6 +63,9 @@ $sortFields = $this->getSortFields();
 	<div id="j-main-container">
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
+			<div class="btn-group pull-left">
+				<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', 'com_languages'); ?>
+			</div>
 			<div class="filter-search btn-group pull-left">
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_SEARCH_IN_TITLE'); ?>" />
 			</div>

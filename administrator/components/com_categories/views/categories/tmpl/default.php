@@ -34,6 +34,11 @@ if ($saveOrder)
 $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
+	jQuery(function()
+	{
+		Joomla.toggleSidebar('com_categories_<?php echo JFactory::getApplication()->input->get('extension'); ?>', true);
+	});
+
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -57,7 +62,7 @@ $sortFields = $this->getSortFields();
 	<div id="j-main-container" class="span10">
 		<?php
 		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'toggleKey' => 'com_categories_' . JFactory::getApplication()->input->get('extension')), '', array('toggleSidebar' => true));
 		?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">

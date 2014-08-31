@@ -36,6 +36,11 @@ $assoc		= JLanguageAssociations::isEnabled();
 ?>
 
 <script type="text/javascript">
+	jQuery(function()
+	{
+		Joomla.toggleSidebar('com_contact', true);
+	});
+
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -62,6 +67,9 @@ $assoc		= JLanguageAssociations::isEnabled();
 	<div id="j-main-container">
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
+			<div class="btn-group pull-left">
+				<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', 'com_contact'); ?>
+			</div>
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC');?></label>
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_CONTACT_SEARCH_IN_NAME'); ?>" />

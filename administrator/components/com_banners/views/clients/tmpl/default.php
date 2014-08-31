@@ -25,6 +25,11 @@ $trashed    = $this->state->get('filter.state') == -2 ? true : false;
 $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
+	jQuery(function()
+	{
+		Joomla.toggleSidebar('com_banners_clients', true);
+	});
+
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -48,7 +53,7 @@ $sortFields = $this->getSortFields();
 	<div id="j-main-container" class="span10">
 		<?php
 		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'toggleKey' => 'com_banners_clients'), '', array('toggleSidebar' => true));
 		?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">

@@ -24,6 +24,12 @@ $archived	= $this->state->get('filter.published') == 2 ? true : false;
 $trashed	= $this->state->get('filter.published') == -2 ? true : false;
 $saveOrder	= $listOrder == 'fp.ordering';
 ?>
+<script type="text/javascript">
+	jQuery(function()
+	{
+		Joomla.toggleSidebar('com_content_featured', true);
+	});
+</script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=featured'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
@@ -36,7 +42,7 @@ $saveOrder	= $listOrder == 'fp.ordering';
 	<?php endif;?>
 		<?php
 		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'toggleKey' => 'com_content_featured'), '', array('toggleSidebar' => true));
 		?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">

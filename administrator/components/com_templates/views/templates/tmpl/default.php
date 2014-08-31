@@ -21,7 +21,12 @@ $user		= JFactory::getUser();
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
-
+<script type="text/javascript">
+	jQuery(function()
+	{
+		Joomla.toggleSidebar('com_templates', true);
+	});
+</script>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -29,6 +34,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<div id="j-main-container" class="span10">
 
 	<div id="filter-bar" class="btn-toolbar">
+		<div class="btn-group pull-left">
+			<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', 'com_templates'); ?>
+		</div>
 		<div class="filter-search btn-group pull-left">
 			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" />
 		</div>

@@ -47,7 +47,7 @@ $sortFields = $this->getSortFields();
 	<?php endif;?>
 		<?php
 		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this), '', array('toggleSidebar' => true));
 		?>
 	<table class="table table-striped">
 		<thead>

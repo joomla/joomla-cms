@@ -26,6 +26,11 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');
 ?>
 <script type="text/javascript">
+	jQuery(function()
+	{
+		Joomla.toggleSidebar('<?php echo JFactory::getApplication()->input->get('option'); ?>', true);
+	});
+
 	Joomla.submitbutton = function(task)
 	{
 		if (task != 'menus.delete' || confirm('<?php echo JText::_('COM_MENUS_MENU_CONFIRM_DELETE', true);?>'))
@@ -44,6 +49,9 @@ $modMenuId = (int) $this->get('ModMenuId');
 	<div id="j-main-container">
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
+			<div class="btn-group pull-left hidden-phone">
+				<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar'); ?>
+			</div>
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_MENUS_MENU_SEARCH_FILTER');?></label>
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_MENUS_ITEMS_SEARCH_FILTER'); ?>" />
