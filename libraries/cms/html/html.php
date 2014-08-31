@@ -1027,7 +1027,7 @@ abstract class JHtml
 
 
         $html = '<div class="input-append"><input type="text" name="' . $name . '" id="' . $id . '"' . ' value="'
-            . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" class="input-medium"/>
+            . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" class="input-medium hascalpicker"/>
             </div>';
 
         return $html;
