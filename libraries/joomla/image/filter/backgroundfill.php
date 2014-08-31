@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Image
- * @since       3.3
+ * @since       3.4
  */
 class JImageFilterBackgroundfill extends JImageFilter
 {
@@ -26,7 +26,7 @@ class JImageFilterBackgroundfill extends JImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   3.3
+	 * @since   3.4
 	 * @throws  InvalidArgumentException
 	 */
 	public function execute(array $options = array())
@@ -86,7 +86,7 @@ class JImageFilterBackgroundfill extends JImageFilter
 	 *
 	 * @return  array  Associative array of red, green, blue and alpha		 
 	 *
-	 * @since   3.3
+	 * @since   3.4
 	 *
 	 * @note    '#FF0000FF' returns an array with alpha of 0 (opaque)
 	 */

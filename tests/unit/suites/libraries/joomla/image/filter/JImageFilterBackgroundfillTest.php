@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Image
- * @since       3.3
+ * @since       3.4
  */
 class JImageFilterBackgroundfillTest extends TestCase
 {
@@ -21,7 +21,7 @@ class JImageFilterBackgroundfillTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.3
+	 * @since   3.4
 	 */
 	protected function setUp()
 	{
@@ -41,7 +41,7 @@ class JImageFilterBackgroundfillTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.3
+	 * @since   3.4
 	 *
 	 * @note    Because GD2 uses 7bit alpha channel, results differ slightly 
 	 *          compared to 8bit systems like Adobe Photoshop. 
@@ -87,7 +87,7 @@ class JImageFilterBackgroundfillTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.3
+	 * @since   3.4
 	 *
 	 * @expectedException  InvalidArgumentException
 	 */
