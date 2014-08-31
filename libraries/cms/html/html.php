@@ -1010,13 +1010,8 @@ abstract class JHtml
 	    if ($calType !== 'gregorian')
 	    {
 	    	// Inject the script for conversion
-	    	JHtml::_('script','calendars/jquery-calendars-setup.js',true, true);
-
-		    // To convert the value convert the PHP to JD then after  initialising the calendar set the value using the from JD method
-		    $gdate = date_create($value, new DateTimeZone($config->get('offset')));
-		    $jd = gregoriantojd((int)$gdate->format('n'), (int)$gdate->format('d'), (int)$gdate->format('Y'));
-		    
-		    $doc->addScriptDeclaration('jQuery(document).ready(function(){setElToDate("'.$id.'",'.$jd.');});');
+	    	JHtml::_('script','calendars/jquery-calendars-setup.js',true, true);		    
+		    $doc->addScriptDeclaration('jQuery(document).ready(function(){setElToDate("'.$id.'","'.$value.'");});');
 
 	    }
 

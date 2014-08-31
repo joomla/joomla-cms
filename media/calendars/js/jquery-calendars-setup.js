@@ -1,13 +1,16 @@
 if (typeof(gc) == 'undefined')
     gc = jQuery.calendars.instance('gregorian');
 
-function setElToDate(id,jd)
+function setElToDate(id,dateval)
 {
+    dateval = dateval.replace(/(\d\d\d\d-\d\d-\d\d).*/,"$1");
     var calendar = jQuery('#'+id).calendarsPicker('option','calendar');
-    var newdate = calendar.fromJD(jd);
-    console.log(newdate);
+    var gd = gc.parseDate('yyyy-mm-dd',dateval);
 
-    jQuery('#'+id).calendarsPicker('setDate',newdate);
+    jd = gc.toJD(gd.year(),gd.month(),gd.day());
+    targetdate = calendar.fromJD(jd);
+
+    jQuery('#'+id).calendarsPicker('setDate',targetdate);
 }
 
 /**
