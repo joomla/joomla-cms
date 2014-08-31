@@ -956,6 +956,9 @@ abstract class JHtml
 	 */
 	public static function calendar($value, $name, $id, $format = 'yyyy-mm-dd', $attribs = null)
 	{
+        $doc = JFactory::getDocument();
+        $config = JFactory::getConfig();
+
 		// Switch the format if needed.  Existing Joomla calendar uses default format: %Y-%m-%d
 		$format = preg_replace(array('/\%Y/','/\%m/','/\%d/'),array('yyyy','mm','dd'),$format);
 
@@ -963,9 +966,8 @@ abstract class JHtml
 		// calendar picker the time could not be enabled anyway!
 		$format = preg_replace(array('/\%H/','/\:\%M/','/\:\%S/'),'',$format);
 
-        // Including fallback code for HTML5 non supported browsers.
-        JHtml::_('jquery.framework');
-        JHtml::_('script', 'system/html5fallback.js', false, true);
+		// Grab the calendar type and set if not specified.
+		$calType = (isset($attribs['caltype'])) ? $attribs['caltype'] : 'gregorian';
 
         // Inject the calendar scripts into the document
         JHtml::_('script','calendars/jquery.calendars.js', true, true);
@@ -976,20 +978,45 @@ abstract class JHtml
         JHtml::_('stylesheet','calendars/redmond.calendars.picker.css', null, true);
         JHtml::_('stylesheet','calendars/joomla-css-fixes.css', null, true);
 
-        // Load localisation options
-        JHtml::_('script','calendars/jquery.calendars-en-GB.js', true, true);
-        JHtml::_('script','calendars/jquery.calendars.picker-en-GB.js', true, true);
+        
+        // The translation packs could be under one of two different tags.  Test for the presence of files are store this to help set regional setings.
+        $langTag = JFactory::getLanguage()->getTag();
+        if (!file_exists(JPATH_BASE.'/media/calendars/js/jquery-calendars-'. $langTag .'.js'))
+        {
+        	$langTag = preg_replace('/(\w\w)-\w\w.*/',"$1",$langTag);
+
+        }
+       	// Test for the default language first.
+        JHtml::_('script','calendars/jquery.calendars-' . $langTag . '.js', true, true);
+	    JHtml::_('script','calendars/jquery.calendars.picker-' . $langTag . '.js', true, true);
+
+	    // Finally load the calendar type if it's needed
+	    if ($calType !== 'gregorian')
+	    {
+		    JHtml::_('script','calendars/jquery.calendars.' . $calType . '.js', true, true);
+	    }
 
         // Setup the calendar
-        $doc = JFactory::getDocument();
         $doc->addScriptDeclaration('jQuery(document).ready(function(){
                 jQuery("#' . $id . '").calendarsPicker({
                             dateFormat:"' . $format . '",
                             showTrigger: "<button type=\"button\" class=\"btn trigger\"><i class=\"icon-calendar\"></i></button>",
-                            calendar: jQuery.calendars.instance(\'gregorian\',\'en-GB\')
+                            calendar: jQuery.calendars.instance(\'' . $calType . '\',\''. $langTag .'\')
                             }
                         );
-        });');
+    			});');
+
+	    // Finally if the calendar is other than Gregorian we will need to do some conversions both when displaing and on save.
+	    if ($calType !== 'gregorian')
+	    {
+	    	// Inject the script for conversion
+	    	JHtml::_('script','calendars/jquery-calendars-setup.js',true, true);
+
+		    // To convert the value convert the PHP to JD then after  initialising the calendar set the value using the from JD method
+		    $gdate = date_create($value, new DateTimeZone($config->get('offset')));
+		    $jd = gregoriantojd((int)$gdate->format('n'), (int)$gdate->format('d'), (int)$gdate->format('Y'));
+
+	    }
 
         // Including fallback code for HTML5 non supported browsers.
         JHtml::_('jquery.framework');
