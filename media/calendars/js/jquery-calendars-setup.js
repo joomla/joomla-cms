@@ -25,16 +25,19 @@ Joomla.submitform = function(task, form) {
         var calendar = jQuery(object).calendarsPicker('option','calendar');
         var date = jQuery(object).calendarsPicker('getDate');
 
-        // The calendar picker returns an array of dates we want the first.
-        if (Array.isArray(date))
-            date = date[0];
+        if (calendar.name !== 'Gregorian') 
+        {
+            // The calendar picker returns an array of dates we want the first.
+            if (Array.isArray(date))
+                date = date[0];
 
-        // Convert to Julian
-        var jd = calendar.toJD(date.year(),date.month(),date.day());
+            // Convert to Julian
+            var jd = calendar.toJD(date.year(),date.month(),date.day());
 
-        // Convert to gregorian using the preloaded gregorian calendar
-        var gd = gc.fromJD(jd);
-        jQuery(object).val(gc.formatDate('yyyy-mm-dd',gd));
+            // Convert to gregorian using the preloaded gregorian calendar
+            var gd = gc.fromJD(jd);
+            jQuery(object).val(gc.formatDate('yyyy-mm-dd',gd));
+        }
     });
 
 
