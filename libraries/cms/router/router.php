@@ -577,9 +577,9 @@ class JRouter
 		{
 			return new JUri($url);
 		}
-		
+
 		$uri = new JUri('index.php');
-		
+
 		if (is_string($url))
 		{
 			$vars = array();

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package	    Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Router
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license	    GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
@@ -48,7 +48,7 @@ class JRouterAdministratorTest extends TestCase
 
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['SCRIPT_NAME'] = '';
-		
+
 		JUri::reset();
 
 		$this->object = new JRouterAdministrator;

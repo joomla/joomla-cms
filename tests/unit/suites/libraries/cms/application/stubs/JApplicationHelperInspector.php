@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Application
- * @since       3.2
+ * @since       3.4
  */
 class JApplicationHelperInspector extends JApplicationHelper
 {
@@ -21,7 +21,7 @@ class JApplicationHelperInspector extends JApplicationHelper
 	 *
 	 * @return  array  The array of application data objects.
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	public static function get()
 	{
@@ -35,7 +35,7 @@ class JApplicationHelperInspector extends JApplicationHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	public static function set($apps)
 	{

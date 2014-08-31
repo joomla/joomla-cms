@@ -25,7 +25,7 @@ class JRouterSite extends JRouter
 	 * @since  3.3
 	 */
 	protected $componentRouters = array();
-	
+
 	/**
 	 * Current JApplication-Object
 	 *
@@ -33,7 +33,7 @@ class JRouterSite extends JRouter
 	 * @since  3.4
 	 */
 	protected $app;
-	
+
 	/**
 	 * Current JMenu-Object
 	 *
@@ -55,8 +55,7 @@ class JRouterSite extends JRouter
 	{
 		parent::__construct($options);
 
-		$this->app = $app ? $app : JApplicationCms::getInstance('site');
-
+		$this->app  = $app ? $app : JApplicationCms::getInstance('site');
 		$this->menu = $menu ? $menu : $this->app->getMenu();
 	}
 
@@ -91,7 +90,7 @@ class JRouterSite extends JRouter
 		if (preg_match("#.*?\.php#u", $path, $matches))
 		{
 			// Get the current entry point path relative to the site path.
-			$scriptPath = realpath($_SERVER['SCRIPT_FILENAME'] ? $_SERVER['SCRIPT_FILENAME'] : str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']));
+			$scriptPath         = realpath($_SERVER['SCRIPT_FILENAME'] ? $_SERVER['SCRIPT_FILENAME'] : str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']));
 			$relativeScriptPath = str_replace('\\', '/', str_replace(JPATH_SITE, '', $scriptPath));
 
 			// If a php file has been found in the request path, check to see if it is a valid file.
@@ -385,7 +384,7 @@ class JRouterSite extends JRouter
 				array_shift($segments);
 			}
 
-			// Handle component	route
+			// Handle component route
 			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_vars['option']);
 
 			if (count($segments))
@@ -411,7 +410,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Function to build a raw route
 	 *
-	 * @param   JUri  &$uri  The internal URL
+	 * @param   JUri    &$uri  The internal URL
 	 *
 	 * @return  string  Raw Route
 	 *
@@ -428,10 +427,8 @@ class JRouterSite extends JRouter
 		}
 
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
-
-		$crouter = $this->getComponentRouter($component);
-
-		$query = $crouter->preprocess($query);
+		$crouter   = $this->getComponentRouter($component);
+		$query     = $crouter->preprocess($query);
 
 		$uri->setQuery($query);
 	}
@@ -478,15 +475,11 @@ class JRouterSite extends JRouter
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
 		$tmp       = '';
 		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
-
-		$crouter = $this->getComponentRouter($component);
-
-		$query = $crouter->preprocess($query);
-
-		$parts = $crouter->build($query);
-
-		$result = implode('/', $parts);
-		$tmp    = ($result != "") ? $result : '';
+		$crouter   = $this->getComponentRouter($component);
+		$query     = $crouter->preprocess($query);
+		$parts     = $crouter->build($query);
+		$result    = implode('/', $parts);
+		$tmp       = ($result != "") ? $result : '';
 
 		// Build the application route
 		$built = false;
@@ -626,7 +619,7 @@ class JRouterSite extends JRouter
 		{
 			if ($option = $uri->getVar('option'))
 			{
-				$item  = $this->menu->getItem($this->getVar('Itemid'));
+				$item = $this->menu->getItem($this->getVar('Itemid'));
 
 				if (isset($item) && $item->component == $option)
 				{

@@ -46,7 +46,7 @@ class TestMockApplication
 			// Call original constructor.
 			false
 		);
-		
+
 		$menu = TestMockMenu::create($test);
 		$mockObject->expects($test->any())
 				->method('getMenu')
