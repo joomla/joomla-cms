@@ -410,7 +410,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Function to build a raw route
 	 *
-	 * @param   JUri    &$uri  The internal URL
+	 * @param   JUri  &$uri  The internal URL
 	 *
 	 * @return  string  Raw Route
 	 *
