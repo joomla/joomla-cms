@@ -459,7 +459,7 @@ class PostinstallModelMessages extends FOFModel
 		}
 
 		// Insert the new row
-		$options = (object)$options;
+		$options = (object) $options;
 		$db->insertObject($tableName, $options);
 
 		return $this;
