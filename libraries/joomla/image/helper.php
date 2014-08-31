@@ -9,6 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.path');
+
 /**
  * Image helper class, provides static methods to perform various tasks relevant
  * to the Joomla image routines.
@@ -183,7 +187,7 @@ abstract class JImageHelper
 			// Attempt to save the file.
 			try
 			{
-				file_put_contents($fullpath, $stream);
+				JFile::write($fullpath, $stream);
 			}
 			catch (Exception $e)
 			{
