@@ -15,6 +15,7 @@
         "joomla/input": "~1.1",
         "joomla/registry": "~1.1",
         "ircmaxell/password-compat": "1.*",
+        "leafo/lessphp": "0.3.9",
         "phpmailer/phpmailer": "5.2.8",
         "symfony/yaml": "2.*"
     }
