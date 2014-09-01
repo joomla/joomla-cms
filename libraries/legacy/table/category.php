@@ -210,10 +210,11 @@ class JTableCategory extends JTableNested
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
+		$this->modified_time = $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing category
-			$this->modified_time = $date->toSql();
 			$this->modified_user_id = $user->get('id');
 		}
 		else

@@ -83,7 +83,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @param   array  $options  The options to use for configuration
 	 *
-	 * @return  boolean  True on success
+	 * @return  JDatabaseDriver|boolean  Database object on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */
@@ -208,8 +208,70 @@ class InstallationModelDatabase extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'notice');
-			return false;
+			/*
+			 * We may get here if the database doesn't exist, if so then explain that to users instead of showing the database connector's error
+			 * This only supports PostgreSQL and the PDO MySQL drivers presently
+			 *
+			 * Error Messages:
+			 * PDO MySQL: [1049] Unknown database 'database_name'
+			 * PostgreSQL: Error connecting to PGSQL database
+			 */
+			if ($type == 'pdomysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
+			{
+				/*
+				 * Now we're really getting insane here; we're going to try building a new JDatabaseDriver instance without the database name
+				 * in order to trick the connection into creating the database
+				 */
+				$altDBoptions = array(
+					'driver' => $options->db_type,
+					'host' => $options->db_host,
+					'user' => $options->db_user,
+					'password' => $options->db_pass,
+					'prefix' => $options->db_prefix,
+					'select' => $options->db_select
+				);
+
+				$altDB = JDatabaseDriver::getInstance($altDBoptions);
+
+				// Try to create the database now using the alternate driver
+				try
+				{
+					$this->createDB($altDB, $options, $altDB->hasUTFSupport());
+				}
+				catch (RuntimeException $e)
+				{
+					// We did everything we could
+					$app->enqueueMessage(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 'notice');
+
+					return false;
+				}
+
+				// If we got here, the database should have been successfully created, now try one more time to get the version
+				try
+				{
+					$db_version = $db->getVersion();
+				}
+				catch (RuntimeException $e)
+				{
+					// We did everything we could
+					$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'notice');
+
+					return false;
+				}
+			}
+			elseif ($type == 'postgresql' && strpos($e->getMessage(), 'Error connecting to PGSQL database') === 42)
+			{
+				$app->enqueueMessage(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 'notice');
+
+				return false;
+			}
+			// Anything getting into this part of the conditional either doesn't support manually creating the database or isn't that type of error
+			else
+			{
+				$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'notice');
+
+				return false;
+			}
 		}
 
 		if (!$db->isMinimumVersion())
@@ -218,7 +280,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		if (($type == 'mysql') || ($type == 'mysqli'))
+		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
 		{
 			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL
 			if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>=')))
@@ -377,7 +439,7 @@ class InstallationModelDatabase extends JModelBase
 		$this->setDatabaseCharset($db, $options->db_name);
 
 		// Set the appropriate schema script based on UTF-8 support.
-		if ($type == 'mysqli' || $type == 'mysql')
+		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
 		{
 			$schema = 'sql/mysql/joomla.sql';
 		}
@@ -406,7 +468,7 @@ class InstallationModelDatabase extends JModelBase
 		// Attempt to update the table #__schema.
 		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 
-		if ($type == 'mysqli' || $type == 'mysql')
+		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
 		{
 			$pathPart .= 'mysql/';
 		}
@@ -486,7 +548,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Load the localise.sql for translating the data in joomla.sql
-		if ($type == 'mysqli' || $type == 'mysql')
+		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
 		{
 			$dblocalise = 'sql/mysql/localise.sql';
 		}
@@ -583,7 +645,7 @@ class InstallationModelDatabase extends JModelBase
 		// Build the path to the sample data file.
 		$type = $options->db_type;
 
-		if ($type == 'mysqli')
+		if ($type == 'mysqli' || $type == 'pdomysql')
 		{
 			$type = 'mysql';
 		}
