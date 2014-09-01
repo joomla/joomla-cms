@@ -37,6 +37,11 @@ JHtml::_('searchtools.form', $formSelector, $data['options']);
 		<div class="js-stools-container-bar">
 
 			<?php if ($customOptions['toggleSidebar']) :
+				if (!isset($data['toggleKey']))
+				{
+					$data['toggleKey'] = JFactory::getApplication()->input->get('option');
+				}
+
 				echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', $data['toggleKey']);
 			endif; ?>
 
