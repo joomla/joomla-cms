@@ -9,18 +9,51 @@ namespace Joomla\Input\Tests;
 use Joomla\Input\Cookie;
 use Joomla\Test\TestHelper;
 
+require_once __DIR__ . '/Stubs/FilterInputMock.php';
+
 /**
- * Test class for JInputCookie.
+ * Test class for \Joomla\Input\Cookie.
  *
  * @since  1.0
  */
 class CookieTest extends \PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    Cookie
-	 * @since  1.0
+	 * Test the Joomla\Input\Cookie::__construct method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  Joomla\Input\Cookie::__construct
+	 * @since   1.1.4
 	 */
-	private $instance;
+	public function test__construct()
+	{
+		// Default constructor call
+		$instance = new Cookie;
+
+		$this->assertInstanceOf(
+			'Joomla\Filter\InputFilter',
+			TestHelper::getValue($instance, 'filter')
+		);
+
+		$this->assertEmpty(
+			TestHelper::getValue($instance, 'options')
+		);
+
+		$this->assertEquals(
+			$_COOKIE,
+			TestHelper::getValue($instance, 'data')
+		);
+
+		// Given Source & filter
+		$src = array('foo' => 'bar');
+		$instance = new Cookie($src, array('filter' => new FilterInputMock));
+
+		$this->assertArrayHasKey(
+			'filter',
+			TestHelper::getValue($instance, 'options')
+		);
+	}
 
 	/**
 	 * Test the Joomla\Input\Cookie::set method.
@@ -34,32 +67,35 @@ class CookieTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testSet()
 	{
-		if (headers_sent())
-		{
-			$this->markTestSkipped();
-		}
-		else
-		{
-			$this->instance->set('foo', 'bar');
+		$instance = new Cookie;
+		$instance->set('foo', 'bar');
 
-			$data = TestHelper::getValue($this->instance, 'data');
+		$data = TestHelper::getValue($instance, 'data');
 
-			$this->assertTrue(array_key_exists('foo', $data));
-			$this->assertTrue(in_array('bar', $data));
-		}
+		$this->assertArrayHasKey('foo', $data);
+		$this->assertContains('bar', $data);
 	}
+}
 
-	/**
-	 * Sets up the fixture.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
+// Stub for setcookie
+namespace Joomla\Input;
 
-		$this->instance = new Cookie;
-	}
+/**
+ * Stub.
+ *
+ * @param   string  $name      Name
+ * @param   string  $value     Value
+ * @param   int     $expire    Expire
+ * @param   string  $path      Path
+ * @param   string  $domain    Domain
+ * @param   bool    $secure    Secure
+ * @param   bool    $httpOnly  HttpOnly
+ *
+ * @return  void
+ *
+ * @since   1.1.4
+ */
+function setcookie($name, $value, $expire = 0, $path = '', $domain = '', $secure = false, $httpOnly = false)
+{
+	return true;
 }

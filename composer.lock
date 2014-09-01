@@ -1,9 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "3da8aa3b4b6fb377347220a8f98dbd3f",
+    "hash": "db14a950680ed1ec459d25f10505e57a",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -249,16 +250,16 @@
         },
         {
             "name": "joomla/input",
-            "version": "1.1.2",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/input.git",
-                "reference": "3f669bfe88b7fa1009687d7a0ac89ea53fa4e62c"
+                "reference": "8f6ea1ce7ba13d372725aa6c61b641903d1aa015"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/input/zipball/3f669bfe88b7fa1009687d7a0ac89ea53fa4e62c",
-                "reference": "3f669bfe88b7fa1009687d7a0ac89ea53fa4e62c",
+                "url": "https://api.github.com/repos/joomla-framework/input/zipball/8f6ea1ce7ba13d372725aa6c61b641903d1aa015",
+                "reference": "8f6ea1ce7ba13d372725aa6c61b641903d1aa015",
                 "shasum": ""
             },
             "require": {
@@ -286,7 +287,7 @@
                 "input",
                 "joomla"
             ],
-            "time": "2014-05-20 15:24:15"
+            "time": "2014-08-23 19:16:46"
         },
         {
             "name": "joomla/registry",
@@ -336,17 +337,17 @@
         },
         {
             "name": "joomla/session",
-            "version": "1.2.2",
+            "version": "1.2.3",
             "target-dir": "Joomla/Session",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "36e0b66cd0f1fcb5b3db40d5e9d55fbb49fb165f"
+                "reference": "ef955cf9642793c4ad5874f334069051c33ba604"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/36e0b66cd0f1fcb5b3db40d5e9d55fbb49fb165f",
-                "reference": "36e0b66cd0f1fcb5b3db40d5e9d55fbb49fb165f",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/ef955cf9642793c4ad5874f334069051c33ba604",
+                "reference": "ef955cf9642793c4ad5874f334069051c33ba604",
                 "shasum": ""
             },
             "require": {
@@ -377,20 +378,20 @@
                 "joomla",
                 "session"
             ],
-            "time": "2014-05-31 14:11:45"
+            "time": "2014-08-18 17:41:06"
         },
         {
             "name": "joomla/string",
-            "version": "1.1.1",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/string.git",
-                "reference": "bd2b2c9bbb6846680cbeb955c90288587d56df2a"
+                "reference": "f1152e6cce135ff90f4b0097792e8be23989b143"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/string/zipball/bd2b2c9bbb6846680cbeb955c90288587d56df2a",
-                "reference": "bd2b2c9bbb6846680cbeb955c90288587d56df2a",
+                "url": "https://api.github.com/repos/joomla-framework/string/zipball/f1152e6cce135ff90f4b0097792e8be23989b143",
+                "reference": "f1152e6cce135ff90f4b0097792e8be23989b143",
                 "shasum": ""
             },
             "require": {
@@ -417,7 +418,7 @@
                 "joomla",
                 "string"
             ],
-            "time": "2014-02-09 02:48:39"
+            "time": "2014-08-23 19:33:54"
         },
         {
             "name": "joomla/uri",
@@ -587,17 +588,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.5.0",
+            "version": "v2.5.3",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "b4b09c68ec2f2727574544ef0173684281a5033c"
+                "reference": "5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/b4b09c68ec2f2727574544ef0173684281a5033c",
-                "reference": "b4b09c68ec2f2727574544ef0173684281a5033c",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f",
+                "reference": "5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f",
                 "shasum": ""
             },
             "require": {
@@ -620,35 +621,26 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-16 14:25:18"
+            "time": "2014-08-05 09:00:40"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": [],
+    "prefer-stable": false,
     "platform": {
         "php": ">=5.3.10"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }

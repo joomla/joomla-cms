@@ -72,6 +72,14 @@ class Input implements \Serializable, \Countable
 	protected $inputs = array();
 
 	/**
+	 * Is all GLOBAL added
+	 *
+	 * @var    boolean
+	 * @since  1.1.4
+	 */
+	protected static $loaded = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $source   Optional source data. If omitted, a copy of the server variable '_REQUEST' is used.
@@ -167,7 +175,7 @@ class Input implements \Serializable, \Countable
 	 */
 	public function get($name, $default = null, $filter = 'cmd')
 	{
-		if (isset($this->data[$name]) && !empty($this->data[$name]))
+		if (isset($this->data[$name]))
 		{
 			return $this->filter->clean($this->data[$name], $filter);
 		}
@@ -360,9 +368,7 @@ class Input implements \Serializable, \Countable
 	 */
 	protected function loadAllInputs()
 	{
-		static $loaded = false;
-
-		if (!$loaded)
+		if (!self::$loaded)
 		{
 			// Load up all the globals.
 			foreach ($GLOBALS as $global => $data)
@@ -379,7 +385,7 @@ class Input implements \Serializable, \Countable
 				}
 			}
 
-			$loaded = true;
+			self::$loaded = true;
 		}
 	}
 }

@@ -40,6 +40,7 @@ class Database extends Storage
 		if (isset($options['db']) && ($options['db'] instanceof DatabaseDriver))
 		{
 			parent::__construct($options);
+			$this->db = $options['db'];
 		}
 		else
 		{

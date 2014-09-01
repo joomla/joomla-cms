@@ -122,5 +122,6 @@ class Files extends Input
 	 */
 	public function set($name, $value)
 	{
+		// Restricts the usage of parent's set method.
 	}
 }

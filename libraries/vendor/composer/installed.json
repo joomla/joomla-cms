@@ -42,48 +42,6 @@
         ]
     },
     {
-        "name": "joomla/string",
-        "version": "1.1.1",
-        "version_normalized": "1.1.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/joomla-framework/string.git",
-            "reference": "bd2b2c9bbb6846680cbeb955c90288587d56df2a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/string/zipball/bd2b2c9bbb6846680cbeb955c90288587d56df2a",
-            "reference": "bd2b2c9bbb6846680cbeb955c90288587d56df2a",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.10"
-        },
-        "require-dev": {
-            "joomla/test": "~1.0"
-        },
-        "time": "2014-02-09 02:48:39",
-        "type": "joomla-package",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Joomla\\String\\": "src/",
-                "Joomla\\String\\Tests\\": "Tests/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "description": "Joomla String Package",
-        "homepage": "https://github.com/joomla-framework/string",
-        "keywords": [
-            "framework",
-            "joomla",
-            "string"
-        ]
-    },
-    {
         "name": "joomla/utilities",
         "version": "1.1.1",
         "version_normalized": "1.1.1.0",
@@ -518,18 +476,60 @@
         ]
     },
     {
-        "name": "joomla/input",
-        "version": "1.1.2",
-        "version_normalized": "1.1.2.0",
+        "name": "joomla/string",
+        "version": "1.2.0",
+        "version_normalized": "1.2.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/joomla-framework/input.git",
-            "reference": "3f669bfe88b7fa1009687d7a0ac89ea53fa4e62c"
+            "url": "https://github.com/joomla-framework/string.git",
+            "reference": "f1152e6cce135ff90f4b0097792e8be23989b143"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/input/zipball/3f669bfe88b7fa1009687d7a0ac89ea53fa4e62c",
-            "reference": "3f669bfe88b7fa1009687d7a0ac89ea53fa4e62c",
+            "url": "https://api.github.com/repos/joomla-framework/string/zipball/f1152e6cce135ff90f4b0097792e8be23989b143",
+            "reference": "f1152e6cce135ff90f4b0097792e8be23989b143",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.10"
+        },
+        "require-dev": {
+            "joomla/test": "~1.0"
+        },
+        "time": "2014-08-23 19:33:54",
+        "type": "joomla-package",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\String\\": "src/",
+                "Joomla\\String\\Tests\\": "Tests/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla String Package",
+        "homepage": "https://github.com/joomla-framework/string",
+        "keywords": [
+            "framework",
+            "joomla",
+            "string"
+        ]
+    },
+    {
+        "name": "joomla/input",
+        "version": "1.1.4",
+        "version_normalized": "1.1.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/input.git",
+            "reference": "8f6ea1ce7ba13d372725aa6c61b641903d1aa015"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/input/zipball/8f6ea1ce7ba13d372725aa6c61b641903d1aa015",
+            "reference": "8f6ea1ce7ba13d372725aa6c61b641903d1aa015",
             "shasum": ""
         },
         "require": {
@@ -539,7 +539,7 @@
         "require-dev": {
             "joomla/test": "~1.0"
         },
-        "time": "2014-05-20 15:24:15",
+        "time": "2014-08-23 19:16:46",
         "type": "joomla-package",
         "installation-source": "dist",
         "autoload": {
@@ -562,24 +562,24 @@
     },
     {
         "name": "symfony/yaml",
-        "version": "v2.5.0",
-        "version_normalized": "2.5.0.0",
+        "version": "v2.5.3",
+        "version_normalized": "2.5.3.0",
         "target-dir": "Symfony/Component/Yaml",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/Yaml.git",
-            "reference": "b4b09c68ec2f2727574544ef0173684281a5033c"
+            "reference": "5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Yaml/zipball/b4b09c68ec2f2727574544ef0173684281a5033c",
-            "reference": "b4b09c68ec2f2727574544ef0173684281a5033c",
+            "url": "https://api.github.com/repos/symfony/Yaml/zipball/5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f",
+            "reference": "5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2014-05-16 14:25:18",
+        "time": "2014-08-05 09:00:40",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -598,14 +598,12 @@
         ],
         "authors": [
             {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com",
-                "homepage": "http://fabien.potencier.org",
-                "role": "Lead Developer"
-            },
-            {
                 "name": "Symfony Community",
                 "homepage": "http://symfony.com/contributors"
+            },
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
             }
         ],
         "description": "Symfony Yaml Component",
@@ -613,18 +611,18 @@
     },
     {
         "name": "joomla/session",
-        "version": "1.2.2",
-        "version_normalized": "1.2.2.0",
+        "version": "1.2.3",
+        "version_normalized": "1.2.3.0",
         "target-dir": "Joomla/Session",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/session.git",
-            "reference": "36e0b66cd0f1fcb5b3db40d5e9d55fbb49fb165f"
+            "reference": "ef955cf9642793c4ad5874f334069051c33ba604"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/session/zipball/36e0b66cd0f1fcb5b3db40d5e9d55fbb49fb165f",
-            "reference": "36e0b66cd0f1fcb5b3db40d5e9d55fbb49fb165f",
+            "url": "https://api.github.com/repos/joomla-framework/session/zipball/ef955cf9642793c4ad5874f334069051c33ba604",
+            "reference": "ef955cf9642793c4ad5874f334069051c33ba604",
             "shasum": ""
         },
         "require": {
@@ -638,7 +636,7 @@
         "suggest": {
             "joomla/database": "Install joomla/database if you want to use Database session storage."
         },
-        "time": "2014-05-31 14:11:45",
+        "time": "2014-08-18 17:41:06",
         "type": "joomla-package",
         "installation-source": "dist",
         "autoload": {
