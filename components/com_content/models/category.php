@@ -121,14 +121,24 @@ class ContentModelCategory extends JModelList
 		$mergedParams->merge($params);
 
 		$this->setState('params', $mergedParams);
-		$user		= JFactory::getUser();
-				// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$user  = JFactory::getUser();
 
-		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
+		// Create a new query object.
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$asset = 'com_content';
+
+		if ($pk)
+		{
+			$asset .= '.category.' . $pk;
+		}
+
+		if ((!$user->authorise('core.edit.state', $asset)) &&  (!$user->authorise('core.edit', $asset)))
+		{
 			// limit to published for people who can't edit or edit.state.
 			$this->setState('filter.published', 1);
+
 			// Filter by start and end dates.
 			$nullDate = $db->quote($db->getNullDate());
 			$nowDate = $db->quote(JFactory::getDate()->toSQL());

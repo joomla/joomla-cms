@@ -64,24 +64,30 @@ class RedirectViewLinks extends JViewLegacy
 		$canDo	= JHelperContent::getActions('com_redirect');
 
 		JToolbarHelper::title(JText::_('COM_REDIRECT_MANAGER_LINKS'), 'refresh redirect');
+
 		if ($canDo->get('core.create'))
 		{
 			JToolbarHelper::addNew('link.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('link.edit');
 		}
+
 		if ($canDo->get('core.edit.state'))
 		{
-			if ($state->get('filter.state') != 2){
+			if ($state->get('filter.state') != 2)
+			{
 				JToolbarHelper::divider();
 				JToolbarHelper::publish('links.publish', 'JTOOLBAR_ENABLE', true);
 				JToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
 			}
+
 			if ($state->get('filter.state') != -1 )
 			{
 				JToolbarHelper::divider();
+
 				if ($state->get('filter.state') != 2)
 				{
 					JToolbarHelper::archiveList('links.archive');
@@ -92,20 +98,39 @@ class RedirectViewLinks extends JViewLegacy
 				}
 			}
 		}
+
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolbarHelper::divider();
-		} elseif ($canDo->get('core.edit.state'))
+		}
+		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('links.trash');
 			JToolbarHelper::divider();
 		}
+
+		if ($canDo->get('core.create'))
+		{
+			// Get the toolbar object instance
+			$bar = JToolBar::getInstance('toolbar');
+
+			JHtml::_('bootstrap.modal', 'collapseModal');
+			$title = JText::_('JTOOLBAR_BATCH');
+
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
+			$bar->appendButton('Custom', $dhtml, 'batch');
+		}
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_redirect');
 			JToolbarHelper::divider();
 		}
+
 		JToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER');
 
 		JHtmlSidebar::setAction('index.php?option=com_redirect&view=links');

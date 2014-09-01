@@ -130,7 +130,8 @@ class InstallerModelUpdate extends JModelList
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$query->where('name LIKE ' . $db->quote('%' . $search . '%'));
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+			$query->where('name LIKE ' . $search);
 		}
 		return $query;
 	}
@@ -177,12 +178,12 @@ class InstallerModelUpdate extends JModelList
 				->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
 			$db->setQuery($query);
 			$db->execute();
-			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
+			$this->_message = JText::_('JLIB_INSTALLER_PURGED_UPDATES');
 			return true;
 		}
 		else
 		{
-			$this->_message = JText::_('COM_INSTALLER_FAILED_TO_PURGE_UPDATES');
+			$this->_message = JText::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
 			return false;
 		}
 	}

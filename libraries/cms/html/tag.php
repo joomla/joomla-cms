@@ -163,14 +163,20 @@ abstract class JHtmlTag
 	 */
 	public static function ajaxfield($selector='#jform_tags', $allowCustom = true)
 	{
+
+		// Get the component parameters
+		$params = JComponentHelper::getParams("com_tags");
+		$minTermLength = (int) $params->get("min_term_length");
+
 		// Tags field ajax
 		$chosenAjaxSettings = new JRegistry(
 			array(
-				'selector'    => $selector,
-				'type'        => 'GET',
-				'url'         => JUri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
-				'dataType'    => 'json',
-				'jsonTermKey' => 'like'
+				'selector'      => $selector,
+				'type'          => 'GET',
+				'url'           => JUri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
+				'dataType'      => 'json',
+				'jsonTermKey'   => 'like',
+				'minTermLength' => $minTermLength
 			)
 		);
 		JHtml::_('formbehavior.ajaxchosen', $chosenAjaxSettings);
@@ -188,7 +194,7 @@ abstract class JHtmlTag
 						$('" . $selector . "_chzn input').keyup(function(event) {
 
 							// Tag is greater than 3 chars and enter pressed
-							if (this.value.length >= 3 && (event.which === 13 || event.which === 188)) {
+							if (this.value.length >= " . $minTermLength . " && (event.which === 13 || event.which === 188)) {
 
 								// Search an highlighted result
 								var highlighted = $('" . $selector . "_chzn').find('li.active-result.highlighted').first();

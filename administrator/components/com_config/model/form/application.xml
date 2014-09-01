@@ -125,11 +125,7 @@
 			showon="cache_handler:memcached"
 			filter="integer"
 			size="5" />
-	</fieldset>
 
-	<fieldset
-		name="redis"
-		label="COM_CONFIG_REDIS_SETTINGS_LABEL">
 		<field
 			name="redis_persist"
 			type="radio"
@@ -197,7 +193,7 @@
 			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			supported="mysql,mysqli,postgresql,sqlsrv,sqlazure"
+			supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
 			filter="string" />
 
 		<field

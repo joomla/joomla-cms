@@ -93,7 +93,7 @@ function doAjax(data, successCallback, errorCallback)
 			var message = 'AJAX Loading Error: '+req.statusText;
 			if (joomlaupdate_error_callback != null)
 			{
-				joomlaupdate_error_callback(msg);
+				joomlaupdate_error_callback(message);
 			}
 		}
 	};

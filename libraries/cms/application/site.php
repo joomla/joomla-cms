@@ -71,6 +71,8 @@ final class JApplicationSite extends JApplicationCms
 	 * @return  void
 	 *
 	 * @since   3.2
+	 *
+	 * @throws  Exception When you are not authorised to view the home page menu item
 	 */
 	protected function authorise($itemid)
 	{
@@ -91,7 +93,18 @@ final class JApplicationSite extends JApplicationCms
 			}
 			else
 			{
+				// Get the home page menu item
+				$home_item = $menus->getDefault($this->getLanguage()->getTag());
+
+				// If we are already in the homepage raise an exception
+				if ($menus->getActive()->id == $home_item->id)
+				{
+					throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+				}
+
+				// Otherwise redirect to the homepage and show an error
 				$this->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$this->redirect(JRoute::_('index.php?Itemid=' . $home_item->id, false));
 			}
 		}
 	}
@@ -195,22 +208,6 @@ final class JApplicationSite extends JApplicationCms
 		// Initialise the application
 		$this->initialiseApp();
 
-		// Check if the user is required to reset their password
-		$user = JFactory::getUser();
-
-		if ($user->get('requireReset', 0) === '1')
-		{
-			if ($this->input->getCmd('option') != 'com_users' && $this->input->getCmd('view') != 'profile' && $this->input->getCmd('layout') != 'edit')
-			{
-				if ($this->input->getCmd('task') != 'profile.save')
-				{
-					// Redirect to the profile edit page
-					$this->enqueueMessage(JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
-					$this->redirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit'));
-				}
-			}
-		}
-
 		// Mark afterInitialise in the profiler.
 		JDEBUG ? $this->profiler->mark('afterInitialise') : null;
 
@@ -219,6 +216,15 @@ final class JApplicationSite extends JApplicationCms
 
 		// Mark afterRoute in the profiler.
 		JDEBUG ? $this->profiler->mark('afterRoute') : null;
+
+		/*
+		 * Check if the user is required to reset their password
+		 *
+		 * Before $this->route(); "option" and "view" can't be safely read using:
+		 * $this->input->getCmd('option'); or $this->input->getCmd('view');
+		 * ex: due of the sef urls
+		 */
+		$this->checkUserRequireReset('com_users', 'profile', 'edit', 'profile.save,profile.apply');
 
 		// Dispatch the application
 		$this->dispatch();

@@ -8,10 +8,7 @@
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
-if (!class_exists('JFormFieldUser'))
-{
-	require_once JPATH_LIBRARIES . '/cms/form/field/user.php';
-}
+JFormHelper::loadFieldClass('user');
 
 /**
  * Form Field class for the FOF framework
@@ -25,10 +22,10 @@ class FOFFormFieldUser extends JFormFieldUser implements FOFFormField
 	protected $static;
 
 	protected $repeatable;
-	
+
 	/** @var   FOFTable  The item being rendered in a repeatable form field */
 	public $item;
-	
+
 	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
 	public $rowid;
 
@@ -60,7 +57,7 @@ class FOFFormFieldUser extends JFormFieldUser implements FOFFormField
 					$this->repeatable = $this->getRepeatable();
 				}
 
-				return $this->static;
+				return $this->repeatable;
 				break;
 
 			default:

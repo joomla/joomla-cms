@@ -196,7 +196,7 @@ class PlgUserProfile extends JPlugin
 	 * adds additional fields to the user editing form
 	 *
 	 * @param   JForm  $form  The form to be altered.
-	 * @param   array  $data  The associated data for the form.
+	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
@@ -282,6 +282,11 @@ class PlgUserProfile extends JPlugin
 					&& $this->params->get('profile-require_' . $field, 1) == 0)
 				{
 					$form->removeField($field, 'profile');
+
+					if ($field == 'dob')
+					{
+						$form->removeField('dob_spacer', 'profile');
+					}
 				}
 
 				if ($this->params->get('profile-require_dob', 1) > 0)
@@ -300,6 +305,11 @@ class PlgUserProfile extends JPlugin
 				else
 				{
 					$form->removeField($field, 'profile');
+
+					if ($field == 'dob')
+					{
+						$form->removeField('dob_spacer', 'profile');
+					}
 				}
 
 				if ($this->params->get('register-require_dob', 1) > 0)
@@ -318,6 +328,11 @@ class PlgUserProfile extends JPlugin
 				else
 				{
 					$form->removeField($field, 'profile');
+
+					if ($field == 'dob')
+					{
+						$form->removeField('dob_spacer', 'profile');
+					}
 				}
 
 				if ($this->params->get('profile-require_dob', 1) > 0)
@@ -353,7 +368,7 @@ class PlgUserProfile extends JPlugin
 				$data['profile']['website'] = JStringPunycode::urlToPunycode($data['profile']['website']);
 
 				$date = new JDate($data['profile']['dob']);
-				$this->date = $date->format('Y-m-d');
+				$this->date = $date->format('Y-m-d H:i:s');
 			}
 			catch (Exception $e)
 			{

@@ -891,7 +891,7 @@ class JInstaller extends JAdapter
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->name);
 
-		if ($dbDriver == 'mysqli')
+		if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 		{
 			$dbDriver = 'mysql';
 		}
@@ -902,7 +902,7 @@ class JInstaller extends JAdapter
 			$fCharset = (strtolower($file->attributes()->charset) == 'utf8') ? 'utf8' : '';
 			$fDriver = strtolower($file->attributes()->driver);
 
-			if ($fDriver == 'mysqli')
+			if ($fDriver == 'mysqli' || $fDriver == 'pdomysql')
 			{
 				$fDriver = 'mysql';
 			}
@@ -987,7 +987,7 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli')
+				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1054,7 +1054,7 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli')
+				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1068,7 +1068,7 @@ class JInstaller extends JAdapter
 					// Assuming that the type is a mandatory attribute but if it is not mandatory then there should be a discussion for it.
 					$uDriver = strtolower($attrs['type']);
 
-					if ($uDriver == 'mysqli')
+					if ($uDriver == 'mysqli' || $uDriver == 'pdomysql')
 					{
 						$uDriver = 'mysql';
 					}
@@ -1097,56 +1097,58 @@ class JInstaller extends JAdapter
 					$db->setQuery($query);
 					$version = $db->loadResult();
 
-					if ($version)
+					// No version - use initial version.
+					if (!$version)
 					{
-						// We have a version!
-						foreach ($files as $file)
+						$version = '0.0.0';
+					}
+
+					foreach ($files as $file)
+					{
+						if (version_compare($file, $version) > 0)
 						{
-							if (version_compare($file, $version) > 0)
+							$buffer = file_get_contents($this->getPath('extension_root') . '/' . $schemapath . '/' . $file . '.sql');
+
+							// Graceful exit and rollback if read not successful
+							if ($buffer === false)
 							{
-								$buffer = file_get_contents($this->getPath('extension_root') . '/' . $schemapath . '/' . $file . '.sql');
+								JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), JLog::WARNING, 'jerror');
 
-								// Graceful exit and rollback if read not successful
-								if ($buffer === false)
+								return false;
+							}
+
+							// Create an array of queries from the sql file
+							$queries = JDatabaseDriver::splitSql($buffer);
+
+							if (count($queries) == 0)
+							{
+								// No queries to process
+								continue;
+							}
+
+							// Process each query in the $queries array (split out of sql file).
+							foreach ($queries as $query)
+							{
+								$query = trim($query);
+
+								if ($query != '' && $query{0} != '#')
 								{
-									JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), JLog::WARNING, 'jerror');
+									$db->setQuery($query);
 
-									return false;
-								}
-
-								// Create an array of queries from the sql file
-								$queries = JDatabaseDriver::splitSql($buffer);
-
-								if (count($queries) == 0)
-								{
-									// No queries to process
-									continue;
-								}
-
-								// Process each query in the $queries array (split out of sql file).
-								foreach ($queries as $query)
-								{
-									$query = trim($query);
-
-									if ($query != '' && $query{0} != '#')
+									if (!$db->execute())
 									{
-										$db->setQuery($query);
+										JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
 
-										if (!$db->execute())
-										{
-											JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
-
-											return false;
-										}
-										else
-										{
-											$queryString = (string) $query;
-											$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
-											JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
-										}
-
-										$update_count++;
+										return false;
 									}
+									else
+									{
+										$queryString = (string) $query;
+										$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
+										JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
+									}
+
+									$update_count++;
 								}
 							}
 						}

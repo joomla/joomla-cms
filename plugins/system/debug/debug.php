@@ -210,7 +210,7 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// No debug for Safari and Chrome redirection.
-		if (strstr(strtolower($_SERVER['HTTP_USER_AGENT']), 'webkit') !== false
+		if (strstr(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ""), 'webkit') !== false
 			&& substr($contents, 0, 50) == '<html><head><meta http-equiv="refresh" content="0;')
 		{
 			echo $contents;
@@ -749,7 +749,7 @@ class PlgSystemDebug extends JPlugin
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if (in_array($db->name, array('mysqli', 'mysql')))
+				if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql')))
 				{
 					if (isset($this->sqlShowProfileEach[$id]))
 					{
@@ -1379,7 +1379,7 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
-		if (in_array($db->name, array('mysqli', 'mysql', 'postgresql')))
+		if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql', 'postgresql')))
 		{
 			$log = $db->getLog();
 

@@ -24,7 +24,7 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$sitename = $app->getCfg('sitename');
+$sitename = $app->get('sitename');
 
 if($task == "edit" || $layout == "form" )
 {
@@ -138,7 +138,7 @@ else
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
 						<?php echo $logo; ?>
 						<?php if ($this->params->get('sitedescription')) : ?>
-						<?php echo '<div class="site-description">' . htmlspecialchars($this->params->get('sitedescription')) . '</div>'; ?>
+							<?php echo '<div class="site-description">' . htmlspecialchars($this->params->get('sitedescription')) . '</div>'; ?>
 						<?php endif; ?>
 					</a>
 					<div class="header-search pull-right">
@@ -147,20 +147,20 @@ else
 				</div>
 			</header>
 			<?php if ($this->countModules('position-1')) : ?>
-			<nav class="navigation" role="navigation">
-				<jdoc:include type="modules" name="position-1" style="none" />
-			</nav>
+				<nav class="navigation" role="navigation">
+					<jdoc:include type="modules" name="position-1" style="none" />
+				</nav>
 			<?php endif; ?>
 			<jdoc:include type="modules" name="banner" style="xhtml" />
 			<div class="row-fluid">
 				<?php if ($this->countModules('position-8')) : ?>
-				<!-- Begin Sidebar -->
-				<div id="sidebar" class="span3">
-					<div class="sidebar-nav">
-						<jdoc:include type="modules" name="position-8" style="xhtml" />
+					<!-- Begin Sidebar -->
+					<div id="sidebar" class="span3">
+						<div class="sidebar-nav">
+							<jdoc:include type="modules" name="position-8" style="xhtml" />
+						</div>
 					</div>
-				</div>
-				<!-- End Sidebar -->
+					<!-- End Sidebar -->
 				<?php endif; ?>
 				<main id="content" role="main" class="<?php echo $span; ?>">
 					<!-- Begin Content -->
@@ -171,11 +171,11 @@ else
 					<!-- End Content -->
 				</main>
 				<?php if ($this->countModules('position-7')) : ?>
-				<div id="aside" class="span3">
-					<!-- Begin Right Sidebar -->
-					<jdoc:include type="modules" name="position-7" style="well" />
-					<!-- End Right Sidebar -->
-				</div>
+					<div id="aside" class="span3">
+						<!-- Begin Right Sidebar -->
+						<jdoc:include type="modules" name="position-7" style="well" />
+						<!-- End Right Sidebar -->
+					</div>
 				<?php endif; ?>
 			</div>
 		</div>

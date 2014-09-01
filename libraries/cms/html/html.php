@@ -892,52 +892,53 @@ abstract class JHtml
 	 */
 	public static function tooltipText($title = '', $content = '', $translate = 1, $escape = 1)
 	{
-		// Return empty in no title or content is given.
-		if ($title == '' && $content == '')
+		// Initialise return value.
+		$result = '';
+
+		// Don't process empty strings
+		if ($content != '' || $title != '')
 		{
-			return '';
+			// Split title into title and content if the title contains '::' (old Mootools format).
+			if ($content == '' && !(strpos($title, '::') === false))
+			{
+				list($title, $content) = explode('::', $title, 2);
+			}
+
+			// Pass texts through JText if required.
+			if ($translate)
+			{
+				$title = JText::_($title);
+				$content = JText::_($content);
+			}
+
+			// Use only the content if no title is given.
+			if ($title == '')
+			{
+				$result = $content;
+			}
+			// Use only the title, if title and text are the same.
+			elseif ($title == $content)
+			{
+				$result = '<strong>' . $title . '</strong>';
+			}
+			// Use a formatted string combining the title and content.
+			elseif ($content != '')
+			{
+				$result = '<strong>' . $title . '</strong><br />' . $content;
+			}
+			else
+			{
+				$result = $title;
+			}
+
+			// Escape everything, if required.
+			if ($escape)
+			{
+				$result = htmlspecialchars($result);
+			}
 		}
 
-		// Split title into title and content if the title contains '::' (old Mootools format).
-		if ($content == '' && !(strpos($title, '::') === false))
-		{
-			list($title, $content) = explode('::', $title, 2);
-		}
-
-		// Pass texts through the JText.
-		if ($translate)
-		{
-			$title = JText::_($title);
-			$content = JText::_($content);
-		}
-
-		// Escape the texts.
-		if ($escape)
-		{
-			$title = str_replace('"', '&quot;', $title);
-			$content = str_replace('"', '&quot;', $content);
-		}
-
-		// Return only the content if no title is given.
-		if ($title == '')
-		{
-			return $content;
-		}
-
-		// Return only the title if title and text are the same.
-		if ($title == $content)
-		{
-			return '<strong>' . $title . '</strong>';
-		}
-
-		// Return the formated sting combining the title and  content.
-		if ($content != '')
-		{
-			return '<strong>' . $title . '</strong><br />' . $content;
-		}
-
-		// Return only the title.
-		return $title;
+		return $result;
 	}
 
 	/**
@@ -947,7 +948,7 @@ abstract class JHtml
 	 * @param   string  $name     The name of the text field
 	 * @param   string  $id       The id of the text field
 	 * @param   string  $format   The date format
-	 * @param   array   $attribs  Additional HTML attributes
+	 * @param   mixed   $attribs  Additional HTML attributes
 	 *
 	 * @return  string  HTML markup for a calendar field
 	 *
@@ -962,14 +963,14 @@ abstract class JHtml
 			$done = array();
 		}
 
-		$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
-		$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
-
 		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
 
 		if (is_array($attribs))
 		{
+			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
+			$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
+
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
