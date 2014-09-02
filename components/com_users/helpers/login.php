@@ -37,7 +37,7 @@ class UsersHelperLogin
 
 		if (is_numeric($itemid))
 		{
-			$db	   = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('link'))
 				->from($db->quoteName('#__menu'))
