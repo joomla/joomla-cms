@@ -958,6 +958,8 @@ abstract class JHtml
 	{
         $doc = JFactory::getDocument();
         $config = JFactory::getConfig();
+        $lang = JFactory::getLanguage();
+        $calType = $lang->get('calendar','gregorian');
 
 		// Switch the format if needed.  Existing Joomla calendar uses default format: %Y-%m-%d
 		$format = preg_replace(array('/\%Y/','/\%m/','/\%d/'),array('yyyy','mm','dd'),$format);
@@ -965,9 +967,6 @@ abstract class JHtml
 		// Strip out the time formatting strings if set (I have not yet coded the time picker support) -- and in the default
 		// calendar picker the time could not be enabled anyway!
 		$format = preg_replace(array('/\%H/','/\:\%M/','/\:\%S/'),'',$format);
-
-		// Grab the calendar type and set if not specified.
-		$calType = (isset($attribs['caltype'])) ? $attribs['caltype'] : 'gregorian';
 
         // Inject the calendar scripts into the document
         JHtml::_('script','calendars/jquery.calendars.js', true, true);
@@ -980,7 +979,7 @@ abstract class JHtml
 
         
         // The translation packs could be under one of two different tags.  Test for the presence of files are store this to help set regional setings.
-        $langTag = JFactory::getLanguage()->getTag();
+        $langTag = $lang->getTag();
         if (!file_exists(JPATH_BASE.'/media/calendars/js/jquery-calendars-'. $langTag .'.js'))
         {
         	$langTag = preg_replace('/(\w\w)-\w\w.*/',"$1",$langTag);

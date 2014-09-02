@@ -53,13 +53,6 @@ class JFormFieldCalendar extends JFormField
 	 */
 	protected $filter;
 
-	/**
-	 * The calendar type (ie. gregorian, julian, persian, mayan etc)
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	protected $caltype;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -133,7 +126,6 @@ class JFormFieldCalendar extends JFormField
 			$this->maxlength = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
 			$this->format    = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
 			$this->filter    = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
-			$this->caltype = (string) $this->element['caltype'] ? (string) $this->element['caltype'] : 'gregorian';
 		}
 
 		return $return;
@@ -166,7 +158,6 @@ class JFormFieldCalendar extends JFormField
 		empty($hint)            ? null : $attributes['placeholder'] = $hint;
 		$this->autocomplete     ? null : $attributes['autocomplete'] = 'off';
 		!$this->autofocus       ? null : $attributes['autofocus'] = '';
-		$attributes['caltype'] = $this->caltype;
 		
 		if ($this->required)
 		{
