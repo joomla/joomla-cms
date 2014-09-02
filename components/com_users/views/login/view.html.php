@@ -25,20 +25,30 @@ class UsersViewLogin extends JViewLegacy
 	protected $state;
 
 	protected $user;
+	
+	protected $redirect;
 
 	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  The template file to include
+	 *
 	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
 		// Get the view data.
-		$this->user		= JFactory::getUser();
-		$this->form		= $this->get('Form');
-		$this->state	= $this->get('State');
-		$this->params	= $this->state->get('params');
+		$this->user   = JFactory::getUser();
+		$this->form   = $this->get('Form');
+		$this->state  = $this->get('State');
+		$this->params = $this->state->get('params');
+
+		// Include the Login Helper (UsersHelperLogin)
+		require_once JPATH_SITE . '/components/com_users/helpers/login.php';
+
+		// Build the return url
+		$type           = UsersHelperLogin::getType();
+		$this->redirect = UsersHelperLogin::getReturnURL($this->params, $type);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -49,13 +59,13 @@ class UsersViewLogin extends JViewLegacy
 
 		// Check for layout override
 		$active = JFactory::getApplication()->getMenu()->getActive();
+
 		if (isset($active->query['layout']))
 		{
 			$this->setLayout($active->query['layout']);
 		}
 
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
-		$tfa = UsersHelper::getTwoFactorMethods();
+		$tfa       = UsersHelperLogin::getTwoFactorMethods();
 		$this->tfa = is_array($tfa) && count($tfa) > 1;
 
 		//Escape strings for HTML output
@@ -68,19 +78,21 @@ class UsersViewLogin extends JViewLegacy
 
 	/**
 	 * Prepares the document
+	 *
 	 * @since   1.6
 	 */
 	protected function prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$user		= JFactory::getUser();
-		$login		= $user->get('guest') ? true : false;
-		$title 		= null;
+		$app   = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$user  = JFactory::getUser();
+		$login = $user->get('guest') ? true : false;
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
+
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
