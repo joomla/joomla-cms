@@ -51,6 +51,7 @@ abstract class JImageHelper
 	 * @return  stdClass
 	 *
 	 * @since   3.4
+	 *
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 */
@@ -59,7 +60,7 @@ abstract class JImageHelper
 		// Make sure the file exists.
 		if (!file_exists($path))
 		{
-			throw new InvalidArgumentException('The image file does not exist.');
+			throw new InvalidArgumentException(JText::_('JLIB_IMAGE_ERROR_FILE_NOT_FOUND'));
 		}
 
 		// Get the image file information.
@@ -68,8 +69,7 @@ abstract class JImageHelper
 		if (!$info)
 		{
 			// @codeCoverageIgnoreStart
-			throw new RuntimeException('Unable to get properties for the image.');
-
+			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_GET_IMAGE_PROPERTIES'));
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -125,10 +125,11 @@ abstract class JImageHelper
 	 * @param   string   $filename  The file name to use when data should be stored.
 	 * @param   string   $filepath  The file path to use when data should be stored. Note, this must be an absolute system path.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 *
 	 * @since   3.4
-	 * @throws	RuntimeException
+	 *
+	 * @throws  RuntimeException
 	 */
 	public static function fromBase64($data, $store = false, $filename = null, $filepath = null)
 	{
@@ -143,14 +144,12 @@ abstract class JImageHelper
 		{
 			if (!$filename)
 			{
-				// TODO - translate
-				throw new RuntimeException(JText::_('You selected to store the image file. However, you did not specify a file name.'));
+				throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_SAVE_IMAGE_NO_FILENAME'));
 			}
 
 			if (!$filepath)
 			{
-				// TODO - translate
-				throw new RuntimeException(JText::_('You selected to store the image file. However, you did not specify a target path.'));
+				throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_SAVE_IMAGE_NO_SAVE_PATH'));
 			}
 			else
 			{
@@ -166,15 +165,13 @@ abstract class JImageHelper
 				// Check whether the target path exists.
 				if (!JFolder::exists($filepath))
 				{
-					// TODO - translate
-					throw new RuntimeException(JText::sprintf('You selected to store the image file. However, the specified target %s path does not exist.', $filepath));
+					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_OUTPUT_FOLDER_NOT_FOUND', $filepath));
 				}
 
 				// Check whether the target path is writable.
 				if (!is_writable($filepath))
 				{
-					// TODO - translate
-					throw new RuntimeException(JText::sprintf('You selected to store the image file. However, the specified target %s path is not writable.', $filepath));
+					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_OUTPUT_FOLDER_NOT_WRITABLE', $filepath));
 				}
 			}
 
