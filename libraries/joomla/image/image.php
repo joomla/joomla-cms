@@ -148,13 +148,13 @@ class JImage
 
 		// Build the response object.
 		$properties = (object) array(
-			'width' => $info[0],
-			'height' => $info[1],
-			'type' => $info[2],
+			'width'      => $info[0],
+			'height'     => $info[1],
+			'type'       => $info[2],
 			'attributes' => $info[3],
-			'bits' => isset($info['bits']) ? $info['bits'] : null,
-			'channels' => isset($info['channels']) ? $info['channels'] : null,
-			'mime' => $info['mime']
+			'bits'       => isset($info['bits']) ? $info['bits'] : null,
+			'channels'   => isset($info['channels']) ? $info['channels'] : null,
+			'mime'       => $info['mime']
 		);
 
 		return $properties;
