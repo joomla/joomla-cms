@@ -25,7 +25,7 @@ class UsersViewLogin extends JViewLegacy
 	protected $state;
 
 	protected $user;
-	
+
 	protected $redirect;
 
 	/**
