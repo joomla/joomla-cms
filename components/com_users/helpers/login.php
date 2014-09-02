@@ -59,10 +59,11 @@ class UsersHelperLogin
 			}
 		}
 
-		if ($itemid)
+		if ($itemid != '')
 		{
 			// For B/C reasons
-			// If the param store a old value like a URL it will used
+			// The value in the param is not a number and not null
+			// so the param store a old value like a URL and it will used.
 			$url = $itemid;
 		}
 
