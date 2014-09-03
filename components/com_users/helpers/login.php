@@ -66,8 +66,8 @@ class UsersHelperLogin
 		$typeBc = $type . '_redirect_url';
 		$urlBc  = $params->get($typeBC);
 
-		// If we have a old URL use it.
-		if ($urlBc != '')
+		// If we have a old URL but no new one use it.
+		if ($urlBc != '' && !$url)
 		{
 			$url = $urlBc;
 		}
