@@ -43,7 +43,7 @@ $doc->addScript('templates/' . $this->template . '/js/template.js');
 $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 
 // Check for a custom CSS file
-if (file_exists('templates/' . $this->template . '/css/custom.css'))
+if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/custom.css'))
 {
 	$doc->addStyleSheet('templates/' . $this->template . '/css/custom.css');
 }
