@@ -127,4 +127,18 @@ abstract class JApplicationBase extends AbstractApplication
 
 		return $this;
 	}
+
+	/**
+	 * Method to run the application routines.  Most likely you will want to instantiate a controller
+	 * and execute it, or perform some sort of task directly.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4 (CMS)
+	 */
+	protected function doExecute()
+	{
+		return;
+	}
+
 }

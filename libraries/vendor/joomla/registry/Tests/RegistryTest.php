@@ -574,6 +574,45 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test the Joomla\Registry\Registry::extract method
+	 *
+	 * @return  void
+	 *
+	 * @covers  Joomla\Registry\Registry::extract
+	 * @since   1.2.0
+	 */
+	public function testExtract()
+	{
+		$a = new Registry(
+			array(
+				'foo'    => 'bar',
+				'subset' => array(
+					'data1' => 'test1',
+					'data2' => 'test2',
+					'data3' => array(1, 2, 3)
+				)
+			)
+		);
+
+		$b = $a->extract('subset');
+		$c = $a->extract('subset.data3');
+
+		$this->assertInstanceOf(
+			'\\Joomla\\Registry\\Registry',
+			$b,
+			'Line ' . __LINE__ . ' - Object $b should be an instance of Registry.'
+		);
+
+		$this->assertInstanceOf(
+			'\\Joomla\\Registry\\Registry',
+			$c,
+			'Line ' . __LINE__ . ' - Object $c should be an instance of Registry.'
+		);
+
+		$this->assertEquals('test2', $b->get('data2'), 'Test sub-registry path');
+	}
+
+	/**
 	 * Test the Joomla\Registry\Registry::offsetExists method.
 	 *
 	 * @return  void

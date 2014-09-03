@@ -42,7 +42,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php
 				echo JHtml::_(
-					'select.options', JHtml::_('category.options', 'com_users.notes'),
+					'select.options', JHtml::_('category.options', 'com_users'),
 					'value', 'text', $this->state->get('filter.category_id')
 				); ?>
 			</select>

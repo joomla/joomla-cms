@@ -8,7 +8,6 @@
 
 namespace Joomla\String;
 
-
 use InvalidArgumentException;
 
 /**
@@ -425,6 +424,7 @@ class Inflector
 			return $inflected;
 		}
 
+		// Dead code
 		return false;
 	}
 

@@ -3911,6 +3911,10 @@ input[type="submit"].btn.btn-mini {
 	max-height: 400px;
 	padding: 15px;
 }
+.modal-body iframe {
+	max-height: 390px;
+	border: 0 !important;
+}
 .modal-form {
 	margin-bottom: 0;
 }
@@ -6979,12 +6983,6 @@ body {
 }
 .view-login {
 	padding-top: 0;
-	background-color: #142849;
-	background-image: -webkit-gradient(radial,center center,0,center center,460,from(#165387),to(#142849));
-	background-image: -webkit-radial-gradient(circle,#165387,#142849);
-	background-image: -moz-radial-gradient(circle,#165387,#142849);
-	background-image: -o-radial-gradient(circle,#165387,#142849);
-	background-repeat: no-repeat;
 }
 .view-login .container {
 	width: 300px;
@@ -7440,9 +7438,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	}
 }
 @media (min-width: 738px) {
-	body {
-		padding-top: 30px;
-	}
 	body.component {
 		padding-top: 0;
 	}
@@ -7617,6 +7612,12 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 .sortable-handler.inactive {
 	opacity: 0.3;
 	filter: alpha(opacity=30);
+}
+.alert-joomlaupdate {
+	text-align: center;
+}
+.alert-joomlaupdate button {
+	vertical-align: baseline;
 }
 .form-horizontal .control-label {
 	width: auto;

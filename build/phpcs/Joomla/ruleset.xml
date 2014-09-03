@@ -13,12 +13,11 @@
  <!-- Exclude 3rd party libraries and Framework code. -->
  <exclude-pattern type="relative">libraries/compat/password/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/fof/*</exclude-pattern>
- <exclude-pattern type="relative">libraries/framework/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/idna_convert/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/phputf8/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/simplepie/*</exclude-pattern>
- <exclude-pattern type="relative">libraries/phpmailer/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/phpass/*</exclude-pattern>
+ <exclude-pattern type="relative">libraries/vendor/*</exclude-pattern>
 
  <exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore.php</exclude-pattern>
  <exclude-pattern type="relative">configuration.php</exclude-pattern>
@@ -83,7 +82,6 @@
   <exclude name="Squiz.Operators.IncrementDecrementUsage.processAssignment"/>
   <!-- These exceptions are temporary -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
  </rule>
 
  <rule ref="Squiz.Scope.StaticThisUsage"/>
@@ -92,7 +90,6 @@
  <!-- These exceptions are temporary -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
@@ -126,7 +123,6 @@
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.Commenting.FunctionComment">
@@ -134,7 +130,6 @@
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
@@ -146,7 +141,6 @@
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
@@ -165,7 +159,6 @@
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
@@ -177,7 +170,6 @@
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
   <exclude-pattern type="relative">includes/*</exclude-pattern>
   <!-- These exceptions are permanent -->
@@ -203,7 +195,6 @@
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>

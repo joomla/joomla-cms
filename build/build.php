@@ -39,7 +39,7 @@ if (substr($systemGit, 0, -1) != $gitPath)
 umask(022);
 
 // Import JVersion to set the version information
-define('_JEXEC', 1);
+define('JPATH_PLATFORM', 1);
 require_once dirname(__DIR__) . '/libraries/cms/version/version.php';
 $jversion = new JVersion;
 
@@ -147,6 +147,7 @@ $doNotPackage = array(
 	'libraries/vendor/joomla/input/phpunit.xml.dist',
 	'libraries/vendor/joomla/input/README.md',
 	'libraries/vendor/joomla/registry/Tests',
+	'libraries/vendor/joomla/registry/CONTRIBUTING.md',
 	'libraries/vendor/joomla/registry/composer.json',
 	'libraries/vendor/joomla/registry/phpunit.xml.dist',
 	'libraries/vendor/joomla/registry/README.md',
@@ -158,6 +159,14 @@ $doNotPackage = array(
 	'libraries/vendor/joomla/utilities/composer.json',
 	'libraries/vendor/joomla/utilities/phpunit.xml.dist',
 	'libraries/vendor/joomla/utilities/README.md',
+	'libraries/leafo/lessphp/docs',
+	'libraries/leafo/lessphp/tests',
+	'libraries/leafo/lessphp/.gitignore',
+	'libraries/leafo/lessphp/.travis.yml',
+	'libraries/leafo/lessphp/composer.json',
+	'libraries/leafo/lessphp/Makefile',
+	'libraries/leafo/lessphp/package.sh',
+	'libraries/leafo/lessphp/README.md',
 	'libraries/vendor/phpmailer/phpmailer/docs',
 	'libraries/vendor/phpmailer/phpmailer/examples',
 	'libraries/vendor/phpmailer/phpmailer/extras',

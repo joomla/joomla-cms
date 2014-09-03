@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Input Package
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -70,6 +70,14 @@ class Input implements \Serializable, \Countable
 	 * @since  1.0
 	 */
 	protected $inputs = array();
+
+	/**
+	 * Is all GLOBAL added
+	 *
+	 * @var    boolean
+	 * @since  1.1.4
+	 */
+	protected static $loaded = false;
 
 	/**
 	 * Constructor.
@@ -360,9 +368,7 @@ class Input implements \Serializable, \Countable
 	 */
 	protected function loadAllInputs()
 	{
-		static $loaded = false;
-
-		if (!$loaded)
+		if (!self::$loaded)
 		{
 			// Load up all the globals.
 			foreach ($GLOBALS as $global => $data)
@@ -379,7 +385,7 @@ class Input implements \Serializable, \Countable
 				}
 			}
 
-			$loaded = true;
+			self::$loaded = true;
 		}
 	}
 }

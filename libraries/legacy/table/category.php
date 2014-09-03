@@ -29,6 +29,9 @@ class JTableCategory extends JTableNested
 	{
 		parent::__construct('#__categories', 'id', $db);
 
+		JTableObserverTags::createObserver($this, array('typeAlias' => '{extension}.category'));
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => '{extension}.category'));
+
 		$this->access = (int) JFactory::getConfig()->get('access');
 	}
 
@@ -207,10 +210,11 @@ class JTableCategory extends JTableNested
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
+		$this->modified_time = $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing category
-			$this->modified_time = $date->toSql();
 			$this->modified_user_id = $user->get('id');
 		}
 		else

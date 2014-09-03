@@ -148,9 +148,9 @@
 			this.orderCols.click(function() {
 
 				// Order to set
-				var newOrderCol = $(this).attr('data-order');
-				var newDirection = 'ASC';
-				var newOrdering = newOrderCol + ' ' + newDirection;
+				var newOrderCol  = $(this).attr('data-order');
+				var newDirection = $(this).attr('data-direction');
+				var newOrdering  = newOrderCol + ' ' + newDirection;
 
 				// The data-order attrib is required
 				if (newOrderCol.length)

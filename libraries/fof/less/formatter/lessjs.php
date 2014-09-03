@@ -8,6 +8,8 @@
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
+require_once JPATH_PLATFORM . '/lessc/lessc.inc.php';
+
 /**
  * This class is taken verbatim from:
  *
@@ -21,14 +23,8 @@ defined('FOF_INCLUDED') or die;
  *
  * @package  FrameworkOnFramework
  * @since    2.0
+ * @deprecated  Use lessc_formatter_lessjs instead
  */
-class FOFLessFormatterLessjs extends FOFLessFormatterClassic
+class FOFLessFormatterLessjs extends lessc_formatter_lessjs
 {
-	public $disableSingle = true;
-
-	public $breakSelectors = true;
-
-	public $assignSeparator = ": ";
-
-	public $selectorSeparator = ",";
 }

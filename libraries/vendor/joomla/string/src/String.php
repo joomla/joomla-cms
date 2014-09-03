@@ -23,9 +23,16 @@ if (extension_loaded('mbstring'))
 if (function_exists('iconv'))
 {
 	// These are settings that can be set inside code
-	iconv_set_encoding("internal_encoding", "UTF-8");
-	iconv_set_encoding("input_encoding", "UTF-8");
-	iconv_set_encoding("output_encoding", "UTF-8");
+	if (version_compare(PHP_VERSION, '5.6', '>='))
+	{
+		@ini_set('default_charset', 'UTF-8');
+	}
+	else
+	{
+		iconv_set_encoding("internal_encoding", "UTF-8");
+		iconv_set_encoding("input_encoding", "UTF-8");
+		iconv_set_encoding("output_encoding", "UTF-8");
+	}
 }
 
 /**
@@ -168,16 +175,9 @@ abstract class String
 	 * @see     http://www.php.net/strpos
 	 * @since   1.0
 	 */
-	public static function strpos($str, $search, $offset = false)
+	public static function strpos($str, $search, $offset = null)
 	{
-		if ($offset === false)
-		{
-			return utf8_strpos($str, $search);
-		}
-		else
-		{
-			return utf8_strpos($str, $search, $offset);
-		}
+		return utf8_strpos($str, $search, $offset);
 	}
 
 	/**
@@ -193,7 +193,7 @@ abstract class String
 	 * @see     http://www.php.net/strrpos
 	 * @since   1.0
 	 */
-	public static function strrpos($str, $search, $offset = 0)
+	public static function strrpos($str, $search, $offset = null)
 	{
 		return utf8_strrpos($str, $search, $offset);
 	}
@@ -211,16 +211,9 @@ abstract class String
 	 * @see     http://www.php.net/substr
 	 * @since   1.0
 	 */
-	public static function substr($str, $offset, $length = false)
+	public static function substr($str, $offset, $length = null)
 	{
-		if ($length === false)
-		{
-			return utf8_substr($str, $offset);
-		}
-		else
-		{
-			return utf8_substr($str, $offset, $length);
-		}
+		return utf8_substr($str, $offset, $length);
 	}
 
 	/**
@@ -299,14 +292,7 @@ abstract class String
 	{
 		require_once __DIR__ . '/phputf8/str_ireplace.php';
 
-		if ($count === false)
-		{
-			return utf8_ireplace($search, $replace, $str);
-		}
-		else
-		{
-			return utf8_ireplace($search, $replace, $str, $count);
-		}
+		return utf8_ireplace($search, $replace, $str, $count);
 	}
 
 	/**
@@ -463,18 +449,7 @@ abstract class String
 	{
 		require_once __DIR__ . '/phputf8/strcspn.php';
 
-		if ($start === false && $length === false)
-		{
-			return utf8_strcspn($str, $mask);
-		}
-		elseif ($length === false)
-		{
-			return utf8_strcspn($str, $mask, $start);
-		}
-		else
-		{
-			return utf8_strcspn($str, $mask, $start, $length);
-		}
+		return utf8_strcspn($str, $mask, $start, $length);
 	}
 
 	/**
@@ -534,18 +509,7 @@ abstract class String
 	{
 		require_once __DIR__ . '/phputf8/strspn.php';
 
-		if ($start === null && $length === null)
-		{
-			return utf8_strspn($str, $mask);
-		}
-		elseif ($length === null)
-		{
-			return utf8_strspn($str, $mask, $start);
-		}
-		else
-		{
-			return utf8_strspn($str, $mask, $start, $length);
-		}
+		return utf8_strspn($str, $mask, $start, $length);
 	}
 
 	/**
@@ -564,15 +528,7 @@ abstract class String
 	 */
 	public static function substr_replace($str, $repl, $start, $length = null)
 	{
-		// Loaded by library loader
-		if ($length === false)
-		{
-			return utf8_substr_replace($str, $repl, $start);
-		}
-		else
-		{
-			return utf8_substr_replace($str, $repl, $start, $length);
-		}
+		return utf8_substr_replace($str, $repl, $start, $length);
 	}
 
 	/**
@@ -600,14 +556,7 @@ abstract class String
 
 		require_once __DIR__ . '/phputf8/trim.php';
 
-		if ($charlist === false)
-		{
-			return utf8_ltrim($str);
-		}
-		else
-		{
-			return utf8_ltrim($str, $charlist);
-		}
+		return utf8_ltrim($str, $charlist);
 	}
 
 	/**
@@ -634,14 +583,7 @@ abstract class String
 
 		require_once __DIR__ . '/phputf8/trim.php';
 
-		if ($charlist === false)
-		{
-			return utf8_rtrim($str);
-		}
-		else
-		{
-			return utf8_rtrim($str, $charlist);
-		}
+		return utf8_rtrim($str, $charlist);
 	}
 
 	/**
@@ -668,14 +610,7 @@ abstract class String
 
 		require_once __DIR__ . '/phputf8/trim.php';
 
-		if ($charlist === false)
-		{
-			return utf8_trim($str);
-		}
-		else
-		{
-			return utf8_trim($str, $charlist);
-		}
+		return utf8_trim($str, $charlist);
 	}
 
 	/**
@@ -941,5 +876,61 @@ abstract class String
 		 * some valid sequences
 		 */
 		return (preg_match('/^.{1}/us', $str, $ar) == 1);
+	}
+
+	/**
+	 * Converts Unicode sequences to UTF-8 string
+	 *
+	 * @param   string  $str  Unicode string to convert
+	 *
+	 * @return  string  UTF-8 string
+	 *
+	 * @since   1.2.0
+	 */
+	public static function unicode_to_utf8($str)
+	{
+		if (extension_loaded('mbstring'))
+		{
+			return preg_replace_callback(
+				'/\\\\u([0-9a-fA-F]{4})/',
+				function ($match)
+				{
+					return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+				},
+				$str
+			);
+		}
+		else
+		{
+			return $str;
+		}
+	}
+
+	/**
+	 * Converts Unicode sequences to UTF-16 string
+	 *
+	 * @param   string  $str  Unicode string to convert
+	 *
+	 * @return  string  UTF-16 string
+	 *
+	 * @since   1.2.0
+	 */
+	public static function unicode_to_utf16($str)
+	{
+		if (extension_loaded('mbstring'))
+		{
+			return preg_replace_callback(
+				'/\\\\u([0-9a-fA-F]{4})/',
+				function ($match)
+				{
+					return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UTF-16BE');
+				},
+				$str
+			);
+		}
+		else
+		{
+			return $str;
+		}
 	}
 }

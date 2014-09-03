@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,6 +28,14 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	private $instance;
 
 	/**
+	 * The mock filter object
+	 *
+	 * @var    FilterInputMock
+	 * @since  1.0
+	 */
+	private $filterMock;
+
+	/**
 	 * Test the Joomla\Input\Input::__construct method.
 	 *
 	 * @return  void
@@ -37,7 +45,31 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test__construct()
 	{
-		$this->markTestIncomplete();
+		// Default constructor call
+		$instance = new Input;
+
+		$this->assertEquals(
+			$_REQUEST,
+			TestHelper::getValue($instance, 'data')
+		);
+
+		$this->assertInstanceOf(
+			'Joomla\Filter\InputFilter',
+			TestHelper::getValue($instance, 'filter')
+		);
+
+		// Given source & filter
+		$instance = new Input($_GET, array('filter' => $this->filterMock));
+
+		$this->assertEquals(
+			$_GET,
+			TestHelper::getValue($instance, 'data')
+		);
+
+		$this->assertInstanceOf(
+			'Joomla\Input\Tests\FilterInputMock',
+			TestHelper::getValue($instance, 'filter')
+		);
 	}
 
 	/**
@@ -50,7 +82,21 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test__call()
 	{
-		$this->markTestIncomplete();
+		$instance = $this->getInputObject(array('foo' => 'bar'));
+
+		$this->assertEquals(
+			'bar',
+			$instance->getRaw('foo')
+		);
+
+		$this->assertEquals(
+			'two',
+			$instance->getRaw('one', 'two')
+		);
+
+		$this->assertNull(
+			$instance->setRaw('one', 'two')
+		);
 	}
 
 	/**
@@ -63,88 +109,194 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test__get()
 	{
-		$_POST['foo'] = 'bar';
+		$instance = $this->getInputObject(array());
 
-		// Test the get method.
-		$this->assertThat(
-			$this->instance->post->get('foo'),
-			$this->equalTo('bar'),
-			'Line: ' . __LINE__ . '.'
-		);
+		$this->assertAttributeEquals($_GET, 'data', $instance->get);
 
-		// Test the set method.
-		$this->instance->post->set('foo', 'notbar');
-		$this->assertThat(
-			$_POST['foo'],
-			$this->equalTo('bar'),
-			'Line: ' . __LINE__ . '.'
-		);
+		$inputs = TestHelper::getValue($instance, 'inputs');
 
-		$this->markTestIncomplete();
+		// Previously cached input
+		$this->assertArrayHasKey('get', $inputs);
+
+		$this->assertTrue($inputs['get'] instanceof Input);
+
+		$this->assertAttributeEquals($_GET, 'data', $instance->get);
+
+		$cookies = $instance->cookie;
+		$this->assertTrue($cookies instanceof Input);
+		$this->assertTrue($cookies instanceof Cookie);
+
+		// If nothing is returned
+		$this->assertEquals(null, $instance->foobar);
 	}
 
 	/**
-	 * Test the Joomla\Input\Input::count method.
+	 * Test the Joomla\Input\Input::count method with no data.
 	 *
 	 * @return  void
 	 *
 	 * @covers  Joomla\Input\Input::count
 	 * @since   1.0
 	 */
-	public function testCount()
+	public function testCountWithNoData()
 	{
-		$this->assertEquals(
-			count($_REQUEST),
-			count($this->instance)
-		);
+		$instance = $this->getInputObject(array());
 
 		$this->assertEquals(
-			count($_POST),
-			count($this->instance->post)
-		);
-
-		$this->assertEquals(
-			count($_GET),
-			count($this->instance->get)
+			0,
+			$instance->count()
 		);
 	}
 
 	/**
-	 * Test the Joomla\Input\Input::get method.
+	 * Test the Joomla\Input\Input::count method with data.
+	 *
+	 * @return  void
+	 *
+	 * @covers  Joomla\Input\Input::count
+	 * @since   1.0
+	 */
+	public function testCountWithData()
+	{
+		$instance = $this->getInputObject(array('foo' => 2, 'bar' => 3, 'gamma' => 4));
+
+		$this->assertEquals(
+			3,
+			$instance->count()
+		);
+	}
+
+	/**
+	 * Test the Joomla\Input\Input::get method with a normal value.
 	 *
 	 * @return  void
 	 *
 	 * @covers  Joomla\Input\Input::get
 	 * @since   1.0
 	 */
-	public function testGet()
+	public function testGetWithStandardValue()
 	{
-		$_REQUEST['foo'] = 'bar';
+		$instance = $this->getInputObject(array('foo' => 'bar'));
 
-		$instance = new Input;
+		$this->assertEquals(
+			'bar',
+			$instance->get('foo')
+		);
+	}
 
-		// Test the get method.
-		$this->assertThat(
-			$instance->get('foo'),
-			$this->equalTo('bar'),
-			'Line: ' . __LINE__ . '.'
+	/**
+	 * Test the Joomla\Input\Input::get method with empty string.
+	 *
+	 * @return  void
+	 *
+	 * @covers  Joomla\Input\Input::get
+	 * @since   1.0
+	 */
+	public function testGetWithEmptyString()
+	{
+		$instance = $this->getInputObject(array('foo' => ''));
+
+		$this->assertEquals(
+			'',
+			$instance->get('foo')
 		);
 
-		$_GET['foo'] = 'bar2';
+		$this->assertInternalType('string', $instance->get('foo'));
+	}
 
-		// Test the get method.
-		$this->assertThat(
-			$instance->get->get('foo'),
-			$this->equalTo('bar2'),
-			'Checks first use of new super-global.'
+	/**
+	 * Test the Joomla\Input\Input::get method with integer 0.
+	 *
+	 * @return  void
+	 *
+	 * @covers  Joomla\Input\Input::get
+	 * @since   1.0
+	 */
+	public function testGetWith0()
+	{
+		$instance = $this->getInputObject(array('foo' => 0));
+
+		$this->assertEquals(
+			0,
+			$instance->getInt('foo')
 		);
 
-		// Test the get method.
-		$this->assertThat(
-			$instance->get('default_value', 'default'),
-			$this->equalTo('default'),
-			'Line: ' . __LINE__ . '.'
+		$this->assertInternalType('integer', $instance->get('foo'));
+	}
+
+	/**
+	 * Test the Joomla\Input\Input::get method with float 0.0.
+	 *
+	 * @return  void
+	 *
+	 * @covers  Joomla\Input\Input::get
+	 * @since   1.0
+	 */
+	public function testGetWith0Point0()
+	{
+		$instance = $this->getInputObject(array('foo' => 0.0));
+
+		$this->assertEquals(
+			0.0,
+			$instance->getFloat('foo')
 		);
+
+		$this->assertInternalType('float', $instance->get('foo'));
+	}
+
+	/**
+	 * Test the Joomla\Input\Input::get method with string "0".
+	 *
+	 * @return  void
+	 *
+	 * @covers  Joomla\Input\Input::get
+	 * @since   1.0
+	 */
+	public function testGetWithString0()
+	{
+		$instance = $this->getInputObject(array('foo' => "0"));
+
+		$this->assertEquals(
+			"0",
+			$instance->get('foo')
+		);
+
+		$this->assertInternalType('string', $instance->get('foo'));
+	}
+
+	/**
+	 * Test the Joomla\Input\Input::get method with false.
+	 *
+	 * @return  void
+	 *
+	 * @covers  Joomla\Input\Input::get
+	 * @since   1.0
+	 */
+	public function testGetWithFalse()
+	{
+		$instance = $this->getInputObject(array('foo' => false));
+
+		$this->assertFalse(
+			$instance->getBoolean('foo')
+		);
+
+		$this->assertInternalType('boolean', $instance->get('foo'));
+	}
+
+	/**
+	 * Tests retrieving a default value..
+	 *
+	 * @return  void
+	 *
+	 * @covers  Joomla\Input\Input::get
+	 * @since   1.0
+	 */
+	public function testGetDefault()
+	{
+		$instance = $this->getInputObject(array('foo' => 'bar'));
+
+		// Test the get method.
+		$this->assertEquals('default', $instance->get('default_value', 'default'));
 	}
 
 	/**
@@ -155,21 +307,30 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	 * @covers  Joomla\Input\Input::def
 	 * @since   1.0
 	 */
-	public function testDef()
+	public function testDefNotReadWhenValueExists()
 	{
-		$_REQUEST['foo'] = 'bar';
+		$instance = $this->getInputObject(array('foo' => 'bar'));
 
-		$this->instance->def('foo', 'nope');
+		$instance->def('foo', 'nope');
 
-		$this->assertThat(
-			$_REQUEST['foo'],
-			$this->equalTo('bar'),
-			'Line: ' . __LINE__ . '.'
-		);
+		$this->assertEquals('bar', $instance->get('foo'));
+	}
 
-		$this->instance->def('Joomla', 'is great');
+	/**
+	 * Test the Joomla\Input\Input::def method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  Joomla\Input\Input::def
+	 * @since   1.0
+	 */
+	public function testDefRead()
+	{
+		$instance = $this->getInputObject(array('foo' => 'bar'));
 
-		$this->assertArrayNotHasKey('Joomla', $_REQUEST, 'Checks super-global was not modified.');
+		$instance->def('bar', 'nope');
+
+		$this->assertEquals('nope', $instance->get('bar'));
 	}
 
 	/**
@@ -182,18 +343,15 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testSet()
 	{
-		$_REQUEST['foo'] = 'bar2';
-		$this->instance->set('foo', 'bar');
+		$instance = $this->getInputObject(array('foo' => 'bar'));
 
-		$this->assertThat(
-			$_REQUEST['foo'],
-			$this->equalTo('bar2'),
-			'Line: ' . __LINE__ . '.'
-		);
+		$instance->set('foo', 'gamma');
+
+		$this->assertEquals('gamma', $instance->get('foo'));
 	}
 
 	/**
-	 * Test the Joomla\Input\Input::get method.
+	 * Test the Joomla\Input\Input::getArray method.
 	 *
 	 * @return  void
 	 *
@@ -202,43 +360,24 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetArray()
 	{
-		$filterMock = new FilterInputMock;
-
 		$array = array(
 			'var1' => 'value1',
 			'var2' => 34,
 			'var3' => array('test')
 		);
-		$input = new Input(
-			$array,
-			array('filter' => $filterMock)
-		);
 
-		$this->assertThat(
+		$input = $this->getInputObject($array);
+
+		$this->assertEquals(
+			$array,
 			$input->getArray(
 				array('var1' => 'filter1', 'var2' => 'filter2', 'var3' => 'filter3')
-			),
-			$this->equalTo(array('var1' => 'value1', 'var2' => 34, 'var3' => array('test'))),
-			'Line: ' . __LINE__ . '.'
+			)
 		);
 
-		$this->assertThat(
-			$filterMock->calls['clean'][0],
-			$this->equalTo(array('value1', 'filter1')),
-			'Line: ' . __LINE__ . '.'
-		);
-
-		$this->assertThat(
-			$filterMock->calls['clean'][1],
-			$this->equalTo(array(34, 'filter2')),
-			'Line: ' . __LINE__ . '.'
-		);
-
-		$this->assertThat(
-			$filterMock->calls['clean'][2],
-			$this->equalTo(array(array('test'), 'filter3')),
-			'Line: ' . __LINE__ . '.'
-		);
+		$this->assertEquals(array('value1', 'filter1'), $this->filterMock->calls['clean'][0]);
+		$this->assertEquals(array(34, 'filter2'), $this->filterMock->calls['clean'][1]);
+		$this->assertEquals(array(array('test'), 'filter3'), $this->filterMock->calls['clean'][2]);
 	}
 
 	/**
@@ -251,44 +390,23 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetArrayNested()
 	{
-		$filterMock = new FilterInputMock;
-
 		$array = array(
 			'var2' => 34,
 			'var3' => array('var2' => 'test'),
 			'var4' => array('var1' => array('var2' => 'test'))
 		);
-		$input = new Input(
-			$array,
-			array('filter' => $filterMock)
-		);
 
-		$this->assertThat(
+		$input = $this->getInputObject($array);
+
+		$this->assertEquals(
+			array('var4' => array('var1' => array('var2' => 'test'))),
 			$input->getArray(
-				array('var2' => 'filter2', 'var3' => array('var2' => 'filter3'))
-			),
-			$this->equalTo(array('var2' => 34, 'var3' => array('var2' => 'test'))),
-			'Line: ' . __LINE__ . '.'
-		);
-
-		$this->assertThat(
-			$input->getArray(
-				array('var4' => array('var1' => array('var2' => 'filter1')))
-			),
-			$this->equalTo(array('var4' => array('var1' => array('var2' => 'test')))),
-			'Line: ' . __LINE__ . '.'
-		);
-
-		$this->assertThat(
-			$filterMock->calls['clean'][0],
-			$this->equalTo(array(34, 'filter2')),
-			'Line: ' . __LINE__ . '.'
-		);
-
-		$this->assertThat(
-			$filterMock->calls['clean'][1],
-			$this->equalTo(array(array('var2' => 'test'), 'array')),
-			'Line: ' . __LINE__ . '.'
+				array(
+					'var4' => array(
+						'var1' => array('var2' => 'test')
+					)
+				)
+			)
 		);
 	}
 
@@ -311,7 +429,7 @@ class InputTest extends \PHPUnit_Framework_TestCase
 			'var7' => null
 		);
 
-		$input = new Input($array);
+		$input = $this->getInputObject($array);
 
 		$this->assertEquals($input->getArray(), $array);
 	}
@@ -326,21 +444,11 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetFromCookie()
 	{
-		// Check the object type.
-		$this->assertThat(
-			$this->instance->cookie instanceof Cookie,
-			$this->isTrue(),
-			'Line: ' . __LINE__ . '.'
-		);
+		$instance = $this->getInputObject(array());
 
 		$_COOKIE['foo'] = 'bar';
 
-		// Test the get method.
-		$this->assertThat(
-			$this->instance->cookie->get('foo'),
-			$this->equalTo('bar'),
-			'Line: ' . __LINE__ . '.'
-		);
+		$this->assertAttributeEquals($_COOKIE, 'data', $instance->cookie);
 	}
 
 	/**
@@ -353,7 +461,11 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetMethod()
 	{
-		$this->markTestIncomplete();
+		$_SERVER['REQUEST_METHOD'] = 'custom';
+
+		$instance = $this->getInputObject(array());
+
+		$this->assertEquals('CUSTOM', $instance->getMethod());
 	}
 
 	/**
@@ -366,17 +478,19 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testSerialize()
 	{
+		$instance = $this->getInputObject(array());
+
 		// Load the inputs so that the static $loaded is set to true.
-		TestHelper::invoke($this->instance, 'loadAllInputs');
+		TestHelper::invoke($instance, 'loadAllInputs');
 
 		// Adjust the values so they are easier to handle.
-		TestHelper::setValue($this->instance, 'inputs', array('server' => 'remove', 'env' => 'remove', 'request' => 'keep'));
-		TestHelper::setValue($this->instance, 'options', 'options');
-		TestHelper::setValue($this->instance, 'data', 'data');
+		TestHelper::setValue($instance, 'inputs', array('server' => 'remove', 'env' => 'remove', 'request' => 'keep'));
+		TestHelper::setValue($instance, 'options', array('options'));
+		TestHelper::setValue($instance, 'data', 'data');
 
-		$this->assertThat(
-			$this->instance->serialize(),
-			$this->equalTo('a:3:{i:0;s:7:"options";i:1;s:4:"data";i:2;a:1:{s:7:"request";s:4:"keep";}}')
+		$this->assertEquals(
+			'a:3:{i:0;a:1:{i:0;s:7:"options";}i:1;s:4:"data";i:2;a:1:{s:7:"request";s:4:"keep";}}',
+			$instance->serialize()
 		);
 	}
 
@@ -390,12 +504,35 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testUnserialize()
 	{
-		$this->markTestIncomplete();
-	}
+		$serialized = 'a:3:{i:0;a:1:{s:6:"filter";s:3:"raw";}i:1;s:4:"data";i:2;a:1:{s:7:"request";s:4:"keep";}}';
 
-	/*
-	 * Protected methods.
-	 */
+		$instance = $this->getInputObject(array());
+
+		$instance->unserialize($serialized);
+
+		// Adjust the values so they are easier to handle.
+		$this->assertEquals(
+			array('request' => 'keep'),
+			TestHelper::getValue($instance, 'inputs')
+		);
+
+		$this->assertEquals(
+			array('filter' => 'raw'),
+			TestHelper::getValue($instance, 'options')
+		);
+
+		$this->assertEquals(
+			'data',
+			TestHelper::getValue($instance, 'data')
+		);
+
+		$serialized = 'a:3:{i:0;a:1:{i:0;s:7:"options";}i:1;s:4:"data";i:2;a:1:{s:7:"request";s:4:"keep";}}';
+		$instance->unserialize($serialized);
+		$this->assertEquals(
+			array('options'),
+			TestHelper::getValue($instance, 'options')
+		);
+	}
 
 	/**
 	 * Test the Joomla\Input\Input::loadAllInputs method.
@@ -403,11 +540,34 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @covers  Joomla\Input\Input::loadAllInputs
-	 * @since   1.0
+	 * @since   1.1.4
 	 */
 	public function testLoadAllInputs()
 	{
-		$this->markTestIncomplete();
+		$instance = $this->getInputObject(array());
+		TestHelper::setValue($instance, 'loaded', false);
+
+		$inputs = TestHelper::getValue($instance, 'inputs');
+		$this->assertCount(0, $inputs);
+
+		TestHelper::invoke($instance, 'loadAllInputs');
+
+		$inputs = TestHelper::getValue($instance, 'inputs');
+		$this->assertGreaterThan(0, count($inputs));
+	}
+
+	/**
+	 * Get Input object populated with passed in data
+	 *
+	 * @param   array  $data  Optional source data. If omitted, a copy of the server variable '_REQUEST' is used.
+	 *
+	 * @return  Input
+	 *
+	 * @since   1.0
+	 */
+	protected function getInputObject($data = null)
+	{
+		return new Input($data, array('filter' => $this->filterMock));
 	}
 
 	/**
@@ -421,7 +581,6 @@ class InputTest extends \PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$array = null;
-		$this->instance = new Input($array, array('filter' => new FilterInputMock));
+		$this->filterMock = new FilterInputMock;
 	}
 }

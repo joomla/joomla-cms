@@ -309,7 +309,10 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		default:
 
 			// Redirect to the list screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=templates', false));
+			$file = base64_encode('home');
+			$id   = $app->input->get('id');
+			$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$this->setRedirect(JRoute::_($url, false));
 			break;
 		}
 	}

@@ -65,4 +65,39 @@ class RedirectControllerLinks extends JControllerAdmin
 
 		return $model;
 	}
+
+	/**
+	 * Executes the batch process to add URLs to the database
+	 */
+	public function batch()
+	{
+		$batch_urls_request = $this->input->post->get('batch_urls', array(), 'array');
+		$batch_urls_lines   = array_map('trim', explode("\n", $batch_urls_request[0]));
+
+		$batch_urls = array();
+
+		foreach ($batch_urls_lines as $batch_urls_line)
+		{
+			if (!empty($batch_urls_line))
+			{
+				$batch_urls[] = array_map('trim', explode('|', $batch_urls_line));
+			}
+		}
+
+		// Set default message on error - overwrite if successful
+		$this->setMessage(JText::_('COM_REDIRECT_NO_ITEM_ADDED'), 'error');
+
+		if (!empty($batch_urls))
+		{
+			$model = $this->getModel('Links');
+
+			// Execute the batch process
+			if ($model->batchProcess($batch_urls))
+			{
+				$this->setMessage(JText::plural('COM_REDIRECT_N_LINKS_ADDED', count($batch_urls)));
+			}
+		}
+
+		$this->setRedirect('index.php?option=com_redirect&view=links');
+	}
 }

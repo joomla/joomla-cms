@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.3" client="administrator" type="language" method="upgrade">
+<extension version="3.4" client="administrator" type="language" method="upgrade">
 	<name>English (United Kingdom)</name>
 	<tag>en-GB</tag>
-	<version>3.3.0</version>
+	<version>3.4.0</version>
 	<creationDate>2013-03-07</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -199,6 +199,8 @@
 		<filename>en-GB.plg_system_remember.sys.ini</filename>
 		<filename>en-GB.plg_system_sef.ini</filename>
 		<filename>en-GB.plg_system_sef.sys.ini</filename>
+		<filename>en-GB.plg_system_session.ini</filename>
+		<filename>en-GB.plg_system_session.sys.ini</filename>
 		<filename>en-GB.plg_twofactorauth_totp.ini</filename>
 		<filename>en-GB.plg_twofactorauth_totp.sys.ini</filename>
 		<filename>en-GB.plg_twofactorauth_yubikey.ini</filename>
@@ -209,6 +211,8 @@
 		<filename>en-GB.plg_user_joomla.sys.ini</filename>
 		<filename>en-GB.plg_user_profile.ini</filename>
 		<filename>en-GB.plg_user_profile.sys.ini</filename>
+		<filename>en-GB.plg_user_session.ini</filename>
+		<filename>en-GB.plg_user_session.sys.ini</filename>
 		<filename>en-GB.tpl_hathor.ini</filename>
 		<filename>en-GB.tpl_hathor.sys.ini</filename>
 		<filename>en-GB.tpl_isis.ini</filename>

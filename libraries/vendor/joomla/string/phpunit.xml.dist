@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="vendor/autoload.php" colors="false">
+	<filter>
+		<blacklist>
+			<directory suffix=".php">src/phputf8</directory>
+		</blacklist>
+	</filter>
 	<testsuites>
 		<testsuite name="Unit">
 			<directory>Tests</directory>

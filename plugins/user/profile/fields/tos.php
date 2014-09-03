@@ -61,7 +61,7 @@ class JFormFieldTos extends JFormFieldRadio
 		JHtml::_('behavior.modal');
 
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTip' : '';
+		$class = !empty($this->description) ? 'hasTooltip' : '';
 		$class = $class . ' required';
 		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
@@ -73,13 +73,14 @@ class JFormFieldTos extends JFormFieldRadio
 		{
 			$label .= ' title="'
 				. htmlspecialchars(
-				trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description),
+				trim($text, ':') . '<br />' . ($this->translateDescription ? JText::_($this->description) : $this->description),
 				ENT_COMPAT, 'UTF-8'
 			) . '"';
 		}
 
 		$tosarticle = $this->element['article'] ? (int) $this->element['article'] : 1;
-		$link = '<a class="modal" title="" href="index.php?option=com_content&amp;view=article&amp;layout=modal&amp;id=' . $tosarticle . '&amp;tmpl=component" rel="{handler: \'iframe\', size: {x:800, y:500}}">' . $text . '</a>';
+		$link = '<a class="modal" title="" href="index.php?option=com_content&amp;view=article&amp;layout=modal&amp;id='
+			. $tosarticle . '&amp;tmpl=component" rel="{handler: \'iframe\', size: {x:800, y:500}}">' . $text . '</a>';
 
 		// Add the label text and closing tag.
 		$label .= '>' . $link . '<span class="star">&#160;*</span></label>';

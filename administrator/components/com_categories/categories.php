@@ -12,7 +12,11 @@ JHtml::_('behavior.tabstate');
 
 $input = JFactory::getApplication()->input;
 
-if (!JFactory::getUser()->authorise('core.manage', $input->get('extension')))
+//If you have a url like this: com_categories&view=categories&extension=com_example.example_cat
+$parts = explode('.', $input->get('extension'));
+$component = $parts[0];
+
+if (!JFactory::getUser()->authorise('core.manage', $component))
 {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }

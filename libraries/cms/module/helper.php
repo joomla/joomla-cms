@@ -493,7 +493,8 @@ abstract class JModuleHelper
 
 				if (is_array($cacheparams->modeparams))
 				{
-					$uri = JRequest::get();
+					$input   = JFactory::getApplication()->input;
+					$uri     = $input->getArray();
 					$safeuri = new stdClass;
 
 					foreach ($cacheparams->modeparams as $key => $value)

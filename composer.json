@@ -5,17 +5,18 @@
     "keywords": ["joomla", "cms"],
     "homepage": "https://github.com/joomla/joomla-cms",
     "license": "GPL-2.0+",
-	"config": {
+    "config": {
         "vendor-dir": "libraries/vendor"
     },
     "require": {
         "php": ">=5.3.10",
         "joomla/application": "~1.2",
-	    "joomla/di": "~1.2",
-	    "joomla/input": "~1.1",
-	    "joomla/registry": "~1.1",
-	    "ircmaxell/password-compat": "1.*",
-	    "phpmailer/phpmailer": "~5.2",
-	    "symfony/yaml": "2.*"
+        "joomla/di": "~1.2",
+        "joomla/input": "~1.1",
+        "joomla/registry": "~1.2",
+        "ircmaxell/password-compat": "1.*",
+        "leafo/lessphp": "0.3.9",
+        "phpmailer/phpmailer": "5.2.8",
+        "symfony/yaml": "2.*"
     }
 }

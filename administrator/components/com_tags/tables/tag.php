@@ -26,6 +26,8 @@ class TagsTableTag extends JTableNested
 	public function __construct($db)
 	{
 		parent::__construct('#__tags', 'id', $db);
+
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_tags.tag'));
 	}
 
 	/**
@@ -154,9 +156,11 @@ class TagsTableTag extends JTableNested
 	{
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
+
+		$this->modified_time		= $date->toSql();
+
 		if ($this->id) {
 			// Existing item
-			$this->modified_time		= $date->toSql();
 			$this->modified_user_id	= $user->get('id');
 		}
 		else

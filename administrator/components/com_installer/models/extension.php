@@ -67,8 +67,11 @@ class InstallerModel extends JModelList
 			$db->setQuery($query);
 			$result = $db->loadObjectList();
 			$this->translate($result);
+
 			if (!empty($search))
 			{
+				$search = str_replace(' ', '.*', preg_quote(trim($search), '/'));
+
 				foreach ($result as $i => $item)
 				{
 					if (!preg_match("/$search/i", $item->name))
@@ -103,7 +106,7 @@ class InstallerModel extends JModelList
 	 *
 	 * @return  array The array of translated objects
 	 */
-	private function translate(&$items)
+	protected function translate(&$items)
 	{
 		$lang = JFactory::getLanguage();
 		foreach ($items as &$item)

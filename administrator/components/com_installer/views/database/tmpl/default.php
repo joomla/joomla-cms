@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 ?>
-
-<div id="installer-database">
+<div id="installer-database" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=database');?>" method="post" name="adminForm" id="adminForm">
 
 	<?php if (!empty( $this->sidebar)) : ?>

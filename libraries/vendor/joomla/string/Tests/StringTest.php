@@ -46,19 +46,39 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
+	 * @since   1.2.0
+	 */
+	public function seedTestIs_ascii()
+	{
+		return array(
+			array('ascii', true),
+			array('1024', true),
+			array('#$#@$%', true),
+			array('áÑ', false),
+			array('ÿ©', false),
+			array('¡¾', false),
+			array('÷™', false),
+		);
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @return  array
+	 *
 	 * @since   1.0
 	 */
 	public function seedTestStrpos()
 	{
 		return array(
-			array('missing', 'sing', 0, 3),
-			array('missing', 'sting', 0, false),
-			array('missing', 'ing', 0, 4),
-			array(' объектов на карте с', 'на карте', 0, 10),
-			array('на карте с', 'на карте', 0, 0),
-			array('на карте с', 'на каррте', 0, false),
-			array('на карте с', 'на карте', 2, false),
-			array('missing', 'sing', false, 3)
+			array(3, 'missing', 'sing', 0),
+			array(false, 'missing', 'sting', 0),
+			array(4, 'missing', 'ing', 0),
+			array(10, ' объектов на карте с', 'на карте', 0),
+			array(0, 'на карте с', 'на карте', 0, 0),
+			array(false, 'на карте с', 'на каррте', 0),
+			array(false, 'на карте с', 'на карте', 2),
+			array(3, 'missing', 'sing', false)
 		);
 	}
 
@@ -72,13 +92,13 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	public function seedTestGetStrrpos()
 	{
 		return array(
-			array('missing', 'sing', 0, 3),
-			array('missing', 'sting', 0, false),
-			array('missing', 'ing', 0, 4),
-			array(' объектов на карте с', 'на карте', 0, 10),
-			array('на карте с', 'на карте', 0, 0),
-			array('на карте с', 'на каррте', 0, false),
-			array('на карте с', 'карт', 2, 3)
+			array(3, 'missing', 'sing', 0),
+			array(false, 'missing', 'sting', 0),
+			array(4, 'missing', 'ing', 0),
+			array(10, ' объектов на карте с', 'на карте', 0),
+			array(0, 'на карте с', 'на карте', 0),
+			array(false, 'на карте с', 'на каррте', 0),
+			array(3, 'на карте с', 'карт', 2)
 		);
 	}
 
@@ -92,11 +112,11 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	public function seedTestSubstr()
 	{
 		return array(
-			array('Mississauga', 4, false, 'issauga'),
-			array(' объектов на карте с', 10, false, 'на карте с'),
-			array(' объектов на карте с', 10, 5, 'на ка'),
-			array(' объектов на карте с', -4, false, 'те с'),
-			array(' объектов на карте с', 99, false, false)
+			array('issauga', 'Mississauga', 4, false),
+			array('на карте с', ' объектов на карте с', 10, false),
+			array('на ка', ' объектов на карте с', 10, 5),
+			array('те с', ' объектов на карте с', -4, false),
+			array(false, ' объектов на карте с', 99, false)
 		);
 	}
 
@@ -309,10 +329,10 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	public function seedTestSubstr_replace()
 	{
 		return array(
-			array('321 Main Street', 'Broadway Avenue', 4, false, '321 Broadway Avenue'),
-			array('321 Main Street', 'Broadway', 4, 4, '321 Broadway Street'),
-			array('чадна Би шил идэй чадна', '我能吞', 6, false, 'чадна 我能吞'),
-			array('чадна Би шил идэй чадна', '我能吞', 6, 2, 'чадна 我能吞 шил идэй чадна')
+			array('321 Broadway Avenue', '321 Main Street', 'Broadway Avenue', 4, null),
+			array('321 Broadway Street', '321 Main Street', 'Broadway', 4, 4),
+			array('чадна 我能吞', 'чадна Би шил идэй чадна', '我能吞', 6, null),
+			array('чадна 我能吞 шил идэй чадна', 'чадна Би шил идэй чадна', '我能吞', 6, 2)
 		);
 	}
 
@@ -438,10 +458,44 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	public function seedTestValid()
 	{
 		return array(
+			array("\xCF\xB0", true),
+			array("\xFBa", false),
+			array("\xFDa", false),
+			array("foo\xF7bar", false),
 			array('george Мога Ž Ψυχοφθόρα ฉันกินกระจกได้ 我能吞下玻璃而不伤身体 ', true),
 			array("\xFF ABC", false),
 			array("0xfffd ABC", true),
 			array('', true)
+		);
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @return  array
+	 *
+	 * @since   1.2.0
+	 */
+	public function seedTestUnicodeToUtf8()
+	{
+		return array(
+			array("\u0422\u0435\u0441\u0442 \u0441\u0438\u0441\u0442\u0435\u043c\u044b", "Тест системы"),
+			array("\u00dcberpr\u00fcfung der Systemumstellung", "Überprüfung der Systemumstellung")
+		);
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @return  array
+	 *
+	 * @since   1.2.0
+	 */
+	public function seedTestUnicodeToUtf16()
+	{
+		return array(
+			array("\u0422\u0435\u0441\u0442 \u0441\u0438\u0441\u0442\u0435\u043c\u044b", "Тест системы"),
+			array("\u00dcberpr\u00fcfung der Systemumstellung", "Überprüfung der Systemumstellung")
 		);
 	}
 
@@ -455,92 +509,97 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @dataProvider  seedTestIncrement
-	 * @since      1.0
 	 * @covers        Joomla\String\String::increment
+	 * @dataProvider  seedTestIncrement
+	 * @since         1.0
 	 */
 	public function testIncrement($string, $style, $number, $expected)
 	{
-		$this->assertThat(
-			String::increment($string, $style, $number),
-			$this->equalTo($expected)
+		$this->assertEquals(
+			$expected,
+			String::increment($string, $style, $number)
 		);
 	}
-
-	// @codingStandardsIgnoreStart
-	// @todo Arguments with default values must be at the end of the argument list
 
 	/**
 	 * Test...
 	 *
-	 * @param   string   $haystack  @todo
-	 * @param   string   $needle    @todo
-	 * @param   integer  $offset    @todo
-	 * @param   string   $expect    @todo
+	 * @param   string   $string    @todo
+	 * @param   boolean  $expected  @todo
 	 *
 	 * @return  void
 	 *
-	 * @dataProvider  seedTestStrpos
-	 * @since      1.0
-	 * @covers        Joomla\String\String::strpos
+	 * @covers        Joomla\String\String::is_ascii
+	 * @dataProvider  seedTestIs_ascii
+	 * @since         1.2.0
 	 */
-	public function testStrpos($haystack, $needle, $offset = 0, $expect)
+	public function testIs_ascii($string, $expected)
+	{
+		$this->assertEquals(
+			$expected,
+			String::is_ascii($string)
+		);
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @param   string   $expect    @todo
+	 * @param   string   $haystack  @todo
+	 * @param   string   $needle    @todo
+	 * @param   integer  $offset    @todo
+	 *
+	 * @return  void
+	 *
+	 * @covers        Joomla\String\String::strpos
+	 * @dataProvider  seedTestStrpos
+	 * @since         1.0
+	 */
+	public function testStrpos($expect, $haystack, $needle, $offset = 0)
 	{
 		$actual = String::strpos($haystack, $needle, $offset);
 		$this->assertEquals($expect, $actual);
 	}
 
-	// @codingStandardsIgnoreEnd
-
-	// @codingStandardsIgnoreStart
-	// @todo Arguments with default values must be at the end of the argument list
-
 	/**
 	 * Test...
 	 *
+	 * @param   string   $expect    @todo
 	 * @param   string   $haystack  @todo
 	 * @param   string   $needle    @todo
 	 * @param   integer  $offset    @todo
-	 * @param   string   $expect    @todo
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestGetStrrpos
-	 * @since      1.0
 	 * @covers        Joomla\String\String::strrpos
+	 * @dataProvider  seedTestGetStrrpos
+	 * @since         1.0
 	 */
-	public function testStrrpos($haystack, $needle, $offset = 0, $expect)
+	public function testStrrpos($expect, $haystack, $needle, $offset = 0)
 	{
 		$actual = String::strrpos($haystack, $needle, $offset);
 		$this->assertEquals($expect, $actual);
 	}
 
-	// @codingStandardsIgnoreEnd
-
-	// @codingStandardsIgnoreStart
-	// @todo Arguments with default values must be at the end of the argument list
-
 	/**
 	 * Test...
 	 *
+	 * @param   string    $expect  @todo
 	 * @param   string    $string  @todo
 	 * @param   string    $start   @todo
 	 * @param   bool|int  $length  @todo
-	 * @param   string    $expect  @todo
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestSubstr
-	 * @since      1.0
 	 * @covers        Joomla\String\String::substr
+	 * @dataProvider  seedTestSubstr
+	 * @since         1.0
 	 */
-	public function testSubstr($string, $start, $length = false, $expect)
+	public function testSubstr($expect, $string, $start, $length = false)
 	{
 		$actual = String::substr($string, $start, $length);
 		$this->assertEquals($expect, $actual);
 	}
-
-	// @codingStandardsIgnoreEnd
 
 	/**
 	 * Test...
@@ -550,9 +609,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestStrtolower
-	 * @since      1.0
 	 * @covers        Joomla\String\String::strtolower
+	 * @dataProvider  seedTestStrtolower
+	 * @since         1.0
 	 */
 	public function testStrtolower($string, $expect)
 	{
@@ -568,9 +627,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestStrtoupper
-	 * @since      1.0
 	 * @covers        Joomla\String\String::strtoupper
+	 * @dataProvider  seedTestStrtoupper
+	 * @since         1.0
 	 */
 	public function testStrtoupper($string, $expect)
 	{
@@ -586,9 +645,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestStrlen
-	 * @since      1.0
 	 * @covers        Joomla\String\String::strlen
+	 * @dataProvider  seedTestStrlen
+	 * @since         1.0
 	 */
 	public function testStrlen($string, $expect)
 	{
@@ -607,9 +666,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestStr_ireplace
-	 * @since      1.0
 	 * @covers        Joomla\String\String::str_ireplace
+	 * @dataProvider  seedTestStr_ireplace
+	 * @since         1.0
 	 */
 	public function testStr_ireplace($search, $replace, $subject, $count, $expect)
 	{
@@ -626,9 +685,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestStr_split
-	 * @since      1.0
 	 * @covers        Joomla\String\String::str_split
+	 * @dataProvider  seedTestStr_split
+	 * @since         1.0
 	 */
 	public function testStr_split($string, $split_length, $expect)
 	{
@@ -646,9 +705,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestStrcasecmp
-	 * @since      1.0
 	 * @covers        Joomla\String\String::strcasecmp
+	 * @dataProvider  seedTestStrcasecmp
+	 * @since         1.0
 	 */
 	public function testStrcasecmp($string1, $string2, $locale, $expect)
 	{
@@ -689,9 +748,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestStrcmp
-	 * @since      1.0
 	 * @covers        Joomla\String\String::strcmp
+	 * @dataProvider  seedTestStrcmp
+	 * @since         1.0
 	 */
 	public function testStrcmp($string1, $string2, $locale, $expect)
 	{
@@ -734,9 +793,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestStrcspn
-	 * @since      1.0
 	 * @covers        Joomla\String\String::strcspn
+	 * @dataProvider  seedTestStrcspn
+	 * @since         1.0
 	 */
 	public function testStrcspn($haystack, $needles, $start, $len, $expect)
 	{
@@ -753,9 +812,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestStristr
-	 * @since      1.0
 	 * @covers        Joomla\String\String::stristr
+	 * @dataProvider  seedTestStristr
+	 * @since         1.0
 	 */
 	public function testStristr($haystack, $needle, $expect)
 	{
@@ -771,9 +830,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestStrrev
-	 * @since      1.0
 	 * @covers        Joomla\String\String::strrev
+	 * @dataProvider  seedTestStrrev
+	 * @since         1.0
 	 */
 	public function testStrrev($string, $expect)
 	{
@@ -792,9 +851,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestStrspn
-	 * @since      1.0
 	 * @covers        Joomla\String\String::strspn
+	 * @dataProvider  seedTestStrspn
+	 * @since         1.0
 	 */
 	public function testStrspn($subject, $mask, $start, $length, $expect)
 	{
@@ -805,19 +864,19 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
+	 * @param   string   $expect       @todo
 	 * @param   string   $string       @todo
 	 * @param   string   $replacement  @todo
 	 * @param   integer  $start        @todo
 	 * @param   integer  $length       @todo
-	 * @param   string   $expect       @todo
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestSubstr_replace
-	 * @since      1.0
 	 * @covers        Joomla\String\String::substr_replace
+	 * @dataProvider  seedTestSubstr_replace
+	 * @since         1.0
 	 */
-	public function testSubstr_replace($string, $replacement, $start, $length, $expect)
+	public function testSubstr_replace($expect, $string, $replacement, $start, $length)
 	{
 		$actual = String::substr_replace($string, $replacement, $start, $length);
 		$this->assertEquals($expect, $actual);
@@ -832,9 +891,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestLtrim
-	 * @since      1.0
 	 * @covers        Joomla\String\String::ltrim
+	 * @dataProvider  seedTestLtrim
+	 * @since         1.0
 	 */
 	public function testLtrim($string, $charlist, $expect)
 	{
@@ -859,9 +918,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestRtrim
-	 * @since      1.0
 	 * @covers        Joomla\String\String::rtrim
+	 * @dataProvider  seedTestRtrim
+	 * @since         1.0
 	 */
 	public function testRtrim($string, $charlist, $expect)
 	{
@@ -886,9 +945,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestTrim
-	 * @since      1.0
 	 * @covers        Joomla\String\String::trim
+	 * @dataProvider  seedTestTrim
+	 * @since         1.0
 	 */
 	public function testTrim($string, $charlist, $expect)
 	{
@@ -914,9 +973,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestUcfirst
-	 * @since      1.0
 	 * @covers        Joomla\String\String::ucfirst
+	 * @dataProvider  seedTestUcfirst
+	 * @since         1.0
 	 */
 	public function testUcfirst($string, $delimiter, $newDelimiter, $expect)
 	{
@@ -932,9 +991,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestUcwords
-	 * @since      1.0
 	 * @covers        Joomla\String\String::ucwords
+	 * @dataProvider  seedTestUcwords
+	 * @since         1.0
 	 */
 	public function testUcwords($string, $expect)
 	{
@@ -952,9 +1011,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestTranscode
-	 * @since      1.0
 	 * @covers        Joomla\String\String::transcode
+	 * @dataProvider  seedTestTranscode
+	 * @since         1.0
 	 */
 	public function testTranscode($source, $from_encoding, $to_encoding, $expect)
 	{
@@ -970,9 +1029,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestValid
-	 * @since      1.0
 	 * @covers        Joomla\String\String::valid
+	 * @dataProvider  seedTestValid
+	 * @since         1.0
 	 */
 	public function testValid($string, $expect)
 	{
@@ -988,9 +1047,45 @@ class StringTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @dataProvider  seedTestValid
-	 * @since      1.0
+	 * @covers        Joomla\String\String::unicode_to_utf8
+	 * @dataProvider  seedTestUnicodeToUtf8
+	 * @since         1.2.0
+	 */
+	public function testUnicodeToUtf8($string, $expect)
+	{
+		$actual = String::unicode_to_utf8($string);
+		$this->assertEquals($expect, $actual);
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @param   string  $string  @todo
+	 * @param   string  $expect  @todo
+	 *
+	 * @return  array
+	 *
+	 * @covers        Joomla\String\String::unicode_to_utf16
+	 * @dataProvider  seedTestUnicodeToUtf16
+	 * @since         1.2.0
+	 */
+	public function testUnicodeToUtf16($string, $expect)
+	{
+		$actual = String::unicode_to_utf16($string);
+		$this->assertEquals($expect, $actual);
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @param   string  $string  @todo
+	 * @param   string  $expect  @todo
+	 *
+	 * @return  array
+	 *
 	 * @covers        Joomla\String\String::compliant
+	 * @dataProvider  seedTestValid
+	 * @since         1.0
 	 */
 	public function testCompliant($string, $expect)
 	{
