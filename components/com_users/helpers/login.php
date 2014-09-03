@@ -35,6 +35,18 @@ class UsersHelperLogin
 		$url    = null;
 		$itemid = $params->get($type);
 
+		// B/C checks
+		// @deprecated with 4.0
+		// @note if we can break B/C You can remove $typeBC & $urlBc and the following if statement
+		$typeBc = $type . '_redirect_url';
+		$urlBc  = $params->get($typeBC);
+
+		// If we have a old URL use it.
+		if ($urlBc != '')
+		{
+			$itemid = $urlBc;
+		}		
+
 		if (is_numeric($itemid))
 		{
 			$db    = JFactory::getDbo();
@@ -59,11 +71,13 @@ class UsersHelperLogin
 			}
 		}
 
+		// For B/C reasons
+		// The value in the param is not a number and not null
+		// so the param store a old value like a URL and it will used.
+		// @deprecated with 4.0
+		// @note if we can break B/C You can remove this if statement
 		if ($itemid != '')
 		{
-			// For B/C reasons
-			// The value in the param is not a number and not null
-			// so the param store a old value like a URL and it will used.
 			$url = $itemid;
 		}
 
@@ -103,6 +117,11 @@ class UsersHelperLogin
 			}
 		}
 
+		// Set the current url to the B/C hidden field.
+		// @deprecated with 4.0
+		// @note if we can break B/C You can remove the next line.
+		$params->set($typeBc, $url);
+
 		return base64_encode($url);
 	}
 
@@ -117,7 +136,7 @@ class UsersHelperLogin
 	{
 		$user = JFactory::getUser();
 
-		return (!$user->get('guest')) ? 'logout_redirect_url' : 'login_redirect_url';
+		return (!$user->get('guest')) ? 'logout' : 'login';
 	}
 
 	/**
