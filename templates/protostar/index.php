@@ -42,6 +42,12 @@ $doc->addScript('templates/' . $this->template . '/js/template.js');
 // Add Stylesheets
 $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 
+// Check for a custom CSS file
+if (file_exists('templates/' . $this->template . '/css/custom.css'))
+{
+	$doc->addStyleSheet('templates/' . $this->template . '/css/custom.css');
+}
+
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
