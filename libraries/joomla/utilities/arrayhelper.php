@@ -109,7 +109,7 @@ abstract class JArrayHelper
 
 		if (is_array($array))
 		{
-			$obj = ArrayHelper::toObject($array, $class);
+			$obj = ArrayHelper::toObject($array, $class, $recursive);
 		}
 		else
 		{
