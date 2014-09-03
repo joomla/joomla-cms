@@ -35,18 +35,6 @@ class UsersHelperLogin
 		$url    = null;
 		$itemid = $params->get($type);
 
-		// B/C checks
-		// @deprecated with 4.0
-		// @note if we can break B/C You can remove $typeBC & $urlBc and the following if statement
-		$typeBc = $type . '_redirect_url';
-		$urlBc  = $params->get($typeBC);
-
-		// If we have a old URL use it.
-		if ($urlBc != '')
-		{
-			$itemid = $urlBc;
-		}		
-
 		if (is_numeric($itemid))
 		{
 			$db    = JFactory::getDbo();
@@ -71,14 +59,17 @@ class UsersHelperLogin
 			}
 		}
 
-		// For B/C reasons
-		// The value in the param is not a number and not null
-		// so the param store a old value like a URL and it will used.
+
+		// B/C checks
 		// @deprecated with 4.0
-		// @note if we can break B/C You can remove this if statement
-		if ($itemid != '')
+		// @note if we can break B/C You can remove $typeBC & $urlBc and the following if statement
+		$typeBc = $type . '_redirect_url';
+		$urlBc  = $params->get($typeBC);
+
+		// If we have a old URL use it.
+		if ($urlBc != '')
 		{
-			$url = $itemid;
+			$url = $urlBc;
 		}
 
 		if (!$url)
