@@ -7,9 +7,6 @@ SET IDENTITY_INSERT [#__extensions]  OFF;
 
 INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 
-INSERT INTO [#__schemas] ([extension_id], [version_id])
-SELECT 21, '3.4.0';
-
 INSERT INTO [#__update_sites] ([name], [type], [location], [enabled])
 SELECT 'Weblinks Update Site', 'extension', 'https://raw.githubusercontent.com/joomla-extensions/weblinks/master/manifest.xml', 1;
 
