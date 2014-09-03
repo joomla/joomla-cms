@@ -307,11 +307,37 @@ class Registry implements \JsonSerializable, \ArrayAccess
 	 *
 	 * @since   1.0
 	 */
-	public function merge(Registry $source, $recursive = false)
+	public function merge($source, $recursive = false)
 	{
+		if (!$source instanceof Registry)
+		{
+			return false;
+		}
+
 		$this->bindData($this->data, $source->toArray(), $recursive, false);
 
 		return $this;
+	}
+
+	/**
+	 * Method to extract a sub-registry from path
+	 *
+	 * @param   string  $path     Registry path (e.g. joomla.content.showauthor)
+	 *
+	 * @return  Registry|null  Registry object if data is present
+	 *
+	 * @since   1.2.0
+	 */
+	public function extract($path)
+	{
+		$data = $this->get($path);
+
+		if (is_null($data))
+		{
+			return null;
+		}
+
+		return new Registry($data);
 	}
 
 	/**
@@ -463,6 +489,7 @@ class Registry implements \JsonSerializable, \ArrayAccess
 	 * @param   object   $parent     The parent object on which to attach the data values.
 	 * @param   mixed    $data       An array or object of data to bind to the parent object.
 	 * @param   boolean  $recursive  True to support recursive bindData.
+	 * @param   boolean  $allowNull  True to allow null values.
 	 *
 	 * @return  void
 	 *

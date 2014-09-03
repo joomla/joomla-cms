@@ -6,7 +6,7 @@ use Joomla\Registry\Registry;
 $registry = new Registry;
 
 // Set a value in the registry.
-$registry->set('foo') = 'bar';
+$registry->set('foo', 'bar');
 
 // Get a value from the registry;
 $value = $registry->get('foo');

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c26ab7d1a8d09d0400bd3191b084ae65",
+    "hash": "42aa40438464ff10872e3e28efe29fea",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -291,31 +291,39 @@
         },
         {
             "name": "joomla/registry",
-            "version": "1.1.3",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "2be70676835f7457719df0418be89397bfd55900"
+                "reference": "3a8b7837f9466df8e9ad568da31b303e470f3eaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/2be70676835f7457719df0418be89397bfd55900",
-                "reference": "2be70676835f7457719df0418be89397bfd55900",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/3a8b7837f9466df8e9ad568da31b303e470f3eaa",
+                "reference": "3a8b7837f9466df8e9ad568da31b303e470f3eaa",
                 "shasum": ""
             },
             "require": {
                 "joomla/compat": "~1.0",
+                "joomla/string": "~1.2",
                 "joomla/utilities": "~1.0",
                 "php": ">=5.3.10"
             },
             "require-dev": {
                 "joomla/test": "~1.0",
+                "phpunit/phpunit": "4.*",
+                "squizlabs/php_codesniffer": "1.*",
                 "symfony/yaml": "~2.0"
             },
             "suggest": {
                 "symfony/yaml": "Install 2.* if you require YAML support."
             },
             "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Registry\\": "src/",
@@ -333,7 +341,7 @@
                 "joomla",
                 "registry"
             ],
-            "time": "2014-05-19 19:41:20"
+            "time": "2014-09-03 16:09:19"
         },
         {
             "name": "joomla/session",
@@ -629,17 +637,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.5.3",
+            "version": "v2.5.4",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f"
+                "reference": "01a7695bcfb013d0a15c6757e15aae120342986f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f",
-                "reference": "5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/01a7695bcfb013d0a15c6757e15aae120342986f",
+                "reference": "01a7695bcfb013d0a15c6757e15aae120342986f",
                 "shasum": ""
             },
             "require": {
@@ -672,7 +680,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-05 09:00:40"
+            "time": "2014-08-31 03:22:04"
         }
     ],
     "packages-dev": [],

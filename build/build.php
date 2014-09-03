@@ -147,6 +147,7 @@ $doNotPackage = array(
 	'libraries/vendor/joomla/input/phpunit.xml.dist',
 	'libraries/vendor/joomla/input/README.md',
 	'libraries/vendor/joomla/registry/Tests',
+	'libraries/vendor/joomla/registry/CONTRIBUTING.md',
 	'libraries/vendor/joomla/registry/composer.json',
 	'libraries/vendor/joomla/registry/phpunit.xml.dist',
 	'libraries/vendor/joomla/registry/README.md',
