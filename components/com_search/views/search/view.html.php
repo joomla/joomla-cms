@@ -249,7 +249,7 @@ class SearchViewSearch extends JViewLegacy
 
 						if ($chkOverlap >= 0)
 						{
-							// Set highlighter around searchword */
+							// Set highlighter around searchword
 							if ($mbString)
 							{
 								$hlwordLen = mb_strlen($hlword);
