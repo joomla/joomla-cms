@@ -51,8 +51,8 @@ class PlgUserProfile extends JPlugin
 	/**
 	 * Runs on content preparation
 	 *
-	 * @param   string   $context  The context for the data
-	 * @param   integer  $data     The user id
+	 * @param   string  $context  The context for the data
+	 * @param   object  $data     An object containing the data for the form.
 	 *
 	 * @return  boolean
 	 *
