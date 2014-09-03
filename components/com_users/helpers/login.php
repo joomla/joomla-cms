@@ -59,7 +59,6 @@ class UsersHelperLogin
 			}
 		}
 
-
 		// B/C checks
 		// @deprecated with 4.0
 		// @note if we can break B/C You can remove $typeBC & $urlBc and the following if statement
