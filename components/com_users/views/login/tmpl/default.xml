@@ -15,14 +15,17 @@
 		<!-- Basic options. -->
 		<fieldset name="basic" label="COM_MENUS_BASIC_FIELDSET_LABEL">
 
+		<!-- For BC reasons please remove this with 4.0 -->
+		<field name="login_redirect_url" type="hidden" default="" />
+
 		<field
-			name="login_redirect_url"
+			name="login"
 			type="menuitem"
 			disable="separator"
 			label="JFIELD_LOGIN_REDIRECT_URL_LABEL"
 			description="JFIELD_LOGIN_REDIRECT_URL_DESC">
 			<option value="">JDEFAULT</option>
-			</field>
+		</field>
 
 		 <field
 			name="logindescription_show"
@@ -56,8 +59,11 @@
 			hr="true"
 		/>
 
+		<!-- For BC reasons please remove this with 4.0 -->
+		<field name="logout_redirect_url" type="hidden" default="" />
+
 		<field
-			name="logout_redirect_url"
+			name="logout"
 			type="menuitem"
 			disable="separator"
 			label="JFIELD_LOGOUT_REDIRECT_URL_LABEL"
@@ -65,7 +71,7 @@
 			<option value="">JDEFAULT</option>
 		</field>
 
-         	<field
+         <field
 			name="logoutdescription_show"
 			type="list"
 			label="JFIELD_BASIS_LOGOUT_DESCRIPTION_SHOW_LABEL"
