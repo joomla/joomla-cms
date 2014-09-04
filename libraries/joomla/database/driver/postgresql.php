@@ -113,7 +113,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				$port = $matches['port'];
 			}
 		}
-		elseif (preg_match('/^(?P<host>(\/[a-zA-Z0-9\.\-\_]+)+)(\/)?(:(?P<port>[^:]+))?$/i', $options['host'], $matches))
+		elseif (preg_match('/^(?P<host>(\/[a-zA-Z0-9\.\-\_]*)+)(\/)?(:(?P<port>[^:]+))?$/i', $options['host'], $matches))
 		{
 			// Socket directory (e.g /var/run/postgresql) with or without port
 			$options['host']   = $matches['host'];
