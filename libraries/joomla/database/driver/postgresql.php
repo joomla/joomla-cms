@@ -90,7 +90,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// It's an IPv4 address with or without port
 			$options['host'] = $matches['host'];
 
-			if (!empty($matches['port'])) {
+			if (!empty($matches['port']))
+			{
 				$port = $matches['port'];
 			}
 		}
@@ -99,7 +100,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// We assume square-bracketed IPv6 address with or without port, e.g. [fe80:102::2%eth1]:5432
 			$options['host'] = $matches['host'];
 
-			if (!empty($matches['port'])) {
+			if (!empty($matches['port']))
+			{
 				$port = $matches['port'];
 			}
 		}
