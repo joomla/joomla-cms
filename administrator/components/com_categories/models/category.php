@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Categories Component Category Model
  *
@@ -173,7 +175,7 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Convert the metadata field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($result->metadata);
 			$result->metadata = $registry->toArray();
 

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_contact
@@ -52,7 +54,7 @@ class ContactTableContact extends JTable
 		// Transform the params field
 		if (is_array($this->params))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($this->params);
 			$this->params = (string) $registry;
 		}

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 // Load tooltips behavior
 JHtml::_('behavior.formvalidation');
 JHtml::_('bootstrap.tooltip');
@@ -36,7 +38,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				foreach ($this->submenumodules as $submenumodule)
 				{
 					$output = JModuleHelper::renderModule($submenumodule);
-					$params = new JRegistry;
+					$params = new Registry;
 					$params->loadString($submenumodule->params);
 					echo $output;
 				}
