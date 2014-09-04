@@ -60,14 +60,14 @@ class JApplicationCli extends JApplicationBase
 		// @codeCoverageIgnoreEnd
 
 		// If a input object is given use it.
-		if ($input instanceof \Joomla\Input\Input)
+		if ($input instanceof JInput)
 		{
 			$this->input = $input;
 		}
 		// Create the input based on the application logic.
 		else
 		{
-			if (class_exists('\\Joomla\\Input\\Input'))
+			if (class_exists('JInput'))
 			{
 				$this->input = new JInputCli;
 			}

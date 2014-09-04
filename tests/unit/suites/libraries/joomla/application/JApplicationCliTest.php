@@ -66,7 +66,7 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function test__construct()
 	{
-		$this->assertInstanceOf('\\Joomla\\Input\\Input', $this->class->input, 'Input property wrong type');
+		$this->assertInstanceOf('JInput', $this->class->input, 'Input property wrong type');
 
 		$this->assertAttributeInstanceOf('JRegistry', 'config', $this->class, 'Checks config property');
 
@@ -92,7 +92,7 @@ class JApplicationCliTest extends TestCase
 			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
 		}
 
-		$mockInput = $this->getMock('\\Joomla\\Input\\Cli', array('test'), array(), '', false);
+		$mockInput = $this->getMock('JInputCli', array('test'), array(), '', false);
 		$mockInput
 			->expects($this->any())
 			->method('test')

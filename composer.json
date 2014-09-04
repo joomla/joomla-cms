@@ -12,7 +12,6 @@
         "php": ">=5.3.10",
         "joomla/application": "~1.2",
         "joomla/di": "~1.2",
-        "joomla/input": "~1.1",
         "joomla/registry": "~1.2",
         "ircmaxell/password-compat": "1.*",
         "leafo/lessphp": "0.3.9",
