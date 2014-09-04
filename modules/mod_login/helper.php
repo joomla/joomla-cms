@@ -22,8 +22,8 @@ class ModLoginHelper
 	/**
 	 * Retrieve the url where the user should be returned after logging in
 	 *
-	 * @param   JRegistry  $params  module parameters
-	 * @param   string     $type    return type
+	 * @param   \Joomla\Registry\Registry  $params  module parameters
+	 * @param   string                     $type    return type
 	 *
 	 * @return string
 	 */
