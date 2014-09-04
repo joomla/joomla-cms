@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 jimport('joomla.utilities.utility');
 
 /**
@@ -628,7 +630,7 @@ class JDocumentHTML extends JDocument
 		// Assign the variables
 		$this->template = $template;
 		$this->baseurl = JUri::base(true);
-		$this->params = isset($params['params']) ? $params['params'] : new JRegistry;
+		$this->params = isset($params['params']) ? $params['params'] : new Registry;
 
 		// Load
 		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);

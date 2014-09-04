@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Component helper class
  *
@@ -48,7 +50,7 @@ class JComponentHelper
 			{
 				$result = new stdClass;
 				$result->enabled = $strict ? false : true;
-				$result->params = new JRegistry;
+				$result->params = new Registry;
 			}
 		}
 		else
@@ -81,9 +83,9 @@ class JComponentHelper
 	 * @param   string   $option  The option for the component.
 	 * @param   boolean  $strict  If set and the component does not exist, false will be returned
 	 *
-	 * @return  JRegistry  A JRegistry object.
+	 * @return  Registry  A Registry object.
 	 *
-	 * @see     JRegistry
+	 * @see     Registry
 	 * @since   1.5
 	 */
 	public static function getParams($option, $strict = false)
@@ -415,7 +417,7 @@ class JComponentHelper
 		// Convert the params to an object.
 		if (is_string(static::$components[$option]->params))
 		{
-			$temp = new JRegistry;
+			$temp = new Registry;
 			$temp->loadString(static::$components[$option]->params);
 			static::$components[$option]->params = $temp;
 		}

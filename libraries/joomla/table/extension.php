@@ -9,9 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Extension table
- * Replaces plugins table
  *
  * @package     Joomla.Platform
  * @subpackage  Table
@@ -67,14 +68,14 @@ class JTableExtension extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['control']) && is_array($array['control']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['control']);
 			$array['control'] = (string) $registry;
 		}
