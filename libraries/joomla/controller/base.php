@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Input\Input;
 /**
  * Joomla Platform Base Controller Class
  *
@@ -29,7 +30,7 @@ abstract class JControllerBase implements JController
 	/**
 	 * The input object.
 	 *
-	 * @var    JInput
+	 * @var    Input
 	 * @since  12.1
 	 */
 	protected $input;
@@ -37,12 +38,12 @@ abstract class JControllerBase implements JController
 	/**
 	 * Instantiate the controller.
 	 *
-	 * @param   JInput            $input  The input object.
+	 * @param   Input             $input  The input object.
 	 * @param   JApplicationBase  $app    The application object.
 	 *
 	 * @since  12.1
 	 */
-	public function __construct(JInput $input = null, JApplicationBase $app = null)
+	public function __construct(Input $input = null, JApplicationBase $app = null)
 	{
 		// Setup dependencies.
 		$this->app = isset($app) ? $app : $this->loadApplication();
@@ -64,7 +65,7 @@ abstract class JControllerBase implements JController
 	/**
 	 * Get the input object.
 	 *
-	 * @return  JInput  The input object.
+	 * @return  Input  The input object.
 	 *
 	 * @since   12.1
 	 */
@@ -103,7 +104,7 @@ abstract class JControllerBase implements JController
 		// Unserialize the input.
 		$this->input = unserialize($input);
 
-		if (!($this->input instanceof JInput))
+		if (!($this->input instanceof Input))
 		{
 			throw new UnexpectedValueException(sprintf('%s::unserialize would not accept a `%s`.', get_class($this), gettype($this->input)));
 		}
@@ -126,7 +127,7 @@ abstract class JControllerBase implements JController
 	/**
 	 * Load the input object.
 	 *
-	 * @return  JInput  The input object.
+	 * @return  Input  The input object.
 	 *
 	 * @since   12.1
 	 */
