@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 /**
@@ -67,7 +69,7 @@ abstract class JHtmlFilter
 			// Initialize the filter parameters.
 			if ($filter)
 			{
-				$registry = new JRegistry;
+				$registry = new Registry;
 				$registry->loadString($filter->params);
 				$filter->params = $registry;
 			}
@@ -282,7 +284,7 @@ abstract class JHtmlFilter
 				// Initialize the filter parameters.
 				if ($filter)
 				{
-					$registry = new JRegistry;
+					$registry = new Registry;
 					$registry->loadString($filter->params);
 					$filter->params = $registry;
 				}
