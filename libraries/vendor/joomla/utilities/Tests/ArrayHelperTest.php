@@ -409,6 +409,21 @@ class ArrayHelperTest extends PHPUnit_Framework_TestCase
 					'2000' => 'Refurbished',
 					'2500' => 'Refurbished'
 				)
+			),
+			'Case 3' => array(
+				// Input
+				array(
+					'New' => array(1000, 1500, 1750),
+					'valueNotAnArray' => 2750,
+					'withNonScalarValue' => array(2000, array(1000 , 3000))
+				),
+				// Expected
+				array(
+					'1000' => 'New',
+					'1500' => 'New',
+					'1750' => 'New',
+					'2000' => 'withNonScalarValue'
+				)
 			)
 		);
 	}
@@ -1682,5 +1697,8 @@ class ArrayHelperTest extends PHPUnit_Framework_TestCase
 
 		// Search case insenitive.
 		$this->assertEquals('email', ArrayHelper::arraySearch('FOOBAR', $array, false));
+
+		// Search non existent value.
+		$this->assertEquals(false, ArrayHelper::arraySearch('barfoo', $array));
 	}
 }

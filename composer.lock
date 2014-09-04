@@ -467,23 +467,32 @@
         },
         {
             "name": "joomla/utilities",
-            "version": "1.1.1",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/utilities.git",
-                "reference": "de31259372d049f2a3fabe7b1c412cece134ca31"
+                "reference": "f749a9bd6f2fc5ad376687651478273dac105051"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/de31259372d049f2a3fabe7b1c412cece134ca31",
-                "reference": "de31259372d049f2a3fabe7b1c412cece134ca31",
+                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/f749a9bd6f2fc5ad376687651478273dac105051",
+                "reference": "f749a9bd6f2fc5ad376687651478273dac105051",
                 "shasum": ""
             },
             "require": {
                 "joomla/string": "~1.0",
                 "php": ">=5.3.10"
             },
+            "require-dev": {
+                "phpunit/phpunit": "4.*",
+                "squizlabs/php_codesniffer": "1.*"
+            },
             "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Utilities\\": "src/",
@@ -501,7 +510,7 @@
                 "joomla",
                 "utilities"
             ],
-            "time": "2014-02-09 02:57:39"
+            "time": "2014-09-03 21:44:44"
         },
         {
             "name": "leafo/lessphp",

@@ -62,20 +62,21 @@ final class ArrayHelper
 	/**
 	 * Utility function to map an array to a stdClass object.
 	 *
-	 * @param   array   $array  The array to map.
-	 * @param   string  $class  Name of the class to create
+	 * @param   array    $array      The array to map.
+	 * @param   string   $class      Name of the class to create
+	 * @param   boolean  $recursive  Convert also any array inside the main array
 	 *
 	 * @return  object   The object mapped from the given array
 	 *
 	 * @since   1.0
 	 */
-	public static function toObject(array $array, $class = 'stdClass')
+	public static function toObject(array $array, $class = 'stdClass', $recursive = true)
 	{
 		$obj = new $class;
 
 		foreach ($array as $k => $v)
 		{
-			if (is_array($v))
+			if ($recursive && is_array($v))
 			{
 				$obj->$k = self::toObject($v, $class);
 			}

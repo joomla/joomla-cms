@@ -1,4 +1,4 @@
-# The Utilities Package
+# The Utilities Package [![Build Status](https://travis-ci.org/joomla-framework/utilities.png?branch=master)](https://travis-ci.org/joomla-framework/utilities)
 
 ## Using ArrayHelper
 
@@ -362,20 +362,18 @@ array(3) {
 
 ## Installation via Composer
 
-Add `"joomla/utilities": "dev-master"` to the require block in your composer.json, make sure you have `"minimum-stability": "dev"` and then run `composer install`.
+Add `"joomla/utilities": "~1.0"` to the require block in your composer.json and then run `composer install`.
 
 ```json
 {
-  "require": {
-    "joomla/utilities": "dev-master"
-  },
-  "minimum-stability": "dev"
+	"require": {
+		"joomla/utilities": "~1.0"
+	}
 }
 ```
 
 Alternatively, you can simply run the following from the command line:
 
 ```sh
-composer init --stability="dev"
-composer require joomla/utilities "dev-master"
+composer require joomla/utilities "~1.0"
 ```
