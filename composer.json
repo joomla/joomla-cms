@@ -18,5 +18,8 @@
         "leafo/lessphp": "0.3.9",
         "phpmailer/phpmailer": "5.2.8",
         "symfony/yaml": "2.*"
-    }
+    },
+	"require-dev": {
+		"phpunit/phpunit": "4.1.*"
+	}
 }
