@@ -262,7 +262,7 @@ abstract class JArrayHelper
 	 */
 	public static function getValue(&$array, $name, $default = null, $type = '')
 	{
-		ArrayHelper::getValue($array, $name, $default, $type);
+		return ArrayHelper::getValue($array, $name, $default, $type);
 	}
 
 	/**
