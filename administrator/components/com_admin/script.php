@@ -1076,8 +1076,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/input/cli.php',
 			'/libraries/joomla/input/cookie.php',
 			'/libraries/joomla/input/files.php',
-			'/libraries/joomla/input/index.html',
-			'/libraries/joomla/input/input.php',
 			'/libraries/joomla/input/json.php',
 			'/libraries/phpmailer/language/index.html',
 			'/libraries/phpmailer/language/phpmailer.lang-joomla.php',

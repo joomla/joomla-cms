@@ -6,7 +6,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-JLoader::registerAlias('JInput',              '\\Joomla\\Input\\Input');
 JLoader::registerAlias('JInputCli',           '\\Joomla\\Input\\Cli');
 JLoader::registerAlias('JInputCookie',        '\\Joomla\\Input\\Cookie');
 JLoader::registerAlias('JInputFiles',         '\\Joomla\\Input\\Files');
