@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * User class.  Handles all application interaction with a user
  *
@@ -117,7 +119,7 @@ class JUser extends JObject
 	/**
 	 * User parameters
 	 *
-	 * @var    JRegistry
+	 * @var    Registry
 	 * @since  11.1
 	 */
 	public $params = null;
@@ -165,7 +167,7 @@ class JUser extends JObject
 	/**
 	 * User parameters
 	 *
-	 * @var    JRegistry
+	 * @var    Registry
 	 * @since  11.1
 	 */
 	protected $_params = null;
@@ -218,7 +220,7 @@ class JUser extends JObject
 	public function __construct($identifier = 0)
 	{
 		// Create the user parameters object
-		$this->_params = new JRegistry;
+		$this->_params = new Registry;
 
 		// Load the user if it exists
 		if (!empty($identifier))
@@ -756,7 +758,7 @@ class JUser extends JObject
 
 			if ($my->id == $table->id)
 			{
-				$registry = new JRegistry;
+				$registry = new Registry;
 				$registry->loadString($table->params);
 				$my->setParameters($registry);
 			}

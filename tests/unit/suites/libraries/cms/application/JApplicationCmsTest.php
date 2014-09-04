@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 include_once __DIR__ . '/stubs/JApplicationCmsInspector.php';
 
 /**
@@ -83,7 +85,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		// Set the config for the app
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('session', false);
 
 		// Get a new JApplicationCmsInspector instance.
@@ -152,7 +154,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		$this->assertInstanceOf(
-			'JRegistry',
+			'\\Joomla\\Registry\\Registry',
 			TestReflection::getValue($this->class, 'config'),
 			'Config property wrong type'
 		);
@@ -192,7 +194,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->returnValue('ok')
 		);
 
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('session', false);
 
 		$mockClient = $this->getMock('JApplicationWebClient', array('test'), array(), '', false);
@@ -320,7 +322,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testGetCfg()
 	{
-		$config = new JRegistry(array('foo' => 'bar'));
+		$config = new Registry(array('foo' => 'bar'));
 
 		TestReflection::setValue($this->class, 'config', $config);
 
@@ -419,9 +421,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 	{
 		$template = $this->class->getTemplate(true);
 
-		$this->assertThat(
-			$template->params,
-			$this->isInstanceOf('JRegistry')
+		$this->assertInstanceOf(
+			'\\Joomla\\Registry\\Registry',
+			$template->params
 		);
 
 		$this->assertThat(
@@ -483,7 +485,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		// Inject the internal configuration.
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
@@ -524,7 +526,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		// Inject the internal configuration.
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
@@ -574,7 +576,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		JApplicationCmsInspector::$headersSent = true;
 
 		// Inject the internal configuration.
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
@@ -687,7 +689,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		// Inject the internal configuration.
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('uri.base.full', $base);
 		$config->set('uri.request', $request);
 
