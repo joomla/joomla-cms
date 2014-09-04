@@ -85,6 +85,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		 * pg_connect() takes the host and port as separate arguments. Therefore, we
 		 * have to extract them from the host string.
 		 */
+		$port = false;
+
 		if (preg_match('/^(?P<host>((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(:(?P<port>.+))?$/', $options['host'], $matches))
 		{
 			// It's an IPv4 address with or without port
