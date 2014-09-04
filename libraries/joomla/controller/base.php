@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Input\Input;
+
 /**
  * Joomla Platform Base Controller Class
  *
