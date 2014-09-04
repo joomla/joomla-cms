@@ -206,6 +206,7 @@ class InstallerModelInstall extends JModelLegacy
 		if (!(bool) ini_get('file_uploads'))
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'));
+
 			return false;
 		}
 
@@ -213,6 +214,7 @@ class InstallerModelInstall extends JModelLegacy
 		if (!extension_loaded('zlib'))
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'));
+
 			return false;
 		}
 
@@ -220,6 +222,7 @@ class InstallerModelInstall extends JModelLegacy
 		if (!is_array($userfile))
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'));
+
 			return false;
 		}
 
@@ -227,6 +230,7 @@ class InstallerModelInstall extends JModelLegacy
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br/>' . JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'));
+
 			return false;
 		}
 
@@ -234,6 +238,7 @@ class InstallerModelInstall extends JModelLegacy
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br/>' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'));
+
 			return false;
 		}
 
@@ -241,6 +246,7 @@ class InstallerModelInstall extends JModelLegacy
 		if ($userfile['error'] || $userfile['size'] < 1)
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'));
+
 			return false;
 		}
 
@@ -278,6 +284,7 @@ class InstallerModelInstall extends JModelLegacy
 		if (!is_dir($p_dir))
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_ENTER_A_PACKAGE_DIRECTORY'));
+
 			return false;
 		}
 
@@ -316,6 +323,7 @@ class InstallerModelInstall extends JModelLegacy
 		if (!$url)
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'));
+
 			return false;
 		}
 
@@ -326,10 +334,12 @@ class InstallerModelInstall extends JModelLegacy
 			$update = new JUpdate;
 			$update->loadFromXML($url);
 			$package_url = trim($update->get('downloadurl', false)->_data);
+
 			if ($package_url)
 			{
 				$url = $package_url;
 			}
+
 			unset($update);
 		}
 
@@ -340,6 +350,7 @@ class InstallerModelInstall extends JModelLegacy
 		if (!$p_file)
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'));
+
 			return false;
 		}
 
