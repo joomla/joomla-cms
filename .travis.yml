@@ -8,6 +8,7 @@ php:
 
 before_script:
   - composer self-update
+  - composer update
   - pyrus install -f pear/PHP_CodeSniffer-1.5.4
   - phpenv rehash
   - mysql -e 'create database joomla_ut;'
