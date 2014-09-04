@@ -194,7 +194,7 @@ class InstallerModelInstall extends JModelLegacy
 	/**
 	 * Works out an installation package from a HTTP upload
 	 *
-	 * @return package definition or false on failure
+	 * @return array package definition or false on failure
 	 */
 	protected function _getPackageFromUpload()
 	{
@@ -223,7 +223,21 @@ class InstallerModelInstall extends JModelLegacy
 			return false;
 		}
 
-		// Check if there was a problem uploading the file.
+		// Is the PHP tmp directory missing?
+		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
+		{
+			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br/>' . JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'));
+			return false;
+		}
+
+		// Is the max upload size too small in php.ini?
+		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
+		{
+			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br/>' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'));
+			return false;
+		}
+
+		// Check if there was a different problem uploading the file.
 		if ($userfile['error'] || $userfile['size'] < 1)
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'));
