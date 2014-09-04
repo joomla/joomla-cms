@@ -138,7 +138,7 @@ abstract class JArrayHelper
 
 		if (is_array($array))
 		{
-			$output = ArrayHelper::toString($array, $inner_glue, $outer_glue, $keepOuterKey);
+			$output[] = ArrayHelper::toString($array, $inner_glue, $outer_glue, $keepOuterKey);
 		}
 		else
 		{
