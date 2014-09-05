@@ -279,6 +279,21 @@ class JUri extends Uri
 	}
 
 	/**
+	 * Build a query from a array (reverse of the PHP parse_str()).
+	 *
+	 * @param   array  $params  The array of key => value pairs to return as a query string.
+	 *
+	 * @return  string  The resulting query string.
+	 *
+	 * @see     parse_str()
+	 * @since   1.0
+	 */
+	public static function buildQuery(array $params)
+	{
+		return self::buildQuery();
+	}
+
+	/**
 	 * Resolves //, ../ and ./ from a path and returns
 	 * the result. Eg:
 	 *
