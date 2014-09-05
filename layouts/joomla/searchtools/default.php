@@ -21,7 +21,6 @@ $customOptions = array(
 	'defaultLimit'        => isset($data['options']['defaultLimit']) ? $data['options']['defaultLimit'] : JFactory::getApplication()->get('list_limit', 20),
 	'searchFieldSelector' => '#filter_search',
 	'orderFieldSelector'  => '#list_fullordering',
-	'toggleSidebar'       => isset($data['options']['toggleSidebar']) ? $data['options']['toggleSidebar'] : $this->options->get('toggleSidebar', false)
 );
 
 $data['options'] = array_unique(array_merge($customOptions, $data['options']));
@@ -35,16 +34,6 @@ JHtml::_('searchtools.form', $formSelector, $data['options']);
 <div class="js-stools clearfix">
 	<div class="clearfix">
 		<div class="js-stools-container-bar">
-
-			<?php if ($customOptions['toggleSidebar']) :
-				if (!isset($data['toggleKey']))
-				{
-					$data['toggleKey'] = JFactory::getApplication()->input->get('option');
-				}
-
-				echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', $data['toggleKey']);
-			endif; ?>
-
 			<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
 		</div>
 		<div class="js-stools-container-list hidden-phone hidden-tablet">

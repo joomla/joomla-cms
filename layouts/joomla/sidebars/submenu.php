@@ -9,7 +9,54 @@
 
 defined('JPATH_BASE') or die;
 
+$data = array();
+
+$customOptions = array(
+	'toggleSidebar'       => isset($data['options']['toggleSidebar']) ? $data['options']['toggleSidebar'] : $this->options->get('toggleSidebar', false)
+);
+
+if ($customOptions['toggleSidebar']) :
+	if (!isset($data['toggleKey']))
+	{
+		$data['toggleKey'] = JFactory::getApplication()->input->get('option');
+	}
+
+	echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', $data['toggleKey']);
+endif;
+
+//$data = $displayData;
+
+if (empty($data))
+{
+	$data = JFactory::getApplication()->input->get('option');
+}
+
+// Set the tooltips
+JText::script('JSEARCH_HIDE_SIDEBAR');
+JText::script('JSEARCH_SHOW_SIDEBAR');
+
 ?>
+
+
+	<script type="text/javascript">
+		jQuery(function()
+		{
+			Joomla.toggleSidebar('<?php echo $data; ?>', true);
+		});
+	</script>
+
+	<div class="toggle-sidebar btn-group">
+		<button
+			id="j-toggle-sidebar-button"
+			class="btn hidden-phone hasTooltip"
+			title="<?php echo JHtml::tooltipText('JSEARCH_HIDE_SIDEBAR'); ?>"
+			type="button"
+			onclick="Joomla.toggleSidebar('<?php echo $data; ?>', false); return false;"
+			>
+			<span id="j-toggle-sidebar-icon" class="icon-contract"></span>
+		</button>
+	</div>
+	<div class="clearfix"></div>
 <div id="sidebar">
 	<div class="sidebar-nav">
 		<?php if ($displayData->displayMenu) : ?>
@@ -53,3 +100,27 @@ defined('JPATH_BASE') or die;
 		<?php endif; ?>
 	</div>
 </div>
+
+<?php
+$doc = JFactory::getDocument();
+$doc->addStyleDeclaration('
+.span0 {
+	width: 10px !important;
+	overflow: hidden !important;
+	margin-left: 0px !important;
+}
+
+.span12, .span10, .span0, .span2{
+-webkit-transition: width 0.3s ease;
+-moz-transition: width 0.3s ease;
+-o-transition: width 0.3s ease;
+transition: width 0.3s ease;
+}
+.span12, .span10, span2 {
+	margin-left: 0 !important;
+}
+.toggle-sidebar {
+	outline: 0 none;
+	position: absolute;
+}
+');
