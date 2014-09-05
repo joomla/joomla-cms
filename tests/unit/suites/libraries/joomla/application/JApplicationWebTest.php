@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 include_once __DIR__ . '/stubs/JApplicationWebInspector.php';
 
 /**
@@ -148,7 +150,7 @@ class JApplicationWebTest extends TestCase
 		);
 
 		$this->assertInstanceOf(
-			'JRegistry',
+			'\\Joomla\\Registry\\Registry',
 			TestReflection::getValue($this->class, 'config'),
 			'Config property wrong type'
 		);
@@ -202,7 +204,7 @@ class JApplicationWebTest extends TestCase
 			$this->returnValue('ok')
 		);
 
-		$mockConfig = $this->getMock('JRegistry', array('test'), array(null), '', true);
+		$mockConfig = $this->getMock('\\Joomla\\Registry\\Registry', array('test'), array(null), '', true);
 		$mockConfig
 			->expects($this->any())
 			->method('test')
@@ -847,7 +849,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testGet()
 	{
-		$config = new JRegistry(array('foo' => 'bar'));
+		$config = new Registry(array('foo' => 'bar'));
 
 		TestReflection::setValue($this->class, 'config', $config);
 
@@ -1203,7 +1205,7 @@ class JApplicationWebTest extends TestCase
 	public function testLoadSystemUrisWithSiteUriSet()
 	{
 		// Set the site_uri value in the configuration.
-		$config = new JRegistry(array('site_uri' => 'http://test.joomla.org/path/'));
+		$config = new Registry(array('site_uri' => 'http://test.joomla.org/path/'));
 		TestReflection::setValue($this->class, 'config', $config);
 
 		TestReflection::invoke($this->class, 'loadSystemUris');
@@ -1291,7 +1293,7 @@ class JApplicationWebTest extends TestCase
 	public function testLoadSystemUrisWithoutSiteUriWithMediaUriSet()
 	{
 		// Set the media_uri value in the configuration.
-		$config = new JRegistry(array('media_uri' => 'http://cdn.joomla.org/media/'));
+		$config = new Registry(array('media_uri' => 'http://cdn.joomla.org/media/'));
 		TestReflection::setValue($this->class, 'config', $config);
 
 		TestReflection::invoke($this->class, 'loadSystemUris', 'http://joom.la/application');
@@ -1338,7 +1340,7 @@ class JApplicationWebTest extends TestCase
 	public function testLoadSystemUrisWithoutSiteUriWithRelativeMediaUriSet()
 	{
 		// Set the media_uri value in the configuration.
-		$config = new JRegistry(array('media_uri' => '/media/'));
+		$config = new Registry(array('media_uri' => '/media/'));
 		TestReflection::setValue($this->class, 'config', $config);
 
 		TestReflection::invoke($this->class, 'loadSystemUris', 'http://joom.la/application');
@@ -1430,7 +1432,7 @@ class JApplicationWebTest extends TestCase
 		);
 
 		// Inject the internal configuration.
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
@@ -1465,7 +1467,7 @@ class JApplicationWebTest extends TestCase
 		JApplicationWebInspector::$headersSent = true;
 
 		// Inject the internal configuration.
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
@@ -1578,7 +1580,7 @@ class JApplicationWebTest extends TestCase
 		);
 
 		// Inject the internal configuration.
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('uri.base.full', $base);
 		$config->set('uri.request', $request);
 
@@ -1695,7 +1697,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testSet()
 	{
-		$config = new JRegistry(array('foo' => 'bar'));
+		$config = new Registry(array('foo' => 'bar'));
 
 		TestReflection::setValue($this->class, 'config', $config);
 

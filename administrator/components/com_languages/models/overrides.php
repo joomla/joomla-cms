@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Languages Overrides Model
  *
@@ -272,7 +274,7 @@ class LanguagesModelOverrides extends JModelList
 		}
 
 		// Write override.ini file with the left strings
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadObject($strings);
 		$reg = $registry->toString('INI');
 

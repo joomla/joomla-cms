@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTML View class for the WebLinks component
  *
@@ -44,7 +46,7 @@ class WeblinksViewCategory extends JViewCategory
 				$item->link = $item->url;
 			}
 
-			$temp = new JRegistry;
+			$temp = new Registry;
 			$temp->loadString($item->params);
 			$item->params = clone($this->params);
 			$item->params->merge($temp);
