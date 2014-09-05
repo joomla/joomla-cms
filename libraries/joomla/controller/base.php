@@ -37,8 +37,8 @@ abstract class JControllerBase implements JController
 	/**
 	 * Instantiate the controller.
 	 *
-	 * @param   JInput             $input  The input object.
-	 * @param   JApplicationBase   $app    The application object.
+	 * @param   JInput            $input  The input object.
+	 * @param   JApplicationBase  $app    The application object.
 	 *
 	 * @since  12.1
 	 */
