@@ -1498,7 +1498,7 @@ CREATE TABLE IF NOT EXISTS `#__overrider` (
 -- Table structure for table `#__postinstall_messages`
 --
 
-CREATE TABLE `#__postinstall_messages` (
+CREATE TABLE IF NOT EXISTS `#__postinstall_messages` (
   `postinstall_message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `extension_id` bigint(20) NOT NULL DEFAULT 700 COMMENT 'FK to #__extensions',
   `title_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for the title',
