@@ -17,7 +17,15 @@ defined('_JEXEC') or die;
  */
 class ModUsersLatestHelper
 {
-	// get users sorted by activation date
+	/**
+	 * Get users sorted by activation date
+	 * 
+	 * @param   \Joomla\Registry\Registry  $params  module parameters
+	 * 
+	 * @return  array  The array of users
+	 * 
+	 * @since   1.6
+	 */
 	public static function getUsers($params)
 	{
 		$db		= JFactory::getDbo();
