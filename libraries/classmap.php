@@ -6,10 +6,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-JLoader::registerAlias('JInputCli',           '\\Joomla\\Input\\Cli');
-JLoader::registerAlias('JInputCookie',        '\\Joomla\\Input\\Cookie');
-JLoader::registerAlias('JInputFiles',         '\\Joomla\\Input\\Files');
-JLoader::registerAlias('JInputJson',          '\\Joomla\\Input\\Json');
 JLoader::registerAlias('JRegistry',           '\\Joomla\\Registry\\Registry');
 JLoader::registerAlias('JRegistryFormat',     '\\Joomla\\Registry\\AbstractRegistryFormat');
 JLoader::registerAlias('JRegistryFormatINI',  '\\Joomla\\Registry\\Format\\Ini');
