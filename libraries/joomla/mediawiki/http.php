@@ -23,7 +23,7 @@ class JMediawikiHttp extends JHttp
 	/**
      * Constructor.
      *
-     * @param   Registry       $options    Client options object.
+     * @param   Registry        $options    Client options object.
      * @param   JHttpTransport  $transport  The HTTP transport object.
      *
      * @since   12.3
