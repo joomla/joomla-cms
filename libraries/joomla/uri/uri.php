@@ -294,6 +294,20 @@ class JUri extends Uri
 	}
 
 	/**
+	 * Parse a given URI and populate the class fields.
+	 *
+	 * @param   string  $uri  The URI string to parse.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
+	 */
+	public function parse($uri)
+	{
+		return parent::parse($uri);
+	}
+
+	/**
 	 * Resolves //, ../ and ./ from a path and returns
 	 * the result. Eg:
 	 *
