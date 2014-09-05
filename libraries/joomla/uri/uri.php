@@ -25,7 +25,7 @@ use Joomla\Uri\Uri;
 class JUri extends Uri
 {
 	/**
-	 * @var    array  An array of JUri instances.
+	 * @var    JUri[]  An array of JUri instances.
 	 * @since  11.1
 	 */
 	protected static $instances = array();
@@ -49,8 +49,7 @@ class JUri extends Uri
 	protected static $current;
 
 	/**
-	 * Returns the global JUri object, only creating it
-	 * if it doesn't already exist.
+	 * Returns the global JUri object, only creating it if it doesn't already exist.
 	 *
 	 * @param   string  $uri  The URI to parse.  [optional: if null uses script URI]
 	 *
@@ -248,7 +247,8 @@ class JUri extends Uri
 	 * @return  void
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0  Use \Joomla\Uri\Uri::setPath()
+	 * @deprecated  4.0  Use {@link \Joomla\Uri\Uri::setPath()}
+	 * @note        Present to proxy calls to the deprecated {@link JUri::_cleanPath()} method.
 	 */
 	public function setPath($path)
 	{
@@ -286,7 +286,8 @@ class JUri extends Uri
 	 * @return  string  The resulting query string.
 	 *
 	 * @see     parse_str()
-	 * @since   1.0
+	 * @since   11.1
+	 * @note    The parent method is protected, this exposes it as public for B/C
 	 */
 	public static function buildQuery(array $params)
 	{
@@ -301,6 +302,7 @@ class JUri extends Uri
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @note    The parent method is protected, this exposes it as public for B/C
 	 */
 	public function parse($uri)
 	{
@@ -320,7 +322,7 @@ class JUri extends Uri
 	 * @return  string  Cleaned and resolved URI path.
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0   Use \Joomla\Uri\Uri::cleanPath instead
+	 * @deprecated  4.0   Use {@link \Joomla\Uri\Uri::cleanPath()} instead
 	 */
 	protected function _cleanPath($path)
 	{
