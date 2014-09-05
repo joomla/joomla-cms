@@ -248,7 +248,7 @@ class JUri extends Uri
 	 * @return  void
 	 *
 	 * @since       11.1
-	 * @deprecated  3.4  Use \Joomla\Uri\Uri::setPath()
+	 * @deprecated  4.0  Use \Joomla\Uri\Uri::setPath()
 	 */
 	public function setPath($path)
 	{
@@ -290,7 +290,7 @@ class JUri extends Uri
 	 */
 	public static function buildQuery(array $params)
 	{
-		return self::buildQuery();
+		return parent::buildQuery();
 	}
 
 	/**
@@ -306,10 +306,10 @@ class JUri extends Uri
 	 * @return  string  Cleaned and resolved URI path.
 	 *
 	 * @since       11.1
-	 * @deprecated  3.4   Use \Joomla\Uri\Uri::cleanPath instead
+	 * @deprecated  4.0   Use \Joomla\Uri\Uri::cleanPath instead
 	 */
 	protected function _cleanPath($path)
 	{
-		return $this->cleanPath($path);
+		return parent::cleanPath($path);
 	}
 }
