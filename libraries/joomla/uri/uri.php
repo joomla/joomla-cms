@@ -290,7 +290,7 @@ class JUri extends Uri
 	 */
 	public static function buildQuery(array $params)
 	{
-		return parent::buildQuery();
+		return parent::buildQuery($params);
 	}
 
 	/**
