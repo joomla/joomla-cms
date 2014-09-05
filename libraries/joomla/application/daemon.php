@@ -95,10 +95,10 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInputCli  $input              An optional argument to provide dependency injection for the application's
+	 * @param   JInputCli         $input       An optional argument to provide dependency injection for the application's
 	 *                                         input object.  If the argument is a JInputCli object that object will become
 	 *                                         the application's input object, otherwise a default input object is created.
-	 * @param   Registry  $config              An optional argument to provide dependency injection for the application's
+	 * @param   Registry          $config      An optional argument to provide dependency injection for the application's
 	 *                                         config object.  If the argument is a Registry object that object will become
 	 *                                         the application's config object, otherwise a default config object is created.
 	 * @param   JEventDispatcher  $dispatcher  An optional argument to provide dependency injection for the application's

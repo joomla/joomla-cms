@@ -35,7 +35,7 @@ abstract class JGithubObject
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry    $options  GitHub options object.
+	 * @param   Registry     $options  GitHub options object.
 	 * @param   JGithubHttp  $client   The HTTP client object.
 	 *
 	 * @since   11.3
