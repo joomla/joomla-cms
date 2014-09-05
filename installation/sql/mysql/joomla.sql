@@ -1788,7 +1788,7 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
   `last_check_timestamp` bigint(20) DEFAULT 0,
   `extra_query` varchar(1000) DEFAULT '',
   PRIMARY KEY (`update_site_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Update Sites';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Update Sites';
 
 --
 -- Dumping data for table `#__update_sites`
