@@ -123,4 +123,28 @@ class JTableAsset extends JTableNested
 
 		return true;
 	}
+
+	/**
+	 * Method to store a node in the database table.
+	 *
+	 * @param   boolean  $updateNulls  True to update null values as well.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.3.4
+	 */
+	public function store($updateNulls = false)
+	{
+		/**
+		 * Void errors on save with $updateNulls = true
+		 * JTableNested has a public alias property but assets DB table does not
+		 * This check allows that any table extending JTableAsset with alias still works
+		 */
+		if (property_exists($this, 'alias') && empty($this->alias))
+		{
+			unset ($this->alias);
+		}
+
+		return parent::store($updateNulls);
+	}
 }
