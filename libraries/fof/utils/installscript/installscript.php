@@ -1268,11 +1268,11 @@ abstract class FOFUtilsInstallscript
 		// Get the target path
 		if (!defined('JPATH_LIBRARIES'))
 		{
-			$target = JPATH_ROOT . '/libraries/f0f';
+			$target = JPATH_ROOT . '/libraries/fof';
 		}
 		else
 		{
-			$target = JPATH_LIBRARIES . '/f0f';
+			$target = JPATH_LIBRARIES . '/fof';
 		}
 
 		// Do I have to install FOF?
