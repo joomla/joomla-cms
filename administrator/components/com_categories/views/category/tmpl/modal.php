@@ -81,7 +81,7 @@ $assoc = JLanguageAssociations::isEnabled();
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php if ($assoc) : ?>
-				<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
+				<div class="hidden"><?php echo JLayoutHelper::render('joomla.edit.associations', $this); ?></div>
 			<?php endif; ?>
 
 			<?php if ($this->canDo->get('core.admin')) : ?>
