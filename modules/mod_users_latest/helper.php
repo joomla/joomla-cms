@@ -14,6 +14,8 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Site
  * @subpackage  mod_users_latest
+ *
+ * @since       1.6
  */
 class ModUsersLatestHelper
 {
