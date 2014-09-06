@@ -237,14 +237,11 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
  * USED IN: libraries/joomla/html/html/grid.php
  */
 Joomla.tableOrdering = function(order, dir, task, form) {
-    if (typeof(form) === 'undefined') {
+    if (typeof form === 'string' || form instanceof String) {
+        form = document.getElementById(form);
+    } else if (typeof form === 'undefined') {
         form = document.getElementById('adminForm');
     }
-    
-    if (typeof form == 'string' || form instanceof String) {
-        form = document.getElementById(form);
-    }
-
 
     form.filter_order.value = order;
     form.filter_order_Dir.value = dir;

@@ -55,7 +55,7 @@ abstract class JHtmlGrid
 	}
 
 	/**
-	 * Method to sort a column in a grid
+	 * Method to sort a column in a grid.
 	 *
 	 * @param   string  $title          The link title
 	 * @param   string  $order          The order field for the column
@@ -64,7 +64,7 @@ abstract class JHtmlGrid
 	 * @param   string  $task           An optional task override
 	 * @param   string  $new_direction  An optional direction for the new column
 	 * @param   string  $tip            An optional text shown as tooltip title instead of $title
-	 * @param   string  $form	    An ID of the form
+	 * @param   string  $form           DOM identifier of the form without #
 	 *
 	 * @return  string
 	 *
