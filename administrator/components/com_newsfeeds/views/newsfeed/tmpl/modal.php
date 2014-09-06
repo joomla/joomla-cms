@@ -89,7 +89,8 @@ $assoc = JLanguageAssociations::isEnabled();
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'attrib-jbasic', JText::_('JGLOBAL_FIELDSET_DISPLAY_OPTIONS', true)); ?>
-		<?php echo $this->loadTemplate('display'); ?>
+		<?php $this->fieldset = 'jbasic'; ?>
+		<?php echo JLayoutHelper::render('joomla.edit.fieldset', $this); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php $this->set('ignore_fieldsets', array('jbasic')); ?>
