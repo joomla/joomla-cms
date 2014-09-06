@@ -21,8 +21,16 @@ defined('FOF_INCLUDED') or die;
  *
  * @package  FrameworkOnFramework
  * @since    2.1
- * @deprecated  Use JLessFormatterJoomla instead
  */
-class FOFLessFormatterJoomla extends JLessFormatterJoomla
+class FOFLessFormatterJoomla extends FOFLessFormatterClassic
 {
+	public $disableSingle = true;
+
+	public $breakSelectors = true;
+
+	public $assignSeparator = ": ";
+
+	public $selectorSeparator = ",";
+
+	public $indentChar = "\t";
 }
