@@ -96,7 +96,7 @@ $assoc = JLanguageAssociations::isEnabled();
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php if ($assoc) : ?>
-			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
+			<div class="hidden"><?php echo JLayoutHelper::render('joomla.edit.associations', $this); ?></div>
 		<?php endif; ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
