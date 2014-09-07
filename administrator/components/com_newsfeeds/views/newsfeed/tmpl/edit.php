@@ -72,18 +72,17 @@ $assoc = JLanguageAssociations::isEnabled();
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'attrib-jbasic', JText::_('JGLOBAL_FIELDSET_DISPLAY_OPTIONS', true)); ?>
-		<?php echo $this->loadTemplate('display'); ?>
+		<?php $this->fieldset = 'jbasic'; ?>
+		<?php echo JLayoutHelper::render('joomla.edit.fieldset', $this); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php $this->set('ignore_fieldsets', array('jbasic')); ?>
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
-
 		<?php if ($assoc) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
-			<?php echo $this->loadTemplate('associations'); ?>
+			<?php echo JLayoutHelper::render('joomla.edit.associations', $this); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 

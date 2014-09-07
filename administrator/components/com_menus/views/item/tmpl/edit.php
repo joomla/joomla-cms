@@ -160,7 +160,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 		<?php if ($assoc) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
-			<?php echo $this->loadTemplate('associations'); ?>
+			<?php echo JLayoutHelper::render('joomla.edit.associations', $this); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 

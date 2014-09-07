@@ -129,7 +129,7 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 
 		<?php if ($assoc) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
-				<?php echo $this->loadTemplate('associations'); ?>
+				<?php echo JLayoutHelper::render('joomla.edit.associations', $this); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 

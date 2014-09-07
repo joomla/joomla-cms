@@ -1027,6 +1027,28 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format/json.php',
 			'/libraries/joomla/registry/format/php.php',
 			'/libraries/joomla/registry/format/xml.php',
+			// Joomla! 3.3
+			'/administrator/components/com_categories/views/category/tmpl/edit_metadata.php',
+			'/administrator/components/com_categories/views/category/tmpl/modal_metadata.php',
+			'/administrator/components/com_categories/views/category/tmpl/edit_associations.php',
+			'/administrator/components/com_categories/views/category/tmpl/modal_associations.php',
+			'/administrator/components/com_contact/views/contact/tmpl/edit_metadata.php',
+			'/administrator/components/com_contact/views/contact/tmpl/modal_metadata.php',
+			'/administrator/components/com_contact/views/contact/tmpl/edit_associations.php',
+			'/administrator/components/com_contact/views/contact/tmpl/modal_associations.php',
+			'/administrator/components/com_content/views/article/tmpl/edit_metadata.php',
+			'/administrator/components/com_content/views/article/tmpl/modal_metadata.php',
+			'/administrator/components/com_content/views/article/tmpl/edit_associations.php',
+			'/administrator/components/com_content/views/article/tmpl/modal_associations.php',
+			'/administrator/components/com_menus/views/item/tmpl/edit_associations.php',
+			'/administrator/components/com_newsfeeds/views/newsfeed/tmpl/edit_display.php',
+			'/administrator/components/com_newsfeeds/views/newsfeed/tmpl/modal_display.php',
+			'/administrator/components/com_newsfeeds/views/newsfeed/tmpl/edit_metadata.php',
+			'/administrator/components/com_newsfeeds/views/newsfeed/tmpl/modal_metadata.php',
+			'/administrator/components/com_newsfeeds/views/newsfeed/tmpl/edit_associations.php',
+			'/administrator/components/com_newsfeeds/views/newsfeed/tmpl/modal_associations.php',
+			'/administrator/components/com_tags/views/tag/tmpl/edit_metadata.php',
+			'/administrator/components/com_weblinks/views/weblink/tmpl/edit_metadata.php'
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1083,7 +1105,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_weblinks/models/fields',
 			'/plugins/user/joomla/postinstall',
 			'/libraries/joomla/registry/format',
-			'/libraries/joomla/registry',
+			'/libraries/joomla/registry'
 		);
 
 		jimport('joomla.filesystem.file');

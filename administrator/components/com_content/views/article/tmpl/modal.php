@@ -146,7 +146,7 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 		<?php endif; ?>
 
 		<?php if (isset($assoc)) : ?>
-			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
+			<div class="hidden"><?php echo JLayoutHelper::render('joomla.edit.associations', $this); ?></div>
 		<?php endif; ?>
 
 		<?php $this->show_options = $params->show_article_options; ?>
