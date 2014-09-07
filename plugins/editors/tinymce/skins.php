@@ -1,15 +1,37 @@
 <?php
-// Check
+/**
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.tinymce
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
+/**
+ * Form Field class for the TinyMCE editor.
+ * Generates the list of options for available skins.
+ *
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.tinymce
+ * @since       3.4
+ */
 class JFormFieldSkins extends JFormFieldList 
 {
 
 	protected $type = 'skins';
 
+	/**
+	 * Method to get the skins options.
+	 *
+	 * @return  array  The skins option objects.
+	 *
+	 * @since   3.4
+	 */
 	public function getOptions() 
 	{
 
@@ -19,7 +41,7 @@ class JFormFieldSkins extends JFormFieldList
 
 		for($i = 0; $i < count($directories); ++$i)
 		{
-			$dir = end(explode("/", $directories[$i]));//basename($directory);
+			$dir = basename($directories[$i]);
 			$options[] = JHtml::_('select.option', $i, $dir);
 		}
 
@@ -28,6 +50,13 @@ class JFormFieldSkins extends JFormFieldList
 		return $options;
 	}
 
+	/**
+	 * Method to get the field input markup for the list of skins.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   3.4
+	 */
 	protected function getInput()
 	{
 		$html = array();
@@ -37,7 +66,6 @@ class JFormFieldSkins extends JFormFieldList
 
 		// Create a regular list.
 		$html[] = JHtml::_('select.genericlist', $options, $this->name, '', 'value', 'text', $this->value, $this->id);
-
 
 		return implode($html);
 	}
