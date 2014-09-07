@@ -51,13 +51,16 @@ class PlgEditorTinymce extends JPlugin
 		$language = JFactory::getLanguage();
 		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
-		$skin     = $this->params->get('skin', '0');
-
-		switch ($skin)
+		//List the skins
+		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*' , GLOB_ONLYDIR);
+		//Set the selected skin
+		if ((int)$this->params->get('skin', 0) < count($skindirs))
 		{
-			case '0':
-			default:
-				$skin = 'skin : "lightgray",';
+			$skin = 'skin : "' . basename($skindirs[(int)$this->params->get('skin', 0)]) . '",';
+		}
+		else
+		{
+			$skin = 'skin : "' . basename($skindirs[0]) . '",';
 		}
 
 		$entity_encoding = $this->params->get('entity_encoding', 'raw');
