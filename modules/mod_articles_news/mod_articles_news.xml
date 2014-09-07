@@ -24,7 +24,8 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field  name="catid"
+				<field
+					name="catid"
 					type="category"
 					extension="com_content"
 					multiple="true"
@@ -36,7 +37,8 @@
 					<option value="">JOPTION_ALL_CATEGORIES</option>
 				</field>
 
-				<field  name="image"
+				<field
+					name="image"
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="0"
@@ -47,7 +49,8 @@
 					<option value="0">JNO</option>
 				</field>
 
-				<field  name="item_title"
+				<field
+					name="item_title"
 					class="btn-group btn-group-yesno"
 					type="radio"
 					default="0"
@@ -58,7 +61,8 @@
 					<option value="0">JNO</option>
 				</field>
 
-				<field  name="link_titles"
+				<field
+					name="link_titles"
 					type="list"
 					class="chzn-color"
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
@@ -69,7 +73,8 @@
 					<option value="1">JYES</option>
 				</field>
 
-				<field  name="item_heading"
+				<field
+					name="item_heading"
 					type="list"
 					default="h4"
 					label="MOD_ARTICLES_NEWS_TITLE_HEADING"
@@ -82,7 +87,8 @@
 					<option value="h5">JH5</option>
 				</field>
 
-				<field  name="showLastSeparator"
+				<field
+					name="showLastSeparator"
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"
@@ -93,7 +99,8 @@
 					<option value="0">JNO</option>
 				</field>
 
-				<field  name="readmore"
+				<field
+					name="readmore"
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="0"
@@ -104,13 +111,15 @@
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field  name="count"
+				<field
+					name="count"
 					type="text"
 					default="5"
 					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_ITEMS_DESC" />
 
-				<field  name="ordering"
+				<field
+					name="ordering"
 					type="list"
 					default="a.publish_up"
 					label="MOD_ARTICLES_NEWS_FIELD_ORDERING_LABEL"
@@ -123,7 +132,8 @@
 					<option value="rand()">MOD_ARTICLES_NEWS_FIELD_ORDERING_RANDOM</option>
 				</field>
 
-				<field  name="direction"
+				<field
+					name="direction"
 					type="list"
 					default="1"
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
@@ -135,18 +145,20 @@
 			</fieldset>
 
 			<fieldset name="advanced">
-
-				<field  name="layout"
+				<field
+					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 
-				<field  name="moduleclass_sfx"
+				<field
+					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
-				<field  name="cache"
+				<field
+					name="cache"
 					type="list"
 					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
@@ -156,13 +168,15 @@
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
 
-				<field  name="cache_time"
+				<field
+					name="cache_time"
 					type="text"
 					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
 
-				<field  name="cachemode"
+				<field
+					name="cachemode"
 					type="hidden"
 					default="itemid"
 				>
