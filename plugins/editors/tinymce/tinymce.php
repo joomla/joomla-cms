@@ -53,7 +53,7 @@ class PlgEditorTinymce extends JPlugin
 		$theme    = 'modern';
 
 		// List the skins
-		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*' , GLOB_ONLYDIR);
+		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
 
 		// Set the selected skin
 		if ((int) $this->params->get('skin', 0) < count($skindirs))
