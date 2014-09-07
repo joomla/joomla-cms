@@ -20,7 +20,7 @@ JFormHelper::loadFieldClass('list');
  * @subpackage  Editors.tinymce
  * @since       3.4
  */
-class JFormFieldSkins extends JFormFieldList 
+class JFormFieldSkins extends JFormFieldList
 {
 
 	protected $type = 'skins';
@@ -32,14 +32,14 @@ class JFormFieldSkins extends JFormFieldList
 	 *
 	 * @since   3.4
 	 */
-	public function getOptions() 
+	public function getOptions()
 	{
 
 		$options = array();
 
-		$directories = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*' , GLOB_ONLYDIR);
+		$directories = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
 
-		for($i = 0; $i < count($directories); ++$i)
+		for ($i = 0; $i < count($directories); ++$i)
 		{
 			$dir = basename($directories[$i]);
 			$options[] = JHtml::_('select.option', $i, $dir);
