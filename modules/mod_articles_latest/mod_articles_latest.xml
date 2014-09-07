@@ -24,7 +24,8 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field	name="catid"
+				<field
+					name="catid"
 					type="category"
 					extension="com_content"
 					multiple="true"
@@ -36,13 +37,15 @@
 					<option value="">JOPTION_ALL_CATEGORIES</option>
 				</field>
 
-				<field 	name="count"
+				<field
+					name="count"
 					type="text"
 					default="5"
 					label="MOD_LATEST_NEWS_FIELD_COUNT_LABEL"
 					description="MOD_LATEST_NEWS_FIELD_COUNT_DESC" />
 
-				<field  name="show_featured"
+				<field
+					name="show_featured"
 					type="list"
 					default=""
 					label="MOD_LATEST_NEWS_FIELD_FEATURED_LABEL"
@@ -53,7 +56,8 @@
 					<option value="1">MOD_LATEST_NEWS_VALUE_ONLY_SHOW_FEATURED</option>
 				</field>
 
-				<field  name="ordering"
+				<field
+					name="ordering"
 					type="list"
 					default="published"
 					label="MOD_LATEST_NEWS_FIELD_ORDERING_LABEL"
@@ -66,7 +70,8 @@
 					<option	value="random">MOD_LATEST_NEWS_VALUE_RECENT_RAND</option>
 				</field>
 
-				<field  name="user_id"
+				<field
+					name="user_id"
 					type="list"
 					default="0"
 					label="MOD_LATEST_NEWS_FIELD_USER_LABEL"
@@ -79,17 +84,20 @@
 			</fieldset>
 
 			<fieldset name="advanced">
-				<field  name="layout"
+				<field
+					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 
-				<field  name="moduleclass_sfx"
+				<field
+					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
-				<field  name="cache"
+				<field
+					name="cache"
 					type="list"
 					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
@@ -99,13 +107,15 @@
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
 
-				<field  name="cache_time"
+				<field
+					name="cache_time"
 					type="text"
 					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
 
-				<field  name="cachemode"
+				<field
+					name="cachemode"
 					type="hidden"
 					default="static"
 				>
