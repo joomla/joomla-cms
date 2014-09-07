@@ -52,9 +52,9 @@
 					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+
 				<field
-					name="cachemode"
-					type="hidden"
+					name="cachemode" type="hidden"
 					default="static">
 					<option
 						value="static"></option>
