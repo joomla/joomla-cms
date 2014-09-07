@@ -17,7 +17,7 @@ require_once JPATH_SITE . '/components/com_content/helpers/route.php';
  * @package     Joomla.Site
  * @subpackage  mod_articles_categories
  *
- * @since       1.5.0
+ * @since       1.5
  */
 abstract class ModArticlesCategoriesHelper
 {
@@ -26,15 +26,17 @@ abstract class ModArticlesCategoriesHelper
 	 *
 	 * @param   JRegistry  &$params  module parameters
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   1.5
 	 */
 	public static function getList(&$params)
 	{
-		$options = array();
+		$options               = array();
 		$options['countItems'] = $params->get('numitems', 0);
 
 		$categories = JCategories::getInstance('Content', $options);
-		$category = $categories->get($params->get('parent', 'root'));
+		$category   = $categories->get($params->get('parent', 'root'));
 
 		if ($category != null)
 		{
