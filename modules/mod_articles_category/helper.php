@@ -291,7 +291,7 @@ abstract class ModArticlesCategoryHelper
 	/**
 	 * Strips unnecessary tags from the introtext
 	 *
-	 * @param  string  $introtext  introtext to sanitize
+	 * @param   string  $introtext  introtext to sanitize
 	 *
 	 * @return mixed|string
 	 *
