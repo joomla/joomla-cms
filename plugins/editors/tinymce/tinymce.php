@@ -48,6 +48,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onInit()
 	{
+		$app      = JFactory::getApplication();
 		$language = JFactory::getLanguage();
 		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
@@ -56,13 +57,29 @@ class PlgEditorTinymce extends JPlugin
 		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
 
 		// Set the selected skin
-		if ((int) $this->params->get('skin', 0) < count($skindirs))
+		if ($app->isSite())
 		{
-			$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin', 0)]) . '",';
+			if ((int) $this->params->get('skin', 0) < count($skindirs))
+			{
+				$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin', 0)]) . '",';
+			}
+			else
+			{
+				$skin = 'skin : "' . basename($skindirs[0]) . '",';
+			}
 		}
-		else
+
+		// Set the selected administrator skin
+		elseif ($app->isAdmin())
 		{
-			$skin = 'skin : "' . basename($skindirs[0]) . '",';
+			if ((int) $this->params->get('skin_admin', 0) < count($skindirs))
+			{
+				$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin_admin', 0)]) . '",';
+			}
+			else
+			{
+				$skin = 'skin : "' . basename($skindirs[0]) . '",';
+			}
 		}
 
 		$entity_encoding = $this->params->get('entity_encoding', 'raw');
