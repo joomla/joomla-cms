@@ -116,7 +116,12 @@ class JHelperContent
 			$assetName = $component;
 		}
 
-		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='component']/");
+		if (empty($section))
+		{
+			$section = 'component';
+		}
+
+		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='" . $section . "']/");
 
 		foreach ($actions as $action)
 		{

@@ -92,7 +92,6 @@
  <!-- These exceptions are temporary -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
@@ -132,7 +131,6 @@
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
   <exclude-pattern type="relative">includes/*</exclude-pattern>
@@ -143,7 +141,6 @@
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
   <exclude-pattern type="relative">includes/*</exclude-pattern>
@@ -153,7 +150,6 @@
   <!-- We exclude components and modules for now -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.WhiteSpace.ConcatenationSpacing">
@@ -161,7 +157,6 @@
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
   <exclude-pattern type="relative">includes/*</exclude-pattern>
@@ -172,7 +167,6 @@
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
   <exclude-pattern type="relative">includes/*</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
@@ -197,7 +191,6 @@
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
