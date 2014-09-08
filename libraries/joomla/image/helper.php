@@ -157,10 +157,10 @@ abstract class JImageHelper
 				$filepath = JPath::clean($filepath);
 
 				// It might be the file already includes the absolute path. Remove it.
-				$filepath = JString::str_ireplace(JPATH_BASE, '', $filepath);
+				$filepath = JString::str_ireplace(JPATH_ROOT, '', $filepath);
 
 				// The file path must be an absolute system path.
-				$filepath = JPATH_BASE . DIRECTORY_SEPARATOR . trim($filepath, DIRECTORY_SEPARATOR);
+				$filepath = JPATH_ROOT . DIRECTORY_SEPARATOR . trim($filepath, DIRECTORY_SEPARATOR);
 
 				// Check whether the target path exists.
 				if (!JFolder::exists($filepath))
@@ -221,10 +221,10 @@ abstract class JImageHelper
 		$filepath = JPath::clean($filepath);
 
 		// It might be the file already includes the absolute path. Remove it.
-		$filepath = JString::str_ireplace(JPATH_BASE, '', $filepath);
+		$filepath = JString::str_ireplace(JPATH_ROOT, '', $filepath);
 
 		// The file path must be an absolute system path.
-		$filepath = JPATH_BASE . DIRECTORY_SEPARATOR . ltrim($filepath, DIRECTORY_SEPARATOR);
+		$filepath = JPATH_ROOT . DIRECTORY_SEPARATOR . ltrim($filepath, DIRECTORY_SEPARATOR);
 
 		// Validate whether the file exists on site.
 		if (!JFile::exists($filepath))
