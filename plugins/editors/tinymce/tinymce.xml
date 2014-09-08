@@ -21,7 +21,7 @@
 
 			<fieldset name="basic" addfieldpath="/plugins/editors/tinymce/fields">
 				<field name="skins" type="note"
-					label="PLG_TINY_FIELD_SKIN_INFO_DESC"
+					label="PLG_TINY_FIELD_SKIN_INFO_LABEL"
 					description="PLG_TINY_FIELD_SKIN_INFO_DESC"
 				/>
 
