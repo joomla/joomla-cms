@@ -65,7 +65,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 			else
 			{
-				$skin = 'skin : "' . basename($skindirs[0]) . '",';
+				$skin = 'skin : "lightgray",';
 			}
 		}
 
@@ -78,7 +78,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 			else
 			{
-				$skin = 'skin : "' . basename($skindirs[0]) . '",';
+				$skin = 'skin : "lightgray",';
 			}
 		}
 
