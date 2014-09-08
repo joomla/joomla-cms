@@ -19,7 +19,7 @@
 	<config>
 		<fields name="params">
 
-			<fieldset name="basic" addfieldpath="/plugins/editors/tinymce">
+			<fieldset name="basic" addfieldpath="/plugins/editors/tinymce/fields">
 				<field name="mode" type="list"
 					default="2"
 					description="PLG_TINY_FIELD_FUNCTIONALITY_DESC"
