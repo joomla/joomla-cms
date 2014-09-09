@@ -2,10 +2,11 @@
 /*~ class.pop3.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |
-|   Version: 5.2.2                                                          |
-|      Site: https://code.google.com/a/apache-extras.org/p/phpmailer/       |
+|   Version: 5.2.6                                                          |
+|      Site: https://github.com/PHPMailer/PHPMailer/                        |
 | ------------------------------------------------------------------------- |
-|     Admin: Jim Jagielski (project admininistrator)                        |
+|    Admins: Marcus Bointon                                                 |
+|    Admins: Jim Jagielski                                                  |
 |   Authors: Andy Prevost (codeworxtech) codeworxtech@users.sourceforge.net |
 |          : Marcus Bointon (coolbru) coolbru@users.sourceforge.net         |
 |          : Jim Jagielski (jimjag) jimjag@gmail.com                        |
@@ -37,7 +38,7 @@
 /**
  * PHP POP-Before-SMTP Authentication Class
  *
- * Version 5.2.2
+ * Version 5.2.6
  *
  * @license: LGPL, see PHPMailer License
  *
@@ -115,7 +116,7 @@ class POP3 {
    * Sets the POP3 PHPMailer Version number
    * @var string
    */
-  public $Version         = '5.2.2';
+  public $Version         = '5.2.6';
 
   /////////////////////////////////////////////////
   // PROPERTIES, PRIVATE AND PROTECTED
@@ -216,7 +217,7 @@ class POP3 {
 
     /*
     On Windows this will raise a PHP Warning error if the hostname doesn't exist.
-    Rather than supress it with @fsockopen, let's capture it cleanly instead
+    Rather than suppress it with @fsockopen, let's capture it cleanly instead
     */
 
     set_error_handler(array(&$this, 'catchWarning'));
@@ -269,8 +270,8 @@ class POP3 {
 
     //  Check for the +OK
     if ($this->checkResponse($pop3_response)) {
-    //  The connection is established and the POP3 server is talking
-    $this->connected = true;
+      //  The connection is established and the POP3 server is talking
+      $this->connected = true;
       return true;
     }
     return false;
@@ -415,4 +416,3 @@ class POP3 {
 
   //  End of class
 }
-?>

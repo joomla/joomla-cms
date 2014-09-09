@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,38 +19,43 @@ defined('_JEXEC') or die;
 class NewsfeedsViewNewsfeed extends JViewLegacy
 {
 	/**
-	 * @var		object
+	 * @var     object
 	 * @since   1.6
 	 */
 	protected $state;
 
 	/**
-	 * @var		object
+	 * @var     object
 	 * @since   1.6
 	 */
 	protected $item;
 
 	/**
-	 * @var		boolean
+	 * @var     boolean
 	 * @since   1.6
 	 */
 	protected $print;
 
 	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
 	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
-		$user		= JFactory::getUser();
-		$dispatcher	= JEventDispatcher::getInstance();
+		$app  = JFactory::getApplication();
+		$user = JFactory::getUser();
 
 		// Get view related request variables.
 		$print = $app->input->getBool('print');
 
 		// Get model data.
 		$state = $this->get('State');
-		$item = $this->get('Item');
+		$item  = $this->get('Item');
 
 		if ($item)
 		{
@@ -59,11 +64,13 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
 			$categoryModel->setState('list.direction', 'asc');
+
+			// @TODO: $items is not used. Remove this line?
 			$items = $categoryModel->getItems();
 		}
 
 		// Check for errors.
-		// @TODO Maybe this could go into JComponentHelper::raiseErrors($this->get('Errors'))
+		// @TODO: Maybe this could go into JComponentHelper::raiseErrors($this->get('Errors'))
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseWarning(500, implode("\n", $errors));
@@ -96,6 +103,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		if ($active)
 		{
 			$currentLink = $active->link;
+
 			// If the current view is the active item and an newsfeed view for this feed, then the menu item params take priority
 			if (strpos($currentLink, 'view=newsfeed') && (strpos($currentLink, '&id='.(string) $item->id)))
 			{
@@ -103,6 +111,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 				// Merge so that the menu item params take priority
 				$newsfeed_params->merge($temp);
 				$item->params = $newsfeed_params;
+
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout']))
 				{
@@ -115,6 +124,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 				// Merge the menu item params with the newsfeed params so that the newsfeed params take priority
 				$temp->merge($newsfeed_params);
 				$item->params = $temp;
+
 				// Check for alternative layouts (since we are not in a single-newsfeed menu item)
 				if ($layout = $item->params->get('newsfeed_layout'))
 				{
@@ -127,14 +137,13 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			// Merge so that newsfeed params take priority
 			$temp->merge($newsfeed_params);
 			$item->params = $temp;
+
 			// Check for alternative layouts (since we are not in a single-newsfeed menu item)
 			if ($layout = $item->params->get('newsfeed_layout'))
 			{
 				$this->setLayout($layout);
 			}
 		}
-
-		$offset = $state->get('list.offset');
 
 		// Check the access to the newsfeed
 		$levels = $user->getAuthorisedViewLevels();
@@ -146,9 +155,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 
 		// Get the current menu item
-		$menus	= $app->getMenu();
-		$menu	= $menus->getActive();
-		$params	= $app->getParams();
+		$params = $app->getParams();
 
 		// Get the newsfeed
 		$newsfeed = $item;
@@ -175,8 +182,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
 
-		$lists = array();
-
 		$feed_display_order = $params->get('feed_display_order', 'des');
 		if ($feed_display_order == 'asc')
 		{
@@ -200,9 +205,13 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$item->tags = new JHelperTags;
 		$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
 
+		// Increment the hit counter of the newsfeed.
+		$model = $this->getModel();
+		$model->hit();
+
 		$this->_prepareDocument();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -260,15 +269,15 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 		if (empty($title))
 		{
-			$title = $app->getCfg('sitename');
+			$title = $app->get('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 		if (empty($title))
 		{
@@ -299,12 +308,12 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
 
-		if ($app->getCfg('MetaTitle') == '1')
+		if ($app->get('MetaTitle') == '1')
 		{
 			$this->document->setMetaData('title', $this->item->name);
 		}
 
-		if ($app->getCfg('MetaAuthor') == '1')
+		if ($app->get('MetaAuthor') == '1')
 		{
 			$this->document->setMetaData('author', $this->item->author);
 		}

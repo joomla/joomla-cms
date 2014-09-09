@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,12 +19,21 @@ defined('_JEXEC') or die;
 class PlgContentPagenavigation extends JPlugin
 {
 	/**
+	 * If in the article view and the parameter is enabled shows the page navigation
+	 *
+	 * @param   string   $context  The context of the content being passed to the plugin
+	 * @param   object   &$row     The article object
+	 * @param   mixed    &$params  The article params
+	 * @param   integer  $page     The 'page' number
+	 *
+	 * @return  mixed  void or true
+	 *
 	 * @since   1.6
 	 */
 	public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
 	{
-		$app = JFactory::getApplication();
-		$view = $app->input->get('view');
+		$app   = JFactory::getApplication();
+		$view  = $app->input->get('view');
 		$print = $app->input->getBool('print');
 
 		if ($print)
@@ -34,22 +43,25 @@ class PlgContentPagenavigation extends JPlugin
 
 		if (($context == 'com_content.article') && ($view == 'article') && $params->get('show_item_navigation'))
 		{
-			$db = JFactory::getDbo();
-			$user = JFactory::getUser();
-			$lang = JFactory::getLanguage();
+			$db       = JFactory::getDbo();
+			$user     = JFactory::getUser();
+			$lang     = JFactory::getLanguage();
 			$nullDate = $db->getNullDate();
 
 			$date = JFactory::getDate();
-			$now = $date->toSql();
+			$now  = $date->toSql();
 
-			$uid = $row->id;
-			$option = 'com_content';
+			$uid        = $row->id;
+			$option     = 'com_content';
 			$canPublish = $user->authorise('core.edit.state', $option . '.article.' . $row->id);
 
-			// The following is needed as different menu items types utilise a different param to control ordering.
-			// For Blogs the `orderby_sec` param is the order controlling param.
-			// For Table and List views it is the `orderby` param.
+			/**
+			 * The following is needed as different menu items types utilise a different param to control ordering.
+			 * For Blogs the `orderby_sec` param is the order controlling param.
+			 * For Table and List views it is the `orderby` param.
+			**/
 			$params_list = $params->toArray();
+
 			if (array_key_exists('orderby_sec', $params_list))
 			{
 				$order_method = $params->get('orderby_sec', '');
@@ -58,20 +70,25 @@ class PlgContentPagenavigation extends JPlugin
 			{
 				$order_method = $params->get('orderby', '');
 			}
+
 			// Additional check for invalid sort ordering.
 			if ($order_method == 'front')
 			{
 				$order_method = '';
 			}
 
+			// Get the order code
+			$orderDate = $params->get('order_date');
+			$queryDate = $this->getQueryDate($orderDate);
+
 			// Determine sort order.
 			switch ($order_method)
 			{
 				case 'date' :
-					$orderby = 'a.created';
+					$orderby = $queryDate;
 					break;
 				case 'rdate' :
-					$orderby = 'a.created DESC';
+					$orderby = $queryDate . ' DESC ';
 					break;
 				case 'alpha' :
 					$orderby = 'a.title';
@@ -133,6 +150,7 @@ class PlgContentPagenavigation extends JPlugin
 						. ($canPublish ? '' : ' AND a.access = ' . (int) $row->access) . $xwhere
 				);
 			$query->order($orderby);
+
 			if ($app->isSite() && $app->getLanguageFilter())
 			{
 				$query->where('a.language in (' . $db->quote($lang->getTag()) . ',' . $db->quote('*') . ')');
@@ -151,8 +169,7 @@ class PlgContentPagenavigation extends JPlugin
 
 			// Location of current content item in array list.
 			$location = array_search($uid, array_keys($list));
-
-			$rows = array_values($list);
+			$rows     = array_values($list);
 
 			$row->prev = null;
 			$row->next = null;
@@ -169,7 +186,9 @@ class PlgContentPagenavigation extends JPlugin
 				$row->next = $rows[$location + 1];
 			}
 
+			// $pnSpace is/can be used in the include file
 			$pnSpace = "";
+
 			if (JText::_('JGLOBAL_LT') || JText::_('JGLOBAL_GT'))
 			{
 				$pnSpace = " ";
@@ -212,5 +231,40 @@ class PlgContentPagenavigation extends JPlugin
 		}
 
 		return;
+	}
+
+	/**
+	 * Translate an order code to a field for primary ordering.
+	 *
+	 * @param   string  $orderDate  The ordering code.
+	 *
+	 * @return  string  The SQL field(s) to order by.
+	 *
+	 * @since   3.3
+	 */
+	private static function getQueryDate($orderDate)
+	{
+		$db = JFactory::getDbo();
+
+		switch ($orderDate)
+		{
+			// Use created if modified is not set
+			case 'modified' :
+				$queryDate = ' CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END';
+				break;
+
+			// Use created if publish_up is not set
+			case 'published' :
+				$queryDate = ' CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END ';
+				break;
+
+			// Use created as default
+			case 'created' :
+			default :
+				$queryDate = ' a.created ';
+				break;
+		}
+
+		return $queryDate;
 	}
 }

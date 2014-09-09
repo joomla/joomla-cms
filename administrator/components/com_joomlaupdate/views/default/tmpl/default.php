@@ -3,13 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
+JHtml::_('formbehavior.chosen', 'select');
 
 ?>
 
@@ -33,9 +34,9 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATEFOUND') ?>
 	</legend>
 
-	<table class="adminlist">
+	<table class="table table-striped">
 		<tbody>
-			<tr class="row0">
+			<tr>
 				<td>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLED') ?>
 				</td>
@@ -43,7 +44,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 					<?php echo $this->updateInfo['installed'] ?>
 				</td>
 			</tr>
-			<tr class="row1">
+			<tr>
 				<td>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_LATEST') ?>
 				</td>
@@ -51,7 +52,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 					<?php echo $this->updateInfo['latest'] ?>
 				</td>
 			</tr>
-			<tr class="row0">
+			<tr>
 				<td>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE') ?>
 				</td>
@@ -61,7 +62,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 					</a>
 				</td>
 			</tr>
-			<tr class="row1">
+			<tr>
 				<td>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD') ?>
 				</td>
@@ -69,7 +70,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 					<?php echo $this->methodSelect ?>
 				</td>
 			</tr>
-			<tr class="row0" id="row_ftp_hostname" <?php echo $ftpFieldsDisplay ?>>
+			<tr id="row_ftp_hostname" <?php echo $ftpFieldsDisplay ?>>
 				<td>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME') ?>
 				</td>
@@ -77,7 +78,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 					<input type="text" name="ftp_host" value="<?php echo $this->ftp['host'] ?>" />
 				</td>
 			</tr>
-			<tr class="row1" id="row_ftp_port" <?php echo $ftpFieldsDisplay ?>>
+			<tr id="row_ftp_port" <?php echo $ftpFieldsDisplay ?>>
 				<td>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PORT') ?>
 				</td>
@@ -85,7 +86,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 					<input type="text" name="ftp_port" value="<?php echo $this->ftp['port'] ?>" />
 				</td>
 			</tr>
-			<tr class="row0" id="row_ftp_username" <?php echo $ftpFieldsDisplay ?>>
+			<tr id="row_ftp_username" <?php echo $ftpFieldsDisplay ?>>
 				<td>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_USERNAME') ?>
 				</td>
@@ -93,15 +94,15 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 					<input type="text" name="ftp_user" value="<?php echo $this->ftp['username'] ?>" />
 				</td>
 			</tr>
-			<tr class="row1" id="row_ftp_password" <?php echo $ftpFieldsDisplay ?>>
+			<tr id="row_ftp_password" <?php echo $ftpFieldsDisplay ?>>
 				<td>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD') ?>
 				</td>
 				<td>
-					<input type="text" name="ftp_pass" value="<?php echo $this->ftp['password'] ?>" />
+					<input type="password" name="ftp_pass" value="<?php echo $this->ftp['password'] ?>" />
 				</td>
 			</tr>
-			<tr class="row0" id="row_ftp_directory" <?php echo $ftpFieldsDisplay ?>>
+			<tr id="row_ftp_directory" <?php echo $ftpFieldsDisplay ?>>
 				<td>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DIRECTORY') ?>
 				</td>
@@ -116,7 +117,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 					&nbsp;
 				</td>
 				<td>
-					<button class="submit" type="submit">
+					<button class="btn btn-primary" type="submit">
 						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE') ?>
 					</button>
 				</td>

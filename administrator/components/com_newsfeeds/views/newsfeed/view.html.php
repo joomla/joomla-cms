@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,6 +40,12 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			return false;
 		}
 
+		if ($this->getLayout() == 'modal')
+		{
+			$this->form->setFieldAttribute('language', 'readonly', 'true');
+			$this->form->setFieldAttribute('catid', 'readonly', 'true');
+		}
+
 		$this->addToolbar();
 		parent::display($tpl);
 	}
@@ -54,13 +60,13 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
-		// Since we don't track these assets at the item level, use the category id.
-		$canDo		= NewsfeedsHelper::getActions($this->item->catid, 0);
 
-		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED'), 'newsfeeds.png');
+		// Since we don't track these assets at the item level, use the category id.
+		$canDo		= JHelperContent::getActions('com_newsfeeds', 'category', $this->item->catid);
+
+		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED'), 'feed newsfeeds');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0))
@@ -68,7 +74,8 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			JToolbarHelper::apply('newsfeed.apply');
 			JToolbarHelper::save('newsfeed.save');
 		}
-		if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0){
+		if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
+		{
 			JToolbarHelper::save2new('newsfeed.save2new');
 		}
 		// If an existing item, can save to a copy.
@@ -83,6 +90,11 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 		else
 		{
+			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
+			{
+				JToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
+			}
+
 			JToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
 		}
 

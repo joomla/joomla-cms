@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,9 +39,8 @@ class JFormRuleColor extends JFormRule
 
 		if (empty($value))
 		{
-			// A color field can't be empty, we default to black. This is the same as the HTML5 spec.
-			$value = '#000000';
-			return true;
+			// A color field can't be empty
+			return false;
 		}
 
 		if ($value[0] != '#')
@@ -57,9 +56,6 @@ class JFormRuleColor extends JFormRule
 		{
 			return false;
 		}
-
-		// Prepend the # again
-		$value = '#' . $value;
 
 		return true;
 	}

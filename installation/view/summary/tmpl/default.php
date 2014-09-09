@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -282,6 +282,9 @@ $prev = $useftp ? 'ftp' : 'database';
 		<div class="span6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_TITLE'); ?></h3>
 			<hr class="hr-condensed" />
+			<p class="install-text">
+				<?php echo JText::_('INSTL_PRECHECK_DESC'); ?>
+			</p>
 			<table class="table table-striped table-condensed">
 				<tbody>
 				<?php foreach ($this->phpoptions as $option) : ?>
@@ -360,10 +363,10 @@ $prev = $useftp ? 'ftp' : 'database';
 </form>
 
 <script type="text/javascript">
-	window.addEvent('domready', function() {
-		document.getElements('input[name=jform[summary_email]]').each(function(el){
-			el.addEvent('click', function(){Install.toggle('email_passwords', 'summary_email', 1);});
-		});
-		Install.toggle('email_passwords', 'summary_email', 1);
-	});
+	jQuery('input[name="jform[summary_email]"]').each(function(index, el) {
+        jQuery(el).on('click', function() {
+            Install.toggle('email_passwords', 'summary_email', 1);
+        });
+        Install.toggle('email_passwords', 'summary_email', 1);
+    });
 </script>

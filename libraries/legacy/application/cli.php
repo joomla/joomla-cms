@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Application
  * @since       11.1
- * @deprecated  12.3 Use JApplicationCli instead.
+ * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationCli instead.
+ * @codeCoverageIgnore
  */
 class JCli extends JApplicationCli
 {
@@ -33,9 +34,9 @@ class JCli extends JApplicationCli
 	 *                              the application's event dispatcher, if it is null then the default event dispatcher
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *
-	 * @see     loadDispatcher()
+	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.1
-	 * @deprecated  12.3 Use JApplicationCli instead.
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationCli instead.
 	 */
 	public function __construct(JInputCli $input = null, JRegistry $config = null, JEventDispatcher $dispatcher = null)
 	{

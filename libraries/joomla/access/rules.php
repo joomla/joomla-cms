@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -178,7 +178,7 @@ class JAccessRules
 	 *
 	 * @param   mixed  $identity  An integer representing the identity or an array of identities
 	 *
-	 * @return  object  Allowed actions for the identity or identities
+	 * @return  JObject  Allowed actions for the identity or identities
 	 *
 	 * @since   11.1
 	 */
@@ -186,6 +186,7 @@ class JAccessRules
 	{
 		// Sweep for the allowed actions.
 		$allowed = new JObject;
+
 		foreach ($this->data as $name => &$action)
 		{
 			if ($action->allow($identity))

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -52,6 +52,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/' . $this->parent->extension->element
 			);
 		}
+
 		$this->manifest = $this->parent->getManifest();
 
 		// Get the client application target
@@ -66,6 +67,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 				return false;
 			}
+
 			$basePath = $client->path;
 			$clientId = $client->id;
 			$element = $this->manifest->files;
@@ -185,6 +187,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 						JLog::WARNING, 'jerror'
 					);
 				}
+
 				return false;
 			}
 		}
@@ -222,6 +225,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 			return false;
 		}
+
 		$this->parent->setOverwrite($overwrite);
 
 		// Get the language description
@@ -295,6 +299,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 			return false;
 		}
+
 		$basePath = $client->path;
 		$clientId = $client->id;
 
@@ -316,10 +321,9 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 		}
 
 		$this->set('tag', $tag);
-		$folder = $tag;
 
 		// Set the language installation path
-		$this->parent->setPath('extension_site', $basePath . '/language/' . $this->get('tag'));
+		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
 		if (count($xml->files->children()))
@@ -357,6 +361,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 			return false;
 		}
+
 		$this->parent->setOverwrite($overwrite);
 
 		// Get the language description and set it as message
@@ -397,6 +402,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 			$row->set('client_id', $clientId);
 			$row->set('params', $this->parent->getParams());
 		}
+
 		$row->set('name', $this->get('name'));
 		$row->set('type', 'language');
 		$row->set('element', $this->get('tag'));
@@ -520,7 +526,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 			if ($registry->get($param_name) == $element)
 			{
 				$registry->set($param_name, '');
-				$query = $db->getQuery(true)
+				$query->clear()
 					->update('#__users')
 					->set('params=' . $db->quote($registry))
 					->where('id=' . (int) $user->id);
@@ -529,6 +535,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				$count++;
 			}
 		}
+
 		if (!empty($count))
 		{
 			JLog::add(JText::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), JLog::NOTICE, 'jerror');
@@ -569,6 +576,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				$results[] = $extension;
 			}
 		}
+
 		foreach ($admin_languages as $language)
 		{
 			if (file_exists(JPATH_ADMINISTRATOR . '/language/' . $language . '/' . $language . '.xml'))
@@ -586,6 +594,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				$results[] = $extension;
 			}
 		}
+
 		return $results;
 	}
 

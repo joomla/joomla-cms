@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -166,7 +166,8 @@ class TestMockDatabaseDriver
 	/**
 	 * Mocking the quote method.
 	 *
-	 * @param   string  $value  The value to be quoted.
+	 * @param   string   $value   The value to be quoted.
+	 * @param   boolean  $escape  Optional parameter to provide extra escaping.
 	 *
 	 * @return  string  The value passed wrapped in MySQL quotes.
 	 *

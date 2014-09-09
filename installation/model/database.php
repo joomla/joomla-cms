@@ -3,15 +3,11 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
-jimport('legacy.application.helper');
 
 /**
  * Database configuration model for the Joomla Core Installer.
@@ -139,7 +135,7 @@ class InstallationModelDatabase extends JModelBase
 		// Validate database table prefix.
 		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 		{
-			$app->enqueueMessage(JText::_('INSTL_DATABASE_PREFIX_INVALID_CHARS'), 'notice');
+			$app->enqueueMessage(JText::_('INSTL_DATABASE_PREFIX_MSG'), 'notice');
 			return false;
 		}
 
@@ -460,7 +456,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Attempt to refresh manifest caches
-		$query = $db->getQuery(true)
+		$query->clear()
 			->select('*')
 			->from('#__extensions');
 		$db->setQuery($query);
@@ -536,7 +532,7 @@ class InstallationModelDatabase extends JModelBase
 			$params = json_encode($params);
 
 			// Update the language settings in the language manager.
-			$query = $db->getQuery(true)
+			$query->clear()
 				->update($db->quoteName('#__extensions'))
 				->set($db->quoteName('params') . ' = ' . $db->quote($params))
 				->where($db->quoteName('element') . ' = ' . $db->quote('com_languages'));
@@ -638,7 +634,10 @@ class InstallationModelDatabase extends JModelBase
 			'contact_details' => 'created_by',
 			'content' => 'created_by',
 			'newsfeeds' => 'created_by',
-			'weblinks' => 'created_by',
+			'tags' => 'created_user_id',
+			'ucm_content' => 'core_created_user_id',
+			'ucm_history' => 'editor_user_id',
+			'weblinks' => 'created_by'
 		);
 
 		foreach ($updates_array as $table => $field)

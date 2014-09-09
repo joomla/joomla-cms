@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -147,7 +147,7 @@ class InstallerModelDatabase extends InstallerModel
 			$db->execute();
 
 			// Add new row
-			$query = $db->getQuery(true)
+			$query->clear()
 				->insert($db->quoteName('#__schemas'))
 				->set($db->quoteName('extension_id') . '= 700')
 				->set($db->quoteName('version_id') . '= ' . $db->quote($schema));

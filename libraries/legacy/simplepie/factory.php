@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Simplepie
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,8 +19,7 @@ jimport('simplepie.simplepie');
  * @package     Joomla.Legacy
  * @subpackage  Simplepie
  * @since       12.2
- *
- * @deprecated  4.0  Use JFeed or supply your own methods
+ * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JFeed or supply your own methods
  */
 class JSimplepieFactory
 {

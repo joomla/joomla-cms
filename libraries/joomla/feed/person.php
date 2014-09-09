@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,24 +19,32 @@ defined('JPATH_PLATFORM') or die;
 class JFeedPerson
 {
 	/**
+	 * The email address of the person.
+	 *
 	 * @var    string
 	 * @since  12.3
 	 */
 	public $email;
 
 	/**
+	 * The full name of the person.
+	 *
 	 * @var    string
 	 * @since  12.3
 	 */
 	public $name;
 
 	/**
+	 * The type of person.
+	 *
 	 * @var    string
 	 * @since  12.3
 	 */
 	public $type;
 
 	/**
+	 * The URI for the person.
+	 *
 	 * @var    string
 	 * @since  12.3
 	 */

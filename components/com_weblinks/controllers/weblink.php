@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,6 +27,14 @@ class WeblinksControllerWeblink extends JControllerForm
 	protected $view_list = 'categories';
 
 	/**
+	 * The URL edit variable.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $urlVar = 'a.id';
+
+	/**
 	 * Method to add a new record.
 	 *
 	 * @return  boolean  True if the article can be added, false if not.
@@ -34,7 +42,6 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	public function add()
 	{
-
 		if (!parent::add())
 		{
 			// Redirect to the return page.
@@ -45,8 +52,10 @@ class WeblinksControllerWeblink extends JControllerForm
 	/**
 	 * Method override to check if you can add a new record.
 	 *
-	 * @param   array  $data	An array of input data.
+	 * @param   array  $data  An array of input data.
+	 * 
 	 * @return  boolean
+	 * 
 	 * @since   1.6
 	 */
 	protected function allowAdd($data = array())
@@ -58,7 +67,7 @@ class WeblinksControllerWeblink extends JControllerForm
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow	= $user->authorise('core.create', $this->option.'.category.'.$categoryId);
+			$allow	= $user->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -75,15 +84,16 @@ class WeblinksControllerWeblink extends JControllerForm
 	/**
 	 * Method to check if you can add a new record.
 	 *
-	 * @param   array  $data	An array of input data.
-	 * @param   string	$key	The name of the key for the primary key.
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
 	 *
 	 * @return  boolean
+	 * 
 	 * @since   1.6
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		$recordId	= (int) isset($data[$key]) ? $data[$key] : 0;
+		$recordId   = (int) isset($data[$key]) ? $data[$key] : 0;
 		$categoryId = 0;
 
 		if ($recordId)
@@ -94,7 +104,7 @@ class WeblinksControllerWeblink extends JControllerForm
 		if ($categoryId)
 		{
 			// The category has been set. Check the category permissions.
-			return JFactory::getUser()->authorise('core.edit', $this->option.'.category.'.$categoryId);
+			return JFactory::getUser()->authorise('core.edit', $this->option . '.category.' . $categoryId);
 		}
 		else
 		{
@@ -106,9 +116,10 @@ class WeblinksControllerWeblink extends JControllerForm
 	/**
 	 * Method to cancel an edit.
 	 *
-	 * @param   string	$key	The name of the primary key of the URL variable.
+	 * @param   string  $key  The name of the primary key of the URL variable.
 	 *
-	 * @return  Boolean	True if access level checks pass, false otherwise.
+	 * @return  boolean  True if access level checks pass, false otherwise.
+	 * 
 	 * @since   1.6
 	 */
 	public function cancel($key = 'w_id')
@@ -122,10 +133,11 @@ class WeblinksControllerWeblink extends JControllerForm
 	/**
 	 * Method to edit an existing record.
 	 *
-	 * @param   string	$key	The name of the primary key of the URL variable.
-	 * @param   string	$urlVar	The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
-	 * @return  Boolean	True if access level check and checkout passes, false otherwise.
+	 * @return  boolean  True if access level check and checkout passes, false otherwise.
+	 * 
 	 * @since   1.6
 	 */
 	public function edit($key = null, $urlVar = 'w_id')
@@ -138,11 +150,12 @@ class WeblinksControllerWeblink extends JControllerForm
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   string	$name	The model name. Optional.
-	 * @param   string	$prefix	The class prefix. Optional.
-	 * @param   array  $config	Configuration array for model. Optional.
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return  object  The model.
+	 * 
 	 * @since   1.5
 	 */
 	public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
@@ -155,10 +168,11 @@ class WeblinksControllerWeblink extends JControllerForm
 	/**
 	 * Gets the URL arguments to append to an item redirect.
 	 *
-	 * @param   integer  $recordId	The primary key id for the item.
-	 * @param   string	$urlVar		The name of the URL variable for the id.
+	 * @param   integer  $recordId  The primary key id for the item.
+	 * @param   string   $urlVar    The name of the URL variable for the id.
 	 *
-	 * @return  string	The arguments to append to the redirect URL.
+	 * @return  string  The arguments to append to the redirect URL.
+	 * 
 	 * @since   1.6
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = null)
@@ -169,12 +183,12 @@ class WeblinksControllerWeblink extends JControllerForm
 
 		if ($itemId)
 		{
-			$append .= '&Itemid='.$itemId;
+			$append .= '&Itemid=' . $itemId;
 		}
 
 		if ($return)
 		{
-			$append .= '&return='.base64_encode($return);
+			$append .= '&return=' . base64_encode($return);
 		}
 
 		return $append;
@@ -185,7 +199,8 @@ class WeblinksControllerWeblink extends JControllerForm
 	 *
 	 * If a "return" variable has been passed in the request
 	 *
-	 * @return  string	The return URL.
+	 * @return  string  The return URL.
+	 * 
 	 * @since   1.6
 	 */
 	protected function getReturnPage()
@@ -194,7 +209,7 @@ class WeblinksControllerWeblink extends JControllerForm
 
 		if (empty($return) || !JUri::isInternal(base64_decode($return)))
 		{
-			return JURI::base();
+			return JUri::base();
 		}
 		else
 		{
@@ -213,22 +228,21 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-			$task = $this->getTask();
-
+		return;
 	}
 
 	/**
 	 * Method to save a record.
 	 *
-	 * @param   string	$key	The name of the primary key of the URL variable.
-	 * @param   string	$urlVar	The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
-	 * @return  Boolean	True if successful, false otherwise.
+	 * @return  boolean  True if successful, false otherwise.
+	 * 
 	 * @since   1.6
 	 */
 	public function save($key = null, $urlVar = 'w_id')
 	{
-
 		$result = parent::save($key, $urlVar);
 
 		// If ok, redirect to the return page.
@@ -236,7 +250,6 @@ class WeblinksControllerWeblink extends JControllerForm
 		{
 			$this->setRedirect($this->getReturnPage());
 		}
-		$model = $this->getModel();
 
 		return $result;
 	}
@@ -245,6 +258,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	 * Go to a weblink
 	 *
 	 * @return  void
+	 * 
 	 * @since   1.6
 	 */
 	public function go()
@@ -294,7 +308,7 @@ class WeblinksControllerWeblink extends JControllerForm
 		}
 
 		// Redirect to the URL
-		// TODO: Probably should check for a valid http link
+		// @todo: Probably should check for a valid http link
 		if ($link->url)
 		{
 			$modelLink->hit($id);

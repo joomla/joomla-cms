@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,6 +75,7 @@ class UsersModelRemind extends JModelForm
 	{
 		// Get the form.
 		$form = $this->getForm();
+		$data['email'] = JStringPunycode::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if (empty($form))
@@ -88,7 +89,7 @@ class UsersModelRemind extends JModelForm
 		// Check for an error.
 		if ($data instanceof Exception)
 		{
-			return $return;
+			return false;
 		}
 
 		// Check the validation results.

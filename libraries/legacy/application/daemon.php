@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,8 @@ JLog::add('JDaemon has been renamed to JApplicationDaemon.', JLog::WARNING, 'dep
  * @package     Joomla.Legacy
  * @subpackage  Application
  * @since       11.1
- * @deprecated  12.3 Use JApplicationDaemon instead.
+ * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationDaemon instead.
+ * @codeCoverageIgnore
  */
 class JDaemon extends JApplicationDaemon
 {

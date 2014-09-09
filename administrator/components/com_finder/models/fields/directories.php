@@ -3,11 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 JFormHelper::loadFieldClass('list');
 
@@ -40,7 +40,7 @@ class JFormFieldDirectories extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$values = array();
+		$values  = array();
 		$options = array();
 		$exclude = array(
 			JPATH_ADMINISTRATOR,
@@ -53,8 +53,8 @@ class JFormFieldDirectories extends JFormFieldList
 			JPATH_SITE . '/language',
 			JPATH_SITE . '/modules',
 			JPATH_THEMES,
-			JFactory::getApplication()->getCfg('log_path'),
-			JFactory::getApplication()->getCfg('tmp_path')
+			JFactory::getApplication()->get('log_path'),
+			JFactory::getApplication()->get('tmp_path')
 		);
 
 		// Get the base directories.
@@ -82,22 +82,13 @@ class JFormFieldDirectories extends JFormFieldList
 		}
 
 		// Convert the values to options.
-		for ($i = 0, $c = count($values); $i < $c; $i++)
+		foreach ($values as $value)
 		{
-			$options[] = JHtml::_('select.option', str_replace(JPATH_SITE . '/', '', $values[$i]), str_replace(JPATH_SITE . '/', '', $values[$i]));
+			$options[] = JHtml::_('select.option', str_replace(JPATH_SITE . '/', '', $value), str_replace(JPATH_SITE . '/', '', $values));
 		}
 
 		// Add a null option.
 		array_unshift($options, JHtml::_('select.option', '', '- ' . JText::_('JNONE') . ' -'));
-
-		// Handle default values of value1|value2|value3
-		if (is_string($value) && strpos($value, '|') && preg_match('#(?<!\\\)\|#', $value))
-		{
-			// Explode the value if it is serialized as an array of value1|value2|value3
-			$value = preg_split('/(?<!\\\)\|/', $value);
-			$value = str_replace('\|', '|', $value);
-			$value = str_replace('\n', "\n", $value);
-		}
 
 		return $options;
 	}

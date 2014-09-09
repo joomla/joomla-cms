@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,6 +25,12 @@ class TagsModelTag extends JModelAdmin
 	protected $text_prefix = 'COM_TAGS';
 
 	/**
+	 * @var    string  The type alias for this content type.
+	 * @since  3.2
+	 */
+	public $typeAlias = 'com_tags.tag';
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object  $record  A record object.
@@ -41,8 +47,6 @@ class TagsModelTag extends JModelAdmin
 			{
 				return;
 			}
-			$user = JFactory::getUser();
-
 			return parent::canDelete($record);
 		}
 	}
@@ -58,8 +62,6 @@ class TagsModelTag extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
 		return parent::canEditState($record);
 	}
 
@@ -82,7 +84,7 @@ class TagsModelTag extends JModelAdmin
 	/**
 	 * Auto-populate the model state.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
+	 * @note Calling getState in this method will result in recursion.
 	 *
 	 * @return  void
 	 *
@@ -140,7 +142,7 @@ class TagsModelTag extends JModelAdmin
 			$result->urls = $registry->toArray();
 
 			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
+			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
 
 			if ((int) $result->created_time)
 			{
@@ -180,7 +182,6 @@ class TagsModelTag extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$extension = $this->getState('tag');
 		$jinput = JFactory::getApplication()->input;
 
 		// Get the form.
@@ -231,8 +232,8 @@ class TagsModelTag extends JModelAdmin
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   JForm   $form    A JForm object.
-	 * @param   mixed   $data    The data expected for the form.
+	 * @param   JForm   $form   A JForm object.
+	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import.
 	 *
 	 * @return  void
@@ -259,10 +260,10 @@ class TagsModelTag extends JModelAdmin
 	public function save($data)
 	{
 		$dispatcher = JEventDispatcher::getInstance();
-		$table = $this->getTable();
-		$input = JFactory::getApplication()->input;
-		$pk = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
-		$isNew = true;
+		$table      = $this->getTable();
+		$input      = JFactory::getApplication()->input;
+		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
+		$isNew      = true;
 
 		// Include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
@@ -298,8 +299,8 @@ class TagsModelTag extends JModelAdmin
 		if ($input->get('task') == 'save2copy')
 		{
 			list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-			$data['title'] = $title;
-			$data['alias'] = $alias;
+			$data['title']       = $title;
+			$data['alias']       = $alias;
 		}
 
 		// Bind the data.
@@ -432,6 +433,7 @@ class TagsModelTag extends JModelAdmin
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
 		{
 			$title = ($table->title != $title) ? $title : JString::increment($title);

@@ -63,7 +63,7 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 	public function setFilter_TestFilters_ShouldFilterUsers()
 	{
 		$this->userManagerPage->addUser('Test User1', 'login1', 'password1', 'user1@test.com', array('Registered'));
-		$this->userManagerPage->addUser('Test User2', 'login2', 'password2', 'user2@test.com', array('Manager'));;
+		$this->userManagerPage->addUser('Test User2', 'login2', 'password2', 'user2@test.com', array('Manager'));
 		$this->userManagerPage->addUser('Test User3', 'login3', 'password3', 'user3@test.com', array('Registered', 'Manager'));
 		$this->assertTrue($this->userManagerPage->getRowNumber('Test User1') > 0, 'Test User1 should be present');
 		$this->assertTrue($this->userManagerPage->getRowNumber('Test User2') > 0, 'Test User2 should be present');
@@ -89,8 +89,97 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 		$this->assertTrue($this->userManagerPage->getRowNumber('Test User2') > 0, 'Test User2 should be present');
 		$this->assertTrue($this->userManagerPage->getRowNumber('Test User3') > 0, 'Test User3 should be present');
 
-		$this->userManagerPage->setFilter('Group', 'Group');
-		$this->userManagerPage->deleteUser('Test User');
+		$this->userManagerPage->searchFor();
+		$this->userManagerPage->delete('Test User');
+		$this->assertFalse($this->userManagerPage->getRowNumber('Test User1') > 0, 'Test User1 should not be present');
+		$this->assertFalse($this->userManagerPage->getRowNumber('Test User2') > 0, 'Test User2 should not be present');
+		$this->assertFalse($this->userManagerPage->getRowNumber('Test User3') > 0, 'Test User3 should not be present');
+	}
+
+	/**
+	 * @test
+	 */
+	public function setFilter_TestOrdering_ShouldOrderUsers()
+	{
+		$this->userManagerPage->addUser('Test User1', 'login2', 'password1', 'user1@test.com', array('Registered'));
+		$this->userManagerPage->addUser('Test User3', 'login3', 'password3', 'user2@test.com', array('Registered', 'Manager'));
+		$this->userManagerPage->addUser('Test User2', 'login1', 'password2', 'user3@test.com', array('Manager'));
+		$this->assertTrue($this->userManagerPage->getRowNumber('Test User1') > 0, 'Test User1 should be present');
+		$this->assertTrue($this->userManagerPage->getRowNumber('Test User2') > 0, 'Test User2 should be present');
+		$this->assertTrue($this->userManagerPage->getRowNumber('Test User3') > 0, 'Test User3 should be present');
+
+		$this->userManagerPage->changeUserState('Test User1', 'unpublished');
+		$this->userManagerPage->editUser('Test User2', array('Block this User' => 'Yes'));
+
+		$orderings = array('Name', 'Username', 'Enabled', 'Activated', 'Email', 'Last visit date', 'Registration date', 'ID');
+		$rows = array('Super User', 'Test User1', 'Test User2', 'Test User3');
+		$actualRowNumbers = $this->userManagerPage->orderAndGetRowNumbers($orderings, $rows);
+
+		$userNames = array($this->cfg->username, 'login2', 'login1', 'login3');
+		$userNamesSorted = $userNames;
+		sort($userNamesSorted, SORT_STRING);
+		$userNamesReversed = array_reverse($userNamesSorted);
+
+		$emails = array($this->cfg->admin_email, 'user1@test.com', 'user3@test.com', 'user2@test.com');
+		$emailsSorted = $emails;
+		sort($emailsSorted, SORT_STRING);
+		$emailsReversed = array_reverse($emailsSorted);
+
+		$expectedRowNumbers = array(
+			'Name' => array('ascending' => array(1, 2, 3, 4), 'descending' => array(4, 3, 2, 1)),
+			'Username' => array(
+					'ascending' => array(
+							array_search($userNames[0], $userNamesSorted) + 1,
+							array_search($userNames[1], $userNamesSorted) + 1,
+							array_search($userNames[2], $userNamesSorted) + 1,
+							array_search($userNames[3], $userNamesSorted) + 1,
+					),
+					'descending' => array(
+							array_search($userNames[0], $userNamesReversed) + 1,
+							array_search($userNames[1], $userNamesReversed) + 1,
+							array_search($userNames[2], $userNamesReversed) + 1,
+							array_search($userNames[3], $userNamesReversed) + 1,
+					)
+			),
+			'Enabled' => array('ascending' => array(1, 3, 4, 2), 'descending' => array(3, 1, 2, 4)),
+			'Activated' => array('ascending' => array(4, 1, 3, 2), 'descending' => array(1, 2, 4, 3)),
+			'Email' => array(
+					'ascending' => array(
+							array_search($emails[0], $emailsSorted) + 1,
+							array_search($emails[1], $emailsSorted) + 1,
+							array_search($emails[2], $emailsSorted) + 1,
+							array_search($emails[3], $emailsSorted) + 1,
+					),
+					'descending' => array(
+							array_search($emails[0], $emailsReversed) + 1,
+							array_search($emails[1], $emailsReversed) + 1,
+							array_search($emails[2], $emailsReversed) + 1,
+							array_search($emails[3], $emailsReversed) + 1,
+					)
+			),
+			'Last visit date' => array('ascending' => array(4, 1, 3, 2), 'descending' => array(1, 2, 4, 3)),
+			'Registration date' => array('ascending' => array(1, 2, 4, 3), 'descending' => array(4, 3, 1, 2)),
+			'ID' => array('ascending' => array(1, 2, 4, 3), 'descending' => array(4, 3, 1, 2))
+		);
+
+		foreach ($actualRowNumbers as $ordering => $orderingRowNumbers)
+		{
+			foreach ($orderingRowNumbers as $order => $rowNumbers)
+			{
+				foreach ($rowNumbers as $key => $rowNumber)
+				{
+					$this->assertEquals(
+							$expectedRowNumbers[$ordering][$order][$key],
+							$rowNumber,
+							'When the table is sorted by ' . strtolower($ordering) . ' in the ' . $order . ' order '
+							. $rows[$key] . ' should be in row ' . $expectedRowNumbers[$ordering][$order][$key]
+					);
+				}
+			}
+		}
+
+		$this->userManagerPage->searchFor();
+		$this->userManagerPage->delete('Test User');
 		$this->assertFalse($this->userManagerPage->getRowNumber('Test User1') > 0, 'Test User1 should not be present');
 		$this->assertFalse($this->userManagerPage->getRowNumber('Test User2') > 0, 'Test User2 should not be present');
 		$this->assertFalse($this->userManagerPage->getRowNumber('Test User3') > 0, 'Test User3 should not be present');

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -105,13 +105,13 @@ class InstallerModelWarnings extends JModelList
 		}
 
 		$memory_limit = $this->return_bytes(ini_get('memory_limit'));
-		if ($memory_limit < (8 * 1024 * 1024))
+		if ($memory_limit < (8 * 1024 * 1024) && $memory_limit != -1)
 		{
 			// 8MB
 			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_LOWMEMORYWARN'),
 					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_LOWMEMORYDESC'));
 		}
-		elseif ($memory_limit < (16 * 1024 * 1024))
+		elseif ($memory_limit < (16 * 1024 * 1024) && $memory_limit != -1)
 		{
 			// 16MB
 			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_MEDMEMORYWARN'),
@@ -127,13 +127,13 @@ class InstallerModelWarnings extends JModelList
 					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_UPLOADBIGGERTHANPOSTDESC'));
 		}
 
-		if ($post_max_size < (4 * 1024 * 1024)) // 4MB
+		if ($post_max_size < (8 * 1024 * 1024)) // 8MB
 		{
 			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLPOSTSIZE'),
 					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLPOSTSIZEDESC'));
 		}
 
-		if ($upload_max_filesize < (4 * 1024 * 1024)) // 4MB
+		if ($upload_max_filesize < (8 * 1024 * 1024)) // 8MB
 		{
 			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
 					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZEDESC'));

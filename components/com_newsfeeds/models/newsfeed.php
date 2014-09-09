@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -178,23 +178,10 @@ class NewsfeedsModelNewsfeed extends JModelItem
 		if ($hitcount)
 		{
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('newsfeed.id');
-			$db = $this->getDbo();
 
-			$db->setQuery(
-				'UPDATE #__newsfeeds' .
-				' SET hits = hits + 1' .
-				' WHERE id = '.(int) $pk
-			);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				$this->setError($e->getMessage());
-				return false;
-			}
+			$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
+			$table->load($pk);
+			$table->hit($pk);
 		}
 
 		return true;
