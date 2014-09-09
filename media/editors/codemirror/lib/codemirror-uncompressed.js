@@ -662,6 +662,7 @@
   function updateDisplaySimple(cm, viewport) {
     var update = new DisplayUpdate(cm, viewport);
     if (updateDisplayIfNeeded(cm, update)) {
+      updateHeightsInViewport(cm);
       postUpdateDisplay(cm, update);
       var barMeasure = measureForScrollbars(cm);
       updateSelection(cm);
@@ -1280,14 +1281,17 @@
     return result;
   }
 
-  function updateSelection(cm, drawn) {
-    if (!drawn) drawn = drawSelection(cm);
+  function showSelection(cm, drawn) {
     removeChildrenAndAdd(cm.display.cursorDiv, drawn.cursors);
     removeChildrenAndAdd(cm.display.selectionDiv, drawn.selection);
     if (drawn.teTop != null) {
       cm.display.inputDiv.style.top = drawn.teTop + "px";
       cm.display.inputDiv.style.left = drawn.teLeft + "px";
     }
+  }
+
+  function updateSelection(cm) {
+    showSelection(cm, drawSelection(cm));
   }
 
   // Draws a cursor for the given range
@@ -1642,18 +1646,24 @@
 
     var rect;
     if (node.nodeType == 3) { // If it is a text node, use a range to retrieve the coordinates.
-      while (start && isExtendingChar(prepared.line.text.charAt(mStart + start))) --start;
-      while (mStart + end < mEnd && isExtendingChar(prepared.line.text.charAt(mStart + end))) ++end;
-      if (ie && ie_version < 9 && start == 0 && end == mEnd - mStart) {
-        rect = node.parentNode.getBoundingClientRect();
-      } else if (ie && cm.options.lineWrapping) {
-        var rects = range(node, start, end).getClientRects();
-        if (rects.length)
-          rect = rects[bias == "right" ? rects.length - 1 : 0];
-        else
-          rect = nullRect;
-      } else {
-        rect = range(node, start, end).getBoundingClientRect() || nullRect;
+      for (;;) {
+        while (start && isExtendingChar(prepared.line.text.charAt(mStart + start))) --start;
+        while (mStart + end < mEnd && isExtendingChar(prepared.line.text.charAt(mStart + end))) ++end;
+        if (ie && ie_version < 9 && start == 0 && end == mEnd - mStart) {
+          rect = node.parentNode.getBoundingClientRect();
+        } else if (ie && cm.options.lineWrapping) {
+          var rects = range(node, start, end).getClientRects();
+          if (rects.length)
+            rect = rects[bias == "right" ? rects.length - 1 : 0];
+          else
+            rect = nullRect;
+        } else {
+          rect = range(node, start, end).getBoundingClientRect() || nullRect;
+        }
+        if (rect.left || rect.right || start == 0) break;
+        end = start;
+        start = start - 1;
+        collapse = "right";
       }
     } else { // If it is a widget, simply get the box for the whole widget.
       if (start > 0) collapse = bias = "right";
@@ -2029,16 +2039,17 @@
     var cm = op.cm, display = cm.display;
     if (op.updatedDisplay) updateHeightsInViewport(cm);
 
+    op.barMeasure = measureForScrollbars(cm);
+
     // If the max line changed since it was last measured, measure it,
     // and ensure the document's width matches it.
-    // updateDisplayIfNeeded will use these properties to do the actual resizing
+    // updateDisplay_W2 will use these properties to do the actual resizing
     if (display.maxLineChanged && !cm.options.lineWrapping) {
-      op.adjustWidthTo = measureChar(cm, display.maxLine, display.maxLine.text.length).left;
+      op.adjustWidthTo = measureChar(cm, display.maxLine, display.maxLine.text.length).left + 3;
       op.maxScrollLeft = Math.max(0, display.sizer.offsetLeft + op.adjustWidthTo +
                                   scrollerCutOff - display.scroller.clientWidth);
     }
 
-    op.barMeasure = measureForScrollbars(cm);
     if (op.updatedDisplay || op.selectionChanged)
       op.newSelectionNodes = drawSelection(cm);
   }
@@ -2050,10 +2061,11 @@
       cm.display.sizer.style.minWidth = op.adjustWidthTo + "px";
       if (op.maxScrollLeft < cm.doc.scrollLeft)
         setScrollLeft(cm, Math.min(cm.display.scroller.scrollLeft, op.maxScrollLeft), true);
+      cm.display.maxLineChanged = false;
     }
 
     if (op.newSelectionNodes)
-      updateSelection(cm, op.newSelectionNodes);
+      showSelection(cm, op.newSelectionNodes);
     if (op.updatedDisplay)
       setDocumentHeight(cm, op.barMeasure);
     if (op.updatedDisplay || op.startHeight != cm.doc.height)
@@ -2067,6 +2079,9 @@
 
   function endOperation_finish(op) {
     var cm = op.cm, display = cm.display, doc = cm.doc;
+
+    if (op.adjustWidthTo != null && Math.abs(op.barMeasure.scrollWidth - cm.display.scroller.scrollWidth) > 1)
+      updateScrollbars(cm);
 
     if (op.updatedDisplay) postUpdateDisplay(cm, op.update);
 
@@ -3553,7 +3568,7 @@
 
       var after = i ? computeSelAfterChange(doc, change) : lst(source);
       makeChangeSingleDoc(doc, change, after, mergeOldSpans(doc, change));
-      if (!i && doc.cm) doc.cm.scrollIntoView(change);
+      if (!i && doc.cm) doc.cm.scrollIntoView({from: change.from, to: changeEnd(change)});
       var rebased = [];
 
       // Propagate to the linked documents
@@ -3742,6 +3757,7 @@
     if (y1 < 0) y1 = 0;
     var screentop = cm.curOp && cm.curOp.scrollTop != null ? cm.curOp.scrollTop : display.scroller.scrollTop;
     var screen = display.scroller.clientHeight - scrollerCutOff, result = {};
+    if (y2 - y1 > screen) y2 = y1 + screen;
     var docBottom = cm.doc.height + paddingVert(display);
     var atTop = y1 < snapMargin, atBottom = y2 > docBottom - snapMargin;
     if (y1 < screentop) {
@@ -3752,16 +3768,16 @@
     }
 
     var screenleft = cm.curOp && cm.curOp.scrollLeft != null ? cm.curOp.scrollLeft : display.scroller.scrollLeft;
-    var screenw = display.scroller.clientWidth - scrollerCutOff;
-    x1 += display.gutters.offsetWidth; x2 += display.gutters.offsetWidth;
-    var gutterw = display.gutters.offsetWidth;
-    var atLeft = x1 < gutterw + 10;
-    if (x1 < screenleft + gutterw || atLeft) {
-      if (atLeft) x1 = 0;
-      result.scrollLeft = Math.max(0, x1 - 10 - gutterw);
-    } else if (x2 > screenw + screenleft - 3) {
-      result.scrollLeft = x2 + 10 - screenw;
-    }
+    var screenw = display.scroller.clientWidth - scrollerCutOff - display.gutters.offsetWidth;
+    var tooWide = x2 - x1 > screenw;
+    if (tooWide) x2 = y1 + screen;
+    if (x1 < 10)
+      result.scrollLeft = 0;
+    else if (x1 < screenleft)
+      result.scrollLeft = Math.max(0, x1 - (tooWide ? 0 : 10));
+    else if (x2 > screenw + screenleft - 3)
+      result.scrollLeft = x2 + (tooWide ? 0 : 10) - screenw;
+
     return result;
   }
 
@@ -4070,11 +4086,14 @@
       for (var i = 0; i < ranges.length; i++) {
         var range = ranges[i];
         if (!range.empty()) {
-          var start = Math.max(end, range.from().line);
-          var to = range.to();
+          var from = range.from(), to = range.to();
+          var start = Math.max(end, from.line);
           end = Math.min(this.lastLine(), to.line - (to.ch ? 0 : 1)) + 1;
           for (var j = start; j < end; ++j)
             indentLine(this, j, how);
+          var newRanges = this.doc.sel.ranges;
+          if (from.ch == 0 && ranges.length == newRanges.length && newRanges[i].from().ch > 0)
+            replaceOneSelection(this.doc, i, new Range(from, newRanges[i].to()), sel_dontScroll);
         } else if (range.head.line > end) {
           indentLine(this, range.head.line, how, true);
           end = range.head.line;
@@ -4470,7 +4489,7 @@
     clearCaches(cm);
     regChange(cm);
   }, true);
-  option("specialChars", /[\t\u0000-\u0019\u00ad\u200b\u2028\u2029\ufeff]/g, function(cm, val) {
+  option("specialChars", /[\t\u0000-\u0019\u00ad\u200b-\u200f\u2028\u2029\ufeff]/g, function(cm, val) {
     cm.options.specialChars = new RegExp(val.source + (val.test("\t") ? "" : "|\t"), "g");
     cm.refresh();
   }, true);
@@ -4731,15 +4750,7 @@
     },
     goLineStartSmart: function(cm) {
       cm.extendSelectionsBy(function(range) {
-        var start = lineStart(cm, range.head.line);
-        var line = cm.getLineHandle(start.line);
-        var order = getOrder(line);
-        if (!order || order[0].level == 0) {
-          var firstNonWS = Math.max(0, line.text.search(/\S/));
-          var inWS = range.head.line == start.line && range.head.ch <= firstNonWS && range.head.ch;
-          return Pos(start.line, inWS ? 0 : firstNonWS);
-        }
-        return start;
+        return lineStartSmart(cm, range.head);
       }, {origin: "+move", bias: 1});
     },
     goLineEnd: function(cm) {
@@ -4756,6 +4767,14 @@
       cm.extendSelectionsBy(function(range) {
         var top = cm.charCoords(range.head, "div").top + 5;
         return cm.coordsChar({left: 0, top: top}, "div");
+      }, sel_move);
+    },
+    goLineLeftSmart: function(cm) {
+      cm.extendSelectionsBy(function(range) {
+        var top = cm.charCoords(range.head, "div").top + 5;
+        var pos = cm.coordsChar({left: 0, top: top}, "div");
+        if (pos.ch < cm.getLine(pos.line).search(/\S/)) return lineStartSmart(cm, range.head);
+        return pos;
       }, sel_move);
     },
     goLineUp: function(cm) {cm.moveV(-1, "line");},
@@ -6495,7 +6514,7 @@
     },
     changeGeneration: function(forceSplit) {
       if (forceSplit)
-        this.history.lastOp = this.history.lastOrigin = null;
+        this.history.lastOp = this.history.lastSelOp = this.history.lastOrigin = null;
       return this.history.generation;
     },
     isClean: function (gen) {
@@ -6812,7 +6831,7 @@
     // Used to track when changes can be merged into a single undo
     // event
     this.lastModTime = this.lastSelTime = 0;
-    this.lastOp = null;
+    this.lastOp = this.lastSelOp = null;
     this.lastOrigin = this.lastSelOrigin = null;
     // Used by the isClean() method
     this.generation = this.maxGeneration = startGen || 1;
@@ -6890,7 +6909,7 @@
     hist.done.push(selAfter);
     hist.generation = ++hist.maxGeneration;
     hist.lastModTime = hist.lastSelTime = time;
-    hist.lastOp = opId;
+    hist.lastOp = hist.lastSelOp = opId;
     hist.lastOrigin = hist.lastSelOrigin = change.origin;
 
     if (!last) signal(doc, "historyAdded");
@@ -6916,7 +6935,7 @@
     // the current, or the origins don't allow matching. Origins
     // starting with * are always merged, those starting with + are
     // merged when similar and close together in time.
-    if (opId == hist.lastOp ||
+    if (opId == hist.lastSelOp ||
         (origin && hist.lastSelOrigin == origin &&
          (hist.lastModTime == hist.lastSelTime && hist.lastOrigin == origin ||
           selectionEventCanBeMerged(doc, origin, lst(hist.done), sel))))
@@ -6926,7 +6945,7 @@
 
     hist.lastSelTime = +new Date;
     hist.lastSelOrigin = origin;
-    hist.lastOp = opId;
+    hist.lastSelOp = opId;
     if (options && options.clearRedo !== false)
       clearSelectionEvents(hist.undone);
   }
@@ -7556,6 +7575,17 @@
     var ch = !order ? line.text.length : order[0].level % 2 ? lineLeft(line) : lineRight(line);
     return Pos(lineN == null ? lineNo(line) : lineN, ch);
   }
+  function lineStartSmart(cm, pos) {
+    var start = lineStart(cm, pos.line);
+    var line = getLine(cm.doc, start.line);
+    var order = getOrder(line);
+    if (!order || order[0].level == 0) {
+      var firstNonWS = Math.max(0, line.text.search(/\S/));
+      var inWS = pos.line == start.line && pos.ch <= firstNonWS && pos.ch;
+      return Pos(start.line, inWS ? 0 : firstNonWS);
+    }
+    return start;
+  }
 
   function compareBidiLevel(order, a, b) {
     var linedir = order[0].level;
@@ -7795,7 +7825,7 @@
 
   // THE END
 
-  CodeMirror.version = "4.4.0";
+  CodeMirror.version = "4.5.0";
 
   return CodeMirror;
 });
