@@ -58,9 +58,9 @@ class plgSystemRedirect extends JPlugin
 				0, 1
 			);
 			$link = $db->loadObject();
-			
-			// If no redirect was found try with the server-relative URL
-			if (!$link)
+
+			// If no published redirect was found try with the server-relative URL
+			if (!$link or ($link->published != 1))
 			{
 				$currRel = $uri->toString(array('path', 'query', 'fragment'));
 				$db->setQuery(
