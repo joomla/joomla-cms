@@ -72,7 +72,7 @@ class PlgSystemRedirect extends JPlugin
 				->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
 			$db->setQuery($query, 0, 1);
 			$link = $db->loadObject();
-			
+
 			// If no redirect was found try with the server-relative URL
 			if (!$link)
 			{
