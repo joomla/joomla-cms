@@ -423,7 +423,7 @@ class ContentRouter extends JComponentRouterBase
 						->select($db->quoteName('id'))
 						->from('#__content')
 						->where($db->quoteName('catid') . ' = ' . (int) $vars['catid'])
-						->where($db->quoteName('alias') . ' = ' . $db->quote($db->quote($segment)));
+						->where($db->quoteName('alias') . ' = ' . $db->quote($segment));
 					$db->setQuery($query);
 					$cid = $db->loadResult();
 				}
