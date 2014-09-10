@@ -71,6 +71,7 @@ class JFormFieldList extends JFormField
 				{
 					$this->value[] = '';
 				}
+
 				foreach ($this->value as $value)
 				{
 					$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"/>';
