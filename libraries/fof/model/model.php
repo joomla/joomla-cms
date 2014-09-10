@@ -9,7 +9,7 @@
 defined('FOF_INCLUDED') or die;
 
 /**
- * FrameworkOnFramework Model class. The Model is the worhorse. It performs all
+ * FrameworkOnFramework Model class. The Model is the warhorse. It performs all
  * of the business logic based on its state and then returns the raw (processed)
  * data to the caller, or modifies its own state. It's important to note that
  * the model doesn't get data directly from the request (this is the
