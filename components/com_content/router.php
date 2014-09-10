@@ -319,7 +319,7 @@ class ContentRouter extends JComponentRouterBase
 				{
 					$vars['view'] = 'article';
 					$vars['id'] = (int) $segments[0];
-	
+
 					return $vars;
 				}
 			}
