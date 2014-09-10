@@ -214,7 +214,7 @@ class SearchViewSearch extends JViewLegacy
 							// TODO: add other expanding translations?
 							$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
 							$pos              -= $eur_compensation;
-							
+
 							if ($correctPos)
 							{
 								// Calculate necessary corrections from 0 to current $pos
