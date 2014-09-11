@@ -530,6 +530,8 @@ class JApplicationWeb extends JApplicationBase
 				$this->header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
 				$this->header('Location: ' . $url);
 				$this->header('Content-Type: text/html; charset=' . $this->charSet);
+				// For headers that have been set like cache headers.
+				$this->sendHeaders();
 			}
 		}
 
