@@ -163,11 +163,10 @@ class JFormFieldSQL extends JFormFieldList
 	}
 
 	/**
-	 *
 	 * Method to process the query from form.
 	 *
-	 * @param   array   $conditions   The conditions from the form.
-	 * @param   string  $filter       The columns to filter.
+	 * @param   array   $conditions  The conditions from the form.
+	 * @param   string  $filter      The columns to filter.
 	 *
 	 * @return  $query  The query object.
 	 *
