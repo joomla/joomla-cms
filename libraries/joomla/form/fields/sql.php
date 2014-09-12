@@ -163,6 +163,7 @@ class JFormFieldSQL extends JFormFieldList
 	}
 
 	/**
+	 *
 	 * Method to process the query from form.
 	 *
 	 * @param   array   $conditions   The conditions from the form.
@@ -205,7 +206,7 @@ class JFormFieldSQL extends JFormFieldList
 
 			$filters = explode(",", $filter);
 
-			foreach($filters as $k => $value)
+			foreach ($filters as $k => $value)
 			{
 				if (isset($html_filters[$value]))
 				{
