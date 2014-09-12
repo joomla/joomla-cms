@@ -67,7 +67,6 @@ class FOFRenderJoomla3 extends FOFRenderStrapper
 			$view = $input->getCmd('view', '');
 			$layout = $input->getCmd('layout', '');
 			$task = $input->getCmd('task', '');
-			$itemid = $input->getCmd('Itemid', '');
 
 			$classes = ' class="' . implode(array(
 				'joomla-version-' . $majorVersion,
@@ -77,7 +76,6 @@ class FOFRenderJoomla3 extends FOFRenderStrapper
 				'view-' . $view,
 				'layout-' . $layout,
 				'task-' . $task,
-				'itemid-' . $itemid,
 			), ' ') . '"';
 		}
 		else

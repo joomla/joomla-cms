@@ -8,8 +8,6 @@
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
-require_once JPATH_PLATFORM . '/lessc/lessc.inc.php';
-
 /**
  * This class is taken verbatim from:
  *
@@ -23,8 +21,30 @@ require_once JPATH_PLATFORM . '/lessc/lessc.inc.php';
  *
  * @package  FrameworkOnFramework
  * @since    2.0
- * @deprecated  Use lessc_formatter_compressed instead
  */
-class FOFLessFormatterCompressed extends lessc_formatter_compressed
+class FOFLessFormatterCompressed extends FOFLessFormatterClassic
 {
+	public $disableSingle = true;
+
+	public $open = "{";
+
+	public $selectorSeparator = ",";
+
+	public $assignSeparator = ":";
+
+	public $break = "";
+
+	public $compressColors = true;
+
+	/**
+	 * Indent a string by $n positions
+	 *
+	 * @param   integer  $n  How many positions to indent
+	 *
+	 * @return  string  The indented string
+	 */
+	public function indentStr($n = 0)
+	{
+		return "";
+	}
 }

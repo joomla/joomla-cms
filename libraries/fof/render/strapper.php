@@ -68,7 +68,6 @@ class FOFRenderStrapper extends FOFRenderAbstract
 			$view = $input->getCmd('view', '');
 			$layout = $input->getCmd('layout', '');
 			$task = $input->getCmd('task', '');
-			$itemid = $input->getCmd('Itemid', '');
 
 			$classes = array(
 				'joomla-version-' . $majorVersion,
@@ -78,7 +77,6 @@ class FOFRenderStrapper extends FOFRenderAbstract
 				'view-' . $view,
 				'layout-' . $layout,
 				'task-' . $task,
-				'itemid-' . $itemid,
 			);
 		}
 		elseif ($platform->isFrontend())
@@ -717,8 +715,22 @@ HTML;
 		// Start the form
 		$filter_order		 = $form->getView()->getLists()->order;
 		$filter_order_Dir	 = $form->getView()->getLists()->order_Dir;
+        $actionUrl           = FOFPlatform::getInstance()->isBackend() ? 'index.php' : JUri::root().'index.php';
 
-		$html .= '<form action="index.php" method="post" name="adminForm" id="adminForm" ' . $form_class . '>' . PHP_EOL;
+		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
+		{
+			$itemid = $input->getCmd('Itemid', 0);
+			$uri = new JUri($actionUrl);
+
+			if ($itemid)
+			{
+				$uri->setVar('Itemid', $itemid);
+			}
+
+			$actionUrl = JRoute::_($uri->toString());
+		}
+
+		$html .= '<form action="'.$actionUrl.'" method="post" name="adminForm" id="adminForm" ' . $form_class . '>' . PHP_EOL;
 
 		if (version_compare(JVERSION, '3.0', 'ge'))
 		{
@@ -938,11 +950,6 @@ HTML;
 		$html .= "\t" . '<input type="hidden" name="filter_order" value="' . $filter_order . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="filter_order_Dir" value="' . $filter_order_Dir . '" />' . PHP_EOL;
 
-		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
-		{
-			$html .= "\t" . '<input type="hidden" name="Itemid" value="' . $input->getCmd('Itemid', 0) . '" />' . PHP_EOL;
-		}
-
 		$html .= "\t" . '<input type="hidden" name="' . JFactory::getSession()->getFormToken() . '" value="1" />' . PHP_EOL;
 
 		// End the form
@@ -1026,18 +1033,28 @@ HTML;
 			$formid = 'adminForm';
 		}
 
-		$html .= '<form action="index.php" method="post" name="' . $formname .
+        $actionUrl = FOFPlatform::getInstance()->isBackend() ? 'index.php' : JUri::root().'index.php';
+
+		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
+		{
+			$itemid = $input->getCmd('Itemid', 0);
+			$uri = new JUri($actionUrl);
+
+			if ($itemid)
+			{
+				$uri->setVar('Itemid', $itemid);
+			}
+
+			$actionUrl = JRoute::_($uri->toString());
+		}
+
+		$html .= '<form action="'.$actionUrl.'" method="post" name="' . $formname .
 			'" id="' . $formid . '"' . $enctype . ' class="form-horizontal' .
 			$class . '">' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="option" value="' . $input->getCmd('option') . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="view" value="' . $input->getCmd('view', 'edit') . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="task" value="" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="' . $key . '" value="' . $keyValue . '" />' . PHP_EOL;
-
-		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
-		{
-			$html .= "\t" . '<input type="hidden" name="Itemid" value="' . $input->getCmd('Itemid', 0) . '" />' . PHP_EOL;
-		}
 
 		$html .= "\t" . '<input type="hidden" name="' . JFactory::getSession()->getFormToken() . '" value="1" />' . PHP_EOL;
 
