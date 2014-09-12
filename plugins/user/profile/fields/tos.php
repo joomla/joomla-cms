@@ -78,9 +78,26 @@ class JFormFieldTos extends JFormFieldRadio
 			) . '"';
 		}
 
-		$tosarticle = $this->element['article'] ? (int) $this->element['article'] : 1;
-		$link = '<a class="modal" title="" href="index.php?option=com_content&amp;view=article&amp;layout=modal&amp;id='
-			. $tosarticle . '&amp;tmpl=component" rel="{handler: \'iframe\', size: {x:800, y:500}}">' . $text . '</a>';
+		$tosarticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
+
+		$link = '';
+
+		if ($tosarticle)
+		{
+			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
+
+			$attribs = array();
+			$attribs['class'] = 'modal';
+			$attribs['rel'] = '{handler: \'iframe\', size: {x:800, y:500}}';
+
+			$url = ContentHelperRoute::getArticleRoute($tosarticle);
+
+			$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
+		}
+		else
+		{
+			$link = $text;
+		}
 
 		// Add the label text and closing tag.
 		$label .= '>' . $link . '<span class="star">&#160;*</span></label>';

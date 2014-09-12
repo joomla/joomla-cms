@@ -158,41 +158,111 @@ class SearchViewSearch extends JViewLegacy
 					$needle      = $searchwords[0];
 				}
 
-				$row         = SearchHelper::prepareSearchContent($row, $needle);
-				$searchwords = array_values(array_unique($searchwords));
-				$srow        = strtolower(SearchHelper::remove_accents($row));
-				$hl1         = '<span class="highlight">';
-				$hl2         = '</span>';
-				$cnt         = 0;
+				$row          = SearchHelper::prepareSearchContent($row, $needle);
+				$searchwords  = array_values(array_unique($searchwords));
+				$srow         = strtolower(SearchHelper::remove_accents($row));
+				$hl1          = '<span class="highlight">';
+				$hl2          = '</span>';
+				$posCollector = array();
+				$mbString     = extension_loaded('mbstring');
+
+				if ($mbString)
+				{
+					// E.g. german umlauts like ä are converted to ae and so
+					// $pos calculated with $srow doesn't match for $row
+					$correctPos     = (mb_strlen($srow) > mb_strlen($row));
+					$highlighterLen = mb_strlen($hl1 . $hl2);
+				}
+				else
+				{
+					// E.g. german umlauts like ä are converted to ae and so
+					// $pos calculated with $srow desn't match for $row
+					$correctPos     = (JString::strlen($srow) > JString::strlen($row));
+					$highlighterLen = JString::strlen($hl1 . $hl2);
+				}
 
 				foreach ($searchwords as $hlword)
 				{
-					if (extension_loaded('mbstring'))
+					if ($mbString)
 					{
 						if (($pos = mb_strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
 						{
-							$pos += $cnt * mb_strlen($hl1 . $hl2);
-							$cnt++;
-
-							// iconv transliterates '€' to 'EUR'
+							// Iconv transliterates '€' to 'EUR'
 							// TODO: add other expanding translations?
 							$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
-							$pos -= $eur_compensation;
-							$row = mb_substr($row, 0, $pos) . $hl1 . mb_substr($row, $pos, mb_strlen($hlword)) . $hl2 . mb_substr($row, $pos + mb_strlen($hlword));
+							$pos              -= $eur_compensation;
+
+							if ($correctPos)
+							{
+								// Calculate necessary corrections from 0 to current $pos
+								$ChkRow     = mb_substr($row, 0, $pos);
+								$sChkRowLen = mb_strlen(strtolower(SearchHelper::remove_accents($ChkRow)));
+								$ChkRowLen  = mb_strlen($ChkRow);
+								// correct $pos
+								$pos -= ($sChkRowLen - $ChkRowLen);
+							}
+
+							// Collect pos and searchword
+							$posCollector[$pos] = $hlword;
 						}
 					}
 					else
 					{
 						if (($pos = JString::strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
 						{
-							$pos += $cnt * JString::strlen($hl1 . $hl2);
-							$cnt++;
-
 							// iconv transliterates '€' to 'EUR'
 							// TODO: add other expanding translations?
 							$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
-							$pos -= $eur_compensation;
-							$row = JString::substr($row, 0, $pos) . $hl1 . JString::substr($row, $pos, JString::strlen($hlword)) . $hl2 . JString::substr($row, $pos + JString::strlen($hlword));
+							$pos              -= $eur_compensation;
+
+							if ($correctPos)
+							{
+								// Calculate necessary corrections from 0 to current $pos
+								$ChkRow     = JString::substr($row, 0, $pos);
+								$sChkRowLen = JString::strlen(strtolower(SearchHelper::remove_accents($ChkRow)));
+								$ChkRowLen  = JString::strlen($ChkRow);
+								// Correct $pos
+								$pos -= ($sChkRowLen - $ChkRowLen);
+							}
+
+							// Collect pos and searchword
+							$posCollector[$pos] = $hlword;
+						}
+					}
+				}
+
+				if (count($posCollector))
+				{
+					// Sort by pos. Easier to handle overlapping highlighter-spans
+					ksort($posCollector);
+					$cnt                = 0;
+					$lastHighlighterEnd = -1;
+
+					foreach ($posCollector as  $pos => $hlword)
+					{
+						$pos += $cnt * $highlighterLen;
+						// Avoid overlapping/corrupted highlighter-spans
+						// TODO $chkOverlap could be used to highlight remaining part
+						// of searchword outside last highlighter-span.
+						// At the moment no additional highlighter is set.
+						$chkOverlap = $pos - $lastHighlighterEnd;
+
+						if ($chkOverlap >= 0)
+						{
+							// Set highlighter around searchword
+							if ($mbString)
+							{
+								$hlwordLen = mb_strlen($hlword);
+								$row       = mb_substr($row, 0, $pos) . $hl1 . mb_substr($row, $pos, $hlwordLen) . $hl2 . mb_substr($row, $pos + $hlwordLen);
+							}
+							else
+							{
+								$hlwordLen = JString::strlen($hlword);
+								$row       = JString::substr($row, 0, $pos) . $hl1 . JString::substr($row, $pos, JString::strlen($hlword)) . $hl2 . JString::substr($row, $pos + JString::strlen($hlword));
+							}
+
+							$cnt++;
+							$lastHighlighterEnd = $pos + $hlwordLen + $highlighterLen;
 						}
 					}
 				}
