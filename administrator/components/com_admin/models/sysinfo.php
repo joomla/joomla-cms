@@ -141,6 +141,7 @@ class AdminModelSysInfo extends JModelLegacy
 			}
 
 			$this->info['php']			= php_uname();
+			$this->info['dbtype']       = $db->name;
 			$this->info['dbversion']	= $db->getVersion();
 			$this->info['dbcollation']	= $db->getCollation();
 			$this->info['phpversion']	= phpversion();

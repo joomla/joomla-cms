@@ -169,23 +169,18 @@ class InstallerModelUpdate extends JModelList
 
 		// Note: TRUNCATE is a DDL operation
 		// This may or may not mean depending on your database
-		$db->setQuery('TRUNCATE TABLE #__updates');
-		if ($db->execute())
-		{
-			// Reset the last update check timestamp
-			$query = $db->getQuery(true)
-				->update($db->quoteName('#__update_sites'))
-				->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
-			$db->setQuery($query);
-			$db->execute();
-			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
-			return true;
-		}
-		else
-		{
-			$this->_message = JText::_('COM_INSTALLER_FAILED_TO_PURGE_UPDATES');
-			return false;
-		}
+		$db->truncateTable('#__updates');
+
+		// Reset the last update check timestamp
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__update_sites'))
+			->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
+		$db->setQuery($query);
+		$db->execute();
+
+		$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
+
+		return true;
 	}
 
 	/**

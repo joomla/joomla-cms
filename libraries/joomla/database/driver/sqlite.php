@@ -117,7 +117,9 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 */
 	public function getCollation()
 	{
-		return $this->charset;
+		$this->connect();
+
+		return $this->setQuery('PRAGMA encoding;')->loadResult();
 	}
 
 	/**
@@ -460,5 +462,21 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 		{
 			$this->transactionDepth++;
 		}
+	}
+
+	/**
+	 * Method to truncate a table.
+	 *
+	 * @param   string  $table  The table to truncate
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 * @throws  RuntimeException
+	 */
+	public function truncateTable($table)
+	{
+		$this->setQuery('DELETE FROM ' . $this->quoteName($table))
+			->execute();
 	}
 }

@@ -796,6 +796,9 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		}
 		else
 		{
+			// Ensure that the table key is NULL (not "0")
+			$this->{$this->_tbl_keys[0]} = $this->{$this->_tbl_keys[0]} ? : null;
+
 			$result = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
 		}
 
