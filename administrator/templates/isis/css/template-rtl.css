@@ -8531,15 +8531,6 @@ input[type="url"] {
 	text-align: left;
 	direction: ltr;
 }
-.login-joomla {
-	position: absolute;
-	right: 50%;
-	height: 24px;
-	width: 24px;
-	text-indent: -9999px;
-	background: url('../images/login-joomla.png') no-repeat;
-	margin-right: -12px;
-}
 .navbar .admin-logo {
 	float: right;
 	padding: 7px 15px 0px 12px;
