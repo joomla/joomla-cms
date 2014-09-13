@@ -51,7 +51,7 @@ class MediaControllerMediaUpload extends JControllerBase
 		{
 			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
 
-			return false;
+			return $this->redirect(JRoute::_('index.php?option=com_media'), false);
 		}
 
 		$params = JComponentHelper::getParams('com_media');

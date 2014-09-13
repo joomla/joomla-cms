@@ -68,8 +68,10 @@ function createStatusbar(obj)
         {
             sizeStr = sizeKB.toFixed(2)+" KB";
         }
- 
-        this.filename.html(name);
+
+        var shortName = name.slice(0,28);
+
+        this.filename.html(shortName);
         this.size.html(sizeStr);
     }
     this.setProgress = function(progress)
