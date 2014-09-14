@@ -110,7 +110,7 @@
   }
 }
 .chzn-container-single .chzn-search input {
-  #gradient > .vertical(#eee, #fff);
+//  #gradient > .vertical(#eee, #fff);
   margin: 1px 0;
   padding: 4px 20px 4px 5px;
   outline: 0;
@@ -141,9 +141,9 @@
   background-color: @inputBackground;
   border: 1px solid @inputBorder;
   border-radius: @inputBorderRadius;
-  .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
-  @transition: border linear .2s, box-shadow linear .2s;
-  .transition(@transition);
+//  .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
+//  @transition: border linear .2s, box-shadow linear .2s;
+//  .transition(@transition);
   margin: 0;
   padding: 0;
   cursor: text;
@@ -185,10 +185,11 @@
 .chzn-container-multi .chzn-choices .search-choice {
   .border-radius(3px);
   .background-clip(padding-box);
-  #gradient > .vertical-three-colors(#f4f4f4, #f0f0f0, 50%, #eeeeee);
-  .box-shadow(~'0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05)');
-  color: #333;
-  border: 1px solid #aaaaaa;
+//  #gradient > .vertical-three-colors(#f4f4f4, #f0f0f0, 50%, #eeeeee);
+//  .box-shadow(~'0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05)');
+  background-color: @linkColor;
+  color: #fff;
+  border: 1px solid @linkColor;
   line-height: 13px;
   padding: 3px 20px 3px 5px;
   margin: 3px 0 3px 5px;
@@ -196,7 +197,8 @@
   cursor: default;
 }
 .chzn-container-multi .chzn-choices .search-choice.search-choice-disabled {
-  #gradient > .vertical-three-colors(#f4f4f4, #f0f0f0, 50%, #eeeeee);
+//  #gradient > .vertical-three-colors(#f4f4f4, #f0f0f0, 50%, #eeeeee);
+  background-color: #fff;
   color: #999;
   border: 1px solid #cccccc;
   padding-right: 5px;
@@ -314,13 +316,14 @@
 
 /* @group Active  */
 .chzn-container-active .chzn-single {
-  border-color: rgba(82,168,236,.8);
-  .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6)");
+  border: 1px solid @linkColor;
+  color: @linkColor;
+//  .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6)");
 }
 .chzn-container-active.chzn-with-drop .chzn-single {
-  border: 1px solid #aaa;
-  .box-shadow(0 1px 0 #fff inset);
-  #gradient > .vertical(#eee, #fff);
+  border: 1px solid @linkColor;
+//  .box-shadow(0 1px 0 @linkColor inset);
+//  #gradient > .vertical(#eee, #fff);
   .border-bottom-radius(0);
 }
 .chzn-container-active.chzn-with-drop .chzn-single div {
@@ -332,8 +335,9 @@
 }
 .chzn-container-active .chzn-choices {
   .border-bottom-radius(0);
-  border-color: rgba(82,168,236,.8);
-  .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6)");
+  border: 1px solid @linkColor;
+
+//  .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6)");
 }
 .chzn-container-active .chzn-choices .search-field input {
   color: #111 !important;

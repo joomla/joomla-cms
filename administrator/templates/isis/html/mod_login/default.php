@@ -26,7 +26,7 @@ JHtml::_('formbehavior.chosen');
 						</label>
 					</span>
 					<input name="username" tabindex="1" id="mod-login-username" type="text" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" size="15"/>
-					<a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=remind" class="btn width-auto hasTooltip" title="<?php echo JText::_('MOD_LOGIN_REMIND'); ?>">
+					<a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=remind" class="btn solid width-auto hasTooltip" title="<?php echo JText::_('MOD_LOGIN_REMIND'); ?>">
 						<i class="icon-help"></i>
 					</a>
 				</div>
@@ -42,7 +42,7 @@ JHtml::_('formbehavior.chosen');
 						</label>
 					</span>
 					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" size="15"/>
-					<a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=reset" class="btn width-auto hasTooltip" title="<?php echo JText::_('MOD_LOGIN_RESET'); ?>">
+					<a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=reset" class="btn solid width-auto hasTooltip" title="<?php echo JText::_('MOD_LOGIN_RESET'); ?>">
 						<i class="icon-help"></i>
 					</a>
 				</div>
