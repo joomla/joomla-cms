@@ -111,7 +111,7 @@ abstract class JHtmlEmail
 		$text = str_replace('o', '&#111;', $text);
 		$text = str_replace('u', '&#117;', $text);
 
-		$text = htmlentities($text,ENT_QUOTES,'UTF-8',false);
+		$text = htmlentities($text, ENT_QUOTES, 'UTF-8', false);
 
 		return $text;
 	}
