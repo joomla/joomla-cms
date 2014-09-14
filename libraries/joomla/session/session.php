@@ -181,7 +181,7 @@ class JSession implements IteratorAggregate
 	 *
 	 * @since   11.1
 	 */
-	public static function getInstance($store, $options, $handlerInterface = null)
+	public static function getInstance($store, $options, JSessionHandlerInterface $handlerInterface = null)
 	{
 		if (!is_object(self::$instance))
 		{
