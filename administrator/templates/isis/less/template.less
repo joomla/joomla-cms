@@ -1,4 +1,3 @@
-//@import url(http://fonts.googleapis.com/css?family=Ubuntu);
 // CSS Reset
 @import "../../../../media/jui/less/reset.less";
 
@@ -118,7 +117,7 @@ body {
 	}
 	.well{
 		padding-bottom: 0;
-		.box-shadow(~"0px 0px 60px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.9) inset");
+//		.box-shadow(~"0px 0px 60px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.9) inset");
 	}
 	.login-joomla{
 		position: absolute;
@@ -214,6 +213,13 @@ body .navbar-fixed-top{
 }
 .navbar .btn-navbar{
 	background: #17568c; /* Old browsers */
+//	background: -moz-linear-gradient(top,  #17568c 0%, #1a3867 100%); /* FF3.6+ */
+//	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#17568c), color-stop(100%,#1a3867)); /* Chrome,Safari4+ */
+//	background: -webkit-linear-gradient(top,  #17568c 0%,#1a3867 100%); /* Chrome10+,Safari5.1+ */
+//	background: -o-linear-gradient(top,  #17568c 0%,#1a3867 100%); /* Opera 11.10+ */
+//	background: -ms-linear-gradient(top,  #17568c 0%,#1a3867 100%); /* IE10+ */
+//	background: linear-gradient(top,  #17568c 0%,#1a3867 100%); /* W3C */
+//	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#17568c', endColorstr='#1a3867',GradientType=0 ); /* IE6-9 */
 	border: 1px solid #17568c;
 	margin-bottom: 2px;
 }
@@ -290,6 +296,13 @@ body .navbar-fixed-top{
 /* Subhead */
 .subhead{
 	background: #ffffff; /* Old browsers */
+//	background: -moz-linear-gradient(top,  #ffffff 0%, #ededed 100%); /* FF3.6+ */
+//	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ededed)); /* Chrome,Safari4+ */
+//	background: -webkit-linear-gradient(top,  #ffffff 0%,#ededed 100%); /* Chrome10+,Safari5.1+ */
+//	background: -o-linear-gradient(top,  #ffffff 0%,#ededed 100%); /* Opera 11.10+ */
+//	background: -ms-linear-gradient(top,  #ffffff 0%,#ededed 100%); /* IE10+ */
+//	background: linear-gradient(top,  #ffffff 0%,#ededed 100%); /* W3C */
+//	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
 	border-bottom: 1px solid #D3D3D3;
 	color: #0C192E;
 	text-shadow: 0 1px 0 #FFF;
@@ -311,6 +324,9 @@ body .navbar-fixed-top{
 	width: 100%;
 	top: 30px;
 	z-index: 100;
+//	-moz-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+//	-webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+//	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 767px) {
@@ -361,14 +377,14 @@ h4 { font-size: 14px; line-height: 16px; }
 h5 { font-size: 13px; line-height: 15px; }
 h6 { font-size: 12px; line-height: 14px; }
 
-/* Sidebar
+/* Sidebar */
 .sidebar-nav .nav-list > li > a{
 	color: #555;
 }
 .sidebar-nav .nav-list > li.active > a{
 	color: #fff;
 }
- */
+
 /* Quick-icons */
 .quick-icons .nav li + .nav-header {
   margin-top: 12px;
@@ -486,6 +502,15 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"],html[dir=rtl] .quick-icons
 #assignment.tab-pane{
 	min-height: 500px;
 }
+// Button color
+//.btn-primary.active,
+//.btn-warning.active,
+//.btn-danger.active,
+//.btn-success.active,
+//.btn-info.active,
+//.btn-inverse.active {
+//	color: rgba(255,255,255,.95);
+//}
 
 /* Chosen Max Width */
 .chzn-container,
@@ -603,6 +628,9 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"],html[dir=rtl] .quick-icons
 		width: 95% !important;
 		margin-left: 10px;
 	}
+//	.subhead-fixed {
+//		box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+//	}
 	.subhead {
 		background: none repeat scroll 0 0 transparent;
 		border-bottom: 0 solid #D3D3D3;
@@ -928,9 +956,11 @@ th .tooltip-inner {
 }
 .controls .btn-group.btn-group-yesno > .btn {
 	min-width: 84px;
-	padding: 2px 12px;
+	padding: 4px 12px;
 }
-
+.radio.btn-group > label:first-of-type {
+  margin-right: -1px;
+}
 .img-preview > img {
 	max-height: 100%;
 }
@@ -964,6 +994,27 @@ input.input-large-text {
 	margin-top: -5px;
 	margin-bottom: 10px;
 }
+
+/* Chosen color styles */
+//[class^="chzn-color"].chzn-single,
+//[class*=" chzn-color"].chzn-single,
+//[class^="chzn-color"].chzn-single .chzn-single-with-drop,
+//[class*=" chzn-color"].chzn-single .chzn-single-with-drop {
+//	.box-shadow(none);
+//}
+//.chzn-color.chzn-single[rel="value_1"],
+//.chzn-color-reverse.chzn-single[rel="value_0"],
+//.chzn-color-state.chzn-single[rel="value_1"] {
+//	.buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
+//	}
+//.chzn-color.chzn-single[rel="value_0"],
+//.chzn-color-reverse.chzn-single[rel="value_1"],
+//.chzn-color-state.chzn-single[rel="value_0"],
+//.chzn-color-state.chzn-single[rel="value_-1"],
+//.chzn-color-state.chzn-single[rel="value_-2"] {
+//	.buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
+//}
+
 /* Widen the drop downs for the Permissions Field */
 #permissions-sliders .input-small {
 	width: 120px;

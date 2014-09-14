@@ -32,7 +32,7 @@
 
 // Scaffolding
 // -------------------------
-@bodyBackground:        white;
+@bodyBackground:        @white;
 @textColor:             @grayDark;
 
 
@@ -44,7 +44,7 @@
 
 // Typography
 // -------------------------
-@sansFontFamily:        "Ubuntu Light", "Ubuntu", "Helvetica Neue", Helvetica, sans-serif; //'Ubuntu',
+@sansFontFamily:        "Ubuntu Light", "Ubuntu", "Helvetica Neue", Helvetica, Arial, sans-serif;
 @serifFontFamily:       Georgia, "Times New Roman", Times, serif;
 @monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace;
 // > Joomla JUI
@@ -54,7 +54,7 @@
 // > Joomla JUI
 @baseLineHeight:        18px;
 // < Joomla JUI
-@altFontFamily:         @sansFontFamily;
+@altFontFamily:         @serifFontFamily;
 
 @headingsFontFamily:    inherit; // empty to use BS default, @baseFontFamily
 @headingsFontWeight:    bold;    // instead of browser default, bold
@@ -91,7 +91,7 @@
 // -------------------------
 @btnBackground:                     @white;
 @btnBackgroundHighlight:            darken(@white, 9%);
-@btnBorder:                         darken(@white, 9%);
+@btnBorder:                         #bbb;
 
 // > Joomla JUI
 @btnPrimaryBackground:              @linkColor;
