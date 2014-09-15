@@ -123,7 +123,7 @@ class JSession implements IteratorAggregate
 	public function __construct($store = 'none', array $options = array(), JSessionHandlerInterface $handlerInterface = null)
 	{
 		// Set the session handler
-		if (!$handlerInterface)
+		if (! ($handlerInterface instanceof JSessionHandlerInterface))
 		{
 			$handlerInterface = new JSessionHandlerNative;
 		}
@@ -285,17 +285,7 @@ class JSession implements IteratorAggregate
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 
-		// TODO: Decouple from legacy JApplication class.
-		if (is_callable(array('JApplication', 'getHash')))
-		{
-			$hash = JApplication::getHash($user->get('id', 0) . $session->getToken($forceNew));
-		}
-		else
-		{
-			$hash = md5(JFactory::getApplication()->get('secret') . $user->get('id', 0) . $session->getToken($forceNew));
-		}
-
-		return $hash;
+		return JApplicationHelper::getHash($user->get('id', 0) . $session->getToken($forceNew));
 	}
 
 	/**
