@@ -7016,12 +7016,13 @@ body {
 	box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.9) inset;
 }
 .view-login .login-joomla {
-	display: inline-block;
+	position: absolute;
+	left: 50%;
 	height: 24px;
 	width: 24px;
 	text-indent: -9999px;
 	background: url('../images/login-joomla.png') no-repeat;
-	margin-left: -20px;
+	margin-left: -12px;
 }
 .view-login .navbar-fixed-bottom {
 	position: absolute;
