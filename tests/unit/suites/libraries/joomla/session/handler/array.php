@@ -81,7 +81,7 @@ class JSessionHandlerArray implements JSessionHandlerInterface
 		}
 
 		if (empty($this->id)) {
-			$this->id = $this->generateId();
+			$this->setId($this->generateId());
 		}
 
 		return true;
@@ -118,6 +118,9 @@ class JSessionHandlerArray implements JSessionHandlerInterface
 		if ($this->started) {
 			throw new LogicException('Cannot set session ID after the session has started.');
 		}
+
+		// Set the PHP Session ID here too, it just works
+		session_id($id);
 
 		$this->id = $id;
 	}

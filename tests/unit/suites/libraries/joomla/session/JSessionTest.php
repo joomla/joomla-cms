@@ -35,9 +35,12 @@ class JSessionTest extends TestCase
 
 		$this->saveFactoryState();
 
-		$handler = new JSessionHandlerArray;
+		$handler = new JSessionHandlerArray(md5('PHPSESSID'));
 
-		$this->object = JSession::getInstance('none', array('expire' => 20, 'force_ssl' => true, 'name' => 'name', 'id' => 'id', 'security' => 'security'), $handler);
+		$this->object = JSession::getInstance(
+			'none', array('expire' => 20, 'force_ssl' => true, 'name' => 'PHPSESSID', 'security' => 'security'), $handler
+		);
+
 		$this->input = new JInput;
 		$this->input->cookie = $this->getMock('JInputCookie', array('set', 'get'));
 		$this->object->initialise($this->input);
@@ -195,15 +198,8 @@ class JSessionTest extends TestCase
 	{
 		$user = JFactory::getUser();
 
-		JFactory::$application = $this->getMock('JInputCookie', array('set', 'get'));
-		JFactory::$application->expects($this->once())
-			->method('get')
-			->with($this->equalTo('secret'))
-			->will($this->returnValue('abc'));
-
-		$this->object->set('secret', 'abc');
-		$expected = md5('abc' . $user->get('id', 0) . $this->object->getToken(false));
-		$this->assertEquals($expected, $this->object->getFormToken(), 'Form token should be calculated as above.');
+		$expected = md5($user->get('id', 0) . $this->object->getToken(false));
+		$this->assertEquals($expected, $this->object->getFormToken(false), 'Form token should be calculated as above.');
 	}
 
 	/**
@@ -215,7 +211,8 @@ class JSessionTest extends TestCase
 	 */
 	public function testGetName()
 	{
-		$this->assertEquals(session_name(), $this->object->getName(), 'Session names should match.');
+		// PHPUnit sets a session name of 'PHPSESSID' while our code uses an MD5 hash so we cannot test directly with session_name()
+		$this->assertEquals(md5('PHPSESSID'), $this->object->getName(), 'Session names should match.');
 	}
 
 	/**
