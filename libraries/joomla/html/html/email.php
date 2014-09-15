@@ -102,12 +102,16 @@ abstract class JHtmlEmail
 	 */
 	protected static function _convertEncoding($text)
 	{
+		$text = html_entity_decode($text);
+
 		// Replace vowels with character encoding
 		$text = str_replace('a', '&#97;', $text);
 		$text = str_replace('e', '&#101;', $text);
 		$text = str_replace('i', '&#105;', $text);
 		$text = str_replace('o', '&#111;', $text);
 		$text = str_replace('u', '&#117;', $text);
+
+		$text = htmlentities($text, ENT_QUOTES, 'UTF-8', false);
 
 		return $text;
 	}
