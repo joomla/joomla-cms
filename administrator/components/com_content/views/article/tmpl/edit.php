@@ -18,7 +18,7 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $this->configFieldsets  = array('editorConfig');
 $this->hiddenFieldsets  = array('basic-limited');
-$this->ignore_fieldsets = array('basic', 'jmetadata');
+$this->ignore_fieldsets = array('jmetadata');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
