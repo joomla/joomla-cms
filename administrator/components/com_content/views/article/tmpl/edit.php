@@ -18,6 +18,7 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $this->hiddenFieldsets = array();
 $this->hiddenFieldsets[0] = 'basic-limited';
+$this->ignore_fieldsets = array('basic', 'jmetadata');
 $this->configFieldsets = array();
 $this->configFieldsets[0] = 'editorConfig';
 
