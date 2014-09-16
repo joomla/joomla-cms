@@ -108,7 +108,7 @@ else
 						</div>
 					<?php endif; ?>
 				</li>
-		<?php endif; ?>
+		<?php endfor; ?>
 		</ul>
 	<?php endif; ?>
 	</div>

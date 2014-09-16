@@ -113,7 +113,7 @@ class JFormFieldModal_Contact extends JFormField
 			}
 			catch (RuntimeException $e)
 			{
-				JError::raiseWarning(500, $e->getMessage);
+				JError::raiseWarning(500, $e->getMessage());
 			}
 		}
 

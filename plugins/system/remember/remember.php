@@ -38,6 +38,12 @@ class PlgSystemRemember extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
+		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
+		if (!$this->app)
+		{
+			$this->app = JFactory::getApplication();
+		}
+
 		// No remember me for admin.
 		if ($this->app->isAdmin())
 		{
