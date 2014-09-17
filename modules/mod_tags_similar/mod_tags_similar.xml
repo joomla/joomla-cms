@@ -51,6 +51,19 @@
 					<option
 						value="half">MOD_TAGS_SIMILAR_FIELD_HALF</option>
 				</field>
+				<field
+					name="ordering"
+					type="list"
+					default="count"
+					label="MOD_TAGS_SIMILAR_FIELD_ORDERING_LABEL"
+					description="MOD_TAGS_SIMILAR_FIELD_ORDERING_DESC">
+					<option
+						value="count">MOD_TAGS_SIMILAR_FIELD_COUNT</option>
+					<option
+						value="random">MOD_TAGS_SIMILAR_FIELD_RANDOM</option>
+					<option
+						value="countrandom">MOD_TAGS_SIMILAR_FIELD_COUNT_AND_RANDOM</option>
+				</field>
 			</fieldset>
 			<fieldset
 				name="advanced">
