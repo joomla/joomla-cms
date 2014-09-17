@@ -42,8 +42,8 @@ class JCacheStorageMemcachedTest extends PHPUnit_Framework_TestCase
 			$host = $config->get('memcached_server_host', 'localhost');
 			$port = $config->get('memcached_server_port', 11211);
 
-			$memcache = new Memcached;
-			$memcachedtest = @$memcache->connect($host, $port);
+			$memcached = new Memcached;
+			$memcachedtest = @$memcached->addServer($host, $port);
 		}
 
 		$this->extensionAvailable = $memcachedtest;
