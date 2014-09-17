@@ -236,7 +236,7 @@ class WeblinksRouter extends JComponentRouterBase
 						->select($db->quoteName('id'))
 						->from('#__weblinks')
 						->where($db->quoteName('catid') . ' = ' . (int) $vars['catid'])
-						->where($db->quoteName('alias') . ' = ' . $db->quote($db->quote(str_replace(':', '-', $segment))));
+						->where($db->quoteName('alias') . ' = ' . $db->quote(str_replace(':', '-', $segment)));
 					$db->setQuery($query);
 					$id = $db->loadResult();
 				}

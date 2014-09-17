@@ -231,7 +231,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 						->select($db->quoteName('id'))
 						->from('#__newsfeeds')
 						->where($db->quoteName('catid') . ' = ' . (int) $vars['catid'])
-						->where($db->quoteName('alias') . ' = ' . $db->quote($db->quote($segment)));
+						->where($db->quoteName('alias') . ' = ' . $db->quote($segment));
 					$db->setQuery($query);
 					$nid = $db->loadResult();
 				}
