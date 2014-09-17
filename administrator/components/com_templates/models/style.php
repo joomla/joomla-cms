@@ -211,7 +211,7 @@ class TemplatesModelStyle extends JModelAdmin
 			$template  = JArrayHelper::getValue($data, 'template');
 		}
 
-		$folder = NULL;
+		$folder = null;
 
 		if ($clientId == 1) $folder = '/administrator';
 
