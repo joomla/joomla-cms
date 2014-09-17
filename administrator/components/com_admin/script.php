@@ -1073,6 +1073,8 @@ class JoomlaInstallerScript
 			'/libraries/framework/Symfony/Component/Yaml/Parser.php',
 			'/libraries/framework/Symfony/Component/Yaml/Unescaper.php',
 			'/libraries/framework/Symfony/Component/Yaml/Yaml.php',
+			'/libraries/joomla/string/inflector.php',
+			'/libraries/joomla/string/normalise.php',
 			'/libraries/phpmailer/language/index.html',
 			'/libraries/phpmailer/language/phpmailer.lang-joomla.php',
 			'/libraries/phpmailer/index.html',
