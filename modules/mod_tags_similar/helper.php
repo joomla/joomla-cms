@@ -43,6 +43,7 @@ abstract class ModTagssimilarHelper
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$matchtype  = $params->get('matchtype', 'all');
 		$maximum    = $params->get('maximum', 5);
+		$ordering   = $params->get('ordering', 'count');
 		$tagsHelper = new JHelperTags;
 		$prefix     = $option . '.' . $view;
 		$id         = $app->input->getInt('id');
@@ -115,7 +116,16 @@ abstract class ModTagssimilarHelper
 			$query->having('COUNT( ' . $db->quoteName('tag_id') . ')  >= ' . $tagCountHalf);
 		}
 
-		$query->order($db->quoteName('count') . ' DESC');
+		if ($ordering == 'count' || $ordering == 'countrandom')
+		{
+			$query->order($db->quoteName('count') . ' DESC');
+		}
+
+		if ($ordering == 'random' || $ordering == 'countrandom')
+		{
+			$query->order('RAND()');
+		}
+
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 
