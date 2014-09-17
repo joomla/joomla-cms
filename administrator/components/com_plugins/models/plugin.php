@@ -72,6 +72,8 @@ class PluginsModelPlugin extends JModelAdmin
 			$element	= JArrayHelper::getValue($data, 'element', '', 'cmd');
 		}
 
+		JForm::addFieldPath(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/fields');
+
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.folder',	$folder);
 		$this->setState('item.element',	$element);
