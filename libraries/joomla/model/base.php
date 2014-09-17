@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform Base Model Class
  *
@@ -21,7 +23,7 @@ abstract class JModelBase implements JModel
 	/**
 	 * The model state.
 	 *
-	 * @var    JRegistry
+	 * @var    Registry
 	 * @since  12.1
 	 */
 	protected $state;
@@ -29,11 +31,11 @@ abstract class JModelBase implements JModel
 	/**
 	 * Instantiate the model.
 	 *
-	 * @param   JRegistry  $state  The model state.
+	 * @param   Registry  $state  The model state.
 	 *
 	 * @since   12.1
 	 */
-	public function __construct(JRegistry $state = null)
+	public function __construct(Registry $state = null)
 	{
 		// Setup the model.
 		$this->state = isset($state) ? $state : $this->loadState();
@@ -42,7 +44,7 @@ abstract class JModelBase implements JModel
 	/**
 	 * Get the model state.
 	 *
-	 * @return  JRegistry  The state object.
+	 * @return  Registry  The state object.
 	 *
 	 * @since   12.1
 	 */
@@ -54,13 +56,13 @@ abstract class JModelBase implements JModel
 	/**
 	 * Set the model state.
 	 *
-	 * @param   JRegistry  $state  The state object.
+	 * @param   Registry  $state  The state object.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function setState(JRegistry $state)
+	public function setState(Registry $state)
 	{
 		$this->state = $state;
 	}
@@ -68,12 +70,12 @@ abstract class JModelBase implements JModel
 	/**
 	 * Load the model state.
 	 *
-	 * @return  JRegistry  The state object.
+	 * @return  Registry  The state object.
 	 *
 	 * @since   12.1
 	 */
 	protected function loadState()
 	{
-		return new JRegistry;
+		return new Registry;
 	}
 }

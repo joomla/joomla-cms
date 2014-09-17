@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Weblink Table class
  *
@@ -46,21 +48,21 @@ class WeblinksTableWeblink extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
 
 		if (isset($array['images']) && is_array($array['images']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['images']);
 			$array['images'] = (string) $registry;
 		}
@@ -80,10 +82,11 @@ class WeblinksTableWeblink extends JTable
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
 
+		$this->modified		= $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified		= $date->toSql();
 			$this->modified_by	= $user->get('id');
 		}
 		else

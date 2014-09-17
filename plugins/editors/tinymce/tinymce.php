@@ -459,10 +459,33 @@ class PlgEditorTinymce extends JPlugin
 			}
 			else
 			{
-				$templates = "templates: [
-					{title: 'Layout', description: 'HTMLLayout', url:'" . JUri::root() . "media/editors/tinymce/templates/layout1.html'},
-					{title: 'Simple snippet', description: 'Simple HTML snippet', url:'" . JUri::root() . "media/editors/tinymce/templates/snippet1.html'}
-				],";
+				$templates = 'templates: [';
+
+				foreach (glob(JPATH_ROOT . '/media/editors/tinymce/templates/*.html') as $filename)
+				{
+					$filename = basename($filename, '.html');
+
+					if ($filename !== 'index')
+					{
+						$lang = JFactory::getLanguage();
+						$title = $filename;
+						$description = ' ';
+
+						if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE'))
+						{
+							$title = JText::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE');
+						}
+
+						if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC'))
+						{
+							$description = JText::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC');
+						}
+
+						$templates .= '{title: \'' . $title . '\', description: \'' . $description . '\', url:\'' . JUri::root() . 'media/editors/tinymce/templates/' . $filename . '.html\'},';
+					}
+				}
+
+				$templates .= '],';
 			}
 		}
 		else

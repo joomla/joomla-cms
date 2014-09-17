@@ -13,48 +13,40 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
- *
  * @since       11.1
  */
 class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JCacheStorageApc
-	 * @access protected
 	 */
 	protected $object;
 
 	/**
-	 * @var    apcAvailable
-	 * @access protected
+	 * @var    boolean
 	 */
-	protected $apcAvailable;
+	protected $extensionAvailable;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
 
-		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
-		include_once JPATH_PLATFORM . '/joomla/cache/storage/apc.php';
+		$this->extensionAvailable = extension_loaded('apc');
 
-		$this->object = JCacheStorage::getInstance('apc');
-		$this->apcAvailable = extension_loaded('apc');
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
+		if ($this->extensionAvailable)
+		{
+			$this->object = JCacheStorage::getInstance('apc');
+		}
+		else
+		{
+			$this->markTestSkipped('This caching method is not supported on this system.');
+		}
 	}
 
 	/**
@@ -66,14 +58,19 @@ class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGet()
 	{
-		if ($this->apcAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @todo Implement testGetAll().
+	 *
+	 * @return void
+	 */
+	public function testGetAll()
+	{
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -85,14 +82,7 @@ class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStore()
 	{
-		if ($this->apcAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -104,14 +94,7 @@ class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRemove()
 	{
-		if ($this->apcAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -123,26 +106,31 @@ class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testClean()
 	{
-		if ($this->apcAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @todo Implement testGc().
+	 *
+	 * @return void
+	 */
+	public function testGc()
+	{
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
 	 * Testing isSupported().
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function testIsSupported()
 	{
-		$this->assertThat(
+		$this->assertEquals(
+			$this->extensionAvailable,
 			$this->object->isSupported(),
-			$this->equalTo($this->apcAvailable),
 			'Claims APC is not loaded.'
 		);
 	}
@@ -150,20 +138,25 @@ class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Implement test_setExpire().
+	 * @todo Implement testLock().
 	 *
 	 * @return void
 	 */
-	public function testSetExpire()
+	public function testLock()
 	{
-		if ($this->apcAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @todo Implement testUnlock().
+	 *
+	 * @return void
+	 */
+	public function testUnlock()
+	{
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -175,13 +168,6 @@ class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetCacheId()
 	{
-		if ($this->apcAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

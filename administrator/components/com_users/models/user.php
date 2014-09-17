@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * User model.
  *
@@ -93,7 +95,7 @@ class UsersModelUser extends JModelAdmin
 	public function getForm($data = array(), $loadData = true)
 	{
 		$plugin = JPluginHelper::getPlugin('user', 'joomla');
-		$pluginParams = new JRegistry($plugin->params);
+		$pluginParams = new Registry($plugin->params);
 
 		// Get the form.
 		$form = $this->loadForm('com_users.user', 'user', array('control' => 'jform', 'load_data' => $loadData));

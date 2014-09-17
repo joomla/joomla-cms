@@ -92,4 +92,22 @@ class RedirectHelper
 
 		return $result;
 	}
+
+	/**
+	 * Checks whether the option "Collect URLs" is enabled for the output message
+	 *
+	 * @return mixed
+	 */
+	public static function collectUrlsEnabled()
+	{
+		$collect_urls = false;
+
+		if (JPluginHelper::isEnabled('system', 'redirect'))
+		{
+			$params = new JRegistry(JPluginHelper::getPlugin('system', 'redirect')->params);
+			$collect_urls = (bool) $params->get('collect_urls', 1);
+		}
+
+		return $collect_urls;
+	}
 }

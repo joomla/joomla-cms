@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform Model Interface
  *
@@ -21,7 +23,7 @@ interface JModel
 	/**
 	 * Get the model state.
 	 *
-	 * @return  JRegistry  The state object.
+	 * @return  Registry  The state object.
 	 *
 	 * @since   12.1
 	 */
@@ -30,11 +32,11 @@ interface JModel
 	/**
 	 * Set the model state.
 	 *
-	 * @param   JRegistry  $state  The state object.
+	 * @param   Registry  $state  The state object.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function setState(JRegistry $state);
+	public function setState(Registry $state);
 }

@@ -110,10 +110,12 @@ class NewsfeedsTableNewsfeed extends JTable
 	{
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
+
+		$this->modified		= $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified		= $date->toSql();
 			$this->modified_by	= $user->get('id');
 		}
 		else
