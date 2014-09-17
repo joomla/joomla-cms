@@ -8,16 +8,16 @@
  */
 
 /**
- * Test class for JCacheStorageXcache.
+ * Test class for JCacheStorageRedis.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
- * @since       11.1
+ * @since       3.4
  */
-class JCacheStorageXcacheTest extends PHPUnit_Framework_TestCase
+class JCacheStorageRedisTest extends TestCase
 {
 	/**
-	 * @var    JCacheStorageXcache
+	 * @var    JCacheStorageRedis
 	 */
 	protected $object;
 
@@ -30,48 +30,53 @@ class JCacheStorageXcacheTest extends PHPUnit_Framework_TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   3.4
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
 
-		$xcachetest = false;
+		$this->saveFactoryState();
 
-		if (extension_loaded('xcache'))
-		{
-			// XCache Admin must be disabled for Joomla to use XCache
-			$xcache_admin_enable_auth = ini_get('xcache.admin.enable_auth');
+		JFactory::$application = $this->getMockCmsApp();
 
-			// Some extensions ini variables are reported as strings
-			if ($xcache_admin_enable_auth == 'Off')
-			{
-				$xcachetest = true;
-			}
-
-			// We require a string with contents 0, not a null value because it is not set since that then defaults to On/True
-			if ($xcache_admin_enable_auth === '0')
-			{
-				$xcachetest = true;
-			}
-
-			// In some enviorments empty is equivalent to Off; See JC: #34044 && Github: #4083
-			if ($xcache_admin_enable_auth === '')
-			{
-				$xcachetest = true;
-			}
-		}
-
-		$this->extensionAvailable = $xcachetest;
+		$this->extensionAvailable = class_exists('Redis');
 
 		if ($this->extensionAvailable)
 		{
-			$this->object = JCacheStorage::getInstance('xcache');
+			$this->object = JCacheStorage::getInstance('redis');
 		}
 		else
 		{
 			$this->markTestSkipped('This caching method is not supported on this system.');
 		}
+	}
+
+	/**
+	 * Tears down the fixture, for example, close a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @return void
+	 *
+	 * @todo Implement testGetConnection().
+	 */
+	public function testGetConnection()
+	{
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -81,7 +86,7 @@ class JCacheStorageXcacheTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function testGet()
+	public function testGetAndStore()
 	{
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -135,16 +140,15 @@ class JCacheStorageXcacheTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Testing gc().
+	 * Test...
 	 *
-	 * @return  void
+	 * @todo Implement testGc().
+	 *
+	 * @return void
 	 */
 	public function testGc()
 	{
-		$this->assertTrue(
-			$this->object->gc(),
-			'Should return default true'
-		);
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -157,34 +161,32 @@ class JCacheStorageXcacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$this->extensionAvailable,
 			$this->object->isSupported(),
-			'Claims Wincache is not loaded.'
+			'Claims APC is not loaded.'
 		);
 	}
 
 	/**
-	 * Testing lock().
+	 * Test...
 	 *
-	 * @return  void
+	 * @todo Implement testLock().
+	 *
+	 * @return void
 	 */
 	public function testLock()
 	{
-		$this->assertFalse(
-			$this->object->lock(),
-			'Should return default false'
-		);
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
-	 * Testing unlock().
+	 * Test...
 	 *
-	 * @return  void
+	 * @todo Implement testUnlock().
+	 *
+	 * @return void
 	 */
 	public function testUnlock()
 	{
-		$this->assertFalse(
-			$this->object->unlock(),
-			'Should return default false'
-		);
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**

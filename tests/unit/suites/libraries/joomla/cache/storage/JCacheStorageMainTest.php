@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-jimport('joomla.cache.cache');
+require_once dirname(__DIR__) . '/controller/JCacheControllerRaw.php';
 
 /**
  * Mock classes
@@ -18,27 +18,14 @@ jimport('joomla.cache.cache');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
- *
  * @since       11.1
  */
 class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Test setUp
-	 *
-	 * @return void
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		require_once dirname(__DIR__) . '/controller/JCacheControllerRaw.php';
-	}
-
-	/**
 	 * Test provider
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public static function provider()
 	{
@@ -62,9 +49,9 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   string  $store  The store.
 	 *
-	 * @dataProvider provider
+	 * @return  void
 	 *
-	 * @return void
+	 * @dataProvider  provider
 	 */
 	public function testCacheHit($store)
 	{
@@ -81,11 +68,11 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
-		$cache =& JCache::getInstance('', array('storage' => $store));
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$this->assertTrue($cache->store($data, $id, $group), 'Initial Store Failed');
 		unset($cache);
-		$cache =& JCache::getInstance('', array('storage' => $store));
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$new = $cache->get($id, $group);
 		$this->assertSame($new, $data, 'Expected: ' . $data . ' Actual: ' . $new);
@@ -97,9 +84,9 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   string  $store  The store.
 	 *
-	 * @dataProvider provider
+	 * @return  void
 	 *
-	 * @return void
+	 * @dataProvider  provider
 	 */
 	public function testCacheMiss($store)
 	{
@@ -128,9 +115,9 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   string  $store  The store.
 	 *
-	 * @dataProvider provider
+	 * @return  void
 	 *
-	 * @return void
+	 * @dataProvider  provider
 	 */
 	public function testCacheTimeout($store)
 	{
@@ -165,9 +152,9 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   string  $store  The store.
 	 *
-	 * @dataProvider provider
+	 * @return  void
 	 *
-	 * @return void
+	 * @dataProvider  provider
 	 */
 	public function testCacheRemove($store)
 	{
@@ -206,9 +193,9 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   string  $store  The store.
 	 *
-	 * @dataProvider provider
+	 * @return  void
 	 *
-	 * @return void
+	 * @dataProvider  provider
 	 */
 	public function testCacheClearGroup($store)
 	{
@@ -246,9 +233,9 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   string  $store  The store.
 	 *
-	 * @dataProvider provider
+	 * @return  void
 	 *
-	 * @return void
+	 * @dataProvider  provider
 	 */
 	public function testCacheClearNotGroup($store)
 	{
