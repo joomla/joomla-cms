@@ -126,7 +126,6 @@ abstract class ModTagssimilarHelper
 			$query->order('RAND()');
 		}
 
-
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 
