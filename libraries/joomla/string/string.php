@@ -39,8 +39,15 @@ if (function_exists('iconv'))
 /**
  * Include the utf8 package
  */
-jimport('phputf8.utf8');
-jimport('phputf8.strcasecmp');
+if (!defined('UTF8'))
+{
+	jimport('phputf8.utf8');
+}
+
+if (!function_exists('utf8_strcasecmp'))
+{
+	jimport('phputf8.strcasecmp');
+}
 
 /**
  * String handling class for utf-8 data
