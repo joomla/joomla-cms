@@ -56,31 +56,12 @@ abstract class JString extends String
 	 *
 	 * @see     http://us3.php.net/manual/en/function.parse-url.php
 	 * @since   11.1
+	 * @deprecated  4.0 (CMS) - Use {@link \Joomla\Uri\UriHelper::parse_url()} instead.
 	 */
 	public static function parse_url($url)
 	{
-		$result = false;
+		JLog::add('JString::parse_url has been deprecated. Use \\Joomla\\Uri\\UriHelper::parse_url.', JLog::WARNING, 'deprecated');
 
-		// Build arrays of values we need to decode before parsing
-		$entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%24', '%2C', '%2F', '%3F', '%23', '%5B', '%5D');
-		$replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "$", ",", "/", "?", "#", "[", "]");
-
-		// Create encoded URL with special URL characters decoded so it can be parsed
-		// All other characters will be encoded
-		$encodedURL = str_replace($entities, $replacements, urlencode($url));
-
-		// Parse the encoded URL
-		$encodedParts = parse_url($encodedURL);
-
-		// Now, decode each value of the resulting array
-		if ($encodedParts)
-		{
-			foreach ($encodedParts as $key => $value)
-			{
-				$result[$key] = urldecode(str_replace($replacements, $entities, $value));
-			}
-		}
-
-		return $result;
+		return \Joomla\Uri\UriHelper::parse_url($url);
 	}
 }
