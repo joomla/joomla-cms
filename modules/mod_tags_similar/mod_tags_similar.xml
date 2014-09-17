@@ -58,11 +58,11 @@
 					label="MOD_TAGS_SIMILAR_FIELD_ORDERING_LABEL"
 					description="MOD_TAGS_SIMILAR_FIELD_ORDERING_DESC">
 					<option
-						value="count">MOD_TAGS_SIMILAR_FIELD_COUNT</option>
+						value="count">MOD_TAGS_SIMILAR_FIELD_ORDERING_COUNT</option>
 					<option
-						value="random">MOD_TAGS_SIMILAR_FIELD_RANDOM</option>
+						value="random">MOD_TAGS_SIMILAR_FIELD_ORDERING_RANDOM</option>
 					<option
-						value="countrandom">MOD_TAGS_SIMILAR_FIELD_COUNT_AND_RANDOM</option>
+						value="countrandom">MOD_TAGS_SIMILAR_FIELD_ORDERING_COUNT_AND_RANDOM</option>
 				</field>
 			</fieldset>
 			<fieldset
