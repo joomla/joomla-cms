@@ -19,6 +19,7 @@ use Joomla\String\String;
  * @package     Joomla.Platform
  * @subpackage  String
  * @since       11.1
+ * @deprecated  4.0  Use {@link \Joomla\String\String} instead unless otherwise noted.
  */
 abstract class JString extends String
 {
