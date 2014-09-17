@@ -41,8 +41,6 @@ class JHttpFactoryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetHttpException()
 	{
-		$this->markTestSkipped('Cannot test correctly because a class_exists check is not performed.');
-
 		JHttpFactory::getHttp(new \Joomla\Registry\Registry, array('fopen'));
 	}
 
@@ -59,8 +57,6 @@ class JHttpFactoryTest extends PHPUnit_Framework_TestCase
 			JHttpFactory::getAvailableDriver(new \Joomla\Registry\Registry, array()),
 			'Passing an empty array should return false due to there being no adapters to test'
 		);
-
-		$this->markTestIncomplete('Cannot test next assertion correctly because a class_exists check is not performed.');
 
 		$this->assertFalse(
 			JHttpFactory::getAvailableDriver(new \Joomla\Registry\Registry, array('fopen')),
