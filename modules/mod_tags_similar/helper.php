@@ -70,7 +70,8 @@ abstract class ModTagssimilarHelper
 				$db->quoteName('cc.core_title'),
 				$db->quoteName('cc.core_alias'),
 				$db->quoteName('cc.core_catid'),
-				$db->quoteName('cc.core_language')
+				$db->quoteName('cc.core_language'),
+				$db->quoteName('cc.core_params')
 				)
 		);
 
@@ -124,6 +125,8 @@ abstract class ModTagssimilarHelper
 			$explodedAlias = explode('.', $result->type_alias);
 			$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1]
 				. '&id=' . $result->content_item_id . '-' . $result->core_alias;
+
+			$result->core_params = new JRegistry($result->core_params);
 		}
 
 		return $results;
