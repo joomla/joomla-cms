@@ -43,7 +43,7 @@ abstract class ModTagssimilarHelper
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$matchtype  = $params->get('matchtype', 'all');
 		$maximum    = $params->get('maximum', 5);
-		$ordering	= $params->get('ordering', 'count');
+		$ordering   = $params->get('ordering', 'count');
 		$tagsHelper = new JHelperTags;
 		$prefix     = $option . '.' . $view;
 		$id         = $app->input->getInt('id');
