@@ -13,6 +13,7 @@ services:
 before_script:
   - composer self-update
   - pyrus install -f pear/PHP_CodeSniffer-1.5.4
+  - pyrus install -f pear/Cache_Lite
   - phpenv rehash
   - mysql -e 'create database joomla_ut;'
   - mysql joomla_ut < tests/unit/suites/database/stubs/mysql.sql
