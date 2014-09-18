@@ -559,8 +559,7 @@ class ModulesModelModule extends JModelAdmin
 
 		if ($clientId == 1) $folder = '/administrator';
 
-		if (is_dir(JPATH_ROOT . $folder . '/modules' . '/' . $module . '/fields')) 
-		JForm::addFieldPath(JPATH_ROOT . $folder . '/modules' . '/' . $module . '/fields');
+		if (is_dir(JPATH_ROOT . $folder . '/modules' . '/' . $module . '/fields')) JForm::addFieldPath(JPATH_ROOT . $folder . '/modules' . '/' . $module . '/fields');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);
