@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `#__associations` (
   `context` varchar(50) NOT NULL COMMENT 'The context of the associated item.',
   `key` char(32) NOT NULL COMMENT 'The key for the association computed from an md5 on associated ids.',
   PRIMARY KEY `idx_context_id` (`context`,`id`),
-  INDEX `idx_key` (`key`)
+  KEY `idx_key` (`key`)
 ) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
@@ -115,11 +115,11 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `language` char(7) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  INDEX `idx_state` (`state`),
-  INDEX `idx_own_prefix` (`own_prefix`),
-  INDEX `idx_metakey_prefix` (`metakey_prefix`),
-  INDEX `idx_banner_catid` (`catid`),
-  INDEX `idx_language` (`language`)
+  KEY `idx_state` (`state`),
+  KEY `idx_own_prefix` (`own_prefix`),
+  KEY `idx_metakey_prefix` (`metakey_prefix`),
+  KEY `idx_banner_catid` (`catid`),
+  KEY `idx_language` (`language`)
 ) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
@@ -144,8 +144,8 @@ CREATE TABLE IF NOT EXISTS `#__banner_clients` (
   `track_clicks` tinyint NOT NULL DEFAULT '-1',
   `track_impressions` tinyint NOT NULL DEFAULT '-1',
   PRIMARY KEY (`id`),
-  INDEX `idx_own_prefix` (`own_prefix`),
-  INDEX `idx_metakey_prefix` (`metakey_prefix`)
+  KEY `idx_own_prefix` (`own_prefix`),
+  KEY `idx_metakey_prefix` (`metakey_prefix`)
 ) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
@@ -160,9 +160,9 @@ CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
   `banner_id` integer unsigned NOT NULL,
   `count` integer unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`track_date`,`track_type`,`banner_id`),
-  INDEX `idx_track_date` (`track_date`),
-  INDEX `idx_track_type` (`track_type`),
-  INDEX `idx_banner_id` (`banner_id`)
+  KEY `idx_track_date` (`track_date`),
+  KEY `idx_track_type` (`track_type`),
+  KEY `idx_banner_id` (`banner_id`)
 ) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `#__categories` (
   KEY `idx_path` (`path`),
   KEY `idx_left_right` (`lft`,`rgt`),
   KEY `idx_alias` (`alias`),
-  INDEX `idx_language` (`language`)
+  KEY `idx_language` (`language`)
 ) DEFAULT CHARSET=utf8;
 
 #
@@ -395,9 +395,9 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   `ordering` int(11) DEFAULT '0',
   `state` int(11) DEFAULT '0',
   PRIMARY KEY (`extension_id`),
-  INDEX `element_clientid` (`element`,`client_id`),
-  INDEX `element_folder_clientid` (`element`,`folder`,`client_id`),
-  INDEX `extension` (`type`,`element`,`folder`,`client_id`)
+  KEY `element_clientid` (`element`,`client_id`),
+  KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
+  KEY `extension` (`type`,`element`,`folder`,`client_id`)
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000;
 
 #
@@ -1127,7 +1127,7 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
   UNIQUE `idx_image` (`image`),
   UNIQUE `idx_langcode` (`lang_code`),
   KEY `idx_access` (`access`),
-  INDEX `idx_ordering` (`ordering`)
+  KEY `idx_ordering` (`ordering`)
 ) DEFAULT CHARSET=utf8;
 
 #
