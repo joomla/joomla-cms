@@ -322,11 +322,11 @@ class JComponentHelper
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
-		if (JPATH_COMPONENT == JPATH_ADMINISTRATOR . '/components/' . $option)
+		if (JPATH_COMPONENT == JPATH_COMPONENT_ADMINISTRATOR)
 		{
-			if (is_dir(JPATH_ADMINISTRATOR . '/components/' . $option . '/models/fields'))
+			if (is_dir(JPATH_COMPONENT_ADMINISTRATOR . '/models/fields'))
 			{
-				JForm::addFieldPath(JPATH_ADMINISTRATOR . '/components/' . $option . '/models/fields');
+				JForm::addFieldPath(JPATH_COMPONENT_ADMINISTRATOR . '/models/fields');
 			}
 		}
 
