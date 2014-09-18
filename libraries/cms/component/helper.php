@@ -329,6 +329,13 @@ class JComponentHelper
 				JForm::addFieldPath(JPATH_COMPONENT_ADMINISTRATOR . '/models/fields');
 			}
 		}
+		else
+		{
+			if (is_dir(JPATH_COMPONENT_SITE . '/models/fields'))
+			{
+				JForm::addFieldPath(JPATH_COMPONENT_SITE . '/models/fields');
+			}
+		}
 
 		// Load common and local language files.
 		$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
