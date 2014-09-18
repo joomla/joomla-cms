@@ -318,6 +318,7 @@ class JComponentHelper
 
 		if (JPATH_COMPONENT == JPATH_ADMINISTRATOR . '/components/' . $option)
 		{
+
 			if (is_dir(JPATH_ADMINISTRATOR . '/components/' . $option . '/' . '/fields')) JForm::addFieldPath(JPATH_ADMINISTRATOR . '/components/' . $option . '/fields');
 		}
 
