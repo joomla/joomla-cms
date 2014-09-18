@@ -316,15 +316,6 @@ class JComponentHelper
 
 		$path = JPATH_COMPONENT . '/' . $file . '.php';
 
-		if (JPATH_COMPONENT == JPATH_ADMINISTRATOR . '/components/' . $option)
-		{
-			if (is_dir(JPATH_ADMINISTRATOR . '/components/' . $option . '/' . '/fields'))
-			{
-				JForm::addFieldPath(JPATH_ADMINISTRATOR . '/components/' . $option . '/fields');
-			}
-
-		}
-
 		// If component is disabled throw error
 		if (!static::isEnabled($option) || !file_exists($path))
 		{
