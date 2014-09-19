@@ -210,6 +210,7 @@ class TemplatesModelStyle extends JModelAdmin
 			$clientId  = JArrayHelper::getValue($data, 'client_id');
 			$template  = JArrayHelper::getValue($data, 'template');
 		}
+
 		// Add the default fields directory
 		$baseFolder = ($clientId) ? JPATH_ADMINISTRATOR : JPATH_SITE;
 		JForm::addFieldPath($baseFolder . '/templates/' . $template . '/fields');
