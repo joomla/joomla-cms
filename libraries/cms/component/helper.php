@@ -322,19 +322,9 @@ class JComponentHelper
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
-		if (JPATH_COMPONENT == JPATH_COMPONENT_ADMINISTRATOR)
+		if (is_dir(JPATH_COMPONENT . '/models/fields'))
 		{
-			if (is_dir(JPATH_COMPONENT_ADMINISTRATOR . '/models/fields'))
-			{
-				JForm::addFieldPath(JPATH_COMPONENT_ADMINISTRATOR . '/models/fields');
-			}
-		}
-		else
-		{
-			if (is_dir(JPATH_COMPONENT_SITE . '/models/fields'))
-			{
-				JForm::addFieldPath(JPATH_COMPONENT_SITE . '/models/fields');
-			}
+			JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
 		}
 
 		// Load common and local language files.
