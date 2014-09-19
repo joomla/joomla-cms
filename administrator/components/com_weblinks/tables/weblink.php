@@ -21,6 +21,14 @@ use Joomla\Registry\Registry;
 class WeblinksTableWeblink extends JTable
 {
 	/**
+	 * Ensure the params and metadata in json encoded in the bind method
+	 *
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected $jsonEncode = array('params', 'metadata', 'images');
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  &$db  A database connector object
@@ -29,45 +37,11 @@ class WeblinksTableWeblink extends JTable
 	{
 		parent::__construct('#__weblinks', 'id', $db);
 
+		// Set the published column alias
+		$this->setColumnAlias('published', 'state');
+
 		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_weblinks.weblink'));
 		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_weblinks.weblink'));
-	}
-
-	/**
-	 * Overloaded bind function to pre-process the params.
-	 *
-	 * @param   mixed  $array   An associative array or object to bind to the JTable instance.
-	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @see     JTable:bind
-	 * @since   1.5
-	 */
-	public function bind($array, $ignore = '')
-	{
-		if (isset($array['params']) && is_array($array['params']))
-		{
-			$registry = new Registry;
-			$registry->loadArray($array['params']);
-			$array['params'] = (string) $registry;
-		}
-
-		if (isset($array['metadata']) && is_array($array['metadata']))
-		{
-			$registry = new Registry;
-			$registry->loadArray($array['metadata']);
-			$array['metadata'] = (string) $registry;
-		}
-
-		if (isset($array['images']) && is_array($array['images']))
-		{
-			$registry = new Registry;
-			$registry->loadArray($array['images']);
-			$array['images'] = (string) $registry;
-		}
-
-		return parent::bind($array, $ignore);
 	}
 
 	/**
@@ -201,92 +175,6 @@ class WeblinksTableWeblink extends JTable
 			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
 		}
 
-		return true;
-	}
-
-	/**
-	 * Method to set the publishing state for a row or list of rows in the database
-	 * table.  The method respects checked out rows by other users and will attempt
-	 * to checkin rows that it can after adjustments are made.
-	 *
-	 * @param   mixed	An optional array of primary key values to update.  If not
-	 *					set the instance property value is used.
-	 * @param   integer The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param   integer The user id of the user performing the operation.
-	 * @return  boolean  True on success.
-	 * @since   1.0.4
-	 */
-	public function publish($pks = null, $state = 1, $userId = 0)
-	{
-		$k = $this->_tbl_key;
-
-		// Sanitize input.
-		JArrayHelper::toInteger($pks);
-		$userId = (int) $userId;
-		$state  = (int) $state;
-
-		// If there are no primary keys set check to see if the instance key is set.
-		if (empty($pks))
-		{
-			if ($this->$k)
-			{
-				$pks = array($this->$k);
-			}
-			// Nothing to set publishing state on, return false.
-			else {
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
-				return false;
-			}
-		}
-
-		// Build the WHERE clause for the primary keys.
-		$where = $k.'='.implode(' OR '.$k.'=', $pks);
-
-		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
-		{
-			$checkin = '';
-		}
-		else
-		{
-			$checkin = ' AND (checked_out = 0 OR checked_out = '.(int) $userId.')';
-		}
-
-		// Update the publishing state for rows with the given primary keys.
-		$this->_db->setQuery(
-			'UPDATE '.$this->_db->quoteName($this->_tbl) .
-			' SET '.$this->_db->quoteName('state').' = '.(int) $state .
-			' WHERE ('.$where.')' .
-			$checkin
-		);
-
-		try
-		{
-			$this->_db->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			$this->setError($e->getMessage());
-			return false;
-		}
-
-		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
-		{
-			// Checkin the rows.
-			foreach ($pks as $pk)
-			{
-				$this->checkin($pk);
-			}
-		}
-
-		// If the JTable instance value is in the list of primary keys that were set, set the instance.
-		if (in_array($this->$k, $pks))
-		{
-			$this->state = $state;
-		}
-
-		$this->setError('');
 		return true;
 	}
 }
