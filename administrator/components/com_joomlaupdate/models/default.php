@@ -34,14 +34,15 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		// Determine the intended update URL
 		$params = JComponentHelper::getParams('com_joomlaupdate');
+
 		switch ($params->get('updatesource', 'nochange'))
 		{
-			// "Long Term Support (LTS) branch - Recommended"
+			// "Next Minor & Patch Release (recommended)"
 			case 'lts':
 				$updateURL = 'http://update.joomla.org/core/list.xml';
 				break;
 
-			// "Short term support (STS) branch"
+			// "Next Major Release"
 			case 'sts':
 				$updateURL = 'http://update.joomla.org/core/sts/list_sts.xml';
 				break;
