@@ -72,6 +72,7 @@ class PluginsModelPlugin extends JModelAdmin
 			$element	= JArrayHelper::getValue($data, 'element', '', 'cmd');
 		}
 
+		// Add the default fields directory
 		JForm::addFieldPath(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/fields');
 
 		// These variables are used to add data from the plugin XML files.
