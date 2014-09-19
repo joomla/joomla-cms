@@ -37,12 +37,12 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		switch ($params->get('updatesource', 'nochange'))
 		{
-			// "Latest Minor & Patch Release (recommended)"
+			// "Current Minor & Patch Release (recommended)"
 			case 'lts':
 				$updateURL = 'http://update.joomla.org/core/list.xml';
 				break;
 
-			// "Latest Major Release"
+			// "Current Major Release"
 			case 'sts':
 				$updateURL = 'http://update.joomla.org/core/sts/list_sts.xml';
 				break;
