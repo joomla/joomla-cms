@@ -13,7 +13,7 @@
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DESC"
 			>
-			<!-- Note: Chnage the values form sts and lts to major and mirror with 4.0 -->
+			<!-- Note: Change the values from sts and lts to major and minor with 4.0 -->
 			<option value="lts">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_MINOR</option>
 			<option value="sts">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_MAJOR</option>
 			<option value="testing">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING</option>
