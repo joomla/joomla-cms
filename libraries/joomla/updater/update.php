@@ -236,7 +236,7 @@ class JUpdate extends JObject
 					{
 						if (isset($this->_latest))
 						{
-							if (version_compare($this->_current_update->version>_data, $this->_latest->version->_data, '>') == 1)
+							if (version_compare($this->_current_update->version->_data, $this->_latest->version->_data, '>') == 1)
 							{
 								$this->_latest = $this->_current_update;
 							}
