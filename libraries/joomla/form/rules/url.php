@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JFormRuleUrl extends JFormRule
 {
 	/**
-	 * Method to test an external url for a valid parts.
+	 * Method to test an external or internal url for all valid parts.
 	 *
 	 * @param   SimpleXMLElement  &$element  The SimpleXMLElement object representing the <field /> tag for the form field object.
 	 * @param   mixed             $value     The form field value to validate.
@@ -57,13 +57,30 @@ class JFormRuleUrl extends JFormRule
 			$scheme = explode(',', $element['schemes']);
 
 		}
-		// This rule is only for full URLs with schemes because  parse_url does not parse
-		// accurately without a scheme.
+		// Note that parse_url() does not always parse accurately without a scheme,
+		// but at least the path should be set always. Note also that parse_url()
+		// returns False for seriously malformed URLs instead of an associative array.
 		// @see http://php.net/manual/en/function.parse-url.php
-		if (!array_key_exists('scheme', $urlParts))
+		if ($urlParts === false or !array_key_exists('scheme', $urlParts))
 		{
-			return false;
+			// parse_url() returned false (seriously malformed URL) or no scheme
+			// found and the relative option is not set: in both cases the field
+			// is not valid.
+			if ($urlParts === false or !$element['relative'])
+			{
+				return false;
+			}
+			// The best we can do for the rest is make sure that the path exists and is valid UTF-8.
+			if (!array_key_exists('path', $urlParts) || !JString::valid((string) $urlParts['path']))
+			{
+				return false;
+			}
+			// The internal URL seems to be good.
+			return true;
+			}
 		}
+
+		// Scheme found, check all parts found.
 		$urlScheme = (string) $urlParts['scheme'];
 		$urlScheme = strtolower($urlScheme);
 		if (in_array($urlScheme, $scheme) == false)
