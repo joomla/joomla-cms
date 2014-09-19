@@ -322,8 +322,6 @@ class JComponentHelper
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
-		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-
 		// Load common and local language files.
 		$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
 
