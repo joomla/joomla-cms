@@ -448,18 +448,19 @@ class CategoriesModelCategory extends JModelAdmin
 	public function save($data)
 	{
 		$dispatcher = JEventDispatcher::getInstance();
-		$table = $this->getTable();
-		$input = JFactory::getApplication()->input;
-		$pk = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
-		$isNew = true;
+		$table      = $this->getTable();
+		$input      = JFactory::getApplication()->input;
+		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
+		$isNew      = true;
+		$context    = $this->option . '.' . $this->name;
 
 		if ((!empty($data['tags']) && $data['tags'][0] != ''))
 		{
 			$table->newTags = $data['tags'];
 		}
 
-		// Include the content plugins for the on save events.
-		JPluginHelper::importPlugin('content');
+		// Include the plugins for the save events.
+		JPluginHelper::importPlugin($this->events_map['save']);
 
 		// Load the row if saving an existing category.
 		if ($pk > 0)
@@ -506,8 +507,8 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
-		// Trigger the onContentBeforeSave event.
-		$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, &$table, $isNew));
+		// Trigger the before save event.
+		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew));
 
 		if (in_array(false, $result, true))
 		{
@@ -589,8 +590,8 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 		}
 
-		// Trigger the onContentAfterSave event.
-		$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, &$table, $isNew));
+		// Trigger the after save event.
+		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew));
 
 		// Rebuild the path for the category:
 		if (!$table->rebuildPath($table->id))
