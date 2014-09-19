@@ -1544,6 +1544,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 				// We don't have a full primary key - return false
 				else
 				{
+					$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 					return false;
 				}
 			}
