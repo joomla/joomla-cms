@@ -557,7 +557,7 @@ class ModulesModelModule extends JModelAdmin
 
 		$folder = $clientId == 1 ? '/administrator' : '';
 
-		if (is_dir(JPATH_ROOT . $folder . '/modules' . '/' . $module . '/fields')) 
+		if (is_dir(JPATH_ROOT . $folder . '/modules' . '/' . $module . '/fields'))
 		{
 			JForm::addFieldPath(JPATH_ROOT . $folder . '/modules' . '/' . $module . '/fields');
 		}
