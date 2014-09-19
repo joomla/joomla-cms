@@ -133,7 +133,7 @@ class UsersModelGroups extends JModelList
 			}
 			catch (RuntimeException $e)
 			{
-				$this->setError($e->getMessage);
+				$this->setError($e->getMessage());
 				return false;
 			}
 

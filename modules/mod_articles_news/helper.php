@@ -19,7 +19,7 @@ JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'Con
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @since       1.6.0
+ * @since       1.6
  */
 abstract class ModArticlesNewsHelper
 {
@@ -29,6 +29,8 @@ abstract class ModArticlesNewsHelper
 	 * @param   JRegistry  &$params  object holding the models parameters
 	 *
 	 * @return  mixed
+	 *
+	 * @since 1.6
 	 */
 	public static function getList(&$params)
 	{
@@ -52,7 +54,7 @@ abstract class ModArticlesNewsHelper
 			' a.hits, a.featured' );
 
 		// Access filter
-		$access = !JComponentHelper::getParams('com_content')->get('show_noauth');
+		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
 		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
 		$model->setState('filter.access', $access);
 
@@ -82,18 +84,18 @@ abstract class ModArticlesNewsHelper
 		foreach ($items as &$item)
 		{
 			$item->readmore = strlen(trim($item->fulltext));
-			$item->slug = $item->id . ':' . $item->alias;
-			$item->catslug = $item->catid . ':' . $item->category_alias;
+			$item->slug     = $item->id . ':' . $item->alias;
+			$item->catslug  = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid));
+				$item->link     = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid));
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE');
 			}
 			else
 			{
-				$item->link = JRoute::_('index.php?option=com_users&view=login');
+				$item->link     = JRoute::_('index.php?option=com_users&view=login');
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
 
@@ -105,10 +107,10 @@ abstract class ModArticlesNewsHelper
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
 			}
 
-			$results = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
+			$results                 = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
 			$item->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
+			$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
 			$item->beforeDisplayContent = trim(implode("\n", $results));
 		}
 

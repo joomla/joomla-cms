@@ -674,7 +674,7 @@ class ModulesModelModule extends JModelAdmin
 					}
 					catch (RuntimeException $e)
 					{
-						$this->setError($e->getMessage);
+						$this->setError($e->getMessage());
 
 						return false;
 					}

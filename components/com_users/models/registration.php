@@ -71,6 +71,10 @@ class UsersModelRegistration extends JModelForm
 		// Activate the user.
 		$user = JFactory::getUser($userId);
 
+		// Permissions check for admin to activate user
+		$admin = JFactory::getUser();
+		$allow	= $admin->authorise('core.edit.state', 'com_users');
+
 		// Admin activation is on and user is verifying their email
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
 		{
@@ -102,7 +106,7 @@ class UsersModelRegistration extends JModelForm
 				$data['activate']
 			);
 
-			// get all admin users
+			// Get all admin users
 			$query->clear()
 				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
@@ -139,7 +143,7 @@ class UsersModelRegistration extends JModelForm
 			}
 		}
 		// Admin activation is on and admin is activating the account
-		elseif (($userParams->get('useractivation') == 2) && $user->getParam('activate', 0))
+		elseif (($userParams->get('useractivation') == 2) && $user->getParam('activate', 0) && $allow)
 		{
 			$user->set('activation', '');
 			$user->set('block', '0');
@@ -376,7 +380,7 @@ class UsersModelRegistration extends JModelForm
 		// Store the data.
 		if (!$user->save())
 		{
-			$this->setError($user->getError());
+			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
 			return false;
 		}
 

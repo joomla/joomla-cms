@@ -49,6 +49,14 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	protected $class;
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected $backupServer;
+
+	/**
 	 * Data for fetchConfigurationData method.
 	 *
 	 * @return  array
@@ -75,6 +83,14 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
+		$this->saveFactoryState();
+
+		JFactory::$document = $this->getMockDocument();
+		JFactory::$language = $this->getMockLanguage();
+		JFactory::$session  = $this->getMockSession();
+
+		$this->backupServer = $_SERVER;
+
 		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
 		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;
 		$_SERVER['REQUEST_URI'] = self::TEST_REQUEST_URI;
@@ -87,12 +103,6 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 		// Get a new JApplicationAdministrator instance.
 		$this->class = new JApplicationAdministrator(null, $config);
 		TestReflection::setValue('JApplicationCms', 'instances', array('administrator' => $this->class));
-
-		// We are coupled to Document and Language in JFactory.
-		$this->saveFactoryState();
-
-		JFactory::$document = $this->getMockDocument();
-		JFactory::$language = $this->getMockLanguage();
 	}
 
 	/**
@@ -108,6 +118,8 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 		// Reset the dispatcher and application instances.
 		TestReflection::setValue('JEventDispatcher', 'instance', null);
 		TestReflection::setValue('JApplicationCms', 'instances', array());
+
+		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
 
