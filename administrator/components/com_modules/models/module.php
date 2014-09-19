@@ -555,10 +555,7 @@ class ModulesModelModule extends JModelAdmin
 			$id			= JArrayHelper::getValue($data, 'id');
 		}
 
-		if (is_dir(JPATH_BASE . '/modules' . '/' . $module . '/fields'))
-		{
-			JForm::addFieldPath(JPATH_BASE . '/modules' . '/' . $module . '/fields');
-		}
+		JForm::addFieldPath(JPATH_BASE . '/modules' . '/' . $module . '/fields');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);
