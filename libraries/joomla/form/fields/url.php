@@ -56,7 +56,7 @@ class JFormFieldUrl extends JFormFieldText
 		$autofocus    = $this->autofocus ? ' autofocus' : '';
 		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
 
-		// Note that the input type "url" is suitable only for external URLs, so if internal URLS are allowed
+		// Note that the input type "url" is suitable only for external URLs, so if internal URLs are allowed
 		// we have to use the input type "text" instead.
 		$inputType    = $this->element['relative'] ? 'type="text"' : 'type="url"';
 
