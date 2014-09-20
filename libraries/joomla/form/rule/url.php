@@ -65,9 +65,10 @@ class JFormRuleUrl extends JFormRule
 		 */
 		if ($urlParts === false or !array_key_exists('scheme', $urlParts))
 		{
-			// parse_url() returned false (seriously malformed URL) or no scheme
-			// found and the relative option is not set: in both cases the field
-			// is not valid.
+			/*
+			 * The function parse_url() returned false (seriously malformed URL) or no scheme
+			 * was found and the relative option is not set: in both cases the field is not valid.
+			 */
 			if ($urlParts === false or !$element['relative'])
 			{
 				return false;
