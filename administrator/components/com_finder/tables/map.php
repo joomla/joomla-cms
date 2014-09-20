@@ -68,7 +68,7 @@ class FinderTableMap extends JTable
 		}
 
 		// Build the WHERE clause for the primary keys.
-		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
+		$where = $this->_db->quoteName($k) . ' IN (' . implode(',', $pks) . ')';
 
 		// Update the publishing state for rows with the given primary keys.
 		$query = $this->_db->getQuery(true)

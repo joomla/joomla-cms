@@ -130,7 +130,7 @@ class FinderTableFilter extends JTable
 		}
 
 		// Build the WHERE clause for the primary keys.
-		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
+		$where = $this->_db->quoteName($k) . ' IN (' . implode(',', $pks) . ')';
 
 		// Determine if there is checkin support for the table.
 		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))

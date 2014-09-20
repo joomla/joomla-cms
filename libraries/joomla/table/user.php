@@ -145,7 +145,7 @@ class JTableUser extends JTable
 				->select($this->_db->quoteName('id'))
 				->select($this->_db->quoteName('title'))
 				->from($this->_db->quoteName('#__usergroups'))
-				->where($this->_db->quoteName('id') . ' = ' . implode(' OR ' . $this->_db->quoteName('id') . ' = ', $this->groups));
+				->where($this->_db->quoteName('id') . ' IN (' . implode(',', $this->groups) . ')');
 			$this->_db->setQuery($query);
 
 			// Set the titles for the user groups.
