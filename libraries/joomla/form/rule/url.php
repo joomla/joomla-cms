@@ -79,7 +79,6 @@ class JFormRuleUrl extends JFormRule
 			}
 			// The internal URL seems to be good.
 			return true;
-			}
 		}
 
 		// Scheme found, check all parts found.
