@@ -214,6 +214,12 @@ class JFormFieldSQL extends JFormFieldList
 			}
 		}
 
+		// Add order to query
+		if (!empty($conditions['order']))
+		{
+			$query->order($conditions['order']);
+		}
+
 		return $query;
 	}
 
