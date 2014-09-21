@@ -469,7 +469,7 @@ class ContentModelArticle extends JModelAdmin
 		// Automatic handling of alias for empty fields
 		if (in_array($app->input->get('task'), array('apply', 'save', 'save2new')) && (int) $app->input->get('id') == 0)
 		{
-			if ($data['alias'] == NULL)
+			if ($data['alias'] == null)
 			{
 				if (JFactory::getConfig()->get('unicodeslugs') == 1)
 				{
