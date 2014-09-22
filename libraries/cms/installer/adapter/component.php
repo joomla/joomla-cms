@@ -380,7 +380,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		// Parse optional tags
 		$this->parent->parseMedia($this->manifest->media);
 		$this->parent->parseLanguages($this->manifest->languages);
-		if($this->manifest->administration->languages)
+		if ($this->manifest->administration->languages)
 		{
 			$this->parent->parseLanguages($this->manifest->administration->languages, 1);
 		}
@@ -788,7 +788,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		// Parse optional tags
 		$this->parent->parseMedia($this->manifest->media);
 		$this->parent->parseLanguages($this->manifest->languages);
-		if($this->manifest->administration->languages)
+		if ($this->manifest->administration->languages)
 		{
 			$this->parent->parseLanguages($this->manifest->administration->languages, 1);
 		}
