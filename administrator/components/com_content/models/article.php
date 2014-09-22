@@ -479,9 +479,21 @@ class ContentModelArticle extends JModelAdmin
 				{
 					$data['alias'] = JFilterOutput::stringURLSafe($data['title']);
 				}
+
+				$table = JTable::getInstance('Content', 'JTable');
+
+				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
+				{
+					$msg = JText::_('COM_CONTENT_SAVE_WARNING');
+				}
+
 				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
 				$data['alias'] = $alias;
-				$app->enqueueMessage(JText::_('COM_CONTENT_SAVE_WARNING'), 'warning');
+
+				if (isset($msg))
+				{
+					$app->enqueueMessage($msg, 'warning');
+				}
 			}
 		}
 
