@@ -8,8 +8,6 @@
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
-require_once JPATH_PLATFORM . '/lessc/lessc.inc.php';
-
 /**
  * This class is taken verbatim from:
  *
@@ -24,9 +22,8 @@ require_once JPATH_PLATFORM . '/lessc/lessc.inc.php';
  * Responsible for taking a string of LESS code and converting it into a syntax tree
  *
  * @since  2.0
- * @deprecated  Use lessc_parser instead
  */
-class FOFLessParser extends lessc_parser
+class FOFLessParser
 {
 	// Used to uniquely identify blocks
 	protected static $nextBlockId = 0;

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 include_once __DIR__ . '/stubs/JApplicationWebInspector.php';
 
 /**
@@ -49,6 +51,14 @@ class JApplicationWebTest extends TestCase
 	 * @since  11.3
 	 */
 	protected $class;
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected $backupServer;
 
 	/**
 	 * Data for detectRequestUri method.
@@ -95,6 +105,13 @@ class JApplicationWebTest extends TestCase
 	{
 		parent::setUp();
 
+		$this->saveFactoryState();
+
+		JFactory::$document = $this->getMockDocument();
+		JFactory::$language = $this->getMockLanguage();
+
+		$this->backupServer = $_SERVER;
+
 		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
 		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;
 		$_SERVER['REQUEST_URI'] = self::TEST_REQUEST_URI;
@@ -102,12 +119,6 @@ class JApplicationWebTest extends TestCase
 
 		// Get a new JApplicationWebInspector instance.
 		$this->class = new JApplicationWebInspector;
-
-		// We are only coupled to Document and Language in JFactory.
-		$this->saveFactoryState();
-
-		JFactory::$document = $this->getMockDocument();
-		JFactory::$language = $this->getMockLanguage();
 	}
 
 	/**
@@ -120,8 +131,9 @@ class JApplicationWebTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		// Reset the dispatcher instance.
+		// Reset the dispatcher and session instances.
 		TestReflection::setValue('JEventDispatcher', 'instance', null);
+		TestReflection::setValue('JSession', 'instance', null);
 
 		// Reset some web inspector static settings.
 		JApplicationWebInspector::$headersSent = false;
@@ -148,7 +160,7 @@ class JApplicationWebTest extends TestCase
 		);
 
 		$this->assertInstanceOf(
-			'JRegistry',
+			'\\Joomla\\Registry\\Registry',
 			TestReflection::getValue($this->class, 'config'),
 			'Config property wrong type'
 		);
@@ -202,7 +214,7 @@ class JApplicationWebTest extends TestCase
 			$this->returnValue('ok')
 		);
 
-		$mockConfig = $this->getMock('JRegistry', array('test'), array(null), '', true);
+		$mockConfig = $this->getMock('\\Joomla\\Registry\\Registry', array('test'), array(null), '', true);
 		$mockConfig
 			->expects($this->any())
 			->method('test')
@@ -847,7 +859,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testGet()
 	{
-		$config = new JRegistry(array('foo' => 'bar'));
+		$config = new Registry(array('foo' => 'bar'));
 
 		TestReflection::setValue($this->class, 'config', $config);
 
@@ -1203,7 +1215,7 @@ class JApplicationWebTest extends TestCase
 	public function testLoadSystemUrisWithSiteUriSet()
 	{
 		// Set the site_uri value in the configuration.
-		$config = new JRegistry(array('site_uri' => 'http://test.joomla.org/path/'));
+		$config = new Registry(array('site_uri' => 'http://test.joomla.org/path/'));
 		TestReflection::setValue($this->class, 'config', $config);
 
 		TestReflection::invoke($this->class, 'loadSystemUris');
@@ -1291,7 +1303,7 @@ class JApplicationWebTest extends TestCase
 	public function testLoadSystemUrisWithoutSiteUriWithMediaUriSet()
 	{
 		// Set the media_uri value in the configuration.
-		$config = new JRegistry(array('media_uri' => 'http://cdn.joomla.org/media/'));
+		$config = new Registry(array('media_uri' => 'http://cdn.joomla.org/media/'));
 		TestReflection::setValue($this->class, 'config', $config);
 
 		TestReflection::invoke($this->class, 'loadSystemUris', 'http://joom.la/application');
@@ -1338,7 +1350,7 @@ class JApplicationWebTest extends TestCase
 	public function testLoadSystemUrisWithoutSiteUriWithRelativeMediaUriSet()
 	{
 		// Set the media_uri value in the configuration.
-		$config = new JRegistry(array('media_uri' => '/media/'));
+		$config = new Registry(array('media_uri' => '/media/'));
 		TestReflection::setValue($this->class, 'config', $config);
 
 		TestReflection::invoke($this->class, 'loadSystemUris', 'http://joom.la/application');
@@ -1430,7 +1442,7 @@ class JApplicationWebTest extends TestCase
 		);
 
 		// Inject the internal configuration.
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
@@ -1465,7 +1477,7 @@ class JApplicationWebTest extends TestCase
 		JApplicationWebInspector::$headersSent = true;
 
 		// Inject the internal configuration.
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
@@ -1578,7 +1590,7 @@ class JApplicationWebTest extends TestCase
 		);
 
 		// Inject the internal configuration.
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('uri.base.full', $base);
 		$config->set('uri.request', $request);
 
@@ -1695,7 +1707,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testSet()
 	{
-		$config = new JRegistry(array('foo' => 'bar'));
+		$config = new Registry(array('foo' => 'bar'));
 
 		TestReflection::setValue($this->class, 'config', $config);
 

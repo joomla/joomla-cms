@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_contact
@@ -64,7 +66,7 @@ class ContactModelContact extends JModelForm
 	 *
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 * 
+	 *
 	 * @return  JForm  A JForm object on success, false on failure
 	 * @since   1.6
 	 */
@@ -182,12 +184,12 @@ class ContactModelContact extends JModelForm
 				}
 
 				// Convert parameter fields to objects.
-				$registry = new JRegistry;
+				$registry = new Registry;
 				$registry->loadString($data->params);
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$registry = new JRegistry;
+				$registry = new Registry;
 				$registry->loadString($data->metadata);
 				$data->metadata = $registry;
 
@@ -300,7 +302,7 @@ class ContactModelContact extends JModelForm
 				// So merge the contact parameters with the merged parameters
 				if ($this->getState('params')->get('show_contact_list'))
 				{
-					$registry = new JRegistry;
+					$registry = new Registry;
 					$registry->loadString($result->params);
 					$this->getState('params')->merge($registry);
 				}

@@ -85,16 +85,15 @@ class FOFTableNested extends FOFTable
 	/**
 	 * Delete a node, either the currently loaded one or the one specified in $id. If an $id is specified that node
 	 * is loaded before trying to delete it. In the end the data model is reset. If the node has any children nodes
-	 * they will be removed before the node itself is deleted if $recursive == true (default: true).
+	 * they will be removed before the node itself is deleted.
 	 *
 	 * @param   integer $oid       The primary key value of the item to delete
-	 * @param   bool    $recursive Should I recursively delete any nodes in the subtree? (default: true)
 	 *
 	 * @throws  UnexpectedValueException
 	 *
 	 * @return  boolean  True on success
 	 */
-	public function delete($oid = null, $recursive = true)
+	public function delete($oid = null)
 	{
 		// Load the specified record (if necessary)
 		if (!empty($oid))
@@ -102,26 +101,31 @@ class FOFTableNested extends FOFTable
 			$this->load($oid);
 		}
 
+        $k  = $this->_tbl_key;
+        $pk = (!$oid) ? $this->$k : $oid;
+
+        // If no primary key is given, return false.
+        if (!$pk)
+        {
+            throw new UnexpectedValueException('Null primary key not allowed.');
+        }
+
+        // Execute the logic only if I have a primary key, otherwise I could have weird results
+        // Perform the checks on the current node *BEFORE* starting to delete the children
+        if (!$this->onBeforeDelete($oid))
+        {
+            return false;
+        }
+
+        $result = true;
+
 		// Recursively delete all children nodes as long as we are not a leaf node and $recursive is enabled
-		if ($recursive && !$this->isLeaf())
+		if (!$this->isLeaf())
 		{
-			// Get a reference to the database
-			$db = $this->getDbo();
-
-			// Get my lft/rgt values
-			$myLeft = $this->lft;
-			$myRight = $this->rgt;
-
-			$fldLft = $db->qn($this->getColumnAlias('lft'));
-			$fldRgt = $db->qn($this->getColumnAlias('rgt'));
-
 			// Get all sub-nodes
 			$table = $this->getClone();
-			$table->reset();
-			$subNodes = $table
-				->whereRaw($fldLft . ' > ' . $myLeft)
-				->whereRaw($fldRgt . ' < ' . $myRight)
-				->get();
+			$table->bind($this->getData());
+			$subNodes = $table->getDescendants();
 
 			// Delete all subnodes (goes through the model to trigger the observers)
 			if (!empty($subNodes))
@@ -129,13 +133,82 @@ class FOFTableNested extends FOFTable
 				/** @var FOFTableNested $item */
 				foreach ($subNodes as $item)
 				{
-					$item->delete(null, false);
+                    // We have to pass the id, so we are getting it again from the database.
+                    // We have to do in this way, since a previous child could have changed our lft and rgt values
+					if(!$item->delete($item->$k))
+                    {
+                        // A subnode failed or prevents the delete, continue deleting other nodes,
+                        // but preserve the current node (ie the parent)
+                        $result = false;
+                    }
 				};
+
+                // Load it again, since while deleting a children we could have updated ourselves, too
+                $this->load($pk);
 			}
 		}
 
-		return parent::delete($oid);
+        if($result)
+        {
+            // Delete the row by primary key.
+            $query = $this->_db->getQuery(true);
+            $query->delete();
+            $query->from($this->_tbl);
+            $query->where($this->_tbl_key . ' = ' . $this->_db->q($pk));
+
+            $this->_db->setQuery($query)->execute();
+
+            $result = $this->onAfterDelete($oid);
+        }
+
+		return $result;
 	}
+
+    protected function onAfterDelete($oid)
+    {
+        $db = $this->getDbo();
+
+        $myLeft  = $this->lft;
+        $myRight = $this->rgt;
+
+        $fldLft = $db->qn($this->getColumnAlias('lft'));
+        $fldRgt = $db->qn($this->getColumnAlias('rgt'));
+
+        // Move all siblings to the left
+        $width = $this->rgt - $this->lft + 1;
+
+        // Wrap everything in a transaction
+        $db->transactionStart();
+
+        try
+        {
+            // Shrink lft values
+            $query = $db->getQuery(true)
+                        ->update($db->qn($this->getTableName()))
+                        ->set($fldLft . ' = ' . $fldLft . ' - '.$width)
+                        ->where($fldLft . ' > ' . $db->q($myLeft));
+            $db->setQuery($query)->execute();
+
+            // Shrink rgt values
+            $query = $db->getQuery(true)
+                        ->update($db->qn($this->getTableName()))
+                        ->set($fldRgt . ' = ' . $fldRgt . ' - '.$width)
+                        ->where($fldRgt . ' > ' . $db->q($myRight));
+            $db->setQuery($query)->execute();
+
+            // Commit the transaction
+            $db->transactionCommit();
+        }
+        catch (\Exception $e)
+        {
+            // Roll back the transaction on error
+            $db->transactionRollback();
+
+            throw $e;
+        }
+
+        return parent::onAfterDelete($oid);
+    }
 
 	/**
 	 * Not supported in nested sets

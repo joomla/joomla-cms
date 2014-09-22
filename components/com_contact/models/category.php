@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_contact
@@ -92,7 +94,7 @@ class ContactModelCategory extends JModelList
 			$item = & $items[$i];
 			if (!isset($this->_params))
 			{
-				$params = new JRegistry;
+				$params = new Registry;
 				$params->loadString($item->params);
 				$item->params = $params;
 			}
@@ -235,7 +237,7 @@ class ContactModelCategory extends JModelList
 		$this->setState('list.filter', $app->input->getString('filter-search'));
 
 		// Get list ordering default from the parameters
-		$menuParams = new JRegistry;
+		$menuParams = new Registry;
 		if ($menu = $app->getMenu()->getActive())
 		{
 			$menuParams->loadString($menu->params);
@@ -290,7 +292,7 @@ class ContactModelCategory extends JModelList
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry;
+			$params = new Registry;
 
 			if ($active)
 			{

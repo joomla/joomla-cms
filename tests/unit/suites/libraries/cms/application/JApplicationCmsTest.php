@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 include_once __DIR__ . '/stubs/JApplicationCmsInspector.php';
 
 /**
@@ -51,6 +53,14 @@ class JApplicationCmsTest extends TestCaseDatabase
 	protected $class;
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected $backupServer;
+
+	/**
 	 * Data for fetchConfigurationData method.
 	 *
 	 * @return  array
@@ -77,23 +87,25 @@ class JApplicationCmsTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
+		$this->saveFactoryState();
+
+		JFactory::$document = $this->getMockDocument();
+		JFactory::$language = $this->getMockLanguage();
+		JFactory::$session  = $this->getMockSession();
+
+		$this->backupServer = $_SERVER;
+
 		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
 		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;
 		$_SERVER['REQUEST_URI'] = self::TEST_REQUEST_URI;
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		// Set the config for the app
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('session', false);
 
 		// Get a new JApplicationCmsInspector instance.
 		$this->class = new JApplicationCmsInspector(null, $config);
-
-		// We are coupled to Document and Language in JFactory.
-		$this->saveFactoryState();
-
-		JFactory::$document = $this->getMockDocument();
-		JFactory::$language = $this->getMockLanguage();
 	}
 
 	/**
@@ -112,6 +124,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 		// Reset some web inspector static settings.
 		JApplicationCmsInspector::$headersSent = false;
 		JApplicationCmsInspector::$connectionAlive = true;
+
+		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
 
@@ -152,7 +166,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		$this->assertInstanceOf(
-			'JRegistry',
+			'\\Joomla\\Registry\\Registry',
 			TestReflection::getValue($this->class, 'config'),
 			'Config property wrong type'
 		);
@@ -192,7 +206,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->returnValue('ok')
 		);
 
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('session', false);
 
 		$mockClient = $this->getMock('JApplicationWebClient', array('test'), array(), '', false);
@@ -320,7 +334,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testGetCfg()
 	{
-		$config = new JRegistry(array('foo' => 'bar'));
+		$config = new Registry(array('foo' => 'bar'));
 
 		TestReflection::setValue($this->class, 'config', $config);
 
@@ -419,9 +433,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 	{
 		$template = $this->class->getTemplate(true);
 
-		$this->assertThat(
-			$template->params,
-			$this->isInstanceOf('JRegistry')
+		$this->assertInstanceOf(
+			'\\Joomla\\Registry\\Registry',
+			$template->params
 		);
 
 		$this->assertThat(
@@ -483,7 +497,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		// Inject the internal configuration.
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
@@ -524,7 +538,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		// Inject the internal configuration.
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
@@ -574,7 +588,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		JApplicationCmsInspector::$headersSent = true;
 
 		// Inject the internal configuration.
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
@@ -687,7 +701,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		// Inject the internal configuration.
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('uri.base.full', $base);
 		$config->set('uri.request', $request);
 
