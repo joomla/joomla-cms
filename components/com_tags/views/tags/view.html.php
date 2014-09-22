@@ -202,7 +202,7 @@ class TagsViewTags extends JViewLegacy
 				{
 					$this->document->setDescription($this->item->metadesc);
 				}
-				elseif ($itemElement->metadesc && $this->params->get('menu-meta_description'))
+				elseif (!$itemElement->metadesc && $this->params->get('menu-meta_description'))
 				{
 					$this->document->setDescription($this->params->get('menu-meta_description'));
 				}
