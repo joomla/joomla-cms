@@ -201,14 +201,6 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// Make sure that we have an admin element
-		if (!$this->manifest->administration)
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'), JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
 		/*
 		 * ---------------------------------------------------------------------------------------------
 		 * Filesystem Processing Section
@@ -388,7 +380,10 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		// Parse optional tags
 		$this->parent->parseMedia($this->manifest->media);
 		$this->parent->parseLanguages($this->manifest->languages);
-		$this->parent->parseLanguages($this->manifest->administration->languages, 1);
+		if($this->manifest->administration->languages)
+		{
+			$this->parent->parseLanguages($this->manifest->administration->languages, 1);
+		}
 
 		// If there is a manifest script, let's copy it.
 		if ($this->get('manifest_script'))
@@ -657,14 +652,6 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// Make sure that we have an admin element
-		if (!$this->manifest->administration)
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ABORT_COMP_UPDATE_ADMIN_ELEMENT'), JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Installer Trigger Loading
@@ -801,7 +788,10 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		// Parse optional tags
 		$this->parent->parseMedia($this->manifest->media);
 		$this->parent->parseLanguages($this->manifest->languages);
-		$this->parent->parseLanguages($this->manifest->administration->languages, 1);
+		if($this->manifest->administration->languages)
+		{
+			$this->parent->parseLanguages($this->manifest->administration->languages, 1);
+		}
 
 		// If there is a manifest script, let's copy it.
 		if ($this->get('manifest_script'))
@@ -1339,7 +1329,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			$this->parent->pushStep(array('type' => 'menu', 'id' => $component_id));
 		}
 		// No menu element was specified, Let's make a generic menu item
-		else
+		elseif($this->manifest->administration->files)
 		{
 			$data = array();
 			$data['menutype'] = 'main';
@@ -1681,14 +1671,6 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		 * Basic Checks Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
-
-		// Make sure that we have an admin element
-		if (!$this->manifest->administration)
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'), JLog::WARNING, 'jerror');
-
-			return false;
-		}
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
