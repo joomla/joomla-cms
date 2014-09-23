@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Getting params from template
-$params = JFactory::getApplication()->getTemplate(true)->params;
-
 $app             = JFactory::getApplication();
 $doc             = JFactory::getDocument();
 $lang            = JFactory::getLanguage();
@@ -19,6 +16,9 @@ $this->language  = $doc->language;
 $this->direction = $doc->direction;
 $input           = $app->input;
 $user            = JFactory::getUser();
+
+// Getting params from template
+params = $app->getTemplate(true)->params;
 
 // Detecting Active Variables
 $option   = $input->get('option', '');
@@ -32,6 +32,7 @@ $cpanel = ($option === 'com_cpanel');
 
 $showSubmenu = false;
 $this->submenumodules = JModuleHelper::getModules('submenu');
+
 foreach ($this->submenumodules as $submenumodule)
 {
 	$output = JModuleHelper::renderModule($submenumodule);
@@ -81,26 +82,26 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 	<?php // Template color ?>
 	<?php if ($params->get('templateColor')) : ?>
-	<style type="text/css">
-		.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle
-		{
-			background: <?php echo $params->get('templateColor');?>;
-		}
-		.navbar-inner, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle{
-			-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-			box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-		}
-	</style>
+		<style type="text/css">
+			.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle
+			{
+				background: <?php echo $params->get('templateColor');?>;
+			}
+			.navbar-inner, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle{
+				-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+				-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+				box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+			}
+		</style>
 	<?php endif; ?>
 	<?php // Template header color ?>
 	<?php if ($params->get('headerColor')) : ?>
-	<style type="text/css">
-		.header
-		{
-			background: <?php echo $params->get('headerColor');?>;
-		}
-	</style>
+		<style type="text/css">
+			.header
+			{
+				background: <?php echo $params->get('headerColor');?>;
+			}
+		</style>
 	<?php endif; ?>
 	<?php // Sidebar background color ?>
 	<?php if ($params->get('sidebarColor')) : ?>
@@ -137,9 +138,9 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 					<span class="icon-out-2 small"></span></a>
 
 				<?php if ($params->get('admin_menus') != '0') : ?>
-				<div class="nav-collapse">
+					<div class="nav-collapse">
 				<?php else : ?>
-				<div>
+					<div>
 				<?php endif; ?>
 					<?php // Display menu modules ?>
 					<?php $this->menumodules = JModuleHelper::getModules('menu'); ?>
@@ -181,9 +182,9 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<!-- Header -->
 	<header class="header">
 		<?php if ($displayHeader) : ?>
-		<div class="container-logo">
-			<img src="<?php echo $logo; ?>" class="logo" />
-		</div>
+			<div class="container-logo">
+				<img src="<?php echo $logo; ?>" class="logo" />
+			</div>
 		<?php endif; ?>
 		<div class="container-title">
 			<h1 class="page-title"><?php echo JText::_('ERROR'); ?></h1>
