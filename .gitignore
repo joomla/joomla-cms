@@ -51,7 +51,6 @@ components/com_patchtester/
 /libraries/vendor/leafo/lessphp/README.md
 /libraries/vendor/phpmailer/phpmailer/docs
 /libraries/vendor/phpmailer/phpmailer/examples
-/libraries/vendor/phpmailer/phpmailer/extras
 /libraries/vendor/phpmailer/phpmailer/language
 /libraries/vendor/phpmailer/phpmailer/test
 /libraries/vendor/phpmailer/phpmailer/.gitignore
