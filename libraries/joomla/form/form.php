@@ -1315,9 +1315,11 @@ class JForm
 				}
 				break;
 
-			// Ensures a protocol is present in the saved field unless the relative flag is set.
-			// Only use when the only permitted protocols require '://'.
-			// See JFormRuleUrl for list of these.
+			/*
+			 * Ensures a protocol is present in the saved field unless the relative flag is set.
+			 * Only use when the only permitted protocols require '://'.
+			 * See JFormRuleUrl for list of these.
+			 */
 
 			case 'URL':
 				if (empty($value))
