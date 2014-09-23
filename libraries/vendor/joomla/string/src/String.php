@@ -175,9 +175,16 @@ abstract class String
 	 * @see     http://www.php.net/strpos
 	 * @since   1.0
 	 */
-	public static function strpos($str, $search, $offset = null)
+	public static function strpos($str, $search, $offset = false)
 	{
-		return utf8_strpos($str, $search, $offset);
+		if ($offset === false)
+		{
+			return utf8_strpos($str, $search);
+		}
+		else
+		{
+			return utf8_strpos($str, $search, $offset);
+		}
 	}
 
 	/**
@@ -193,7 +200,7 @@ abstract class String
 	 * @see     http://www.php.net/strrpos
 	 * @since   1.0
 	 */
-	public static function strrpos($str, $search, $offset = null)
+	public static function strrpos($str, $search, $offset = 0)
 	{
 		return utf8_strrpos($str, $search, $offset);
 	}
@@ -211,9 +218,16 @@ abstract class String
 	 * @see     http://www.php.net/substr
 	 * @since   1.0
 	 */
-	public static function substr($str, $offset, $length = null)
+	public static function substr($str, $offset, $length = false)
 	{
-		return utf8_substr($str, $offset, $length);
+		if ($length === false)
+		{
+			return utf8_substr($str, $offset);
+		}
+		else
+		{
+			return utf8_substr($str, $offset, $length);
+		}
 	}
 
 	/**
@@ -292,7 +306,14 @@ abstract class String
 	{
 		require_once __DIR__ . '/phputf8/str_ireplace.php';
 
-		return utf8_ireplace($search, $replace, $str, $count);
+		if ($count === false)
+		{
+			return utf8_ireplace($search, $replace, $str);
+		}
+		else
+		{
+			return utf8_ireplace($search, $replace, $str, $count);
+		}
 	}
 
 	/**
@@ -449,7 +470,18 @@ abstract class String
 	{
 		require_once __DIR__ . '/phputf8/strcspn.php';
 
-		return utf8_strcspn($str, $mask, $start, $length);
+		if ($start === false && $length === false)
+		{
+			return utf8_strcspn($str, $mask);
+		}
+		elseif ($length === false)
+		{
+			return utf8_strcspn($str, $mask, $start);
+		}
+		else
+		{
+			return utf8_strcspn($str, $mask, $start, $length);
+		}
 	}
 
 	/**
@@ -509,7 +541,18 @@ abstract class String
 	{
 		require_once __DIR__ . '/phputf8/strspn.php';
 
-		return utf8_strspn($str, $mask, $start, $length);
+		if ($start === null && $length === null)
+		{
+			return utf8_strspn($str, $mask);
+		}
+		elseif ($length === null)
+		{
+			return utf8_strspn($str, $mask, $start);
+		}
+		else
+		{
+			return utf8_strspn($str, $mask, $start, $length);
+		}
 	}
 
 	/**
@@ -528,7 +571,15 @@ abstract class String
 	 */
 	public static function substr_replace($str, $repl, $start, $length = null)
 	{
-		return utf8_substr_replace($str, $repl, $start, $length);
+		// Loaded by library loader
+		if ($length === false)
+		{
+			return utf8_substr_replace($str, $repl, $start);
+		}
+		else
+		{
+			return utf8_substr_replace($str, $repl, $start, $length);
+		}
 	}
 
 	/**
@@ -556,7 +607,14 @@ abstract class String
 
 		require_once __DIR__ . '/phputf8/trim.php';
 
-		return utf8_ltrim($str, $charlist);
+		if ($charlist === false)
+		{
+			return utf8_ltrim($str);
+		}
+		else
+		{
+			return utf8_ltrim($str, $charlist);
+		}
 	}
 
 	/**
@@ -583,7 +641,14 @@ abstract class String
 
 		require_once __DIR__ . '/phputf8/trim.php';
 
-		return utf8_rtrim($str, $charlist);
+		if ($charlist === false)
+		{
+			return utf8_rtrim($str);
+		}
+		else
+		{
+			return utf8_rtrim($str, $charlist);
+		}
 	}
 
 	/**
@@ -610,7 +675,14 @@ abstract class String
 
 		require_once __DIR__ . '/phputf8/trim.php';
 
-		return utf8_trim($str, $charlist);
+		if ($charlist === false)
+		{
+			return utf8_trim($str);
+		}
+		else
+		{
+			return utf8_trim($str, $charlist);
+		}
 	}
 
 	/**

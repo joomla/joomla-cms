@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5f539e0df98e2d07745e7db6c2555ef2",
+    "hash": "24791640ff576790cc25e687c275b0ee",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -390,25 +390,32 @@
         },
         {
             "name": "joomla/string",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/string.git",
-                "reference": "f1152e6cce135ff90f4b0097792e8be23989b143"
+                "reference": "edc67e83f8e603ac7b55bf32b87d5b53fe1acd8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/string/zipball/f1152e6cce135ff90f4b0097792e8be23989b143",
-                "reference": "f1152e6cce135ff90f4b0097792e8be23989b143",
+                "url": "https://api.github.com/repos/joomla-framework/string/zipball/edc67e83f8e603ac7b55bf32b87d5b53fe1acd8a",
+                "reference": "edc67e83f8e603ac7b55bf32b87d5b53fe1acd8a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.10"
             },
             "require-dev": {
-                "joomla/test": "~1.0"
+                "joomla/test": "~1.0",
+                "phpunit/phpunit": "4.*",
+                "squizlabs/php_codesniffer": "1.*"
             },
             "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\String\\": "src/",
@@ -426,7 +433,7 @@
                 "joomla",
                 "string"
             ],
-            "time": "2014-08-23 19:33:54"
+            "time": "2014-09-18 12:21:47"
         },
         {
             "name": "joomla/uri",
@@ -692,21 +699,13 @@
             "time": "2014-08-31 03:22:04"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": null,
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": [],
     "prefer-stable": false,
     "platform": {
         "php": ">=5.3.10"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
