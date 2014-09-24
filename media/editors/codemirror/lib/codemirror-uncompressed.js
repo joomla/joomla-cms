@@ -1646,7 +1646,7 @@
 
     var rect;
     if (node.nodeType == 3) { // If it is a text node, use a range to retrieve the coordinates.
-      for (;;) {
+      for (var i = 0; i < 4; i++) { // Retry a maximum of 4 times when nonsense rectangles are returned
         while (start && isExtendingChar(prepared.line.text.charAt(mStart + start))) --start;
         while (mStart + end < mEnd && isExtendingChar(prepared.line.text.charAt(mStart + end))) ++end;
         if (ie && ie_version < 9 && start == 0 && end == mEnd - mStart) {
@@ -1665,6 +1665,7 @@
         start = start - 1;
         collapse = "right";
       }
+      if (ie && ie_version < 11) rect = maybeUpdateRectForZooming(cm.display.measure, rect);
     } else { // If it is a widget, simply get the box for the whole widget.
       if (start > 0) collapse = bias = "right";
       var rects;
@@ -1680,8 +1681,6 @@
       else
         rect = nullRect;
     }
-
-    if (ie && ie_version < 11) rect = maybeUpdateRectForZooming(cm.display.measure, rect);
 
     var rtop = rect.top - prepared.rect.top, rbot = rect.bottom - prepared.rect.top;
     var mid = (rtop + rbot) / 2;
@@ -2090,11 +2089,11 @@
       display.wheelStartX = display.wheelStartY = null;
 
     // Propagate the scroll position to the actual DOM scroller
-    if (op.scrollTop != null && display.scroller.scrollTop != op.scrollTop) {
+    if (op.scrollTop != null && (display.scroller.scrollTop != op.scrollTop || op.forceScroll)) {
       var top = Math.max(0, Math.min(display.scroller.scrollHeight - display.scroller.clientHeight, op.scrollTop));
       display.scroller.scrollTop = display.scrollbarV.scrollTop = doc.scrollTop = top;
     }
-    if (op.scrollLeft != null && display.scroller.scrollLeft != op.scrollLeft) {
+    if (op.scrollLeft != null && (display.scroller.scrollLeft != op.scrollLeft || op.forceScroll)) {
       var left = Math.max(0, Math.min(display.scroller.scrollWidth - display.scroller.clientWidth, op.scrollLeft));
       display.scroller.scrollLeft = display.scrollbarH.scrollLeft = doc.scrollLeft = left;
       alignHorizontally(cm);
@@ -2457,16 +2456,16 @@
           cm.options.smartIndent && range.head.ch < 100 &&
           (!i || doc.sel.ranges[i - 1].head.line != range.head.line)) {
         var mode = cm.getModeAt(range.head);
+        var end = changeEnd(changeEvent);
         if (mode.electricChars) {
           for (var j = 0; j < mode.electricChars.length; j++)
             if (inserted.indexOf(mode.electricChars.charAt(j)) > -1) {
-              indentLine(cm, range.head.line, "smart");
+              indentLine(cm, end.line, "smart");
               break;
             }
         } else if (mode.electricInput) {
-          var end = changeEnd(changeEvent);
           if (mode.electricInput.test(getLine(doc, end.line).text.slice(0, end.ch)))
-            indentLine(cm, range.head.line, "smart");
+            indentLine(cm, end.line, "smart");
         }
       }
     }
@@ -2528,7 +2527,7 @@
         var pos = posFromMouse(cm, e);
         if (!pos || clickInGutter(cm, e) || eventInWidget(cm.display, e)) return;
         e_preventDefault(e);
-        var word = findWordAt(cm, pos);
+        var word = cm.findWordAt(pos);
         extendSelection(cm.doc, word.anchor, word.head);
       }));
     else
@@ -2807,7 +2806,7 @@
       start = posFromMouse(cm, e, true, true);
       ourIndex = -1;
     } else if (type == "double") {
-      var word = findWordAt(cm, start);
+      var word = cm.findWordAt(start);
       if (cm.display.shift || doc.extend)
         ourRange = extendRange(doc, ourRange, word.anchor, word.head);
       else
@@ -2861,7 +2860,7 @@
         var anchor = oldRange.anchor, head = pos;
         if (type != "single") {
           if (type == "double")
-            var range = findWordAt(cm, pos);
+            var range = cm.findWordAt(pos);
           else
             var range = new Range(Pos(pos.line, 0), clipPos(doc, Pos(pos.line + 1, 0)));
           if (cmp(range.anchor, anchor) > 0) {
@@ -3999,24 +3998,6 @@
     return target;
   }
 
-  // Find the word at the given position (as returned by coordsChar).
-  function findWordAt(cm, pos) {
-    var doc = cm.doc, line = getLine(doc, pos.line).text;
-    var start = pos.ch, end = pos.ch;
-    if (line) {
-      var helper = cm.getHelper(pos, "wordChars");
-      if ((pos.xRel < 0 || end == line.length) && start) --start; else ++end;
-      var startChar = line.charAt(start);
-      var check = isWordChar(startChar, helper)
-        ? function(ch) { return isWordChar(ch, helper); }
-        : /\s/.test(startChar) ? function(ch) {return /\s/.test(ch);}
-        : function(ch) {return !/\s/.test(ch) && !isWordChar(ch);};
-      while (start > 0 && check(line.charAt(start - 1))) --start;
-      while (end < line.length && check(line.charAt(end))) ++end;
-    }
-    return new Range(Pos(pos.line, start), Pos(pos.line, end));
-  }
-
   // EDITOR METHODS
 
   // The publicly visible API. Note that methodOp(f) means
@@ -4358,6 +4339,24 @@
         doc.sel.ranges[i].goalColumn = goals[i];
     }),
 
+    // Find the word at the given position (as returned by coordsChar).
+    findWordAt: function(pos) {
+      var doc = this.doc, line = getLine(doc, pos.line).text;
+      var start = pos.ch, end = pos.ch;
+      if (line) {
+        var helper = this.getHelper(pos, "wordChars");
+        if ((pos.xRel < 0 || end == line.length) && start) --start; else ++end;
+        var startChar = line.charAt(start);
+        var check = isWordChar(startChar, helper)
+          ? function(ch) { return isWordChar(ch, helper); }
+          : /\s/.test(startChar) ? function(ch) {return /\s/.test(ch);}
+          : function(ch) {return !/\s/.test(ch) && !isWordChar(ch);};
+        while (start > 0 && check(line.charAt(start - 1))) --start;
+        while (end < line.length && check(line.charAt(end))) ++end;
+      }
+      return new Range(Pos(pos.line, start), Pos(pos.line, end));
+    },
+
     toggleOverwrite: function(value) {
       if (value != null && value == this.state.overwrite) return;
       if (this.state.overwrite = !this.state.overwrite)
@@ -4444,6 +4443,7 @@
       clearCaches(this);
       resetInput(this);
       this.scrollTo(doc.scrollLeft, doc.scrollTop);
+      this.curOp.forceScroll = true;
       signalLater(this, "swapDoc", this, old);
       return old;
     }),
@@ -7295,7 +7295,7 @@
     return function(){return f.apply(null, args);};
   }
 
-  var nonASCIISingleCaseWordChar = /[\u00df\u3040-\u309f\u30a0-\u30ff\u3400-\u4db5\u4e00-\u9fcc\uac00-\ud7af]/;
+  var nonASCIISingleCaseWordChar = /[\u00df\u0590-\u05f4\u0600-\u06ff\u3040-\u309f\u30a0-\u30ff\u3400-\u4db5\u4e00-\u9fcc\uac00-\ud7af]/;
   var isWordCharBasic = CodeMirror.isWordChar = function(ch) {
     return /\w/.test(ch) || ch > "\x80" &&
       (ch.toUpperCase() != ch.toLowerCase() || nonASCIISingleCaseWordChar.test(ch));
@@ -7462,7 +7462,7 @@
     if (badBidiRects != null) return badBidiRects;
     var txt = removeChildrenAndAdd(measure, document.createTextNode("A\u062eA"));
     var r0 = range(txt, 0, 1).getBoundingClientRect();
-    if (r0.left == r0.right) return false;
+    if (!r0 || r0.left == r0.right) return false; // Safari returns null in some cases (#2780)
     var r1 = range(txt, 1, 2).getBoundingClientRect();
     return badBidiRects = (r1.right - r0.right < 3);
   }
@@ -7825,7 +7825,7 @@
 
   // THE END
 
-  CodeMirror.version = "4.5.0";
+  CodeMirror.version = "4.6.0";
 
   return CodeMirror;
 });
