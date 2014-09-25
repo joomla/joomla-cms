@@ -14,7 +14,7 @@ require_once __DIR__ . '/helper.php';
 
 JLoader::register('JCategoryNode', JPATH_BASE . '/libraries/legacy/categories/categories.php');
 
-$cacheid = md5(serialize($module->module));
+$cacheid = md5($module->id);
 
 $cacheparams = new stdClass;
 $cacheparams->cachemode = 'id';
