@@ -295,4 +295,68 @@ class JFilesystemHelper
 	{
 		return in_array($streamname, self::getJStreams());
 	}
+
+	/**
+	 * Calculates the maximum file upload size
+	 *
+	 * Call it with JFilesystemHelper::fileUploadMaxSize();
+	 *
+	 * @return string The maximum upload size of files with the appropriate unit
+	 */
+	public static function fileUploadMaxSize()
+	{
+		static $max_size = false;
+
+		if ($max_size === false)
+		{
+			$max_size   = JFilesystemHelper::parseSize(ini_get('post_max_size'));
+			$upload_max = JFilesystemHelper::parseSize(ini_get('upload_max_filesize'));
+
+			if ($upload_max > 0 && ($upload_max < $max_size || $max_size == 0))
+			{
+				$max_size = $upload_max;
+			}
+
+			$max_size = JFilesystemHelper::parseSizeUnit($max_size);
+		}
+
+		return $max_size;
+	}
+
+	/**
+	 * Returns the size in bytes without the unit for the comparison
+	 *
+	 * @param $size The size which is received from the PHP settings
+	 *
+	 * @return float The size in Bytes without the unit
+	 */
+	private static function parseSize($size)
+	{
+		$unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
+		$size = preg_replace('/[^0-9\.]/', '', $size);
+
+		if ($unit)
+		{
+			return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+		}
+		else
+		{
+			return round($size);
+		}
+	}
+
+	/**
+	 * Creates the rounded size of the size with the appropriate unit
+	 *
+	 * @param $max_size The maximum size which is allowed for the uploads
+	 *
+	 * @return string String with the size and the appropriate unit
+	 */
+	private static function parseSizeUnit($max_size)
+	{
+		$base     = log($max_size) / log(1024);
+		$suffixes = array('', 'k', 'M', 'G', 'T');
+
+		return round(pow(1024, $base - floor($base)), 0) . $suffixes[floor($base)];
+	}
 }
