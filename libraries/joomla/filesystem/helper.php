@@ -297,27 +297,35 @@ class JFilesystemHelper
 	}
 
 	/**
-	 * Calculates the maximum file upload size
+	 * Calculates the maximum upload file size and return string with unit or the size in Bytes
 	 *
 	 * Call it with JFilesystemHelper::fileUploadMaxSize();
 	 *
-	 * @return string The maximum upload size of files with the appropriate unit
+	 * @param   bool  $unit_output  This parameter determines whether the return value should be a string with a unit
+	 *
+	 * @return float|string The maximum upload size of files with the appropriate unit or in Bytes
 	 */
-	public static function fileUploadMaxSize()
+	public static function fileUploadMaxSize($unit_output = true)
 	{
 		static $max_size = false;
+		static $output_type = true;
 
-		if ($max_size === false)
+		if ($max_size === false || $output_type != $unit_output)
 		{
-			$max_size   = JFilesystemHelper::parseSize(ini_get('post_max_size'));
-			$upload_max = JFilesystemHelper::parseSize(ini_get('upload_max_filesize'));
+			$max_size   = self::parseSize(ini_get('post_max_size'));
+			$upload_max = self::parseSize(ini_get('upload_max_filesize'));
 
 			if ($upload_max > 0 && ($upload_max < $max_size || $max_size == 0))
 			{
 				$max_size = $upload_max;
 			}
 
-			$max_size = JFilesystemHelper::parseSizeUnit($max_size);
+			if ($unit_output == true)
+			{
+				$max_size = self::parseSizeUnit($max_size);
+			}
+
+			$output_type = $unit_output;
 		}
 
 		return $max_size;
@@ -326,7 +334,7 @@ class JFilesystemHelper
 	/**
 	 * Returns the size in bytes without the unit for the comparison
 	 *
-	 * @param $size The size which is received from the PHP settings
+	 * @param   string  $size  The size which is received from the PHP settings
 	 *
 	 * @return float The size in Bytes without the unit
 	 */
@@ -335,20 +343,20 @@ class JFilesystemHelper
 		$unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
 		$size = preg_replace('/[^0-9\.]/', '', $size);
 
+		$return = round($size);
+
 		if ($unit)
 		{
-			return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+			$return = round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
 		}
-		else
-		{
-			return round($size);
-		}
+
+		return $return;
 	}
 
 	/**
 	 * Creates the rounded size of the size with the appropriate unit
 	 *
-	 * @param $max_size The maximum size which is allowed for the uploads
+	 * @param   float  $max_size  The maximum size which is allowed for the uploads
 	 *
 	 * @return string String with the size and the appropriate unit
 	 */
