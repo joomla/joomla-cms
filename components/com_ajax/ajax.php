@@ -88,6 +88,10 @@ elseif ($input->get('module'))
 
 			if (method_exists($class, $method . 'Ajax'))
 			{
+				// Load language file for module
+				$lang = JFactory::getLanguage();
+				$lang->load('mod_' . $module);
+				
 				try
 				{
 					$results = call_user_func($class . '::' . $method . 'Ajax');
