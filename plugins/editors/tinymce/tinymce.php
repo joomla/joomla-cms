@@ -48,16 +48,38 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onInit()
 	{
+		$app      = JFactory::getApplication();
 		$language = JFactory::getLanguage();
 		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
-		$skin     = $this->params->get('skin', '0');
 
-		switch ($skin)
+		// List the skins
+		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
+
+		// Set the selected skin
+		if ($app->isSite())
 		{
-			case '0':
-			default:
+			if ((int) $this->params->get('skin', 0) < count($skindirs))
+			{
+				$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin', 0)]) . '",';
+			}
+			else
+			{
 				$skin = 'skin : "lightgray",';
+			}
+		}
+
+		// Set the selected administrator skin
+		elseif ($app->isAdmin())
+		{
+			if ((int) $this->params->get('skin_admin', 0) < count($skindirs))
+			{
+				$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin_admin', 0)]) . '",';
+			}
+			else
+			{
+				$skin = 'skin : "lightgray",';
+			}
 		}
 
 		$entity_encoding = $this->params->get('entity_encoding', 'raw');
@@ -551,13 +573,13 @@ class PlgEditorTinymce extends JPlugin
 		$mobileVersion = $this->params->get('mobile', 0);
 
 		$load = "\t<script type=\"text/javascript\" src=\"" .
-				JUri::root() . $this->_basePath .
-				"/tinymce.min.js\"></script>\n";
+			JUri::root() . $this->_basePath .
+			"/tinymce.min.js\"></script>\n";
 
 		/**
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
 		 * If mobile view is on force into simple mode and enlarge the buttons
-		**/
+		 **/
 		if (!$this->app->client->mobile)
 		{
 			$smallButtons = 'toolbar_items_size: "small",';
@@ -576,7 +598,7 @@ class PlgEditorTinymce extends JPlugin
 		{
 			case 0: /* Simple mode*/
 				$return = $load .
-				"\t<script type=\"text/javascript\">
+					"\t<script type=\"text/javascript\">
 					tinymce.init({
 						// General
 						directionality: \"$text_direction\",
@@ -603,14 +625,14 @@ class PlgEditorTinymce extends JPlugin
 						document_base_url : \"" . JUri::root() . "\"
 					});
 				</script>";
-			break;
+				break;
 
 			case 1:
 			default: /* Advanced mode*/
 				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist";
 				$toolbar2 = "outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
 				$return = $load .
-				"\t<script type=\"text/javascript\">
+					"\t<script type=\"text/javascript\">
 				tinyMCE.init({
 					// General
 					directionality: \"$text_direction\",
@@ -650,11 +672,11 @@ class PlgEditorTinymce extends JPlugin
 
 				});
 				</script>";
-			break;
+				break;
 
 			case 2: /* Extended mode*/
 				$return = $load .
-				"\t<script type=\"text/javascript\">
+					"\t<script type=\"text/javascript\">
 				tinyMCE.init({
 					// General
 					directionality: \"$text_direction\",
@@ -714,7 +736,7 @@ class PlgEditorTinymce extends JPlugin
 
 				});
 				</script>";
-			break;
+				break;
 		}
 
 		return $return;
