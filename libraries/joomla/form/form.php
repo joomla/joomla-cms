@@ -2116,7 +2116,7 @@ class JForm
 	protected static function addNode(SimpleXMLElement $source, SimpleXMLElement $new)
 	{
 		// Add the new child node.
-		$node = $source->addChild($new->getName(), trim($new));
+		$node = $source->addChild($new->getName(), htmlspecialchars(trim($new)));
 
 		// Add the attributes of the child node.
 		foreach ($new->attributes() as $name => $value)
