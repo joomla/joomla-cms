@@ -1315,8 +1315,11 @@ class JForm
 				}
 				break;
 
-			// Ensures a protocol is present in the saved field. Only use when
-			// the only permitted protocols requre '://'. See JFormRuleUrl for list of these.
+			/*
+			 * Ensures a protocol is present in the saved field unless the relative flag is set.
+			 * Only use when the only permitted protocols require '://'.
+			 * See JFormRuleUrl for list of these.
+			 */
 
 			case 'URL':
 				if (empty($value))
@@ -1342,14 +1345,17 @@ class JForm
 					$protocol = 'http';
 
 					// If it looks like an internal link, then add the root.
-					if (substr($value, 0) == 'index.php')
+					if (substr($value, 0, 9) == 'index.php')
 					{
 						$value = JUri::root() . $value;
 					}
 
-					// Otherwise we treat it is an external link.
-					// Put the url back together.
-					$value = $protocol . '://' . $value;
+					// Otherwise we treat it as an external link.
+					else
+					{
+						// Put the url back together.
+						$value = $protocol . '://' . $value;
+					}
 				}
 
 				// If relative URLS are allowed we assume that URLs without protocols are internal.
@@ -1363,10 +1369,10 @@ class JForm
 						$value = 'http://' . $value;
 					}
 
-					// Otherwise prepend the root.
-					else
+					// Otherwise if it doesn't start with "/" prepend the prefix of the current site.
+					elseif (substr($value, 0, 1) != '/')
 					{
-						$value = JUri::root() . $value;
+						$value = JUri::root(true) . '/' . $value;
 					}
 				}
 
