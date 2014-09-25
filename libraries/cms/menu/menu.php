@@ -157,7 +157,7 @@ class JMenu
 	 *
 	 * @since   1.5
 	 */
-	public function setDefault($id, $language = '')
+	public function setDefault($id, $language = '*')
 	{
 		if (isset($this->_items[$id]))
 		{
