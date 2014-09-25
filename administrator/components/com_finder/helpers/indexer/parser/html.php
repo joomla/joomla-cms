@@ -41,7 +41,6 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 		$input = strip_tags($input);
 
 		// Deal with spacing issues in the input
-		$input = str_replace('>', '> ', $input);
 		$input = str_replace(array('&nbsp;', '&#160;'), ' ', $input);
 		$input = trim(preg_replace('#\s+#u', ' ', $input));
 
@@ -49,6 +48,11 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 		if (strpos($input, '>') !== false)
 		{
 			$input = substr($input, strpos($input, '>') + 1);
+		}
+
+		if (strpos($input, '<') !== false)
+		{
+			$input = substr($input, 0, strpos($input, '<'));
 		}
 
 		// Decode entities and remove unneeded white spaces
