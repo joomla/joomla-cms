@@ -93,6 +93,13 @@ class ContentRouter extends JComponentRouterBase
 				$segments[] = $view;
 			}
 
+			// If I view a category within a category... I'm on a forbidden URI
+			if ($view == 'category')
+			{
+				JError::raiseError(404, JText::_('COM_CONTENT_ERROR_PARENT_CATEGORY_NOT_FOUND'));
+				return $segments;
+			}
+			
 			unset($query['view']);
 
 			if ($view == 'article')
