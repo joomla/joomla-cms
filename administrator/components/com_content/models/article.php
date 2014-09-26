@@ -468,6 +468,37 @@ class ContentModelArticle extends JModelAdmin
 			$data['state'] = 0;
 		}
 
+		// Automatic handling of alias for empty fields
+		if (in_array($app->input->get('task'), array('apply', 'save', 'save2new')) && (int) $app->input->get('id') == 0)
+		{
+			if ($data['alias'] == null)
+			{
+				if (JFactory::getConfig()->get('unicodeslugs') == 1)
+				{
+					$data['alias'] = JFilterOutput::stringURLUnicodeSlug($data['title']);
+				}
+				else
+				{
+					$data['alias'] = JFilterOutput::stringURLSafe($data['title']);
+				}
+
+				$table = JTable::getInstance('Content', 'JTable');
+
+				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
+				{
+					$msg = JText::_('COM_CONTENT_SAVE_WARNING');
+				}
+
+				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+				$data['alias'] = $alias;
+
+				if (isset($msg))
+				{
+					$app->enqueueMessage($msg, 'warning');
+				}
+			}
+		}
+
 		if (parent::save($data))
 		{
 
