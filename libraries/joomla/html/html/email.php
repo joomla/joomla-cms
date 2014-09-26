@@ -82,7 +82,7 @@ abstract class JHtmlEmail
 		}
 		else
 		{
-			$replacement .= "\n document.getElementById('cloak$rand').innerHTML += 'addy" . $rand . "';";
+			$replacement .= "\n document.getElementById('cloak$rand').innerHTML += addy" . $rand . ";";
 		}
 
 		$replacement .= "\n //-->";
