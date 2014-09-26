@@ -297,13 +297,15 @@ class JFilesystemHelper
 	}
 
 	/**
-	 * Calculates the maximum upload file size and return string with unit or the size in Bytes
+	 * Calculates the maximum upload file size and returns string with unit or the size in bytes
 	 *
 	 * Call it with JFilesystemHelper::fileUploadMaxSize();
 	 *
 	 * @param   bool  $unit_output  This parameter determines whether the return value should be a string with a unit
 	 *
-	 * @return float|string The maximum upload size of files with the appropriate unit or in Bytes
+	 * @return  float|string The maximum upload size of files with the appropriate unit or in bytes
+	 *
+	 * @since   13.1
 	 */
 	public static function fileUploadMaxSize($unit_output = true)
 	{
@@ -336,7 +338,9 @@ class JFilesystemHelper
 	 *
 	 * @param   string  $size  The size which is received from the PHP settings
 	 *
-	 * @return float The size in Bytes without the unit
+	 * @return  float The size in bytes without the unit
+	 *
+	 * @since   13.1
 	 */
 	private static function parseSize($size)
 	{
@@ -359,6 +363,8 @@ class JFilesystemHelper
 	 * @param   float  $max_size  The maximum size which is allowed for the uploads
 	 *
 	 * @return string String with the size and the appropriate unit
+	 *
+	 * @since   13.1
 	 */
 	private static function parseSizeUnit($max_size)
 	{
