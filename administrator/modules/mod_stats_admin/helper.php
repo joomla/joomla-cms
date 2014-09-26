@@ -112,7 +112,7 @@ class ModStatsHelper
 				$i++;
 			}
 
-			if (JComponentHelper::isEnabled('com_weblinks'))
+			if (JComponentHelper::isInstalled('com_weblinks'))
 			{
 				$query->clear()
 					->select('COUNT(id) AS count_links')
