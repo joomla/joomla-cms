@@ -362,7 +362,7 @@ class JFilesystemHelper
 	 *
 	 * @param   float  $max_size  The maximum size which is allowed for the uploads
 	 *
-	 * @return string String with the size and the appropriate unit
+	 * @return  string String with the size and the appropriate unit
 	 *
 	 * @since   13.1
 	 */
