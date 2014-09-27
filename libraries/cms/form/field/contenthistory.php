@@ -46,11 +46,11 @@ class JFormFieldContenthistory extends JFormField
 		// Load the modal behavior script.
 		JHtml::_('behavior.modal', 'a.modal_' . $this->id);
 
-		$html[] = '		<a class="btn modal_' . $this->id . '" title="' . $label . '" href="' . $link . '"'
+		$html[] = '		<button class="btn modal_' . $this->id . '" title="' . $label . '" href="' . $link . '"'
 			. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
 		$html[] = '<i class="icon-archive"></i>';
 		$html[] = $label;
-		$html[] = '</a>';
+		$html[] = '</button>';
 
 		return implode("\n", $html);
 	}
