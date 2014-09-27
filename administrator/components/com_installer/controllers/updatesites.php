@@ -67,7 +67,7 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 			throw new Exception(implode('<br />', $model->getErrors()), 500);
 		}
 
-		$ntext = ($value == 0) ? 'COM_INSTALLER_N_UPDATESERVER_UNPUBLISHED' : 'COM_INSTALLER_N_UPDATESERVER_PUBLISHED';
+		$ntext = ($value == 0) ? 'COM_INSTALLER_N_UPDATESITES_UNPUBLISHED' : 'COM_INSTALLER_N_UPDATESITES_PUBLISHED';
 
 		$this->setMessage(JText::plural($ntext, count($ids)));
 
