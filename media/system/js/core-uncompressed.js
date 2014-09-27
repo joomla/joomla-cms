@@ -215,9 +215,9 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
 /**
  * USED IN: All list views to hide/show the sidebar
  */
-Joomla.toggleSidebar = function(context, force)
+Joomla.toggleSidebar = function(force)
 {
-	context = context + '_sidebar_visible';
+	var context = 'jsidebar';
 
 	var $visible = jQuery('#sidebar').is(":visible");
 
@@ -236,7 +236,7 @@ Joomla.toggleSidebar = function(context, force)
 	if ($visible)
 	{
 		jQuery('#sidebar').hide();
-		jQuery('#j-sidebar-container').removeClass('span2').addClass('span0');
+		jQuery('#j-sidebar-container').removeClass('span2').addClass('span1');
 		jQuery('#j-main-container').removeClass('span10').addClass('span12');
 		jQuery('#j-toggle-sidebar-icon').removeClass('icon-contract').addClass('icon-expand');
 		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_SHOW_SIDEBAR'));
@@ -250,7 +250,7 @@ Joomla.toggleSidebar = function(context, force)
 	else
 	{
 		jQuery('#sidebar').show();
-		jQuery('#j-sidebar-container').removeClass('span0').addClass('span2');
+		jQuery('#j-sidebar-container').removeClass('span1').addClass('span2');
 		jQuery('#j-main-container').removeClass('span12').addClass('span10');
 		jQuery('#j-toggle-sidebar-icon').removeClass('icon-expand').addClass('icon-contract');
 		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_HIDE_SIDEBAR'));
