@@ -98,9 +98,7 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		$result = true;
 
-		/*
-		 * Ensure eid is an array of extension ids
-		 */
+		// Ensure eid is an array of extension ids
 		if (!is_array($eid))
 		{
 			$eid = array($eid);
