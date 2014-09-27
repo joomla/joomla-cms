@@ -8,53 +8,17 @@
  */
 
 defined('JPATH_BASE') or die;
-
-$data = array();
-
-$customOptions = array(
-	'toggleSidebar'       => isset($data['options']['toggleSidebar']) ? $data['options']['toggleSidebar'] : $this->options->get('toggleSidebar', false)
-);
-
-if ($customOptions['toggleSidebar']) :
-	if (!isset($data['toggleKey']))
-	{
-		$data['toggleKey'] = JFactory::getApplication()->input->get('option');
-	}
-
-	echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', $data['toggleKey']);
-endif;
-
-//$data = $displayData;
-
-if (empty($data))
-{
-	$data = JFactory::getApplication()->input->get('option');
-}
-
-// Set the tooltips
-JText::script('JSEARCH_HIDE_SIDEBAR');
-JText::script('JSEARCH_SHOW_SIDEBAR');
-
 ?>
-
 
 	<script type="text/javascript">
 		jQuery(function()
 		{
-			Joomla.toggleSidebar('<?php echo $data; ?>', true);
+			Joomla.toggleSidebar(true);
 		});
 	</script>
 
 	<div class="toggle-sidebar btn-group">
-		<button
-			id="j-toggle-sidebar-button"
-			class="btn hidden-phone hasTooltip"
-			title="<?php echo JHtml::tooltipText('JSEARCH_HIDE_SIDEBAR'); ?>"
-			type="button"
-			onclick="Joomla.toggleSidebar('<?php echo $data; ?>', false); return false;"
-			>
-			<span id="j-toggle-sidebar-icon" class="icon-contract"></span>
-		</button>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar'); ?>
 	</div>
 	<div class="clearfix"></div>
 <div id="sidebar">

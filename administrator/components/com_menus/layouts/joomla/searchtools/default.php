@@ -19,9 +19,11 @@ $doc = JFactory::getDocument();
 $doc->addStyleDeclaration("
 	/* Fixed filter field in search bar */
 	.js-stools .js-stools-menutype {
+		float: left;
 		margin-right: 10px;
 	}
 	html[dir=rtl] .js-stools .js-stools-menutype {
+		float: right;
 		margin-left: 10px
 		margin-right: 0;
 	}

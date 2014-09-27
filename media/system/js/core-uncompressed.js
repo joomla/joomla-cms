@@ -215,9 +215,9 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
 /**
  * USED IN: All list views to hide/show the sidebar
  */
-Joomla.toggleSidebar = function(context, force)
+Joomla.toggleSidebar = function(force)
 {
-	context = context + '_sidebar_visible';
+	var context = 'jsidebar';
 
 	var $visible = jQuery('#sidebar').is(":visible");
 

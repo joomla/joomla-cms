@@ -9,13 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-$data = $displayData;
-
-if (empty($data))
-{
-	$data = JFactory::getApplication()->input->get('option');
-}
-
 // Set the tooltips
 JText::script('JSEARCH_HIDE_SIDEBAR');
 JText::script('JSEARCH_SHOW_SIDEBAR');
@@ -25,7 +18,7 @@ JText::script('JSEARCH_SHOW_SIDEBAR');
 	class="btn hidden-phone hasTooltip"
 	title="<?php echo JHtml::tooltipText('JSEARCH_HIDE_SIDEBAR'); ?>"
 	type="button"
-	onclick="Joomla.toggleSidebar('<?php echo $data; ?>', false); return false;"
+	onclick="Joomla.toggleSidebar(false); return false;"
 	>
 	<span id="j-toggle-sidebar-icon" class="icon-contract"></span>
 </button>
