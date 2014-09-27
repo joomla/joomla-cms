@@ -94,15 +94,7 @@ abstract class ModRelatedItemsHelper
 					$case_when .= $a_id . ' END as slug';
 					$query->select($case_when);
 
-					$case_when = ' CASE WHEN ';
-					$case_when .= $query->charLength('cc.alias', '!=', '0');
-					$case_when .= ' THEN ';
-					$c_id = $query->castAsChar('cc.id');
-					$case_when .= $query->concatenate(array($c_id, 'cc.alias'), ':');
-					$case_when .= ' ELSE ';
-					$case_when .= $c_id . ' END as catslug';
-					$query->select($case_when)
-						->from('#__content AS a')
+					$query->from('#__content AS a')
 						->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
 						->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
 						->where('a.id != ' . (int) $id)
@@ -130,7 +122,7 @@ abstract class ModRelatedItemsHelper
 						{
 							if ($row->cat_state == 1)
 							{
-								$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug));
+								$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid));
 								$related[] = $row;
 							}
 						}
