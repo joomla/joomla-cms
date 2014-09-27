@@ -92,9 +92,8 @@ abstract class ModRelatedItemsHelper
 					$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 					$case_when .= ' ELSE ';
 					$case_when .= $a_id . ' END as slug';
-					$query->select($case_when);
-
-					$query->from('#__content AS a')
+					$query->select($case_when)
+						->from('#__content AS a')
 						->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
 						->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
 						->where('a.id != ' . (int) $id)
