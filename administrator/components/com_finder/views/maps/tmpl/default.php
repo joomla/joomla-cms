@@ -20,26 +20,21 @@ JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 ?>
 
 <script type="text/javascript">
-	jQuery(function()
+Joomla.submitbutton = function(pressbutton)
+{
+	if (pressbutton == 'map.delete')
 	{
-		Joomla.toggleSidebar('com_finder_maps', true);
-	});
-
-	Joomla.submitbutton = function(pressbutton)
-	{
-		if (pressbutton == 'map.delete')
+		if (confirm(Joomla.JText._('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT')))
 		{
-			if (confirm(Joomla.JText._('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT')))
-			{
-				Joomla.submitform(pressbutton);
-			}
-			else
-			{
-				return false;
-			}
+			Joomla.submitform(pressbutton);
 		}
-		Joomla.submitform(pressbutton);
+		else
+		{
+			return false;
+		}
 	}
+	Joomla.submitform(pressbutton);
+}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=maps');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -51,9 +46,6 @@ JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 	<div id="j-main-container">
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
-			<div class="btn-group pull-left">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', 'com_finder_maps'); ?>
-			</div>
 			<div class="filter-search btn-group pull-left">
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
 			</div>

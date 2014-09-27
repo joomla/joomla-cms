@@ -24,11 +24,6 @@ $sortFields = $this->getSortFields();
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 ?>
 <script type="text/javascript">
-	jQuery(function()
-	{
-		Joomla.toggleSidebar('com_users_groups', true);
-	});
-
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'groups.delete')
@@ -79,9 +74,6 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 	<div id="j-main-container">
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
-			<div class="btn-group pull-left">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', 'com_users_groups'); ?>
-			</div>
 			<div class="filter-search btn-group pull-left">
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_USERS_SEARCH_IN_GROUPS'); ?>" />
 			</div>
