@@ -21,11 +21,6 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
-	jQuery(function()
-	{
-		Joomla.toggleSidebar('com_banners_tracks', true);
-	});
-
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -53,10 +48,6 @@ $sortFields = $this->getSortFields();
 	</div>
 	<div id="j-main-container" class="span10">
 		<div id="filter-bar" class="btn-toolbar">
-			<div class="btn-group pull-left">
-				<label class="filter-hide-lbl" for="j-toggle-sidebar-button">&nbsp;</label>
-				<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', 'com_banners_tracks'); ?>
-			</div>
 			<div class="filter-search btn-group pull-left">
 				<label class="filter-hide-lbl" for="filter_begin"><?php echo JText::_('COM_BANNERS_BEGIN_LABEL'); ?></label>
 				<?php echo JHtml::_('calendar', $this->state->get('filter.begin'), 'filter_begin', 'filter_begin', '%Y-%m-%d', array('size' => 10, 'onchange' => "this.form.fireEvent('submit');this.form.submit()")); ?>
