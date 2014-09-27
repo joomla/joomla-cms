@@ -17,14 +17,20 @@ defined('_JEXEC') or die;
 class WrapperViewWrapper extends JViewLegacy
 {
 	/**
-	 * @since  1.5
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
 		$app    = JFactory::getApplication();
 		$params = $app->getParams();
 
-		// because the application sets a default page title, we need to get it
+		// Because the application sets a default page title, we need to get it
 		// right from the menu item itself
 		$title = $params->get('page_title', '');
 
@@ -59,7 +65,8 @@ class WrapperViewWrapper extends JViewLegacy
 		}
 
 		$wrapper = new stdClass;
-		// auto height control
+
+		// Auto height control
 		if ($params->def('height_auto'))
 		{
 			$wrapper->load = 'onload="iFrameHeight()"';
@@ -73,10 +80,10 @@ class WrapperViewWrapper extends JViewLegacy
 
 		if ($params->def('add_scheme', 1))
 		{
-			// adds 'http://' if none is set
+			// Adds 'http://' if none is set
 			if (substr($url, 0, 1) == '/')
 			{
-				// relative url in component. use server http_host.
+				// Relative url in component. Use server http_host.
 				$wrapper->url = 'http://' . $_SERVER['HTTP_HOST'] . $url;
 			}
 			elseif (!strstr($url, 'http') && !strstr($url, 'https'))
@@ -93,7 +100,7 @@ class WrapperViewWrapper extends JViewLegacy
 			$wrapper->url = $url;
 		}
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 		$this->params        = &$params;
 		$this->wrapper       = &$wrapper;
