@@ -65,6 +65,14 @@ abstract class JModelAdmin extends JModelForm
 	 * @since  12.2
 	 */
 	protected $event_change_state = null;
+	
+	/**
+	 * Variable to cache results from JModelAdmin::getItem()
+	 *
+	 * @var    array
+	 * @since  13.2
+	 */
+	protected $items = array();
 
 	/**
 	 * Constructor.
@@ -829,33 +837,39 @@ abstract class JModelAdmin extends JModelForm
 	public function getItem($pk = null)
 	{
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
-		$table = $this->getTable();
-
-		if ($pk > 0)
+		
+		if (!isset($this->items[$pk]))
 		{
-			// Attempt to load the row.
-			$return = $table->load($pk);
+			$table = $this->getTable();
 
-			// Check for a table object error.
-			if ($return === false && $table->getError())
+			if ($pk > 0)
 			{
-				$this->setError($table->getError());
-				return false;
+				// Attempt to load the row.
+				$return = $table->load($pk);
+
+				// Check for a table object error.
+				if ($return === false && $table->getError())
+				{
+					$this->setError($table->getError());
+					return false;
+				}
 			}
+
+			// Convert to the JObject before adding other data.
+			$properties = $table->getProperties(1);
+			$item = JArrayHelper::toObject($properties, 'JObject');
+
+			if (property_exists($item, 'params'))
+			{
+				$registry = new JRegistry;
+				$registry->loadString($item->params);
+				$item->params = $registry->toArray();
+			}
+			
+			$this->items[$pk] = $item;
 		}
 
-		// Convert to the JObject before adding other data.
-		$properties = $table->getProperties(1);
-		$item = JArrayHelper::toObject($properties, 'JObject');
-
-		if (property_exists($item, 'params'))
-		{
-			$registry = new JRegistry;
-			$registry->loadString($item->params);
-			$item->params = $registry->toArray();
-		}
-
-		return $item;
+		return $this->items[$pk];
 	}
 
 	/**
