@@ -20,11 +20,6 @@ $loggeduser = JFactory::getUser();
 $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
-	jQuery(function()
-	{
-		Joomla.toggleSidebar('com_users', true);
-	});
-
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -52,7 +47,7 @@ $sortFields = $this->getSortFields();
 	<?php endif;?>
 		<?php
 		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'toggleKey' => 'com_users'), '', array('toggleSidebar' => true));
+		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 		?>
 	<table class="table table-striped">
 		<thead>

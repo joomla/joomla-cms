@@ -35,11 +35,6 @@ $sortFields = $this->getSortFields();
 $assoc		= JLanguageAssociations::isEnabled();
 ?>
 <script type="text/javascript">
-	jQuery(function()
-	{
-		Joomla.toggleSidebar('com_menus_items', true);
-	});
-
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");

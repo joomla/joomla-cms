@@ -28,11 +28,6 @@ if ($saveOrder)
 $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
-	jQuery(function()
-	{
-		Joomla.toggleSidebar('com_modules', true);
-	});
-
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -60,9 +55,6 @@ $sortFields = $this->getSortFields();
 <?php endif;?>
 
 		<div id="filter-bar" class="btn-toolbar">
-			<div class="btn-group pull-left">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', 'com_modules'); ?>
-			</div>
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></label>
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_MODULES_MODULES_FILTER_SEARCH_DESC'); ?>" />

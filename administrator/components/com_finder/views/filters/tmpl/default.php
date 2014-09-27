@@ -21,21 +21,21 @@ JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 ?>
 
 <script type="text/javascript">
-	Joomla.submitbutton = function(pressbutton)
+Joomla.submitbutton = function(pressbutton)
+{
+	if (pressbutton == 'filters.delete')
 	{
-		if (pressbutton == 'filters.delete')
+		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')))
 		{
-			if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')))
-			{
-				Joomla.submitform(pressbutton);
-			}
-			else
-			{
-				return false;
-			}
+			Joomla.submitform(pressbutton);
 		}
-		Joomla.submitform(pressbutton);
+		else
+		{
+			return false;
+		}
 	}
+	Joomla.submitform(pressbutton);
+}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>

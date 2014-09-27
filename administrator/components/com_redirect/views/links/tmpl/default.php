@@ -21,13 +21,6 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 
-<script type="text/javascript">
-	jQuery(function()
-	{
-		Joomla.toggleSidebar('com_redirect', true);
-	});
-</script>
-
 <form action="<?php echo JRoute::_('index.php?option=com_redirect&view=links'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -38,9 +31,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<div id="j-main-container">
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
-			<div class="btn-group pull-left">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', 'com_redirect'); ?>
-			</div>
 			<div class="filter-search btn-group pull-left">
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_REDIRECT_SEARCH_LINKS'); ?>" />
 			</div>

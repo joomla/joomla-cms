@@ -20,11 +20,6 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
-	jQuery(function()
-	{
-		Joomla.toggleSidebar('com_users_notes', true);
-	});
-
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -51,9 +46,6 @@ $sortFields = $this->getSortFields();
 	<div id="j-main-container">
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
-			<div class="btn-group pull-left">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', 'com_users_notes'); ?>
-			</div>
 			<div class="filter-search btn-group pull-left">
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_USERS_SEARCH_IN_NOTE_TITLE'); ?>" />
 			</div>

@@ -30,11 +30,6 @@ if ($saveOrder)
 }
 ?>
 <script type="text/javascript">
-	jQuery(function()
-	{
-		Joomla.toggleSidebar('com_users_levels', true);
-	});
-
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -61,9 +56,6 @@ if ($saveOrder)
 	<div id="j-main-container">
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
-			<div class="btn-group pull-left">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar', 'com_users_levels'); ?>
-			</div>
 			<div class="filter-search btn-group pull-left">
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_USERS_SEARCH_TITLE_LEVELS'); ?>" />
 			</div>
