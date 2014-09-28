@@ -15,7 +15,7 @@ require_once JPATH_PLATFORM . '/lessc/lessc.inc.php';
  * Wrapper class for lessc
  *
  * @package     Joomla.Libraries
- * @subpackage  LESS
+ * @subpackage  Less
  * @since       3.4
  */
 class JLess extends lessc
