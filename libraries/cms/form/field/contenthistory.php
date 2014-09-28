@@ -44,7 +44,7 @@ class JFormFieldContenthistory extends JFormField
 			. $this->element['data-typeAlias'] . '&amp;' . JSession::getFormToken() . '=1';
 
 		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal_' . $this->id);
+		JHtml::_('behavior.modal', 'button.modal_' . $this->id);
 
 		$html[] = '		<button class="btn modal_' . $this->id . '" title="' . $label . '" href="' . $link . '"'
 			. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
