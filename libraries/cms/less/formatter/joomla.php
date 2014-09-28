@@ -16,7 +16,7 @@ require_once JPATH_PLATFORM . '/lessc/lessc.inc.php';
  *
  * @package     Joomla.Libraries
  * @subpackage  Less
- * @since       3.3
+ * @since       3.4
  */
 class JLessFormatterJoomla extends lessc_formatter_classic
 {

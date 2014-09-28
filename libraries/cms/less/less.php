@@ -15,8 +15,8 @@ require_once JPATH_PLATFORM . '/lessc/lessc.inc.php';
  * Wrapper class for lessc
  *
  * @package     Joomla.Libraries
- * @subpackage  LESS
- * @since       3.3
+ * @subpackage  Less
+ * @since       3.4
  */
 class JLess extends lessc
 {
@@ -26,7 +26,7 @@ class JLess extends lessc
 	 * @param   string  $fname      Filename to process
 	 * @param   mided   $formatter  Formatter object
 	 *
-	 * @since   3.3
+	 * @since   3.4
 	 */
 	public function __construct($fname = null, $formatter = null)
 	{
