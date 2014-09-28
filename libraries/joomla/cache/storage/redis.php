@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Cache
- * @since       3.4 (CMS)
+ * @since       3.4
  */
 class JCacheStorageRedis extends JCacheStorage
 {
@@ -22,7 +22,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 * Redis connection object
 	 *
 	 * @var    Redis
-	 * @since  3.4 (CMS)
+	 * @since  3.4
 	 */
 	protected static $_redis = null;
 
@@ -30,7 +30,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 * Persistent session flag
 	 *
 	 * @var    boolean
-	 * @since  3.4 (CMS)
+	 * @since  3.4
 	 */
 	protected $_persistent = false;
 
@@ -39,7 +39,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @since   3.4 (CMS)
+	 * @since   3.4
 	 */
 	public function __construct($options = array())
 	{
@@ -56,7 +56,8 @@ class JCacheStorageRedis extends JCacheStorage
 	 *
 	 * @return  mixed  Redis connection object on success, void or boolean on failure
 	 *
-	 * @since   3.4 (CMS)
+	 * @since   3.4
+	 *
 	 * @throws  RuntimeException
 	 */
 	protected function getConnection()
@@ -66,9 +67,8 @@ class JCacheStorageRedis extends JCacheStorage
 			return false;
 		}
 
-		$config = JFactory::getConfig();
-		$app    = JFactory::getApplication();
-
+		$config  = JFactory::getConfig();
+		$app     = JFactory::getApplication();
 		$caching = (bool) $config->get('caching');
 
 		if ($caching == false)
@@ -80,9 +80,9 @@ class JCacheStorageRedis extends JCacheStorage
 
 		$server = array(
 			'host' => $config->get('redis_server_host', 'localhost'),
-		    'port' => $config->get('redis_server_port', 6379),
-		    'auth' => $config->get('redis_server_auth', null),
-		    'db'   => (int) $config->get('redis_server_db', null)
+			'port' => $config->get('redis_server_port', 6379),
+			'auth' => $config->get('redis_server_auth', null),
+			'db'   => (int) $config->get('redis_server_db', null)
 		);
 
 		static::$_redis = new Redis;
@@ -92,7 +92,7 @@ class JCacheStorageRedis extends JCacheStorage
 			try
 			{
 				$connection = static::$_redis->pconnect($server['host'], $server['port']);
-				$auth = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
+				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
 			catch (Exception $e)
 			{
@@ -103,7 +103,7 @@ class JCacheStorageRedis extends JCacheStorage
 			try
 			{
 				$connection = static::$_redis->connect($server['host'], $server['port']);
-				$auth = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
+				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
 			catch (Exception $e)
 			{
@@ -174,7 +174,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data string
 	 *
-	 * @since   3.4 (CMS)
+	 * @since   3.4
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -194,7 +194,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 *
 	 * @return  array  Array of cached data
 	 *
-	 * @since   3.4 (CMS)
+	 * @since   3.4
 	 */
 	public function getAll()
 	{
@@ -246,7 +246,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   3.4 (CMS)
+	 * @since   3.4
 	 */
 	public function store($id, $group, $data)
 	{
@@ -255,14 +255,13 @@ class JCacheStorageRedis extends JCacheStorage
 			return false;
 		}
 
-		$cache_id = $this->_getCacheId($id, $group);
-
-		$tmparr = new stdClass;
+		$cache_id     = $this->_getCacheId($id, $group);
+		$tmparr       = new stdClass;
 		$tmparr->name = $cache_id;
 		$tmparr->size = strlen($data);
 
-		$config = JFactory::getConfig();
-		$lifetime = (int) $config->get('cachetime', 15);
+		$config       = JFactory::getConfig();
+		$lifetime     = (int) $config->get('cachetime', 15);
 
 		if ($this->_lifetime == $lifetime)
 		{
@@ -284,7 +283,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   3.4 (CMS)
+	 * @since   3.4
 	 */
 	public function remove($id, $group)
 	{
@@ -308,7 +307,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   3.4 (CMS)
+	 * @since   3.4
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -347,7 +346,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   3.4 (CMS)
+	 * @since   3.4
 	 */
 	public static function isSupported()
 	{
@@ -359,7 +358,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   3.4 (CMS)
+	 * @since   3.4
 	 */
 	public static function isConnected()
 	{
