@@ -649,7 +649,8 @@ class MenusModelItem extends JModelAdmin
 			case 'url':
 				$table->component_id = 0;
 
-				parse_str(parse_url($table->link, PHP_URL_QUERY));
+				$args = array();
+				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
 				break;
 
 			case 'component':
@@ -666,7 +667,7 @@ class MenusModelItem extends JModelAdmin
 					// Load the language file for the component.
 					$lang = JFactory::getLanguage();
 					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, true)
-						|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, true);
+					|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, true);
 
 					// Determine the component id.
 					$component = JComponentHelper::getComponent($args['option']);
@@ -702,21 +703,16 @@ class MenusModelItem extends JModelAdmin
 		if ($table->type == 'alias')
 		{
 			// Note that all request arguments become reserved parameter names.
-			$args = array();
-			parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
 			$result->params = array_merge($result->params, $args);
 		}
 
 		if ($table->type == 'url')
 		{
 			// Note that all request arguments become reserved parameter names.
-			$args = array();
-			parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
 			$result->params = array_merge($result->params, $args);
 		}
 
 		// Load associated menu items
-		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
 		if ($assoc)
 		{
@@ -905,8 +901,8 @@ class MenusModelItem extends JModelAdmin
 
 				// Check for the layout XML file. Use standard xml file if it exists.
 				$tplFolders = array(
-						$base . '/views/' . $view . '/tmpl',
-						$base . '/view/' . $view . '/tmpl'
+					$base . '/views/' . $view . '/tmpl',
+					$base . '/view/' . $view . '/tmpl'
 				);
 				$path = JPath::find($tplFolders, $layout . '.xml');
 
@@ -934,8 +930,8 @@ class MenusModelItem extends JModelAdmin
 				if (isset($view))
 				{
 					$metadataFolders = array(
-							$base . '/view/' . $view,
-							$base . '/views/' . $view
+						$base . '/view/' . $view,
+						$base . '/views/' . $view
 					);
 					$metaPath = JPath::find($metadataFolders, 'metadata.xml');
 
