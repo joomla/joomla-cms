@@ -33,8 +33,8 @@ class UsersControllerRegistration extends UsersController
 		$input 	 = JFactory::getApplication()->input;
 		$uParams = JComponentHelper::getParams('com_users');
 
-		// If the user is logged in, return them back to the homepage.
-		if ($user->get('id'))
+		// Check for admin activation. Don't allow non-super-admin to delete a super admin
+		if ($uParams->get('useractivation') != 2 && $user->get('id'))
 		{
 			$this->setRedirect('index.php');
 
