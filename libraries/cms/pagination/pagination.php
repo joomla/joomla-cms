@@ -781,7 +781,7 @@ class JPagination
 			// @todo remove code: $page = $page == 0 ? '' : $page;
 
 			$data->start->base = '0';
-			$data->start->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
+			$data->start->link = JRoute::_($params);
 			$data->previous->base = $page;
 			$data->previous->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $page);
 		}
@@ -813,7 +813,14 @@ class JPagination
 			if ($i != $this->pagesCurrent || $this->viewall)
 			{
 				$data->pages[$i]->base = $offset;
-				$data->pages[$i]->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
+				if ($offset == 0)
+				{
+					$data->pages[$i]->link = JRoute::_($params);
+				}
+				else
+				{
+					$data->pages[$i]->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
+				}
 			}
 			else
 			{
