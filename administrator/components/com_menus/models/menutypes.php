@@ -215,7 +215,7 @@ class MenusModelMenutypes extends JModelLegacy
 		// Get the views for this component.
 		if (is_dir(JPATH_SITE . '/components/' . $component))
 		{
-			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, 'view', false, true);
+			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, '^view[s]?$', false, true);
 		}
 		$path = '';
 
@@ -324,7 +324,7 @@ class MenusModelMenutypes extends JModelLegacy
 		// Get the views for this component.
 		if (is_dir(JPATH_SITE . '/components/' . $component))
 		{
-			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, 'view', false, true);
+			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, '^view[s]?$', false, true);
 		}
 
 		if (!empty($folders[0]))

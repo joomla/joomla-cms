@@ -632,16 +632,14 @@ class JForm
 	 *
 	 * @return  string  A string containing the html for the control goup
 	 *
-	 * @since   3.2
+	 * @since      3.2
+	 * @deprecated 3.2.3  Use renderField() instead of getControlGroup
 	 */
 	public function getControlGroup($name, $group = null, $default = null)
 	{
-		$field = $this->getField($name, $group, $default);
-		if ($field)
-		{
-			return $field->getControlGroup();
-		}
-		return '';
+		JLog::add('JForm->getControlGroup() is deprecated use JForm->renderField().', JLog::WARNING, 'deprecated');
+
+		return $this->renderField($name, $group, $default);
 	}
 
 	/**
@@ -651,16 +649,58 @@ class JForm
 	 *
 	 * @return  string  A string containing the html for the control goups
 	 *
-	 * @since   3.2
+	 * @since      3.2
+	 * @deprecated 3.2.3 Use renderFieldset() instead of getControlGroups
 	 */
 	public function getControlGroups($name)
 	{
-		$fields = $this->getFieldset($name);
+		JLog::add('JForm->getControlGroups() is deprecated use JForm->renderFieldset().', JLog::WARNING, 'deprecated');
 
+		return $this->renderFieldset($name);
+	}
+
+	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @param   string  $name     The name of the field for which to get the value.
+	 * @param   string  $group    The optional dot-separated form group path on which to get the value.
+	 * @param   mixed   $default  The optional default value of the field value is empty.
+	 * @param   array   $options  Any options to be passed into the rendering of the field
+	 *
+	 * @return  string  A string containing the html for the control goup
+	 *
+	 * @since   3.2.3
+	 */
+	public function renderField($name, $group = null, $default = null, $options = array())
+	{
+		$field = $this->getField($name, $group, $default);
+
+		if ($field)
+		{
+			return $field->renderField($options);
+		}
+
+		return '';
+	}
+
+	/**
+	 * Method to get all control groups with label and input of a fieldset.
+	 *
+	 * @param   string  $name     The name of the fieldset for which to get the values.
+	 * @param   array   $options  Any options to be passed into the rendering of the field
+	 *
+	 * @return  string  A string containing the html for the control goups
+	 *
+	 * @since   3.2.3
+	 */
+	public function renderFieldset($name, $options = array())
+	{
+		$fields = $this->getFieldset($name);
 		$html = array();
+
 		foreach ($fields as $field)
 		{
-			$html[] = $field->getControlGroup();
+			$html[] = $field->renderField($options);
 		}
 
 		return implode('', $html);
@@ -1554,10 +1594,10 @@ class JForm
 		/*
 		 * Get an array of <field /> elements that are underneath a <fieldset /> element
 		 * with the appropriate name attribute, and also any <field /> elements with
-		 * the appropriate fieldset attribute. To allow repeatable elements only immediate
-		 * field descendants of the fieldset are selected.
+		 * the appropriate fieldset attribute. To allow repeatable elements only fields
+		 * which are not descendants of other fields are selected.
 		 */
-		$fields = $this->xml->xpath('//fieldset[@name="' . $name . '"]/field | //field[@fieldset="' . $name . '"]');
+		$fields = $this->xml->xpath('(//fieldset[@name="' . $name . '"]//field | //field[@fieldset="' . $name . '"])[not(ancestor::field)]');
 
 		return $fields;
 	}

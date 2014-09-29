@@ -38,11 +38,11 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 			<label class="selectlabel" for="filter_category_id">
 				<?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?>
 			</label>
-			<select name="filter_category_id" class="inputbox" id="filter_category_id" >
+			<select name="filter_category_id" id="filter_category_id" >
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php
 				echo JHtml::_(
-					'select.options', JHtml::_('category.options', 'com_users.notes'),
+					'select.options', JHtml::_('category.options', 'com_users'),
 					'value', 'text', $this->state->get('filter.category_id')
 				); ?>
 			</select>
@@ -50,7 +50,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 			<label class="selectlabel" for="filter_published">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
-			<select name="filter_published" class="inputbox" id="filter_published">
+			<select name="filter_published" id="filter_published">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php
 				echo JHtml::_(

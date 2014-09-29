@@ -2,11 +2,11 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  view
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework View class. The View is the MVC component which gets the
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @package  FrameworkOnFramework
  * @since    1.0
  */
-abstract class FOFView extends JObject
+abstract class FOFView extends FOFUtilsObject
 {
 	/**
 	 * The name of the view
@@ -324,7 +324,7 @@ abstract class FOFView extends JObject
 
 		if (!FOFPlatform::getInstance()->isCli())
 		{
-			$this->baseurl = JURI::base(true);
+			$this->baseurl = FOFPlatform::getInstance()->URIbase(true);
 
 			$fallback = FOFPlatform::getInstance()->getTemplateOverridePath($component) . '/' . $this->getName();
 			$this->_addPath('template', $fallback);
@@ -383,7 +383,7 @@ abstract class FOFView extends JObject
 
 		// Get the paths
 		$componentPaths = FOFPlatform::getInstance()->getComponentBaseDirs($templateParts['component']);
-		$templatePath = FOFPlatform::getInstance()->getTemplateOverridePath($templateParts['component']);
+		$templatePath   = FOFPlatform::getInstance()->getTemplateOverridePath($templateParts['component']);
 
 		// Get the default paths
 		$paths = array();
@@ -408,8 +408,9 @@ abstract class FOFView extends JObject
 		}
 
 		$filetofind = $templateParts['template'] . '.php';
-		JLoader::import('joomla.filesystem.path');
-		$this->_tempFilePath = JPath::find($paths, $filetofind);
+        $filesystem = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
+
+		$this->_tempFilePath = $filesystem->pathFind($paths, $filetofind);
 
 		if ($this->_tempFilePath)
 		{
@@ -474,7 +475,7 @@ abstract class FOFView extends JObject
 
 		if ($result instanceof Exception)
 		{
-			JError::raiseError($result->getCode(), $result->getMessage());
+            FOFPlatform::getInstance()->raiseError($result->getCode(), $result->getMessage());
 
 			return $result;
 		}
@@ -633,7 +634,7 @@ abstract class FOFView extends JObject
 			}
 		}
 
-		// Degrade to JObject::get
+		// Degrade to FOFUtilsObject::get
 		$result = parent::get($property, $default);
 
 		return $result;
@@ -847,9 +848,9 @@ abstract class FOFView extends JObject
 			}
 		}
 
-		if (version_compare(JVERSION, '3.0', 'lt') && ($result instanceof Exception))
+		if ($result instanceof Exception)
 		{
-			JError::raiseError($result->getCode(), $result->getMessage());
+            FOFPlatform::getInstance()->raiseError($result->getCode(), $result->getMessage());
 		}
 
 		return $result;
@@ -940,14 +941,14 @@ abstract class FOFView extends JObject
 	 */
 	protected function findRenderer()
 	{
-		JLoader::import('joomla.filesystem.folder');
+        $filesystem     = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
 
 		// Try loading the stock renderers shipped with FOF
 
 		if (empty(self::$renderers) || !class_exists('FOFRenderJoomla', false))
 		{
 			$path = dirname(__FILE__) . '/../render/';
-			$renderFiles = JFolder::files($path, '.php');
+			$renderFiles = $filesystem->folderFiles($path, '.php');
 
 			if (!empty($renderFiles))
 			{
@@ -1045,19 +1046,20 @@ abstract class FOFView extends JObject
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
 
 		// Load the template script using the default Joomla! features
-		JLoader::import('joomla.filesystem.path');
-		$helper = JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
+        $filesystem = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
+
+		$helper = $filesystem->pathFind($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
 
 		if ($helper == false)
 		{
 			$componentPaths = FOFPlatform::getInstance()->getComponentBaseDirs($this->config['option']);
 			$path = $componentPaths['main'] . '/helpers';
-			$helper = JPath::find($path, $this->_createFileName('helper', array('name' => $file)));
+			$helper = $filesystem->pathFind($path, $this->_createFileName('helper', array('name' => $file)));
 
 			if ($helper == false)
 			{
 				$path = $path = $componentPaths['alt'] . '/helpers';
-				$helper = JPath::find($path, $this->_createFileName('helper', array('name' => $file)));
+				$helper = $filesystem->pathFind($path, $this->_createFileName('helper', array('name' => $file)));
 			}
 		}
 

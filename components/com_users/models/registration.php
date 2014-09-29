@@ -102,7 +102,7 @@ class UsersModelRegistration extends JModelForm
 				$data['activate']
 			);
 
-			// get all admin users
+			// Get all admin users
 			$query->clear()
 				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
@@ -376,7 +376,7 @@ class UsersModelRegistration extends JModelForm
 		// Store the data.
 		if (!$user->save())
 		{
-			$this->setError($user->getError());
+			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
 			return false;
 		}
 

@@ -224,7 +224,7 @@ abstract class JHtmlMenu
 			->select('m.id, m.parent_id, m.title, m.menutype')
 			->from($db->quoteName('#__menu') . ' AS m')
 			->where($db->quoteName('m.published') . ' = 1')
-			->order('m.menutype, m.parent_id, m.ordering');
+			->order('m.menutype, m.parent_id');
 		$db->setQuery($query);
 
 		$mitems = $db->loadObjectList();

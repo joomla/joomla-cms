@@ -191,7 +191,7 @@ class PlgAuthenticationJoomla extends JPlugin
 						 */
 						return false;
 					}
-					}
+				}
 
 				// Clean up the OTEP (remove dashes, spaces and other funny stuff
 				// our beloved users may have unwittingly stuffed in it)

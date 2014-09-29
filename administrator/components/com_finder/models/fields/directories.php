@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 JFormHelper::loadFieldClass('list');
 
@@ -40,7 +40,7 @@ class JFormFieldDirectories extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$values = array();
+		$values  = array();
 		$options = array();
 		$exclude = array(
 			JPATH_ADMINISTRATOR,
@@ -53,8 +53,8 @@ class JFormFieldDirectories extends JFormFieldList
 			JPATH_SITE . '/language',
 			JPATH_SITE . '/modules',
 			JPATH_THEMES,
-			JFactory::getApplication()->getCfg('log_path'),
-			JFactory::getApplication()->getCfg('tmp_path')
+			JFactory::getApplication()->get('log_path'),
+			JFactory::getApplication()->get('tmp_path')
 		);
 
 		// Get the base directories.

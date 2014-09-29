@@ -18,13 +18,19 @@ defined('_JEXEC') or die;
  */
 class ModArchiveHelper
 {
-	/*
-	 * @since  1.5
+	/**
+	 * Retrieve list of archived articles
+	 *
+	 * @param   JRegistry  &$params  module parameters
+	 *
+	 * @return  array
+	 *
+	 * @since   1.5
 	 */
 	public static function getList(&$params)
 	{
-		//get database
-		$db = JFactory::getDbo();
+		// Get database
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
 			->select('created, id, title')
@@ -42,22 +48,23 @@ class ModArchiveHelper
 		$db->setQuery($query, 0, (int) $params->get('count'));
 		$rows = (array) $db->loadObjectList();
 
-		$app = JFactory::getApplication();
-		$menu = $app->getMenu();
-		$item = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
+		$app    = JFactory::getApplication();
+		$menu   = $app->getMenu();
+		$item   = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
 		$itemid = (isset($item) && !empty($item->id)) ? '&Itemid=' . $item->id : '';
 
-		$i = 0;
+		$i     = 0;
 		$lists = array();
+
 		foreach ($rows as $row)
 		{
 			$date = JFactory::getDate($row->created);
 
 			$created_month = $date->format('n');
-			$created_year = $date->format('Y');
+			$created_year  = $date->format('Y');
 
 			$created_year_cal = JHTML::_('date', $row->created, 'Y');
-			$month_name_cal = JHTML::_('date', $row->created, 'F');
+			$month_name_cal   = JHTML::_('date', $row->created, 'F');
 
 			$lists[$i] = new stdClass;
 
@@ -66,6 +73,7 @@ class ModArchiveHelper
 
 			$i++;
 		}
+
 		return $lists;
 	}
 }

@@ -670,7 +670,7 @@ class FinderIndexerQuery
 		$when2 = JString::trim(JString::strtolower($when2));
 
 		// Get the time offset.
-		$offset = JFactory::getApplication()->getCfg('offset');
+		$offset = JFactory::getApplication()->get('offset');
 
 		// Array of allowed when values.
 		$whens = array('before', 'after', 'exact');
@@ -796,7 +796,7 @@ class FinderIndexerQuery
 					case 'after':
 					{
 						// Get the time offset.
-						$offset = JFactory::getApplication()->getCfg('offset');
+						$offset = JFactory::getApplication()->get('offset');
 
 						// Array of allowed when values.
 						$whens = array('before', 'after', 'exact');

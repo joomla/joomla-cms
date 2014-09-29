@@ -178,7 +178,7 @@ class CategoriesModelCategory extends JModelAdmin
 			$result->metadata = $registry->toArray();
 
 			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
+			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
 
 			if ((int) $result->created_time)
 			{
@@ -394,10 +394,6 @@ class CategoriesModelCategory extends JModelAdmin
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
-
-			// Force to array (perhaps move to $this->loadFormData())
-			$data = (array) $data;
-
 			$addform = new SimpleXMLElement('<form />');
 			$fields = $addform->addChild('fields');
 			$fields->addAttribute('name', 'associations');
@@ -407,7 +403,7 @@ class CategoriesModelCategory extends JModelAdmin
 			$add = false;
 			foreach ($languages as $tag => $language)
 			{
-				if (empty($data['language']) || $tag != $data['language'])
+				if (empty($data->language) || $tag != $data->language)
 				{
 					$add = true;
 					$field = $fieldset->addChild('field');

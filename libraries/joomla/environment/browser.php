@@ -312,7 +312,7 @@ class JBrowser
 				$this->setBrowser('avantgo');
 				$this->mobile = true;
 			}
-			elseif (preg_match('|Konqueror/([0-9]+)|', $this->agent, $version) || preg_match('|Safari/([0-9]+)\.?([0-9]+)?|', $this->agent, $version))
+			elseif (preg_match('|[Kk]onqueror/([0-9]+)|', $this->agent, $version) || preg_match('|Safari/([0-9]+)\.?([0-9]+)?|', $this->agent, $version))
 			{
 				// Konqueror and Apple's Safari both use the KHTML
 				// rendering engine.
@@ -461,7 +461,6 @@ class JBrowser
 		// Can't identify browser version
 		$this->majorVersion = 0;
 		$this->minorVersion = 0;
-		JLog::add("Can't identify browser version. Agent: " . $this->agent, JLog::NOTICE);
 	}
 
 	/**

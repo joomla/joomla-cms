@@ -27,9 +27,10 @@ class BannersModelBanners extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
+	 *
 	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
@@ -45,9 +46,10 @@ class BannersModelBanners extends JModelList
 	}
 
 	/**
-	 * Gets a list of banners
+	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  array  An array of banner objects.
+	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -68,6 +70,7 @@ class BannersModelBanners extends JModelList
 				'a.name as name,' .
 				'a.clickurl as clickurl,' .
 				'a.cid as cid,' .
+				'a.description as description,' .
 				'a.params as params,' .
 				'a.custombannercode as custombannercode,' .
 				'a.track_impressions as track_impressions,' .
@@ -99,6 +102,7 @@ class BannersModelBanners extends JModelList
 			if ($includeSubcategories)
 			{
 				$levels = (int) $this->getState('filter.max_category_levels', '1');
+
 				// Create a subquery for the subcategory list
 				$subQuery = $db->getQuery(true);
 				$subQuery->select('sub.id')
@@ -119,6 +123,7 @@ class BannersModelBanners extends JModelList
 		{
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
+
 			if ($categoryId != '0')
 			{
 				$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
@@ -169,6 +174,7 @@ class BannersModelBanners extends JModelList
 		}
 
 		$query->order('a.sticky DESC,' . ($randomise ? 'RAND()' : 'a.ordering'));
+
 		return $query;
 	}
 
@@ -176,6 +182,7 @@ class BannersModelBanners extends JModelList
 	 * Get a list of banners.
 	 *
 	 * @return  array
+	 *
 	 * @since   1.6
 	 */
 	public function getItems()
@@ -191,6 +198,7 @@ class BannersModelBanners extends JModelList
 				$item->params = $parameters;
 			}
 		}
+
 		return $this->cache['items'];
 	}
 
@@ -198,6 +206,7 @@ class BannersModelBanners extends JModelList
 	 * Makes impressions on a list of banners
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function impress()
@@ -226,8 +235,9 @@ class BannersModelBanners extends JModelList
 				JError::raiseError(500, $e->getMessage());
 			}
 
-			// track impressions
+			// Track impressions
 			$trackImpressions = $item->track_impressions;
+
 			if ($trackImpressions < 0 && $item->cid)
 			{
 				$trackImpressions = $item->client_track_impressions;
@@ -241,7 +251,7 @@ class BannersModelBanners extends JModelList
 
 			if ($trackImpressions > 0)
 			{
-				// is track already created ?
+				// Is track already created?
 				$query->clear()
 					->select($db->quoteName('count'))
 					->from('#__banner_tracks')
@@ -266,17 +276,16 @@ class BannersModelBanners extends JModelList
 
 				if ($count)
 				{
-					// update count
+					// Update count
 					$query->update('#__banner_tracks')
-						->set($db->quoteName('count') . ' = (' . $db->quote('count') . ' + 1)')
+						->set($db->quoteName('count') . ' = (' . $db->quoteName('count') . ' + 1)')
 						->where('track_type=1')
 						->where('banner_id=' . (int) $id)
 						->where('track_date=' . $db->quote($trackDate));
 				}
 				else
 				{
-					// insert new count
-					//sqlsrv change
+					// Insert new count
 					$query->insert('#__banner_tracks')
 						->columns(
 							array(

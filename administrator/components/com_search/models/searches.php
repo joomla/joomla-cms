@@ -119,7 +119,7 @@ class SearchModelSearches extends JModelList
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$search = $db->quote('%' . $db->escape($search, true) . '%');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 			$query->where('a.search_term LIKE ' . $search);
 		}
 
@@ -176,9 +176,9 @@ class SearchModelSearches extends JModelList
 	public function reset()
 	{
 		$db = $this->getDbo();
-		$db->setQuery(
-			'DELETE FROM #__core_log_searches'
-		);
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__core_log_searches'));
+		$db->setQuery($query);
 
 		try
 		{

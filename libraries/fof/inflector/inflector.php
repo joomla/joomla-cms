@@ -2,10 +2,10 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  inflector
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * The FOFInflector is an adaptation of the Akelos PHP Inflector which is a PHP
@@ -75,6 +75,7 @@ class FOFInflector
 			'/people$/i'                                                       => 'person',
 			'/taxa$/i'                                                         => 'taxon',
 			'/databases$/i'                                                    => 'database',
+      '/menus$/i'                                                        => 'menu',
 			'/(quiz)zes$/i'                                                    => '\1',
 			'/(matr|suff)ices$/i'                                              => '\1ix',
 			'/(vert|ind|cod)ices$/i'                                           => '\1ex',

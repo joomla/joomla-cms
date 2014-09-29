@@ -13,16 +13,15 @@ defined('_JEXEC') or die;
 $params = $displayData->params;
 $canEdit = $displayData->params->get('access-edit');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.framework');
 ?>
 
 	<?php if ($params->get('show_title') || $displayData->state == 0 || ($params->get('show_author') && !empty($displayData->author ))) : ?>
 		<div class="page-header">
 
 			<?php if ($params->get('show_title')) : ?>
-				<h2>
+				<h2 itemprop="name">
 					<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
-						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid)); ?>">
+						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid)); ?>" itemprop="url">
 						<?php echo $this->escape($displayData->title); ?></a>
 					<?php else : ?>
 						<?php echo $this->escape($displayData->title); ?>

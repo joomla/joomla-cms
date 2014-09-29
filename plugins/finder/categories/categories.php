@@ -140,8 +140,8 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			{
 				$this->categoryAccessChange($row);
 			}
-
 		}
+
 		return true;
 	}
 
@@ -203,7 +203,6 @@ class PlgFinderCategories extends FinderIndexerAdapter
 				$query = clone($this->getStateQuery());
 				$query->where('a.id = ' . (int) $pk);
 
-				// Get the published states.
 				$this->db->setQuery($query);
 				$item = $this->db->loadObject();
 				*/
@@ -256,6 +255,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 
 		// Need to import component route helpers dynamically, hence the reason it's handled here.
 		$path = JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
+
 		if (is_file($path))
 		{
 			include_once $path;
@@ -285,6 +285,8 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
+
+		// Deactivated Methods
 		// $item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
 
 		// Trigger the onContentPrepare event.
@@ -294,6 +296,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$item->url = $this->getURL($item->id, $item->extension, $this->layout);
 
 		$class = $extension . 'HelperRoute';
+
 		if (class_exists($class) && method_exists($class, 'getCategoryRoute'))
 		{
 			$item->route = $class::getCategoryRoute($item->id, $item->language);
@@ -302,6 +305,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		{
 			$item->route = ContentHelperRoute::getCategoryRoute($item->slug, $item->catid);
 		}
+
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
@@ -371,7 +375,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$a_id = $query->castAsChar('a.id');
 		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when_item_alias .= ' ELSE ';
-		$case_when_item_alias .= $a_id.' END as slug';
+		$case_when_item_alias .= $a_id . ' END as slug';
 		$query->select($case_when_item_alias)
 			->from('#__categories AS a')
 			->where($db->quoteName('a.id') . ' > 1');

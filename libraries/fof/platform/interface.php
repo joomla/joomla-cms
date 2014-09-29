@@ -2,11 +2,11 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  platform
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * Part of the FOF Platform Abstraction Layer. It implements everything that
@@ -23,6 +23,13 @@ defined('_JEXEC') or die;
  */
 interface FOFPlatformInterface
 {
+    /**
+     * Checks if the current script is run inside a valid CMS execution
+     *
+     * @return bool
+     */
+    public function checkExecution();
+
 	/**
 	 * Set the error Handling, if possible
 	 *
@@ -33,6 +40,17 @@ interface FOFPlatformInterface
 	 * @return  void
 	 */
 	public function setErrorHandling($level, $log_level, $options = array());
+
+    /**
+     * Raises an error, using the logic requested by the CMS (PHP Exception or dedicated class)
+     *
+     * @param   integer  $code
+     * @param   string   $message
+     *
+     * @return mixed
+     */
+    public function raiseError($code, $message);
+
 	/**
 	 * Returns the ordering of the platform class. Files with a lower ordering
 	 * number will be loaded first.
@@ -40,6 +58,29 @@ interface FOFPlatformInterface
 	 * @return  integer
 	 */
 	public function getOrdering();
+
+	/**
+	 * Returns a platform integration object
+	 *
+	 * @param   string  $key  The key name of the platform integration object, e.g. 'filesystem'
+	 *
+	 * @return  object
+	 *
+	 * @since  2.1.2
+	 */
+	public function getIntegrationObject($key);
+
+	/**
+	 * Forces a platform integration object instance
+	 *
+	 * @param   string  $key     The key name of the platform integration object, e.g. 'filesystem'
+	 * @param   object  $object  The object to force for this key
+	 *
+	 * @return  object
+	 *
+	 * @since  2.1.2
+	 */
+	public function setIntegrationObject($key, $object);
 
 	/**
 	 * Is this platform enabled? This is used for automatic platform detection.
@@ -50,6 +91,53 @@ interface FOFPlatformInterface
 	 * @return  boolean
 	 */
 	public function isEnabled();
+
+	/**
+	 * Returns the (internal) name of the platform implementation, e.g.
+	 * "joomla", "foobar123" etc. This MUST be the last part of the platform
+	 * class name. For example, if you have a plaform implementation class
+	 * FOFPlatformFoobar you MUST return "foobar" (all lowercase).
+	 *
+	 * @return  string
+	 *
+	 * @since  2.1.2
+	 */
+	public function getPlatformName();
+
+	/**
+	 * Returns the version number string of the platform, e.g. "4.5.6". If
+	 * implementation integrates with a CMS or a versioned foundation (e.g.
+	 * a framework) it is advisable to return that version.
+	 *
+	 * @return  string
+	 *
+	 * @since  2.1.2
+	 */
+	public function getPlatformVersion();
+
+	/**
+	 * Returns the human readable platform name, e.g. "Joomla!", "Joomla!
+	 * Framework", "Something Something Something Framework" etc.
+	 *
+	 * @return  string
+	 *
+	 * @since  2.1.2
+	 */
+	public function getPlatformHumanName();
+
+    /**
+     * Returns absolute path to directories used by the CMS.
+     *
+     * The return is a table with the following key:
+     * * root    Path to the site root
+     * * public  Path to the public area of the site
+     * * admin   Path to the administrative area of the site
+     * * tmp     Path to the temp directory
+     * * log     Path to the log directory
+     *
+     * @return  array  A hash array with keys root, public, admin, tmp and log.
+     */
+    public function getPlatformBaseDirs();
 
 	/**
 	 * Returns the base (root) directories for a given component. The
@@ -224,6 +312,21 @@ interface FOFPlatformInterface
 	 */
 	public function getDocument();
 
+    /**
+     * Returns an object to handle dates
+     *
+     * @param   mixed   $time       The initial time
+     * @param   null    $tzOffest   The timezone offset
+     * @param   bool    $locale     Should I try to load a specific class for current language?
+     *
+     * @return  JDate object
+     */
+    public function getDate($time = 'now', $tzOffest = null, $locale = true);
+
+    public function getLanguage();
+
+    public function getDbo();
+
 	/**
 	 * Is this the administrative section of the component?
 	 *
@@ -300,6 +403,13 @@ interface FOFPlatformInterface
 	 */
 	public function clearCache();
 
+    /**
+     * Returns an object that holds the configuration of the current site.
+     *
+     * @return  mixed
+     */
+    public function getConfig();
+
 	/**
 	 * Is the global FOF cache enabled?
 	 *
@@ -323,13 +433,55 @@ interface FOFPlatformInterface
 	 */
 	public function logoutUser();
 
+    public function logAddLogger($file);
+
 	/**
 	 * Logs a deprecated practice. In Joomla! this results in the $message being output in the
 	 * deprecated log file, found in your site's log directory.
 	 *
-	 * @param   $message  The deprecated practice log message
+	 * @param   string  $message  The deprecated practice log message
 	 *
 	 * @return  void
 	 */
 	public function logDeprecated($message);
+
+    public function logDebug($message);
+
+    /**
+     * Returns the root URI for the request.
+     *
+     * @param   boolean  $pathonly  If false, prepend the scheme, host and port information. Default is false.
+     * @param   string   $path      The path
+     *
+     * @return  string  The root URI string.
+     */
+    public function URIroot($pathonly = false, $path = null);
+
+    /**
+     * Returns the base URI for the request.
+     *
+     * @param   boolean  $pathonly  If false, prepend the scheme, host and port information. Default is false.
+     * |
+     * @return  string  The base URI string
+     */
+    public function URIbase($pathonly = false);
+
+    /**
+     * Method to set a response header.  If the replace flag is set then all headers
+     * with the given name will be replaced by the new one (only if the current platform supports header caching)
+     *
+     * @param   string   $name     The name of the header to set.
+     * @param   string   $value    The value of the header to set.
+     * @param   boolean  $replace  True to replace any headers with the same name.
+     *
+     * @return  void
+     */
+    public function setHeader($name, $value, $replace = false);
+
+    /**
+     * In platforms that perform header caching, send all headers.
+     *
+     * @return  void
+     */
+    public function sendHeaders();
 }

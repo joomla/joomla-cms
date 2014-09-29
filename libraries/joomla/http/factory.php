@@ -37,6 +37,16 @@ class JHttpFactory
 			$options = new JRegistry;
 		}
 
+		if (empty($adapters))
+		{
+			$config = JFactory::getConfig();
+
+			if ($config->get('proxy_enable'))
+			{
+				$adapters = 'curl';
+			}
+		}
+
 		if (!$driver = self::getAvailableDriver($options, $adapters))
 		{
 			throw new RuntimeException('No transport driver available.');
@@ -98,16 +108,23 @@ class JHttpFactory
 		$names = array();
 		$iterator = new DirectoryIterator(__DIR__ . '/transport');
 
+		/* @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-			if ($file->isFile() && substr($fileName, strrpos($fileName, '.') + 1) == 'php')
+			if ($file->isFile() && $file->getExtension() == 'php')
 			{
 				$names[] = substr($fileName, 0, strrpos($fileName, '.'));
 			}
+		}
+
+		// If curl is available set it to the first position
+		if ($key = array_search('curl', $names))
+		{
+			unset($names[$key]);
+			array_unshift($names, 'curl');
 		}
 
 		return $names;

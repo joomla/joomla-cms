@@ -2,11 +2,11 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 if (!class_exists('JFormFieldCalendar'))
 {
@@ -25,10 +25,10 @@ class FOFFormFieldCalendar extends JFormFieldCalendar implements FOFFormField
 	protected $static;
 
 	protected $repeatable;
-	
+
 	/** @var   FOFTable  The item being rendered in a repeatable form field */
 	public $item;
-	
+
 	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
 	public $rowid;
 
@@ -107,18 +107,32 @@ class FOFFormFieldCalendar extends JFormFieldCalendar implements FOFFormField
 	protected function getCalendar($display)
 	{
 		// Initialize some field attributes.
-		$format = $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
-		$class  = $this->element['class'] ? (string) $this->element['class'] : '';
+		$format  = $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
+		$class   = $this->element['class'] ? (string) $this->element['class'] : '';
+		$default = $this->element['default'] ? (string) $this->element['default'] : '';
 
 		// PHP date doesn't use percentages (%) for the format, but the calendar Javascript
 		// DOES use it (@see: calendar-uncompressed.js). Therefore we have to convert it.
 		$formatJS  = $format;
 		$formatPHP = str_replace(array('%', 'H:M:S'), array('', 'H:i:s'), $formatJS);
-		
+
+		// Check for empty date values
+		if (empty($this->value) || $this->value == '0000-00-00 00:00:00' || $this->value == '0000-00-00')
+		{
+			if ($default == 'now')
+			{
+				$this->value = $default;
+			}
+			else
+			{
+				$this->value = 0;
+			}
+		}
+
 		// Get some system objects.
-		$config = JFactory::getConfig();
-		$user = JFactory::getUser();
-		$date = JFactory::getDate($this->value, 'UTC');
+		$config = FOFPlatform::getInstance()->getConfig();
+		$user   = JFactory::getUser();
+		$date   = FOFPlatform::getInstance()->getDate($this->value, 'UTC');
 
 		// If a known filter is given use it.
 		switch (strtoupper((string) $this->element['filter']))
