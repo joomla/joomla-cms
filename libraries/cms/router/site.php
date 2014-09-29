@@ -532,7 +532,7 @@ class JRouterSite extends JRouter
 		// Process the pagination support
 		if ($this->_mode == JROUTER_MODE_SEF)
 		{
-			$start = (int) $uri->getVar('start', -1)
+			$start = (int) $uri->getVar('start', -1);
 			if ($start >= 0)
 			{
 				$uri->delVar('start');
