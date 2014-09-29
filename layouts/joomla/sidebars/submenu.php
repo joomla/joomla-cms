@@ -63,18 +63,3 @@ defined('JPATH_BASE') or die;
 		<?php endif; ?>
 	</div>
 </div>
-
-<?php
-JFactory::getDocument()->addStyleDeclaration('
-.span12, .span10, .span1, .span2
-{
-	-webkit-transition: width 0.3s ease;
-	-moz-transition: width 0.3s ease;
-	-o-transition: width 0.3s ease;
-	transition: width 0.3s ease;
-}
-.span12, .span10, span2
-{
-	margin-left: 0 !important;
-}
-');

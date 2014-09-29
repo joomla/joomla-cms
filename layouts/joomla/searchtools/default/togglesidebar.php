@@ -13,12 +13,12 @@ defined('JPATH_BASE') or die;
 JText::script('JSEARCH_HIDE_SIDEBAR');
 JText::script('JSEARCH_SHOW_SIDEBAR');
 ?>
-<button
+<div
 	id="j-toggle-sidebar-button"
-	class="btn hidden-phone hasTooltip"
+	class="hidden-phone hasTooltip"
 	title="<?php echo JHtml::tooltipText('JSEARCH_HIDE_SIDEBAR'); ?>"
 	type="button"
 	onclick="Joomla.toggleSidebar(false); return false;"
 	>
 	<span id="j-toggle-sidebar-icon" class="icon-contract"></span>
-</button>
+</div>

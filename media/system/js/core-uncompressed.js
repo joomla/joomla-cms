@@ -237,7 +237,8 @@ Joomla.toggleSidebar = function(force)
 	{
 		jQuery('#sidebar').hide();
 		jQuery('#j-sidebar-container').removeClass('span2').addClass('span1');
-		jQuery('#j-main-container').removeClass('span10').addClass('span12');
+        jQuery('#j-sidebar-container').removeClass('j-toggle-visible').addClass('j-toggle-hidden');
+		jQuery('#j-main-container').removeClass('span10').addClass('span12 expanded');
 		jQuery('#j-toggle-sidebar-icon').removeClass('icon-contract').addClass('icon-expand');
 		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_SHOW_SIDEBAR'));
 
@@ -251,7 +252,8 @@ Joomla.toggleSidebar = function(force)
 	{
 		jQuery('#sidebar').show();
 		jQuery('#j-sidebar-container').removeClass('span1').addClass('span2');
-		jQuery('#j-main-container').removeClass('span12').addClass('span10');
+        jQuery('#j-sidebar-container').removeClass('j-toggle-hidden').addClass('j-toggle-visible');
+		jQuery('#j-main-container').removeClass('span12 expanded').addClass('span10');
 		jQuery('#j-toggle-sidebar-icon').removeClass('icon-expand').addClass('icon-contract');
 		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_HIDE_SIDEBAR'));
 

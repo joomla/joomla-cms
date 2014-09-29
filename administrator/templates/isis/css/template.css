@@ -7969,5 +7969,37 @@ a.grid_true {
 	background-image: url('../images/admin/icon-16-allow.png');
 }
 #j-sidebar-container {
-	background-color: #F9F9F9;
+	margin-right: 10px;
+}
+div#j-sidebar-container.j-toggle-hidden {
+	width: 0;
+	margin-right: 0;
+}
+div#j-sidebar-container.j-toggle-visible #j-toggle-sidebar-button {
+	position: relative;
+	border-radius: 4px 4px 0px 0px;
+	padding-left: 4px;
+}
+#j-toggle-sidebar-button {
+	position: absolute;
+	left: 0;
+	border-left: 0px;
+	border-radius: 0px 4px 4px 0px;
+	background: #e1e1e1;
+	padding: 2px;
+	margin-top: 0px;
+	cursor: pointer;
+	height: 23px;
+}
+#sidebar {
+	padding: 3px;
+	background: #f1f1f1;
+	border-right: 1px solid #e1e1e1;
+	border-left: 1px solid #e1e1e1;
+	border-bottom: 1px solid #e1e1e1;
+	border-radius: 0px 0px 4px 4px;
+}
+.j-toggle-visible #j-toggle-sidebar-icon {
+	margin-top: 6px;
+	margin-left: 4px;
 }
