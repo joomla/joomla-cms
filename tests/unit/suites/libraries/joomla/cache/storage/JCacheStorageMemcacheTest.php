@@ -12,43 +12,31 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
- *
  * @since       11.1
  */
 class JCacheStorageMemcacheTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JCacheStorageMemcache
-	 * @access protected
 	 */
 	protected $object;
 
 	/**
-	 * @var    memcacheAvailable
-	 * @access protected
+	 * @var    boolean
 	 */
-	protected $memcacheAvailable;
+	protected $extensionAvailable;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return void
-	 *
-	 * @access protected
+	 * @return  void
 	 */
 	protected function setUp()
 	{
-		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
-		include_once JPATH_PLATFORM . '/joomla/cache/storage/memcache.php';
-
 		$memcachetest = false;
 
-		if (!extension_loaded('memcache') || !class_exists('Memcache'))
-		{
-			$this->memcacheAvailable = false;
-		}
-		else
+		if (extension_loaded('memcache') || class_exists('Memcache'))
 		{
 			$config = JFactory::getConfig();
 			$host = $config->get('memcache_server_host', 'localhost');
@@ -58,18 +46,15 @@ class JCacheStorageMemcacheTest extends PHPUnit_Framework_TestCase
 			$memcachetest = @$memcache->connect($host, $port);
 		}
 
-		if (!$memcachetest)
+		$this->extensionAvailable = $memcachetest;
+
+		if ($this->extensionAvailable)
 		{
-			$this->memcacheAvailable = false;
+			$this->object = JCacheStorage::getInstance('memcache');
 		}
 		else
 		{
-			$this->memcacheAvailable = true;
-		}
-
-		if ($this->memcacheAvailable)
-		{
-			$this->object = JCacheStorage::getInstance('memcache');
+			$this->markTestSkipped('This caching method is not supported on this system.');
 		}
 	}
 
@@ -82,149 +67,118 @@ class JCacheStorageMemcacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetConnection()
 	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
 	 * Test...
-	 *
-	 * @return void
-	 *
-	 * @todo Implement testGetConfig().
-	 */
-	public function testGetConfig()
-	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @return void
 	 *
 	 * @todo Implement testGet().
+	 *
+	 * @return void
 	 */
 	public function testGet()
 	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
 	 * Test...
 	 *
+	 * @todo Implement testGetAll().
+	 *
 	 * @return void
+	 */
+	public function testGetAll()
+	{
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test...
 	 *
 	 * @todo Implement testStore().
+	 *
+	 * @return void
 	 */
 	public function testStore()
 	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
 	 * Test...
 	 *
-	 * @return void
-	 *
 	 * @todo Implement testRemove().
+	 *
+	 * @return void
 	 */
 	public function testRemove()
 	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
 	 * Test...
 	 *
-	 * @return void
-	 *
 	 * @todo Implement testClean().
+	 *
+	 * @return void
 	 */
 	public function testClean()
 	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
-	 * Test...
+	 * Testing gc().
 	 *
-	 * @return void
-	 *
-	 * @todo Implement testGc().
+	 * @return  void
 	 */
 	public function testGc()
 	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->assertTrue(
+			$this->object->gc(),
+			'Should return default true'
+		);
 	}
 
 	/**
 	 * Testing isSupported().
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function testIsSupported()
 	{
-		if ($this->memcacheAvailable)
-		{
-			$this->assertThat(
-				$this->object->isSupported(),
-				$this->isTrue(),
-				'Claims memcache is not loaded.'
-			);
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->assertEquals(
+			$this->extensionAvailable,
+			$this->object->isSupported(),
+			'Claims Memcache is not loaded.'
+		);
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @todo Implement testLock().
+	 *
+	 * @return void
+	 */
+	public function testLock()
+	{
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @todo Implement testUnlock().
+	 *
+	 * @return void
+	 */
+	public function testUnlock()
+	{
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -236,13 +190,6 @@ class JCacheStorageMemcacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetCacheId()
 	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

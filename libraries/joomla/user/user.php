@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * User class.  Handles all application interaction with a user
  *
@@ -117,7 +119,7 @@ class JUser extends JObject
 	/**
 	 * User parameters
 	 *
-	 * @var    JRegistry
+	 * @var    Registry
 	 * @since  11.1
 	 */
 	public $params = null;
@@ -165,7 +167,7 @@ class JUser extends JObject
 	/**
 	 * User parameters
 	 *
-	 * @var    JRegistry
+	 * @var    Registry
 	 * @since  11.1
 	 */
 	protected $_params = null;
@@ -218,7 +220,7 @@ class JUser extends JObject
 	public function __construct($identifier = 0)
 	{
 		// Create the user parameters object
-		$this->_params = new JRegistry;
+		$this->_params = new Registry;
 
 		// Load the user if it exists
 		if (!empty($identifier))
@@ -388,12 +390,17 @@ class JUser extends JObject
 		// Brute force method: get all published category rows for the component and check each one
 		// TODO: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
 		$db = JFactory::getDbo();
+
+		$subQuery = $db->getQuery(true)
+			->select('id,asset_id')
+			->from('#__categories')
+			->where('extension = ' . $db->quote($component))
+			->where('published = 1');
+
 		$query = $db->getQuery(true)
 			->select('c.id AS id, a.name AS asset_name')
-			->from('#__categories AS c')
-			->join('INNER', '#__assets AS a ON c.asset_id = a.id')
-			->where('c.extension = ' . $db->quote($component))
-			->where('c.published = 1');
+			->from('(' . $subQuery->__toString() . ') AS c')
+			->join('INNER', '#__assets AS a ON c.asset_id = a.id');
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
@@ -423,10 +430,11 @@ class JUser extends JObject
 			$this->_authLevels = array();
 		}
 
-		if (empty($this->_authLevels))
-		{
-			$this->_authLevels = JAccess::getAuthorisedViewLevels($this->id);
-		}
+		/*
+		 * Force loading the latest state.
+		 * Otherwise updating the user session fails because it sticks with the 'old' values.
+		 */
+		$this->_authLevels = JAccess::getAuthorisedViewLevels($this->id);
 
 		return $this->_authLevels;
 	}
@@ -445,10 +453,11 @@ class JUser extends JObject
 			$this->_authGroups = array();
 		}
 
-		if (empty($this->_authGroups))
-		{
-			$this->_authGroups = JAccess::getGroupsByUser($this->id);
-		}
+		/*
+		 * Force loading the latest state.
+		 * Otherwise updating the user session fails because it sticks with the 'old' values.
+		 */
+		$this->_authGroups = JAccess::getGroupsByUser($this->id);
 
 		return $this->_authGroups;
 	}
@@ -756,7 +765,7 @@ class JUser extends JObject
 
 			if ($my->id == $table->id)
 			{
-				$registry = new JRegistry;
+				$registry = new Registry;
 				$registry->loadString($table->params);
 				$my->setParameters($registry);
 			}

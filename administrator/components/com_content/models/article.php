@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 /**
@@ -251,22 +253,22 @@ class ContentModelArticle extends JModelAdmin
 		if ($item = parent::getItem($pk))
 		{
 			// Convert the params field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->attribs);
 			$item->attribs = $registry->toArray();
 
 			// Convert the metadata field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
 
 			// Convert the images field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->images);
 			$item->images = $registry->toArray();
 
 			// Convert the urls field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->urls);
 			$item->urls = $registry->toArray();
 
@@ -436,7 +438,7 @@ class ContentModelArticle extends JModelAdmin
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($data['images']);
 			$data['images'] = (string) $registry;
 		}
@@ -452,7 +454,7 @@ class ContentModelArticle extends JModelAdmin
 				}
 
 			}
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($data['urls']);
 			$data['urls'] = (string) $registry;
 		}
@@ -464,6 +466,37 @@ class ContentModelArticle extends JModelAdmin
 			$data['title'] = $title;
 			$data['alias'] = $alias;
 			$data['state'] = 0;
+		}
+
+		// Automatic handling of alias for empty fields
+		if (in_array($app->input->get('task'), array('apply', 'save', 'save2new')) && (int) $app->input->get('id') == 0)
+		{
+			if ($data['alias'] == null)
+			{
+				if (JFactory::getConfig()->get('unicodeslugs') == 1)
+				{
+					$data['alias'] = JFilterOutput::stringURLUnicodeSlug($data['title']);
+				}
+				else
+				{
+					$data['alias'] = JFilterOutput::stringURLSafe($data['title']);
+				}
+
+				$table = JTable::getInstance('Content', 'JTable');
+
+				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
+				{
+					$msg = JText::_('COM_CONTENT_SAVE_WARNING');
+				}
+
+				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+				$data['alias'] = $alias;
+
+				if (isset($msg))
+				{
+					$app->enqueueMessage($msg, 'warning');
+				}
+			}
 		}
 
 		if (parent::save($data))

@@ -8,26 +8,23 @@
  */
 
 /**
- * Test class for JCacheStorageXCache.
+ * Test class for JCacheStorageXcache.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
- *
  * @since       11.1
  */
-class JCacheStorageXCacheTest extends PHPUnit_Framework_TestCase
+class JCacheStorageXcacheTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JCacheStorageXCache
-	 * @access protected
+	 * @var    JCacheStorageXcache
 	 */
 	protected $object;
 
 	/**
-	 * @var    JCacheStorageXCache
-	 * @access protected
+	 * @var    boolean
 	 */
-	protected $xcacheAvailable;
+	protected $extensionAvailable;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -37,21 +34,44 @@ class JCacheStorageXCacheTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
-		include_once JPATH_PLATFORM . '/joomla/cache/storage/xcache.php';
+		parent::setUp();
 
-		$this->xcacheAvailable = extension_loaded('xcache');
-		$this->object = JCacheStorage::getInstance('xcache');
-	}
+		$xcachetest = false;
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
+		if (extension_loaded('xcache'))
+		{
+			// XCache Admin must be disabled for Joomla to use XCache
+			$xcache_admin_enable_auth = ini_get('xcache.admin.enable_auth');
+
+			// Some extensions ini variables are reported as strings
+			if ($xcache_admin_enable_auth == 'Off')
+			{
+				$xcachetest = true;
+			}
+
+			// We require a string with contents 0, not a null value because it is not set since that then defaults to On/True
+			if ($xcache_admin_enable_auth === '0')
+			{
+				$xcachetest = true;
+			}
+
+			// In some enviorments empty is equivalent to Off; See JC: #34044 && Github: #4083
+			if ($xcache_admin_enable_auth === '')
+			{
+				$xcachetest = true;
+			}
+		}
+
+		$this->extensionAvailable = $xcachetest;
+
+		if ($this->extensionAvailable)
+		{
+			$this->object = JCacheStorage::getInstance('xcache');
+		}
+		else
+		{
+			$this->markTestSkipped('This caching method is not supported on this system.');
+		}
 	}
 
 	/**
@@ -63,14 +83,19 @@ class JCacheStorageXCacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGet()
 	{
-		if ($this->xcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @todo Implement testGetAll().
+	 *
+	 * @return void
+	 */
+	public function testGetAll()
+	{
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -82,14 +107,7 @@ class JCacheStorageXCacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStore()
 	{
-		if ($this->xcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -101,14 +119,7 @@ class JCacheStorageXCacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRemove()
 	{
-		if ($this->xcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -120,27 +131,59 @@ class JCacheStorageXCacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testClean()
 	{
-		if ($this->xcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Testing gc().
+	 *
+	 * @return  void
+	 */
+	public function testGc()
+	{
+		$this->assertTrue(
+			$this->object->gc(),
+			'Should return default true'
+		);
 	}
 
 	/**
 	 * Testing isSupported().
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function testIsSupported()
 	{
-		$this->assertThat(
+		$this->assertEquals(
+			$this->extensionAvailable,
 			$this->object->isSupported(),
-			$this->equalTo($this->xcacheAvailable),
-			'Claims xcache is not loaded.'
+			'Claims Wincache is not loaded.'
+		);
+	}
+
+	/**
+	 * Testing lock().
+	 *
+	 * @return  void
+	 */
+	public function testLock()
+	{
+		$this->assertFalse(
+			$this->object->lock(),
+			'Should return default false'
+		);
+	}
+
+	/**
+	 * Testing unlock().
+	 *
+	 * @return  void
+	 */
+	public function testUnlock()
+	{
+		$this->assertFalse(
+			$this->object->unlock(),
+			'Should return default false'
 		);
 	}
 
@@ -153,13 +196,6 @@ class JCacheStorageXCacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetCacheId()
 	{
-		if ($this->xcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }
