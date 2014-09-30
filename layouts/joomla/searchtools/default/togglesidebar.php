@@ -20,5 +20,5 @@ JText::script('JSEARCH_SHOW_SIDEBAR');
 	type="button"
 	onclick="Joomla.toggleSidebar(false); return false;"
 	>
-	<span id="j-toggle-sidebar-icon" class="icon-contract"></span>
+	<span id="j-toggle-sidebar-icon" class="icon-remove"></span>
 </div>
