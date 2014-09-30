@@ -47,6 +47,23 @@ $lang->load('files_joomla.sys', JPATH_SITE, null, false, false)
  */
 class CreatecheckfilesCli extends JApplicationCli
 {
+	protected $excludefolders = array(
+		'/build',
+		'/nbprojects',
+		'/tests',
+		'/templates/beez3',
+		'/templates/protostar',
+		'/tmp',
+		'/.git'
+	);
+
+	protected $excludefiles = array(
+		'configuration.php',
+		'.htaccess',
+		'htaccess.txt',
+		'robots.txt.dist'
+	);
+
 	/**
 	 * Entry point for CLI script
 	 *
@@ -57,41 +74,50 @@ class CreatecheckfilesCli extends JApplicationCli
 	public function doExecute()
 	{
 		echo "Creating checksums... \n";
-		$files = $this->readFolder('');
+		$files = $this->readFolder();
 		echo "Writing checksum file... \n";
-		file_put_contents(JPATH_ADMINISTRATOR.'/checksums/joomla.md5', implode("\n", $files));
+		jimport('joomla.filesystem.file');
+		$buffer = implode("\n", $files);
+		JFile::write(JPATH_ADMINISTRATOR . '/checksums/joomla.md5', $buffer);
 		echo "Done!";
 	}
-	
-	function readFolder($dir)
+
+	function readFolder($dir = '')
 	{
 		$result = array();
 		
-		if(!$dh = @opendir(JPATH_BASE.'/'.$dir))
+		if(!$dh = @opendir(JPATH_BASE . $dir))
 		{
-			return;
-		}echo "Reading $dir \n";
+			return array();
+		}
+		
+		if (in_array($dir, $this->excludefolders))
+		{
+			return array();
+		}
+
+		echo "Reading $dir \n";
+
 		while (false !== ($obj = readdir($dh)))
 		{
-			if ($obj == '.' || $obj == '..' || substr($obj, 0, 1) == '.')
+			if ($obj == '.' || $obj == '..' || $obj == 'index.html' || in_array($dir . '/' . $obj, $this->excludefiles))
 			{
 				continue;
 			}
-			
-			$file = JPATH_BASE.'/'.$dir.'/'.$obj;
-			
+
+			$file = JPATH_BASE . $dir . '/' . $obj;
+
 			if (is_dir($file))
 			{
 				$result = array_merge($result, $this->readFolder($dir.'/'.$obj));
-			} elseif (is_file($file))
+			}
+			elseif (is_file($file))
 			{
 				$result[] = md5_file($file).' '.$dir.'/'.$obj;
 			}
-
-        }
-
+		}
 		return $result;
-	} 
+	}
 }
 
 // Instantiate the application object, passing the class name to JCli::getInstance

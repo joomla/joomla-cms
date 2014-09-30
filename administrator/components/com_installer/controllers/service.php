@@ -54,7 +54,7 @@ class InstallerControllerService extends JControllerLegacy
 	{
 		$model = $this->getModel('service');
 		$result = $model->checkFiles();
-		
+
 		$app = JFactory::getApplication();
 		$app->setUserState('com_installer.service.files', $result);
 

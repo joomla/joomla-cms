@@ -33,9 +33,9 @@ class InstallerViewService extends InstallerViewDefault
 	{
 		$items = $this->get('Items');
 		$this->messages = &$items;
-		
+
 		$this->files = $this->get('Files');
-		
+
 		// Get data from the model
 		$this->state = $this->get('State');
 		$this->changeSet = $this->get('Changeset');
@@ -61,7 +61,7 @@ class InstallerViewService extends InstallerViewDefault
 		{
 			$this->errorCount++;
 		}
-		
+
 		parent::display($tpl);
 	}
 

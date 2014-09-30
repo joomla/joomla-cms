@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 	<?php
 
 		echo JHtml::_('sliders.start', 'warning-sliders', array('useCookie' => 1));
-		
+
 		if (is_array($this->files))
 		{
 			echo JHtml::_('sliders.panel', JText::_('COM_INSTALLER_MSG_SERVICE_FILE_CHECKER'), str_replace(' ', '', JText::_('COM_INSTALLER_MSG_SERVICE_FILE_CHECKER')));
@@ -49,7 +49,7 @@ defined('_JEXEC') or die;
 		}
 
 		echo $this->loadTemplate('database');
-	
+
 		if (count($this->messages))
 		{
 			foreach($this->messages as $message)
@@ -60,7 +60,7 @@ defined('_JEXEC') or die;
 			echo JHtml::_('sliders.panel', JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'), 'furtherinfo-pane');
 			echo '<div style="padding: 5px;" >'. JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC') .'</div>';
 		}
-		
+
 		echo JHtml::_('sliders.end');
 		?>
 			<div class="clr"> </div>

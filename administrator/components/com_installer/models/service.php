@@ -55,7 +55,7 @@ class InstallerModelService extends InstallerModel
 
 		return $val;
 	}
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -77,7 +77,7 @@ class InstallerModelService extends InstallerModel
 		$app->setUserState('com_installer.extension_message', '');
 		parent::populateState('name', 'asc');
 	}
-	
+
 	/**
 	 * Fixes database problems
 	 *
@@ -105,7 +105,7 @@ class InstallerModelService extends InstallerModel
 	public function checkFiles()
 	{
 		$result = array();
-		
+
 		if (!file_exists(JPATH_ADMINISTRATOR.'/checksums/joomla.md5'))
 		{
 			$result[] = JText::_('COM_INSTALLER_MSG_SERVICE_MD5_FILE_MISSING');
@@ -113,16 +113,16 @@ class InstallerModelService extends InstallerModel
 		}
 
 		$content = file_get_contents(JPATH_ADMINISTRATOR.'/checksums/joomla.md5');
-		
+
 		$files = explode("\n", $content);
-		
+
 		foreach($files as $line)
 		{
 			if (trim($line) == '' || substr($line, 0, 1) == '#')
 			{
 				continue;
 			}
-			
+
 			list($hash, $file) = explode(' ', $line, 2);
 			if (md5_file(JPATH_ROOT.$file) != $hash)
 			{
@@ -143,7 +143,7 @@ class InstallerModelService extends InstallerModel
 	public function getFiles()
 	{
 		$app = JFactory::getApplication();
-		
+
 		$files = $app->getUserState('com_installer.service.files', false);
 		if ($files)
 		{
@@ -265,7 +265,7 @@ class InstallerModelService extends InstallerModel
 		}
 		return $changeSet;
 	}
-	
+
 	/**
 	 * Get version from #__schemas table
 	 *
