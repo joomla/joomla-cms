@@ -6237,6 +6237,12 @@ div.modal.fade.in {
 [class*=" icon-"].disabled {
 	font-weight: normal;
 }
+li span[class^="icon-"], li span[class*=" icon-"] {
+	margin-right: .25em;
+}
+.rtl li span[class^="icon-"], .rtl li span[class*=" icon-"] {
+	margin-right: .25em;
+}
 .icon-joomla:before {
 	content: "\e200";
 }
