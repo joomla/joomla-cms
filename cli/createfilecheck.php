@@ -82,15 +82,22 @@ class CreatecheckfilesCli extends JApplicationCli
 		echo "Done!";
 	}
 
-	function readFolder($dir = '')
+	/**
+	 * Read a folder and create MD5s for all files recursively
+	 * 
+	 * @param string $dir  Folder to read
+	 * 
+	 * @return array  List of MD5s with files
+	 */
+	protected function readFolder($dir = '')
 	{
 		$result = array();
 		
-		if(!$dh = @opendir(JPATH_BASE . $dir))
+		if (!$dh = @opendir(JPATH_BASE . $dir))
 		{
 			return array();
 		}
-		
+
 		if (in_array($dir, $this->excludefolders))
 		{
 			return array();
@@ -109,11 +116,11 @@ class CreatecheckfilesCli extends JApplicationCli
 
 			if (is_dir($file))
 			{
-				$result = array_merge($result, $this->readFolder($dir.'/'.$obj));
+				$result = array_merge($result, $this->readFolder($dir . '/' . $obj));
 			}
 			elseif (is_file($file))
 			{
-				$result[] = md5_file($file).' '.$dir.'/'.$obj;
+				$result[] = md5_file($file) . ' ' . $dir . '/' . $obj;
 			}
 		}
 		return $result;
