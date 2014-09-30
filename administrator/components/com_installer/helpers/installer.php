@@ -48,13 +48,8 @@ class InstallerHelper
 			$vName == 'discover'
 		);
 		JHtmlSidebar::addEntry(
-			JText::_('COM_INSTALLER_SUBMENU_DATABASE'),
-			'index.php?option=com_installer&view=database',
-			$vName == 'database'
-		);
-		JHtmlSidebar::addEntry(
-		JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
-					'index.php?option=com_installer&view=warnings',
+		JText::_('COM_INSTALLER_SUBMENU_SERVICE'),
+					'index.php?option=com_installer&view=service',
 		$vName == 'warnings'
 		);
 		JHtmlSidebar::addEntry(

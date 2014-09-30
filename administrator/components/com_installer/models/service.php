@@ -13,16 +13,49 @@ JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 /**
- * Installer Manage Model
+ * Extension Manager Templates Model
  *
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  * @since       1.6
  */
-class InstallerModelDatabase extends InstallerModel
+class InstallerModelService extends InstallerModel
 {
-	protected $_context = 'com_installer.discover';
+	protected $_context = 'com_installer.service';
 
+	/**
+	 * Extension Type
+	 * @var	string
+	 */
+	public $type = 'warnings';
+
+	/**
+	 * Return the byte value of a particular string.
+	 *
+	 * @param   string  $val  String optionally with G, M or K suffix
+	 *
+	 * @return  integer   size in bytes
+	 *
+	 * @since 1.6
+	 */
+	public function return_bytes($val)
+	{
+		$val = trim($val);
+		$last = strtolower($val{strlen($val) - 1});
+		switch ($last)
+		{
+			// The 'G' modifier is available since PHP 5.1.0
+			case 'g':
+				$val *= 1024;
+			case 'm':
+				$val *= 1024;
+			case 'k':
+				$val *= 1024;
+		}
+
+		return $val;
+	}
+	
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -44,7 +77,7 @@ class InstallerModelDatabase extends InstallerModel
 		$app->setUserState('com_installer.extension_message', '');
 		parent::populateState('name', 'asc');
 	}
-
+	
 	/**
 	 * Fixes database problems
 	 *
@@ -52,7 +85,7 @@ class InstallerModelDatabase extends InstallerModel
 	 */
 	public function fix()
 	{
-		if (!$changeSet = $this->getItems())
+		if (!$changeSet = $this->getChangeset())
 		{
 			return false;
 		}
@@ -65,11 +98,159 @@ class InstallerModelDatabase extends InstallerModel
 	}
 
 	/**
+	 * Checks files against MD5 sums for broken files
+	 *
+	 * @return  array  Broken files
+	 */
+	public function checkFiles()
+	{
+		$result = array();
+		
+		if (!file_exists(JPATH_ADMINISTRATOR.'/checksums/joomla.md5'))
+		{
+			$result[] = JText::_('COM_INSTALLER_MSG_SERVICE_MD5_FILE_MISSING');
+			return $result;
+		}
+
+		$content = file_get_contents(JPATH_ADMINISTRATOR.'/checksums/joomla.md5');
+		
+		$files = explode("\n", $content);
+		
+		foreach($files as $line)
+		{
+			if (trim($line) == '' || substr($line, 0, 1) == '#')
+			{
+				continue;
+			}
+			
+			list($hash, $file) = explode(' ', $line, 2);
+			if (md5_file(JPATH_ROOT.$file) != $hash)
+			{
+				$result[] = $file;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Get broken files
+	 *
+	 * @return  array  Broken files
+	 *
+	 * @since   3.4
+	 */
+	public function getFiles()
+	{
+		$app = JFactory::getApplication();
+		
+		$files = $app->getUserState('com_installer.service.files', false);
+		if ($files)
+		{
+			$app->setUserState('com_installer.service.files', false);
+		}
+
+		return $files;
+	}
+
+	/**
+	 * Load the data.
+	 *
+	 * @return  array  Messages
+	 *
+	 * @since   1.6
+	 */
+	public function getItems()
+	{
+		static $messages;
+		if ($messages)
+		{
+			return $messages;
+		}
+		$messages = array();
+
+		$file_uploads = ini_get('file_uploads');
+		if (!$file_uploads)
+		{
+			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_FILEUPLOADSDISABLED'),
+					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_FILEUPLOADISDISABLEDDESC'));
+		}
+
+		$upload_dir = ini_get('upload_tmp_dir');
+		if (!$upload_dir)
+		{
+			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
+					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSETDESC'));
+		}
+		else
+		{
+			if (!is_writeable($upload_dir))
+			{
+				$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTWRITEABLE'),
+						'description' => JText::sprintf('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTWRITEABLEDESC', $upload_dir));
+			}
+		}
+
+		$config = JFactory::getConfig();
+		$tmp_path = $config->get('tmp_path');
+		if (!$tmp_path)
+		{
+			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTSET'),
+					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTSETDESC'));
+		}
+		else
+		{
+			if (!is_writeable($tmp_path))
+			{
+				$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'),
+						'description' => JText::sprintf('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLEDESC', $tmp_path));
+			}
+		}
+
+		$memory_limit = $this->return_bytes(ini_get('memory_limit'));
+		if ($memory_limit < (8 * 1024 * 1024) && $memory_limit != -1)
+		{
+			// 8MB
+			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_LOWMEMORYWARN'),
+					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_LOWMEMORYDESC'));
+		}
+		elseif ($memory_limit < (16 * 1024 * 1024) && $memory_limit != -1)
+		{
+			// 16MB
+			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_MEDMEMORYWARN'),
+					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_MEDMEMORYDESC'));
+		}
+
+		$post_max_size = $this->return_bytes(ini_get('post_max_size'));
+		$upload_max_filesize = $this->return_bytes(ini_get('upload_max_filesize'));
+
+		if ($post_max_size < $upload_max_filesize)
+		{
+			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_UPLOADBIGGERTHANPOST'),
+					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_UPLOADBIGGERTHANPOSTDESC'));
+		}
+
+		if ($post_max_size < (8 * 1024 * 1024)) // 8MB
+		{
+			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLPOSTSIZE'),
+					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLPOSTSIZEDESC'));
+		}
+
+		if ($upload_max_filesize < (8 * 1024 * 1024)) // 8MB
+		{
+			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
+					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZEDESC'));
+		}
+
+		return $messages;
+	}
+
+	/**
 	 * Gets the changeset object
 	 *
 	 * @return  JSchemaChangeset
 	 */
-	public function getItems()
+	public function getChangeset()
 	{
 		$folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 
@@ -84,19 +265,7 @@ class InstallerModelDatabase extends InstallerModel
 		}
 		return $changeSet;
 	}
-
-	/**
-	 * Method to get a JPagination object for the data set.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   12.2
-	 */
-	public function getPagination()
-	{
-		return true;
-	}
-
+	
 	/**
 	 * Get version from #__schemas table
 	 *

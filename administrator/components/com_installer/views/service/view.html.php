@@ -12,13 +12,13 @@ defined('_JEXEC') or die;
 include_once __DIR__ . '/../default/view.php';
 
 /**
- * Extension Manager Manage View
+ * Extension Manager Templates View
  *
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  * @since       1.6
  */
-class InstallerViewDatabase extends InstallerViewDefault
+class InstallerViewService extends InstallerViewDefault
 {
 	/**
 	 * Display the view
@@ -31,9 +31,14 @@ class InstallerViewDatabase extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
+		$items = $this->get('Items');
+		$this->messages = &$items;
+		
+		$this->files = $this->get('Files');
+		
 		// Get data from the model
 		$this->state = $this->get('State');
-		$this->changeSet = $this->get('Items');
+		$this->changeSet = $this->get('Changeset');
 		$this->errors = $this->changeSet->check();
 		$this->results = $this->changeSet->getStatus();
 		$this->schemaVersion = $this->get('SchemaVersion');
@@ -56,7 +61,7 @@ class InstallerViewDatabase extends InstallerViewDefault
 		{
 			$this->errorCount++;
 		}
-
+		
 		parent::display($tpl);
 	}
 
@@ -72,9 +77,10 @@ class InstallerViewDatabase extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', false, false);
+		JToolbarHelper::custom('service.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_SERVICE_DATABASE_FIX', false, false);
 		JToolbarHelper::divider();
+		JToolbarHelper::custom('service.checkFiles', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_SERVICE_CHECK_FILES', false, false);
 		parent::addToolbar();
-		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DATABASE');
+		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_SERVICE');
 	}
 }
