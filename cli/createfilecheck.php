@@ -85,14 +85,14 @@ class CreatecheckfilesCli extends JApplicationCli
 	/**
 	 * Read a folder and create MD5s for all files recursively
 	 * 
-	 * @param string $dir  Folder to read
+	 * @param   string  $dir  Folder to read
 	 * 
 	 * @return array  List of MD5s with files
 	 */
 	protected function readFolder($dir = '')
 	{
 		$result = array();
-		
+
 		if (!$dh = @opendir(JPATH_BASE . $dir))
 		{
 			return array();
