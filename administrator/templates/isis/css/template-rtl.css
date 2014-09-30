@@ -8645,6 +8645,7 @@ a.grid_true {
 }
 #j-sidebar-container {
 	margin-left: 10px;
+	margin-right: 0;
 }
 #j-toggle-sidebar-button {
 	right: 0;
