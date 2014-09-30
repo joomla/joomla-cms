@@ -39,7 +39,6 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 		<div id="pop-print" class="btn hidden-print">
 			<?php echo JHtml::_('icon.print_screen', $this->item, $params); ?>
 		</div>
-		<div class="clearfix"> </div>
 	<?php endif; ?>
 	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
 	<div class="page-header">
