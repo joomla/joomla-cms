@@ -312,10 +312,17 @@ class JApplicationCms extends JApplicationWeb
 			// Check task or option/view/layout
 			if (!empty($task))
 			{
-				if (array_search($this->input->getCmd('option', '') . '/' . $task, explode(',', $tasks)) === false)
+				$tasks = explode(',', $tasks);
+
+				// Check full task version "option/task"
+				if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false)
 				{
-					// Not permitted task
-					$redirect = true;
+					// Check short task version, must be on the same option of the view
+					if ($this->input->getCmd('option', '') != $option || array_search($task, $tasks) === false)
+					{
+						// Not permitted task
+						$redirect = true;
+					}
 				}
 			}
 			else
