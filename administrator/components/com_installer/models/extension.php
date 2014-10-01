@@ -169,7 +169,7 @@ class InstallerModel extends JModelList
 					||	$lang->load("$extension.sys", $source, null, false, true);
 				break;
 			}
-			if (!in_array($item->type, array('language', 'template', 'library')))
+			if (!in_array($item->type, array('language', 'template')))
 			{
 				$item->name = JText::_($item->name);
 			}
