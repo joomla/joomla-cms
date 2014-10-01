@@ -59,10 +59,11 @@ class FinderModelSuggestions extends JModelList
 	{
 		// Create a new query object.
 		$db = $this->getDbo();
-		//attempt to change mysql for error in large select
-		$db->setQuery('SET SQL_BIG_SELECTS=1');
-		$db->query();
-		
+		if (in_array($db->name, array('mysqli', 'mysql'))){
+			//attempt to change mysql for error in large select
+			$db->setQuery('SET SQL_BIG_SELECTS=1');
+			$db->query();
+		}		
 		$query = $db->getQuery(true);
 
 		// Set variables
