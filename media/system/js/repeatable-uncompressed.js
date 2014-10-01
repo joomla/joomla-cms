@@ -28,7 +28,7 @@
             mask.show();
 
             // Set original content for cancel
-            origContent = getTrs().clone();
+            origContent = getTrs();
         };
 
         /**
