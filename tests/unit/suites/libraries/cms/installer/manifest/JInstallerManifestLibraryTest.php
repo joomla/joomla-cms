@@ -35,7 +35,7 @@ class JInstallerManifestLibraryTest extends TestCase
 		$this->object = new JInstallerManifestLibrary(dirname(__DIR__) . '/data/joomla.xml');
 
 		$this->assertEquals(
-			'Joomla! Platform',
+			'lib_joomla',
 			$this->object->name
 		);
 

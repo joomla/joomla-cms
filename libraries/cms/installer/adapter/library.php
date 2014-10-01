@@ -40,7 +40,7 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		}
 
 		$this->manifest = $this->parent->getManifest();
-		$extension = 'lib_' . strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
+		$extension = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
 		$name = strtolower((string) $this->manifest->libraryname);
 		$lang = JFactory::getLanguage();
 		$source = $path ? $path : JPATH_PLATFORM . "/$name";
