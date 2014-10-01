@@ -74,12 +74,12 @@ class FinderModelSuggestions extends JModelList
 		$request = $input->request;
 		
 		// Select required fields
-		$query->select('t.term');
-		$query->from($db->quoteName('#__finder_terms') . ' AS t');
-		$query->where('t.term LIKE ' . $db->quote($db->escape($this->getState('input'), true) . '%'));
-		$query->where('t.common = 0');
-		$query->order('t.links DESC');
-		$query->order('t.weight DESC');
+		$query->select('t.term')
+		->from($db->quoteName('#__finder_terms') . ' AS t')
+		->where('t.term LIKE ' . $db->quote($db->escape($this->getState('input'), true) . '%'))
+		->where('t.common = 0')
+		->order('t.links DESC')
+		->order('t.weight DESC');
 		$linkjoin='';
 
 		// Iterate through each term mapping table and add the join.
@@ -91,25 +91,24 @@ class FinderModelSuggestions extends JModelList
 			if($i<15)
 				$linkjoin.=' or ';
 		}
-		$query->join('INNER',$db->quoteName('#__finder_links') . ' AS l ON ('.$linkjoin.')');
-
-		$query->where($db->quoteName('l.access') . ' IN (' . $groups . ')');
-		$query->where($db->quoteName('l.state') . ' = 1');
+		$query->join('INNER',$db->quoteName('#__finder_links') . ' AS l ON ('.$linkjoin.')')
+		->where($db->quoteName('l.access') . ' IN (' . $groups . ')')
+		->where($db->quoteName('l.state') . ' = 1');
 		
 		// Get the null date and the current date, minus seconds.
 		$nullDate = $db->quote($db->getNullDate());
 		$nowDate = $db->quote(substr_replace(JFactory::getDate()->toSQL(), '00', -2));
 		
 		// Add the publish up and publish down filters.
-		$query->where('(' . $db->quoteName('l.publish_start_date') . ' = ' . $nullDate . ' OR ' . $db->quoteName('l.publish_start_date') . ' <= ' . $nowDate . ')');
-		$query->where('(' . $db->quoteName('l.publish_end_date') . ' = ' . $nullDate . ' OR ' . $db->quoteName('l.publish_end_date') . ' >= ' . $nowDate . ')');
+		$query->where('(' . $db->quoteName('l.publish_start_date') . ' = ' . $nullDate . ' OR ' . $db->quoteName('l.publish_start_date') . ' <= ' . $nowDate . ')')
+		->where('(' . $db->quoteName('l.publish_end_date') . ' = ' . $nullDate . ' OR ' . $db->quoteName('l.publish_end_date') . ' >= ' . $nowDate . ')');
 
 
 		if (!is_null($request->get('f')))
 		{
-			$query->join('INNER',$db->quoteName('#__finder_taxonomy_map') . ' AS tm ON (tm.link_id=l.link_id)');
-			$query->join('INNER',$db->quoteName('#__finder_filters') . ' AS ff ON (ff.data=tm.node_id)');
-			$query->where($db->quoteName('ff.filter_id') . ' = '.$request->get('f','','int'));
+			$query->join('INNER',$db->quoteName('#__finder_taxonomy_map') . ' AS tm ON (tm.link_id=l.link_id)')
+			->join('INNER',$db->quoteName('#__finder_filters') . ' AS ff ON (ff.data=tm.node_id)')
+			->where($db->quoteName('ff.filter_id') . ' = '.$request->get('f','','int'));
 			
 		}
 /*		
