@@ -278,10 +278,10 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * If the user is required to reset their password will be redirected to the page that manage the password reset.
 	 *
-	 * @param   string $option The option that manage the password reset
-	 * @param   string $view The view that manage the password reset
-	 * @param   string $layout The layout of the view that manage the password reset
-	 * @param   string $tasks Permitted tasks
+	 * @param   string  $option  The option that manage the password reset
+	 * @param   string  $view    The view that manage the password reset
+	 * @param   string  $layout  The layout of the view that manage the password reset
+	 * @param   string  $tasks   Permitted tasks
 	 *
 	 * @return  void
 	 */
