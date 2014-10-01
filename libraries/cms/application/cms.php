@@ -307,31 +307,23 @@ class JApplicationCms extends JApplicationWeb
 				$tasks = $this->get($name . '_reset_password_tasks', '');
 			}
 
-			if ($this->input->getCmd('option', '') != $option)
+			$task = $this->input->getCmd('task', '');
+
+			// Check task or option/view/layout
+			if (!empty($task))
 			{
-				// Requested a different component
-				$redirect = true;
+				if (array_search($this->input->getCmd('option', '') . '/' . $task, explode(',', $tasks)) === false)
+				{
+					// Not permitted task
+					$redirect = true;
+				}
 			}
 			else
 			{
-				$task = $this->input->getCmd('task', '');
-
-				// Check task or view/layout
-				if (!empty($task))
+				if ($this->input->getCmd('option', '') != $option || $this->input->getCmd('view', '') != $view || $this->input->getCmd('layout', '') != $layout)
 				{
-					if (array_search($task, explode(',', $tasks)) === false)
-					{
-						// Not permitted task
-						$redirect = true;
-					}
-				}
-				else
-				{
-					if ($this->input->getCmd('view', '') != $view || $this->input->getCmd('layout', '') != $layout)
-					{
-						// Requested a different page/layout
-						$redirect = true;
-					}
+					// Requested a different option/view/layout
+					$redirect = true;
 				}
 			}
 
