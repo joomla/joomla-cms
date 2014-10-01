@@ -48,7 +48,7 @@ class JFormFieldList extends JFormField
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
+		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1' || (string) $this->disabled == 'true')
 		{
 			$attr .= ' disabled="disabled"';
 		}
@@ -60,7 +60,7 @@ class JFormFieldList extends JFormField
 		$options = (array) $this->getOptions();
 
 		// Create a read-only list (no name) with a hidden input to store the value.
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
+		if (((string) $this->readonly == '1' || (string) $this->readonly == 'true') && (string) $this->disabled != '1' && (string) $this->disabled != 'true')
 		{
 			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
 			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"/>';
