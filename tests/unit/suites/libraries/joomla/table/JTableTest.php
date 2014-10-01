@@ -354,7 +354,7 @@ class JTableTest extends TestCaseDatabase
 	 */
 	public function testBind()
 	{
-		TestReflection::setValue($this->object, 'jsonEncode', array('params'));
+		TestReflection::setValue($this->object, '_jsonEncode', array('params'));
 		$this->object->bind(array('id1' => 25, 'id2' => 50, 'title' => 'My Title', 'params' => array('param1' => 'value1', 'param2' => 25)));
 
 		$this->assertEquals(

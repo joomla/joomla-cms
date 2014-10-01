@@ -21,7 +21,7 @@ class ContactTableContact extends JTable
 	 * @var    array
 	 * @since  3.3
 	 */
-	protected $jsonEncode = array('params', 'metadata');
+	protected $_jsonEncode = array('params', 'metadata');
 
 	/**
 	 * Constructor
