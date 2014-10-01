@@ -63,7 +63,7 @@ class FinderModelSuggestions extends JModelList
 			//attempt to change mysql for error in large select
 			$db->setQuery('SET SQL_BIG_SELECTS=1');
 			$db->query();
-		}		
+		}
 		$query = $db->getQuery(true);
 
 		// Set variables
@@ -72,7 +72,7 @@ class FinderModelSuggestions extends JModelList
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		$request = $input->request;
-		
+
 		// Select required fields
 		$query->select('t.term')
 			->from($db->quoteName('#__finder_terms') . ' AS t')
@@ -81,41 +81,40 @@ class FinderModelSuggestions extends JModelList
 			->where('t.language IN (' . $db->quote($db->escape($this->getState('language'), true)) . ', ' . $db->quote('*') . ')')
 			->order('t.links DESC')
 			->order('t.weight DESC');
-		
-		$linkjoin='';
+
+		$linkjoin = '';
 
 		// Iterate through each term mapping table and add the join.
 		for ($i = 0; $i < 16; $i++)
 		{
 			// We use the offset because each join needs a unique alias.
 			$query->join('LEFT', $db->quoteName('#__finder_links_terms'.dechex($i)) . ' AS lterms'. $i .' ON lterms'. $i .'.term_id = t.term_id');
-			$linkjoin.='lterms'.$i.'.link_id=l.link_id';
-			if($i<15)
-				$linkjoin.=' or ';
+			$linkjoin .= 'lterms'.$i.'.link_id=l.link_id';
+			if($i < 15)
+				$linkjoin .= ' or ';
 		}
-		$query->join('INNER',$db->quoteName('#__finder_links') . ' AS l ON ('.$linkjoin.')')
+		$query->join('INNER', $db->quoteName('#__finder_links') . ' AS l ON ('.$linkjoin.')')
 			->where($db->quoteName('l.access') . ' IN (' . $groups . ')')
 			->where($db->quoteName('l.state') . ' = 1');
-		
+
 		// Get the null date and the current date, minus seconds.
 		$nullDate = $db->quote($db->getNullDate());
 		$nowDate = $db->quote(substr_replace(JFactory::getDate()->toSQL(), '00', -2));
-		
+
 		// Add the publish up and publish down filters.
 		$query->where('(' . $db->quoteName('l.publish_start_date') . ' = ' . $nullDate . ' OR ' . $db->quoteName('l.publish_start_date') . ' <= ' . $nowDate . ')')
 			->where('(' . $db->quoteName('l.publish_end_date') . ' = ' . $nullDate . ' OR ' . $db->quoteName('l.publish_end_date') . ' >= ' . $nowDate . ')');
 
-
 		if (!is_null($request->get('f')))
 		{
-			$query->join('INNER',$db->quoteName('#__finder_taxonomy_map') . ' AS tm ON (tm.link_id=l.link_id)')
-				->join('INNER',$db->quoteName('#__finder_filters') . ' AS ff ON (ff.data=tm.node_id)')
-				->where($db->quoteName('ff.filter_id') . ' = '.$request->get('f','','int'));
-			
+			$query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS tm ON (tm.link_id=l.link_id)')
+				->join('INNER', $db->quoteName('#__finder_filters') . ' AS ff ON (ff.data=tm.node_id)')
+				->where($db->quoteName('ff.filter_id') . ' = '.$request->get('f', '', 'int'));
+
 		}
-/*		
+/*
  * 		Didn't know what these do, so i commented them out
- * 
+ *
 		// Add the start date filter to the query.
 		if (!empty($this->query->date1))
 		{
@@ -156,7 +155,7 @@ class FinderModelSuggestions extends JModelList
 				$query->where($db->quoteName('l.start_date') . ' = ' . $date2);
 			}
 		}
-*/		
+*/
 		return $query;
 	}
 
