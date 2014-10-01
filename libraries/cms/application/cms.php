@@ -274,6 +274,77 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
+	 * Check if the user is required to reset their password.
+	 *
+	 * If the user is required to reset their password will be redirected to the page that manage the password reset.
+	 *
+	 * @param   string $option The option that manage the password reset
+	 * @param   string $view The view that manage the password reset
+	 * @param   string $layout The layout of the view that manage the password reset
+	 * @param   string $tasks Permitted tasks
+	 *
+	 * @return  void
+	 */
+	protected function checkUserRequireReset($option, $view, $layout, $tasks)
+	{
+		if (JFactory::getUser()->get('requireReset', 0))
+		{
+			$redirect = false;
+
+			/*
+			 * By default user profile edit page is used.
+			 * That page allows you to change more than just the password and might not be the desired behavior.
+			 * This allows a developer to override the page that manage the password reset.
+			 * (can be configured using the file: configuration.php, or if extended, through the global configuration form)
+			 */
+			$name = $this->getName();
+
+			if ($this->get($name . '_reset_password_override', 0))
+			{
+				$option = $this->get($name . '_reset_password_option', '');
+				$view = $this->get($name . '_reset_password_view', '');
+				$layout = $this->get($name . '_reset_password_layout', '');
+				$tasks = $this->get($name . '_reset_password_tasks', '');
+			}
+
+			if ($this->input->getCmd('option', '') != $option)
+			{
+				// Requested a different component
+				$redirect = true;
+			}
+			else
+			{
+				$task = $this->input->getCmd('task', '');
+
+				// Check task or view/layout
+				if (!empty($task))
+				{
+					if (array_search($task, explode(',', $tasks)) === false)
+					{
+						// Not permitted task
+						$redirect = true;
+					}
+				}
+				else
+				{
+					if ($this->input->getCmd('view', '') != $view || $this->input->getCmd('layout', '') != $layout)
+					{
+						// Requested a different page/layout
+						$redirect = true;
+					}
+				}
+			}
+
+			if ($redirect)
+			{
+				// Redirect to the profile edit page
+				$this->enqueueMessage(JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+				$this->redirect(JRoute::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
+			}
+		}
+	}
+
+	/**
 	 * Gets a configuration value.
 	 *
 	 * @param   string  $varname  The name of the value to get.
