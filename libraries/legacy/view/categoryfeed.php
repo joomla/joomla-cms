@@ -69,59 +69,62 @@ class JViewCategoryfeed extends JViewLegacy
 		$items    = $this->get('Items');
 		$category = $this->get('Category');
 
-		foreach ($items as $item)
+		if (!empty($items))
 		{
-			$this->reconcileNames($item);
-
-			// Strip html from feed item title
-			if ($titleField)
+			foreach ($items as $item)
 			{
-				$title = $this->escape($item->$titleField);
-				$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
-			}
-			else
-			{
-				$title = '';
-			}
+				$this->reconcileNames($item);
 
-			// URL link to article
-			$router = new JHelperRoute;
-			$link   = JRoute::_($router->getRoute($item->id, $contentType, null, null, $item->catid));
+				// Strip html from feed item title
+				if ($titleField)
+				{
+					$title = $this->escape($item->$titleField);
+					$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+				}
+				else
+				{
+					$title = '';
+				}
 
-			// Strip HTML from feed item description text.
-			$description = $item->description;
-			$author      = $item->created_by_alias ? $item->created_by_alias : $item->author;
+				// URL link to article
+				$router = new JHelperRoute;
+				$link   = JRoute::_($router->getRoute($item->id, $contentType, null, null, $item->catid));
 
-			if ($createdField)
-			{
-				$date = isset($item->$createdField) ? date('r', strtotime($item->$createdField)) : '';
+				// Strip HTML from feed item description text.
+				$description = $item->description;
+				$author      = $item->created_by_alias ? $item->created_by_alias : $item->author;
+
+				if ($createdField)
+				{
+					$date = isset($item->$createdField) ? date('r', strtotime($item->$createdField)) : '';
+				}
+				else
+				{
+					$date = '';
+				}
+
+				// Load individual item creator class.
+				$feeditem              = new JFeedItem;
+				$feeditem->title       = $title;
+				$feeditem->link        = $link;
+				$feeditem->description = $description;
+				$feeditem->date        = $date;
+				$feeditem->category    = $category->title;
+				$feeditem->author      = $author;
+
+				// We don't have the author email so we have to use site in both cases.
+				if ($feedEmail == 'site')
+				{
+					$feeditem->authorEmail = $siteEmail;
+				}
+				elseif ($feedEmail === 'author')
+				{
+					$feeditem->authorEmail = $item->author_email;
+				}
+
+				// Loads item information into RSS array
+				$document->addItem($feeditem);
 			}
-			else
-			{
-				$date = '';
-			}
-
-			// Load individual item creator class.
-			$feeditem              = new JFeedItem;
-			$feeditem->title       = $title;
-			$feeditem->link        = $link;
-			$feeditem->description = $description;
-			$feeditem->date        = $date;
-			$feeditem->category    = $category->title;
-			$feeditem->author      = $author;
-
-			// We don't have the author email so we have to use site in both cases.
-			if ($feedEmail == 'site')
-			{
-				$feeditem->authorEmail = $siteEmail;
-			}
-			elseif ($feedEmail === 'author')
-			{
-				$feeditem->authorEmail = $item->author_email;
-			}
-
-			// Loads item information into RSS array
-			$document->addItem($feeditem);
 		}
 	}
 
