@@ -552,7 +552,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type ' . $type . '.', JLog::ERROR);
-					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNSUPPORTED_TYPE', $type);
+					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNSUPPORTED_TYPE', $type));
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -562,7 +562,7 @@ class JImage
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
-					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNABLE_TO_PROCESS', $type);
+					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNABLE_TO_PROCESS', $type));
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -575,7 +575,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type ' . $type . '.', JLog::ERROR);
-					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNSUPPORTED_TYPE', $type);
+					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNSUPPORTED_TYPE', $type));
 
 					// @codeCoverageIgnoreEnd
 				}
@@ -586,7 +586,7 @@ class JImage
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
-					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNABLE_TO_PROCESS', $type);
+					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNABLE_TO_PROCESS', $type));
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -599,7 +599,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type ' . $type . '.', JLog::ERROR);
-					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNSUPPORTED_TYPE', $type);
+					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNSUPPORTED_TYPE', $type));
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -609,7 +609,7 @@ class JImage
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
-					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNABLE_TO_PROCESS', $type);
+					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNABLE_TO_PROCESS', $type));
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -628,7 +628,7 @@ class JImage
 
 			default:
 				JLog::add('Attempting to load an image of unsupported type: ' . $mime, JLog::ERROR);
-				throw new InvalidArgumentException(JText::sprintf('JLIB_IMAGE_ERROR_UNSUPPORTED_TYPE', $mime);
+				throw new InvalidArgumentException(JText::sprintf('JLIB_IMAGE_ERROR_UNSUPPORTED_TYPE', $mime));
 				break;
 		}
 
