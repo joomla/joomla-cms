@@ -28,7 +28,6 @@ var JFormValidator = function() {
  	 	if (!id) {
  	 	 	return false;
  	 	}
-
  	 	$label = $form.find('#' + id + '-lbl');
  	 	if ($label.length) {
  	 	 	return $label;
@@ -99,7 +98,7 @@ var JFormValidator = function() {
  	 	}
  	 	// Return validation state
  	 	handleResponse(true, $el);
- 	 	return false;
+ 	 	return true;
  	},
 
  	isValid = function(form) {
