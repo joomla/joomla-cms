@@ -7,7 +7,7 @@
  *
  * @package     Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  * @link        http://www.phpunit.de/manual/current/en/installation.html
  */
@@ -19,7 +19,7 @@ ini_set('magic_quotes_runtime', 0);
 
 // Maximise error reporting.
 ini_set('zend.ze1_compatibility_mode', '0');
-error_reporting(E_ALL & ~E_STRICT);
+error_reporting(E_ALL & ~(E_STRICT|E_USER_DEPRECATED));
 ini_set('display_errors', 1);
 
 /*
@@ -29,6 +29,14 @@ ini_set('display_errors', 1);
 if (!defined('JPATH_TESTS'))
 {
 	define('JPATH_TESTS', realpath(__DIR__));
+}
+if (!defined('JPATH_TEST_DATABASE'))
+{
+	define('JPATH_TEST_DATABASE', JPATH_TESTS . '/stubs/database');
+}
+if (!defined('JPATH_TEST_STUBS'))
+{
+	define('JPATH_TEST_STUBS', JPATH_TESTS . '/stubs');
 }
 if (!defined('JPATH_PLATFORM'))
 {
@@ -77,6 +85,10 @@ if (!defined('JPATH_PLUGINS'))
 if (!defined('JPATH_THEMES'))
 {
 	define('JPATH_THEMES', JPATH_BASE . '/templates');
+}
+if (!defined('JDEBUG'))
+{
+	define('JDEBUG', false);
 }
 
 // Import the platform in legacy mode.

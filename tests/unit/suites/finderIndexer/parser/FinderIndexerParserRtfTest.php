@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,19 +30,19 @@ class FinderIndexerParserRtfTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
+	 * Method to test the parse and process methods.
 	 */
-	protected function tearDown()
+	public function testParse()
 	{
-	}
+		$testResult = 'massa elementum. Mauris consequat';
 
-	/**
-	 * Dummy method to prevent failures due to no tests in a class
-	 */
-	public function testDummy()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestSkipped('This class does not yet have any valid tests.');
+		$input = file_get_contents(dirname(__DIR__) . '/data/parseHtml.txt');
+
+		$parsed = $this->object->parse($input);
+
+		$this->assertContains(
+			$testResult,
+			$parsed
+		);
 	}
 }

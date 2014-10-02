@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,19 +18,25 @@ defined('_JEXEC') or die;
  */
 class ContentViewFeatured extends JViewLegacy
 {
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
 	public function display($tpl = null)
 	{
 		// Parameters
 		$app       = JFactory::getApplication();
 		$doc       = JFactory::getDocument();
 		$params    = $app->getParams();
-		$feedEmail = $app->getCfg('feed_email', 'author');
-		$siteEmail = $app->getCfg('mailfrom');
-
-		$doc->link	= JRoute::_('index.php?option=com_content&view=featured');
+		$feedEmail = $app->get('feed_email', 'author');
+		$siteEmail = $app->get('mailfrom');
+		$doc->link = JRoute::_('index.php?option=com_content&view=featured');
 
 		// Get some data from the model
-		$app->input->set('limit', $app->getCfg('feed_limit'));
+		$app->input->set('limit', $app->get('feed_limit'));
 		$categories = JCategories::getInstance('Content');
 		$rows       = $this->get('Items');
 		foreach ($rows as $row)
@@ -47,7 +53,10 @@ class ContentViewFeatured extends JViewLegacy
 
 			// Get row fulltext
 			$db = JFactory::getDbo();
-			$query = 'SELECT' .$db->quoteName('fulltext'). 'FROM #__content WHERE id ='.$row->id;
+			$query = $db->getQuery(true)
+				->select($db->quoteName('fulltext'))
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('id') . ' = ' . $row->id);
 			$db->setQuery($query);
 			$row->fulltext = $db->loadResult();
 
@@ -59,17 +68,20 @@ class ContentViewFeatured extends JViewLegacy
 			$item->title		= $title;
 			$item->link			= $link;
 			$item->date			= $row->publish_up;
-			$item_category		= $categories->get($row->catid);
 			$item->category		= array();
 			$item->category[]	= JText::_('JFEATURED'); // All featured articles are categorized as "Featured"
+
 			for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent())
 			{
-				if ($item_category->id > 1) { // Only add non-root categories
+				// Only add non-root categories
+				if ($item_category->id > 1)
+				{
 					$item->category[] = $item_category->title;
 				}
 			}
 
-			$item->author 		= $author;
+			$item->author = $author;
+
 			if ($feedEmail == 'site')
 			{
 				$item->authorEmail = $siteEmail;

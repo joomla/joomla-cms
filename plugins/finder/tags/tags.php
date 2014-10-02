@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -292,6 +292,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 	protected function getListQuery($query = null)
 	{
 		$db = JFactory::getDbo();
+
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.title, a.alias, a.description AS summary')
@@ -308,7 +309,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 		$a_id = $query->castAsChar('a.id');
 		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when_item_alias .= ' ELSE ';
-		$case_when_item_alias .= $a_id.' END as slug';
+		$case_when_item_alias .= $a_id . ' END as slug';
 		$query->select($case_when_item_alias)
 			->from('#__tags AS a');
 

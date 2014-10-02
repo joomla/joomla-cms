@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,7 +41,7 @@ abstract class JHtmlSortablelist
 	public static function sortable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl, $proceedSaveOrderButton = true, $nestedList = false)
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__]))
+		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -64,11 +64,12 @@ abstract class JHtmlSortablelist
 
 		if ($proceedSaveOrderButton)
 		{
-			self::_proceedSaveOrderButton();
+			static::_proceedSaveOrderButton();
 		}
 
 		// Set static array
-		self::$loaded[__METHOD__] = true;
+		static::$loaded[__METHOD__] = true;
+
 		return;
 	}
 
@@ -102,6 +103,7 @@ abstract class JHtmlSortablelist
 				});
 			})(jQuery);"
 		);
+
 		return;
 	}
 }

@@ -3,23 +3,24 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-// Code to support edit links for weblinks
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+JHtml::_('behavior.framework');
+
 // Create a shortcut for params.
 $params = &$this->item->params;
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
-JHtml::_('behavior.framework');
 
 // Get the user object.
 $user = JFactory::getUser();
+
 // Check if user is allowed to add/edit based on weblinks permissinos.
-$canEdit = $user->authorise('core.edit', 'com_weblinks');
+$canEdit = $user->authorise('core.edit', 'com_weblinks.category.' . $this->category->id);
 $canCreate = $user->authorise('core.create', 'com_weblinks');
 $canEditState = $user->authorise('core.edit.state', 'com_weblinks');
 
@@ -37,7 +38,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<fieldset class="filters btn-toolbar">
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
-				<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span><?php echo JText::_('COM_WEBLINKS_FILTER_LABEL').'&#160;'; ?></label>
+				<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span><?php echo JText::_('COM_WEBLINKS_FILTER_LABEL') . '&#160;'; ?></label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_WEBLINKS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_WEBLINKS_FILTER_SEARCH_DESC'); ?>" />
 			</div>
 		<?php endif; ?>
@@ -80,12 +81,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php if (!$this->params->get('link_icons')) : ?>
 								<?php echo JHtml::_('image', 'system/weblink.png', JText::_('COM_WEBLINKS_LINK'), null, true); ?>
 							<?php else: ?>
-								<?php echo '<img src="'.$this->params->get('link_icons').'" alt="'.JText::_('COM_WEBLINKS_LINK').'" />'; ?>
+								<?php echo '<img src="' . $this->params->get('link_icons') . '" alt="' . JText::_('COM_WEBLINKS_LINK') . '" />'; ?>
 							<?php endif; ?>
 						<?php endif; ?>
 						<?php
 							// Compute the correct link
-							$menuclass = 'category'.$this->pageclass_sfx;
+							$menuclass = 'category' . $this->pageclass_sfx;
 							$link = $item->link;
 							$width	= $item->params->get('width');
 							$height	= $item->params->get('height');
@@ -101,27 +102,27 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php switch ($item->params->get('target', $this->params->get('target')))
 							{
 								case 1:
-									// open in a new window
-									echo '<a href="'. $link .'" target="_blank" class="'. $menuclass .'" rel="nofollow">'.
-										$this->escape($item->title) .'</a>';
+									// Open in a new window
+									echo '<a href="' . $link . '" target="_blank" class="' . $menuclass . '" rel="nofollow">' .
+										$this->escape($item->title) . '</a>';
 									break;
 
 								case 2:
-									// open in a popup window
-									$attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width='.$this->escape($width).',height='.$this->escape($height).'';
-									echo "<a href=\"$link\" onclick=\"window.open(this.href, 'targetWindow', '".$attribs."'); return false;\">".
-										$this->escape($item->title).'</a>';
+									// Open in a popup window
+									$attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=' . $this->escape($width) . ',height=' . $this->escape($height) . '';
+									echo "<a href=\"$link\" onclick=\"window.open(this.href, 'targetWindow', '" . $attribs . "'); return false;\">" .
+										$this->escape($item->title) . '</a>';
 									break;
 								case 3:
-									// open in a modal window
-									JHtml::_('behavior.modal', 'a.modal'); ?>
-									<a class="modal" href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x:<?php echo $this->escape($width);?>, y:<?php echo $this->escape($height);?>}}">
-										<?php echo $this->escape($item->title). ' </a>';
+									// Open in a modal window
+									JHtml::_('behavior.modal', 'a.modal');
+									echo '<a class="modal" href="' . $link . '"  rel="{handler: \'iframe\', size: {x:' . $this->escape($width) . ', y:' . $this->escape($height) . '}}">' .
+										$this->escape($item->title) . ' </a>';
 									break;
 
 								default:
-									// open in parent window
-									echo '<a href="'.  $link . '" class="'. $menuclass .'" rel="nofollow">'.
+									// Open in parent window
+									echo '<a href="' . $link . '" class="' . $menuclass . '" rel="nofollow">' .
 										$this->escape($item->title) . ' </a>';
 									break;
 							}
@@ -134,7 +135,25 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 
 						<?php if (($this->params->get('show_link_description')) and ($item->description != '')) : ?>
-							<?php echo $item->description; ?>
+						<?php $images = json_decode($item->images); ?>
+						<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
+						<?php $imgfloat = (empty($images->float_first)) ? $this->params->get('float_first') : $images->float_first; ?>
+						<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>"> <img
+							<?php if ($images->image_first_caption):
+								echo 'class="caption"'.' title="' .htmlspecialchars($images->image_first_caption) .'"';
+							endif; ?>
+							src="<?php echo htmlspecialchars($images->image_first); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt); ?>"/> </div>
+						<?php endif; ?>
+						<?php  if (isset($images->image_second) and !empty($images->image_second)) : ?>
+						<?php $imgfloat = (empty($images->float_second)) ? $this->params->get('float_second') : $images->float_second; ?>
+						<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
+						<?php if ($images->image_second_caption):
+							echo 'class="caption"'.' title="' .htmlspecialchars($images->image_second_caption) .'"';
+						endif; ?>
+						src="<?php echo htmlspecialchars($images->image_second); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt); ?>"/> </div>
+						<?php endif; ?>
+
+						<?php echo $item->description; ?>
 						<?php endif; ?>
 
 						</li>

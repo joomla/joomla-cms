@@ -1,0 +1,23 @@
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+	<channel>
+		<title>Title of RSS feed</title>
+		<link>http://www.google.com</link>
+		<description>Details about the feed</description>
+		<pubDate>Mon, 24 Nov 08 21:44:21 -0500</pubDate>
+		<language>en</language>
+		<media:player url="http://youtube.com/?v=y6_-cLWwEU0" />
+		<item>
+			<title>Article 1</title>
+			<description><![CDATA[How to use StackOverflow.com]]></description>
+			<link>http://youtube.com/?v=y6_-cLWwEU0</link>
+			<media:player url="http://youtube.com/?v=y6_-cLWwEU0" />
+			<media:thumbnail url="http://img.youtube.com/vi/y6_-cLWwEU0/default.jpg"
+				width="120" height="90" />
+			<media:title>Jared on StackOverflow</media:title>
+			<media:category label="Tags">tag1,tag2</media:category>
+			<media:credit>Jared</media:credit>
+			<enclosure url="http://youtube.com/v/y6_-cLWwEU0.swf"
+				length="233" type="application/x-shockwave-flash" />
+		</item>
+	</channel>
+</rss>

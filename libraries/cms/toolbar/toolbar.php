@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -67,7 +67,6 @@ class JToolbar
 
 		// Set base path to find buttons.
 		$this->_buttonPath[] = __DIR__ . '/button';
-
 	}
 
 	/**
@@ -102,6 +101,7 @@ class JToolbar
 		// Push button onto the end of the toolbar array.
 		$btn = func_get_args();
 		array_push($this->_bar, $btn);
+
 		return true;
 	}
 
@@ -141,6 +141,7 @@ class JToolbar
 		// Insert button into the front of the toolbar array.
 		$btn = func_get_args();
 		array_unshift($this->_bar, $btn);
+
 		return true;
 	}
 
@@ -156,7 +157,9 @@ class JToolbar
 		$html = array();
 
 		// Start toolbar div.
-		$html[] = '<div class="btn-toolbar" id="' . $this->_name . '">';
+		$layout = new JLayoutFile('joomla.toolbar.containeropen');
+
+		$html[] = $layout->render(array('id' => $this->_name));
 
 		// Render each button in the toolbar.
 		foreach ($this->_bar as $button)
@@ -165,9 +168,11 @@ class JToolbar
 		}
 
 		// End toolbar div.
-		$html[] = '</div>';
+		$layout = new JLayoutFile('joomla.toolbar.containerclose');
 
-		return implode("\n", $html);
+		$html[] = $layout->render(array());
+
+		return implode('', $html);
 	}
 
 	/**
@@ -191,6 +196,7 @@ class JToolbar
 		{
 			return JText::sprintf('JLIB_HTML_BUTTON_NOT_DEFINED', $type);
 		}
+
 		return $button->render($node);
 	}
 
@@ -207,6 +213,7 @@ class JToolbar
 	public function loadButtonType($type, $new = false)
 	{
 		$signature = md5($type);
+
 		if (isset($this->_buttons[$signature]) && $new === false)
 		{
 			return $this->_buttons[$signature];
@@ -215,6 +222,7 @@ class JToolbar
 		if (!class_exists('JToolbarButton'))
 		{
 			JLog::add(JText::_('JLIB_HTML_BUTTON_BASE_CLASS'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -222,6 +230,7 @@ class JToolbar
 
 		// @deprecated 12.3 Remove the acceptance of legacy classes starting with JButton.
 		$buttonClassOld = 'JButton' . ucfirst($type);
+
 		if (!class_exists($buttonClass))
 		{
 			if (!class_exists($buttonClassOld))
@@ -238,6 +247,7 @@ class JToolbar
 				$file = JFilterInput::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
 
 				jimport('joomla.filesystem.path');
+
 				if ($buttonFile = JPath::find($dirs, $file))
 				{
 					include_once $buttonFile;
@@ -245,6 +255,7 @@ class JToolbar
 				else
 				{
 					JLog::add(JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}
@@ -255,6 +266,7 @@ class JToolbar
 			// @todo remove code: return	JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
 			return false;
 		}
+
 		$this->_buttons[$signature] = new $buttonClass($this);
 
 		return $this->_buttons[$signature];
@@ -297,6 +309,5 @@ class JToolbar
 			// Add to the top of the search dirs.
 			array_unshift($this->_buttonPath, $dir);
 		}
-
 	}
 }

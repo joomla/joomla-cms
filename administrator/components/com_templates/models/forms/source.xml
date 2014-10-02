@@ -19,6 +19,7 @@
 			height="500px"
 			rows="20"
 			cols="80"
+			syntax="php"
 			filter="raw" />
 	</fieldset>
 </form>

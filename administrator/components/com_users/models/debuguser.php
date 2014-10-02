@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,10 +58,10 @@ class UsersModelDebugUser extends JModelList
 					$level = $action[1];
 
 					// Check that we check this action for the level of the asset.
-					if ($action[1] === null || $action[1] >= $asset->level)
+					if ($level === null || $level >= $asset->level)
 					{
 						// We need to test this action.
-						$asset->checks[$name] = JAccess::check($userId, $action[0], $asset->name);
+						$asset->checks[$name] = JAccess::check($userId, $name, $asset->name);
 					}
 					else
 					{
@@ -191,12 +191,12 @@ class UsersModelDebugUser extends JModelList
 		if ($this->getState('filter.search'))
 		{
 			// Escape the search token.
-			$token = $db->quote('%' . $db->escape($this->getState('filter.search')) . '%');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
 
 			// Compile the different search clauses.
 			$searches = array();
-			$searches[] = 'a.name LIKE ' . $token;
-			$searches[] = 'a.title LIKE ' . $token;
+			$searches[] = 'a.name LIKE ' . $search;
+			$searches[] = 'a.title LIKE ' . $search;
 
 			// Add the clauses to the query.
 			$query->where('(' . implode(' OR ', $searches) . ')');

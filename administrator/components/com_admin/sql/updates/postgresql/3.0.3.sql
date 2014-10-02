@@ -1,1 +1,1 @@
-ALTER TABLE "#__associations" ALTER COLUMN id TYPE INT(11);
+ALTER TABLE "#__associations" ALTER COLUMN id TYPE integer;

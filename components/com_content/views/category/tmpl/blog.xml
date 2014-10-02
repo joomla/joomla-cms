@@ -117,6 +117,16 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="show_cat_tags"
+				type="list"
+				label="COM_CONTENT_FIELD_SHOW_CAT_TAGS_LABEL"
+				description="COM_CONTENT_FIELD_SHOW_CAT_TAGS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
 			<field name="page_subheading" type="text"
 				description="JGLOBAL_SUBHEADING_DESC"
 				label="JGLOBAL_SUBHEADING_LABEL"
@@ -392,7 +402,6 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-
 			<field
 			name="show_vote" type="list"
 			label="JGLOBAL_SHOW_VOTE_LABEL"
@@ -477,7 +486,7 @@
 			</field>
 
 </fieldset>
-		<fieldset name="integration"
+		<fieldset name="integration" label="COM_MENUS_INTEGRATION_FIELDSET_LABEL"
 		>
 
 			<field name="show_feed_link" type="list"

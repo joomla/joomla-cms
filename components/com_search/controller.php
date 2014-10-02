@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,22 +67,31 @@ class SearchController extends JControllerLegacy
 			}
 		}
 
-		// set Itemid id for links from menu
+		// The Itemid from the request, we will use this if it's a search page or if there is no search page available
+		$post['Itemid'] = $this->input->getInt('Itemid');
+
+		// Set Itemid id for links from menu
 		$app	= JFactory::getApplication();
 		$menu	= $app->getMenu();
-		$items	= $menu->getItems('link', 'index.php?option=com_search&view=search');
+		$item = $menu->getItem($post['Itemid']);
 
-		if (isset($items[0]))
+		// The request Item is not a search page so we need to find one
+		if ($item->component != 'com_search' || $item->query['view'] != 'search')
 		{
-			$post['Itemid'] = $items[0]->id;
-		} elseif ($this->input->getInt('Itemid') > 0) { //use Itemid from requesting page only if there is no existing menu
-			$post['Itemid'] = $this->input->getInt('Itemid');
+			// Get item based on component, not link. link is not reliable.
+			$item = $menu->getItems('component', 'com_search', true);
+
+			// If we found a search page, use that.
+			if (!empty($item))
+			{
+				$post['Itemid'] = $item->id;
+			}
 		}
 
 		unset($post['task']);
 		unset($post['submit']);
 
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 		$uri->setQuery($post);
 		$uri->setVar('option', 'com_search');
 

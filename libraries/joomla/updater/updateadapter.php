@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,12 +21,16 @@ jimport('joomla.base.adapterinstance');
 class JUpdateAdapter extends JAdapterInstance
 {
 	/**
+	 * Resource handle for the XML Parser
+	 *
 	 * @var    resource
 	 * @since  12.1
 	 */
 	protected $xmlParser;
 
 	/**
+	 * Element call stack
+	 *
 	 * @var    array
 	 * @since  12.1
 	 */

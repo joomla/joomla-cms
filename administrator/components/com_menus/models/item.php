@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,32 +61,8 @@ class MenusModelItem extends JModelAdmin
 			{
 				return;
 			}
-			$user = JFactory::getUser();
 
-			return $user->authorise('core.delete', 'com_menus.item.' . (int) $record->id);
-		}
-	}
-
-	/**
-	 * Method to test whether a record can have its state edited.
-	 *
-	 * @param   object    A record object.
-	 *
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 * @since   1.6
-	 */
-	protected function canEditState($record)
-	{
-		$user = JFactory::getUser();
-
-		if (!empty($record->id))
-		{
-			return $user->authorise('core.edit.state', 'com_menus.item.' . (int) $record->id);
-		}
-		// Default to component settings if menu item not known.
-		else
-		{
-			return parent::canEditState($record);
+			return parent::canDelete($record);
 		}
 	}
 
@@ -557,6 +533,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_menus.item', 'item', array('control' => 'jform', 'load_data' => $loadData), true);
+
 		if (empty($form))
 		{
 			return false;
@@ -688,13 +665,12 @@ class MenusModelItem extends JModelAdmin
 				{
 					// Load the language file for the component.
 					$lang = JFactory::getLanguage();
-					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, false)
-						|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, false)
-						|| $lang->load($args['option'], JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-						|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], $lang->getDefault(), false, false);
+					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, true)
+						|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, true);
 
 					// Determine the component id.
 					$component = JComponentHelper::getComponent($args['option']);
+
 					if (isset($component->id))
 					{
 						$table->component_id = $component->id;
@@ -741,7 +717,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Load associated menu items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		if ($assoc)
 		{
 			if ($pk != null)
@@ -928,13 +904,18 @@ class MenusModelItem extends JModelAdmin
 				$formFile = false;
 
 				// Check for the layout XML file. Use standard xml file if it exists.
-				$path = JPath::clean($base . '/views/' . $view . '/tmpl/' . $layout . '.xml');
+				$tplFolders = array(
+						$base . '/views/' . $view . '/tmpl',
+						$base . '/view/' . $view . '/tmpl'
+				);
+				$path = JPath::find($tplFolders, $layout . '.xml');
+
 				if (is_file($path))
 				{
 					$formFile = $path;
 				}
 
-				// if custom layout, get the xml file from the template folder
+				// If custom layout, get the xml file from the template folder
 				// template folder is first part of file name -- template:folder
 				if (!$formFile && (strpos($layout, ':') > 0))
 				{
@@ -947,16 +928,25 @@ class MenusModelItem extends JModelAdmin
 				}
 			}
 
-			//Now check for a view manifest file
+			// Now check for a view manifest file
 			if (!$formFile)
 			{
-				if (isset($view) && is_file($path = JPath::clean($base . '/views/' . $view . '/metadata.xml')))
+				if (isset($view))
 				{
-					$formFile = $path;
+					$metadataFolders = array(
+							$base . '/view/' . $view,
+							$base . '/views/' . $view
+					);
+					$metaPath = JPath::find($metadataFolders, 'metadata.xml');
+
+					if (is_file($path = JPath::clean($metaPath)))
+					{
+						$formFile = $path;
+					}
 				}
 				else
 				{
-					//Now check for a component manifest file
+					// Now check for a component manifest file
 					$path = JPath::clean($base . '/metadata.xml');
 					if (is_file($path))
 					{
@@ -1039,7 +1029,8 @@ class MenusModelItem extends JModelAdmin
 
 		// Association menu items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
+
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
@@ -1086,6 +1077,7 @@ class MenusModelItem extends JModelAdmin
 	{
 		// Initialiase variables.
 		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 		$table = $this->getTable();
 
 		if (!$table->rebuild())
@@ -1094,13 +1086,11 @@ class MenusModelItem extends JModelAdmin
 			return false;
 		}
 
-		// Convert the parameters not in JSON format.
-		$db->setQuery(
-			'SELECT id, params' .
-				' FROM #__menu' .
-				' WHERE params NOT LIKE ' . $db->quote('{%') .
-				'  AND params <> ' . $db->quote('')
-		);
+		$query->select('id, params')
+			->from('#__menu')
+			->where('params NOT LIKE ' . $db->quote('{%'))
+			->where('params <> ' . $db->quote(''));
+		$db->setQuery($query);
 
 		try
 		{
@@ -1108,8 +1098,7 @@ class MenusModelItem extends JModelAdmin
 		}
 		catch (RuntimeException $e)
 		{
-			$this->setError($e->getMessage());
-			return false;
+			return JError::raiseWarning(500, $e->getMessage());
 		}
 
 		foreach ($items as &$item)
@@ -1118,15 +1107,18 @@ class MenusModelItem extends JModelAdmin
 			$registry->loadString($item->params);
 			$params = (string) $registry;
 
-			$db->setQuery(
-				'UPDATE #__menu' .
-					' SET params = ' . $db->quote($params) .
-					' WHERE id = ' . (int) $item->id
-			);
-			if (!$db->execute())
+			$query->clear();
+			$query->update('#__menu')
+				->set('params = ' . $db->quote($params))
+				->where('id = ' . $item->id);
+
+			try
 			{
-				$this->setError($error);
-				return false;
+				$db->setQuery($query)->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				return JError::raiseWarning(500, $e->getMessage());
 			}
 
 			unset($registry);
@@ -1158,7 +1150,7 @@ class MenusModelItem extends JModelAdmin
 			$table->load($pk);
 			$isNew = false;
 		}
-		if (!$isNew && $table->menutype == $data['menutype'])
+		if (!$isNew)
 		{
 			if ($table->parent_id == $data['parent_id'])
 			{
@@ -1192,15 +1184,9 @@ class MenusModelItem extends JModelAdmin
 			}
 		}
 		// We have a new item, so it is not a change.
-		elseif ($isNew)
-		{
-			$table->setLocation($data['parent_id'], 'last-child');
-		}
-		// The menu type has changed so we need to just put this at the bottom
-		// of the root level.
 		else
 		{
-			$table->setLocation(1, 'last-child');
+			$table->setLocation($data['parent_id'], 'last-child');
 		}
 
 		// Bind the data.
@@ -1246,7 +1232,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Load associated menu items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		if ($assoc)
 		{
 			// Adding self to the association
@@ -1292,7 +1278,7 @@ class MenusModelItem extends JModelAdmin
 				$key = md5(json_encode($associations));
 				$query->clear()
 					->insert('#__associations');
-				foreach ($associations as $tag => $id)
+				foreach ($associations as $id)
 				{
 					$query->values($id . ',' . $db->quote('com_menus.item') . ',' . $db->quote($key));
 				}
@@ -1315,8 +1301,8 @@ class MenusModelItem extends JModelAdmin
 
 		if (isset($data['link']))
 		{
-			$base = JURI::base();
-			$juri = JURI::getInstance($base . $data['link']);
+			$base = JUri::base();
+			$juri = JUri::getInstance($base . $data['link']);
 			$option = $juri->getVar('option');
 
 			// Clean the cache
@@ -1367,7 +1353,6 @@ class MenusModelItem extends JModelAdmin
 	{
 		$table = $this->getTable();
 		$pks = (array) $pks;
-		$user = JFactory::getUser();
 
 		$languages = array();
 		$onehome = false;

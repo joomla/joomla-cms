@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @package     Joomla.Libraries
  * @subpackage  Form
- * @since       1.6.0
+ * @since       1.6
  */
 class JFormFieldHelpsite extends JFormFieldList
 {
@@ -25,7 +25,7 @@ class JFormFieldHelpsite extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  1.6.0
+	 * @since  1.6
 	 */
 	public $type = 'Helpsite';
 
@@ -34,7 +34,7 @@ class JFormFieldHelpsite extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   1.6.0
+	 * @since   1.6
 	 */
 	protected function getOptions()
 	{
@@ -42,5 +42,32 @@ class JFormFieldHelpsite extends JFormFieldList
 		$options = array_merge(parent::getOptions(), JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $this->value));
 
 		return $options;
+	}
+
+	/**
+	 * Override to add refresh button
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   3.2
+	 */
+	protected function getInput()
+	{
+		JHtml::script('system/helpsite.js', false, true);
+		JFactory::getDocument()->addScriptDeclaration(
+			'var helpsite_base = "' . addslashes(JUri::root()) . '";'
+		);
+
+		$html = parent::getInput();
+		$button = '<button
+						type="button"
+						class="btn btn-small"
+						id="helpsite-refresh"
+						rel="' . $this->id . '"
+					>
+					<span>' . JText::_('JGLOBAL_HELPREFRESH_BUTTON') . '</span>
+					</button>';
+
+		return $html . $button;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -207,7 +207,6 @@ class JCategories
 	protected function _load($id)
 	{
 		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
 

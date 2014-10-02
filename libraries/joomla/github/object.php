@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,7 +41,7 @@ abstract class JGithubObject
 	public function __construct(JRegistry $options = null, JGithubHttp $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client = isset($client) ? $client : new JGithubHttp($this->options);
+		$this->client  = isset($client) ? $client : new JGithubHttp($this->options);
 	}
 
 	/**
@@ -62,14 +62,23 @@ abstract class JGithubObject
 		// Get a new JUri object fousing the api url and given path.
 		$uri = new JUri($this->options->get('api.url') . $path);
 
-		if ($this->options->get('api.username', false))
+		if ($this->options->get('gh.token', false))
 		{
-			$uri->setUser($this->options->get('api.username'));
+			// Use oAuth authentication - @todo set in request header ?
+			$uri->setVar('access_token', $this->options->get('gh.token'));
 		}
-
-		if ($this->options->get('api.password', false))
+		else
 		{
-			$uri->setPass($this->options->get('api.password'));
+			// Use basic authentication
+			if ($this->options->get('api.username', false))
+			{
+				$uri->setUser($this->options->get('api.username'));
+			}
+
+			if ($this->options->get('api.password', false))
+			{
+				$uri->setPass($this->options->get('api.password'));
+			}
 		}
 
 		// If we have a defined page number add it to the JUri object.
@@ -85,5 +94,32 @@ abstract class JGithubObject
 		}
 
 		return (string) $uri;
+	}
+
+	/**
+	 * Process the response and decode it.
+	 *
+	 * @param   JHttpResponse  $response      The response.
+	 * @param   integer        $expectedCode  The expected "good" code.
+	 * @param   boolean        $decode        If the should be response be JSON decoded.
+	 *
+	 * @throws DomainException
+	 * @since  12.4
+	 *
+	 * @return mixed
+	 */
+	protected function processResponse(JHttpResponse $response, $expectedCode = 200, $decode = true)
+	{
+		// Validate the response code.
+		if ($response->code == $expectedCode)
+		{
+			return ($decode) ? json_decode($response->body) : $response->body;
+		}
+
+		// Decode the error response and throw an exception.
+		$error   = json_decode($response->body);
+		$message = (isset($error->message)) ? $error->message : 'Error: ' . $response->code;
+
+		throw new DomainException($message, $response->code);
 	}
 }

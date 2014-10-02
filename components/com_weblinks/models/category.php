@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,7 @@ class WeblinksModelCategory extends JModelList
 			}
 			// Get the tags
 			$item->tags = new JHelperTags;
-			$item->tags->getItemTags('com_weblinks.category', $item->id);
+			$item->tags->getItemTags('com_weblinks.weblink', $item->id);
 		}
 
 		return $items;
@@ -193,7 +193,7 @@ class WeblinksModelCategory extends JModelList
 		$params = JComponentHelper::getParams('com_weblinks');
 
 		// List state information
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
 		$this->setState('list.limit', $limit);
 
 		$limitstart = $app->input->get('limitstart', 0, 'uint');
@@ -229,7 +229,7 @@ class WeblinksModelCategory extends JModelList
 			$this->setState('filter.publish_date', true);
 		}
 
-		$this->setState('filter.language', $app->getLanguageFilter());
+		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
 		// Load the parameters.
 		$this->setState('params', $params);
@@ -334,6 +334,32 @@ class WeblinksModelCategory extends JModelList
 		{
 			$this->getCategory();
 		}
+
 		return $this->_children;
+	}
+
+	/**
+	 * Increment the hit counter for the category.
+	 *
+	 * @param   int  $pk  Optional primary key of the category to increment.
+	 *
+	 * @return  boolean True if successful; false otherwise and internal error set.
+	 *
+	 * @since   3.2
+	 */
+	public function hit($pk = 0)
+	{
+		$input    = JFactory::getApplication()->input;
+		$hitcount = $input->getInt('hitcount', 1);
+
+		if ($hitcount)
+		{
+			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
+			$table = JTable::getInstance('Category', 'JTable');
+			$table->load($pk);
+			$table->hit($pk);
+		}
+
+		return true;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,14 +16,32 @@ defined('_JEXEC') or die;
  * @subpackage  com_users
  * @since       1.6
  */
-class UsersViewDebugGroup extends JViewLegacy
+class UsersViewDebuggroup extends JViewLegacy
 {
 	protected $actions;
 
+	/**
+	 * The item data.
+	 *
+	 * @var   object
+	 * @since 1.6
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object.
+	 *
+	 * @var   JPagination
+	 * @since 1.6
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state.
+	 *
+	 * @var   JObject
+	 * @since 1.6
+	 */
 	protected $state;
 
 	/**
@@ -37,13 +55,13 @@ class UsersViewDebugGroup extends JViewLegacy
 			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
-		$this->actions		= $this->get('DebugActions');
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->group		= $this->get('Group');
-		$this->levels		= UsersHelperDebug::getLevelsOptions();
-		$this->components	= UsersHelperDebug::getComponents();
+		$this->actions    = $this->get('DebugActions');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
+		$this->group      = $this->get('Group');
+		$this->levels     = UsersHelperDebug::getLevelsOptions();
+		$this->components = UsersHelperDebug::getComponents();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -64,13 +82,14 @@ class UsersViewDebugGroup extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_GROUP_TITLE', $this->group->id, $this->group->title), 'groups');
+		JToolbarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_GROUP_TITLE', $this->group->id, $this->group->title), 'users groups');
 
 		JToolbarHelper::help('JHELP_USERS_DEBUG_GROUPS');
 
 		JHtmlSidebar::setAction('index.php?option=com_users&view=debuggroup&user_id=' . (int) $this->state->get('filter.user_id'));
 
 		$option = '';
+
 		if (!empty($this->components))
 		{
 			$option = JHtml::_('select.options', $this->components, 'value', 'text', $this->state->get('filter.component'));

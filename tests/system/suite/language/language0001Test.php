@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Tests error messages associated with actions performed when nothing is selected.
  */
@@ -1102,8 +1102,8 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	{
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
-    $this->click("//a[contains(., 'Plug-in Manager')]");
-	$screen='Plug-in Manager: Plug-ins';
+    $this->click("//a[contains(., 'Plugin Manager')]");
+	$screen='Plugin Manager: Plugins';
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
     $this->click("checkall-toggle");

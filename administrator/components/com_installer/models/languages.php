@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,7 +63,7 @@ class InstallerModelLanguages extends JModelList
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$search = $db->quote('%' . $db->escape($search, true) . '%');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 			$query->where('(name LIKE ' . $search . ')');
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -466,16 +466,12 @@ class JDocumentHTML extends JDocument
 	{
 		$this->_caching = $caching;
 
-		if (!empty($this->_template))
-		{
-			$data = $this->_renderTemplate();
-		}
-		else
+		if (empty($this->_template))
 		{
 			$this->parse($params);
-			$data = $this->_renderTemplate();
 		}
 
+		$data = $this->_renderTemplate();
 		parent::render();
 		return $data;
 	}
@@ -493,6 +489,18 @@ class JDocumentHTML extends JDocument
 	{
 		$operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
 		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
+
+		if (count($words) === 1)
+		{
+			$name = strtolower($words[0]);
+			$result = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
+				? 0 : count(JModuleHelper::getModules($name));
+
+			return $result;
+		}
+
+		JLog::add('Using an expression in JDocumentHtml::countModules() is deprecated.', JLog::WARNING, 'deprecated');
+
 		for ($i = 0, $n = count($words); $i < $n; $i += 2)
 		{
 			// Odd parts (modules)
@@ -524,6 +532,8 @@ class JDocumentHTML extends JDocument
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
+			$children = 0;
+
 			if ($active)
 			{
 				$query = $db->getQuery(true)
@@ -531,11 +541,8 @@ class JDocumentHTML extends JDocument
 					->from('#__menu')
 					->where('parent_id = ' . $active->id)
 					->where('published = 1');
+				$db->setQuery($query);
 				$children = $db->loadResult();
-			}
-			else
-			{
-				$children = 0;
 			}
 		}
 
@@ -581,7 +588,7 @@ class JDocumentHTML extends JDocument
 			{
 				$path = str_replace(JPATH_BASE . '/', '', $dir);
 				$path = str_replace('\\', '/', $path);
-				$this->addFavicon(JURI::base(true) . '/' . $path . 'favicon.ico');
+				$this->addFavicon(JUri::base(true) . '/' . $path . 'favicon.ico');
 				break;
 			}
 		}
@@ -615,14 +622,12 @@ class JDocumentHTML extends JDocument
 		$lang = JFactory::getLanguage();
 
 		// 1.5 or core then 1.6
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
-			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, false)
-			|| $lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false)
-			|| $lang->load('tpl_' . $template, $directory . '/' . $template, $lang->getDefault(), false, false);
+		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
+			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
 
 		// Assign the variables
 		$this->template = $template;
-		$this->baseurl = JURI::base(true);
+		$this->baseurl = JUri::base(true);
 		$this->params = isset($params['params']) ? $params['params'] : new JRegistry;
 
 		// Load
@@ -642,7 +647,7 @@ class JDocumentHTML extends JDocument
 	{
 		$matches = array();
 
-		if (preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $this->_template, $matches))
+		if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches))
 		{
 			$template_tags_first = array();
 			$template_tags_last = array();

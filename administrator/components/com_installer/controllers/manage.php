@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,7 @@ class InstallerControllerManage extends JControllerLegacy
 		$model = $this->getModel('manage');
 
 		JArrayHelper::toInteger($eid, array());
-		$result = $model->remove($eid);
+		$model->remove($eid);
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage', false));
 	}
 
@@ -120,7 +120,7 @@ class InstallerControllerManage extends JControllerLegacy
 		$model = $this->getModel('manage');
 
 		JArrayHelper::toInteger($uid, array());
-		$result = $model->refresh($uid);
+		$model->refresh($uid);
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage', false));
 	}
 }

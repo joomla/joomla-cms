@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,9 @@ class MailtoViewMailto extends JViewLegacy
 		$app  = JFactory::getApplication();
 		$data = new stdClass;
 
-		$data->link = urldecode(JRequest::getVar('link', '', 'method', 'base64'));
+		$input      = $app->input;
+		$method     = $input->getMethod();
+		$data->link = urldecode($input->$method->get('link', '', 'BASE64'));
 
 		if ($data->link == '')
 		{
@@ -64,11 +66,11 @@ class MailtoViewMailto extends JViewLegacy
 		else
 		{
 			$data->sender = $sender;
-			$data->from   = $from;
+			$data->from   = JStringPunycode::emailToPunycode($from);
 		}
 
 		$data->subject = $subject;
-		$data->mailto  = $mailto;
+		$data->mailto  = JStringPunycode::emailToPunycode($mailto);
 
 		return $data;
 	}

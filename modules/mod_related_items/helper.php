@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_related_items
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,13 +20,21 @@ require_once JPATH_SITE . '/components/com_content/helpers/route.php';
  */
 abstract class ModRelatedItemsHelper
 {
-	public static function getList($params)
+	/**
+	 * Get a list of related articles
+	 *
+	 * @param   JRegistry  &$params  module parameters
+	 *
+	 * @return array
+	 */
+	public static function getList(&$params)
 	{
 		$db = JFactory::getDbo();
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$date = JFactory::getDate();
+		$maximum = (int) $params->get('maximum', 5);
 
 		$option = $app->input->get('option');
 		$view = $app->input->get('view');
@@ -42,8 +50,7 @@ abstract class ModRelatedItemsHelper
 
 		if ($option == 'com_content' && $view == 'article' && $id)
 		{
-			// select the meta keywords from the item
-
+			// Select the meta keywords from the item
 			$query->select('metakey')
 				->from('#__content')
 				->where('id = ' . (int) $id);
@@ -51,14 +58,15 @@ abstract class ModRelatedItemsHelper
 
 			if ($metakey = trim($db->loadResult()))
 			{
-				// explode the meta keys on a comma
+				// Explode the meta keys on a comma
 				$keys = explode(',', $metakey);
 				$likes = array();
 
-				// assemble any non-blank word(s)
+				// Assemble any non-blank word(s)
 				foreach ($keys as $key)
 				{
 					$key = trim($key);
+
 					if ($key)
 					{
 						$likes[] = $db->escape($key);
@@ -67,7 +75,7 @@ abstract class ModRelatedItemsHelper
 
 				if (count($likes))
 				{
-					// select other items based on the metakey field 'like' the keys found
+					// Select other items based on the metakey field 'like' the keys found
 					$query->clear()
 						->select('a.id')
 						->select('a.title')
@@ -101,7 +109,9 @@ abstract class ModRelatedItemsHelper
 						->where('a.state = 1')
 						->where('a.access IN (' . $groups . ')');
 					$concat_string = $query->concatenate(array('","', ' REPLACE(a.metakey, ", ", ",")', ' ","'));
-					$query->where('(' . $concat_string . ' LIKE "%' . implode('%" OR ' . $concat_string . ' LIKE "%', $likes) . '%")') //remove single space after commas in keywords)
+
+					// Remove single space after commas in keywords)
+					$query->where('(' . $concat_string . ' LIKE "%' . implode('%" OR ' . $concat_string . ' LIKE "%', $likes) . '%")')
 						->where('(a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ')')
 						->where('(a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')');
 
@@ -111,7 +121,7 @@ abstract class ModRelatedItemsHelper
 						$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 					}
 
-					$db->setQuery($query);
+					$db->setQuery($query, 0, $maximum);
 					$temp = $db->loadObjectList();
 
 					if (count($temp))
@@ -125,6 +135,7 @@ abstract class ModRelatedItemsHelper
 							}
 						}
 					}
+
 					unset ($temp);
 				}
 			}

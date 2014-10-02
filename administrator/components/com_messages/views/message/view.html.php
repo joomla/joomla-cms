@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,14 +50,14 @@ class MessagesViewMessage extends JViewLegacy
 	{
 		if ($this->getLayout() == 'edit')
 		{
-			JToolbarHelper::title(JText::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'new-privatemessage.png');
+			JToolbarHelper::title(JText::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-opened new-privatemessage');
 			JToolbarHelper::save('message.save', 'COM_MESSAGES_TOOLBAR_SEND');
 			JToolbarHelper::cancel('message.cancel');
 			JToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_WRITE');
 		}
 		else
 		{
-			JToolbarHelper::title(JText::_('COM_MESSAGES_VIEW_PRIVATE_MESSAGE'), 'inbox.png');
+			JToolbarHelper::title(JText::_('COM_MESSAGES_VIEW_PRIVATE_MESSAGE'), 'envelope inbox');
 			$sender = JUser::getInstance($this->item->user_id_from);
 			if ($sender->authorise('core.admin') || $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
 			{

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -96,15 +96,13 @@ class JCache
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new DirectoryIterator(__DIR__ . '/storage');
 
+		/* @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-			if (!$file->isFile()
-				|| substr($fileName, strrpos($fileName, '.') + 1) != 'php'
-				|| $fileName == 'helper.php')
+			if (!$file->isFile() || $file->getExtension() != 'php' || $fileName == 'helper.php')
 			{
 				continue;
 			}
@@ -476,6 +474,12 @@ class JCache
 			$document->setHeadData($data['head']);
 		}
 
+		// Get the document MIME encoding out of the cache
+		if (isset($data['mime_encoding']))
+		{
+			$document->setMimeEncoding($data['mime_encoding'], true);
+		}
+
 		// If the pathway buffer is set in the cache data, get it.
 		if (isset($data['pathway']) && is_array($data['pathway']))
 		{
@@ -495,13 +499,23 @@ class JCache
 			}
 		}
 
+		// Set cached headers.
+		if (isset($data['headers']) && $data['headers'])
+		{
+			foreach($data['headers'] as $header)
+			{
+				$app->setHeader($header['name'], $header['value']);
+			}
+		}
+
+		// The following code searches for a token in the cached page and replaces it with the
+		// proper token.
 		if (isset($data['body']))
 		{
-			// The following code searches for a token in the cached page and replaces it with the
-			// proper token.
-			$token = JSession::getFormToken();
-			$search = '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
-			$replacement = '<input type="hidden" name="' . $token . '" value="1" />';
+			$token 			= JSession::getFormToken();
+			$search 		= '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
+			$replacement 	= '<input type="hidden" name="' . $token . '" value="1" />';
+
 			$data['body'] = preg_replace($search, $replacement, $data['body']);
 			$body = $data['body'];
 		}
@@ -522,11 +536,12 @@ class JCache
 	 */
 	public static function setWorkarounds($data, $options = array())
 	{
-		$loptions = array();
-		$loptions['nopathway'] = 0;
-		$loptions['nohead'] = 0;
-		$loptions['nomodules'] = 0;
-		$loptions['modulemode'] = 0;
+		$loptions = array(
+			'nopathway' 	=> 0,
+			'nohead' 		=> 0,
+			'nomodules' 	=> 0,
+			'modulemode' 	=> 0,
+		);
 
 		if (isset($options['nopathway']))
 		{
@@ -551,17 +566,20 @@ class JCache
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
-		// Get the modules buffer before component execution.
-		$buffer1 = $document->getBuffer();
-		if (!is_array($buffer1))
+		if ($loptions['nomodules'] != 1)
 		{
-			$buffer1 = array();
-		}
+			// Get the modules buffer before component execution.
+			$buffer1 = $document->getBuffer();
+			if (!is_array($buffer1))
+			{
+				$buffer1 = array();
+			}
 
-		// Make sure the module buffer is an array.
-		if (!isset($buffer1['module']) || !is_array($buffer1['module']))
-		{
-			$buffer1['module'] = array();
+			// Make sure the module buffer is an array.
+			if (!isset($buffer1['module']) || !is_array($buffer1['module']))
+			{
+				$buffer1['module'] = array();
+			}
 		}
 
 		// View body data
@@ -590,10 +608,28 @@ class JCache
 					if (isset($options['headerbefore'][$now]))
 					{
 						// We have to serialize the content of the arrays because the may contain other arrays which is a notice in PHP 5.4 and newer
-						$nowvalue = array_map('serialize', $headnow[$now]);
-						$beforevalue = array_map('serialize', $options['headerbefore'][$now]);
+						$nowvalue 		= array_map('serialize', $headnow[$now]);
+						$beforevalue 	= array_map('serialize', $options['headerbefore'][$now]);
+
 						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
 						$newvalue = array_map('unserialize', $newvalue);
+
+						// Special treatment for script and style declarations.
+						if (($now == 'script' || $now == 'style') && is_array($newvalue) && is_array($options['headerbefore'][$now]))
+						{
+							foreach ($newvalue as $type => $currentScriptStr)
+							{
+								if (isset($options['headerbefore'][$now][strtolower($type)]))
+								{
+									$oldScriptStr = $options['headerbefore'][$now][strtolower($type)];
+									if ($oldScriptStr != $currentScriptStr)
+									{
+										// Save only the appended declaration.
+										$newvalue[strtolower($type)] = JString::substr($currentScriptStr, JString::strlen($oldScriptStr));
+									}
+								}
+							}
+						}
 					}
 					else
 					{
@@ -613,11 +649,14 @@ class JCache
 			}
 		}
 
+		// Document MIME encoding
+		$cached['mime_encoding'] = $document->getMimeEncoding();
+
 		// Pathway data
 		if ($app->isSite() && $loptions['nopathway'] != 1)
 		{
 			$pathway = $app->getPathWay();
-			$cached['pathway'] = isset($data['pathway']) ? $data['pathway'] : $pathway->getPathway();
+			$cached['pathway'] = is_array($data) && isset($data['pathway']) ? $data['pathway'] : $pathway->getPathway();
 		}
 
 		if ($loptions['nomodules'] != 1)
@@ -640,6 +679,12 @@ class JCache
 			$cached['module'] = array_diff_assoc($buffer2['module'], $buffer1['module']);
 		}
 
+		// Headers data
+		if (isset($options['headers']) && $options['headers'])
+		{
+			$cached['headers'] = $app->getHeaders();
+		}
+
 		return $cached;
 	}
 
@@ -654,6 +699,8 @@ class JCache
 	{
 		$app = JFactory::getApplication();
 
+		$registeredurlparams = new stdClass;
+
 		// Get url parameters set by plugins
 		if (!empty($app->registeredurlparams))
 		{
@@ -661,12 +708,23 @@ class JCache
 		}
 
 		// Platform defaults
-		$registeredurlparams->format = 'WORD';
-		$registeredurlparams->option = 'WORD';
-		$registeredurlparams->view = 'WORD';
-		$registeredurlparams->layout = 'WORD';
-		$registeredurlparams->tpl = 'CMD';
-		$registeredurlparams->id = 'INT';
+		$defaulturlparams = array(
+			'format' 	=> 'WORD',
+			'option' 	=> 'WORD',
+			'view' 		=> 'WORD',
+			'layout' 	=> 'WORD',
+			'tpl' 		=> 'CMD',
+			'id' 		=> 'INT'
+		);
+		
+		// Use platform defaults if parameter doesn't already exist.
+		foreach($defaulturlparams as $param => $type)
+		{
+			if (!property_exists($registeredurlparams, $param))
+			{
+				$registeredurlparams->$param = $type;
+			}
+		}
 
 		$safeuriaddon = new stdClass;
 

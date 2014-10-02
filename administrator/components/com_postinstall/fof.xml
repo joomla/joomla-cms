@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fof>
+	<backend>
+		<dispatcher>
+			<option name="default_view">messages</option>
+		</dispatcher>
+		<view name="messages">
+			<acl>
+				<task name="reset">core.edit.state</task>
+			</acl>
+			<taskmap>
+				<task name="read">browse</task>
+				<task name="add">browse</task>
+				<task name="edit">browse</task>
+			</taskmap>
+		</view>
+	</backend>
+</fof>

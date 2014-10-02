@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ JLog::add('LogException is deprecated, use SPL Exceptions instead.', JLog::WARNI
  * @package     Joomla.Legacy
  * @subpackage  Log
  * @since       11.1
- * @deprecated  12.3 Use semantic exceptions instead
+ * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use semantic exceptions instead
  */
 class LogException extends RuntimeException
 {
