@@ -143,7 +143,7 @@ class JImage
 		{
 			// @codeCoverageIgnoreStart
 			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_GET_IMAGE_PROPERTIES'));
-			
+
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -554,7 +554,7 @@ class JImage
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type ' . $type . '.', JLog::ERROR);
 					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNSUPPORTED_TYPE', $type));
-					
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -565,7 +565,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNABLE_TO_PROCESS', $type));
-					
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -590,7 +590,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNABLE_TO_PROCESS', $type));
-					
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -604,7 +604,7 @@ class JImage
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type ' . $type . '.', JLog::ERROR);
 					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNSUPPORTED_TYPE', $type));
-					
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -615,7 +615,7 @@ class JImage
 				{
 					// @codeCoverageIgnoreStart
 					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNABLE_TO_PROCESS', $type));
-					
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -911,7 +911,7 @@ class JImage
 			// @codeCoverageIgnoreStart
 			JLog::add('The ' . $type . ' image filter is not valid.', JLog::ERROR);
 			throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_FILTER_INVALID', $type));
-			
+
 			// @codeCoverageIgnoreEnd
 		}
 
