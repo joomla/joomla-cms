@@ -17,4 +17,4 @@ defined('JPATH_BASE') or die;
 	<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 <?php else : ?>
 	<?php echo JText::sprintf('COM_CONTENT_CATEGORY', '<span itemprop="genre">' . $title . '</span>'); ?>
-<?php endif; ?>			
+<?php endif; ?>
