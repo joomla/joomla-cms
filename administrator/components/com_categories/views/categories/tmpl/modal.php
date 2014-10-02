@@ -144,7 +144,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 					</td>
 					<td class="center hidden-phone">
-						<?php echo (int) $item->id; ?></span>
+						<?php echo (int) $item->id; ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>
