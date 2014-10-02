@@ -28,6 +28,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'getMenu',
 			'getPathway',
 			'getTemplate',
+			'getLanguageFilter',
 			'initialiseApp',
 			'isAdmin',
 			'isSite',
@@ -49,6 +50,9 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	 */
 	public static function addBehaviours($test, $mockObject, $options)
 	{
+		// Mock calls to JApplicationCms::getMenu();
+		$mockObject->expects($test->any())->method('getMenu')->will($test->returnValue(TestMockMenu::create($test)));
+
 		return parent::addBehaviours($test, $mockObject, $options);
 	}
 
