@@ -133,7 +133,7 @@ class JImage
 		// Make sure the file exists.
 		if (!file_exists($path))
 		{
-			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_FILE_NOT_FOUND'));
+			throw new InvalidArgumentException(JText::_('JLIB_IMAGE_ERROR_FILE_NOT_FOUND'));
 		}
 
 		// Get the image file information.
@@ -180,7 +180,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		// Accept a single thumbsize string as parameter
@@ -201,7 +201,7 @@ class JImage
 
 				if (count($size) != 2)
 				{
-					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_INVALID_THUMB_SIZE', $thumbSize));
+					throw new InvalidArgumentException(JText::sprintf('JLIB_IMAGE_ERROR_INVALID_THUMB_SIZE', $thumbSize));
 				}
 
 				$thumbWidth  = $size[0];
@@ -252,7 +252,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		// No thumbFolder set -> we will create a thumbs folder in the current image folder
@@ -264,7 +264,7 @@ class JImage
 		// Check destination
 		if (!is_dir($thumbsFolder) && (!is_dir(dirname($thumbsFolder)) || !@mkdir($thumbsFolder)))
 		{
-			throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_NO_OUTPUT_FOLDER', $thumbsFolder));
+			throw new InvalidArgumentException(JText::sprintf('JLIB_IMAGE_ERROR_NO_OUTPUT_FOLDER', $thumbsFolder));
 		}
 
 		// Process thumbs
@@ -322,7 +322,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		// Sanitize width.
@@ -413,7 +413,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		// Get the image filter instance.
@@ -439,7 +439,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		return imagesy($this->handle);
@@ -459,7 +459,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		return imagesx($this->handle);
@@ -509,7 +509,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		return (imagecolortransparent($this->handle) >= 0);
@@ -662,7 +662,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		// Sanitize width.
@@ -790,7 +790,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		// Sanitize input
@@ -857,7 +857,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		switch ($type)
