@@ -70,6 +70,7 @@ abstract class JImageHelper
 		{
 			// @codeCoverageIgnoreStart
 			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_GET_IMAGE_PROPERTIES'));
+
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -83,7 +84,7 @@ abstract class JImageHelper
 			'channels'    => isset($info['channels']) ? $info['channels'] : null,
 			'mime'        => $info['mime'],
 			'filesize'    => filesize($path),
-			'orientation' => JImageHelper::getOrientation((int) $info[0], (int) $info[1])
+			'orientation' => self::getOrientation((int) $info[0], (int) $info[1])
 		);
 
 		return $properties;
@@ -92,8 +93,8 @@ abstract class JImageHelper
 	/**
 	 * Compare width and height integers to determine image orientation.
 	 *
-	 * @param   integer  $width
-	 * @param   integer  $height
+	 * @param   integer  $width   The width value
+	 * @param   integer  $height  The height value
 	 *
 	 * @return  mixed   Orientation string or null.
 	 *
@@ -101,20 +102,20 @@ abstract class JImageHelper
 	 */
 	public static function getOrientation($width, $height)
 	{
-	    switch (true)
-	    {
-	        case ($width > $height) :
-	            return self::ORIENTATION_LANDSCAPE;
+		switch (true)
+		{
+			case ($width > $height) :
+				return self::ORIENTATION_LANDSCAPE;
 
-	        case ($width < $height) :
-	            return self::ORIENTATION_PORTRAIT;
+			case ($width < $height) :
+				return self::ORIENTATION_PORTRAIT;
 
-	        case ($width == $height) :
-	            return self::ORIENTATION_SQUARE;
+			case ($width == $height) :
+				return self::ORIENTATION_SQUARE;
 
-	        default :
-	            return null;
-	    }
+			default :
+			return null;
+		}
 	}
 
 	/**
