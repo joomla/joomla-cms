@@ -28,6 +28,7 @@ var JFormValidator = function() {
  	 	if (!id) {
  	 	 	return false;
  	 	}
+
  	 	$label = $form.find('#' + id + '-lbl');
  	 	if ($label.length) {
  	 	 	return $label;
@@ -43,7 +44,7 @@ var JFormValidator = function() {
  		// Get a label
  	 	var $label = $el.data('label');
  	 	if($label === undefined){
- 	 		$label = findLabel($el.attr('id'), $el.parents('form'));
+ 	 		$label = findLabel($el.attr('id'), $el.data('form'));
  	 		$el.data('label', $label);
  	 	}
 
@@ -98,7 +99,7 @@ var JFormValidator = function() {
  	 	}
  	 	// Return validation state
  	 	handleResponse(true, $el);
- 	 	return true;
+ 	 	return false;
  	},
 
  	isValid = function(form) {
@@ -132,9 +133,10 @@ var JFormValidator = function() {
  	},
 
  	attachToForm = function(form) {
- 	 	var inputFields = [];
+ 	 	var inputFields = []
+ 	 		$form = jQuery(form);
  	 	// Iterate through the form object and attach the validate method to all input fields.
- 	 	jQuery(form).find('input, textarea, select, fieldset, button').each(function() {
+ 	 	$form.find('input, textarea, select, fieldset, button').each(function() {
  	 	 	var $el = $(this), id = $el.attr('id'), tagName = $el.prop("tagName").toLowerCase();
  	 	 	if ($el.hasClass('required')) {
  	 	 	 	$el.attr('aria-required', 'true').attr('required', 'required');
@@ -154,10 +156,11 @@ var JFormValidator = function() {
  	 	 	 	 	 	$el.get(0).type = 'email';
  	 	 	 	 	}
  	 	 	 	}
+ 	 	 	 	$el.data('form', $form)
  	 	 	 	inputFields.push($el);
  	 	 	}
  	 	});
- 	 	$(form).data('inputfields', inputFields);
+ 	 	$form.data('inputfields', inputFields);
  	},
 
  	initialize = function() {
