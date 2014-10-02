@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 <ul class="btn-toolbar pull-right">
 	<li class="btn-group">
 		<a class="btn" href="<?php echo JRoute::_('index.php?option=com_users&task=profile.edit&user_id='.(int) $this->data->id);?>">
-			<span class="icon-user"></span> <?php echo JText::_('COM_USERS_EDIT_PROFILE'); ?></a>
+			<span class="icon-user"></span><?php echo JText::_('COM_USERS_EDIT_PROFILE'); ?></a>
 	</li>
 </ul>
 <?php endif; ?>

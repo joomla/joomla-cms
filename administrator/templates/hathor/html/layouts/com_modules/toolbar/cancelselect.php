@@ -12,5 +12,5 @@ defined('_JEXEC') or die;
 $text = JText::_('JTOOLBAR_CANCEL');
 ?>
 <a onclick="location.href='index.php?option=com_modules'" class="toolbar" title="<?php echo $text; ?>">
-	<span class="icon-32-cancel"></span> <?php echo $text; ?>
+	<span class="icon-32-cancel"></span><?php echo $text; ?>
 </a>

@@ -85,7 +85,7 @@ JHtml::_('formbehavior.chosen');
 			<div class="controls">
 				<div class="btn-group pull-left">
 					<button tabindex="3" class="btn btn-primary btn-large">
-						<i class="icon-lock icon-white"></i> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
+						<i class="icon-lock icon-white"></i><?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
 					</button>
 				</div>
 			</div>

@@ -37,7 +37,7 @@ defined('_JEXEC') or die;
 	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post" class="form-horizontal well">
 		<div class="control-group">
 			<div class="controls">
-				<button type="submit" class="btn btn-primary"><span class="icon-arrow-left icon-white"></span> <?php echo JText::_('JLOGOUT'); ?></button>
+				<button type="submit" class="btn btn-primary"><span class="icon-arrow-left icon-white"></span><?php echo JText::_('JLOGOUT'); ?></button>
 			</div>
 		</div>
 		<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('logout_redirect_url', $this->form->getValue('return'))); ?>" />

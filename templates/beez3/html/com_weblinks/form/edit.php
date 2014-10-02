@@ -36,12 +36,12 @@ $params = $this->state->get('params');
 		<div class="btn-toolbar">
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('weblink.save')">
-					<i class="icon-ok"></i> <?php echo JText::_('JSAVE') ?>
+					<i class="icon-ok"></i><?php echo JText::_('JSAVE') ?>
 				</button>
 			</div>
 			<div class="btn-group">
 				<button type="button" class="btn" onclick="Joomla.submitbutton('weblink.cancel')">
-					<i class="icon-cancel"></i> <?php echo JText::_('JCANCEL') ?>
+					<i class="icon-cancel"></i><?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
 		</div>

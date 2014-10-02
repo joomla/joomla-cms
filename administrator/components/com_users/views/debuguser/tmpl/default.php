@@ -70,9 +70,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<td colspan="15">
 						<div>
 							<?php echo JText::_('COM_USERS_DEBUG_LEGEND'); ?>
-							<span class="btn disabled btn-micro btn-warning"><i class="icon-white icon-ban-circle"></i></span> <?php echo JText::_('COM_USERS_DEBUG_IMPLICIT_DENY');?>
-							<span class="btn disabled btn-micro btn-success"><i class="icon-white icon-ok"></i></span> <?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');?>
-							<span class="btn disabled btn-micro btn-danger"><i class="icon-white icon-remove"></i></span> <?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_DENY');?>
+							<span class="btn disabled btn-micro btn-warning"><i class="icon-white icon-ban-circle"></i></span><?php echo JText::_('COM_USERS_DEBUG_IMPLICIT_DENY');?>
+							<span class="btn disabled btn-micro btn-success"><i class="icon-white icon-ok"></i></span><?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');?>
+							<span class="btn disabled btn-micro btn-danger"><i class="icon-white icon-remove"></i></span><?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_DENY');?>
 						</div>
 					</td>
 				</tr>
