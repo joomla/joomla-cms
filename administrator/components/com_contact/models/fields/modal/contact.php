@@ -142,13 +142,13 @@ class JFormFieldModal_Contact extends JFormField
 		// Edit article button
 		if ($allowEdit)
 		{
-			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden') . '" href="index.php?option=com_contact&layout=modal&tmpl=component&task=contact.edit&id=' . $value . '" target="_blank" title="' . JHtml::tooltipText('COM_CONTACT_EDIT_CONTACT') . '" ><span class="icon-edit"></span> ' . JText::_('JACTION_EDIT') . '</a>';
+			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden') . '" href="index.php?option=com_contact&layout=modal&tmpl=component&task=contact.edit&id=' . $value . '" target="_blank" title="' . JHtml::tooltipText('COM_CONTACT_EDIT_CONTACT') . '" ><span class="icon-edit"></span>' . JText::_('JACTION_EDIT') . '</a>';
 		}
 
 		// Clear contact button
 		if ($allowClear)
 		{
-			$html[] = '<button id="' . $this->id . '_clear" class="btn' . ($value ? '' : ' hidden') . '" onclick="return jClearContact(\'' . $this->id . '\')"><span class="icon-remove"></span> ' . JText::_('JCLEAR') . '</button>';
+			$html[] = '<button id="' . $this->id . '_clear" class="btn' . ($value ? '' : ' hidden') . '" onclick="return jClearContact(\'' . $this->id . '\')"><span class="icon-remove"></span>' . JText::_('JCLEAR') . '</button>';
 		}
 
 		$html[] = '</span>';

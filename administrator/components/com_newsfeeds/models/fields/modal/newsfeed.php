@@ -140,13 +140,13 @@ class JFormFieldModal_Newsfeed extends JFormField
 		// Edit newsfeed button
 		if ($allowEdit)
 		{
-			$html[] = '<a class="btn hasTooltip'.($value ? '' : ' hidden').'" href="index.php?option=com_newsfeeds&layout=modal&tmpl=component&task=newsfeed.edit&id=' . $value. '" target="_blank" title="'.JHtml::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED').'" ><span class="icon-edit"></span> ' . JText::_('JACTION_EDIT') . '</a>';
+			$html[] = '<a class="btn hasTooltip'.($value ? '' : ' hidden').'" href="index.php?option=com_newsfeeds&layout=modal&tmpl=component&task=newsfeed.edit&id=' . $value. '" target="_blank" title="'.JHtml::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED').'" ><span class="icon-edit"></span>' . JText::_('JACTION_EDIT') . '</a>';
 		}
 
 		// Clear newsfeed button
 		if ($allowClear)
 		{
-			$html[] = '<button id="'.$this->id.'_clear" class="btn'.($value ? '' : ' hidden').'" onclick="return jClearNewsfeed(\''.$this->id.'\')"><span class="icon-remove"></span> ' . JText::_('JCLEAR') . '</button>';
+			$html[] = '<button id="'.$this->id.'_clear" class="btn'.($value ? '' : ' hidden').'" onclick="return jClearNewsfeed(\''.$this->id.'\')"><span class="icon-remove"></span>' . JText::_('JCLEAR') . '</button>';
 		}
 
 		$html[] = '</span>';
