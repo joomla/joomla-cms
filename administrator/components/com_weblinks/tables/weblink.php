@@ -26,7 +26,7 @@ class WeblinksTableWeblink extends JTable
 	 * @var    array
 	 * @since  3.4
 	 */
-	protected $jsonEncode = array('params', 'metadata', 'images');
+	protected $_jsonEncode = array('params', 'metadata', 'images');
 
 	/**
 	 * Constructor
