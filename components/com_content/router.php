@@ -172,9 +172,9 @@ class ContentRouter extends JComponentRouterBase
 			if (!$advanced && count($array))
 			{
 				$array[0] = (int) $catid . ':' . $array[0];
-                                if (count($array) > 1) {
-                                        $array[count($array)-1] = (int) $catid . ':' . $array[count($array)-1];
-                                }
+				if (count($array) > 1) {
+					$array[count($array) - 1] = (int) $catid . ':' . $array[count($array) - 1];
+				}
 			}
 
 			$segments = array_merge($segments, $array);
