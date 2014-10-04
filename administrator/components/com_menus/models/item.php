@@ -1142,6 +1142,8 @@ class MenusModelItem extends JModelAdmin
 	{
 		$pk = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
 		$isNew = true;
+
+		$dispatcher = JEventDispatcher::getInstance();
 		$table = $this->getTable();
 
 		// Load the row if saving an existing item.
@@ -1150,6 +1152,10 @@ class MenusModelItem extends JModelAdmin
 			$table->load($pk);
 			$isNew = false;
 		}
+
+		// Include the content plugins for the on save events.
+		JPluginHelper::importPlugin('content');
+
 		if (!$isNew)
 		{
 			if ($table->parent_id == $data['parent_id'])
@@ -1208,6 +1214,15 @@ class MenusModelItem extends JModelAdmin
 
 		// Check the data.
 		if (!$table->check())
+		{
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Trigger the onContentBeforeSave event.
+		$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, $table, $isNew));
+
+		if (in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
 			return false;
@@ -1298,6 +1313,9 @@ class MenusModelItem extends JModelAdmin
 
 		// Clean the cache
 		$this->cleanCache();
+
+		// Trigger the onContentAfterSave event.
+		$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, $table, $isNew));
 
 		if (isset($data['link']))
 		{
