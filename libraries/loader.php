@@ -280,14 +280,9 @@ abstract class JLoader
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
-			$cleanpath = str_replace(JPATH_ROOT, '', $path);
+			$path = (str_replace(JPATH_ROOT, '', $path) == $path) ? basename($path) : str_replace(JPATH_ROOT, '', $path);
 
-			if ($cleanpath == $path)
-			{
-				$cleanpath = basename($path);
-			}
-
-			throw new RuntimeException('Library path ' . $cleanpath . ' cannot be found.', 500);
+			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
 		// If the prefix is not yet registered or we have an explicit reset flag then set set the path.
@@ -351,15 +346,9 @@ abstract class JLoader
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
-			$cleanpath = str_replace(JPATH_ROOT, '', $path);
+			$path = (str_replace(JPATH_ROOT, '', $path) == $path) ? basename($path) : str_replace(JPATH_ROOT, '', $path);
 
-			if ($cleanpath == $path)
-			{
-				$cleanpath = basename($path);
-			}
-
-
-			throw new RuntimeException('Library path ' . $cleanpath . ' cannot be found.', 500);
+			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
 		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
