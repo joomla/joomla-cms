@@ -478,7 +478,7 @@ INSERT [#__content] ([id], [asset_id], [title], [alias], [introtext], [fulltext]
 <li>Unexpected behavior--anything that is working differently than it did in 2.5.</li>
 </ul>
 <p>Report problems</p>
-<p>If you find a problem please report it to the <a href="http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemBrowse&amp;tracker_id=8103" target="_blank">CMS Issue Tracker</a>. You will need to register for a joomlacode.org account if you don''t have one.</p>
+<p>If you find a problem please report it to the <a href="http://issues.joomla.org" target="_blank">CMS Issue Tracker</a>. You will need to register for a github.com account if you don''t have one.</p>
 <p>More Testing Ideas</p>
 <ul>
 <li>Pick one module or view and test all of the parameters.</li>
