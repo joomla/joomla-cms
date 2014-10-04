@@ -163,10 +163,9 @@ abstract class JHtmlTag
 	 */
 	public static function ajaxfield($selector='#jform_tags', $allowCustom = true)
 	{
-
 		// Get the component parameters
 		$params = JComponentHelper::getParams("com_tags");
-		$minTermLength = (int) $params->get("min_term_length");
+		$minTermLength = (int) $params->get("min_term_length", 3);
 
 		// Tags field ajax
 		$chosenAjaxSettings = new JRegistry(
@@ -193,8 +192,8 @@ abstract class JHtmlTag
 						// Method to add tags pressing enter
 						$('" . $selector . "_chzn input').keyup(function(event) {
 
-							// Tag is greater than 3 chars and enter pressed
-							if (this.value.length >= " . $minTermLength . " && (event.which === 13 || event.which === 188)) {
+							// Tag is greater than the minimum required chars and enter pressed
+							if (this.value && this.value.length >= " . $minTermLength . " && (event.which === 13 || event.which === 188)) {
 
 								// Search an highlighted result
 								var highlighted = $('" . $selector . "_chzn').find('li.active-result.highlighted').first();
