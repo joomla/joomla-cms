@@ -6224,8 +6224,12 @@ div.modal.fade.in {
 	display: inline-block;
 	width: 14px;
 	height: 14px;
-	margin-right: 0.25em;
+	margin-right: .25em;
 	line-height: 14px;
+}
+dd > span[class^="icon-"] + time,
+dd > span[class*=" icon-"] + time {
+	margin-left: -.25em;
 }
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
