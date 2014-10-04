@@ -55,6 +55,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 */
 	public function start()
 	{
+		fwrite(STDOUT, 'foobar');
 		/**
 		 * Write and Close handlers are called after destructing objects since PHP 5.0.5.
 		 * Thus destructors can use sessions but session handler can't use objects.
