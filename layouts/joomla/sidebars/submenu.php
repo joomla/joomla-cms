@@ -17,9 +17,9 @@ defined('JPATH_BASE') or die;
 		});
 	</script>
 
-	<div class="toggle-sidebar">
-		<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar'); ?>
-	</div>
+<div class="toggle-sidebar">
+	<?php echo JLayoutHelper::render('joomla.sidebars.toggle'); ?>
+</div>
 <div id="sidebar">
 	<div class="sidebar-nav">
 		<?php if ($displayData->displayMenu) : ?>
