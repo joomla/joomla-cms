@@ -29,7 +29,7 @@ class JSession implements IteratorAggregate
 	 *
 	 * @var    string
 	 * @see    JSession::getState()
-	 * @since  11.1
+	 * @since  11.1g
 	 */
 	protected $_state = 'inactive';
 
@@ -178,6 +178,8 @@ class JSession implements IteratorAggregate
 	 */
 	public static function getInstance($store, $options, JSessionHandlerInterface $handlerInterface = null)
 	{
+		fwrite(STDOUT, 'foo' . $store);
+
 		if (!is_object(self::$instance))
 		{
 			self::$instance = new JSession($store, $options, $handlerInterface);
