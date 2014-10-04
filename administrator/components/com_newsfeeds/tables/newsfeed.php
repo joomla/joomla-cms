@@ -21,7 +21,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	 * @var    array
 	 * @since  3.3
 	 */
-	protected $jsonEncode = array('params', 'metadata', 'images');
+	protected $_jsonEncode = array('params', 'metadata', 'images');
 
 	/**
 	 * Constructor
