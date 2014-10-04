@@ -35,6 +35,9 @@ class JCacheStorageMainTest extends TestCase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$session = $this->getMockSession();
+
+		require_once dirname(__DIR__) . '/controller/JCacheControllerRaw.php';
 	}
 
 	/**
@@ -48,6 +51,8 @@ class JCacheStorageMainTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**

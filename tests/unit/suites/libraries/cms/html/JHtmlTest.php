@@ -1506,7 +1506,7 @@ class JHtmlTest extends TestCase
 
 		$cfg = new JObject;
 		JFactory::$session = $this->getMockSession();
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$config = $cfg;
 
 		JFactory::$application->expects($this->any())
