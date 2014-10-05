@@ -145,31 +145,27 @@ class JControllerDisplay extends JControllerCms
 			$class = $joomlaClass;
 		}
 
-		// The Html view must have a renderer object injected into it.
-		// So initalise it separately
-		if (strtolower($type) != 'html')
+		switch (strtolower($type))
 		{
-			$view = new $class($model, $this->doc, $this->config);
-		}
-		else
-		{
-			$renderer = $this->getRenderer();
+			case 'json':
+				$view = new $class($model, $this->doc, $this->config);
 
-			// Initialise the view class
-			$view = new $class($model, $this->doc, $renderer, $this->config);
-
-			// If in html view then we set the layout
-			$layoutName = $this->input->getWord('layout', 'default');
-			$view->setLayout($layoutName);
-		}
-
-		// Deal with json hypermedia if requested
-		if (strtolower($type) == 'json')
-		{
-			if (isset($this->config['useHypermedia']) && $this->config['useHypermedia'])
-			{
-				$this->doc->setHypermedia(true);
-			}
+				if (isset($this->config['useHypermedia']) && $this->config['useHypermedia'])
+				{
+					$this->doc->setHypermedia(true);
+				}
+				break;
+			case 'html':
+			default:
+				$renderer = $this->getRenderer();
+	
+				// Initialise the view class
+				$view = new $class($model, $this->doc, $renderer, $this->config);
+	
+				// If in html view then we set the layout
+				$layoutName = $this->input->getWord('layout', 'default');
+				$view->setLayout($layoutName);
+				break
 		}
 
 		$this->view = $view;
@@ -178,7 +174,7 @@ class JControllerDisplay extends JControllerCms
 	}
 
 	/**
-	 * Allows the renderer class to be injected into the model to be set
+	 * Allows the renderer class to be injected into the view to be set
 	 *
 	 * @return  RendererInterface  The renderer object
 	 *
