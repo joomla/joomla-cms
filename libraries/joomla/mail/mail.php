@@ -308,11 +308,11 @@ class JMail extends PHPMailer
 	/**
 	 * Add file attachments to the email
 	 *
-	 * @param   mixed   $attachment  Either a string or array of strings [filenames]
-	 * @param   mixed   $name        Either a string or array of strings [names]
-	 * @param   string  $encoding    The encoding of the attachment
-	 * @param   string  $type        The mime type
-	 * @param   string  $disposition The content disposition to use
+	 * @param   mixed   $attachment   Either a string or array of strings [filenames]
+	 * @param   mixed   $name         Either a string or array of strings [names]
+	 * @param   string  $encoding     The encoding of the attachment
+	 * @param   string  $type         The mime type
+	 * @param   string  $disposition  The content disposition to use
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
