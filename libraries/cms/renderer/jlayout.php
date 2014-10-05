@@ -12,7 +12,9 @@ use Joomla\Renderer\RendererInterface;
 /**
  * JLayout class for rendering output.
  *
- * @since  3.4
+ * @package     Joomla.Libraries
+ * @subpackage  Form
+ * @since       3.4
  */
 class JRendererJlayout implements RendererInterface
 {
@@ -27,7 +29,7 @@ class JRendererJlayout implements RendererInterface
 	/**
 	 * Public constructor
 	 *
-	 * @param  array  $config  An array of configuration options
+	 * @param   array  $config  An array of configuration options
 	 *
 	 * @since  3.4
 	 */
