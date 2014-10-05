@@ -57,7 +57,7 @@ abstract class JModelRecord extends JModelData
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since  3.2
+	 * @since  3.4
 	 */
 	public function hit($id = null)
 	{

@@ -20,23 +20,27 @@ abstract class JModelData extends JModelCms
 {
 	/**
 	 * Array of JTables
-	 * @var array
+	 * 
+	 * @var   array
+	 * @since 3.4
 	 */
 	protected $tables = array();
 
 	/**
 	 * Method to get the name of the primary key from table
 	 *
-	 * @param string $tablePrefix
-	 * @param string $tableName
-	 * @param array  $config
+	 * @param   string  $tableName    The table name. Optional.
+	 * @param   string  $tablePrefix  The class prefix. Optional.
+	 * @param   array   $config       Configuration array for model. Optional.
 	 *
-	 * @return string
-	 * @See JTable::getKeyName
+	 * @return  string
+	 *
+	 * @since   3.4
+	 * @See     JTable::getKeyName
 	 */
-	public function getKeyName( $tablePrefix = null, $tableName = null, $config = array())
+	public function getKeyName($tableName = null, $tablePrefix = null, $config = array())
 	{
-		$table = $this->getTable($tablePrefix, $tableName, $config);
+		$table = $this->getTable($tableName, $tablePrefix, $config);
 
 		return $table->getKeyName();
 	}
@@ -86,10 +90,12 @@ abstract class JModelData extends JModelCms
 	/**
 	 * Method to lock a record for editing
 	 *
-	 * @param int $pk primary key of record
+	 * @param  int $pk primary key of record
 	 *
 	 * @return boolean
-	 * @see JCmsModelData::checkin
+	 *
+	 * @since  3.4
+	 * @see    JCmsModelData::checkin
 	 */
 	public function checkout($pk)
 	{
@@ -104,10 +110,12 @@ abstract class JModelData extends JModelCms
 	/**
 	 * Method to unlock a record
 	 *
-	 * @param  int  $pk  Integer primary key or array of primary keys
+	 * @param   int  $pk  Integer primary key or array of primary keys
 	 *
 	 * @return  boolean
-	 * @see JCmsModelData::checkout
+	 *
+	 * @since   3.4
+	 * @see     JCmsModelData::checkout
 	 */
 	public function checkin($pk)
 	{
@@ -132,10 +140,12 @@ abstract class JModelData extends JModelCms
 	/**
 	 * Method to get a loaded active record.
 	 *
-	 * @param int $pk primary key
+	 * @param  int $pk primary key
 	 *
-	 * @throws RuntimeException
 	 * @return JTable
+	 *
+	 * @since  3.4
+	 * @throws RuntimeException
 	 */
 	protected function getActiveRecord($pk)
 	{
@@ -153,9 +163,11 @@ abstract class JModelData extends JModelCms
 	/**
 	 * Method to check if a table is lockable
 	 *
-	 * @param JTable $table
+	 * @param  JTable $table  JTable object
 	 *
 	 * @return boolean
+	 *
+	 * @since  3.4
 	 */
 	protected function isLockable($table)
 	{
@@ -176,16 +188,17 @@ abstract class JModelData extends JModelCms
 	/**
 	 * Method to check if a record is locked
 	 *
-	 * @param JTable $activeRecord
+	 * @param  JTable $activeRecord
 	 *
 	 * @return boolean
+	 *
+	 * @since  3.4
 	 */
 	protected function isLocked($activeRecord)
 	{
 		if ($this->isLockable($activeRecord))
 		{
-			$isCheckedOut = ($activeRecord->checked_out > 0);
-
+			$isCheckedOut    = ($activeRecord->checked_out > 0);
 			$user            = JFactory::getUser();
 			$isCurrentEditor = ($activeRecord->checked_out == $user->get('id'));
 			$canOverride     = ($user->authorise('core.admin', 'com_checkin'));

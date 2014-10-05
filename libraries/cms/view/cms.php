@@ -1,13 +1,13 @@
 <?php
 /**
- * @package     Joomla.Cms
+ * @package     Joomla.Libraries
  * @subpackage  View
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Registry\Registry as JRegistry;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Prototype JView class.
@@ -96,10 +96,11 @@ abstract class JViewCms implements JView
 	{
 		// Setup dependencies.
 		$this->setModel($model, null, true);
-		$this->config = new JRegistry($config);
+
+		$this->config   = new JRegistry($config);
 		$this->document = $document;
-		$this->name = $config['view'];
-		$this->option = $config['option'];
+		$this->name     = $config['view'];
+		$this->option   = $config['option'];
 	}
 
 	/**
@@ -144,6 +145,7 @@ abstract class JViewCms implements JView
 	 *
 	 * @return  JModelCmsInterface
 	 *
+	 * @since   3.4
 	 */
 	public function getModel($name = null)
 	{
@@ -160,7 +162,7 @@ abstract class JViewCms implements JView
 	 *
 	 * @return  string  The name of the model
 	 *
-	 * @since  3.4
+	 * @since   3.4
 	 */
 	public function getName()
 	{
@@ -172,7 +174,7 @@ abstract class JViewCms implements JView
 	 *
 	 * @return  string  The name of the component
 	 *
-	 * @since  3.4
+	 * @since   3.4
 	 */
 	public function getOption()
 	{
@@ -190,7 +192,7 @@ abstract class JViewCms implements JView
 	{
 		// Find the root path - either site or administrator
 		$componentFolder = strtolower($this->getOption());
-		$viewName = strtolower($this->getName());
+		$viewName        = strtolower($this->getName());
 
 		// Add the default paths. Use exponential priorities to allow developers to
 		// insert their own paths in between
@@ -251,6 +253,8 @@ abstract class JViewCms implements JView
 	 * @param   boolean              $default  Is this the default model? Defaults to false
 	 *
 	 * @return  void
+	 *
+	 * @since 3.4
 	 */
 	public function setModel(JModelCmsInterface $model, $name = null, $default = false)
 	{
