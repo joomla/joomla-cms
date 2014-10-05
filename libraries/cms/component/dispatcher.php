@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * @todo explain here
+ * Dispatcher class to get the default component and execute a controller
  *
  * @package     Joomla.Libraries
  * @subpackage  Dispatcher
