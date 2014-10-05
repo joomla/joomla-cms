@@ -64,7 +64,7 @@ abstract class JControllerCms extends JControllerBase implements JControllerCmsI
 	 * @var    array
 	 * @since  3.4
 	 */
-	public $config;	
+	public $config;
 
 	/**
 	 * Permission needed for the action. Defaults to most restrictive
@@ -348,8 +348,8 @@ abstract class JControllerCms extends JControllerBase implements JControllerCmsI
 	 * Method to save the user input into state.
 	 * This is intended to be used to preserve form data when server side validation fails
 	 *
-	 * @param   string  $key dot delimited string format $context.$dataIdentifier
-	 * @param   mixed   $data the data to store
+	 * @param   string  $key   Dot delimited string format $context.$dataIdentifier
+	 * @param   mixed   $data  The data to store
 	 *
 	 * @return  void
 	 *

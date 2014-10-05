@@ -123,7 +123,7 @@ class JControllerUpdate extends JControllerCms
 		}
 		catch (Exception $e)
 		{
-			throw new RuntimeException ($e->getMessage(), $e->getCode());
+			throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
 		}
 
 		$pk = $this->input->getInt($urlVar, 0);
@@ -142,7 +142,6 @@ class JControllerUpdate extends JControllerCms
 				$this->app->enqueueMessage($e->getMessage());
 			}
 		}
-
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($this->options[parent::CONTROLLER_ACTIVITY])

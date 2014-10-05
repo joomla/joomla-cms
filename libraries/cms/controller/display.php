@@ -177,7 +177,7 @@ class JControllerDisplay extends JControllerCms
 		return $this->view;
 	}
 
-	/*
+	/**
 	 * Allows the renderer class to be injected into the model to be set
 	 *
 	 * @return  RendererInterface  The renderer object

@@ -63,7 +63,7 @@ class JControllerDisplayform extends JControllerDisplay
 		}
 
 		$idName = $model->getTable()->getKeyName(false);
-		
+
 		if (!$this->editCheck($this->app, $context, $idName))
 		{
 			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
@@ -85,7 +85,7 @@ class JControllerDisplayform extends JControllerDisplay
 		return parent::execute();
 	}
 
-	/*
+	/**
 	 * Method to check if the user has permission to edit this item
 	 *
 	 * @param   JApplicationCms  $app  The application

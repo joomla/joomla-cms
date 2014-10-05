@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
 */
 class JControllerFactoryCms
 {
-	/*
+	/**
 	 * Checks the session for a valid token. Exits if an invalid token
 	 *
 	 * @return  void

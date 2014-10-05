@@ -21,7 +21,7 @@ abstract class JModelRecord extends JModelData
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   integer $pk The id of the primary key.
+	 * @param   integer  $pk  The id of the primary key.
 	 *
 	 * @return  mixed  Item in stdClass on success, false on failure
 	 *
@@ -80,8 +80,8 @@ abstract class JModelRecord extends JModelData
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
 	 *
-	 * @param string $ordering  column to order by. I.E. 'a.title'
-	 * @param string $direction 'ASC' or 'DESC'
+	 * @param   string  $ordering   Column to order by. I.E. 'a.title'
+	 * @param   string  $direction  'ASC' or 'DESC'
 	 *
 	 * @return  void
 	 *

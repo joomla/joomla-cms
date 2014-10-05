@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for a generic dispatcher
  *
- * @since  3.4
+ * @package     Joomla.Libraries
+ * @subpackage  Dispatcher
+ * @since       3.4
  */
 interface JComponentDispatcherInterface
 {
