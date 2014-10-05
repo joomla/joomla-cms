@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Site
  * @subpackage  com_contact
+ * @since       1.6
  */
 class JFormRuleContactEmailMessage extends JFormRule
 {
@@ -37,7 +38,7 @@ class JFormRuleContactEmailMessage extends JFormRule
 
 		if ($banned)
 		{
-			foreach(explode(';', $banned) as $item)
+			foreach (explode(';', $banned) as $item)
 			{
 				if ($item != '' && JString::stristr($value, $item) !== false)
 				{
