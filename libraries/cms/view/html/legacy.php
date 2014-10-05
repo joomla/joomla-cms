@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Cms
+ * @package     Joomla.Libraries
  * @subpackage  View
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * immediately.
  *
  * @package     Joomla.Libraries
- * @subpackage  Model
+ * @subpackage  View
  * @since       3.4
  */
 abstract class JViewHtmlLegacy extends JViewLegacy implements JView
@@ -32,15 +32,16 @@ abstract class JViewHtmlLegacy extends JViewLegacy implements JView
 	 * Method to instantiate the view.
 	 *
 	 * @param   JModel            $model  The model object.
-	 * @param   JDocument           $document  The document object.
+	 * @param   JDocument         $document  The document object.
 	 * @param   SplPriorityQueue  $paths  The paths queue.
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	public function __construct(JModel $model, JDocument $document, SplPriorityQueue $paths = null, $config = array())
 	{
-		$app = JFactory::getApplication();
+		$app       = JFactory::getApplication();
 		$component = JApplicationHelper::getComponentName();
+
 		$this->setModel($model, true);
 		$this->document = $document;
 
@@ -82,7 +83,7 @@ abstract class JViewHtmlLegacy extends JViewLegacy implements JView
 	 *
 	 * @return  string  The output of the the template script.
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	public function loadTemplate($tpl = null)
@@ -91,14 +92,14 @@ abstract class JViewHtmlLegacy extends JViewLegacy implements JView
 		$this->_output = null;
 
 		$template = JFactory::getApplication()->getTemplate();
-		$layout = $this->getLayout();
+		$layout   = $this->getLayout();
 
 		// Create the template file name based on the layout
 		$file = isset($tpl) ? $layout . '_' . $tpl : $layout;
 
 		// Clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
-		$tpl = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
+		$tpl  = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
 		// Load the language file for the template
 		$lang = JFactory::getLanguage();
@@ -106,7 +107,7 @@ abstract class JViewHtmlLegacy extends JViewLegacy implements JView
 		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
 		// Change the template folder if alternative layout is in different template
-		/* if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
+		/** if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
 		{
 			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
 		} */
@@ -124,13 +125,13 @@ abstract class JViewHtmlLegacy extends JViewLegacy implements JView
 
 		// Load the template script
 		jimport('joomla.filesystem.path');
-		$filetofind = $this->_createFileName('template', array('name' => $file));
+		$filetofind      = $this->_createFileName('template', array('name' => $file));
 		$this->_template = JPath::find($this->_path['template'], $filetofind);
 
 		// If alternate layout can't be found, fall back to default layout
 		if ($this->_template == false)
 		{
-			$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
+			$filetofind      = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
 			$this->_template = JPath::find($this->_path['template'], $filetofind);
 		}
 
@@ -187,7 +188,7 @@ abstract class JViewHtmlLegacy extends JViewLegacy implements JView
 	 *
 	 * @return  string  The name of the view
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	public function getName()
@@ -195,14 +196,14 @@ abstract class JViewHtmlLegacy extends JViewLegacy implements JView
 		if (empty($this->_name))
 		{
 			$classname = get_class($this);
-			$viewpos = strpos($classname, 'View');
+			$viewpos   = strpos($classname, 'View');
 
 			if ($viewpos === false)
 			{
 				throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
 
-			$lastPart = substr($classname, $viewpos + 4);
+			$lastPart  = substr($classname, $viewpos + 4);
 			$pathParts = explode(' ', JStringNormalise::fromCamelCase($lastPart));
 
 			if (!empty($pathParts[1]))

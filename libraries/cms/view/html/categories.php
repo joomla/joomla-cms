@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Libraries
  * @subpackage  View
- * @since       3.2
+ * @since       3.4
  */
 class JViewHtmlCategories extends JViewHtmlLegacy
 {
@@ -22,7 +22,7 @@ class JViewHtmlCategories extends JViewHtmlLegacy
 	 * State data
 	 *
 	 * @var    JRegistry
-	 * @since  3.2
+	 * @since  3.4
 	 */
 	protected $state;
 
@@ -30,7 +30,7 @@ class JViewHtmlCategories extends JViewHtmlLegacy
 	 * Category items data
 	 *
 	 * @var    array
-	 * @since  3.2
+	 * @since  3.4
 	 */
 	protected $items;
 
@@ -38,7 +38,7 @@ class JViewHtmlCategories extends JViewHtmlLegacy
 	 * Language key for default page heading
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.4
 	 */
 	protected $pageHeading;
 
@@ -49,7 +49,7 @@ class JViewHtmlCategories extends JViewHtmlLegacy
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	public function render()
 	{
@@ -57,8 +57,7 @@ class JViewHtmlCategories extends JViewHtmlLegacy
 		$state  = $model->getState();
 		$items  = $model->getItems();
 		$parent = $model->getParent();
-
-		$app = JFactory::getApplication();
+		$app    = JFactory::getApplication();
 
 		if ($items === false)
 		{
@@ -75,8 +74,7 @@ class JViewHtmlCategories extends JViewHtmlLegacy
 		}
 
 		$params = &$state->get('params');
-
-		$items = array($parent->id => $items);
+		$items  = array($parent->id => $items);
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
@@ -96,7 +94,7 @@ class JViewHtmlCategories extends JViewHtmlLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
+	 * @since   3.4
 	 */
 	protected function prepareDocument()
 	{
