@@ -70,10 +70,10 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	/**
 	 * Public constructor
 	 *
-	 * @param  JRegistry         $state       The state for the model
-	 * @param  JDatabaseDriver   $db          The database object
-	 * @param  JEventDispatcher  $dispatcher  The dispatcher object
-	 * @param  array             $config      Array of config variables
+	 * @param   JRegistry         $state       The state for the model
+	 * @param   JDatabaseDriver   $db          The database object
+	 * @param   JEventDispatcher  $dispatcher  The dispatcher object
+	 * @param   array             $config      Array of config variables
 	 *
 	 * @since  3.4
 	 */
@@ -124,7 +124,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	/**
 	 * Method to get model state variables
 	 *
-	 * @param   string $property Optional parameter name
+	 * @param   string  $property  Optional parameter name
 	 * @param   mixed  $default  Optional default value
 	 *
 	 * @return  object  The property in the state
@@ -163,7 +163,6 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 		return parent::getState();
 	}
 
-
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -171,8 +170,8 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
 	 *
-	 * @param string $ordering  column to order by. I.E. 'a.title'
-	 * @param string $direction 'ASC' or 'DESC'
+	 * @param   string  $ordering   Column to order by. I.E. 'a.title'
+	 * @param   string  $direction  'ASC' or 'DESC'
 	 *
 	 * @return  void
 	 *
@@ -183,7 +182,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	{
 		if (!$this->stateIsSet)
 		{
-			//do something
+			// Do something
 		}
 	}
 
@@ -243,8 +242,8 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string  $group     The cache group
-	 * @param   integer $client_id The ID of the client
+	 * @param   string   $group      The cache group
+	 * @param   integer  $client_id  The ID of the client
 	 *
 	 * @return  void
 	 *

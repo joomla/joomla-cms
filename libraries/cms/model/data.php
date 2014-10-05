@@ -90,7 +90,7 @@ abstract class JModelData extends JModelCms
 	/**
 	 * Method to lock a record for editing
 	 *
-	 * @param  int $pk primary key of record
+	 * @param  int  $pk  Primary key of record
 	 *
 	 * @return boolean
 	 *
@@ -140,7 +140,7 @@ abstract class JModelData extends JModelCms
 	/**
 	 * Method to get a loaded active record.
 	 *
-	 * @param  int $pk primary key
+	 * @param   int  $pk  Primary key
 	 *
 	 * @return JTable
 	 *
@@ -163,7 +163,7 @@ abstract class JModelData extends JModelCms
 	/**
 	 * Method to check if a table is lockable
 	 *
-	 * @param  JTable $table  JTable object
+	 * @param   JTable  $table  JTable object
 	 *
 	 * @return boolean
 	 *
@@ -184,11 +184,10 @@ abstract class JModelData extends JModelCms
 		return false;
 	}
 
-
 	/**
 	 * Method to check if a record is locked
 	 *
-	 * @param  JTable $activeRecord
+	 * @param   JTable  $activeRecord  The active record to check against
 	 *
 	 * @return boolean
 	 *
