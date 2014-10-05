@@ -32,10 +32,10 @@ class JViewJsonCms extends JViewCms
 	/**
 	 * Method to instantiate the view.
 	 *
-	 * @param   JModelCmsInterface  $model   The model object.
-	 * @param   JDocument           $document
-	 * @param   array               $config  An array of config options. Should contain component
-	 *                                       name and view name.
+	 * @param   JModelCmsInterface  $model     The model object.
+	 * @param   JDocument           $document  The document object.
+	 * @param   array               $config    An array of config options. Should contain component
+	 *                                         name and view name.
 	 *
 	 * @since   3.4
 	 */
