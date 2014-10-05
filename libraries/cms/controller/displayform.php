@@ -89,6 +89,8 @@ class JControllerDisplayform extends JControllerDisplay
 	 * Method to check if the user has permission to edit this item
 	 *
 	 * @param   JApplicationCms  $app  The application
+	 * @param   string   $context  The context for the session storage.
+	 * @param   integer  $id       The ID of the record to add to the edit list.
 	 *
 	 * @return  boolean
 	 *

@@ -21,7 +21,7 @@ interface JComponentDispatcherInterface
 	/**
 	 * Method to execute the controller and perform the redirects.
 	 *
-	 * @param   JApplicationCms $app The application instance to pass to the controller.
+	 * @param   JApplicationCms  $app  The application instance to pass to the controller.
 	 *
 	 * @return  void
 	 *
