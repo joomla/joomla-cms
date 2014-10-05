@@ -255,6 +255,8 @@ class JRouterSite extends JRouter
 
 				// Set the active menu item
 				$menu->setActive($vars['Itemid']);
+
+				$this->setVars($vars);
 			}
 
 			return $vars;
