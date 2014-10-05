@@ -125,7 +125,7 @@ abstract class JModelCms extends JModelDatabase implements JModelCmsInterface
 	 * Method to get model state variables
 	 *
 	 * @param   string  $property  Optional parameter name
-	 * @param   mixed  $default  Optional default value
+	 * @param   mixed   $default   Optional default value
 	 *
 	 * @return  object  The property in the state
 	 *

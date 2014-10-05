@@ -21,7 +21,7 @@ abstract class JModelActions extends JModelAdministrator
 	/**
 	 * Method to validate data and insert into db
 	 *
-	 * @param array $data
+	 * @param   array  $data  The data to be saved
 	 *
 	 * @return boolean
 	 *
@@ -81,9 +81,9 @@ abstract class JModelActions extends JModelAdministrator
 	/**
 	 * Method to validate data and update into db
 	 *
-	 * @param array $data
+	 * @param   array  $data  The data to be validated
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 *
 	 * @since  3.4
 	 * @throws RuntimeException
@@ -141,7 +141,7 @@ abstract class JModelActions extends JModelAdministrator
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param array $cid array of record primary keys.
+	 * @param   array  $cid  Array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -194,7 +194,7 @@ abstract class JModelActions extends JModelAdministrator
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array  &$pks  A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.
@@ -301,8 +301,8 @@ abstract class JModelActions extends JModelAdministrator
 	/**
 	 * Method to reorder one or more records
 	 *
-	 * @param  array   $cid
-	 * @param  string  $direction up or down
+	 * @param  array  $cid         The id's of the records
+	 * @param  string  $direction  Up or down
 	 *
 	 * @return boolean
 	 *
@@ -352,8 +352,8 @@ abstract class JModelActions extends JModelAdministrator
 	/**
 	 * Saves the manually set order of records.
 	 *
-	 * @param   array   $cid    An array of primary key ids.
-	 * @param   integer $order  +1 or -1
+	 * @param   array    $cid    An array of primary key ids.
+	 * @param   integer  $order  +1 or -1
 	 *
 	 * @return  mixed
 	 *
@@ -366,7 +366,6 @@ abstract class JModelActions extends JModelAdministrator
 		{
 			throw new RuntimeException(JText::_($this->text_prefix . '_LIB_MODEL_ERROR_NO_ITEMS_SELECTED'));
 		}
-
 
 		/**
 		 *  This is something that needs to be worked out once changes to JTable are completed

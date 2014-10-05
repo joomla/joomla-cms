@@ -90,7 +90,7 @@ abstract class JModelData extends JModelCms
 	/**
 	 * Method to lock a record for editing
 	 *
-	 * @param  int  $pk  Primary key of record
+	 * @param   int  $pk  Primary key of record
 	 *
 	 * @return boolean
 	 *

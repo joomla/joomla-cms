@@ -29,8 +29,8 @@ abstract class JModelAdministrator extends JModelUcm
 	/**
 	 * Method for getting the form from the model.
 	 *
-	 * @param   array   $data     Data for the form.
-	 * @param   boolean $loadData True if the form is to load its own data (default case), false if not.
+	 * @param   array    $data     Data for the form.
+	 * @param   boolean  $loadData True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
@@ -57,11 +57,11 @@ abstract class JModelAdministrator extends JModelUcm
 	/**
 	 * Method to get a form object.
 	 *
-	 * @param   string    $name    The name of the form.
-	 * @param   string    $source  The form source. Can be XML string if file flag is set to false.
-	 * @param   array     $config Optional array of options for the form creation.
-	 * @param   boolean   $clear   Optional argument to force load a new form.
-	 * @param bool|string $xpath   An optional xpath to search for the fields.
+	 * @param   string      $name    The name of the form.
+	 * @param   string      $source  The form source. Can be XML string if file flag is set to false.
+	 * @param   array       $config  Optional array of options for the form creation.
+	 * @param   boolean     $clear   Optional argument to force load a new form.
+	 * @param   bool|string $xpath   An optional xpath to search for the fields.
 	 *
 	 * @return  mixed  JForm object on success, False on error.
 	 *
@@ -141,9 +141,9 @@ abstract class JModelAdministrator extends JModelUcm
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   JForm  $form  A JForm object.
-	 * @param   mixed  $data  The data expected for the form.
-	 * @param   string $group The name of the plugin group to import (defaults to "content").
+	 * @param   JForm   $form   A JForm object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
@@ -177,9 +177,9 @@ abstract class JModelAdministrator extends JModelUcm
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   JForm  $form  The form to validate against.
-	 * @param   array  $data  The data to validate.
-	 * @param   string $group The name of the field group to validate.
+	 * @param   JForm   $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
 	 *
 	 * @return  mixed  Array of filtered data if valid
 	 *
@@ -235,8 +235,8 @@ abstract class JModelAdministrator extends JModelUcm
 	/**
 	 * Method to allow derived classes to preprocess the data.
 	 *
-	 * @param   string $context The context identifier.
-	 * @param   mixed  &$data   The data to be processed. It gets altered directly.
+	 * @param   string  $context  The context identifier.
+	 * @param   mixed   &$data    The data to be processed. It gets altered directly.
 	 *
 	 * @return  void
 	 *
@@ -272,8 +272,8 @@ abstract class JModelAdministrator extends JModelUcm
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
 	 *
-	 * @param string  $ordering  column to order by. I.E. 'a.title'
-	 * @param string  $direction 'ASC' or 'DESC'
+	 * @param   string  $ordering   Column to order by. I.E. 'a.title'
+	 * @param   string  $direction  'ASC' or 'DESC'
 	 *
 	 * @return  void
 	 *

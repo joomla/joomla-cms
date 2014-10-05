@@ -37,10 +37,10 @@ abstract class JModelCollection extends JModelRecord
 	/**
 	 * Public constructor
 	 *
-	 * @param  JRegistry         $state       The state for the model
-	 * @param  JDatabaseDriver   $db          The database object
-	 * @param  JEventDispatcher  $dispatcher  The dispatcher object
-	 * @param  array             $config      Array of config variables
+	 * @param   JRegistry         $state       The state for the model
+	 * @param   JDatabaseDriver   $db          The database object
+	 * @param   JEventDispatcher  $dispatcher  The dispatcher object
+	 * @param   array             $config      Array of config variables
 	 *
 	 * @since  3.4
 	 */
@@ -149,7 +149,7 @@ abstract class JModelCollection extends JModelRecord
 	 *
 	 * before appending the active filters.
 	 *
-	 * @param JDatabaseQuery $query
+	 * @param   JDatabaseQuery  $query  The JDatabaseQuery object
 	 *
 	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
 	 *
@@ -223,8 +223,8 @@ abstract class JModelCollection extends JModelRecord
 	/**
 	 * Method to add a left join to the view levels table for the assess title
 	 *
-	 * @param   JDatabaseQuery  $query
-	 * @param   string          $onField the prefixed field name to join on
+	 * @param   JDatabaseQuery  $query    The query object
+	 * @param   string          $onField  The prefixed field name to join on
 	 *
 	 * @return  JDatabaseQuery
 	 *
@@ -276,7 +276,7 @@ abstract class JModelCollection extends JModelRecord
 	/**
 	 * Function to get build the search query
 	 *
-	 * @param  JDatabaseQuery  $query  The query object
+	 * @param   JDatabaseQuery  $query  The query object
 	 *
 	 * @return  string  Associative array in the format: array('filter_published' => 0)
 	 *
@@ -324,7 +324,7 @@ abstract class JModelCollection extends JModelRecord
 			}
 		}
 
- 		// No search found
+		// No search found
 		return $query;
 	}
 
@@ -376,7 +376,7 @@ abstract class JModelCollection extends JModelRecord
 	/**
 	 * Returns a record count for the query.
 	 *
-	 * @param   JDatabaseQuery $query The query.
+	 * @param   JDatabaseQuery  $query  The query object.
 	 *
 	 * @return  integer  Number of rows for query.
 	 *
@@ -431,11 +431,11 @@ abstract class JModelCollection extends JModelRecord
 	 * This is the same as the method in JApplication except that this also can optionally
 	 * force you back to the first page when a filter has changed
 	 *
-	 * @param   string  $key       The key of the user state variable.
-	 * @param   string  $request   The name of the variable passed in a request.
-	 * @param   string  $default   The default value for the variable if not found. Optional.
-	 * @param   string  $type      Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
-	 * @param   boolean $resetPage If true, the limitstart in request is set to zero
+	 * @param   string   $key        The key of the user state variable.
+	 * @param   string   $request    The name of the variable passed in a request.
+	 * @param   string   $default    The default value for the variable if not found. Optional.
+	 * @param   string   $type       Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
+	 * @param   boolean  $resetPage  If true, the limitstart in request is set to zero
 	 *
 	 * @return  mixed  The request user state.
 	 *
@@ -485,7 +485,7 @@ abstract class JModelCollection extends JModelRecord
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
 	 *
-	 * @param string $ordering  column to order by. I.E. 'a.title'
+	 * @param   string  $ordering  Column to order by. I.E. 'a.title'
 	 * @param string $direction 'ASC' or 'DESC'
 	 *
 	 * @return  void
