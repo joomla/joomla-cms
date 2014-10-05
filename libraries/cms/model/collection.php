@@ -485,8 +485,8 @@ abstract class JModelCollection extends JModelRecord
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
 	 *
-	 * @param   string  $ordering  Column to order by. I.E. 'a.title'
-	 * @param string $direction 'ASC' or 'DESC'
+	 * @param   string  $ordering   Column to order by. I.E. 'a.title'
+	 * @param   string  $direction  'ASC' or 'DESC'
 	 *
 	 * @return  void
 	 *

@@ -29,8 +29,8 @@ abstract class JModelAdministrator extends JModelUcm
 	/**
 	 * Method for getting the form from the model.
 	 *
-	 * @param   array    $data     Data for the form.
-	 * @param   boolean  $loadData True if the form is to load its own data (default case), false if not.
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
@@ -57,11 +57,11 @@ abstract class JModelAdministrator extends JModelUcm
 	/**
 	 * Method to get a form object.
 	 *
-	 * @param   string      $name    The name of the form.
-	 * @param   string      $source  The form source. Can be XML string if file flag is set to false.
-	 * @param   array       $config  Optional array of options for the form creation.
-	 * @param   boolean     $clear   Optional argument to force load a new form.
-	 * @param   bool|string $xpath   An optional xpath to search for the fields.
+	 * @param   string       $name    The name of the form.
+	 * @param   string       $source  The form source. Can be XML string if file flag is set to false.
+	 * @param   array        $config  Optional array of options for the form creation.
+	 * @param   boolean      $clear   Optional argument to force load a new form.
+	 * @param   bool|string  $xpath   An optional xpath to search for the fields.
 	 *
 	 * @return  mixed  JForm object on success, False on error.
 	 *

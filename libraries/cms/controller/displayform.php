@@ -90,7 +90,7 @@ class JControllerDisplayform extends JControllerDisplay
 	 *
 	 * @param   JApplicationCms  $app      The application
 	 * @param   string           $context  The context for the session storage.
-	 * @param   integer          $id       The ID of the record to add to the edit list.
+	 * @param   integer          $idName   The ID of the record to add to the edit list.
 	 *
 	 * @return  boolean
 	 *
