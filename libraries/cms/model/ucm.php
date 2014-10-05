@@ -72,4 +72,4 @@ abstract class JModelUcm extends JModelCollection
 
 		return $table->bind($rowArray);
 	}
-} 
+}

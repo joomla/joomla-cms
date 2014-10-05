@@ -60,6 +60,8 @@ abstract class JViewHtmlCms extends JViewCms
 	 * Add the page title and toolbar. Components should override
 	 * this method as necessary
 	 *
+	 * @return  void
+	 *
 	 * @since   3.4
 	 */
 	protected function addToolbar()

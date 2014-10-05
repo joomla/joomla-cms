@@ -31,9 +31,10 @@ abstract class JViewHtmlLegacy extends JViewLegacy implements JView
 	/**
 	 * Method to instantiate the view.
 	 *
-	 * @param   JModel            $model  The model object.
-	 * @param   JDocument         $document  The document object.
-	 * @param   SplPriorityQueue  $paths  The paths queue.
+	 * @param   JModelCmsInterface  $model     The model object.
+	 * @param   JDocument           $document  The document object.
+	 * @param   SplPriorityQueue    $paths     The paths queue.
+	 * @param   array               $config    The configuration array.
 	 *
 	 * @since   3.4
 	 */

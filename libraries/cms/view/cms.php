@@ -141,7 +141,7 @@ abstract class JViewCms implements JView
 	/**
 	 * Method to get the model object
 	 *
-	 * @param   string $name The name of the model (optional)
+	 * @param   string  $name  The name of the model (optional)
 	 *
 	 * @return  JModelCmsInterface
 	 *
@@ -166,7 +166,7 @@ abstract class JViewCms implements JView
 	 */
 	public function getName()
 	{
-		return $this->name; 
+		return $this->name;
 	}
 
 	/**
@@ -178,7 +178,7 @@ abstract class JViewCms implements JView
 	 */
 	public function getOption()
 	{
-		return $this->option; 
+		return $this->option;
 	}
 
 	/**
@@ -248,9 +248,9 @@ abstract class JViewCms implements JView
 	 * Method to add a model to the view.  We support a multiple model single
 	 * view system by which models are referenced by class name.
 	 *
-	 * @param   JModelCmsInterface   $model    The model to add to the view.
-	 * @param   string               $name     The name for model to be stored as (optional)
-	 * @param   boolean              $default  Is this the default model? Defaults to false
+	 * @param   JModelCmsInterface  $model    The model to add to the view.
+	 * @param   string              $name     The name for model to be stored as (optional)
+	 * @param   boolean             $default  Is this the default model? Defaults to false
 	 *
 	 * @return  void
 	 *

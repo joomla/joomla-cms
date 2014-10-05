@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * 
  * @package     Joomla.Libraries
  * @subpackage  Model
- * @since  3.4
+ * @since       3.4
  */
 interface JModelCmsInterface extends JModel
 {

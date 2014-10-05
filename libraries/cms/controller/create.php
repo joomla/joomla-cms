@@ -30,7 +30,7 @@ class JControllerCreate extends JControllerCms
 	 */
 	public function execute()
 	{
-		$context = $this->input->getWord('option', 'com_content') . '.edit.' .  $this->options[parent::CONTROLLER_VIEW_FOLDER];
+		$context = $this->input->getWord('option', 'com_content') . '.edit.' . $this->options[parent::CONTROLLER_VIEW_FOLDER];
 
 		// Check for request forgeries
 		$this->factory->checkSession();

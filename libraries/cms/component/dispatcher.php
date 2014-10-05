@@ -228,13 +228,13 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 		$classQueue->top();
 
 		// Loop through each class and see if one exists
-		while($classQueue->valid())
+		while ($classQueue->valid())
 		{
 			$potentialClass = $classQueue->current();
 
 			// Log the primary controller name so if we can't find any classes
 			// we can add this name to the log later
-			if(!$first)
+			if (!$first)
 			{
 				$first = $potentialClass;
 			}
@@ -379,9 +379,11 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 
 		if (!empty($controllerTask))
 		{
-			// Temporary solution - Toolbar expects old style but we are using new style
-			// Remove when toolbar can handle either directly
-			// @todo Talk with Buddhima/Elin about what this actually means!?
+			/**
+			 * Temporary solution - Toolbar expects old style but we are using new style
+			 * Remove when toolbar can handle either directly
+			 * @todo Talk with Buddhima/Elin about what this actually means!?
+			 */
 			if (strpos($controllerTask, '/') !== false)
 			{
 				$tasks = explode('/', $controllerTask);
