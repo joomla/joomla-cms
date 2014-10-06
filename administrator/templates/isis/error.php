@@ -224,6 +224,9 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
 						</blockquote>
 						<p><a href="<?php echo $this->baseurl; ?>" class="btn"><i class="icon-dashboard"></i> <?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a></p>
+						<?php if ($this->debug):?>
+							<?php echo $this->renderBacktrace(); ?>
+						<?php endif; ?>
 						<!-- End Content -->
 					</div>
 			</div>
