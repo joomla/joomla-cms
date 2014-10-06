@@ -157,7 +157,7 @@ Joomla.renderMessages = function(messages) {
  * @return  void
  */
 Joomla.removeMessages = function() {
-    jQuery('#system-message-container').empty();
+	document.getElementById("system-message-container").innerHTML = null;
 }
 
 /**
