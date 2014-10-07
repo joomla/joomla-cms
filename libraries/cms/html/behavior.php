@@ -147,8 +147,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery Framework
-		JHtml::_('jquery.framework');
+		// Include core and jQuery framework
+		static::core();
 
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
@@ -208,6 +208,9 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
+
+		// Include core and jQuery framework
+		static::core();
 
 		JHtml::_('script', 'system/combobox.js', true, true);
 		static::$loaded[__METHOD__] = true;
