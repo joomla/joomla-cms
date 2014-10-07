@@ -147,7 +147,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include core and jQuery framework
+		// Include core
 		static::core();
 
 		// Add validate.js language strings
@@ -209,8 +209,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include core and jQuery framework
-		static::core();
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/combobox.js', true, true);
 		static::$loaded[__METHOD__] = true;
@@ -317,6 +317,8 @@ abstract class JHtmlBehavior
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset(static::$loaded[__METHOD__]))
 		{
+			// Include MooTools framework
+			static::framework(true);
 
 			// Load the JavaScript and css
 			JHtml::_('script', 'system/modal.js', true, true);
