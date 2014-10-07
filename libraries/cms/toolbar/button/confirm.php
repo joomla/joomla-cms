@@ -89,13 +89,13 @@ class JToolbarButtonConfirm extends JToolbarButton
 	 */
 	protected function _getCommand($msg, $name, $task, $list)
 	{
-		JHtml::_('behavior.framework');
+
 		$message = JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 		$message = addslashes($message);
 
 		if ($list)
 		{
-			$cmd = "if (document.adminForm.boxchecked.value==0){alert('$message');}else{if (confirm('$msg')){Joomla.submitbutton('$task');}}";
+			$cmd = "if (document.adminForm.boxchecked.value==0){alert('$message');}else{ Joomla.submitbutton('$task')}";
 		}
 		else
 		{
