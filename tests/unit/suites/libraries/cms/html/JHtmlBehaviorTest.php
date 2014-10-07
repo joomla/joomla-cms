@@ -204,7 +204,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::formvalidation();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::formvalidation' => true),
+			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::formvalidation' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
@@ -284,7 +284,6 @@ class JHtmlBehaviorTest extends TestCase
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
-					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::tooltip' => array(
 						md5(serialize(array('.hasTooltip', array()))) => true
 					),
@@ -293,7 +292,6 @@ class JHtmlBehaviorTest extends TestCase
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
-					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::tooltip' => array(
 						md5(serialize(array('.hasTooltip2', array()))) => true
 					),
@@ -303,7 +301,6 @@ class JHtmlBehaviorTest extends TestCase
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
-					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::tooltip' => array(
 						md5(serialize(array('.hasTooltip2', array('showDelay' => 1000)))) => true
 					),
@@ -677,7 +674,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::noframes();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::noframes' => true, 'JHtmlBehavior::framework' => array('core' => true)),
+			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::noframes' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
