@@ -62,7 +62,7 @@ abstract class JUserHelper
 			$user->save();
 		}
 
-		if (session_id())
+		if (JFactory::getSession()->getId())
 		{
 			// Set the group data for any preloaded user objects.
 			$temp = JFactory::getUser((int) $userId);
