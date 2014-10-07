@@ -147,9 +147,6 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
-
 		// Include jQuery Framework
 		JHtml::_('jquery.framework');
 
@@ -211,8 +208,6 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
-		// Include MooTools framework
-		static::framework();
 
 		JHtml::_('script', 'system/combobox.js', true, true);
 		static::$loaded[__METHOD__] = true;
@@ -252,9 +247,6 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
-
-		// Include MooTools framework
-		static::framework(true);
 
 		// Setup options object
 		$opt['maxTitleChars'] = (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int) $params['maxTitleChars'] : 50;
@@ -322,8 +314,6 @@ abstract class JHtmlBehavior
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset(static::$loaded[__METHOD__]))
 		{
-			// Include MooTools framework
-			static::framework(true);
 
 			// Load the JavaScript and css
 			JHtml::_('script', 'system/modal.js', true, true);
@@ -696,9 +686,6 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
-
-		// Include MooTools framework
-		static::framework();
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
