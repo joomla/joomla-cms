@@ -18,17 +18,16 @@ JHtml::_('behavior.formvalidation');
 <script type="text/javascript">
 Joomla.submitbutton = function(task)
 {
-	if (task == 'level.cancel' || document.formvalidator.isValid(document.id('level-form')))
+	if (task == 'level.cancel' || document.formvalidator.isValid(document.getElementById('level-form')))
 	{
-		Joomla.submitform(task, document.id('level-form'));
+		Joomla.submitform(task, document.getElementById('level-form'));
 	}
 }
 /*
-window.addEvent('domready', function(){
-	document.id('user-groups').getElements('input').each(function(i){
+window.addEvent('domready', fdocument.getElementById	document.id('user-groups').getElements('input').each(function(i){
 		// Event to check all child groups.
 		i.addEvent('check', function(e){
-			// Check the child groups.
+			// Chedocument.getElementByIdd groups.
 			document.id('user-groups').getElements('input').each(function(c){
 				if (this.getProperty('rel') == c.id)
 				{
@@ -41,7 +40,7 @@ window.addEvent('domready', function(){
 
 		// Event to uncheck all the parent groups.
 		i.addEvent('uncheck', function(e){
-			// Uncheck the parent groups.
+document.getElementByIdck the parent groups.
 			document.id('user-groups').getElements('input').each(function(c){
 				if (c.getProperty('rel') == this.id)
 				{
@@ -53,7 +52,7 @@ window.addEvent('domready', function(){
 		}.bind(i));
 
 		// Bind to the click event to check/uncheck child/parent groups.
-		i.addEvent('click', function(e){
+		i.addEvent('click'document.getElementByIde){
 			// Check the child groups.
 			document.id('user-groups').getElements('input').each(function(c){
 				if (this.getProperty('rel') == c.id)
@@ -66,8 +65,7 @@ window.addEvent('domready', function(){
 						c.setProperty('disabled', false);
 					}
 					c.fireEvent('check');
-				}
-			}.bind(this));
+	document.getElementByIdind(this));
 
 			// Uncheck the parent groups.
 			document.id('user-groups').getElements('input').each(function(c){

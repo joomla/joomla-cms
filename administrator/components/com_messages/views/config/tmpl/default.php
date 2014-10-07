@@ -19,7 +19,7 @@ JHtml::_('behavior.modal');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'config.cancel' || document.formvalidator.isValid(document.id('config-form')))
+		if (task == 'config.cancel' || document.formvalidator.isValid(document.getElementById('config-form')))
 		{
 			Joomla.submitform(task, document.getElementById('config-form'));
 		}
