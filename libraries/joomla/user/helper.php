@@ -65,7 +65,7 @@ abstract class JUserHelper
 		if (JFactory::getSession()->getId())
 		{
 			// Set the group data for any preloaded user objects.
-			$temp = JFactory::getUser((int) $userId);
+			$temp = JUser::getInstance((int) $userId);
 			$temp->groups = $user->groups;
 
 			// Set the group data for the user object in the session.
