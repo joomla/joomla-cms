@@ -222,11 +222,11 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			array(
-				"<option value=\"1\" class=\"foo bar\" style=\"color:red;\">&nbsp;Test</option>\n",
+				"<option value=\"1\" class=\"foo bar\" style=\"color:red;\">-&nbsp;Test -</option>\n",
 				array(
 					array(
 						'value' => '1',
-						'text' => '&nbsp;Test -         ',
+						'text' => '-&nbsp;Test -',
 						'label' => 'My Label',
 						'id' => 'myId',
 						'attrs' => array('class' => "foo bar",'style' => 'color:red;',),
@@ -348,7 +348,7 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getGenericlistData
 	 * @since         3.2
-	*/
+	 */
 	public function testGenericlist($expected, $data, $name, $attribs = null, $optKey = 'value', $optText = 'text',
 		$selected = null, $idtag = false, $translate = false)
 	{

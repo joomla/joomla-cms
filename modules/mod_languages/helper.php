@@ -57,6 +57,7 @@ abstract class ModLanguagesHelper
 			{
 				$associations = MenusHelper::getAssociations($active->id);
 			}
+
 			// Load component associations
 			$option = $app->input->get('option');
 			$eName = JString::ucfirst(JString::str_ireplace('com_', '', $option));
@@ -71,6 +72,7 @@ abstract class ModLanguagesHelper
 
 		$levels		= $user->getAuthorisedViewLevels();
 		$languages	= JLanguageHelper::getLanguages();
+		$activeLanguage = JFactory::getLanguage()->getTag();
 
 		// Filter allowed languages
 		foreach ($languages as $i => &$language)
@@ -90,7 +92,8 @@ abstract class ModLanguagesHelper
 			{
 				unset($languages[$i]);
 			}
-			else {
+			else
+			{
 				$language->active = $language->lang_code == $lang->getTag();
 
 				if (JLanguageMultilang::isEnabled())
@@ -114,7 +117,11 @@ abstract class ModLanguagesHelper
 					}
 					else
 					{
-						if ($app->get('sef') == '1')
+						if ($language->lang_code == $activeLanguage)
+						{
+							$language->link = JUri::current();
+						}
+						elseif ($app->get('sef') == '1')
 						{
 							$itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
 							$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);

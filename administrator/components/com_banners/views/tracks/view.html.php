@@ -33,9 +33,9 @@ class BannersViewTracks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -48,8 +48,11 @@ class BannersViewTracks extends JViewLegacy
 		BannersHelper::addSubmenu('tracks');
 
 		$this->addToolbar();
+
 		require_once JPATH_COMPONENT . '/models/fields/bannerclient.php';
+
 		$this->sidebar = JHtmlSidebar::render();
+
 		parent::display($tpl);
 	}
 
@@ -69,7 +72,7 @@ class BannersViewTracks extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
 
 		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton('Popup', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
+		$bar->appendButton('Popup', 'download', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
 
 		if ($canDo->get('core.delete'))
 		{

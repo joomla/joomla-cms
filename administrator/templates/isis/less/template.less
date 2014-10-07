@@ -120,12 +120,13 @@ body {
 		.box-shadow(~"0px 0px 60px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.9) inset");
 	}
 	.login-joomla{
-		display: inline-block;
+		position: absolute;
+		left: 50%;
 		height: 24px;
 		width: 24px;
 		text-indent: -9999px;
 		background: url('../images/login-joomla.png') no-repeat;
-		margin-left: -20px;
+		margin-left: -12px;
 	}
 	.navbar-fixed-bottom{
 		position: absolute;
@@ -1038,4 +1039,70 @@ a.grid_true {
 	height: 16px;
 	width: 16px;
 	background-image: url('../images/admin/icon-16-allow.png');
+}
+
+/* For collapsible sidebar */
+#j-sidebar-container {
+	margin-right: 10px;
+}
+
+div#j-sidebar-container.j-toggle-hidden {
+	width: 0;
+	margin-right: 0;
+}
+
+div#j-sidebar-container.j-toggle-hidden #j-toggle-sidebar-button {
+	position: absolute;
+	color: #111;
+	padding: 6px 4px 0 6px;
+	border-radius: 0 4px 4px 0;
+}
+
+div#j-sidebar-container.j-toggle-visible #j-toggle-sidebar-button {
+	position: relative;
+	color: #999;
+	padding: 2px 5px;
+	border-radius: 4px 4px 0 0;
+	text-align: right;
+	border-bottom: 1px solid #d3d3d3;
+}
+
+div#j-sidebar-container.j-toggle-hidden #j-toggle-sidebar-button:hover {
+  color: #555;
+  background: #e6e6e6;
+}
+
+div#j-sidebar-container.j-toggle-visible #j-toggle-sidebar-button:hover {
+  color: #555;
+  background: #e6e6e6;
+}
+
+#j-toggle-sidebar-button {
+	left: 0;
+	border-left: 0;
+	background: #e1e1e1;
+	margin-top: 0;
+	cursor: pointer;
+	height: 23px;
+}
+
+#sidebar {
+	padding: 3px;
+	background: #ffffff;
+	background: -moz-linear-gradient(top,#ffffff 0%,#ededed 100%);
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#ededed));
+	background: -webkit-linear-gradient(top,#ffffff 0%,#ededed 100%);
+	background: -o-linear-gradient(top,#ffffff 0%,#ededed 100%);
+	background: -ms-linear-gradient(top,#ffffff 0%,#ededed 100%);
+	background: linear-gradient(top,#ffffff 0%,#ededed 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ededed',GradientType=0);
+	border-right: 1px solid #e1e1e1;
+	border-left: 1px solid #e1e1e1;
+	border-bottom: 1px solid #e1e1e1;
+	border-radius: 0 0 4px 4px;
+}
+
+.j-toggle-visible #j-toggle-sidebar-icon {
+	margin-top: 6px;
+	margin-left: 4px;
 }

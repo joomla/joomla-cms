@@ -41,7 +41,7 @@ class AdminModelProfile extends UsersModelUser
 		}
 
 		// Check for username compliance and parameter set
-		$usernameCompliant = true;
+		$isUsernameCompliant = true;
 
 		if ($this->loadFormData()->username)
 		{
@@ -128,8 +128,6 @@ class AdminModelProfile extends UsersModelUser
 		unset($data['sendEmail']);
 		unset($data['block']);
 
-		// Unset the username if it should not be overwritten
-		$username = $data['username'];
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
 		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)

@@ -31,13 +31,12 @@ class ContentViewFeatured extends JViewLegacy
 		$app       = JFactory::getApplication();
 		$doc       = JFactory::getDocument();
 		$params    = $app->getParams();
-		$feedEmail = $app->getCfg('feed_email', 'author');
-		$siteEmail = $app->getCfg('mailfrom');
-
-		$doc->link	= JRoute::_('index.php?option=com_content&view=featured');
+		$feedEmail = $app->get('feed_email', 'author');
+		$siteEmail = $app->get('mailfrom');
+		$doc->link = JRoute::_('index.php?option=com_content&view=featured');
 
 		// Get some data from the model
-		$app->input->set('limit', $app->getCfg('feed_limit'));
+		$app->input->set('limit', $app->get('feed_limit'));
 		$categories = JCategories::getInstance('Content');
 		$rows       = $this->get('Items');
 		foreach ($rows as $row)
@@ -71,14 +70,18 @@ class ContentViewFeatured extends JViewLegacy
 			$item->date			= $row->publish_up;
 			$item->category		= array();
 			$item->category[]	= JText::_('JFEATURED'); // All featured articles are categorized as "Featured"
+
 			for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent())
 			{
-				if ($item_category->id > 1) { // Only add non-root categories
+				// Only add non-root categories
+				if ($item_category->id > 1)
+				{
 					$item->category[] = $item_category->title;
 				}
 			}
 
-			$item->author 		= $author;
+			$item->author = $author;
+
 			if ($feedEmail == 'site')
 			{
 				$item->authorEmail = $siteEmail;

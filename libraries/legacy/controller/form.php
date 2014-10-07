@@ -195,7 +195,7 @@ class JControllerForm extends JControllerLegacy
 	}
 
 	/**
-	 * Method to check if you can add a new record.
+	 * Method to check if you can edit an existing record.
 	 *
 	 * Extended classes can override this if necessary.
 	 *

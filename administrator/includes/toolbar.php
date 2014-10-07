@@ -32,11 +32,11 @@ abstract class JToolbarHelper
 	public static function title($title, $icon = 'generic.png')
 	{
 		$layout = new JLayoutFile('joomla.toolbar.title');
-		$html = $layout->render(array('title' => $title, 'icon' => $icon));
+		$html   = $layout->render(array('title' => $title, 'icon' => $icon));
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;
-		JFactory::getDocument()->setTitle($app->getCfg('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . $title);
+		JFactory::getDocument()->setTitle($app->get('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . $title);
 	}
 
 	/**
