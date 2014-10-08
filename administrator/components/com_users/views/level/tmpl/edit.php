@@ -27,7 +27,7 @@ Joomla.submitbutton = function(task)
 window.addEvent('domready', fdocument.getElementById	document.id('user-groups').getElements('input').each(function(i){
 		// Event to check all child groups.
 		i.addEvent('check', function(e){
-			// Chedocument.getElementByIdd groups.
+			// Check the child groups.
 			document.id('user-groups').getElements('input').each(function(c){
 				if (this.getProperty('rel') == c.id)
 				{
@@ -40,7 +40,7 @@ window.addEvent('domready', fdocument.getElementById	document.id('user-groups').
 
 		// Event to uncheck all the parent groups.
 		i.addEvent('uncheck', function(e){
-document.getElementByIdck the parent groups.
+		// Uncheck the parent groups.
 			document.id('user-groups').getElements('input').each(function(c){
 				if (c.getProperty('rel') == this.id)
 				{
@@ -52,7 +52,7 @@ document.getElementByIdck the parent groups.
 		}.bind(i));
 
 		// Bind to the click event to check/uncheck child/parent groups.
-		i.addEvent('click'document.getElementByIde){
+		i.addEvent('click', function(e){
 			// Check the child groups.
 			document.id('user-groups').getElements('input').each(function(c){
 				if (this.getProperty('rel') == c.id)
@@ -65,7 +65,8 @@ document.getElementByIdck the parent groups.
 						c.setProperty('disabled', false);
 					}
 					c.fireEvent('check');
-	document.getElementByIdind(this));
+				}
+            }.bind(this));
 
 			// Uncheck the parent groups.
 			document.id('user-groups').getElements('input').each(function(c){
