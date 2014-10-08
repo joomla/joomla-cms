@@ -45,6 +45,7 @@ class GenerateCss extends JApplicationCli
 		$templates = array(
 			JPATH_ADMINISTRATOR . '/templates/isis/less/template.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/template.css',
 			JPATH_ADMINISTRATOR . '/templates/isis/less/template-rtl.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/template-rtl.css',
+			JPATH_ADMINISTRATOR . '/templates/isis/less/chosen.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/jui/chosen.css',
 			JPATH_ADMINISTRATOR . '/templates/hathor/less/template.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css/template.css',
 			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_blue.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css/colour_blue.css',
 			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_brown.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css/colour_brown.css',
