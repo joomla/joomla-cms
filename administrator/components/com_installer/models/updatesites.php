@@ -98,9 +98,7 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		$result = true;
 
-		/*
-		 * Ensure eid is an array of extension ids
-		 */
+		// Ensure eid is an array of extension ids
 		if (!is_array($eid))
 		{
 			$eid = array($eid);
@@ -135,9 +133,9 @@ class InstallerModelUpdatesites extends InstallerModel
 	protected function getListQuery()
 	{
 		$enabled = $this->getState('filter.enabled');
-		$type = $this->getState('filter.type');
-		$client = $this->getState('filter.client_id');
-		$group = $this->getState('filter.group');
+		$type    = $this->getState('filter.type');
+		$client  = $this->getState('filter.client_id');
+		$group   = $this->getState('filter.group');
 
 		$query = JFactory::getDbo()->getQuery(true)
 			->select(
@@ -201,15 +199,17 @@ class InstallerModelUpdatesites extends InstallerModel
 	 * @param   int    $limit      The number of records
 	 *
 	 * @return  array
+	 *
+	 * @since 3.4
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
 		$ordering = $this->getState('list.ordering');
-		$search = $this->getState('filter.search');
+		$search   = $this->getState('filter.search');
 
 		// Replace slashes so preg_match will work
 		$search = str_replace('/', ' ', $search);
-		$db = $this->getDbo();
+		$db     = $this->getDbo();
 
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
 		{

@@ -13,11 +13,11 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-manage">
-<form action="<?php echo JRoute::_('index.php?option=com_installer&view=updatesites');?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_installer&view=updatesites'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
 			<?php echo $this->sidebar; ?>
@@ -25,11 +25,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<div id="j-main-container" class="span10">
 	<?php else : ?>
 		<div id="j-main-container">
-	<?php endif;?>
-
+	<?php endif; ?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="btn-group pull-right hidden-phone">
-				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
+				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
 			<div class="filter-search btn-group pull-left">
@@ -41,7 +40,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</div>
 		</div>
 		<div class="clearfix"> </div>
-
 		<?php if (count($this->items)) : ?>
 		<table class="table table-striped">
 			<thead>
@@ -81,7 +79,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</tfoot>
 			<tbody>
 			<?php foreach ($this->items as $i => $item) : ?>
-				<tr class="row<?php echo $i % 2; if ($item->enabled == 2) echo ' protected';?>">
+				<tr class="row<?php echo $i % 2; if ($item->enabled == 2) echo ' protected'; ?>">
 					<td>
 						<?php echo JHtml::_('grid.id', $i, $item->update_site_id); ?>
 					</td>
@@ -110,20 +108,18 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 					</td>
 					<td>
-						<?php echo $item->update_site_id ?>
+						<?php echo $item->update_site_id; ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>
 		</table>
 		<?php endif; ?>
-
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
-	<!-- End Content -->
 	</div>
 </form>
 </div>
