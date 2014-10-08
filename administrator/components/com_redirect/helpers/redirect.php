@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Redirect component helper.
  *
@@ -24,6 +26,8 @@ class RedirectHelper
 	 * Configure the Linkbar.
 	 *
 	 * @param   string	The name of the active view.
+	 *
+	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -51,17 +55,19 @@ class RedirectHelper
 	/**
 	 * Returns an array of standard published state filter options.
 	 *
-	 * @return  string  	The HTML code for the select tag
+	 * @return  array  An array containing the options
+	 *
+	 * @since   1.6
 	 */
 	public static function publishedOptions()
 	{
 		// Build the active state filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '*', 'JALL');
-		$options[]	= JHtml::_('select.option', '1', 'JENABLED');
-		$options[]	= JHtml::_('select.option', '0', 'JDISABLED');
-		$options[]	= JHtml::_('select.option', '2', 'JARCHIVED');
-		$options[]	= JHtml::_('select.option', '-2', 'JTRASHED');
+		$options   = array();
+		$options[] = JHtml::_('select.option', '*', 'JALL');
+		$options[] = JHtml::_('select.option', '1', 'JENABLED');
+		$options[] = JHtml::_('select.option', '0', 'JDISABLED');
+		$options[] = JHtml::_('select.option', '2', 'JARCHIVED');
+		$options[] = JHtml::_('select.option', '-2', 'JTRASHED');
 
 		return $options;
 	}
@@ -70,10 +76,12 @@ class RedirectHelper
 	 * Determines if the plugin for Redirect to work is enabled.
 	 *
 	 * @return  boolean
+	 *
+	 * @since   1.6
 	 */
 	public static function isEnabled()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('enabled'))
 			->from('#__extensions')
@@ -96,7 +104,9 @@ class RedirectHelper
 	/**
 	 * Checks whether the option "Collect URLs" is enabled for the output message
 	 *
-	 * @return mixed
+	 * @return  boolean
+	 *
+	 * @since   3.4
 	 */
 	public static function collectUrlsEnabled()
 	{
@@ -104,7 +114,7 @@ class RedirectHelper
 
 		if (JPluginHelper::isEnabled('system', 'redirect'))
 		{
-			$params = new JRegistry(JPluginHelper::getPlugin('system', 'redirect')->params);
+			$params       = new Registry(JPluginHelper::getPlugin('system', 'redirect')->params);
 			$collect_urls = (bool) $params->get('collect_urls', 1);
 		}
 
