@@ -99,7 +99,7 @@ Joomla.submitbutton = function(pressbutton)
 							$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
 						?>
 						<?php if ($this->state->get('filter.branch') == 1 && $item->num_children) : ?>
-							<a href="document.getElementById"document.id('filter_branch').value='<?php echo (int) $item->id;?>';document.adminForm.submit();" title="<?php echo JText::_('COM_FINDER_MAPS_BRANCH_LINK'); ?>">
+							<a href="#" onclick="document.getElementById('filter_branch').value='<?php echo (int) $item->id;?>';document.adminForm.submit();" title="<?php echo JText::_('COM_FINDER_MAPS_BRANCH_LINK'); ?>">
 								<?php echo $this->escape($title); ?></a>
 						<?php else: ?>
 							<?php echo $this->escape(($title == '*') ? JText::_('JALL_LANGUAGE') : $title); ?>

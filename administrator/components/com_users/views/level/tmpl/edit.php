@@ -24,7 +24,8 @@ Joomla.submitbutton = function(task)
 	}
 }
 /*
-window.addEvent('domready', fdocument.getElementById	document.id('user-groups').getElements('input').each(function(i){
+window.addEvent('domready', function(){
+	document.getElementById('user-groups').getElements('input').each(function(i){
 		// Event to check all child groups.
 		i.addEvent('check', function(e){
 			// Check the child groups.
@@ -40,7 +41,7 @@ window.addEvent('domready', fdocument.getElementById	document.id('user-groups').
 
 		// Event to uncheck all the parent groups.
 		i.addEvent('uncheck', function(e){
-		// Uncheck the parent groups.
+			// Uncheck the parent groups.
 			document.id('user-groups').getElements('input').each(function(c){
 				if (c.getProperty('rel') == this.id)
 				{
@@ -66,7 +67,7 @@ window.addEvent('domready', fdocument.getElementById	document.id('user-groups').
 					}
 					c.fireEvent('check');
 				}
-            }.bind(this));
+			}.bind(this));
 
 			// Uncheck the parent groups.
 			document.id('user-groups').getElements('input').each(function(c){
