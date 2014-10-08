@@ -8,8 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
-JHtml::_('behavior.framework');
 ?>
 <div class="btn-wrapper" <?php echo $displayData['id']; ?>>
 	<?php echo $displayData['action']; ?>
