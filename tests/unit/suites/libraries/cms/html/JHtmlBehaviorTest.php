@@ -283,7 +283,6 @@ class JHtmlBehaviorTest extends TestCase
 		$data = array(
 			array(
 				array(
-					'JHtmlBehavior::core' => true,
 					'JHtmlBehavior::tooltip' => array(
 						md5(serialize(array('.hasTooltip', array()))) => true
 					),
@@ -291,7 +290,6 @@ class JHtmlBehaviorTest extends TestCase
 			),
 			array(
 				array(
-					'JHtmlBehavior::core' => true,
 					'JHtmlBehavior::tooltip' => array(
 						md5(serialize(array('.hasTooltip2', array()))) => true
 					),
@@ -300,7 +298,6 @@ class JHtmlBehaviorTest extends TestCase
 			),
 			array(
 				array(
-					'JHtmlBehavior::core' => true,
 					'JHtmlBehavior::tooltip' => array(
 						md5(serialize(array('.hasTooltip2', array('showDelay' => 1000)))) => true
 					),
@@ -674,7 +671,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::noframes();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::noframes' => true),
+			array('JHtmlBehavior::noframes' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
