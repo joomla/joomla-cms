@@ -12,7 +12,6 @@
 	background-image: -o-linear-gradient(left, @startColor, @endColor); // Opera 11.10
 	background-image: linear-gradient(to right, @startColor, @endColor); // Standard, IE10
 	background-repeat: repeat-x;
-	filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",argb(@startColor),argb(@endColor))); // IE9 and down
   }
   .vertical(@startColor: #555, @endColor: #333) {
 	background-color: mix(@startColor, @endColor, 60%);
@@ -22,7 +21,6 @@
 	background-image: -o-linear-gradient(top, @startColor, @endColor); // Opera 11.10
 	background-image: linear-gradient(to bottom, @startColor, @endColor); // Standard, IE10
 	background-repeat: repeat-x;
-	filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",argb(@startColor),argb(@endColor))); // IE9 and down
   }
   .directional(@startColor: #555, @endColor: #333, @deg: 45deg) {
 	background-color: @endColor;
@@ -40,7 +38,6 @@
 	background-image: -o-linear-gradient(left, @startColor, @midColor @colorStop, @endColor);
 	background-image: linear-gradient(to right, @startColor, @midColor @colorStop, @endColor);
 	background-repeat: no-repeat;
-	filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",argb(@startColor),argb(@endColor))); // IE9 and down, gets no color-stop at all for proper fallback
   }
 
   .vertical-three-colors(@startColor: #00b3ee, @midColor: #7a43b6, @colorStop: 50%, @endColor: #c3325f) {
@@ -51,7 +48,6 @@
 	background-image: -o-linear-gradient(@startColor, @midColor @colorStop, @endColor);
 	background-image: linear-gradient(@startColor, @midColor @colorStop, @endColor);
 	background-repeat: no-repeat;
-	filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",argb(@startColor),argb(@endColor))); // IE9 and down, gets no color-stop at all for proper fallback
   }
   .radial(@innerColor: #555, @outerColor: #333) {
 	background-color: @outerColor;
@@ -78,26 +74,6 @@
 // Drop shadows
 .box-shadow(@shadow) {
   box-shadow: @shadow;
-}
-
-// Transitions
-.transition(@transition) {
-  -webkit-transition: @transition;
-  -moz-transition: @transition;
-  -o-transition: @transition;
-  transition: @transition;
-}
-.transition-delay(@transition-delay) {
-  -webkit-transition-delay: @transition-delay;
-  -moz-transition-delay: @transition-delay;
-  -o-transition-delay: @transition-delay;
-  transition-delay: @transition-delay;
-}
-.transition-duration(@transition-duration) {
-  -webkit-transition-duration: @transition-duration;
-  -moz-transition-duration: @transition-duration;
-  -o-transition-duration: @transition-duration;
-  transition-duration: @transition-duration;
 }
 
 // Background clipping
@@ -305,7 +281,7 @@
 	cursor: pointer;
   }
 }
-.chzn-container-single .chzn-search input {
+.chzn-container-single .chzn-search input[type="text"] {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -326,7 +302,7 @@
   border-radius: 0 0 4px 4px;
   .background-clip(padding-box);
 }
-.chzn-container-single-nosearch .chzn-search {
+.chzn-container-single.chzn-container-single-nosearch .chzn-search {
   position: absolute;
   left: -9999px;
 }
@@ -340,10 +316,6 @@
   padding: 0 0 0 4px;
   max-height: 240px;
   -webkit-overflow-scrolling: touch;
-}
-.chzn-container-multi .chzn-results {
-  margin: 0;
-  padding: 0;
 }
 .chzn-container .chzn-results li {
   display: none;
@@ -381,20 +353,7 @@
   font-style: normal;
   text-decoration: underline;
 }
-.chzn-container .chzn-results-scroll-down span {
-  &:before {
-	content: '\E007';
-	font-family: "IcoMoon";
-	cursor: pointer;
-  }
-}
-.chzn-container .chzn-results-scroll-up span {
-  &:before {
-	content: '\E005';
-	font-family: "IcoMoon";
-	cursor: pointer;
-  }
-}
+
 /* @end */
 /* @group Multi Chosen */
 .chzn-container-multi .chzn-choices {
@@ -419,12 +378,12 @@
   float: left;
   list-style: none;
 }
-.chzn-container-multi .chzn-choices .search-field {
+.chzn-container-multi .chzn-choices li.search-field {
   margin: 0;
   padding: 0;
   white-space: nowrap;
 }
-.chzn-container-multi .chzn-choices .search-field input[type="text"] {
+.chzn-container-multi .chzn-choices li.search-field input[type="text"] {
   margin: 1px 0;
   padding: 5px;
   height: 15px;
@@ -471,13 +430,12 @@
 	cursor: pointer;
   }
 }
-.chzn-container-multi .chzn-choices li.search-choice .search-choice-close:hover {
-  font-family: "IcoMoon";
-  content: '\004A';
-  position: relative;
-  right: 1px;
-  top: 0;
-  cursor: pointer;
+.chzn-container-multi .chzn-choices li.search-choice .search-choice-close {
+  &:after {
+	content: '\E00F';
+	font-family: "IcoMoon";
+	cursor: pointer;
+  }
 }
 .chzn-container-multi .chzn-choices li.search-choice-disabled {
   padding-right: 5px;
@@ -490,7 +448,11 @@
   background: #d4d4d4;
 }
 .chzn-container-multi .chzn-choices li.search-choice-focus .search-choice-close {
-  background-position: -42px -10px;
+  &:after {
+  content: '\E00F';
+  font-family: "IcoMoon";
+  cursor: pointer;
+}
 }
 .chzn-container-multi .chzn-results {
   margin: 0;

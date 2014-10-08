@@ -42,15 +42,10 @@
 	background-image: -o-linear-gradient(#ffffff,#eeeeee 50%,#f4f4f4);
 	background-image: linear-gradient(#ffffff,#eeeeee 50%,#f4f4f4);
 	background-repeat: no-repeat;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff4f4f4', GradientType=0);
 	-webkit-background-clip: padding-box;
 	-moz-background-clip: padding-box;
 	background-clip: padding-box;
 	box-shadow: 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
-	-webkit-transition: border linear .2s, box-shadow linear .2s;
-	-moz-transition: border linear .2s, box-shadow linear .2s;
-	-o-transition: border linear .2s, box-shadow linear .2s;
-	transition: border linear .2s, box-shadow linear .2s;
 	color: #444;
 	text-decoration: none;
 	white-space: nowrap;
@@ -135,7 +130,7 @@
 	top: 2px;
 	cursor: pointer;
 }
-.chzn-container-single .chzn-search input {
+.chzn-container-single .chzn-search input[type="text"] {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -152,7 +147,6 @@
 	background-image: -o-linear-gradient(top,#eee,#fff);
 	background-image: linear-gradient(to bottom,#eee,#fff);
 	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffeeeeee', endColorstr='#ffffffff', GradientType=0);
 	font-size: 1em;
 	font-family: sans-serif;
 	line-height: normal;
@@ -165,7 +159,7 @@
 	-moz-background-clip: padding-box;
 	background-clip: padding-box;
 }
-.chzn-container-single-nosearch .chzn-search {
+.chzn-container-single.chzn-container-single-nosearch .chzn-search {
 	position: absolute;
 	left: -9999px;
 }
@@ -177,10 +171,6 @@
 	padding: 0 0 0 4px;
 	max-height: 240px;
 	-webkit-overflow-scrolling: touch;
-}
-.chzn-container-multi .chzn-results {
-	margin: 0;
-	padding: 0;
 }
 .chzn-container .chzn-results li {
 	display: none;
@@ -206,7 +196,6 @@
 	background-image: -o-linear-gradient(top,#0099e6,#0077b3);
 	background-image: linear-gradient(to bottom,#0099e6,#0077b3);
 	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0098e5', endColorstr='#ff0076b2', GradientType=0);
 	color: #fff;
 }
 .chzn-container .chzn-results li.no-results {
@@ -225,16 +214,6 @@
 	font-style: normal;
 	text-decoration: underline;
 }
-.chzn-container .chzn-results-scroll-down span:before {
-	content: '\E007';
-	font-family: "IcoMoon";
-	cursor: pointer;
-}
-.chzn-container .chzn-results-scroll-up span:before {
-	content: '\E005';
-	font-family: "IcoMoon";
-	cursor: pointer;
-}
 .chzn-container-multi .chzn-choices {
 	position: relative;
 	overflow: hidden;
@@ -249,22 +228,18 @@
 	border: 1px solid #ccc;
 	background-color: #fff;
 	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-	-webkit-transition: border linear .2s, box-shadow linear .2s;
-	-moz-transition: border linear .2s, box-shadow linear .2s;
-	-o-transition: border linear .2s, box-shadow linear .2s;
-	transition: border linear .2s, box-shadow linear .2s;
 	cursor: text;
 }
 .chzn-container-multi .chzn-choices li {
 	float: left;
 	list-style: none;
 }
-.chzn-container-multi .chzn-choices .search-field {
+.chzn-container-multi .chzn-choices li.search-field {
 	margin: 0;
 	padding: 0;
 	white-space: nowrap;
 }
-.chzn-container-multi .chzn-choices .search-field input[type="text"] {
+.chzn-container-multi .chzn-choices li.search-field input[type="text"] {
 	margin: 1px 0;
 	padding: 5px;
 	height: 15px;
@@ -294,7 +269,6 @@
 	background-image: -o-linear-gradient(#ffffff,#eeeeee 50%,#f4f4f4);
 	background-image: linear-gradient(#ffffff,#eeeeee 50%,#f4f4f4);
 	background-repeat: no-repeat;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff4f4f4', GradientType=0);
 	-webkit-background-clip: padding-box;
 	-moz-background-clip: padding-box;
 	background-clip: padding-box;
@@ -320,12 +294,9 @@
 	top: 0;
 	cursor: pointer;
 }
-.chzn-container-multi .chzn-choices li.search-choice .search-choice-close:hover {
+.chzn-container-multi .chzn-choices li.search-choice .search-choice-close:after {
+	content: '\E00F';
 	font-family: "IcoMoon";
-	content: '\004A';
-	position: relative;
-	right: 1px;
-	top: 0;
 	cursor: pointer;
 }
 .chzn-container-multi .chzn-choices li.search-choice-disabled {
@@ -339,14 +310,15 @@
 	background-image: -o-linear-gradient(#f4f4f4,#f0f0f0 50%,#e8e8e8);
 	background-image: linear-gradient(#f4f4f4,#f0f0f0 50%,#e8e8e8);
 	background-repeat: no-repeat;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff4f4f4', endColorstr='#ffe8e8e8', GradientType=0);
 	color: #666;
 }
 .chzn-container-multi .chzn-choices li.search-choice-focus {
 	background: #d4d4d4;
 }
-.chzn-container-multi .chzn-choices li.search-choice-focus .search-choice-close {
-	background-position: -42px -10px;
+.chzn-container-multi .chzn-choices li.search-choice-focus .search-choice-close:after {
+	content: '\E00F';
+	font-family: "IcoMoon";
+	cursor: pointer;
 }
 .chzn-container-multi .chzn-results {
 	margin: 0;
