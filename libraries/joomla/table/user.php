@@ -187,7 +187,7 @@ class JTableUser extends JTable
 		}
 
 		if (preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $this->username) || strlen(utf8_decode($this->username)) < 2
-			|| trim($this->username) != $this->username)
+			|| trim($this->username) !== $this->username)
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
 
