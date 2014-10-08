@@ -32,7 +32,7 @@ class JControllerAdminTest extends TestCase
 	{
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$config = $this->getMockConfig();
 
 		parent::setUp();

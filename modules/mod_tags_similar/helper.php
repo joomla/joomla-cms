@@ -43,6 +43,7 @@ abstract class ModTagssimilarHelper
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$matchtype  = $params->get('matchtype', 'all');
 		$maximum    = $params->get('maximum', 5);
+		$ordering   = $params->get('ordering', 'count');
 		$tagsHelper = new JHelperTags;
 		$prefix     = $option . '.' . $view;
 		$id         = $app->input->getInt('id');
@@ -70,7 +71,8 @@ abstract class ModTagssimilarHelper
 				$db->quoteName('cc.core_title'),
 				$db->quoteName('cc.core_alias'),
 				$db->quoteName('cc.core_catid'),
-				$db->quoteName('cc.core_language')
+				$db->quoteName('cc.core_language'),
+				$db->quoteName('cc.core_params')
 				)
 		);
 
@@ -115,7 +117,16 @@ abstract class ModTagssimilarHelper
 			$query->having('COUNT( ' . $db->quoteName('tag_id') . ')  >= ' . $tagCountHalf);
 		}
 
-		$query->order($db->quoteName('count') . ' DESC');
+		if ($ordering == 'count' || $ordering == 'countrandom')
+		{
+			$query->order($db->quoteName('count') . ' DESC');
+		}
+
+		if ($ordering == 'random' || $ordering == 'countrandom')
+		{
+			$query->order('RAND()');
+		}
+
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 
@@ -124,6 +135,8 @@ abstract class ModTagssimilarHelper
 			$explodedAlias = explode('.', $result->type_alias);
 			$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1]
 				. '&id=' . $result->content_item_id . '-' . $result->core_alias;
+
+			$result->core_params = new JRegistry($result->core_params);
 		}
 
 		return $results;

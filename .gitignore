@@ -22,10 +22,26 @@
 # phpDocumentor Logs #
 phpdoc-*
 
-# Patch Tester
+# Patch Tester #
 administrator/components/com_patchtester/
 administrator/templates/hathor/html/com_patchtester
 components/com_patchtester/
+
+# OSX #
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows #
+Thumbs.db
+Desktop.ini
+
+# Never ignore #
+# Only apply this rule to the main repository's gitignore files
+!/.gitignore
+!/build/.gitignore
+!/tests/unit/suites/libraries/joomla/archive/.gitignore
+!/tests/unit/tmp/.gitignore
 
 # Extra files installed by Composer not needed in the CMS environment
 # This should only ignore files like unit testing or READMEs, production

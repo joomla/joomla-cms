@@ -78,6 +78,27 @@ class JComponentHelper
 	}
 
 	/**
+	 * Checks if a component is installed
+	 *
+	 * @param   string  $option  The component option.
+	 *
+	 * @return  integer
+	 *
+	 * @since   3.4
+	 */
+	public static function isInstalled($option)
+	{
+		$db = JFactory::getDbo();
+
+		return (int) $db->setQuery(
+			$db->getQuery(true)
+				->select('COUNT(extension_id)')
+				->from('#__extensions')
+				->where('element = ' . $db->quote($option))
+		)->loadResult();
+	}
+
+	/**
 	 * Gets the parameter object for the component
 	 *
 	 * @param   string   $option  The option for the component.

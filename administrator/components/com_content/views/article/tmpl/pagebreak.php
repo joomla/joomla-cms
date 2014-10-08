@@ -29,28 +29,18 @@ $script .= '}'."\n";
 
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
-	<form>
-		<table>
-			<tr>
-				<td class="key" align="right">
-					<label for="title">
-						<?php echo JText::_('COM_CONTENT_PAGEBREAK_TITLE'); ?>
-					</label>
-				</td>
-				<td>
-					<input type="text" id="title" name="title" />
-				</td>
-			</tr>
-			<tr>
-				<td class="key" align="right">
-					<label for="alias">
-						<?php echo JText::_('COM_CONTENT_PAGEBREAK_TOC'); ?>
-					</label>
-				</td>
-				<td>
-					<input type="text" id="alt" name="alt" />
-				</td>
-			</tr>
-		</table>
-	</form>
-	<button onclick="insertPagebreak();"><?php echo JText::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?></button>
+<form class="form-horizontal">
+	
+	<div class="control-group">
+		<label for="title" class="control-label"><?php echo JText::_('COM_CONTENT_PAGEBREAK_TITLE'); ?></label>
+		<div class="controls"><input type="text" id="title" name="title" /></div>
+	</div>
+	
+	<div class="control-group">
+		<label for="alias" class="control-label"><?php echo JText::_('COM_CONTENT_PAGEBREAK_TOC'); ?></label>
+		<div class="controls"><input type="text" id="alt" name="alt" /></div>		
+	</div>
+	
+	<button onclick="insertPagebreak();" class="btn btn-primary"><?php echo JText::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?></button>
+	
+</form>

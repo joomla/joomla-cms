@@ -112,7 +112,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_plugins', '', 1);
 		$extensions[] = array('component', 'com_search', '', 1);
 		$extensions[] = array('component', 'com_templates', '', 1);
-		$extensions[] = array('component', 'com_weblinks', '', 1);
 		$extensions[] = array('component', 'com_content', '', 1);
 		$extensions[] = array('component', 'com_config', '', 1);
 		$extensions[] = array('component', 'com_redirect', '', 1);
@@ -149,7 +148,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('module', 'mod_stats', '', 0);
 		$extensions[] = array('module', 'mod_syndicate', '', 0);
 		$extensions[] = array('module', 'mod_users_latest', '', 0);
-		$extensions[] = array('module', 'mod_weblinks', '', 0);
 		$extensions[] = array('module', 'mod_whosonline', '', 0);
 		$extensions[] = array('module', 'mod_wrapper', '', 0);
 		$extensions[] = array('module', 'mod_articles_category', '', 0);
@@ -196,7 +194,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'content', 'search', 0);
 		$extensions[] = array('plugin', 'newsfeeds', 'search', 0);
 		$extensions[] = array('plugin', 'tags', 'search', 0);
-		$extensions[] = array('plugin', 'weblinks', 'search', 0);
 		$extensions[] = array('plugin', 'languagefilter', 'system', 0);
 		$extensions[] = array('plugin', 'p3p', 'system', 0);
 		$extensions[] = array('plugin', 'cache', 'system', 0);
@@ -219,7 +216,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'contacts', 'finder', 0);
 		$extensions[] = array('plugin', 'content', 'finder', 0);
 		$extensions[] = array('plugin', 'newsfeeds', 'finder', 0);
-		$extensions[] = array('plugin', 'weblinks', 'finder', 0);
 		$extensions[] = array('plugin', 'tags', 'finder', 0);
 		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
 
@@ -1176,6 +1172,18 @@ class JoomlaInstallerScript
 			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
 			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
+			}
+		}
+
+		/*
+		 * Needed for updates post-3.4
+		 * If com_weblinks doesn't exist then assume we can delete the weblinks package manifest (included in the update packages)
+		 */
+		if (!JFile::exists(JPATH_ADMINISTRATOR . '/components/com_weblinks/weblinks.php'))
+		{
+			if (JFile::exists(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml'))
+			{
+				JFile::delete(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml');
 			}
 		}
 	}
