@@ -28,6 +28,7 @@ $script .= "\t\t".'}'."\n";
 $script .= "\t\t".'}'."\n";
 
 JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.core');
 
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
