@@ -662,6 +662,7 @@
   function updateDisplaySimple(cm, viewport) {
     var update = new DisplayUpdate(cm, viewport);
     if (updateDisplayIfNeeded(cm, update)) {
+      updateHeightsInViewport(cm);
       postUpdateDisplay(cm, update);
       var barMeasure = measureForScrollbars(cm);
       updateSelection(cm);
@@ -1280,14 +1281,17 @@
     return result;
   }
 
-  function updateSelection(cm, drawn) {
-    if (!drawn) drawn = drawSelection(cm);
+  function showSelection(cm, drawn) {
     removeChildrenAndAdd(cm.display.cursorDiv, drawn.cursors);
     removeChildrenAndAdd(cm.display.selectionDiv, drawn.selection);
     if (drawn.teTop != null) {
       cm.display.inputDiv.style.top = drawn.teTop + "px";
       cm.display.inputDiv.style.left = drawn.teLeft + "px";
     }
+  }
+
+  function updateSelection(cm) {
+    showSelection(cm, drawSelection(cm));
   }
 
   // Draws a cursor for the given range
@@ -1642,19 +1646,26 @@
 
     var rect;
     if (node.nodeType == 3) { // If it is a text node, use a range to retrieve the coordinates.
-      while (start && isExtendingChar(prepared.line.text.charAt(mStart + start))) --start;
-      while (mStart + end < mEnd && isExtendingChar(prepared.line.text.charAt(mStart + end))) ++end;
-      if (ie && ie_version < 9 && start == 0 && end == mEnd - mStart) {
-        rect = node.parentNode.getBoundingClientRect();
-      } else if (ie && cm.options.lineWrapping) {
-        var rects = range(node, start, end).getClientRects();
-        if (rects.length)
-          rect = rects[bias == "right" ? rects.length - 1 : 0];
-        else
-          rect = nullRect;
-      } else {
-        rect = range(node, start, end).getBoundingClientRect() || nullRect;
+      for (var i = 0; i < 4; i++) { // Retry a maximum of 4 times when nonsense rectangles are returned
+        while (start && isExtendingChar(prepared.line.text.charAt(mStart + start))) --start;
+        while (mStart + end < mEnd && isExtendingChar(prepared.line.text.charAt(mStart + end))) ++end;
+        if (ie && ie_version < 9 && start == 0 && end == mEnd - mStart) {
+          rect = node.parentNode.getBoundingClientRect();
+        } else if (ie && cm.options.lineWrapping) {
+          var rects = range(node, start, end).getClientRects();
+          if (rects.length)
+            rect = rects[bias == "right" ? rects.length - 1 : 0];
+          else
+            rect = nullRect;
+        } else {
+          rect = range(node, start, end).getBoundingClientRect() || nullRect;
+        }
+        if (rect.left || rect.right || start == 0) break;
+        end = start;
+        start = start - 1;
+        collapse = "right";
       }
+      if (ie && ie_version < 11) rect = maybeUpdateRectForZooming(cm.display.measure, rect);
     } else { // If it is a widget, simply get the box for the whole widget.
       if (start > 0) collapse = bias = "right";
       var rects;
@@ -1670,8 +1681,6 @@
       else
         rect = nullRect;
     }
-
-    if (ie && ie_version < 11) rect = maybeUpdateRectForZooming(cm.display.measure, rect);
 
     var rtop = rect.top - prepared.rect.top, rbot = rect.bottom - prepared.rect.top;
     var mid = (rtop + rbot) / 2;
@@ -2029,16 +2038,17 @@
     var cm = op.cm, display = cm.display;
     if (op.updatedDisplay) updateHeightsInViewport(cm);
 
+    op.barMeasure = measureForScrollbars(cm);
+
     // If the max line changed since it was last measured, measure it,
     // and ensure the document's width matches it.
-    // updateDisplayIfNeeded will use these properties to do the actual resizing
+    // updateDisplay_W2 will use these properties to do the actual resizing
     if (display.maxLineChanged && !cm.options.lineWrapping) {
-      op.adjustWidthTo = measureChar(cm, display.maxLine, display.maxLine.text.length).left;
+      op.adjustWidthTo = measureChar(cm, display.maxLine, display.maxLine.text.length).left + 3;
       op.maxScrollLeft = Math.max(0, display.sizer.offsetLeft + op.adjustWidthTo +
                                   scrollerCutOff - display.scroller.clientWidth);
     }
 
-    op.barMeasure = measureForScrollbars(cm);
     if (op.updatedDisplay || op.selectionChanged)
       op.newSelectionNodes = drawSelection(cm);
   }
@@ -2050,10 +2060,11 @@
       cm.display.sizer.style.minWidth = op.adjustWidthTo + "px";
       if (op.maxScrollLeft < cm.doc.scrollLeft)
         setScrollLeft(cm, Math.min(cm.display.scroller.scrollLeft, op.maxScrollLeft), true);
+      cm.display.maxLineChanged = false;
     }
 
     if (op.newSelectionNodes)
-      updateSelection(cm, op.newSelectionNodes);
+      showSelection(cm, op.newSelectionNodes);
     if (op.updatedDisplay)
       setDocumentHeight(cm, op.barMeasure);
     if (op.updatedDisplay || op.startHeight != cm.doc.height)
@@ -2068,6 +2079,9 @@
   function endOperation_finish(op) {
     var cm = op.cm, display = cm.display, doc = cm.doc;
 
+    if (op.adjustWidthTo != null && Math.abs(op.barMeasure.scrollWidth - cm.display.scroller.scrollWidth) > 1)
+      updateScrollbars(cm);
+
     if (op.updatedDisplay) postUpdateDisplay(cm, op.update);
 
     // Abort mouse wheel delta measurement, when scrolling explicitly
@@ -2075,11 +2089,11 @@
       display.wheelStartX = display.wheelStartY = null;
 
     // Propagate the scroll position to the actual DOM scroller
-    if (op.scrollTop != null && display.scroller.scrollTop != op.scrollTop) {
+    if (op.scrollTop != null && (display.scroller.scrollTop != op.scrollTop || op.forceScroll)) {
       var top = Math.max(0, Math.min(display.scroller.scrollHeight - display.scroller.clientHeight, op.scrollTop));
       display.scroller.scrollTop = display.scrollbarV.scrollTop = doc.scrollTop = top;
     }
-    if (op.scrollLeft != null && display.scroller.scrollLeft != op.scrollLeft) {
+    if (op.scrollLeft != null && (display.scroller.scrollLeft != op.scrollLeft || op.forceScroll)) {
       var left = Math.max(0, Math.min(display.scroller.scrollWidth - display.scroller.clientWidth, op.scrollLeft));
       display.scroller.scrollLeft = display.scrollbarH.scrollLeft = doc.scrollLeft = left;
       alignHorizontally(cm);
@@ -2442,16 +2456,16 @@
           cm.options.smartIndent && range.head.ch < 100 &&
           (!i || doc.sel.ranges[i - 1].head.line != range.head.line)) {
         var mode = cm.getModeAt(range.head);
+        var end = changeEnd(changeEvent);
         if (mode.electricChars) {
           for (var j = 0; j < mode.electricChars.length; j++)
             if (inserted.indexOf(mode.electricChars.charAt(j)) > -1) {
-              indentLine(cm, range.head.line, "smart");
+              indentLine(cm, end.line, "smart");
               break;
             }
         } else if (mode.electricInput) {
-          var end = changeEnd(changeEvent);
           if (mode.electricInput.test(getLine(doc, end.line).text.slice(0, end.ch)))
-            indentLine(cm, range.head.line, "smart");
+            indentLine(cm, end.line, "smart");
         }
       }
     }
@@ -2513,7 +2527,7 @@
         var pos = posFromMouse(cm, e);
         if (!pos || clickInGutter(cm, e) || eventInWidget(cm.display, e)) return;
         e_preventDefault(e);
-        var word = findWordAt(cm, pos);
+        var word = cm.findWordAt(pos);
         extendSelection(cm.doc, word.anchor, word.head);
       }));
     else
@@ -2792,7 +2806,7 @@
       start = posFromMouse(cm, e, true, true);
       ourIndex = -1;
     } else if (type == "double") {
-      var word = findWordAt(cm, start);
+      var word = cm.findWordAt(start);
       if (cm.display.shift || doc.extend)
         ourRange = extendRange(doc, ourRange, word.anchor, word.head);
       else
@@ -2846,7 +2860,7 @@
         var anchor = oldRange.anchor, head = pos;
         if (type != "single") {
           if (type == "double")
-            var range = findWordAt(cm, pos);
+            var range = cm.findWordAt(pos);
           else
             var range = new Range(Pos(pos.line, 0), clipPos(doc, Pos(pos.line + 1, 0)));
           if (cmp(range.anchor, anchor) > 0) {
@@ -3553,7 +3567,7 @@
 
       var after = i ? computeSelAfterChange(doc, change) : lst(source);
       makeChangeSingleDoc(doc, change, after, mergeOldSpans(doc, change));
-      if (!i && doc.cm) doc.cm.scrollIntoView(change);
+      if (!i && doc.cm) doc.cm.scrollIntoView({from: change.from, to: changeEnd(change)});
       var rebased = [];
 
       // Propagate to the linked documents
@@ -3742,6 +3756,7 @@
     if (y1 < 0) y1 = 0;
     var screentop = cm.curOp && cm.curOp.scrollTop != null ? cm.curOp.scrollTop : display.scroller.scrollTop;
     var screen = display.scroller.clientHeight - scrollerCutOff, result = {};
+    if (y2 - y1 > screen) y2 = y1 + screen;
     var docBottom = cm.doc.height + paddingVert(display);
     var atTop = y1 < snapMargin, atBottom = y2 > docBottom - snapMargin;
     if (y1 < screentop) {
@@ -3752,16 +3767,16 @@
     }
 
     var screenleft = cm.curOp && cm.curOp.scrollLeft != null ? cm.curOp.scrollLeft : display.scroller.scrollLeft;
-    var screenw = display.scroller.clientWidth - scrollerCutOff;
-    x1 += display.gutters.offsetWidth; x2 += display.gutters.offsetWidth;
-    var gutterw = display.gutters.offsetWidth;
-    var atLeft = x1 < gutterw + 10;
-    if (x1 < screenleft + gutterw || atLeft) {
-      if (atLeft) x1 = 0;
-      result.scrollLeft = Math.max(0, x1 - 10 - gutterw);
-    } else if (x2 > screenw + screenleft - 3) {
-      result.scrollLeft = x2 + 10 - screenw;
-    }
+    var screenw = display.scroller.clientWidth - scrollerCutOff - display.gutters.offsetWidth;
+    var tooWide = x2 - x1 > screenw;
+    if (tooWide) x2 = y1 + screen;
+    if (x1 < 10)
+      result.scrollLeft = 0;
+    else if (x1 < screenleft)
+      result.scrollLeft = Math.max(0, x1 - (tooWide ? 0 : 10));
+    else if (x2 > screenw + screenleft - 3)
+      result.scrollLeft = x2 + (tooWide ? 0 : 10) - screenw;
+
     return result;
   }
 
@@ -3983,24 +3998,6 @@
     return target;
   }
 
-  // Find the word at the given position (as returned by coordsChar).
-  function findWordAt(cm, pos) {
-    var doc = cm.doc, line = getLine(doc, pos.line).text;
-    var start = pos.ch, end = pos.ch;
-    if (line) {
-      var helper = cm.getHelper(pos, "wordChars");
-      if ((pos.xRel < 0 || end == line.length) && start) --start; else ++end;
-      var startChar = line.charAt(start);
-      var check = isWordChar(startChar, helper)
-        ? function(ch) { return isWordChar(ch, helper); }
-        : /\s/.test(startChar) ? function(ch) {return /\s/.test(ch);}
-        : function(ch) {return !/\s/.test(ch) && !isWordChar(ch);};
-      while (start > 0 && check(line.charAt(start - 1))) --start;
-      while (end < line.length && check(line.charAt(end))) ++end;
-    }
-    return new Range(Pos(pos.line, start), Pos(pos.line, end));
-  }
-
   // EDITOR METHODS
 
   // The publicly visible API. Note that methodOp(f) means
@@ -4070,11 +4067,14 @@
       for (var i = 0; i < ranges.length; i++) {
         var range = ranges[i];
         if (!range.empty()) {
-          var start = Math.max(end, range.from().line);
-          var to = range.to();
+          var from = range.from(), to = range.to();
+          var start = Math.max(end, from.line);
           end = Math.min(this.lastLine(), to.line - (to.ch ? 0 : 1)) + 1;
           for (var j = start; j < end; ++j)
             indentLine(this, j, how);
+          var newRanges = this.doc.sel.ranges;
+          if (from.ch == 0 && ranges.length == newRanges.length && newRanges[i].from().ch > 0)
+            replaceOneSelection(this.doc, i, new Range(from, newRanges[i].to()), sel_dontScroll);
         } else if (range.head.line > end) {
           indentLine(this, range.head.line, how, true);
           end = range.head.line;
@@ -4339,6 +4339,24 @@
         doc.sel.ranges[i].goalColumn = goals[i];
     }),
 
+    // Find the word at the given position (as returned by coordsChar).
+    findWordAt: function(pos) {
+      var doc = this.doc, line = getLine(doc, pos.line).text;
+      var start = pos.ch, end = pos.ch;
+      if (line) {
+        var helper = this.getHelper(pos, "wordChars");
+        if ((pos.xRel < 0 || end == line.length) && start) --start; else ++end;
+        var startChar = line.charAt(start);
+        var check = isWordChar(startChar, helper)
+          ? function(ch) { return isWordChar(ch, helper); }
+          : /\s/.test(startChar) ? function(ch) {return /\s/.test(ch);}
+          : function(ch) {return !/\s/.test(ch) && !isWordChar(ch);};
+        while (start > 0 && check(line.charAt(start - 1))) --start;
+        while (end < line.length && check(line.charAt(end))) ++end;
+      }
+      return new Range(Pos(pos.line, start), Pos(pos.line, end));
+    },
+
     toggleOverwrite: function(value) {
       if (value != null && value == this.state.overwrite) return;
       if (this.state.overwrite = !this.state.overwrite)
@@ -4425,6 +4443,7 @@
       clearCaches(this);
       resetInput(this);
       this.scrollTo(doc.scrollLeft, doc.scrollTop);
+      this.curOp.forceScroll = true;
       signalLater(this, "swapDoc", this, old);
       return old;
     }),
@@ -4470,7 +4489,7 @@
     clearCaches(cm);
     regChange(cm);
   }, true);
-  option("specialChars", /[\t\u0000-\u0019\u00ad\u200b\u2028\u2029\ufeff]/g, function(cm, val) {
+  option("specialChars", /[\t\u0000-\u0019\u00ad\u200b-\u200f\u2028\u2029\ufeff]/g, function(cm, val) {
     cm.options.specialChars = new RegExp(val.source + (val.test("\t") ? "" : "|\t"), "g");
     cm.refresh();
   }, true);
@@ -4731,15 +4750,7 @@
     },
     goLineStartSmart: function(cm) {
       cm.extendSelectionsBy(function(range) {
-        var start = lineStart(cm, range.head.line);
-        var line = cm.getLineHandle(start.line);
-        var order = getOrder(line);
-        if (!order || order[0].level == 0) {
-          var firstNonWS = Math.max(0, line.text.search(/\S/));
-          var inWS = range.head.line == start.line && range.head.ch <= firstNonWS && range.head.ch;
-          return Pos(start.line, inWS ? 0 : firstNonWS);
-        }
-        return start;
+        return lineStartSmart(cm, range.head);
       }, {origin: "+move", bias: 1});
     },
     goLineEnd: function(cm) {
@@ -4756,6 +4767,14 @@
       cm.extendSelectionsBy(function(range) {
         var top = cm.charCoords(range.head, "div").top + 5;
         return cm.coordsChar({left: 0, top: top}, "div");
+      }, sel_move);
+    },
+    goLineLeftSmart: function(cm) {
+      cm.extendSelectionsBy(function(range) {
+        var top = cm.charCoords(range.head, "div").top + 5;
+        var pos = cm.coordsChar({left: 0, top: top}, "div");
+        if (pos.ch < cm.getLine(pos.line).search(/\S/)) return lineStartSmart(cm, range.head);
+        return pos;
       }, sel_move);
     },
     goLineUp: function(cm) {cm.moveV(-1, "line");},
@@ -6495,7 +6514,7 @@
     },
     changeGeneration: function(forceSplit) {
       if (forceSplit)
-        this.history.lastOp = this.history.lastOrigin = null;
+        this.history.lastOp = this.history.lastSelOp = this.history.lastOrigin = null;
       return this.history.generation;
     },
     isClean: function (gen) {
@@ -6812,7 +6831,7 @@
     // Used to track when changes can be merged into a single undo
     // event
     this.lastModTime = this.lastSelTime = 0;
-    this.lastOp = null;
+    this.lastOp = this.lastSelOp = null;
     this.lastOrigin = this.lastSelOrigin = null;
     // Used by the isClean() method
     this.generation = this.maxGeneration = startGen || 1;
@@ -6890,7 +6909,7 @@
     hist.done.push(selAfter);
     hist.generation = ++hist.maxGeneration;
     hist.lastModTime = hist.lastSelTime = time;
-    hist.lastOp = opId;
+    hist.lastOp = hist.lastSelOp = opId;
     hist.lastOrigin = hist.lastSelOrigin = change.origin;
 
     if (!last) signal(doc, "historyAdded");
@@ -6916,7 +6935,7 @@
     // the current, or the origins don't allow matching. Origins
     // starting with * are always merged, those starting with + are
     // merged when similar and close together in time.
-    if (opId == hist.lastOp ||
+    if (opId == hist.lastSelOp ||
         (origin && hist.lastSelOrigin == origin &&
          (hist.lastModTime == hist.lastSelTime && hist.lastOrigin == origin ||
           selectionEventCanBeMerged(doc, origin, lst(hist.done), sel))))
@@ -6926,7 +6945,7 @@
 
     hist.lastSelTime = +new Date;
     hist.lastSelOrigin = origin;
-    hist.lastOp = opId;
+    hist.lastSelOp = opId;
     if (options && options.clearRedo !== false)
       clearSelectionEvents(hist.undone);
   }
@@ -7276,7 +7295,7 @@
     return function(){return f.apply(null, args);};
   }
 
-  var nonASCIISingleCaseWordChar = /[\u00df\u3040-\u309f\u30a0-\u30ff\u3400-\u4db5\u4e00-\u9fcc\uac00-\ud7af]/;
+  var nonASCIISingleCaseWordChar = /[\u00df\u0590-\u05f4\u0600-\u06ff\u3040-\u309f\u30a0-\u30ff\u3400-\u4db5\u4e00-\u9fcc\uac00-\ud7af]/;
   var isWordCharBasic = CodeMirror.isWordChar = function(ch) {
     return /\w/.test(ch) || ch > "\x80" &&
       (ch.toUpperCase() != ch.toLowerCase() || nonASCIISingleCaseWordChar.test(ch));
@@ -7443,7 +7462,7 @@
     if (badBidiRects != null) return badBidiRects;
     var txt = removeChildrenAndAdd(measure, document.createTextNode("A\u062eA"));
     var r0 = range(txt, 0, 1).getBoundingClientRect();
-    if (r0.left == r0.right) return false;
+    if (!r0 || r0.left == r0.right) return false; // Safari returns null in some cases (#2780)
     var r1 = range(txt, 1, 2).getBoundingClientRect();
     return badBidiRects = (r1.right - r0.right < 3);
   }
@@ -7555,6 +7574,17 @@
     var order = getOrder(line);
     var ch = !order ? line.text.length : order[0].level % 2 ? lineLeft(line) : lineRight(line);
     return Pos(lineN == null ? lineNo(line) : lineN, ch);
+  }
+  function lineStartSmart(cm, pos) {
+    var start = lineStart(cm, pos.line);
+    var line = getLine(cm.doc, start.line);
+    var order = getOrder(line);
+    if (!order || order[0].level == 0) {
+      var firstNonWS = Math.max(0, line.text.search(/\S/));
+      var inWS = pos.line == start.line && pos.ch <= firstNonWS && pos.ch;
+      return Pos(start.line, inWS ? 0 : firstNonWS);
+    }
+    return start;
   }
 
   function compareBidiLevel(order, a, b) {
@@ -7795,7 +7825,7 @@
 
   // THE END
 
-  CodeMirror.version = "4.4.0";
+  CodeMirror.version = "4.6.0";
 
   return CodeMirror;
 });
