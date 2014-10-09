@@ -1311,17 +1311,8 @@ class JTableNested extends JTable
 			$query->clear()
 				->select($this->_tbl_key . ', alias')
 				->from($this->_tbl)
-				->where('parent_id = %d');
-
-			// If the table has an ordering field, use that for ordering.
-			if (property_exists($this, 'ordering'))
-			{
-				$query->order('parent_id, ordering, lft');
-			}
-			else
-			{
-				$query->order('parent_id, lft');
-			}
+				->where('parent_id = %d')
+				->order('lft');
 			$this->_cache['rebuild.sql'] = (string) $query;
 		}
 
@@ -1462,13 +1453,37 @@ class JTableNested extends JTable
 			// Validate arguments
 			if (is_array($idArray) && is_array($lft_array) && count($idArray) == count($lft_array))
 			{
-				for ($i = 0, $count = count($idArray); $i < $count; $i++)
+				if (count($idArray) > 100)
+				{
+					// No need for a big query when it's obvious that all rows were displayed for reordering.
+					$lftStart = 1;
+				}
+				else
+				{
+					$query->clear()
+						->select('MIN(lft)')
+						->from($this->_tbl)
+						->where($this->_tbl_key . ' IN (' . implode(', ', $idArray) . ')');
+					$this->_db->setQuery($query);
+					$lftStart = $this->_db->loadResult();
+
+					if (!$lftStart)
+					{
+						throw new UnexpectedValueException(sprintf('Invalid $idArray in %s', get_class($this)));
+					}
+					if ($this->_debug)
+					{
+						$this->_logtable(false);
+					}
+				}
+				asort($lft_array);
+				foreach (array_keys($lft_array) as $idNext)
 				{
 					// Do an update to change the lft values in the table for each id
 					$query->clear()
 						->update($this->_tbl)
-						->where($this->_tbl_key . ' = ' . (int) $idArray[$i])
-						->set('lft = ' . (int) $lft_array[$i]);
+						->where($this->_tbl_key . ' = ' . (int) $idArray[$idNext])
+						->set('lft = ' . (int) $lftStart++);
 
 					$this->_db->setQuery($query)->execute();
 
