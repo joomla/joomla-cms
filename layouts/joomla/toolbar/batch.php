@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.framework');
+
 $title = $displayData['title'];
 
 ?>
