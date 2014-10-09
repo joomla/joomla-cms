@@ -1,4 +1,4 @@
 /*
         GNU General Public License version 2 or later; see LICENSE.txt
 */
-(function(b){Joomla=Joomla||{};var a;Joomla.JMultiSelect=function(f){var e,c=function(g){a=b("#"+g).find("input[type=checkbox]");a.on("click",function(h){d(h)})},d=function(j){var h=b(j.target),l,k,g,i;if(j.shiftKey&&e.length){l=h.is(":checked");k=a.index(e);g=a.index(h);if(g<k){i=k;k=g;g=i}a.slice(k,g+1).attr("checked",l)}e=h};c(f)}})(jQuery);
+(function(e){Joomla=window.Joomla||{};var t;Joomla.JMultiSelect=function(n){var r,i=function(n){t=e("#"+n).find("input[type=checkbox]");t.on("click",function(e){s(e)})},s=function(n){var i=e(n.target),s,o,u,a;if(n.shiftKey&&r.length){s=i.is(":checked");o=t.index(r);u=t.index(i);if(u<o){a=o;o=u;u=a}t.slice(o,u+1).attr("checked",s)}r=i};i(n)}})(jQuery)

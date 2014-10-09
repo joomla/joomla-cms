@@ -212,7 +212,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/combobox.js', true, true);
+		JHtml::_('script', 'system/combobox.js', false, true);
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -399,12 +399,12 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/multiselect.js', true, true);
+		JHtml::_('script', 'system/multiselect.js', false, true);
 
 		// Attach multiselect to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('domready', function() {
-				new Joomla.JMultiSelect('" . $id . "');
+			"jQuery(document).ready(function() {
+				Joomla.JMultiSelect('" . $id . "');
 			});"
 		);
 
