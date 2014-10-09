@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 
-$doTask = $displayData['doTask'];
-$text   = $displayData['text'];
+JHtml::_('script', 'jui/jquery-popupwindow-min.js', false, true);
+
+$url = $displayData['doTask'];
+$text = $displayData['text'];
 
 ?>
-<button onclick="<?php echo $doTask; ?>" rel="help" class="btn btn-small">
+<button href="<?php echo $url; ?>" rel="help" class="btn btn-small popup">
 	<span class="icon-question-sign"></span>
 	<?php echo $text; ?>
 </button>
