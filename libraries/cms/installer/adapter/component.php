@@ -1249,6 +1249,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			$query->clear()
 				->select('e.extension_id')
 				->from('#__extensions AS e')
+				->where('e.type = ' . $db->quote('component')) 
 				->where('e.element = ' . $db->quote($option));
 
 			$db->setQuery($query);
