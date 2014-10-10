@@ -637,13 +637,10 @@ class PlgSystemLanguageFilter extends JPlugin
 						// Check if language is the default site language and remove url language code is on
 						if ($language->sef == self::$default_sef && $this->params->get('remove_default_prefix') == '1')
 						{
-							$relLink = str_replace('/' . $language->sef, '', $link);
-							$doc->addHeadLink($server . $relLink, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+							$link = preg_replace('|/' . $language->sef . '/|', '/', $link, 1);
 						}
-						else
-						{
-							$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
-						}
+
+						$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
 					}
 					elseif (isset($associations[$language->lang_code]))
 					{
@@ -663,13 +660,10 @@ class PlgSystemLanguageFilter extends JPlugin
 							// Check if language is the default site language and remove url language code is on
 							if ($language->sef == self::$default_sef && $this->params->get('remove_default_prefix') == '1')
 							{
-								$relLink = str_replace('/' . $language->sef, '', $link);
-								$doc->addHeadLink($server . $relLink, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+								$link = preg_replace('|/' . $language->sef . '/|', '/', $link, 1);
 							}
-							else
-							{
-								$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
-							}
+
+							$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
 						}
 					}
 				}
@@ -700,13 +694,10 @@ class PlgSystemLanguageFilter extends JPlugin
 						// Check if language is the default site language and remove url language code is on
 						if ($language->sef == self::$default_sef && $this->params->get('remove_default_prefix') == '1')
 						{
-							$relLink = str_replace('/' . $language->sef, '', $link);
-							$doc->addHeadLink($server . $relLink, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+							$link = preg_replace('|/' . $language->sef . '/|', '/', $link, 1);
 						}
-						else
-						{
-							$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
-						}
+
+						$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
 					}
 				}
 			}
