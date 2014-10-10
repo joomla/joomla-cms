@@ -171,15 +171,17 @@ class JTableUser extends JTable
 			$this->id = null;
 		}
 
+		$filterInput = JFilterInput::getInstance();
+
 		// Validate user information
-		if (trim($this->name) == '')
+		if ($filterInput->clean($this->name, 'TRIM') == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_YOUR_NAME'));
 
 			return false;
 		}
 
-		if (trim($this->username) == '')
+		if ($filterInput->clean($this->username, 'TRIM') == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_A_USER_NAME'));
 
@@ -187,14 +189,14 @@ class JTableUser extends JTable
 		}
 
 		if (preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $this->username) || strlen(utf8_decode($this->username)) < 2
-			|| trim($this->username) != $this->username)
+			|| $filterInput->clean($this->username, 'TRIM') !== $this->username)
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
 
 			return false;
 		}
 
-		if ((trim($this->email) == "") || !JMailHelper::isEmailAddress($this->email))
+		if (($filterInput->clean($this->email, 'TRIM') == "") || !JMailHelper::isEmailAddress($this->email))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 
