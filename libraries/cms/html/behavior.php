@@ -176,7 +176,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/switcher.js', true, true);
+		JHtml::_('script', 'system/switcher.js', false, true);
 
 		$script = "
 			document.switcher = null;
@@ -317,11 +317,10 @@ abstract class JHtmlBehavior
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset(static::$loaded[__METHOD__]))
 		{
-			// Include MooTools framework
-			static::framework(true);
+			// Include core
+			static::core();
 
-			// Load the JavaScript and css
-			JHtml::_('script', 'system/modal.js', true, true);
+			JHtml::_('script', 'system/modal.js', false, true);
 			JHtml::_('stylesheet', 'system/modal.css', array(), true);
 		}
 
