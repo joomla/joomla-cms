@@ -202,8 +202,6 @@ class JFormFieldMedia extends JFormField
 
 		if (!self::$initialised)
 		{
-			// Load the modal behavior script.
-			JHtml::_('behavior.modal');
 
 			// Include jQuery
 			JHtml::_('jquery.framework');
@@ -371,15 +369,17 @@ class JFormFieldMedia extends JFormField
 		// The button.
 		if ($this->disabled != true)
 		{
-			JHtml::_('bootstrap.tooltip');
 
-			$html[] = '<a class="modal btn" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '" href="'
-				. ($this->readonly ? ''
-				: ($this->link ? $this->link
+			$url = ($this->readonly ? '' : ($this->link ? $this->link
 					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
-					. $this->form->getValue($this->authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
-				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn hasTooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
+					. $this->form->getValue($this->authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder);
+
+			JHtml::_('bootstrap.tooltip');
+			JHtml::_('bootstrap.modal');
+
+			$html[] = '<a href="#imageModal" role="button" class="btn" data-toggle="modal">' . JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
+			$html[] = JHtmlBootstrap::renderModal('imageModal', array( 'url'=> $url, 'title' => JText::_('JLIB_FORM_BUTTON_SELECT'),'height' => '800', 'width' => '600'), 'footer');
+			$html[] = '<a class="btn hasTooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
 			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
 			$html[] = 'return false;';
 			$html[] = '">';
