@@ -588,3 +588,15 @@ input[type="url"] {
 	text-align: left;
 	direction: ltr;
 }
+[class^="icon-"],
+[class*=" icon-"] {
+	margin-left: .25em;
+}
+dd > span[class^="icon-"] + time,
+dd > span[class*=" icon-"] + time {
+	margin-right: -0.25em;
+}
+dl.article-info dd.hits span[class^="icon-"],
+dl.article-info dd.hits span[class*=" icon-"] {
+	margin-left: 0;
+}
