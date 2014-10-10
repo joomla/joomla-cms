@@ -6228,11 +6228,11 @@ div.modal.fade.in {
 	line-height: 14px;
 }
 dd > span[class^="icon-"] + time,
-dd > span[class*=" icon-"] + time{
-	margin-left: -.25em;
+dd > span[class*=" icon-"] + time {
+	margin-left: -0.25em;
 }
 dl.article-info dd.hits span[class^="icon-"],
-dl.article-info dd.hits span[class*=" icon-"]{
+dl.article-info dd.hits span[class*=" icon-"] {
 	margin-right: 0;
 }
 [class^="icon-"]:before,
