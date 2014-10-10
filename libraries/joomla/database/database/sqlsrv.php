@@ -1133,7 +1133,6 @@ class JDatabaseSQLSrv extends JDatabase
 
 		$sql = preg_replace('/\sFROM\s/i', $rowNumberText, $sql, 1);
 		$sql = 'SELECT * FROM (' . $sql . ') _myResults WHERE RowNumber BETWEEN ' . $start . ' AND ' . $end;
-		echo $sql;
 
 		return $sql;
 	}
