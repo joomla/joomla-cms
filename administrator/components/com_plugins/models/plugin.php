@@ -244,7 +244,14 @@ class PluginsModelPlugin extends JModelAdmin
 			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
 		}
 
-		$formFile = JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
+		// Use as the form file the config.xml file, if exists
+		$formFile = JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/config.xml');
+		if (!file_exists($formFile))
+		{
+			// Form file fallback. Uses the manifest file
+			$formFile = JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
+		}
+
 		if (!file_exists($formFile))
 		{
 			throw new Exception(JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
