@@ -17,16 +17,16 @@ defined('JPATH_PLATFORM') or die;
 class JRoute
 {
 	/**
-	 * Translates an internal Joomla URL to a humanly readible URL.
+	 * Translates an internal Joomla URL to a humanly readable URL.
 	 *
 	 * @param   string   $url    Absolute or Relative URI to Joomla resource.
-	 * @param   boolean  $xhtml  Replace & by &amp; for XML compilance.
+	 * @param   boolean  $xhtml  Replace & by &amp; for XML compliance.
 	 * @param   integer  $ssl    Secure state for the resolved URI.
 	 *                             1: Make URI secure using global secure site URI.
 	 *                             0: Leave URI in the same secure state as it was passed to the function.
 	 *                            -1: Make URI unsecure using the global unsecure site URI.
 	 *
-	 * @return  string  The translated humanly readible URL.
+	 * @return  string  The translated humanly readable URL.
 	 *
 	 * @since   11.1
 	 */
