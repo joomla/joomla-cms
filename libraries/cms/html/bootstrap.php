@@ -495,6 +495,11 @@ abstract class JHtmlBootstrap
 				$script[] = "\tjQuery('" . $selector . "').on('hide.bs.tooltip', " . $onHide . ");";
 			}
 
+			if ($onHideMe)
+			{
+				$script[] = "\tjQuery('" . $selector . "').on('hideme.bs.tooltip', " . $onHideMe . ");";	// Added
+			}
+
 			if ($onHidden)
 			{
 				$script[] = "\tjQuery('" . $selector . "').on('hidden.bs.tooltip', " . $onHidden . ");";
