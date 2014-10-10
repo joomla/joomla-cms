@@ -45,11 +45,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 	<div class="page-header">
 		<h2 itemprop="name">
 			<?php if ($params->get('show_title')) : ?>
-				<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
-					<a href="<?php echo $this->item->readmore_link; ?>" itemprop="url"> <?php echo $this->escape($this->item->title); ?></a>
-				<?php else : ?>
-					<?php echo $this->escape($this->item->title); ?>
-				<?php endif; ?>
+				<?php echo $this->escape($this->item->title); ?>
 			<?php endif; ?>
 		</h2>
 		<?php if ($this->item->state == 0) : ?>

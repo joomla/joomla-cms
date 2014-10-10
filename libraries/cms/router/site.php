@@ -255,6 +255,8 @@ class JRouterSite extends JRouter
 
 				// Set the active menu item
 				$menu->setActive($vars['Itemid']);
+
+				$this->setVars($vars);
 			}
 
 			return $vars;
@@ -579,14 +581,11 @@ class JRouterSite extends JRouter
 
 		if ($this->_mode == JROUTER_MODE_SEF && $route)
 		{
-			$limitstart = (int) $uri->getVar('limitstart');
-
-			if ($limitstart > 0)
+			if ($limitstart = $uri->getVar('limitstart'))
 			{
-				$uri->setVar('start', $limitstart);
+				$uri->setVar('start', (int) $limitstart);
+				$uri->delVar('limitstart');
 			}
-
-			$uri->delVar('limitstart');
 		}
 
 		$uri->setPath($route);
