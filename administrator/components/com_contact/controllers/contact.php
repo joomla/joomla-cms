@@ -109,6 +109,7 @@ class ContactControllerContact extends JControllerForm
 	 * @param   array         $validData  The validated data.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
