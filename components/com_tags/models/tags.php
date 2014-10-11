@@ -29,12 +29,12 @@ class TagsModelTags extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * @note Calling getState in this method will result in recursion.
-	 *
 	 * @param   string  $ordering   An optional ordering field.
 	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
 	 * @return  void
+	 *
+	 * @note Calling getState in this method will result in recursion.
 	 *
 	 * @since   3.1
 	 */

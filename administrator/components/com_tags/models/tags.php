@@ -21,7 +21,7 @@ class TagsModelTags extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param    array  $config  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see    JController
 	 * @since  3.0.3
@@ -60,6 +60,7 @@ class TagsModelTags extends JModelList
 	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
 	 * @return    void
+	 *
 	 * @since    3.1
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -99,6 +100,7 @@ class TagsModelTags extends JModelList
 	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
+	 *
 	 * @since   3.1
 	 */
 	protected function getStoreId($id = '')
@@ -221,7 +223,6 @@ class TagsModelTags extends JModelList
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
-		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 

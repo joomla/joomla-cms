@@ -59,7 +59,7 @@ class TagsHelperRoute extends JHelperRoute
 		}
 		if ($link == '')
 		{
-			// create a fallback link in case we can't find the component router
+			// Create a fallback link in case we can't find the component router
 			$router = new JHelperRoute;
 			$link = $router->getRoute($contentItemId, $typeAlias, $link, $language, $contentCatId);
 		}
@@ -100,6 +100,15 @@ class TagsHelperRoute extends JHelperRoute
 		return $link;
 	}
 
+	/**
+	 * Find Item static function
+	 *
+	 * @param   array  $needles  Array used to get the language value
+	 *
+	 * @return null
+	 *
+	 * @throws Exception
+	 */
 	protected static function _findItem($needles = null)
 	{
 		$app		= JFactory::getApplication();
@@ -114,7 +123,8 @@ class TagsHelperRoute extends JHelperRoute
 			$component	= JComponentHelper::getComponent('com_tags');
 			$items		= $menus->getItems('component_id', $component->id);
 
-			if ($items) {
+			if ($items)
+			{
 				foreach ($items as $item)
 				{
 					if (isset($item->query) && isset($item->query['view']))
@@ -129,9 +139,11 @@ class TagsHelperRoute extends JHelperRoute
 						// Only match menu items that list one tag
 						if (isset($item->query['id'][0]) && count($item->query['id']) == 1)
 						{
-							// Here it will become a bit tricky
-							// language != * can override existing entries
-							// language == * cannot override existing entries
+							/*
+							 * Here it will become a bit tricky
+							 * language != * can override existing entries
+							 * language == * cannot override existing entries
+							 */
 							if (!isset(self::$lookup[$language][$view][$item->query['id'][0]]) || $item->language != '*')
 							{
 								self::$lookup[$language][$view][$item->query['id'][0]] = $item->id;
@@ -154,7 +166,7 @@ class TagsHelperRoute extends JHelperRoute
 			{
 				if (isset(self::$lookup[$view]))
 				{
-					foreach($ids as $id)
+					foreach ($ids as $id)
 					{
 						if (isset(self::$lookup[$view][(int) $id]))
 						{

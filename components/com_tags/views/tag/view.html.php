@@ -54,11 +54,12 @@ class TagsViewTag extends JViewLegacy
 		$parent     = $this->get('Parent');
 		$pagination = $this->get('Pagination');
 
-		// Change to catch
-		/*if (count($errors = $this->get('Errors'))) {
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
-		}*/
+		/*
+		 * // Change to catch
+		 * if (count($errors = $this->get('Errors'))) {
+		 * JError::raiseError(500, implode("\n", $errors));
+		 * return false;
+		 */
 
 		// Check whether access level allows access.
 		// @TODO: Should already be computed in $item->params->get('access-view')
@@ -136,14 +137,15 @@ class TagsViewTag extends JViewLegacy
 			$currentLink = $active->link;
 
 			// If the current view is the active item and an tag view for one tag, then the menu item params take priority
-			if (strpos($currentLink, 'view=tag') && (strpos($currentLink, '&id[0]='.(string) $item[0]->id)))
+			if (strpos($currentLink, 'view=tag') && (strpos($currentLink, '&id[0]=' . (string) $item[0]->id)))
 			{
 				// $item->params are the article params, $temp are the menu item params
 				// Merge so that the menu item params take priority
 				$this->params->merge($temp);
 
 				// Load layout from active query (in case it is an alternative menu item)
-				if (isset($active->query['layout'])) {
+				if (isset($active->query['layout']))
+				{
 					$this->setLayout($active->query['layout']);
 				}
 			}
@@ -186,7 +188,9 @@ class TagsViewTag extends JViewLegacy
 	}
 
 	/**
-	 * Prepares the document
+	 * Prepares the document.
+	 *
+	 * @return void
 	 */
 	protected function _prepareDocument()
 	{

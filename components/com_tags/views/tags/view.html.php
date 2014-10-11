@@ -46,14 +46,15 @@ class TagsViewTags extends JViewLegacy
 		$item		= $this->get('Item');
 		$pagination	= $this->get('Pagination');
 
-		// Change to catch
-		/*if (count($errors = $this->get('Errors'))) {
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
-		}*/
+		/*
+		 * // Change to catch
+		 * if (count($errors = $this->get('Errors'))) {
+		 * JError::raiseError(500, implode("\n", $errors));
+		 * return false;
+		 */
 
 		// Check whether access level allows access.
-		// TODO: SHould already be computed in $item->params->get('access-view')
+		// TODO: Should already be computed in $item->params->get('access-view')
 		$user	= JFactory::getUser();
 		$groups	= $user->getAuthorisedViewLevels();
 		if (!empty($items))
@@ -80,7 +81,7 @@ class TagsViewTags extends JViewLegacy
 		$this->user       = &$user;
 		$this->item       = &$item;
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		// Merge tag params. If this is single-tag view, menu params override tag params
@@ -93,11 +94,13 @@ class TagsViewTags extends JViewLegacy
 		if ($active)
 		{
 			$currentLink = $active->link;
+
 			// If the current view is the active item and the tags view, then the menu item params take priority
 			if (strpos($currentLink, 'view=tags'))
 			{
 				$this->params = $active->params;
 				$this->params->merge($temp);
+
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout']))
 				{
@@ -124,6 +127,7 @@ class TagsViewTags extends JViewLegacy
 			// Merge so that tag params take priority
 			$temp->merge($item[0]->params);
 			$item[0]->params = $temp;
+
 			// Check for alternative layouts (since we are not in a single-tag menu item)
 			// Single-tag menu item layout takes priority over alt layout for a tag
 			if ($layout = $item[0]->params->get('tag_layout'))
@@ -139,6 +143,8 @@ class TagsViewTags extends JViewLegacy
 
 	/**
 	 * Prepares the document
+	 *
+	 * @return void
 	 */
 	protected function _prepareDocument()
 	{
