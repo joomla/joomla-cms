@@ -63,6 +63,20 @@ class JFormFieldUser extends JFormField
 		// Add the script to the document head.
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
+		JFactory::getDocument()->addStyleDeclaration('.modal {
+			width: 80% !important;
+			margin-left:-40% !important;
+			height:auto;
+			}
+			.modal-body iframe {
+			margin:0;
+			padding:0;
+			display:block;
+			width:100%;
+			height:400px !important;
+			border:none;
+			}');
+
 		// Load the current username if available.
 		$table = JTable::getInstance('user');
 
