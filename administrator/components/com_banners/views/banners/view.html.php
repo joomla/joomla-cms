@@ -129,7 +129,9 @@ class BannersViewBanners extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_banners') && $user->authorise('core.edit', 'com_banners') && $user->authorise('core.edit.state', 'com_banners'))
+		if ($user->authorise('core.create', 'com_banners')
+			&& $user->authorise('core.edit', 'com_banners')
+			&& $user->authorise('core.edit.state', 'com_banners'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
