@@ -19,10 +19,13 @@ defined('_JEXEC') or die;
 class CacheController extends JControllerLegacy
 {
 	/**
-	 * @param   boolean      If true, the view output will be cached
-	 * @param   array        An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * Method to display a view.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  This object to support chaining.
+	 *
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -63,6 +66,11 @@ class CacheController extends JControllerLegacy
 		}
 	}
 
+	/**
+	 * Purge an array of cache groups.
+	 *
+	 * @return  void
+	 */
 	public function delete()
 	{
 		// Check for request forgeries
@@ -84,6 +92,11 @@ class CacheController extends JControllerLegacy
 		$this->setRedirect('index.php?option=com_cache&client=' . $model->getClient()->id);
 	}
 
+	/**
+	 * Purge the cache.
+	 *
+	 * @return  void
+	 */
 	public function purge()
 	{
 		// Check for request forgeries
