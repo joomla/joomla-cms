@@ -97,10 +97,12 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 		{
 			$this->client->setOption('authurl', 'https://accounts.google.com/o/oauth2/auth');
 		}
+
 		if (!$this->client->getOption('tokenurl'))
 		{
 			$this->client->setOption('tokenurl', 'https://accounts.google.com/o/oauth2/token');
 		}
+
 		if (!$this->client->getOption('requestparams'))
 		{
 			$this->client->setOption('requestparams', Array());
@@ -112,10 +114,12 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 		{
 			$params['access_type'] = 'offline';
 		}
+
 		if ($params['access_type'] == 'offline' && $this->client->getOption('userefresh') === null)
 		{
 			$this->client->setOption('userefresh', true);
 		}
+
 		if (!array_key_exists('approval_prompt', $params))
 		{
 			$params['approval_prompt'] = 'auto';
