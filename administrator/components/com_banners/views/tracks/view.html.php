@@ -105,7 +105,13 @@ class BannersViewTracks extends JViewLegacy
 		JHtmlSidebar::addFilter(
 			JText::_('COM_BANNERS_SELECT_TYPE'),
 			'filter_type',
-			JHtml::_('select.options', array(JHtml::_('select.option', 1, JText::_('COM_BANNERS_IMPRESSION')), JHtml::_('select.option', 2, JText::_('COM_BANNERS_CLICK'))), 'value', 'text', $this->state->get('filter.type'))
+			JHtml::_(
+				'select.options',
+				array(JHtml::_('select.option', 1, JText::_('COM_BANNERS_IMPRESSION')), JHtml::_('select.option', 2, JText::_('COM_BANNERS_CLICK'))),
+				'value',
+				'text',
+				$this->state->get('filter.type')
+			)
 		);
 	}
 
