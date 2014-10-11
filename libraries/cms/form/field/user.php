@@ -65,12 +65,12 @@ class JFormFieldUser extends JFormField
 
 		JFactory::getDocument()->addStyleDeclaration('
 		@media only screen and (min-width : 768px) {
-			.modal {
+			#userModal {
 			width: 80% !important;
 			margin-left:-40% !important;
 			height:auto;
 			}
-			.modal-body iframe {
+			#userModal #userModal-container .modal-body iframe {
 			margin:0;
 			padding:0;
 			display:block;
