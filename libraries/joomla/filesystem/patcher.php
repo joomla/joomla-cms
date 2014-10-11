@@ -285,6 +285,7 @@ class JFilesystemPatcher
 		{
 			$line = next($lines);
 		}
+
 		if ($line === false)
 		{
 			// No header found, return false
@@ -317,6 +318,7 @@ class JFilesystemPatcher
 			{
 				throw new RuntimeException('Unexpected EOF');
 			}
+
 			return true;
 		}
 	}
