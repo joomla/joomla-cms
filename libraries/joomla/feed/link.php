@@ -92,6 +92,7 @@ class JFeedLink
 		{
 			throw new InvalidArgumentException('Length must be numeric.');
 		}
+
 		$this->length = (int) $length;
 	}
 }
