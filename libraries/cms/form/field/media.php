@@ -378,7 +378,7 @@ class JFormFieldMedia extends JFormField
 			JHtml::_('bootstrap.modal');
 
 			$html[] = '<a href="#imageModal" role="button" class="btn" data-toggle="modal">' . JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
-			$html[] = JHtmlBootstrap::renderModal('imageModal', array( 'url'=> $url, 'title' => JText::_('JLIB_FORM_BUTTON_SELECT'),'height' => '800', 'width' => '600'), 'footer');
+			$html[] = JHtmlBootstrap::renderModal('imageModal', array( 'url' => $url, 'title' => JText::_('JLIB_FORM_BUTTON_SELECT'),'height' => '800', 'width' => '600'), '');
 			$html[] = '<a class="btn hasTooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
 			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
 			$html[] = 'return false;';
