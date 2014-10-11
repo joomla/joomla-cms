@@ -19,7 +19,7 @@
  *
  * @since   3.2
  */
-function twofactorauth_postinstall_condition()
+function Twofactorauth_Postinstall_condition()
 {
 	$db = JFactory::getDbo();
 
@@ -44,7 +44,7 @@ function twofactorauth_postinstall_condition()
  *
  * @since   3.2
  */
-function twofactorauth_postinstall_action()
+function Twofactorauth_Postinstall_action()
 {
 	// Enable the plugin
 	$db = JFactory::getDbo();
