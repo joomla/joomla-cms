@@ -260,15 +260,15 @@ class JFormFieldMedia extends JFormField
 					display: block;
 					top: 5%;
 				}
-				.modal {
+				#imageModal {
 					width: 80% !important;
 					margin-left:-40% !important;
 					height:auto;
 				}
-				.modal-body iframe {
+				#imageModal #imageModal-container .modal-body iframe {
 					max-height: 800px !important;
 				}
-				.modal-body {
+				#imageModal #imageModal-container .modal-body {
 					max-height: none;
 					height: 100%;
 				}
