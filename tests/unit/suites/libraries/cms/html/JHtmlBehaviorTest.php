@@ -283,6 +283,8 @@ class JHtmlBehaviorTest extends TestCase
 		$data = array(
 			array(
 				array(
+					'JHtmlBehavior::core' => true,
+					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::tooltip' => array(
 						md5(serialize(array('.hasTooltip', array()))) => true
 					),
@@ -290,6 +292,8 @@ class JHtmlBehaviorTest extends TestCase
 			),
 			array(
 				array(
+					'JHtmlBehavior::core' => true,
+					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::tooltip' => array(
 						md5(serialize(array('.hasTooltip2', array()))) => true
 					),
@@ -298,6 +302,8 @@ class JHtmlBehaviorTest extends TestCase
 			),
 			array(
 				array(
+					'JHtmlBehavior::core' => true,
+					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::tooltip' => array(
 						md5(serialize(array('.hasTooltip2', array('showDelay' => 1000)))) => true
 					),

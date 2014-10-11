@@ -251,6 +251,9 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Include MooTools framework
+		static::framework(true);
+
 		// Setup options object
 		$opt['maxTitleChars'] = (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int) $params['maxTitleChars'] : 50;
 
@@ -279,10 +282,6 @@ abstract class JHtmlBehavior
 					$(this).data('tip:text', parts[1]);
 				}
 			});
-
-			if (typeof Tips == 'function') {
-				JTooltips = new Tips($('$selector').get(), $options);
-				}
 		});"
 		);
 
