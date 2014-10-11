@@ -146,19 +146,24 @@ abstract class JHtmlModules
 
 		// Add positions from templates
 		$isTemplatePosition = false;
+
 		foreach ($templates as $template)
 		{
 			$options = array();
 
 			$positions = TemplatesHelper::getPositions($clientId, $template);
-			if (is_array($positions)) foreach ($positions as $position)
-			{
-				$text = ModulesHelper::getTranslatedModulePosition($clientId, $template, $position) . ' [' . $position . ']';
-				$options[] = ModulesHelper::createOption($position, $text);
 
-				if (!$isTemplatePosition && $selectedPosition === $position)
+			if (is_array($positions))
+			{
+				foreach ($positions as $position)
 				{
-					$isTemplatePosition = true;
+					$text = ModulesHelper::getTranslatedModulePosition($clientId, $template, $position) . ' [' . $position . ']';
+					$options[] = ModulesHelper::createOption($position, $text);
+
+					if (!$isTemplatePosition && $selectedPosition === $position)
+					{
+						$isTemplatePosition = true;
+					}
 				}
 			}
 
@@ -175,6 +180,11 @@ abstract class JHtmlModules
 		return $templateGroups;
 	}
 
+	/**
+	 * Get a select with the batch action options
+	 *
+	 * @return  void
+	 */
 	public static function batchOptions()
 	{
 		// Create the copy/move options.
