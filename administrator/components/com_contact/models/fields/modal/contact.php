@@ -76,7 +76,8 @@ class JFormFieldModal_Contact extends JFormField
 
 			$script[] = '	function jClearContact(id) {';
 			$script[] = '		document.getElementById(id + "_id").value = "";';
-			$script[] = '		document.getElementById(id + "_name").value = "'.htmlspecialchars(JText::_('COM_CONTACT_SELECT_A_CONTACT', true), ENT_COMPAT, 'UTF-8').'";';
+			$script[] = '		document.getElementById(id + "_name").value = "'
+				. htmlspecialchars(JText::_('COM_CONTACT_SELECT_A_CONTACT', true), ENT_COMPAT, 'UTF-8') . '";';
 			$script[] = '		jQuery("#"+id + "_clear").addClass("hidden");';
 			$script[] = '		if (document.getElementById(id + "_edit")) {';
 			$script[] = '			jQuery("#"+id + "_edit").addClass("hidden");';
@@ -137,23 +138,40 @@ class JFormFieldModal_Contact extends JFormField
 		// The current contact display field.
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35" />';
-		$html[] = '<a class="modal btn hasTooltip" title="' . JHtml::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '"  href="' . $link . '&amp;' . JSession::getFormToken() . '=1" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-file"></i> ' . JText::_('JSELECT') . '</a>';
+		$html[] = '<a'
+			. ' class="modal btn hasTooltip"'
+			. ' title="' . JHtml::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '"'
+			. ' href="' . $link . '&amp;' . JSession::getFormToken() . '=1"'
+			. ' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
+			. '<i class="icon-file"></i> ' . JText::_('JSELECT')
+			. '</a>';
 
 		// Edit article button
 		if ($allowEdit)
 		{
-			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden') . '" href="index.php?option=com_contact&layout=modal&tmpl=component&task=contact.edit&id=' . $value . '" target="_blank" title="' . JHtml::tooltipText('COM_CONTACT_EDIT_CONTACT') . '" ><span class="icon-edit"></span> ' . JText::_('JACTION_EDIT') . '</a>';
+			$html[] = '<a'
+				. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
+				. ' href="index.php?option=com_contact&layout=modal&tmpl=component&task=contact.edit&id=' . $value . '"'
+				. ' target="_blank"'
+				. ' title="' . JHtml::tooltipText('COM_CONTACT_EDIT_CONTACT') . '" >'
+				. '<span class="icon-edit"></span> ' . JText::_('JACTION_EDIT')
+				. '</a>';
 		}
 
 		// Clear contact button
 		if ($allowClear)
 		{
-			$html[] = '<button id="' . $this->id . '_clear" class="btn' . ($value ? '' : ' hidden') . '" onclick="return jClearContact(\'' . $this->id . '\')"><span class="icon-remove"></span> ' . JText::_('JCLEAR') . '</button>';
+			$html[] = '<button'
+				. ' id="' . $this->id . '_clear"'
+				. ' class="btn' . ($value ? '' : ' hidden') . '"'
+				. ' onclick="return jClearContact(\'' . $this->id . '\')">'
+				. '<span class="icon-remove"></span> ' . JText::_('JCLEAR')
+				. '</button>';
 		}
 
 		$html[] = '</span>';
 
-		// class='required' for client side validation
+		// Note: class='required' for client side validation.
 		$class = '';
 
 		if ($this->required)
