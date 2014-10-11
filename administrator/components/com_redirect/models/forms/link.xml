@@ -97,7 +97,7 @@
 			name="header"
 			type="redirect"
 			default="301"
-			label="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE"
+			label="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_LABEL"
 			description="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_DESC"
 		/>
 	</fieldset>
