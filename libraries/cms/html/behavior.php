@@ -281,6 +281,7 @@ abstract class JHtmlBehavior
 					$(this).data('tip:title', parts[0]);
 					$(this).data('tip:text', parts[1]);
 				}
+				JTooltips = new Tips($('$selector').get(), $options);
 			});
 		});"
 		);
