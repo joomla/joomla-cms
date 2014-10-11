@@ -366,6 +366,25 @@ class JPaginationTest extends TestCase
 	}
 
 	/**
+	 * Tests the getData method with multiple JPagination instances
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @link    https://github.com/joomla/joomla-cms/pull/4521
+	 */
+	public function testGetDataWithMultipleInstances()
+	{
+		$p1 = new JPagination(10, 0, 5, 'pref1');
+		$data1 = $p1->getData();
+		$p2 = new JPagination(20, 0, 10, 'pref2');
+		$data2 = $p2->getData();
+
+		$this->assertEquals(5, $data1->next->base, 'Assert the base value for the next page for object 1 is correct.');
+		$this->assertEquals(10, $data2->next->base, 'Assert the base value for the next page for object 2 is correct.');
+	}
+
+	/**
 	 * Provides the data to test the getPagesCounter() method.
 	 *
 	 * @return  array
