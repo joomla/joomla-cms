@@ -44,6 +44,11 @@ class CacheModelCache extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -95,6 +100,7 @@ class CacheModelCache extends JModelList
 				$this->_data = array();
 			}
 		}
+
 		return $this->_data;
 	}
 
@@ -163,7 +169,9 @@ class CacheModelCache extends JModelList
 	 * Clean out a cache group as named by param.
 	 * If no param is passed clean all cache groups.
 	 *
-	 * @param String $group
+	 * @param   string  $group  Cache group name.
+	 *
+	 * @return  void
 	 */
 	public function clean($group = '')
 	{
@@ -171,6 +179,13 @@ class CacheModelCache extends JModelList
 		$cache->clean($group);
 	}
 
+	/**
+	 * Clean a list of cache groups.
+	 *
+	 * @param   array  $array  Array of cache group names.
+	 *
+	 * @return  void
+	 */
 	public function cleanlist($array)
 	{
 		foreach ($array as $group)
@@ -179,9 +194,15 @@ class CacheModelCache extends JModelList
 		}
 	}
 
+	/**
+	 * Purge the cache.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 */
 	public function purge()
 	{
 		$cache = JFactory::getCache('');
+
 		return $cache->gc();
 	}
 }
