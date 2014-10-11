@@ -1,0 +1,11 @@
+{
+    "name"       : "joomla/joomla-cms",
+    "description": "Home of the Joomla! Content Management System",
+    "license"    : "GPL-2.0+",
+    "require"    : {
+        "php": ">=5.3.10"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "1.*"
+    }
+}

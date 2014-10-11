@@ -38,3 +38,8 @@ Desktop.ini
 
 # Never ignore #
 !.gitignore
+
+# Composer files #
+/composer.phar
+/vendor/
+/composer.lock

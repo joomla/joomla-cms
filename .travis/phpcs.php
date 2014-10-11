@@ -37,7 +37,8 @@ $options = array(
 	),
 	'standard'     => array(REPO_BASE . '/build/phpcs/Joomla'),
 	'ignored'      => array(
-		REPO_BASE . '/component/admin/views/*/tmpl/*',
+		REPO_BASE . '/administrator/components/*/views/*/tmpl/*',
+		REPO_BASE . '/components/*/views/*/tmpl/*',
 		REPO_BASE . '/layouts/*'
 	),
 	'showProgress' => true
