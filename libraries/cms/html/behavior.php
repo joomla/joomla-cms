@@ -209,8 +209,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
+		// Include core
+		static::core();
 
 		JHtml::_('script', 'system/combobox.js', false, true);
 		static::$loaded[__METHOD__] = true;
@@ -281,8 +281,8 @@ abstract class JHtmlBehavior
 					$(this).data('tip:title', parts[0]);
 					$(this).data('tip:text', parts[1]);
 				}
-				JTooltips = new Tips($('$selector').get(), $options);
 			});
+			var JTooltips = new Tips($('$selector').get(), $options);
 		});"
 		);
 
@@ -398,8 +398,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
+		// Include core
+		static::core();
 
 		JHtml::_('script', 'system/multiselect.js', false, true);
 
@@ -647,8 +647,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
+		// Include core
+		static::core();
 
 		JHtml::_('script', 'system/highlighter.js', true, true);
 
