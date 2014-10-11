@@ -279,7 +279,10 @@ abstract class JHtmlBehavior
 					$(this).data('tip:text', parts[1]);
 				}
 			});
-			var JTooltips = new Tips($('$selector').get(), $options);
+
+			if (typeof Tips == 'function') {
+				JTooltips = new Tips($('$selector').get(), $options);
+				}
 		});"
 		);
 
