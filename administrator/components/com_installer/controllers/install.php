@@ -19,6 +19,7 @@ class InstallerControllerInstall extends JControllerLegacy
 	 * Install an extension.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.5
 	 */
 	public function install()
