@@ -29,7 +29,10 @@ class UsersViewLogin extends JViewLegacy
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string  The template file to include
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
 	 * @since   1.5
 	 */
 	public function display($tpl = null)
@@ -44,11 +47,13 @@ class UsersViewLogin extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode('<br />', $errors));
+
 			return false;
 		}
 
 		// Check for layout override
 		$active = JFactory::getApplication()->getMenu()->getActive();
+
 		if (isset($active->query['layout']))
 		{
 			$this->setLayout($active->query['layout']);
@@ -58,7 +63,7 @@ class UsersViewLogin extends JViewLegacy
 		$tfa = UsersHelper::getTwoFactorMethods();
 		$this->tfa = is_array($tfa) && count($tfa) > 1;
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
 		$this->prepareDocument();
@@ -68,6 +73,9 @@ class UsersViewLogin extends JViewLegacy
 
 	/**
 	 * Prepares the document
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function prepareDocument()
@@ -81,6 +89,7 @@ class UsersViewLogin extends JViewLegacy
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
+
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
