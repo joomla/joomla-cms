@@ -150,12 +150,13 @@ class UsersHelper
 		catch (RuntimeException $e)
 		{
 			JError::raiseNotice(500, $e->getMessage());
+
 			return null;
 		}
 
 		foreach ($options as &$option)
 		{
-			$option->text = str_repeat('- ', $option->level).$option->text;
+			$option->text = str_repeat('- ', $option->level) . $option->text;
 		}
 
 		return $options;
@@ -180,6 +181,7 @@ class UsersHelper
 			JHtml::_('select.option', 'past_year', JText::_('COM_USERS_OPTION_RANGE_PAST_YEAR')),
 			JHtml::_('select.option', 'post_year', JText::_('COM_USERS_OPTION_RANGE_POST_YEAR')),
 		);
+
 		return $options;
 	}
 
