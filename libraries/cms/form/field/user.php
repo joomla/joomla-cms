@@ -91,7 +91,7 @@ class JFormFieldUser extends JFormField
 		if ($this->readonly === false)
 		{
 			JHtml::_('bootstrap.modal');
-			$html[] = '<a href="#userModal" role="button" class="btn btn-primary" data-toggle="modal">' . JText::_('JLIB_FORM_CHANGE_USER') . '<i class="icon-user"></i></a>';
+			$html[] = '<a href="#userModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '"><i class="icon-user"></i></a>';
 			$html[] = JHtmlBootstrap::renderModal('userModal', array( 'url' => $link, 'title' => JText::_('JLIB_FORM_CHANGE_USER'),'height' => '800', 'width' => '600'), '');
 		}
 
