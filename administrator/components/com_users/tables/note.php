@@ -21,7 +21,7 @@ class UsersTableNote extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param  JDatabaseDriver  &$db  Database object
+	 * @param   JDatabaseDriver  &$db  Database object
 	 *
 	 * @since  2.5
 	 */
@@ -97,6 +97,7 @@ class UsersTableNote extends JTable
 			else
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
@@ -129,6 +130,7 @@ class UsersTableNote extends JTable
 		catch (RuntimeException $e)
 		{
 			$this->setError($this->_db->getMessage());
+
 			return false;
 		}
 
@@ -149,6 +151,7 @@ class UsersTableNote extends JTable
 		}
 
 		$this->setError('');
+
 		return true;
 	}
 }

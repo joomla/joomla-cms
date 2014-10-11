@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * User view
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_users
  * @since       1.5
@@ -29,7 +31,11 @@ class UsersViewUser extends JViewLegacy
 	/**
 	 * Display the view
 	 *
-	 * @since  1.5
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
@@ -45,6 +51,7 @@ class UsersViewUser extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -57,6 +64,8 @@ class UsersViewUser extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return void
 	 *
 	 * @since   1.6
 	 */
