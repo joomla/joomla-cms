@@ -76,10 +76,12 @@ class JGoogle
 		{
 			$options = $this->options;
 		}
+
 		if ($this->auth && !$auth)
 		{
 			$auth = $this->auth;
 		}
+
 		switch ($name)
 		{
 			case 'plus':
@@ -115,6 +117,7 @@ class JGoogle
 		{
 			$options = $this->options;
 		}
+
 		switch ($name)
 		{
 			case 'maps':
