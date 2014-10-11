@@ -93,6 +93,14 @@ class CategoriesHelper
 		return $result;
 	}
 
+	/**
+	 * Gets a list of associations for a given item.
+	 *
+	 * @param   integer  $pk         Content item key.
+	 * @param   string   $extension  Optional extension name.
+	 *
+	 * @return  array of associations. 
+	 */
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
 		$associations = array();
