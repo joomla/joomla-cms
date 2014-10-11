@@ -41,7 +41,11 @@ class ConfigController extends JControllerLegacy
 		// Set the default view name and format from the Request.
 		$vName = $this->input->get('view', 'application');
 
-		JLog::add('ConfigController is deprecated. Use ConfigControllerApplicationDisplay or ConfigControllerComponentDisplay instead.', JLog::WARNING, 'deprecated');
+		JLog::add(
+			'ConfigController is deprecated. Use ConfigControllerApplicationDisplay or ConfigControllerComponentDisplay instead.',
+			JLog::WARNING,
+			'deprecated'
+		);
 
 		if (ucfirst($vName) == 'Application')
 		{
