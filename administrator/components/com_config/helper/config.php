@@ -55,7 +55,7 @@ class ConfigHelperConfig extends JHelperContent
 
 	/**
 	 * Returns an array of all components with configuration options.
-	 * Optionally return on those components for which the current user has 'core.manage' rights.
+	 * Optionally return only those components for which the current user has 'core.manage' rights.
 	 *
 	 * @param   boolean  $authCheck  True to restrict to components where current user has 'core.manage' rights.
 	 *
