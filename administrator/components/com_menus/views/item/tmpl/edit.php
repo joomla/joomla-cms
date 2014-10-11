@@ -19,7 +19,6 @@ JHtml::_('formbehavior.chosen', 'select');
 JText::script('ERROR');
 JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
 
-$app = JFactory::getApplication();
 $assoc = JLanguageAssociations::isEnabled();
 
 //Ajax for parent items
