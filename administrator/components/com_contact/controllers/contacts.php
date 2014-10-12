@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Articles list controller class.
+ * Contacts list controller class.
  *
  * @package     Joomla.Administrator
  * @subpackage  com_contact

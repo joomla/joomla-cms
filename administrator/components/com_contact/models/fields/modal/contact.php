@@ -146,7 +146,7 @@ class JFormFieldModal_Contact extends JFormField
 			. '<i class="icon-file"></i> ' . JText::_('JSELECT')
 			. '</a>';
 
-		// Edit article button
+		// Edit contact button.
 		if ($allowEdit)
 		{
 			$html[] = '<a'
