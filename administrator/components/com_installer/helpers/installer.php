@@ -81,6 +81,7 @@ class InstallerHelper
 		$types = $db->loadColumn();
 
 		$options = array();
+
 		foreach ($types as $type)
 		{
 			$options[] = JHtml::_('select.option', $type, 'COM_INSTALLER_TYPE_' . strtoupper($type));
@@ -108,6 +109,7 @@ class InstallerHelper
 		$folders = $db->loadColumn();
 
 		$options = array();
+
 		foreach ($folders as $folder)
 		{
 			$options[] = JHtml::_('select.option', $folder, $folder);

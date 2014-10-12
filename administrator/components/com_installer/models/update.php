@@ -106,10 +106,12 @@ class InstallerModelUpdate extends JModelList
 		{
 			$query->where('type=' . $db->quote($type));
 		}
+
 		if ($client != '')
 		{
 			$query->where('client_id = ' . intval($client));
 		}
+
 		if ($group != '' && in_array($type, array('plugin', 'library', '')))
 		{
 			$query->where('folder=' . $db->quote($group == '*' ? '' : $group));
@@ -128,11 +130,13 @@ class InstallerModelUpdate extends JModelList
 
 		// Filter by search
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 			$query->where('name LIKE ' . $search);
 		}
+
 		return $query;
 	}
 
@@ -153,6 +157,7 @@ class InstallerModelUpdate extends JModelList
 
 		$updater = JUpdater::getInstance();
 		$updater->findUpdates($eid, $cache_timeout);
+
 		return true;
 	}
 
@@ -170,6 +175,7 @@ class InstallerModelUpdate extends JModelList
 		// Note: TRUNCATE is a DDL operation
 		// This may or may not mean depending on your database
 		$db->setQuery('TRUNCATE TABLE #__updates');
+
 		if ($db->execute())
 		{
 			// Reset the last update check timestamp
@@ -179,11 +185,13 @@ class InstallerModelUpdate extends JModelList
 			$db->setQuery($query);
 			$db->execute();
 			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
+
 			return true;
 		}
 		else
 		{
 			$this->_message = JText::_('COM_INSTALLER_FAILED_TO_PURGE_UPDATES');
+
 			return false;
 		}
 	}
@@ -203,17 +211,20 @@ class InstallerModelUpdate extends JModelList
 			->set('enabled = 1')
 			->where('enabled = 0');
 		$db->setQuery($query);
+
 		if ($db->execute())
 		{
 			if ($rows = $db->getAffectedRows())
 			{
 				$this->_message .= JText::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
 			}
+
 			return true;
 		}
 		else
 		{
 			$this->_message .= JText::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
+
 			return false;
 		}
 	}
@@ -232,6 +243,7 @@ class InstallerModelUpdate extends JModelList
 	public function update($uids)
 	{
 		$result = true;
+
 		foreach ($uids as $uid)
 		{
 			$update = new JUpdate;
@@ -267,6 +279,7 @@ class InstallerModelUpdate extends JModelList
 	private function install($update)
 	{
 		$app = JFactory::getApplication();
+
 		if (isset($update->get('downloadurl')->_data))
 		{
 			$url = $update->downloadurl->_data;
@@ -290,6 +303,7 @@ class InstallerModelUpdate extends JModelList
 		else
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'));
+
 			return false;
 		}
 
@@ -299,6 +313,7 @@ class InstallerModelUpdate extends JModelList
 		if (!$p_file)
 		{
 			JError::raiseWarning('', JText::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url));
+
 			return false;
 		}
 
@@ -351,15 +366,15 @@ class InstallerModelUpdate extends JModelList
 	}
 
 	/**
-	* Method to get the row form.
-	*
-	* @param   array    $data      Data for the form.
-	* @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	*
-	* @return  mixed  A JForm object on success, false on failure
-	*
-	* @since	2.5.2
-	*/
+	 * Method to get the row form.
+	 *
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  mixed  A JForm object on success, false on failure
+	 *
+	 * @since	2.5.2
+	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
@@ -371,6 +386,7 @@ class InstallerModelUpdate extends JModelList
 		if ($form == false)
 		{
 			$this->setError($form->getMessage());
+
 			return false;
 		}
 		// Check the session for previously entered form data.
@@ -396,6 +412,7 @@ class InstallerModelUpdate extends JModelList
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState($this->context . '.data', array());
+
 		return $data;
 	}
 }

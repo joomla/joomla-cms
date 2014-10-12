@@ -35,7 +35,7 @@ class InstallerViewLanguages extends InstallerViewDefault
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Display the view.
 	 *
 	 * @param   null  $tpl  template to display
 	 *
@@ -43,7 +43,7 @@ class InstallerViewLanguages extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model
+		// Get data from the model.
 		$this->state      = $this->get('State');
 		$this->items      = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
@@ -52,6 +52,7 @@ class InstallerViewLanguages extends InstallerViewDefault
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -75,7 +76,7 @@ class InstallerViewLanguages extends InstallerViewDefault
 			JToolBarHelper::divider();
 			parent::addToolbar();
 
-			// TODO: this help screen will need to be created
+			// TODO: this help screen will need to be created.
 			JToolBarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_LANGUAGES');
 		}
 	}
