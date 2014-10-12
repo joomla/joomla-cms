@@ -109,6 +109,7 @@ abstract class FinderIndexer
 		{
 			$format = 'sqlsrv';
 		}
+
 		$path = __DIR__ . '/driver/' . $format . '.php';
 		$class = 'FinderIndexerDriver' . ucfirst($format);
 
@@ -117,6 +118,7 @@ abstract class FinderIndexer
 		{
 			// Instantiate the parser.
 			include_once $path;
+
 			return new $class;
 		}
 		else

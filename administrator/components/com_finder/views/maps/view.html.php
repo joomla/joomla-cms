@@ -44,6 +44,7 @@ class FinderViewMaps extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -75,15 +76,18 @@ class FinderViewMaps extends JViewLegacy
 			JToolbarHelper::unpublishList('maps.unpublish');
 			JToolbarHelper::divider();
 		}
+
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'maps.delete');
 			JToolbarHelper::divider();
 		}
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_finder');
 		}
+
 		JToolbarHelper::divider();
 		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 		JToolbarHelper::divider();
