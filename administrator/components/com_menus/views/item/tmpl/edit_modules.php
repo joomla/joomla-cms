@@ -14,17 +14,21 @@ JHtml::_('behavior.core');
 JHtml::_('bootstrap.modal');
 
 $script = array();
+$script[] = "jQuery(document).ready(function() {";
+$script[] = "	jQuery('#showmods').click(function() {";
+$script[] = "		jQuery('#showmods').css('display', 'block');";
+$script[] = "		jQuery('.table tr.no').toggle();";
+$script[] = "	});";
+$script[] = '	jQuery("#moduleModal").on("hidden", function () {';
+$script[] = '		setTimeout(function(){';
+$script[] = '			window.parent.location.reload();';
+$script[] = '		},1000);';
+$script[] = '	});';
 $script[] = '	function jSelectPosition_' . $this->id . '(name) {';
 $script[] = '		document.getElementById("' . $this->id . '").value = name;';
 $script[] = '		jQuery("#moduleModal").modal("hide");';
 $script[] = '	}';
-
-$script[] = "	jQuery(document).ready(function() {";
-$script[] = "		jQuery('#showmods').click(function() {";
-$script[] = "			jQuery('#showmods').css('display', 'block');";
-$script[] = "		    jQuery('.table tr.no').toggle();";
-$script[] = "		});";
-$script[] = "	});";
+$script[] = "});";
 
 // Add normalized style.
 $style = '@media only screen and (min-width : 768px) {

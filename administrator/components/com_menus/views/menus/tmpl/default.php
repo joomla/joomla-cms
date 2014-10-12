@@ -20,13 +20,17 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
 $script = array();
+$script[] = "jQuery(document).ready(function() {";
 $script[] = '	function jSelectPosition_' . $this->id . '(name) {';
 $script[] = '		document.getElementById("' . $this->id . '").value = name;';
 $script[] = '		jQuery("#menusModuleModal").modal("hide");';
 $script[] = '	};';
-$script[] = '	jQuery("#moduleModal").on("hide", function () {';
-$script[] = '	location.reload();';
+$script[] = '	jQuery("#moduleModal").on("hidden", function () {';
+$script[] = '		setTimeout(function(){';
+$script[] = '			window.parent.location.reload();';
+$script[] = '		},1000);';
 $script[] = '	});';
+$script[] = "});";
 
 // Add normalized style.
 $style = 'div#moduleModal.modal.hide {display: block;}
