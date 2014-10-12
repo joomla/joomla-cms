@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 class InstallerViewDefault extends JViewLegacy
 {
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @param   array  $config  Configuration array
 	 *
@@ -32,7 +32,7 @@ class InstallerViewDefault extends JViewLegacy
 	}
 
 	/**
-	 * Display the view
+	 * Display the view.
 	 *
 	 * @param   string  $tpl  Template
 	 *
@@ -42,11 +42,12 @@ class InstallerViewDefault extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model
-		$state	= $this->get('State');
+		// Get data from the model.
+		$state = $this->get('State');
 
-		// Are there messages to display ?
-		$showMessage	= false;
+		// Are there messages to display?
+		$showMessage = false;
+
 		if (is_object($state))
 		{
 			$message1		= $state->get('message');
@@ -79,11 +80,11 @@ class InstallerViewDefault extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 
-		// Document
+		// Document.
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_INSTALLER_TITLE_' . $this->getName()));
 
-		// Render side bar
+		// Render side bar.
 		$this->sidebar = JHtmlSidebar::render();
 	}
 }
