@@ -87,8 +87,10 @@ class ContentViewArticle extends JViewLegacy
 
 		// Built the actions for new and existing records.
 		$canDo		= $this->canDo;
-		JToolbarHelper::title(JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
-			'pencil-2 article-add');
+		JToolbarHelper::title(
+			JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
+			'pencil-2 article-add'
+		);
 
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
