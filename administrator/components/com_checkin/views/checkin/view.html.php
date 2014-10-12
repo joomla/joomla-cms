@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Checkin component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_checkin
- * @since       1.0
+ * @since  1.0
  */
 class CheckinViewCheckin extends JViewLegacy
 {
