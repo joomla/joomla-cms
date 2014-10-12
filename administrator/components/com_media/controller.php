@@ -89,6 +89,8 @@ class MediaController extends JControllerLegacy
 	 * Validate FTP credentials
 	 *
 	 * @return  void
+	 *
+	 * @since   1.5
 	 */
 	public function ftpValidate()
 	{

@@ -60,7 +60,7 @@ class MediaModelManager extends JModelLegacy
 	 *
 	 * @since 1.5
 	 */
-	function getFolderList($base = null)
+	public function getFolderList($base = null)
 	{
 		// Get some paths from the request
 		if (empty($base))
@@ -121,8 +121,10 @@ class MediaModelManager extends JModelLegacy
 	 * @param   mixed  $base  Base folder | null for using base media folder
 	 *
 	 * @return  array
+	 *
+	 * @since   1.5
 	 */
-	function getFolderTree($base = null)
+	public function getFolderTree($base = null)
 	{
 		// Get some paths from the request
 		if (empty($base))

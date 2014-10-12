@@ -166,6 +166,8 @@ class MediaViewMedia extends JViewLegacy
 	 * @param   array  $folder  Array with folder data
 	 *
 	 * @return  string
+	 *
+	 * @since   1.0
 	 */
 	protected function getFolderLevel($folder)
 	{

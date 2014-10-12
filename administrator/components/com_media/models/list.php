@@ -54,6 +54,8 @@ class MediaModelList extends JModelLegacy
 	 * Get the images on the current folder
 	 *
 	 * @return  array
+	 *
+	 * @since   1.5
 	 */
 	public function getImages()
 	{
@@ -66,6 +68,8 @@ class MediaModelList extends JModelLegacy
 	 * Get the folders on the current folder
 	 *
 	 * @return  array
+	 *
+	 * @since   1.5
 	 */
 	public function getFolders()
 	{
@@ -78,6 +82,8 @@ class MediaModelList extends JModelLegacy
 	 * Get the documents on the current folder
 	 *
 	 * @return  array
+	 *
+	 * @since   1.5
 	 */
 	public function getDocuments()
 	{
