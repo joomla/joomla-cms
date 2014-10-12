@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.framework');
+JHtml::_('bootstrap.modal');
 
 // Create a shortcut for params.
 $params = &$this->item->params;
