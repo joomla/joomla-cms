@@ -339,7 +339,7 @@ abstract class JModelActions extends JModelAdministrator
 			}
 			else
 			{
-				throw new RuntimeException($this->text_prefix . '_LIB_ACL_ERROR_EDIT_STATE_NOT_PERMITTED');
+				throw new RuntimeException(JText::_($this->text_prefix . '_LIB_ACL_ERROR_EDIT_STATE_NOT_PERMITTED'));
 			}
 		}
 
