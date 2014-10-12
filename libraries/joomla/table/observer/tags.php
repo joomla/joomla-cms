@@ -103,6 +103,7 @@ class JTableObserverTags extends JTableObserver
 	public function onBeforeStore($updateNulls, $tableKey)
 	{
 		$this->parseTypeAlias();
+
 		if (empty($this->table->tagsHelper->tags))
 		{
 			$this->tagsHelper->preStoreProcess($this->table);
