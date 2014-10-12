@@ -22,7 +22,7 @@ JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
 
 $assoc = JLanguageAssociations::isEnabled();
 
-//Ajax for parent items
+// Ajax for parent items
 $script = "jQuery(document).ready(function ($){
 				$('#jform_menutype').change(function(){
 					var menutype = $(this).val();
@@ -118,6 +118,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				{
 					$this->form->setFieldAttribute('link', 'readonly', 'false');
 				}
+
 				echo $this->form->getControlGroup('link');
 
 				echo $this->form->getControlGroup('browserNav');
@@ -138,6 +139,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					'note'
 
 				);
+
 				if ($this->item->type != 'component')
 				{
 					$this->fields = array_diff($this->fields, array('home'));
