@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Cache Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_cache
- * @since       1.6
+ * @since  1.6
  */
 class CacheModelCache extends JModelList
 {

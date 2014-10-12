@@ -15,10 +15,8 @@ jimport('joomla.filesystem.file');
 /**
  * Joomla! update overview Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_joomlaupdate
- * @author      nikosdion <nicholas@dionysopoulos.me>
- * @since       2.5.4
+ * @author  nikosdion <nicholas@dionysopoulos.me>
+ * @since   2.5.4
  */
 class JoomlaupdateModelDefault extends JModelLegacy
 {

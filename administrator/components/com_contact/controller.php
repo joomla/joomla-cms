@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Component Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contact
  */
 class ContactController extends JControllerLegacy
 {
