@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * DocumentImage class, provides an easy interface to output image data
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       12.1
+ * @since  12.1
  */
 class JDocumentImage extends JDocument
 {
