@@ -18,6 +18,15 @@ defined('_JEXEC') or die;
  */
 class MediaViewMediaList extends JViewLegacy
 {
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   1.0
+	 */
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
@@ -52,9 +61,12 @@ class MediaViewMediaList extends JViewLegacy
 		$state = $this->get('state');
 
 		// Check for invalid folder name
-		if (empty($state->folder)) {
+		if (empty($state->folder))
+		{
 			$dirname = JRequest::getVar('folder', '', '', 'string');
-			if (!empty($dirname)) {
+
+			if (!empty($dirname))
+			{
 				$dirname = htmlspecialchars($dirname, ENT_COMPAT, 'UTF-8');
 				JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_BROWSE_FOLDER_WARNDIRNAME', $dirname));
 			}
@@ -69,7 +81,16 @@ class MediaViewMediaList extends JViewLegacy
 		parent::display($tpl);
 	}
 
-	function setFolder($index = 0)
+	/**
+	 * Set the active folder
+	 *
+	 * @param   integer  $index  Folder position
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function setFolder($index = 0)
 	{
 		if (isset($this->folders[$index]))
 		{
@@ -81,7 +102,16 @@ class MediaViewMediaList extends JViewLegacy
 		}
 	}
 
-	function setImage($index = 0)
+	/**
+	 * Set the active image
+	 *
+	 * @param   integer  $index  Image position
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function setImage($index = 0)
 	{
 		if (isset($this->images[$index]))
 		{
@@ -93,7 +123,16 @@ class MediaViewMediaList extends JViewLegacy
 		}
 	}
 
-	function setDoc($index = 0)
+	/**
+	 * Set the active doc
+	 *
+	 * @param   integer  $index  Doc position
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function setDoc($index = 0)
 	{
 		if (isset($this->documents[$index]))
 		{

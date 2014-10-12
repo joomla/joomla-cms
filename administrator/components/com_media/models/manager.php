@@ -18,6 +18,16 @@ defined('_JEXEC') or die;
  */
 class MediaModelManager extends JModelLegacy
 {
+	/**
+	 * Method to get model state variables
+	 *
+	 * @param   string  $property  Optional parameter name
+	 * @param   mixed   $default   Optional default value
+	 *
+	 * @return  object  The property where specified, the state object where omitted
+	 *
+	 * @since   1.5
+	 */
 	public function getState($property = null, $default = null)
 	{
 		static $set;
@@ -42,9 +52,12 @@ class MediaModelManager extends JModelLegacy
 	}
 
 	/**
-	 * Image Manager Popup
+	 * Get a select field with a list of available folders
 	 *
-	 * @param string $listFolder The image directory to display
+	 * @param   string  $base  The image directory to display
+	 *
+	 * @return  html
+	 *
 	 * @since 1.5
 	 */
 	function getFolderList($base = null)
@@ -54,7 +67,7 @@ class MediaModelManager extends JModelLegacy
 		{
 			$base = COM_MEDIA_BASE;
 		}
-		//corrections for windows paths
+		// Corrections for windows paths
 		$base = str_replace(DIRECTORY_SEPARATOR, '/', $base);
 		$com_media_base_uni = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE);
 
@@ -96,11 +109,19 @@ class MediaModelManager extends JModelLegacy
 		$author = $input->get('author', 0, 'integer');
 
 		// Create the drop-down folder select list
-		$list = JHtml::_('select.genericlist', $options, 'folderlist', 'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, '.$asset.', '.$author.')" ', 'value', 'text', $base);
+		$attribs = 'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, ' . $asset . ', ' . $author . ')" ';
+		$list = JHtml::_('select.genericlist', $options, 'folderlist', $attribs, 'value', 'text', $base);
 
 		return $list;
 	}
 
+	/**
+	 * Get the folder tree
+	 *
+	 * @param   mixed  $base  Base folder | null for using base media folder
+	 *
+	 * @return  array
+	 */
 	function getFolderTree($base = null)
 	{
 		// Get some paths from the request
@@ -109,7 +130,7 @@ class MediaModelManager extends JModelLegacy
 			$base = COM_MEDIA_BASE;
 		}
 
-		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE.'/');
+		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
 
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
@@ -127,6 +148,7 @@ class MediaModelManager extends JModelLegacy
 			$node		= (object) array('name' => $name, 'relative' => $relative, 'absolute' => $absolute);
 
 			$tmp = &$tree;
+
 			for ($i = 0, $n = count($path); $i < $n; $i++)
 			{
 				if (!isset($tmp['children']))
@@ -147,6 +169,7 @@ class MediaModelManager extends JModelLegacy
 				}
 			}
 		}
+
 		$tree['data'] = (object) array('name' => JText::_('COM_MEDIA_MEDIA'), 'relative' => '', 'absolute' => $base);
 
 		return $tree;

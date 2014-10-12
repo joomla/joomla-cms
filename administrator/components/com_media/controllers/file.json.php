@@ -28,7 +28,7 @@ class MediaControllerFile extends JControllerLegacy
 	 *
 	 * @since   1.5
 	 */
-	function upload()
+	public function upload()
 	{
 		$params = JComponentHelper::getParams('com_media');
 
@@ -40,6 +40,7 @@ class MediaControllerFile extends JControllerLegacy
 				'error' => JText::_('JINVALID_TOKEN')
 			);
 			echo json_encode($response);
+
 			return;
 		}
 
@@ -54,18 +55,17 @@ class MediaControllerFile extends JControllerLegacy
 		// Instantiate the media helper
 		$mediaHelper = new JHelperMedia;
 
-		if (
-			$_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024) ||
-			$_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('upload_max_filesize')) ||
-			$_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('post_max_size')) ||
-			$_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('memory_limit'))
-		)
+		if ($_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024)
+			|| $_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('upload_max_filesize'))
+			|| $_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('post_max_size'))
+			|| $_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('memory_limit')))
 		{
 			$response = array(
 				'status' => '0',
 				'error' => JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE')
 			);
 			echo json_encode($response);
+
 			return;
 		}
 
@@ -92,6 +92,7 @@ class MediaControllerFile extends JControllerLegacy
 				);
 
 				echo json_encode($response);
+
 				return;
 			}
 
@@ -113,6 +114,7 @@ class MediaControllerFile extends JControllerLegacy
 				);
 
 				echo json_encode($response);
+
 				return;
 			}
 
@@ -127,6 +129,7 @@ class MediaControllerFile extends JControllerLegacy
 				);
 
 				echo json_encode($response);
+
 				return;
 			}
 			elseif (!$user->authorise('core.create', 'com_media'))
@@ -140,6 +143,7 @@ class MediaControllerFile extends JControllerLegacy
 				);
 
 				echo json_encode($response);
+
 				return;
 			}
 
@@ -154,6 +158,7 @@ class MediaControllerFile extends JControllerLegacy
 				);
 
 				echo json_encode($response);
+
 				return;
 			}
 			else
@@ -168,6 +173,7 @@ class MediaControllerFile extends JControllerLegacy
 				);
 
 				echo json_encode($response);
+
 				return;
 			}
 		}
@@ -179,6 +185,7 @@ class MediaControllerFile extends JControllerLegacy
 			);
 
 			echo json_encode($response);
+
 			return;
 		}
 	}
