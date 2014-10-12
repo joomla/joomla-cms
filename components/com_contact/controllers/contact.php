@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Site
- * @subpackage  com_contact
+ * Contact controller class.
  */
 class ContactControllerContact extends JControllerForm
 {
