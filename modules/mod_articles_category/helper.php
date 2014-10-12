@@ -18,7 +18,6 @@ JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
 /**
  * Helper for mod_articles_category
  *
- *
  * @since  1.6
  */
 abstract class ModArticlesCategoryHelper

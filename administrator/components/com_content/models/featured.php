@@ -14,7 +14,6 @@ require_once __DIR__ . '/articles.php';
 /**
  * About Page Model
  *
- *
  * @since  1.6
  */
 class ContentModelFeatured extends ContentModelArticles

@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_login
  *
- *
  * @since  1.5
  */
 class ModLoginHelper

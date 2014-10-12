@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Joomla Platform class for generating Twitter API access token.
  *
- *
  * @since       12.3
  */
 class JTwitterOAuth extends JOAuth1Client

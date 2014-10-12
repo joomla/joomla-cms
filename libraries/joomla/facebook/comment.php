@@ -14,7 +14,6 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Facebook API Comment class for the Joomla Platform.
  *
- *
  * @see         http://developers.facebook.com/docs/reference/api/Comment/
  * @since       13.1
  */
