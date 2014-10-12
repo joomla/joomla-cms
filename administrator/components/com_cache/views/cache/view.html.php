@@ -19,10 +19,20 @@ defined('_JEXEC') or die;
 class CacheViewCache extends JViewLegacy
 {
 	protected $client;
+
 	protected $data;
+
 	protected $pagination;
+
 	protected $state;
 
+	/**
+	 * Display a view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
 	public function display($tpl = null)
 	{
 		$this->data			= $this->get('Data');
@@ -34,6 +44,7 @@ class CacheViewCache extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -45,6 +56,8 @@ class CacheViewCache extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
@@ -52,17 +65,19 @@ class CacheViewCache extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_CACHE_CLEAR_CACHE'), 'lightning clear');
 		JToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
 		JToolbarHelper::divider();
+
 		if (JFactory::getUser()->authorise('core.admin', 'com_cache'))
 		{
 			JToolbarHelper::preferences('com_cache');
 		}
+
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
 
 		JHtmlSidebar::setAction('index.php?option=com_cache');
 
 		JHtmlSidebar::addFilter(
-			// @todo We need an actual label here
+			// @todo We need an actual label here.
 			'',
 			'filter_client_id',
 			JHtml::_('select.options', CacheHelper::getClientOptions(), 'value', 'text', $this->state->get('clientId'))
