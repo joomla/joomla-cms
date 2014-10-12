@@ -24,6 +24,10 @@ class ModulesViewModules extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -35,11 +39,13 @@ class ModulesViewModules extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
 		// Check if there are no matching items
-		if (!count($this->items)){
+		if (!count($this->items))
+		{
 			JFactory::getApplication()->enqueueMessage(
 				JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'),
 				'warning'
@@ -47,6 +53,7 @@ class ModulesViewModules extends JViewLegacy
 		}
 
 		$this->addToolbar();
+
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		parent::display($tpl);
@@ -54,6 +61,8 @@ class ModulesViewModules extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -96,13 +105,15 @@ class ModulesViewModules extends JViewLegacy
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state'))
+		}
+		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('modules.trash');
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules') && $user->authorise('core.edit.state', 'com_modules'))
+		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
+			&& $user->authorise('core.edit.state', 'com_modules'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
@@ -118,6 +129,7 @@ class ModulesViewModules extends JViewLegacy
 		{
 			JToolbarHelper::preferences('com_modules');
 		}
+
 		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
 
 		JHtmlSidebar::addEntry(
@@ -151,7 +163,10 @@ class ModulesViewModules extends JViewLegacy
 		JHtmlSidebar::addFilter(
 			JText::_('COM_MODULES_OPTION_SELECT_POSITION'),
 			'filter_position',
-			JHtml::_('select.options', ModulesHelper::getPositions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.position'))
+			JHtml::_(
+				'select.options',
+				ModulesHelper::getPositions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.position')
+			)
 		);
 
 		JHtmlSidebar::addFilter(

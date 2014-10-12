@@ -29,6 +29,7 @@ class ModulesControllerModule extends JControllerForm
 
 		// Get the result of the parent method. If an error, just return it.
 		$result = parent::add();
+
 		if ($result instanceof Exception)
 		{
 			return $result;
@@ -36,9 +37,13 @@ class ModulesControllerModule extends JControllerForm
 
 		// Look for the Extension ID.
 		$extensionId = $app->input->get('eid', 0, 'int');
+
 		if (empty($extensionId))
 		{
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.'&layout=edit', false));
+			$redirectUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . '&layout=edit';
+
+			$this->setRedirect(JRoute::_($redirectUrl, false));
+
 			return JError::raiseWarning(500, JText::_('COM_MODULES_ERROR_INVALID_EXTENSION'));
 		}
 
@@ -83,7 +88,7 @@ class ModulesControllerModule extends JControllerForm
 	 */
 	protected function allowSave($data, $key = 'id')
 	{
-		// use custom position if selected
+		// Use custom position if selected
 		if (isset($data['custom_position']))
 		{
 			if (empty($data['position']))
@@ -141,7 +146,9 @@ class ModulesControllerModule extends JControllerForm
 		$model	= $this->getModel('Module', '', array());
 
 		// Preset the redirect
-		$this->setRedirect(JRoute::_('index.php?option=com_modules&view=modules'.$this->getRedirectToListAppend(), false));
+		$redirectUrl = 'index.php?option=com_modules&view=modules' . $this->getRedirectToListAppend();
+
+		$this->setRedirect(JRoute::_($redirectUrl, false));
 
 		return parent::batch($model);
 	}

@@ -20,7 +20,14 @@ JLog::add('ModulesHelperXML is deprecated. Do not use.', JLog::WARNING, 'depreca
 class ModulesHelperXML
 {
 	/**
+	 * Parse the module XML file
+	 *
+	 * @param   array  &$rows  XML rows
+	 *
+	 * @return  void
+	 *
 	 * @since       1.5
+	 *
 	 * @deprecated  3.2  Do not use.
 	 */
 	public function parseXMLModuleFile(&$rows)
