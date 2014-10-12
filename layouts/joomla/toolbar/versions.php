@@ -26,14 +26,6 @@ JFactory::getDocument()->addStyleDeclaration('
 			}
 		}');
 
-$lang = JFactory::getLanguage();
-$extension = 'com_contenthistory';
-$base_dir = JFactory::getApplication()->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
-$language_tag = $lang->getName();
-$reload = true;
-$lang->load($extension, $base_dir, $language_tag, $reload);
-
-
 $link = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id='
 	. (int) $displayData['itemId'] . '&amp;type_id=' . $displayData['typeId'] . '&amp;type_alias='
 	. $displayData['typeAlias'] . '&amp;' . JSession::getFormToken() . '=1';

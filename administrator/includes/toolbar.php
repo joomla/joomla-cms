@@ -596,6 +596,12 @@ abstract class JToolbarHelper
 	{
 		JHtml::_('bootstrap.modal');
 
+		$lang = JFactory::getLanguage();
+		$extension = 'com_contenthistory';
+		$base_dir = JFactory::getApplication()->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$language_tag = $lang->getName();
+		$reload = true;
+		$lang->load($extension, $base_dir, $language_tag, $reload);
 		$contentTypeTable = JTable::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
@@ -631,10 +637,6 @@ abstract class JToolbarHelper
 		$dhtml = "<button data-toggle='modal' data-target='#" . $targetModalId . "' class='btn btn-small'>
 			<i class='" . $icon . "' title='" . $title . "'></i> " . $title . "</button>";
 
-/*
-<button onclick="jQuery('#versionsModal').modal('show')"  title="<?php echo $displayData['title']; ?>">
-<span class="icon-archive"></span><?php echo $displayData['title']; ?></button>
-*/
 		$bar = JToolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);
 	}
