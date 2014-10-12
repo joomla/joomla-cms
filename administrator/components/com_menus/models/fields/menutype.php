@@ -69,11 +69,46 @@ class JFormFieldMenutype extends JFormFieldList
 				$value	= JText::_(JArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));
 				break;
 		}
-		// Load the javascript and css
-		JHtml::_('behavior.framework');
-		JHtml::_('behavior.modal');
 
-		$html[] = '<span class="input-append"><input type="text" disabled="disabled" readonly="readonly" id="' . $this->id . '" value="' . $value . '"' . $size . $class . ' /><a class="btn btn-primary" onclick="SqueezeBox.fromElement(this, {handler:\'iframe\', size: {x: 600, y: 450}, url:\''.JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&recordId='.$recordId).'\'})"><i class="icon-list icon-white"></i> '.JText::_('JSELECT').'</a></span>';
+		// Include jQuery
+		JHtml::_('jquery.framework');
+		JHtml::_('bootstrap.modal');
+
+		// Build the script.
+		$script = array();
+		$script[] = '	function jSelectPosition_' . $this->id . '(name) {';
+		$script[] = '		document.getElementById("' . $this->id . '").value = name;';
+		$script[] = '		jQuery("#menuTypeModal").modal("hide");';
+		$script[] = '	}';
+
+		// Add normalized style.
+		$style = '@media only screen and (min-width : 768px) {
+			#menuTypeModal {
+			width: 80% !important;
+			margin-left:-40% !important;
+			height:auto;
+			}
+			#menuTypeModal #menuTypeModal-container .modal-body iframe {
+			margin:0;
+			padding:0;
+			display:block;
+			width:100%;
+			height:600px !important;
+			border:none;
+			}
+		}';
+
+		// Add the script to the document head.
+		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		JFactory::getDocument()->addStyleDeclaration($style);
+
+		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&recordId='.$recordId);
+
+		$html[] = '<span class="input-append"><input type="text" disabled="disabled" readonly="readonly" id="' . $this->id . '" value="' . $value . '"' . $size . $class . ' />';
+
+		$html[] = '<a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '"><i class="icon-list icon-white"></i> '.JText::_('JSELECT').'</a></span>';
+		$html[] = JHtmlBootstrap::renderModal('menuTypeModal', array( 'url' => $link, 'title' => JText::_('JSELECT'),'height' => '800px', 'width' => '800px'), '');
+
 		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
 
 		return implode("\n", $html);

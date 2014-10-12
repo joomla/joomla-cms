@@ -9,18 +9,44 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.framework', true);
+// Include jQuery
+JHtml::_('jquery.framework');
+JHtml::_('bootstrap.modal');
 
 $script = array();
-$script[] = "	window.addEvent('domready', function() {";
-$script[] = "		document.id('showmods').addEvent('click', function(e) {";
-$script[] = "			document.id('showmods').setStyle('display', 'block');";
-$script[] = "		jQuery('.table tr.no').toggle();";
+$script[] = '	function jSelectPosition_' . $this->id . '(name) {';
+$script[] = '		document.getElementById("' . $this->id . '").value = name;';
+$script[] = '		jQuery("#moduleModal").modal("hide");';
+$script[] = '	}';
+
+$script[] = "	jQuery(document).ready(function() {";
+$script[] = "		jQuery('#showmods').click(function() {";
+$script[] = "			jQuery('#showmods').css('display', 'block');";
+$script[] = "		    jQuery('.table tr.no').toggle();";
 $script[] = "		});";
-$script[] = "	})";
+$script[] = "	});";
+
+// Add normalized style.
+$style = '@media only screen and (min-width : 768px) {
+			#moduleModal {
+			width: 80% !important;
+			margin-left:-40% !important;
+			height:auto;
+			}
+			#moduleModal #moduleModal-container .modal-body iframe {
+			margin:0;
+			padding:0;
+			display:block;
+			width:100%;
+			height:600px !important;
+			border:none;
+			}
+		}';
 
 // Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+JFactory::getDocument()->addStyleDeclaration($style);
+
 ?>
 
 <div class="control-group">
@@ -54,7 +80,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 			<?php endif; ?>
 				<td>
 					<?php $link = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;id=' . $module->id . '&amp;tmpl=component&amp;view=module&amp;layout=modal'; ?>
-					<a class="modal" href="<?php echo $link;?>" rel="{handler: 'iframe', size: {x: 900, y: 550}}" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>">
+					<a href="#moduleModal" role="button" class="btn btn-link" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>">
 						<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
 				</td>
 				<td class="center">
@@ -86,3 +112,5 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 		<?php endforeach; ?>
 		</tbody>
 	</table>
+
+<?php echo JHtmlBootstrap::renderModal('moduleModal', array( 'url' => $link, 'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),'height' => '800px', 'width' => '800px'), ''); ?>

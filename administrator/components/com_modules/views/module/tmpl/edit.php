@@ -37,7 +37,7 @@ if ($hasContent)
 $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 				if (self != top)
 				{
-					window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
+					window.parent.jQuery('#moduleModal').modal('hide');
 				}
 			}
 	};";
