@@ -32,7 +32,6 @@
 
  <rule ref="PEAR.Commenting.InlineComment"/>
 
- <rule ref="Generic.Files.LineEndings"/>
  <rule ref="Generic.Files.LineLength">
 	 <!-- These exceptions are temporary -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
