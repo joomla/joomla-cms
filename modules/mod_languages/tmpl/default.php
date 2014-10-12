@@ -19,12 +19,12 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 
 <?php if ($params->get('dropdown', 1)) : ?>
 	<form name="lang" method="post" action="<?php echo htmlspecialchars(JUri::current()); ?>">
-	<select class="inputbox" onchange="document.location.replace(this.value);" >
-	<?php foreach ($list as $language) : ?>
-		<option dir=<?php echo JLanguage::getInstance($language->lang_code)->isRTL() ? '"rtl"' : '"ltr"'?> value="<?php echo $language->link;?>" <?php echo $language->active ? 'selected="selected"' : ''?>>
-		<?php echo $language->title_native;?></option>
-	<?php endforeach; ?>
-	</select>
+		<select class="inputbox" onchange="document.location.replace(this.value);" >
+			<?php foreach ($list as $language) : ?>
+				<option dir=<?php echo JLanguage::getInstance($language->lang_code)->isRTL() ? '"rtl"' : '"ltr"'?> value="<?php echo $language->link;?>" <?php echo $language->active ? 'selected="selected"' : ''?>>
+					<?php echo $language->title_native;?></option>
+			<?php endforeach; ?>
+		</select>
 	</form>
 <?php else : ?>
 	<ul class="<?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block';?>">
