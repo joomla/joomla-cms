@@ -21,7 +21,8 @@ class SearchModelSearches extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -74,9 +75,10 @@ class SearchModelSearches extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
+	 *
 	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
@@ -92,6 +94,7 @@ class SearchModelSearches extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -117,6 +120,7 @@ class SearchModelSearches extends JModelList
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
@@ -126,7 +130,6 @@ class SearchModelSearches extends JModelList
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.hits')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 
@@ -134,6 +137,7 @@ class SearchModelSearches extends JModelList
 	 * Override the parnet getItems to inject optional data.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function getItems()
@@ -157,6 +161,7 @@ class SearchModelSearches extends JModelList
 			{
 				$results = $app->triggerEvent('onContentSearch', array($item->search_term));
 				$item->returns = 0;
+
 				foreach ($results as $result)
 				{
 					$item->returns += count($result);
@@ -171,6 +176,7 @@ class SearchModelSearches extends JModelList
 	 * Method to reset the seach log table.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	public function reset()
@@ -187,6 +193,7 @@ class SearchModelSearches extends JModelList
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
