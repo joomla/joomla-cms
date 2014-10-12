@@ -25,11 +25,11 @@ class CacheViewCache extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Display a view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -75,7 +75,7 @@ class CacheViewCache extends JViewLegacy
 		JHtmlSidebar::setAction('index.php?option=com_cache');
 
 		JHtmlSidebar::addFilter(
-			// @todo We need an actual label here
+			// @todo We need an actual label here.
 			'',
 			'filter_client_id',
 			JHtml::_('select.options', CacheHelper::getClientOptions(), 'value', 'text', $this->state->get('clientId'))

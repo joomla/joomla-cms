@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 class CacheController extends JControllerLegacy
 {
 	/**
-	 * Method to display a view.
+	 * Display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
@@ -65,7 +65,11 @@ class CacheController extends JControllerLegacy
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Purge an array of cache groups.
+=======
+	 * Method to delete a list of cache groups.
+>>>>>>> [Code Style] administrator/components/com_cache
 	 *
 	 * @return  void
 	 */

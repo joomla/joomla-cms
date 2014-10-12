@@ -17,11 +17,11 @@ defined('_JEXEC') or die;
 class CacheViewPurge extends JViewLegacy
 {
 	/**
-	 * Display the view
+	 * Display a view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
