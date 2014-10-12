@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with content language select lists
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
  * @since       1.6
  */
 abstract class JHtmlContentLanguage

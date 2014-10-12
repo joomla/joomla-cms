@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Installer Manage Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
  * @since       1.6
  */
 class InstallerControllerManage extends JControllerLegacy

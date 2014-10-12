@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Registration model class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
  * @since       1.6
  */
 class UsersModelRegistration extends JModelForm

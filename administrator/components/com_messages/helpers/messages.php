@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_messages
+ * Messages helper class.
+ *
  * @since       1.6
  */
 class MessagesHelper

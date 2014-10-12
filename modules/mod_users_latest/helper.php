@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_users_latest
  *
- * @package     Joomla.Site
- * @subpackage  mod_users_latest
  *
  * @since       1.6
  */

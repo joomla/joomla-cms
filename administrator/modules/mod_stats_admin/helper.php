@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Helper class for admin stats module
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_stats_admin
  * @since       3.0
  */
 class ModStatsHelper

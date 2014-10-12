@@ -14,8 +14,6 @@ JLoader::register('FinderIndexerStemmer', dirname(__DIR__) . '/stemmer.php');
 /**
  * Snowball stemmer class for the Finder indexer package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
  * @since       2.5
  */
 class FinderIndexerStemmerSnowball extends FinderIndexerStemmer

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Users mail controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
  * @since       1.6
  */
 class UsersControllerMail extends JControllerLegacy

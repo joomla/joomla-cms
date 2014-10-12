@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_search
  *
- * @package     Joomla.Site
- * @subpackage  com_search
  * @since       3.3
  */
 class SearchRouter extends JComponentRouterBase

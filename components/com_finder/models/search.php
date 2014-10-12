@@ -19,8 +19,6 @@ JLoader::register('FinderIndexerStemmer', FINDER_PATH_INDEXER . '/stemmer.php');
 /**
  * Search model class for the Finder package.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
  * @since       2.5
  */
 class FinderModelSearch extends JModelList

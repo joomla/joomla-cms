@@ -10,11 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * Content Component Route Helper
+ * Content Component Route Helper.
  *
- * @static
- * @package     Joomla.Site
- * @subpackage  com_content
  * @since       1.5
  */
 abstract class ContentHelperRoute

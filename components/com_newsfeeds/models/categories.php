@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * This models supports retrieving lists of newsfeed categories.
  *
- * @package     Joomla.Site
- * @subpackage  com_newsfeeds
  * @since       1.6
  */
 class NewsfeedsModelCategories extends JModelList

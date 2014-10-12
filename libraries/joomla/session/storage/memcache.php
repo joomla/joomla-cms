@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcache session storage handler for PHP
  *
- * @package     Joomla.Platform
- * @subpackage  Session
  * @since       11.1
  */
 class JSessionStorageMemcache extends JSessionStorage

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Banners master display controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
  * @since       1.6
  */
 class BannersController extends JControllerLegacy

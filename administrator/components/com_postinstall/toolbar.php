@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * The Toolbar class renders the component title area and the toolbar.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_postinstall
  * @since       3.2
  */
 class PostinstallToolbar extends FOFToolbar

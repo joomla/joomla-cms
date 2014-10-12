@@ -14,8 +14,6 @@ JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contac
 /**
  * Item Model for a Contact.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contact
  * @since       1.6
  */
 class ContactModelContact extends JModelAdmin

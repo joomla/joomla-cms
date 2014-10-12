@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * This models supports retrieving lists of article categories.
  *
- * @package     Joomla.Site
- * @subpackage  com_weblinks
  * @since       1.6
  */
 class WeblinksModelCategories extends JModelList

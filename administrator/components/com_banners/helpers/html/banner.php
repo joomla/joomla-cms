@@ -12,8 +12,6 @@ defined('JPATH_BASE') or die;
 /**
  * Banner HTML class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
  * @since       2.5
  */
 abstract class JHtmlBanner

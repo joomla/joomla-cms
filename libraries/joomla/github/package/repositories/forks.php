@@ -14,8 +14,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/repos/forks
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Repositories
  * @since       11.3
  */
 class JGithubPackageRepositoriesForks extends JGithubPackage

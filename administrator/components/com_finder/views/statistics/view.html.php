@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Statistics view class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
  * @since       2.5
  */
 class FinderViewStatistics extends JViewLegacy

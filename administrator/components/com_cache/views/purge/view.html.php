@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Cache component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_cache
  * @since       1.6
  */
 class CacheViewPurge extends JViewLegacy

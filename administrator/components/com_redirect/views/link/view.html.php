@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * View to edit a redirect link.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_redirect
  * @since       1.6
  */
 class RedirectViewLink extends JViewLegacy

@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTTP transport class for using PHP streams.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
  * @since       11.3
  */
 class JHttpTransportStream implements JHttpTransport

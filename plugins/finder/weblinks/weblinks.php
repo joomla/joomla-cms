@@ -15,8 +15,6 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
 /**
  * Smart Search adapter for Joomla Web Links.
  *
- * @package     Joomla.Plugin
- * @subpackage  Finder.Weblinks
  * @since       2.5
  */
 class PlgFinderWeblinks extends FinderIndexerAdapter

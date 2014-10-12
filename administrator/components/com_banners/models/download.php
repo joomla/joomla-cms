@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Download model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
  * @since       1.5
  */
 class BannersModelDownload extends JModelForm

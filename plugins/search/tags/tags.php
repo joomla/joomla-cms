@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Tags search plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Search.tags
  * @since       3.3
  */
 class PlgSearchTags extends JPlugin

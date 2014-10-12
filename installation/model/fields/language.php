@@ -13,7 +13,6 @@ JFormHelper::loadFieldClass('list');
 /**
  * Language Form Field class.
  *
- * @package  Joomla.Installation
  * @since    1.6
  */
 class JFormFieldLanguage extends JFormFieldList

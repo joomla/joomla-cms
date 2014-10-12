@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * The HTML Menus Menu Items View.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
  * @since       1.6
  */
 class MenusViewItems extends JViewLegacy

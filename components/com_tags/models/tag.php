@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Tags Component Tag Model
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
  * @since       3.1
  */
 class TagsModelTag extends JModelList

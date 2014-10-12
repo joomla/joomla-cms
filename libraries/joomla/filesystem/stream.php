@@ -16,8 +16,6 @@ defined('JPATH_PLATFORM') or die;
  * where as the legacy JFile static class treated files in a rather
  * atomic manner.
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
  *
  * @note        This class adheres to the stream wrapper operations:
  * @see         http://php.net/manual/en/function.stream-get-wrappers.php

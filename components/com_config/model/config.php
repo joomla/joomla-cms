@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Model for the global configuration
  *
- * @package     Joomla.Site
- * @subpackage  com_config
  * @since       3.2
  */
 class ConfigModelConfig extends ConfigModelForm

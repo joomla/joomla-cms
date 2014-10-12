@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for Bootstrap elements.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
  * @since       3.0
  */
 abstract class JHtmlBootstrap

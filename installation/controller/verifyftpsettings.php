@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Controller class to verify the FTP settings for the Joomla Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Controller
  * @since       3.1
  */
 class InstallationControllerVerifyftpsettings extends JControllerBase

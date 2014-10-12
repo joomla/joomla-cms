@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * View to edit messages user configuration.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
  * @since       1.6
  */
 class MessagesViewConfig extends JViewLegacy

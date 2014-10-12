@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JMenu class
  *
- * @package     Joomla.Libraries
- * @subpackage  Menu
  * @since       1.5
  */
 class JMenu

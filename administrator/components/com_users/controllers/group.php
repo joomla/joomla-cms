@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * User view level controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
  * @since       1.6
  */
 class UsersControllerGroup extends JControllerForm

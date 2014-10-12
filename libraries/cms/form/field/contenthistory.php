@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Field to select a user id from a modal list.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
  * @since       3.2
  */
 class JFormFieldContenthistory extends JFormField

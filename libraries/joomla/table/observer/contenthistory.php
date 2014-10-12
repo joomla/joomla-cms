@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
- * @package     Joomla.Platform
- * @subpackage  Table
  * @link        http://docs.joomla.org/JTableObserver
  * @since       3.2
  */

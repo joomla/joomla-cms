@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Discover Installation Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
  * @since       1.6
  */
 class InstallerControllerDiscover extends JControllerLegacy

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Banner controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
  * @since       1.6
  */
 class BannersControllerBanner extends JControllerForm

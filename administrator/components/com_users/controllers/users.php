@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Users list controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
  * @since       1.6
  */
 class UsersControllerUsers extends JControllerAdmin

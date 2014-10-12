@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Languages component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
  * @since       1.6
  */
 class LanguagesHelper

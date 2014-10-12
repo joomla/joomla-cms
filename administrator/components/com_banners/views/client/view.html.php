@@ -14,8 +14,6 @@ JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
 /**
  * View to edit a client.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
  * @since       1.5
  */
 class BannersViewClient extends JViewLegacy

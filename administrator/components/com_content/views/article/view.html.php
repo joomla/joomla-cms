@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * View to edit an article.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
  * @since       1.6
  */
 class ContentViewArticle extends JViewLegacy

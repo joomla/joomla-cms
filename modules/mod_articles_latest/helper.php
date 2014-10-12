@@ -16,8 +16,6 @@ JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'Con
 /**
  * Helper for mod_articles_latest
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_latest
  * @since       1.6
  */
 abstract class ModArticlesLatestHelper

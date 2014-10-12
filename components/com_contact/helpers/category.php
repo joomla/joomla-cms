@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Contact Component Category Tree
  *
- * @package     Joomla.Site
- * @subpackage  com_contact
  * @since       1.6
  */
 class ContactCategories extends JCategories

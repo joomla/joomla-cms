@@ -14,8 +14,6 @@ JFormHelper::loadFieldClass('list');
 /**
  * Field to load a list of posible item count limits
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
  * @since       3.2
  */
 class JFormFieldLimitbox extends JFormFieldList

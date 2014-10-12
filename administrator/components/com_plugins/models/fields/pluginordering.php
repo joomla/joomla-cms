@@ -14,8 +14,6 @@ JFormHelper::loadFieldClass('ordering');
 /**
  * Supports an HTML select list of plugins
  *
- * @package     Joomla.Administrator
- * @subpackage  com_plugins
  * @since       1.6
  */
 class JFormFieldPluginordering extends JFormFieldOrdering

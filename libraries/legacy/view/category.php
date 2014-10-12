@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Base HTML View class for the a Category list
  *
- * @package     Joomla.Legacy
- * @subpackage  View
  * @since       3.2
  */
 class JViewCategory extends JViewLegacy

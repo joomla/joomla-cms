@@ -14,8 +14,6 @@ JFormHelper::loadFieldClass('list');
 /**
  * Field to load a list of available users statuses
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
  * @since       3.2
  */
 class JFormFieldUserGroupList extends JFormFieldList

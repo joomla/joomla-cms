@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Form Field class for the Joomla Platform.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
  * @since       3.2
  */
 class JFormFieldOrdering extends JFormField

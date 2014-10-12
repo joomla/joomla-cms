@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Observer updater pattern implementation for Joomla
  *
- * @package     Joomla.Platform
- * @subpackage  Observer
  * @link        http://docs.joomla.org/JObserverUpdater
  * @since       3.1.2
  */

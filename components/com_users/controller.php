@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Base controller class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
  * @since       1.5
  */
 class UsersController extends JControllerLegacy

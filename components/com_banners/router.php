@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_banners
  *
- * @package     Joomla.Site
- * @subpackage  com_banners
  * @since       3.3
  */
 class BannersRouter extends JComponentRouterBase

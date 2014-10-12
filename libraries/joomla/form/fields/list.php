@@ -13,8 +13,6 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Supports a generic list of options.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @since       11.1
  */
 class JFormFieldList extends JFormField

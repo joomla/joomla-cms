@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Tags component all tags view
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
  * @since       3.1
  */
 class TagsViewTags extends JViewLegacy

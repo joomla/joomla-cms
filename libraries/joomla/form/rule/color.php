@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @since       11.2
  */
 class JFormRuleColor extends JFormRule

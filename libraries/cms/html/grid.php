@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for creating HTML Grids
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
  * @since       1.5
  */
 abstract class JHtmlGrid

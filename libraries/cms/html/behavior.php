@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for JavaScript behaviors
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
  * @since       1.5
  */
 abstract class JHtmlBehavior

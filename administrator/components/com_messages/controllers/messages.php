@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Messages list controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
  * @since       1.6
  */
 class MessagesControllerMessages extends JControllerAdmin

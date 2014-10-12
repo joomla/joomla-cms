@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Extension Manager Install Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
  * @since       1.5
  */
 class InstallerModelInstall extends JModelLegacy

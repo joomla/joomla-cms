@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Tags table
  *
- * @package     Joomla.Administrator
- * @subpackage  com_tags
  * @since       3.1
  */
 class TagsTableTag extends JTableNested

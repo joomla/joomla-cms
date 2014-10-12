@@ -14,8 +14,6 @@ JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/mode
 /**
  * Helper for mod_latest
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_latest
  * @since       1.5
  */
 abstract class ModLatestHelper

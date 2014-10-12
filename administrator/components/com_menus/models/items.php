@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Menu Item List Model for Menus.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
  * @since       1.6
  */
 class MenusModelItems extends JModelList

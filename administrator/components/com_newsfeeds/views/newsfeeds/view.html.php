@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of newsfeeds.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
  * @since       1.6
  */
 class NewsfeedsViewNewsfeeds extends JViewLegacy

@@ -14,8 +14,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * The user's navigated path within the application.
  *
- * @package     Joomla.Libraries
- * @subpackage  Pathway
  * @since       1.5
  */
 class JPathway

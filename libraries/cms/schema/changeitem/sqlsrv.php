@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Checks the database schema against one SQL Server DDL query to see if it has been run.
  *
- * @package     Joomla.Libraries
- * @subpackage  Schema
  * @since       2.5
  */
 class JSchemaChangeitemSqlsrv extends JSchemaChangeitem

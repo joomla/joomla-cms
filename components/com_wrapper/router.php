@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_wrapper
  *
- * @package     Joomla.Site
- * @subpackage  com_wrapper
  * @since       3.3
  */
 class WrapperRouter extends JComponentRouterBase

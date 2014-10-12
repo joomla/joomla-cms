@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Media helper class
  *
- * @package     Joomla.Libraries
- * @subpackage  Helper
  * @since       3.2
  */
 class JHelperMedia

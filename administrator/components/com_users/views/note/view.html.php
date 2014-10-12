@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * User note edit view
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
  * @since       2.5
  */
 class UsersViewNote extends JViewLegacy

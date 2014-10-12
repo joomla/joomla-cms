@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Content categories view.
  *
- * @package     Joomla.Site
- * @subpackage  com_content
  * @since       1.5
  */
 class ContentViewCategories extends JViewCategories

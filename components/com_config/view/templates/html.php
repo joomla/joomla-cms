@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * View to edit a template style.
  *
- * @package     Joomla.Site
- * @subpackage  com_config
  * @since       3.2
  */
 class ConfigViewTemplatesHtml extends ConfigViewCmsHtml

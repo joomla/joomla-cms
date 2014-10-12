@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Newsfeeds component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
  * @since       1.6
  */
 class NewsfeedsHelper extends JHelperContent

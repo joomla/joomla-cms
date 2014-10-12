@@ -14,8 +14,6 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
 /**
  * Groups view class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
  * @since       2.5
  */
 class FinderViewMaps extends JViewLegacy

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Page Cache Plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.cache
  * @since       1.5
  */
 class PlgSystemCache extends JPlugin

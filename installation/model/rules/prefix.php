@@ -11,7 +11,6 @@ defined('JPATH_BASE') or die;
 /**
  * Form Rule class for the prefix DB.
  *
- * @package  Joomla.Installation
  * @since    1.7
  */
 class JFormRulePrefix extends JFormRule

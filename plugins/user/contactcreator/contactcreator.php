@@ -14,8 +14,6 @@ defined('_JEXEC') or die;
  *
  * A tool to automatically create and synchronise contacts with a user
  *
- * @package     Joomla.Plugin
- * @subpackage  User.contactcreator
  * @since       1.6
  */
 class PlgUserContactCreator extends JPlugin

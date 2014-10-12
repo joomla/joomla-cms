@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-/**
- * @package     Joomla.Administrator
- * @subpackage  com_modules
+/** 
+ * JHtml module helper class.
+ *
  * @since       1.6
  */
 abstract class JHtmlModules

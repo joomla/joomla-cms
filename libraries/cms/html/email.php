@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for cloaking email addresses
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
  * @since       1.5
  */
 abstract class JHtmlEmail

@@ -14,8 +14,6 @@ JFormHelper::loadFieldClass('groupedlist');
 /**
  * Chrome Styles Form Field class for the Joomla Platform.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
  * @since       3.0
  */
 class JFormFieldChromeStyle extends JFormFieldGroupedList

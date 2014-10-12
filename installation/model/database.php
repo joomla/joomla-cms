@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Database configuration model for the Joomla Core Installer.
  *
- * @package  Joomla.Installation
  * @since    3.1
  */
 class InstallationModelDatabase extends JModelBase

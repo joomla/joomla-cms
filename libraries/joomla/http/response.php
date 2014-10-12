@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTTP response data object class.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
  * @since       11.3
  */
 class JHttpResponse

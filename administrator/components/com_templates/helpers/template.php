@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Template Helper class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
  * @since       3.2
  */
 abstract class TemplateHelper

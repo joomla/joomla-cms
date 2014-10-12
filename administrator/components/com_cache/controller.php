@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Cache Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_cache
  * @since       1.6
  */
 class CacheController extends JControllerLegacy

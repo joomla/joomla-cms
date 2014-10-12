@@ -14,8 +14,6 @@ require_once JPATH_COMPONENT . '/controller.php';
 /**
  * Reset controller class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
  * @since       1.6
  */
 class UsersControllerRemind extends UsersController

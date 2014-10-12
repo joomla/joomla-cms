@@ -12,8 +12,6 @@ defined('JPATH_BASE') or die;
 /**
  * An example custom profile plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  User.profile
  * @since       1.6
  */
 class PlgUserProfile extends JPlugin

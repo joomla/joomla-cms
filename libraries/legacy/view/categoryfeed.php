@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Base feed View class for a category
  *
- * @package     Joomla.Legacy
- * @subpackage  View
  * @since       3.2
  */
 class JViewCategoryfeed extends JViewLegacy

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * View for the global configuration
  *
- * @package     Joomla.Site
- * @subpackage  com_config
  * @since       3.2
  */
 class ConfigViewConfigHtml extends ConfigViewCmsHtml

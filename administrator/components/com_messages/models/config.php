@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Message configuration model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
  * @since       1.6
  */
 class MessagesModelConfig extends JModelForm

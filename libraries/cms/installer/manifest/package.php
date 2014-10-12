@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Package Manifest File
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  */
 class JInstallerManifestPackage extends JInstallerManifest

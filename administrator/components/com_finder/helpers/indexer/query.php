@@ -17,8 +17,6 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
 /**
  * Query class for the Finder indexer package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
  * @since       2.5
  */
 class FinderIndexerQuery

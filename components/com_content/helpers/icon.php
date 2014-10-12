@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Content Component HTML Helper
  *
- * @package     Joomla.Site
- * @subpackage  com_content
  * @since       1.5
  */
 abstract class JHtmlIcon

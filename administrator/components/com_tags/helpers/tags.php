@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Tags helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_tags
  * @since       3.1
  */
 class TagsHelper extends JHelperContent

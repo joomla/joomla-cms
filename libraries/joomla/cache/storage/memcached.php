@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcached cache storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
  * @see         http://php.net/manual/en/book.memcached.php
  * @since       12.1
  */

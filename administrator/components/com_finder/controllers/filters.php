@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Filters controller class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
  * @since       2.5
  */
 class FinderControllerFilters extends JControllerAdmin

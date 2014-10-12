@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of user records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
  * @since       1.6
  */
 class UsersModelUsers extends JModelList

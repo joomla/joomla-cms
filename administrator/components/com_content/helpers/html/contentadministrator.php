@@ -14,8 +14,6 @@ JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_conten
 /**
  * Content HTML helper
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
  *
  * @since       3.0
  */

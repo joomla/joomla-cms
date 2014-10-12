@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Menus component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
  * @since       1.6
  */
 class MenusHelper

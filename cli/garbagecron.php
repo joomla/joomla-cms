@@ -28,9 +28,8 @@ require_once JPATH_LIBRARIES . '/import.legacy.php';
 require_once JPATH_LIBRARIES . '/cms.php';
 
 /**
- * Cron job to trash expired cache data
+ * Cron job to trash expired cache data.
  *
- * @package  Joomla.Cli
  * @since    2.5
  */
 class GarbageCron extends JApplicationCli

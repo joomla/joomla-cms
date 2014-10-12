@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * The Tags List Controller
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
  * @since       3.1
  */
 class TagsControllerTags extends JControllerLegacy

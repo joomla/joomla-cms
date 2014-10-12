@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Template style table class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
  * @since       1.6
  */
 class TemplatesTableStyle extends JTable

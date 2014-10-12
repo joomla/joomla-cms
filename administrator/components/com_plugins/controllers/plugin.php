@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Plugin controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_plugins
  * @since       1.6
  */
 class PluginsControllerPlugin extends JControllerForm

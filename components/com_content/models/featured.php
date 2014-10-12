@@ -14,8 +14,6 @@ require_once __DIR__ . '/articles.php';
 /**
  * Frontpage Component Model
  *
- * @package     Joomla.Site
- * @subpackage  com_content
  * @since       1.5
  */
 class ContentModelFeatured extends ContentModelArticles

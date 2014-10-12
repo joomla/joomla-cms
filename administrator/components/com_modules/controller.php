@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Modules manager master display controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
  * @since       1.6
  */
 class ModulesController extends JControllerLegacy

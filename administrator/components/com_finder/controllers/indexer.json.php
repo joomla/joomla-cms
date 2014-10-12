@@ -15,8 +15,6 @@ JLoader::register('FinderIndexer', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/ind
 /**
  * Indexer controller class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
  * @since       2.5
  */
 class FinderControllerIndexer extends JControllerLegacy
@@ -304,8 +302,6 @@ class FinderControllerIndexer extends JControllerLegacy
 /**
  * Finder Indexer JSON Response Class
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
  * @since       2.5
  */
 class FinderIndexerResponse

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Templates manager master display controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
  * @since       1.6
  */
 class TemplatesController extends JControllerLegacy

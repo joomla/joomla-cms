@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class to fire onContentPrepare for non-article based content.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
  * @since       1.5
  */
 abstract class JHtmlContent

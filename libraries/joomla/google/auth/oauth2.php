@@ -13,8 +13,6 @@ jimport('joomla.oauth.v2client');
 /**
  * Google OAuth authentication class
  *
- * @package     Joomla.Platform
- * @subpackage  Google
  * @since       12.3
  */
 class JGoogleAuthOauth2 extends JGoogleAuth

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Utility class working with directory
  *
- * @package     Joomla.Administrator
- * @subpackage  com_admin
  * @since       1.6
  */
 abstract class JHtmlDirectory

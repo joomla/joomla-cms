@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of contacts.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contact
  * @since       1.6
  */
 class ContactViewContacts extends JViewLegacy

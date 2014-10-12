@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Banner Helper Class
  *
- * @package     Joomla.Site
- * @subpackage  com_banners
  * @since       1.6
  */
 abstract class BannerHelper

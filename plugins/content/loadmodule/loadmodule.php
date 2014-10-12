@@ -13,8 +13,6 @@ defined('_JEXEC') or die;
  * Plug-in to enable loading modules into content (e.g. articles)
  * This uses the {loadmodule} syntax
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.loadmodule
  * @since       1.5
  */
 class PlgContentLoadmodule extends JPlugin

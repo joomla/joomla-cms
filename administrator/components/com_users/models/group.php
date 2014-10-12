@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * User group model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
  * @since       1.6
  */
 class UsersModelGroup extends JModelAdmin

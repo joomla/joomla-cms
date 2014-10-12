@@ -14,8 +14,6 @@ defined('JPATH_PLATFORM') or die;
  * Displays options as a list of check boxes.
  * Multiselect may be forced to be true.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @see         JFormFieldCheckbox
  * @since       11.1
  */

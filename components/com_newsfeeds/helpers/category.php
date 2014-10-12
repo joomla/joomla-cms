@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Content Component Category Tree
  *
- * @package     Joomla.Site
- * @subpackage  com_newsfeeds
  * @since       1.6
  */
 class NewsfeedsCategories extends JCategories

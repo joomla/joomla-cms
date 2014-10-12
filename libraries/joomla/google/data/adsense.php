@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google Adsense data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
  * @since       12.3
  */
 class JGoogleDataAdsense extends JGoogleData

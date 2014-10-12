@@ -14,8 +14,6 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field to load a list of content authors
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
  * @since       3.2
  */
 class JFormFieldAuthor extends JFormFieldList

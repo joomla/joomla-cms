@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Smart Search Content Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.finder
  * @since       2.5
  */
 class PlgContentFinder extends JPlugin

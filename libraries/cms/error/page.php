@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Displays the custom error page when an uncaught exception occurs.
  *
- * @package     Joomla.Libraries
- * @subpackage  Error
  * @since       3.0
  */
 class JErrorPage

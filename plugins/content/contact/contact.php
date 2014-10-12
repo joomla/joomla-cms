@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Contact Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.Contact
  * @since       3.2
  */
 class PlgContentContact extends JPlugin

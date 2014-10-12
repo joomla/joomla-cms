@@ -13,8 +13,6 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Provides a grouped list select field.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @since       11.1
  */
 class JFormFieldGroupedList extends JFormField

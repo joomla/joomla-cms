@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Plugins component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_plugins
  * @since       1.6
  */
 class PluginsHelper

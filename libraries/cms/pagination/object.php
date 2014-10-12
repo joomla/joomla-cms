@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Pagination object representing a particular item in the pagination lists.
  *
- * @package     Joomla.Libraries
- * @subpackage  Pagination
  * @since       1.5
  */
 class JPaginationObject

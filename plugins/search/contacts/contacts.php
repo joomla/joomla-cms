@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Contacts search plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Search.contacts
  * @since       1.6
  */
 class PlgSearchContacts extends JPlugin

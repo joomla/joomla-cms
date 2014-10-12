@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Example Content Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.joomla
  * @since       1.6
  */
 class PlgContentJoomla extends JPlugin

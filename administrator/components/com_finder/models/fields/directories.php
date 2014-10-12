@@ -17,8 +17,6 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
 /**
  * Renders a list of directories.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
  * @since       2.5
  */
 class JFormFieldDirectories extends JFormFieldList

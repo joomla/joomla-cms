@@ -15,8 +15,6 @@ JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
 /**
  * Suggestions model class for the Finder package.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
  * @since       2.5
  */
 class FinderModelSuggestions extends JModelList

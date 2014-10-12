@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * OpenSearch View class for Finder
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
  * @since       2.5
  */
 class FinderViewSearch extends JViewLegacy

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * The Menu List Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
  * @since       1.6
  */
 class MenusControllerMenus extends JControllerLegacy

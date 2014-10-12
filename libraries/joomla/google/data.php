@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google API data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
  * @since       12.3
  */
 abstract class JGoogleData

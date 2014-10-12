@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Language Code plugin class.
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.languagecode
  * @since       2.5
  */
 class PlgSystemLanguagecode extends JPlugin

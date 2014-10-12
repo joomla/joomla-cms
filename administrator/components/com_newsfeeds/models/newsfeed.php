@@ -14,8 +14,6 @@ JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_news
 /**
  * Newsfeed model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
  * @since       1.6
  */
 class NewsfeedsModelNewsfeed extends JModelAdmin

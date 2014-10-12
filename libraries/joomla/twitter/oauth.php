@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Joomla Platform class for generating Twitter API access token.
  *
- * @package     Joomla.Platform
- * @subpackage  Twitter
  *
  * @since       12.3
  */

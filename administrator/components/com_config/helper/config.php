@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Components helper for com_config
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
  * @since       3.0
  */
 class ConfigHelperConfig extends JHelperContent

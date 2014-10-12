@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
  * @since       12.1
  */
 class JDatabaseDriverPostgresql extends JDatabaseDriver

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * The Tag Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_tags
  * @since       3.1
  */
 class TagsControllerTag extends JControllerForm

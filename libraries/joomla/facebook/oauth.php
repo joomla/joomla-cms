@@ -13,8 +13,6 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Joomla Platform class for generating Facebook API access token.
  *
- * @package     Joomla.Platform
- * @subpackage  Facebook
  *
  * @since       13.1
  */

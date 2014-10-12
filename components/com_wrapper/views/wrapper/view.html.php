@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Site
- * @subpackage  com_wrapper
+ * Wrapper view class.
+ * 
  * @since       1.5
  */
 class WrapperViewWrapper extends JViewLegacy

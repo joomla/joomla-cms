@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Users table
  *
- * @package     Joomla.Platform
- * @subpackage  Table
  * @since       11.1
  */
 class JTableUser extends JTable

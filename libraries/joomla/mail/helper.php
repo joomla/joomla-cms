@@ -15,8 +15,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * TODO: Test these methods as the regex work is first run and not tested thoroughly
  *
- * @package     Joomla.Platform
- * @subpackage  Mail
  * @since       11.1
  */
 abstract class JMailHelper

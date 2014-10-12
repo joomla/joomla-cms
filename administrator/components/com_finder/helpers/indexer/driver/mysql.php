@@ -22,8 +22,6 @@ jimport('joomla.filesystem.file');
  * Note: All exceptions thrown from within this class should be caught
  * by the controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
  * @since       3.0
  */
 class FinderIndexerDriverMysql extends FinderIndexer

@@ -18,8 +18,6 @@ JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
 /**
  * Helper for mod_articles_category
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_category
  *
  * @since       1.6
  */

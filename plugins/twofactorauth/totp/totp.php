@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Two Factor Authentication using Google Authenticator TOTP Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Twofactorauth.totp
  * @since       3.2
  */
 class PlgTwofactorauthTotp extends JPlugin

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Languages Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
  * @since       1.5
  */
 class LanguagesController extends JControllerLegacy

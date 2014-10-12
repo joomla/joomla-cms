@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform class for interacting with Microdata semantics.
  *
- * @package     Joomla.Platform
- * @subpackage  Microdata
  * @since       3.2
  */
 class JMicrodata

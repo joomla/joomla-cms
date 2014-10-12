@@ -17,8 +17,6 @@ JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_weblinks/models', 'We
 /**
  * Helper for mod_weblinks
  *
- * @package     Joomla.Site
- * @subpackage  mod_weblinks
  * @since       1.5.0
  */
 class ModWeblinksHelper

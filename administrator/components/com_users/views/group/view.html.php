@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * View to edit a user group.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
  * @since       1.6
  */
 class UsersViewGroup extends JViewLegacy

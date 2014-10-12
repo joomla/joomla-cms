@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Checkin Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_checkin
  * @since       1.6
  */
 class CheckinController extends JControllerLegacy

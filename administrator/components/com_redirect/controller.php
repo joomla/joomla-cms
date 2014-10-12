@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Redirect master display controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_redirect
  * @since       1.6
  */
 class RedirectController extends JControllerLegacy

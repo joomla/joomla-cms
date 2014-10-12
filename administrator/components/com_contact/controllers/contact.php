@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Controller for a single contact
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contact
  * @since       1.6
  */
 class ContactControllerContact extends JControllerForm

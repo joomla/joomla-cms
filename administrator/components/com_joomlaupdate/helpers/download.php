@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
  * Smart download helper. Automatically uses cURL or URL fopen() wrappers to
  * fetch the package.
  *
- * @package  Joomla.Administrator
  * @since    2.5.4
  */
 class AdmintoolsHelperDownload

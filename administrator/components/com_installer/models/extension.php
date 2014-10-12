@@ -10,11 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * Extension Manager Abstract Extension Model
+ * Extension Manager Abstract Extension Model.
  *
- * @abstract
- * @package     Joomla.Administrator
- * @subpackage  com_installer
  * @since       1.5
  */
 class InstallerModel extends JModelList

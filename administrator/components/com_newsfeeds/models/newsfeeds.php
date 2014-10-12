@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of newsfeed records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
  * @since       1.6
  */
 class NewsfeedsModelNewsfeeds extends JModelList

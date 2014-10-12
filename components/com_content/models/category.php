@@ -13,8 +13,6 @@ defined('_JEXEC') or die;
  * This models supports retrieving a category, the articles associated with the category,
  * sibling, child and parent categories.
  *
- * @package     Joomla.Site
- * @subpackage  com_content
  * @since       1.5
  */
 class ContentModelCategory extends JModelList

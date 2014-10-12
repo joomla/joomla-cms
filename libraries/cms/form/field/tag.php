@@ -14,8 +14,6 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
  * @since       3.1
  */
 class JFormFieldTag extends JFormFieldList

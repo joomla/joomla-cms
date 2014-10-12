@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Search component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_search
  * @since       1.5
  */
 class SearchHelper

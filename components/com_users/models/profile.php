@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Profile model class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
  * @since       1.6
  */
 class UsersModelProfile extends JModelForm

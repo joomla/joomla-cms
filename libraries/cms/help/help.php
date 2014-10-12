@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Help system class
  *
- * @package     Joomla.Libraries
- * @subpackage  Help
  * @since       1.5
  */
 class JHelp

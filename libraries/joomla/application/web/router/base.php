@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Basic Web application router class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
  * @since       12.2
  */
 class JApplicationWebRouterBase extends JApplicationWebRouter

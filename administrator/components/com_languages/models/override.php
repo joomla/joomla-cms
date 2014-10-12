@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Languages Override Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
  * @since       2.5
  */
 class LanguagesModelOverride extends JModelAdmin

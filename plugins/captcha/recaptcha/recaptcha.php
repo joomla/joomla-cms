@@ -13,8 +13,6 @@ defined('_JEXEC') or die;
  * Recaptcha Plugin.
  * Based on the official recaptcha library( https://developers.google.com/recaptcha/docs/php )
  *
- * @package     Joomla.Plugin
- * @subpackage  Captcha
  * @since       2.5
  */
 class PlgCaptchaRecaptcha extends JPlugin

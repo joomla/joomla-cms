@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_feed
  *
- * @package     Joomla.Site
- * @subpackage  mod_feed
  * @since       1.5
  */
 class ModFeedHelper

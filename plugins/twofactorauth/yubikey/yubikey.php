@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Two Factor Authentication using Yubikey Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Twofactorauth.yubikey
  * @since       3.2
  */
 class PlgTwofactorauthYubikey extends JPlugin

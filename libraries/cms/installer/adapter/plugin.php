@@ -15,8 +15,6 @@ jimport('joomla.filesystem.folder');
 /**
  * Plugin installer
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  */
 class JInstallerAdapterPlugin extends JAdapterInstance
@@ -921,8 +919,6 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 /**
  * Deprecated class placeholder. You should use JInstallerAdapterPlugin instead.
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore

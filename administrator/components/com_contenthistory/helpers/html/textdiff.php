@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML utility class for creating text diffs using jQuery, diff_patch_match.js and jquery.pretty-text-diff.js JavaScript libraries.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contenthistory.HTML
  * @since       3.2
  */
 abstract class JHtmlTextdiff

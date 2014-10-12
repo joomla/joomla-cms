@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Categories helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
  * @since       1.6
  */
 class CategoriesHelper

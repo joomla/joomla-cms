@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Searchtools elements.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
  * @since       3.2
  */
 abstract class JHtmlSearchtools

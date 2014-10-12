@@ -14,8 +14,6 @@ include_once __DIR__ . '/../default/view.php';
 /**
  * Extension Manager Discover View
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
  * @since       1.6
  */
 class InstallerViewDiscover extends InstallerViewDefault

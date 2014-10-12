@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * User notes table class
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
  * @since       2.5
  */
 class UsersTableNote extends JTable

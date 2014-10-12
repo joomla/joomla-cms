@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Joomla User plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  User.joomla
  * @since       1.5
  */
 class PlgUserJoomla extends JPlugin

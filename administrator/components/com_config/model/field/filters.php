@@ -12,8 +12,6 @@ defined('JPATH_BASE') or die;
 /**
  * Text Filters form field.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
  * @since       1.6
  */
 class JFormFieldFilters extends JFormField

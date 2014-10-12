@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Languages Strings JSON Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
  * @since       2.5
  */
 class LanguagesControllerStrings extends JControllerAdmin

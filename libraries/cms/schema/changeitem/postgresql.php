@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Checks the database schema against one PostgreSQL DDL query to see if it has been run.
  *
- * @package     Joomla.Libraries
- * @subpackage  Schema
  * @since       3.0
  */
 class JSchemaChangeitemPostgresql extends JSchemaChangeitem

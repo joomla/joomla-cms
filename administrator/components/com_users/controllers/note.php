@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * User note controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
  * @since       2.5
  */
 class UsersControllerNote extends JControllerForm

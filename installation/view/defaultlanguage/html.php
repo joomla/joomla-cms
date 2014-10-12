@@ -13,8 +13,6 @@ defined('_JEXEC') or die;
 /**
  * The Installation Default Language View
  *
- * @package     Joomla.Installation
- * @subpackage  View
  * @since       3.1
  */
 class InstallationViewDefaultlanguageHtml extends JViewHtml

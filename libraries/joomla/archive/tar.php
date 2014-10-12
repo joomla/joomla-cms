@@ -22,8 +22,6 @@ jimport('joomla.filesystem.path');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @package     Joomla.Platform
- * @subpackage  Archive
  * @since       11.1
  */
 class JArchiveTar implements JArchiveExtractable

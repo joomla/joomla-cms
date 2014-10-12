@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Controller class to set the FTP data for the Joomla Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Controller
  * @since       3.1
  */
 class InstallationControllerRemovefolder extends JControllerBase
@@ -165,8 +163,6 @@ class InstallationControllerRemovefolder extends JControllerBase
 /**
  * JSON Response class for the Joomla Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Response
  * @since       3.1
  */
 class InstallationResponseJson

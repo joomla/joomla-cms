@@ -16,8 +16,6 @@ JFormHelper::loadFieldClass('list');
  * Provides a list of access levels. Access levels control what users in specific
  * groups can see.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @see         JAccess
  * @since       11.1
  */

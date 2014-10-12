@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * LDAP Authentication Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Authentication.ldap
  * @since       1.5
  */
 class PlgAuthenticationLdap extends JPlugin

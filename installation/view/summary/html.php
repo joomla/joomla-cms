@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * The Installation Summary View
  *
- * @package     Joomla.Installation
- * @subpackage  View
  * @since       3.1
  */
 class InstallationViewSummaryHtml extends InstallationViewDefault

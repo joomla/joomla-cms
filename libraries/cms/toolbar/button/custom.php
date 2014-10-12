@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a custom button
  *
- * @package     Joomla.Libraries
- * @subpackage  Toolbar
  * @since       3.0
  */
 class JToolbarButtonCustom extends JToolbarButton

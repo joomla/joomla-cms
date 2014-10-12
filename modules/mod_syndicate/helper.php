@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_syndicate
  *
- * @package     Joomla.Site
- * @subpackage  mod_syndicate
  * @since       1.5
  */
 class ModSyndicateHelper

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Joomla! System Logging Plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.log
  * @since       1.5
  */
 class PlgSystemLog extends JPlugin

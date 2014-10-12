@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Modules Component Positions Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
  * @since       1.6
  */
 class ModulesModelPositions extends JModelList

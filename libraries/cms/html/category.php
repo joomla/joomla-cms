@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for categories
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
  * @since       1.5
  */
 abstract class JHtmlCategory

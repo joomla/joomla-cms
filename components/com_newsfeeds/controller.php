@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Newsfeeds Component Controller
  *
- * @package     Joomla.Site
- * @subpackage  com_newsfeeds
  * @since       1.5
  */
 class NewsfeedsController extends JControllerLegacy

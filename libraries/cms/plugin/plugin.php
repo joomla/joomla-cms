@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JPlugin Class
  *
- * @package     Joomla.Platform
- * @subpackage  Plugin
  * @since       1.5
  */
 abstract class JPlugin extends JEvent

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Categories helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contenthistory
  * @since       3.2
  */
 class ContenthistoryHelper

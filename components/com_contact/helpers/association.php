@@ -15,8 +15,6 @@ JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/component
 /**
  * Contact Component Association Helper
  *
- * @package     Joomla.Site
- * @subpackage  com_contact
  * @since       3.0
  */
 abstract class ContactHelperAssociation extends CategoryHelperAssociation

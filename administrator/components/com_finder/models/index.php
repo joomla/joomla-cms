@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Index model class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
  * @since       2.5
  */
 class FinderModelIndex extends JModelList

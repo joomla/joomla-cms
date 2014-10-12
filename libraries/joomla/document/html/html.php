@@ -14,8 +14,6 @@ jimport('joomla.utilities.utility');
 /**
  * DocumentHTML class, provides an easy interface to parse and display a HTML document
  *
- * @package     Joomla.Platform
- * @subpackage  Document
  * @since       11.1
  */
 class JDocumentHTML extends JDocument

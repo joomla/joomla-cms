@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_tags_popular
  *
- * @package     Joomla.Site
- * @subpackage  mod_tags_popular
  * @since       3.1
  */
 abstract class ModTagssimilarHelper

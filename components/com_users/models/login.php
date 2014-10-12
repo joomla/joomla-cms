@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Rest model class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
  * @since       1.6
  */
 class UsersModelLogin extends JModelForm

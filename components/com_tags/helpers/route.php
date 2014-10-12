@@ -10,11 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * Tags Component Route Helper
+ * Tags Component Route Helper.
  *
- * @static
- * @package     Joomla.Site
- * @subpackage  com_tags
  * @since       3.1
  */
 class TagsHelperRoute extends JHelperRoute

@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Base class for implementing UCM
  *
- * @package     Joomla.Libraries
- * @subpackage  UCM
  * @since       3.1
  */
 class JUcmContent extends JUcmBase

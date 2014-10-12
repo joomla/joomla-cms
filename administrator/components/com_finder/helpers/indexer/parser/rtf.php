@@ -14,8 +14,6 @@ JLoader::register('FinderIndexerParser', dirname(__DIR__) . '/parser.php');
 /**
  * RTF Parser class for the Finder indexer package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
  * @since       2.5
  */
 class FinderIndexerParserRtf extends FinderIndexerParser

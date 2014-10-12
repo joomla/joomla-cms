@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * UCM map table
  *
- * @package     Joomla.Libraries
- * @subpackage  Table
  * @since       3.1
  */
 class JTableUcm extends JTable

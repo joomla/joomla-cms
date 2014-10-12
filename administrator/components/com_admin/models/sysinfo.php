@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Model for the display of system information.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_admin
  * @since       1.6
  */
 class AdminModelSysInfo extends JModelLegacy

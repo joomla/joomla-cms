@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of search terms.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_search
  * @since       1.5
  */
 class SearchViewSearches extends JViewLegacy

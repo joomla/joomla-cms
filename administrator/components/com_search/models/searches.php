@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of search terms.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_search
  * @since       1.6
  */
 class SearchModelSearches extends JModelList
