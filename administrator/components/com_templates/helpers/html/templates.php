@@ -38,7 +38,7 @@ class JHtmlTemplates
 		if (file_exists($thumb))
 		{
 			JHtml::_('bootstrap.tooltip');
-			JHtml::_('behavior.modal');
+			JHtml::_('bootstrap.modal');
 
 			$clientPath = ($clientId == 0) ? '' : 'administrator/';
 			$thumb = $clientPath . 'templates/' . $template . '/template_thumbnail.png';
@@ -47,8 +47,12 @@ class JHtmlTemplates
 			if (file_exists($preview))
 			{
 				$preview = $baseUrl . '/templates/' . $template . '/template_preview.png';
-				$html = '<a href="' . $preview . '" class="thumbnail pull-left modal hasTooltip" title="' .
+				$html = '<a href="#' . $template . '-Modal" role="button" class="thumbnail pull-left hasTooltip" data-toggle="modal" title="' .
 					JHtml::tooltipText('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</a>';
+				$html .= JHtmlBootstrap::renderModal($template . '-Modal', array( 'url' => $preview,
+													'title' => JText::_('COM_TEMPLATES_BUTTON_PREVIEW'),
+													'height' => '800px',
+													'width' => '800px'));
 			}
 		}
 
