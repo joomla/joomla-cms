@@ -35,7 +35,9 @@ This code intentionally commented
 						'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
 					);
 */
+
 }
+
 // Initialize module parameters.
 $params->def('field_size', 20);
 
