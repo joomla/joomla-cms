@@ -42,8 +42,8 @@ class CacheModelCache extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string  $ordering   Field for ordering.
+	 * @param   string  $direction  Direction of ordering.
 	 *
 	 * @return  void
 	 *
@@ -79,14 +79,14 @@ class CacheModelCache extends JModelList
 
 				if ($this->_total)
 				{
-					// Apply custom ordering
+					// Apply custom ordering.
 					$ordering = $this->getState('list.ordering');
-					$direction = ($this->getState('list.direction') == 'asc') ? 1 : -1;
+					$direction = ($this->getState('list.direction') == 'asc') ? 1 : (-1);
 
 					jimport('joomla.utilities.arrayhelper');
 					$this->_data = JArrayHelper::sortObjects($data, $ordering, $direction);
 
-					// Apply custom pagination
+					// Apply custom pagination.
 					if ($this->_total > $this->getState('list.limit') && $this->getState('list.limit'))
 					{
 						$this->_data = array_slice($this->_data, $this->getState('list.start'), $this->getState('list.limit'));
@@ -103,7 +103,7 @@ class CacheModelCache extends JModelList
 	}
 
 	/**
-	 * Method to get cache instance
+	 * Method to get cache instance.
 	 *
 	 * @return object
 	 */
@@ -124,7 +124,7 @@ class CacheModelCache extends JModelList
 	}
 
 	/**
-	 * Method to get client data
+	 * Method to get client data.
 	 *
 	 * @return array
 	 */
@@ -134,7 +134,7 @@ class CacheModelCache extends JModelList
 	}
 
 	/**
-	 * Get the number of current Cache Groups
+	 * Get the number of current Cache Groups.
 	 *
 	 * @return  int
 	 */
@@ -149,7 +149,7 @@ class CacheModelCache extends JModelList
 	}
 
 	/**
-	 * Method to get a pagination object for the cache
+	 * Method to get a pagination object for the cache.
 	 *
 	 * @return  integer
 	 */
@@ -178,7 +178,7 @@ class CacheModelCache extends JModelList
 	}
 
 	/**
-	 * Clean a list of cache groups.
+	 * Purge an array of cache groups.
 	 *
 	 * @param   array  $array  Array of cache group names.
 	 *
@@ -193,9 +193,9 @@ class CacheModelCache extends JModelList
 	}
 
 	/**
-	 * Purge the cache.
+	 * Purge all cache items.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  boolean  True if successful; false otherwise.
 	 */
 	public function purge()
 	{
