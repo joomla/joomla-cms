@@ -14,10 +14,9 @@ define('JPATH_BASE', dirname(__FILE__));
 require_once realpath('../libraries/import.php');
 
 /**
- * Keychain Manager
+ * Keychain Manager.
  *
- * @package  Joomla.Platform
- * @since    12.3
+ * @since  12.3
  */
 class KeychainManager extends JApplicationCli
 {
