@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * This class has influences and some method logic from the Horde Auth package
  *
- * @package     Joomla.Platform
- * @subpackage  User
- * @since       11.1
+ * @since  11.1
  */
 abstract class JUserHelper
 {
