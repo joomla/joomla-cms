@@ -16,11 +16,4 @@ defined('_JEXEC') or die;
  */
 class MailtoViewSent extends JViewLegacy
 {
-	/**
-	 * @since  1.5
-	 */
-	public function display($tpl = null)
-	{
-		parent::display($tpl);
-	}
 }
