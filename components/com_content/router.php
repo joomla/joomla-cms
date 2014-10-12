@@ -274,24 +274,8 @@ class ContentRouter extends JComponentRouterBase
 	 */
 	public function parse(&$segments)
 	{
-		$total = count($segments);
-		$vars = array();
-
-		for ($i = 0; $i < $total; $i++)
-		{
-			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
-		}
-
 		// Get the active menu item.
-		$app = JFactory::getApplication();
-		$menu = $app->getMenu();
-		$item = $menu->getActive();
-		$params = JComponentHelper::getParams('com_content');
-		$advanced = $params->get('sef_advanced_link', 0);
-		$db = JFactory::getDbo();
-
-		// Count route segments
-		$count = count($segments);
+		$item = JFactory::getApplication()->getMenu()->getActive();
 
 		/*
 		 * Standard routing for articles.  If we don't pick up an Itemid then we get the view from the segments
@@ -299,10 +283,52 @@ class ContentRouter extends JComponentRouterBase
 		 */
 		if (!isset($item))
 		{
-			$vars['view'] = $segments[0];
-			$vars['id'] = $segments[$count - 1];
+			return array(
+					'view' => $segments[0],
+					'id'   => end($segments)
+				);
+		}
 
-			return $vars;
+		if ($item->query['view'] == 'archive' && !empty($segments))
+		{
+			$count = count($segments);
+
+			return array(
+					'view'  => 'archive',
+					'year'  => $count >= 2 ? $segments[$count - 2] : $segments[$count - 1],
+					'month' => $count >= 2 ? $segments[$count - 1] : null
+				);
+		}
+
+		if (JComponentHelper::getParams('com_content')->get('sef_advanced_link', 0))
+		{
+			return $this->parseAdvanced($segments);
+		}
+		else
+		{
+			return $this->parseTraditional($segments);
+		}
+	}
+
+	/**
+	 * Traditional route parsing, for segments with the format: <id>-<alias>
+	 *
+	 * @param   array  &$segments  The segments of the URL to parse.
+	 *
+	 * @return  array  The URL attributes to be used by the application.
+	 *
+	 * @since   3.4
+	 */
+	protected function parseTraditional(&$segments)
+	{
+		// Will contain id/alias pairs
+		$pairs = array();
+		$count = 0;
+
+		foreach ($segments as $segment)
+		{
+			$pairs[] = explode('-', $segment, 2);
+			$count++;
 		}
 
 		/*
@@ -312,16 +338,16 @@ class ContentRouter extends JComponentRouterBase
 		 */
 		if ($count == 1)
 		{
+			list($id, $alias) = $pairs[0];
+
 			// We check to see if an alias is given.  If not, we assume it is an article
-			if (strpos($segments[0], ':') === false)
+			if (!isset($alias))
 			{
 				$vars['view'] = 'article';
-				$vars['id'] = (int) $segments[0];
+				$vars['id'] = (int) $id;
 
 				return $vars;
 			}
-
-			list($id, $alias) = explode(':', $segments[0], 2);
 
 			// First we check if it is a category
 			$category = JCategories::getInstance('Content')->get($id);
@@ -335,12 +361,14 @@ class ContentRouter extends JComponentRouterBase
 			}
 			else
 			{
+				$db = JFactory::getDbo();
+
 				$query = $db->getQuery(true)
 					->select($db->quoteName(array('alias', 'catid')))
 					->from($db->quoteName('#__content'))
 					->where($db->quoteName('id') . ' = ' . (int) $id);
-				$db->setQuery($query);
-				$article = $db->loadObject();
+
+				$article = $db->setQuery($query)->loadObject();
 
 				if ($article)
 				{
@@ -361,26 +389,38 @@ class ContentRouter extends JComponentRouterBase
 		 * because the first segment will have the target category id prepended to it.  If the
 		 * last segment has a number prepended, it is an article, otherwise, it is a category.
 		 */
-		if (!$advanced)
+		$cat_id = (int) $segments[0][0];
+
+		$article_id = (int) $segments[$count - 1][0];
+
+		if ($article_id > 0)
 		{
-			$cat_id = (int) $segments[0];
-
-			$article_id = (int) $segments[$count - 1];
-
-			if ($article_id > 0)
-			{
-				$vars['view'] = 'article';
-				$vars['catid'] = $cat_id;
-				$vars['id'] = $article_id;
-			}
-			else
-			{
-				$vars['view'] = 'category';
-				$vars['id'] = $cat_id;
-			}
-
-			return $vars;
+			$vars['view'] = 'article';
+			$vars['catid'] = $cat_id;
+			$vars['id'] = $article_id;
 		}
+		else
+		{
+			$vars['view'] = 'category';
+			$vars['id'] = $cat_id;
+		}
+
+		return $vars;
+	}
+
+	/**
+	 * Advanced route parsing: segment == alias
+	 *
+	 * @param   array  &$segments  The segments of the URL to parse.
+	 *
+	 * @return  array  The URL attributes to be used by the application.
+	 *
+	 * @since   3.4
+	 */
+	protected function parseAdvanced(&$segments)
+	{
+		// Get the active menu item.
+		$item = JFactory::getApplication()->getMenu()->getActive();
 
 		// We get the category id from the menu item and search from there
 		$id = $item->query['id'];
@@ -388,18 +428,17 @@ class ContentRouter extends JComponentRouterBase
 
 		if (!$category)
 		{
-			JError::raiseError(404, JText::_('COM_CONTENT_ERROR_PARENT_CATEGORY_NOT_FOUND'));
-			return $vars;
+			throw new Exception(JText::_('COM_CONTENT_ERROR_PARENT_CATEGORY_NOT_FOUND'), 404);
 		}
 
+		$count = count($segments);
 		$categories = $category->getChildren();
 		$vars['catid'] = $id;
 		$vars['id'] = $id;
-		$found = 0;
 
 		foreach ($segments as $segment)
 		{
-			$segment = str_replace(':', '-', $segment);
+			$found = 0;
 
 			foreach ($categories as $category)
 			{
@@ -410,43 +449,27 @@ class ContentRouter extends JComponentRouterBase
 					$vars['view'] = 'category';
 					$categories = $category->getChildren();
 					$found = 1;
+
 					break;
 				}
 			}
 
+			// We have segment which is not a child category of the previous segment, should be an article.
 			if ($found == 0)
 			{
-				if ($advanced)
-				{
-					$db = JFactory::getDbo();
-					$query = $db->getQuery(true)
-						->select($db->quoteName('id'))
-						->from('#__content')
-						->where($db->quoteName('catid') . ' = ' . (int) $vars['catid'])
-						->where($db->quoteName('alias') . ' = ' . $db->quote($segment));
-					$db->setQuery($query);
-					$cid = $db->loadResult();
-				}
-				else
-				{
-					$cid = $segment;
-				}
+				$db = JFactory::getDbo();
 
-				$vars['id'] = $cid;
+				$query = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from('#__content')
+					->where($db->quoteName('catid') . ' = ' . (int) $vars['catid'])
+					->where($db->quoteName('alias') . ' = ' . $db->quote($segment));
 
-				if ($item->query['view'] == 'archive' && $count != 1)
-				{
-					$vars['year'] = $count >= 2 ? $segments[$count - 2] : null;
-					$vars['month'] = $segments[$count - 1];
-					$vars['view'] = 'archive';
-				}
-				else
-				{
-					$vars['view'] = 'article';
-				}
+				$vars['id'] = $db->setQuery($query)->loadResult();
+				$vars['view'] = 'article';
+
+				return $vars;
 			}
-
-			$found = 0;
 		}
 
 		return $vars;
