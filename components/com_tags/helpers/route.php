@@ -40,11 +40,13 @@ class TagsHelperRoute extends JHelperRoute
 		$link = '';
 		$explodedAlias = explode('.', $typeAlias);
 		$explodedRouter = explode('::', $routerName);
+
 		if (file_exists($routerFile = JPATH_BASE . '/components/' . $explodedAlias[0] . '/helpers/route.php'))
 		{
 			JLoader::register($explodedRouter[0], $routerFile);
 			$routerClass = $explodedRouter[0];
 			$routerMethod = $explodedRouter[1];
+
 			if (class_exists($routerClass) && method_exists($routerClass, $routerMethod))
 			{
 				if ($routerMethod == 'getCategoryRoute')
@@ -57,12 +59,14 @@ class TagsHelperRoute extends JHelperRoute
 				}
 			}
 		}
+
 		if ($link == '')
 		{
 			// Create a fallback link in case we can't find the component router
 			$router = new JHelperRoute;
 			$link = $router->getRoute($contentItemId, $typeAlias, $link, $language, $contentCatId);
 		}
+
 		return $link;
 	}
 
@@ -80,6 +84,7 @@ class TagsHelperRoute extends JHelperRoute
 		$needles = array(
 			'tag'  => array((int) $id)
 		);
+
 		if ($id < 1)
 		{
 			$link = '';
@@ -151,6 +156,7 @@ class TagsHelperRoute extends JHelperRoute
 
 							self::$lookup[$view][$item->query['id'][0]] = $item->id;
 						}
+
 						if (isset($item->query["tag_list_language_filter"]) && $item->query["tag_list_language_filter"] != '')
 						{
 							$language = $item->query["tag_list_language_filter"];
@@ -179,6 +185,7 @@ class TagsHelperRoute extends JHelperRoute
 		else
 		{
 			$active = $menus->getActive();
+
 			if ($active)
 			{
 				return $active->id;

@@ -95,7 +95,9 @@ class TagsTableTag extends JTableNested
 		{
 			$this->alias = $this->title;
 		}
+
 		$this->alias = JApplication::stringURLSafe($this->alias);
+
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
 			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
@@ -159,6 +161,7 @@ class TagsTableTag extends JTableNested
 	{
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
+
 		if ($this->id)
 		{
 			// Existing item
@@ -173,6 +176,7 @@ class TagsTableTag extends JTableNested
 			{
 				$this->created_time = $date->toSql();
 			}
+
 			if (empty($this->created_user_id))
 			{
 				$this->created_user_id = $user->get('id');
@@ -181,11 +185,14 @@ class TagsTableTag extends JTableNested
 
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Tag', 'TagsTable');
+
 		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
+
 			return false;
 		}
+
 		return parent::store($updateNulls);
 	}
 
@@ -203,11 +210,13 @@ class TagsTableTag extends JTableNested
 	public function delete($pk = null, $children = false)
 	{
 		$return = parent::delete($pk, $children);
+
 		if ($return)
 		{
 			$helper = new JHelperTags;
 			$helper->tagDeleteInstances($pk);
 		}
+
 		return $return;
 	}
 }

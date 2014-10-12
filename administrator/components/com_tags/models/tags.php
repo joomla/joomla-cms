@@ -176,6 +176,7 @@ class TagsModelTags extends JModelList
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.published = ' . (int) $published);
@@ -187,6 +188,7 @@ class TagsModelTags extends JModelList
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -214,6 +216,7 @@ class TagsModelTags extends JModelList
 		// Add the list ordering clause
 		$listOrdering = $this->getState('list.ordering', 'a.lft');
 		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));
+
 		if ($listOrdering == 'a.access')
 		{
 			$query->order('a.access ' . $listDirn . ', a.lft ' . $listDirn);
@@ -251,7 +254,6 @@ class TagsModelTags extends JModelList
 		{
 			if ($table->load($pk))
 			{
-
 				if ($table->checked_out > 0)
 				{
 					// Only attempt to check the row in if it exists.
@@ -261,9 +263,11 @@ class TagsModelTags extends JModelList
 
 						// Get an instance of the row to checkin.
 						$table = $this->getTable();
+
 						if (!$table->load($pk))
 						{
 							$this->setError($table->getError());
+
 							return false;
 						}
 
@@ -271,6 +275,7 @@ class TagsModelTags extends JModelList
 						if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 						{
 							$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+
 							return false;
 						}
 
@@ -278,6 +283,7 @@ class TagsModelTags extends JModelList
 						if (!$table->checkin($pk))
 						{
 							$this->setError($table->getError());
+
 							return false;
 						}
 					}

@@ -77,6 +77,5 @@ class TagsViewTags extends JViewLegacy
 			// Loads item info into RSS array
 			$document->addItem($feeditem);
 		}
-
 	}
 }

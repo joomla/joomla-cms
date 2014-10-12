@@ -57,6 +57,7 @@ class TagsViewTags extends JViewLegacy
 		// @todo: Should already be computed in $item->params->get('access-view')
 		$user	= JFactory::getUser();
 		$groups	= $user->getAuthorisedViewLevels();
+
 		if (!empty($items))
 		{
 			foreach ($items as $itemElement)
@@ -69,7 +70,7 @@ class TagsViewTags extends JViewLegacy
 				// Prepare the data.
 				$temp = new JRegistry;
 				$temp->loadString($itemElement->params);
-				$itemElement->params = clone($params);
+				$itemElement->params = clone $params;
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);
 			}
@@ -88,7 +89,7 @@ class TagsViewTags extends JViewLegacy
 		// Otherwise, article params override menu item params
 		$this->params	= $this->state->get('params');
 		$active	= $app->getMenu()->getActive();
-		$temp	= clone ($this->params);
+		$temp	= clone $this->params;
 
 		// Check to see which parameters should take priority
 		if ($active)
@@ -183,6 +184,7 @@ class TagsViewTags extends JViewLegacy
 					{
 						$title .= ', ';
 					}
+
 					$title .= $itemElement->title;
 				}
 			}
@@ -253,6 +255,5 @@ class TagsViewTags extends JViewLegacy
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
-
 	}
 }

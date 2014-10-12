@@ -128,7 +128,6 @@ class TagsModelTag extends JModelList
 	 */
 	protected function getListQuery()
 	{
-
 		$tagId  = $this->getState('tag.id') ? : '';
 
 		$typesr = $this->getState('tag.typesr');
@@ -303,6 +302,7 @@ class TagsModelTag extends JModelList
 				catch (RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
+
 					return false;
 				}
 			}

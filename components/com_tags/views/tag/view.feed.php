@@ -36,6 +36,7 @@ class TagsViewTag extends JViewLegacy
 		$fromName         = $app->get('fromname');
 		$feedEmail        = $app->get('feed_email', 'author');
 		$document->editor = $fromName;
+
 		if ($feedEmail != "none")
 		{
 			$document->editorEmail = $siteEmail;
@@ -43,6 +44,7 @@ class TagsViewTag extends JViewLegacy
 
 		// Get some data from the model
 		$items    = $this->get('Items');
+
 		foreach ($items as $item)
 		{
 			// Strip HTML from feed item title
@@ -79,6 +81,5 @@ class TagsViewTag extends JViewLegacy
 			// Loads item info into RSS array
 			$document->addItem($feeditem);
 		}
-
 	}
 }

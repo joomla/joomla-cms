@@ -65,6 +65,7 @@ class TagsViewTag extends JViewLegacy
 		// @TODO: Should already be computed in $item->params->get('access-view')
 		$user   = JFactory::getUser();
 		$groups = $user->getAuthorisedViewLevels();
+
 		foreach ($item as $itemElement)
 		{
 			if (!in_array($itemElement->access, $groups))
@@ -77,7 +78,7 @@ class TagsViewTag extends JViewLegacy
 			{
 				$temp = new JRegistry;
 				$temp->loadString($itemElement->params);
-				$itemElement->params = clone($params);
+				$itemElement->params = clone $params;
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);
 			}
@@ -129,7 +130,7 @@ class TagsViewTag extends JViewLegacy
 		// Otherwise, article params override menu item params
 		$this->params = $this->state->get('params');
 		$active       = $app->getMenu()->getActive();
-		$temp         = clone ($this->params);
+		$temp         = clone $this->params;
 
 		// Check to see which parameters should take priority
 		if ($active)
@@ -265,7 +266,6 @@ class TagsViewTag extends JViewLegacy
 			{
 				$this->document->setMetaData('author', $itemElement->created_user_id);
 			}
-
 		}
 
 		// @TODO: create tag feed document

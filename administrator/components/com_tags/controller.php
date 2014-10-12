@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class TagsController extends JControllerLegacy
 {
-
 	/**
 	 * Method to display a view.
 	 *
@@ -47,9 +46,9 @@ class TagsController extends JControllerLegacy
 
 			return false;
 		}
+
 		parent::display();
 
 		return $this;
-
 	}
 }
