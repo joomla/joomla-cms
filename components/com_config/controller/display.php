@@ -12,8 +12,6 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Base Display Controller
  *
- * @package     Joomla.Site
- * @subpackage  com_config
  * @since       3.2
 */
 class ConfigControllerDisplay extends JControllerBase

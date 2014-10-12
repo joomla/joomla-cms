@@ -14,7 +14,6 @@ defined('FOF_INCLUDED') or die;
  * paradigm, where the controller is mainly used to set up the model state and
  * spawn the view.
  *
- * @package  FrameworkOnFramework
  * @since    1.0
  */
 class FOFController extends FOFUtilsObject

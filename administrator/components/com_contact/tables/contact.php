@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_contact
+ * Contact Table class.
  */
 class ContactTableContact extends JTable
 {

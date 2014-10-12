@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Base Model Class
  *
- * @package     Joomla.Platform
- * @subpackage  Model
  * @since       12.1
  */
 abstract class JModelBase implements JModel

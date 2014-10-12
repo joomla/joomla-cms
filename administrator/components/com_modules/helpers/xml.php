@@ -14,8 +14,6 @@ JLog::add('ModulesHelperXML is deprecated. Do not use.', JLog::WARNING, 'depreca
 /**
  * Helper for parse XML module files
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
  * @since       1.5
  * @deprecated  3.2  Do not use.
  */

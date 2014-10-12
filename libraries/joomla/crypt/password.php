@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Password Hashing Interface
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
  * @since       12.2
  */
 interface JCryptPassword

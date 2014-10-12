@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Base Controller Class
  *
- * @package     Joomla.Platform
- * @subpackage  Controller
  * @since       12.1
  */
 abstract class JControllerBase implements JController

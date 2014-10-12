@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google+ data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
  * @since       1234
  */
 class JGoogleDataPlusPeople extends JGoogleData

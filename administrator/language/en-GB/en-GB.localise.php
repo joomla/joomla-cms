@@ -9,9 +9,8 @@
 defined('_JEXEC') or die;
 
 /**
- * en-GB localise class
+ * en-GB localise class.
  *
- * @package  Joomla.Language
  * @since    1.6
  */
 abstract class En_GBLocalise

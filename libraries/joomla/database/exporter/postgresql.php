@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL export driver.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
  * @since       12.1
  */
 class JDatabaseExporterPostgresql extends JDatabaseExporter

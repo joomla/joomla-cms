@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View to edit a contact.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contact
- * @since       1.6
+ * @since  1.6
  */
 class ContactViewContact extends JViewLegacy
 {

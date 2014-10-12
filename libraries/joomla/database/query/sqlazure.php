@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
  * @since       11.1
  */
 class JDatabaseQuerySqlazure extends JDatabaseQuerySqlsrv

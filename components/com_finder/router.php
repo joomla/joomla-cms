@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_finder
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       3.3
+ * @since  3.3
  */
 class FinderRouter extends JComponentRouterBase
 {

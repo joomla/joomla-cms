@@ -14,8 +14,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/activity/starring/
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Activity
  * @since       3.3 (CMS)
  */
 class JGithubPackageActivityStarring extends JGithubPackage

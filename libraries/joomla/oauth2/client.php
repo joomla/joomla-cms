@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform class for interacting with an OAuth 2.0 server.
  *
- * @package     Joomla.Platform
- * @subpackage  OAuth2
  * @since       12.3
  */
 class JOAuth2Client

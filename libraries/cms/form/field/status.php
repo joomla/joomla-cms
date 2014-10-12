@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('predefinedlist');
 /**
  * Form Field to load a list of states
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.2
+ * @since  3.2
  */
 class JFormFieldStatus extends JFormFieldPredefinedList
 {

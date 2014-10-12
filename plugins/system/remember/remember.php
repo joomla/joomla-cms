@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Joomla! System Remember Me Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  System.remember
  * @since       1.5
  */
 

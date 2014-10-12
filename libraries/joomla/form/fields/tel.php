@@ -15,8 +15,6 @@ JFormHelper::loadFieldClass('text');
  * Form Field class for the Joomla Platform.
  * Supports a text field telephone numbers.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @link        http://www.w3.org/TR/html-markup/input.tel.html
  * @see         JFormRuleTel for telephone number validation
  * @see         JHtmlTel for rendering of telephone numbers

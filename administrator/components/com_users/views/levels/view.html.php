@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * The HTML Users access levels view.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersViewLevels extends JViewLegacy
 {

@@ -15,8 +15,6 @@ jimport('joomla.filesystem.folder');
  * Form Field to display a list of the layouts for a component view from
  * the extension or template overrides.
  *
- * @package     Joomla.Legacy
- * @subpackage  Form
  * @since       11.1
  */
 class JFormFieldComponentlayout extends JFormField

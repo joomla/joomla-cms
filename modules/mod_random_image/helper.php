@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_random_image
  *
- * @package     Joomla.Site
- * @subpackage  mod_random_image
- * @since       1.5
+ * @since  1.5
  */
 class ModRandomImageHelper
 {

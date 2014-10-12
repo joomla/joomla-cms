@@ -15,8 +15,6 @@ JFormHelper::loadFieldClass('text');
  * Form Field class for the Joomla Platform.
  * Provides and input field for e-mail addresses
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @link        http://www.w3.org/TR/html-markup/input.email.html#input.email
  * @see         JFormRuleEmail
  * @since       11.1

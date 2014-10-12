@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Newsfeeds component
  *
- * @package     Joomla.Site
- * @subpackage  com_newsfeeds
- * @since       1.0
+ * @since  1.0
  */
 class NewsfeedsViewNewsfeed extends JViewLegacy
 {

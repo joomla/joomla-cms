@@ -14,8 +14,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/pulls
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Pulls
  * @since       11.3
  *
  * @property-read  JGithubPackagePullsComments  $comments  GitHub API object for comments.

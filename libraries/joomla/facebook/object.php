@@ -14,9 +14,6 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Facebook API object class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Facebook
- *
  * @since       13.1
  */
 abstract class JFacebookObject

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Content Component Category Tree
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentCategories extends JCategories
 {

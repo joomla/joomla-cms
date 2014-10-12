@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Site
- * @subpackage  com_content
+ * Content article class.
  */
 class ContentControllerArticle extends JControllerForm
 {

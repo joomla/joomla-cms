@@ -14,8 +14,6 @@ jimport('joomla.filesystem.folder');
 /**
  * Class to turn JCli applications into daemons.  It requires CLI and PCNTL support built into PHP.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
  * @see         http://www.php.net/manual/en/book.pcntl.php
  * @see         http://php.net/manual/en/features.commandline.php
  * @since       11.1

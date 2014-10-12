@@ -14,8 +14,6 @@ defined('FOF_INCLUDED') or die();
  * and Models to Helpers and Fields. If a class doesn't exist, it will be
  * created on the fly.
  *
- * @package  FrameworkOnFramework
- * @subpackage  autoloader
  * @since    2.1
  */
 class FOFAutoloaderComponent

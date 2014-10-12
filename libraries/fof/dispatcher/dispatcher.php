@@ -15,7 +15,6 @@ defined('FOF_INCLUDED') or die;
  * MVC framework with features making maintaining complex software much easier,
  * without tedious repetitive copying of the same code over and over again.
  *
- * @package  FrameworkOnFramework
  * @since    1.0
  */
 class FOFDispatcher extends FOFUtilsObject

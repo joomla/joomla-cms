@@ -14,9 +14,7 @@ require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 /**
  * Helper for mod_related_items
  *
- * @package     Joomla.Site
- * @subpackage  mod_related_items
- * @since       1.5
+ * @since  1.5
  */
 abstract class ModRelatedItemsHelper
 {

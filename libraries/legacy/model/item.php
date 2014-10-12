@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Prototype item model.
  *
- * @package     Joomla.Legacy
- * @subpackage  Model
  * @since       12.2
  */
 abstract class JModelItem extends JModelLegacy

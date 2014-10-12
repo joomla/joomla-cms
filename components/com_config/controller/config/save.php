@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 /**
  * Save Controller for global configuration
  *
- * @package     Joomla.Site
- * @subpackage  com_config
  * @since       3.2
 */
 class ConfigControllerConfigSave extends JControllerBase

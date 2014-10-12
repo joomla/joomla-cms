@@ -14,8 +14,6 @@ JFormHelper::loadFieldClass('filelist');
 /**
  * Supports an HTML select list of image
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @since       11.1
  */
 class JFormFieldImageList extends JFormFieldFileList

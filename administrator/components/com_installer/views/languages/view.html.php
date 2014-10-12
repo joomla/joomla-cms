@@ -13,8 +13,6 @@ include_once __DIR__ . '/../default/view.php';
 /**
  * Language installer view
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
  * @since       2.5.7
  */
 class InstallerViewLanguages extends InstallerViewDefault

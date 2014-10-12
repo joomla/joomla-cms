@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Extension Manager Templates Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.6
+ * @since  1.6
  */
 class InstallerModelWarnings extends JModelList
 {

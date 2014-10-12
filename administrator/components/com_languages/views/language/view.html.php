@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Languages component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
- * @since       1.5
+ * @since  1.5
  */
 class LanguagesViewLanguage extends JViewLegacy
 {

@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCrypt cipher for Rijndael 256 encryption, decryption and key generation.
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
  * @since       12.1
  */
 class JCryptCipherRijndael256 extends JCryptCipherMcrypt

@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extended Utility class for handling date display.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       2.5
+ * @since  2.5
  */
 abstract class JHtmlDate
 {

@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utitlity class for associations in multilang
  *
- * @package     Joomla.Libraries
- * @subpackage  Language
- * @since       3.1
+ * @since  3.1
  */
 class JLanguageAssociations
 {

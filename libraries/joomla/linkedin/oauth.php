@@ -12,9 +12,6 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Joomla Platform class for generating Linkedin API access token.
  *
- * @package     Joomla.Platform
- * @subpackage  Linkedin
- *
  * @since       13.1
  */
 class JLinkedinOauth extends JOAuth1Client

@@ -14,9 +14,7 @@ require_once __DIR__ . '/extension.php';
 /**
  * Installer Manage Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.5
+ * @since  1.5
  */
 class InstallerModelManage extends InstallerModel
 {

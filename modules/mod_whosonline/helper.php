@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_whosonline
  *
- * @package     Joomla.Site
- * @subpackage  mod_whosonline
- * @since       1.5
+ * @since  1.5
  */
 class ModWhosonlineHelper
 {

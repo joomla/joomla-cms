@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL database iterator.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
  * @since       13.1
  */
 class JDatabaseIteratorPostgresql extends JDatabaseIterator

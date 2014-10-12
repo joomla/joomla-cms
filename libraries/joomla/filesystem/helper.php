@@ -14,8 +14,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * Holds support functions for the filesystem, particularly the stream
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
  * @since       11.1
  */
 class JFilesystemHelper

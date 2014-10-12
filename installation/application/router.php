@@ -9,9 +9,8 @@
 defined('_JEXEC') or die;
 
 /**
- * Class to create and parse routes
+ * Class to create and parse routes.
  *
- * @package  Joomla.Installation
  * @since    1.5
  */
 class JRouterInstallation extends JRouter

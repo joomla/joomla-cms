@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Displays the multilang status.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
  * @since       1.7.1
  */
 class LanguagesViewMultilangstatus extends JViewLegacy

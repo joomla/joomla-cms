@@ -16,10 +16,7 @@ JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'Con
 /**
  * Helper for mod_articles_news
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_news
- *
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModArticlesNewsHelper
 {

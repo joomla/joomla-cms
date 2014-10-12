@@ -15,8 +15,6 @@ JFormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Provides a list of available cache handlers
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @see         JCache
  * @since       11.1
  */

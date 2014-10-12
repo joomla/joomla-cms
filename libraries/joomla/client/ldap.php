@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * LDAP client class
  *
- * @package     Joomla.Platform
- * @subpackage  Client
  * @since       12.1
  */
 class JClientLdap
@@ -663,8 +661,6 @@ class JClientLdap
 /**
  * Deprecated class placeholder. You should use JClientLdap instead.
  *
- * @package     Joomla.Platform
- * @subpackage  Client
  * @since       11.1
  * @deprecated  12.3 (Platform) & 4.0 (CMS)
  */

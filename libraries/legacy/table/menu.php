@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Menu table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
  * @since       11.1
  */
 class JTableMenu extends JTableNested

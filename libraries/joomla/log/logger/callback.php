@@ -15,8 +15,6 @@ defined('JPATH_PLATFORM') or die;
  * This class allows logging to be handled by a callback function.
  * This allows unprecedented flexibility in the way logging can be handled.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
  * @since       12.2
  */
 class JLogLoggerCallback extends JLogLogger

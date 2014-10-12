@@ -18,8 +18,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/issues/events/
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Issues
  * @since       12.3
  */
 class JGithubPackageIssuesEvents extends JGithubPackage

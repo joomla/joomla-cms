@@ -14,8 +14,6 @@ require_once __DIR__ . '/article.php';
 /**
  * Feature model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
  */
 class ContentModelFeature extends ContentModelArticle
 {

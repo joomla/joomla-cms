@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Languages table.
  *
- * @package     Joomla.Platform
- * @subpackage  Table
  * @since       11.1
  */
 class JTableLanguage extends JTable

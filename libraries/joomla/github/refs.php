@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API References class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
  * @since       11.3
  */
 class JGithubRefs extends JGithubObject

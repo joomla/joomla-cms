@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Site
- * @subpackage  com_mailto
- * @since       1.5
+ * Class for email sent view.
+ *
+ * @since  1.5
  */
 class MailtoViewSent extends JViewLegacy
 {

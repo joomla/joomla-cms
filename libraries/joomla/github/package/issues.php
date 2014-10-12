@@ -14,8 +14,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/issues
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Issues
  * @since       11.3
  *
  * @property-read  JGithubPackageIssuesAssignees   $assignees   GitHub API object for assignees.

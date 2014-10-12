@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Model Interface
  *
- * @package     Joomla.Platform
- * @subpackage  Model
  * @since       12.1
  */
 interface JModel

@@ -13,8 +13,6 @@ jimport('joomla.updater.update');
 /**
  * Languages Installer Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
  * @since       2.5.7
  */
 class InstallerModelLanguages extends JModelList

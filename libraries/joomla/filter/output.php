@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JFilterOutput
  *
- * @package     Joomla.Platform
- * @subpackage  Filter
  * @since       11.1
  */
 class JFilterOutput

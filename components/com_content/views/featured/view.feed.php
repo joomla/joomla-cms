@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Frontpage View class
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentViewFeatured extends JViewLegacy
 {

@@ -15,8 +15,6 @@ defined('JPATH_PLATFORM') or die;
  * Provides a pop up date picker linked to a button.
  * Optionally may be filtered to use user's or server's time zone.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @since       11.1
  */
 class JFormFieldCalendar extends JFormField
