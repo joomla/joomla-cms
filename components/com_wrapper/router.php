@@ -83,7 +83,7 @@ class WrapperRouter extends JComponentRouterBase
  *
  * @deprecated  4.0  Use Class based routers instead
  */
-function WrapperBuildRoute(&$query)
+function wrapperBuildRoute(&$query)
 {
 	$router = new WrapperRouter;
 
@@ -102,7 +102,7 @@ function WrapperBuildRoute(&$query)
  *
  * @deprecated  4.0  Use Class based routers instead
  */
-function WrapperParseRoute($segments)
+function wrapperParseRoute($segments)
 {
 	$router = new WrapperRouter;
 
