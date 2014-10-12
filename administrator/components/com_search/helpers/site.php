@@ -17,18 +17,23 @@ defined('_JEXEC') or die;
 class JSite extends JObject
 {
 	/**
-	 * False method to fool the frontend search plugins
+	 * False method to fool the frontend search plugins.
+	 *
+	 * @return  JSite
 	 *
 	 * @since  1.5
 	 */
 	public function getMenu()
 	{
 		$result = new JSite;
+
 		return $result;
 	}
 
 	/**
-	 * False method to fool the frontend search plugins
+	 * False method to fool the frontend search plugins.
+	 *
+	 * @return  array
 	 *
 	 * @since  1.5
 	 */
