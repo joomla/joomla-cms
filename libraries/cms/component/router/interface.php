@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Component routing interface
  *
- * @package     Joomla.Libraries
- * @subpackage  Component
- * @since       3.3
+ * @since  3.3
  */
 interface JComponentRouterInterface
 {
