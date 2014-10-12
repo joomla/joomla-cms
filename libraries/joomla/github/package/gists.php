@@ -14,8 +14,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/gists
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Gists
  * @since       11.3
  *
  * @property-read  JGithubPackageGistsComments  $comments  GitHub API object for gist comments.

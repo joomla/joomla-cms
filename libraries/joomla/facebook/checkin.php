@@ -14,9 +14,6 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Facebook API Checkin class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Facebook
- *
  * @see         http://developers.facebook.com/docs/reference/api/checkin/
  * @since       13.1
  */

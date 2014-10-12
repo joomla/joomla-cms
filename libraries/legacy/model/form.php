@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Prototype form model.
  *
- * @package     Joomla.Legacy
- * @subpackage  Model
  * @see         JForm
  * @see         JFormField
  * @see         JFormRule

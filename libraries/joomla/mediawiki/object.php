@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MediaWiki API object class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  MediaWiki
  * @since       12.3
  */
 abstract class JMediawikiObject

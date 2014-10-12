@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Echo logger class.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
  * @since       11.1
  */
 class JLogLoggerEcho extends JLogLogger

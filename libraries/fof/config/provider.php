@@ -10,9 +10,8 @@ defined('FOF_INCLUDED') or die();
 
 /**
  * Reads and parses the fof.xml file in the back-end of a FOF-powered component,
- * provisioning the data to the rest of the FOF framework
+ * provisioning the data to the rest of the FOF framework.
  *
- * @package  FrameworkOnFramework
  * @since    2.1
  */
 class FOFConfigProvider

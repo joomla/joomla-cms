@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML utility class for building a dropdown menu
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.0
+ * @since  3.0
  */
 abstract class JHtmlDropdown
 {

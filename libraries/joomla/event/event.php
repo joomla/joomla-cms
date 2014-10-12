@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JEvent Class
  *
- * @package     Joomla.Platform
- * @subpackage  Event
  * @since       11.1
  */
 abstract class JEvent extends JObject

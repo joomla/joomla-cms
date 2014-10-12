@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * DocumentXML class, provides an easy interface to parse and display XML output
  *
- * @package     Joomla.Platform
- * @subpackage  Document
  * @since       11.1
  */
 class JDocumentXml extends JDocument

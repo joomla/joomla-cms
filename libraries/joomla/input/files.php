@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Input Files Class
  *
- * @package     Joomla.Platform
- * @subpackage  Input
  * @since       11.1
  */
 class JInputFiles extends JInput

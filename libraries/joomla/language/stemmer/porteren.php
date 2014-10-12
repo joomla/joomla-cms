@@ -16,8 +16,6 @@ defined('JPATH_PLATFORM') or die;
  * This class was adapted from one written by Richard Heyes.
  * See copyright and link information above.
  *
- * @package     Joomla.Platform
- * @subpackage  Language
  * @since       12.1
  */
 class JLanguageStemmerPorteren extends JLanguageStemmer

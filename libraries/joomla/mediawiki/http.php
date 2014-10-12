@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTTP client class for connecting to a MediaWiki instance.
  *
- * @package     Joomla.Platform
- * @subpackage  MediaWiki
  * @since       12.3
  */
 class JMediawikiHttp extends JHttp

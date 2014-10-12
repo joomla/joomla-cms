@@ -32,8 +32,6 @@ jimport('joomla.filesystem.folder');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @package     Joomla.Platform
- * @subpackage  Archive
  * @since       11.1
  */
 class JArchiveZip implements JArchiveExtractable

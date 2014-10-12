@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Language helper class
  *
- * @package     Joomla.Platform
- * @subpackage  Language
  * @since       11.1
  */
 class JLanguageHelper

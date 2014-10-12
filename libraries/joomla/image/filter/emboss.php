@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Image Filter class to emboss an image.
  *
- * @package     Joomla.Platform
- * @subpackage  Image
  * @since       11.3
  */
 class JImageFilterEmboss extends JImageFilter

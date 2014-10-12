@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Archieve class interface
  *
- * @package     Joomla.Platform
- * @subpackage  Archive
  * @since       12.1
  */
 interface JArchiveExtractable

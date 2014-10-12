@@ -15,8 +15,6 @@ defined('JPATH_PLATFORM') or die;
  * This class is designed to build log files based on the W3c specification
  * at: http://www.w3.org/TR/WD-logfile.html
  *
- * @package     Joomla.Platform
- * @subpackage  Log
  * @since       11.1
  */
 class JLogLoggerW3c extends JLogLoggerFormattedtext

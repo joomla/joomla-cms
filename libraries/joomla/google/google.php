@@ -15,8 +15,6 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  JGoogleData    $data    Google API object for data.
  * @property-read  JGoogleEmbed   $embed   Google API object for embed generation.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
  * @since       12.3
  */
 class JGoogle

@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Base class for a Joomla! Web application.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
  * @since       11.4
  */
 class JApplicationWeb extends JApplicationBase

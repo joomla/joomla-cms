@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Image Filter class to negate the colors of an image.
  *
- * @package     Joomla.Platform
- * @subpackage  Image
  * @since       11.3
  */
 class JImageFilterNegate extends JImageFilter

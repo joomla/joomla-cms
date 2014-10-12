@@ -17,8 +17,6 @@ jimport('joomla.filesystem.support.stringcontroller');
  * This class allows you to use a PHP string in the same way that
  * you would normally use a regular stream wrapper
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
  * @since       11.1
  */
 class JStreamString

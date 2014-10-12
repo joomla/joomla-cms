@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Forks class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
  * @since       11.3
  */
 class JGithubForks extends JGithubObject

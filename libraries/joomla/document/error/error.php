@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * DocumentError class, provides an easy interface to parse and display an error page
  *
- * @package     Joomla.Platform
- * @subpackage  Document
  * @since       11.1
  */
 class JDocumentError extends JDocument

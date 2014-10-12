@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * XCache cache storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
  * @link        http://xcache.lighttpd.net/
  * @since       11.1
  */

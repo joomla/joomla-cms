@@ -14,8 +14,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @property-read  string  $type  The key type.
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
  * @since       12.1
  */
 class JCryptKey

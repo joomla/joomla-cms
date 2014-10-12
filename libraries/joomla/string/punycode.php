@@ -18,8 +18,6 @@ JLoader::register('idna_convert', JPATH_ROOT . '/libraries/idna_convert/idna_con
  * Wraps the Punycode library
  * All functions assume the validity of utf-8 URLs.
  *
- * @package     Joomla.Platform
- * @subpackage  String
  * @since       3.1.2
  */
 abstract class JStringPunycode

@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Places & Geo class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Twitter
  * @since       12.3
  */
 class JTwitterPlaces extends JTwitterObject

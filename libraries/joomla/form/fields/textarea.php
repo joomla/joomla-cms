@@ -13,8 +13,6 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Supports a multi line area for entry of plain text
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @link        http://www.w3.org/TR/html-markup/textarea.html#textarea
  * @since       11.1
  */

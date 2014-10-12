@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Oracle database iterator.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
  * @since       12.1
  */
 class JDatabaseIteratorOracle extends JDatabaseIteratorPdo

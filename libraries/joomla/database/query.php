@@ -16,8 +16,6 @@ defined('JPATH_PLATFORM') or die;
  * @property-read    array   $elements  An array of elements.
  * @property-read    string  $glue      Glue piece.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
  * @since       11.1
  */
 class JDatabaseQueryElement
@@ -133,8 +131,6 @@ class JDatabaseQueryElement
 /**
  * Query Building Class.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
  * @since       11.1
  *
  * @method      string  q()   q($text, $escape = true)  Alias for quote method

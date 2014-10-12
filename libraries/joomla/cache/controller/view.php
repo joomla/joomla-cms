@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Cache view type object
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
  * @since       11.1
  */
 class JCacheControllerView extends JCacheController

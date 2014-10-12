@@ -16,8 +16,6 @@ defined('JPATH_PLATFORM') or die;
  * for the Joomla Platform to access and manipulate a URI.  Second it obtains the URI of
  * the current executing script from the server regardless of server.
  *
- * @package     Joomla.Platform
- * @subpackage  Uri
  * @since       11.1
  */
 class JUri

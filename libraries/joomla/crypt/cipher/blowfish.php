@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCrypt cipher for Blowfish encryption, decryption and key generation.
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
  * @since       12.1
  */
 class JCryptCipherBlowfish extends JCryptCipherMcrypt

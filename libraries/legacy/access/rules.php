@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Deprecated class placeholder. You should use JAccessRules instead.
  *
- * @package     Joomla.Legacy
- * @subpackage  Access
  * @since       11.1
  * @deprecated  12.3 (Platform) & 4.0 (CMS)
  * @codeCoverageIgnore

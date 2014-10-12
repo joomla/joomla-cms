@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * APC cache storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
  * @see         http://php.net/manual/en/book.apc.php
  * @since       11.1
  */

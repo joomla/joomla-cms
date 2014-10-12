@@ -13,8 +13,6 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Field for assigning permissions to groups for a given asset
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @see         JAccess
  * @since       11.1
  */

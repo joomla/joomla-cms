@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * RSS Feed Parser Namespace handler for MediaRSS.
  *
- * @package     Joomla.Platform
- * @subpackage  Feed
  * @see         http://video.search.yahoo.com/mrss
  * @since       12.3
  */

@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform String Normalise Class
  *
- * @package     Joomla.Platform
- * @subpackage  String
  * @since       11.3
  */
 abstract class JStringNormalise
