@@ -17,9 +17,7 @@ jimport('joomla.filesystem.folder');
  * This class is designed to use as a base for building formatted text files for output. By
  * default it emulates the Syslog style format output. This is a disk based output format.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
- * @since       11.1
+ * @since  11.1
  */
 class JLogLoggerFormattedtext extends JLogLogger
 {

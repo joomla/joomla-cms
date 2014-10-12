@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Controller Interface
  *
- * @package     Joomla.Platform
- * @subpackage  Controller
  * @since       12.1
  */
 interface JController extends Serializable

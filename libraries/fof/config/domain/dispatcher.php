@@ -11,7 +11,6 @@ defined('FOF_INCLUDED') or die();
 /**
  * Configuration parser for the dispatcher-specific settings
  *
- * @package  FrameworkOnFramework
  * @since    2.1
  */
 class FOFConfigDomainDispatcher implements FOFConfigDomainInterface

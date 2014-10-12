@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * ATOM Feed Parser class.
  *
- * @package     Joomla.Platform
- * @subpackage  Feed
  * @link        http://www.atomenabled.org/developers/syndication/
  * @since       12.3
  */

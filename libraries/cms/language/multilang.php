@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utitlity class for multilang
  *
- * @package     Joomla.Libraries
- * @subpackage  Language
  * @since       2.5.4
  */
 class JLanguageMultilang

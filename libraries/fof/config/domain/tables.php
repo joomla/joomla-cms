@@ -9,9 +9,8 @@
 defined('FOF_INCLUDED') or die();
 
 /**
- * Configuration parser for the tables-specific settings
+ * Configuration parser for the tables-specific settings.
  *
- * @package  FrameworkOnFramework
  * @since    2.1
  */
 class FOFConfigDomainTables implements FOFConfigDomainInterface

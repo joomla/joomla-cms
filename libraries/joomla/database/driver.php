@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Interface
  *
- * @package     Joomla.Platform
- * @subpackage  Database
  * @since       11.2
  */
 interface JDatabaseInterface
@@ -31,8 +29,6 @@ interface JDatabaseInterface
 /**
  * Joomla Platform Database Driver Class
  *
- * @package     Joomla.Platform
- * @subpackage  Database
  * @since       12.1
  *
  * @method      string  q()   q($text, $escape = true)  Alias for quote method

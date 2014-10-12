@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Content History table.
  *
- * @package     Joomla.Libraries
- * @subpackage  Table
- * @since       3.2
+ * @since  3.2
  */
 class JTableContenthistory extends JTable
 {

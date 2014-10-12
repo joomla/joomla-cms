@@ -9,9 +9,8 @@
 defined('FOF_INCLUDED') or die();
 
 /**
- * Configuration parser for the view-specific settings
+ * Configuration parser for the view-specific settings.
  *
- * @package  FrameworkOnFramework
  * @since    2.1
  */
 class FOFConfigDomainViews implements FOFConfigDomainInterface

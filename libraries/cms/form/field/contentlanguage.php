@@ -15,8 +15,6 @@ JFormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Provides a list of content languages
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
  * @see         JFormFieldLanguage for a select list of application languages.
  * @since       1.6
  */

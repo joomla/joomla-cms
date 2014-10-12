@@ -13,8 +13,6 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Provides a one line text box with up-down handles to set a number in the field.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @link        http://www.w3.org/TR/html-markup/input.text.html#input.text
  * @since       3.2
  */

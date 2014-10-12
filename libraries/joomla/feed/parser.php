@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Feed Parser class.
  *
- * @package     Joomla.Platform
- * @subpackage  Feed
- * @since       12.3
+ * @since  12.3
  */
 abstract class JFeedParser
 {

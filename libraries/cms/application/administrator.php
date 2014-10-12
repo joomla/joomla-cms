@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Administrator Application class
  *
- * @package     Joomla.Libraries
- * @subpackage  Application
- * @since       3.2
+ * @since  3.2
  */
 class JApplicationAdministrator extends JApplicationCms
 {

@@ -10,7 +10,6 @@ defined('FOF_INCLUDED') or die;
 /**
  * FOFEncryptBase32
  *
- * @package  FrameworkOnFramework
  * @since    1.0
  */
 class FOFEncryptBase32
