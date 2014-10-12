@@ -37,13 +37,25 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 		// Strip all script tags.
 		$input = preg_replace('#<script[^>]*>.*?</script>#si', ' ', $input);
 
-		// Deal with spacing issues in the input.
-		$input = str_replace('>', '> ', $input);
+		// Strip the tags from the input
+		$input = strip_tags($input);
+
+		// Deal with spacing issues in the input
 		$input = str_replace(array('&nbsp;', '&#160;'), ' ', $input);
 		$input = trim(preg_replace('#\s+#u', ' ', $input));
 
-		// Strip the tags from the input and decode entities.
-		$input = strip_tags($input);
+		// Remove last parts of HTML code which may be caused by a cut of the string
+		if (strpos($input, '>') !== false)
+		{
+			$input = substr($input, strpos($input, '>') + 1);
+		}
+
+		if (strpos($input, '<') !== false)
+		{
+			$input = substr($input, 0, strpos($input, '<'));
+		}
+
+		// Decode entities and remove unneeded white spaces
 		$input = html_entity_decode($input, ENT_QUOTES, 'UTF-8');
 		$input = trim(preg_replace('#\s+#u', ' ', $input));
 

@@ -78,7 +78,7 @@ class UsersViewNotes extends JViewLegacy
 		// Get the component HTML helpers
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-		// turn parameters into registry objects
+		// Turn parameters into registry objects
 		foreach ($this->items as $item)
 		{
 			$item->cparams = new JRegistry;
@@ -140,6 +140,7 @@ class UsersViewNotes extends JViewLegacy
 			JToolbarHelper::preferences('com_users');
 			JToolbarHelper::divider();
 		}
+
 		JToolbarHelper::help('JHELP_USERS_USER_NOTES');
 
 		JHtmlSidebar::setAction('index.php?option=com_users&view=notes');
