@@ -8,9 +8,29 @@
  */
 
 defined('_JEXEC') or die;
+
+JFactory::getDocument()->addStyleDeclaration('
+		@media only screen and (min-width : 768px) {
+			#versionsModal {
+			width: 80% !important;
+			margin-left:-40% !important;
+			height:auto;
+			}
+			#versionsModal #versionsModal-container .modal-body iframe {
+			margin:0;
+			padding:0;
+			display:block;
+			width:100%;
+			height:400px !important;
+			border:none;
+			}
+		}');
+
+$link = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id='
+	. (int) $displayData['itemId'] . '&amp;type_id=' . $displayData['typeId'] . '&amp;type_alias='
+	. $displayData['typeAlias'] . '&amp;' . JSession::getFormToken() . '=1';
+
+echo JHtmlBootstrap::renderModal('versionsModal', array( 'url' => $link, 'title' => $displayData['title'] ,'height' => '600px', 'width' => '800px'), '');
 ?>
-<a rel="{handler: 'iframe', size: {x: <?php echo $displayData['height']; ?>, y: <?php echo $displayData['width']; ?>}}"
-	href="index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id=<?php echo (int) $displayData['itemId']; ?>&amp;type_id=<?php echo $displayData['typeId']; ?>&amp;type_alias=<?php echo $displayData['typeAlias']; ?>&amp;<?php echo JSession::getFormToken(); ?>=1"
-	title="<?php echo $displayData['title']; ?>" class="btn btn-small modal_jform_contenthistory">
-	<i class="icon-archive"></i> <?php echo $displayData['title']; ?>
-</a>
+<button onclick="jQuery('#versionsModal').modal('show')" class="btn btn-small" data-toggle="modal" title="<?php echo $displayData['title']; ?>">
+<span class="icon-archive"></span><?php echo $displayData['title']; ?></button>
