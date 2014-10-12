@@ -54,7 +54,7 @@ class TagsViewTags extends JViewLegacy
 		 */
 
 		// Check whether access level allows access.
-		// TODO: Should already be computed in $item->params->get('access-view')
+		// @todo: Should already be computed in $item->params->get('access-view')
 		$user	= JFactory::getUser();
 		$groups	= $user->getAuthorisedViewLevels();
 		if (!empty($items))
