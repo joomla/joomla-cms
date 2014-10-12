@@ -14,11 +14,8 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Facebook API Note class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Facebook
- *
- * @see         http://developers.facebook.com/docs/reference/api/note/
- * @since       13.1
+ * @see    http://developers.facebook.com/docs/reference/api/note/
+ * @since  13.1
  */
 class JFacebookNote extends JFacebookObject
 {
