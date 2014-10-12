@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * This models supports retrieving lists of articles.
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentModelArticles extends JModelList
 {
