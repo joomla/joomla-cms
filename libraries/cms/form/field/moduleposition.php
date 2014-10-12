@@ -167,15 +167,15 @@ class JFormFieldModulePosition extends JFormFieldText
 
 		// Setup variables for display.
 		$html = array();
-		$link = 'index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function=jSelectPosition_' . $this->id . '&amp;client_id=' . $this->clientId;
+		$link = 'index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function=jSelectPosition_' . $this->id
+			. '&amp;client_id=' . $this->clientId;
 
 		// The current user display field.
 		$html[] = '<div class="input-append">';
 		$html[] = parent::getInput()
 			. '<a href="#moduleModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('COM_MODULES_CHANGE_POSITION_TITLE') . '">' . JText::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
 		$html[] = JHtmlBootstrap::renderModal('moduleModal', array( 'url' => $link, 'title' => JText::_('COM_MODULES_CHANGE_POSITION_TITLE'),'height' => '800', 'width' => '600'), '');
-
-$html[] = '</div>';
+		$html[] = '</div>';
 
 		return implode("\n", $html);
 	}
