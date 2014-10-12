@@ -18,8 +18,6 @@ JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
  * supporting API functions. Derived clases should supply the route(), dispatch()
  * and render() functions.
  *
- * @package     Joomla.Legacy
- * @subpackage  Application
  * @since       11.1
  * @deprecated  4.0  Use JApplicationCms instead unless specified otherwise
  */

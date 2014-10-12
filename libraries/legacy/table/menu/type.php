@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Menu Types table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
- * @since       11.1
+ * @since  11.1
  */
 class JTableMenuType extends JTable
 {
