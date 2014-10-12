@@ -16,10 +16,8 @@ JFormHelper::loadFieldClass('list');
  * Provides a list of available database connections, optionally limiting to
  * a given list.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @see         JDatabaseDriver
- * @since       11.3
+ * @see    JDatabaseDriver
+ * @since  11.3
  */
 class JFormFieldDatabaseConnection extends JFormFieldList
 {
