@@ -17,11 +17,28 @@ defined('_JEXEC') or die;
 class JHtmlMessages
 {
 	/**
-	 * @param   int $value	The state value
-	 * @param   int $i
+	 * Get the HTML code of the state switcher
+	 *
+	 * @param   int      $value      The state value
+	 * @param   int      $i          Row number
+	 * @param   boolean  $canChange  Can the user change the state?
+	 *
+	 * @return  string
 	 */
-	public static function state($value = 0, $i, $canChange)
+	public static function state($value = 0, $i = 0, $canChange = false)
 	{
+		// Note: $i is required but has to be an optional argument in the funtion call due to argument order
+		if (null === $i)
+		{
+			throw new InvalidArgumentException('$i is a required argument in JHtmlMessages::state');
+		}
+
+		// Note: $canChange is required but has to be an optional argument in the funtion call due to argument order
+		if (null === $canChange)
+		{
+			throw new InvalidArgumentException('$canChange is a required argument in JHtmlMessages::state');
+		}
+
 		// Array of image, task, title, action.
 		$states	= array(
 			-2	=> array('trash.png',		'messages.unpublish',	'JTRASHED',				'COM_MESSAGES_MARK_AS_UNREAD'),
@@ -29,11 +46,12 @@ class JHtmlMessages
 			0	=> array('publish_x.png',	'messages.publish',		'COM_MESSAGES_OPTION_UNREAD',	'COM_MESSAGES_MARK_AS_READ')
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= JHtml::_('image', 'admin/'.$state[0], JText::_($state[2]), null, true);
+		$html	= JHtml::_('image', 'admin/' . $state[0], JText::_($state[2]), null, true);
+
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
-					.$html.'</a>';
+			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" title="' . JText::_($state[3]) . '">'
+					. $html . '</a>';
 		}
 
 		return $html;

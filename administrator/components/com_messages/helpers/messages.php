@@ -19,9 +19,10 @@ class MessagesHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vName  The name of the active view.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
@@ -69,6 +70,7 @@ class MessagesHelper
 		$options[]	= JHtml::_('select.option',	'1',	JText::_('COM_MESSAGES_OPTION_READ'));
 		$options[]	= JHtml::_('select.option',	'0',	JText::_('COM_MESSAGES_OPTION_UNREAD'));
 		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASHED'));
+
 		return $options;
 	}
 }
