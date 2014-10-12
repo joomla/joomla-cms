@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google+ data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       1234
+ * @since       12.3
  */
 class JGoogleDataPlusComments extends JGoogleData
 {
@@ -24,7 +22,7 @@ class JGoogleDataPlusComments extends JGoogleData
 	 * @param   JRegistry    $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   1234
+	 * @since   12.3
 	 */
 	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
@@ -49,7 +47,7 @@ class JGoogleDataPlusComments extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   1234
+	 * @since   12.3
 	 */
 	public function listComments($activityId, $fields = null, $max = 20, $order = null, $token = null, $alt = null)
 	{
@@ -109,7 +107,7 @@ class JGoogleDataPlusComments extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   1234
+	 * @since   12.3
 	 */
 	public function getComment($id, $fields = null)
 	{
