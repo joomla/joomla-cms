@@ -85,13 +85,15 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 		$vars = array();
 
 		// French accented letters in ISO-8859-1 encoding
-		$vars['accents'] = chr(224) . chr(226) . chr(232) . chr(233) . chr(234) . chr(235) . chr(238) . chr(239) . chr(244) . chr(251) . chr(249) . chr(231);
+		$vars['accents'] = chr(224) . chr(226) . chr(232) . chr(233) . chr(234) . chr(235) . chr(238) . chr(239)
+			. chr(244) . chr(251) . chr(249) . chr(231);
 
 		// The rule patterns include all accented words for french language
 		$vars['rule_pattern'] = "/^([a-z" . $vars['accents'] . "]*)(\*){0,1}(\d)([a-z" . $vars['accents'] . "]*)([.|>])/";
 
 		// French vowels (including y) in ISO-8859-1 encoding
-		$vars['vowels'] = chr(97) . chr(224) . chr(226) . chr(101) . chr(232) . chr(233) . chr(234) . chr(235) . chr(105) . chr(238) . chr(239) . chr(111) . chr(244) . chr(117) . chr(251) . chr(249) . chr(121);
+		$vars['vowels'] = chr(97) . chr(224) . chr(226) . chr(101) . chr(232) . chr(233) . chr(234) . chr(235)
+			. chr(105) . chr(238) . chr(239) . chr(111) . chr(244) . chr(117) . chr(251) . chr(249) . chr(121);
 
 		// The French rules in ISO-8859-1 encoding
 		$vars['rules'] = array(
@@ -230,6 +232,7 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 				// No other rule can be applied => the stem has been found
 				break;
 			}
+
 			$rule = $vars['rules'][$rule_number];
 			preg_match($vars['rule_pattern'], $rule, $matches);
 

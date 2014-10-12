@@ -121,6 +121,7 @@ class FinderIndexerHelper
 				for ($j = 0; $j < $charCount; $j++)
 				{
 					$tSplit = JString::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
+
 					if (!empty($tSplit))
 					{
 						$terms[$i] = $tSplit;
@@ -190,6 +191,7 @@ class FinderIndexerHelper
 		if ($store)
 		{
 			$cache[$store] = count($tokens) > 1 ? $tokens : array_shift($tokens);
+
 			return $cache[$store];
 		}
 		else

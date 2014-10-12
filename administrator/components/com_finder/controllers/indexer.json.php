@@ -145,7 +145,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		 * in order to work around some plugins that don't do proper environment
 		 * checks before trying to use HTML document functions.
 		 */
-		$raw = clone(JFactory::getDocument());
+		$raw = clone JFactory::getDocument();
 		$lang = JFactory::getLanguage();
 
 		// Get the document properties.
@@ -165,7 +165,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		$doc = $html;
 
 		// Get the admin application.
-		$admin = clone(JFactory::getApplication());
+		$admin = clone JFactory::getApplication();
 
 		// Get the site app.
 		$site = JApplication::getInstance('site');

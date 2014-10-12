@@ -32,6 +32,7 @@ class FinderControllerFilters extends JControllerAdmin
 	public function getModel($name = 'Filter', $prefix = 'FinderModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 }
