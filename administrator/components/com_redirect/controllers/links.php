@@ -18,6 +18,9 @@ class RedirectControllerLinks extends JControllerAdmin
 {
 	/**
 	 * Method to update a record.
+	 *
+	 * @return  void.
+	 *
 	 * @since   1.6
 	 */
 	public function activate()
@@ -45,7 +48,8 @@ class RedirectControllerLinks extends JControllerAdmin
 			{
 				JError::raiseWarning(500, $model->getError());
 			}
-			else {
+			else
+			{
 				$this->setMessage(JText::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
 			}
 		}
@@ -55,6 +59,13 @@ class RedirectControllerLinks extends JControllerAdmin
 
 	/**
 	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  The prefix of the model.
+	 * @param   array   $config  An array of settings.
+	 *
+	 * @return  JModel instance
+	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Link', $prefix = 'RedirectModel', $config = array('ignore_request' => true))
