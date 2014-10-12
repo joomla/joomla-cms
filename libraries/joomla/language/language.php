@@ -17,9 +17,7 @@ define('_QQ_', '"');
 /**
  * Languages/translation handler class
  *
- * @package     Joomla.Platform
- * @subpackage  Language
- * @since       11.1
+ * @since  11.1
  */
 class JLanguage
 {
