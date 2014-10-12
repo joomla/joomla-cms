@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Site
- * @subpackage  com_contact
- * @since       1.6.0
+ * Featured contact model class.
+ *
+ * @since  1.6.0
  */
 class ContactModelFeatured extends JModelList
 {

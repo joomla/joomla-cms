@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Template style model.
  *
- * @package     Joomla.Site
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigModelTemplates extends ConfigModelForm
 {
