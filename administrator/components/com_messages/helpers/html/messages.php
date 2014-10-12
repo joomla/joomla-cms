@@ -24,21 +24,46 @@ class JHtmlMessages
 	 * @param   boolean  $canChange  Can the user change the state?
 	 *
 	 * @return  string
+	 *
+	 * @deprecated  4.0
 	 */
 	public static function state($value = 0, $i = 0, $canChange = false)
 	{
-		// Note: $i is required but has to be an optional argument in the funtion call due to argument order
+		// Log deprecated message
+		JLog::add(
+			'JHtmlMessages::state() is deprecated. Use JHtmlMessages::status() instead.',
+			JLog::WARNING,
+			'deprecated'
+		);
+
+		// Note: $i is required but has to be an optional argument in the function call due to argument order
 		if (null === $i)
 		{
 			throw new InvalidArgumentException('$i is a required argument in JHtmlMessages::state');
 		}
 
-		// Note: $canChange is required but has to be an optional argument in the funtion call due to argument order
+		// Note: $canChange is required but has to be an optional argument in the function call due to argument order
 		if (null === $canChange)
 		{
 			throw new InvalidArgumentException('$canChange is a required argument in JHtmlMessages::state');
 		}
 
+		return static::status($i, $value, $canChange);
+	}
+
+	/**
+	 * Get the HTML code of the state switcher
+	 *
+	 * @param   int      $i          Row number
+	 * @param   int      $value      The state value
+	 * @param   boolean  $canChange  Can the user change the state?
+	 *
+	 * @return  string
+	 *
+	 * @since   3.4
+	 */
+	public static function status($i, $value = 0, $canChange = false)
+	{
 		// Array of image, task, title, action.
 		$states	= array(
 			-2	=> array('trash.png',		'messages.unpublish',	'JTRASHED',				'COM_MESSAGES_MARK_AS_UNREAD'),
