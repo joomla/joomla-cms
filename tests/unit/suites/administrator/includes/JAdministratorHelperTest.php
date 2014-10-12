@@ -27,7 +27,7 @@ class JAdministratorHelperTest extends TestCase
 		//$this->object = new JErrorPage;
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$application->input = new JInput(array());
 		$this->user = $this->getMock('Observer', array('get', 'authorise'));
 

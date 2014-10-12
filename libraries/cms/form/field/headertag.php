@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 JFormHelper::loadFieldClass('list');
 
@@ -38,7 +38,7 @@ class JFormFieldHeadertag extends JFormFieldList
 	protected function getOptions()
 	{
 		$options = array();
-		$tags = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p');
+		$tags = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div');
 
 		// Create one new option object for each tag
 		foreach ($tags as $tag)

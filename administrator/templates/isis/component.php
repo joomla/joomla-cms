@@ -10,27 +10,30 @@
 defined('_JEXEC') or die;
 
 
-$app = JFactory::getApplication();
-$doc = JFactory::getDocument();
-$lang = JFactory::getLanguage();
-$this->language = $doc->language;
+$app             = JFactory::getApplication();
+$doc             = JFactory::getDocument();
+$lang            = JFactory::getLanguage();
+$this->language  = $doc->language;
 $this->direction = $doc->direction;
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-$doc->addScript('templates/' .$this->template. '/js/template.js');
+
+$doc->addScript('templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
+$doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-if (is_file($file)) :
+
+if (is_file($file))
+{
 	$doc->addStyleSheet($file);
-endif;
+}
 
 ?>
 <!DOCTYPE html>

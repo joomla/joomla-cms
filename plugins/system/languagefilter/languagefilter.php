@@ -299,7 +299,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			$sef = $parts[0];
 
 			// Redirect only if not in post.
-			if (!empty($lang_code) && ($app->input->getMethod() != "POST" || count($app->input->post) == 0))
+			if (!empty($lang_code) && ($app->input->getMethod() != "POST" || (count($app->input->post) == 0 && count($app->input->files) == 0)))
 			{
 				if ($this->params->get('remove_default_prefix', 0) == 0)
 				{
@@ -310,7 +310,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						$sef = isset(self::$lang_codes[$lang_code]) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
 						$uri->setPath($sef . '/' . $path);
 
-						if ($app->getCfg('sef_rewrite'))
+						if ($app->get('sef_rewrite'))
 						{
 							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
 						}
@@ -329,7 +329,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						$sef = isset(self::$lang_codes[$lang_code]) && empty($path) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
 						$uri->setPath($sef . '/' . $path);
 
-						if ($app->getCfg('sef_rewrite'))
+						if ($app->get('sef_rewrite'))
 						{
 							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
 						}
@@ -348,7 +348,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						array_shift($parts);
 						$uri->setPath(implode('/', $parts));
 
-						if ($app->getCfg('sef_rewrite'))
+						if ($app->get('sef_rewrite'))
 						{
 							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
 						}
@@ -564,7 +564,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			if ($active)
 			{
 				// Get menu item link.
-				if ($app->getCfg('sef'))
+				if ($app->get('sef'))
 				{
 					$active_link = JRoute::_('index.php?Itemid=' . $active->id, false);
 				}
@@ -633,7 +633,17 @@ class PlgSystemLanguageFilter extends JPlugin
 					if (isset($cassociations[$language->lang_code]))
 					{
 						$link = JRoute::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
-						$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+
+						// Check if language is the default site language and remove url language code is on
+						if ($language->sef == self::$default_sef && $this->params->get('remove_default_prefix') == '1')
+						{
+							$relLink = str_replace('/' . $language->sef, '', $link);
+							$doc->addHeadLink($server . $relLink, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+						}
+						else
+						{
+							$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+						}
 					}
 					elseif (isset($associations[$language->lang_code]))
 					{
@@ -641,7 +651,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 						if ($item)
 						{
-							if ($app->getCfg('sef'))
+							if ($app->get('sef'))
 							{
 								$link = JRoute::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
 							}
@@ -650,7 +660,16 @@ class PlgSystemLanguageFilter extends JPlugin
 								$link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
 							}
 
-							$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+							// Check if language is the default site language and remove url language code is on
+							if ($language->sef == self::$default_sef && $this->params->get('remove_default_prefix') == '1')
+							{
+								$relLink = str_replace('/' . $language->sef, '', $link);
+								$doc->addHeadLink($server . $relLink, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+							}
+							else
+							{
+								$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+							}
 						}
 					}
 				}
@@ -669,7 +688,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 					if ($item && $item->language != $active->language && $item->language != '*')
 					{
-						if ($app->getCfg('sef'))
+						if ($app->get('sef'))
 						{
 							$link = JRoute::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
 						}
@@ -678,7 +697,16 @@ class PlgSystemLanguageFilter extends JPlugin
 							$link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
 						}
 
-						$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+						// Check if language is the default site language and remove url language code is on
+						if ($language->sef == self::$default_sef && $this->params->get('remove_default_prefix') == '1')
+						{
+							$relLink = str_replace('/' . $language->sef, '', $link);
+							$doc->addHeadLink($server . $relLink, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+						}
+						else
+						{
+							$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+						}
 					}
 				}
 			}

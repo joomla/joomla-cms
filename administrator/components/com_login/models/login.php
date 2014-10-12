@@ -23,21 +23,29 @@ class LoginModelLogin extends JModelLegacy
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState()
 	{
+		$app = JFactory::getApplication();
+
+		$input = $app->input;
+		$method = $input->getMethod();
+
 		$credentials = array(
-			'username' => JRequest::getVar('username', '', 'method', 'username'),
-			'password' => JRequest::getVar('passwd', '', 'post', 'string', JREQUEST_ALLOWRAW),
-			'secretkey' => JRequest::getVar('secretkey', '', 'post', 'string', JREQUEST_ALLOWRAW),
+			'username' => $input->$method->get('username', '', 'USERNAME'),
+			'password' => $input->$method->get('passwd', '', 'RAW'),
+			'secretkey' => $input->$method->get('secretkey', '', 'RAW'),
 		);
 		$this->setState('credentials', $credentials);
 
-		// check for return URL from the request first
-		if ($return = JRequest::getVar('return', '', 'method', 'base64'))
+		// Check for return URL from the request first
+		if ($return = $input->$method->get('return', '', 'BASE64'))
 		{
 			$return = base64_decode($return);
+
 			if (!JUri::isInternal($return))
 			{
 				$return = '';
@@ -75,7 +83,7 @@ class LoginModelLogin extends JModelLegacy
 			if (!$title || $modules[$i]->title == $title)
 			{
 				$result = $modules[$i];
-				break; // Found it
+				break;
 			}
 		}
 
@@ -106,7 +114,7 @@ class LoginModelLogin extends JModelLegacy
 	 * This is put in as a failsafe to avoid super user lock out caused by an unpublished
 	 * login module or by a module set to have a viewing access level that is not Public.
 	 *
-	 * @param   string  $name   The name of the module
+	 * @param   string  $module  The name of the module
 	 *
 	 * @return  array
 	 *
@@ -159,6 +167,7 @@ class LoginModelLogin extends JModelLegacy
 			catch (RuntimeException $e)
 			{
 				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()));
+
 				return $loginmodule;
 			}
 

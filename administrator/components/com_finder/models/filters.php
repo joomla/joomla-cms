@@ -70,7 +70,8 @@ class FinderModelFilters extends JModelList
 		// Check for a search filter.
 		if ($this->getState('filter.search'))
 		{
-			$query->where('( a.title LIKE \'%' . $db->escape($this->getState('filter.search')) . '%\' )');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
+			$query->where('( a.title LIKE \'%' . $search . '%\' )');
 		}
 
 		// If the model is set to check item state, add to the query.

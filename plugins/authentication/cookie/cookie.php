@@ -55,8 +55,6 @@ class PlgAuthenticationCookie extends JPlugin
 			return false;
 		}
 
-		$response->type = 'Cookie';
-
 		// Get cookie
 		$cookieName		= JUserHelper::getShortHashedUserAgent();
 		$cookieValue	= $this->app->input->cookie->get($cookieName);
@@ -77,6 +75,8 @@ class PlgAuthenticationCookie extends JPlugin
 
 			return false;
 		}
+
+		$response->type = 'Cookie';
 
 		// Filter series since we're going to use it in the query
 		$filter	= new JFilterInput;

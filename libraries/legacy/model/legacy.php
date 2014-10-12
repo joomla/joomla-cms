@@ -321,7 +321,7 @@ abstract class JModelLegacy extends JObject
 			&& $query->having === null)
 		{
 			$query = clone $query;
-			$query->clear('select')->clear('order')->select('COUNT(*)');
+			$query->clear('select')->clear('order')->clear('limit')->select('COUNT(*)');
 
 			$this->_db->setQuery($query);
 			return (int) $this->_db->loadResult();

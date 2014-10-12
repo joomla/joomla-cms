@@ -70,20 +70,29 @@ class JUpdater extends JAdapter
 	 */
 	public function findUpdates($eid = 0, $cacheTimeout = 0)
 	{
-		$db = $this->getDBO();
+		$db     = $this->getDBO();
+		$query  = $db->getQuery(true);
+
 		$retval = false;
 
-		// Push it into an array
-		if (!is_array($eid))
+		$query->select('DISTINCT a.update_site_id, a.type, a.location, a.last_check_timestamp, a.extra_query')
+			->from('#__update_sites AS a')
+			->where('a.enabled = 1');
+
+		if ($eid)
 		{
-			$query = 'SELECT DISTINCT update_site_id, type, location, last_check_timestamp, extra_query FROM #__update_sites WHERE enabled = 1';
+			$query->join('INNER', '#__update_sites_extensions AS b ON a.update_site_id = b.update_site_id');
+
+			if (is_array($eid))
+			{
+				$query->where('b.extension_id IN (' . implode(',', $eid) . ')');
+			}
+			elseif ((int) $eid)
+			{
+				$query->where('b.extension_id = ' . $eid);
+			}
 		}
-		else
-		{
-			$query = 'SELECT DISTINCT update_site_id, type, location, last_check_timestamp, extra_query FROM #__update_sites' .
-				' WHERE update_site_id IN' .
-				'  (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN (' . implode(',', $eid) . '))';
-		}
+
 		$db->setQuery($query);
 		$results = $db->loadAssocList();
 		$result_count = count($results);

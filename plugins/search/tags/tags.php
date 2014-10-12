@@ -142,13 +142,14 @@ class PlgSearchTags extends JPlugin
 		if ($rows)
 		{
 			require_once JPATH_ROOT . '/components/com_tags/helpers/route.php';
+
 			foreach ($rows as $key => $row)
 			{
-				$rows[$key]->href = TagsHelperRoute::getTagRoute($row->id);
-				$rows[$key]->text .= ($row->description != "" ? $row->description : $row->title);
-				$rows[$key]->text .= $row->note;
-				$rows[$key]->section = $section;
-				$rows[$key]->created = $row->created;
+				$rows[$key]->href       = TagsHelperRoute::getTagRoute($row->id);
+				$rows[$key]->text       = ($row->description != "" ? $row->description : $row->title);
+				$rows[$key]->text       .= $row->note;
+				$rows[$key]->section    = $section;
+				$rows[$key]->created    = $row->created;
 				$rows[$key]->browsernav = 0;
 			}
 		}

@@ -379,7 +379,7 @@ class FinderIndexerResult
 		if ($branch !== null && isset($this->taxonomy[$branch]))
 		{
 			// Filter the input.
-			$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $branch);
+			$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
 			return $this->taxonomy[$branch];
 		}
@@ -402,7 +402,7 @@ class FinderIndexerResult
 	public function addTaxonomy($branch, $title, $state = 1, $access = 1)
 	{
 		// Filter the input.
-		$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $branch);
+		$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
 		// Create the taxonomy node.
 		$node = new JObject;

@@ -40,7 +40,7 @@ class PlgUserJoomla extends JPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  boolean
@@ -70,7 +70,7 @@ class PlgUserJoomla extends JPlugin
 	 *
 	 * @param   array    $user     Holds the new user data.
 	 * @param   boolean  $isnew    True if a new user is stored.
-	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
 	 * @return  void
@@ -254,12 +254,17 @@ class PlgUserJoomla extends JPlugin
 			$session->destroy();
 		}
 
-		// Force logout all users with that userid
-		$query = $this->db->getQuery(true)
-			->delete($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
-			->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
-		$this->db->setQuery($query)->execute();
+		// Enable / Disable Forcing logout all users with same userid
+		$forceLogout = $this->params->get('forceLogout', 1);
+
+		if ($forceLogout)
+		{
+			$query = $this->db->getQuery(true)
+				->delete($this->db->quoteName('#__session'))
+				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
+				->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
+			$this->db->setQuery($query)->execute();
+		}
 
 		return true;
 	}

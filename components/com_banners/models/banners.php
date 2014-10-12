@@ -70,6 +70,7 @@ class BannersModelBanners extends JModelList
 				'a.name as name,' .
 				'a.clickurl as clickurl,' .
 				'a.cid as cid,' .
+				'a.description as description,' .
 				'a.params as params,' .
 				'a.custombannercode as custombannercode,' .
 				'a.track_impressions as track_impressions,' .
@@ -277,7 +278,7 @@ class BannersModelBanners extends JModelList
 				{
 					// Update count
 					$query->update('#__banner_tracks')
-						->set($db->quoteName('count') . ' = (' . $db->quote('count') . ' + 1)')
+						->set($db->quoteName('count') . ' = (' . $db->quoteName('count') . ' + 1)')
 						->where('track_type=1')
 						->where('banner_id=' . (int) $id)
 						->where('track_date=' . $db->quote($trackDate));
