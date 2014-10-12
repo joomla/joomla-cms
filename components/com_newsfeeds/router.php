@@ -252,21 +252,34 @@ class NewsfeedsRouter extends JComponentRouterBase
 }
 
 /**
- * Newsfeeds router functions
+ * newsfeedsBuildRoute
  *
  * These functions are proxys for the new router interface
  * for old SEF extensions.
  *
+ * @param   array  &$query  The segments of the URL to parse.
+ *
+ * @return array
+ *
  * @deprecated  4.0  Use Class based routers instead
  */
-function NewsfeedsBuildRoute(&$query)
+function newsfeedsBuildRoute(&$query)
 {
 	$router = new NewsfeedsRouter;
 
 	return $router->build($query);
 }
 
-function NewsfeedsParseRoute($segments)
+/**
+ * newsfeedsParseRoute
+ *
+ * @param   array  $segments  The segments of the URL to parse.
+ *
+ * @return array
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function newsfeedsParseRoute($segments)
 {
 	$router = new NewsfeedsRouter;
 
