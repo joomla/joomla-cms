@@ -62,6 +62,8 @@ class MessagesHelper
 	 * Get a list of filter options for the state of a module.
 	 *
 	 * @return  array  An array of JHtmlOption elements.
+	 *
+	 * @since   1.6
 	 */
 	public static function getStateOptions()
 	{

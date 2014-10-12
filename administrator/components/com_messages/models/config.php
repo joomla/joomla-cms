@@ -23,10 +23,11 @@ class MessagesModelConfig extends JModelForm
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
 	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
 	 * @return  void
 	 *
-	 * @note    Calling getState in this method will result in recursion.
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -43,6 +44,8 @@ class MessagesModelConfig extends JModelForm
 	 * Method to get a single record.
 	 *
 	 * @return  mixed  Object on success, false on failure.
+	 *
+	 * @since   1.6
 	 */
 	public function &getItem()
 	{
@@ -106,6 +109,8 @@ class MessagesModelConfig extends JModelForm
 	 * @param   array  $data  The form data.
 	 *
 	 * @return  boolean  True on success.
+	 *
+	 * @since   1.6
 	 */
 	public function save($data)
 	{

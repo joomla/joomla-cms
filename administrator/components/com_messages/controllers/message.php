@@ -25,6 +25,8 @@ class MessagesControllerMessage extends JControllerForm
 	 * @param   string  $key   The name of the key for the primary key.
 	 *
 	 * @return  boolean
+	 *
+	 * @since   1.6
 	 */
 	protected function allowSave($data, $key = 'message_id')
 	{
@@ -37,6 +39,8 @@ class MessagesControllerMessage extends JControllerForm
 	 * This is a simple redirect to the compose form.
 	 *
 	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function reply()
 	{

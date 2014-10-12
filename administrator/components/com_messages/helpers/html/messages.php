@@ -25,6 +25,8 @@ class JHtmlMessages
 	 *
 	 * @return  string
 	 *
+	 * @since   1.6
+	 *
 	 * @deprecated  4.0
 	 */
 	public static function state($value = 0, $i = 0, $canChange = false)

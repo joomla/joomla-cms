@@ -20,6 +20,8 @@ class MessagesTableMessage extends JTable
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  &$db  Database connector object
+	 *
+	 * @since   1.5
 	 */
 	public function __construct(&$db)
 	{
@@ -30,6 +32,8 @@ class MessagesTableMessage extends JTable
 	 * Validation and filtering.
 	 *
 	 * @return  boolean
+	 *
+	 * @since   1.5
 	 */
 	public function check()
 	{

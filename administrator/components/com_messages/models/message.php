@@ -24,9 +24,15 @@ class MessagesModelMessage extends JModelAdmin
 	/**
 	 * Method to auto-populate the model state.
 	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -264,6 +270,8 @@ class MessagesModelMessage extends JModelAdmin
 	 * @param   array  $data  The form data.
 	 *
 	 * @return  boolean  True on success.
+	 *
+	 * @since   1.6
 	 */
 	public function save($data)
 	{

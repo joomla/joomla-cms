@@ -20,6 +20,8 @@ class MessagesControllerConfig extends JControllerLegacy
 	 * Method to save a record.
 	 *
 	 * @return  boolean
+	 *
+	 * @since   1.6
 	 */
 	public function save()
 	{
