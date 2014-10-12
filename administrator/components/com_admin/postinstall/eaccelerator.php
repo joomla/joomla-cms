@@ -24,7 +24,7 @@ defined('_JEXEC') or die;
  *
  * @since   3.2
  */
-function Admin_Postinstall_Eaccelerator_condition()
+function admin_postinstall_eaccelerator_condition()
 {
 	$app = JFactory::getApplication();
 	$cacheHandler = $app->get('cacheHandler', '');
@@ -40,7 +40,7 @@ function Admin_Postinstall_Eaccelerator_condition()
  *
  * @since   3.2
  */
-function Admin_Postinstall_Eaccelerator_action()
+function admin_postinstall_eaccelerator_action()
 {
 	$prev = new JConfig;
 	$prev = JArrayHelper::fromObject($prev);
