@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Articles list controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contact
- * @since       1.6
+ * @since  1.6
  */
 class ContactControllerContacts extends JControllerAdmin
 {

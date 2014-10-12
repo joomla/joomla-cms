@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Plugins master display controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_plugins
- * @since       1.5
+ * @since  1.5
  */
 class PluginsController extends JControllerLegacy
 {

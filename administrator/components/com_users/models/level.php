@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User view level model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelLevel extends JModelAdmin
 {

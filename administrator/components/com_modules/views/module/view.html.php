@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View to edit a module.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
- * @since       1.6
+ * @since  1.6
  */
 class ModulesViewModule extends JViewLegacy
 {
