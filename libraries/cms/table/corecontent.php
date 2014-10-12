@@ -186,6 +186,7 @@ class JTableCorecontent extends JTable
 		{
 			throw new UnexpectedValueException('Null content item key not allowed.');
 		}
+
 		if ($typeAlias === null)
 		{
 			throw new UnexpectedValueException('Null type alias not allowed.');
@@ -355,7 +356,11 @@ class JTableCorecontent extends JTable
 		if (property_exists($this, 'core_checked_out_user_id') && property_exists($this, 'core_checked_out_time'))
 		{
 			$checkin = true;
-			$query->where(' (' . $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId . ')');
+			$query->where(
+				' ('
+				. $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId
+				. ')'
+			);
 		}
 
 		$this->_db->setQuery($query);
