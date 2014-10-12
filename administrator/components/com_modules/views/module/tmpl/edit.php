@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
+JHtml::_('behavior.core');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
@@ -35,7 +36,7 @@ if ($hasContent)
 	$script .= $this->form->getField($hasContentFieldName)->save();
 }
 $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
-				if (self != top)
+				if (self.location != top.location)
 				{
 					window.parent.jQuery('#moduleModal').modal('hide');
 				}

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 // Include jQuery
-JHtml::_('jquery.framework');
+JHtml::_('behavior.core');
 JHtml::_('bootstrap.modal');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');

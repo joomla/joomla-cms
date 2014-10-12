@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include jQuery
-JHtml::_('jquery.framework');
+JHtml::_('behavior.core');
 JHtml::_('bootstrap.modal');
 
 $script = array();
