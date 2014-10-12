@@ -37,7 +37,6 @@ This code intentionally commented
 					);
 */
 }
-
 // Initialize module parameters.
 $params->def('field_size', 20);
 
