@@ -55,6 +55,7 @@ class ContentViewForm extends JViewLegacy
 		if ($authorised !== true)
 		{
 			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+
 			return false;
 		}
 
@@ -80,13 +81,14 @@ class ContentViewForm extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseWarning(500, implode("\n", $errors));
+
 			return false;
 		}
 
 		// Create a shortcut to the parameters.
 		$params	= &$this->state->params;
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->params = $params;
@@ -107,6 +109,8 @@ class ContentViewForm extends JViewLegacy
 
 	/**
 	 * Prepares the document
+	 *
+	 * @return  void.
 	 */
 	protected function _prepareDocument()
 	{

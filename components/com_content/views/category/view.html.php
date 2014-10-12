@@ -91,7 +91,7 @@ class ContentViewCategory extends JViewCategory
 				$item->parent_slug = null;
 			}
 
-			$item->catslug = $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
+			$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->event   = new stdClass;
 
 			$dispatcher = JEventDispatcher::getInstance();
@@ -145,8 +145,6 @@ class ContentViewCategory extends JViewCategory
 		// This makes it much easier for the designer to just interrogate the arrays.
 		if (($params->get('layout_type') == 'blog') || ($this->getLayout() == 'blog'))
 		{
-			//$max = count($this->items);
-
 			foreach ($this->items as $i => $item)
 			{
 				if ($i < $numLeading)
@@ -175,7 +173,7 @@ class ContentViewCategory extends JViewCategory
 
 			if ($order == 0 && $this->columns > 1)
 			{
-				// call order down helper
+				// Call order down helper
 				$this->intro_items = ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
 			}
 		}
