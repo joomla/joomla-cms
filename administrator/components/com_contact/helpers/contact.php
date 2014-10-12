@@ -41,5 +41,4 @@ class ContactHelper extends JHelperContent
 			$vName == 'categories'
 		);
 	}
-
 }
