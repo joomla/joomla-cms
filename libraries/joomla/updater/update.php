@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Update class.
  *
- * @package     Joomla.Platform
- * @subpackage  Updater
- * @since       11.1
+ * @since  11.1
  */
 class JUpdate extends JObject
 {

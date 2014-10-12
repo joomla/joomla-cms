@@ -18,9 +18,7 @@ jimport('joomla.utilities.arrayhelper');
 /**
  * Updater Class
  *
- * @package     Joomla.Platform
- * @subpackage  Updater
- * @since       11.1
+ * @since  11.1
  */
 class JUpdater extends JAdapter
 {

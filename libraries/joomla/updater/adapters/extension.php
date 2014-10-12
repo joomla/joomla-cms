@@ -14,10 +14,8 @@ jimport('joomla.updater.updateadapter');
 /**
  * Extension class for updater
  *
- * @package     Joomla.Platform
- * @subpackage  Updater
- * @since       11.1
- * */
+ * @since  11.1
+ */
 class JUpdaterExtension extends JUpdateAdapter
 {
 	/**
