@@ -19,7 +19,11 @@ defined('_JEXEC') or die;
 class LanguagesViewMultilangstatus extends JViewLegacy
 {
 	/**
-	 * Display the view
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{

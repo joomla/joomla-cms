@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Languages Controller
+ * Languages Controller.
  *
  * @package     Joomla.Administrator
  * @subpackage  com_languages
@@ -19,15 +19,18 @@ defined('_JEXEC') or die;
 class LanguagesControllerInstalled extends JControllerLegacy
 {
 	/**
-	 * task to set the default language
+	 * Task to set the default language.
+	 *
+	 * @return  void
 	 */
 	public function setDefault()
 	{
-		// Check for request forgeries
+		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$cid = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
+
 		if ($model->publish($cid))
 		{
 			$msg = JText::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
@@ -40,6 +43,6 @@ class LanguagesControllerInstalled extends JControllerLegacy
 		}
 
 		$clientId = $model->getState('filter.client_id');
-		$this->setredirect('index.php?option=com_languages&view=installed&client='.$clientId, $msg, $type);
+		$this->setredirect('index.php?option=com_languages&view=installed&client=' . $clientId, $msg, $type);
 	}
 }
