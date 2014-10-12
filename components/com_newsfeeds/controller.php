@@ -21,10 +21,11 @@ class NewsfeedsController extends JControllerLegacy
 	/**
 	 * Method to show a newsfeeds view
 	 *
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController		This object to support chaining.
+	 *
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -42,7 +43,8 @@ class NewsfeedsController extends JControllerLegacy
 			$cachable = false;
 		}
 
-		$safeurlparams = array('id' => 'INT', 'limit' => 'UINT', 'limitstart' => 'UINT', 'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'lang' => 'CMD');
+		$safeurlparams = array('id' => 'INT', 'limit' => 'UINT', 'limitstart' => 'UINT',
+								'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'lang' => 'CMD');
 
 		parent::display($cachable, $safeurlparams);
 	}
