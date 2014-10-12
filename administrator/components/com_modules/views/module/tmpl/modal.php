@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 		<?php echo JText::_('JSAVE');?></button>
 	</div>
 	<div class="btn-group">
-		<button type="button" class="btn" onclick="window.parent.SqueezeBox.close();">
+		<button type="button" class="btn" onclick="window.parent.jQuery('#moduleModal').modal('hide');">
 		<?php echo JText::_('JCANCEL');?></button>
 	</div>
 	<div class="clearfix"></div>

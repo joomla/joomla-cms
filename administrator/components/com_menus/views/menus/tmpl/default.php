@@ -12,10 +12,50 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
+// Include jQuery
+JHtml::_('behavior.core');
+JHtml::_('bootstrap.modal');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
+
+$script = array();
+$script[] = "jQuery(document).ready(function() {";
+$script[] = '	function jSelectPosition_' . $this->id . '(name) {';
+$script[] = '		document.getElementById("' . $this->id . '").value = name;';
+$script[] = '		jQuery("#menusModuleModal").modal("hide");';
+$script[] = '	};';
+$script[] = '	jQuery("#moduleModal").on("hidden", function () {';
+$script[] = '		setTimeout(function(){';
+$script[] = '			window.parent.location.reload();';
+$script[] = '		},1000);';
+$script[] = '	});';
+$script[] = "});";
+
+// Add normalized style.
+$style = 'div#moduleModal.modal.hide {display: block;}
+@media only screen and (min-width : 768px) {
+			#moduleModal {
+			width: 80% !important;
+			margin-left:-40% !important;
+			height:auto;
+			}
+			.modal-body {
+			max-height: 1000px;
+			}
+			#moduleModal #moduleModal-container .modal-body iframe {
+			margin:0;
+			padding:0;
+			display:block;
+			width:100%;
+			height:800px !important;
+			border:none;
+			}
+		}';
+
+// Add the script to the document head.
+JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+JFactory::getDocument()->addStyleDeclaration($style);
 
 $uri = JUri::getInstance();
 $return = base64_encode($uri);
@@ -136,8 +176,10 @@ $modMenuId = (int) $this->get('ModMenuId');
 									<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 										<li>
 											<?php if ($canEdit) : ?>
-												<a class="small modal" href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id='.$module->id.'&return='.$return.'&tmpl=component&layout=modal');?>" rel="{handler: 'iframe', size: {x: 1024, y: 450}, onClose: function() {window.location.reload()}}" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>">
+												<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id='.$module->id.'&return='.$return.'&tmpl=component&layout=modal'); ?>
+											<a href="#moduleModal" role="button" class="button" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>">
 												<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
+
 											<?php else :?>
 												<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?>
 											<?php endif; ?>
@@ -157,6 +199,8 @@ $modMenuId = (int) $this->get('ModMenuId');
 				<?php endforeach; ?>
 			</tbody>
 		</table>
+
+		<?php echo JHtmlBootstrap::renderModal('moduleModal', array( 'url' => $link, 'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),'height' => '800px', 'width' => '800px'), ''); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

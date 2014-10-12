@@ -133,18 +133,37 @@ class JFormFieldModulePosition extends JFormFieldText
 	 */
 	protected function getInput()
 	{
-		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal');
+		// Include jQuery
+		JHtml::_('jquery.framework');
+		JHtml::_('bootstrap.modal');
 
 		// Build the script.
 		$script = array();
 		$script[] = '	function jSelectPosition_' . $this->id . '(name) {';
 		$script[] = '		document.getElementById("' . $this->id . '").value = name;';
-		$script[] = '		SqueezeBox.close();';
+		$script[] = '		jQuery("#moduleModal").modal("hide");';
 		$script[] = '	}';
+
+		// Add normalized style.
+		$style = '@media only screen and (min-width : 768px) {
+			#userModal {
+			width: 80% !important;
+			margin-left:-40% !important;
+			height:auto;
+			}
+			#userModal #userModal-container .modal-body iframe {
+			margin:0;
+			padding:0;
+			display:block;
+			width:100%;
+			height:400px !important;
+			border:none;
+			}
+		}';
 
 		// Add the script to the document head.
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		JFactory::getDocument()->addStyleDeclaration($style);
 
 		// Setup variables for display.
 		$html = array();
@@ -153,9 +172,10 @@ class JFormFieldModulePosition extends JFormFieldText
 		// The current user display field.
 		$html[] = '<div class="input-append">';
 		$html[] = parent::getInput()
-			. '<a class="btn modal" title="' . JText::_('COM_MODULES_CHANGE_POSITION_TITLE') . '"  href="' . $link . '" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
-			. JText::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
-		$html[] = '</div>';
+			. '<a href="#moduleModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('COM_MODULES_CHANGE_POSITION_TITLE') . '">' . JText::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
+		$html[] = JHtmlBootstrap::renderModal('moduleModal', array( 'url' => $link, 'title' => JText::_('COM_MODULES_CHANGE_POSITION_TITLE'),'height' => '800', 'width' => '600'), '');
+
+$html[] = '</div>';
 
 		return implode("\n", $html);
 	}
