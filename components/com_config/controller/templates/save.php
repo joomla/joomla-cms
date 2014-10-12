@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package     Joomla.Site
  * @subpackage  com_config
  * @since       3.2
-*/
+ */
 class ConfigControllerTemplatesSave extends JControllerBase
 {
 	/**
