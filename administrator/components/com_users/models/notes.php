@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User notes model class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       2.5
+ * @since  2.5
  */
 class UsersModelNotes extends JModelList
 {

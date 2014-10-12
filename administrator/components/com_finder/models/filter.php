@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Filter model class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderModelFilter extends JModelAdmin
 {

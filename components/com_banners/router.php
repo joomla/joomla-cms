@@ -117,7 +117,7 @@ class BannersRouter extends JComponentRouterBase
  * @since   3.3
  * @deprecated  4.0  Use Class based routers instead
  */
-function BannersBuildRoute(&$query)
+function bannersBuildRoute(&$query)
 {
 	$router = new BannersRouter;
 
@@ -137,7 +137,7 @@ function BannersBuildRoute(&$query)
  * @since   3.3
  * @deprecated  4.0  Use Class based routers instead
  */
-function BannersParseRoute($segments)
+function bannersParseRoute($segments)
 {
 	$router = new BannersRouter;
 

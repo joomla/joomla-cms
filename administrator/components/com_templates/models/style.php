@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Template style model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesModelStyle extends JModelAdmin
 {

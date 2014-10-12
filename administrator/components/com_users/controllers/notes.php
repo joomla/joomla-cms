@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User notes controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       2.5
+ * @since  2.5
  */
 class UsersControllerNotes extends JControllerAdmin
 {

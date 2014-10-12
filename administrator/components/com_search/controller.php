@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Search master display controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_search
- * @since       1.6
+ * @since  1.6
  */
 class SearchController extends JControllerLegacy
 {

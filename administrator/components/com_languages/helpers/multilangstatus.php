@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Multilang status helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
- * @since       1.7.1
+ * @since  1.7.1
  */
 abstract class MultilangstatusHelper
 {
