@@ -64,6 +64,5 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 		}
 
 		return array();
-
 	}
 }
