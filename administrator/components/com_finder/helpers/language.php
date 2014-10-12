@@ -84,6 +84,7 @@ class FinderHelperLanguage
 		{
 			return;
 		}
+
 		$loaded = true;
 
 		// Get array of all the enabled Smart Search plug-in names.

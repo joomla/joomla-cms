@@ -188,14 +188,17 @@ class FinderIndexerQuery
 		{
 			$this->dates->set('date1', $options['date1']);
 		}
+
 		if (isset($options['date2']) && !empty($options['date1']))
 		{
 			$this->dates->set('date2', $options['date2']);
 		}
+
 		if (isset($options['when1']) && !empty($options['date1']))
 		{
 			$this->dates->set('when1', $options['when1']);
 		}
+
 		if (isset($options['when2']) && !empty($options['date1']))
 		{
 			$this->dates->set('when2', $options['when2']);
@@ -298,6 +301,7 @@ class FinderIndexerQuery
 					{
 						continue;
 					}
+
 					$uri->setVar('t[]', $node);
 				}
 			}
@@ -1021,6 +1025,7 @@ class FinderIndexerQuery
 					{
 						unset($phrases[$pk]);
 					}
+
 					if (($pk = array_search($terms[$i + 2], $phrases)) !== false)
 					{
 						unset($phrases[$pk]);
@@ -1082,6 +1087,7 @@ class FinderIndexerQuery
 					{
 						unset($phrases[$pk]);
 					}
+
 					if (($pk = array_search($terms[$i + 2], $phrases)) !== false)
 					{
 						unset($phrases[$pk]);
@@ -1132,7 +1138,7 @@ class FinderIndexerQuery
 				unset($terms[$i + 1]);
 
 				// Adjust the loop.
-				$i += 1;
+				$i++;
 				continue;
 			}
 			// Handle the NOT operator.
@@ -1169,7 +1175,7 @@ class FinderIndexerQuery
 				unset($terms[$i + 1]);
 
 				// Adjust the loop.
-				$i += 1;
+				$i++;
 				continue;
 			}
 		}
@@ -1284,7 +1290,7 @@ class FinderIndexerQuery
 				->where('t.phrase = 0');
 
 			// Clone the query, replace the WHERE clause.
-			$sub = clone($query);
+			$sub = clone $query;
 			$sub->clear('where');
 			$sub->where('t.stem = ' . $db->quote($token->stem));
 			$sub->where('t.phrase = 0');
