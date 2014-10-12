@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * The user's navigated path within the application.
  *
- * @since       1.5
+ * @since  1.5
  */
 class JPathway
 {

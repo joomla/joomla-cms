@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Categories view base class.
  *
- * @since       3.2
+ * @since  3.2
  */
 class JViewCategories extends JViewLegacy
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Private Message model.
  *
- * @since       1.6
+ * @since  1.6
  */
 class MessagesModelMessage extends JModelAdmin
 {

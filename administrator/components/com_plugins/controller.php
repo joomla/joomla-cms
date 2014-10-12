@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Plugins master display controller.
  *
- * @since       1.5
+ * @since  1.5
  */
 class PluginsController extends JControllerLegacy
 {

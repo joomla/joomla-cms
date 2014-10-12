@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Controller class to e-mail the configuration info for the Joomla Installer.
  *
- * @since       3.1
+ * @since  3.1
  */
 class InstallationControllerInstallEmail extends JControllerBase
 {

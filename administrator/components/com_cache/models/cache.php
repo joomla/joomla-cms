@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Cache Model
  *
- * @since       1.6
+ * @since  1.6
  */
 class CacheModelCache extends JModelList
 {

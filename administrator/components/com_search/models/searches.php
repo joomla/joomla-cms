@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of search terms.
  *
- * @since       1.6
+ * @since  1.6
  */
 class SearchModelSearches extends JModelList
 {

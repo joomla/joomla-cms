@@ -14,7 +14,7 @@ jimport('joomla.filesystem.path');
 /**
  * Menu Item Types Model for Menus.
  *
- * @since       1.6
+ * @since  1.6
  */
 class MenusModelMenutypes extends JModelLegacy
 {

@@ -14,7 +14,7 @@ require_once __DIR__ . '/articles.php';
 /**
  * Frontpage Component Model
  *
- * @since       1.5
+ * @since  1.5
  */
 class ContentModelFeatured extends ContentModelArticles
 {

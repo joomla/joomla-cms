@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Registration view class for Users.
  *
- * @since       1.5
+ * @since  1.5
  */
 class UsersViewRemind extends JViewLegacy
 {

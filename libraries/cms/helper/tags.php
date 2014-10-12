@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Tags helper class, provides methods to perform various tasks relevant
  * tagging of content.
  *
- * @since       3.1
+ * @since  3.1
  */
 class JHelperTags extends JHelper
 {

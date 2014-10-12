@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Content categories view.
  *
- * @since       1.5
+ * @since  1.5
  */
 class NewsfeedsViewCategories extends JViewCategories
 {

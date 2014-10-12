@@ -14,7 +14,7 @@ require_once __DIR__ . '/articles.php';
 /**
  * Content Component Archive Model
  *
- * @since       1.5
+ * @since  1.5
  */
 class ContentModelArchive extends ContentModelArticles
 {

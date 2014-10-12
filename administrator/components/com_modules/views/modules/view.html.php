@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of modules.
  *
- * @since       1.6
+ * @since  1.6
  */
 class ModulesViewModules extends JViewLegacy
 {

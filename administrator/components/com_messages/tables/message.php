@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Message Table class
  *
- * @since       1.5
+ * @since  1.5
  */
 class MessagesTableMessage extends JTable
 {

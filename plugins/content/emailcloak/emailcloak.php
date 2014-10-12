@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Email cloack plugin class.
  *
- * @since       1.5
+ * @since  1.5
  */
 class PlgContentEmailcloak extends JPlugin
 {

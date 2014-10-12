@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a button separator
  *
- * @since       3.0
+ * @since  3.0
  */
 class JToolbarButtonSeparator extends JToolbarButton
 {

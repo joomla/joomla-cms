@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla Authentication plugin
  *
- * @since       1.5
+ * @since  1.5
  */
 class PlgAuthenticationJoomla extends JPlugin
 {

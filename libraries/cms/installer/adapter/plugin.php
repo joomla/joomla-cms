@@ -15,7 +15,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Plugin installer
  *
- * @since       3.1
+ * @since  3.1
  */
 class JInstallerAdapterPlugin extends JAdapterInstance
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Newsfeeds component helper.
  *
- * @since       1.6
+ * @since  1.6
  */
 class NewsfeedsHelper extends JHelperContent
 {

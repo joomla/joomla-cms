@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Categories view class for the Category package.
  *
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesController extends JControllerLegacy
 {

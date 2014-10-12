@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tags Component Route Helper.
  *
- * @since       3.1
+ * @since  3.1
  */
 class TagsHelperRoute extends JHelperRoute
 {

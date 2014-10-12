@@ -16,7 +16,7 @@ JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 /**
  * Helper class for the Finder indexer package.
  *
- * @since       2.5
+ * @since  2.5
  */
 class FinderIndexerHelper
 {

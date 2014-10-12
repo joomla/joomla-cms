@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Admin Component Help Model
  *
- * @since       1.6
+ * @since  1.6
  */
 class AdminModelHelp extends JModelLegacy
 {

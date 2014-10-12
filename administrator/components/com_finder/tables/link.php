@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Link table class for the Finder package.
  *
- * @since       2.5
+ * @since  2.5
  */
 class FinderTableLink extends JTable
 {

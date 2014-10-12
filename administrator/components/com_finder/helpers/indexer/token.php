@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Token class for the Finder indexer package.
  *
- * @since       2.5
+ * @since  2.5
  */
 class FinderIndexerToken
 {

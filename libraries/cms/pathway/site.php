@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to manage the site application pathway.
  *
- * @since       1.5
+ * @since  1.5
  */
 class JPathwaySite extends JPathway
 {

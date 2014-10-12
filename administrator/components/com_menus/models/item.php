@@ -15,7 +15,7 @@ require_once JPATH_COMPONENT . '/helpers/menus.php';
 /**
  * Menu Item Model for Menus.
  *
- * @since       1.6
+ * @since  1.6
  */
 class MenusModelItem extends JModelAdmin
 {

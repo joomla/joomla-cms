@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Rest model class for Users.
  *
- * @since       1.5
+ * @since  1.5
  */
 class UsersModelReset extends JModelForm
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of contenthistory records.
  *
- * @since       3.2
+ * @since  3.2
  */
 class ContenthistoryModelHistory extends JModelList
 {

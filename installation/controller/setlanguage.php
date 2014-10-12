@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Controller class to set the language for the Joomla Installer.
  *
- * @since       3.1
+ * @since  3.1
  */
 class InstallationControllerSetlanguage extends JControllerBase
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Contact Component Controller
  *
- * @since       1.5
+ * @since  1.5
  */
 class ContactController extends JControllerLegacy
 {

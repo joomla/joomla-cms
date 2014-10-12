@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Banners Component Category Tree
  *
- * @since       1.6
+ * @since  1.6
  */
 class BannersCategories extends JCategories
 {

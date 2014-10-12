@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * JFormRule for com_contact to make sure the message body contains no banned word.
  *
- * @since       1.6
+ * @since  1.6
  */
 class JFormRuleContactEmailMessage extends JFormRule
 {

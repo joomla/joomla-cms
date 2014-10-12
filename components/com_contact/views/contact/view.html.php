@@ -14,7 +14,7 @@ require_once JPATH_COMPONENT . '/models/category.php';
 /**
  * HTML Contact View class for the Contact component
  *
- * @since       1.5
+ * @since  1.5
  */
 class ContactViewContact extends JViewLegacy
 {

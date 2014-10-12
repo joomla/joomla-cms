@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User group model.
  *
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelGroup extends JModelAdmin
 {

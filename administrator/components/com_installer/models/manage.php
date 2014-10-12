@@ -14,7 +14,7 @@ require_once __DIR__ . '/extension.php';
 /**
  * Installer Manage Model
  *
- * @since       1.5
+ * @since  1.5
  */
 class InstallerModelManage extends InstallerModel
 {

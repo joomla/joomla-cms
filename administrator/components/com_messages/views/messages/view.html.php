@@ -13,7 +13,7 @@ JHtml::_('behavior.modal');
 /**
  * View class for a list of messages.
  *
- * @since       1.6
+ * @since  1.6
  */
 class MessagesViewMessages extends JViewLegacy
 {

@@ -17,7 +17,7 @@ JLoader::register('FinderIndexerStemmer', dirname(__DIR__) . '/stemmer.php');
  * First contributed by Eric Sanou (bobotche@hotmail.fr)
  * This class is inspired in  Alexis Ulrich's French stemmer code (http://alx2002.free.fr)
  *
- * @since       3.0
+ * @since  3.0
  */
 class FinderIndexerStemmerFr extends FinderIndexerStemmer
 {

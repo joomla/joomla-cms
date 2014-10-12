@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of user access level records.
  *
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelLevels extends JModelList
 {

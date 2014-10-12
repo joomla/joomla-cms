@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Users mail controller.
  *
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerMail extends JControllerLegacy
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Newsfeeds Component Controller
  *
- * @since       1.5
+ * @since  1.5
  */
 class NewsfeedsController extends JControllerLegacy
 {

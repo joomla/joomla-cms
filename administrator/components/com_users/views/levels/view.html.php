@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * The HTML Users access levels view.
  *
- * @since       1.6
+ * @since  1.6
  */
 class UsersViewLevels extends JViewLegacy
 {

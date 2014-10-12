@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Index controller class for Finder.
  *
- * @since       2.5
+ * @since  2.5
  */
 class FinderControllerIndex extends JControllerAdmin
 {

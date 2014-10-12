@@ -15,7 +15,7 @@ JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/co
 /**
  * Installer Manage Model
  *
- * @since       1.6
+ * @since  1.6
  */
 class InstallerModelDatabase extends InstallerModel
 {

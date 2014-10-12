@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Map table class for the Finder package.
  *
- * @since       2.5
+ * @since  2.5
  */
 class FinderTableMap extends JTable
 {

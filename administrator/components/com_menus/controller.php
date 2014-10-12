@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Base controller class for Menu Manager.
  *
- * @since       1.6
+ * @since  1.6
  */
 class MenusController extends JControllerLegacy
 {

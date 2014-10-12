@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Model for the global configuration
  *
- * @since       3.2
+ * @since  3.2
  */
 class ConfigModelConfig extends ConfigModelForm
 {

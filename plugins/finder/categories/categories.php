@@ -14,7 +14,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
 /**
  * Smart Search adapter for Joomla Categories.
  *
- * @since       2.5
+ * @since  2.5
  */
 class PlgFinderCategories extends FinderIndexerAdapter
 {

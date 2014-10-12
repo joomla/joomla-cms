@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Modules Component Module Model
  *
- * @since       1.5
+ * @since  1.5
  */
 class ModulesModelModules extends JModelList
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper class for admin stats module
  *
- * @since       3.0
+ * @since  3.0
  */
 class ModStatsHelper
 {

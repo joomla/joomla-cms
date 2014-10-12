@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of user groups.
  *
- * @since       1.6
+ * @since  1.6
  */
 class UsersViewGroups extends JViewLegacy
 {

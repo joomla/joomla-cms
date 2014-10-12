@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Cpanel Controller
  *
- * @since       1.5
+ * @since  1.5
  */
 class CpanelController extends JControllerLegacy
 {

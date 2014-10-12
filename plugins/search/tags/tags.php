@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tags search plugin.
  *
- * @since       3.3
+ * @since  3.3
  */
 class PlgSearchTags extends JPlugin
 {

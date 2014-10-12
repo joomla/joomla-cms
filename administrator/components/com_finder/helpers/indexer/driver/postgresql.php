@@ -14,7 +14,7 @@ jimport('joomla.filesystem.file');
 /**
  * Indexer class supporting PostgreSQL for the Finder indexer package.
  *
- * @since       3.0
+ * @since  3.0
  */
 class FinderIndexerDriverPostgresql extends FinderIndexer
 {

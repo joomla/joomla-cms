@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Newsfeeds component
  *
- * @since       1.0
+ * @since  1.0
  */
 class NewsfeedsViewNewsfeed extends JViewLegacy
 {

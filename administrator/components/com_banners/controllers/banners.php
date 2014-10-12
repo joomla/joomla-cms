@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Banners list controller class.
  *
- * @since       1.6
+ * @since  1.6
  */
 class BannersControllerBanners extends JControllerAdmin
 {

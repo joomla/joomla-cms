@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User note model.
  *
- * @since       2.5
+ * @since  2.5
  */
 class UsersModelNote extends JModelAdmin
 {

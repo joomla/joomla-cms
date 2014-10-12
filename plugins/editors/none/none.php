@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Plain Textarea Editor Plugin
  *
- * @since       1.5
+ * @since  1.5
  */
 class PlgEditorNone extends JPlugin
 {

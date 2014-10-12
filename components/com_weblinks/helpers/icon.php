@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Weblink Component HTML Helper.
  *
- * @since       1.5
+ * @since  1.5
  */
 class JHtmlIcon
 {

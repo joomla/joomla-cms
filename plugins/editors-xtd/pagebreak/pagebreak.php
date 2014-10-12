@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Editor Pagebreak buton
  *
- * @since       1.5
+ * @since  1.5
  */
 class PlgButtonPagebreak extends JPlugin
 {

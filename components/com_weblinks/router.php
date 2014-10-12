@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_weblinks
  *
- * @since       3.3
+ * @since  3.3
  */
 class WeblinksRouter extends JComponentRouterBase
 {

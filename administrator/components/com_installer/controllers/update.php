@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Installer Update Controller
  *
- * @since       1.6
+ * @since  1.6
  */
 class InstallerControllerUpdate extends JControllerLegacy
 {

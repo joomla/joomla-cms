@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Content Component Category Tree
  *
- * @since       1.6
+ * @since  1.6
  */
 class ContentCategories extends JCategories
 {

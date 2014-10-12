@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * The Categories List Controller
  *
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesControllerCategories extends JControllerAdmin
 {

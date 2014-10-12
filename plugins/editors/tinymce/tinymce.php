@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * TinyMCE Editor Plugin
  *
- * @since       1.5
+ * @since  1.5
  */
 class PlgEditorTinymce extends JPlugin
 {

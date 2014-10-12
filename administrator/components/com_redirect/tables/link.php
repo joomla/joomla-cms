@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Link Table for Redirect.
  *
- * @since       1.6
+ * @since  1.6
  */
 class RedirectTableLink extends JTable
 {

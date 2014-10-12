@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Component helper class
  *
- * @since       1.5
+ * @since  1.5
  */
 class JComponentHelper
 {

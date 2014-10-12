@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Newsfeeds search plugin.
  *
- * @since       1.6
+ * @since  1.6
  */
 class PlgSearchNewsfeeds extends JPlugin
 {

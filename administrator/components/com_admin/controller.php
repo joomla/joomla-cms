@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Admin Controller
  *
- * @since       1.6
+ * @since  1.6
  */
 class AdminController extends JControllerLegacy
 {

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Remove Root Controller for global configuration
  *
- * @since       3.2
+ * @since  3.2
  */
 class ConfigControllerApplicationRemoveroot extends JControllerBase
 {

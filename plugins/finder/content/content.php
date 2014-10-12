@@ -14,7 +14,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
 /**
  * Smart Search adapter for com_content.
  *
- * @since       2.5
+ * @since  2.5
  */
 class PlgFinderContent extends FinderIndexerAdapter
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Search feed view class for the Finder package.
  *
- * @since       2.5
+ * @since  2.5
  */
 class FinderViewSearch extends JViewLegacy
 {

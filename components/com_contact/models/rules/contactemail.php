@@ -14,7 +14,7 @@ JFormHelper::loadRuleClass('email');
 /**
  * JFormRule for com_contact to make sure the E-Mail adress is not blocked.
  *
- * @since       1.6
+ * @since  1.6
  */
 class JFormRuleContactEmail extends JFormRuleEmail
 {

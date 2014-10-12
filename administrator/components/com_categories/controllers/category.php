@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * The Category Controller
  *
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesControllerCategory extends JControllerForm
 {

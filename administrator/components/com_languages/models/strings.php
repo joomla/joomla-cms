@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Languages Strings Model
  *
- * @since       2.5
+ * @since  2.5
  */
 class LanguagesModelStrings extends JModelLegacy
 {

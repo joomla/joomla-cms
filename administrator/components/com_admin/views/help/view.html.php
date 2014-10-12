@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Admin component
  *
- * @since       1.6
+ * @since  1.6
  */
 class AdminViewHelp extends JViewLegacy
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Languages Component Language Model
  *
- * @since       1.5
+ * @since  1.5
  */
 class LanguagesModelLanguage extends JModelAdmin
 {

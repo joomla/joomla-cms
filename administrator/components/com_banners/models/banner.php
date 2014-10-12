@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Banner model.
  *
- * @since       1.6
+ * @since  1.6
  */
 class BannersModelBanner extends JModelAdmin
 {

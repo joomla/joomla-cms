@@ -14,7 +14,7 @@ JLoader::register('FinderIndexerParser', dirname(__DIR__) . '/parser.php');
 /**
  * HTML Parser class for the Finder indexer package.
  *
- * @since       2.5
+ * @since  2.5
  */
 class FinderIndexerParserHtml extends FinderIndexerParser
 {

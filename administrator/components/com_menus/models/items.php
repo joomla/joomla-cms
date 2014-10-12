@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Menu Item List Model for Menus.
  *
- * @since       1.6
+ * @since  1.6
  */
 class MenusModelItems extends JModelList
 {

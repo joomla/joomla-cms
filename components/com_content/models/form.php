@@ -15,7 +15,7 @@ require_once JPATH_ADMINISTRATOR.'/components/com_content/models/article.php';
 /**
  * Content Component Article Model
  *
- * @since       1.5
+ * @since  1.5
  */
 class ContentModelForm extends ContentModelArticle
 {

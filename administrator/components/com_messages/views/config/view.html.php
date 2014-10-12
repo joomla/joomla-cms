@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View to edit messages user configuration.
  *
- * @since       1.6
+ * @since  1.6
  */
 class MessagesViewConfig extends JViewLegacy
 {

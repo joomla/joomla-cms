@@ -14,7 +14,7 @@ require_once JPATH_COMPONENT . '/helpers/debug.php';
 /**
  * Methods supporting a list of user records.
  *
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelDebuggroup extends JModelList
 {

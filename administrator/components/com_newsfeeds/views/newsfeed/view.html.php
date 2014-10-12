@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View to edit a newsfeed.
  *
- * @since       1.6
+ * @since  1.6
  */
 class NewsfeedsViewNewsfeed extends JViewLegacy
 {

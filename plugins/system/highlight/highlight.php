@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * System plugin to highlight terms.
  *
- * @since       2.5
+ * @since  2.5
  */
 class PlgSystemHighlight extends JPlugin
 {

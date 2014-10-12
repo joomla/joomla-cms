@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Extension Manager Default View
  *
- * @since       1.5
+ * @since  1.5
  */
 class InstallerViewDefault extends JViewLegacy
 {

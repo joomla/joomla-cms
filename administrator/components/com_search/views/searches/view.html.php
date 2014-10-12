@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of search terms.
  *
- * @since       1.5
+ * @since  1.5
  */
 class SearchViewSearches extends JViewLegacy
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Weblink controller class.
  *
- * @since       1.6
+ * @since  1.6
  */
 class WeblinksControllerWeblink extends JControllerForm
 {

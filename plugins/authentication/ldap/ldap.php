@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * LDAP Authentication Plugin
  *
- * @since       1.5
+ * @since  1.5
  */
 class PlgAuthenticationLdap extends JPlugin
 {

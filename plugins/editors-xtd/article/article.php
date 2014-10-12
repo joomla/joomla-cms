@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Editor Article buton
  *
- * @since       1.5
+ * @since  1.5
  */
 class PlgButtonArticle extends JPlugin
 {

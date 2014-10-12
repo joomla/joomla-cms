@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tags Component Tag Model
  *
- * @since       3.1
+ * @since  3.1
  */
 class TagsModelTag extends JModelAdmin
 {

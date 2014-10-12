@@ -15,7 +15,7 @@ JHtml::_('jquery.framework');
 /**
  * HTML View class for the Media component
  *
- * @since       1.0
+ * @since  1.0
  */
 class MediaViewMedia extends JViewLegacy
 {

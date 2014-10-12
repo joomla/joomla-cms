@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a modal window button
  *
- * @since       3.0
+ * @since  3.0
  */
 class JToolbarButtonPopup extends JToolbarButton
 {

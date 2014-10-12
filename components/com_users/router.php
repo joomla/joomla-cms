@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_users
  *
- * @since       3.2
+ * @since  3.2
  */
 class UsersRouter extends JComponentRouterBase
 {

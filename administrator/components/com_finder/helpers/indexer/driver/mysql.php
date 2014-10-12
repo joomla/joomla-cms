@@ -22,7 +22,7 @@ jimport('joomla.filesystem.file');
  * Note: All exceptions thrown from within this class should be caught
  * by the controller.
  *
- * @since       3.0
+ * @since  3.0
  */
 class FinderIndexerDriverMysql extends FinderIndexer
 {

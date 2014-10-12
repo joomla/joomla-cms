@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('predefinedlist');
 /**
  * Form Field to load a list of states
  *
- * @since       3.2
+ * @since  3.2
  */
 class JFormFieldStatus extends JFormFieldPredefinedList
 {

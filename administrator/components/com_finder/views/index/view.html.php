@@ -14,7 +14,7 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
 /**
  * Index view class for Finder.
  *
- * @since       2.5
+ * @since  2.5
  */
 class FinderViewIndex extends JViewLegacy
 {

@@ -15,7 +15,7 @@ JFormHelper::loadFieldClass('groupedlist');
  * Form Field class for the Joomla CMS.
  * Supports a select grouped list of template styles
  *
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldTemplatestyle extends JFormFieldGroupedList
 {

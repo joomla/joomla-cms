@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Modules manager master display controller.
  *
- * @since       1.6
+ * @since  1.6
  */
 class ModulesController extends JControllerLegacy
 {

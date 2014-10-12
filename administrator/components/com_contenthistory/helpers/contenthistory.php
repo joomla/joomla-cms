@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Categories helper.
  *
- * @since       3.2
+ * @since  3.2
  */
 class ContenthistoryHelper
 {

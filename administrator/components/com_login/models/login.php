@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Login Model
  *
- * @since       1.5
+ * @since  1.5
  */
 class LoginModelLogin extends JModelLegacy
 {

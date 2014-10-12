@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * An example custom profile plugin.
  *
- * @since       1.6
+ * @since  1.6
  */
 class PlgUserProfile extends JPlugin
 {

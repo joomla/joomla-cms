@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! CMS Application class
  *
- * @since       3.2
+ * @since  3.2
  */
 class JApplicationCms extends JApplicationWeb
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Login Controller
  *
- * @since       1.5
+ * @since  1.5
  */
 class LoginController extends JControllerLegacy
 {

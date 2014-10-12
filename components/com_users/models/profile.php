@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Profile model class for Users.
  *
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelProfile extends JModelForm
 {

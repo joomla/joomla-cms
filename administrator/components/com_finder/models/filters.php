@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Filters model class for Finder.
  *
- * @since       2.5
+ * @since  2.5
  */
 class FinderModelFilters extends JModelList
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * The HTML Menus Menu Menus View.
  *
- * @since       1.6
+ * @since  1.6
  */
 class MenusViewMenus extends JViewLegacy
 {

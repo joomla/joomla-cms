@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User controller class.
  *
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerUser extends JControllerForm
 {

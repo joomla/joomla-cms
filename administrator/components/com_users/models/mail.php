@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Users mail model.
  *
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelMail extends JModelAdmin
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Weblinks model.
  *
- * @since       1.5
+ * @since  1.5
  */
 class WeblinksModelWeblink extends JModelAdmin
 {

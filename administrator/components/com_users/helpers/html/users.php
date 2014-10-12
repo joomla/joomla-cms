@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Extended Utility class for the Users component.
  *
- * @since       2.5
+ * @since  2.5
  */
 class JHtmlUsers
 {

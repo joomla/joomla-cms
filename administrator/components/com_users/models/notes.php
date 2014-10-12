@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User notes model class.
  *
- * @since       2.5
+ * @since  2.5
  */
 class UsersModelNotes extends JModelList
 {

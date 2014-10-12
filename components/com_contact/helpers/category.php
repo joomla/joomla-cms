@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Contact Component Category Tree
  *
- * @since       1.6
+ * @since  1.6
  */
 class ContactCategories extends JCategories
 {

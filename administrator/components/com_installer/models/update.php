@@ -14,7 +14,7 @@ jimport('joomla.updater.update');
 /**
  * Installer Update Model
  *
- * @since       1.6
+ * @since  1.6
  */
 class InstallerModelUpdate extends JModelList
 {

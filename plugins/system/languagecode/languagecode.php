@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Language Code plugin class.
  *
- * @since       2.5
+ * @since  2.5
  */
 class PlgSystemLanguagecode extends JPlugin
 {

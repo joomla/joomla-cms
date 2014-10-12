@@ -14,7 +14,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
 /**
  * Smart Search adapter for Joomla Newsfeeds.
  *
- * @since       2.5
+ * @since  2.5
  */
 class PlgFinderNewsfeeds extends FinderIndexerAdapter
 {

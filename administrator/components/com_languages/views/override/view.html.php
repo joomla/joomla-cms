@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View to edit an language override
  *
- * @since       2.5
+ * @since  2.5
  */
 class LanguagesViewOverride extends JViewLegacy
 {

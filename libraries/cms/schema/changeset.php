@@ -17,7 +17,7 @@ jimport('joomla.filesystem.folder');
  * the database when this database was created or updated. This enables the
  * Installation Manager to check that the current database schema is up to date.
  *
- * @since       2.5
+ * @since  2.5
  */
 class JSchemaChangeset
 {

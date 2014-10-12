@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Frontpage View class
  *
- * @since       1.5
+ * @since  1.5
  */
 class ContentViewFeatured extends JViewLegacy
 {

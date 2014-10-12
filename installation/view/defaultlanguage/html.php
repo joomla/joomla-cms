@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * The Installation Default Language View
  *
- * @since       3.1
+ * @since  3.1
  */
 class InstallationViewDefaultlanguageHtml extends JViewHtml
 {

@@ -24,7 +24,7 @@ jimport('joomla.utilities.utility');
  * or
  * <code><hr class="system-pagebreak" alt="The first page" title="The page title" /></code>
  *
- * @since       1.6
+ * @since  1.6
  */
 class PlgContentPagebreak extends JPlugin
 {

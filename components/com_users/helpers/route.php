@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Users Route Helper
  *
- * @since       1.6
+ * @since  1.6
  */
 class UsersHelperRoute
 {

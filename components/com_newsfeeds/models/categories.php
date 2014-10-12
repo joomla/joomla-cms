@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * This models supports retrieving lists of newsfeed categories.
  *
- * @since       1.6
+ * @since  1.6
  */
 class NewsfeedsModelCategories extends JModelList
 {

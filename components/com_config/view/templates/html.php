@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View to edit a template style.
  *
- * @since       3.2
+ * @since  3.2
  */
 class ConfigViewTemplatesHtml extends ConfigViewCmsHtml
 {

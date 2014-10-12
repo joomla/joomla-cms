@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Controller class to backup the old database for the Joomla Installer.
  *
- * @since       3.1
+ * @since  3.1
  */
 class InstallationControllerInstallDatabase_backup extends JControllerBase
 {

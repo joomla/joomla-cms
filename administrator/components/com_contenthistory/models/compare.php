@@ -14,7 +14,7 @@ JLoader::register('ContenthistoryHelper', JPATH_ADMINISTRATOR . '/components/com
 /**
  * Methods supporting a list of contenthistory records.
  *
- * @since       3.2
+ * @since  3.2
  */
 class ContenthistoryModelCompare extends JModelItem
 {

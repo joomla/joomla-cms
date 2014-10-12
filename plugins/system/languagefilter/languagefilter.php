@@ -16,7 +16,7 @@ JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/co
 /**
  * Joomla! Language Filter Plugin.
  *
- * @since       1.6
+ * @since  1.6
  */
 class PlgSystemLanguageFilter extends JPlugin
 {

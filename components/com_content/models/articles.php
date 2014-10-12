@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * This models supports retrieving lists of articles.
  *
- * @since       1.6
+ * @since  1.6
  */
 class ContentModelArticles extends JModelList
 {

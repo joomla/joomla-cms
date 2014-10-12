@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * The Tags List Controller
  *
- * @since       3.1
+ * @since  3.1
  */
 class TagsControllerTags extends JControllerAdmin
 {

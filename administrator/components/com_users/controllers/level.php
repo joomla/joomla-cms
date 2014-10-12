@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User view level controller class.
  *
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerLevel extends JControllerForm
 {

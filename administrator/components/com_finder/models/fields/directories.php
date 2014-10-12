@@ -17,7 +17,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
 /**
  * Renders a list of directories.
  *
- * @since       2.5
+ * @since  2.5
  */
 class JFormFieldDirectories extends JFormFieldList
 {

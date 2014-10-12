@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Supports a modal article picker.
  *
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldModal_Article extends JFormField
 {

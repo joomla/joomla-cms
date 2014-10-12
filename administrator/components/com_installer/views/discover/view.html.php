@@ -14,7 +14,7 @@ include_once __DIR__ . '/../default/view.php';
 /**
  * Extension Manager Discover View
  *
- * @since       1.6
+ * @since  1.6
  */
 class InstallerViewDiscover extends InstallerViewDefault
 {

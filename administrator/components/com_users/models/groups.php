@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of user group records.
  *
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelGroups extends JModelList
 {

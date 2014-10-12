@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User notes list view
  *
- * @since       2.5
+ * @since  2.5
  */
 class UsersViewNotes extends JViewLegacy
 {

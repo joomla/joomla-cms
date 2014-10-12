@@ -14,7 +14,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.'/models/weblink.php';
 /**
  * Weblinks model.
  *
- * @since       1.6
+ * @since  1.6
  */
 class WeblinksModelForm extends WeblinksModelWeblink
 {

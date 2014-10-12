@@ -14,7 +14,7 @@ require_once JPATH_COMPONENT . '/controller.php';
 /**
  * Reset controller class for Users.
  *
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerReset extends UsersController
 {

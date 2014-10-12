@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('predefinedlist');
 /**
  * Field to show a list of available user active statuses
  *
- * @since       3.2
+ * @since  3.2
  */
 class JFormFieldUserActive extends JFormFieldPredefinedList
 {

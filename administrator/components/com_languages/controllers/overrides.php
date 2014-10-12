@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Languages Overrides Controller
  *
- * @since       2.5
+ * @since  2.5
  */
 class LanguagesControllerOverrides extends JControllerAdmin
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View to edit an article.
  *
- * @since       1.6
+ * @since  1.6
  */
 class ContentViewArticle extends JViewLegacy
 {

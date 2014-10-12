@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Languages Strings JSON Controller
  *
- * @since       2.5
+ * @since  2.5
  */
 class LanguagesControllerStrings extends JControllerAdmin
 {

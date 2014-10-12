@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to create and parse routes for the site application
  *
- * @since       1.5
+ * @since  1.5
  */
 class JRouterSite extends JRouter
 {

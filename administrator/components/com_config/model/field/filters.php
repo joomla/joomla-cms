@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Text Filters form field.
  *
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldFilters extends JFormField
 {

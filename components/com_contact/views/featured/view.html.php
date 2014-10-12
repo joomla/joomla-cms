@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Frontpage View class
  *
- * @since       1.6
+ * @since  1.6
  */
 class ContactViewFeatured extends JViewLegacy
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tree based class to render the admin menu
  *
- * @since       1.5
+ * @since  1.5
  */
 class JAdminCssMenu extends JObject
 {

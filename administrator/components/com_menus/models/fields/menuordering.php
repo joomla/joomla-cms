@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldMenuOrdering extends JFormFieldList
 {

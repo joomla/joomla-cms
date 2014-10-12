@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Setup model for the Joomla Core Installer.
  *
- * @since       3.1
+ * @since  3.1
  */
 class InstallationModelSetup extends JModelBase
 {

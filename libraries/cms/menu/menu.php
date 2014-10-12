@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JMenu class
  *
- * @since       1.5
+ * @since  1.5
  */
 class JMenu
 {

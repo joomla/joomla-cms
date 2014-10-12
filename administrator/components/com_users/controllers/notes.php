@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User notes controller class.
  *
- * @since       2.5
+ * @since  2.5
  */
 class UsersControllerNotes extends JControllerAdmin
 {

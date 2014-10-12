@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
  * Joomla! Administrator Application helper class.
  * Provide many supporting API functions.
  *
- * @since       1.5
+ * @since  1.5
  */
 class JAdministratorHelper
 {

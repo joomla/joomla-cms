@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Login component
  *
- * @since       1.6
+ * @since  1.6
  */
 class LoginViewLogin extends JViewLegacy
 {

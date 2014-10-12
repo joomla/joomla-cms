@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Components helper for com_config
  *
- * @since       3.0
+ * @since  3.0
  */
 class ConfigHelperConfig extends JHelperContent
 {

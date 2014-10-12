@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Generic Installation View
  *
- * @since       3.1
+ * @since  3.1
  */
 class InstallationViewDefault extends JViewHtml
 {

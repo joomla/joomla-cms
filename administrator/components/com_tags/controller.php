@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tags view class for the Tags package.
  *
- * @since       3.1
+ * @since  3.1
  */
 class TagsController extends JControllerLegacy
 {

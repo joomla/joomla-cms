@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * GMail Authentication Plugin
  *
- * @since       1.5
+ * @since  1.5
  */
 class PlgAuthenticationGMail extends JPlugin
 {

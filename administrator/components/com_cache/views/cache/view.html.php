@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Cache component
  *
- * @since       1.6
+ * @since  1.6
  */
 class CacheViewCache extends JViewLegacy
 {

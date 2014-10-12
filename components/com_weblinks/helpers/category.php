@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Weblinks Component Category Tree.
  *
- * @since       1.6
+ * @since  1.6
  */
 class WeblinksCategories extends JCategories
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of contenthistory.
  *
- * @since       3.2
+ * @since  3.2
  */
 class ContenthistoryViewHistory extends JViewLegacy
 {

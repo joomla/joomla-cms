@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Template model class.
  *
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesModelTemplate extends JModelForm
 {

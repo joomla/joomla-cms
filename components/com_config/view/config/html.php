@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View for the global configuration
  *
- * @since       3.2
+ * @since  3.2
  */
 class ConfigViewConfigHtml extends ConfigViewCmsHtml
 {

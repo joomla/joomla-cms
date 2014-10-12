@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Base controller class for Users.
  *
- * @since       1.5
+ * @since  1.5
  */
 class UsersController extends JControllerLegacy
 {

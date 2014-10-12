@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Search Filter field for the Finder package.
  *
- * @since       2.5
+ * @since  2.5
  */
 class JFormFieldSearchFilter extends JFormFieldList
 {

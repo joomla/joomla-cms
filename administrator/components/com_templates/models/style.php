@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Template style model.
  *
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesModelStyle extends JModelAdmin
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User view level model.
  *
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelLevel extends JModelAdmin
 {

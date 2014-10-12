@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Finder language helper class.
  *
- * @since       2.5
+ * @since  2.5
  */
 class FinderHelperLanguage
 {

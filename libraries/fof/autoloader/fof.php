@@ -11,7 +11,7 @@ defined('FOF_INCLUDED') or die();
 /**
  * The main class autoloader for FOF itself
  *
- * @since       2.1
+ * @since  2.1
  */
 class FOFAutoloaderFof
 {

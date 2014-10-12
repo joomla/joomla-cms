@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Categories helper.
  *
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesHelper
 {

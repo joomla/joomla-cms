@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tags table
  *
- * @since       3.1
+ * @since  3.1
  */
 class TagsTableTag extends JTableNested
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Contact Plugin
  *
- * @since       3.2
+ * @since  3.2
  */
 class PlgContentContact extends JPlugin
 {

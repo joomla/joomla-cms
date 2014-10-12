@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Redirect link model.
  *
- * @since       1.6
+ * @since  1.6
  */
 class RedirectModelLink extends JModelAdmin
 {

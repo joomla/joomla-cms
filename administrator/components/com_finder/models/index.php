@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Index model class for Finder.
  *
- * @since       2.5
+ * @since  2.5
  */
 class FinderModelIndex extends JModelList
 {

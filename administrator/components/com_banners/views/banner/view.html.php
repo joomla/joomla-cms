@@ -14,7 +14,7 @@ JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
 /**
  * View to edit a banner.
  *
- * @since       1.5
+ * @since  1.5
  */
 class BannersViewBanner extends JViewLegacy
 {

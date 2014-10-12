@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Vote plugin.
  *
- * @since       1.5
+ * @since  1.5
  */
 class PlgContentVote extends JPlugin
 {

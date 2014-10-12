@@ -14,7 +14,7 @@ JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contac
 /**
  * Item Model for a Contact.
  *
- * @since       1.6
+ * @since  1.6
  */
 class ContactModelContact extends JModelAdmin
 {

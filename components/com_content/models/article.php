@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Content Component Article Model
  *
- * @since       1.5
+ * @since  1.5
  */
 class ContentModelArticle extends JModelItem
 {

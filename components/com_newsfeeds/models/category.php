@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Newsfeeds Component Category Model
  *
- * @since       1.5
+ * @since  1.5
  */
 class NewsfeedsModelCategory extends JModelList
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of banner records.
  *
- * @since       1.6
+ * @since  1.6
  */
 class BannersModelBanners extends JModelList
 {

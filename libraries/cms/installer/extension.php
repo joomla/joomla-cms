@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extension object
  *
- * @since       3.1
+ * @since  3.1
  */
 class JInstallerExtension extends JObject
 {

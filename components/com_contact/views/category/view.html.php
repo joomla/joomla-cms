@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Contacts component
  *
- * @since       1.5
+ * @since  1.5
  */
 class ContactViewCategory extends JViewCategory
 {

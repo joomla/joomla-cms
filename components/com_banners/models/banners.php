@@ -14,7 +14,7 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 /**
  * Banners model for the Joomla Banners component.
  *
- * @since       1.6
+ * @since  1.6
  */
 class BannersModelBanners extends JModelList
 {

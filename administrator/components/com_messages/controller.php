@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Messages master display controller.
  *
- * @since       1.6
+ * @since  1.6
  */
 class MessagesController extends JControllerLegacy
 {

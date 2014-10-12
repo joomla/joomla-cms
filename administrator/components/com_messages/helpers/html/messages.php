@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * JHtml administrator messages class.
  *
- * @since       1.6
+ * @since  1.6
  */
 class JHtmlMessages
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Model for the display of system information.
  *
- * @since       1.6
+ * @since  1.6
  */
 class AdminModelSysInfo extends JModelLegacy
 {

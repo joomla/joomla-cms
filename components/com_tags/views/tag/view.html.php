@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Tags component
  *
- * @since       3.1
+ * @since  3.1
  */
 class TagsViewTag extends JViewLegacy
 {

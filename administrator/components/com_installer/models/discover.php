@@ -14,7 +14,7 @@ require_once __DIR__ . '/extension.php';
 /**
  * Installer Discover Model
  *
- * @since       1.6
+ * @since  1.6
  */
 class InstallerModelDiscover extends InstallerModel
 {

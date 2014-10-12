@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Banner table
  *
- * @since       1.5
+ * @since  1.5
  */
 class BannersTableBanner extends JTable
 {

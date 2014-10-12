@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Media component
  *
- * @since       1.0
+ * @since  1.0
  */
 class MediaViewMediaList extends JViewLegacy
 {

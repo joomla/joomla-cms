@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Installer Database Controller
  *
- * @since       2.5
+ * @since  2.5
  */
 class InstallerControllerDatabase extends JControllerLegacy
 {

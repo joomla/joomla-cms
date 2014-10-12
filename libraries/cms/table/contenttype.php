@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Tags table
  *
- * @since       3.1
+ * @since  3.1
  */
 class JTableContenttype extends JTable
 {

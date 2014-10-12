@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Checkin Controller
  *
- * @since       1.6
+ * @since  1.6
  */
 class CheckinController extends JControllerLegacy
 {

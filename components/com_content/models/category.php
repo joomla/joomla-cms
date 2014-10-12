@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * This models supports retrieving a category, the articles associated with the category,
  * sibling, child and parent categories.
  *
- * @since       1.5
+ * @since  1.5
  */
 class ContentModelCategory extends JModelList
 {

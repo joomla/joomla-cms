@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Reset view class for Users.
  *
- * @since       1.5
+ * @since  1.5
  */
 class UsersViewReset extends JViewLegacy
 {

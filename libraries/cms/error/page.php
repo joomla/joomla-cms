@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Displays the custom error page when an uncaught exception occurs.
  *
- * @since       3.0
+ * @since  3.0
  */
 class JErrorPage
 {

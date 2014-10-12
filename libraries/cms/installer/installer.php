@@ -17,7 +17,7 @@ jimport('joomla.base.adapter');
 /**
  * Joomla base installer class
  *
- * @since       3.1
+ * @since  3.1
  */
 class JInstaller extends JAdapter
 {

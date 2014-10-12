@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Contenthistory list controller class.
  *
- * @since       3.2
+ * @since  3.2
  */
 class ContenthistoryControllerHistory extends JControllerAdmin
 {

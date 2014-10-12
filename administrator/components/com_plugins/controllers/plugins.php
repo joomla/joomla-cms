@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Plugins list controller class.
  *
- * @since       1.6
+ * @since  1.6
  */
 class PluginsControllerPlugins extends JControllerAdmin
 {

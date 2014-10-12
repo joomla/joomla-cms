@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Impressions Field class for the Joomla Framework.
  *
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldImpTotal extends JFormField
 {

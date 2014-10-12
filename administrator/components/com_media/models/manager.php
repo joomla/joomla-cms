@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Media Component Manager Model
  *
- * @since       1.5
+ * @since  1.5
  */
 class MediaModelManager extends JModelLegacy
 {

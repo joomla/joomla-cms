@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Smart Search Content Plugin
  *
- * @since       2.5
+ * @since  2.5
  */
 class PlgContentFinder extends JPlugin
 {

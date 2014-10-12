@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Model class to manage postinstall messages
  *
- * @since       3.2
+ * @since  3.2
  */
 class PostinstallModelMessages extends FOFModel
 {

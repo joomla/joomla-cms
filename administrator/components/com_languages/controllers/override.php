@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Languages Override Controller
  *
- * @since       2.5
+ * @since  2.5
  */
 class LanguagesControllerOverride extends JControllerForm
 {

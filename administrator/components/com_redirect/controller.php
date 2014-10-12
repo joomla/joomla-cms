@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Redirect master display controller.
  *
- * @since       1.6
+ * @since  1.6
  */
 class RedirectController extends JControllerLegacy
 {

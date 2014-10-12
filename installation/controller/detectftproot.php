@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Controller class to detect the site's FTP root for the Joomla Installer.
  *
- * @since       3.1
+ * @since  3.1
  */
 class InstallationControllerDetectftproot extends JControllerBase
 {

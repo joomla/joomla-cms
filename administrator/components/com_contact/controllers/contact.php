@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Controller for a single contact
  *
- * @since       1.6
+ * @since  1.6
  */
 class ContactControllerContact extends JControllerForm
 {

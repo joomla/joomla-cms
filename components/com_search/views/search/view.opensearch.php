@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * OpenSearch View class for the Search component
  *
- * @since       1.7
+ * @since  1.7
  */
 class SearchViewSearch extends JViewLegacy
 {

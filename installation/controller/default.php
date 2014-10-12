@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Default controller class for the Joomla Installer.
  *
- * @since       3.1
+ * @since  3.1
  */
 class InstallationControllerDefault extends JControllerBase
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Plugin model.
  *
- * @since       1.6
+ * @since  1.6
  */
 class PluginsModelPlugin extends JModelAdmin
 {

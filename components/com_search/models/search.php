@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Search Component Search Model
  *
- * @since       1.5
+ * @since  1.5
  */
 class SearchModelSearch extends JModelLegacy
 {

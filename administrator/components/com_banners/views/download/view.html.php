@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for download a list of tracks.
  *
- * @since       1.6
+ * @since  1.6
  */
 class BannersViewDownload extends JViewLegacy
 {

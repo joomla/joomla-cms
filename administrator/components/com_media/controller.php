@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Media Manager Component Controller
  *
- * @since       1.5
+ * @since  1.5
  */
 class MediaController extends JControllerLegacy
 {

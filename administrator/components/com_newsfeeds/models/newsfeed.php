@@ -14,7 +14,7 @@ JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_news
 /**
  * Newsfeed model.
  *
- * @since       1.6
+ * @since  1.6
  */
 class NewsfeedsModelNewsfeed extends JModelAdmin
 {

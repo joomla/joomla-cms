@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class to allow users edit their own profile.
  *
- * @since       1.6
+ * @since  1.6
  */
 class AdminViewProfile extends JViewLegacy
 {

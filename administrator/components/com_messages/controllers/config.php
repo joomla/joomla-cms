@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Messages Component Message Model
  *
- * @since       1.6
+ * @since  1.6
  */
 class MessagesControllerConfig extends JControllerLegacy
 {

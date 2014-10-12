@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Pagenavigation plugin class.
  *
- * @since       1.5
+ * @since  1.5
  */
 class PlgContentPagenavigation extends JPlugin
 {

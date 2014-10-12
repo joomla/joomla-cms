@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Field to select a user ID from a modal list.
  *
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldUser extends JFormField
 {

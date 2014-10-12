@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Search component helper.
  *
- * @since       1.5
+ * @since  1.5
  */
 class SearchHelper
 {

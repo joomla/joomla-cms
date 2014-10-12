@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Weblinks Weblink Controller
  *
- * @since       1.5
+ * @since  1.5
  */
 class WeblinksController extends JControllerLegacy
 {

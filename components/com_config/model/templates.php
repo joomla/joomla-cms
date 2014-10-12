@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Template style model.
  *
- * @since       3.2
+ * @since  3.2
  */
 class ConfigModelTemplates extends ConfigModelForm
 {

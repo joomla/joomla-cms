@@ -14,7 +14,7 @@ JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
 /**
  * View to edit a client.
  *
- * @since       1.5
+ * @since  1.5
  */
 class BannersViewClient extends JViewLegacy
 {

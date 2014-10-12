@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML Article View class for the Weblinks component
  *
- * @since       1.5
+ * @since  1.5
  */
 class WeblinksViewForm extends JViewLegacy
 {

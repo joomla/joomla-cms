@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Cancel Controller
  *
- * @since       3.2
+ * @since  3.2
  */
 class ConfigControllerCancel extends JControllerBase
 {

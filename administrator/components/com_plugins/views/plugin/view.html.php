@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View to edit a plugin.
  *
- * @since       1.5
+ * @since  1.5
  */
 class PluginsViewPlugin extends JViewLegacy
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Languages Overrides Model
  *
- * @since       2.5
+ * @since  2.5
  */
 class LanguagesModelOverrides extends JModelList
 {

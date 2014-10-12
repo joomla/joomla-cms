@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Core content table
  *
- * @since       3.1
+ * @since  3.1
  */
 class JTableCorecontent extends JTable
 {

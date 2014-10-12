@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Languages list actions controller.
  *
- * @since       1.6
+ * @since  1.6
  */
 class LanguagesControllerLanguage extends JControllerForm
 {

@@ -17,7 +17,7 @@ require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus
 /**
  * Supports an HTML grouped select list of menu item grouped by menu
  *
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldMenuitem extends JFormFieldGroupedList
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Extension Manager Abstract Extension Model.
  *
- * @since       1.5
+ * @since  1.5
  */
 class InstallerModel extends JModelList
 {

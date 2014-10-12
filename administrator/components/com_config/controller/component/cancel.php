@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Cancel Controller for global configuration components
  *
- * @since       3.2
+ * @since  3.2
  */
 class ConfigControllerComponentCancel extends ConfigControllerCanceladmin
 {
