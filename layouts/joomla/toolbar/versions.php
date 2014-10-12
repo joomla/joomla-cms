@@ -26,11 +26,19 @@ JFactory::getDocument()->addStyleDeclaration('
 			}
 		}');
 
+$lang = JFactory::getLanguage();
+$extension = 'com_contenthistory';
+$base_dir = JFactory::getApplication()->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
+$language_tag = $lang->getName();
+$reload = true;
+$lang->load($extension, $base_dir, $language_tag, $reload);
+
+
 $link = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id='
 	. (int) $displayData['itemId'] . '&amp;type_id=' . $displayData['typeId'] . '&amp;type_alias='
 	. $displayData['typeAlias'] . '&amp;' . JSession::getFormToken() . '=1';
 
-echo JHtmlBootstrap::renderModal('versionsModal', array( 'url' => $link, 'title' => $displayData['title'] ,'height' => '600px', 'width' => '800px'), '');
+echo JHtmlBootstrap::renderModal('versionsModal', array( 'url' => $link, 'title' => JText::_('COM_CONTENTHISTORY_MODAL_TITLE'),'height' => '600px', 'width' => '800px'), '');
 ?>
 <button onclick="jQuery('#versionsModal').modal('show')" class="btn btn-small" data-toggle="modal" title="<?php echo $displayData['title']; ?>">
 <span class="icon-archive"></span><?php echo $displayData['title']; ?></button>
