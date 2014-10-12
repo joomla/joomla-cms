@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @since       11.3
+ * @since  11.3
  */
 class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryLimitable
 {

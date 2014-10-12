@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google Picasa data class for the Joomla Platform.
  *
- * @since       12.3
+ * @since  12.3
  */
 class JGoogleDataPicasa extends JGoogleData
 {

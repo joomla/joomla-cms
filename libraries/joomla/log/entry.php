@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * This class is designed to hold log entries for either writing to an engine, or for
  * supported engines, retrieving lists and building in memory (PHP based) search operations.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JLogEntry
 {

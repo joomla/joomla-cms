@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/git/tags/
  *
- * @since       11.3
+ * @since  11.3
  */
 class JGithubPackageDataTags extends JGithubPackage
 {

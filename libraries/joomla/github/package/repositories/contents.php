@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/repos/contents
  *
- * @since       11.3
+ * @since  11.3
  */
 class JGithubPackageRepositoriesContents extends JGithubPackage
 {

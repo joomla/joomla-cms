@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PDO database iterator.
  *
- * @since       12.1
+ * @since  12.1
  */
 class JDatabaseIteratorPdo extends JDatabaseIterator
 {

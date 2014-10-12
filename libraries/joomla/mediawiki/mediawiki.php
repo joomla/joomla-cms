@@ -20,7 +20,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  JMediawikiImages         $images         MediaWiki API object for images.
  * @property-read  JMediawikiSearch         $search         MediaWiki API object for search.
  *
- * @since       12.3
+ * @since  12.3
  */
 class JMediawiki
 {

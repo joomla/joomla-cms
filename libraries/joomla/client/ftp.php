@@ -49,7 +49,7 @@ if (!defined('FTP_NATIVE'))
 /**
  * FTP client class
  *
- * @since       12.1
+ * @since  12.1
  */
 class JClientFtp
 {

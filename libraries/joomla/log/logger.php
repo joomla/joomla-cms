@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * This class is used to be the basis of logger classes to allow for defined functions
  * to exist regardless of the child class.
  *
- * @since       12.2
+ * @since  12.2
  */
 abstract class JLogLogger
 {

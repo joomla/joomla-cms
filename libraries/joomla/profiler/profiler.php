@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Utility class to assist in the process of benchmarking the execution
  * of sections of code to understand where time is being spent.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JProfiler
 {

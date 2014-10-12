@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Factory class
  *
- * @since       12.1
+ * @since  12.1
  */
 class JDatabaseFactory
 {

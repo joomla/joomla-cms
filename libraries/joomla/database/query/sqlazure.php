@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JDatabaseQuerySqlazure extends JDatabaseQuerySqlsrv
 {

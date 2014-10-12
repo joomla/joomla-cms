@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/repos/hooks
  *
- * @since       12.3
+ * @since  12.3
  */
 class JGithubPackageRepositoriesHooks extends JGithubPackage
 {

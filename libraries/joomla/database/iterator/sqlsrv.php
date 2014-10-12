@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQL server database iterator.
  *
- * @since       12.1
+ * @since  12.1
  */
 class JDatabaseIteratorSqlsrv extends JDatabaseIterator
 {

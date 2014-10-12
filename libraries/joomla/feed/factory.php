@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Feed factory class.
  *
- * @since       12.3
+ * @since  12.3
  */
 class JFeedFactory
 {

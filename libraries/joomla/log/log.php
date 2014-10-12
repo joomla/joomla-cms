@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * or plain Formattedtext) and finally MySQL offers the most features (e.g. rapid searching)
  * but will incur a performance hit due to INSERT being issued.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JLog
 {

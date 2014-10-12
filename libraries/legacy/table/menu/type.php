@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Menu Types table
  *
- * @since       11.1
+ * @since  11.1
  */
 class JTableMenuType extends JTable
 {

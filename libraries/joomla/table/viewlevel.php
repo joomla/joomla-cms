@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Viewlevels table class.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JTableViewlevel extends JTable
 {

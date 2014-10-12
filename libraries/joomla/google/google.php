@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  JGoogleData    $data    Google API object for data.
  * @property-read  JGoogleEmbed   $embed   Google API object for embed generation.
  *
- * @since       12.3
+ * @since  12.3
  */
 class JGoogle
 {

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL import driver.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JDatabaseImporterMysql extends JDatabaseImporterMysqli
 {

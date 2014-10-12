@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Image Filter class to transform an image to grayscale.
  *
- * @since       11.3
+ * @since  11.3
  */
 class JImageFilterGrayscale extends JImageFilter
 {

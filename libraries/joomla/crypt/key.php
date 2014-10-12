@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @property-read  string  $type  The key type.
  *
- * @since       12.1
+ * @since  12.1
  */
 class JCryptKey
 {

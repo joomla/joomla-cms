@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Cache page type object
  *
- * @since       11.1
+ * @since  11.1
  */
 class JCacheControllerPage extends JCacheController
 {

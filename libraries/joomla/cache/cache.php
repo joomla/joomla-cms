@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Cache base object
  *
- * @since       11.1
+ * @since  11.1
  */
 class JCache
 {

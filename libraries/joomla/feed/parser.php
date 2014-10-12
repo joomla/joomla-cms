@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Feed Parser class.
  *
- * @since       12.3
+ * @since  12.3
  */
 abstract class JFeedParser
 {

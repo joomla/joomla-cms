@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read    array   $elements  An array of elements.
  * @property-read    string  $glue      Glue piece.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JDatabaseQueryElement
 {

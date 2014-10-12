@@ -13,7 +13,7 @@ jimport('joomla.environment.uri');
 /**
  * Google API object class for the Joomla Platform.
  *
- * @since       12.3
+ * @since  12.3
  */
 abstract class JGoogleEmbed
 {

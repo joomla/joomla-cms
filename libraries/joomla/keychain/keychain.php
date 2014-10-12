@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Keychain Class
  *
- * @since       12.3
+ * @since  12.3
  */
 class JKeychain extends JRegistry
 {

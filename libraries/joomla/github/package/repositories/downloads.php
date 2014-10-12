@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/repos/downloads
  *
- * @since       11.3
+ * @since  11.3
  */
 class JGithubPackageRepositoriesDownloads extends JGithubPackage
 {

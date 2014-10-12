@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Abstract Form Field class for the Joomla Platform.
  *
- * @since       11.1
+ * @since  11.1
  */
 abstract class JFormField
 {

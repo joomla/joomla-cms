@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Image Filter class to add an edge detect effect to an image.
  *
- * @since       11.3
+ * @since  11.3
  */
 class JImageFilterEdgedetect extends JImageFilter
 {

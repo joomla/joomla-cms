@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Image Filter class to negate the colors of an image.
  *
- * @since       11.3
+ * @since  11.3
  */
 class JImageFilterNegate extends JImageFilter
 {

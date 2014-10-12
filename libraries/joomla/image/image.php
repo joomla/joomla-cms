@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to manipulate an image.
  *
- * @since       11.3
+ * @since  11.3
  */
 class JImage
 {

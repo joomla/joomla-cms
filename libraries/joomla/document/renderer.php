@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Abstract class for a renderer
  *
- * @since       11.1
+ * @since  11.1
  */
 class JDocumentRenderer
 {

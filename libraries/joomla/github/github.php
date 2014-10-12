@@ -34,7 +34,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  JGithubHooks       $hooks       Deprecated GitHub API object for hooks.
  * @property-read  JGithubMeta        $meta        Deprecated GitHub API object for meta.
  *
- * @since       11.3
+ * @since  11.3
  */
 class JGithub
 {

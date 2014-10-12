@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL database iterator.
  *
- * @since       13.1
+ * @since  13.1
  */
 class JDatabaseIteratorPostgresql extends JDatabaseIterator
 {

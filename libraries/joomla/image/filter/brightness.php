@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Image Filter class adjust the brightness of an image.
  *
- * @since       11.3
+ * @since  11.3
  */
 class JImageFilterBrightness extends JImageFilter
 {

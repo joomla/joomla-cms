@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * User class.  Handles all application interaction with a user
  *
- * @since       11.1
+ * @since  11.1
  */
 class JUser extends JObject
 {

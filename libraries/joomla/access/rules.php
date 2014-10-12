@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JAccessRules class.
  *
- * @since       11.4
+ * @since  11.4
  */
 class JAccessRules
 {

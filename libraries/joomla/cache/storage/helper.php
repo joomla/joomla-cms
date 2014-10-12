@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Cache storage helper functions.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JCacheStorageHelper
 {

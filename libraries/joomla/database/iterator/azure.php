@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQL azure database iterator.
  *
- * @since       12.1
+ * @since  12.1
  */
 class JDatabaseIteratorAzure extends JDatabaseIteratorSqlsrv
 {

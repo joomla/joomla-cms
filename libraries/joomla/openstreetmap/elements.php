@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Openstreetmap API Elements class for the Joomla Platform
  *
- * @since       13.1
+ * @since  13.1
  */
 class JOpenstreetmapElements extends JOpenstreetmapObject
 {

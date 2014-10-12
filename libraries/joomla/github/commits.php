@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Commits class for the Joomla Platform.
  *
- * @since       12.1
+ * @since  12.1
  */
 class JGithubCommits extends JGithubObject
 {

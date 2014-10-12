@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCrypt cipher for Blowfish encryption, decryption and key generation.
  *
- * @since       12.1
+ * @since  12.1
  */
 class JCryptCipherBlowfish extends JCryptCipherMcrypt
 {

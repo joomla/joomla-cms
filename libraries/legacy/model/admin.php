@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Prototype admin model.
  *
- * @since       12.2
+ * @since  12.2
  */
 abstract class JModelAdmin extends JModelForm
 {

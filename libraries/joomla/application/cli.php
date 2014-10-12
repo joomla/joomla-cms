@@ -14,7 +14,7 @@ use Joomla\Application\Cli\CliOutput;
 /**
  * Base class for a Joomla! command line application.
  *
- * @since       11.4
+ * @since  11.4
  */
 class JApplicationCli extends JApplicationBase
 {

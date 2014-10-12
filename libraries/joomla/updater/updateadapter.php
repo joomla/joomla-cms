@@ -14,7 +14,7 @@ jimport('joomla.base.adapterinstance');
 /**
  * UpdateAdapter class.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JUpdateAdapter extends JAdapterInstance
 {

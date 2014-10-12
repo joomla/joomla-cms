@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JFormRuleUrl extends JFormRule
 {

@@ -228,7 +228,7 @@ class JDocumentOpensearch extends JDocument
 /**
  * JOpenSearchUrl is an internal class that stores the search URLs for the OpenSearch description
  *
- * @since       11.1
+ * @since  11.1
  */
 class JOpenSearchUrl
 {
@@ -266,7 +266,7 @@ class JOpenSearchUrl
 /**
  * JOpenSearchImage is an internal class that stores Images for the OpenSearch Description
  *
- * @since       11.1
+ * @since  11.1
  */
 class JOpenSearchImage
 {

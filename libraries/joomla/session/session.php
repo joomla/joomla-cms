@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * Based on the standard PHP session handling mechanism it provides
  * more advanced features such as expire timeouts.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JSession implements IteratorAggregate
 {

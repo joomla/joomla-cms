@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Users table
  *
- * @since       11.1
+ * @since  11.1
  */
 class JTableUser extends JTable
 {

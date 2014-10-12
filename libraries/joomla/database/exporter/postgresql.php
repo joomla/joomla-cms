@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL export driver.
  *
- * @since       12.1
+ * @since  12.1
  */
 class JDatabaseExporterPostgresql extends JDatabaseExporter
 {

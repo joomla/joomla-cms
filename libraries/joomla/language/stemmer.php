@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Stemmer base class.
  *
- * @since       12.1
+ * @since  12.1
  */
 abstract class JLanguageStemmer
 {

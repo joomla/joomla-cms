@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcache session storage handler for PHP
  *
- * @since       11.1
+ * @since  11.1
  */
 class JSessionStorageMemcache extends JSessionStorage
 {

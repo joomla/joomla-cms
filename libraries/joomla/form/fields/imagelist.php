@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('filelist');
 /**
  * Supports an HTML select list of image
  *
- * @since       11.1
+ * @since  11.1
  */
 class JFormFieldImageList extends JFormFieldFileList
 {

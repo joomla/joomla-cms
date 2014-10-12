@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTTP response data object class.
  *
- * @since       11.3
+ * @since  11.3
  */
 class JHttpResponse
 {

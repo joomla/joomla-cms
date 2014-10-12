@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Module table
  *
- * @since       11.1
+ * @since  11.1
  */
 class JTableModule extends JTable
 {

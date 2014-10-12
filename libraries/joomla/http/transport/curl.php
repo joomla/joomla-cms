@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTTP transport class for using cURL.
  *
- * @since       11.3
+ * @since  11.3
  */
 class JHttpTransportCurl implements JHttpTransport
 {

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Base Application Class
  *
- * @since       12.1
+ * @since  12.1
  */
 abstract class JApplicationBase
 {

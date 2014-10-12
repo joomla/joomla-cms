@@ -18,7 +18,7 @@ if (!defined('JCOMPAT_UNICODE_PROPERTIES'))
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JFormRule
 {

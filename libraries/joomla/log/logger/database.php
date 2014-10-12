@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * table are based on the Syslog style of log output. This is designed to allow quick and
  * easy searching.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JLogLoggerDatabase extends JLogLogger
 {

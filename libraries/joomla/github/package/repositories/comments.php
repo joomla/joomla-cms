@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/repos/comments
  *
- * @since       11.3
+ * @since  11.3
  */
 class JGithubPackageRepositoriesComments extends JGithubPackage
 {

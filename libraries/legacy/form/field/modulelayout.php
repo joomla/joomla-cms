@@ -14,7 +14,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Form Field to display a list of the layouts for module display from the module or template overrides.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JFormFieldModulelayout extends JFormField
 {

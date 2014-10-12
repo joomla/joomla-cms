@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCategories Class.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JCategories
 {
@@ -365,7 +365,7 @@ class JCategories
 /**
  * Helper class to load Categorytree
  *
- * @since       11.1
+ * @since  11.1
  */
 class JCategoryNode extends JObject
 {

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Usergroup table class.
  *
- * @since       11.1
+ * @since  11.1
  */
 class JTableUsergroup extends JTable
 {

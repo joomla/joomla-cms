@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform String Normalise Class
  *
- * @since       11.3
+ * @since  11.3
  */
 abstract class JStringNormalise
 {

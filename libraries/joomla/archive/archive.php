@@ -15,7 +15,7 @@ jimport('joomla.filesystem.folder');
 /**
  * An Archive handling class
  *
- * @since       11.1
+ * @since  11.1
  */
 class JArchive
 {

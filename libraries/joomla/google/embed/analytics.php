@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google Analytics embed class for the Joomla Platform.
  *
- * @since       12.3
+ * @since  12.3
  */
 class JGoogleEmbedAnalytics extends JGoogleEmbed
 {

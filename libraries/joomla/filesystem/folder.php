@@ -14,7 +14,7 @@ jimport('joomla.filesystem.path');
 /**
  * A Folder handling class
  *
- * @since       11.1
+ * @since  11.1
  */
 abstract class JFolder
 {

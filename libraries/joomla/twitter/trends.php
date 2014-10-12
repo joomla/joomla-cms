@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Trends class for the Joomla Platform.
  *
- * @since       12.3
+ * @since  12.3
  */
 class JTwitterTrends extends JTwitterObject
 {

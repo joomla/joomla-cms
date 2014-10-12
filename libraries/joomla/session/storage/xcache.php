@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * XCache session storage handler
  *
- * @since       11.1
+ * @since  11.1
  */
 class JSessionStorageXcache extends JSessionStorage
 {

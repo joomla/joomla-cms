@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Model class for handling lists of items.
  *
- * @since       12.2
+ * @since  12.2
  */
 class JModelList extends JModelLegacy
 {

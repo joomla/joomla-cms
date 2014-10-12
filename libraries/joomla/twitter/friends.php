@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Friends class for the Joomla Platform.
  *
- * @since       12.3
+ * @since  12.3
  */
 class JTwitterFriends extends JTwitterObject
 {
