@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Extension Manager Default View
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.5
+ * @since  1.5
  */
 class InstallerViewDefault extends JViewLegacy
 {

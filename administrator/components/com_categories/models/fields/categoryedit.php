@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldCategoryEdit extends JFormFieldList
 {

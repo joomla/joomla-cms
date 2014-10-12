@@ -12,10 +12,8 @@ defined('_JEXEC') or die;
 /**
  * JSON Response class
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
  * @since       2.5
- * @deprecated	4.0
+ * @deprecated  4.0
  */
 class JJsonResponse
 {

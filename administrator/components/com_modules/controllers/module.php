@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Module controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
- * @since       1.6
+ * @since  1.6
  */
 class ModulesControllerModule extends JControllerForm
 {

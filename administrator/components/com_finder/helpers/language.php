@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Finder language helper class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderHelperLanguage
 {

@@ -12,9 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Supports a modal contact picker.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contact
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldModal_Contact extends JFormField
 {

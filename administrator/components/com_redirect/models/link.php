@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Redirect link model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_redirect
- * @since       1.6
+ * @since  1.6
  */
 class RedirectModelLink extends JModelAdmin
 {

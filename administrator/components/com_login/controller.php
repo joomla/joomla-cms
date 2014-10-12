@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Login Controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_login
- * @since       1.5
+ * @since  1.5
  */
 class LoginController extends JControllerLegacy
 {

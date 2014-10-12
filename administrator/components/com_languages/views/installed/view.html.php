@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Displays a list of the installed languages.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
- * @since       1.6
+ * @since  1.6
  */
 class LanguagesViewInstalled extends JViewLegacy
 {

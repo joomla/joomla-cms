@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Update's Update View
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       2.5.4
+ * @since  2.5.4
  */
 class JoomlaupdateViewUpdate extends JViewLegacy
 {

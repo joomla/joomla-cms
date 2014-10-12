@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Cache component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_cache
- * @since       1.6
+ * @since  1.6
  */
 class CacheHelper
 {

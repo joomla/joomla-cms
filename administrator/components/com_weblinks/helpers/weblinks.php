@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Weblinks helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_weblinks
- * @since       1.6
+ * @since  1.6
  */
 class WeblinksHelper extends JHelperContent
 {
