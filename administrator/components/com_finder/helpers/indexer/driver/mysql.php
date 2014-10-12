@@ -603,6 +603,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			);
 			$values++;
 		}
+
 		$db->setQuery($query);
 		$db->execute();
 

@@ -68,6 +68,7 @@ class FinderModelFilter extends JModelAdmin
 		if ($return === false && $filter->getError())
 		{
 			$this->setError($filter->getError());
+
 			return false;
 		}
 
@@ -85,6 +86,7 @@ class FinderModelFilter extends JModelAdmin
 		if ($this->_db->getErrorNum())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 

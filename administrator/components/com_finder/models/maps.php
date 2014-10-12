@@ -49,6 +49,7 @@ class FinderModelMaps extends JModelList
 	protected function canDelete($record)
 	{
 		$user = JFactory::getUser();
+
 		return $user->authorise('core.delete', $this->option);
 	}
 
@@ -64,6 +65,7 @@ class FinderModelMaps extends JModelList
 	protected function canEditState($record)
 	{
 		$user = JFactory::getUser();
+
 		return $user->authorise('core.edit.state', $this->option);
 	}
 
@@ -96,15 +98,18 @@ class FinderModelMaps extends JModelList
 
 					// Trigger the onContentBeforeDelete event.
 					$result = $dispatcher->trigger('onContentBeforeDelete', array($context, $table));
+
 					if (in_array(false, $result, true))
 					{
 						$this->setError($table->getError());
+
 						return false;
 					}
 
 					if (!$table->delete($pk))
 					{
 						$this->setError($table->getError());
+
 						return false;
 					}
 
@@ -116,6 +121,7 @@ class FinderModelMaps extends JModelList
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$error = $this->getError();
+
 					if ($error)
 					{
 						$this->setError($error);
@@ -129,6 +135,7 @@ class FinderModelMaps extends JModelList
 			else
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -162,7 +169,6 @@ class FinderModelMaps extends JModelList
 		// Join to get the map links
 		$query->select('COUNT(c.node_id) AS num_nodes')
 			->join('LEFT', $db->quoteName('#__finder_taxonomy_map') . ' AS c ON c.node_id=a.id')
-
 			->group('a.id, a.parent_id, a.title, a.state, a.access, a.ordering');
 
 		// If the model is set to check item state, add to the query.
@@ -173,6 +179,7 @@ class FinderModelMaps extends JModelList
 
 		// Filter the maps over the branch if set.
 		$branch_id = $this->getState('filter.branch');
+
 		if (!empty($branch_id))
 		{
 			$query->where('a.parent_id = ' . (int) $branch_id);
@@ -180,6 +187,7 @@ class FinderModelMaps extends JModelList
 
 		// Filter the maps over the search string if set.
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			$query->where('a.title LIKE ' . $db->quote('%' . $search . '%'));
@@ -188,6 +196,7 @@ class FinderModelMaps extends JModelList
 		// Handle the list ordering.
 		$ordering = $this->getState('list.ordering');
 		$direction = $this->getState('list.direction');
+
 		if (!empty($ordering))
 		{
 			$query->order($db->escape($ordering) . ' ' . $db->escape($direction));
@@ -297,6 +306,7 @@ class FinderModelMaps extends JModelList
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+
 					return false;
 				}
 			}
@@ -306,6 +316,7 @@ class FinderModelMaps extends JModelList
 		if (!$table->publish($pks, $value, $user->get('id')))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -317,6 +328,7 @@ class FinderModelMaps extends JModelList
 		if (in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 

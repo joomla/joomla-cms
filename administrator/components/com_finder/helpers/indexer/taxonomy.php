@@ -79,6 +79,7 @@ class FinderIndexerTaxonomy
 		 * out which case is true and deal with it.
 		 */
 		$branch = new JObject;
+
 		if (empty($result))
 		{
 			// Prepare the branch object.
@@ -158,6 +159,7 @@ class FinderIndexerTaxonomy
 		 * out which case is true and deal with it.
 		 */
 		$node = new JObject;
+
 		if (empty($result))
 		{
 			// Prepare the node object.
