@@ -199,6 +199,15 @@ class ConfigModelApplication extends ConfigModelForm
 			$data['caching'] = 0;
 		}
 
+		$path = JPATH_SITE . '/cache';
+
+		// Give a warning if the cache-folder can not be opened
+		if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) == false)
+		{
+			JLog::add(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), JLog::WARNING, 'jerror');
+			$data['caching'] = 0;
+		}
+
 		// Clean the cache if disabled but previously enabled.
 		if (!$data['caching'] && $prev['caching'])
 		{

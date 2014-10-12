@@ -38,6 +38,9 @@ class PlgAuthenticationLdap extends JPlugin
 		// For JLog
 		$response->type = 'LDAP';
 
+		// Strip null bytes from the password
+		$credentials['password'] = str_replace(chr(0), '', $credentials['password']);
+
 		// LDAP does not like Blank passwords (tries to Anon Bind which is bad)
 		if (empty($credentials['password']))
 		{

@@ -284,7 +284,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	protected function downloadPackage($url, $target)
 	{
 		JLoader::import('helpers.download', JPATH_COMPONENT_ADMINISTRATOR);
-		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $packageURL), JLog::INFO, 'Update');
+		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), JLog::INFO, 'Update');
 		$result = AdmintoolsHelperDownload::download($url, $target);
 
 		if (!$result)
@@ -402,7 +402,7 @@ ENDDATA;
 				{
 
 					JFolder::create($tempdir, 511);
-					JFile::write($tempdir . '/.htaccess', "order deny, allow\ndeny from all\nallow from none\n");
+					JFile::write($tempdir . '/.htaccess', "order deny,allow\ndeny from all\nallow from none\n");
 				}
 
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory

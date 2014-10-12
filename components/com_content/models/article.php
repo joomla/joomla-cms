@@ -125,7 +125,8 @@ class ContentModelArticle extends JModelItem
 
 					->where('a.id = ' . (int) $pk);
 
-				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
+				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+				{
 					// Filter by start and end dates.
 					$nullDate = $db->quote($db->getNullDate());
 					$date = JFactory::getDate();
@@ -293,12 +294,15 @@ class ContentModelArticle extends JModelItem
 
 			// Set the query and load the result.
 			$db->setQuery($query);
-			$rating = $db->loadObject();
 
 			// Check for a database error.
-			if ($db->getErrorNum())
+			try
 			{
-				JError::raiseWarning(500, $db->getErrorMsg());
+				$rating = $db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $e->getMessage());
 
 				return false;
 			}

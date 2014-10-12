@@ -18,20 +18,42 @@ defined('_JEXEC') or die;
  */
 class UsersViewLevels extends JViewLegacy
 {
+	/**
+	 * The item data.
+	 *
+	 * @var   object
+	 * @since 1.6
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object.
+	 *
+	 * @var   JPagination
+	 * @since 1.6
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state.
+	 *
+	 * @var   JObject
+	 * @since 1.6
+	 */
 	protected $state;
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		UsersHelper::addSubmenu('levels');
 
@@ -39,6 +61,7 @@ class UsersViewLevels extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -49,6 +72,8 @@ class UsersViewLevels extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return void
 	 *
 	 * @since   1.6
 	 */
@@ -62,21 +87,25 @@ class UsersViewLevels extends JViewLegacy
 		{
 			JToolbarHelper::addNew('level.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('level.edit');
 			JToolbarHelper::divider();
 		}
+
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'level.delete');
 			JToolbarHelper::divider();
 		}
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_users');
 			JToolbarHelper::divider();
 		}
+
 		JToolbarHelper::help('JHELP_USERS_ACCESS_LEVELS');
 	}
 

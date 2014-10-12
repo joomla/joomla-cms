@@ -564,7 +564,6 @@ class JApplicationDaemon extends JApplicationCli
 		// Attempt to change the identity of user running the process.
 		if (!$this->changeIdentity())
 		{
-
 			// If the identity change was required then we need to return false.
 			if ($this->config->get('application_require_identity'))
 			{

@@ -24,9 +24,16 @@ if (extension_loaded('mbstring'))
 if (function_exists('iconv'))
 {
 	// These are settings that can be set inside code
-	iconv_set_encoding("internal_encoding", "UTF-8");
-	iconv_set_encoding("input_encoding", "UTF-8");
-	iconv_set_encoding("output_encoding", "UTF-8");
+	if (version_compare(PHP_VERSION, '5.6', '>='))
+	{
+		@ini_set('default_charset', 'UTF-8');
+	}
+	else
+	{
+		iconv_set_encoding("internal_encoding", "UTF-8");
+		iconv_set_encoding("input_encoding", "UTF-8");
+		iconv_set_encoding("output_encoding", "UTF-8");
+	}
 }
 
 /**
@@ -150,9 +157,9 @@ abstract class JString
 	 *
 	 * Find position of first occurrence of a string.
 	 *
-	 * @param   string   $str     String being examined
-	 * @param   string   $search  String being searched for
-	 * @param   integer  $offset  Optional, specifies the position from which the search should be performed
+	 * @param   string  $str     String being examined
+	 * @param   string  $search  String being searched for
+	 * @param   mixed   $offset  Optional, specifies the position from which the search should be performed
 	 *
 	 * @return  mixed  Number of characters before the first match or FALSE on failure
 	 *
@@ -195,7 +202,7 @@ abstract class JString
 	 *
 	 * @param   string   $str     String being processed
 	 * @param   integer  $offset  Number of UTF-8 characters offset (from left)
-	 * @param   integer  $length  Optional length in UTF-8 characters from offset
+	 * @param   mixed    $length  Optional length in UTF-8 characters from offset
 	 *
 	 * @return  mixed string or FALSE if failure
 	 *
@@ -575,7 +582,7 @@ abstract class JString
 	 * work normally on a UTF-8 string
 	 *
 	 * @param   string  $str       The string to be trimmed
-	 * @param   string  $charlist  The optional charlist of additional characters to trim
+	 * @param   mixed   $charlist  The optional charlist of additional characters to trim
 	 *
 	 * @return  string  The trimmed string
 	 *
@@ -609,7 +616,7 @@ abstract class JString
 	 * work normally on a UTF-8 string
 	 *
 	 * @param   string  $str       The string to be trimmed
-	 * @param   string  $charlist  The optional charlist of additional characters to trim
+	 * @param   mixed   $charlist  The optional charlist of additional characters to trim
 	 *
 	 * @return  string  The trimmed string
 	 *
@@ -643,7 +650,7 @@ abstract class JString
 	 * work normally on a UTF-8 string
 	 *
 	 * @param   string  $str       The string to be trimmed
-	 * @param   string  $charlist  The optional charlist of additional characters to trim
+	 * @param   mixed   $charlist  The optional charlist of additional characters to trim
 	 *
 	 * @return  string  The trimmed string
 	 *
@@ -698,6 +705,7 @@ abstract class JString
 			{
 				$newDelimiter = $delimiter;
 			}
+
 			return implode($newDelimiter, array_map('utf8_ucfirst', explode($delimiter, $str)));
 		}
 	}
@@ -837,7 +845,6 @@ abstract class JString
 					$mUcs4 = ($mUcs4 & 1) << 30;
 					$mState = 5;
 					$mBytes = 6;
-
 				}
 				else
 				{

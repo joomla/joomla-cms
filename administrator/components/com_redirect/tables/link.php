@@ -21,12 +21,11 @@ class RedirectTableLink extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   object	Database object
+	 * @param   JDatabaseDriver  $db  Database object.
 	 *
-	 * @return  void
 	 * @since   1.6
 	 */
-	public function __construct(&$db)
+	public function __construct($db)
 	{
 		parent::__construct('#__redirect_links', 'id', $db);
 	}
@@ -35,6 +34,7 @@ class RedirectTableLink extends JTable
 	 * Overloaded check function
 	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	public function check()
@@ -46,6 +46,7 @@ class RedirectTableLink extends JTable
 		if (empty($this->old_url))
 		{
 			$this->setError(JText::_('COM_REDIRECT_ERROR_SOURCE_URL_REQUIRED'));
+
 			return false;
 		}
 
@@ -53,6 +54,7 @@ class RedirectTableLink extends JTable
 		if (empty($this->new_url))
 		{
 			$this->setError(JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
+
 			return false;
 		}
 
@@ -60,6 +62,7 @@ class RedirectTableLink extends JTable
 		if ($this->old_url == $this->new_url)
 		{
 			$this->setError(JText::_('COM_REDIRECT_ERROR_DUPLICATE_URLS'));
+
 			return false;
 		}
 
@@ -77,6 +80,7 @@ class RedirectTableLink extends JTable
 		if ($xid && $xid != (int) $this->id)
 		{
 			$this->setError(JText::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
+
 			return false;
 		}
 
@@ -86,10 +90,10 @@ class RedirectTableLink extends JTable
 	/**
 	 * Overriden store method to set dates.
 	 *
-	 * @param   boolean	True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
-	 * @see     JTable::store
+	 *
 	 * @since   1.6
 	 */
 	public function store($updateNulls = false)

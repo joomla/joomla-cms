@@ -73,6 +73,19 @@ class PlgSystemRedirect extends JPlugin
 			$db->setQuery($query, 0, 1);
 			$link = $db->loadObject();
 
+			// If no published redirect was found try with the server-relative URL
+			if (!$link or ($link->published != 1))
+			{
+				$currRel = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
+				$query = $db->getQuery(true)
+					->select($db->quoteName('new_url'))
+					->select($db->quoteName('published'))
+					->from($db->quoteName('#__redirect_links'))
+					->where($db->quoteName('old_url') . ' = ' . $db->quote($currRel));
+				$db->setQuery($query, 0, 1);
+				$link = $db->loadObject();
+			}
+
 			// If a redirect exists and is published, permanently redirect.
 			if ($link and ($link->published == 1))
 			{

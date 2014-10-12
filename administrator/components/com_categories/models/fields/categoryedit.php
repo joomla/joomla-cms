@@ -45,6 +45,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 		// Let's get the id for the current item, either category or content item.
 		$jinput = JFactory::getApplication()->input;
+
 		// Load the category options for a given extension.
 
 		// For categories the old category is the category id or 0 for new category.
@@ -95,7 +96,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		// Filter language
 		if (!empty($this->element['language']))
 		{
-
 			$query->where('a.language = ' . $db->quote($this->element['language']));
 		}
 
@@ -123,7 +123,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage);
+			JError::raiseWarning(500, $e->getMessage());
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
@@ -137,6 +137,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 					$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
 				}
 			}
+
 			if ($options[$i]->published == 1)
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
@@ -155,10 +156,11 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		{
 			foreach ($options as $i => $option)
 			{
-				// To take save or create in a category you need to have create rights for that category
-				// unless the item is already in that category.
-				// Unset the option if the user isn't authorised for it. In this field assets are always categories.
-				if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
+				/* To take save or create in a category you need to have create rights for that category
+				 * unless the item is already in that category.
+				 * Unset the option if the user isn't authorised for it. In this field assets are always categories.
+				 */
+				if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true && $option->level != 0)
 				{
 					unset($options[$i]);
 				}
@@ -167,9 +169,10 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		// If you have an existing category id things are more complex.
 		else
 		{
-			// If you are only allowed to edit in this category but not edit.state, you should not get any
-			// option to change the category parent for a category or the category for a content item,
-			// but you should be able to save in that category.
+			/* If you are only allowed to edit in this category but not edit.state, you should not get any
+			 * option to change the category parent for a category or the category for a content item,
+			 * but you should be able to save in that category.
+			 */
 			foreach ($options as $i => $option)
 			{
 				if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true && !isset($oldParent))
@@ -179,10 +182,10 @@ class JFormFieldCategoryEdit extends JFormFieldList
 						unset($options[$i]);
 					}
 				}
+
 				if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true
 					&& (isset($oldParent))
-					&& $option->value != $oldParent
-				)
+					&& $option->value != $oldParent)
 				{
 					unset($options[$i]);
 				}
@@ -190,17 +193,16 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				// However, if you can edit.state you can also move this to another category for which you have
 				// create permission and you should also still be able to save in the current category.
 				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
-					&& ($option->value != $oldCat && !isset($oldParent))
-				)
+					&& ($option->value != $oldCat && !isset($oldParent)))
 				{
 					{
 						unset($options[$i]);
 					}
 				}
+
 				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
 					&& (isset($oldParent))
-					&& $option->value != $oldParent
-				)
+					&& $option->value != $oldParent)
 				{
 					{
 						unset($options[$i]);
@@ -208,10 +210,10 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				}
 			}
 		}
+
 		if (($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
 			&& (isset($row) && !isset($options[0]))
-			&& isset($this->element['show_root'])
-		)
+			&& isset($this->element['show_root']))
 		{
 			if ($row->parent_id == '1')
 			{
@@ -219,6 +221,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
 				array_unshift($options, $parent);
 			}
+
 			array_unshift($options, JHtml::_('select.option', '0', JText::_('JGLOBAL_ROOT')));
 		}
 

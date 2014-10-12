@@ -21,8 +21,8 @@ class RedirectModelLinks extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
-	 * @see     JController
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -79,9 +79,10 @@ class RedirectModelLinks extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
-	 * @return  string    A store id.
+	 * @return  string  A store id.
+	 *
 	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
@@ -97,6 +98,7 @@ class RedirectModelLinks extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -116,6 +118,7 @@ class RedirectModelLinks extends JModelList
 
 		// Filter by published state
 		$state = $this->getState('filter.state');
+
 		if (is_numeric($state))
 		{
 			$query->where('a.published = ' . (int) $state);
@@ -127,6 +130,7 @@ class RedirectModelLinks extends JModelList
 
 		// Filter the items over the search string if set.
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -135,7 +139,7 @@ class RedirectModelLinks extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where(
 					'(' . $db->quoteName('old_url') . ' LIKE ' . $search .
 						' OR ' . $db->quoteName('new_url') . ' LIKE ' . $search .
@@ -148,7 +152,6 @@ class RedirectModelLinks extends JModelList
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.old_url')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 }

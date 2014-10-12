@@ -38,7 +38,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 		<div class="filter-select fltrt">
 			<label class="selectlabel" for="filter_component"><?php echo JText::_('COM_USERS_OPTION_SELECT_COMPONENT'); ?></label>
-			<select name="filter_component" class="inputbox" id="filter_component">
+			<select name="filter_component" id="filter_component">
 				<option value=""><?php echo JText::_('COM_USERS_OPTION_SELECT_COMPONENT');?></option>
 				<?php if (!empty($this->components))
 				{
@@ -47,13 +47,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</select>
 
 			<label class="selectlabel" for="filter_level_start"><?php echo JText::_('COM_USERS_OPTION_SELECT_LEVEL_START'); ?></label>
-			<select name="filter_level_start" class="inputbox" id="filter_level_start">
+			<select name="filter_level_start" id="filter_level_start">
 				<option value=""><?php echo JText::_('COM_USERS_OPTION_SELECT_LEVEL_START');?></option>
 				<?php echo JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_start'));?>
 			</select>
 
 			<label class="selectlabel" for="filter_level_end"><?php echo JText::_('COM_USERS_OPTION_SELECT_LEVEL_END'); ?></label>
-			<select name="filter_level_end" class="inputbox" id="filter_level_end">
+			<select name="filter_level_end" id="filter_level_end">
 				<option value=""><?php echo JText::_('COM_USERS_OPTION_SELECT_LEVEL_END');?></option>
 				<?php echo JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_end'));?>
 			</select>

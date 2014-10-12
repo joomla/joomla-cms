@@ -178,8 +178,8 @@ abstract class JModelAdmin extends JModelForm
 		{
 			$type = new JUcmType;
 			$this->type = $type->getTypeByAlias($this->typeAlias);
-
 		}
+
 		if ($this->type === false)
 		{
 			$type = new JUcmType;
@@ -190,6 +190,7 @@ abstract class JModelAdmin extends JModelForm
 		{
 			$typeAlias = $this->type->type_alias;
 		}
+
 		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
 
 		if (!empty($commands['category_id']))
@@ -250,6 +251,7 @@ abstract class JModelAdmin extends JModelForm
 		if (!$done)
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+
 			return false;
 		}
 
@@ -401,7 +403,7 @@ abstract class JModelAdmin extends JModelForm
 			// Store the row.
 			if (!$this->table->store())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 
 				return false;
 			}
@@ -675,13 +677,13 @@ abstract class JModelAdmin extends JModelForm
 		{
 			if ($table->load($pk))
 			{
-
 				if ($table->checked_out > 0)
 				{
 					if (!parent::checkin($pk))
 					{
 						return false;
 					}
+
 					$count++;
 				}
 			}
@@ -733,13 +735,10 @@ abstract class JModelAdmin extends JModelForm
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
 		{
-
 			if ($table->load($pk))
 			{
-
 				if ($this->canDelete($table))
 				{
-
 					$context = $this->option . '.' . $this->name;
 
 					// Trigger the onContentBeforeDelete event.
@@ -748,41 +747,44 @@ abstract class JModelAdmin extends JModelForm
 					if (in_array(false, $result, true))
 					{
 						$this->setError($table->getError());
+
 						return false;
 					}
 
 					if (!$table->delete($pk))
 					{
 						$this->setError($table->getError());
+
 						return false;
 					}
 
 					// Trigger the onContentAfterDelete event.
 					$dispatcher->trigger($this->event_after_delete, array($context, $table));
-
 				}
 				else
 				{
-
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$error = $this->getError();
+
 					if ($error)
 					{
 						JLog::add($error, JLog::WARNING, 'jerror');
+
 						return false;
 					}
 					else
 					{
 						JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
 						return false;
 					}
 				}
-
 			}
 			else
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -808,6 +810,7 @@ abstract class JModelAdmin extends JModelForm
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
 		{
 			$title = JString::increment($title);
@@ -840,6 +843,7 @@ abstract class JModelAdmin extends JModelForm
 			if ($return === false && $table->getError())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -1093,6 +1097,7 @@ abstract class JModelAdmin extends JModelForm
 			if (!$table->check())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -1102,6 +1107,7 @@ abstract class JModelAdmin extends JModelForm
 			if (in_array(false, $result, true))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -1109,6 +1115,7 @@ abstract class JModelAdmin extends JModelForm
 			if (!$table->store())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -1125,12 +1132,11 @@ abstract class JModelAdmin extends JModelForm
 			return false;
 		}
 
-		$pkName = $table->getKeyName();
-
-		if (isset($table->$pkName))
+		if (isset($table->$key))
 		{
-			$this->setState($this->getName() . '.id', $table->$pkName);
+			$this->setState($this->getName() . '.id', $table->$key);
 		}
+
 		$this->setState($this->getName() . '.new', $isNew);
 
 		return true;
@@ -1184,6 +1190,7 @@ abstract class JModelAdmin extends JModelForm
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
+
 					return false;
 				}
 
@@ -1266,6 +1273,7 @@ abstract class JModelAdmin extends JModelForm
 				{
 					// Fatal error
 					$this->setError($error);
+
 					return false;
 				}
 				else
@@ -1280,6 +1288,7 @@ abstract class JModelAdmin extends JModelForm
 		if (empty($categoryId))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+
 			return false;
 		}
 
