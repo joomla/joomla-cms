@@ -10,12 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * Weblinks Component Route Helper
+ * Weblinks Component Route Helper.
  *
- * @static
- * @package     Joomla.Site
- * @subpackage  com_weblinks
- * @since       1.5
+ * @since  1.5
  */
 abstract class WeblinksHelperRoute
 {

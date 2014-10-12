@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Site
- * @subpackage  com_contact
+ * View contact class.
  */
 class ContactViewContact extends JViewLegacy
 {

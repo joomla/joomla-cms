@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Banners Controller
  *
- * @package     Joomla.Site
- * @subpackage  com_banners
- * @since       1.5
+ * @since  1.5
  */
 class BannersController extends JControllerLegacy
 {

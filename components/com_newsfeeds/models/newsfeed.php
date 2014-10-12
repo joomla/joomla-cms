@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Newsfeeds Component Newsfeed Model
  *
- * @package     Joomla.Site
- * @subpackage  com_newsfeeds
- * @since       1.5
+ * @since  1.5
  */
 class NewsfeedsModelNewsfeed extends JModelItem
 {
