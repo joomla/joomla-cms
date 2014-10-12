@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Template Helper class.
  *
- * @since       3.2
+ * @since  3.2
  */
 abstract class TemplateHelper
 {

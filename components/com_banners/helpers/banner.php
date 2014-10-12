@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Banner Helper Class
  *
- * @since       1.6
+ * @since  1.6
  */
 abstract class BannerHelper
 {

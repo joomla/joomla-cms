@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Searchtools elements.
  *
- * @since       3.2
+ * @since  3.2
  */
 abstract class JHtmlSearchtools
 {

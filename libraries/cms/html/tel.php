@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML helper class for rendering telephone numbers.
  *
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlTel
 {

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for creating HTML Grids
  *
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlJGrid
 {

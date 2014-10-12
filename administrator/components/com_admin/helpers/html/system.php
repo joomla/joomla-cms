@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Utility class working with system
  *
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlSystem
 {

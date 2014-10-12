@@ -14,7 +14,7 @@ JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_cat
 /**
  * Category Component Association Helper
  *
- * @since       3.0
+ * @since  3.0
  */
 abstract class CategoryHelperAssociation
 {

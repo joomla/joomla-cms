@@ -17,7 +17,7 @@ JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 /**
  * Prototype adapter class for the Finder indexer package.
  *
- * @since       2.5
+ * @since  2.5
  */
 abstract class FinderIndexerAdapter extends JPlugin
 {

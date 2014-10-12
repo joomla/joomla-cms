@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for Bootstrap elements.
  *
- * @since       3.0
+ * @since  3.0
  */
 abstract class JHtmlBootstrap
 {

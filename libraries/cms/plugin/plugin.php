@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JPlugin Class
  *
- * @since       1.5
+ * @since  1.5
  */
 abstract class JPlugin extends JEvent
 {

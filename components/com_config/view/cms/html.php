@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Prototype admin view.
  *
- * @since       3.2
+ * @since  3.2
  */
 abstract class ConfigViewCmsHtml extends JViewHtml
 {

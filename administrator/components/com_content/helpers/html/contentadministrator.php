@@ -15,7 +15,7 @@ JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_conten
  * Content HTML helper
  *
  *
- * @since       3.0
+ * @since  3.0
  */
 abstract class JHtmlContentAdministrator
 {

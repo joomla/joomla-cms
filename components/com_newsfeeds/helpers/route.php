@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Newsfeeds Component Route Helper
  *
- * @since       1.5
+ * @since  1.5
  */
 abstract class NewsfeedsHelperRoute
 {

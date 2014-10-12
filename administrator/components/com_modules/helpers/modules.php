@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Modules component helper.
  *
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModulesHelper
 {

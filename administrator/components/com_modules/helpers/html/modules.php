@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /** 
  * JHtml module helper class.
  *
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlModules
 {

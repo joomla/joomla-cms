@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with content language select lists
  *
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlContentLanguage
 {

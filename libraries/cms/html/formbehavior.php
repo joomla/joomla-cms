@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for form related behaviors
  *
- * @since       3.0
+ * @since  3.0
  */
 abstract class JHtmlFormbehavior
 {

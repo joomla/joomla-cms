@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with users
  *
- * @since       2.5
+ * @since  2.5
  */
 abstract class JHtmlUser
 {

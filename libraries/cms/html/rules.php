@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extended Utility class for all HTML drawing classes.
  *
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlRules
 {

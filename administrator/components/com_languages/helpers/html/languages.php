@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Utility class working with languages
  *
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlLanguages
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Query HTML behavior class for Finder.
  *
- * @since       2.5
+ * @since  2.5
  */
 abstract class JHtmlQuery
 {

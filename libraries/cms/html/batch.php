@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extended Utility class for batch processing widgets.
  *
- * @since       1.7
+ * @since  1.7
  */
 abstract class JHtmlBatch
 {

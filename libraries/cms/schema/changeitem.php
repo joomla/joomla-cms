@@ -23,7 +23,7 @@ defined('JPATH_PLATFORM') or die;
  * This is an abstract class. We need to extend it for each database and add a
  * buildCheckQuery() method that creates the query to check that a DDL query has been run.
  *
- * @since       2.5
+ * @since  2.5
  */
 abstract class JSchemaChangeitem
 {

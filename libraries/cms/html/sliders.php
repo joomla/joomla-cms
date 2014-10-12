@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for Sliders elements
  *
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlSliders
 {

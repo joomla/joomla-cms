@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Banner HTML class.
  *
- * @since       2.5
+ * @since  2.5
  */
 abstract class JHtmlBanner
 {

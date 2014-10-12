@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * The JButton is the base class for all JButton types
  *
- * @since       3.0
+ * @since  3.0
  */
 abstract class JToolbarButton
 {

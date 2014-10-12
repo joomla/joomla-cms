@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Weblinks Component Route Helper.
  *
- * @since       1.5
+ * @since  1.5
  */
 abstract class WeblinksHelperRoute
 {

@@ -15,7 +15,7 @@ JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/component
 /**
  * Contact Component Association Helper
  *
- * @since       3.0
+ * @since  3.0
  */
 abstract class ContactHelperAssociation extends CategoryHelperAssociation
 {

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Plugin helper class
  *
- * @since       1.5
+ * @since  1.5
  */
 abstract class JPluginHelper
 {
