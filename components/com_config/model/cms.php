@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Prototype admin model.
  *
- * @package     Joomla.Site
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 abstract class ConfigModelCms extends JModelDatabase
 {
