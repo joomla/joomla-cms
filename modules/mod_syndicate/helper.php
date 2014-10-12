@@ -40,6 +40,5 @@ class ModSyndicateHelper
 				return $link;
 			}
 		}
-
 	}
 }
