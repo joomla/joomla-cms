@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Languages controller.
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  * @since       1.6
@@ -30,6 +32,7 @@ class LanguagesControllerLanguages extends JControllerAdmin
 	public function getModel($name = 'Language', $prefix = 'LanguagesModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 
@@ -45,14 +48,14 @@ class LanguagesControllerLanguages extends JControllerAdmin
 		$pks = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 
-		// Sanitize the input
+		// Sanitize the input.
 		JArrayHelper::toInteger($pks);
 		JArrayHelper::toInteger($order);
 
-		// Get the model
+		// Get the model.
 		$model = $this->getModel();
 
-		// Save the ordering
+		// Save the ordering.
 		$return = $model->saveorder($pks, $order);
 
 		if ($return)
@@ -60,7 +63,7 @@ class LanguagesControllerLanguages extends JControllerAdmin
 			echo "1";
 		}
 
-		// Close the application
+		// Close the application.
 		JFactory::getApplication()->close();
 	}
 }

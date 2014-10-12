@@ -19,9 +19,14 @@ defined('_JEXEC') or die;
 class LanguagesModelLanguage extends JModelAdmin
 {
 	/**
-	 * Override to get the table
+	 * Override to get the table.
+	 *
+	 * @param   string  $name     Name of the table.
+	 * @param   string  $prefix   Table name prefix.
+	 * @param   array   $options  Array of options.
 	 *
 	 * @return  JTable
+	 *
 	 * @since   1.6
 	 */
 	public function getTable($name = '', $prefix = '', $options = array())
@@ -35,6 +40,7 @@ class LanguagesModelLanguage extends JModelAdmin
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState()
@@ -53,9 +59,10 @@ class LanguagesModelLanguage extends JModelAdmin
 	/**
 	 * Method to get a member item.
 	 *
-	 * @param   integer	The id of the member to get.
+	 * @param   integer  $langId  The id of the member to get.
 	 *
 	 * @return  mixed  User data object on success, false on failure.
+	 *
 	 * @since   1.0
 	 */
 	public function getItem($langId = null)
@@ -73,6 +80,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		if ($return === false && $table->getError())
 		{
 			$this->setError($table->getError());
+
 			return $false;
 		}
 
@@ -91,16 +99,18 @@ class LanguagesModelLanguage extends JModelAdmin
 	/**
 	 * Method to get the group form.
 	 *
-	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @return  mixed  A JForm object on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_languages.language', 'language', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -113,6 +123,7 @@ class LanguagesModelLanguage extends JModelAdmin
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
+	 *
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -133,9 +144,10 @@ class LanguagesModelLanguage extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array  The form data.
+	 * @param   array  $data  The form data.
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   1.6
 	 */
 	public function save($data)
@@ -155,23 +167,25 @@ class LanguagesModelLanguage extends JModelAdmin
 			$isNew = false;
 		}
 
-		// Prevent white spaces, including East Asian double bytes
+		// Prevent white spaces, including East Asian double bytes.
 		$spaces = array('/\xE3\x80\x80/', ' ');
 
 		$data['lang_code'] = str_replace($spaces, '', $data['lang_code']);
 		$data['sef'] = str_replace($spaces, '', $data['sef']);
 
-		// Bind the data
+		// Bind the data.
 		if (!$table->bind($data))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
-		// Check the data
+		// Check the data.
 		if (!$table->check())
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -182,13 +196,15 @@ class LanguagesModelLanguage extends JModelAdmin
 		if (in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
-		// Store the data
+		// Store the data.
 		if (!$table->store())
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -204,7 +220,12 @@ class LanguagesModelLanguage extends JModelAdmin
 	}
 
 	/**
-	 * Custom clean cache method
+	 * Custom clean cache method.
+	 *
+	 * @param   string   $group      Optional cache group name.
+	 * @param   integer  $client_id  Application client id.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

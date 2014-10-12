@@ -21,8 +21,8 @@ class LanguagesControllerLanguage extends JControllerForm
 	/**
 	 * Gets the URL arguments to append to an item redirect.
 	 *
-	 * @param   int      $recordId  The primary key id for the item.
-	 * @param   string  $key        The name of the primary key variable.
+	 * @param   int     $recordId  The primary key id for the item.
+	 * @param   string  $key       The name of the primary key variable.
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
