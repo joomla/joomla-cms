@@ -42,10 +42,14 @@ class JHtmlTemplates
 				$preview = $baseUrl . '/templates/' . $template . '/template_preview.png';
 				$html = '<a href="#' . $template . '-Modal" role="button" class="thumbnail pull-left hasTooltip" data-toggle="modal" title="' .
 					JHtml::tooltipText('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</a>';
-				$html .= JHtmlBootstrap::renderModal($template . '-Modal', array('url' => $preview,
-												'title' => JText::_('COM_TEMPLATES_BUTTON_PREVIEW'),
-												'height' => '800px',
-												'width' => '800px'));
+				$html .= JHtmlBootstrap::renderModal(
+					$template . '-Modal', array(
+						'url' => $preview,
+						'title' => JText::_('COM_TEMPLATES_BUTTON_PREVIEW'),
+						'height' => '800px',
+						'width' => '800px'
+						)
+					);
 			}
 		}
 
