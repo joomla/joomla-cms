@@ -84,15 +84,23 @@ class CategoriesHelper
 	 */
 	public static function getActions($extension, $categoryId = 0)
 	{
-		// Log usage of deprecated function
+		// Log usage of deprecated function.
 		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
-		// Get list of actions
+		// Get list of actions.
 		$result = JHelperContent::getActions($extension, 'category', $categoryId);
 
 		return $result;
 	}
 
+	/**
+	 * Method to get a list of associations.
+	 *
+	 * @param   integer  $pk         Category id.
+	 * @param   string   $extension  Extension name.
+	 *
+	 * @return  array of associations.
+	 */
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
 		$associations = array();

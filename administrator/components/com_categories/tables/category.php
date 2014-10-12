@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Category table
+ * Category table.
  *
  * @package     Joomla.Administrator
  * @subpackage  com_categories

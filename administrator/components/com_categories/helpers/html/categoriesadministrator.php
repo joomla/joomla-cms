@@ -22,19 +22,18 @@ JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_cat
 abstract class JHtmlCategoriesAdministrator
 {
 	/**
-	 * Render the list of associated items
+	 * Render the list of associated items.
 	 *
-	 * @param   integer  $catid      Category identifier to search its associations
-	 * @param   string   $extension  Category Extension
+	 * @param   integer  $catid      Category identifier to search its associations.
+	 * @param   string   $extension  Category Extension.
 	 *
-	 * @return  string   The language HTML
+	 * @return  string   The language HTML.
 	 */
 	public static function association($catid, $extension = 'com_content')
 	{
-		// Defaults
 		$html = '';
 
-		// Get the associations
+		// Get the associations.
 		if ($associations = CategoriesHelper::getAssociations($catid, $extension))
 		{
 			JArrayHelper::toInteger($associations);
@@ -76,7 +75,16 @@ abstract class JHtmlCategoriesAdministrator
 						$item->title
 					);
 
-					$item->link = JHtml::_('tooltip', implode(' ', $tooltipParts), null, null, $text, $url, null, 'hasTooltip label label-association label-' . $item->lang_sef);
+					$item->link = JHtml::_(
+						'tooltip',
+						implode(' ', $tooltipParts),
+						null,
+						null,
+						$text,
+						$url,
+						null,
+						'hasTooltip label label-association label-' . $item->lang_sef
+					);
 				}
 			}
 
