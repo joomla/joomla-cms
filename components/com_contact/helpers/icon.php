@@ -60,7 +60,7 @@ class JHtmlIcon
 		}
 		else
 		{
-			$text = JText::_('JGLOBAL_ICON_SEP') . '&#160;' . JText::_('JGLOBAL_PRINT') .'&#160;' . JText::_('JGLOBAL_ICON_SEP');
+			$text = JText::_('JGLOBAL_ICON_SEP') . '&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;' . JText::_('JGLOBAL_ICON_SEP');
 		}
 
 		$attribs['title']   = JText::_('JGLOBAL_PRINT');
