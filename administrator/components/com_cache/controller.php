@@ -65,11 +65,7 @@ class CacheController extends JControllerLegacy
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Purge an array of cache groups.
-=======
 	 * Method to delete a list of cache groups.
->>>>>>> [Code Style] administrator/components/com_cache
 	 *
 	 * @return  void
 	 */
