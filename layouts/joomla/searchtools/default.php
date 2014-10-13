@@ -22,7 +22,7 @@ $customOptions = array(
 	'orderFieldSelector'  => '#list_fullordering'
 );
 
-$data['options'] = array_unique(array_merge($customOptions, $data['options']));
+$data['options'] = array_merge($customOptions, $data['options']);
 
 $formSelector = !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm';
 
