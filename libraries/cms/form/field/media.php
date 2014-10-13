@@ -254,26 +254,6 @@ class JFormFieldMedia extends JFormField
 			// Add the script to the document head.
 			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
-			JFactory::getDocument()->addStyleDeclaration('
-			@media only screen and (min-width : 768px) {
-				div.modal.fade.in {
-					display: block;
-					top: 5%;
-				}
-				#imageModal {
-					width: 80% !important;
-					margin-left:-40% !important;
-					height:auto;
-				}
-				#imageModal #imageModal-container .modal-body iframe {
-					max-height: 800px !important;
-				}
-				#imageModal #imageModal-container .modal-body {
-					max-height: none;
-					height: 100%;
-				}
-			}');
-
 			self::$initialised = true;
 		}
 
@@ -398,7 +378,7 @@ class JFormFieldMedia extends JFormField
 			JHtml::_('bootstrap.modal');
 
 			$html[] = '<a href="#imageModal" role="button" class="btn" data-toggle="modal">' . JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
-			$html[] = JHtmlBootstrap::renderModal('imageModal', array('url' => $url, 'title' => JText::_('JLIB_FORM_MEDIA_IMAGE'), 'width' => '100%', 'height' => '600px'));
+			$html[] = JHtmlBootstrap::renderModal('imageModal', array('url' => $url, 'title' => JText::_('JLIB_FORM_MEDIA_IMAGE'), 'width' => '800px', 'height' => '600px'));
 			$html[] = '<a class="btn hasTooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
 			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
 			$html[] = 'return false;';
