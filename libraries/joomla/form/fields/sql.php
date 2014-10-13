@@ -136,27 +136,43 @@ class JFormFieldSQL extends JFormFieldList
 			{
 				// Get the query from the form
 				$query = array();
+				$defaults = array();
 
 				$query['select'] = (string) $this->element['sql_select'];
 
 				$query['from'] = (string) $this->element['sql_from'];
 
-				$query['join'] = $this->element['sql_join'] ? (string) $this->element['sql_join'] : '';
+				$query['join'] = isset($this->element['sql_join']) ? (string) $this->element['sql_join'] : '';
 
-				$query['group'] = $this->element['sql_group'] ? (string) $this->element['sql_group'] : '';
+				$query['group'] = isset($this->element['sql_group']) ? (string) $this->element['sql_group'] : '';
 
 				$query['order'] = (string) $this->element['sql_order'];
 
 				// Get the filters
-				$filter = $this->element['sql_filter'] ? (string) $this->element['sql_filter'] : '';
+				$filters = isset($this->element['sql_filter']) ? explode(",", $this->element['sql_filter']) : '';
+
+				// Get the default value for query if empty
+				if (is_array($filters))
+				{
+					foreach ($filters as $key => $val)
+					{
+						$name = "sql_default_{$val}";
+						$attrib = (string) $this->element[$name];
+
+						if (!empty($attrib))
+						{
+							$defaults[$val] = $attrib;
+						}
+					}
+				}
 
 				// Process the query
-				$this->query = $this->processQuery($query, $filter);
+				$this->query = $this->processQuery($query, $filters, $defaults);
 			}
 
-			$this->keyField   = $this->element['key_field'] ? (string) $this->element['key_field'] : 'value';
-			$this->valueField = $this->element['value_field'] ? (string) $this->element['value_field'] : (string) $this->element['name'];
-			$this->translate  = $this->element['translate'] ? (string) $this->element['translate'] : false;
+			$this->keyField   = isset($this->element['key_field']) ? (string) $this->element['key_field'] : 'value';
+			$this->valueField = isset($this->element['value_field']) ? (string) $this->element['value_field'] : (string) $this->element['name'];
+			$this->translate  = isset($this->element['translate']) ? (string) $this->element['translate'] : false;
 		}
 
 		return $return;
@@ -172,7 +188,7 @@ class JFormFieldSQL extends JFormFieldList
 	 *
 	 * @since   3.4
 	 */
-	protected function processQuery($conditions, $filter)
+	protected function processQuery($conditions, $filters, $defaults)
 	{
 		// Get the database object.
 		$db = JFactory::getDbo();
@@ -199,17 +215,23 @@ class JFormFieldSQL extends JFormFieldList
 		}
 
 		// Process the filters
-		if (!empty($filter))
+		if (is_array($filters))
 		{
 			$html_filters = JFactory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
 
-			$filters = explode(",", $filter);
-
 			foreach ($filters as $k => $value)
 			{
-				if (isset($html_filters[$value]))
+				if (!empty($html_filters[$value]))
 				{
-					$query->where("{$value} = {$html_filters[$value]}");
+					$escape = $db->quote( $db->escape( $html_filters[$value] ), false );
+
+					$query->where("{$value} = {$escape}");
+				}
+				else if (!empty($defaults[$value]))
+				{
+					$escape = $db->quote( $db->escape( $defaults[$value] ), false );
+
+					$query->where("{$value} = {$escape}");
 				}
 			}
 		}
