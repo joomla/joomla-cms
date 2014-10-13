@@ -54,10 +54,10 @@ class ConfigHelperConfig extends JHelperContent
 	}
 
 	/**
-	 * Returns an array of all components with configuration options. By only
-	 * components for which the current user has 'core.manage' rights are returned.
+	 * Returns an array of all components with configuration options.
+	 * Optionally return only those components for which the current user has 'core.manage' rights.
 	 *
-	 * @param   boolean  $authCheck
+	 * @param   boolean  $authCheck  True to restrict to components where current user has 'core.manage' rights.
 	 *
 	 * @return  array
 	 *
@@ -86,7 +86,7 @@ class ConfigHelperConfig extends JHelperContent
 	/**
 	 * Load the sys language for the given component.
 	 *
-	 * @param   string  $components
+	 * @param   array  $components  Array of component names.
 	 *
 	 * @return  void
 	 *

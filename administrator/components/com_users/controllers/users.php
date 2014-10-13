@@ -29,8 +29,6 @@ class UsersControllerUsers extends JControllerAdmin
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  UsersControllerUsers
-	 *
 	 * @since   1.6
 	 * @see     JController
 	 */

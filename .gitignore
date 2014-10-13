@@ -22,8 +22,19 @@
 # phpDocumentor Logs #
 phpdoc-*
 
-# Patch Tester
+# Patch Tester #
 administrator/components/com_patchtester/
 administrator/templates/hathor/html/com_patchtester
 components/com_patchtester/
 
+# OSX #
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows #
+Thumbs.db
+Desktop.ini
+
+# Never ignore #
+!.gitignore

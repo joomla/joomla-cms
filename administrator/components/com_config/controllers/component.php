@@ -43,7 +43,7 @@ class ConfigControllerComponent extends JControllerLegacy
 	 * @since   3.0
 	 * @deprecated  4.0  Use ConfigControllerComponentCancel instead.
 	 */
-	function cancel()
+	public function cancel()
 	{
 		JLog::add('ConfigControllerComponent is deprecated. Use ConfigControllerComponentCancel instead.', JLog::WARNING, 'deprecated');
 
@@ -53,7 +53,10 @@ class ConfigControllerComponent extends JControllerLegacy
 	}
 
 	/**
-	 * Save the configuration
+	 * Save the configuration.
+	 *
+	 * @return  boolean  True if successful; false otherwise.
+	 *
 	 * @deprecated  4.0  Use ConfigControllerComponentSave instead.
 	 */
 	public function save()

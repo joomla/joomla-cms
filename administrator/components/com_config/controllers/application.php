@@ -53,7 +53,10 @@ class ConfigControllerApplication extends JControllerLegacy
 	}
 
 	/**
-	 * Cancel operation
+	 * Cancel operation.
+	 *
+	 * @return  boolean  True if successful; false otherwise.
+	 *
 	 * @deprecated  4.0  Use ConfigControllerApplicationCancel instead.
 	 */
 	public function cancel()
@@ -65,6 +68,13 @@ class ConfigControllerApplication extends JControllerLegacy
 		return $controller->execute();
 	}
 
+	/**
+	 * Method to refresh the help display.
+	 *
+	 * @return  void
+	 *
+	 * @deprecated  4,0  Use ConfigControllerApplicationRefreshhelp instead.
+	 */
 	public function refreshHelp()
 	{
 		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationRefreshhelp instead.', JLog::WARNING, 'deprecated');
