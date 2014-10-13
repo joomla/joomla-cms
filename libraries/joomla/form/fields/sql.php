@@ -224,13 +224,13 @@ class JFormFieldSQL extends JFormFieldList
 			{
 				if (!empty($html_filters[$value]))
 				{
-					$escape = $db->quote($db->escape( $html_filters[$value]), false);
+					$escape = $db->quote($db->escape($html_filters[$value]), false);
 
 					$query->where("{$value} = {$escape}");
 				}
 				elseif (!empty($defaults[$value]))
 				{
-					$escape = $db->quote($db->escape( $defaults[$value]), false);
+					$escape = $db->quote($db->escape($defaults[$value]), false);
 
 					$query->where("{$value} = {$escape}");
 				}
