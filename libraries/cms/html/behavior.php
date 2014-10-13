@@ -147,11 +147,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
-
-		// Include jQuery Framework
-		JHtml::_('jquery.framework');
+		// Include core
+		static::core();
 
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
@@ -211,10 +208,11 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
-		// Include MooTools framework
-		static::framework();
 
-		JHtml::_('script', 'system/combobox.js', true, true);
+		// Include core
+		static::core();
+
+		JHtml::_('script', 'system/combobox.js', false, true);
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -325,7 +323,6 @@ abstract class JHtmlBehavior
 			// Include MooTools framework
 			static::framework(true);
 
-			// Load the JavaScript and css
 			JHtml::_('script', 'system/modal.js', true, true);
 			JHtml::_('stylesheet', 'system/modal.css', array(), true);
 		}
@@ -401,15 +398,15 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
+		// Include core
+		static::core();
 
-		JHtml::_('script', 'system/multiselect.js', true, true);
+		JHtml::_('script', 'system/multiselect.js', false, true);
 
 		// Attach multiselect to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('domready', function() {
-				new Joomla.JMultiSelect('" . $id . "');
+			"jQuery(document).ready(function() {
+				Joomla.JMultiSelect('" . $id . "');
 			});"
 		);
 
@@ -650,8 +647,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
+		// Include core
+		static::core();
 
 		JHtml::_('script', 'system/highlighter.js', true, true);
 
@@ -696,9 +693,6 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
-
-		// Include MooTools framework
-		static::framework();
 
 		// Include jQuery
 		JHtml::_('jquery.framework');

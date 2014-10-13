@@ -18,14 +18,14 @@ JHtml::_('behavior.formvalidation');
 <script type="text/javascript">
 Joomla.submitbutton = function(task)
 {
-	if (task == 'level.cancel' || document.formvalidator.isValid(document.id('level-form')))
+	if (task == 'level.cancel' || document.formvalidator.isValid(document.getElementById('level-form')))
 	{
-		Joomla.submitform(task, document.id('level-form'));
+		Joomla.submitform(task, document.getElementById('level-form'));
 	}
 }
 /*
 window.addEvent('domready', function(){
-	document.id('user-groups').getElements('input').each(function(i){
+	document.getElementById('user-groups').getElements('input').each(function(i){
 		// Event to check all child groups.
 		i.addEvent('check', function(e){
 			// Check the child groups.
