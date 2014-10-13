@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_users
+ * @since       1.6
  */
 class UsersViewMail extends JViewLegacy
 {
@@ -24,6 +25,10 @@ class UsersViewMail extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -36,6 +41,8 @@ class UsersViewMail extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

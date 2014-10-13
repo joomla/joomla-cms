@@ -46,7 +46,7 @@ class UsersModelUser extends JModelAdmin
 	 * @return  JTable  A database object
 	 *
 	 * @since   1.6
-	*/
+	 */
 	public function getTable($type = 'User', $prefix = 'JTable', $config = array())
 	{
 		$table = JTable::getInstance($type, $prefix, $config);

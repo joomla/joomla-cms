@@ -182,6 +182,7 @@ class JFilterInput
 	 *                           HTML:      A sanitised string,
 	 *                           ARRAY:     An array,
 	 *                           PATH:      A sanitised file path,
+	 *                           TRIM:      A string trimmed from normal, non-breaking and multibyte spaces
 	 *                           USERNAME:  Do not use (use an application specific filter),
 	 *                           RAW:       The raw string is returned with no filtering,
 	 *                           unknown:   An unknown filter will act like STRING. If the input is an array it will return an
@@ -254,6 +255,12 @@ class JFilterInput
 				$pattern = '/^[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
 				preg_match($pattern, (string) $source, $matches);
 				$result = @ (string) $matches[0];
+				break;
+
+			case 'TRIM':
+				$result = (string) trim($source);
+				$result = trim($result, chr(0xE3) . chr(0x80) . chr(0x80));
+				$result = trim($result, chr(0xC2) . chr(0xA0));
 				break;
 
 			case 'USERNAME':
