@@ -9,23 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JFactory::getDocument()->addStyleDeclaration('
-		@media only screen and (min-width : 768px) {
-			#versionsModal {
-			width: 80% !important;
-			margin-left:-40% !important;
-			height:auto;
-			}
-			#versionsModal #versionsModal-container .modal-body iframe {
-			margin:0;
-			padding:0;
-			display:block;
-			width:100%;
-			height:400px !important;
-			border:none;
-			}
-		}');
-
 $link = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id='
 	. (int) $displayData['itemId'] . '&amp;type_id=' . $displayData['typeId'] . '&amp;type_alias='
 	. $displayData['typeAlias'] . '&amp;' . JSession::getFormToken() . '=1';

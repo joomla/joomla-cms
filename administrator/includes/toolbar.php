@@ -597,11 +597,7 @@ abstract class JToolbarHelper
 		JHtml::_('bootstrap.modal');
 
 		$lang = JFactory::getLanguage();
-		$extension = 'com_contenthistory';
-		$base_dir = JFactory::getApplication()->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		$language_tag = $lang->getName();
-		$reload = true;
-		$lang->load($extension, $base_dir, $language_tag, $reload);
+		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 		$contentTypeTable = JTable::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
