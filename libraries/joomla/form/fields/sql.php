@@ -182,7 +182,8 @@ class JFormFieldSQL extends JFormFieldList
 	 * Method to process the query from form.
 	 *
 	 * @param   array   $conditions  The conditions from the form.
-	 * @param   string  $filter      The columns to filter.
+	 * @param   string  $filters     The columns to filter.
+	 * @param   array   $defaults    The defaults value to set if condition is empty.
 	 *
 	 * @return  $query  The query object.
 	 *
@@ -223,13 +224,13 @@ class JFormFieldSQL extends JFormFieldList
 			{
 				if (!empty($html_filters[$value]))
 				{
-					$escape = $db->quote( $db->escape( $html_filters[$value] ), false );
+					$escape = $db->quote($db->escape( $html_filters[$value]), false);
 
 					$query->where("{$value} = {$escape}");
 				}
-				else if (!empty($defaults[$value]))
+				elseif (!empty($defaults[$value]))
 				{
-					$escape = $db->quote( $db->escape( $defaults[$value] ), false );
+					$escape = $db->quote($db->escape( $defaults[$value]), false);
 
 					$query->where("{$value} = {$escape}");
 				}
