@@ -107,7 +107,7 @@ class JFormFieldMenutype extends JFormFieldList
 		$html[] = '<span class="input-append"><input type="text" disabled="disabled" readonly="readonly" id="' . $this->id . '" value="' . $value . '"' . $size . $class . ' />';
 
 		$html[] = '<a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '"><i class="icon-list icon-white"></i> '.JText::_('JSELECT').'</a></span>';
-		$html[] = JHtmlBootstrap::renderModal('menuTypeModal', array( 'url' => $link, 'title' => JText::_('JSELECT'),'height' => '800px', 'width' => '800px'), '');
+		$html[] = JHtmlBootstrap::renderModal('menuTypeModal', array( 'url' => $link, 'title' => JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),'height' => '800px', 'width' => '800px'), '');
 
 		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
 
