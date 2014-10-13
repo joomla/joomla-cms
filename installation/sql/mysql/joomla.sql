@@ -1529,7 +1529,7 @@ INSERT INTO `#__postinstall_messages` (`extension_id`, `title_key`, `description
 CREATE TABLE IF NOT EXISTS `#__redirect_links` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `old_url` varchar(255) NOT NULL,
-  `new_url` varchar(255) NOT NULL,
+  `new_url` varchar(255),
   `referer` varchar(150) NOT NULL,
   `comment` varchar(255) NOT NULL,
   `hits` int(10) unsigned NOT NULL DEFAULT 0,
