@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.framework');
 // Include jQuery
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.modal');
