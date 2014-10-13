@@ -27,6 +27,8 @@ class JHtmlNewsfeed
 	 * @param   int  $newsfeedid  The item id to search associations
 	 *
 	 * @return  string  The language HTML
+	 *
+	 * @throws  Exception  Throws a 500 Exception on Database failure
 	 */
 	public static function association($newsfeedid)
 	{
@@ -79,7 +81,16 @@ class JHtmlNewsfeed
 						$item->title,
 						'(' . $item->category_title . ')'
 					);
-					$item->link = JHtml::_('tooltip', implode(' ', $tooltipParts), null, null, $text, $url, null, 'hasTooltip label label-association label-' . $item->lang_sef);
+					$item->link = JHtml::_(
+						'tooltip',
+						implode(' ', $tooltipParts),
+						null,
+						null,
+						$text,
+						$url,
+						null,
+						'hasTooltip label label-association label-' . $item->lang_sef
+					);
 				}
 			}
 

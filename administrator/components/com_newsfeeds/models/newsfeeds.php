@@ -21,8 +21,8 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
-	 * @see     JController
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -91,8 +91,9 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
-		// force a language
+		// Force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
+
 		if (!empty($forcedLanguage))
 		{
 			$this->setState('filter.language', $forcedLanguage);
@@ -117,9 +118,9 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
-	 * @return  string    A store id.
+	 * @return  string  A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -175,6 +176,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 
 		// Join over the associations.
 		$assoc = JLanguageAssociations::isEnabled();
+
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
@@ -198,6 +200,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 
 		// Filter by published state.
 		$published = $this->getState('filter.published');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.published = ' . (int) $published);
@@ -209,6 +212,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 
 		// Filter by category.
 		$categoryId = $this->getState('filter.category_id');
+
 		if (is_numeric($categoryId))
 		{
 			$query->where('a.catid = ' . (int) $categoryId);
@@ -216,6 +220,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -237,6 +242,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 
 		// Filter by a single tag.
 		$tagId = $this->getState('filter.tag');
+
 		if (is_numeric($tagId))
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
@@ -250,13 +256,14 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
+
 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
 		{
 			$orderCol = 'c.title ' . $orderDirn . ', a.ordering';
 		}
+
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 }
