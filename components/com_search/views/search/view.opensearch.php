@@ -18,6 +18,15 @@ defined('_JEXEC') or die;
  */
 class SearchViewSearch extends JViewLegacy
 {
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  name of the template
+	 *
+	 * @throws Exception
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
+
 	public function display($tpl = null)
 	{
 		$doc = JFactory::getDocument();

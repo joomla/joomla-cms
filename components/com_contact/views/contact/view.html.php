@@ -20,12 +20,37 @@ require_once JPATH_COMPONENT . '/models/category.php';
  */
 class ContactViewContact extends JViewLegacy
 {
+	/**
+	 * The item model state
+	 *
+	 * @var    \Joomla\Registry\Registry
+	 * @since  1.6
+	 */
 	protected $state;
 
+	/**
+	 * The form object for the contact item
+	 *
+	 * @var    JForm
+	 * @since  1.6
+	 */
 	protected $form;
 
+	/**
+	 * The item object details
+	 *
+	 * @var    JObject
+	 * @since  1.6
+	 */
 	protected $item;
 
+	/**
+	 * The page to return to on sumission
+	 *
+	 * @var         string
+	 * @since       1.6
+	 * @deprecated  4.0  Variable not used
+	 */
 	protected $return_page;
 
 	/**
@@ -133,7 +158,7 @@ class ContactViewContact extends JViewLegacy
 				}
 				else
 				{
-					$image1 = JHtml::_('image', 'contacts/'.$params->get('icon_address', 'con_address.png'), JText::_('COM_CONTACT_ADDRESS').": ", null, true);
+					$image1 = JHtml::_('image', 'contacts/' . $params->get('icon_address', 'con_address.png'), JText::_('COM_CONTACT_ADDRESS') . ": ", null, true);
 				}
 
 				if ($params->get('icon_email'))
@@ -169,7 +194,11 @@ class ContactViewContact extends JViewLegacy
 				}
 				else
 				{
-					$image5 = JHtml::_('image', 'contacts/' . $params->get('icon_misc', 'con_info.png'), JText::_('COM_CONTACT_OTHER_INFORMATION') . ": ", null, true);
+					$image5 = JHtml::_(
+						'image',
+						'contacts/' . $params->get('icon_misc', 'con_info.png'),
+						JText::_('COM_CONTACT_OTHER_INFORMATION') . ": ", null, true
+					);
 				}
 
 				if ($params->get('icon_mobile'))
@@ -198,6 +227,7 @@ class ContactViewContact extends JViewLegacy
 			{
 				$contact->link = JRoute::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid));
 			}
+
 			$item->link = JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid));
 		}
 

@@ -64,6 +64,5 @@ abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 		}
 
 		return array();
-
 	}
 }

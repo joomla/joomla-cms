@@ -89,5 +89,4 @@ class JDocumentRenderer
 
 		return $text;
 	}
-
 }

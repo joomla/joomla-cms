@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of tracks.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersViewTracks extends JViewLegacy
 {
@@ -42,7 +40,12 @@ class BannersViewTracks extends JViewLegacy
 
 		$document = JFactory::getDocument();
 		$document->setMimeEncoding($mimetype);
-		JFactory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . $basename . '.' . $filetype . '"; creation-date="' . JFactory::getDate()->toRFC822() . '"', true);
+		JFactory::getApplication()
+			->setHeader(
+				'Content-disposition',
+				'attachment; filename="' . $basename . '.' . $filetype . '"; creation-date="' . JFactory::getDate()->toRFC822() . '"',
+				true
+			);
 		echo $content;
 	}
 }

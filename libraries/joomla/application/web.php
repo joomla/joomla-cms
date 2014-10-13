@@ -1154,6 +1154,7 @@ class JApplicationWeb extends JApplicationBase
 			// Remove the index.php portion of the path.
 			$path = substr_replace($path, '', strpos($path, 'index.php'), 9);
 		}
+
 		$path = rtrim($path, '/\\');
 
 		// Set the base URI both as just a path and as the full URI.

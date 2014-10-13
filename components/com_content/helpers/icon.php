@@ -127,6 +127,7 @@ abstract class JHtmlIcon
 	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string	The HTML for the article edit icon.
+	 *
 	 * @since   1.6
 	 */
 	public static function edit($article, $params, $attribs = array(), $legacy = false)
@@ -149,14 +150,18 @@ abstract class JHtmlIcon
 		JHtml::_('bootstrap.tooltip');
 
 		// Show checked_out icon if the article is checked out by a different user
-		if (property_exists($article, 'checked_out') && property_exists($article, 'checked_out_time') && $article->checked_out > 0 && $article->checked_out != $user->get('id'))
+		if (property_exists($article, 'checked_out')
+			&& property_exists($article, 'checked_out_time')
+			&& $article->checked_out > 0
+			&& $article->checked_out != $user->get('id'))
 		{
 			$checkoutUser = JFactory::getUser($article->checked_out);
 			$button       = JHtml::_('image', 'system/checked_out.png', null, null, true);
 			$date         = JHtml::_('date', $article->checked_out_time);
-			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name) . ' <br /> ' . $date;
+			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
+				. ' <br /> ' . $date;
 
-			return '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip. '', 0) . '">' . $button . '</span>';
+			return '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">' . $button . '</span>';
 		}
 
 		$url = 'index.php?option=com_content&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
@@ -181,22 +186,28 @@ abstract class JHtmlIcon
 		if ($legacy)
 		{
 			$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
+
 			if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
 				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00'))
 			{
 				$icon = 'edit_unpublished.png';
 			}
+
 			$text = JHtml::_('image', 'system/' . $icon, JText::_('JGLOBAL_EDIT'), null, true);
 		}
 		else
 		{
 			$icon = $article->state ? 'edit' : 'eye-close';
+
 			if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
 				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00'))
 			{
 				$icon = 'eye-close';
 			}
-			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0) . '"></span>' . JText::_('JGLOBAL_EDIT');
+
+			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0)
+				. '"></span>&#160;'
+				. JText::_('JGLOBAL_EDIT') . '&#160;';
 		}
 
 		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
@@ -225,7 +236,7 @@ abstract class JHtmlIcon
 
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
-		// checks template image directory for image, if non found default are loaded
+		// Checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons'))
 		{
 			if ($legacy)
@@ -280,5 +291,4 @@ abstract class JHtmlIcon
 
 		return '<a href="#" onclick="window.print();return false;">' . $text . '</a>';
 	}
-
 }

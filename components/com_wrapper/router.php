@@ -83,7 +83,7 @@ class WrapperRouter extends JComponentRouterBase
  *
  * @deprecated  4.0  Use Class based routers instead
  */
-function WrapperBuildRoute(&$query)
+function wrapperBuildRoute(&$query)
 {
 	$router = new WrapperRouter;
 
@@ -96,13 +96,13 @@ function WrapperBuildRoute(&$query)
  * These functions are proxys for the new router interface
  * for old SEF extensions.
  *
- * @param   array  &$segments  The segments of the URL to parse.
+ * @param   array  $segments  The segments of the URL to parse.
  *
  * @return  array  The URL attributes to be used by the application.
  *
  * @deprecated  4.0  Use Class based routers instead
  */
-function WrapperParseRoute($segments)
+function wrapperParseRoute($segments)
 {
 	$router = new WrapperRouter;
 
