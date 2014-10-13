@@ -49,8 +49,8 @@ class RedirectTableLink extends JTable
 			return false;
 		}
 
-		// Check for valid name.
-		if (empty($this->new_url))
+		// Check for valid name if not in advanced mode.
+		if (empty($this->new_url) && JComponentHelper::getParams('com_redirect')->get('mode', 0) == false)
 		{
 			$this->setError(JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
 			return false;
