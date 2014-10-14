@@ -396,18 +396,23 @@ abstract class JHtmlBehavior
 		$options = JHtml::getJSObject($opt);
 
 		// Attach modal behavior to document
-		$document
-			->addScriptDeclaration(
-			"
+		$document->addScriptDeclaration('
 		jQuery(function($) {
-			SqueezeBox.initialize(" . $options . ");
-			SqueezeBox.assign($('" . $selector . "').get(), {
-				parse: 'rel'
+			SqueezeBox.initialize(' . $options . ');
+			SqueezeBox.assign($("' . $selector . '").get(), {
+				parse: "rel"
 			});
 		});
-		function jModalClose() {
-			SqueezeBox.close();
-		}"
+		if(typeof jModalClose == "function"){
+			var fnCode = jModalClose.toString() ;
+			fnCode = fnCode.replace(/\}$/, "SqueezeBox.close();\n}");
+			window.eval(fnCode);
+		}
+		else {
+			function jModalClose() {
+				SqueezeBox.close();
+			}
+		}'
 		);
 
 		// Set static array
