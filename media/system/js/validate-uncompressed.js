@@ -85,7 +85,7 @@ var JFormValidator = function() {
  	 	// Check the additional validation types
  	 	if ((handler) && (handler !== 'none') && (handlers[handler]) && $el.val()) {
  	 	 	// Execute the validation handler and return result
- 	 	 	if (handlers[handler].exec($el.val()) !== true) {
+ 	 	 	if (handlers[handler].exec($el.val(), $el) !== true) {
  	 	 	 	handleResponse(false, $el);
  	 	 	 	return false;
  	 	 	}
