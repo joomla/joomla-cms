@@ -8,11 +8,11 @@
 // Base modal
 div.modal {
   position: fixed;
-  top: 10%;
+  top: 5%;
   left: 50%;
   z-index: @zindexModal;
-  width: 580px;
-  margin-left: -280px;
+  width: 80%;
+  margin-left: -40%;
   background-color: @white;
   border: 1px solid #999;
   border: 1px solid rgba(0,0,0,.3);
@@ -27,7 +27,7 @@ div.modal {
     .transition(e('opacity .3s linear, top .3s ease-out'));
     top: -25%;
   }
-  &.fade.in { top: 10%; }
+  &.fade.in { top: 5%; }
 }
 //Modal for Batch views
 .modal-batch {
