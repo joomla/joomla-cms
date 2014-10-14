@@ -1019,11 +1019,11 @@ class JForm
 	/**
 	 * Method to set an attribute value for a field XML element.
 	 *
-	 * @param   string  $name       The name of the form field for which to set the attribute value.
-	 * @param   string  $attribute  The name of the attribute for which to set a value.
-	 * @param   mixed   $value      The value to set for the attribute.
-	 * @param   string  $group      The optional dot-separated form group path on which to find the field.
-	 * @param   boolean $replace    True to replace whole existing field attributes or false to append the new.
+	 * @param   string   $name       The name of the form field for which to set the attribute value.
+	 * @param   string   $attribute  The name of the attribute for which to set a value.
+	 * @param   mixed    $value      The value to set for the attribute.
+	 * @param   string   $group      The optional dot-separated form group path on which to find the field.
+	 * @param   boolean  $replace    True to replace whole existing field attributes or false to append the new.
 	 *
 	 * @return  boolean  True on success.
 	 *
