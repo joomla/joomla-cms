@@ -11,16 +11,27 @@ defined('_JEXEC') or die;
 
 $button = $displayData;
 
-?>
-<?php if ($button->get('name')) : ?>
-	<?php
-		$class    = ($button->get('class')) ? $button->get('class') : null;
-		$class	 .= ($button->get('modal')) ? ' modal-button' : null;
-		$href     = ($button->get('link')) ? ' href="' . JUri::base() . $button->get('link') . '"' : null;
-		$onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : ' onclick="IeCursorFix(); return false;"';
-		$title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
-	?>
-	<a class="<?php echo $class; ?>" title="<?php echo $title; ?>" <?php echo $href . $onclick; ?> rel="<?php echo $button->get('options'); ?>">
-		<i class="icon-<?php echo $button->get('name'); ?>"></i> <?php echo $button->get('text'); ?>
+if ($button->get('name'))
+{
+	$class    = ($button->get('class')) ? $button->get('class') : null;
+	$class	 .= ($button->get('modal')) ? ' modal-button' : null;
+	$href     = ($button->get('link')) ? ' href="' . JUri::base() . $button->get('link') . '"' : null;
+	$onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : ' onclick="IeCursorFix(); return false;"';
+	$title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
+
+
+	if ($button->get('modal'))
+	{
+		$tmptitle    = str_replace(' ', '', strtolower(htmlspecialchars($title)));
+		echo JHtmlBootstrap::renderModal($tmptitle . 'Modal', array( 'url' => JUri::base() . $button->get('link'), 'title' => $title,'height' => '600px', 'width' => '800px')); ?>
+
+		<a href="#<?php echo $tmptitle; ?>Modal" role="button" class="<?php echo $class; ?>" data-toggle="modal" title="<?php echo $title; ?>">
+			<i class="icon-<?php echo $button->get('name'); ?>"></i> <?php echo $button->get('text'); ?>
 	</a>
-<?php endif;
+
+<?php } else { ?>
+		<a class="<?php echo $class; ?>" title="<?php echo $title; ?>" <?php echo $href . $onclick; ?> rel="<?php echo $button->get('options'); ?>">
+			<i class="icon-<?php echo $button->get('name'); ?>"></i> <?php echo $button->get('text'); ?>
+		</a>
+<?php	}
+}
