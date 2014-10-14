@@ -471,7 +471,6 @@ abstract class JHtmlBootstrap
 			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
 			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
 			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
-			$onHideMe = isset($params['onHideMe']) ? (string) $params['onHideMe'] : null;
 			$onHidden = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
 			$options = JHtml::getJSObject($opt);
@@ -493,12 +492,7 @@ abstract class JHtmlBootstrap
 
 			if ($onHide)
 			{
-				$script[] = "\tjQuery('" . $selector . "').on('hide.bs.tooltip', " . $onHide . ");";
-			}
-
-			if ($onHideMe)
-			{
-				$script[] = "\tjQuery('" . $selector . "').on('hideme.bs.tooltip', " . $onHideMe . ");";
+				$script[] = "\tjQuery('" . $selector . "').on('hideme.bs.tooltip', " . $onHide . ");";
 			}
 
 			if ($onHidden)
