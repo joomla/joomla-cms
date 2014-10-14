@@ -8026,34 +8026,6 @@ div#j-sidebar-container.j-toggle-visible #j-toggle-sidebar-button:hover {
 	margin-top: 6px;
 	margin-left: 4px;
 }
-html,
-body {
-	height: 100%;
-}
-#wrap {
-	min-height: 100%;
-	height: 100%;
-	margin: 125px auto -32px 0;
-	padding: 0 0 32px 0;
-}
-#footer {
-	height: 30px;
-}
-#wrap > .container-main {
-	padding: 77px 0 0 0;
-	margin: 0;
-}
-#footer > .container {
-	padding-top: 5px;
-	padding-left: 15px;
-	padding-right: 15px;
-}
-.center-container {
-	height: 100%;
-	display: table;
-	width: 100%;
-	margin: 0;
-}
 .pull-right {
 	float: left;
 }
