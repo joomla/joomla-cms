@@ -90,8 +90,8 @@ abstract class JImageHelper
 	/**
 	 * Compare width and height integers to determine image orientation.
 	 *
-	 * @param   integer  $width    The width value to use for calculation
-	 * @param   integer  $height   The height value to use for calculation
+	 * @param   integer  $width   The width value to use for calculation
+	 * @param   integer  $height  The height value to use for calculation
 	 *
 	 * @return  mixed    Orientation string or null.
 	 *
@@ -103,7 +103,7 @@ abstract class JImageHelper
 		{
 		case ($width > $height) :
 			return self::ORIENTATION_LANDSCAPE;
-	
+
 		case ($width < $height) :
 			return self::ORIENTATION_PORTRAIT;
 
