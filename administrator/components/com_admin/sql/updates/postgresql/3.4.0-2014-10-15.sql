@@ -1,0 +1,4 @@
+ALTER TABLE `#__content` ALTER COLUMN `images` DROP NOT NULL;
+ALTER TABLE `#__content` ALTER COLUMN `urls` DROP NOT NULL;
+ALTER TABLE `#__content` ALTER COLUMN `attribs` DROP NOT NULL;
+ALTER TABLE `#__content` ALTER COLUMN `metadata` DROP NOT NULL;
