@@ -15,9 +15,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
 /**
  * Finder adapter for Joomla Tag.
  *
- * @package     Joomla.Plugin
- * @subpackage  Finder.Tags
- * @since       3.1
+ * @since  3.1
  */
 class PlgFinderTags extends FinderIndexerAdapter
 {

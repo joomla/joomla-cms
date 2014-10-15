@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * The Menu Item Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
- * @since       1.6
+ * @since  1.6
  */
 class MenusControllerItem extends JControllerForm
 {
@@ -88,6 +86,8 @@ class MenusControllerItem extends JControllerForm
 			$app->setUserState($context . '.type', null);
 			$app->setUserState($context . '.link', null);
 		}
+
+		return $result;
 	}
 
 	/**
@@ -113,7 +113,7 @@ class MenusControllerItem extends JControllerForm
 			$app->setUserState('com_menus.edit.item.link', null);
 		}
 
-		return true;
+		return $result;
 	}
 
 	/**
@@ -323,6 +323,8 @@ class MenusControllerItem extends JControllerForm
 				$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 				break;
 		}
+
+		return true;
 	}
 
 	/**

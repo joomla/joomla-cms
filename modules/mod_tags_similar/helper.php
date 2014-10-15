@@ -70,7 +70,8 @@ abstract class ModTagssimilarHelper
 				$db->quoteName('cc.core_title'),
 				$db->quoteName('cc.core_alias'),
 				$db->quoteName('cc.core_catid'),
-				$db->quoteName('cc.core_language')
+				$db->quoteName('cc.core_language'),
+				$db->quoteName('cc.core_params')
 				)
 		);
 
@@ -82,9 +83,11 @@ abstract class ModTagssimilarHelper
 
 		$query->where($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')');
 		$query->where('t.access IN (' . $groups . ')');
+		$query->where('(cc.core_access IN (' . $groups . ') OR cc.core_access = 0)');
 
 		// Don't show current item
-		$query->where('(' . $db->quoteName('m.content_item_id') . ' <> ' . $id . ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')');
+		$query->where('(' . $db->quoteName('m.content_item_id') . ' <> ' . $id
+			. ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')');
 
 		// Only return published tags
 		$query->where($db->quoteName('cc.core_state') . ' = 1 ');
@@ -123,6 +126,8 @@ abstract class ModTagssimilarHelper
 			$explodedAlias = explode('.', $result->type_alias);
 			$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1]
 				. '&id=' . $result->content_item_id . '-' . $result->core_alias;
+
+			$result->core_params = new JRegistry($result->core_params);
 		}
 
 		return $results;

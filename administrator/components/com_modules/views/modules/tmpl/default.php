@@ -159,7 +159,7 @@ $sortFields = $this->getSortFields();
 					</td>
 					<td class="center">
 						<div class="btn-group">
-							<?php echo JHtml::_('modules.state', $item->published, $i, $canChange, 'cb'); ?>
+							<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 							<?php
 								// Create dropdown items
 								JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules');

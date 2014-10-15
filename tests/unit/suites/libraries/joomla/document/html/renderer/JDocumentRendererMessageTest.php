@@ -33,8 +33,9 @@ class JDocumentRendererMessageTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$document = $this->getMockDocument();
+		JFactory::$session = $this->getMockSession();
 
 		$this->_instance = new JDocumentRendererMessage(JFactory::getDocument());
 

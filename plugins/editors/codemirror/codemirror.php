@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * CodeMirror Editor Plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Editors.codemirror
- * @since       1.6
+ * @since  1.6
  */
 class PlgEditorCodemirror extends JPlugin
 {
@@ -117,7 +115,8 @@ class PlgEditorCodemirror extends JPlugin
 	 *
 	 * @return  string  HTML Output
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true,
+		$id = null, $asset = null, $author = null, $params = array())
 	{
 		if (empty($id))
 		{

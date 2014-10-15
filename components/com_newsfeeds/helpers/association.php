@@ -15,9 +15,7 @@ JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/component
 /**
  * Newsfeeds Component Association Helper
  *
- * @package     Joomla.Site
- * @subpackage  com_contact
- * @since       3.0
+ * @since  3.0
  */
 abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 {
@@ -64,6 +62,5 @@ abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 		}
 
 		return array();
-
 	}
 }

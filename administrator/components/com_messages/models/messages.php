@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Messages Component Messages Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.6
+ * @since  1.6
  */
 class MessagesModelMessages extends JModelList
 {
@@ -125,7 +123,7 @@ class MessagesModelMessages extends JModelList
 
 		if (!empty($search))
 		{
-			$search = $db->quote('%' . $db->escape($search, true) . '%', false);
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 			$query->where('a.subject LIKE ' . $search . ' OR a.message LIKE ' . $search);
 		}
 

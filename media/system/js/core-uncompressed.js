@@ -181,6 +181,21 @@ Joomla.isChecked = function(isitchecked, form) {
     } else {
         form.boxchecked.value--;
     }
+
+    // Toggle main toggle checkbox depending on checkbox selection
+    var c = true, i, e;
+    for (i = 0, n = form.elements.length; i < n; i++) {
+        e = form.elements[i];
+        if (e.type == 'checkbox') {
+            if (e.name != 'checkall-toggle' && e.checked == false) {
+                c = false;
+                break;
+            }
+        }
+    }
+    if (form.elements['checkall-toggle']) {
+        form.elements['checkall-toggle'].checked = c;
+    }
 }
 
 /**
@@ -195,6 +210,59 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
             + ',scrollbars=' + scroll + ',resizable'
     win = window.open(mypage, myname, winprops)
     win.window.focus();
+}
+
+/**
+ * USED IN: All list views to hide/show the sidebar
+ */
+Joomla.toggleSidebar = function(force)
+{
+	var context = 'jsidebar';
+
+	var $visible = jQuery('#sidebar').is(":visible");
+
+	if (force)
+	{
+		// Load the value from localStorage
+		if (typeof(Storage) !== "undefined")
+		{
+			var $visible = localStorage.getItem(context);
+		}
+
+		// Need to convert the value to a boolean
+		$visible = ($visible == 'true') ? true : false;
+	}
+
+	if ($visible)
+	{
+		jQuery('#sidebar').hide();
+		jQuery('#j-sidebar-container').removeClass('span2').addClass('span1');
+        jQuery('#j-sidebar-container').removeClass('j-toggle-visible').addClass('j-toggle-hidden');
+		jQuery('#j-main-container').removeClass('span10').addClass('span12 expanded');
+		jQuery('#j-toggle-sidebar-icon').removeClass('icon-remove').addClass('icon-menu-3');
+		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_SHOW_SIDEBAR'));
+
+		if (typeof(Storage) !== "undefined")
+		{
+			// Set the last selection in localStorage
+			localStorage.setItem(context, true);
+		}
+	}
+	else
+	{
+		jQuery('#sidebar').show();
+		jQuery('#j-sidebar-container').removeClass('span1').addClass('span2');
+        jQuery('#j-sidebar-container').removeClass('j-toggle-hidden').addClass('j-toggle-visible');
+		jQuery('#j-main-container').removeClass('span12 expanded').addClass('span10');
+		jQuery('#j-toggle-sidebar-icon').removeClass('icon-menu-3').addClass('icon-remove');
+		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_HIDE_SIDEBAR'));
+
+		if (typeof(Storage) !== "undefined")
+		{
+			// Set the last selection in localStorage
+			localStorage.setItem(context, false);
+		}
+	}
 }
 
 /**

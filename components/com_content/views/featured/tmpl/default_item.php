@@ -44,20 +44,8 @@ $info    = $this->item->params->get('info_block_position', 0);
 	<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
 <?php endif; ?>
 
-<?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $canEdit) : ?>
-	<div class="btn-group pull-right"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" role="button"> <span class="icon-cog"></span> <span class="caret"></span> </a>
-		<ul class="dropdown-menu">
-		<?php if ($params->get('show_print_icon')) : ?>
-			<li class="print-icon"> <?php echo JHtml::_('icon.print_popup', $this->item, $params); ?> </li>
-		<?php endif; ?>
-		<?php if ($params->get('show_email_icon')) : ?>
-			<li class="email-icon"> <?php echo JHtml::_('icon.email', $this->item, $params); ?> </li>
-		<?php endif; ?>
-		<?php if ($canEdit) : ?>
-			<li class="edit-icon"> <?php echo JHtml::_('icon.edit', $this->item, $params); ?> </li>
-		<?php endif; ?>
-		</ul>
-	</div>
+<?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
+	<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
 <?php endif; ?>
 
 <?php // Todo Not that elegant would be nice to group the params ?>
@@ -237,13 +225,12 @@ $info    = $this->item->params->get('info_block_position', 0);
 				<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 			</dd>
 		<?php endif; ?>
+
+		<?php if ($this->params->get('show_tags', 1)) : ?>
+			<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+			<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+		<?php endif; ?>
 	</dl>
-
-	<?php if ($this->params->get('show_tags', 1)) : ?>
-		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
-		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
-	<?php endif; ?>
-
 <?php endif; ?>
 
 <?php if ($params->get('show_readmore') && $this->item->readmore) :
@@ -259,23 +246,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 		$link->setVar('return', base64_encode($returnURL));
 	endif; ?>
 
-	<p class="readmore"><a class="btn" href="<?php echo $link; ?>" itemprop="url"> <span class="icon-chevron-right"></span>
-
-	<?php if (!$params->get('access-view')) :
-		echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
-	elseif ($readmore = $this->item->alternative_readmore) :
-		echo $readmore;
-		if ($params->get('show_readmore_title', 0) != 0) :
-		echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
-		endif;
-	elseif ($params->get('show_readmore_title', 0) == 0) :
-		echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
-	else :
-		echo JText::_('COM_CONTENT_READ_MORE');
-		echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
-	endif; ?>
-
-	</a></p>
+	<?php echo JLayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
 
 <?php endif; ?>
 

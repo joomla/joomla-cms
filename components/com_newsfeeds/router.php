@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_newsfeeds
  *
- * @package     Joomla.Site
- * @subpackage  com_newsfeeds
- * @since       3.3
+ * @since  3.3
  */
 class NewsfeedsRouter extends JComponentRouterBase
 {
@@ -231,7 +229,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 						->select($db->quoteName('id'))
 						->from('#__newsfeeds')
 						->where($db->quoteName('catid') . ' = ' . (int) $vars['catid'])
-						->where($db->quoteName('alias') . ' = ' . $db->quote($db->quote($segment)));
+						->where($db->quoteName('alias') . ' = ' . $db->quote($segment));
 					$db->setQuery($query);
 					$nid = $db->loadResult();
 				}
@@ -252,21 +250,34 @@ class NewsfeedsRouter extends JComponentRouterBase
 }
 
 /**
- * Newsfeeds router functions
+ * newsfeedsBuildRoute
  *
  * These functions are proxys for the new router interface
  * for old SEF extensions.
  *
+ * @param   array  &$query  The segments of the URL to parse.
+ *
+ * @return array
+ *
  * @deprecated  4.0  Use Class based routers instead
  */
-function NewsfeedsBuildRoute(&$query)
+function newsfeedsBuildRoute(&$query)
 {
 	$router = new NewsfeedsRouter;
 
 	return $router->build($query);
 }
 
-function NewsfeedsParseRoute($segments)
+/**
+ * newsfeedsParseRoute
+ *
+ * @param   array  $segments  The segments of the URL to parse.
+ *
+ * @return array
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function newsfeedsParseRoute($segments)
 {
 	$router = new NewsfeedsRouter;
 

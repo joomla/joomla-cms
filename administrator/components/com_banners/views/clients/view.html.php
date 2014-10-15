@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of clients.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersViewClients extends JViewLegacy
 {
@@ -67,7 +65,7 @@ class BannersViewClients extends JViewLegacy
 
 		$canDo = JHelperContent::getActions('com_banners');
 
-		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'banners-clients.png');
+		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
 
 		if ($canDo->get('core.create'))
 		{

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Categories Component Categories Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesModelCategories extends JModelList
 {
@@ -136,7 +134,9 @@ class CategoriesModelCategories extends JModelList
 	}
 
 	/**
-	 * @return  string
+	 * Method to get a database query to list categories.
+	 *
+	 * @return  JDatabaseQuery object.
 	 *
 	 * @since   1.6
 	 */
@@ -177,6 +177,7 @@ class CategoriesModelCategories extends JModelList
 
 		// Join over the associations.
 		$assoc = $this->getAssoc();
+
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
@@ -212,6 +213,7 @@ class CategoriesModelCategories extends JModelList
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.published = ' . (int) $published);
@@ -223,6 +225,7 @@ class CategoriesModelCategories extends JModelList
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -236,7 +239,7 @@ class CategoriesModelCategories extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
@@ -249,6 +252,7 @@ class CategoriesModelCategories extends JModelList
 
 		// Filter by a single tag.
 		$tagId = $this->getState('filter.tag');
+
 		if (is_numeric($tagId))
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
@@ -262,6 +266,7 @@ class CategoriesModelCategories extends JModelList
 		// Add the list ordering clause
 		$listOrdering = $this->getState('list.ordering', 'a.lft');
 		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));
+
 		if ($listOrdering == 'a.access')
 		{
 			$query->order('a.access ' . $listDirn . ', a.lft ' . $listDirn);
@@ -271,7 +276,6 @@ class CategoriesModelCategories extends JModelList
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
-		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 

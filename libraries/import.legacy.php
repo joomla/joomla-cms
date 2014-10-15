@@ -22,6 +22,7 @@ if (!defined('IS_WIN'))
 {
 	define('IS_WIN', ($os === 'WIN') ? true : false);
 }
+
 if (!defined('IS_UNIX'))
 {
 	define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
@@ -65,8 +66,8 @@ JLoader::import('joomla.factory');
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
-// Register classes for compatability with PHP 5.3
-if (version_compare(PHP_VERSION, '5.4.0', '<'))
+// Check if the JsonSerializable interface exists already
+if (!interface_exists('JsonSerializable'))
 {
 	JLoader::register('JsonSerializable', __DIR__ . '/compat/jsonserializable.php');
 }

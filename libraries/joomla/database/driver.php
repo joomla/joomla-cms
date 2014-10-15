@@ -265,7 +265,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// If we already have a database connector instance for these options then just use that.
 		if (empty(self::$instances[$signature]))
 		{
-
 			// Derive the class name from the driver.
 			$class = 'JDatabaseDriver' . ucfirst(strtolower($options['driver']));
 
@@ -607,6 +606,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		{
 			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `utf8`';
 		}
+
 		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
 	}
 
@@ -920,6 +920,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function getUTFSupport()
 	{
 		JLog::add('JDatabaseDriver::getUTFSupport() is deprecated. Use JDatabaseDriver::hasUTFSupport() instead.', JLog::WARNING, 'deprecated');
+
 		return $this->hasUTFSupport();
 	}
 
@@ -1606,6 +1607,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				{
 					break;
 				}
+
 				$l = $k - 1;
 
 				while ($l >= 0 && $sql{$l} == '\\')
@@ -1702,6 +1704,16 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 		if ($query instanceof JDatabaseQueryLimitable)
 		{
+			if (!$limit && $query->limit)
+			{
+				$limit = $query->limit;
+			}
+
+			if (!$offset && $query->offset)
+			{
+				$offset = $query->offset;
+			}
+
 			$query->setLimit($limit, $offset);
 		}
 		else
