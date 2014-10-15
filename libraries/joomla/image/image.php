@@ -118,8 +118,6 @@ class JImage
 	 * The result object has values for image width, height, type, attributes,
 	 * mime type, bits and channels.
 	 *
-	 * @static
-	 *
 	 * @param   string  $path  The filesystem path to the image for which to get properties.
 	 *
 	 * @return  stdClass
@@ -135,7 +133,7 @@ class JImage
 	{
 		return JImageHelper::getImageFileProperties($path);
 	}
-	
+
 	/**
 	 * Method to detect whether an image's orientation is landscape, portrait or square.
 	 * The orientation will be returned as string.
@@ -144,19 +142,19 @@ class JImage
 	 *
 	 * @return  mixed   Orientation string or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.4
 	 */
 	public function getOrientation()
 	{
-	    if ($this->isLoaded())
-	    {
-	        $width  = $this->getWidth();
-	        $height = $this->getHeight();
-	
-	        return JImageHelper::getOrientation($width, $height);
-	    }
-	
-	    return null;
+		if ($this->isLoaded())
+		{
+			$width  = $this->getWidth();
+			$height = $this->getHeight();
+
+			return JImageHelper::getOrientation($width, $height);
+		}
+
+		return null;
 	}
 
 	/**
