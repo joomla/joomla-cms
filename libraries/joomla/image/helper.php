@@ -43,8 +43,6 @@ abstract class JImageHelper
 	 * The result object has values for image width, height, type, attributes,
 	 * bits, channels, mime type, filesize and orientation.
 	 *
-	 * @static
-	 *
 	 * @param   string  $path  The filesystem path to the image for which to get properties.
 	 *
 	 * @return  stdClass
@@ -52,7 +50,7 @@ abstract class JImageHelper
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.4
 	 */
 	public static function getImageFileProperties($path)
 	{
@@ -83,39 +81,37 @@ abstract class JImageHelper
 			'channels' => isset($info['channels']) ? $info['channels'] : null,
 			'mime' => $info['mime'],
 			'filesize' => filesize($path),
-			'orientation' => JImageHelper::getOrientation((int) $info[0], (int) $info[1])
+			'orientation' => self::getOrientation((int) $info[0], (int) $info[1])
 		);
 
 		return $properties;
 	}
-	
+
 	/**
 	 * Compare width and height integers to determine image orientation.
 	 *
-	 * @static
+	 * @param   integer  $width    The width value to use for calculation
+	 * @param   integer  $height   The height value to use for calculation
 	 *
-	 * @param  integer  $width
-	 * @param  integer  $height
+	 * @return  mixed    Orientation string or null.
 	 *
-	 * @return  mixed   Orientation string or null.
-	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.4
 	 */
 	public static function getOrientation($width, $height)
 	{
-	    switch (true)
-	    {
-	        case ($width > $height) :
-	            return self::ORIENTATION_LANDSCAPE;
+		switch (true)
+		{
+		case ($width > $height) :
+			return self::ORIENTATION_LANDSCAPE;
 	
-	        case ($width < $height) :
-	            return self::ORIENTATION_PORTRAIT;
-	
-	        case ($width == $height) :
-	            return self::ORIENTATION_SQUARE;
-	
-	        default :
-	            return null;
-	    }
+		case ($width < $height) :
+			return self::ORIENTATION_PORTRAIT;
+
+		case ($width == $height) :
+			return self::ORIENTATION_SQUARE;
+
+		default :
+			return null;
+		}
 	}
 }
