@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Banners Component Category Tree
  *
- * @package     Joomla.Site
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersCategories extends JCategories
 {

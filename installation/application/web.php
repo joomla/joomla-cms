@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 /**
- * Joomla! Installation Application class
+ * Joomla! Installation Application class.
  *
  * @package     Joomla.Installation
  * @subpackage  Application
@@ -27,10 +27,10 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	public function __construct()
 	{
-		// Run the parent constructor
+		// Run the parent constructor.
 		parent::__construct();
 
-		// Load and set the dispatcher
+		// Load and set the dispatcher.
 		$this->loadDispatcher();
 
 		// Enable sessions by default.
@@ -50,23 +50,23 @@ final class InstallationApplicationWeb extends JApplicationCms
 		{
 			$this->loadSession();
 
-			// Register the session with JFactory
+			// Register the session with JFactory.
 			JFactory::$session = $this->getSession();
 		}
 
-		// Store the debug value to config based on the JDEBUG flag
+		// Store the debug value to config based on the JDEBUG flag.
 		$this->config->set('debug', JDEBUG);
 
-		// Register the config to JFactory
+		// Register the config to JFactory.
 		JFactory::$config = $this->config;
 
-		// Register the application to JFactory
+		// Register the application to JFactory.
 		JFactory::$application = $this;
 
-		// Register the application name
+		// Register the application name.
 		$this->_name = 'installation';
 
-		// Register the client ID
+		// Register the client ID.
 		$this->_clientId = 2;
 
 		// Set the root in the URI one level up.
@@ -76,9 +76,9 @@ final class InstallationApplicationWeb extends JApplicationCms
 	}
 
 	/**
-	 * Method to display errors in language parsing
+	 * Method to display errors in language parsing.
 	 *
-	 * @return  string  Language debug output
+	 * @return  string  Language debug output.
 	 *
 	 * @since   3.1
 	 */
@@ -114,11 +114,13 @@ final class InstallationApplicationWeb extends JApplicationCms
 			ksort($orphans, SORT_STRING);
 
 			$guesses = array();
+
 			foreach ($orphans as $key => $occurance)
 			{
 				$guess = str_replace('_', ' ', $key);
 
 				$parts = explode(' ', $guess);
+
 				if (count($parts) > 1)
 				{
 					array_shift($parts);
@@ -131,7 +133,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 				$key = preg_replace('#\s+#', '_', $key);
 				$key = preg_replace('#\W#', '', $key);
 
-				// Prepare the text
+				// Prepare the text.
 				$guesses[] = $key . '="' . $guess . '"';
 			}
 
@@ -148,7 +150,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	}
 
 	/**
-	 * Dispatch the application
+	 * Dispatch the application.
 	 *
 	 * @return  void
 	 *
@@ -158,13 +160,13 @@ final class InstallationApplicationWeb extends JApplicationCms
 	{
 		try
 		{
-			// Load the document to the API
+			// Load the document to the API.
 			$this->loadDocument();
 
 			// Set up the params
 			$document = $this->getDocument();
 
-			// Register the document object with JFactory
+			// Register the document object with JFactory.
 			JFactory::$document = $document;
 
 			if ($document->getType() == 'html')
@@ -173,7 +175,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 				$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
 			}
 
-			// Define component path
+			// Define component path.
 			define('JPATH_COMPONENT', JPATH_BASE);
 			define('JPATH_COMPONENT_SITE', JPATH_SITE);
 			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
@@ -190,7 +192,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 				$this->close($e->getCode());
 			}
 
-			// If debug language is set, append its output to the contents
+			// If debug language is set, append its output to the contents.
 			if ($this->config->get('debug_lang'))
 			{
 				$contents .= $this->debugLanguage();
@@ -217,10 +219,10 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	protected function doExecute()
 	{
-		// Initialise the application
+		// Initialise the application.
 		$this->initialiseApp();
 
-		// Dispatch the application
+		// Dispatch the application.
 		$this->dispatch();
 	}
 
@@ -260,7 +262,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			$task = 'default';
 		}
 
-		// Set the controller class name based on the task
+		// Set the controller class name based on the task.
 		$class = 'InstallationController' . ucfirst($task);
 
 		// If the requested controller exists let's use it.
@@ -290,7 +292,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			return false;
 		}
 
-		// Check that it's a localise file
+		// Check that it's a localise file.
 		if ($xml->getName() != 'localise')
 		{
 			return false;
@@ -310,19 +312,19 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 * Returns the installed language files in the administrative and
 	 * front-end area.
 	 *
-	 * @param   mixed  $db  JDatabaseDriver instance
+	 * @param   mixed  $db  JDatabaseDriver instance.
 	 *
-	 * @return  array  Array with installed language packs in admin and site area
+	 * @return  array  Array with installed language packs in admin and site area.
 	 *
 	 * @since   3.1
 	 */
 	public function getLocaliseAdmin($db = false)
 	{
-		// Read the files in the admin area
+		// Read the files in the admin area.
 		$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
 		$langfiles['admin'] = JFolder::folders($path);
 
-		// Read the files in the site area
+		// Read the files in the site area.
 		$path = JLanguage::getLanguagePath(JPATH_SITE);
 		$langfiles['site'] = JFolder::folders($path);
 
@@ -343,7 +345,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			{
 				switch ($lang->client_id)
 				{
-					// Site
+					// Site.
 					case 0:
 						if (in_array($lang->element, $langfiles_disk['site']))
 						{
@@ -352,7 +354,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 						break;
 
-					// Administrator
+					// Administrator.
 					case 1:
 						if (in_array($lang->element, $langfiles_disk['admin']))
 						{
@@ -383,6 +385,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			$template = new stdClass;
 			$template->template = 'template';
 			$template->params = new Registry;
+
 			return $template;
 		}
 
@@ -407,6 +410,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		if (empty($options['language']))
 		{
 			$requestLang = $this->input->getCmd('lang', null);
+
 			if (!is_null($requestLang))
 			{
 				$options['language'] = $requestLang;
@@ -442,13 +446,13 @@ final class InstallationApplicationWeb extends JApplicationCms
 			}
 		}
 
-		// Give the user English
+		// Give the user English.
 		if (empty($options['language']))
 		{
 			$options['language'] = 'en-GB';
 		}
 
-		// Check for custom helpurl
+		// Check for custom helpurl.
 		if (empty($forced['helpurl']))
 		{
 			$options['helpurl'] = 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';
@@ -458,10 +462,10 @@ final class InstallationApplicationWeb extends JApplicationCms
 			$options['helpurl'] = $forced['helpurl'];
 		}
 
-		// Store helpurl in the session
+		// Store helpurl in the session.
 		$this->getSession()->set('setup.helpurl', $options['helpurl']);
 
-		// Set the language in the class
+		// Set the language in the class.
 		$this->config->set('language', $options['language']);
 		$this->config->set('debug_lang', $forced['debug']);
 		$this->config->set('sampledata', $forced['sampledata']);
@@ -499,7 +503,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 			$document = JDocument::getInstance($type, $attributes);
 
-			// Register the instance to JFactory
+			// Register the instance to JFactory.
 			JFactory::$document = $document;
 		}
 
@@ -554,7 +558,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 		if (!$session->get('registry') instanceof Registry)
 		{
-			// Registry has been corrupted somehow
+			// Registry has been corrupted somehow.
 			$session->set('registry', new Registry('session'));
 		}
 
@@ -624,7 +628,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	}
 
 	/**
-	 * Set configuration values
+	 * Set configuration values.
 	 *
 	 * @param   array   $vars       Array of configuration values
 	 * @param   string  $namespace  The namespace

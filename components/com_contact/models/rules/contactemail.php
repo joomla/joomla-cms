@@ -16,8 +16,7 @@ JFormHelper::loadRuleClass('email');
 /**
  * JFormRule for com_contact to make sure the E-Mail adress is not blocked.
  *
- * @package     Joomla.Site
- * @subpackage  com_contact
+ * @since  1.6
  */
 class JFormRuleContactEmail extends JFormRuleEmail
 {
@@ -46,7 +45,7 @@ class JFormRuleContactEmail extends JFormRuleEmail
 
 		if ($banned)
 		{
-			foreach(explode(';', $banned) as $item)
+			foreach (explode(';', $banned) as $item)
 			{
 				if ($item != '' && JString::stristr($value, $item) !== false)
 				{

@@ -50,6 +50,7 @@ class JTableUpdate extends JTable
 
 			return false;
 		}
+
 		return true;
 	}
 

@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * HTML View class for the Tags component
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsViewTags extends JViewLegacy
 {
@@ -166,6 +164,22 @@ class TagsViewTags extends JViewLegacy
 			$this->params->set('page_subheading', $menu->title);
 		}
 
+		// Set metadata for all tags menu item
+		if ($this->params->get('menu-meta_description'))
+		{
+			$this->document->setDescription($this->params->get('menu-meta_description'));
+		}
+
+		if ($this->params->get('menu-meta_keywords'))
+		{
+			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+		}
+
+		if ($this->params->get('robots'))
+		{
+			$this->document->setMetadata('robots', $this->params->get('robots'));
+		}
+
 		// If this is not a single tag menu item, set the page title to the tag titles
 		$title = '';
 
@@ -179,6 +193,7 @@ class TagsViewTags extends JViewLegacy
 					{
 						$title .= ', ';
 					}
+
 					$title .= $itemElement->title;
 				}
 			}
@@ -204,7 +219,7 @@ class TagsViewTags extends JViewLegacy
 				{
 					$this->document->setDescription($this->item->metadesc);
 				}
-				elseif ($itemElement->metadesc && $this->params->get('menu-meta_description'))
+				elseif (!$itemElement->metadesc && $this->params->get('menu-meta_description'))
 				{
 					$this->document->setDescription($this->params->get('menu-meta_description'));
 				}

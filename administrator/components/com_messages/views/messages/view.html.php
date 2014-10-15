@@ -13,9 +13,7 @@ JHtml::_('behavior.modal');
 /**
  * View class for a list of messages.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.6
+ * @since  1.6
  */
 class MessagesViewMessages extends JViewLegacy
 {

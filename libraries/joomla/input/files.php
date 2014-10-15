@@ -83,7 +83,6 @@ class JInputFiles extends JInput
 		}
 
 		return $default;
-
 	}
 
 	/**
@@ -105,6 +104,7 @@ class JInputFiles extends JInput
 			{
 				$result[$k] = $this->decodeData(array($data[0][$k], $data[1][$k], $data[2][$k], $data[3][$k], $data[4][$k]));
 			}
+
 			return $result;
 		}
 

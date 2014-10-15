@@ -13,9 +13,7 @@ defined('_JEXEC') or die;
 /**
  * CodeMirror Editor Plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Editors.codemirror
- * @since       1.6
+ * @since  1.6
  */
 class PlgEditorCodemirror extends JPlugin
 {

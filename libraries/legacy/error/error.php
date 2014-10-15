@@ -116,6 +116,7 @@ abstract class JError
 		{
 			$error = &self::$stack[0];
 		}
+
 		return $error;
 	}
 
@@ -176,6 +177,7 @@ abstract class JError
 
 		// Build error object
 		$exception = new JException($msg, $code, $level, $info, $backtrace);
+
 		return self::throwError($exception);
 	}
 
@@ -212,6 +214,7 @@ abstract class JError
 		$handler = self::getErrorHandling($level);
 
 		$function = 'handle' . ucfirst($handler['mode']);
+
 		if (is_callable(array('JError', $function)))
 		{
 			$reference = call_user_func_array(array('JError', $function), array(&$exception, (isset($handler['options'])) ? $handler['options'] : array()));
@@ -375,6 +378,7 @@ abstract class JError
 				if (!is_callable($options))
 				{
 					$tmp = array('GLOBAL');
+
 					if (is_array($options))
 					{
 						$tmp[0] = $options[0];
@@ -396,6 +400,7 @@ abstract class JError
 
 			// Save settings
 			self::$handlers[$eLevel] = array('mode' => $mode);
+
 			if ($options != null)
 			{
 				self::$handlers[$eLevel]['options'] = $options;
@@ -537,6 +542,7 @@ abstract class JError
 		{
 			$backtrace = $error->getTrace();
 			$trace = '';
+
 			for ($i = count($backtrace) - 1; $i >= 0; $i--)
 			{
 				if (isset($backtrace[$i]['class']))
@@ -568,6 +574,7 @@ abstract class JError
 			if (defined('STDERR'))
 			{
 				fwrite(STDERR, "J$level_human: " . $error->get('message') . "\n");
+
 				if (defined('JDEBUG'))
 				{
 					fwrite(STDERR, $trace);
@@ -576,6 +583,7 @@ abstract class JError
 			else
 			{
 				echo "J$level_human: " . $error->get('message') . "\n";
+
 				if (defined('JDEBUG'))
 				{
 					echo $trace;
@@ -622,11 +630,11 @@ abstract class JError
 		{
 			// Output as simple text
 			echo "J$level_human: " . $error->get('message') . "\n";
+
 			if ($info != null)
 			{
 				echo "\t" . $info . "\n";
 			}
-
 		}
 
 		return $error;
@@ -770,6 +778,7 @@ abstract class JError
 
 		$app = JFactory::getApplication();
 		$document = JDocument::getInstance('error');
+
 		if ($document)
 		{
 			$config = JFactory::getConfig();
@@ -810,6 +819,7 @@ abstract class JError
 			// This is a common use case for Command Line Interface applications.
 			self::handleEcho($error, array());
 		}
+
 		$app->close(0);
 	}
 

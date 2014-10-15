@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Template style table class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesTableStyle extends JTable
 {

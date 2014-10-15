@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Redirect component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_redirect
- * @since       1.6
+ * @since  1.6
  */
 class RedirectHelper
 {
@@ -25,7 +23,9 @@ class RedirectHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vName  The name of the active view.
+	 *
+	 * @return  void.
 	 *
 	 * @since   1.6
 	 */

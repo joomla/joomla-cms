@@ -140,6 +140,7 @@ class JCategories
 		if (!class_exists($classname))
 		{
 			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
+
 			if (is_file($path))
 			{
 				include_once $path;
@@ -666,6 +667,7 @@ class JCategoryNode extends JObject
 		if ($category)
 		{
 			$this->setProperties($category);
+
 			if ($constructor)
 			{
 				$this->_constructor = $constructor;
@@ -711,6 +713,7 @@ class JCategoryNode extends JObject
 				{
 					$this->_path = $parent->getPath();
 				}
+
 				$this->_path[] = $this->id . ':' . $this->alias;
 			}
 
@@ -771,6 +774,7 @@ class JCategoryNode extends JObject
 		if (!$this->_allChildrenloaded)
 		{
 			$temp = $this->_constructor->get($this->id, true);
+
 			if ($temp)
 			{
 				$this->_children = $temp->getChildren();
@@ -783,11 +787,13 @@ class JCategoryNode extends JObject
 		if ($recursive)
 		{
 			$items = array();
+
 			foreach ($this->_children as $child)
 			{
 				$items[] = $child;
 				$items = array_merge($items, $child->getChildren(true));
 			}
+
 			return $items;
 		}
 
@@ -962,6 +968,7 @@ class JCategoryNode extends JObject
 	public function setAllLoaded()
 	{
 		$this->_allChildrenloaded = true;
+
 		foreach ($this->_children as $child)
 		{
 			$child->setAllLoaded();

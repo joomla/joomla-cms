@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Profile model class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelProfile extends JModelForm
 {

@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Prototype admin model.
  *
- * @package     Joomla.Site
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 abstract class ConfigModelCms extends JModelDatabase
 {

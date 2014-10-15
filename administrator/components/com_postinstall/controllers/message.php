@@ -9,10 +9,15 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Postinstall message controller.
+ *
+ * @since  3.2
+ */
 class PostinstallControllerMessage extends FOFController
 {
 	/**
-	 * Resets all post-installation messages of the specified extension
+	 * Resets all post-installation messages of the specified extension.
 	 *
 	 * @return  void
 	 *
@@ -36,7 +41,7 @@ class PostinstallControllerMessage extends FOFController
 	}
 
 	/**
-	 * Executes the action associated with an item
+	 * Executes the action associated with an item.
 	 *
 	 * @return  void
 	 *
@@ -44,7 +49,7 @@ class PostinstallControllerMessage extends FOFController
 	 */
 	public function action()
 	{
-		// CSRF prevention
+		// CSRF prevention.
 		if ($this->csrfProtection)
 		{
 			$this->_csrfProtection();
