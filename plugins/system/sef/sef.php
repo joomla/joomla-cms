@@ -48,7 +48,10 @@ class PlgSystemSef extends JPlugin
 
 		if ($uri !== $link)
 		{
+			$fragment_link = strpos($link, "?");
+			$link = ( $fragment_link > 1 ) ? substr($link, 0, $fragment_link) : $link;
 			$doc->addHeadLink(htmlspecialchars($link), 'canonical');
+			
 		}
 	}
 
