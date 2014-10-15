@@ -1740,6 +1740,13 @@ INSERT INTO "#__update_sites_extensions" ("update_site_id", "extension_id") VALU
 (4, 28);
 
 --
+-- Postgressql use the sequence instead of autoincrement,
+-- So, need to tell what is the last value of the sequnce after the 4
+--
+SELECT nextval('#__update_sites_update_site_id_seq');
+SELECT setval('#__update_sites_update_site_id_seq', 5, false);
+
+--
 -- Table: #__usergroups
 --
 CREATE TABLE "#__usergroups" (
