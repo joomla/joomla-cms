@@ -157,10 +157,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testGetClientId()
 	{
-		$this->assertEquals(
-			$this->class->getClientId(),
-			1
-		);
+		$this->assertSame(1, $this->class->getClientId());
 	}
 
 	/**
@@ -172,10 +169,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testGetName()
 	{
-		$this->assertEquals(
-			$this->class->getName(),
-			'administrator'
-		);
+		$this->assertSame('administrator', $this->class->getName());
 	}
 
 	/**
@@ -187,10 +181,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testGetMenu()
 	{
-		$this->assertThat(
-			$this->class->getMenu(),
-			$this->isInstanceOf('JMenuAdministrator')
-		);
+		$this->assertInstanceOf('JMenuAdministrator', $this->class->getMenu());
 	}
 
 	/**
@@ -202,10 +193,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testGetPathway()
 	{
-		$this->assertNull(
-			$this->class->getPathway(),
-			'The admin app does not have a JPathway class.'
-		);
+		$this->assertNull($this->class->getPathway());
 	}
 
 	/**
@@ -217,10 +205,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testGetRouter()
 	{
-		$this->assertThat(
-			$this->class->getRouter(),
-			$this->isInstanceOf('JRouterAdministrator')
-		);
+		$this->assertInstanceOf('JRouterAdministrator', $this->class->getRouter());
 	}
 
 	/**
@@ -236,15 +221,9 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 
 		$template = $this->class->getTemplate(true);
 
-		$this->assertThat(
-			$template->params,
-			$this->isInstanceOf('JRegistry')
-		);
+		$this->assertInstanceOf('JRegistry', $template->params);
 
-		$this->assertThat(
-			$template->template,
-			$this->equalTo('isis')
-		);
+		$this->assertEquals('isis', $template->template);
 	}
 
 	/**
@@ -256,11 +235,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testIsAdmin()
 	{
-		$this->assertThat(
-			$this->class->isAdmin(),
-			$this->isTrue(),
-			'JApplicationAdministrator is an admin app'
-		);
+		$this->assertTrue($this->class->isAdmin());
 	}
 
 	/**
@@ -272,11 +247,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testIsSite()
 	{
-		$this->assertThat(
-			$this->class->isSite(),
-			$this->isFalse(),
-			'JApplicationAdministrator is not a site app'
-		);
+		$this->assertFalse($this->class->isSite());
 	}
 
 	/**
@@ -299,11 +270,6 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 
 		TestReflection::invoke($this->class, 'render');
 
-		$this->assertThat(
-			TestReflection::getValue($this->class, 'response')->body,
-			$this->equalTo(
-				array('JWeb Body')
-			)
-		);
+		$this->assertEquals(array('JWeb Body'), TestReflection::getValue($this->class, 'response')->body);
 	}
 }
