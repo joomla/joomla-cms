@@ -595,7 +595,7 @@ class JHelperTags extends JHelper
 		}
 
 		// Get the type data, limited to types in the request if there are any specified.
-		$typesarray = self::getTypes('assocList', $typesr, false);
+		$typesarray = self::getTypes('assocList', $typesr, true);
 
 		$typeAliases = '';
 
