@@ -133,12 +133,9 @@ class JDatabaseExporterMysqlTest extends TestCase
  </database>
 </mysqldump>';
 
-		$this->assertThat(
-			preg_replace('/\v/', '', (string) $instance),
-			$this->equalTo(
-				preg_replace('/\v/', '', $expecting)
-			),
-			'__toString has not returned the expected result.'
+		$this->assertSame(
+			preg_replace('/\v/', '', $expecting),
+			preg_replace('/\v/', '', (string) $instance)
 		);
 	}
 
@@ -155,15 +152,15 @@ class JDatabaseExporterMysqlTest extends TestCase
 
 		$result = $instance->asXml();
 
-		$this->assertThat(
+		$this->assertSame(
+			$instance,
 			$result,
-			$this->identicalTo($instance),
 			'asXml must return an object to support chaining.'
 		);
 
-		$this->assertThat(
+		$this->assertSame(
+			'xml',
 			TestReflection::getValue($instance, 'asFormat'),
-			$this->equalTo('xml'),
 			'The asXml method should set the protected asFormat property to "xml".'
 		);
 	}
@@ -197,12 +194,9 @@ class JDatabaseExporterMysqlTest extends TestCase
 </mysqldump>';
 
 		// Replace used to prevent platform conflicts
-		$this->assertThat(
-			preg_replace('/\v/', '', TestReflection::invoke($instance, 'buildXml')),
-			$this->equalTo(
-				preg_replace('/\v/', '', $expecting)
-			),
-			'buildXml has not returned the expected result.'
+		$this->assertSame(
+			preg_replace('/\v/', '', $expecting),
+			preg_replace('/\v/', '', TestReflection::invoke($instance, 'buildXml'))
 		);
 	}
 
@@ -223,28 +217,25 @@ class JDatabaseExporterMysqlTest extends TestCase
 			->from('jos_test')
 			->withStructure(true);
 
-		$this->assertThat(
-			TestReflection::invoke($instance, 'buildXmlStructure'),
-			$this->equalTo(
-				array(
-					'  <table_structure name="#__test">',
-					'   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />',
-					'   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />',
-					'   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" ' .
-					'Null="" Index_type="BTREE" Comment="" />',
-					'  </table_structure>'
-				)
+		$this->assertEquals(
+			array(
+				'  <table_structure name="#__test">',
+				'   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />',
+				'   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />',
+				'   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" ' .
+				'Null="" Index_type="BTREE" Comment="" />',
+				'  </table_structure>'
 			),
-			'buildXmlStructure has not returned the expected result.'
+			TestReflection::invoke($instance, 'buildXmlStructure')
 		);
 	}
 
 	/**
 	 * Tests the check method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  11.1
+	 * @since   11.1
 	 */
 	public function testCheckWithNoDbo()
 	{
@@ -260,9 +251,7 @@ class JDatabaseExporterMysqlTest extends TestCase
 			return;
 		}
 
-		$this->fail(
-			'Check method should throw exception if DBO not set'
-		);
+		$this->fail('Check method should throw exception if DBO not set');
 	}
 
 	/**
@@ -287,17 +276,15 @@ class JDatabaseExporterMysqlTest extends TestCase
 			return;
 		}
 
-		$this->fail(
-			'Check method should throw exception if DBO not set'
-		);
+		$this->fail('Check method should throw exception if the from property not set');
 	}
 
 	/**
 	 * Tests the check method.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  11.1
+	 * @since   11.1
 	 */
 	public function testCheckWithGoodInput()
 	{
@@ -309,26 +296,24 @@ class JDatabaseExporterMysqlTest extends TestCase
 		{
 			$result = $instance->check();
 
-			$this->assertThat(
+			$this->assertSame(
+				$instance,
 				$result,
-				$this->identicalTo($instance),
 				'check must return an object to support chaining.'
 			);
 		}
 		catch (Exception $e)
 		{
-			$this->fail(
-				'Check method should not throw exception with good setup: ' . $e->getMessage()
-			);
+			$this->fail('Check method should not throw exception with good setup: ' . $e->getMessage());
 		}
 	}
 
 	/**
 	 * Tests the from method with bad input.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  11.1
+	 * @since   11.1
 	 */
 	public function testFromWithBadInput()
 	{
@@ -344,9 +329,7 @@ class JDatabaseExporterMysqlTest extends TestCase
 			return;
 		}
 
-		$this->fail(
-			'From method should thrown an exception if argument is not a string or array.'
-		);
+		$this->fail('From method should thrown an exception if argument is not a string or array.');
 	}
 
 	/**
@@ -364,23 +347,21 @@ class JDatabaseExporterMysqlTest extends TestCase
 		{
 			$result = $instance->from('jos_foobar');
 
-			$this->assertThat(
+			$this->assertSame(
+				$instance,
 				$result,
-				$this->identicalTo($instance),
 				'from must return an object to support chaining.'
 			);
 
-			$this->assertThat(
+			$this->assertSame(
+				array('jos_foobar'),
 				TestReflection::getValue($instance, 'from'),
-				$this->equalTo(array('jos_foobar')),
 				'The from method should convert a string input to an array.'
 			);
 		}
 		catch (Exception $e)
 		{
-			$this->fail(
-				'From method should not throw exception with good input: ' . $e->getMessage()
-			);
+			$this->fail('From method should not throw exception with good input: ' . $e->getMessage());
 		}
 	}
 
@@ -396,9 +377,9 @@ class JDatabaseExporterMysqlTest extends TestCase
 		$instance = new JDatabaseExporterMysql;
 		$instance->setDbo($this->dbo);
 
-		$this->assertThat(
+		$this->assertSame(
+			'#__test',
 			TestReflection::invoke($instance, 'getGenericTableName', 'jos_test'),
-			$this->equalTo('#__test'),
 			'The testGetGenericTableName should replace the database prefix with #__.'
 		);
 	}
@@ -424,9 +405,7 @@ class JDatabaseExporterMysqlTest extends TestCase
 			return;
 		}
 
-		$this->fail(
-			'setDbo requires a JDatabaseDriverMysql object and should throw an exception.'
-		);
+		$this->fail('setDbo requires a JDatabaseDriverMysql object and should throw an exception if one is not provided.');
 	}
 
 	/**
@@ -444,18 +423,16 @@ class JDatabaseExporterMysqlTest extends TestCase
 		{
 			$result = $instance->setDbo($this->dbo);
 
-			$this->assertThat(
+			$this->assertSame(
+				$instance,
 				$result,
-				$this->identicalTo($instance),
 				'setDbo must return an object to support chaining.'
 			);
 		}
 		catch (PHPUnit_Framework_Error $e)
 		{
 			// Unknown error has occurred.
-			$this->fail(
-				$e->getMessage()
-			);
+			$this->fail($e->getMessage());
 		}
 	}
 
@@ -472,17 +449,16 @@ class JDatabaseExporterMysqlTest extends TestCase
 
 		$result = $instance->withStructure();
 
-		$this->assertThat(
+		$this->assertSame(
+			$instance,
 			$result,
-			$this->identicalTo($instance),
 			'withStructure must return an object to support chaining.'
 		);
 
 		$options = TestReflection::getValue($instance, 'options');
 
-		$this->assertThat(
+		$this->assertTrue(
 			$options->withStructure,
-			$this->isTrue(),
 			'The default use of withStructure should result in true.'
 		);
 
@@ -490,9 +466,8 @@ class JDatabaseExporterMysqlTest extends TestCase
 
 		$options = TestReflection::getValue($instance, 'options');
 
-		$this->assertThat(
+		$this->assertTrue(
 			$options->withStructure,
-			$this->isTrue(),
 			'The explicit use of withStructure with true should result in true.'
 		);
 
@@ -500,9 +475,8 @@ class JDatabaseExporterMysqlTest extends TestCase
 
 		$options = TestReflection::getValue($instance, 'options');
 
-		$this->assertThat(
+		$this->assertFalse(
 			$options->withStructure,
-			$this->isFalse(),
 			'The explicit use of withStructure with false should result in false.'
 		);
 	}
