@@ -44,30 +44,6 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
-	 * Tests the __destruct method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.4
-	 */
-	public function test__destruct()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Tests the connected method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.4
-	 */
-	public function testConnected()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Tests the dropTable method.
 	 *
 	 * @return  void
@@ -319,18 +295,6 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
-	 * Test insertid method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.4
-	 */
-	public function testInsertid()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Test loadAssoc method.
 	 *
 	 * @return  void
@@ -385,30 +349,6 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$result = self::$driver->loadColumn();
 
 		$this->assertSame(array('Testing', 'Testing2', 'Testing3', 'Testing4'), $result);
-	}
-
-	/**
-	 * Test loadNextObject method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.4
-	 */
-	public function testLoadNextObject()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test loadNextRow method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.4
-	 */
-	public function testLoadNextRow()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -586,30 +526,6 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
-	 * Test select method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.4
-	 */
-	public function testSelect()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test setUTF method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.4
-	 */
-	public function testSetUTF()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Tests the transactionCommit method.
 	 *
 	 * @return  void
@@ -708,17 +624,5 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	public function testIsSupported()
 	{
 		$this->assertTrue(JDatabaseDriverMysql::isSupported());
-	}
-
-	/**
-	 * Test updateObject method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.4
-	 */
-	public function testUpdateObject()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

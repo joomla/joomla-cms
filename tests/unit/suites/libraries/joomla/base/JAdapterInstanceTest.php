@@ -56,8 +56,6 @@ class JAdapterInstanceTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Decide how to Implement.
-	 *
 	 * @return void
 	 */
 	public function testGetParent()

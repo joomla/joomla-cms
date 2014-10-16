@@ -60,13 +60,4 @@ class FinderIndexerParserTest extends PHPUnit_Framework_TestCase
 	{
 		FinderIndexerParser::getInstance('noway');
 	}
-
-	/**
-	 * @todo   Implement testParse().
-	 */
-	public function testParse()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
 }
