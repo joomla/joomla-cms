@@ -22,6 +22,8 @@ class JCryptTest extends PHPUnit_Framework_TestCase
 	 */
 	protected $object;
 
+    protected $mockJCryptCipher;
+    protected $mockJCryptKey;
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -32,67 +34,59 @@ class JCryptTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->object = new JCrypt;
+        $this->mockJCryptCipher = $this->getMock('JCryptCipherSimple');
+        $this->mockJCryptKey = $this->getMock('JCryptKey', null, array('simple'));
+		$this->object = new JCrypt($this->mockJCryptCipher, $this->mockJCryptKey);
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testDecrypt().
+	 * Test decrypting by JCryptCipher
 	 *
 	 * @return void
 	 */
 	public function testDecrypt()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+        $this->mockJCryptCipher->expects($this->once())->method('decrypt');
+        $this->object->decrypt('some test data that makes no sense');
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testEncrypt().
+	 * Test encrypting by JCryptCipher
 	 *
 	 * @return void
 	 */
 	public function testEncrypt()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+        $this->mockJCryptCipher->expects($this->once())->method('encrypt');
+        $this->object->encrypt('some test data that makes no sense');
 	}
 
 	/**
-	 * Test...
+	 * Test calling to generate key via JCryptCipher
 	 *
-	 * @todo Implement testGenerateKey().
 	 *
 	 * @return void
 	 */
 	public function testGenerateKey()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+        $this->mockJCryptCipher->expects($this->once())->method('generateKey');
+        $this->object->generateKey();
 	}
 
 	/**
-	 * Test...
+	 * Test setting cypher key
 	 *
-	 * @todo Implement testSetKey().
 	 *
 	 * @return void
 	 */
 	public function testSetKey()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+        $this->object = new JCrypt(new JCryptCipherSimple());
+        $this->mockJCryptKey = $this->getMock('JCryptKey', null, array('NotSimple', 'public_key', 'private_key'));
+
+        $this->object->setKey($this->mockJCryptKey);
+        $this->setExpectedException('InvalidArgumentException', 'Invalid key of type: NotSimple.  Expected simple.');
+        $this->object->encrypt('some test data that makes no sense');
 	}
 
 	/**
