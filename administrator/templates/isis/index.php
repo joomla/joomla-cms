@@ -259,7 +259,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 <jdoc:include type="modules" name="debug" style="none" />
 <?php
 // Get the singular view
-$singular = preg_match('/&id=/', JURI::getInstance()->toString());
+$singular = preg_match('/&id=|&layout=edit/', JURI::getInstance()->toString());
 if ($stickyToolbar) : ?>
 	<script>
 		(function($)
