@@ -259,7 +259,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 <jdoc:include type="modules" name="debug" style="none" />
 <?php
 // Get the singular view
-$singular = preg_match('/&id=|=com_config|&view=mail|&layout=edit/', JURI::getInstance()->toString());
+$singular = preg_match('/&id=|&view=mail|&layout=edit/', JURI::getInstance()->toString());
 if ($stickyToolbar) : ?>
 	<script>
 		(function($)
@@ -267,7 +267,7 @@ if ($stickyToolbar) : ?>
 			// fix sub nav on scroll
 			var $win = $(window)
 				, $nav    = $('.subhead')
-				, navTop  = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>50<?php else:?>30<?php endif;?>
+				, navTop  = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>40<?php else:?>20<?php endif;?>
 				, isFixed = 0
 				, edit = <?php echo $singular; ?>
 
@@ -284,11 +284,11 @@ if ($stickyToolbar) : ?>
 				}
 			})
 
-			// remove disabled nav
+			// Hide cpanel and user menu
 			if (edit)
 			{
-				$('.navbar-fixed-top').addClass('hidden');
-				$('body').css("padding-top", "0");
+				$('.icon-joomla').addClass('disabled');
+				$('.nav-user').addClass('disabled');
 			}
 
 			$win.on('scroll', processScroll)
@@ -299,10 +299,11 @@ if ($stickyToolbar) : ?>
 				if (scrollTop >= navTop && !isFixed) {
 					isFixed = 1
 					$nav.addClass('subhead-fixed')
-					// remove disabled nav
+					// Hide cpanel and user menu
 					if (edit)
 					{
-						$('.subhead-fixed').css("top", "0");
+						$('.icon-joomla').addClass('disabled');
+						$('.nav-user').addClass('disabled');
 					}
 				} else if (scrollTop <= navTop && isFixed) {
 					isFixed = 0
