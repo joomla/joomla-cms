@@ -44,6 +44,7 @@ class JFormFieldModulelayout extends JFormField
 		{
 			$clientId = $this->form->getValue('client_id');
 		}
+
 		$clientId = (int) $clientId;
 
 		$client = JApplicationHelper::getClientInfo($clientId);
@@ -73,7 +74,6 @@ class JFormFieldModulelayout extends JFormField
 		// If an extension and view are present build the options.
 		if ($module && $client)
 		{
-
 			// Load language file
 			$lang = JFactory::getLanguage();
 			$lang->load($module . '.sys', $client->path, null, false, true)
@@ -195,7 +195,6 @@ class JFormFieldModulelayout extends JFormField
 		}
 		else
 		{
-
 			return '';
 		}
 	}

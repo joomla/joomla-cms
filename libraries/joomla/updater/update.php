@@ -250,6 +250,7 @@ class JUpdate extends JObject
 				{
 					$this->currentUpdate->$name = new stdClass;
 				}
+
 				$this->currentUpdate->$name->_data = '';
 
 				foreach ($attrs as $key => $data)
@@ -275,6 +276,7 @@ class JUpdate extends JObject
 	public function _endElement($parser, $name)
 	{
 		array_pop($this->stack);
+
 		switch ($name)
 		{
 			// Closing update, find the latest version and check
@@ -323,6 +325,7 @@ class JUpdate extends JObject
 					{
 						$this->$key = $val;
 					}
+
 					unset($this->latest);
 					unset($this->currentUpdate);
 				}
@@ -355,6 +358,7 @@ class JUpdate extends JObject
 
 		// Throw the data for this item together
 		$tag = strtolower($tag);
+
 		if (isset($this->currentUpdate->$tag))
 		{
 			$this->currentUpdate->$tag->_data .= $data;

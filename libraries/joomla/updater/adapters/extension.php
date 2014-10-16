@@ -59,10 +59,12 @@ class JUpdaterExtension extends JUpdateAdapter
 					$name = strtolower($name);
 					$this->currentUpdate->$name = '';
 				}
+
 				if ($name == 'TARGETPLATFORM')
 				{
 					$this->currentUpdate->targetplatform = $attrs;
 				}
+
 				if ($name == 'PHP_MINIMUM')
 				{
 					$this->currentUpdate->php_minimum = '';
@@ -203,6 +205,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			{
 				$url .= '/';
 			}
+
 			$url .= 'extension.xml';
 		}
 
@@ -226,6 +229,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			if (!$appendExtension && (substr($url, -4) != '.xml'))
 			{
 				$options['append_extension'] = true;
+
 				return $this->findUpdate($options);
 			}
 
@@ -254,6 +258,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			if (!$appendExtension && (substr($url, -4) != '.xml'))
 			{
 				$options['append_extension'] = true;
+
 				return $this->findUpdate($options);
 			}
 

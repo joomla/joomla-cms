@@ -28,9 +28,7 @@ jimport('joomla.filesystem.file');
  * Note: All exceptions thrown from within this class should be caught
  * by the controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 abstract class FinderIndexer
 {
@@ -111,6 +109,7 @@ abstract class FinderIndexer
 		{
 			$format = 'sqlsrv';
 		}
+
 		$path = __DIR__ . '/driver/' . $format . '.php';
 		$class = 'FinderIndexerDriver' . ucfirst($format);
 
@@ -119,6 +118,7 @@ abstract class FinderIndexer
 		{
 			// Instantiate the parser.
 			include_once $path;
+
 			return new $class;
 		}
 		else

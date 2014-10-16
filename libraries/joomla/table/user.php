@@ -148,7 +148,6 @@ class JTableUser extends JTable
 
 			// Set the titles for the user groups.
 			$this->groups = $this->_db->loadAssocList('id', 'id');
-
 		}
 
 		return $return;

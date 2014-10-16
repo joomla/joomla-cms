@@ -49,19 +49,6 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 		);
 	}
 
-	/**
-	 * @todo   Implement testTokenize().
-	 */
-	public function testTokenize()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo   Implement testStem().
-	 */
 	public function testStem()
 	{
 		$this->assertEquals(
@@ -144,32 +131,5 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 			$this->StringContains('en'),
 			'The primary language is en'
 		);
-	}
-
-	/**
-	 * @todo   Implement testGetContentPath().
-	 */
-	public function testGetContentPath()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo   Implement testGetContentExtras().
-	 */
-	public function testGetContentExtras()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo   Implement testPrepareContent().
-	 */
-	public function testPrepareContent()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

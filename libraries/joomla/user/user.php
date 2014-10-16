@@ -568,6 +568,7 @@ class JUser extends JObject
 
 				return false;
 			}
+
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
 			$array['password'] = JUserHelper::hashPassword($array['password']);

@@ -29,7 +29,7 @@ class JFeedParserRssMedia implements JFeedParserNamespace
 	 */
 	public function processElementForFeed(JFeed $feed, SimpleXMLElement $el)
 	{
-
+		return;
 	}
 
 	/**
@@ -44,6 +44,6 @@ class JFeedParserRssMedia implements JFeedParserNamespace
 	 */
 	public function processElementForFeedEntry(JFeedEntry $entry, SimpleXMLElement $el)
 	{
-
+		return;
 	}
 }

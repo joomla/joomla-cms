@@ -1133,6 +1133,7 @@ abstract class JDatabaseQuery
 		{
 			$this->join = array();
 		}
+
 		$this->join[] = new JDatabaseQueryElement(strtoupper($type) . ' JOIN', $conditions);
 
 		return $this;
@@ -1556,7 +1557,6 @@ abstract class JDatabaseQuery
 		{
 			$glue = ')' . PHP_EOL . 'UNION (';
 			$name = 'UNION ()';
-
 		}
 
 		// Get the JDatabaseQueryElement if it does not exist

@@ -52,7 +52,6 @@ abstract class JStringPunycode
 		$idn = new idna_convert;
 
 		return $idn->decode($punycodeString);
-
 	}
 
 	/**

@@ -46,6 +46,7 @@ class JTableExtension extends JTable
 
 			return false;
 		}
+
 		return true;
 	}
 

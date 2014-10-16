@@ -101,6 +101,7 @@ abstract class JFeedParser
 			// Skip over this element's children since it has been processed.
 			$this->moveToClosingElement();
 		}
+
 		while ($this->moveToNextElement());
 
 		return $feed;

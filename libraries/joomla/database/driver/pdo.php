@@ -394,12 +394,14 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		// Execute the query.
 		$this->executed = false;
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			// Bind the variables:
 			if ($this->sql instanceof JDatabaseQueryPreparable)
 			{
-				$bounded =& $this->sql->getBounded();
+				$bounded = $this->sql->getBounded();
+
 				foreach ($bounded as $key => $obj)
 				{
 					$this->prepared->bindParam($key, $obj->value, $obj->dataType, $obj->length, $obj->driverOptions);
@@ -412,6 +414,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
+
 			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -798,6 +801,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		{
 			return $cursor->fetch(PDO::FETCH_NUM);
 		}
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			return $this->prepared->fetch(PDO::FETCH_NUM);
@@ -819,6 +823,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		{
 			return $cursor->fetch(PDO::FETCH_ASSOC);
 		}
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			return $this->prepared->fetch(PDO::FETCH_ASSOC);
@@ -841,6 +846,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		{
 			return $cursor->fetchObject($class);
 		}
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			return $this->prepared->fetchObject($class);
@@ -865,6 +871,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			$cursor->closeCursor();
 			$cursor = null;
 		}
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			$this->prepared->closeCursor();

@@ -73,6 +73,7 @@ class JLinkedinPeople extends JLinkedinObject
 
 		// Check if language is specified.
 		$header = array();
+
 		if ($language)
 		{
 			$header = array('Accept-Language' => $language);
@@ -288,6 +289,7 @@ class JLinkedinPeople extends JLinkedinObject
 		if ($facet)
 		{
 			$data['facet'] = array();
+
 			for ($i = 0; $i < count($facet); $i++)
 			{
 				if ($facet[$i])
@@ -296,26 +298,32 @@ class JLinkedinPeople extends JLinkedinObject
 					{
 						$data['facet'][] = 'location,' . $facet[$i];
 					}
+
 					if ($i == 1)
 					{
 						$data['facet'][] = 'industry,' . $facet[$i];
 					}
+
 					if ($i == 2)
 					{
 						$data['facet'][] = 'network,' . $facet[$i];
 					}
+
 					if ($i == 3)
 					{
 						$data['facet'][] = 'language,' . $facet[$i];
 					}
+
 					if ($i == 4)
 					{
 						$data['facet'][] = 'current-company,' . $facet[$i];
 					}
+
 					if ($i == 5)
 					{
 						$data['facet'][] = 'past-company,' . $facet[$i];
 					}
+
 					if ($i == 6)
 					{
 						$data['facet'][] = 'school,' . $facet[$i];

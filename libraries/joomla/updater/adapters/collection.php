@@ -116,19 +116,23 @@ class JUpdaterCollection extends JUpdateAdapter
 			case 'EXTENSION':
 				$update = JTable::getInstance('update');
 				$update->set('update_site_id', $this->updateSiteId);
+
 				foreach ($this->updatecols as $col)
 				{
 					// Reset the values if it doesn't exist
 					if (!array_key_exists($col, $attrs))
 					{
 						$attrs[$col] = '';
+
 						if ($col == 'CLIENT')
 						{
 							$attrs[$col] = 'site';
 						}
 					}
 				}
+
 				$client = JApplicationHelper::getClientInfo($attrs['CLIENT'], 1);
+
 				if (isset($client->id))
 				{
 					$attrs['CLIENT_ID'] = $client->id;
@@ -188,6 +192,7 @@ class JUpdaterCollection extends JUpdateAdapter
 	protected function _endElement($parser, $name)
 	{
 		array_pop($this->stack);
+
 		switch ($name)
 		{
 			case 'CATEGORY':
@@ -229,6 +234,7 @@ class JUpdaterCollection extends JUpdateAdapter
 			{
 				$url .= '/';
 			}
+
 			$url .= 'update.xml';
 		}
 
@@ -255,6 +261,7 @@ class JUpdaterCollection extends JUpdateAdapter
 			if (!$appendExtension && (substr($url, -4) != '.xml'))
 			{
 				$options['append_extension'] = true;
+
 				return $this->findUpdate($options);
 			}
 
@@ -282,6 +289,7 @@ class JUpdaterCollection extends JUpdateAdapter
 			if (!$appendExtension && (substr($url, -4) != '.xml'))
 			{
 				$options['append_extension'] = true;
+
 				return $this->findUpdate($options);
 			}
 

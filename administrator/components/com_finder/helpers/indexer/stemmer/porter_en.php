@@ -17,9 +17,7 @@ JLoader::register('FinderIndexerStemmer', dirname(__DIR__) . '/stemmer.php');
  * This class was adapted from one written by Richard Heyes.
  * See copyright and link information above.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 {

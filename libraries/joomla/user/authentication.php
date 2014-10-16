@@ -290,6 +290,7 @@ class JAuthentication extends JObject
 				{
 					$response->type = isset($plugin->_name) ? $plugin->_name : $plugin->name;
 				}
+
 				break;
 			}
 		}

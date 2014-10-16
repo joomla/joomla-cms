@@ -83,6 +83,7 @@ class JLogEntry
 		{
 			$priority = JLog::INFO;
 		}
+
 		$this->priority = $priority;
 
 		// Sanitize category if it exists.

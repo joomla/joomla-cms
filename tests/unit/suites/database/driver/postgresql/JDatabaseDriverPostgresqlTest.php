@@ -199,19 +199,6 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	}
 
 	/**
-	 * Test destruct
-	 *
-	 * @todo Implement test__destruct().
-	 *
-	 * @return   void
-	 */
-	public function test__destruct()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Check if connected() method returns true.
 	 *
 	 * @return   void
@@ -1106,19 +1093,6 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	}
 
 	/**
-	 * Test updateObject function.
-	 *
-	 * @todo Implement testUpdateObject().
-	 *
-	 * @return  void
-	 */
-	public function testUpdateObject()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Tests the JDatabasePostgresql transactionCommit method.
 	 *
 	 * @return  void
@@ -1329,18 +1303,6 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$result = self::$driver->replacePrefix($stringToReplace, $prefix);
 
 		$this->assertThat($result, $this->equalTo($expected), __LINE__);
-	}
-
-	/**
-	 * Test for creation of transaction savepoint
-	 *
-	 * @todo Implement testTransactionSavepoint().
-	 *
-	 * @return  void
-	 */
-	public function testTransactionSavepoint( /*$savepointName*/ )
-	{
-		$this->markTestSkipped('This command is tested inside testTransactionRollback.');
 	}
 
 	/**
