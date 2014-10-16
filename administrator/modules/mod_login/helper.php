@@ -32,10 +32,13 @@ abstract class ModLoginHelper
 			return '';
 		}
 
-		usort($languages, function ($a, $b)
-		{
-			return strcmp($a["value"], $b["value"]);
-		});
+		usort(
+			$languages,
+			function ($a, $b)
+			{
+				return strcmp($a["value"], $b["value"]);
+			}
+		);
 
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULTLANGUAGE')));
 
