@@ -205,6 +205,14 @@ class JUser extends JObject
 	protected $_errorMsg = null;
 
 	/**
+	 * JUserHelperWrapper object
+	 *
+	 * @var JUserHelperWrapper
+	 * @since 3.4
+	 */
+	protected $userHelper = null;
+
+	/**
 	 * @var    array  JUser instances container.
 	 * @since  11.3
 	 */
@@ -214,11 +222,19 @@ class JUser extends JObject
 	 * Constructor activating the default information of the language
 	 *
 	 * @param   integer  $identifier  The primary key of the user to load (optional).
+	 * @param   mixed    $userHelper  The JUserHelperWrapper for the static methods.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($identifier = 0)
+	public function __construct($identifier = 0, JUserHelperWrapper $userHelper = null)
 	{
+		if (null === $userHelper)
+		{
+			$userHelper = new JUserHelperWrapper;
+		}
+
+		$this->userHelper = $userHelper;
+
 		// Create the user parameters object
 		$this->_params = new Registry;
 
@@ -238,21 +254,26 @@ class JUser extends JObject
 	}
 
 	/**
-	 * Returns the global User object, only creating it if it
-	 * doesn't already exist.
+	 * Returns the global User object, only creating it if it doesn't already exist.
 	 *
 	 * @param   integer  $identifier  The user to load - Can be an integer or string - If string, it is converted to ID automatically.
+	 * @param   mixed    $userHelper  The JUserHelperWrapper for the static methods.
 	 *
 	 * @return  JUser  The User object.
 	 *
 	 * @since   11.1
 	 */
-	public static function getInstance($identifier = 0)
+	public static function getInstance($identifier = 0, JUserHelperWrapper $userHelper = null)
 	{
+		if (null === $userHelper)
+		{
+			$userHelper = new JUserHelperWrapper;
+		}
+
 		// Find the user id
 		if (!is_numeric($identifier))
 		{
-			if (!$id = JUserHelper::getUserId($identifier))
+			if (!$id = $userHelper->getUserId($identifier))
 			{
 				JLog::add(JText::sprintf('JLIB_USER_ERROR_ID_NOT_EXISTS', $identifier), JLog::WARNING, 'jerror');
 
@@ -274,7 +295,7 @@ class JUser extends JObject
 		// Check if the user ID is already cached.
 		if (empty(self::$instances[$id]))
 		{
-			$user = new JUser($id);
+			$user = new JUser($id, $userHelper);
 			self::$instances[$id] = $user;
 		}
 
@@ -568,7 +589,7 @@ class JUser extends JObject
 			// Check the password and create the crypted password
 			if (empty($array['password']))
 			{
-				$array['password'] = JUserHelper::genRandomPassword();
+				$array['password'] = $this->userHelper->genRandomPassword();
 				$array['password2'] = $array['password'];
 			}
 
@@ -583,7 +604,7 @@ class JUser extends JObject
 
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
-			$array['password'] = JUserHelper::hashPassword($array['password']);
+			$array['password'] = $this->userHelper->hashPassword($array['password']);
 
 			// Set the registration timestamp
 			$this->set('registerDate', JFactory::getDate()->toSql());
@@ -612,14 +633,14 @@ class JUser extends JObject
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
 				// Check if the user is reusing the current password if required to reset their password
-				if ($this->requireReset == 1 && JUserHelper::verifyPassword($this->password_clear, $this->password))
+				if ($this->requireReset == 1 && $this->userHelper->verifyPassword($this->password_clear, $this->password))
 				{
 					$this->setError(JText::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
 
 					return false;
 				}
 
-				$array['password'] = JUserHelper::hashPassword($array['password']);
+				$array['password'] = $this->userHelper->hashPassword($array['password']);
 
 				// Reset the change password flag
 				$array['requireReset'] = 0;
