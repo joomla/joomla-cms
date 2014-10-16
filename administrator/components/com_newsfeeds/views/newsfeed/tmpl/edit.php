@@ -77,7 +77,7 @@ $assoc = JLanguageAssociations::isEnabled();
 		<?php echo $this->loadTemplate('display'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php $this->ignore_fieldsets = array('jbasic'); ?>
+		<?php $this->ignore_fieldsets = array('images', 'jbasic', 'jmetadata'); ?>
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 
