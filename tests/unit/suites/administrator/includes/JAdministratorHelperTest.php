@@ -144,12 +144,12 @@ class JAdministratorHelperTest extends TestCase
 		JFactory::$application->input->set('option', 'foo');
 
 		$this->assertEquals(
-			'foo',
+			'com_login',
 			JAdministratorHelper::findOption()
 		);
 
 		$this->assertEquals(
-			'foo',
+			'com_login',
 			JFactory::$application->input->get('option')
 		);
 	}

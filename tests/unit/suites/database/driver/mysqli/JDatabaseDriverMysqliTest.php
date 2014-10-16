@@ -44,6 +44,60 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	}
 
 	/**
+	 * Data for testLoadNextObject test.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function dataTestLoadNextObject()
+	{
+		$objCompOne = new stdClass;
+		$objCompOne->id = 1;
+		$objCompOne->title = 'Testing';
+		$objCompOne->start_date = '1980-04-18 00:00:00';
+		$objCompOne->description = 'one';
+
+		$objCompTwo = new stdClass;
+		$objCompTwo->id = 2;
+		$objCompTwo->title = 'Testing2';
+		$objCompTwo->start_date = '1980-04-18 00:00:00';
+		$objCompTwo->description = 'one';
+
+		$objCompThree = new stdClass;
+		$objCompThree->id = 3;
+		$objCompThree->title = 'Testing3';
+		$objCompThree->start_date = '1980-04-18 00:00:00';
+		$objCompThree->description = 'three';
+
+		$objCompFour = new stdClass;
+		$objCompFour->id = 4;
+		$objCompFour->title = 'Testing4';
+		$objCompFour->start_date = '1980-04-18 00:00:00';
+		$objCompFour->description = 'four';
+
+		return array(array(array($objCompOne, $objCompTwo, $objCompThree, $objCompFour)));
+	}
+
+	/**
+	 * Data for testLoadNextRow test.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function dataTestLoadNextRow()
+	{
+		return array(
+			array(
+				array(
+					array(1, 'Testing', '1980-04-18 00:00:00', 'one'),
+					array(2, 'Testing2', '1980-04-18 00:00:00', 'one'),
+					array(3, 'Testing3', '1980-04-18 00:00:00', 'three'),
+					array(4, 'Testing4', '1980-04-18 00:00:00', 'four'))));
+	}
+
+	/**
 	 * Tests the dropTable method.
 	 *
 	 * @return  void
@@ -355,6 +409,164 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		$result = self::$driver->loadColumn();
 
 		$this->assertThat($result, $this->equalTo(array('Testing', 'Testing2', 'Testing3', 'Testing4')), __LINE__);
+	}
+
+	/**
+	 * Test loadNextObject function
+	 *
+	 * @param   array  $objArr  Array of expected objects
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  dataTestLoadNextObject
+	 */
+	public function testLoadNextObject($objArr)
+	{
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('#__dbtest');
+		self::$driver->setQuery($query);
+
+		$this->assertEquals($objArr[0], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[1], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[2], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[3], self::$driver->loadNextObject());
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(self::$driver->loadNextObject());
+	}
+
+	/**
+	 * Test loadNextObject function with preceding loadObject call
+	 *
+	 * @param   array  $objArr  Array of expected objects
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  dataTestLoadNextObject
+	 */
+	public function testLoadNextObject_plusLoad($objArr)
+	{
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('#__dbtest');
+		self::$driver->setQuery($query);
+
+		self::$driver->loadObject();
+
+		$this->assertEquals($objArr[0], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[1], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[2], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[3], self::$driver->loadNextObject());
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(self::$driver->loadNextObject());
+	}
+
+	/**
+	 * Test loadNextObject function with preceding query call
+	 *
+	 * @param   array  $objArr  Array of expected objects
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  dataTestLoadNextObject
+	 */
+	public function testLoadNextObject_plusQuery($objArr)
+	{
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('#__dbtest');
+		self::$driver->setQuery($query);
+
+		self::$driver->execute();
+
+		$this->assertEquals($objArr[0], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[1], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[2], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[3], self::$driver->loadNextObject());
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(self::$driver->loadNextObject());
+	}
+
+	/**
+	 * Test loadNextRow function
+	 *
+	 * @param   array  $rowArr  Array of expected arrays
+	 *
+	 * @return   void
+	 *
+	 * @dataProvider dataTestLoadNextRow
+	 */
+	public function testLoadNextRow($rowArr)
+	{
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('#__dbtest');
+		self::$driver->setQuery($query);
+
+		$this->assertEquals($rowArr[0], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[1], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[2], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[3], self::$driver->loadNextRow());
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(self::$driver->loadNextRow());
+	}
+
+	/**
+	 * Test loadNextRow function with preceding query call
+	 *
+	 * @param   array  $rowArr  Array of expected arrays
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  dataTestLoadNextRow
+	 */
+	public function testLoadNextRow_plusQuery($rowArr)
+	{
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('#__dbtest');
+		self::$driver->setQuery($query);
+
+		self::$driver->execute();
+
+		$this->assertEquals($rowArr[0], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[1], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[2], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[3], self::$driver->loadNextRow());
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(self::$driver->loadNextRow());
+	}
+
+	/**
+	 * Test loadNextRow function with preceding loadRow call
+	 *
+	 * @param   array  $rowArr  Array of expected arrays
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  dataTestLoadNextRow
+	 */
+	public function testLoadNextRow_plusLoad($rowArr)
+	{
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('#__dbtest');
+		self::$driver->setQuery($query);
+
+		self::$driver->loadRow();
+
+		$this->assertEquals($rowArr[0], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[1], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[2], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[3], self::$driver->loadNextRow());
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(self::$driver->loadNextRow());
 	}
 
 	/**
