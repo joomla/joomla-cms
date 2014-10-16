@@ -267,7 +267,7 @@ if ($stickyToolbar) : ?>
 			// fix sub nav on scroll
 			var $win = $(window)
 				, $nav    = $('.subhead')
-				, navTop  = $('.subhead').length && $('.subhead').offset().top -50
+				, navTop  = $('.subhead').length && $('.subhead').offset().top -  <?php if ($displayHeader || !$statusFixed) : ?>50<?php else:?>30<?php endif;?>
 				, isFixed = 0
 				, edit = <?php echo $singular; ?>
 
