@@ -199,6 +199,9 @@ class JSessionTest extends TestCase
 	 */
 	public function testGetFormToken()
 	{
+		// Set the factory session object for getting the token
+		JFactory::$session = $this->object;
+
 		$user = JFactory::getUser();
 
 		$expected = md5($user->get('id', 0) . $this->object->getToken(false));
