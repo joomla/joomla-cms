@@ -267,11 +267,11 @@ if ($stickyToolbar) : ?>
 			// fix sub nav on scroll
 			var $win = $(window)
 				, $nav    = $('.subhead')
-				, navTop  = $('.subhead').length && $('.subhead').offset().top -  <?php if ($displayHeader || !$statusFixed) : ?>50<?php else:?>30<?php endif;?>
+				, navTop  = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>50<?php else:?>30<?php endif;?>
 				, isFixed = 0
 				, edit = <?php echo $singular; ?>
 
-					processScroll()
+			processScroll()
 
 			// hack sad times - holdover until rewrite for 2.1
 			$nav.on('click', function()
