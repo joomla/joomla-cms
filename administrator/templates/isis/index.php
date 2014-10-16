@@ -276,7 +276,7 @@ if ($stickyToolbar) : ?>
 			{
 				$('.icon-joomla').addClass('disabled');
 				$('.nav-user').addClass('disabled');
-				$(".admin-logo").attr("href", "#");
+				$(".admin-logo").removeAttr("href");
 				$('ul.nav-user > li > a').attr("data-toggle","");
 			}
 
