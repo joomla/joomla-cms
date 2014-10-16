@@ -271,6 +271,15 @@ if ($stickyToolbar) : ?>
 				, isFixed = 0
 				, edit = <?php echo $singular; ?>
 
+			// Disable cpanel and user menu
+			if (edit)
+			{
+				$('.icon-joomla').addClass('disabled');
+				$('.nav-user').addClass('disabled');
+				$(".admin-logo").attr("href", "#");
+				$('ul.nav-user > li > a').attr("data-toggle","");
+			}
+
 			processScroll()
 
 			// hack sad times - holdover until rewrite for 2.1
@@ -284,15 +293,6 @@ if ($stickyToolbar) : ?>
 				}
 			})
 
-			// Hide cpanel and user menu
-			if (edit)
-			{
-				$('.icon-joomla').addClass('disabled');
-				$('.nav-user').addClass('disabled');
-				$(".admin-logo").attr("href", "#");
-				$('ul.nav-user > li > a').attr("data-toggle","");
-			}
-
 			$win.on('scroll', processScroll)
 
 			function processScroll()
@@ -301,14 +301,6 @@ if ($stickyToolbar) : ?>
 				if (scrollTop >= navTop && !isFixed) {
 					isFixed = 1
 					$nav.addClass('subhead-fixed')
-					// Hide cpanel and user menu
-					if (edit)
-					{
-						$('.icon-joomla').addClass('disabled');
-						$('.nav-user').addClass('disabled');
-						$(".admin-logo").attr("href", "#");
-						$('ul.nav-user > li > a').attr("data-toggle","");
-					}
 				} else if (scrollTop <= navTop && isFixed) {
 					isFixed = 0
 					$nav.removeClass('subhead-fixed')
