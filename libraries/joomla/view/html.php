@@ -107,7 +107,7 @@ abstract class JViewHtml extends JViewBase
 		$file = JPath::clean($layout . '.php');
 
 		// Find the layout file path.
-		$path = JPath::find(clone($this->paths), $file);
+		$path = JPath::find(clone $this->paths, $file);
 
 		return $path;
 	}

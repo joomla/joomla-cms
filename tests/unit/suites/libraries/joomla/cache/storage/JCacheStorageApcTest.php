@@ -50,78 +50,6 @@ class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testGet().
-	 *
-	 * @return void
-	 */
-	public function testGet()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetAll().
-	 *
-	 * @return void
-	 */
-	public function testGetAll()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testStore().
-	 *
-	 * @return void
-	 */
-	public function testStore()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testRemove().
-	 *
-	 * @return void
-	 */
-	public function testRemove()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testClean().
-	 *
-	 * @return void
-	 */
-	public function testClean()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGc().
-	 *
-	 * @return void
-	 */
-	public function testGc()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Testing isSupported().
 	 *
 	 * @return  void
@@ -133,41 +61,5 @@ class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 			$this->object->isSupported(),
 			'Claims APC is not loaded.'
 		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testLock().
-	 *
-	 * @return void
-	 */
-	public function testLock()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testUnlock().
-	 *
-	 * @return void
-	 */
-	public function testUnlock()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test_getCacheId().
-	 *
-	 * @return void
-	 */
-	public function testGetCacheId()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

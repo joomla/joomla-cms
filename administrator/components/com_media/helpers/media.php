@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       1.5
+ * Media helper class.
+ * 
+ * @since       1.6
  * @deprecated  4.0  Use JHelperMedia instead
  */
 abstract class MediaHelper

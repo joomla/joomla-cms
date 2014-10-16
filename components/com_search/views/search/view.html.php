@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * HTML View class for the search component
  *
- * @package     Joomla.Site
- * @subpackage  com_search
- * @since       1.0
+ * @since  1.0
  */
 class SearchViewSearch extends JViewLegacy
 {
@@ -200,7 +198,8 @@ class SearchViewSearch extends JViewLegacy
 								$ChkRow     = mb_substr($row, 0, $pos);
 								$sChkRowLen = mb_strlen(strtolower(SearchHelper::remove_accents($ChkRow)));
 								$ChkRowLen  = mb_strlen($ChkRow);
-								// correct $pos
+
+								// Correct $pos
 								$pos -= ($sChkRowLen - $ChkRowLen);
 							}
 
@@ -212,7 +211,7 @@ class SearchViewSearch extends JViewLegacy
 					{
 						if (($pos = JString::strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
 						{
-							// iconv transliterates '€' to 'EUR'
+							// Iconv transliterates '€' to 'EUR'
 							// TODO: add other expanding translations?
 							$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
 							$pos              -= $eur_compensation;
@@ -223,6 +222,7 @@ class SearchViewSearch extends JViewLegacy
 								$ChkRow     = JString::substr($row, 0, $pos);
 								$sChkRowLen = JString::strlen(strtolower(SearchHelper::remove_accents($ChkRow)));
 								$ChkRowLen  = JString::strlen($ChkRow);
+
 								// Correct $pos
 								$pos -= ($sChkRowLen - $ChkRowLen);
 							}
@@ -243,10 +243,11 @@ class SearchViewSearch extends JViewLegacy
 					foreach ($posCollector as  $pos => $hlword)
 					{
 						$pos += $cnt * $highlighterLen;
-						// Avoid overlapping/corrupted highlighter-spans
-						// TODO $chkOverlap could be used to highlight remaining part
-						// of searchword outside last highlighter-span.
-						// At the moment no additional highlighter is set.
+
+						/* Avoid overlapping/corrupted highlighter-spans
+						 * TODO $chkOverlap could be used to highlight remaining part
+						 * of searchword outside last highlighter-span.
+						 * At the moment no additional highlighter is set.*/
 						$chkOverlap = $pos - $lastHighlighterEnd;
 
 						if ($chkOverlap >= 0)
@@ -260,7 +261,8 @@ class SearchViewSearch extends JViewLegacy
 							else
 							{
 								$hlwordLen = JString::strlen($hlword);
-								$row       = JString::substr($row, 0, $pos) . $hl1 . JString::substr($row, $pos, JString::strlen($hlword)) . $hl2 . JString::substr($row, $pos + JString::strlen($hlword));
+								$row = JString::substr($row, 0, $pos) . $hl1 . JString::substr($row, $pos, JString::strlen($hlword))
+									. $hl2 . JString::substr($row, $pos + JString::strlen($hlword));
 							}
 
 							$cnt++;

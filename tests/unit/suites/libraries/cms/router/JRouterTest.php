@@ -57,14 +57,14 @@ class JRouterTest extends TestCase
 		$object = JRouter::getInstance('administrator', array('mode' => 'test', 'randomKey' => 'randomValue'));
 		$this->assertTrue(is_a($object, 'JRouterAdministrator'));
 		$this->assertEquals($object->getMode(), 'test');
-		
+
 		// This test is commented, since the feature is not implemented (yet)
 		// $this->assertEquals($object->get('randomKey'), 'randomValue');
-		
+
 		// Check if the same object is returned by getInstance()
 		$object2 = JRouter::getInstance('administrator');
 		$this->assertSame($object, $object2);
-		
+
 		require_once JPATH_TESTS . '/suites/libraries/cms/application/stubs/JApplicationHelperInspector.php';
 		$apps      = JApplicationHelperInspector::get();
 		$obj       = new stdClass();
@@ -73,7 +73,7 @@ class JRouterTest extends TestCase
 		$obj->path = dirname(__FILE__).'/example';
 		$apps[3]   = $obj;
 		JApplicationHelperInspector::set($apps);
-		
+
 		// Test if legacy app routers are still loaded
 		$object3 = JRouter::getInstance('tester');
 		$this->assertTrue(is_a($object, 'JRouter'));
@@ -231,7 +231,7 @@ class JRouterTest extends TestCase
 	 * Tests the setVars() method
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  3.4
 	 */
 	public function testSetVars()
@@ -293,7 +293,7 @@ class JRouterTest extends TestCase
 	 * Tests the getVars() method
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  3.4
 	 */
 	public function testGetVars()
@@ -462,11 +462,10 @@ class JRouterTest extends TestCase
 	 * @param   array   $functions  Callback to execute
 	 * @param   string  $expected   Expected return value
 	 *
-	 * @dataProvider casesProcessParseRules
+	 * @return  void
 	 *
-	 * @return void
-	 *
-	 * @since  3.4
+	 * @dataProvider  casesProcessParseRules
+	 * @since         3.4
 	 */
 	public function testProcessParseRules($functions, $expected)
 	{
@@ -597,7 +596,7 @@ class JRouterTest extends TestCase
 	 *
 	 * @param   array   $url         valid inputs to the createURI() method
 	 * @param   array   $globalVars  global Vars that should be merged into the URL
-	 * @param   string  $expected    expected URI string 
+	 * @param   string  $expected    expected URI string
 	 *
 	 * @dataProvider casesCreateURI
 	 *

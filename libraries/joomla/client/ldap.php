@@ -618,6 +618,7 @@ class JClientLdap
 					$addr .= ".";
 				}
 			}
+
 			if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9))
 			{
 				// Strip last period from end of $addr
@@ -628,6 +629,7 @@ class JClientLdap
 		{
 			$addr .= JText::_('JLIB_CLIENT_ERROR_LDAP_ADDRESS_NOT_AVAILABLE');
 		}
+
 		return array('protocol' => $addrtypes[$addrtype], 'address' => $addr);
 	}
 

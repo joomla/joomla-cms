@@ -21,7 +21,7 @@ use Joomla\Registry\Registry;
 class JTwitterOAuth extends JOAuth1Client
 {
 	/**
-	* @var    Registry  Options for the JTwitterOauth object.
+	* @var Registry  Options for the JTwitterOauth object.
 	* @since  12.3
 	*/
 	protected $options;

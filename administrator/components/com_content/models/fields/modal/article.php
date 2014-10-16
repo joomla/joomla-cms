@@ -12,9 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Supports a modal article picker.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldModal_Article extends JFormField
 {

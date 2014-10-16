@@ -140,16 +140,4 @@ class JUcmTypeTest extends TestCaseDatabase
 			'Articles are type_id = 1'
 		);
 	}
-
-	/**
-	 * Tests the __get() method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function test__get()
-	{
-		$this->markTestSkipped('Test not implemented.');
-	}
 }

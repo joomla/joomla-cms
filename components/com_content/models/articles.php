@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * This models supports retrieving lists of articles.
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentModelArticles extends JModelList
 {
@@ -450,8 +448,8 @@ class ContentModelArticles extends JModelList
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
-			$query	->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')')
-				->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
+			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
 
 		// Filter by Date Range or Relative Date

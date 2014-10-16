@@ -298,6 +298,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			{
 				return false;
 			}
+
 			$location = $marker['loc'];
 		}
 		elseif (is_string($location))
@@ -594,7 +595,8 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			$onload = "function() {";
 			$onload .= 'var script = document.createElement("script");';
 			$onload .= 'script.type = "text/javascript";';
-			$onload .= "script.src = '{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : "") . "sensor={$sensor}&callback={$asynccallback}';";
+			$onload .= "script.src = '{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : "")
+				. "sensor={$sensor}&callback={$asynccallback}';";
 			$onload .= 'document.body.appendChild(script);';
 			$onload .= '}';
 		}
@@ -684,6 +686,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		{
 			throw new RuntimeException('Invalid json received geocoding address: ' . $response->body . '.');
 		}
+
 		if ($data['status'] != 'OK')
 		{
 			return null;

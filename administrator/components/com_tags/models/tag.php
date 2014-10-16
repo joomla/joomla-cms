@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Tags Component Tag Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsModelTag extends JModelAdmin
 {

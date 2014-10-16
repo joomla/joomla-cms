@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Banner table
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.5
+ * @since  1.5
  */
 class BannersTableBanner extends JTable
 {

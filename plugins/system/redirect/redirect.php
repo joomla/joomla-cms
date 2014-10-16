@@ -7,14 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Plugin class for redirect handling.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.redirect
- * @since       1.6
+ * @since  1.6
  */
 class PlgSystemRedirect extends JPlugin
 {
@@ -53,7 +53,7 @@ class PlgSystemRedirect extends JPlugin
 		if (!$app->isAdmin() and ($error->getCode() == 404))
 		{
 			// Get the full current URI.
-			$uri = JUri::getInstance();
+			$uri     = JUri::getInstance();
 			$current = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
 
 			// Attempt to ignore idiots.
@@ -64,7 +64,7 @@ class PlgSystemRedirect extends JPlugin
 			}
 
 			// See if the current url exists in the database as a redirect.
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('new_url'))
 				->select($db->quoteName('published'))
@@ -72,6 +72,19 @@ class PlgSystemRedirect extends JPlugin
 				->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
 			$db->setQuery($query, 0, 1);
 			$link = $db->loadObject();
+
+			// If no published redirect was found try with the server-relative URL
+			if (!$link or ($link->published != 1))
+			{
+				$currRel = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
+				$query = $db->getQuery(true)
+					->select($db->quoteName('new_url'))
+					->select($db->quoteName('published'))
+					->from($db->quoteName('#__redirect_links'))
+					->where($db->quoteName('old_url') . ' = ' . $db->quote($currRel));
+				$db->setQuery($query, 0, 1);
+				$link = $db->loadObject();
+			}
 
 			// If a redirect exists and is published, permanently redirect.
 			if ($link and ($link->published == 1))
@@ -81,8 +94,7 @@ class PlgSystemRedirect extends JPlugin
 			else
 			{
 				$referer = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
-
-				$query = $db->getQuery(true)
+				$query   = $db->getQuery(true)
 					->select($db->quoteName('id'))
 					->from($db->quoteName('#__redirect_links'))
 					->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
@@ -92,7 +104,7 @@ class PlgSystemRedirect extends JPlugin
 				if (!$res)
 				{
 					// If not, add the new url to the database but only if option is enabled
-					$params = new JRegistry(JPluginHelper::getPlugin('system', 'redirect')->params);
+					$params       = new Registry(JPluginHelper::getPlugin('system', 'redirect')->params);
 					$collect_urls = $params->get('collect_urls', 1);
 
 					if ($collect_urls == true)

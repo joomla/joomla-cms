@@ -15,6 +15,9 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 
+// Fieldsets to not automatically render by /layouts/joomla/edit/params.php
+$this->ignore_fieldsets = array('details', 'display', 'email');
+
 $app = JFactory::getApplication();
 $assoc = JLanguageAssociations::isEnabled();
 ?>
