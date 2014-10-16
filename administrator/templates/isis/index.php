@@ -289,6 +289,8 @@ if ($stickyToolbar) : ?>
 			{
 				$('.icon-joomla').addClass('disabled');
 				$('.nav-user').addClass('disabled');
+				$(".admin-logo").attr("href", "#");
+				$('ul.nav-user > li > a').attr("data-toggle","");
 			}
 
 			$win.on('scroll', processScroll)
@@ -304,6 +306,8 @@ if ($stickyToolbar) : ?>
 					{
 						$('.icon-joomla').addClass('disabled');
 						$('.nav-user').addClass('disabled');
+						$(".admin-logo").attr("href", "#");
+						$('ul.nav-user > li > a').attr("data-toggle","");
 					}
 				} else if (scrollTop <= navTop && isFixed) {
 					isFixed = 0
