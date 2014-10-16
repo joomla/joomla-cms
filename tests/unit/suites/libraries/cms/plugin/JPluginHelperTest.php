@@ -117,19 +117,4 @@ class JPluginHelperTest extends TestCaseDatabase
 			'plg_content_loadmodule should be enabled'
 		);
 	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testImportPlugin().
-	 *
-	 * @return void
-	 */
-	public function testImportPlugin()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
 }

@@ -1192,18 +1192,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::loadSession method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testLoadSession()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Tests the JApplicationWeb::loadSystemUris method.
 	 *
 	 * @return  void
@@ -1650,18 +1638,6 @@ class JApplicationWebTest extends TestCase
 				array('JWeb Body')
 			)
 		);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::respond method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testRespond()
-	{
-		$this->markTestIncomplete();
 	}
 
 	/**
