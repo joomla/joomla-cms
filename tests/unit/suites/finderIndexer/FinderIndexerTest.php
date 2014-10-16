@@ -32,7 +32,7 @@ class FinderIndexerTest extends TestCaseDatabase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
-		JFactory::$database    = TestMockDatabaseDriver::create($this, 'Mysqli');
+		JFactory::$database    = $this->getMockDatabase('Mysqli');
 		JFactory::$session     = $this->getMockSession();
 
 		// Register the object

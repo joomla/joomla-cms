@@ -33,7 +33,7 @@ class FinderIndexerTokenTest extends TestCase
 		$this->saveFactoryState();
 
 		// Set up our mock database
-		JFactory::$database = TestMockDatabaseDriver::create($this, 'Mysqli');
+		JFactory::$database = $this->getMockDatabase('Mysqli');
 
 		FinderIndexerHelper::$stemmer = FinderIndexerStemmer::getInstance('porter_en');
 	}

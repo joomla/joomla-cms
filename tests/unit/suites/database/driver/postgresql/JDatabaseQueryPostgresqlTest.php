@@ -128,7 +128,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->dbo = TestMockDatabaseDriver::create($this, 'Postgresql', array(), '1970-01-01 00:00:00', 'Y-m-d H:i:s');
+		$this->dbo = $this->getMockDatabase('Postgresql', array(), '1970-01-01 00:00:00', 'Y-m-d H:i:s');
 
 		$this->_instance = new JDatabaseQueryPostgresql($this->dbo);
 	}
