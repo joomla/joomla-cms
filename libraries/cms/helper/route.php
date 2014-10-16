@@ -244,9 +244,17 @@ class JHelperRoute
 	 * @return  string
 	 *
 	 * @since   3.2
+	 *
+	 * @throws  InvalidArgumentException
 	 */
-	public static function getCategoryRoute($catid, $language = 0, $extension)
+	public static function getCategoryRoute($catid, $language = 0, $extension = '')
 	{
+		// Note: $extension is required but has to be an optional argument in the function call due to argument order
+		if (empty($extension))
+		{
+			throw new InvalidArgumentException('$extension is a required argument in JHelperRoute::getCategoryRoute');
+		}
+
 		if ($catid instanceof JCategoryNode)
 		{
 			$id       = $catid->id;

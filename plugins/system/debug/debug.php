@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Debug plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.Debug
- * @since       1.5
+ * @since  1.5
  */
 class PlgSystemDebug extends JPlugin
 {

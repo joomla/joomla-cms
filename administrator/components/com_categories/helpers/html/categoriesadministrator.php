@@ -14,10 +14,7 @@ JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_cat
 /**
  * Administrator category HTML
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- *
- * @since       3.2
+ * @since  3.2
  */
 abstract class JHtmlCategoriesAdministrator
 {

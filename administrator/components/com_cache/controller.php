@@ -12,14 +12,12 @@ defined('_JEXEC') or die;
 /**
  * Cache Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_cache
- * @since       1.6
+ * @since  1.6
  */
 class CacheController extends JControllerLegacy
 {
 	/**
-	 * Method to display a view.
+	 * Display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
@@ -67,7 +65,7 @@ class CacheController extends JControllerLegacy
 	}
 
 	/**
-	 * Purge an array of cache groups.
+	 * Method to delete a list of cache groups.
 	 *
 	 * @return  void
 	 */

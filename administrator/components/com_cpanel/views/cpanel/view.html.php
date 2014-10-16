@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Cpanel component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_cpanel
- * @since       1.0
+ * @since  1.0
  */
 class CpanelViewCpanel extends JViewLegacy
 {

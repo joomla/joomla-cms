@@ -87,14 +87,17 @@ class JNode extends JObject
 		if ($parent instanceof JNode || is_null($parent))
 		{
 			$hash = spl_object_hash($this);
+
 			if (!is_null($this->_parent))
 			{
 				unset($this->_parent->children[$hash]);
 			}
+
 			if (!is_null($parent))
 			{
 				$parent->_children[$hash] = & $this;
 			}
+
 			$this->_parent = & $parent;
 		}
 	}

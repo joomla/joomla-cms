@@ -125,19 +125,6 @@ class JModuleHelperTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test JModuleHelper::renderModule
-	 *
-	 * @todo    Implement testRenderModule().
-	 *
-	 * @return  void
-	 */
-	public function testRenderModule()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Test JModuleHelper::getLayoutPath
 	 *
 	 * @return  void

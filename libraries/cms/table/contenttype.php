@@ -119,6 +119,8 @@ class JTableContenttype extends JTable
 	 * @return  mixed  JTable object on success, otherwise false.
 	 *
 	 * @since   3.2
+	 *
+	 * @throws  RuntimeException
 	 */
 	public function getContentTable()
 	{
@@ -135,8 +137,6 @@ class JTableContenttype extends JTable
 				{
 					// This isn't an instance of JTableInterface. Abort.
 					throw new RuntimeException('Class must be an instance of JTableInterface');
-
-					return false;
 				}
 
 				$result = $class::getInstance($tableInfo->special->type, $tableInfo->special->prefix);

@@ -100,6 +100,7 @@ class JHelperMedia
 		if (!empty($check))
 		{
 			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
+
 			return false;
 		}
 
@@ -289,15 +290,15 @@ class JHelperMedia
 	}
 
 	/**
-	* Small helper function that properly converts any
-	* configuration options to their byte representation.
-	*
-	* @param   string|integer  $val  The value to be converted to bytes.
-	*
-	* @return integer The calculated bytes value from the input.
-	*
-	* @since 3.3
-	*/
+	 * Small helper function that properly converts any
+	 * configuration options to their byte representation.
+	 *
+	 * @param   string|integer  $val  The value to be converted to bytes.
+	 *
+	 * @return integer The calculated bytes value from the input.
+	 *
+	 * @since 3.3
+	 */
 	public function toBytes($val)
 	{
 		switch ($val[strlen($val) - 1])

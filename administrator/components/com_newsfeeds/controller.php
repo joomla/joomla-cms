@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Newsfeeds master display controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
- * @since       1.6
+ * @since  1.6
  */
 class NewsfeedsController extends JControllerLegacy
 {

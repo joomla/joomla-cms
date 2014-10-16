@@ -14,9 +14,7 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 /**
  * Weblinks Component Model for a Weblink record
  *
- * @package     Joomla.Site
- * @subpackage  com_weblinks
- * @since       1.5
+ * @since  1.5
  */
 class WeblinksModelWeblink extends JModelItem
 {
