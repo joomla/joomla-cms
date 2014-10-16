@@ -202,30 +202,6 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWebClient::__construct method.
-	 *
-	 * @return void
-	 *
-	 * @since 11.3
-	 */
-	public function test__construct()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Tests the JApplicationWebClient::__get method.
-	 *
-	 * @return void
-	 *
-	 * @since 11.3
-	 */
-	public function test__get()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Tests the JApplicationWebClient::detectBrowser method.
 	 *
 	 * @param   string   $p   The expected platform.

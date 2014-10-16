@@ -42,7 +42,7 @@ class JControllerLegacyTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$config = $this->getMockConfig();
 
 		$this->class = new JControllerLegacy;
@@ -125,19 +125,6 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JControllerLegacy::getInstance
-	 *
-	 * @todo    Implement testGetInstance().
-	 *
-	 * @return  void
-	 */
-	public function testGetInstance()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Test JControllerLegacy::__construct
 	 *
 	 * @since 11.3
@@ -204,97 +191,6 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JControllerLegacy::authorise
-	 *
-	 * @todo    Implement testAuthorise().
-	 *
-	 * @return  void
-	 */
-	public function testAuthorise()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JControllerLegacy::checkEditId
-	 *
-	 * @todo    Implement testCheckEditId().
-	 *
-	 * @return  void
-	 */
-	public function testCheckEditId()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JControllerLegacy::createModel
-	 *
-	 * @todo    Implement testCreateModel().
-	 *
-	 * @return  void
-	 */
-	public function testCreateModel()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JControllerLegacy::createView
-	 *
-	 * @todo    Implement testCreateView().
-	 *
-	 * @return  void
-	 */
-	public function testCreateView()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JControllerLegacy::display
-	 *
-	 * @todo    Implement testDisplay().
-	 *
-	 * @return  void
-	 */
-	public function testDisplay()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JControllerLegacy::execute
-	 *
-	 * @todo    Implement testExecute().
-	 *
-	 * @return  void
-	 */
-	public function testExecute()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JControllerLegacy::getModel
-	 *
-	 * @todo    Implement testGetModel().
-	 *
-	 * @return  void
-	 */
-	public function testGetModel()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Test JControllerLegacy::getName
 	 *
 	 * @since   11.3
@@ -340,110 +236,6 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JControllerLegacy::getView
-	 *
-	 * @todo    Implement testGetView().
-	 *
-	 * @return  void
-	 */
-	public function testGetView()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JControllerLegacy::holdEditId
-	 *
-	 * @todo    Implement testHoldEditId().
-	 *
-	 * @return  void
-	 */
-	public function testHoldEditId()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JControllerLegacy::redirect
-	 *
-	 * @todo    Implement testRedirect().
-	 *
-	 * @return  void
-	 */
-	public function testRedirect()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JControllerLegacy::registerDefaultTask
-	 *
-	 * @todo    Implement testRegisterDefaultTask().
-	 *
-	 * @return  void
-	 */
-	public function testRegisterDefaultTask()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JControllerLegacy::registerTask
-	 *
-	 * @todo    Implement testRegisterTask().
-	 *
-	 * @return  void
-	 */
-	public function testRegisterTask()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JControllerLegacy::unregisterTask
-	 *
-	 * @todo    Implement testUnregisterTask().
-	 *
-	 * @return  void
-	 */
-	public function testUnregisterTask()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JControllerLegacy::releaseEditId
-	 *
-	 * @todo    Implement testReleaseEditId().
-	 *
-	 * @return  void
-	 */
-	public function testReleaseEditId()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JControllerLegacy::setAccessControl
-	 *
-	 * @todo    Implement testSetAccessControl().
-	 *
-	 * @return  void
-	 */
-	public function testSetAccessControl()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Test JControllerLegacy::setMessage
 	 *
 	 * @since   11.3
@@ -461,19 +253,6 @@ class JControllerLegacyTest extends TestCase
 
 		$this->assertAttributeEquals('Morning Universe', 'message', $this->class, 'Checks a change in the message.');
 		$this->assertAttributeEquals('notice', 'messageType', $this->class, 'Checks a change in the message type.');
-	}
-
-	/**
-	 * Test JControllerLegacy::setPath
-	 *
-	 * @todo    Implement testSetPath().
-	 *
-	 * @return  void
-	 */
-	public function testSetPath()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
 	}
 
 	/**

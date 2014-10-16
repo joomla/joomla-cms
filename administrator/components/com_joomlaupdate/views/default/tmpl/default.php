@@ -64,6 +64,16 @@ JHtml::_('formbehavior.chosen', 'select');
 			</tr>
 			<tr>
 				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL') ?>
+				</td>
+				<td>
+					<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data ?>">
+						<?php echo $this->updateInfo['object']->get('infourl')->title ?>
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<td>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD') ?>
 				</td>
 				<td>

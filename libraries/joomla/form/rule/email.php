@@ -96,7 +96,6 @@ class JFormRuleEmail extends JFormRule
 
 		if ($unique && !$multiple)
 		{
-
 			// Get the database object and a new query object.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);

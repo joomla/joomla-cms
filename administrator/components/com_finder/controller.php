@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Base controller class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderController extends JControllerLegacy
 {

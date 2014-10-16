@@ -14,19 +14,19 @@
  * @subpackage  Database
  * @since       12.1
  */
-class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
+class JDatabaseExporterPostgresqlTest extends TestCase
 {
 	/**
-	 * @var    object  The mocked database object for use by test methods.
+	 * @var    JDatabaseDriverPostgresql  The mocked database object for use by test methods.
 	 * @since  12.1
 	 */
 	protected $dbo = null;
 
 	/**
-	 * @var    string  The last query sent to the dbo setQuery method.
+	 * @var    string  A query string or object.
 	 * @since  12.1
 	 */
-	protected $lastQuery = '';
+	protected $lastQuery = null;
 
 	/**
 	 * @var    bool  Boolean value to know if current database version is newer than 9.1.0
@@ -46,40 +46,15 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		// Set up the database object mock.
-		$this->dbo = $this->getMock(
-			'JDatabaseDriverPostgresql',
-			array(
-				'getErrorNum',
-				'getPrefix',
-				'getTableColumns',
-				'getTableKeys',
-				'getTableSequences',
-				'getVersion',
-				'quoteName',
-				'loadObjectList',
-				'setQuery',
-			),
-			array(),
-			'',
-			false
-		);
+		$this->dbo = $this->getMockDatabase('Postgresql', array('getTableSequences'), '1970-01-01 00:00:00', 'Y-m-d H:i:s');
 
-		$this->dbo->expects(
-			$this->any()
-		)
-		->method('getPrefix')
-		->will(
-			$this->returnValue(
-				'jos_'
-			)
-		);
+		$this->dbo->expects($this->any())
+			->method('getPrefix')
+			->willReturn('jos_');
 
-		$this->dbo->expects(
-			$this->any()
-		)
-		->method('getTableColumns')
-		->will(
-			$this->returnValue(
+		$this->dbo->expects($this->any())
+			->method('getTableColumns')
+			->willReturn(
 				array(
 					(object) array(
 						'column_name' => 'id',
@@ -110,36 +85,23 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 						'comments' => '',
 					)
 				)
-			)
-		);
+			);
 
-		$this->dbo->expects(
-			$this->any()
-		)
-		->method('getTableKeys')
-		->will(
-			$this->returnValue(
-				array(
-					(object) array(
-						'idxName' => 'jos_dbtest_pkey',
-						'isPrimary' => 'TRUE',
-						'isUnique' => 'TRUE',
-						'Query' => 'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)',
-					)
+		$this->dbo->expects($this->any())
+			->method('getTableKeys')
+			->willReturn(array(
+				(object) array(
+					'idxName' => 'jos_dbtest_pkey',
+					'isPrimary' => 'TRUE',
+					'isUnique' => 'TRUE',
+					'Query' => 'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)',
 				)
-			)
-		);
+			));
 
-		/* Check if database is at least 9.1.0 */
-		$this->dbo->expects(
-			$this->any()
-		)
-		->method('getVersion')
-		->will(
-			$this->returnValue(
-				'9.1.2'
-			)
-		);
+		// Check if database is at least 9.1.0
+		$this->dbo->expects($this->any())
+			->method('getVersion')
+			->willReturn('9.1.2');
 
 		if (version_compare($this->dbo->getVersion(), '9.1.0') >= 0)
 		{
@@ -153,12 +115,9 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			$start_val = null;
 		}
 
-		$this->dbo->expects(
-			$this->any()
-		)
-		->method('getTableSequences')
-		->will(
-			$this->returnValue(
+		$this->dbo->expects($this->any())
+			->method('getTableSequences')
+			->willReturn(
 				array(
 					(object) array(
 						'sequence' => 'jos_dbtest_id_seq',
@@ -173,78 +132,50 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 						'cycle_option' => 'NO',
 					)
 				)
-			)
-		);
+			);
 
-		$this->dbo->expects(
-			$this->any()
-		)
-		->method('quoteName')
-		->will(
-			$this->returnCallback(
-				array($this, 'callbackQuoteName')
-			)
-		);
+		$this->dbo->expects($this->any())
+			->method('loadObjectList')
+			->willReturn(array());
 
-		$this->dbo->expects(
-			$this->any()
-		)
-		->method('setQuery')
-		->will(
-			$this->returnCallback(
-				array($this, 'callbackSetQuery')
-			)
-		);
-
-		$this->dbo->expects(
-			$this->any()
-		)
-		->method('loadObjectList')
-		->will(
-			$this->returnCallback(
-				array($this, 'callbackLoadObjectList')
-			)
-		);
+		$this->dbo->expects($this->any())
+			->method('getTableList')
+			->willReturn(array('jos_dbtest'));
 	}
 
 	/**
-	 * Callback for the dbo loadObjectList method.
-	 *
-	 * @return  array  An array of results based on the setting of the last query.
-	 *
-	 * @since   12.1
-	 */
-	public function callbackLoadObjectList()
-	{
-		return array();
-	}
-
-	/**
-	 * Callback for the dbo quoteName method.
+	 * Mock quoteName method.
 	 *
 	 * @param   string  $value  The value to be quoted.
 	 *
-	 * @return  string  The value passed wrapped in PostgreSQL quotes.
+	 * @return  string  The value passed wrapped in MySQL quotes.
 	 *
-	 * @since   12.1
+	 * @since   3.4
 	 */
-	public function callbackQuoteName($value)
+	public function mockQuoteName($value)
 	{
 		return '"$value"';
 	}
 
 	/**
-	 * Callback for the dbo setQuery method.
+	 * Callback for the dbo getQuery method.
 	 *
-	 * @param   string  $query  The query.
+	 * @param   boolean  $new  True to get a new query, false to get the last query.
 	 *
-	 * @return void
+	 * @return  JDatabaseQueryPostgresql
 	 *
-	 * @since  12.1
+	 * @since   11.3
 	 */
-	public function callbackSetQuery($query)
+	public function mockGetQuery($new = false)
 	{
-		$this->lastQuery = $query;
+		if ($new)
+		{
+			return new JDatabaseQueryPostgresql($this->dbo);
+		}
+		else
+		{
+			return $this->$lastQuery;
+		}
 	}
 
 	/**
@@ -287,13 +218,9 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
  </database>
 </postgresqldump>';
 
-		// Replace used to prevent platform conflicts
-		$this->assertThat(
-			preg_replace('/\v/', '', (string) $instance),
-			$this->equalTo(
-				preg_replace('/\v/', '', $expecting)
-			),
-			'__toString has not returned the expected result.'
+		$this->assertSame(
+			preg_replace('/\v/', '', $expecting),
+			preg_replace('/\v/', '', (string) $instance)
 		);
 	}
 
@@ -310,15 +237,16 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 		$result = $instance->asXml();
 
-		$this->assertThat(
+		$this->assertSame(
+			$instance,
 			$result,
-			$this->identicalTo($instance),
 			'asXml must return an object to support chaining.'
 		);
 
-		$this->assertThat(
-			TestReflection::getValue($instance, 'asFormat'),
-			$this->equalTo('xml'),
+		$this->assertAttributeEquals(
+			'xml',
+			'asFormat',
+			$instance,
 			'The asXml method should set the protected asFormat property to "xml".'
 		);
 	}
@@ -364,12 +292,9 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 </postgresqldump>';
 
 		// Replace used to prevent platform conflicts
-		$this->assertThat(
-			preg_replace('/\v/', '', TestReflection::invoke($instance, 'buildXml')),
-			$this->equalTo(
-				preg_replace('/\v/', '', $expecting)
-			),
-			'buildXml has not returned the expected result.'
+		$this->assertSame(
+			preg_replace('/\v/', '', $expecting),
+			preg_replace('/\v/', '', TestReflection::invoke($instance, 'buildXml'))
 		);
 	}
 
@@ -398,22 +323,19 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			$start_val = '1';
 		}
 
-		$this->assertThat(
-			TestReflection::invoke($instance, 'buildXmlStructure'),
-			$this->equalTo(
-				array(
-					'  <table_structure name="#__test">',
-					'   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
-					$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />',
-					'   <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
-					'   <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
-					'   <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />',
-					'   <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />',
-					'   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)" />',
-					'  </table_structure>'
-				)
+		$this->assertEquals(
+			array(
+				'  <table_structure name="#__test">',
+				'   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+				$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />',
+				'   <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
+				'   <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
+				'   <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />',
+				'   <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />',
+				'   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)" />',
+				'  </table_structure>'
 			),
-			'buildXmlStructure has not returned the expected result.'
+			TestReflection::invoke($instance, 'buildXmlStructure')
 		);
 	}
 
@@ -438,9 +360,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
-		$this->fail(
-			'Check method should throw exception if DBO not set'
-		);
+		$this->fail('Check method should throw exception if DBO not set');
 	}
 
 	/**
@@ -465,9 +385,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
-		$this->fail(
-			'Check method should throw exception if DBO not set'
-		);
+		$this->fail('Check method should throw exception if the from property not set');
 	}
 
 	/**
@@ -487,17 +405,14 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		{
 			$result = $instance->check();
 
-			$this->assertThat(
-				$result,
-				$this->identicalTo($instance),
-				'check must return an object to support chaining.'
+			$this->assertSame(
+				$instance,
+				$result
 			);
 		}
 		catch (Exception $e)
 		{
-			$this->fail(
-				'Check method should not throw exception with good setup: ' . $e->getMessage()
-			);
+			$this->fail('Check method should not throw exception with good setup: ' . $e->getMessage());
 		}
 	}
 
@@ -522,9 +437,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
-		$this->fail(
-			'From method should thrown an exception if argument is not a string or array.'
-		);
+		$this->fail('From method should thrown an exception if argument is not a string or array.');
 	}
 
 	/**
@@ -542,23 +455,22 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		{
 			$result = $instance->from('jos_foobar');
 
-			$this->assertThat(
+			$this->assertSame(
+				$instance,
 				$result,
-				$this->identicalTo($instance),
 				'from must return an object to support chaining.'
 			);
 
-			$this->assertThat(
-				TestReflection::getValue($instance, 'from'),
-				$this->equalTo(array('jos_foobar')),
+			$this->assertAttributeEquals(
+				array('jos_foobar'),
+				'from',
+				$instance,
 				'The from method should convert a string input to an array.'
 			);
 		}
 		catch (Exception $e)
 		{
-			$this->fail(
-				'From method should not throw exception with good input: ' . $e->getMessage()
-			);
+			$this->fail('From method should not throw exception with good input: ' . $e->getMessage());
 		}
 	}
 
@@ -574,9 +486,9 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		$instance = new JDatabaseExporterPostgresql;
 		$instance->setDbo($this->dbo);
 
-		$this->assertThat(
+		$this->assertSame(
+			'#__test',
 			TestReflection::invoke($instance, 'getGenericTableName', 'jos_test'),
-			$this->equalTo('#__test'),
 			'The testGetGenericTableName should replace the database prefix with #__.'
 		);
 	}
@@ -602,9 +514,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
-		$this->fail(
-			'setDbo requires a JDatabasePostgresql object and should throw an exception.'
-		);
+		$this->fail('setDbo requires a JDatabasePostgresql object and should throw an exception.');
 	}
 
 	/**
@@ -622,19 +532,16 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		{
 			$result = $instance->setDbo($this->dbo);
 
-			$this->assertThat(
+			$this->assertSame(
+				$instance,
 				$result,
-				$this->identicalTo($instance),
 				'setDbo must return an object to support chaining.'
 			);
-
 		}
 		catch (PHPUnit_Framework_Error $e)
 		{
 			// Unknown error has occurred.
-			$this->fail(
-				$e->getMessage()
-			);
+			$this->fail($e->getMessage());
 		}
 	}
 
@@ -651,17 +558,16 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 		$result = $instance->withStructure();
 
-		$this->assertThat(
+		$this->assertSame(
+			$instance,
 			$result,
-			$this->identicalTo($instance),
 			'withStructure must return an object to support chaining.'
 		);
 
 		$options = TestReflection::getValue($instance, 'options');
 
-		$this->assertThat(
+		$this->assertTrue(
 			$options->withStructure,
-			$this->isTrue(),
 			'The default use of withStructure should result in true.'
 		);
 
@@ -669,9 +575,8 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 		$options = TestReflection::getValue($instance, 'options');
 
-		$this->assertThat(
+		$this->assertTrue(
 			$options->withStructure,
-			$this->isTrue(),
 			'The explicit use of withStructure with true should result in true.'
 		);
 
@@ -679,9 +584,8 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 		$options = TestReflection::getValue($instance, 'options');
 
-		$this->assertThat(
+		$this->assertFalse(
 			$options->withStructure,
-			$this->isFalse(),
 			'The explicit use of withStructure with false should result in false.'
 		);
 	}

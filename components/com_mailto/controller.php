@@ -17,9 +17,9 @@ defined('_JEXEC') or die;
 class MailtoController extends JControllerLegacy
 {
 	/**
-	 * Show the form so that the user can send the link to someone
+	 * Show the form so that the user can send the link to someone.
 	 *
-	 * @access public
+	 * @return  void
 	 *
 	 * @since 1.5
 	 */
@@ -34,8 +34,9 @@ class MailtoController extends JControllerLegacy
 	/**
 	 * Send the message and display a notice
 	 *
-	 * @access public
-	 * @since 1.5
+	 * @return  void
+	 *
+	 * @since  1.5
 	 */
 	public function send()
 	{
@@ -111,6 +112,7 @@ class MailtoController extends JControllerLegacy
 
 		// Check for a valid to address
 		$error = false;
+
 		if (! $email  || ! JMailHelper::isEmailAddress($email))
 		{
 			$error = JText::sprintf('COM_MAILTO_EMAIL_INVALID', $email);
