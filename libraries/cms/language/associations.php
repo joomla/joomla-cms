@@ -65,7 +65,10 @@ class JLanguageAssociations
 		// Use catid field ?
 		if (!empty($catField))
 		{
-			$query->join('INNER', $db->quoteName('#__categories', 'ca') . ' ON ' . $db->quoteName('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->quote($extension))
+			$query->join(
+					'INNER',
+					$db->quoteName('#__categories', 'ca') . ' ON ' . $db->quoteName('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->quote($extension)
+				)
 				->select(
 					$query->concatenate(
 						array('ca.id', 'ca.alias'),

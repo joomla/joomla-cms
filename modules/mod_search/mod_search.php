@@ -47,5 +47,6 @@ if ($imagebutton)
 {
 	$img = ModSearchHelper::getSearchImage($button_text);
 }
+
 $mitemid = $set_Itemid > 0 ? $set_Itemid : $app->input->get('Itemid');
 require JModuleHelper::getLayoutPath('mod_search', $params->get('layout', 'default'));

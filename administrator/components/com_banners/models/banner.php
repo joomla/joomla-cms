@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Banner model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersModelBanner extends JModelAdmin
 {

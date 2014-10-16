@@ -60,7 +60,6 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageRepositoriesContents::getReadme
-     * @todo   Implement testGetReadme().
      */
     public function testGetReadme()
     {
@@ -80,7 +79,6 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositoriesContents::getReadme
-	 * @todo   Implement testGetReadme().
 	 */
 	public function testGetReadmeRef()
 	{
@@ -100,7 +98,6 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JGithubPackageRepositoriesContents::get
-     * @todo   Implement testGet().
      */
     public function testGet()
     {
@@ -120,7 +117,6 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositoriesContents::get
-	 * @todo   Implement testGet().
 	 */
 	public function testGetRef()
 	{
@@ -140,7 +136,6 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JGithubPackageRepositoriesContents::getArchiveLink
-     * @todo   Implement testGetArchiveLink().
      */
     public function testGetArchiveLink()
     {
@@ -160,7 +155,6 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositoriesContents::getArchiveLink
-	 * @todo   Implement testGetArchiveLink().
 	 */
 	public function testGetArchiveLinkRef()
 	{
@@ -180,7 +174,6 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositoriesContents::getArchiveLink
-	 * @todo   Implement testGetArchiveLink().
 	 *
 	 * @expectedException UnexpectedValueException
 	 */

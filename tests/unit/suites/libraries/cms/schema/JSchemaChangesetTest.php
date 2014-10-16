@@ -137,29 +137,7 @@ class JSchemaChangesetTest extends TestCase
 			$this->isInstanceOf('JSchemaChangeset')
 		);
 	}
-	/**
-	 * @todo   Implement testCheck().
-	 */
-	public function testCheck()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
 
-	/**
-	 * @todo   Implement testFix().
-	 */
-	public function testFix()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo   Implement testGetStatus().
-	 */
 	public function testGetStatus()
 	{
 		$this->assertThat(

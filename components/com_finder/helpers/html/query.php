@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Query HTML behavior class for Finder.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 abstract class JHtmlQuery
 {

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Note: this view is intended only to be opened in a popup
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
  * @since       1.5
  * @deprecated  4.0
  */

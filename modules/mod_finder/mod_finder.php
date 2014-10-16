@@ -19,6 +19,7 @@ if (!defined('FINDER_PATH_INDEXER'))
 {
 	define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
 }
+
 JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 
 // Check for OpenSearch
@@ -35,7 +36,6 @@ This code intentionally commented
 						'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
 					);
 */
-
 }
 
 // Initialize module parameters.

@@ -101,7 +101,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 		$config->set('session', false);
 
 		// Get a new JApplicationAdministrator instance.
-		$this->class = new JApplicationAdministrator(null, $config);
+		$this->class = new JApplicationAdministrator($this->getMockInput(), $config);
 		TestReflection::setValue('JApplicationCms', 'instances', array('administrator' => $this->class));
 	}
 

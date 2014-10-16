@@ -37,13 +37,21 @@ abstract class JHtmlSortablelist
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * @throws  InvalidArgumentException
 	 */
-	public static function sortable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl, $proceedSaveOrderButton = true, $nestedList = false)
+	public static function sortable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl = null, $proceedSaveOrderButton = true, $nestedList = false)
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
+		}
+
+		// Note: $i is required but has to be an optional argument in the function call due to argument order
+		if (null === $saveOrderingUrl)
+		{
+			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
 		}
 
 		// Depends on jQuery UI
@@ -56,7 +64,8 @@ abstract class JHtmlSortablelist
 		JFactory::getDocument()->addScriptDeclaration("
 			(function ($){
 				$(document).ready(function (){
-					var sortableList = new $.JSortableList('#" . $tableId . " tbody','" . $formId . "','" . $sortDir . "' , '" . $saveOrderingUrl . "','','" . $nestedList . "');
+					var sortableList = new $.JSortableList('#"
+						. $tableId . " tbody','" . $formId . "','" . $sortDir . "' , '" . $saveOrderingUrl . "','','" . $nestedList . "');
 				});
 			})(jQuery);
 			"

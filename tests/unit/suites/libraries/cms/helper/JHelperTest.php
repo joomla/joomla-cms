@@ -67,18 +67,6 @@ class JHelperTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the getCurrentLanguage()
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testGetCurrentLanguage()
-	{
-		$this->markTestSkipped('Test not implemented.');
-	}
-
-	/**
 	 * getLanguageId data
 	 *
 	 * @return  array
