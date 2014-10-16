@@ -51,10 +51,6 @@ class ModWrapperHelper
 			{
 				$url = 'http://' . $url;
 			}
-			else
-			{
-				$url = $url;
-			}
 		}
 
 		// Auto height control

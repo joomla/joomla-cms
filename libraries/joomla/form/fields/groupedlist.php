@@ -168,7 +168,7 @@ class JFormFieldGroupedList extends JFormField
 					'option.text.toHtml' => false
 				)
 			);
-			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
+			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"/>';
 		}
 
 		// Create a regular list.

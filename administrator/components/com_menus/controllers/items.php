@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * The Menu Item Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
- * @since       1.6
+ * @since  1.6
  */
 class MenusControllerItems extends JControllerAdmin
 {
@@ -61,9 +59,19 @@ class MenusControllerItems extends JControllerAdmin
 		}
 	}
 
+	/**
+	 * Save the manual order inputs from the menu items list view
+	 * 
+	 * @return      void
+	 * 
+	 * @see         JControllerAdmin::saveorder()
+	 * @deprecated  4.0
+	 */
 	public function saveorder()
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		JLog::add('MenusControllerItems::saveorder() is deprecated. Function will be removed in 4.0', JLog::WARNING, 'deprecated');
 
 		// Get the arrays from the Request
 		$order = $this->input->post->get('order', null, 'array');

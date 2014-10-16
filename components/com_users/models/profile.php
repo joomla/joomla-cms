@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Profile model class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelProfile extends JModelForm
 {
@@ -193,6 +191,13 @@ class UsersModelProfile extends JModelForm
 			$form->setFieldAttribute('username', 'message', '');
 			$form->setFieldAttribute('username', 'readonly', 'true');
 			$form->setFieldAttribute('username', 'required', 'false');
+		}
+
+		// If the user needs to change their password, mark the password fields as required
+		if (JFactory::getUser()->requireReset)
+		{
+			$form->setFieldAttribute('password1', 'required', 'true');
+			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
 		return $form;

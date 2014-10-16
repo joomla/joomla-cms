@@ -16,10 +16,9 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
-$this->hiddenFieldsets = array();
-$this->hiddenFieldsets[0] = 'basic-limited';
-$this->configFieldsets = array();
-$this->configFieldsets[0] = 'editorConfig';
+$this->configFieldsets  = array('editorConfig');
+$this->hiddenFieldsets  = array('basic-limited');
+$this->ignore_fieldsets = array('jmetadata');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
@@ -138,16 +137,7 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG', true)); ?>
-				<?php foreach ($this->form->getFieldset('editorConfig') as $field) : ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $field->label; ?>
-						</div>
-						<div class="controls">
-							<?php echo $field->input; ?>
-						</div>
-					</div>
-				<?php endforeach; ?>
+			<?php echo $this->form->renderFieldset('editorConfig'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 

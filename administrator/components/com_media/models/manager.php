@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Media Component Manager Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       1.5
+ * @since  1.5
  */
 class MediaModelManager extends JModelLegacy
 {
@@ -90,13 +88,13 @@ class MediaModelManager extends JModelLegacy
 		// so both string and integer are supported.
 		if ($asset == 0)
 		{
-			$asset = $input->get('asset', 0, 'string');
+			$asset = $input->get('asset', 0, 'cmd');
 		}
 
 		$author = $input->get('author', 0, 'integer');
 
 		// Create the drop-down folder select list
-		$list = JHtml::_('select.genericlist', $options, 'folderlist', 'class="inputbox" size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, '.$asset.', '.$author.')" ', 'value', 'text', $base);
+		$list = JHtml::_('select.genericlist', $options, 'folderlist', 'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, '.$asset.', '.$author.')" ', 'value', 'text', $base);
 
 		return $list;
 	}

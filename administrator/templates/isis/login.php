@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$app = JFactory::getApplication();
-$doc = JFactory::getDocument();
+$app  = JFactory::getApplication();
+$doc  = JFactory::getDocument();
 $lang = JFactory::getLanguage();
 
 // Add JavaScript Frameworks
@@ -18,13 +18,14 @@ JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
 
 // Add Stylesheets
-$doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
+$doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+
 if (is_file($file))
 {
 	$doc->addStyleSheet($file);
@@ -36,11 +37,8 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$sitename = $app->getCfg('sitename');
+$sitename = $app->get('sitename');
 
-// Check if debug is on
-$config = JFactory::getConfig();
-$debug  = (boolean) $config->get('debug');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
@@ -49,11 +47,9 @@ $debug  = (boolean) $config->get('debug');
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
 	<script type="text/javascript">
-		window.addEvent('domready', function ()
-		{
-			document.getElementById('form-login').username.select();
-			document.getElementById('form-login').username.focus();
-		});
+       	    jQuery(function($) {
+            	$( "#form-login input[name='username']" ).focus();
+            });
 	</script>
 	<style type="text/css">
 		/* Responsive Styles */
@@ -66,7 +62,8 @@ $debug  = (boolean) $config->get('debug');
 				padding: 4px 10px 4px;
 			}
 		}
-		<?php if ($debug) : ?>
+		<?php // Check if debug is on ?>
+		<?php if ($app->get('debug_lang', 1) || $app->get('debug', 1)) : ?>
 			.view-login .container {
 				position: static;
 				margin-top: 20px;
@@ -95,7 +92,7 @@ $debug  = (boolean) $config->get('debug');
 				<jdoc:include type="component" />
 			</div>
 			<noscript>
-				<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT') ?>
+				<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 			</noscript>
 			<!-- End Content -->
 		</div>
@@ -104,8 +101,8 @@ $debug  = (boolean) $config->get('debug');
 		<p class="pull-right">
 			&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
 		</p>
-		<a class="login-joomla" href="http://www.joomla.org" target="_blank" class="hasTooltip" title="<?php echo JHtml::tooltipText('TPL_ISIS_ISFREESOFTWARE');?>">Joomla!&#174;</a>
-		<a href="<?php echo JUri::root(); ?>" target="_blank" class="pull-left"><i class="icon-share icon-white"></i> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE') ?></a>
+		<a class="login-joomla hasTooltip" href="http://www.joomla.org" target="_blank" title="<?php echo JHtml::tooltipText('TPL_ISIS_ISFREESOFTWARE'); ?>">Joomla!&#174;</a>
+		<a href="<?php echo JUri::root(); ?>" target="_blank" class="pull-left"><i class="icon-share icon-white"></i> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
 </body>

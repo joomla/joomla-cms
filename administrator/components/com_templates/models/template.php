@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Template model class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesModelTemplate extends JModelForm
 {
@@ -1154,36 +1152,6 @@ class TemplatesModelTemplate extends JModelForm
 
 			return $font;
 		}
-	}
-
-	/**
-	 * Check the admin template.
-	 *
-	 * @return  object  object containing the id of the template.
-	 *
-	 * @since   3.2
-	 */
-	public function getHathor()
-	{
-		$app = JFactory::getApplication();
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('home');
-		$query->from('#__template_styles');
-		$query->where($db->quoteName('template') . ' = ' . $db->quote('hathor'));
-		$db->setQuery($query);
-
-		try
-		{
-			$result = $db->loadObject();
-		}
-		catch (RuntimeException $e)
-		{
-			$app->enqueueMessage($e->getMessage(), 'error');
-		}
-
-		return $result;
 	}
 
 	/**

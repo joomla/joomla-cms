@@ -15,9 +15,7 @@ JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
 /**
  * Suggestions model class for the Finder package.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderModelSuggestions extends JModelList
 {
@@ -123,7 +121,15 @@ class FinderModelSuggestions extends JModelList
 		$this->setState('input', $input->request->get('q', '', 'string'));
 
 		// Set the query language
-		$lang = FinderIndexerHelper::getDefaultLanguage();
+		if (JLanguageMultilang::isEnabled())
+		{
+			$lang = JFactory::getLanguage()->getTag();
+		}
+		else
+		{
+			$lang = FinderIndexerHelper::getDefaultLanguage();
+		}
+
 		$lang = FinderIndexerHelper::getPrimaryLanguage($lang);
 		$this->setState('language', $lang);
 

@@ -372,7 +372,9 @@ var mobileMenu = new Class({
         });
 
         // add the menu to the dom
-        this.menuWrapper.wraps(this.menu);
+        if ( this.menu != null ) {
+        	this.menuWrapper.wraps(this.menu);
+        }
         // create the effect
         this.wrapper = new Fx.Reveal(document.id('menuwrapper'), {
             duration:'long',
@@ -380,8 +382,10 @@ var mobileMenu = new Class({
             link:'chain'
         });
         // add the menuopener to the dom and hide it
-        this.mobile.setStyle('display', 'none')
-            .inject(document.id("header").getElement('#menuwrapper'), 'before');
+        if( document.id("header").getElement('#menuwrapper') != null ) {
+        	this.mobile.setStyle('display', 'none')
+            	.inject(document.id("header").getElement('#menuwrapper'), 'before');
+        }
 
     },
     display:function () {

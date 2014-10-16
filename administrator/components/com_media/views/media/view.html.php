@@ -9,12 +9,13 @@
 
 defined('_JEXEC') or die;
 
+// Include jQuery
+JHtml::_('jquery.framework');
+
 /**
  * HTML View class for the Media component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       1.0
+ * @since  1.0
  */
 class MediaViewMedia extends JViewLegacy
 {

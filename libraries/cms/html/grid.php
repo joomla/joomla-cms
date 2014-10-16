@@ -47,7 +47,7 @@ abstract class JHtmlGrid
 
 		if ($toggle)
 		{
-			return '<a class="grid_' . $bool . ' hasToolip" title="' . $title . '" rel="{id:\'cb' . $i . '\', task:\'' . $task
+			return '<a class="grid_' . $bool . ' hasTooltip" title="' . $title . '" rel="{id:\'cb' . $i . '\', task:\'' . $task
 				. '\'}" href="#toggle"></a>';
 		}
 		else
@@ -73,6 +73,7 @@ abstract class JHtmlGrid
 	 */
 	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc', $tip = '')
 	{
+		JHtml::_('behavior.core');
 		JHtml::_('bootstrap.tooltip');
 
 		$direction = strtolower($direction);
@@ -125,7 +126,8 @@ abstract class JHtmlGrid
 	{
 		JHtml::_('bootstrap.tooltip');
 
-		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::tooltipText($tip) . '" onclick="' . $action . '" />';
+		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::tooltipText($tip)
+			. '" onclick="' . $action . '" />';
 	}
 
 	/**
@@ -270,7 +272,8 @@ abstract class JHtmlGrid
 	 */
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
-		return '<a href="javascript:saveorder(' . (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
+		return '<a href="javascript:saveorder('
+			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
 			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><i class="icon-menu-2"></i></a>';
 	}
 
@@ -315,30 +318,29 @@ abstract class JHtmlGrid
 
 		if (!$loaded)
 		{
+			// Include jQuery
+			JHtml::_('jquery.framework');
+
 			// Build the behavior script.
 			$js = '
-		window.addEvent(\'domready\', function(){
-			actions = $$(\'a.move_up\');
-			actions.combine($$(\'a.move_down\'));
-			actions.combine($$(\'a.grid_true\'));
-			actions.combine($$(\'a.grid_false\'));
-			actions.combine($$(\'a.grid_trash\'));
-			actions.each(function(a){
-				a.addEvent(\'click\', function(){
+		jQuery(function($){
+			$actions = $(\'a.move_up, a.move_down, a.grid_true, a.grid_false, a.grid_trash\');
+			$actions.each(function(){
+				$(this).on(\'click\', function(){
 					args = JSON.decode(this.rel);
 					listItemTask(args.id, args.task);
 				});
 			});
-			$$(\'input.check-all-toggle\').each(function(el){
-				el.addEvent(\'click\', function(){
-					if (el.checked) {
-						document.id(this.form).getElements(\'input[type=checkbox]\').each(function(i){
-							i.checked = true;
+			$(\'input.check-all-toggle\').each(function(){
+				$(this).on(\'click\', function(){
+					if (this.checked) {
+						$(this).closest(\'form\').find(\'input[type=checkbox]\').each(function(){
+							this.checked = true;
 						})
 					}
 					else {
-						document.id(this.form).getElements(\'input[type=checkbox]\').each(function(i){
-							i.checked = false;
+						$(this).closest(\'form\').find(\'input[type=checkbox]\').each(function(){
+							this.checked = false;
 						})
 					}
 				});

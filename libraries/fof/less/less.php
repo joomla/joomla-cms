@@ -2,11 +2,11 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  less
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * This class is taken near verbatim (changes marked with **FOF** comment markers) from:
@@ -112,9 +112,7 @@ class FOFLess
 	protected function fileExists($name)
 	{
 		/** FOF - BEGIN CHANGE * */
-		JLoader::import('joomla.filesystem.file');
-
-		return JFile::exists($name);
+		return FOFPlatform::getInstance()->getIntegrationObject('filesystem')->fileExists($name);
 		/** FOF - END CHANGE * */
 	}
 
@@ -2924,9 +2922,7 @@ class FOFLess
 		if ($outFname !== null)
 		{
 			/** FOF - BEGIN CHANGE * */
-			JLoader::import('joomla.filesystem.file');
-
-			return JFile::write($outFname, $out);
+			return FOFPlatform::getInstance()->getIntegrationObject('filesystem')->fileWrite($outFname, $out);
 			/** FOF - END CHANGE * */
 		}
 

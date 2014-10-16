@@ -197,7 +197,7 @@
 	float: right;
 }
 .input-append .add-on{
-	float: left;
+	float: none;
 }
 .input-prepend .add-on,
 .input-prepend .btn {
@@ -516,6 +516,19 @@ direction:rtl;
 	left: 3px;
 	right: auto;
 }
+.chzn-container.chzn-with-drop .chzn-drop {
+	right: 0;
+	left: auto;
+}
+.chzn-container-single.chzn-container-single-nosearch .chzn-search {
+	position: absolute;
+	right: -9999px;
+	left: auto;
+}
+.chzn-container .chzn-drop {
+	right: -9999px;
+	left: auto;
+}
 .alert {
 	padding-right: 14px;
 	padding-left: 35px;
@@ -580,4 +593,17 @@ direction:rtl;
 input[type="url"] {
 	text-align: left;
 	direction: ltr;
+}
+
+/* Menu Module front-end */
+#aside .nav .nav-child {
+	border-left: 0;
+	border-right: 2px solid #ddd;
+	padding-left: 0;
+	padding-right: 5px;
+}
+
+/* Dropdown frontend */
+.dropdown-menu {
+	text-align: right;
 }

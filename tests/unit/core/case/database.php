@@ -227,7 +227,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock database object.
 	 *
-	 * @return  JDatabase
+	 * @return  JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
@@ -269,6 +269,26 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 		class_exists('JDocument');
 
 		return TestMockDocument::create($this);
+	}
+
+	/**
+	 * Gets a mock input object.
+	 *
+	 * @param   array  $options  A associative array of options to configure the mock.
+	 *                           * methods => an array of additional methods to mock
+	 *
+	 * @return  JInput
+	 *
+	 * @since   3.4
+	 */
+	public function getMockInput(array $options = null)
+	{
+		// Attempt to load the real class first.
+		class_exists('JInput');
+
+		$mocker = new TestMockInput($this);
+
+		return $mocker->createInput($options);
 	}
 
 	/**

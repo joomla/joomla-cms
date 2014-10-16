@@ -52,7 +52,7 @@ $assoc = JLanguageAssociations::isEnabled();
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_NEWSFEEDS_NEW_NEWSFEED', true) : JText::sprintf('COM_NEWSFEEDS_EDIT_NEWSFEED', $this->item->id, true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_NEWSFEEDS_NEW_NEWSFEED', true) : JText::_('COM_NEWSFEEDS_EDIT_NEWSFEED', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="form-vertical">
@@ -92,7 +92,7 @@ $assoc = JLanguageAssociations::isEnabled();
 		<?php echo $this->loadTemplate('display'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php $this->set('ignore_fieldsets', array('jbasic')); ?>
+		<?php $this->ignore_fieldsets = array('jbasic'); ?>
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php if ($assoc) : ?>

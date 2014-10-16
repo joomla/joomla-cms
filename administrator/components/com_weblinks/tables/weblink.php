@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Weblink Table class
  *
- * @package     Joomla.Administrator
- * @subpackage  com_weblinks
- * @since       1.5
+ * @since  1.5
  */
 class WeblinksTableWeblink extends JTable
 {
@@ -26,6 +24,9 @@ class WeblinksTableWeblink extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__weblinks', 'id', $db);
+
+		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_weblinks.weblink'));
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_weblinks.weblink'));
 	}
 
 	/**

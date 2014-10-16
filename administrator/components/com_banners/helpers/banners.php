@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Banners component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersHelper extends JHelperContent
 {
@@ -165,6 +163,7 @@ class BannersHelper extends JHelperContent
 		$query = $db->getQuery(true)
 			->select('id As value, name As text')
 			->from('#__banner_clients AS a')
+			->where('a.state = 1')
 			->order('a.name');
 
 		// Get the options.

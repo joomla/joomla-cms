@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Map table class for the Finder package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderTableMap extends JTable
 {
@@ -63,6 +61,7 @@ class FinderTableMap extends JTable
 			else
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
@@ -84,6 +83,7 @@ class FinderTableMap extends JTable
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 

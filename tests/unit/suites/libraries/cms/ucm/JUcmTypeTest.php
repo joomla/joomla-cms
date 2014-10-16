@@ -36,7 +36,7 @@ class JUcmTypeTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->object = new JUcmType('com_content.article');
 	}
@@ -118,8 +118,6 @@ class JUcmTypeTest extends TestCaseDatabase
 	 */
 	public function testGetTypeByAlias()
 	{
-		$this->markTestSkipped('The alias column is being casted to integer at present...');
-
 		$this->assertEquals(
 			1,
 			$this->object->getTypeByAlias('com_content.article')->type_id,

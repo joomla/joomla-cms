@@ -62,9 +62,9 @@ defined('_JEXEC') or die;
 /**
  * Renders the pagination footer
  *
- * @param   array  $list  Array containing pagination footer
+ * @param   array   $list  Array containing pagination footer
  *
- * @return  string  HTML markup for the full pagination footer
+ * @return  string         HTML markup for the full pagination footer
  *
  * @since   3.0
  */
@@ -81,9 +81,9 @@ function pagination_list_footer($list)
 /**
  * Renders the pagination list
  *
- * @param   array  $list  Array containing pagination information
+ * @param   array   $list  Array containing pagination information
  *
- * @return  string  HTML markup for the full pagination object
+ * @return  string         HTML markup for the full pagination object
  *
  * @since   3.0
  */
@@ -141,12 +141,14 @@ function pagination_list_render($list)
  *
  * @param   JPaginationObject  $item  The current pagination object
  *
- * @return  string  HTML markup for active item
+ * @return  string                    HTML markup for active item
  *
  * @since   3.0
  */
 function pagination_item_active(&$item)
 {
+	$class = '';
+
 	// Check for "Start" item
 	if ($item->text == JText::_('JLIB_HTML_START'))
 	{
@@ -175,9 +177,10 @@ function pagination_item_active(&$item)
 	if (!isset($display))
 	{
 		$display = $item->text;
+		$class   = ' class="hidden-phone"';
 	}
 
-	return "<li><a title=\"" . $item->text . "\" href=\"" . $item->link . "\" class=\"pagenav\">" . $display . "</a></li>";
+	return '<li' . $class . '><a title="' . $item->text . '" href="' . $item->link . '" class="pagenav">' . $display . '</a></li>';
 }
 
 /**
@@ -218,9 +221,9 @@ function pagination_item_inactive(&$item)
 	// Check if the item is the active page
 	if (isset($item->active) && ($item->active))
 	{
-		return '<li class="active"><a>' . $item->text . '</a></li>';
+		return '<li class="active hidden-phone"><a>' . $item->text . '</a></li>';
 	}
 
 	// Doesn't match any other condition, render a normal item
-	return '<li class="disabled"><a>' . $item->text . '</a></li>';
+	return '<li class="disabled hidden-phone"><a>' . $item->text . '</a></li>';
 }

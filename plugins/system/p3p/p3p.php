@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! P3P Header Plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.p3p
- * @since       1.6
+ * @since  1.6
  */
 class PlgSystemP3p extends JPlugin
 {
@@ -38,6 +36,6 @@ class PlgSystemP3p extends JPlugin
 		}
 
 		// Replace any existing P3P headers in the response.
-		JFactory::getApplication()->setHeader('P3P', 'CP="'.$header.'"', true);
+		JFactory::getApplication()->setHeader('P3P', 'CP="' . $header . '"', true);
 	}
 }

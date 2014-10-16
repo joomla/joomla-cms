@@ -12,9 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Supports a modal newsfeeds picker.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldModal_Newsfeed extends JFormField
 {
@@ -112,7 +110,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 			}
 			catch (RuntimeException $e)
 			{
-				JError::raiseWarning(500, $e->getMessage);
+				JError::raiseWarning(500, $e->getMessage());
 			}
 		}
 

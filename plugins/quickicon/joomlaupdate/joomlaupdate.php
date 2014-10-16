@@ -10,11 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * Joomla! udpate notification plugin
+ * Joomla! update notification plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Quickicon.Joomlaupdate
- * @since       2.5
+ * @since  2.5
  */
 class PlgQuickiconJoomlaupdate extends JPlugin
 {

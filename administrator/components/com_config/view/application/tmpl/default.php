@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 // Load tooltips behavior
 JHtml::_('behavior.formvalidation');
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
 ?>
 <script type="text/javascript">
@@ -85,6 +85,7 @@ JHtml::_('formbehavior.chosen', 'select');
 							<?php echo $this->loadTemplate('server'); ?>
 							<?php echo $this->loadTemplate('locale'); ?>
 							<?php echo $this->loadTemplate('ftp'); ?>
+							<?php echo $this->loadTemplate('proxy'); ?>
 						</div>
 						<div class="span6">
 							<?php echo $this->loadTemplate('database'); ?>

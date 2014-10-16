@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Banner table
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.5
+ * @since  1.5
  */
 class BannersTableBanner extends JTable
 {
@@ -28,6 +26,9 @@ class BannersTableBanner extends JTable
 	public function __construct(&$_db)
 	{
 		parent::__construct('#__banners', 'id', $_db);
+
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_banners.banner'));
+
 		$date = JFactory::getDate();
 		$this->created = $date->toSql();
 	}

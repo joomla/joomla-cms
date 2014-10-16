@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 ?>
-
-<div id="installer-database">
+<div id="installer-database" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=database');?>" method="post" name="adminForm" id="adminForm">
 
 	<?php if (!empty( $this->sidebar)) : ?>
@@ -41,8 +40,8 @@ defined('_JEXEC') or die;
 							<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?>
 						<?php endif; ?>
 
-						<?php if (version_compare($this->schemaVersion, JVERSION) != 0) : ?>
-							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, JVERSION); ?></li>
+						<?php if ($this->schemaVersion != $this->changeSet->getSchema()) : ?>
+							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, $this->changeSet->getSchema()); ?></li>
 						<?php endif; ?>
 
 						<?php if (version_compare($this->updateVersion, JVERSION) != 0) : ?>

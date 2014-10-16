@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base class for rendering a display layout
@@ -149,7 +149,7 @@ class JLayoutFile extends JLayoutBase
 
 			$this->fullPath = JPath::find($this->includePaths, $rawPath);
 
-			if ($this->fullPath = JPath::find($this->includePaths, $rawPath))
+			if ($this->fullPath)
 			{
 				$this->addDebugMessage('<strong>Found layout:</strong> ' . $this->fullPath);
 			}
