@@ -75,6 +75,7 @@ $assoc = JLanguageAssociations::isEnabled();
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
+		<?php $this->ignore_fieldsets = array('jmetadata'); ?>
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
