@@ -110,7 +110,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 * @var    array
 	 * @since  3.3
 	 */
-	protected $jsonEncode = array();
+	protected $_jsonEncode = array();
 
 	/**
 	 * Object constructor to set table and key fields.  In most cases this will
@@ -593,9 +593,9 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	public function bind($src, $ignore = array())
 	{
 		// JSON encode any fields required
-		if (!empty($this->jsonEncode))
+		if (!empty($this->_jsonEncode))
 		{
-			foreach ($this->jsonEncode as $field)
+			foreach ($this->_jsonEncode as $field)
 			{
 				if (isset($src[$field]) && is_array($src[$field]))
 				{
@@ -688,6 +688,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 				{
 					throw new InvalidArgumentException('Table has multiple primary keys specified, only one primary key value provided.');
 				}
+
 				$keys = array($this->getKeyName() => $keys);
 			}
 			else
@@ -969,6 +970,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			{
 				throw new UnexpectedValueException('Null primary key not allowed.');
 			}
+
 			$this->$key = $pk[$key];
 		}
 

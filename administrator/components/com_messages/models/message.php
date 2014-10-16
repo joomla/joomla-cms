@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Private Message model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.6
+ * @since  1.6
  */
 class MessagesModelMessage extends JModelAdmin
 {

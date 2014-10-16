@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
+ * Newsfeed Table class.
  */
 class NewsfeedsTableNewsfeed extends JTable
 {
@@ -21,7 +20,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	 * @var    array
 	 * @since  3.3
 	 */
-	protected $jsonEncode = array('params', 'metadata', 'images');
+	protected $_jsonEncode = array('params', 'metadata', 'images');
 
 	/**
 	 * Constructor

@@ -88,14 +88,10 @@ class JFormFieldFileTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
-		// $this->markTestIncomplete('Problems encountered in next assertion');
-
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
 			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
-
-		// TODO: Should check all the attributes have come in properly.
 	}
 }
