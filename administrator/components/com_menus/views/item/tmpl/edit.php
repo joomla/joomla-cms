@@ -154,7 +154,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 		<?php
 		$this->fieldsets = array();
-		$this->ignore_fieldsets = array('aliasoptions', 'request','menu-options', 'page-options', 'metadata');
+		$this->ignore_fieldsets = array('aliasoptions', 'request');
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
 
