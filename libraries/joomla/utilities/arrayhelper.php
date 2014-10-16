@@ -217,6 +217,7 @@ abstract class JArrayHelper
 		{
 			$result = $item;
 		}
+
 		return $result;
 	}
 
@@ -475,7 +476,6 @@ abstract class JArrayHelper
 
 			if ($cmp > 0)
 			{
-
 				return $direction;
 			}
 

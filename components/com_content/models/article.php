@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Content Component Article Model
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentModelArticle extends JModelItem
 {
@@ -127,7 +125,8 @@ class ContentModelArticle extends JModelItem
 
 					->where('a.id = ' . (int) $pk);
 
-				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
+				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+				{
 					// Filter by start and end dates.
 					$nullDate = $db->quote($db->getNullDate());
 					$date = JFactory::getDate();

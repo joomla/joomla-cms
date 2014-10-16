@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Filter table class for the Finder package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderTableFilter extends JTable
 {
@@ -127,6 +125,7 @@ class FinderTableFilter extends JTable
 			else
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
@@ -158,6 +157,7 @@ class FinderTableFilter extends JTable
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -215,6 +215,7 @@ class FinderTableFilter extends JTable
 			{
 				$this->created = $date->toSql();
 			}
+
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
@@ -234,11 +235,14 @@ class FinderTableFilter extends JTable
 
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Filter', 'FinderTable');
+
 		if ($table->load(array('alias' => $this->alias)) && ($table->filter_id != $this->filter_id || $this->filter_id == 0))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+
 			return false;
 		}
+
 		return parent::store($updateNulls);
 	}
 }

@@ -41,18 +41,6 @@ class JFormRuleEmailTest extends TestCase
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The basic rule should pass and return true.'
 		);
-
-		$this->markTestIncomplete('More tests required');
-
-		/*
-		 TODO: Need to test the "field" attribute which adds to the unique test where clause.
-		 TODO: Database error is prevents the following tests from working properly.
-		*/
-		$this->assertThat(
-			$rule->test($xml->field[1], 'me@example.com'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The unique rule should pass and return true.'
-		);
 	}
 
 	/**

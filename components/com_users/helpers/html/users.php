@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Users Html Helper
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlUsers
 {

@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldCategoryEdit extends JFormFieldList
 {
@@ -158,9 +156,10 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		{
 			foreach ($options as $i => $option)
 			{
-				// To take save or create in a category you need to have create rights for that category
-				// unless the item is already in that category.
-				// Unset the option if the user isn't authorised for it. In this field assets are always categories.
+				/* To take save or create in a category you need to have create rights for that category
+				 * unless the item is already in that category.
+				 * Unset the option if the user isn't authorised for it. In this field assets are always categories.
+				 */
 				if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true && $option->level != 0)
 				{
 					unset($options[$i]);
@@ -170,9 +169,10 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		// If you have an existing category id things are more complex.
 		else
 		{
-			// If you are only allowed to edit in this category but not edit.state, you should not get any
-			// option to change the category parent for a category or the category for a content item,
-			// but you should be able to save in that category.
+			/* If you are only allowed to edit in this category but not edit.state, you should not get any
+			 * option to change the category parent for a category or the category for a content item,
+			 * but you should be able to save in that category.
+			 */
 			foreach ($options as $i => $option)
 			{
 				if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true && !isset($oldParent))

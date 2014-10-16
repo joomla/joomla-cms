@@ -87,7 +87,8 @@ abstract class ModTagssimilarHelper
 		$query->where('(cc.core_access IN (' . $groups . ') OR cc.core_access = 0)');
 
 		// Don't show current item
-		$query->where('(' . $db->quoteName('m.content_item_id') . ' <> ' . $id . ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')');
+		$query->where('(' . $db->quoteName('m.content_item_id') . ' <> ' . $id
+			. ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')');
 
 		// Only return published tags
 		$query->where($db->quoteName('cc.core_state') . ' = 1 ');

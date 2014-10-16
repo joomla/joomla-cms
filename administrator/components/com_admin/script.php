@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Script file of Joomla CMS
  *
- * @package     Joomla.Administrator
- * @subpackage  com_admin
- * @since       1.6.4
+ * @since  1.6.4
  */
 class JoomlaInstallerScript
 {

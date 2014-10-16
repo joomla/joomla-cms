@@ -122,6 +122,7 @@ class JDocumentOpensearch extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		$xml = new DOMDocument('1.0', 'utf-8');
+
 		if (defined('JDEBUG') && JDEBUG)
 		{
 			$xml->formatOutput = true;
@@ -166,12 +167,14 @@ class JDocumentOpensearch extends JDocument
 			{
 				$elUrl->setAttribute('rel', $url->rel);
 			}
+
 			$elUrl->setAttribute('template', $url->template);
 			$elOs->appendChild($elUrl);
 		}
 
 		$xml->appendChild($elOs);
 		parent::render();
+
 		return $xml->saveXML();
 	}
 

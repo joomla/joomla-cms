@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! master extension plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Extension.Joomla
- * @since       1.6
+ * @since  1.6
  */
 class PlgExtensionJoomla extends JPlugin
 {

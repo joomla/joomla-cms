@@ -105,7 +105,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('session', false);
 
 		// Get a new JApplicationCmsInspector instance.
-		$this->class = new JApplicationCmsInspector(null, $config);
+		$this->class = new JApplicationCmsInspector($this->getMockInput(), $config);
 	}
 
 	/**

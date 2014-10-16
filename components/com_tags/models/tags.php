@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * This models supports retrieving a list of tags.
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsModelTags extends JModelList
 {

@@ -28,7 +28,7 @@ class JRouterSiteTest extends TestCase
 
 	/**
 	 * Backup of the $_SERVER variable
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.4
 	 */
@@ -75,7 +75,7 @@ class JRouterSiteTest extends TestCase
 
 		parent::tearDown();
 	}
-	
+
 	/**
 	 * Tests the __construct() method
 	 *
@@ -90,7 +90,7 @@ class JRouterSiteTest extends TestCase
 		$menu    = TestMockMenu::create($this);
 		$object  = new JRouterSiteInspector($options, $app, $menu);
 		$this->assertInstanceOf('JRouterSite', $object);
-		
+
 		$options = array();
 		$app     = $this->getMockCmsApp();
 		$object  = new JRouterSiteInspector($options, $app);
@@ -162,7 +162,7 @@ class JRouterSiteTest extends TestCase
 
 		$uri  = new JUri($url);
 		$vars = $this->object->parse($uri);
-		
+
 		$this->assertEquals($expected, $vars);
 		$this->assertEquals($expected2, $uri->toString());
 	}
@@ -226,76 +226,76 @@ class JRouterSiteTest extends TestCase
 
 		$cases[] = array('blog/test', JROUTER_MODE_SEF, array(), array(), $server2, '/joomla/blog/test');
 
-		$cases[] = array('index.php', JROUTER_MODE_SEF, array(), 
+		$cases[] = array('index.php', JROUTER_MODE_SEF, array(),
 			array(
 				array('sef_rewrite', null, 1)
 			),
 			$server2, '/joomla/');
 
-		$cases[] = array('index.php/blog/test', JROUTER_MODE_SEF, array(), 
+		$cases[] = array('index.php/blog/test', JROUTER_MODE_SEF, array(),
 			array(
 				array('sef_rewrite', null, 1)
 			),
 			$server2, '/joomla/blog/test');
 
-		$cases[] = array('index.php', JROUTER_MODE_SEF, array(), 
+		$cases[] = array('index.php', JROUTER_MODE_SEF, array(),
 			array(
 				array('sef_rewrite', null, 1)
 			),
 			$server1, '/');
 
-		$cases[] = array('index.php/blog/test', JROUTER_MODE_SEF, array(), 
+		$cases[] = array('index.php/blog/test', JROUTER_MODE_SEF, array(),
 			array(
 				array('sef_rewrite', null, 1)
 			),
 			$server1, '/blog/test');
 
-		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(), 
+		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(),
 			array(
 				array('sef_suffix', null, 1)
 			),
 			$server2, '/joomla/index.php?format=json');
 
-		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(), 
+		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(),
 			array(
 				array('sef_suffix', null, 1)
 			),
 			$server2, '/joomla/index.php/blog/test.json');
 
-		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(), 
+		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(),
 			array(
 				array('sef_suffix', null, 1)
 			),
 			$server1, '/index.php?format=json');
 
-		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(), 
+		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(),
 			array(
 				array('sef_suffix', null, 1)
 			),
 			$server1, '/index.php/blog/test.json');
 
-		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(), 
+		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(),
 			array(
 				array('sef_rewrite', null, 1),
 				array('sef_suffix', null, 1)
 			),
 			$server2, '/joomla/?format=json');
 
-		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(), 
+		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(),
 			array(
 				array('sef_rewrite', null, 1),
 				array('sef_suffix', null, 1)
 			),
 			$server2, '/joomla/blog/test.json');
 
-		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(), 
+		$cases[] = array('index.php?format=json', JROUTER_MODE_SEF, array(),
 			array(
 				array('sef_rewrite', null, 1),
 				array('sef_suffix', null, 1)
 			),
 			$server1, '/?format=json');
 
-		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(), 
+		$cases[] = array('index.php/blog/test?format=json', JROUTER_MODE_SEF, array(),
 			array(
 				array('sef_rewrite', null, 1),
 				array('sef_suffix', null, 1)
@@ -423,10 +423,10 @@ class JRouterSiteTest extends TestCase
 		$cases[] = array('/test/path.json', true, array(array('sef_suffix', null, '1')), array(), array());
 		$cases[] = array('/test/path.json?testvar=testvalue', true, array(array('sef_suffix', null, '1')), array('testvar' => 'testvalue'), array('testvar' => 'testvalue'));
 
-		$cases[] = array('', false, array(), array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'), array());
+		$cases[] = array('', false, array(), array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'), array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'));
 		$cases[] = array('/test/path', false, array(), array(), array('Itemid' => '45', 'option' => 'com_test3'));
 		$cases[] = array('/test/path?testvar=testvalue', false, array(), array(), array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3'));
-		$cases[] = array('?testvar=testvalue', false, array(), array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'), array());
+		$cases[] = array('?testvar=testvalue', false, array(), array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'), array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'));
 
 		$cases[] = array('/test/path.json', false, array(), array(), array('Itemid' => '45', 'option' => 'com_test3'));
 		$cases[] = array('/test/path.json?testvar=testvalue', false, array(), array(), array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3'));
@@ -485,7 +485,7 @@ class JRouterSiteTest extends TestCase
 
 		if (isset($expected['Itemid']))
 		{
-			$app->input->set('Itemid', $expected['Itemid']);	
+			$app->input->set('Itemid', $expected['Itemid']);
 		}
 
 		if (isset($appConfig['languagefilter']))
@@ -562,7 +562,7 @@ class JRouterSiteTest extends TestCase
 
 		// Check if URLs with an option are processed by the pre-process method
 		$cases[] = array('index.php?option=com_test&var1=value1', 'index.php/component/test/?var1=value1&testvar=testvalue');
-		
+
 		// Check if URLs with a mangled option are processed by the pre-process method
 		$cases[] = array('index.php?option=com_ Tes§t&var1=value1', 'index.php/component/ Tes§t/?var1=value1&testvar=testvalue');
 
@@ -646,7 +646,7 @@ class JRouterSiteTest extends TestCase
 	public function casesProcessBuildRules()
 	{
 		$cases = array();
-		
+
 		// Check if an empty URL is returned as an empty URL
 		$cases[] = array('', JROUTER_MODE_RAW, '');
 
@@ -664,7 +664,7 @@ class JRouterSiteTest extends TestCase
 		$cases[] = array('index.php?Itemid=42&test=true', JROUTER_MODE_SEF, 'index.php?Itemid=42&test=true');
 
 		/**
-		 * Check if a URL with a path and limitstart gets the limitstart 
+		 * Check if a URL with a path and limitstart gets the limitstart
 		 * parameter converted to start when mode is SEF
 		 */
 		$cases[] = array('test?limitstart=42', JROUTER_MODE_SEF, 'test?start=42');
@@ -709,7 +709,7 @@ class JRouterSiteTest extends TestCase
 
 		// Check if a URL with Itemid and option is returned identically
 		$cases[] = array('index.php?option=com_test&Itemid=42&var1=value1', array(), 'index.php?option=com_test&Itemid=42&var1=value1');
-		
+
 		// Check if a URL with existing Itemid and no option is added the right option
 		$cases[] = array('index.php?Itemid=42&var1=value1', array(), 'index.php?Itemid=42&var1=value1&option=com_test');
 
@@ -737,7 +737,7 @@ class JRouterSiteTest extends TestCase
 
 		/**
 		 * Check if a URL without an Itemid, but with an option set
-		 * and a global Itemid available, which does not fit the 
+		 * and a global Itemid available, which does not fit the
 		 * option of the menu item gets returned identically
 		 */
 		$cases[] = array('index.php?var1=value&option=com_test3', array('Itemid' => '42'), 'index.php?var1=value&option=com_test3');
@@ -750,7 +750,7 @@ class JRouterSiteTest extends TestCase
 	 *
 	 * @param   array   $url         valid inputs to the createURI() method
 	 * @param   array   $globalVars  global Vars that should be merged into the URL
-	 * @param   string  $expected    expected URI string 
+	 * @param   string  $expected    expected URI string
 	 *
 	 * @dataProvider casesCreateURI
 	 *

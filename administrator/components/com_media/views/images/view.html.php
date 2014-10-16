@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Media component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       1.0
+ * @since  1.0
  */
 class MediaViewImages extends JViewLegacy
 {

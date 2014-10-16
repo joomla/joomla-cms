@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Modules manager master display controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
- * @since       1.6
+ * @since  1.6
  */
 class ModulesController extends JControllerLegacy
 {
@@ -23,15 +21,13 @@ class ModulesController extends JControllerLegacy
 	 *
 	 * @param   boolean        $cachable   If true, the view output will be cached
 	 * @param   array|boolean  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}
-	.
 	 *
-	 * @return  JController        This object to support chaining.
+	 * @return  JController    This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-
 		$view   = $this->input->get('view', 'modules');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');

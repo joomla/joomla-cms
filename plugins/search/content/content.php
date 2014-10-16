@@ -14,9 +14,7 @@ require_once JPATH_SITE . '/components/com_content/router.php';
 /**
  * Content search plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Search.content
- * @since       1.6
+ * @since  1.6
  */
 class PlgSearchContent extends JPlugin
 {
