@@ -37,6 +37,7 @@ class JPaginationTest extends TestCase
 
 		// Get mock cms application
 		$app = $this->getMockCmsApp();
+		$app->expects($this->any())->method('getTemplate')->will($this->returnValue('foobar'));
 
 		// Whilst we inject the application into this class we still need the language
 		// property to be set for JText and the application for inclusion of scripts (such as bootstrap for the tooltips)
@@ -45,7 +46,6 @@ class JPaginationTest extends TestCase
 		JFactory::$application = $app;
 
 		// Add an expected result for the getTemplate method and set the mock application
-		$app->expects($this->any())->method('getTemplate')->will($this->returnValue('foobar'));
 		$this->app = $app;
 	}
 

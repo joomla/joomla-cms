@@ -76,7 +76,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testDropTable()
 	{
-		$this->assertThat(self::$driver->dropTable('#__bar', true), $this->isInstanceOf('JDatabaseDriverMysql'), 'The table is dropped if present.');
+		$this->assertInstanceOf('JDatabaseDriverMysql', self::$driver->dropTable('#__bar', true), 'dropTable will return an instance of $this on success');
 	}
 
 	/**
@@ -93,7 +93,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testEscape($text, $extra, $expected)
 	{
-		$this->assertThat(self::$driver->escape($text, $extra), $this->equalTo($expected), 'The string was not escaped properly');
+		$this->assertSame($expected, self::$driver->escape($text, $extra), 'The string was not escaped properly');
 	}
 
 	/**
@@ -109,10 +109,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$query->delete();
 		$query->from('jos_dbtest');
 		self::$driver->setQuery($query);
+		self::$driver->execute();
 
-		$result = self::$driver->execute();
-
-		$this->assertThat(self::$driver->getAffectedRows(), $this->equalTo(4), __LINE__);
+		$this->assertSame(4, self::$driver->getAffectedRows());
 	}
 
 	/**
@@ -124,9 +123,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetCollation()
 	{
-		$this->assertThat(
+		$this->assertSame(
+			'utf8_general_ci',
 			self::$driver->getCollation(),
-			$this->equalTo('utf8_general_ci'),
 			'Line:' . __LINE__ . ' The getCollation method should return the collation of the database.'
 		);
 	}
@@ -140,9 +139,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetExporter()
 	{
-		$this->assertThat(
+		$this->assertInstanceOf(
+			'JDatabaseExporterMysql',
 			self::$driver->getExporter(),
-			$this->isInstanceOf('JDatabaseExporterMysql'),
 			'Line:' . __LINE__ . ' The getExporter method should return the correct exporter.'
 		);
 	}
@@ -156,9 +155,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetImporter()
 	{
-		$this->assertThat(
+		$this->assertInstanceOf(
+			'JDatabaseImporterMysql',
 			self::$driver->getImporter(),
-			$this->isInstanceOf('JDatabaseImporterMysql'),
 			'Line:' . __LINE__ . ' The getImporter method should return the correct importer.'
 		);
 	}
@@ -180,7 +179,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 
 		$res = self::$driver->execute();
 
-		$this->assertThat(self::$driver->getNumRows($res), $this->equalTo(2), __LINE__);
+		$this->assertSame(2, self::$driver->getNumRows($res));
 	}
 
 	/**
@@ -192,9 +191,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetTableCreate()
 	{
-		$this->assertThat(
+		$this->assertInternalType(
+			'array',
 			self::$driver->getTableCreate('#__dbtest'),
-			$this->isType('array'),
 			'The statement to create the table is returned in an array.'
 		);
 	}
@@ -210,10 +209,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	{
 		$tableCol = array('id' => 'int unsigned', 'title' => 'varchar', 'start_date' => 'datetime', 'description' => 'text');
 
-		$this->assertThat(
-			self::$driver->getTableColumns('jos_dbtest'),
-			$this->equalTo($tableCol),
-			__LINE__
+		$this->assertSame(
+			$tableCol,
+			self::$driver->getTableColumns('jos_dbtest')
 		);
 
 		/* not only type field */
@@ -261,17 +259,14 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$description->Privileges = 'select,insert,update,references';
 		$description->Comment    = '';
 
-		$this->assertThat(
-			self::$driver->getTableColumns('jos_dbtest', false),
-			$this->equalTo(
-				array(
-					'id' => $id,
-					'title' => $title,
-					'start_date' => $start_date,
-					'description' => $description
-				)
+		$this->assertEquals(
+			array(
+				'id' => $id,
+				'title' => $title,
+				'start_date' => $start_date,
+				'description' => $description
 			),
-			__LINE__
+			self::$driver->getTableColumns('jos_dbtest', false)
 		);
 	}
 
@@ -284,9 +279,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetTableKeys()
 	{
-		$this->assertThat(
+		$this->assertInternalType(
+			'array',
 			self::$driver->getTableKeys('#__dbtest'),
-			$this->isType('array'),
 			'The list of keys for the table is returned in an array.'
 		);
 	}
@@ -300,9 +295,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetTableList()
 	{
-		$this->assertThat(
+		$this->assertInternalType(
+			'array',
 			self::$driver->getTableList(),
-			$this->isType('array'),
 			'The list of tables for the database is returned in an array.'
 		);
 	}
@@ -316,9 +311,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetVersion()
 	{
-		$this->assertThat(
+		$this->assertGreaterThan(
+			0,
 			strlen(self::$driver->getVersion()),
-			$this->greaterThan(0),
 			'Line:' . __LINE__ . ' The getVersion method should return something without error.'
 		);
 	}
@@ -350,7 +345,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadAssoc();
 
-		$this->assertThat($result, $this->equalTo(array('title' => 'Testing')), __LINE__);
+		$this->assertSame(array('title' => 'Testing'), $result);
 	}
 
 	/**
@@ -368,10 +363,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadAssocList();
 
-		$this->assertThat(
-			$result,
-			$this->equalTo(array(array('title' => 'Testing'), array('title' => 'Testing2'), array('title' => 'Testing3'), array('title' => 'Testing4'))),
-			__LINE__
+		$this->assertSame(
+			array(array('title' => 'Testing'), array('title' => 'Testing2'), array('title' => 'Testing3'), array('title' => 'Testing4')),
+			$result
 		);
 	}
 
@@ -390,7 +384,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadColumn();
 
-		$this->assertThat($result, $this->equalTo(array('Testing', 'Testing2', 'Testing3', 'Testing4')), __LINE__);
+		$this->assertSame(array('Testing', 'Testing2', 'Testing3', 'Testing4'), $result);
 	}
 
 	/**
@@ -439,7 +433,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$objCompare->start_date = '1980-04-18 00:00:00';
 		$objCompare->description = 'three';
 
-		$this->assertThat($result, $this->equalTo($objCompare), __LINE__);
+		$this->assertEquals($objCompare, $result);
 	}
 
 	/**
@@ -492,7 +486,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 
 		$expected[] = clone $objCompare;
 
-		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+		$this->assertEquals($expected, $result);
 	}
 
 	/**
@@ -512,8 +506,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadResult();
 
-		$this->assertThat($result, $this->equalTo(2), __LINE__);
-
+		$this->assertSame(2, (int) $result);
 	}
 
 	/**
@@ -532,9 +525,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadRow();
 
-		$expected = array(3, 'Testing3', '1980-04-18 00:00:00', 'three');
-
-		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+		$this->assertEquals(array(3, 'Testing3', '1980-04-18 00:00:00', 'three'), $result);
 	}
 
 	/**
@@ -553,9 +544,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadRowList();
 
-		$expected = array(array(1, 'Testing', '1980-04-18 00:00:00', 'one'), array(2, 'Testing2', '1980-04-18 00:00:00', 'one'));
-
-		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+		$this->assertEquals(array(array(1, 'Testing', '1980-04-18 00:00:00', 'one'), array(2, 'Testing2', '1980-04-18 00:00:00', 'one')), $result);
 	}
 
 	/**
@@ -569,9 +558,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	{
 		self::$driver->setQuery("REPLACE INTO `jos_dbtest` SET `id` = 5, `title` = 'testTitle'");
 
-		$this->assertThat(self::$driver->execute(), $this->isTrue(), __LINE__);
+		$this->assertTrue(self::$driver->execute());
 
-		$this->assertThat(self::$driver->insertid(), $this->equalTo(5), __LINE__);
+		$this->assertSame(5, self::$driver->insertid());
 
 	}
 
@@ -590,7 +579,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 
 		// Check name change
 		$tableList = self::$driver->getTableList();
-		$this->assertThat(in_array($newTableName, $tableList), $this->isTrue(), __LINE__);
+		$this->assertTrue(in_array($newTableName, $tableList));
 
 		// Restore initial state
 		self::$driver->renameTable($newTableName, 'jos_dbtest');
@@ -649,7 +638,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 
 		$expected = array('6', 'testTitle', '1970-01-01 00:00:00', 'testDescription');
 
-		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+		$this->assertSame($expected, $result);
 	}
 
 	/**
@@ -706,7 +695,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($queryCheck);
 		$result = self::$driver->loadRowList();
 
-		$this->assertThat(count($result), $this->equalTo($tupleCount), __LINE__);
+		$this->assertCount($tupleCount, $result);
 	}
 
 	/**
@@ -718,7 +707,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testIsSupported()
 	{
-		$this->assertThat(JDatabaseDriverMysql::isSupported(), $this->isTrue(), __LINE__);
+		$this->assertTrue(JDatabaseDriverMysql::isSupported());
 	}
 
 	/**

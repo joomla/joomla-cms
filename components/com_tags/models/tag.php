@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tags Component Tag Model
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsModelTag extends JModelList
 {
@@ -206,13 +204,13 @@ class TagsModelTag extends JModelList
 
 		if ($format == 'feed')
 		{
-			$limit = $app->getCfg('feed_limit');
+			$limit = $app->get('feed_limit');
 		}
 		else
 		{
 			if ($this->state->params->get('show_pagination_limit'))
 			{
-				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
 			}
 			else
 			{
@@ -318,13 +316,12 @@ class TagsModelTag extends JModelList
 	 */
 	public function hit($pk = 0)
 	{
-		$input = JFactory::getApplication()->input;
+		$input    = JFactory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)
 		{
-			$pk = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
-
+			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
 			$table = JTable::getInstance('Tag', 'TagsTable');
 			$table->load($pk);
 			$table->hit($pk);

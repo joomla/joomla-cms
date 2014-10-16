@@ -27,7 +27,7 @@ class JLayoutFileTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->object = new JLayoutFile('joomla.sidebars.submenu');
 	}

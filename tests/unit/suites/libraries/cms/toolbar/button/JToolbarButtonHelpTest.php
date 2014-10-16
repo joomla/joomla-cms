@@ -57,7 +57,8 @@ class JToolbarButtonHelpTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$session     = $this->getMockSession();
 
 		$this->backupServer = $_SERVER;
 

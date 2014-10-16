@@ -139,6 +139,7 @@ class JDocumentHTML extends JDocument
 		$data['script']      = $this->_script;
 		$data['custom']      = $this->_custom;
 		$data['scriptText']  = JText::script();
+
 		return $data;
 	}
 
@@ -191,7 +192,6 @@ class JDocumentHTML extends JDocument
 	 */
 	public function mergeHeadData($data)
 	{
-
 		if (empty($data) || !is_array($data))
 		{
 			return;
@@ -210,6 +210,7 @@ class JDocumentHTML extends JDocument
 			foreach ($data['metaTags'] as $type1 => $data1)
 			{
 				$booldog = $type1 == 'http-equiv' ? true : false;
+
 				foreach ($data1 as $name2 => $data2)
 				{
 					$this->setMetaData($name2, $data2, $booldog);
@@ -370,12 +371,14 @@ class JDocumentHTML extends JDocument
 		}
 
 		$title = (isset($attribs['title'])) ? $attribs['title'] : null;
+
 		if (isset(parent::$_buffer[$type][$name][$title]))
 		{
 			return parent::$_buffer[$type][$name][$title];
 		}
 
 		$renderer = $this->loadRenderer($type);
+
 		if ($this->_caching == true && $type == 'modules')
 		{
 			$cache = JFactory::getCache('com_modules', '');
@@ -466,17 +469,14 @@ class JDocumentHTML extends JDocument
 	{
 		$this->_caching = $caching;
 
-		if (!empty($this->_template))
-		{
-			$data = $this->_renderTemplate();
-		}
-		else
+		if (empty($this->_template))
 		{
 			$this->parse($params);
-			$data = $this->_renderTemplate();
 		}
 
+		$data = $this->_renderTemplate();
 		parent::render();
+
 		return $data;
 	}
 
@@ -536,6 +536,8 @@ class JDocumentHTML extends JDocument
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
+			$children = 0;
+
 			if ($active)
 			{
 				$query = $db->getQuery(true)
@@ -545,10 +547,6 @@ class JDocumentHTML extends JDocument
 					->where('published = 1');
 				$db->setQuery($query);
 				$children = $db->loadResult();
-			}
-			else
-			{
-				$children = 0;
 			}
 		}
 
@@ -587,9 +585,11 @@ class JDocumentHTML extends JDocument
 		// Try to find a favicon by checking the template and root folder
 		$path = $directory . '/';
 		$dirs = array($path, JPATH_BASE . '/');
+
 		foreach ($dirs as $dir)
 		{
 			$icon = $dir . 'favicon.ico';
+
 			if (file_exists($icon))
 			{
 				$path = str_replace(JPATH_BASE . '/', '', $dir);

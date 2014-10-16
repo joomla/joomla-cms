@@ -403,6 +403,7 @@ class JArchiveZip implements JArchiveExtractable
 		{
 			$last = $fhLast;
 		}
+
 		while (($fhLast = strpos($data, $this->_ctrlDirEnd, $fhLast + 1)) !== false);
 
 		// Find the central directory offset
@@ -502,6 +503,7 @@ class JArchiveZip implements JArchiveExtractable
 			// Bump the max execution time because not using the built in php zip libs makes this process slow.
 			@set_time_limit(ini_get('max_execution_time'));
 		}
+
 		while ((($fhStart = strpos($data, $this->_ctrlDirHeader, $fhStart + 46)) !== false));
 
 		$this->_metadata = array_values($entries);

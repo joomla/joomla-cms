@@ -42,7 +42,7 @@ class JControllerLegacyTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$config = $this->getMockConfig();
 
 		$this->class = new JControllerLegacy;

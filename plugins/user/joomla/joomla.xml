@@ -44,6 +44,17 @@
 					<option value="0">JNO</option>
 				</field>
 
+				<field name="forceLogout"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="PLG_USER_JOOMLA_FIELD_FORCELOGOUT_LABEL"
+					description="PLG_USER_JOOMLA_FIELD_FORCELOGOUT_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
 			</fieldset>
 
 		</fields>

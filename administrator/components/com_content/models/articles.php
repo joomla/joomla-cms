@@ -12,10 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of article records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- *
- * @since       1.6
+ * @since  1.6
  */
 class ContentModelArticles extends JModelList
 {
@@ -282,7 +279,7 @@ class ContentModelArticles extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
 			}
 		}

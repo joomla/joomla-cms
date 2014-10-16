@@ -19,17 +19,17 @@ defined('_JEXEC') or die;
 class InstallationViewPreinstallHtml extends InstallationViewDefault
 {
 	/**
-	 * Array of PHP config options
-     *
-     * @var    array
+	 * Array of PHP config options.
+	 *
+	 * @var    array
 	 * @since  3.1
 	 */
 	protected $options;
 
 	/**
 	 * Array of PHP settings
-     *
-     * @var    array
+	 *
+	 * @var    array
 	 * @since  3.1
 	 */
 	protected $settings;
