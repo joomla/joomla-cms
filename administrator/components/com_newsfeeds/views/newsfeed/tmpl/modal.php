@@ -92,7 +92,7 @@ $assoc = JLanguageAssociations::isEnabled();
 		<?php echo $this->loadTemplate('display'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php $this->ignore_fieldsets = array('jbasic'); ?>
+		<?php $this->set('ignore_fieldsets', array('jbasic')); ?>
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php if ($assoc) : ?>
