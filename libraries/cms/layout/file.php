@@ -147,7 +147,7 @@ class JLayoutFile extends JLayoutBase
 			$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
 			$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
-			$this->fullPath = JPath::find($this->includePaths, $rawPath)
+			$this->fullPath = JPath::find($this->includePaths, $rawPath);
 
 			if ($this->fullPath)
 			{
