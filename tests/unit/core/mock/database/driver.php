@@ -26,6 +26,7 @@ class TestMockDatabaseDriver
 	 * Creates and instance of the mock JDatabaseDriver object.
 	 *
 	 * @param   PHPUnit_Framework_TestCase  $test        A test object.
+	 * @param   string                      $driver      The database driver object to mock.
 	 * @param   string                      $nullDate    A null date string for the driver.
 	 * @param   string                      $dateFormat  A date format for the driver.
 	 *
@@ -33,7 +34,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @since   11.3
 	 */
-	public static function create($test, $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
+	public static function create($test, $driver = '', $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
 	{
 		// Collect all the relevant methods in JDatabaseDriver.
 		$methods = array(
@@ -96,7 +97,7 @@ class TestMockDatabaseDriver
 
 		// Create the mock.
 		$mockObject = $test->getMock(
-			'JDatabaseDriver',
+			'JDatabaseDriver' . $driver,
 			$methods,
 			// Constructor arguments.
 			array(),

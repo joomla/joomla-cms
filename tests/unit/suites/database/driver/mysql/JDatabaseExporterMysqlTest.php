@@ -14,10 +14,10 @@
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
+class JDatabaseExporterMysqlTest extends TestCase
 {
 	/**
-	 * @var    object  The mocked database object for use by test methods.
+	 * @var    JDatabaseDriverMysql  The mocked database object for use by test methods.
 	 * @since  11.1
 	 */
 	protected $dbo = null;
@@ -34,40 +34,17 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		// Set up the database object mock.
-		$this->dbo = $this->getMock(
-			'JDatabaseDriverMysql',
-			array(
-				'getErrorNum',
-				'getPrefix',
-				'getTableColumns',
-				'getTableKeys',
-				'quoteName',
-				'loadObjectList',
-				'setQuery',
-			),
-			array(),
-			'',
-			false
-		);
+		$this->dbo = TestMockDatabaseDriver::create($this, 'Mysql');
 
-		$this->dbo->expects(
-			$this->any()
-		)
+		$this->dbo->expects($this->any())
 			->method('getPrefix')
-			->will(
-			$this->returnValue(
-				'jos_'
-			)
-		);
+			->willReturn('jos_');
 
-		$this->dbo->expects(
-			$this->any()
-		)
+		$this->dbo->expects($this->any())
 			->method('getTableColumns')
-			->will(
-			$this->returnValue(
+			->willReturn(
 				array(
-					(object) array(
+					'id' => (object) array(
 						'Field' => 'id',
 						'Type' => 'int(11) unsigned',
 						'Collation' => null,
@@ -78,7 +55,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 						'Privileges' => 'select,insert,update,references',
 						'Comment' => '',
 					),
-					(object) array(
+					'title' => (object) array(
 						'Field' => 'title',
 						'Type' => 'varchar(255)',
 						'Collation' => 'utf8_general_ci',
@@ -90,63 +67,30 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 						'Comment' => '',
 					),
 				)
-			)
-		);
+			);
 
-		$this->dbo->expects(
-			$this->any()
-		)
+		$this->dbo->expects($this->any())
 			->method('getTableKeys')
-			->will(
-			$this->returnValue(
-				array(
-					(object) array(
-						'Table' => 'jos_test',
-						'Non_unique' => '0',
-						'Key_name' => 'PRIMARY',
-						'Seq_in_index' => '1',
-						'Column_name' => 'id',
-						'Collation' => 'A',
-						'Cardinality' => '2695',
-						'Sub_part' => '',
-						'Packed' => '',
-						'Null' => '',
-						'Index_type' => 'BTREE',
-						'Comment' => '',
-					)
+			->willReturn(array(
+				(object) array(
+					'Table' => 'jos_test',
+					'Non_unique' => '0',
+					'Key_name' => 'PRIMARY',
+					'Seq_in_index' => '1',
+					'Column_name' => 'id',
+					'Collation' => 'A',
+					'Cardinality' => '2695',
+					'Sub_part' => '',
+					'Packed' => '',
+					'Null' => '',
+					'Index_type' => 'BTREE',
+					'Comment' => '',
 				)
-			)
-		);
+			));
 
-		$this->dbo->expects(
-			$this->any()
-		)
-			->method('quoteName')
-			->will(
-			$this->returnCallback(
-				array($this, 'callbackQuoteName')
-			)
-		);
-
-		$this->dbo->expects(
-			$this->any()
-		)
-			->method('setQuery')
-			->will(
-			$this->returnCallback(
-				array($this, 'callbackSetQuery')
-			)
-		);
-
-		$this->dbo->expects(
-			$this->any()
-		)
+		$this->dbo->expects($this->any())
 			->method('loadObjectList')
-			->will(
-			$this->returnCallback(
-				array($this, 'callbackLoadObjectList')
-			)
-		);
+			->willReturnCallback(array($this, 'callbackLoadObjectList'));
 	}
 
 	/**
@@ -159,34 +103,6 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	public function callbackLoadObjectList()
 	{
 		return array();
-	}
-
-	/**
-	 * Callback for the dbo quoteName method.
-	 *
-	 * @param   string  $value  The value to be quoted.
-	 *
-	 * @return  string  The value passed wrapped in MySQL quotes.
-	 *
-	 * @since   11.1
-	 */
-	public function callbackQuoteName($value)
-	{
-		return "`$value`";
-	}
-
-	/**
-	 * Callback for the dbo setQuery method.
-	 *
-	 * @param   string  $query  The query.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function callbackSetQuery($query)
-	{
-		$this->lastQuery = $query;
 	}
 
 	/**
@@ -203,7 +119,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 		// Set up the export settings.
 		$instance
 			->setDbo($this->dbo)
-			->from('jos_test')
+			->from('#__test')
 			->withStructure(true);
 
 		$expecting = '<?xml version="1.0"?>

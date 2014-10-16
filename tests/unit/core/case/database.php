@@ -227,7 +227,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock database object.
 	 *
-	 * @return  JDatabase
+	 * @return  JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */

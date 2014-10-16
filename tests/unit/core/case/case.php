@@ -199,7 +199,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock database object.
 	 *
-	 * @return  JDatabase
+	 * @return  JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
