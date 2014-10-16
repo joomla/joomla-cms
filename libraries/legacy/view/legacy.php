@@ -207,6 +207,7 @@ class JViewLegacy extends JObject
 	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
+
 		if ($result instanceof Exception)
 		{
 			return $result;
@@ -271,6 +272,7 @@ class JViewLegacy extends JObject
 					$this->$key = $val;
 				}
 			}
+
 			return true;
 		}
 
@@ -284,6 +286,7 @@ class JViewLegacy extends JObject
 					$this->$key = $val;
 				}
 			}
+
 			return true;
 		}
 
@@ -294,6 +297,7 @@ class JViewLegacy extends JObject
 		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
 		{
 			$this->$arg0 = $arg1;
+
 			return true;
 		}
 
@@ -333,6 +337,7 @@ class JViewLegacy extends JObject
 		if (is_string($key) && substr($key, 0, 1) != '_')
 		{
 			$this->$key = &$val;
+
 			return true;
 		}
 
@@ -394,9 +399,9 @@ class JViewLegacy extends JObject
 			{
 				// The method exists, let's call it and return what we get
 				$result = $this->_models[$model]->$method();
+
 				return $result;
 			}
-
 		}
 
 		// Degrade to JObject::get
@@ -420,6 +425,7 @@ class JViewLegacy extends JObject
 		{
 			$name = $this->_defaultModel;
 		}
+
 		return $this->_models[strtolower($name)];
 	}
 
@@ -495,6 +501,7 @@ class JViewLegacy extends JObject
 		{
 			$this->_defaultModel = $name;
 		}
+
 		return $model;
 	}
 
@@ -510,6 +517,7 @@ class JViewLegacy extends JObject
 	public function setLayout($layout)
 	{
 		$previous = $this->_layout;
+
 		if (strpos($layout, ':') === false)
 		{
 			$this->_layout = $layout;
@@ -539,6 +547,7 @@ class JViewLegacy extends JObject
 	public function setLayoutExt($value)
 	{
 		$previous = $this->_layoutExt;
+
 		if ($value = preg_replace('#[^A-Za-z0-9]#', '', trim($value)))
 		{
 			$this->_layoutExt = $value;
@@ -789,6 +798,7 @@ class JViewLegacy extends JObject
 				$filename = strtolower($parts['name']) . '.php';
 				break;
 		}
+
 		return $filename;
 	}
 
@@ -805,6 +815,7 @@ class JViewLegacy extends JObject
 		{
 			$this->form = $this->get('Form');
 		}
+
 		return $this->form;
 	}
 }

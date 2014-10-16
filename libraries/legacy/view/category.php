@@ -137,7 +137,7 @@ class JViewCategory extends JViewLegacy
 
 		// Setup the category parameters.
 		$cparams          = $category->getParams();
-		$category->params = clone($params);
+		$category->params = clone $params;
 		$category->params->merge($cparams);
 
 		$children = array($category->id => $children);

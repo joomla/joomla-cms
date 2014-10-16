@@ -73,11 +73,13 @@ abstract class JHtmlEmail
 					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
 				}
 
-				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+					. $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';";
 			}
 			else
 			{
-				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>' +addy" . $rand . "+'<\/a>';";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+					. $rand . " + '\'>' +addy" . $rand . "+'<\/a>';";
 			}
 		}
 		else

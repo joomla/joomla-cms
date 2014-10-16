@@ -62,6 +62,7 @@ class JTree extends JObject
 		JLog::add('JTree::addChild() is deprecated.', JLog::WARNING, 'deprecated');
 
 		$this->_current->addChild($node);
+
 		if ($setCurrent)
 		{
 			$this->_current = &$node;

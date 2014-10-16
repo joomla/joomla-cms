@@ -10,12 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * Weblink Component HTML Helper
+ * Weblink Component HTML Helper.
  *
- * @static
- * @package     Joomla.Site
- * @subpackage  com_weblinks
- * @since       1.5
+ * @since  1.5
  */
 class JHtmlIcon
 {

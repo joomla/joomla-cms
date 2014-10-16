@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Users master display controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersController extends JControllerLegacy
 {

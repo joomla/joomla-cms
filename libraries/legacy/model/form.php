@@ -49,6 +49,7 @@ abstract class JModelForm extends JModelLegacy
 			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -62,6 +63,7 @@ abstract class JModelForm extends JModelLegacy
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+
 				return false;
 			}
 
@@ -69,6 +71,7 @@ abstract class JModelForm extends JModelLegacy
 			if (!$table->checkin($pk))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -96,6 +99,7 @@ abstract class JModelForm extends JModelLegacy
 			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -111,6 +115,7 @@ abstract class JModelForm extends JModelLegacy
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
+
 				return false;
 			}
 
@@ -118,6 +123,7 @@ abstract class JModelForm extends JModelLegacy
 			if (!$table->checkout($user->get('id'), $pk))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -191,11 +197,11 @@ abstract class JModelForm extends JModelLegacy
 
 			// Load the data into the form after the plugins have operated.
 			$form->bind($data);
-
 		}
 		catch (Exception $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -303,6 +309,7 @@ abstract class JModelForm extends JModelLegacy
 		if ($return instanceof Exception)
 		{
 			$this->setError($return->getMessage());
+
 			return false;
 		}
 

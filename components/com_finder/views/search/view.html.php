@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Search HTML view class for the Finder package.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderViewSearch extends JViewLegacy
 {

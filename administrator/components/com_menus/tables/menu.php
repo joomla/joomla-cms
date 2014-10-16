@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Menu table
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
  */
 class MenusTableMenu extends JTableMenu
 {

@@ -43,6 +43,7 @@ class JFormFieldComponentlayout extends JFormField
 		{
 			$clientId = $this->form->getValue('client_id');
 		}
+
 		$clientId = (int) $clientId;
 
 		$client = JApplicationHelper::getClientInfo($clientId);
@@ -76,7 +77,6 @@ class JFormFieldComponentlayout extends JFormField
 		// If a template, extension and view are present build the options.
 		if ($extn && $view && $client)
 		{
-
 			// Load language file
 			$lang = JFactory::getLanguage();
 			$lang->load($extn . '.sys', JPATH_ADMINISTRATOR, null, false, true)
@@ -177,10 +177,12 @@ class JFormFieldComponentlayout extends JFormField
 						// Files with corresponding XML files are alternate menu items, not alternate layout files
 						// so we need to exclude these files from the list.
 						$xml_files = JFolder::files($template_path, '^[^_]*\.xml$', false, true);
+
 						for ($j = 0, $count = count($xml_files); $j < $count; $j++)
 						{
 							$xml_files[$j] = basename($xml_files[$j], '.xml');
 						}
+
 						foreach ($files as $i => $file)
 						{
 							// Remove layout files that exist in the component folder or that have XML files
@@ -190,6 +192,7 @@ class JFormFieldComponentlayout extends JFormField
 								unset($files[$i]);
 							}
 						}
+
 						if (count($files))
 						{
 							// Create the group for the template
