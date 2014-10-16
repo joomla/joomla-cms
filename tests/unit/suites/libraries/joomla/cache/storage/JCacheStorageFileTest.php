@@ -101,8 +101,6 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Implement testGetAll().
-	 *
 	 * @return void
 	 */
 	public function testGetAll()
@@ -204,42 +202,5 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 			$this->object->isSupported(),
 			'Claims File is not loaded.'
 		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testLock().
-	 *
-	 * @return void
-	 */
-	public function testLock()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testUnlock().
-	 *
-	 * @return void
-	 */
-	public function testUnlock()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test_getFilePath().
-	 *
-	 * @return void
-	 */
-	public function test_getFilePath()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }
