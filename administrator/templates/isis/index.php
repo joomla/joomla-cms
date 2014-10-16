@@ -277,7 +277,8 @@ if ($stickyToolbar) : ?>
 				$('.icon-joomla').addClass('disabled');
 				$('.nav-user').addClass('disabled');
 				$(".admin-logo").removeAttr("href");
-				$('ul.nav-user > li > a').attr("data-toggle","");
+				$('ul.nav-user > li > a').removeAttr("data-toggle").removeAttr("href");
+				$('ul.nav-user > li > .dropdown-menu').empty();
 			}
 
 			processScroll()
