@@ -32,36 +32,82 @@ abstract class ModArticlesPopularHelper
 	 */
 	public static function getList(&$params)
 	{
-		// Get an instance of the generic articles model
-		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		// Get a db connection
+		$db = JFactory::getDbo();
 
-		// Set application parameters in model
+		// Create new query objects
+		$query = $db->getQuery(true);
+		$subquery = $db->getQuery(true);
+		
+		// Get bad categories first
+		$subquery
+			->select($db->quoteName(array('c.id')))
+			->from($db->quoteName('#__categories', 'c'))
+			->join('INNER', $db->quoteName('#__categories', 'p') . ' ON (' . $db->quoteName('c.lft') . ' BETWEEN ' . $db->quoteName('p.lft') . ' AND ' . $db->quoteName('p.rgt') . ') ')
+			->where($db->quoteName('p.extension') . " IN ('com_content','system') ")
+			->where($db->quoteName('p.published') . " != 1 ");
+
+		$query
+			// Select only needed fields
+			->select($db->quoteName(array('a.id', 'a.title', 'a.alias', 'catid', 'c.alias', 'a.access'), array('id', 'title', 'alias', 'catid', 'category_alias', 'access')))
+			->from($db->quoteName('#__content', 'a'))
+			->join('INNER', $db->quoteName('#__categories', 'c') . ' ON (' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid') . ') ');
+
+		$catfilter=$params->get('catid', array());
+		
+		// If the user wants to filter by category, create the subquery
+		if (count($catfilter) > 0 && $catfilter[0] != '')
+		{
+			// Get tree of chosen categories
+			$subquery2 = $db->getQuery(true);
+			$subquery2
+				->select($db->quoteName(array('c.id')))
+				->from($db->quoteName('#__categories', 'c'))
+				->join('INNER', $db->quoteName('#__categories', 'p') . ' ON (' . $db->quoteName('c.lft') . ' BETWEEN ' . $db->quoteName('p.lft') . ' AND ' . $db->quoteName('p.rgt') . ') ')
+				->where($db->quoteName('p.extension') . " IN ('com_content', 'system') ")
+				->where($db->quoteName('p.id') . ' IN (' . implode(',', $catfilter) . ') ');
+			// Now, show only categories selected by user
+			$query->where($db->quoteName('catid') . ' IN (' . $subquery2 . ') ');
+		}
+
+		$query
+			// Hide bad categories
+			->where($db->quoteName('catid') . ' NOT IN (' . $subquery . ') ')
+			// Hide unpublished articles
+			->where($db->quoteName('a.state') . ' = 1 ')
+			->where(' (' . $db->quoteName('a.publish_up') . '  <= NOW() OR ' . $db->quoteName('a.publish_up') . '  = 0 ) ')
+			->where(' (' . $db->quoteName('a.publish_down') . '  >= NOW() OR ' . $db->quoteName('a.publish_down') . '  = 0 ) ');
+
+		// Check if this is a multi-language site
 		$app = JFactory::getApplication();
-		$appParams = $app->getParams();
-		$model->setState('params', $appParams);
-
-		// Set the filters based on the module params
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', (int) $params->get('count', 5));
-		$model->setState('filter.published', 1);
-		$model->setState('filter.featured', $params->get('show_front', 1) == 1 ? 'show' : 'hide');
+		if ($app->getLanguageFilter())
+		{
+			// Filter language
+			$query->where($db->quoteName('a.language') . " IN ('" . $app->getLanguage()->getTag() . "', '*') ");
+		}
+		
+		if ($params->get('show_front', 1) == 0)
+		{
+			// Show only featured articles
+			$query->where($db->quoteName('featured') . ' = 0 ');
+		}
 
 		// Access filter
 		$access = !JComponentHelper::getParams('com_content')->get('show_noauth');
 		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
-		$model->setState('filter.access', $access);
+		if (!$access)
+		{
+			$query->where($db->quoteName('access') . ' IN (' . implode(',', $authorised) . ') ');
+		}
 
-		// Category filter
-		$model->setState('filter.category_id', $params->get('catid', array()));
+		// Sort by hits
+		$query->order($db->quoteName('a.hits') . ' DESC');
 
-		// Filter by language
-		$model->setState('filter.language', $app->getLanguageFilter());
+		// Execute query & limit results
+		$db->setQuery($query, 0, (int) $params->get('count', 5));
 
-		// Ordering
-		$model->setState('list.ordering', 'a.hits');
-		$model->setState('list.direction', 'DESC');
-
-		$items = $model->getItems();
+		// Load rows as object array
+		$items=$db->loadObjectList();
 
 		foreach ($items as &$item)
 		{
@@ -78,7 +124,7 @@ abstract class ModArticlesPopularHelper
 				$item->link = JRoute::_('index.php?option=com_users&view=login');
 			}
 		}
-
+		
 		return $items;
 	}
 }
