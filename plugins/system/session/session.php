@@ -6,7 +6,10 @@
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Joomla! Session System Plugin.
@@ -57,7 +60,7 @@ class PlgSystemSession extends JPlugin
 		}
 
 		// Read the update flag name to check for.
-		$plg_params = new JRegistry(JPluginHelper::getPlugin('user', 'session')->params);
+		$plg_params = new Registry(JPluginHelper::getPlugin('user', 'session')->params);
 		$flag       = $plg_params->get('session_update_flag_name', 'refresh');
 
 		// Get session information.
