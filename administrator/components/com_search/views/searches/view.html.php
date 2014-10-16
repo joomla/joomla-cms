@@ -25,7 +25,11 @@ class SearchViewSearches extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -39,6 +43,7 @@ class SearchViewSearches extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -48,6 +53,8 @@ class SearchViewSearches extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -61,11 +68,14 @@ class SearchViewSearches extends JViewLegacy
 		{
 			JToolbarHelper::custom('searches.reset', 'refresh.png', 'refresh_f2.png', 'JSEARCH_RESET', false);
 		}
+
 		JToolbarHelper::divider();
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_search');
 		}
+
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_SEARCH');
 	}

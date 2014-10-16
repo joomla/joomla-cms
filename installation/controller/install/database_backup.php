@@ -25,7 +25,7 @@ class InstallationControllerInstallDatabase_backup extends JControllerBase
 	 */
 	public function execute()
 	{
-		// Get the application
+		// Get the application.
 		/* @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
@@ -35,7 +35,7 @@ class InstallationControllerInstallDatabase_backup extends JControllerBase
 		// Get the setup model.
 		$model = new InstallationModelSetup;
 
-		// Get the options from the session
+		// Get the options from the session.
 		$options = $model->getOptions();
 
 		// Get the database model.
@@ -47,7 +47,7 @@ class InstallationControllerInstallDatabase_backup extends JControllerBase
 		$r = new stdClass;
 		$r->view = 'install';
 
-		// Check if the database was initialised
+		// Check if the database was initialised.
 		if (!$return)
 		{
 			$r->view = 'database';

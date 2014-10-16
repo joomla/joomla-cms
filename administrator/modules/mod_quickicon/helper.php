@@ -192,6 +192,7 @@ abstract class ModQuickIconHelper
 		{
 			$groupedButtons[$button['group']][] = $button;
 		}
+
 		return $groupedButtons;
 	}
 

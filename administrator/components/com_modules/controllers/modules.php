@@ -18,6 +18,9 @@ class ModulesControllerModules extends JControllerAdmin
 {
 	/**
 	 * Method to clone an existing module.
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function duplicate()
@@ -28,15 +31,18 @@ class ModulesControllerModules extends JControllerAdmin
 		$pks = $this->input->post->get('cid', array(), 'array');
 		JArrayHelper::toInteger($pks);
 
-		try {
+		try
+		{
 			if (empty($pks))
 			{
 				throw new Exception(JText::_('COM_MODULES_ERROR_NO_MODULES_SELECTED'));
 			}
+
 			$model = $this->getModel();
 			$model->duplicate($pks);
 			$this->setMessage(JText::plural('COM_MODULES_N_MODULES_DUPLICATED', count($pks)));
-		} catch (Exception $e)
+		}
+		catch (Exception $e)
 		{
 			JError::raiseWarning(500, $e->getMessage());
 		}
@@ -58,6 +64,7 @@ class ModulesControllerModules extends JControllerAdmin
 	public function getModel($name = 'Module', $prefix = 'ModulesModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 }

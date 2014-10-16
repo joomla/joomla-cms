@@ -326,6 +326,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
 			' WHERE ta.term_id = 0'
 		);
+
 		if ($db->loadRow() == null)
 		{
 			$db->setQuery(
@@ -608,6 +609,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			);
 			$values++;
 		}
+
 		$db->setQuery($query);
 		$db->execute();
 

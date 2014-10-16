@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 class InstallationModelDatabase extends JModelBase
 {
 	/**
-	 * The generated user ID
+	 * The generated user ID.
 	 *
 	 * @var    integer
 	 * @since  3.1
@@ -25,9 +25,9 @@ class InstallationModelDatabase extends JModelBase
 	protected static $userId = 0;
 
 	/**
-	 * Generates the user ID
+	 * Generates the user ID.
 	 *
-	 * @return  integer  The user ID
+	 * @return  integer  The user ID.
 	 *
 	 * @since   3.1
 	 */
@@ -38,7 +38,7 @@ class InstallationModelDatabase extends JModelBase
 
 		if (empty($randUserId))
 		{
-			// Create the ID for the root user only once and store in session
+			// Create the ID for the root user only once and store in session.
 			$randUserId = mt_rand(1, 1000);
 			$session->set('randUserId', $randUserId);
 		}
@@ -47,7 +47,7 @@ class InstallationModelDatabase extends JModelBase
 	}
 
 	/**
-	 * Resets the user ID
+	 * Resets the user ID.
 	 *
 	 * @return  void
 	 *
@@ -61,9 +61,9 @@ class InstallationModelDatabase extends JModelBase
 	}
 
 	/**
-	 * Retrieves the default user ID and sets it if necessary
+	 * Retrieves the default user ID and sets it if necessary.
 	 *
-	 * @return  integer  The user ID
+	 * @return  integer  The user ID.
 	 *
 	 * @since   3.1
 	 */
@@ -78,24 +78,24 @@ class InstallationModelDatabase extends JModelBase
 	}
 
 	/**
-	 * Method to initialise the database
+	 * Method to initialise the database.
 	 *
-	 * @param   array  $options  The options to use for configuration
+	 * @param   array  $options  The options to use for configuration.
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
 	public function initialise($options)
 	{
-		// Get the application
+		// Get the application.
 		/* @var InstallationApplicationWeb $app */
 		$app = JFactory::getApplication();
 
 		// Get the options as a object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
-		// Load the back-end language files so that the DB error messages work
+		// Load the back-end language files so that the DB error messages work.
 		$lang = JFactory::getLanguage();
 		$currentLang = $lang->getTag();
 
@@ -104,7 +104,7 @@ class InstallationModelDatabase extends JModelBase
 		{
 			$lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
 		}
-		// Pre-load en-GB in case the chosen language files do not exist
+		// Pre-load en-GB in case the chosen language files do not exist.
 		else
 		{
 			$lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
@@ -114,6 +114,7 @@ class InstallationModelDatabase extends JModelBase
 		if (empty($options->db_type))
 		{
 			$app->enqueueMessage(JText::_('INSTL_DATABASE_INVALID_TYPE'), 'notice');
+
 			return false;
 		}
 
@@ -121,6 +122,7 @@ class InstallationModelDatabase extends JModelBase
 		if (empty($options->db_host) || empty($options->db_user))
 		{
 			$app->enqueueMessage(JText::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'notice');
+
 			return false;
 		}
 
@@ -128,6 +130,7 @@ class InstallationModelDatabase extends JModelBase
 		if (empty($options->db_name))
 		{
 			$app->enqueueMessage(JText::_('INSTL_DATABASE_EMPTY_NAME'), 'notice');
+
 			return false;
 		}
 
@@ -135,6 +138,7 @@ class InstallationModelDatabase extends JModelBase
 		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 		{
 			$app->enqueueMessage(JText::_('INSTL_DATABASE_PREFIX_MSG'), 'notice');
+
 			return false;
 		}
 
@@ -142,6 +146,7 @@ class InstallationModelDatabase extends JModelBase
 		if (strlen($options->db_prefix) > 15)
 		{
 			$app->enqueueMessage(JText::_('INSTL_DATABASE_FIX_TOO_LONG'), 'notice');
+
 			return false;
 		}
 
@@ -149,6 +154,7 @@ class InstallationModelDatabase extends JModelBase
 		if (strlen($options->db_name) > 64)
 		{
 			$app->enqueueMessage(JText::_('INSTL_DATABASE_NAME_TOO_LONG'), 'notice');
+
 			return false;
 		}
 
@@ -162,6 +168,7 @@ class InstallationModelDatabase extends JModelBase
 		catch (RuntimeException $e)
 		{
 			$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'notice');
+
 			return false;
 		}
 	}
@@ -177,17 +184,18 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	public function createDatabase($options)
 	{
-		// Get the application
+		// Get the application.
 		/* @var InstallationApplicationWeb $app */
 		$app = JFactory::getApplication();
 
-		// Disable autoselect database before it's created
+		// Disable autoselect database before it's created.
 		$tmpSelect = true;
 
 		if (isset($options['db_select']))
 		{
 			$tmpSelect = $options['db_select'];
 		}
+
 		$options['db_select'] = false;
 
 		if (!$db = $this->initialise($options))
@@ -208,36 +216,41 @@ class InstallationModelDatabase extends JModelBase
 		catch (RuntimeException $e)
 		{
 			$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'notice');
+
 			return false;
 		}
 
 		if (!$db->isMinimumVersion())
 		{
 			$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version), 'notice');
+
 			return false;
 		}
 
 		if (($type == 'mysql') || ($type == 'mysqli'))
 		{
-			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL
+			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL.
 			if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>=')))
 			{
 				$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version), 'notice');
+
 				return false;
 			}
 		}
 
-		// @internal Check for spaces in beginning or end of name
+		// @internal Check for spaces in beginning or end of name.
 		if (strlen(trim($options->db_name)) <> strlen($options->db_name))
 		{
 			$app->enqueueMessage(JText::_('INSTL_DATABASE_NAME_INVALID_SPACES'), 'notice');
+
 			return false;
 		}
 
-		// @internal Check for asc(00) Null in name
+		// @internal Check for asc(00) Null in name.
 		if (strpos($options->db_name, chr(00)) !== false)
 		{
 			$app->enqueueMessage(JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'), 'notice');
+
 			return false;
 		}
 
@@ -248,10 +261,10 @@ class InstallationModelDatabase extends JModelBase
 			$db->execute();
 		}
 
-		// Get database's UTF support
+		// Get database's UTF support.
 		$utfSupport = $db->hasUTFSupport();
 
-		// Try to select the database
+		// Try to select the database.
 		try
 		{
 			$db->select($options->db_name);
@@ -266,13 +279,14 @@ class InstallationModelDatabase extends JModelBase
 			else
 			{
 				$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name), 'notice');
+
 				return false;
 			}
 		}
 
 		$options = (array) $options;
 
-		// Remove *_errors value
+		// Remove *_errors value.
 		foreach ($options as $i => $option)
 		{
 			if (isset($i['1']) && $i['1'] == '*')
@@ -281,9 +295,10 @@ class InstallationModelDatabase extends JModelBase
 				break;
 			}
 		}
+
 		$options = array_merge(array('db_created' => 1), $options);
 
-		// Restore autoselect value after database creation
+		// Restore autoselect value after database creation.
 		$options['db_select'] = $tmpSelect;
 
 		$session = JFactory::getSession();
@@ -293,11 +308,11 @@ class InstallationModelDatabase extends JModelBase
 	}
 
 	/**
-	 * Method to process the old database
+	 * Method to process the old database.
 	 *
-	 * @param   array  $options  The options array
+	 * @param   array  $options  The options array.
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
@@ -342,17 +357,17 @@ class InstallationModelDatabase extends JModelBase
 	}
 
 	/**
-	 * Method to create the database tables
+	 * Method to create the database tables.
 	 *
-	 * @param   array  $options  The options array
+	 * @param   array  $options  The options array.
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
 	public function createTables($options)
 	{
-		// Get the application
+		// Get the application.
 		/* @var InstallationApplicationWeb $app */
 		$app = JFactory::getApplication();
 
@@ -393,6 +408,7 @@ class InstallationModelDatabase extends JModelBase
 		if (!is_file($schema))
 		{
 			$app->enqueueMessage(JText::sprintf('INSTL_ERROR_DB', JText::_('INSTL_DATABASE_NO_SCHEMA')), 'notice');
+
 			return false;
 		}
 
@@ -417,13 +433,16 @@ class InstallationModelDatabase extends JModelBase
 		{
 			$pathPart .= $type . '/';
 		}
+
 		$files = JFolder::files($pathPart, '\.sql$');
 
 		if (empty($files))
 		{
 			$app->enqueueMessage(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'), 'notice');
+
 			return false;
 		}
+
 		$version = '';
 
 		foreach ($files as $file)
@@ -433,6 +452,7 @@ class InstallationModelDatabase extends JModelBase
 				$version = JFile::stripExt($file);
 			}
 		}
+
 		$query = $db->getQuery(true)
 			->insert($db->quoteName('#__schemas'))
 			->columns(
@@ -451,10 +471,11 @@ class InstallationModelDatabase extends JModelBase
 		catch (RuntimeException $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'notice');
+
 			return false;
 		}
 
-		// Attempt to refresh manifest caches
+		// Attempt to refresh manifest caches.
 		$query->clear()
 			->select('*')
 			->from('#__extensions');
@@ -480,11 +501,12 @@ class InstallationModelDatabase extends JModelBase
 			if (!$installer->refreshManifestCache($extension->extension_id))
 			{
 				$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name), 'notice');
+
 				return false;
 			}
 		}
 
-		// Load the localise.sql for translating the data in joomla.sql
+		// Load the localise.sql for translating the data in joomla.sql.
 		if ($type == 'mysqli' || $type == 'mysql')
 		{
 			$dblocalise = 'sql/mysql/localise.sql';
@@ -515,7 +537,7 @@ class InstallationModelDatabase extends JModelBase
 			// Build the language parameters for the language manager.
 			$params = array();
 
-			// Set default administrator/site language to sample data values:
+			// Set default administrator/site language to sample data values.
 			$params['administrator'] = 'en-GB';
 			$params['site'] = 'en-GB';
 
@@ -528,6 +550,7 @@ class InstallationModelDatabase extends JModelBase
 			{
 				$params['site'] = $options->language;
 			}
+
 			$params = json_encode($params);
 
 			// Update the language settings in the language manager.
@@ -552,17 +575,17 @@ class InstallationModelDatabase extends JModelBase
 	}
 
 	/**
-	 * Method to install the sample data
+	 * Method to install the sample data.
 	 *
-	 * @param   array  $options  The options array
+	 * @param   array  $options  The options array.
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
 	public function installSampleData($options)
 	{
-		// Get the application
+		// Get the application.
 		/* @var InstallationApplicationWeb $app */
 		$app = JFactory::getApplication();
 
@@ -599,6 +622,7 @@ class InstallationModelDatabase extends JModelBase
 			if (!file_exists($data))
 			{
 				$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data), 'notice');
+
 				return false;
 			}
 			elseif (!$this->populateDatabase($db, $data))
@@ -613,9 +637,9 @@ class InstallationModelDatabase extends JModelBase
 	}
 
 	/**
-	 * Method to update the user id of the sample data content to the new rand user id
+	 * Method to update the user id of the sample data content to the new rand user id.
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object $db*
+	 * @param   JDatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
@@ -623,11 +647,11 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	protected function postInstallSampleData($db)
 	{
-		// Create the ID for the root user
+		// Create the ID for the root user.
 		$userId = self::getUserId();
 
 		// Update all created_by field of the tables with the random user id
-		// categories (created_user_id), contact_details, content, newsfeeds, weblinks
+		// categories (created_user_id), contact_details, content, newsfeeds, weblinks.
 		$updates_array = array(
 			'categories' => 'created_user_id',
 			'contact_details' => 'created_by',
@@ -797,6 +821,7 @@ class InstallationModelDatabase extends JModelBase
 		if (!($buffer = file_get_contents($schema)))
 		{
 			$app->enqueueMessage($db->getErrorMsg(), 'notice');
+
 			return false;
 		}
 
@@ -880,10 +905,10 @@ class InstallationModelDatabase extends JModelBase
 		// Remove PostgreSQL comment lines.
 		$query = preg_replace("/\n\--[^\n]*/", '', "\n" . $query);
 
-		// Find function
+		// Find function.
 		$funct = explode('CREATE OR REPLACE FUNCTION', $query);
 
-		// Save sql before function and parse it
+		// Save sql before function and parse it.
 		$query = $funct[0];
 
 		// Parse the schema file to break up queries.
@@ -904,10 +929,12 @@ class InstallationModelDatabase extends JModelBase
 			{
 				$in_string = $query[$i];
 			}
+
 			if (isset ($buffer[1]))
 			{
 				$buffer[0] = $buffer[1];
 			}
+
 			$buffer[1] = $query[$i];
 		}
 
@@ -917,7 +944,7 @@ class InstallationModelDatabase extends JModelBase
 			$queries[] = $query;
 		}
 
-		// Add function part as is
+		// Add function part as is.
 		for ($f = 1; $f < count($funct); $f++)
 		{
 			$queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];

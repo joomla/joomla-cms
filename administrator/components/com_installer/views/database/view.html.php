@@ -19,7 +19,7 @@ include_once __DIR__ . '/../default/view.php';
 class InstallerViewDatabase extends InstallerViewDefault
 {
 	/**
-	 * Display the view
+	 * Display the view.
 	 *
 	 * @param   string  $tpl  Template
 	 *
@@ -29,7 +29,7 @@ class InstallerViewDatabase extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model
+		// Get data from the model.
 		$this->state = $this->get('State');
 		$this->changeSet = $this->get('Items');
 		$this->errors = $this->changeSet->check();
@@ -46,10 +46,12 @@ class InstallerViewDatabase extends InstallerViewDefault
 		{
 			$this->errorCount++;
 		}
+
 		if (!$this->filterParams)
 		{
 			$this->errorCount++;
 		}
+
 		if (version_compare($this->updateVersion, JVERSION) != 0)
 		{
 			$this->errorCount++;
@@ -68,7 +70,7 @@ class InstallerViewDatabase extends InstallerViewDefault
 	protected function addToolbar()
 	{
 		/*
-		 * Set toolbar items for the page
+		 * Set toolbar items for the page.
 		 */
 		JToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', false, false);
 		JToolbarHelper::divider();

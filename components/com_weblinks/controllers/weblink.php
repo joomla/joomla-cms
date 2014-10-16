@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Site
- * @subpackage  com_weblinks
- * @since       1.5
+ * Weblinks class.
+ *
+ * @since  1.5
  */
 class WeblinksControllerWeblink extends JControllerForm
 {

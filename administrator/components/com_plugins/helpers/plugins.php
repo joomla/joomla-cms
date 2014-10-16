@@ -21,7 +21,9 @@ class PluginsHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string    The name of the active view.
+	 * @param   string  $vName  The name of the active view.
+	 *
+	 * @return  void
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -37,10 +39,10 @@ class PluginsHelper
 	 */
 	public static function getActions()
 	{
-		// Log usage of deprecated function
+		// Log usage of deprecated function.
 		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
-		// Get list of actions
+		// Get list of actions.
 		$result = JHelperContent::getActions('com_plugins');
 
 		return $result;
@@ -89,12 +91,21 @@ class PluginsHelper
 		return $options;
 	}
 
+	/**
+	 * Parse the template file.
+	 *
+	 * @param   string  $templateBaseDir  Base path to the template directory.
+	 * @param   string  $templateDir      Template directory.
+	 *
+	 * @return  JObject
+	 */
 	public function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
 		$data = new JObject;
 
-		// Check of the xml file exists
+		// Check of the xml file exists.
 		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+
 		if (is_file($filePath))
 		{
 			$xml = JInstaller::parseXMLInstallFile($filePath);

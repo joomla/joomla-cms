@@ -16,6 +16,13 @@ defined('_JEXEC') or die;
  */
 class ModulesViewPreview extends JViewLegacy
 {
+	/**
+	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 */
 	public function display($tpl = null)
 	{
 		$editor = JFactory::getConfig()->get('editor');
