@@ -23,19 +23,19 @@ class TestMockDatabaseDriver
 	public static $lastQuery = null;
 
 	/**
-	 * Creates and instance of the mock JDatabase object.
+	 * Creates and instance of the mock JDatabaseDriver object.
 	 *
-	 * @param   object  $test        A test object.
-	 * @param   string  $nullDate    A null date string for the driver.
-	 * @param   string  $dateFormat  A date format for the driver.
+	 * @param   PHPUnit_Framework_TestCase  $test        A test object.
+	 * @param   string                      $nullDate    A null date string for the driver.
+	 * @param   string                      $dateFormat  A date format for the driver.
 	 *
-	 * @return  object
+	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   11.3
 	 */
 	public static function create($test, $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
 	{
-		// Collect all the relevant methods in JDatabase.
+		// Collect all the relevant methods in JDatabaseDriver.
 		$methods = array(
 			'connect',
 			'connected',
