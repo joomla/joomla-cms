@@ -214,6 +214,8 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getDate method.
 	 *
+	 * @medium
+	 *
 	 * @return  void
 	 *
 	 * @since   12.3

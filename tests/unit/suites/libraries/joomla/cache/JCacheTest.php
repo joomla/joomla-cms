@@ -517,6 +517,8 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing Gc().
 	 *
+	 * @medium
+	 *
 	 * @return void
 	 */
 	public function testGc()
