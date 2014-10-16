@@ -31,6 +31,9 @@ abstract class ModLoginHelper
 		{
 			return '';
 		}
+		
+		// Make sure the languages are sorted based on locale code instead of random sorting
+		ksort($languages);
 
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULTLANGUAGE')));
 
