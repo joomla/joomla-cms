@@ -74,21 +74,6 @@ class JSchemaChangesetTest extends TestCase
 	}
 
 	/**
-	 * Tests the __construct method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function test__construct()
-	{
-		$this->assertThat(
-			new JSchemaChangeset($this->db, null),
-			$this->isInstanceOf('JSchemaChangeset')
-		);
-	}
-
-	/**
 	 * Tests the __construct method with the PostgreSQL driver
 	 *
 	 * @return  void
