@@ -73,55 +73,34 @@ class JSchemaChangesetTest extends TestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * Tests the __construct method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function test__construct()
+	public function dataDriver()
 	{
-		$this->assertThat(
-			new JSchemaChangeset($this->db, null),
-			$this->isInstanceOf('JSchemaChangeset')
+		return array(
+			array('mysqli'),
+			array('postgresql'),
+			array('sqlsrv'),
 		);
 	}
 
 	/**
-	 * Tests the __construct method with the PostgreSQL driver
+	 * Tests the __construct method with the given driver
 	 *
+	 * @medium
+	 *
+	 * @dataProvider dataDriver
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public function test__constructPostgresql()
+	public function test__construct($driver)
 	{
-		$this->db->name = 'postgresql';
-
-		$this->assertThat(
-			new JSchemaChangeset($this->db, null),
-			$this->isInstanceOf('JSchemaChangeset')
-		);
-	}
-
-	/**
-	 * Tests the __construct method with the SQL Server driver
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function test__constructSqlsrv()
-	{
-		$this->db->name = 'sqlsrv';
+		$this->db->name = $driver;
 
 		$this->assertThat(
 			new JSchemaChangeset($this->db, null),
 			$this->isInstanceOf('JSchemaChangeset')
 		);
 	}
-
 
 	/**
 	 * Tests the getInstance method with the MySQL driver

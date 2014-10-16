@@ -132,12 +132,14 @@ class JCacheStorageMainTest extends TestCase
 
 	/**
 	 * Test...
+	 * 
+	 * @medium
+	 *
+	 * @dataProvider provider
 	 *
 	 * @param   string  $store  The store.
 	 *
-	 * @return  void
-	 *
-	 * @dataProvider  provider
+	 * @return void
 	 */
 	public function testCacheTimeout($store)
 	{
