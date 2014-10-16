@@ -259,7 +259,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 <jdoc:include type="modules" name="debug" style="none" />
 <?php
 // Get the singular view
-$singular = preg_match('/&id=|&layout=edit/', JURI::getInstance()->toString());
+$singular = preg_match('/&id=|=com_config|&view=mail|&layout=edit/', JURI::getInstance()->toString());
 if ($stickyToolbar) : ?>
 	<script>
 		(function($)
@@ -288,7 +288,7 @@ if ($stickyToolbar) : ?>
 			if (edit)
 			{
 				$('.navbar-fixed-top').addClass('hidden');
-				$('body').animate({ paddingTop: 0 });
+				$('body').css("padding-top", "0");
 			}
 
 			$win.on('scroll', processScroll)
