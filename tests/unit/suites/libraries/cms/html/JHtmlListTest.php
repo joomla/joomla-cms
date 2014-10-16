@@ -33,51 +33,6 @@ class JHtmlListTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testImages().
-	 *
-	 * @return void
-	 */
-	public function testImages()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGenericordering().
-	 *
-	 * @return void
-	 */
-	public function testGenericordering()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testOrdering().
-	 *
-	 * @return void
-	 */
-	public function testOrdering()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Tests the JHtmlList::users method.
 	 *
 	 * @return  void
