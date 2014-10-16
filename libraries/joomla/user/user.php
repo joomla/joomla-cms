@@ -526,6 +526,7 @@ class JUser extends JObject
 	 *
 	 * @return  object  The user table object
 	 *
+	 * @note    At 4.0 this method will no longer be static
 	 * @since   11.1
 	 */
 	public static function getTable($type = null, $prefix = 'JTable')
