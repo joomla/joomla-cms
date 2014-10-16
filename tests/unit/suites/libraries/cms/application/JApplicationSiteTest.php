@@ -101,7 +101,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 		$config->set('session', false);
 
 		// Get a new JApplicationSite instance.
-		$this->class = new JApplicationSite(null, $config);
+		$this->class = new JApplicationSite($this->getMockInput(), $config);
 		TestReflection::setValue('JApplicationCms', 'instances', array('site' => $this->class));
 	}
 
