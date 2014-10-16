@@ -81,23 +81,6 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	}
 
 	/**
-	 * A mock callback for the database escape method.
-	 *
-	 * We use this method to ensure that JDatabaseQuery's escape method uses the
-	 * the database object's escape method.
-	 *
-	 * @param   string  $text  The input text.
-	 *
-	 * @return  string
-	 *
-	 * @since   11.3
-	 */
-	public function mockEscape($text)
-	{
-		return "_{$text}_";
-	}
-
-	/**
 	 * A mock callback for the database quoteName method.
 	 *
 	 * We use this method to ensure that JDatabaseQuery's quoteName method uses the
@@ -115,6 +98,27 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	}
 
 	/**
+	 * Callback for the dbo getQuery method.
+	 *
+	 * @param   boolean  $new  True to get a new query, false to get the last query.
+	 *
+	 * @return  JDatabaseQueryPostgresql
+	 *
+	 * @since   11.3
+	 */
+	public function mockGetQuery($new = false)
+	{
+		if ($new)
+		{
+			return new JDatabaseQueryPostgresql($this->dbo);
+		}
+		else
+		{
+			return $this->$lastQuery;
+		}
+	}
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -124,15 +128,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->dbo = TestMockDatabaseDriver::create($this, 'Postgresql', '1970-01-01 00:00:00', 'Y-m-d H:i:s');
+		$this->dbo = TestMockDatabaseDriver::create($this, 'Postgresql', array(), '1970-01-01 00:00:00', 'Y-m-d H:i:s');
 
 		$this->_instance = new JDatabaseQueryPostgresql($this->dbo);
-
-		// Mock the escape method to ensure the API is calling the DBO's escape method.
-		$this->assignMockCallbacks(
-			$this->dbo,
-			array('escape' => array($this, 'mockEscape'))
-		);
 	}
 
 	/**

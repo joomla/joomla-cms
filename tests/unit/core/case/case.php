@@ -62,8 +62,8 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Assigns mock callbacks to methods.
 	 *
-	 * @param   object  $mockObject  The mock object that the callbacks are being assigned to.
-	 * @param   array   $array       An array of methods names to mock with callbacks.
+	 * @param   PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
+	 * @param   array                                    $array       An array of methods names to mock with callbacks.
 	 * This method assumes that the mock callback is named {mock}{method name}.
 	 *
 	 * @return  void
@@ -86,16 +86,16 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 			}
 
 			$mockObject->expects($this->any())
-			->method($methodName)
-			->will($this->returnCallback($callback));
+				->method($methodName)
+				->willReturnCallback($callback);
 		}
 	}
 
 	/**
 	 * Assigns mock values to methods.
 	 *
-	 * @param   object  $mockObject  The mock object.
-	 * @param   array   $array       An associative array of methods to mock with return values:<br />
+	 * @param   PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
+	 * @param   array                                    $array       An associative array of methods to mock with return values:<br />
 	 * string (method name) => mixed (return value)
 	 *
 	 * @return  void
@@ -107,8 +107,8 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 		foreach ($array as $method => $return)
 		{
 			$mockObject->expects($this->any())
-			->method($method)
-			->will($this->returnValue($return));
+				->method($method)
+				->willReturn($return);
 		}
 	}
 

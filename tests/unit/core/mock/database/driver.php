@@ -25,19 +25,20 @@ class TestMockDatabaseDriver
 	/**
 	 * Creates and instance of the mock JDatabaseDriver object.
 	 *
-	 * @param   PHPUnit_Framework_TestCase  $test        A test object.
-	 * @param   string                      $driver      The database driver object to mock.
-	 * @param   string                      $nullDate    A null date string for the driver.
-	 * @param   string                      $dateFormat  A date format for the driver.
+	 * @param   PHPUnit_Framework_TestCase  $test          A test object.
+	 * @param   string                      $driver        The database driver object to mock.
+	 * @param   array                       $extraMethods  An array of additional methods to add to the mock
+	 * @param   string                      $nullDate      A null date string for the driver.
+	 * @param   string                      $dateFormat    A date format for the driver.
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   11.3
 	 */
-	public static function create($test, $driver = '', $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
+	public static function create($test, $driver = '', array $extraMethods = array(), $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
 	{
 		// Collect all the relevant methods in JDatabaseDriver.
-		$methods = array(
+		$methods = array_merge($extraMethods, array(
 			'connect',
 			'connected',
 			'disconnect',
@@ -93,7 +94,7 @@ class TestMockDatabaseDriver
 			'transactionStart',
 			'unlockTables',
 			'updateObject',
-		);
+		));
 
 		// Create the mock.
 		$mockObject = $test->getMock(
@@ -148,7 +149,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @param   boolean  $new  True to get a new query, false to get the last query.
 	 *
-	 * @return  void
+	 * @return  JDatabaseQuery
 	 *
 	 * @since   11.3
 	 */
