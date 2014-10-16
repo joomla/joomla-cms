@@ -262,11 +262,13 @@ abstract class JModelLegacy extends JObject
 		{
 			$this->addTablePath($config['table_path']);
 		}
+		// @codeCoverageIgnoreStart
 		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
 		}
+		// @codeCoverageIgnoreEnd
 
 		// Set the internal state marker - used to ignore setting state from the request
 		if (!empty($config['ignore_request']))

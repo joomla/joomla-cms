@@ -13,19 +13,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @since       12.3
+ * @since       3.4
  */
-class NokeywordInName extends JModelLegacy
+class Supercalifragilisticexpialigetisch extends JModelLegacy
 {
-	/**
-	 * Override parent __construct, so we bypass the Exception
-	 * thrown when 'Model' is not in the class name so we can
-	 * test the getName() function fully
-	 *
-	 * @since   12.3
-	 */
-	public function __construct()
-	{
-		return;
-	}
 }
