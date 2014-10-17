@@ -966,6 +966,9 @@ abstract class JHtml
 		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
 
+		$dateStart = isset($attribs['dateStart']) ? strtotime($attribs['dateStart']) : 0;
+		$dateEnd = isset($attribs['dateEnd']) ? strtotime($attribs['dateEnd']) : 0;
+
 		if (is_array($attribs))
 		{
 			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
@@ -1008,6 +1011,19 @@ abstract class JHtml
 			// Alignment (defaults to "Bl")
 			align: "Tl",
 			singleClick: true,
+			// Range date limit
+			' . ($dateStart || $dateEnd ? 'disableFunc: function(date) {
+					if(typeof date == "undefined")
+						return true;
+					var state = false;' .
+					// Both ranges set
+					($dateStart && $dateEnd ? 'if(date.getTime()/1000 >= ' . $dateStart . ' && date.getTime()/1000 <= ' . $dateEnd . '+ 24*60*60) state = false; else state =  true; return state;' : '') .
+					// If start date set
+					($dateStart ? 'if(date.getTime()/1000 >= ' . $dateStart . ') state = false; else state =  true; return state;' : '') .
+					// If end date set
+					($dateEnd ? 'if(date.getTime()/1000 <= ' . $dateEnd . '+ 24*60*60) state =  false; else state =  true; return state;' : '') . '
+					},' : ''
+				).'
 			firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
 			});});'
 			);

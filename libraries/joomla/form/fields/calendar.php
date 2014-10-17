@@ -158,6 +158,9 @@ class JFormFieldCalendar extends JFormField
 		$this->autocomplete     ? null : $attributes['autocomplete'] = 'off';
 		!$this->autofocus       ? null : $attributes['autofocus'] = '';
 
+		!$this->getAttribute('dateStart')	? null : $attributes['dateStart'] = $this->getAttribute('dateStart');
+		!$this->getAttribute('dateEnd')		? null : $attributes['dateEnd'] = $this->getAttribute('dateEnd');
+		
 		if ($this->required)
 		{
 			$attributes['required'] = '';
