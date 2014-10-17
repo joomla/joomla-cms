@@ -155,7 +155,7 @@ class JLayoutFileTest extends TestCaseDatabase
 	 */
 	public function testSetInvalidComponentAndCheckIfItIsNotSet()
 	{
-		$this->layoutFile->setComponent('com_mock');
+		$this->layoutFile->setComponent('mock');
 		$options = $this->layoutFile->getOptions();
 		$this->assertEquals('', $options->get('component'));
 	}
