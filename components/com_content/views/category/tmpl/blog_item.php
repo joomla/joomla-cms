@@ -40,11 +40,13 @@ $info    = $params->get('info_block_position', 0);
 
 <?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
 
-
 <?php if (!$params->get('show_intro')) : ?>
 	<?php echo $this->item->event->afterDisplayTitle; ?>
 <?php endif; ?>
+
+<?php if ($params->get('show_intro')) : ?>
 <?php echo $this->item->event->beforeDisplayContent; ?> <?php echo $this->item->introtext; ?>
+<?php endif; ?>
 
 <?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
@@ -72,4 +74,6 @@ $info    = $params->get('info_block_position', 0);
 </div>
 <?php endif; ?>
 
+<?php if ($params->get('show_intro')) : ?>
 <?php echo $this->item->event->afterDisplayContent; ?>
+<?php endif; ?>
