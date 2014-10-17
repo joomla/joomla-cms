@@ -931,10 +931,8 @@ class ModulesModelModule extends JModelAdmin
 		if ($input->get('task') == 'save2copy')
 		{
 			$orig_data  = $input->post->get('jform', array(), 'array');
-			$orig_table = clone $this->getTable();
-			$orig_table->load((int) $orig_data['id']);
 
-			if ($data['title'] == $orig_table->title)
+			if ($data['title'] == $orig_data['title'])
 			{
 				$data['title'] .= ' ' . JText::_('JGLOBAL_COPY');
 				$data['published'] = 0;
