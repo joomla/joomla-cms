@@ -963,11 +963,11 @@ abstract class JHtml
 			$done = array();
 		}
 
-		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
-		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
+		$readonly  = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
+		$disabled  = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
 
 		$dateStart = isset($attribs['dateStart']) ? strtotime($attribs['dateStart']) : 0;
-		$dateEnd = isset($attribs['dateEnd']) ? strtotime($attribs['dateEnd']) : 0;
+		$dateEnd   = isset($attribs['dateEnd']) ? strtotime($attribs['dateEnd']) : 0;
 
 		if (is_array($attribs))
 		{
