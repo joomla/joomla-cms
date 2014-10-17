@@ -53,7 +53,18 @@ class RedirectTableLink extends JTable
 		if (empty($this->new_url) && JComponentHelper::getParams('com_redirect')->get('mode', 0) == false)
 		{
 			$this->setError(JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
+
 			return false;
+		}
+		elseif (empty($this->new_url) && JComponentHelper::getParams('com_redirect')->get('mode', 0) == true)
+		{
+			// Else if an empty URL and in redirect mode only throw the same error if the code is a 3xx status code
+			if ($this->header < 400 && $this->header >= 300)
+			{
+				$this->setError(JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
+
+				return false;
+			}
 		}
 
 		// Check for duplicates
