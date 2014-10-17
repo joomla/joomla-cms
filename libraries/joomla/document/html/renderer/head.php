@@ -75,7 +75,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		if (!empty($base))
 		{
-			$buffer .= $tab . '<base href="' . $document->getBase() . '" />' . $lnEnd;
+			$buffer .= $tab . '<base href="' . urldecode($document->getBase()) . '" />' . $lnEnd;
 		}
 
 		// Generate META tags (needs to happen as early as possible in the head)
