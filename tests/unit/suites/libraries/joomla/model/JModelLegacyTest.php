@@ -10,7 +10,7 @@
 require_once __DIR__ . '/stubs/lead.php';
 require_once __DIR__ . '/stubs/name.php';
 require_once __DIR__ . '/stubs/room.php';
-require_once __DIR__ . '/stubs/constructorExceptionTest.php';
+require_once __DIR__ . '/stubs/constructorexceptiontest.php';
 
 /**
  * Tests for the JModelLegacy class.
@@ -476,9 +476,7 @@ class JModelLegacyTest extends TestCaseDatabase
 		$method = new ReflectionMethod('TestModelLead', '_getList');
 		$method->setAccessible(true);
 
-		$dbMock = $this->getMockBuilder('JDatabaseDriverMysqli')
-			->disableOriginalConstructor()
-			->getMock();
+		$dbMock = $this->getMockDatabase();
 
 		$dbMock->expects($this->once())
 			->method('setQuery')
@@ -507,9 +505,7 @@ class JModelLegacyTest extends TestCaseDatabase
 		$method = new ReflectionMethod('TestModelLead', '_getList');
 		$method->setAccessible(true);
 
-		$dbMock = $this->getMockBuilder('JDatabaseDriverMysqli')
-			->disableOriginalConstructor()
-			->getMock();
+		$dbMock = $this->getMockDatabase();
 
 		$dbMock->method('setQuery');
 
@@ -533,9 +529,7 @@ class JModelLegacyTest extends TestCaseDatabase
 		$method = new ReflectionMethod('TestModelLead', '_getListCount');
 		$method->setAccessible(true);
 
-		$dbMock = $this->getMockBuilder('JDatabaseDriverMysqli')
-			->disableOriginalConstructor()
-			->getMock();
+		$dbMock = $this->getMockDatabase();
 
 		$dbMock->expects($this->once())
 			->method('setQuery')
@@ -573,9 +567,7 @@ class JModelLegacyTest extends TestCaseDatabase
 
 		TestReflection::setValue($queryMock, 'type', 'select');
 
-		$dbMock = $this->getMockBuilder('JDatabaseDriverMysqli')
-			->disableOriginalConstructor()
-			->getMock();
+		$dbMock = $this->getMockDatabase();
 
 		$dbMock->expects($this->once())
 			->method('setQuery')
