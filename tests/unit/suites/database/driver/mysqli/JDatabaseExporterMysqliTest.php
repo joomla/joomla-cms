@@ -34,7 +34,7 @@ class JDatabaseExporterMysqliTest extends TestCase
 		parent::setUp();
 
 		// Set up the database object mock.
-		$this->dbo = TestMockDatabaseDriver::create($this, 'Mysqli');
+		$this->dbo = $this->getMockDatabase('Mysqli');
 
 		$this->dbo->expects($this->any())
 			->method('getPrefix')

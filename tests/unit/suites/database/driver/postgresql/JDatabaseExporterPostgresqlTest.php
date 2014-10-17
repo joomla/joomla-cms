@@ -46,7 +46,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		parent::setUp();
 
 		// Set up the database object mock.
-		$this->dbo = TestMockDatabaseDriver::create($this, 'Postgresql', array('getTableSequences'), '1970-01-01 00:00:00', 'Y-m-d H:i:s');
+		$this->dbo = $this->getMockDatabase('Postgresql', array('getTableSequences'), '1970-01-01 00:00:00', 'Y-m-d H:i:s');
 
 		$this->dbo->expects($this->any())
 			->method('getPrefix')
