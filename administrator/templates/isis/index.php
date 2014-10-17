@@ -285,7 +285,6 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				});
 			}
 
-
 			processScroll()
 
 			// hack sad times - holdover until rewrite for 2.1
