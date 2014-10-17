@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Prototype admin model.
  *
@@ -854,7 +856,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if (property_exists($item, 'params'))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->params);
 			$item->params = $registry->toArray();
 		}

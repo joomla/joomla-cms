@@ -51,7 +51,7 @@ class FOFFormFieldModel extends FOFFormFieldList implements FOFFormField
 					$this->repeatable = $this->getRepeatable();
 				}
 
-				return $this->static;
+				return $this->repeatable;
 				break;
 
 			default:

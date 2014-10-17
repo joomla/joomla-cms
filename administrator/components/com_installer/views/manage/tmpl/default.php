@@ -68,19 +68,19 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="center">
+					<th width="10%" class="center hidden-phone">
 						<?php echo JText::_('JVERSION'); ?>
 					</th>
-					<th width="10%">
+					<th width="10%" class="hidden-phone">
 						<?php echo JText::_('JDATE'); ?>
 					</th>
-					<th width="15%">
+					<th width="15%" class="hidden-phone">
 						<?php echo JText::_('JAUTHOR'); ?>
 					</th>
-					<th>
+					<th class="hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10">
+					<th width="10" class="hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -99,9 +99,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 					</td>
 					<td>
-						<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>">
-							<?php echo $item->name; ?>
-						</span>
+						<label for="cb<?php echo $i; ?>">
+							<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>">
+								<?php echo $item->name; ?>
+							</span>
+						</label>
 					</td>
 					<td class="center">
 						<?php echo $item->client; ?>
@@ -116,21 +118,21 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<td class="center">
 						<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
 					</td>
-					<td class="center">
+					<td class="center hidden-phone">
 						<?php echo @$item->version != '' ? $item->version : '&#160;'; ?>
 					</td>
-					<td class="center">
+					<td class="center hidden-phone">
 						<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
 					</td>
-					<td class="center">
+					<td class="center hidden-phone">
 						<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
 							<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
 						</span>
 					</td>
-					<td class="center">
+					<td class="center hidden-phone">
 						<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 					</td>
-					<td>
+					<td class="hidden-phone">
 						<?php echo $item->extension_id ?>
 					</td>
 				</tr>

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Content Component HTML Helper
  *
@@ -19,10 +21,10 @@ abstract class JHtmlIcon
 	/**
 	 * Method to generate a link to the create item page for the given category
 	 *
-	 * @param   object     $category  The category information
-	 * @param   JRegistry  $params    The item parameters
-	 * @param   array      $attribs   Optional attributes for the link
-	 * @param   boolean    $legacy    True to use legacy images, false to use icomoon based graphic
+	 * @param   object    $category  The category information
+	 * @param   Registry  $params    The item parameters
+	 * @param   array     $attribs   Optional attributes for the link
+	 * @param   boolean   $legacy    True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the create item link
 	 */
@@ -70,10 +72,10 @@ abstract class JHtmlIcon
 	/**
 	 * Method to generate a link to the email item page for the given article
 	 *
-	 * @param   object     $article  The article information
-	 * @param   JRegistry  $params   The item parameters
-	 * @param   array      $attribs  Optional attributes for the link
-	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   object    $article  The article information
+	 * @param   Registry  $params   The item parameters
+	 * @param   array     $attribs  Optional attributes for the link
+	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the email item link
 	 */
@@ -119,10 +121,10 @@ abstract class JHtmlIcon
 	 * This icon will not display in a popup window, nor if the article is trashed.
 	 * Edit access checks must be performed in the calling code.
 	 *
-	 * @param   object     $article  The article information
-	 * @param   JRegistry  $params   The item parameters
-	 * @param   array      $attribs  Optional attributes for the link
-	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   object    $article  The article information
+	 * @param   Registry  $params   The item parameters
+	 * @param   array     $attribs  Optional attributes for the link
+	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string	The HTML for the article edit icon.
 	 *
@@ -216,10 +218,10 @@ abstract class JHtmlIcon
 	/**
 	 * Method to generate a popup link to print an article
 	 *
-	 * @param   object     $article  The article information
-	 * @param   JRegistry  $params   The item parameters
-	 * @param   array      $attribs  Optional attributes for the link
-	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   object    $article  The article information
+	 * @param   Registry  $params   The item parameters
+	 * @param   array     $attribs  Optional attributes for the link
+	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 */
@@ -261,10 +263,10 @@ abstract class JHtmlIcon
 	/**
 	 * Method to generate a link to print an article
 	 *
-	 * @param   object     $article  Not used, @deprecated for 4.0
-	 * @param   JRegistry  $params   The item parameters
-	 * @param   array      $attribs  Not used, @deprecated for 4.0
-	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   object    $article  Not used, @deprecated for 4.0
+	 * @param   Registry  $params   The item parameters
+	 * @param   array     $attribs  Not used, @deprecated for 4.0
+	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 */

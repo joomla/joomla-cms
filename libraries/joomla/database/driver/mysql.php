@@ -16,6 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @see         http://dev.mysql.com/doc/
  * @since       12.1
+ * @deprecated  Will be removed when the minimum supported PHP version no longer includes the deprecated PHP `mysql` extension
  */
 class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 {
