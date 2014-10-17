@@ -32,7 +32,7 @@ class JModelFormTest extends TestCase
 	 */
 	public function setUp()
 	{
-		// create mock of abstract class JModelForm to test concrete methods in there
+		// Create mock of abstract class JModelForm to test concrete methods in there
 		$this->object = $this->getMockForAbstractClass('JModelForm');
 	}
 
@@ -59,6 +59,8 @@ class JModelFormTest extends TestCase
 
 	/**
 	 * Test JModelForm::validate
+	 *
+	 * @param   JModelForm  $object  object used
 	 *
 	 * @since   3.4
 	 *
@@ -98,6 +100,8 @@ class JModelFormTest extends TestCase
 	/**
 	 * Test JModelForm::validate
 	 *
+	 * @param   JModelForm  $object  object used
+	 *
 	 * @since   3.4
 	 *
 	 * @depends testValidateReturnsFalseOnJformFalse
@@ -111,6 +115,9 @@ class JModelFormTest extends TestCase
 
 	/**
 	 * Test JModelForm::validate
+	 *
+	 * @param   array  $data      data before validation
+	 * @param   array  $expected  data after validation
 	 *
 	 * @since   3.4
 	 *
@@ -164,7 +171,7 @@ class JModelFormTest extends TestCase
 			)
 			->will($this->returnArgument(0));
 
-		$this->object->validate($formMock, $data , $group);
+		$this->object->validate($formMock, $data, $group);
 	}
 
 	/**

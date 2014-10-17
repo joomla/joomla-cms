@@ -32,7 +32,7 @@ class JModelItemTest extends TestCase
 	 */
 	public function setUp()
 	{
-		// create mock of abstract class JModelForm to test concrete methods in there
+		// Create mock of abstract class JModelForm to test concrete methods in there
 		$this->object = $this->getMockForAbstractClass('JModelItem');
 	}
 
