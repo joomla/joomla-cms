@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/articles.php';
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_content
- * @since       1.6
+ * Featured content controller class.
+ *
+ * @since  1.6
  */
 class ContentControllerFeatured extends ContentControllerArticles
 {

@@ -817,14 +817,4 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 			$this->isInstanceOf('JDocument')
 		);
 	}
-
-	/**
-	 * Test...
-	 *
-	 * @return  void
-	 */
-	public function testRender()
-	{
-		$this->markTestSkipped('Test not implemented.');
-	}
 }

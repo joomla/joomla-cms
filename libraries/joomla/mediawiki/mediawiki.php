@@ -81,13 +81,13 @@ class JMediawiki
 	protected $search;
 
 	/**
-     * Constructor.
-     *
-     * @param   JRegistry       $options  MediaWiki options object.
-     * @param   JMediawikiHttp  $client   The HTTP client object.
-     *
-     * @since   12.3
-     */
+	 * Constructor.
+	 *
+	 * @param   JRegistry       $options  MediaWiki options object.
+	 * @param   JMediawikiHttp  $client   The HTTP client object.
+	 *
+	 * @since   12.3
+	 */
 	public function __construct(JRegistry $options = null, JMediawikiHttp $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
@@ -95,15 +95,15 @@ class JMediawiki
 	}
 
 	/**
-     * Magic method to lazily create API objects
-     *
-     * @param   string  $name  Name of property to retrieve
-     *
-     * @return  JMediaWikiObject  MediaWiki API object (users, reviews, etc).
-     *
-     * @since   12.3
-     * @throws  InvalidArgumentException
-     */
+	 * Magic method to lazily create API objects
+	 *
+	 * @param   string  $name  Name of property to retrieve
+	 *
+	 * @return  JMediaWikiObject  MediaWiki API object (users, reviews, etc).
+	 *
+	 * @since   12.3
+	 * @throws  InvalidArgumentException
+	 */
 	public function __get($name)
 	{
 		$name = strtolower($name);
@@ -132,29 +132,29 @@ class JMediawiki
 	}
 
 	/**
-     * Get an option from the JMediawiki instance.
-     *
-     * @param   string  $key  The name of the option to get.
-     *
-     * @return  mixed  The option value.
-     *
-     * @since   12.3
-     */
+	 * Get an option from the JMediawiki instance.
+	 *
+	 * @param   string  $key  The name of the option to get.
+	 *
+	 * @return  mixed  The option value.
+	 *
+	 * @since   12.3
+	 */
 	public function getOption($key)
 	{
 		return $this->options->get($key);
 	}
 
 	/**
-     * Set an option for the JMediawiki instance.
-     *
-     * @param   string  $key    The name of the option to set.
-     * @param   mixed   $value  The option value to set.
-     *
-     * @return  JMediawiki  This object for method chaining.
-     *
-     * @since   12.3
-     */
+	 * Set an option for the JMediawiki instance.
+	 *
+	 * @param   string  $key    The name of the option to set.
+	 * @param   mixed   $value  The option value to set.
+	 *
+	 * @return  JMediawiki  This object for method chaining.
+	 *
+	 * @since   12.3
+	 */
 	public function setOption($key, $value)
 	{
 		$this->options->set($key, $value);
