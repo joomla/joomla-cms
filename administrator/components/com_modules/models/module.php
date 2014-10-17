@@ -450,7 +450,7 @@ class ModulesModelModule extends JModelAdmin
 
 				$data = $this->generateNewTitle(0, $table->title, $table->position);
 				$table->title = $data[0];
-				
+
 				// Unpublish duplicate module
 				$table->published = 0;
 
