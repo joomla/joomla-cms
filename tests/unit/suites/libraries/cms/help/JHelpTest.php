@@ -42,6 +42,7 @@ class JHelpTest extends TestCase
 		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$config      = $this->getMockConfig();
 		JFactory::$session     = $this->getMockSession();
+		JFactory::$language    = JLanguage::getInstance('en-GB');
 
 		// Set up our mock config
 		$this->config = JFactory::getConfig();
