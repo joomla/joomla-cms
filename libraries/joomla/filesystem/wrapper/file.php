@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Wrapper class for JFilesystemWrapperFile
+ * Wrapper class for JFilesystemFile
  *
  * @package     Joomla.Platform
  * @subpackage  Filesystem
