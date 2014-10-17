@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $buttons = $displayData;
 
 // Load modal popup behavior
-JHtml::_('behavior.modal', 'a.modal-button');
+JHtml::_('bootstrap.modal');
 ?>
 <div id="editor-xtd-buttons" class="btn-toolbar pull-left">
 	<?php if ($buttons) : ?>
