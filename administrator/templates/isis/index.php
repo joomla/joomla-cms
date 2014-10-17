@@ -267,7 +267,10 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<!-- End Status Module -->
 <?php endif; ?>
 <jdoc:include type="modules" name="debug" style="none" />
-<?php if ($stickyToolbar) : ?>
+<?php
+// Get the singular view
+$singular = preg_match('/&id=|&view=mail|&layout=edit/', JURI::getInstance()->toString());
+if ($stickyToolbar) : ?>
 	<script>
 		(function($)
 		{
@@ -276,6 +279,17 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				, $nav    = $('.subhead')
 				, navTop  = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>40<?php else:?>20<?php endif;?>
 				, isFixed = 0
+				, edit = <?php echo $singular; ?>
+
+			// Disable cpanel and user menu
+			if (edit)
+			{
+				$('.icon-joomla').addClass('disabled');
+				$('.nav-user').addClass('disabled');
+				$(".admin-logo").removeAttr("href");
+				$('ul.nav-user > li > a').removeAttr("data-toggle").removeAttr("href");
+				$('ul.nav-user > li > .dropdown-menu').empty();
+			}
 
 			processScroll()
 

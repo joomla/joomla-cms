@@ -198,18 +198,19 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock CMS application object.
 	 *
-	 * @param   array  $options  A set of options to configure the mock.
+	 * @param   array  $options      A set of options to configure the mock.
+	 * @param   array  $constructor  An array containing constructor arguments to inject into the mock.
 	 *
 	 * @return  JApplicationCms
 	 *
 	 * @since   3.2
 	 */
-	public function getMockCmsApp($options = array())
+	public function getMockCmsApp($options = array(), $constructor = array())
 	{
 		// Attempt to load the real class first.
 		class_exists('JApplicationCms');
 
-		return TestMockApplicationCms::create($this, $options);
+		return TestMockApplicationCms::create($this, $options, $constructor);
 	}
 
 	/**

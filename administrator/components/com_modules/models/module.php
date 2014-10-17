@@ -449,10 +449,10 @@ class ModulesModelModule extends JModelAdmin
 				{
 					$table->title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', $table->title);
 				}
-				else
-				{
-					$table->title .= ' (2)';
-				}
+
+				$data = $this->generateNewTitle(0, $table->title, $table->position);
+				$table->title = $data[0];
+
 				// Unpublish duplicate module
 				$table->published = 0;
 
@@ -847,7 +847,7 @@ class ModulesModelModule extends JModelAdmin
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $client->path, null, false, true)
-			||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
+		||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
 
 		if (file_exists($formFile))
 		{
@@ -932,14 +932,13 @@ class ModulesModelModule extends JModelAdmin
 		// Alter the title and published state for Save as Copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$orig_data  = $input->post->get('jform', array(), 'array');
 			$orig_table = clone $this->getTable();
-			$orig_table->load((int) $orig_data['id']);
+			$orig_table->load((int) $input->getInt('id'));
+			$data['published'] = 0;
 
 			if ($data['title'] == $orig_table->title)
 			{
 				$data['title'] .= ' ' . JText::_('JGLOBAL_COPY');
-				$data['published'] = 0;
 			}
 		}
 
