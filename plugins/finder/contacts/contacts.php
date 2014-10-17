@@ -14,9 +14,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
 /**
  * Finder adapter for Joomla Contacts.
  *
- * @package     Joomla.Plugin
- * @subpackage  Finder.Contacts
- * @since       2.5
+ * @since  2.5
  */
 class PlgFinderContacts extends FinderIndexerAdapter
 {

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_content
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       3.3
+ * @since  3.3
  */
 class ContentRouter extends JComponentRouterBase
 {
