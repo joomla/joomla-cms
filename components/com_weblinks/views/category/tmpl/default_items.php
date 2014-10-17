@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('bootstrap.modal');
+JHtml::_('behavior.framework');
 
 // Create a shortcut for params.
 $params = &$this->item->params;
@@ -115,9 +115,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 									break;
 								case 3:
 									// Open in a modal window
-									JHtml::_('bootstrap.modal');
-									echo '<a href="#webLinkLangModal" role="button" class="btn btn-link" data-toggle="modal" title="' . $this->escape($item->title) . '">' . $this->escape($item->title) . ' </a>';
-									echo JHtmlBootstrap::renderModal('webLinkLangModal', array( 'url' => $link, 'title' => $this->escape($item->title),'height' => $this->escape($width), 'width' => $this->escape($height)));
+									JHtml::_('behavior.modal', 'a.modal');
+									echo '<a class="modal" href="' . $link . '"  rel="{handler: \'iframe\', size: {x:' . $this->escape($width) . ', y:' . $this->escape($height) . '}}">' .
+									$this->escape($item->title) . ' </a>';
 									break;
 
 								default:

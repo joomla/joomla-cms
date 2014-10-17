@@ -60,9 +60,9 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 							break;
 						case 3:
 							// open in a modal window
-							JHtml::_('bootstrap.modal');
-							echo '<a href="#webLinkLangModal" role="button" class="btn btn-link" data-toggle="modal" title="' . htmlspecialchars($label) . '">' . htmlspecialchars($label) . ' </a>';
-							echo JHtmlBootstrap::renderModal('webLinkLangModal', array( 'url' => htmlspecialchars($link), 'title' => htmlspecialchars($label),'height' => '600px', 'width' => '600px'));
+							JHtml::_('behavior.modal', 'a.modal');
+							echo '<a class="modal" href="'.htmlspecialchars($link).'"  rel="{handler: \'iframe\', size: {x:600, y:600}}">'.
+							htmlspecialchars($label) . ' </a>';
 							break;
 
 						default:

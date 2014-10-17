@@ -43,11 +43,25 @@ class JFormFieldContenthistory extends JFormField
 			. $this->id . '&amp;item_id=' . $itemId . '&amp;type_id=' . $typeId . '&amp;type_alias='
 			. $this->element['data-typeAlias'] . '&amp;' . JSession::getFormToken() . '=1';
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-		JHtml::_('bootstrap.modal');
-		$html[] = '<button href="#versionsModal" role="button" class="btn btn-small" data-toggle="modal" title="' . $label . '"><span class="icon-archive"></span>' . $label . '</button>';
-		$html[] = JHtmlBootstrap::renderModal('versionsModal', array( 'url' => $link, 'title' => $label ,'height' => '600px', 'width' => '800px'), '');
+		if (JFactory::getApplication()->isSite())
+		{
+			// Load the modal behavior script.
+			JHtml::_('behavior.modal', 'button.modal_' . $this->id);
+
+			$html[] = '		<button class="btn modal_' . $this->id . '" title="' . $label . '" href="' . $link . '"'
+				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
+			$html[] = '<i class="icon-archive"></i>';
+			$html[] = $label;
+			$html[] = '</button>';
+		}
+		elseif (JFactory::getApplication()->isAdmin())
+		{
+			// Include jQuery
+			JHtml::_('jquery.framework');
+			JHtml::_('bootstrap.modal');
+			$html[] = '<button href="#versionsModal" role="button" class="btn btn-small" data-toggle="modal" title="' . $label . '"><span class="icon-archive"></span>' . $label . '</button>';
+			$html[] = JHtmlBootstrap::renderModal('versionsModal', array( 'url' => $link, 'title' => $label ,'height' => '600px', 'width' => '800px'), '');
+		}
 
 		return implode("\n", $html);
 	}
