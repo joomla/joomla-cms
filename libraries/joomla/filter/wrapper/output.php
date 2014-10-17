@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Wrapper class for JFilterWrapperOutput
+ * Wrapper class for JFilterOutput
  *
  * @package     Joomla.Platform
  * @subpackage  Filter
