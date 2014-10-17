@@ -117,7 +117,7 @@ class TagsViewTags extends JViewLegacy
 				}
 			}
 		}
-		else
+		elseif(!empty($items[0]))
 		{
 			// Merge so that tag params take priority
 			$temp->merge($items[0]->params);
