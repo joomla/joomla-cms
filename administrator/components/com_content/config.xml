@@ -403,7 +403,7 @@
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
 				<option value="3">JBROWSERTARGET_MODAL</option>
-		</field>	
+		</field>
 		<field
 			name="spacer4"
 			type="spacer"
@@ -444,7 +444,7 @@
 			extension="com_content"
 			view="category"
 		/>
-		<field 
+		<field
 			name="show_category_heading_title_text"
 			type="radio"
 			class="btn-group btn-group-yesno"
@@ -628,6 +628,16 @@
 			default="1"
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 			description="JGLOBAL_NUM_LEADING_ARTICLES_DESC">
+		</field>
+
+		<field name="fulltext_leading_articles"
+			type="list"
+			default="0"
+			description="JGLOBAL_FULLTEXT_LEADING_ARTICLES_DESC"
+			label="JGLOBAL_FULLTEXT_LEADING_ARTICLES_LABEL"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field name="num_intro_articles"
