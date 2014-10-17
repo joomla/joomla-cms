@@ -274,4 +274,20 @@ class JLayoutFileTest extends TestCaseDatabase
 			$this->layoutFile->render($options)
 		);
 	}
+
+	/**
+	 * @testdox  Render the submenu layout file using a j3x suffix and compare output is unchanged.
+	 *
+	 * @since  3.3.7
+	 */
+	public function testRenderTheSubmenuLayoutFileUsingAJ3xSuffixAndCompareOutputIsUnchanged()
+	{
+		$this->layoutFile->setOptions(array('suffixes' => array('j3x'), 'debug' => false));
+		$this->layoutFile->setLayout('includepath');
+		$this->layoutFile->addIncludePaths(array(JPATH_TEST_STUBS . '/jlayout/'));
+		$output = $this->layoutFile->render(array());
+
+		// Run the test
+		$this->assertEquals("OK", $output);
+	}
 }

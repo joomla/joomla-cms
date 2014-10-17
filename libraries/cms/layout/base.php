@@ -76,8 +76,10 @@ class JLayoutBase implements JLayout
 		// Always return a JRegistry instance
 		if (!($this->options instanceof JRegistry))
 		{
+			// @codeCoverageIgnoreStart
 			$this->resetOptions();
 		}
+		// @codeCoverageIgnoreEnd
 
 		return $this->options;
 	}
