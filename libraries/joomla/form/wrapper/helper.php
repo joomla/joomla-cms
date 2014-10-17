@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Wrapper class for JFormWrapperHelper
+ * Wrapper class for JFormHelper
  *
  * @package     Joomla.Platform
  * @subpackage  Form
