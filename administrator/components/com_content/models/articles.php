@@ -50,7 +50,8 @@ class ContentModelArticles extends JModelList
 				'author_id',
 				'category_id',
 				'level',
-				'tag'
+				'tag',
+				'version', 'a.version', 'ch.version_id', 'version_id', 'ch.ucm_type_id', 'version_type'
 			);
 
 			if (JLanguageAssociations::isEnabled())
@@ -167,7 +168,7 @@ class ContentModelArticles extends JModelList
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
-					', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.ordering, a.featured, a.language, a.hits' .
+					', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.ordering, a.featured, a.language, a.hits, a.version' .
 					', a.publish_up, a.publish_down'
 			)
 		);
@@ -192,6 +193,16 @@ class ContentModelArticles extends JModelList
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
+
+		// Join over the content history of the article.
+		$latest_version = $db->getQuery(true);
+		$latest_version->select('version_id')
+				->from('#__ucm_history')
+				->where('ucm_item_id = ch.ucm_item_id')
+				->order('version_id DESC LIMIT 1');
+		$query->select('ch.version_note AS version_note, ch.ucm_type_id AS version_type, ch.version_id, ch.save_date as version_date')
+			->join('LEFT', '#__ucm_history AS ch ON ch.ucm_item_id = a.id AND ch.version_id = (' . $latest_version . ')')
+			->group('a.id');
 
 		// Join over the associations.
 		if (JLanguageAssociations::isEnabled())
