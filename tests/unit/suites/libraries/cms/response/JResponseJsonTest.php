@@ -143,8 +143,8 @@ class JResponseJsonTest extends TestCase
 	 */
 	public function testFailureWithMessages()
 	{
-		JFactory::$application('This part was successful');
-		JFactory::$application('You should not do that', 'warning');
+		JFactory::$application->enqueueMessage('This part was successful');
+		JFactory::$application->enqueueMessage('You should not do that', 'warning');
 
 		$output = new JResponseJson(new Exception('A major error occured'));
 
@@ -169,8 +169,8 @@ class JResponseJsonTest extends TestCase
 	 */
 	public function testFailureWithIgnoreMessages()
 	{
-		JFactory::$application('This part was successful');
-		JFactory::$application('You should not do that', 'warning');
+		JFactory::$application->enqueueMessage('This part was successful');
+		JFactory::$application->enqueueMessage('You should not do that', 'warning');
 
 		$output = new JResponseJson(new Exception('A major error occured'), null, false, true);
 
@@ -191,8 +191,8 @@ class JResponseJsonTest extends TestCase
 	 */
 	public function testSuccessWithMessages()
 	{
-		JFactory::$application('This part was successful');
-		JFactory::$application('This one was also successful');
+		JFactory::$application->enqueueMessage('This part was successful');
+		JFactory::$application->enqueueMessage('This one was also successful');
 
 		$output = new JResponseJson;
 
