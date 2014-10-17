@@ -269,6 +269,22 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				, $nav    = $('.subhead')
 				, navTop  = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>40<?php else:?>20<?php endif;?>
 				, isFixed = 0
+				, edit = <?php echo $hidden; ?>
+
+			// Disable cpanel and user menu
+			if (edit)
+			{
+				// Alert on closing window
+				window.onbeforeunload = function () {
+					return ('<?php echo JText::_('TPL_ISIS_WARNING_MSG'); ?>');
+				}
+				$(function () {
+					$('.btn').click(function () {
+						window.onbeforeunload = function () { };
+					});
+				});
+			}
+
 
 			processScroll()
 
