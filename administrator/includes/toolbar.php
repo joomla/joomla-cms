@@ -24,8 +24,8 @@ abstract class JToolbarHelper
 	 * this title fucntion must be called before the starttable function and the toolbars icons
 	 * this is due to the nature of how the css has been used to postion the title in respect to the toolbar.
 	 *
-	 * @param   string $title The title.
-	 * @param   string $icon The space-separated names of the image.
+	 * @param   string  $title  The title.
+	 * @param   string  $icon   The space-separated names of the image.
 	 *
 	 * @return  void
 	 *
@@ -34,7 +34,7 @@ abstract class JToolbarHelper
 	public static function title($title, $icon = 'generic.png')
 	{
 		$layout = new JLayoutFile('joomla.toolbar.title');
-		$html = $layout->render(array('title' => $title, 'icon' => $icon));
+		$html   = $layout->render(array('title' => $title, 'icon' => $icon));
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;
@@ -44,7 +44,7 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a spacer cell.
 	 *
-	 * @param   string $width The width for the cell
+	 * @param   string  $width  The width for the cell
 	 *
 	 * @return  void
 	 *
@@ -76,11 +76,11 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a custom option and task button for the button bar.
 	 *
-	 * @param   string $task The task to perform (picked up by the switch($task) blocks.
-	 * @param   string $icon The image to display.
-	 * @param   string $iconOver The image to display when moused over.
-	 * @param   string $alt The alt text for the icon image.
-	 * @param   bool $listSelect True if required to check that a standard list item is checked.
+	 * @param   string  $task        The task to perform (picked up by the switch($task) blocks.
+	 * @param   string  $icon        The image to display.
+	 * @param   string  $iconOver    The image to display when moused over.
+	 * @param   string  $alt         The alt text for the icon image.
+	 * @param   bool    $listSelect  True if required to check that a standard list item is checked.
 	 *
 	 * @return  void
 	 *
@@ -100,8 +100,8 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a preview button for a given option (opens a popup window).
 	 *
-	 * @param   string $url The name of the popup file (excluding the file extension)
-	 * @param   bool $updateEditors Unused
+	 * @param   string  $url            The name of the popup file (excluding the file extension)
+	 * @param   bool    $updateEditors  Unused
 	 *
 	 * @return  void
 	 *
@@ -118,10 +118,10 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a preview button for a given option (opens a popup window).
 	 *
-	 * @param   string $ref The name of the popup file (excluding the file extension for an xml file).
-	 * @param   bool $com Use the help file in the component directory.
-	 * @param   string $override Use this URL instead of any other
-	 * @param   string $component Name of component to get Help (null for current component)
+	 * @param   string  $ref        The name of the popup file (excluding the file extension for an xml file).
+	 * @param   bool    $com        Use the help file in the component directory.
+	 * @param   string  $override   Use this URL instead of any other
+	 * @param   string  $component  Name of component to get Help (null for current component)
 	 *
 	 * @return  void
 	 *
@@ -139,8 +139,8 @@ abstract class JToolbarHelper
 	 * Writes a cancel button that will go back to the previous page without doing
 	 * any other operation.
 	 *
-	 * @param   string $alt Alternative text.
-	 * @param   string $href URL of the href attribute.
+	 * @param   string  $alt   Alternative text.
+	 * @param   string  $href  URL of the href attribute.
 	 *
 	 * @return  void
 	 *
@@ -157,8 +157,8 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a media_manager button.
 	 *
-	 * @param   string $directory The sub-directory to upload the media to.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $directory  The sub-directory to upload the media to.
+	 * @param   string  $alt        An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -175,8 +175,8 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a common 'default' button for a record.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -193,8 +193,8 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a common 'assign' button for a record.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -211,9 +211,9 @@ abstract class JToolbarHelper
 	/**
 	 * Writes the common 'new' icon for the button bar.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
-	 * @param   boolean $check True if required to check that a standard list item is checked.
+	 * @param   string   $task   An override for the task.
+	 * @param   string   $alt    An override for the alt text.
+	 * @param   boolean  $check  True if required to check that a standard list item is checked.
 	 *
 	 * @return  void
 	 *
@@ -230,9 +230,9 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a common 'publish' button.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
-	 * @param   boolean $check True if required to check that a standard list item is checked.
+	 * @param   string   $task   An override for the task.
+	 * @param   string   $alt    An override for the alt text.
+	 * @param   boolean  $check  True if required to check that a standard list item is checked.
 	 *
 	 * @return  void
 	 *
@@ -249,8 +249,8 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a common 'publish' button for a list of records.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -267,9 +267,9 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a common 'unpublish' button.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
-	 * @param   boolean $check True if required to check that a standard list item is checked.
+	 * @param   string   $task   An override for the task.
+	 * @param   string   $alt    An override for the alt text.
+	 * @param   boolean  $check  True if required to check that a standard list item is checked.
 	 *
 	 * @return  void
 	 *
@@ -286,8 +286,8 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a common 'unpublish' button for a list of records.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -304,8 +304,8 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a common 'archive' button for a list of records.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -322,8 +322,8 @@ abstract class JToolbarHelper
 	/**
 	 * Writes an unarchive button for a list of records.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -340,8 +340,8 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a common 'edit' button for a list of records.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -358,8 +358,8 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a common 'edit' button for a template html.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -376,8 +376,8 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a common 'edit' button for a template css.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -394,9 +394,9 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a common 'delete' button for a list of records.
 	 *
-	 * @param   string $msg Postscript for the 'are you sure' message.
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $msg   Postscript for the 'are you sure' message.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -407,9 +407,12 @@ abstract class JToolbarHelper
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Add a delete button.
-		if ($msg) {
+		if ($msg)
+		{
 			$bar->appendButton('Confirm', $msg, 'delete', $alt, $task, true);
-		} else {
+		}
+		else
+		{
 			$bar->appendButton('Standard', 'delete', $alt, $task, true);
 		}
 	}
@@ -417,9 +420,9 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a common 'trash' button for a list of records.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
-	 * @param   bool $check True to allow lists.
+	 * @param   string  $task   An override for the task.
+	 * @param   string  $alt    An override for the alt text.
+	 * @param   bool    $check  True to allow lists.
 	 *
 	 * @return  void
 	 *
@@ -437,8 +440,8 @@ abstract class JToolbarHelper
 	 * Writes a save button for a given option.
 	 * Apply operation leads to a save action only (does not leave edit mode).
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -456,8 +459,8 @@ abstract class JToolbarHelper
 	 * Writes a save button for a given option.
 	 * Save operation leads to a save and then close action.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -475,8 +478,8 @@ abstract class JToolbarHelper
 	 * Writes a save and create new button for a given option.
 	 * Save and create operation leads to a save and then add action.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -495,8 +498,8 @@ abstract class JToolbarHelper
 	 * Save as copy operation leads to a save after clearing the key,
 	 * then returns user to edit mode with new key.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -513,9 +516,9 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a checkin button for a given option.
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
-	 * @param   boolean $check True if required to check that a standard list item is checked.
+	 * @param   string   $task   An override for the task.
+	 * @param   string   $alt    An override for the alt text.
+	 * @param   boolean  $check  True if required to check that a standard list item is checked.
 	 *
 	 * @return  void
 	 *
@@ -532,8 +535,8 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a cancel button and invokes a cancel operation (eg a checkin).
 	 *
-	 * @param   string $task An override for the task.
-	 * @param   string $alt An override for the alt text.
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
@@ -550,11 +553,11 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a configuration button and invokes a cancel operation (eg a checkin).
 	 *
-	 * @param   string $component The name of the component, eg, com_content.
-	 * @param   integer $height The height of the popup. [UNUSED]
-	 * @param   integer $width The width of the popup. [UNUSED]
-	 * @param   string $alt The name of the button.
-	 * @param   string $path An alternative path for the configuation xml relative to JPATH_SITE.
+	 * @param   string   $component  The name of the component, eg, com_content.
+	 * @param   integer  $height     The height of the popup. [UNUSED]
+	 * @param   integer  $width      The width of the popup. [UNUSED]
+	 * @param   string   $alt        The name of the button.
+	 * @param   string   $path       An alternative path for the configuation xml relative to JPATH_SITE.
 	 *
 	 * @return  void
 	 *
@@ -566,7 +569,7 @@ abstract class JToolbarHelper
 		$path = urlencode($path);
 		$bar = JToolBar::getInstance('toolbar');
 
-		$uri = (string)JUri::getInstance();
+		$uri = (string) JUri::getInstance();
 		$return = urlencode(base64_encode($uri));
 
 		// Add a button linking to config for component.
@@ -581,11 +584,11 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a version history
 	 *
-	 * @param   string $typeAlias The component and type, for example 'com_content.article'
-	 * @param   integer $itemId The id of the item, for example the article id.
-	 * @param   integer $height The height of the popup.
-	 * @param   integer $width The width of the popup.
-	 * @param   string $alt The name of the button.
+	 * @param   string   $typeAlias  The component and type, for example 'com_content.article'
+	 * @param   integer  $itemId     The id of the item, for example the article id.
+	 * @param   integer  $height     The height of the popup.
+	 * @param   integer  $width      The width of the popup.
+	 * @param   string   $alt        The name of the button.
 	 *
 	 * @return  void
 	 *
@@ -596,18 +599,18 @@ abstract class JToolbarHelper
 		JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
 
 		$contentTypeTable = JTable::getInstance('Contenttype');
-		$typeId = $contentTypeTable->getTypeId($typeAlias);
+		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
 		// Options array for JLayout
-		$options = array();
-		$options['title'] = JText::_($alt);
-		$options['height'] = $height;
-		$options['width'] = $width;
-		$options['itemId'] = $itemId;
-		$options['typeId'] = $typeId;
+		$options              = array();
+		$options['title']     = JText::_($alt);
+		$options['height']    = $height;
+		$options['width']     = $width;
+		$options['itemId']    = $itemId;
+		$options['typeId']    = $typeId;
 		$options['typeAlias'] = $typeAlias;
 
-		$bar = JToolbar::getInstance('toolbar');
+		$bar    = JToolbar::getInstance('toolbar');
 		$layout = new JLayoutFile('joomla.toolbar.versions');
 		$bar->appendButton('Custom', $layout->render($options), 'versions');
 	}
@@ -615,9 +618,9 @@ abstract class JToolbarHelper
 	/**
 	 * Displays a modal button
 	 *
-	 * @param   string $targetModalId ID of the target modal box
-	 * @param   string $icon Icon class to show on modal button
-	 * @param   string $alt Title for the modal button
+	 * @param   string  $targetModalId  ID of the target modal box
+	 * @param   string  $icon           Icon class to show on modal button
+	 * @param   string  $alt            Title for the modal button
 	 *
 	 * @return  void
 	 *
