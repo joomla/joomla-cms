@@ -2375,9 +2375,9 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__redirect_links](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
-	[old_url] [nvarchar](255) NOT NULL,
-	[new_url] [nvarchar](255) NOT NULL,
-	[referer] [nvarchar](150) NOT NULL,
+	[old_url] [nvarchar](2083) NOT NULL,
+	[new_url] [nvarchar](2083) NOT NULL,
+	[referer] [nvarchar](2083) NOT NULL,
 	[comment] [nvarchar](255) NOT NULL,
 	[hits] [bigint] NOT NULL DEFAULT 0,
 	[published] [smallint] NOT NULL,
@@ -2386,12 +2386,7 @@ CREATE TABLE [#__redirect_links](
  CONSTRAINT [PK_#__redirect_links_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
- CONSTRAINT [#__redirect_links$idx_link_old] UNIQUE NONCLUSTERED
-(
-	[old_url] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY];
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_modifed] ON [#__redirect_links]
 (
