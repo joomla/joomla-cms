@@ -15,7 +15,7 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
-$this->ignore_fieldsets = array('images');
+$this->ignore_fieldsets = array('images', 'jmetadata');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
