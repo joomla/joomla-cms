@@ -122,6 +122,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	{
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
+
 		if ($this->id)
 		{
 			// Existing item
@@ -148,6 +149,7 @@ class NewsfeedsTableNewsfeed extends JTable
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
+
 			return false;
 		}
 
