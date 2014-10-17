@@ -666,7 +666,7 @@ class TemplatesModelTemplate extends JModelForm
 	}
 
 	/**
-	 * Create override folder & file for module
+	 * Create override folder & file
 	 *
 	 * @param   string  $overridePath  The override location
 	 * @param   string  $htmlPath      The html location
