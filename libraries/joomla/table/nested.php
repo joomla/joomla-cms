@@ -559,6 +559,7 @@ class JTableNested extends JTable
 
 					return false;
 				}
+
 				$asset->_unlock();
 			}
 			else
@@ -1322,6 +1323,7 @@ class JTableNested extends JTable
 			{
 				$query->order('parent_id, lft');
 			}
+
 			$this->_cache['rebuild.sql'] = (string) $query;
 		}
 
@@ -1679,8 +1681,10 @@ class JTableNested extends JTable
 			{
 				$buffer .= sprintf("\n| %4s | %4s | %4s | %4s |", $row[0], $row[1], $row[2], $row[3]);
 			}
+
 			$buffer .= $sep;
 		}
+
 		echo $buffer;
 	}
 

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_wrapper
  *
- * @package     Joomla.Site
- * @subpackage  com_wrapper
- * @since       3.3
+ * @since  3.3
  */
 class WrapperRouter extends JComponentRouterBase
 {
@@ -83,7 +81,7 @@ class WrapperRouter extends JComponentRouterBase
  *
  * @deprecated  4.0  Use Class based routers instead
  */
-function WrapperBuildRoute(&$query)
+function wrapperBuildRoute(&$query)
 {
 	$router = new WrapperRouter;
 
@@ -102,7 +100,7 @@ function WrapperBuildRoute(&$query)
  *
  * @deprecated  4.0  Use Class based routers instead
  */
-function WrapperParseRoute($segments)
+function wrapperParseRoute($segments)
 {
 	$router = new WrapperRouter;
 

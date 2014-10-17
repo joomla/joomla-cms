@@ -787,8 +787,8 @@ class JApplicationWebTest extends TestCase
 	{
 		return array(
 			// Note: file, class, expectsClass, (expected result array), whether there should be an exception
-			'Default configuration class' => array(JPATH_TESTS . '/tmp/configuration.php', null, 'JConfig', 'ConfigEval'),
-			'Custom file, invalid class' => array(JPATH_TESTS . '/tmp/config.JCli-wrongclass.php', 'noclass', false, array(), true),
+			'Default configuration class' => array(JPATH_TEST_STUBS . '/configuration.php', null, 'JConfig', 'ConfigEval'),
+			'Custom file, invalid class' => array(JPATH_TEST_STUBS . '/config.wrongclass.php', 'noclass', false, array(), true),
 		);
 	}
 
@@ -1189,18 +1189,6 @@ class JApplicationWebTest extends TestCase
 			$this->equalTo('ok'),
 			'Tests that we got the language from the factory.'
 		);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::loadSession method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testLoadSession()
-	{
-		$this->markTestIncomplete();
 	}
 
 	/**
@@ -1650,18 +1638,6 @@ class JApplicationWebTest extends TestCase
 				array('JWeb Body')
 			)
 		);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::respond method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testRespond()
-	{
-		$this->markTestIncomplete();
 	}
 
 	/**

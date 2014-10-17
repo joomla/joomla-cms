@@ -76,19 +76,6 @@ class JTableCorecontentTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test JTableCorecontent::bind
-	 *
-	 * @todo   Implement testBind().
-	 *
-	 * @return  void
-	 */
-	public function testBind()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Tests JTableCorecontent::check
 	 *
 	 * @return  void

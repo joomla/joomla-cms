@@ -154,21 +154,6 @@ class JDocumentHTMLTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Implement testMergeHeadData().
-	 *
-	 * @return void
-	 */
-	public function testMergeHeadData()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
 	 * @return  void
 	 *
 	 * @note    MDC: <link>  https://developer.mozilla.org/en-US/docs/HTML/Element/link
@@ -269,96 +254,6 @@ class JDocumentHTMLTest extends PHPUnit_Framework_TestCase
 			$this->object->isHtml5(),
 			$this->logicalNot($this->equalTo('non boolean')),
 			"JDocumentHtml::setHtml5('non boolean') did not work"
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetBuffer().
-	 *
-	 * @return void
-	 */
-	public function testGetBuffer()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetBuffer().
-	 *
-	 * @return void
-	 */
-	public function testSetBuffer()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testParse().
-	 *
-	 * @return void
-	 */
-	public function testParse()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testRender().
-	 *
-	 * @return void
-	 */
-	public function testRender()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testCountModules().
-	 *
-	 * @return void
-	 */
-	public function testCountModules()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testCountMenuChildren().
-	 *
-	 * @return void
-	 */
-	public function testCountMenuChildren()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
 		);
 	}
 }

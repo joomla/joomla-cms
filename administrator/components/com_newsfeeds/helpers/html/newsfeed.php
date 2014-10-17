@@ -12,12 +12,9 @@ defined('_JEXEC') or die;
 JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
 
 /**
- * Utility class for creating HTML Grids
- *
- * @static
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
- * @since       1.5
+ * Utility class for creating HTML Grids.
+ * 
+ * @since  1.5
  */
 class JHtmlNewsfeed
 {

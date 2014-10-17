@@ -56,13 +56,11 @@ class JResponseJsonTest extends TestCase
 	 */
 	public function testSimpleSuccess()
 	{
-		ob_start();
-		echo new JResponseJson;
-		$output = ob_get_clean();
+		$output = new JResponseJson;
 
 		$response = json_decode($output);
 
-		$this->assertEquals(true, $response->success);
+		$this->assertTrue($response->success);
 	}
 
 	/**
@@ -78,15 +76,13 @@ class JResponseJsonTest extends TestCase
 		$data->value   = 5;
 		$data->average = 7.9;
 
-		ob_start();
-		echo new JResponseJson($data);
-		$output = ob_get_clean();
+		$output = new JResponseJson($data);
 
 		$response = json_decode($output);
 
-		$this->assertEquals(true, $response->success);
-		$this->assertEquals(5, $response->data->value);
-		$this->assertEquals(7.9, $response->data->average);
+		$this->assertTrue($response->success);
+		$this->assertSame(5, $response->data->value);
+		$this->assertSame(7.9, $response->data->average);
 	}
 
 	/**
@@ -101,14 +97,12 @@ class JResponseJsonTest extends TestCase
 	 */
 	public function testFailureWithException()
 	{
-		ob_start();
-		echo new JResponseJson(new Exception('This and that went wrong'));
-		$output = ob_get_clean();
+		$output = new JResponseJson(new Exception('This and that went wrong'));
 
 		$response = json_decode($output);
 
-		$this->assertEquals(false, $response->success);
-		$this->assertEquals('This and that went wrong', $response->message);
+		$this->assertFalse($response->success);
+		$this->assertSame('This and that went wrong', $response->message);
 	}
 
 	/**
@@ -127,16 +121,14 @@ class JResponseJsonTest extends TestCase
 		$data->value   = 6;
 		$data->average = 8.9;
 
-		ob_start();
-		echo new JResponseJson($data, 'Something went wrong', true);
-		$output = ob_get_clean();
+		$output = new JResponseJson($data, 'Something went wrong', true);
 
 		$response = json_decode($output);
 
-		$this->assertEquals(false, $response->success);
-		$this->assertEquals('Something went wrong', $response->message);
-		$this->assertEquals(6, $response->data->value);
-		$this->assertEquals(8.9, $response->data->average);
+		$this->assertFalse($response->success);
+		$this->assertSame('Something went wrong', $response->message);
+		$this->assertSame(6, $response->data->value);
+		$this->assertSame(8.9, $response->data->average);
 	}
 
 	/**
@@ -154,16 +146,14 @@ class JResponseJsonTest extends TestCase
 		$app->enqueueMessage('You should not do that', 'warning');
 		JFactory::$application = $app;
 
-		ob_start();
-		echo new JResponseJson(new Exception('A major error occured'));
-		$output = ob_get_clean();
+		$output = new JResponseJson(new Exception('A major error occured'));
 
 		$response = json_decode($output);
 
-		$this->assertEquals(false, $response->success);
-		$this->assertEquals('A major error occured', $response->message);
-		$this->assertEquals('This part was successful', $response->messages->message[0]);
-		$this->assertEquals('You should not do that', $response->messages->warning[0]);
+		$this->assertFalse($response->success);
+		$this->assertSame('A major error occured', $response->message);
+		$this->assertSame('This part was successful', $response->messages->message[0]);
+		$this->assertSame('You should not do that', $response->messages->warning[0]);
 	}
 
 	/**
@@ -184,15 +174,13 @@ class JResponseJsonTest extends TestCase
 		$app->enqueueMessage('You should not do that', 'warning');
 		JFactory::$application = $app;
 
-		ob_start();
-		echo new JResponseJson(new Exception('A major error occured'), null, false, true);
-		$output = ob_get_clean();
+		$output = new JResponseJson(new Exception('A major error occured'), null, false, true);
 
 		$response = json_decode($output);
 
-		$this->assertEquals(false, $response->success);
-		$this->assertEquals('A major error occured', $response->message);
-		$this->assertEquals(null, $response->messages);
+		$this->assertFalse($response->success);
+		$this->assertSame('A major error occured', $response->message);
+		$this->assertNull($response->messages);
 	}
 
 	/**
@@ -210,14 +198,12 @@ class JResponseJsonTest extends TestCase
 		$app->enqueueMessage('This one was also successful');
 		JFactory::$application = $app;
 
-		ob_start();
-		echo new JResponseJson;
-		$output = ob_get_clean();
+		$output = new JResponseJson;
 
 		$response = json_decode($output);
 
-		$this->assertEquals(true, $response->success);
-		$this->assertEquals('This part was successful', $response->messages->message[0]);
-		$this->assertEquals('This one was also successful', $response->messages->message[1]);
+		$this->assertTrue($response->success);
+		$this->assertSame('This part was successful', $response->messages->message[0]);
+		$this->assertSame('This one was also successful', $response->messages->message[1]);
 	}
 }

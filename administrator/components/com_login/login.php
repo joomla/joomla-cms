@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 $input = JFactory::getApplication()->input;
 $task = $input->get('task');
+
 if ($task != 'login' && $task != 'logout')
 {
 	$input->set('task', '');

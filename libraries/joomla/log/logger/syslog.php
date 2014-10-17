@@ -82,6 +82,7 @@ class JLogLoggerSyslog extends JLogLogger
 		{
 			$sysOptions = $sysOptions | LOG_PID;
 		}
+
 		if ($this->options['sys_use_stderr'])
 		{
 			$sysOptions = $sysOptions | LOG_PERROR;
