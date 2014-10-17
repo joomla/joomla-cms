@@ -748,6 +748,7 @@ class JModelListTest extends TestCaseDatabase
 			);
 
 		// Simulate user input
+		$applicationMock->input = new JInput(array());
 		$applicationMock->input->set('filter_order', 'usercol');
 		$applicationMock->input->set('filter_order_Dir', 'DESC');
 
@@ -1002,6 +1003,7 @@ class JModelListTest extends TestCaseDatabase
 				$this->equalTo('state.key'), $this->equalTo('defaultValue')
 			);
 
+		$applicationMock->input = new JInput(array());
 		JFactory::$application = $applicationMock;
 
 		$this->assertEquals('defaultValue', $this->object->getUserStateFromRequest('state.key', '', 'defaultValue'));
@@ -1031,6 +1033,7 @@ class JModelListTest extends TestCaseDatabase
 				$this->equalTo('state.key'), $this->equalTo('requestValue')
 			);
 
+		$applicationMock->input = new JInput(array());
 		$applicationMock->input->set('request.key', 'requestValue');
 
 		JFactory::$application = $applicationMock;
@@ -1057,6 +1060,7 @@ class JModelListTest extends TestCaseDatabase
 				$this->returnValue(null)
 			);
 
+		$applicationMock->input = new JInput(array());
 		$applicationMock->input->set('request.key', 'requestValue');
 
 		JFactory::$application = $applicationMock;
