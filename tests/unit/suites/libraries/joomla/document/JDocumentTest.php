@@ -257,10 +257,10 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @testdox  Test that addScriptVersion with default params and $this->mediaVersion set returns an instance of $this
 	 *
-	 * @covers   JDocument::addScriptVersion()
-	 * @uses     JDocument::addScript()
-	 * @uses     JDocument::getMediaVersion()
-	 * @uses     JDocument::setMediaVersion()
+	 * @covers   JDocument::addScriptVersion
+	 * @uses     JDocument::addScript
+	 * @uses     JDocument::getMediaVersion
+	 * @uses     JDocument::setMediaVersion
 	 */
 	public function testEnsureAddScriptVersionWithDefaultParamsAndMediaVersionSetReturnsThisObject()
 	{
@@ -305,10 +305,10 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @testdox  Test that addStyleSheetVersion with default params and $this->mediaVersion set returns an instance of $this
 	 *
-	 * @covers   JDocument::addStyleSheetVersion()
-	 * @uses     JDocument::addStylesheet()
-	 * @uses     JDocument::getMediaVersion()
-	 * @uses     JDocument::setMediaVersion()
+	 * @covers   JDocument::addStyleSheetVersion
+	 * @uses     JDocument::addStylesheet
+	 * @uses     JDocument::getMediaVersion
+	 * @uses     JDocument::setMediaVersion
 	 */
 	public function testEnsureAddStylesheetVersionWithDefaultParamsAndMediaVersionSetReturnsThisObject()
 	{
@@ -531,7 +531,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testTheDefaultReturnForGetLineEnd()
 	{
-		$this->assertEmpty($this->object->_getLineEnd());
+		$this->assertSame("\12", $this->object->_getLineEnd());
 	}
 
 	/**
@@ -553,8 +553,8 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @testdox  Test that loadRenderer returns the intended object
 	 *
-	 * @covers   JDocument::loadRenderer()
-	 * @uses     JDocument::setType()
+	 * @covers   JDocument::loadRenderer
+	 * @uses     JDocument::setType
 	 */
 	public function testEnsureLoadRendererReturnsCorrectObject()
 	{
@@ -566,8 +566,8 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 * @testdox  Test that loadRenderer throws an exception for an unknown renderer type
 	 * @expectedException  RuntimeException
 	 *
-	 * @covers   JDocument::loadRenderer()
-	 * @uses     JDocument::setType()
+	 * @covers   JDocument::loadRenderer
+	 * @uses     JDocument::setType
 	 */
 	public function testEnsureLoadRendererThrowsException()
 	{

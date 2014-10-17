@@ -68,12 +68,4 @@ class JDocumentRendererTest extends PHPUnit_Framework_TestCase
 			$this->object->getContentType()
 		);
 	}
-
-	public function testConvertingRelativeToAbsoluteLinks()
-	{
-		$this->assertEquals(
-			'<a href="http://example.com//blog/1-page">Blog</a>',
-			TestReflection::invoke($this->object, '_relToAbs', '<a href="/blog/1-page">Blog</a>')
-		);
-	}
 }
