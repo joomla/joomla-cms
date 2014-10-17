@@ -1,8 +1,556 @@
 <?php
 /**
- * @version    1.0.0
- * @package    joomla-cms
- * @copyright  Copyright (C) 2014 David Jardin - djumla Webentwicklung
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link       http://www.djumla.de
- */ 
+ * @package     Joomla.UnitTest
+ * @subpackage  Model
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+require_once __DIR__ . '/stubs/listmodeltest.php';
+
+/**
+ * Test class for JModelList.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Model
+ *
+ * @since       3.4
+ */
+class JModelListTest extends TestCaseDatabase
+{
+	/**
+	 * @var    JModelList
+	 * @since  3.4
+	 */
+	public $object;
+
+	/**
+	 * Setup each test.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function setUp()
+	{
+		parent::setUp();
+
+		// create mock of abstract class JModelForm to test concrete methods in there
+		$this->object = new JModelList(array("filter_fields" => array("field1", "field2")));
+	}
+
+	/**
+	 * Tests the __construct method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testFilterFieldsIsAppliedInConstructor()
+	{
+		$this->assertSame(array("field1", "field2"), TestReflection::getValue($this->object, 'filter_fields'));
+	}
+
+	/**
+	 * Tests the __construct method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testConstructorIsSetInConstructor()
+	{
+		$this->assertSame("com_j.list", TestReflection::getValue($this->object, 'context'));
+	}
+
+	/**
+	 * Tests the getActiveFilters method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testActiveFiltersWithStringAsStateAreReturned()
+	{
+		$this->object->setState('filter.field1', 'string');
+		$this->assertSame(array('field1' => 'string'), $this->object->getActiveFilters());
+	}
+
+	/**
+	 * Tests the getActiveFilters method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testActiveFiltersWithNumericValuesAsStateAreReturned()
+	{
+		$this->object->setState('filter.field2', 5);
+		$this->assertSame(array('field2' => 5), $this->object->getActiveFilters());
+	}
+
+	/**
+	 * Tests the getStoreId method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetStoreIdIncludesAllStates()
+	{
+		$method = new ReflectionMethod('JModelList', 'getStoreId');
+		$method->setAccessible(true);
+
+		TestReflection::setValue($this->object, '__state_set', true);
+		$this->object->setState('list.start', '0');
+		$this->object->setState('list.limit', '100');
+		$this->object->setState('list.ordering', 'enabled');
+		$this->object->setState('list.direction', 'ASC');
+
+		$expectedString = "com_j.list:1:0:100:enabled:ASC";
+
+		$this->assertSame(md5($expectedString), $method->invokeArgs($this->object, array('1')));
+	}
+
+	/**
+	 * Tests the getListQuery method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetListQueryReturnsQueryObject()
+	{
+		$method = new ReflectionMethod('JModelList', 'getListQuery');
+		$method->setAccessible(true);
+
+		$this->assertInstanceOf('JDatabaseQuery', $method->invoke($this->object));
+	}
+
+	/**
+	 * Tests the _getListQuery method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetListQueryCachingMethodReturnsQueryObject()
+	{
+		TestReflection::setValue($this->object, '__state_set', true);
+
+		$method = new ReflectionMethod('JModelList', '_getListQuery');
+		$method->setAccessible(true);
+
+		$this->assertInstanceOf('JDatabaseQuery', $method->invoke($this->object));
+	}
+
+	/**
+	 * Tests the _getListQuery method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testListQueryGetsCached()
+	{
+		TestReflection::setValue($this->object, '__state_set', true);
+
+		$method = new ReflectionMethod('JModelList', '_getListQuery');
+		$method->setAccessible(true);
+
+		$method->invoke($this->object);
+
+		$this->assertInstanceOf('JDatabaseQuery', TestReflection::getValue($this->object, 'query'));
+	}
+
+	/**
+	 * Tests the getStart method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetStartReadsFromCache()
+	{
+		TestReflection::setValue($this->object, '__state_set', true);
+
+		// Write value in "getStart" cache
+		TestReflection::setValue($this->object, 'cache', array('cf97226bf7fdca1fe5579e6d96dca3c3' => 123));
+
+		$this->assertSame(123, $this->object->getStart());
+	}
+
+	/**
+	 * Tests the getStart method.
+	 *
+	 * @since   3.4
+	 *
+	 * @dataProvider getStartDataProvider
+	 *
+	 * @return  void
+	 */
+	public function testGetStartCalculatesCorrectly($start, $limit, $total, $totalCacheKey, $expected)
+	{
+		TestReflection::setValue($this->object, '__state_set', true);
+
+		// Write value for "total" into the cache object to work around the getTotal call
+		TestReflection::setValue($this->object, 'cache', array($totalCacheKey => $total));
+
+		$this->object->setState('list.start', $start);
+		$this->object->setState('list.limit', $limit);
+
+		$this->assertSame($expected, $this->object->getStart());
+	}
+
+	/**
+	 * Tests the getStart method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetStartWritesToCache()
+	{
+		TestReflection::setValue($this->object, '__state_set', true);
+
+		$this->object->getStart();
+
+		$this->assertArrayHasKey('cf97226bf7fdca1fe5579e6d96dca3c3', TestReflection::getValue($this->object, 'cache'));
+	}
+
+	/**
+	 * Tests the getTotal method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetTotalReadsFromCache()
+	{
+		TestReflection::setValue($this->object, '__state_set', true);
+
+		// Write value in "getTotal" cache
+		TestReflection::setValue($this->object, 'cache', array('ccfb8bb6ff97e9d0d01febabbed622c9' => 123));
+
+		$this->assertSame(123, $this->object->getTotal());
+	}
+
+	/**
+	 * Tests the getTotal method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetTotalReturnsFalseOnEmptyQuery()
+	{
+		TestReflection::setValue($this->object, '__state_set', true);
+
+		$this->assertFalse($this->object->getTotal());
+	}
+
+	/**
+	 * Tests the getTotal method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetTotalReturnsCorrectTotalCount()
+	{
+		$object = new ListModelTest();
+
+		// don't run populateState as this blows up
+		TestReflection::setValue($object, '__state_set', true);
+
+		$this->assertEquals(4, $object->getTotal());
+	}
+
+	/**
+	 * Tests the getTotal method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetTotalStoresTotalCountInCache()
+	{
+		$object = new ListModelTest();
+
+		// don't run populateState as this blows up
+		TestReflection::setValue($object, '__state_set', true);
+
+		$object->getTotal();
+
+		$objectCache = TestReflection::getValue($object, 'cache');
+
+		$this->assertArrayHasKey('2815428b0b5aadc23925b739c08d4c96', $objectCache);
+		$this->assertEquals(4, $objectCache['2815428b0b5aadc23925b739c08d4c96']);
+	}
+
+	/**
+	 * Tests the getPagination method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetPaginationReadsFromCache()
+	{
+		TestReflection::setValue($this->object, '__state_set', true);
+
+		// Write value in "getPagination" cache
+		TestReflection::setValue($this->object, 'cache', array('0b072c19169b805b8ecca41340f0e20a' => new stdClass));
+
+		$this->assertInstanceOf('stdClass', $this->object->getPagination());
+	}
+
+	/**
+	 * Tests the getPagination method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetPaginationReturnsProperPaginationObject()
+	{
+		TestReflection::setValue($this->object, '__state_set', true);
+
+		// Write value for "total" into the cache object to work around the getTotal call
+		TestReflection::setValue($this->object, 'cache', array('30e29215b4fac06b4ea59894161c5b70' => 100));
+		$this->object->setState('list.start', 0);
+		$this->object->setState('list.limit', 30);
+
+		$paginationObject = $this->object->getPagination();
+
+		$this->assertInstanceOf('JPagination', $paginationObject);
+		$this->assertSame(100, $paginationObject->total);
+		$this->assertSame(0, $paginationObject->limitstart);
+		$this->assertSame(30, $paginationObject->limit);
+	}
+
+	/**
+	 * Tests the getPagination method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetPaginationSavesPaginationObjectInCache()
+	{
+		TestReflection::setValue($this->object, '__state_set', true);
+
+		$paginationObject = $this->object->getPagination();
+
+		$this->assertArrayHasKey('0b072c19169b805b8ecca41340f0e20a', TestReflection::getValue($this->object, 'cache'));
+	}
+
+	/**
+	 * Tests the getItems method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetItemsReadsFromCache()
+	{
+		TestReflection::setValue($this->object, '__state_set', true);
+
+		// Write value in "getItems" cache
+		TestReflection::setValue($this->object, 'cache', array('8ca32876bd8539c7d3eb54bda89b5ac7' => array()));
+
+		$this->assertSame(array(), $this->object->getItems());
+	}
+
+	/**
+	 * Tests the getItems method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetItemsReturnsItemsFromDatabase()
+	{
+		$object = new ListModelTest();
+
+		// don't run populateState as this blows up
+		TestReflection::setValue($object, '__state_set', true);
+
+		$itemsReturned = $object->getItems();
+		$itemsExpected = array(
+			(object) array("id" => 1),
+			(object) array("id" => 2),
+			(object) array("id" => 3),
+			(object) array("id" => 4),
+		);
+
+		$this->assertCount(4, $itemsReturned);
+		$this->assertEquals($itemsExpected, $itemsReturned);
+	}
+
+	/**
+	 * Tests the getItems method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetItemsAppliesLimit()
+	{
+		$object = new ListModelTest();
+
+		// don't run populateState as this blows up
+		TestReflection::setValue($object, '__state_set', true);
+		$object->setState('list.start', 0);
+		$object->setState('list.limit', 2);
+
+		$itemsReturned = $object->getItems();
+		$itemsExpected = array(
+			(object) array("id" => 1),
+			(object) array("id" => 2)
+		);
+
+		$this->assertCount(2, $itemsReturned);
+		$this->assertEquals($itemsExpected, $itemsReturned);
+	}
+
+	/**
+	 * Tests the getItems method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetItemsAppliesOffset()
+	{
+		$object = new ListModelTest();
+
+		// don't run populateState as this blows up
+		TestReflection::setValue($object, '__state_set', true);
+		$object->setState('list.start', 2);
+		$object->setState('list.limit', 2);
+
+		$itemsReturned = $object->getItems();
+		$itemsExpected = array(
+			(object) array("id" => 3),
+			(object) array("id" => 4)
+		);
+
+		$this->assertCount(2, $itemsReturned);
+		$this->assertEquals($itemsExpected, $itemsReturned);
+	}
+
+	/**
+	 * Tests the getItems method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetItemsStoresItemsInObjectCache()
+	{
+		$object = new ListModelTest();
+
+		// don't run populateState as this blows up
+		TestReflection::setValue($object, '__state_set', true);
+		$object->setState('list.start', 0);
+		$object->setState('list.limit', 1);
+
+		$object->getItems();
+
+		$objectCache = TestReflection::getValue($object, 'cache');
+
+		$this->assertArrayHasKey('ecbe76894d32ce7af659e46be7f2a9f0', $objectCache);
+		$this->assertEquals(array((object) array("id" => 1)), $objectCache['ecbe76894d32ce7af659e46be7f2a9f0']);
+	}
+
+	/**
+	 * Tests the loadFormData method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testListInfoIsAppendedToFormData()
+	{
+		$method = new ReflectionMethod('JModelList', 'loadFormData');
+		$method->setAccessible(true);
+
+		$applicationMock = $this->getMockApplication();
+		$applicationMock->expects($this->once())
+			->method('getUserState')
+			->with(
+				$this->equalTo('com_j.list'),
+				$this->equalTo(new stdClass)
+			)
+			->will(
+				$this->returnValue((object) array("foo" => "bar"))
+			);
+
+		JFactory::$application = $applicationMock;
+
+		$this->object->setState('list.direction', 'ASC');
+		$this->object->setState('list.limit', 30);
+		$this->object->setState('list.ordering', 'enabled');
+		$this->object->setState('list.start', 0);
+
+		$expected = (object) array(
+			"foo" => "bar",
+			"list" => array(
+				'direction' => 'ASC',
+				'limit' => 30,
+				'ordering' => 'enabled',
+				'start' => 0
+			)
+		);
+
+		$this->assertEquals($expected, $method->invoke($this->object));
+	}
+
+	/**
+	 * Tests the loadFormData method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testLoadFormDataDoesNotOverwriteListInfo()
+	{
+		$method = new ReflectionMethod('JModelList', 'loadFormData');
+		$method->setAccessible(true);
+
+		$data = (object) array("foo" => "bar", "list" => "foobar");
+
+		$applicationMock = $this->getMockApplication();
+		$applicationMock->expects($this->once())
+			->method('getUserState')
+			->with(
+				$this->equalTo('com_j.list'),
+				$this->equalTo(new stdClass)
+			)
+			->will($this->returnValue($data));
+
+		JFactory::$application = $applicationMock;
+
+		$this->assertEquals($data, $method->invoke($this->object));
+	}
+
+	/**
+	 * data provider for testGetStartCalculatesCorrectly
+	 *
+	 * @since   3.4
+	 *
+	 * @return array
+	 */
+	public function getStartDataProvider()
+	{
+		return array(
+			array(0, 30, 87,  '30e29215b4fac06b4ea59894161c5b70F', 0),
+			array(30, 30, 87, '7b2ec67b92bf302ff8c5a4ab575baf7f', 30),
+			array(60, 30, 87, 'a061a820ad5a502c73bb4577849dc090', 60),
+			array(67, 30, 87, '1d1114ae603b8e6ed4f536c7f1d0c827', 60),
+			array(88, 30, 87, '9ea5981186b1bb5899d8bf4fc4d5e444', 60)
+		);
+	}
+}

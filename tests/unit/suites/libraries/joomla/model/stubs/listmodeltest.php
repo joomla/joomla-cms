@@ -8,13 +8,22 @@
  */
 
 /**
- * Stub to test JModelLegacy.
+ * Stub to test JModelList.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
  * @since       12.3
  */
-class StubModelFoobar extends JModelLegacy
+class ListModelTest extends JModelList
 {
+	public function getListQuery()
+	{
+		$query = parent::getListQuery();
+
+		$query->select('id')
+			->from('jos_dbtest');
+
+		return $query;
+	}
 }

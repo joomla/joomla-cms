@@ -32,6 +32,7 @@ class TestMockApplication
 			'getIdentity',
 			'getRouter',
 			'getTemplate',
+			'getUserState'
 		);
 
 		// Create the mock.
