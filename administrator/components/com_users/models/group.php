@@ -161,6 +161,8 @@ class UsersModelGroup extends JModelAdmin
 		if ((!$iAmSuperAdmin) && ($groupSuperAdmin))
 		{
 			$this->setError(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+
+			return false;
 		}
 
 		/**
@@ -190,6 +192,8 @@ class UsersModelGroup extends JModelAdmin
 				if ((!$otherSuperAdmin) && (!$groupSuperAdmin))
 				{
 					$this->setError(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'));
+
+					return false;
 				}
 			}
 		}
