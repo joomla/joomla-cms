@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Model for component configuration
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigModelComponent extends ConfigModelForm
 {
@@ -83,7 +81,6 @@ class ConfigModelComponent extends ConfigModelForm
 
 		if (empty($form))
 		{
-
 			return false;
 		}
 

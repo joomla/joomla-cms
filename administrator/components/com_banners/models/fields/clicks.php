@@ -12,9 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Clicks Field class for the Joomla Framework.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldClicks extends JFormField
 {

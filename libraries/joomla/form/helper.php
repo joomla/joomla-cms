@@ -112,10 +112,12 @@ class JFormHelper
 		}
 
 		$class = self::loadClass($entity, $type);
+
 		if ($class !== false)
 		{
 			// Instantiate a new type object.
 			$types[$key] = new $class;
+
 			return $types[$key];
 		}
 		else
@@ -190,7 +192,6 @@ class JFormHelper
 		// If the type is complex, add the base type to the paths.
 		if ($pos = strpos($type, '_'))
 		{
-
 			// Add the complex type prefix to the paths.
 			for ($i = 0, $n = count($paths); $i < $n; $i++)
 			{
@@ -209,11 +210,13 @@ class JFormHelper
 
 		// Try to find the class file.
 		$type = strtolower($type) . '.php';
+
 		foreach ($paths as $path)
 		{
 			if ($file = JPath::find($path, $type))
 			{
 				require_once $file;
+
 				if (class_exists($class))
 				{
 					break;

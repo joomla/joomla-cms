@@ -111,6 +111,7 @@ class JFormFieldRepeatable extends JFormField
 
 		JText::script('JAPPLY');
 		JText::script('JCANCEL');
+
 		return implode("\n", $str);
 	}
 }

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Tags component
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsViewTag extends JViewLegacy
 {
@@ -238,7 +236,7 @@ class TagsViewTag extends JViewLegacy
 			{
 				$this->document->setDescription($itemElement->metadesc);
 			}
-			elseif ($itemElement->metadesc && $this->params->get('menu-meta_description'))
+			elseif (!$itemElement->metadesc && $this->params->get('menu-meta_description'))
 			{
 				$this->document->setDescription($this->params->get('menu-meta_description'));
 			}

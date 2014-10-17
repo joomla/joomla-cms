@@ -95,19 +95,4 @@ class JArchiveGzipTest extends JArchiveTestCase
 			JArchiveGzip::isSupported()
 		);
 	}
-
-	/**
-	 * Test...
-	 *
-     * @todo Implement test_getFilePosition().
-	 *
-	 * @return void
-     */
-	public function test_getFilePosition()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
 }

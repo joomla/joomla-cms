@@ -41,7 +41,7 @@ class JFormTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->backupServer = $_SERVER;
 
@@ -545,8 +545,6 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' An empty date for a user_utc filter should return nothing.'
 		);
 
-		$this->markTestIncomplete('Need to deal with SERVER_UTC and USER_UTC filters');
-
 		/**
 			include_once JPATH_BASE . '/libraries/joomla/user/user.php';
 
@@ -1005,16 +1003,6 @@ class JFormTest extends TestCaseDatabase
 			$this->equalTo('jform'),
 			'Line:' . __LINE__ . ' The form control should agree with the options passed in the constructor.'
 		);
-	}
-
-	/**
-	 * Test for JForm::getInstance.
-	 *
-	 * @return void
-	 */
-	public function testGetInstance()
-	{
-		$this->markTestIncomplete();
 	}
 
 	/**

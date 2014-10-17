@@ -363,10 +363,12 @@ class JTwitterFriends extends JTwitterObject
 		{
 			$data['user_id'] = $id;
 		}
+
 		if ($screen_name)
 		{
 			$data['screen_name'] = $screen_name;
 		}
+
 		if ($id == null && $screen_name == null)
 		{
 			// We don't have a valid entry

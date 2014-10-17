@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('radio');
 /**
  * Provides input for TOS
  *
- * @package     Joomla.Plugin
- * @subpackage  User.profile
- * @since       2.5.5
+ * @since  2.5.5
  */
 class JFormFieldTos extends JFormFieldRadio
 {

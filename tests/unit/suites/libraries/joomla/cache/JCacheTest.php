@@ -517,6 +517,8 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing Gc().
 	 *
+	 * @medium
+	 *
 	 * @return void
 	 */
 	public function testGc()
@@ -618,7 +620,6 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 * @return void
 	 *
 	 * @dataProvider casesGetStorage
-	 * @todo Implement test_getStorage().
 	 */
 	public function testGetStorage($handler, $options, $expected)
 	{
