@@ -287,32 +287,6 @@ class JTableTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test for setRules method.
-	 *
-	 * @return  void
-	 *
-	 * @todo   Implement testSetRules().
-	 */
-	public function testSetRules()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test for getRules method.
-	 *
-	 * @return void
-	 *
-	 * @todo   Implement testGetRules().
-	 */
-	public function testGetRules()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Test for reset method.
 	 *
 	 * @return  void

@@ -60,7 +60,6 @@ class JGithubPackageSearchTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageSearch::issues
-     * @todo   Implement testIssues().
      */
     public function testIssues()
     {
@@ -80,7 +79,6 @@ class JGithubPackageSearchTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageSearch::issues
-	 * @todo   Implement testIssues().
 	 *
 	 * @expectedException UnexpectedValueException
 	 */
@@ -94,7 +92,6 @@ class JGithubPackageSearchTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JGithubPackageSearch::repositories
-     * @todo   Implement testRepositories().
      */
     public function testRepositories()
     {
@@ -114,7 +111,6 @@ class JGithubPackageSearchTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageSearch::users
-     * @todo   Implement testUsers().
      */
     public function testUsers()
     {
@@ -134,7 +130,6 @@ class JGithubPackageSearchTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageSearch::email
-     * @todo   Implement testEmail().
      */
     public function testEmail()
     {

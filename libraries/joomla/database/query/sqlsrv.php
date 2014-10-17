@@ -98,7 +98,6 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 				if ($this instanceof JDatabaseQueryLimitable && ($this->limit > 0 || $this->offset > 0))
 				{
-
 					$query = $this->processLimit($query, $this->limit, $this->offset);
 				}
 

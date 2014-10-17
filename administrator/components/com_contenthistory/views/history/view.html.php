@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of contenthistory.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contenthistory
- * @since       3.2
+ * @since  3.2
  */
 class ContenthistoryViewHistory extends JViewLegacy
 {

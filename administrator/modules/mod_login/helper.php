@@ -32,6 +32,14 @@ abstract class ModLoginHelper
 			return '';
 		}
 
+		usort(
+			$languages,
+			function ($a, $b)
+			{
+				return strcmp($a["value"], $b["value"]);
+			}
+		);
+
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULTLANGUAGE')));
 
 		return JHtml::_('select.genericlist', $languages, 'lang', ' class="advancedSelect"', 'value', 'text', null);

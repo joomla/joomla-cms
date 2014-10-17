@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Checkin Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_checkin
- * @since       1.6
+ * @since  1.6
  */
 class CheckinModelCheckin extends JModelList
 {

@@ -14,9 +14,7 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
 /**
  * Index view class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderViewIndex extends JViewLegacy
 {
@@ -46,6 +44,7 @@ class FinderViewIndex extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -81,10 +80,12 @@ class FinderViewIndex extends JViewLegacy
 			JToolbarHelper::publishList('index.publish');
 			JToolbarHelper::unpublishList('index.unpublish');
 		}
+
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'index.delete');
 		}
+
 		if ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('index.purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', false);

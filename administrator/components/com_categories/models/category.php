@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Categories Component Category Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesModelCategory extends JModelAdmin
 {
