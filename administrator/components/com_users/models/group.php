@@ -200,7 +200,7 @@ class UsersModelGroup extends JModelAdmin
 
 		if (JFactory::getApplication()->input->get('task') == 'save2copy')
 		{
-			$data['title'] = $this->generateNewTitle($data['parent_id'], $data['title']);
+			$data['title'] = $this->generateGroupTitle($data['parent_id'], $data['title']);
 		}
 
 		// Proceed with the save
@@ -291,7 +291,7 @@ class UsersModelGroup extends JModelAdmin
 	}
 
 	/**
-	 * Method to change the title of group
+	 * Method to generate the title of group on Save as Copy action
 	 *
 	 * @param   integer  $parentId  The id of the parent.
 	 * @param   string   $title     The title of group
@@ -300,7 +300,7 @@ class UsersModelGroup extends JModelAdmin
 	 *
 	 * @since   3.3.7
 	 */
-	protected function generateNewTitle($parentId, $title)
+	protected function generateGroupTitle($parentId, $title)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
