@@ -578,7 +578,7 @@ class JModelList extends JModelLegacy
 			// Support old ordering field
 			$oldOrdering = $app->input->get('filter_order');
 
-			if (!empty($oldOrdering) && in_array($value, $this->filter_fields))
+			if (!empty($oldOrdering) && in_array($oldOrdering, $this->filter_fields))
 			{
 				$this->setState('list.ordering', $oldOrdering);
 			}
