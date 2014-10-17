@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Registry\Registry;
 
 /**
- * Wrapper class for JHttpWrapperFactory
+ * Wrapper class for JHttpFactory
  *
  * @package     Joomla.Platform
  * @subpackage  Http
