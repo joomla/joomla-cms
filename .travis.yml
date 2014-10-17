@@ -8,13 +8,16 @@ php:
 
 before_script:
   - composer self-update
+  - pyrus install -f pear/PHP_CodeSniffer-1.5.5
+  - phpenv rehash
   - mysql -e 'create database joomla_ut;'
-  - mysql joomla_ut < tests/unit/suites/database/stubs/mysql.sql
+  - mysql joomla_ut < tests/unit/schema/mysql.sql
   - psql -c 'create database joomla_ut;' -U postgres
-  - psql -d joomla_ut -a -f tests/unit/suites/database/stubs/postgresql.sql
+  - psql -d joomla_ut -a -f tests/unit/schema/postgresql.sql
 
 script:
   - phpunit --configuration travisci-phpunit.xml
+  - phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .
 
 branches:
   except:

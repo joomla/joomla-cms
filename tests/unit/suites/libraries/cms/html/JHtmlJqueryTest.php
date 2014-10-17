@@ -43,7 +43,7 @@ class JHtmlJqueryTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$document = $this->getMockDocument();
 
 		$this->backupServer = $_SERVER;

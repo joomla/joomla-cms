@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Messages component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.6
+ * @since  1.6
  */
 class MessagesViewMessage extends JViewLegacy
 {

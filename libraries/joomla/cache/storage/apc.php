@@ -33,6 +33,7 @@ class JCacheStorageApc extends JCacheStorage
 	public function get($id, $group, $checkTime = true)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+
 		return apc_fetch($cache_id);
 	}
 
@@ -55,7 +56,6 @@ class JCacheStorageApc extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-
 			$name = $key['info'];
 			$namearr = explode('-', $name);
 
@@ -95,6 +95,7 @@ class JCacheStorageApc extends JCacheStorage
 	public function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+
 		return apc_store($cache_id, $data, $this->_lifetime);
 	}
 
@@ -111,6 +112,7 @@ class JCacheStorageApc extends JCacheStorage
 	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+
 		return apc_delete($cache_id);
 	}
 
@@ -135,12 +137,12 @@ class JCacheStorageApc extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-
 			if (strpos($key['info'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
 			{
 				apc_delete($key['info']);
 			}
 		}
+
 		return true;
 	}
 
@@ -202,14 +204,12 @@ class JCacheStorageApc extends JCacheStorage
 
 		if ($data_lock === false)
 		{
-
 			$lock_counter = 0;
 
 			// Loop until you find that the lock has been released.
 			// That implies that data get from other thread has finished
 			while ($data_lock === false)
 			{
-
 				if ($lock_counter > $looptime)
 				{
 					$returning->locked = false;
@@ -221,8 +221,8 @@ class JCacheStorageApc extends JCacheStorage
 				$data_lock = apc_add($cache_id, 1, $locktime);
 				$lock_counter++;
 			}
-
 		}
+
 		$returning->locked = $data_lock;
 
 		return $returning;
@@ -243,6 +243,7 @@ class JCacheStorageApc extends JCacheStorage
 		$cache_id = $this->_getCacheId($id, $group) . '_lock';
 
 		$unlock = apc_delete($cache_id);
+
 		return $unlock;
 	}
 }

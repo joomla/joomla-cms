@@ -220,6 +220,7 @@ class JAccessRules
 				$allowed->set($name, true);
 			}
 		}
+
 		return $allowed;
 	}
 

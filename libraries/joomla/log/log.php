@@ -178,6 +178,7 @@ class JLog
 		{
 			$options['logger'] = 'formattedtext';
 		}
+
 		$options['logger'] = strtolower($options['logger']);
 
 		// Special case - if a Closure object is sent as the callback (in case of JLogLoggerCallback)
@@ -247,7 +248,6 @@ class JLog
 			// Attempt to instantiate the logger object if it doesn't already exist.
 			if (empty($this->loggers[$signature]))
 			{
-
 				$class = 'JLogLogger' . ucfirst($this->configurations[$signature]['logger']);
 
 				if (class_exists($class))
@@ -261,7 +261,7 @@ class JLog
 			}
 
 			// Add the entry to the logger.
-			$this->loggers[$signature]->addEntry(clone($entry));
+			$this->loggers[$signature]->addEntry(clone $entry);
 		}
 	}
 

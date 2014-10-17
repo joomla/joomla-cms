@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Menu List Model for Menus.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
- * @since       1.6
+ * @since  1.6
  */
 class MenusModelMenus extends JModelList
 {
@@ -128,7 +126,7 @@ class MenusModelMenus extends JModelList
 		}
 		catch (RuntimeException $e)
 		{
-			$this->setError($e->getMessage);
+			$this->setError($e->getMessage());
 			return false;
 		}
 

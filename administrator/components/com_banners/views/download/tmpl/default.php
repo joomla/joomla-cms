@@ -25,7 +25,6 @@ defined('_JEXEC') or die;
 			<?php echo $field->input; ?>
 		<?php endforeach; ?>
 		<div class="clr"></div>
-		<!-- window.jQuery('#modal-export').modal('hide') -->
 		<button type="button" class="btn" onclick="this.form.submit();window.top.setTimeout('window.parent.Joomla.closeModalDialog()', 700);"><?php echo JText::_('COM_BANNERS_TRACKS_EXPORT'); ?></button>
 		<button type="button" class="btn" onclick="window.parent.Joomla.closeModalDialog();"><?php echo JText::_('COM_BANNERS_CANCEL'); ?></button>
 

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * TinyMCE Editor Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Editors.tinymce
- * @since       1.5
+ * @since  1.5
  */
 class PlgEditorTinymce extends JPlugin
 {
@@ -221,7 +219,20 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar3_add   = array();
 		$toolbar4_add   = array();
 		$elements       = array();
-		$plugins        = array('autolink', 'lists', 'image', 'charmap', 'print', 'preview', 'anchor', 'pagebreak', 'code', 'save', 'textcolor', 'colorpicker', 'importcss');
+		$plugins        = array(
+			'autolink',
+			'lists',
+			'image',
+			'charmap',
+			'print',
+			'preview',
+			'anchor',
+			'pagebreak',
+			'code',
+			'save',
+			'textcolor',
+			'colorpicker',
+			'importcss');
 		$toolbar1_add[] = 'bold';
 		$toolbar1_add[] = 'italic';
 		$toolbar1_add[] = 'underline';
@@ -776,13 +787,6 @@ class PlgEditorTinymce extends JPlugin
 
 			function jInsertEditorText( text, editor )
 			{
-				if (isBrowserIE())
-				{
-					if (window.parent.tinyMCE)
-					{
-						window.parent.tinyMCE.selectedInstance.selection.moveToBookmark(window.parent.global_ie_bookmark);
-					}
-				}
 				tinyMCE.execCommand('mceInsertContent', false, text);
 			}
 

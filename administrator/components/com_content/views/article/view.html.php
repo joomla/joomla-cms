@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View to edit an article.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentViewArticle extends JViewLegacy
 {
@@ -114,7 +112,7 @@ class ContentViewArticle extends JViewLegacy
 				JToolbarHelper::save2copy('article.save2copy');
 			}
 
-			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
+			if ($this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
 				JToolbarHelper::versions('com_content.article', $this->item->id);
 			}

@@ -180,9 +180,9 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 */
 	public function testGetTaxonomy()
 	{
-		$this->assertThat(
-			$this->object->getTaxonomy(),
-			$this->isType('array')
+		$this->assertInternalType(
+			'array',
+			$this->object->getTaxonomy()
 		);
 	}
 
@@ -202,9 +202,9 @@ class FinderIndexerResultTest extends TestCaseDatabase
 		$taxonomy = $this->object->getTaxonomy('testing');
 
 		// Verify our test item is an instance of JObject
-		$this->assertThat(
-			$taxonomy['Test Item'],
-			$this->isInstanceOf('JObject')
+		$this->assertInstanceOf(
+			'JObject',
+			$taxonomy['Test Item']
 		);
 	}
 
