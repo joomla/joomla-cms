@@ -12,24 +12,20 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
- *
- * @since       11.1
  */
 class JCacheTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @var    JCache
-	 * @access protected
-	 */
+	/** @var JCache */
 	protected $object;
+
+	/** @var array */
+	private $available = array();
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
 	 * @return void
-	 *
-	 * @access protected
 	 */
 	protected function setUp()
 	{
@@ -38,7 +34,29 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 		include_once JPATH_PLATFORM . '/joomla/cache/controller.php';
 		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
 
-		// @todo remove: $this->object = new JCache;
+		$this->checkAvailability();
+	}
+
+	/**
+	 * Check availability of all cache handlers
+	 *
+	 * @return void
+	 */
+	private function checkAvailability()
+	{
+		$config = JFactory::getConfig();
+		$host = $config->get('memcache_server_host', 'localhost');
+		$port = $config->get('memcache_server_port', 11211);
+		$memcacheServerAvailable = @fsockopen($host, $port, $errNo, $errStr, 0.01);
+
+		$this->available['file'] = true;
+		$this->available['apc'] = extension_loaded('apc');
+		$this->available['eaccelerator'] = extension_loaded('eaccelerator') && function_exists('eaccelerator_get');
+		$this->available['memcache'] =
+			extension_loaded('memcache')
+			&& class_exists('Memcache')
+			&& $memcacheServerAvailable;
+		$this->available['xcache'] = extension_loaded('xcache');
 	}
 
 	/**
@@ -623,6 +641,10 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetStorage($handler, $options, $expected)
 	{
+		if (!$this->available[$options['storage']])
+		{
+			$this->markTestSkipped("The {$options['storage']} storage handler is currently not available");
+		}
 		$this->object = JCache::getInstance($handler, $options);
 
 		$this->assertThat(
