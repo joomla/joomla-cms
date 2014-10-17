@@ -104,7 +104,7 @@ class JApplicationWebRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectException RuntimeException
+	 * @expectedException RuntimeException
 	 */
 	public function testFetchControllerWithMissingClass()
 	{
@@ -116,7 +116,7 @@ class JApplicationWebRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectException RuntimeException
+	 * @expectedException RuntimeException
 	 */
 	public function testFetchControllerWithNonController()
 	{
@@ -142,7 +142,7 @@ class JApplicationWebRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectException RuntimeException
+	 * @expectedException RuntimeException
 	 */
 	public function testFetchControllerWithoutPrefixSetThoughNecessary()
 	{
