@@ -72,6 +72,7 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @medium
 	 * @expectedException  RuntimeException
 	 */
 	public function testGetFeedIdn()
