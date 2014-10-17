@@ -447,10 +447,10 @@ class ModulesModelModule extends JModelAdmin
 				{
 					$table->title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', $table->title);
 				}
-				else
-				{
-					$table->title .= ' (2)';
-				}
+
+				$data = $this->generateNewTitle(0, $table->title, $table->position);
+				$table->title = $data[0];
+				
 				// Unpublish duplicate module
 				$table->published = 0;
 
@@ -845,7 +845,7 @@ class ModulesModelModule extends JModelAdmin
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $client->path, null, false, true)
-			||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
+		||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
 
 		if (file_exists($formFile))
 		{
