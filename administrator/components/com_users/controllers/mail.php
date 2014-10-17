@@ -26,7 +26,7 @@ class UsersControllerMail extends JControllerLegacy
 	public function send()
 	{
 		// Redirect to admin index if mass mailer disabled in conf
-                if (JFactory::getApplication()->get('massmailon') != 1) {
+                if (JFactory::getApplication()->get('massmailoff') == 1) {
                         JFactory::getApplication()->redirect(JRoute::_('index.php', false));
                 }
 

@@ -96,7 +96,7 @@ if ($user->authorise('core.manage', 'com_users'))
 		$menu->getParent();
 	}
 	
-	if (JFactory::getApplication()->get('massmailon') == 1)
+	if (JFactory::getApplication()->get('massmailoff') != 1)
         {
 		$menu->addSeparator();
 		$menu->addChild(
