@@ -122,7 +122,7 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests JUser::getInstance() with an error
+	 * Tests JUser::getInstance() with an error. It should return an empty JUser object with an id of 0.
 	 *
 	 * @return  void
 	 *
@@ -132,9 +132,15 @@ class JUserTest extends TestCaseDatabase
 	 */
 	public function testGetInstanceError()
 	{
+		$emptyUser = JUser::getInstance('nobody');
 		$this->assertInstanceOf(
-			JUser::getInstance('nobody'),
-			JUser
+			$emptyUser,
+			'JUser'
+		);
+
+		$this->assertEquals(
+			$emptyUser->id,
+			0
 		);
 	}
 
