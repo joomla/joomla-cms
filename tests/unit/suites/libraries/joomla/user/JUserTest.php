@@ -134,8 +134,8 @@ class JUserTest extends TestCaseDatabase
 	{
 		$emptyUser = JUser::getInstance('nobody');
 		$this->assertInstanceOf(
-			$emptyUser,
-			'JUser'
+			'JUser',
+			$emptyUser
 		);
 
 		$this->assertEquals(
