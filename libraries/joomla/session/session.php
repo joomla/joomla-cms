@@ -625,30 +625,6 @@ class JSession implements IteratorAggregate
 	 */
 	protected function _start()
 	{
-		// Start session if not started
-		if ($this->_state === 'restart')
-		{
-			$this->_handler->regenerate(true, null);
-		}
-		else
-		{
-			$session_name = $this->_handler->getName();
-
-			// Get the JInputCookie object
-			$cookie = $this->_input->cookie;
-
-			if (is_null($cookie->get($session_name)))
-			{
-				$session_clean = $this->_input->get($session_name, false, 'string');
-
-				if ($session_clean)
-				{
-					$this->_handler->setId($session_clean);
-					$cookie->set($session_name, '', time() - 3600);
-				}
-			}
-		}
-
 		$this->_handler->start();
 
 		return true;
