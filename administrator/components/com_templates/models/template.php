@@ -626,36 +626,84 @@ class TemplatesModelTemplate extends JModelForm
 				$htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/layouts/joomla/' . $name);
 			}
 
-			if (JFolder::exists($htmlPath))
+			if (!JFolder::exists($htmlPath))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_OVERRIDE_EXISTS'), 'error');
+				if (!JFolder::create($htmlPath))
+                {
+                    $app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
 
-				return false;
-			}
+                    return false;
+                }
+            }
 
-			if (!JFolder::create($htmlPath))
-			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
 
-				return false;
-			}
+            //different paths based on if module or component (as previously written)
+            $sourcePath = $override;
+            $destinationPath = $htmlPath;
 
-			if (stristr($name, 'mod_') != false)
-			{
-				$return = JFolder::copy($override . '/tmpl', $htmlPath, '', true);
-			}
-			elseif (stristr($override, 'com_') != false)
-			{
-				$return = JFolder::copy($override . '/tmpl', $htmlPath . '/', '', true);
-			}
-			else
-			{
-				$return = JFolder::copy($override, $htmlPath, '', true);
-			}
+            $doCopyComponentOverride = stristr($override, 'com_') != false;
+            $doCopyModuleOverride = stristr($name, 'mod_') != false;
+
+            if ($doCopyComponentOverride || $doCopyModuleOverride)
+            {
+                $sourcePath .= '/tmpl';
+
+                if ($doCopyComponentOverride) {
+                    $destinationPath .= '/';
+                }
+            }
+
+            //Copy each file and add number to the end of the file-name
+            $sourceFiles = JFolder::files($sourcePath);
+            $existingFiles = JFolder::files($destinationPath);
+
+            //No previous overrides just copy and return
+            $return = true;
+            if (!count($existingFiles)) {
+                $return = JFolder::copy($sourcePath, $destinationPath, '', true);
+                $app->enqueueMessage(JText::_('COM_TEMPLATES_OVERRIDE_CREATED') . str_replace(JPATH_ROOT, '', $destinationPath));
+                return $return;
+            }
+
+            //go through each file and copy
+            $overrideIndex = 1;
+            foreach ($sourceFiles as $sourceFile) {
+                $extension = JFile::getExt($sourceFile);
+                $sourceFileName = JFile::stripExt($sourceFile);
+
+                if ($extension != 'php') {
+                    continue;
+                }
+
+                if (in_array($sourceFileName . $overrideIndex . '.' . $extension, $existingFiles)) {
+                    $overrideIndex ++;
+                }
+            }
+
+
+            $filesCopied = array();
+            foreach ($sourceFiles as $sourceFile) {
+                $extension = JFile::getExt($sourceFile);
+                $sourceFileName = JFile::stripExt($sourceFile);
+
+                if ($extension != 'php') {
+                    continue;
+                }
+
+                $destinationFilePath = $destinationPath . $sourceFileName . $overrideIndex . '.' . $extension;
+
+                $return = $return && JFile::copy($sourcePath . DIRECTORY_SEPARATOR . $sourceFile, $destinationFilePath);
+
+                $filesCopied[] = $sourceFileName . $overrideIndex . '.' . $extension;
+            }
+
+
 
 			if ($return)
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_OVERRIDE_CREATED') . str_replace(JPATH_ROOT, '', $htmlPath));
+                $message = $htmlPath . DIRECTORY_SEPARATOR .': ' . implode(', ', $filesCopied);
+
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_OVERRIDE_CREATED') . str_replace(JPATH_ROOT, '', $message));
 
 				return true;
 			}
