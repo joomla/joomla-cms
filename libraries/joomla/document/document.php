@@ -302,7 +302,10 @@ class JDocument
 				}
 				else
 				{
+					// @codeCoverageIgnoreStart
 					throw new RuntimeException('Invalid JDocument Class', 500);
+
+					// @codeCoverageIgnoreEnd
 				}
 			}
 
