@@ -29,7 +29,6 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelDatabase::__construct
 	 * @since   3.4
 	 */
 	public function testChecksDefaultDatabaseDriver()
@@ -42,7 +41,6 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelDatabase::__construct
 	 * @since   34
 	 */
 	public function testChecksInjectedDatabaseDriver()
@@ -58,7 +56,6 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelDatabase::getDb
 	 * @since   12.1
 	 */
 	public function testGetDb()
@@ -74,7 +71,6 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelDatabase::setDb
 	 * @since   12.1
 	 */
 	public function testSetDb()
@@ -90,7 +86,6 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelDatabase::loadDb
 	 * @since   12.1
 	 */
 	public function testLoadDb()
