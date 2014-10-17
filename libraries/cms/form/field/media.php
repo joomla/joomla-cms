@@ -370,15 +370,27 @@ class JFormFieldMedia extends JFormField
 		if ($this->disabled != true)
 		{
 
+			JHtml::_('bootstrap.tooltip');
+
 			$url = ($this->readonly ? '' : ($this->link ? $this->link
 					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
 					. $this->form->getValue($this->authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder);
 
-			JHtml::_('bootstrap.tooltip');
+			if (JFactory::getApplication()->isSite())
+			{
+				JHtml::_('behavior.modal');
+
+				$html[] = '<a class="modal btn" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '" href="' . $url .'" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
+			}
+
+			if (JFactory::getApplication()->isAdmin())
+			{
 			JHtml::_('bootstrap.modal');
 
 			$html[] = '<a href="#imageModal" role="button" class="btn" data-toggle="modal">' . JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
 			$html[] = JHtmlBootstrap::renderModal('imageModal', array('url' => $url, 'title' => JText::_('JLIB_FORM_MEDIA_IMAGE'), 'width' => '800px', 'height' => '600px'));
+			}
+
 			$html[] = '<a class="btn hasTooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
 			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
 			$html[] = 'return false;';
