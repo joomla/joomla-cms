@@ -106,7 +106,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 	/**
 	 * @var    array  The log of connection info of executed SQL statements.
-	 * @since  CMS 3.3.0
+	 * @since  CMS 3.4.0
 	 */
 	protected $connectionInfo = array();
 
@@ -715,7 +715,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  array  connection info of SQL statements executed by the database driver
 	 *
-	 * @since   CMS 3.3.0
+	 * @since   CMS 3.4.0
 	 */
 	public function getConnectionInfo()
 	{
