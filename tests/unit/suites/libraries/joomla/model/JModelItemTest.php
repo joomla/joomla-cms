@@ -36,6 +36,13 @@ class JModelItemTest extends TestCase
 		$this->object = $this->getMockForAbstractClass('JModelItem');
 	}
 
+	/**
+	 * Tests the getStoreId method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
 	public function testCorrectStoreIdIsReturned()
 	{
 		$method = new ReflectionMethod('JModelItem', 'getStoreId');
