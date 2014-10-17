@@ -160,16 +160,9 @@ class UsersModelGroup extends JModelAdmin
 
 		if ((!$iAmSuperAdmin) && ($groupSuperAdmin))
 		{
-			try
-			{
-				throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
-			}
-			catch (Exception $e)
-			{
-				$this->setError($e->getMessage());
+			$this->setError(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
 
-				return false;
-			}
+			return false;
 		}
 
 		/**
@@ -198,18 +191,16 @@ class UsersModelGroup extends JModelAdmin
 				 */
 				if ((!$otherSuperAdmin) && (!$groupSuperAdmin))
 				{
-					try
-					{
-						throw new Exception(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'));
-					}
-					catch (Exception $e)
-					{
-						$this->setError($e->getMessage());
+					$this->setError(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'));
 
-						return false;
-					}
+					return false;
 				}
 			}
+		}
+
+		if (JFactory::getApplication()->input->get('task') == 'save2copy')
+		{
+			$data['title'] = $this->generateGroupTitle($data['parent_id'], $data['title']);
 		}
 
 		// Proceed with the save
@@ -297,5 +288,31 @@ class UsersModelGroup extends JModelAdmin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to generate the title of group on Save as Copy action
+	 *
+	 * @param   integer  $parentId  The id of the parent.
+	 * @param   string   $title     The title of group
+	 *
+	 * @return  string  Contains the modified title.
+	 *
+	 * @since   3.3.7
+	 */
+	protected function generateGroupTitle($parentId, $title)
+	{
+		// Alter the title & alias
+		$table = $this->getTable();
+
+		while ($table->load(array('title' => $title, 'parent_id' => $parentId)))
+		{
+			if ($title == $table->title)
+			{
+				$title = JString::increment($title);
+			}
+		}
+
+		return $title;
 	}
 }
