@@ -132,8 +132,9 @@ class JUserTest extends TestCaseDatabase
 	 */
 	public function testGetInstanceError()
 	{
-		$this->assertFalse(
-			JUser::getInstance('nobody')
+		$this->assertInstanceOf(
+			JUser::getInstance('nobody'),
+			JUser
 		);
 	}
 
