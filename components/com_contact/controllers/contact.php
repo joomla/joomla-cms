@@ -46,7 +46,8 @@ class ContactControllerContact extends JControllerForm
 
 		$app    = JFactory::getApplication();
 		$model  = $this->getModel('contact');
-		$params = JComponentHelper::getParams('com_contact');
+		$params = clone JComponentHelper::getParams('com_contact');
+
 		$stub   = $this->input->getString('id');
 		$id     = (int) $stub;
 
@@ -167,9 +168,9 @@ class ContactControllerContact extends JControllerForm
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   array      $data                  The data to send in the email.
-	 * @param   stdClass   $contact               The user information to send the email to
-	 * @param   boolean    $copy_email_activated  True to send a copy of the email to the user.
+	 * @param   array     $data                  The data to send in the email.
+	 * @param   stdClass  $contact               The user information to send the email to
+	 * @param   boolean   $copy_email_activated  True to send a copy of the email to the user.
 	 *
 	 * @return  boolean  True on success sending the email, false on failure.
 	 *
@@ -194,22 +195,41 @@ class ContactControllerContact extends JControllerForm
 			$subject = $data['contact_subject'];
 			$body    = $data['contact_message'];
 
-			// get additional recipients
-			$additional_recipients = explode(',',$params->get('additional_recipients'));
-			$always_copy_to = explode(',',$params->get('always_copy_to'));
-
 			// Prepare email body
 			$prefix = JText::sprintf('COM_CONTACT_ENQUIRY_TEXT', JUri::base());
 			$body	= $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
 
 			$mail = JFactory::getMailer();
 			$mail->addRecipient($contact->email_to);
-			$mail->addRecipient($additional_recipients);
-			$mail->addCC($always_copy_to);
-			$mail->addReplyTo(array($email, $name));
+
+			$params = $app->getParams('com_contact');
+			$componentConfig = clone JComponentHelper::getParams('com_contact');
+
+			// Carbon copy recipients
+			$contactCc    = explode(',', $params->get('cc_recipients'));
+			$globalCc     = explode(',', $componentConfig->get('cc_recipients'));
+			$ccRecipients = array_merge($contactCc, $globalCc);
+
+			if ($ccRecipients)
+			{
+				$mail->addCC($ccRecipients);
+			}
+
+			// Blind carbon copy recipients
+			$contactBcc    = explode(',', $params->get('bcc_recipients'));
+			$globalBcc     = explode(',', $componentConfig->get('bcc_recipients'));
+			$bccRecipients = array_merge($contactBcc, $globalBcc);
+
+			if ($bccRecipients)
+			{
+				$mail->addBCC($bccRecipients);
+			}
+
+			$mail->addReplyTo($email, $name);
 			$mail->setSender(array($mailfrom, $fromname));
 			$mail->setSubject($sitename . ': ' . $subject);
 			$mail->setBody($body);
+
 			$sent = $mail->Send();
 
 			// If we are supposed to copy the sender, do so.

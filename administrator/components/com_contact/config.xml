@@ -27,7 +27,7 @@
 			<option value="show_with_link">COM_CONTACT_FIELD_VALUE_WITH_LINK
 			</option>
 		</field>
-		
+
 		<field
 			name="save_history"
 			type="radio"
@@ -39,7 +39,7 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		
+
 		<field
 			name="history_limit"
 			type="text"
@@ -722,22 +722,24 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="always_copy_to"
-			type="text"
-			label="JGLOBAL_FIELD_ALWAYS_COPY_TO_LABEL"
-			description="COM_CONTACT_FIELD_ALWAYS_COPY_TO_DESC"
+		<field name="cc_recipients"
+			type="textarea"
+			label="COM_CONTACT_FIELD_CONFIG_EMAIL_CC_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_EMAIL_CC_DESC"
 			class="inputbox"
-			size="30"
+			rows="3"
+			cols="30"
 			validate="email"
 			multiple="multiple"
 		/>
 
-		<field name="additional_recipients"
+		<field name="bcc_recipients"
 			type="textarea"
-			label="JGLOBAL_FIELD_ADDITIONAL_RECIPIENTS_LABEL"
+			label="COM_CONTACT_FIELD_CONFIG_EMAIL_BCC_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_EMAIL_BCC_DESC"
+			class="inputbox"
 			rows="3"
 			cols="30"
-			description="COM_CONTACT_FIELD_CONFIG_ADDITIONAL_RECIPIENTS_GLOBAL_DESC"
 			validate="email"
 			multiple="multiple"
 		/>
