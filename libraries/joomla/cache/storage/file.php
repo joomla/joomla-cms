@@ -55,7 +55,6 @@ class JCacheStorageFile extends JCacheStorage
 	public function get($id, $group, $checkTime = true)
 	{
 		$data = false;
-
 		$path = $this->_getFilePath($id, $group);
 
 		if ($checkTime == false || ($checkTime == true && $this->_checkExpire($id, $group) === true))
@@ -90,14 +89,14 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		parent::getAll();
 
-		$path = $this->_root;
+		$path    = $this->_root;
 		$folders = $this->_folders($path);
-		$data = array();
+		$data    = array();
 
 		foreach ($folders as $folder)
 		{
 			$files = $this->_filesInFolder($path . '/' . $folder);
-			$item = new JCacheStorageHelper($folder);
+			$item  = new JCacheStorageHelper($folder);
 
 			foreach ($files as $file)
 			{
@@ -124,8 +123,8 @@ class JCacheStorageFile extends JCacheStorage
 	public function store($id, $group, $data)
 	{
 		$written = false;
-		$path = $this->_getFilePath($id, $group);
-		$die = '<?php die("Access Denied"); ?>#x#';
+		$path    = $this->_getFilePath($id, $group);
+		$die     = '<?php die("Access Denied"); ?>#x#';
 
 		// Prepend a die string
 		$data = $die . $data;
@@ -196,7 +195,7 @@ class JCacheStorageFile extends JCacheStorage
 
 		switch ($mode)
 		{
-			case 'notgroup':
+			case 'notgroup' :
 				$folders = $this->_folders($this->_root);
 
 				for ($i = 0, $n = count($folders); $i < $n; $i++)
@@ -207,8 +206,8 @@ class JCacheStorageFile extends JCacheStorage
 					}
 				}
 				break;
-			case 'group':
-			default:
+			case 'group' :
+			default :
 				if (is_dir($this->_root . '/' . $folder))
 				{
 					$return = $this->_deleteFolder($this->_root . '/' . $folder);
@@ -277,7 +276,7 @@ class JCacheStorageFile extends JCacheStorage
 		$returning->locklooped = false;
 
 		$looptime = $locktime * 10;
-		$path = $this->_getFilePath($id, $group);
+		$path     = $this->_getFilePath($id, $group);
 
 		$_fileopen = @fopen($path, "r+b");
 
@@ -300,7 +299,7 @@ class JCacheStorageFile extends JCacheStorage
 			{
 				if ($lock_counter > $looptime)
 				{
-					$returning->locked = false;
+					$returning->locked     = false;
 					$returning->locklooped = true;
 					break;
 				}
@@ -336,6 +335,11 @@ class JCacheStorageFile extends JCacheStorage
 		{
 			$ret = @flock($_fileopen, LOCK_UN);
 			@fclose($_fileopen);
+		}
+		else
+		{
+			// Expect true if $_fileopen is false. Ref: http://issues.joomla.org/tracker/joomla-cms/2535
+			$ret = true;
 		}
 
 		return $ret;
@@ -386,14 +390,14 @@ class JCacheStorageFile extends JCacheStorage
 	protected function _getFilePath($id, $group)
 	{
 		$name = $this->_getCacheId($id, $group);
-		$dir = $this->_root . '/' . $group;
+		$dir  = $this->_root . '/' . $group;
 
 		// If the folder doesn't exist try to create it
 		if (!is_dir($dir))
 		{
 			// Make sure the index file is there
 			$indexFile = $dir . '/index.html';
-			@ mkdir($dir) && file_put_contents($indexFile, '<!DOCTYPE html><title></title>');
+			@mkdir($dir) && file_put_contents($indexFile, '<!DOCTYPE html><title></title>');
 		}
 
 		// Make sure the folder exists
@@ -497,6 +501,7 @@ class JCacheStorageFile extends JCacheStorage
 		else
 		{
 			JLog::add('JCacheStorageFile::_deleteFolder' . JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), JLog::WARNING, 'jerror');
+
 			$ret = false;
 		}
 
@@ -581,7 +586,7 @@ class JCacheStorageFile extends JCacheStorage
 		{
 			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file)))
 			{
-				$dir = $path . '/' . $file;
+				$dir   = $path . '/' . $file;
 				$isDir = is_dir($dir);
 
 				if ($isDir)
@@ -673,7 +678,7 @@ class JCacheStorageFile extends JCacheStorage
 				&& (!in_array($file, $exclude))
 				&& (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
 			{
-				$dir = $path . '/' . $file;
+				$dir   = $path . '/' . $file;
 				$isDir = is_dir($dir);
 
 				if ($isDir)
