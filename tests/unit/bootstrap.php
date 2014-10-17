@@ -55,7 +55,15 @@ require_once JPATH_LIBRARIES.'/import.php';
 require_once JPATH_BASE.'/libraries/joomla/session/session.php';
 
 // Exclude all of the tests from code coverage reports
-PHPUnit_Util_Filter::addDirectoryToFilter(JPATH_BASE . '/tests');
+if (method_exists('PHPUnit_Util_Filter', 'addDirectoryToFilter'))
+{
+	PHPUnit_Util_Filter::addDirectoryToFilter(JPATH_BASE . '/tests');
+}
+else
+{
+	$codeCoverageFilter = new PHP_CodeCoverage_Filter;
+	$codeCoverageFilter->addDirectoryToBlacklist(JPATH_BASE . '/tests');
+}
 
 // Set error handling.
 JError::setErrorHandling(E_NOTICE, 'ignore');
