@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -64,6 +64,7 @@ class JCacheControllerOutput extends JCacheController
 		if ($data === false)
 		{
 			$this->_locktest = $this->cache->lock($id, $group);
+
 			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true)
 			{
 				$data = $this->cache->get($id, $group);
@@ -74,10 +75,12 @@ class JCacheControllerOutput extends JCacheController
 		{
 			$data = unserialize(trim($data));
 			echo $data;
+
 			if ($this->_locktest->locked == true)
 			{
 				$this->cache->unlock($id, $group);
 			}
+
 			return true;
 		}
 		else
@@ -87,6 +90,7 @@ class JCacheControllerOutput extends JCacheController
 			{
 				$this->_locktest = $this->cache->lock($id, $group);
 			}
+
 			ob_start();
 			ob_implicit_flush(false);
 

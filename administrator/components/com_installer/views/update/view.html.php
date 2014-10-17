@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,35 +14,33 @@ include_once __DIR__ . '/../default/view.php';
 /**
  * Extension Manager Update View
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.6
+ * @since  1.6
  */
 class InstallerViewUpdate extends InstallerViewDefault
 {
 	/**
-	 * List of update items
+	 * List of update items.
 	 *
 	 * @var array
 	 */
 	protected $items;
 
 	/**
-	 * Model state object
+	 * Model state object.
 	 *
 	 * @var  object
 	 */
 	protected $state;
 
 	/**
-	 * List pagination
+	 * List pagination.
 	 *
 	 * @var JPagination
 	 */
 	protected $pagination;
 
 	/**
-	 * Display the view
+	 * Display the view.
 	 *
 	 * @param   string  $tpl  Template
 	 *
@@ -54,7 +52,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 	{
 		$app = JFactory::getApplication();
 
-		// Get data from the model
+		// Get data from the model.
 		$this->state = $this->get('State');
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
@@ -62,10 +60,12 @@ class InstallerViewUpdate extends InstallerViewDefault
 		$paths->first = '';
 
 		$this->paths = &$paths;
+
 		if (count($this->items) > 0)
 		{
 			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'notice');
 		}
+
 		parent::display($tpl);
 	}
 

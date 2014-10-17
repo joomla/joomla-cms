@@ -3,11 +3,11 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! Administrator Application class
@@ -138,6 +138,15 @@ class JApplicationAdministrator extends JApplicationCms
 
 		// Mark afterRoute in the profiler.
 		JDEBUG ? $this->profiler->mark('afterRoute') : null;
+
+		/*
+		 * Check if the user is required to reset their password
+		 *
+		 * Before $this->route(); "option" and "view" can't be safely read using:
+		 * $this->input->getCmd('option'); or $this->input->getCmd('view');
+		 * ex: due of the sef urls
+		 */
+		$this->checkUserRequireReset('com_admin', 'profile', 'edit', 'com_admin/profile.save,com_admin/profile.apply,com_login/logout');
 
 		// Dispatch the application
 		$this->dispatch();
@@ -281,20 +290,11 @@ class JApplicationAdministrator extends JApplicationCms
 			}
 		}
 
-		// Execute the parent initialiseApp method.
+		// Finish initialisation
 		parent::initialiseApp($options);
 
-		// Load the language to the API
-		$this->loadLanguage();
-
-		// Load the language from the API
-		$lang = $this->getLanguage();
-
-		// Register the language object with JFactory
-		JFactory::$language = $lang;
-
 		// Load Library language
-		$lang->load('lib_joomla', JPATH_ADMINISTRATOR);
+		$this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**

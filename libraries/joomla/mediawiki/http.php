@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,13 +19,13 @@ defined('JPATH_PLATFORM') or die;
 class JMediawikiHttp extends JHttp
 {
 	/**
-     * Constructor.
-     *
-     * @param   JRegistry       $options    Client options object.
-     * @param   JHttpTransport  $transport  The HTTP transport object.
-     *
-     * @since   12.3
-     */
+	 * Constructor.
+	 *
+	 * @param   JRegistry       $options    Client options object.
+	 * @param   JHttpTransport  $transport  The HTTP transport object.
+	 *
+	 * @since   12.3
+	 */
 	public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
 	{
 		// Override the JHttp contructor to use JHttpTransportStream.

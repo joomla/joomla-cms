@@ -2,16 +2,13 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
-if (!class_exists('JFormFieldAccessLevel'))
-{
-	require_once JPATH_LIBRARIES . '/joomla/form/fields/accesslevel.php';
-}
+JFormHelper::loadFieldClass('tag');
 
 /**
  * Form Field class for FOF
@@ -46,7 +43,7 @@ class FOFFormFieldTag extends JFormFieldTag implements FOFFormField
 		$published = $this->element['published']? $this->element['published'] : array(0,1);
 		$name = (string) $this->element['name'];
 
-		$db		= JFactory::getDbo();
+		$db		= FOFPlatform::getInstance()->getDbo();
 		$query	= $db->getQuery(true)
 			->select('a.id AS value, a.path, a.title AS text, a.level, a.published')
 			->from('#__tags AS a')
@@ -78,7 +75,7 @@ class FOFFormFieldTag extends JFormFieldTag implements FOFFormField
 		{
 			// Only item assigned values
 			$values = (array) $this->value;
-			JArrayHelper::toInteger($values);
+            FOFUtilsArray::toInteger($values);
 			$query->where('a.id IN (' . implode(',', $values) . ')');
 		}
 
@@ -99,7 +96,7 @@ class FOFFormFieldTag extends JFormFieldTag implements FOFFormField
 		}
 		elseif (is_array($published))
 		{
-			JArrayHelper::toInteger($published);
+            FOFUtilsArray::toInteger($published);
 			$query->where('a.published IN (' . implode(',', $published) . ')');
 		}
 

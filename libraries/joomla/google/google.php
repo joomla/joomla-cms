@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -76,10 +76,12 @@ class JGoogle
 		{
 			$options = $this->options;
 		}
+
 		if ($this->auth && !$auth)
 		{
 			$auth = $this->auth;
 		}
+
 		switch ($name)
 		{
 			case 'plus':
@@ -115,6 +117,7 @@ class JGoogle
 		{
 			$options = $this->options;
 		}
+
 		switch ($name)
 		{
 			case 'maps':

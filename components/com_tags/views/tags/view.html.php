@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Tags component
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsViewTags extends JViewLegacy
 {
@@ -28,6 +26,13 @@ class TagsViewTags extends JViewLegacy
 
 	protected $params;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed   A string if successful, otherwise a Error object.
+	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
@@ -135,9 +140,9 @@ class TagsViewTags extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$title 		= null;
+		$app   = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -157,8 +162,25 @@ class TagsViewTags extends JViewLegacy
 			$this->params->set('page_subheading', $menu->title);
 		}
 
+		// Set metadata for all tags menu item
+		if ($this->params->get('menu-meta_description'))
+		{
+			$this->document->setDescription($this->params->get('menu-meta_description'));
+		}
+
+		if ($this->params->get('menu-meta_keywords'))
+		{
+			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+		}
+
+		if ($this->params->get('robots'))
+		{
+			$this->document->setMetadata('robots', $this->params->get('robots'));
+		}
+
 		// If this is not a single tag menu item, set the page title to the tag titles
 		$title = '';
+
 		if (!empty($this->item))
 		{
 			foreach ($this->item as $i => $itemElement)
@@ -169,21 +191,22 @@ class TagsViewTags extends JViewLegacy
 					{
 						$title .= ', ';
 					}
+
 					$title .= $itemElement->title;
 				}
 			}
 
 			if (empty($title))
 			{
-				$title = $app->getCfg('sitename');
+				$title = $app->get('sitename');
 			}
-			elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+			elseif ($app->get('sitename_pagetitles', 0) == 1)
 			{
-				$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+				$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 			}
-			elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+			elseif ($app->get('sitename_pagetitles', 0) == 2)
 			{
-				$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+				$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 			}
 
 			$this->document->setTitle($title);
@@ -194,7 +217,7 @@ class TagsViewTags extends JViewLegacy
 				{
 					$this->document->setDescription($this->item->metadesc);
 				}
-				elseif ($itemElement->metadesc && $this->params->get('menu-meta_description'))
+				elseif (!$itemElement->metadesc && $this->params->get('menu-meta_description'))
 				{
 					$this->document->setDescription($this->params->get('menu-meta_description'));
 				}
@@ -213,12 +236,13 @@ class TagsViewTags extends JViewLegacy
 					$this->document->setMetadata('robots', $this->params->get('robots'));
 				}
 
-				if ($app->getCfg('MetaAuthor') == '1')
+				if ($app->get('MetaAuthor') == '1')
 				{
 					$this->document->setMetaData('author', $itemElement->created_user_id);
 				}
 
 				$mdata = $this->item->metadata->toArray();
+
 				foreach ($mdata as $k => $v)
 				{
 					if ($v)
@@ -232,11 +256,11 @@ class TagsViewTags extends JViewLegacy
 		// Add alternative feed link
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{
-			$link	= '&format=feed&limitstart=';
+			$link    = '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
 
 	}

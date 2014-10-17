@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * @deprecated  3.2
@@ -80,7 +80,7 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 				</div>
 			</div>
 		<?php else : ?>
-		<input type="hidden" name="language" value="<?php echo $displayData->getForm()->getValue('language'); ?>" />
+		<input type="hidden" id="jform_language" name="jform[language]" value="<?php echo $displayData->getForm()->getValue('language'); ?>" />
 		<?php endif; ?>
 		<div class="control-group">
 			<div class="control-label">

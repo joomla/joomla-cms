@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,19 +12,16 @@ defined('JPATH_BASE') or die;
 /**
  * Plugin class for redirect handling.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.redirect
- * @since       1.6
+ * @since  1.6
  */
 class PlgSystemRedirect extends JPlugin
 {
 	/**
-	 * Object Constructor.
+	 * Constructor.
 	 *
-	 * @access    public
-	 * @param   object    The object to observe -- event dispatcher.
-	 * @param   object    The configuration object for the plugin.
-	 * @return  void
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *
 	 * @since   1.6
 	 */
 	public function __construct(&$subject, $config)
@@ -36,6 +33,15 @@ class PlgSystemRedirect extends JPlugin
 		set_exception_handler(array('PlgSystemRedirect', 'handleError'));
 	}
 
+	/**
+	 * Method to handle an error condition.
+	 *
+	 * @param   Exception  &$error  The Exception object to be handled.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
 	public static function handleError(&$error)
 	{
 		// Get the application object.
@@ -65,6 +71,19 @@ class PlgSystemRedirect extends JPlugin
 			$db->setQuery($query, 0, 1);
 			$link = $db->loadObject();
 
+			// If no published redirect was found try with the server-relative URL
+			if (!$link or ($link->published != 1))
+			{
+				$currRel = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
+				$query = $db->getQuery(true)
+					->select($db->quoteName('new_url'))
+					->select($db->quoteName('published'))
+					->from($db->quoteName('#__redirect_links'))
+					->where($db->quoteName('old_url') . ' = ' . $db->quote($currRel));
+				$db->setQuery($query, 0, 1);
+				$link = $db->loadObject();
+			}
+
 			// If a redirect exists and is published, permanently redirect.
 			if ($link and ($link->published == 1))
 			{
@@ -74,11 +93,15 @@ class PlgSystemRedirect extends JPlugin
 			{
 				$referer = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
 
-				$db->setQuery('SELECT id FROM ' . $db->quoteName('#__redirect_links') . '  WHERE old_url= ' . $db->quote($current));
+				$query = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from($db->quoteName('#__redirect_links'))
+					->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
+				$db->setQuery($query);
 				$res = $db->loadResult();
+
 				if (!$res)
 				{
-
 					// If not, add the new url to the database.
 					$columns = array(
 						$db->quoteName('old_url'),
@@ -103,14 +126,15 @@ class PlgSystemRedirect extends JPlugin
 				}
 				else
 				{
-					// Existing error url, increase hit counter
+					// Existing error url, increase hit counter.
 					$query->clear()
 						->update($db->quoteName('#__redirect_links'))
-						->set($db->quoteName('hits') . ' = ' . $db->quote('hits') . ' + 1')
+						->set($db->quoteName('hits') . ' = ' . $db->quoteName('hits') . ' + 1')
 						->where('id = ' . (int) $res);
 					$db->setQuery($query);
 					$db->execute();
 				}
+
 				// Render the error page.
 				JError::customErrorPage($error);
 			}

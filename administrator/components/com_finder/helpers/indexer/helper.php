@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,9 +16,7 @@ JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 /**
  * Helper class for the Finder indexer package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderIndexerHelper
 {
@@ -121,6 +119,7 @@ class FinderIndexerHelper
 				for ($j = 0; $j < $charCount; $j++)
 				{
 					$tSplit = JString::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
+
 					if (!empty($tSplit))
 					{
 						$terms[$i] = $tSplit;
@@ -190,6 +189,7 @@ class FinderIndexerHelper
 		if ($store)
 		{
 			$cache[$store] = count($tokens) > 1 ? $tokens : array_shift($tokens);
+
 			return $cache[$store];
 		}
 		else

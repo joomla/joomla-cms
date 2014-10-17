@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,22 +12,22 @@ defined('_JEXEC') or die;
 /**
  * User notes table class
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       2.5
+ * @since  2.5
  */
 class UsersTableNote extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param  JDatabaseDriver  &$db  Database object
+	 * @param   JDatabaseDriver  &$db  Database object
 	 *
 	 * @since  2.5
 	 */
 	public function __construct(&$db)
 	{
 		parent::__construct('#__user_notes', 'id', $db);
+
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_users.note'));
 	}
 
 	/**
@@ -95,6 +95,7 @@ class UsersTableNote extends JTable
 			else
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
@@ -127,6 +128,7 @@ class UsersTableNote extends JTable
 		catch (RuntimeException $e)
 		{
 			$this->setError($this->_db->getMessage());
+
 			return false;
 		}
 
@@ -147,6 +149,7 @@ class UsersTableNote extends JTable
 		}
 
 		$this->setError('');
+
 		return true;
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,22 +47,6 @@ class JFactoryTest extends TestCase
 		$this->restoreFactoryState();
 
 		parent::tearDown();
-	}
-
-	/**
-	 * Tests the JFactory::getApplication method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testGetApplication().
-	 */
-	public function testGetApplication()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**
@@ -230,6 +214,8 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getDate method.
 	 *
+	 * @medium
+	 *
 	 * @return  void
 	 *
 	 * @since   12.3
@@ -300,6 +286,8 @@ class JFactoryTest extends TestCase
 	 */
 	public function testGetUserInstance()
 	{
+		JFactory::$session = $this->getMockSession();
+
 		$this->assertInstanceOf(
 			'JUser',
 			JFactory::getUser(),

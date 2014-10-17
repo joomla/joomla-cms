@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -82,6 +82,7 @@ class JLogLoggerSyslog extends JLogLogger
 		{
 			$sysOptions = $sysOptions | LOG_PID;
 		}
+
 		if ($this->options['sys_use_stderr'])
 		{
 			$sysOptions = $sysOptions | LOG_PERROR;

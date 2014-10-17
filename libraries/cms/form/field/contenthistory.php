@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,13 +44,13 @@ class JFormFieldContenthistory extends JFormField
 			. $this->element['data-typeAlias'] . '&amp;' . JSession::getFormToken() . '=1';
 
 		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal_' . $this->id);
+		JHtml::_('behavior.modal', 'button.modal_' . $this->id);
 
-		$html[] = '		<a class="btn modal_' . $this->id . '" title="' . $label . '" href="' . $link . '"'
+		$html[] = '		<button class="btn modal_' . $this->id . '" title="' . $label . '" href="' . $link . '"'
 			. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
 		$html[] = '<i class="icon-archive"></i>';
 		$html[] = $label;
-		$html[] = '</a>';
+		$html[] = '</button>';
 
 		return implode("\n", $html);
 	}

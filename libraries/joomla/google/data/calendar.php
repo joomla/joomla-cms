@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -56,6 +56,7 @@ class JGoogleDataCalendar extends JGoogleData
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
+
 			return true;
 		}
 		else
@@ -209,6 +210,7 @@ class JGoogleDataCalendar extends JGoogleData
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
+
 			return true;
 		}
 		else
@@ -237,6 +239,7 @@ class JGoogleDataCalendar extends JGoogleData
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
+
 			return true;
 		}
 		else
@@ -335,6 +338,7 @@ class JGoogleDataCalendar extends JGoogleData
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
+
 			return true;
 		}
 		else

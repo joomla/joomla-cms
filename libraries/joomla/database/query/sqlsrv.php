@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -67,16 +67,6 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 				$query .= (string) $this->select;
 				$query .= (string) $this->from;
 
-				if ($this instanceof JDatabaseQueryLimitable && ($this->limit > 0 || $this->offset > 0))
-				{
-					if ($this->order)
-					{
-						$query .= (string) $this->order;
-					}
-
-					$query = $this->processLimit($query, $this->limit, $this->offset);
-				}
-
 				if ($this->join)
 				{
 					// Special case for joins
@@ -96,9 +86,19 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 					$query .= (string) $this->group;
 				}
 
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
+				}
+
 				if ($this->having)
 				{
 					$query .= (string) $this->having;
+				}
+
+				if ($this instanceof JDatabaseQueryLimitable && ($this->limit > 0 || $this->offset > 0))
+				{
+					$query = $this->processLimit($query, $this->limit, $this->offset);
 				}
 
 				break;

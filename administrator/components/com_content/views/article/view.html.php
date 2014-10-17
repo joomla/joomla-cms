@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View to edit an article.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentViewArticle extends JViewLegacy
 {
@@ -32,7 +30,8 @@ class ContentViewArticle extends JViewLegacy
 		if ($this->getLayout() == 'pagebreak')
 		{
 			// TODO: This is really dogy - should change this one day.
-			$eName    = JRequest::getVar('e_name');
+			$input = JFactory::getApplication()->input;
+			$eName = $input->getCmd('e_name');
 			$eName    = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 			$document = JFactory::getDocument();
 			$document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
@@ -44,7 +43,7 @@ class ContentViewArticle extends JViewLegacy
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
-		$this->canDo	= JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_content');
+		$this->canDo	= JHelperContent::getActions('com_content', 'article', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -113,7 +112,7 @@ class ContentViewArticle extends JViewLegacy
 				JToolbarHelper::save2copy('article.save2copy');
 			}
 
-			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
+			if ($this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
 				JToolbarHelper::versions('com_content.article', $this->item->id);
 			}

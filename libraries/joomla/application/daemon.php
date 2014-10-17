@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -564,7 +564,6 @@ class JApplicationDaemon extends JApplicationCli
 		// Attempt to change the identity of user running the process.
 		if (!$this->changeIdentity())
 		{
-
 			// If the identity change was required then we need to return false.
 			if ($this->config->get('application_require_identity'))
 			{

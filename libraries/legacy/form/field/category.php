@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -61,7 +61,6 @@ class JFormFieldCategory extends JFormFieldList
 			// Verify permissions.  If the action attribute is set, then we scan the options.
 			if ((string) $this->element['action'])
 			{
-
 				// Get the current user object.
 				$user = JFactory::getUser();
 
@@ -77,7 +76,6 @@ class JFormFieldCategory extends JFormFieldList
 						unset($options[$i]);
 					}
 				}
-
 			}
 
 			if (isset($this->element['show_root']))

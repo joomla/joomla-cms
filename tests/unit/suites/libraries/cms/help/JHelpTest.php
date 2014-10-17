@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Help
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,9 +39,10 @@ class JHelpTest extends TestCase
 		// Store the factory state so we can mock the necessary objects
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$config      = $this->getMockConfig();
 		JFactory::$session     = $this->getMockSession();
+		JFactory::$language    = JLanguage::getInstance('en-GB');
 
 		// Set up our mock config
 		$this->config = JFactory::getConfig();

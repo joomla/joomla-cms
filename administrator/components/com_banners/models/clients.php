@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of banner records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersModelClients extends JModelList
 {
@@ -114,13 +112,13 @@ class BannersModelClients extends JModelList
 			$this->getState(
 				'list.select',
 				'a.id AS id,' .
-					'a.name AS name,' .
-					'a.contact AS contact,' .
-					'a.checked_out AS checked_out,' .
-					'a.checked_out_time AS checked_out_time, ' .
-					'a.state AS state,' .
-					'a.metakey AS metakey,' .
-					'a.purchase_type as purchase_type'
+				'a.name AS name,' .
+				'a.contact AS contact,' .
+				'a.checked_out AS checked_out,' .
+				'a.checked_out_time AS checked_out_time, ' .
+				'a.state AS state,' .
+				'a.metakey AS metakey,' .
+				'a.purchase_type as purchase_type'
 			)
 		);
 
@@ -159,7 +157,7 @@ class BannersModelClients extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('a.name LIKE ' . $search);
 			}
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -55,82 +55,6 @@ class JCacheStorageXCacheTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testGet().
-	 *
-	 * @return void
-	 */
-	public function testGet()
-	{
-		if ($this->xcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testStore().
-	 *
-	 * @return void
-	 */
-	public function testStore()
-	{
-		if ($this->xcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testRemove().
-	 *
-	 * @return void
-	 */
-	public function testRemove()
-	{
-		if ($this->xcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testClean().
-	 *
-	 * @return void
-	 */
-	public function testClean()
-	{
-		if ($this->xcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
 	 * Testing isSupported().
 	 *
 	 * @return void
@@ -142,24 +66,5 @@ class JCacheStorageXCacheTest extends PHPUnit_Framework_TestCase
 			$this->equalTo($this->xcacheAvailable),
 			'Claims xcache is not loaded.'
 		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test_getCacheId().
-	 *
-	 * @return void
-	 */
-	public function testGetCacheId()
-	{
-		if ($this->xcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
 	}
 }

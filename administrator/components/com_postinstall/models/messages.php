@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Model class to manage postinstall messages
  *
- * @package     Joomla.Administrator
- * @subpackage  com_postinstall
- * @since       3.2
+ * @since  3.2
  */
 class PostinstallModelMessages extends FOFModel
 {
@@ -34,11 +32,11 @@ class PostinstallModelMessages extends FOFModel
 		$db = $this->getDbo();
 
 		// Add a forced extension filtering to the list
-		$eid = $this->input->getInt('eid', 700);
+		$eid = $this->getState('eid', 700);
 		$query->where($db->qn('extension_id') . ' = ' . $db->q($eid));
 
 		// Force filter only enabled messages
-		$published = $this->input->getInt('published', 1);
+		$published = $this->getState('published', 1, 'int');
 		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
 
 		return $query;
@@ -117,7 +115,7 @@ class PostinstallModelMessages extends FOFModel
 	 * Do note that this a core method of the RAD Layer which operates directly
 	 * on the list it's being fed. A little touch of modern magic.
 	 *
-	 * @param   array  $resultArray  A list of items to process
+	 * @param   array  &$resultArray  A list of items to process
 	 *
 	 * @return  void
 	 *
@@ -130,7 +128,7 @@ class PostinstallModelMessages extends FOFModel
 
 		foreach ($resultArray as $key => $item)
 		{
-			// Filter out messages based on dynamically loaded programmatic conditions
+			// Filter out messages based on dynamically loaded programmatic conditions.
 			if (!empty($item->condition_file) && !empty($item->condition_method))
 			{
 				jimport('joomla.filesystem.file');
@@ -150,7 +148,7 @@ class PostinstallModelMessages extends FOFModel
 				}
 			}
 
-			// Load the necessary language files
+			// Load the necessary language files.
 			if (!empty($item->language_extension))
 			{
 				$hash = $item->language_client_id . '-' . $item->language_extension;

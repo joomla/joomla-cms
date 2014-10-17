@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -66,8 +66,6 @@ class JComponentHelperTest extends TestCaseDatabase
 	/**
 	 * Test JComponentHelper::getParams
 	 *
-	 * @todo    Implement testGetParams().
-	 *
 	 * @return  void
 	 */
 	public function testGetParams()
@@ -79,31 +77,5 @@ class JComponentHelperTest extends TestCaseDatabase
 			'1',
 			"com_content's show_print_icon param should be set to 1"
 		);
-	}
-
-	/**
-	 * Test JComponentHelper::filterText
-	 *
-	 * @todo    Implement testFilterText().
-	 *
-	 * @return  void
-	 */
-	public function testFilterText()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test JComponentHelper::renderComponent
-	 *
-	 * @todo    Implement testRenderComponent().
-	 *
-	 * @return  void
-	 */
-	public function testRenderComponent()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

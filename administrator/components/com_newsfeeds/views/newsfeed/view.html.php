@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View to edit a newsfeed.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
- * @since       1.6
+ * @since  1.6
  */
 class NewsfeedsViewNewsfeed extends JViewLegacy
 {
@@ -64,7 +62,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo		= JHelperContent::getActions($this->item->catid, 0, 'com_newsfeeds');
+		$canDo		= JHelperContent::getActions('com_newsfeeds', 'category', $this->item->catid);
 
 		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED'), 'feed newsfeeds');
 

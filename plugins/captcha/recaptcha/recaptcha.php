@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,7 @@ defined('_JEXEC') or die;
  * Recaptcha Plugin.
  * Based on the official recaptcha library( https://developers.google.com/recaptcha/docs/php )
  *
- * @package     Joomla.Plugin
- * @subpackage  Captcha
- * @since       2.5
+ * @since  2.5
  */
 class PlgCaptchaRecaptcha extends JPlugin
 {
@@ -40,10 +38,12 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @since  2.5
 	 */
-	public function onInit($id)
+	public function onInit($id = 'dynamic_recaptcha_1')
 	{
 		$document = JFactory::getDocument();
 		$app      = JFactory::getApplication();
+
+		JHtml::_('jquery.framework');
 
 		$lang   = $this->_getLanguage();
 		$pubkey = $this->params->get('public_key', '');
@@ -62,9 +62,9 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 
 		JHtml::_('script', $server . '/js/recaptcha_ajax.js');
-		$document->addScriptDeclaration('window.addEvent(\'domready\', function()
+		$document->addScriptDeclaration('jQuery( document ).ready(function()
 		{
-			Recaptcha.create("' . $pubkey . '", "dynamic_recaptcha_1", {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
+			Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
 		);
 
 		return true;
@@ -75,24 +75,27 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @param   string  $name   The name of the field.
 	 * @param   string  $id     The id of the field.
-	 * @param   string  $class  The class of the field.
+	 * @param   string  $class  The class of the field. This should be passed as
+	 *                          e.g. 'class="required"'.
 	 *
 	 * @return  string  The HTML to be embedded in the form.
 	 *
 	 * @since  2.5
 	 */
-	public function onDisplay($name, $id, $class)
+	public function onDisplay($name, $id = 'dynamic_recaptcha_1', $class = '')
 	{
-		return '<div id="dynamic_recaptcha_1"></div>';
+		return '<div id="' . $id . '" ' . $class . '></div>';
 	}
 
 	/**
-	  * Calls an HTTP POST function to verify if the user's guess was correct
-	  *
-	  * @return  True if the answer is correct, false otherwise
-	  *
-	  * @since  2.5
-	  */
+	 * Calls an HTTP POST function to verify if the user's guess was correct
+	 *
+	 * @param   string  $code  Answer provided by user.
+	 *
+	 * @return  True if the answer is correct, false otherwise
+	 *
+	 * @since  2.5
+	 */
 	public function onCheckAnswer($code)
 	{
 		$input      = JFactory::getApplication()->input;
@@ -177,10 +180,10 @@ class PlgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Submits an HTTP POST to a reCAPTCHA server.
 	 *
-	 * @param   string  $host
-	 * @param   string  $path
-	 * @param   array   $data
-	 * @param   int     $port
+	 * @param   string  $host  Host name to POST to.
+	 * @param   string  $path  Path on host to POST to.
+	 * @param   array   $data  Data to be POSTed.
+	 * @param   int     $port  Optional port number on host.
 	 *
 	 * @return  array   Response
 	 *

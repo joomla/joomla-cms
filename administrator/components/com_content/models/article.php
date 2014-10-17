@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_conten
 /**
  * Item Model for an Article.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentModelArticle extends JModelAdmin
 {
@@ -90,6 +88,9 @@ class ContentModelArticle extends JModelAdmin
 			// Reset the ID because we are making a copy
 			$this->table->id = 0;
 
+			// Reset hits because we are making a copy
+			$this->table->hits = 0;
+
 			// New category ID
 			$this->table->catid = $categoryId;
 
@@ -102,7 +103,7 @@ class ContentModelArticle extends JModelAdmin
 			// Check the row.
 			if (!$this->table->check())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
@@ -111,7 +112,7 @@ class ContentModelArticle extends JModelAdmin
 			// Store the row.
 			if (!$this->table->store())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
@@ -370,12 +371,19 @@ class ContentModelArticle extends JModelAdmin
 		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
 
-		if ($app->isSite() && $assoc && $this->getState('article.id'))
+		// Check if article is associated
+		if ($this->getState('article.id') && $app->isSite() && $assoc)
 		{
-			$form->setFieldAttribute('language', 'readonly', 'true');
-			$form->setFieldAttribute('catid', 'readonly', 'true');
-			$form->setFieldAttribute('language', 'filter', 'unset');
-			$form->setFieldAttribute('catid', 'filter', 'unset');
+			$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+
+			// Make fields read only
+			if ($associations)
+			{
+				$form->setFieldAttribute('language', 'readonly', 'true');
+				$form->setFieldAttribute('catid', 'readonly', 'true');
+				$form->setFieldAttribute('language', 'filter', 'unset');
+				$form->setFieldAttribute('catid', 'filter', 'unset');
+			}
 		}
 
 		return $form;
@@ -400,7 +408,10 @@ class ContentModelArticle extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('article.id') == 0)
 			{
-				$data->set('catid', $app->input->getInt('catid', $app->getUserState('com_content.articles.filter.category_id')));
+				$filters = (array) $app->getUserState('com_content.articles.filter');
+				$filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
+
+				$data->set('catid', $app->input->getInt('catid', $filterCatId));
 			}
 		}
 
@@ -652,10 +663,6 @@ class ContentModelArticle extends JModelAdmin
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
-
-			// force to array (perhaps move to $this->loadFormData())
-			$data = (array) $data;
-
 			$addform = new SimpleXMLElement('<form />');
 			$fields = $addform->addChild('fields');
 			$fields->addAttribute('name', 'associations');
@@ -665,7 +672,7 @@ class ContentModelArticle extends JModelAdmin
 			$add = false;
 			foreach ($languages as $tag => $language)
 			{
-				if (empty($data['language']) || $tag != $data['language'])
+				if (empty($data->language) || $tag != $data->language)
 				{
 					$add = true;
 					$field = $fieldset->addChild('field');

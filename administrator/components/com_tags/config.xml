@@ -96,11 +96,11 @@
 			default="title"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC">
-				<option value="title">JGLOBAL_TITLE</option>
+				<option value="c.core_title">JGLOBAL_TITLE</option>
 				<option value="match_count">COM_TAGS_MATCH_COUNT</option>
-				<option value="created_time">JGLOBAL_CREATED_DATE</option>
-				<option value="modified_time">JGLOBAL_MODIFIED_DATE</option>
-				<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
+				<option value="c.core_created_time">JGLOBAL_CREATED_DATE</option>
+				<option value="c.core_modified_time">JGLOBAL_MODIFIED_DATE</option>
+				<option value="c.core_publish_up">JGLOBAL_PUBLISHED_DATE</option>
 		</field>
 
 		<field 
@@ -176,7 +176,18 @@
 		name="tagselection"
 		label="COM_TAGS_CONFIG_SELECTION_SETTINGS_LABEL"
 		description="COM_TAGS_CONFIG_SELECTION_SETTINGS_DESC">
-		
+
+		<field
+			name="min_term_length"
+			type="integer"
+			first="1"
+			last="3"
+			step="1"
+			default="3"
+			label="COM_TAGS_CONFIG_TAG_MIN_LENGTH_LABEL"
+			description="COM_TAGS_CONFIG_TAG_MIN_LENGTH_DESC"
+		/>
+
 		<field 
 			name="return_any_or_all" 
 			type="radio" 

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,6 +59,13 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		<!-- Container -->
 		<div class="container">
 			<jdoc:include type="message" />
+			<div id="javascript-warning">
+				<noscript>
+					<div class="alert alert-error">
+						<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
+					</div>
+				</noscript>
+			</div>
 			<div id="container-installation">
 				<jdoc:include type="component" />
 			</div>

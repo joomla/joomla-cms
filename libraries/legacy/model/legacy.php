@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -150,8 +150,8 @@ abstract class JModelLegacy extends JObject
 			case 'model':
 				$filename = strtolower($parts['name']) . '.php';
 				break;
-
 		}
+
 		return $filename;
 	}
 
@@ -175,10 +175,12 @@ abstract class JModelLegacy extends JObject
 		{
 			jimport('joomla.filesystem.path');
 			$path = JPath::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
+
 			if (!$path)
 			{
 				$path = JPath::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
 			}
+
 			if ($path)
 			{
 				require_once $path;
@@ -186,6 +188,7 @@ abstract class JModelLegacy extends JObject
 				if (!class_exists($modelClass))
 				{
 					JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}
@@ -259,11 +262,14 @@ abstract class JModelLegacy extends JObject
 		{
 			$this->addTablePath($config['table_path']);
 		}
+		// @codeCoverageIgnoreStart
 		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
 		}
+
+		// @codeCoverageIgnoreEnd
 
 		// Set the internal state marker - used to ignore setting state from the request
 		if (!empty($config['ignore_request']))
@@ -280,7 +286,6 @@ abstract class JModelLegacy extends JObject
 		{
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
-
 	}
 
 	/**
@@ -321,9 +326,10 @@ abstract class JModelLegacy extends JObject
 			&& $query->having === null)
 		{
 			$query = clone $query;
-			$query->clear('select')->clear('order')->select('COUNT(*)');
+			$query->clear('select')->clear('order')->clear('limit')->select('COUNT(*)');
 
 			$this->_db->setQuery($query);
+
 			return (int) $this->_db->loadResult();
 		}
 
@@ -387,10 +393,12 @@ abstract class JModelLegacy extends JObject
 		if (empty($this->name))
 		{
 			$r = null;
+
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
+
 			$this->name = strtolower($r[1]);
 		}
 

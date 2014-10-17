@@ -134,6 +134,28 @@ class JMediawikiCategoriesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the getCategoryMembers method
+	 *
+	 * @return void
+	 */
+	public function testGetCategoryMembers()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/api.php?action=query&list=categorymembers&cmtitle=Category:Help&format=xml')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getCategoryMembers('Category:Help'),
+			$this->equalTo(simplexml_load_string($this->sampleString))
+		);
+	}
+
+	/**
 	 * Tests the enumerateCategories method
 	 *
 	 * @return void

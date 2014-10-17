@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -74,139 +74,6 @@ class JCacheStorageMemcacheTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return void
-	 *
-	 * @todo Implement testGetConnection().
-	 */
-	public function testGetConnection()
-	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @return void
-	 *
-	 * @todo Implement testGetConfig().
-	 */
-	public function testGetConfig()
-	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @return void
-	 *
-	 * @todo Implement testGet().
-	 */
-	public function testGet()
-	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @return void
-	 *
-	 * @todo Implement testStore().
-	 */
-	public function testStore()
-	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @return void
-	 *
-	 * @todo Implement testRemove().
-	 */
-	public function testRemove()
-	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @return void
-	 *
-	 * @todo Implement testClean().
-	 */
-	public function testClean()
-	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @return void
-	 *
-	 * @todo Implement testGc().
-	 */
-	public function testGc()
-	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
 	 * Testing isSupported().
 	 *
 	 * @return void
@@ -220,25 +87,6 @@ class JCacheStorageMemcacheTest extends PHPUnit_Framework_TestCase
 				$this->isTrue(),
 				'Claims memcache is not loaded.'
 			);
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test_getCacheId().
-	 *
-	 * @return void
-	 */
-	public function testGetCacheId()
-	{
-		if ($this->memcacheAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
 		}
 		else
 		{

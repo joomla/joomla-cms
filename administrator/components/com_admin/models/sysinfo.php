@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Model for the display of system information.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_admin
- * @since       1.6
+ * @since  1.6
  */
 class AdminModelSysInfo extends JModelLegacy
 {
@@ -148,7 +146,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->info['sapi_name']	= php_sapi_name();
 			$this->info['version']		= $version->getLongVersion();
 			$this->info['platform']		= $platform->getLongVersion();
-			$this->info['useragent']	= $_SERVER['HTTP_USER_AGENT'];
+			$this->info['useragent']	= isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "";
 		}
 
 		return $this->info;

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -87,14 +87,17 @@ class JNode extends JObject
 		if ($parent instanceof JNode || is_null($parent))
 		{
 			$hash = spl_object_hash($this);
+
 			if (!is_null($this->_parent))
 			{
 				unset($this->_parent->children[$hash]);
 			}
+
 			if (!is_null($parent))
 			{
 				$parent->_children[$hash] = & $this;
 			}
+
 			$this->_parent = & $parent;
 		}
 	}

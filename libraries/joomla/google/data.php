@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -114,6 +114,7 @@ abstract class JGoogleData
 		{
 			$qurl .= 'pageToken=' . $token;
 		}
+
 		$jdata = $this->query($qurl);
 		$data = json_decode($jdata->body, true);
 
@@ -123,6 +124,7 @@ abstract class JGoogleData
 			{
 				$data['items'] = array_merge($data['items'], $this->listGetData($url, $maxpages - 1, $data['nextPageToken']));
 			}
+
 			return $data['items'];
 		}
 		elseif ($data)

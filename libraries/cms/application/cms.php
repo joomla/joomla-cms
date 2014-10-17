@@ -3,11 +3,11 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! CMS Application class
@@ -84,15 +84,6 @@ class JApplicationCms extends JApplicationWeb
 	 * @since  3.2
 	 */
 	protected $template = null;
-
-	/**
-	 * Indicates that strong encryption should be used.
-	 *
-	 * @var    boolean
-	 * @since  3.2
-	 * @note   Default has been changed as of 3.2. If salted md5 is required, it must be explictly set.
-	 */
-	protected $useStrongEncryption = false;
 
 	/**
 	 * Class constructor.
@@ -234,18 +225,14 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function enqueueMessage($msg, $type = 'message')
 	{
-		// For empty queue, if messages exists in the session, enqueue them first.
-		if (!count($this->_messageQueue))
+		// Don't add empty messages.
+		if (!strlen($msg))
 		{
-			$session = JFactory::getSession();
-			$sessionQueue = $session->get('application.queue');
-
-			if (count($sessionQueue))
-			{
-				$this->_messageQueue = $sessionQueue;
-				$session->set('application.queue', null);
-			}
+			return;
 		}
+
+		// For empty queue, if messages exists in the session, enqueue them first.
+		$this->getMessageQueue();
 
 		// Enqueue the message.
 		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
@@ -284,6 +271,76 @@ class JApplicationCms extends JApplicationWeb
 
 		// Trigger the onAfterRespond event.
 		$this->triggerEvent('onAfterRespond');
+	}
+
+	/**
+	 * Check if the user is required to reset their password.
+	 *
+	 * If the user is required to reset their password will be redirected to the page that manage the password reset.
+	 *
+	 * @param   string  $option  The option that manage the password reset
+	 * @param   string  $view    The view that manage the password reset
+	 * @param   string  $layout  The layout of the view that manage the password reset
+	 * @param   string  $tasks   Permitted tasks
+	 *
+	 * @return  void
+	 */
+	protected function checkUserRequireReset($option, $view, $layout, $tasks)
+	{
+		if (JFactory::getUser()->get('requireReset', 0))
+		{
+			$redirect = false;
+
+			/*
+			 * By default user profile edit page is used.
+			 * That page allows you to change more than just the password and might not be the desired behavior.
+			 * This allows a developer to override the page that manage the password reset.
+			 * (can be configured using the file: configuration.php, or if extended, through the global configuration form)
+			 */
+			$name = $this->getName();
+
+			if ($this->get($name . '_reset_password_override', 0))
+			{
+				$option = $this->get($name . '_reset_password_option', '');
+				$view = $this->get($name . '_reset_password_view', '');
+				$layout = $this->get($name . '_reset_password_layout', '');
+				$tasks = $this->get($name . '_reset_password_tasks', '');
+			}
+
+			$task = $this->input->getCmd('task', '');
+
+			// Check task or option/view/layout
+			if (!empty($task))
+			{
+				$tasks = explode(',', $tasks);
+
+				// Check full task version "option/task"
+				if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false)
+				{
+					// Check short task version, must be on the same option of the view
+					if ($this->input->getCmd('option', '') != $option || array_search($task, $tasks) === false)
+					{
+						// Not permitted task
+						$redirect = true;
+					}
+				}
+			}
+			else
+			{
+				if ($this->input->getCmd('option', '') != $option || $this->input->getCmd('view', '') != $view || $this->input->getCmd('layout', '') != $layout)
+				{
+					// Requested a different option/view/layout
+					$redirect = true;
+				}
+			}
+
+			if ($redirect)
+			{
+				// Redirect to the profile edit page
+				$this->enqueueMessage(JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+				$this->redirect(JRoute::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
+			}
+		}
 	}
 
 	/**
@@ -566,6 +623,15 @@ class JApplicationCms extends JApplicationWeb
 			$this->set('language', $options['language']);
 		}
 
+		// Build our language object
+		$lang = JLanguage::getInstance($this->get('language'), $this->get('debug_lang'));
+
+		// Load the language to the API
+		$this->loadLanguage($lang);
+
+		// Register the language object with JFactory
+		JFactory::$language = $this->getLanguage();
+
 		// Set user specific editor.
 		$user = JFactory::getUser();
 		$editor = $user->getParam('editor', $this->get('editor'));
@@ -581,20 +647,6 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		$this->set('editor', $editor);
-
-		/*
-		 * Set the encryption to use. The availability of strong encryption must always be checked separately.
-		 * Use JCrypt::hasStrongPasswordSupport() to check PHP for this support.
-		 */
-		if (JPluginHelper::isEnabled('user', 'joomla'))
-		{
-			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
-			$userPluginParams = new JRegistry;
-			$userPluginParams->loadString($userPlugin->params);
-			$useStrongEncryption = $userPluginParams->get('strong_passwords', 0);
-
-			$this->config->set('useStrongEncryption', $useStrongEncryption);
-		}
 
 		// Trigger the onAfterInitialise event.
 		JPluginHelper::importPlugin('system');
@@ -745,6 +797,9 @@ class JApplicationCms extends JApplicationWeb
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
+		// Import the user plugin group.
+		JPluginHelper::importPlugin('user');
+
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
 			/*
@@ -789,9 +844,6 @@ class JApplicationCms extends JApplicationWeb
 				}
 			}
 
-			// Import the user plugin group.
-			JPluginHelper::importPlugin('user');
-
 			// OK, the credentials are authenticated and user is authorised.  Let's fire the onLogin event.
 			$results = $this->triggerEvent('onUserLogin', array((array) $response, $options));
 
@@ -813,13 +865,6 @@ class JApplicationCms extends JApplicationWeb
 			{
 				$options['user'] = $user;
 				$options['responseType'] = $response->type;
-
-				if (isset($response->length) && isset($response->secure) && isset($response->lifetime))
-				{
-					$options['length'] = $response->length;
-					$options['secure'] = $response->secure;
-					$options['lifetime'] = $response->lifetime;
-				}
 
 				// The user is successfully logged in. Run the after login events
 				$this->triggerEvent('onUserAfterLogin', array($options));
@@ -947,7 +992,7 @@ class JApplicationCms extends JApplicationWeb
 				}
 				else
 				{
-					$type = null;
+					$type = 'message';
 				}
 
 				// Enqueue the message
@@ -1039,7 +1084,7 @@ class JApplicationCms extends JApplicationWeb
 		// Get the full request URI.
 		$uri = clone JUri::getInstance();
 
-		$router = $this->getRouter();
+		$router = static::getRouter();
 		$result = $router->parse($uri);
 
 		foreach ($result as $key => $value)

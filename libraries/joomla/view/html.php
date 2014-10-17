@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -107,7 +107,7 @@ abstract class JViewHtml extends JViewBase
 		$file = JPath::clean($layout . '.php');
 
 		// Find the layout file path.
-		$path = JPath::find(clone($this->paths), $file);
+		$path = JPath::find(clone $this->paths, $file);
 
 		return $path;
 	}

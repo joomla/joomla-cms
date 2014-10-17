@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_popular
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,7 +103,7 @@ abstract class ModPopularHelper
 	 */
 	public static function getTitle($params)
 	{
-		$who = $params->get('user_id');
+		$who   = $params->get('user_id');
 		$catid = (int) $params->get('catid');
 
 		if ($catid)

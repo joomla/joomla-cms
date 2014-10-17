@@ -2,20 +2,20 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.0
  */
 
 defined('_JEXEC') or die;
 
-$app = JFactory::getApplication();
-$doc = JFactory::getDocument();
-$lang = JFactory::getLanguage();
-$this->language = $doc->language;
+$app             = JFactory::getApplication();
+$doc             = JFactory::getDocument();
+$lang            = JFactory::getLanguage();
+$this->language  = $doc->language;
 $this->direction = $doc->direction;
-$input = $app->input;
-$user = JFactory::getUser();
+$input           = $app->input;
+$user            = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -33,20 +33,22 @@ if (is_file($file))
 }
 
 // Detecting Active Variables
-$option = $input->get('option', '');
-$view = $input->get('view', '');
-$layout = $input->get('layout', '');
-$task = $input->get('task', '');
-$itemid = $input->get('Itemid', '');
-$sitename = $app->getCfg('sitename');
+$option   = $input->get('option', '');
+$view     = $input->get('view', '');
+$layout   = $input->get('layout', '');
+$task     = $input->get('task', '');
+$itemid   = $input->get('Itemid', '');
+$sitename = $app->get('sitename');
 
-$cpanel = ($option === 'com_cpanel');
+$cpanel   = ($option === 'com_cpanel');
 
-$showSubmenu = false;
+$showSubmenu          = false;
 $this->submenumodules = JModuleHelper::getModules('submenu');
+
 foreach ($this->submenumodules as $submenumodule)
 {
 	$output = JModuleHelper::renderModule($submenumodule);
+
 	if (strlen($output))
 	{
 		$showSubmenu = true;
@@ -66,13 +68,14 @@ else
 
 // Template Parameters
 $displayHeader = $this->params->get('displayHeader', '1');
-$statusFixed = $this->params->get('statusFixed', '1');
+$statusFixed   = $this->params->get('statusFixed', '1');
 $stickyToolbar = $this->params->get('stickyToolbar', '1');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
 
 	<!-- Template color -->
@@ -88,7 +91,6 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 			}
 		</style>
 	<?php endif; ?>
-
 	<!-- Template header color -->
 	<?php if ($this->params->get('headerColor')) : ?>
 		<style type="text/css">
@@ -112,7 +114,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<![endif]-->
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . 'layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>" <?php if ($stickyToolbar) : ?>data-spy="scroll" data-target=".subhead" data-offset="87"<?php endif; ?>>
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>" <?php if ($stickyToolbar) : ?>data-spy="scroll" data-target=".subhead" data-offset="87"<?php endif; ?>>
 <!-- Top Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
@@ -145,7 +147,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 							</li>
 							<li class="divider"></li>
 							<li class="">
-								<a href="index.php?option=com_admin&task=profile.edit&id=<?php echo $user->id; ?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT'); ?></a>
+								<a href="index.php?option=com_admin&amp;task=profile.edit&amp;id=<?php echo $user->id; ?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT'); ?></a>
 							</li>
 							<li class="divider"></li>
 							<li class="">
@@ -165,7 +167,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 <?php if ($displayHeader) : ?>
 	<header class="header">
 		<div class="container-logo">
-			<img src="<?php echo $logo; ?>" class="logo" />
+			<img src="<?php echo $logo; ?>" class="logo" alt="<?php echo $sitename;?>" />
 		</div>
 		<div class="container-title">
 			<jdoc:include type="modules" name="title" />
@@ -245,7 +247,8 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 			<div class="btn-group pull-right">
 				<p>
 					<jdoc:include type="modules" name="footer" style="no" />
-					&copy; <?php echo $sitename; ?> <?php echo date('Y'); ?></p>
+					&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
+				</p>
 
 			</div>
 			<jdoc:include type="modules" name="status" style="no" />
@@ -254,15 +257,29 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<!-- End Status Module -->
 <?php endif; ?>
 <jdoc:include type="modules" name="debug" style="none" />
-<?php if ($stickyToolbar) : ?>
+<?php
+// Get the singular view
+$singular = preg_match('/&id=|&view=mail|&layout=edit/', JURI::getInstance()->toString());
+if ($stickyToolbar) : ?>
 	<script>
 		(function($)
 		{
 			// fix sub nav on scroll
 			var $win = $(window)
-				, $nav = $('.subhead')
-				, navTop = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>40<?php else:?>20<?php endif;?>
+				, $nav    = $('.subhead')
+				, navTop  = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>40<?php else:?>20<?php endif;?>
 				, isFixed = 0
+				, edit = <?php echo $singular; ?>
+
+			// Disable cpanel and user menu
+			if (edit)
+			{
+				$('.icon-joomla').addClass('disabled');
+				$('.nav-user').addClass('disabled');
+				$(".admin-logo").removeAttr("href");
+				$('ul.nav-user > li > a').removeAttr("data-toggle").removeAttr("href");
+				$('ul.nav-user > li > .dropdown-menu').empty();
+			}
 
 			processScroll()
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Menu List Model for Menus.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
- * @since       1.6
+ * @since  1.6
  */
 class MenusModelMenus extends JModelList
 {
@@ -128,7 +126,7 @@ class MenusModelMenus extends JModelList
 		}
 		catch (RuntimeException $e)
 		{
-			$this->setError($e->getMessage);
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -168,7 +166,7 @@ class MenusModelMenus extends JModelList
 		// Filter by search in title or menutype
 		if ($search = trim($this->getState('filter.search')))
 		{
-			$search = $db->quote('%' . $db->escape($search, true) . '%');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 			$query->where('(' . 'a.title LIKE ' . $search . ' OR a.menutype LIKE ' . $search . ')');
 		}
 

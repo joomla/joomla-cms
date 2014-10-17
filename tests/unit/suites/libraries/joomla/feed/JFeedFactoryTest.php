@@ -36,7 +36,7 @@ class JFeedFactoryTest extends TestCase
 	public function testGetFeedBad()
 	{
 		$this->markTestSkipped('Unexpected failure testing in CMS environment');
-		$this->_instance->getFeed(JPATH_TESTS . '/tmp/test.bad.feed');
+		$this->_instance->getFeed(JPATH_TEST_STUBS . '/feed/test.bad.feed');
 	}
 
 	/**
@@ -49,7 +49,7 @@ class JFeedFactoryTest extends TestCase
 	 */
 	public function testGetFeedNoParser()
 	{
-		$this->_instance->getFeed(JPATH_TESTS . '/tmp/test.myfeed.feed');
+		$this->_instance->getFeed(JPATH_TEST_STUBS . '/feed/test.myfeed.feed');
 	}
 
 	/**
@@ -79,7 +79,7 @@ class JFeedFactoryTest extends TestCase
 
 		JFeedParserMock::$parseReturn = 'test';
 
-		$this->assertEquals($this->_instance->getFeed(JPATH_TESTS . '/tmp/test.myfeed.feed'), 'test');
+		$this->assertEquals($this->_instance->getFeed(JPATH_TEST_STUBS . '/feed/test.myfeed.feed'), 'test');
 	}
 
 	/**
@@ -91,7 +91,7 @@ class JFeedFactoryTest extends TestCase
 	 */
 	public function testGetFeed()
 	{
-		$this->_instance->getFeed(JPATH_TESTS . '/tmp/test.feed');
+		$this->_instance->getFeed(JPATH_TEST_STUBS . '/feed/test.feed');
 	}
 
 	/**

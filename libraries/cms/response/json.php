@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Response
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -68,7 +68,7 @@ class JResponseJson
 		$this->message = $message;
 
 		// Get the message queue if requested and available
-		$app = JFactory::$application;
+		$app = JFactory::getApplication();
 
 		if (!$ignoreMessages && !is_null($app) && is_callable(array($app, 'getMessageQueue')))
 		{

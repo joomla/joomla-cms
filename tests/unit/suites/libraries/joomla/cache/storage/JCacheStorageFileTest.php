@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -95,8 +95,6 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Implement testRemove().
-	 *
 	 * @return void
 	 */
 	public function testRemove()
@@ -119,8 +117,6 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test...
-	 *
-	 * @todo Implement testClean().
 	 *
 	 * @return void
 	 */
@@ -175,8 +171,6 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Implement testGc().
-	 *
 	 * @return void
 	 */
 	public function testGc()
@@ -199,31 +193,5 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(is_writable(JPATH_BASE . '/cache')),
 			'Claims File is not loaded.'
 		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test_setExpire().
-	 *
-	 * @return void
-	 */
-	public function test_setExpire()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test_getFilePath().
-	 *
-	 * @return void
-	 */
-	public function test_getFilePath()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,10 +41,12 @@ class JTwitterUsers extends JTwitterObject
 		{
 			$data['user_id'] = $id;
 		}
+
 		if ($screen_name)
 		{
 			$data['screen_name'] = $screen_name;
 		}
+
 		if ($id == null && $screen_name == null)
 		{
 			// We don't have a valid entry

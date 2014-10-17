@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Rest model class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelLogin extends JModelForm
 {
@@ -53,10 +51,14 @@ class UsersModelLogin extends JModelForm
 		$app  = JFactory::getApplication();
 		$data = $app->getUserState('users.login.form.data', array());
 
-		// check for return URL from the request first
-		if ($return = JRequest::getVar('return', '', 'method', 'base64'))
+		$input = $app->input;
+		$method = $input->getMethod();
+
+		// Check for return URL from the request first
+		if ($return = $input->$method->get('return', '', 'BASE64'))
 		{
 			$data['return'] = base64_decode($return);
+
 			if (!JUri::isInternal($data['return']))
 			{
 				$data['return'] = '';

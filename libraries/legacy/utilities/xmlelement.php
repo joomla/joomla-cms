@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,6 +32,7 @@ class JXMLElement extends SimpleXMLElement
 	public function name()
 	{
 		JLog::add('JXMLElement::name() is deprecated, use SimpleXMLElement::getName() instead.', JLog::WARNING, 'deprecated');
+
 		return (string) $this->getName();
 	}
 
@@ -89,7 +90,6 @@ class JXMLElement extends SimpleXMLElement
 
 				// Add the newline and indentation to go along with the close tag
 				$out .= ($compressed) ? '' : "\n" . str_repeat($indent, $level);
-
 			}
 			elseif ((string) $this)
 			{

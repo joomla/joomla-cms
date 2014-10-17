@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,9 +15,7 @@ JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/component
 /**
  * Weblinks Component Association Helper
  *
- * @package     Joomla.Site
- * @subpackage  com_weblinks
- * @since       3.0
+ * @since  3.0
  */
 abstract class WeblinksHelperAssociation extends CategoryHelperAssociation
 {

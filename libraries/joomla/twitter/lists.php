@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -151,7 +151,6 @@ class JTwitterLists extends JTwitterObject
 
 		// Send the request.
 		return $this->sendRequest($path, 'GET', $data);
-
 	}
 
 	/**
@@ -227,7 +226,6 @@ class JTwitterLists extends JTwitterObject
 
 		// Send the request.
 		return $this->sendRequest($path, 'GET', $data);
-
 	}
 
 	/**
@@ -279,10 +277,12 @@ class JTwitterLists extends JTwitterObject
 		{
 			$data['user_id'] = $user_id;
 		}
+
 		if ($screen_name)
 		{
 			$data['screen_name'] = $screen_name;
 		}
+
 		if ($user_id == null && $screen_name == null)
 		{
 			// We don't have a valid entry
@@ -620,10 +620,12 @@ class JTwitterLists extends JTwitterObject
 		{
 			$data['user_id'] = $user_id;
 		}
+
 		if ($screen_name)
 		{
 			$data['screen_name'] = $screen_name;
 		}
+
 		if ($user_id == null && $screen_name == null)
 		{
 			// We don't have a valid entry
@@ -703,7 +705,6 @@ class JTwitterLists extends JTwitterObject
 
 		// Send the request.
 		return $this->sendRequest($path, 'GET', $data);
-
 	}
 
 	/**

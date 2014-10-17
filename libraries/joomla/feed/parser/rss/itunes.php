@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,7 +31,7 @@ class JFeedParserRssItunes implements JFeedParserNamespace
 	 */
 	public function processElementForFeed(JFeed $feed, SimpleXMLElement $el)
 	{
-
+		return;
 	}
 
 	/**
@@ -46,6 +46,6 @@ class JFeedParserRssItunes implements JFeedParserNamespace
 	 */
 	public function processElementForFeedEntry(JFeedEntry $entry, SimpleXMLElement $el)
 	{
-
+		return;
 	}
 }

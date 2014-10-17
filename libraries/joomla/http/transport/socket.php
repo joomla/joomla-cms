@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -142,7 +142,15 @@ class JHttpTransportSocket implements JHttpTransport
 			$content .= fgets($connection, 4096);
 		}
 
-		return $this->getResponse($content);
+		$content = $this->getResponse($content);
+
+		// Follow Http redirects
+		if ($content->code >= 301 && $content->code < 400 && isset($content->headers['Location']))
+		{
+			return $this->request($method, new JUri($content->headers['Location']), $data, $headers, $timeout, $userAgent);
+		}
+
+		return $content;
 	}
 
 	/**
@@ -308,5 +316,4 @@ class JHttpTransportSocket implements JHttpTransport
 	{
 		return function_exists('fsockopen') && is_callable('fsockopen');
 	}
-
 }

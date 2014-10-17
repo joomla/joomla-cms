@@ -2,12 +2,15 @@
 /**
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Set flag that this is a parent file.
 const _JEXEC = 1;
+
+// Set fixed precision value to avoid round related issues
+ini_set('precision', 14);
 
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
@@ -50,6 +53,7 @@ class GenerateCss extends JApplicationCli
 			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_brown.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css/colour_brown.css',
 			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_standard.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css/colour_standard.css',
 			JPATH_SITE . '/templates/protostar/less/template.less' => JPATH_SITE . '/templates/protostar/css/template.css',
+			JPATH_SITE . '/templates/beez3/css/turq.less' => JPATH_SITE . '/templates/beez3/css/turq.css',
 			// Below files are to recompile the default Bootstrap CSS files
 			__DIR__ . '/less/bootstrap-extended.less' => JPATH_SITE . '/media/jui/css/bootstrap-extended.css',
 			__DIR__ . '/less/bootstrap-rtl.less' => JPATH_SITE . '/media/jui/css/bootstrap-rtl.css'

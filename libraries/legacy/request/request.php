@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Request
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -49,6 +49,7 @@ class JRequest
 	public static function getURI()
 	{
 		$uri = JUri::getInstance();
+
 		return $uri->toString(array('path', 'query'));
 	}
 
@@ -64,6 +65,7 @@ class JRequest
 	public static function getMethod()
 	{
 		$method = strtoupper($_SERVER['REQUEST_METHOD']);
+
 		return $method;
 	}
 
@@ -102,10 +104,12 @@ class JRequest
 	{
 		// Ensure hash and type are uppercase
 		$hash = strtoupper($hash);
+
 		if ($hash === 'METHOD')
 		{
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 		}
+
 		$type = strtoupper($type);
 		$sig = $hash . $type . $mask;
 
@@ -351,6 +355,7 @@ class JRequest
 
 		// Get the request hash value
 		$hash = strtoupper($hash);
+
 		if ($hash === 'METHOD')
 		{
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
@@ -549,6 +554,7 @@ class JRequest
 			$noHtmlFilter = JFilterInput::getInstance();
 			$var = $noHtmlFilter->clean($var, $type);
 		}
+
 		return $var;
 	}
 }

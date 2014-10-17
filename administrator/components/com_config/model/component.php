@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Model for component configuration
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigModelComponent extends ConfigModelForm
 {
@@ -83,7 +81,6 @@ class ConfigModelComponent extends ConfigModelForm
 
 		if (empty($form))
 		{
-
 			return false;
 		}
 
@@ -104,8 +101,8 @@ class ConfigModelComponent extends ConfigModelForm
 
 		// Load common and local language files.
 		$lang = JFactory::getLanguage();
-			$lang->load($option, JPATH_BASE, null, false, true)
-		||	$lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
+		$lang->load($option, JPATH_BASE, null, false, true)
+		|| $lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
 
 		$result = JComponentHelper::getComponent($option);
 

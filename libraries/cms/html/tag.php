@@ -3,11 +3,11 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class for tags
@@ -76,6 +76,7 @@ abstract class JHtmlTag
 					{
 						$language = $db->quote($language);
 					}
+
 					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
 				}
 			}
@@ -146,6 +147,7 @@ abstract class JHtmlTag
 			$item->title = str_repeat('- ', $repeat) . $item->title;
 			static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 		}
+
 		return static::$items[$hash];
 	}
 
@@ -161,14 +163,19 @@ abstract class JHtmlTag
 	 */
 	public static function ajaxfield($selector='#jform_tags', $allowCustom = true)
 	{
+		// Get the component parameters
+		$params = JComponentHelper::getParams("com_tags");
+		$minTermLength = (int) $params->get("min_term_length", 3);
+
 		// Tags field ajax
 		$chosenAjaxSettings = new JRegistry(
 			array(
-				'selector'    => $selector,
-				'type'        => 'GET',
-				'url'         => JUri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
-				'dataType'    => 'json',
-				'jsonTermKey' => 'like'
+				'selector'      => $selector,
+				'type'          => 'GET',
+				'url'           => JUri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
+				'dataType'      => 'json',
+				'jsonTermKey'   => 'like',
+				'minTermLength' => $minTermLength
 			)
 		);
 		JHtml::_('formbehavior.ajaxchosen', $chosenAjaxSettings);
@@ -183,10 +190,10 @@ abstract class JHtmlTag
 						var customTagPrefix = '#new#';
 
 						// Method to add tags pressing enter
-						$('" . $selector . "_chzn input').keydown(function(event) {
+						$('" . $selector . "_chzn input').keyup(function(event) {
 
-							// Tag is greater than 3 chars and enter pressed
-							if (this.value.length >= 3 && (event.which === 13 || event.which === 188)) {
+							// Tag is greater than the minimum required chars and enter pressed
+							if (this.value && this.value.length >= " . $minTermLength . " && (event.which === 13 || event.which === 188)) {
 
 								// Search an highlighted result
 								var highlighted = $('" . $selector . "_chzn').find('li.active-result.highlighted').first();

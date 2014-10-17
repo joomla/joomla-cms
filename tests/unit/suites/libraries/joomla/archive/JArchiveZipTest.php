@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,21 +35,6 @@ class JArchiveZipTest extends JArchiveTestCase
 		parent::setUp();
 
 		$this->object = new JArchiveZip;
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testCreate().
-	 *
-	 * @return void
-	 */
-	public function testCreate()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**
