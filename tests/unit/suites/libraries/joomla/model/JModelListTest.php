@@ -8,6 +8,7 @@
  */
 
 require_once __DIR__ . '/stubs/listmodeltest.php';
+require_once __DIR__ . '/stubs/listmodelexceptiontest.php';
 
 /**
  * Test class for JModelList.
@@ -367,6 +368,22 @@ class JModelListTest extends TestCaseDatabase
 		TestReflection::setValue($this->object, 'cache', array('8ca32876bd8539c7d3eb54bda89b5ac7' => array()));
 
 		$this->assertSame(array(), $this->object->getItems());
+	}
+
+	/**
+	 * Tests the getItems method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetItemsReturnsFalseOnDatabaseException()
+	{
+		$object = new ListModelExceptionTest;
+
+		TestReflection::setValue($object, '__state_set', true);
+
+		$this->assertSame(false, $object->getItems());
 	}
 
 	/**
@@ -959,6 +976,94 @@ class JModelListTest extends TestCaseDatabase
 
 		$this->assertEquals(0, $this->object->getState('list.start'));
 		$this->assertEquals(0, $this->object->getState('list.limit'));
+	}
+
+	/**
+	 * Tests the populateState method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetuserstateUsesDefault()
+	{
+		// Set up a Mock for JApplicationCms
+		$applicationMock = $this->getMockCmsApp();
+		$applicationMock->method('getUserState')
+			->with(
+				$this->equalTo('state.key')
+			)
+			->will(
+				$this->returnValue(null)
+			);
+
+		$applicationMock->method('setUserState')
+			->with(
+				$this->equalTo('state.key'), $this->equalTo('defaultValue')
+			);
+
+		JFactory::$application = $applicationMock;
+
+		$this->assertEquals('defaultValue', $this->object->getUserStateFromRequest('state.key', '', 'defaultValue'));
+	}
+
+	/**
+	 * Tests the populateState method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetuserstateUsesRequestData()
+	{
+		// Set up a Mock for JApplicationCms
+		$applicationMock = $this->getMockCmsApp();
+		$applicationMock->method('getUserState')
+			->with(
+				$this->equalTo('state.key')
+			)
+			->will(
+				$this->returnValue(null)
+			);
+
+		$applicationMock->method('setUserState')
+			->with(
+				$this->equalTo('state.key'), $this->equalTo('requestValue')
+			);
+
+		$applicationMock->input->set('request.key', 'requestValue');
+
+		JFactory::$application = $applicationMock;
+
+		$this->assertEquals('requestValue', $this->object->getUserStateFromRequest('state.key', 'request.key'));
+	}
+
+	/**
+	 * Tests the populateState method.
+	 *
+	 * @since   3.4
+	 *
+	 * @return  void
+	 */
+	public function testGetuserstateSupportsResetPage()
+	{
+		// Set up a Mock for JApplicationCms
+		$applicationMock = $this->getMockCmsApp();
+		$applicationMock->method('getUserState')
+			->with(
+				$this->equalTo('state.key')
+			)
+			->will(
+				$this->returnValue(null)
+			);
+
+		$applicationMock->input->set('request.key', 'requestValue');
+
+		JFactory::$application = $applicationMock;
+
+		$this->object->getUserStateFromRequest('state.key', 'request.key', 'defaultValue', 'none', true);
+
+		$this->assertEquals(0, JFactory::getApplication()->input->get('limistart'));
 	}
 
 	/**
