@@ -29,7 +29,6 @@ class JModelBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelBase::__construct
 	 * @since   12.1
 	 */
 	public function test__construct()
@@ -49,7 +48,6 @@ class JModelBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelBase::getState
 	 * @since   12.1
 	 */
 	public function testGetState()
@@ -65,7 +63,6 @@ class JModelBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelBase::setState
 	 * @since   12.1
 	 */
 	public function testSetState()
@@ -80,7 +77,6 @@ class JModelBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelBase::loadState
 	 * @since   12.1
 	 */
 	public function testLoadState()
