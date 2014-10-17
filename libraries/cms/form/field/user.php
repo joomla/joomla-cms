@@ -57,7 +57,16 @@ class JFormFieldUser extends JFormField
 		$script[] = '			document.getElementById("' . $this->id . '").className = document.getElementById("' . $this->id . '").className.replace(" invalid" , "");';
 		$script[] = '			' . $this->onchange;
 		$script[] = '		}';
-		$script[] = '		jQuery("#userModal").modal("hide"); ';
+
+		if (JFactory::getApplication()->isSite())
+		{
+			$script[] = '		SqueezeBox.close();';
+		}
+		elseif (JFactory::getApplication()->isSite())
+		{
+			$script[] = '		jQuery("#userModal").modal("hide"); ';
+		}
+
 		$script[] = '	}';
 
 		// Load the current username if available.
@@ -87,15 +96,27 @@ class JFormFieldUser extends JFormField
 		// Create the user select button.
 		if ($this->readonly === false)
 		{
-			// Include jQuery
-			JHtml::_('jquery.framework');
-			JHtml::_('bootstrap.modal');
-
 			// Add the script to the document head.
 			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
-			$html[] = '<a href="#userModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '"><i class="icon-user"></i></a>';
-			$html[] = JHtmlBootstrap::renderModal('userModal', array( 'url' => $link, 'title' => JText::_('JLIB_FORM_CHANGE_USER'),'height' => '600px', 'width' => '800px'), '');
+			if (JFactory::getApplication()->isSite())
+			{
+				// Load the modal behavior script.
+				JHtml::_('behavior.modal', 'a.modal_' . $this->id);
+
+				$html[] = '<a class="btn btn-primary modal_' . $this->id . '" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '" href="' . $link . '"'
+							. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
+				$html[] = '<i class="icon-user"></i></a>';
+			}
+			elseif (JFactory::getApplication()->isAdmin())
+			{
+				// Include jQuery
+				JHtml::_('jquery.framework');
+				JHtml::_('bootstrap.modal');
+
+				$html[] = '<a href="#userModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '"><i class="icon-user"></i></a>';
+				$html[] = JHtmlBootstrap::renderModal('userModal', array( 'url' => $link, 'title' => JText::_('JLIB_FORM_CHANGE_USER'),'height' => '600px', 'width' => '800px'), '');
+			}
 		}
 
 		$html[] = '</div>';
