@@ -31,7 +31,8 @@ class UsersViewMail extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Redirect to admin index if mass mailer disabled in conf
-		if (JFactory::getApplication()->get('massmailoff') == 1) {
+		if (JFactory::getApplication()->get('massmailoff') == 1) 
+		{
 			JFactory::getApplication()->redirect(JRoute::_('index.php', false));
 		}
 
