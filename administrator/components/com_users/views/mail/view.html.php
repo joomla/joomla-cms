@@ -30,6 +30,11 @@ class UsersViewMail extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		// Redirect to admin index if mass mailer disabled in conf
+		if (JFactory::getApplication()->get('massmailon') != 1) {
+			JFactory::getApplication()->redirect(JRoute::_('index.php', false));
+		}
+
 		// Get data from the model
 		$this->form = $this->get('Form');
 
