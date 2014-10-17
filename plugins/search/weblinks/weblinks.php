@@ -14,9 +14,7 @@ require_once JPATH_SITE . '/components/com_weblinks/helpers/route.php';
 /**
  * Weblinks search plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Search.weblinks
- * @since       1.6
+ * @since  1.6
  */
 class PlgSearchWeblinks extends JPlugin
 {
@@ -40,6 +38,7 @@ class PlgSearchWeblinks extends JPlugin
 		static $areas = array(
 			'weblinks' => 'PLG_SEARCH_WEBLINKS_WEBLINKS'
 		);
+
 		return $areas;
 	}
 
@@ -79,10 +78,12 @@ class PlgSearchWeblinks extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
 		$state = array();
+
 		if ($sContent)
 		{
 			$state[] = 1;
 		}
+
 		if ($sArchived)
 		{
 			$state[] = 2;
@@ -94,10 +95,12 @@ class PlgSearchWeblinks extends JPlugin
 		}
 
 		$text = trim($text);
+
 		if ($text == '')
 		{
 			return array();
 		}
+
 		$searchWeblinks = JText::_('PLG_SEARCH_WEBLINKS');
 
 		switch ($phrase)
@@ -116,6 +119,7 @@ class PlgSearchWeblinks extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
+
 				foreach ($words as $word)
 				{
 					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
@@ -125,6 +129,7 @@ class PlgSearchWeblinks extends JPlugin
 					$wheres2[] = 'a.title LIKE ' . $word;
 					$wheres[] = implode(' OR ', $wheres2);
 				}
+
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
@@ -191,6 +196,7 @@ class PlgSearchWeblinks extends JPlugin
 		$rows = $db->loadObjectList();
 
 		$return = array();
+
 		if ($rows)
 		{
 			foreach ($rows as $key => $row)

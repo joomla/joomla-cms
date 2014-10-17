@@ -10,12 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * Weblinks Component Category Tree
+ * Weblinks Component Category Tree.
  *
- * @static
- * @package     Joomla.Site
- * @subpackage  com_weblinks
- * @since       1.6
+ * @since  1.6
  */
 class WeblinksCategories extends JCategories
 {

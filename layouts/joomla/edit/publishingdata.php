@@ -39,7 +39,7 @@ foreach ($fields as $field)
 				$form->setFieldAttribute($f, 'type', 'hidden');
 			}
 
-			echo $form->getControlGroup($f);
+			echo $form->renderField($f);
 			break;
 		}
 	}

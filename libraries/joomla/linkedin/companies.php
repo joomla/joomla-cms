@@ -201,6 +201,7 @@ class JLinkedinCompanies extends JLinkedinObject
 		if ($facet)
 		{
 			$data['facet'] = array();
+
 			for ($i = 0; $i < count($facet); $i++)
 			{
 				if ($facet[$i])
@@ -209,22 +210,27 @@ class JLinkedinCompanies extends JLinkedinObject
 					{
 						$data['facet'][] = 'location,' . $facet[$i];
 					}
+
 					if ($i == 1)
 					{
 						$data['facet'][] = 'industry,' . $facet[$i];
 					}
+
 					if ($i == 2)
 					{
 						$data['facet'][] = 'network,' . $facet[$i];
 					}
+
 					if ($i == 3)
 					{
 						$data['facet'][] = 'company-size,' . $facet[$i];
 					}
+
 					if ($i == 4)
 					{
 						$data['facet'][] = 'num-followers-range,' . $facet[$i];
 					}
+
 					if ($i == 5)
 					{
 						$data['facet'][] = 'fortune,' . $facet[$i];

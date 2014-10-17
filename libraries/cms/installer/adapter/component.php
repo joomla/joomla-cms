@@ -1249,6 +1249,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			$query->clear()
 				->select('e.extension_id')
 				->from('#__extensions AS e')
+				->where('e.type = ' . $db->quote('component'))
 				->where('e.element = ' . $db->quote($option));
 
 			$db->setQuery($query);
@@ -1780,6 +1781,12 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			// @todo remove code: $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
 
 			// @todo remove code: return false;
+		}
+
+		// Set the schema version to be the latest update version
+		if ($this->manifest->update)
+		{
+			$this->parent->setSchemaVersion($this->manifest->update->schemas, $this->parent->extension->extension_id);
 		}
 
 		/**

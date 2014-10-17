@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Templates component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesHelper
 {
@@ -177,7 +175,7 @@ class TemplatesHelper
 
 			if (isset($positions['position']))
 			{
-				$positions = $positions['position'];
+				$positions = (array) $positions['position'];
 			}
 			else
 			{

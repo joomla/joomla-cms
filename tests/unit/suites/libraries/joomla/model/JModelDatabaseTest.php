@@ -37,7 +37,7 @@ class JModelDatabaseTest extends TestCase
 		$this->assertSame(JFactory::getDbo(), $this->_instance->getDb(), 'Checks default database driver.');
 
 		// Create a new datbase mock for injection.
-		$db = TestMockDatabaseDriver::create($this);
+		$db = $this->getMockDatabase();
 		$class = new DatabaseModel(null, $db);
 		$this->assertSame($db, $class->getDb(), 'Checks injected database driver.');
 	}
@@ -101,7 +101,7 @@ class JModelDatabaseTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$database = TestMockDatabaseDriver::create($this);
+		JFactory::$database = $this->getMockDatabase();
 
 		$this->_instance = new DatabaseModel;
 	}

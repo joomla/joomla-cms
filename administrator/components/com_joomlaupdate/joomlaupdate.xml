@@ -26,5 +26,8 @@
 			<language tag="en-GB">language/en-GB.com_joomlaupdate.sys.ini</language>
 		</languages>
 	</administration>
+	<updateservers>
+		<server type="extension" name="Joomla! Update Component Update Site">http://update.joomla.org/core/extensions/com_joomlaupdate.xml</server>
+	</updateservers>
 </extension>
 

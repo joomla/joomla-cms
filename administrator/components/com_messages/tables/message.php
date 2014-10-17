@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Message Table class
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.5
+ * @since  1.5
  */
 class MessagesTableMessage extends JTable
 {

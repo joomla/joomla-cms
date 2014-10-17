@@ -54,7 +54,6 @@ abstract class JStringPunycode
 		$idn = new idna_convert;
 
 		return $idn->decode($punycodeString);
-
 	}
 
 	/**
@@ -113,6 +112,11 @@ abstract class JStringPunycode
 		if (!empty($parsed['query']))
 		{
 			$newuri .= '?' . $parsed['query'];
+		}
+
+		if (!empty($parsed['fragment']))
+		{
+			$newuri .= '#' . $parsed['fragment'];
 		}
 
 		return $newuri;
@@ -179,6 +183,11 @@ abstract class JStringPunycode
 		if (!empty($parsed['query']))
 		{
 			$newuri .= '?' . $parsed['query'];
+		}
+
+		if (!empty($parsed['fragment']))
+		{
+			$newuri .= '#' . $parsed['fragment'];
 		}
 
 		return $newuri;

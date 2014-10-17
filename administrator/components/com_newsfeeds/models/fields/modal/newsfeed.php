@@ -12,9 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Supports a modal newsfeeds picker.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldModal_Newsfeed extends JFormField
 {
@@ -97,20 +95,23 @@ class JFormFieldModal_Newsfeed extends JFormField
 		}
 
 		// Get the title of the linked chart
-		$db = JFactory::getDbo();
-		$db->setQuery(
-			'SELECT name' .
-			' FROM #__newsfeeds' .
-			' WHERE id = '.(int) $this->value
-		);
+		if ((int) $this->value > 0)
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName('name'))
+				->from($db->quoteName('#__newsfeeds'))
+				->where($db->quoteName('id') . ' = ' . (int) $this->value);
+			$db->setQuery($query);
 
-		try
-		{
-			$title = $db->loadResult();
-		}
-		catch (RuntimeException $e)
-		{
-			JError::raiseWarning(500, $e->getMessage);
+			try
+			{
+				$title = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $e->getMessage());
+			}
 		}
 
 		if (empty($title))

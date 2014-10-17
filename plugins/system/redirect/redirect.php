@@ -12,9 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Plugin class for redirect handling.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.redirect
- * @since       1.6
+ * @since  1.6
  */
 class PlgSystemRedirect extends JPlugin
 {
@@ -73,6 +71,19 @@ class PlgSystemRedirect extends JPlugin
 			$db->setQuery($query, 0, 1);
 			$link = $db->loadObject();
 
+			// If no published redirect was found try with the server-relative URL
+			if (!$link or ($link->published != 1))
+			{
+				$currRel = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
+				$query = $db->getQuery(true)
+					->select($db->quoteName('new_url'))
+					->select($db->quoteName('published'))
+					->from($db->quoteName('#__redirect_links'))
+					->where($db->quoteName('old_url') . ' = ' . $db->quote($currRel));
+				$db->setQuery($query, 0, 1);
+				$link = $db->loadObject();
+			}
+
 			// If a redirect exists and is published, permanently redirect.
 			if ($link and ($link->published == 1))
 			{
@@ -82,11 +93,15 @@ class PlgSystemRedirect extends JPlugin
 			{
 				$referer = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
 
-				$db->setQuery('SELECT id FROM ' . $db->quoteName('#__redirect_links') . '  WHERE old_url= ' . $db->quote($current));
+				$query = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from($db->quoteName('#__redirect_links'))
+					->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
+				$db->setQuery($query);
 				$res = $db->loadResult();
+
 				if (!$res)
 				{
-
 					// If not, add the new url to the database.
 					$columns = array(
 						$db->quoteName('old_url'),
@@ -114,7 +129,7 @@ class PlgSystemRedirect extends JPlugin
 					// Existing error url, increase hit counter.
 					$query->clear()
 						->update($db->quoteName('#__redirect_links'))
-						->set($db->quoteName('hits') . ' = ' . $db->quote('hits') . ' + 1')
+						->set($db->quoteName('hits') . ' = ' . $db->quoteName('hits') . ' + 1')
 						->where('id = ' . (int) $res);
 					$db->setQuery($query);
 					$db->execute();

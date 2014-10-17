@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Module model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
- * @since       1.6
+ * @since  1.6
  */
 class ModulesModelModule extends JModelAdmin
 {
@@ -93,6 +91,7 @@ class ModulesModelModule extends JModelAdmin
 		if (empty($pks))
 		{
 			$this->setError(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
+
 			return false;
 		}
 
@@ -107,6 +106,7 @@ class ModulesModelModule extends JModelAdmin
 				if ($cmd == 'c')
 				{
 					$result = $this->batchCopy($commands['position_id'], $pks, $contexts);
+
 					if (is_array($result))
 					{
 						$pks = $result;
@@ -120,6 +120,7 @@ class ModulesModelModule extends JModelAdmin
 				{
 					return false;
 				}
+
 				$done = true;
 			}
 		}
@@ -147,6 +148,7 @@ class ModulesModelModule extends JModelAdmin
 		if (!$done)
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+
 			return false;
 		}
 
@@ -195,6 +197,7 @@ class ModulesModelModule extends JModelAdmin
 				{
 					$position = $value;
 				}
+
 				$table->position = $position;
 
 				// Alter the title if necessary
@@ -210,6 +213,7 @@ class ModulesModelModule extends JModelAdmin
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
+
 					return false;
 				}
 
@@ -243,6 +247,7 @@ class ModulesModelModule extends JModelAdmin
 			else
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+
 				return false;
 			}
 		}
@@ -290,6 +295,7 @@ class ModulesModelModule extends JModelAdmin
 				{
 					$position = $value;
 				}
+
 				$table->position = $position;
 
 				// Alter the title if necessary
@@ -302,12 +308,14 @@ class ModulesModelModule extends JModelAdmin
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
+
 					return false;
 				}
 			}
 			else
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
 				return false;
 			}
 		}
@@ -321,9 +329,10 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to test whether a record can have its state edited.
 	 *
-	 * @param   object    $record    A record object.
+	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
 	 * @since   3.2
 	 */
 	protected function canEditState($record)
@@ -364,9 +373,10 @@ class ModulesModelModule extends JModelAdmin
 			if ($table->load($pk))
 			{
 				// Access checks.
-				if (!$user->authorise('core.delete', 'com_modules.module.'.(int) $pk) || $table->published != -2)
+				if (!$user->authorise('core.delete', 'com_modules.module.' . (int) $pk) || $table->published != -2)
 				{
 					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+
 					return;
 				}
 
@@ -432,14 +442,15 @@ class ModulesModelModule extends JModelAdmin
 
 				// Alter the title.
 				$m = null;
+
 				if (preg_match('#\((\d+)\)$#', $table->title, $m))
 				{
 					$table->title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', $table->title);
 				}
-				else
-				{
-					$table->title .= ' (2)';
-				}
+
+				$data = $this->generateNewTitle(0, $table->title, $table->position);
+				$table->title = $data[0];
+
 				// Unpublish duplicate module
 				$table->published = 0;
 
@@ -448,22 +459,17 @@ class ModulesModelModule extends JModelAdmin
 					throw new Exception($table->getError());
 				}
 
-				// $query = 'SELECT menuid'
-				//	. ' FROM #__modules_menu'
-				//	. ' WHERE moduleid = ' . (int) $pk
-				//	;
-
 				$query	= $db->getQuery(true)
-					->select('menuid')
-					->from('#__modules_menu')
-					->where('moduleid=' . (int) $pk);
+					->select($db->quoteName('menuid'))
+					->from($db->quoteName('#__modules_menu'))
+					->where($db->quoteName('moduleid') . ' = ' . (int) $pk);
 
 				$this->_db->setQuery($query);
 				$rows = $this->_db->loadColumn();
 
 				foreach ($rows as $menuid)
 				{
-					$tuples[] = '(' . (int) $table->id . ',' . (int) $menuid . ')';
+					$tuples[] = (int) $table->id . ',' . (int) $menuid;
 				}
 			}
 			else
@@ -475,7 +481,11 @@ class ModulesModelModule extends JModelAdmin
 		if (!empty($tuples))
 		{
 			// Module-Menu Mapping: Do it in one query
-			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES ' . implode(',', $tuples);
+			$query = $db->getQuery(true)
+				->insert($db->quoteName('#__modules_menu'))
+				->columns($db->quoteName(array('moduleid', 'menuid')))
+				->values($tuples);
+
 			$this->_db->setQuery($query);
 
 			try
@@ -509,6 +519,7 @@ class ModulesModelModule extends JModelAdmin
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('position' => $position, 'title' => $title)))
 		{
 			$title = JString::increment($title);
@@ -562,6 +573,7 @@ class ModulesModelModule extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_modules.module', 'module', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -571,11 +583,12 @@ class ModulesModelModule extends JModelAdmin
 
 		$user = JFactory::getUser();
 
-		// Check for existing module
-		// Modify the form based on Edit State access controls.
-		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_modules.module.'.(int) $id))
-			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_modules'))
-		)
+		/**
+		 * Check for existing module
+		 * Modify the form based on Edit State access controls.
+		 */
+		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_modules.module.' . (int) $id))
+			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_modules'))		)
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -614,6 +627,7 @@ class ModulesModelModule extends JModelAdmin
 
 			// This allows us to inject parameter settings into a new module.
 			$params = $app->getUserState('com_modules.add.module.params');
+
 			if (is_array($params))
 			{
 				$data->set('params', $params);
@@ -675,7 +689,7 @@ class ModulesModelModule extends JModelAdmin
 					}
 					catch (RuntimeException $e)
 					{
-						$this->setError($e->getMessage);
+						$this->setError($e->getMessage());
 
 						return false;
 					}
@@ -710,11 +724,11 @@ class ModulesModelModule extends JModelAdmin
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Determine the page assignment mode.
-			$db->setQuery(
-				'SELECT menuid' .
-				' FROM #__modules_menu' .
-				' WHERE moduleid = ' . $pk
-			);
+			$query	= $db->getQuery(true)
+				->select($db->quoteName('menuid'))
+				->from($db->quoteName('#__modules_menu'))
+				->where($db->quoteName('moduleid') . ' = ' . (int) $pk);
+			$db->setQuery($query);
 			$assigned = $db->loadColumn();
 
 			if (empty($pk))
@@ -831,7 +845,7 @@ class ModulesModelModule extends JModelAdmin
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $client->path, null, false, true)
-			||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
+		||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
 
 		if (file_exists($formFile))
 		{
@@ -849,6 +863,7 @@ class ModulesModelModule extends JModelAdmin
 
 			// Get the help data from the XML file if present.
 			$help = $xml->xpath('/extension/help');
+
 			if (!empty($help))
 			{
 				$helpKey = trim((string) $help[0]['key']);
@@ -857,7 +872,6 @@ class ModulesModelModule extends JModelAdmin
 				$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
 				$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
 			}
-
 		}
 
 		// Load the default advanced params
@@ -916,14 +930,13 @@ class ModulesModelModule extends JModelAdmin
 		// Alter the title and published state for Save as Copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$orig_data  = $input->post->get('jform', array(), 'array');
-			$orig_table = clone($this->getTable());
-			$orig_table->load((int) $orig_data['id']);
+			$orig_table = clone $this->getTable();
+			$orig_table->load((int) $input->getInt('id'));
+			$data['published'] = 0;
 
 			if ($data['title'] == $orig_table->title)
 			{
 				$data['title'] .= ' ' . JText::_('JGLOBAL_COPY');
-				$data['published'] = 0;
 			}
 		}
 

@@ -48,7 +48,7 @@ abstract class JHtmlActionsDropdown
 		$html[] = '</button>';
 		$html[] = '<ul class="dropdown-menu">';
 		$html[] = implode('', static::$dropDownList);
-		$html[] = '</ul></div>';
+		$html[] = '</ul>';
 
 		static::$dropDownList = null;
 

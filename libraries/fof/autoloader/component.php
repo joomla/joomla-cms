@@ -2,7 +2,7 @@
 /**
  *  @package     FrameworkOnFramework
  *  @subpackage  autoloader
- *  @copyright   Copyright (c)2010-2012 Nicholas K. Dionysopoulos
+ *  @copyright   Copyright (c)2010-2014 Nicholas K. Dionysopoulos
  *  @license     GNU General Public License version 2, or later
  */
 
@@ -153,7 +153,7 @@ class FOFAutoloaderComponent
 	 */
 	public function autoload_fof_controller($class_name)
 	{
-		JLog::add(__METHOD__ . "() autoloading $class_name", JLog::DEBUG, 'fof');
+        FOFPlatform::getInstance()->logDebug(__METHOD__ . "() autoloading $class_name");
 
 		static $isCli = null, $isAdmin = null;
 
@@ -270,7 +270,7 @@ class FOFAutoloaderComponent
 	 */
 	public function autoload_fof_model($class_name)
 	{
-		JLog::add(__METHOD__ . "() autoloading $class_name", JLog::DEBUG, 'fof');
+        FOFPlatform::getInstance()->logDebug(__METHOD__ . "() autoloading $class_name");
 
 		static $isCli = null, $isAdmin = null;
 
@@ -386,7 +386,7 @@ class FOFAutoloaderComponent
 	 */
 	public function autoload_fof_view($class_name)
 	{
-		JLog::add(__METHOD__ . "() autoloading $class_name", JLog::DEBUG, 'fof');
+        FOFPlatform::getInstance()->logDebug(__METHOD__ . "() autoloading $class_name");
 
 		static $isCli = null, $isAdmin = null;
 
@@ -534,7 +534,7 @@ class FOFAutoloaderComponent
 	 */
 	public function autoload_fof_table($class_name)
 	{
-		JLog::add(__METHOD__ . "() autoloading $class_name", JLog::DEBUG, 'fof');
+        FOFPlatform::getInstance()->logDebug(__METHOD__ . "() autoloading $class_name");
 
 		static $isCli = null, $isAdmin = null;
 
@@ -635,7 +635,7 @@ class FOFAutoloaderComponent
 	 */
 	public function autoload_fof_helper($class_name)
 	{
-		JLog::add(__METHOD__ . "() autoloading $class_name", JLog::DEBUG, 'fof');
+        FOFPlatform::getInstance()->logDebug(__METHOD__ . "() autoloading $class_name");
 
 		static $isCli = null, $isAdmin = null;
 
@@ -737,7 +737,7 @@ class FOFAutoloaderComponent
 	 */
 	public function autoload_fof_toolbar($class_name)
 	{
-		JLog::add(__METHOD__ . "() autoloading $class_name", JLog::DEBUG, 'fof');
+        FOFPlatform::getInstance()->logDebug(__METHOD__ . "() autoloading $class_name");
 
 		static $isCli = null, $isAdmin = null;
 
@@ -774,10 +774,12 @@ class FOFAutoloaderComponent
 		$component_raw  = $parts[0];
 		$component = 'com_' . $parts[0];
 
+        $platformDirs = FOFPlatform::getInstance()->getPlatformBaseDirs();
+
 		// Get the proper and alternate paths and file names
-		$file = "/components/$component/toolbar.php";
-		$path = ($isAdmin || $isCli) ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		$altPath = ($isAdmin || $isCli) ? JPATH_SITE : JPATH_ADMINISTRATOR;
+		$file    = "/components/$component/toolbar.php";
+		$path    = ($isAdmin || $isCli) ? $platformDirs['admin'] : $platformDirs['public'];
+		$altPath = ($isAdmin || $isCli) ? $platformDirs['public'] : $platformDirs['admin'];
 
 		// Try to find the proper class in the proper path
 
@@ -810,7 +812,7 @@ class FOFAutoloaderComponent
 	 */
 	public function autoload_fof_field($class_name)
 	{
-		JLog::add(__METHOD__ . "() autoloading $class_name", JLog::DEBUG, 'fof');
+        FOFPlatform::getInstance()->logDebug(__METHOD__ . "() autoloading $class_name");
 
 		// @todo
 	}

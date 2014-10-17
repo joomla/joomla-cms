@@ -2,6 +2,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
+ * 
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -11,11 +12,10 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.filesystem.file');
 
-
 // Check modules
-$showRightColumn	= ($this->countModules('position-3') or $this->countModules('position-6') or $this->countModules('position-8'));
-$showbottom			= ($this->countModules('position-9') or $this->countModules('position-10') or $this->countModules('position-11'));
-$showleft			= ($this->countModules('position-4') or $this->countModules('position-7') or $this->countModules('position-5'));
+$showRightColumn = ($this->countModules('position-3') or $this->countModules('position-6') or $this->countModules('position-8'));
+$showbottom      = ($this->countModules('position-9') or $this->countModules('position-10') or $this->countModules('position-11'));
+$showleft        = ($this->countModules('position-4') or $this->countModules('position-7') or $this->countModules('position-5'));
 
 if ($showRightColumn == 0 and $showleft == 0)
 {
@@ -25,18 +25,17 @@ if ($showRightColumn == 0 and $showleft == 0)
 JHtml::_('behavior.framework', true);
 
 // Get params
-$color				= $this->params->get('templatecolor');
-$logo				= $this->params->get('logo');
-$navposition		= $this->params->get('navposition');
-$headerImage		= $this->params->get('headerImage');
-$app				= JFactory::getApplication();
-$doc				= JFactory::getDocument();
-$templateparams		= $app->getTemplate(true)->params;
-$config = JFactory::getConfig();
-
-$bootstrap = explode(',', $templateparams->get('bootstrap'));
-$jinput = JFactory::getApplication()->input;
-$option = $jinput->get('option', '', 'cmd');
+$color          = $this->params->get('templatecolor');
+$logo           = $this->params->get('logo');
+$navposition    = $this->params->get('navposition');
+$headerImage    = $this->params->get('headerImage');
+$doc            = JFactory::getDocument();
+$app            = JFactory::getApplication();
+$templateparams	= $app->getTemplate(true)->params;
+$config         = JFactory::getConfig();
+$bootstrap      = explode(',', $templateparams->get('bootstrap'));
+$jinput         = JFactory::getApplication()->input;
+$option         = $jinput->get('option', '', 'cmd');
 
 if (in_array($option, $bootstrap))
 {
@@ -80,7 +79,7 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 		<jdoc:include type="head" />
 
 		<!--[if IE 7]>
-		<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
 	</head>
 	<body id="shadow">
@@ -101,15 +100,15 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 					<div class="logoheader">
 						<h1 id="logo">
 						<?php if ($logo) : ?>
-							<img src="<?php echo $this->baseurl ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($templateparams->get('sitetitle'));?>" />
+							<img src="<?php echo $this->baseurl; ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($templateparams->get('sitetitle')); ?>" />
 						<?php endif;?>
 						<?php if (!$logo AND $templateparams->get('sitetitle')) : ?>
-							<?php echo htmlspecialchars($templateparams->get('sitetitle'));?>
+							<?php echo htmlspecialchars($templateparams->get('sitetitle')); ?>
 						<?php elseif (!$logo AND $config->get('sitename')) : ?>
-							<?php echo htmlspecialchars($config->get('sitename'));?>
+							<?php echo htmlspecialchars($config->get('sitename')); ?>
 						<?php endif; ?>
 						<span class="header1">
-						<?php echo htmlspecialchars($templateparams->get('sitedescription'));?>
+						<?php echo htmlspecialchars($templateparams->get('sitedescription')); ?>
 						</span></h1>
 					</div><!-- end logoheader -->
 					<ul class="skiplinks">
@@ -134,7 +133,7 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 					</div>
 
 					<?php if ($navposition == 'left' and $showleft) : ?>
-						<nav class="left1 <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav">
+						<nav class="left1 <?php if ($showRightColumn == null) { echo 'leftbigger';} ?>" id="nav">
 							<jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
 							<jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
 							<jdoc:include type="modules" name="position-5" style="beezTabs" headerLevel="2"  id="3" />

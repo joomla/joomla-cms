@@ -133,10 +133,9 @@ class JDatabaseIteratorMysqliTest extends TestCaseDatabaseMysqli
 		$iterator = self::$driver->getIterator($column, $class);
 
 		// Run the Iterator pattern
-		$this->assertThat(
-			iterator_to_array($iterator),
-			$this->equalTo($expected),
-			__LINE__
+		$this->assertEquals(
+			$expected,
+			iterator_to_array($iterator)
 		);
 	}
 
@@ -150,24 +149,21 @@ class JDatabaseIteratorMysqliTest extends TestCaseDatabaseMysqli
 	public function testCount()
 	{
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'));
-		$this->assertThat(
-			count(self::$driver->getIterator()),
-			$this->equalTo(4),
-			__LINE__
+		$this->assertEquals(
+			4,
+			count(self::$driver->getIterator())
 		);
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 0, 2);
-		$this->assertThat(
-			count(self::$driver->getIterator()),
-			$this->equalTo(2),
-			__LINE__
+		$this->assertEquals(
+			2,
+			count(self::$driver->getIterator())
 		);
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 3, 2);
-		$this->assertThat(
-			count(self::$driver->getIterator()),
-			$this->equalTo(1),
-			__LINE__
+		$this->assertEquals(
+			1,
+			count(self::$driver->getIterator())
 		);
 	}
 }

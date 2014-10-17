@@ -50,22 +50,6 @@ class JFactoryTest extends TestCase
 	}
 
 	/**
-	 * Tests the JFactory::getApplication method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testGetApplication().
-	 */
-	public function testGetApplication()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Tests the JFactory::getConfig method.
 	 *
 	 * @return  void
@@ -230,6 +214,8 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getDate method.
 	 *
+	 * @medium
+	 *
 	 * @return  void
 	 *
 	 * @since   12.3
@@ -300,6 +286,8 @@ class JFactoryTest extends TestCase
 	 */
 	public function testGetUserInstance()
 	{
+		JFactory::$session = $this->getMockSession();
+
 		$this->assertInstanceOf(
 			'JUser',
 			JFactory::getUser(),

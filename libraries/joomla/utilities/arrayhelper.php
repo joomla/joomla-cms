@@ -117,6 +117,7 @@ abstract class JArrayHelper
 				}
 			}
 		}
+
 		return $obj;
 	}
 
@@ -227,6 +228,7 @@ abstract class JArrayHelper
 		{
 			$result = $item;
 		}
+
 		return $result;
 	}
 
@@ -259,6 +261,7 @@ abstract class JArrayHelper
 				// Else ignore the entry
 			}
 		}
+
 		return $result;
 	}
 
@@ -331,6 +334,7 @@ abstract class JArrayHelper
 				// No casting necessary
 				break;
 		}
+
 		return $result;
 	}
 
@@ -381,6 +385,7 @@ abstract class JArrayHelper
 				}
 			}
 		}
+
 		return $return;
 	}
 
@@ -569,7 +574,6 @@ abstract class JArrayHelper
 
 			if ($cmp > 0)
 			{
-
 				return $direction;
 			}
 

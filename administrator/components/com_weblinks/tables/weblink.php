@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Weblink Table class
  *
- * @package     Joomla.Administrator
- * @subpackage  com_weblinks
- * @since       1.5
+ * @since  1.5
  */
 class WeblinksTableWeblink extends JTable
 {
@@ -26,6 +24,9 @@ class WeblinksTableWeblink extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__weblinks', 'id', $db);
+
+		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_weblinks.weblink'));
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_weblinks.weblink'));
 	}
 
 	/**
@@ -144,8 +145,12 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
-		// check for existing name
-		$query = 'SELECT id FROM #__weblinks WHERE title = '.$this->_db->quote($this->title).' AND catid = '.(int) $this->catid;
+		// Check for existing name
+		$query = $this->_db->getQuery(true)
+			->select($this->_db->quoteName('id'))
+			->from($this->_db->quoteName('#__weblinks'))
+			->where($this->_db->quoteName('title') . ' = ' . $this->_db->quote($this->title))
+			->where($this->_db->quoteName('catid') . ' = ' . (int) $this->catid);
 		$this->_db->setQuery($query);
 
 		$xid = (int) $this->_db->loadResult();

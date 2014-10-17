@@ -2,11 +2,11 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * Form Field class for FOF
@@ -119,7 +119,7 @@ class FOFFormFieldOrdering extends JFormField implements FOFFormField
 			$html .= $viewObject->pagination->orderDownIcon($this->rowid, $viewObject->pagination->total, true, 'orderdown', 'Move Down', $ordering);
 			$html .= '</span>';
 			$html .= '<input type="text" name="order[]" size="5" value="' . $this->value . '" ' . $disabled;
-			$html .= 'class="text_area" style="text-align: center" />';
+			$html .= 'class="text-area-order" style="text-align: center" />';
 		}
 		else
 		{
@@ -140,7 +140,13 @@ class FOFFormFieldOrdering extends JFormField implements FOFFormField
 				$html .= '<span class="sortable-handler ' . $disableClassName . '" title="' . $disabledLabel . '" rel="tooltip">';
 				$html .= '<i class="icon-menu"></i>';
 				$html .= '</span>';
-				$html .= '<input type="text" style="display:none"  name="order[]" size="5"';
+				$html .= '<input type="text" name="order[]" size="5" class="input-mini text-area-order" ';
+
+				if (!$hasAjaxOrderingSupport)
+				{
+					$html .= 'disabled="disabled" ';
+				}
+
 				$html .= 'value="' . $this->value . '"  class="input-mini text-area-order " />';
 			}
 			else

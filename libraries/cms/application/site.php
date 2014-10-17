@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! Site Application class
@@ -71,6 +71,8 @@ final class JApplicationSite extends JApplicationCms
 	 * @return  void
 	 *
 	 * @since   3.2
+	 *
+	 * @throws  Exception When you are not authorised to view the home page menu item
 	 */
 	protected function authorise($itemid)
 	{
@@ -91,7 +93,18 @@ final class JApplicationSite extends JApplicationCms
 			}
 			else
 			{
+				// Get the home page menu item
+				$home_item = $menus->getDefault($this->getLanguage()->getTag());
+
+				// If we are already in the homepage raise an exception
+				if ($menus->getActive()->id == $home_item->id)
+				{
+					throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+				}
+
+				// Otherwise redirect to the homepage and show an error
 				$this->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$this->redirect(JRoute::_('index.php?Itemid=' . $home_item->id, false));
 			}
 		}
 	}
@@ -203,6 +216,15 @@ final class JApplicationSite extends JApplicationCms
 
 		// Mark afterRoute in the profiler.
 		JDEBUG ? $this->profiler->mark('afterRoute') : null;
+
+		/*
+		 * Check if the user is required to reset their password
+		 *
+		 * Before $this->route(); "option" and "view" can't be safely read using:
+		 * $this->input->getCmd('option'); or $this->input->getCmd('view');
+		 * ex: due of the sef urls
+		 */
+		$this->checkUserRequireReset('com_users', 'profile', 'edit', 'com_users/profile.save,com_users/profile.apply,com_users/user.logout');
 
 		// Dispatch the application
 		$this->dispatch();

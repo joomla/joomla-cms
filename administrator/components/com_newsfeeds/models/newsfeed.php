@@ -14,9 +14,7 @@ JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_news
 /**
  * Newsfeed model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
- * @since       1.6
+ * @since  1.6
  */
 class NewsfeedsModelNewsfeed extends JModelAdmin
 {
@@ -438,7 +436,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__newsfeeds');
+				$query = $db->getQuery(true)
+					->select('MAX(ordering)')
+					->from($db->quoteName('#__newsfeeds'));
+				$db->setQuery($query);
 				$max = $db->loadResult();
 
 				$table->ordering = $max + 1;
@@ -496,10 +497,6 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
-
-			// force to array (perhaps move to $this->loadFormData())
-			$data = (array) $data;
-
 			$addform = new SimpleXMLElement('<form />');
 			$fields = $addform->addChild('fields');
 			$fields->addAttribute('name', 'associations');
@@ -509,7 +506,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			$add = false;
 			foreach ($languages as $tag => $language)
 			{
-				if (empty($data['language']) || $tag != $data['language'])
+				if (empty($data->language) || $tag != $data->language)
 				{
 					$add = true;
 					$field = $fieldset->addChild('field');

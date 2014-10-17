@@ -15,7 +15,7 @@
  *
  * @since       12.3
  */
-class NomodelInName extends JModelLegacy
+class NokeywordInName extends JModelLegacy
 {
 	/**
 	 * Override parent __construct, so we bypass the Exception

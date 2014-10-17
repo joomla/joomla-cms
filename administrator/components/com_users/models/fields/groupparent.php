@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldGroupParent extends JFormFieldList
 {
@@ -31,7 +29,8 @@ class JFormFieldGroupParent extends JFormFieldList
 	/**
 	 * Method to get the field options.
 	 *
-	 * @return  array  The field option objects.
+	 * @return  array  The field option objects
+	 *
 	 * @since   1.6
 	 */
 	protected function getOptions()

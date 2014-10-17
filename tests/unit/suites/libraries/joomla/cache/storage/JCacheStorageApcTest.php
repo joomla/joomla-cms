@@ -58,82 +58,6 @@ class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testGet().
-	 *
-	 * @return void
-	 */
-	public function testGet()
-	{
-		if ($this->apcAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testStore().
-	 *
-	 * @return void
-	 */
-	public function testStore()
-	{
-		if ($this->apcAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testRemove().
-	 *
-	 * @return void
-	 */
-	public function testRemove()
-	{
-		if ($this->apcAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testClean().
-	 *
-	 * @return void
-	 */
-	public function testClean()
-	{
-		if ($this->apcAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
 	 * Testing isSupported().
 	 *
 	 * @return void
@@ -145,43 +69,5 @@ class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 			$this->equalTo($this->apcAvailable),
 			'Claims APC is not loaded.'
 		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test_setExpire().
-	 *
-	 * @return void
-	 */
-	public function testSetExpire()
-	{
-		if ($this->apcAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test_getCacheId().
-	 *
-	 * @return void
-	 */
-	public function testGetCacheId()
-	{
-		if ($this->apcAvailable)
-		{
-			$this->markTestIncomplete('This test has not been implemented yet.');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
 	}
 }

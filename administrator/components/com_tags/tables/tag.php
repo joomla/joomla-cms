@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tags table
  *
- * @package     Joomla.Administrator
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsTableTag extends JTableNested
 {
@@ -26,6 +24,8 @@ class TagsTableTag extends JTableNested
 	public function __construct($db)
 	{
 		parent::__construct('#__tags', 'id', $db);
+
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_tags.tag'));
 	}
 
 	/**

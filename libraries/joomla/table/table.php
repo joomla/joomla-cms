@@ -22,7 +22,7 @@ jimport('joomla.filesystem.path');
  * @since       11.1
  * @tutorial	Joomla.Platform/jtable.cls
  */
-abstract class JTable extends JObject implements JObservableInterface
+abstract class JTable extends JObject implements JObservableInterface, JTableInterface
 {
 	/**
 	 * Include paths for searching for JTable classes.
@@ -103,6 +103,14 @@ abstract class JTable extends JObject implements JObservableInterface
 	 * @since  3.1.2
 	 */
 	protected $_observers;
+
+	/**
+	 * An array of key names to be json encoded in the bind function
+	 *
+	 * @var    array
+	 * @since  3.3
+	 */
+	protected $_jsonEncode = array();
 
 	/**
 	 * Object constructor to set table and key fields.  In most cases this will
@@ -263,22 +271,21 @@ abstract class JTable extends JObject implements JObservableInterface
 		if (!class_exists($tableClass))
 		{
 			// Search for the class file in the JTable include paths.
-			$path = JPath::find(self::addIncludePath(), strtolower($type) . '.php');
+			jimport('joomla.filesystem.path');
 
-			if ($path)
+			$paths = self::addIncludePath();
+			$pathIndex = 0;
+
+			while (!class_exists($tableClass) && $pathIndex < count($paths))
 			{
-				// Import the class file.
-				include_once $path;
-
-				// If we were unable to load the proper class, raise a warning and return false.
-				if (!class_exists($tableClass))
+				if ($tryThis = JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
 				{
-					JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_NOT_FOUND_IN_FILE', $tableClass), JLog::WARNING, 'jerror');
-
-					return false;
+					// Import the class file.
+					include_once $tryThis;
 				}
 			}
-			else
+
+			if (!class_exists($tableClass))
 			{
 				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
 				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type), JLog::WARNING, 'jerror');
@@ -580,12 +587,23 @@ abstract class JTable extends JObject implements JObservableInterface
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/bind
 	 * @since   11.1
 	 * @throws  InvalidArgumentException
 	 */
 	public function bind($src, $ignore = array())
 	{
+		// JSON encode any fields required
+		if (!empty($this->_jsonEncode))
+		{
+			foreach ($this->_jsonEncode as $field)
+			{
+				if (isset($src[$field]) && is_array($src[$field]))
+				{
+					$src[$field] = json_encode($src[$field]);
+				}
+			}
+		}
+
 		// If the source value is not an array or object return false.
 		if (!is_object($src) && !is_array($src))
 		{
@@ -670,6 +688,7 @@ abstract class JTable extends JObject implements JObservableInterface
 				{
 					throw new InvalidArgumentException('Table has multiple primary keys specified, only one primary key value provided.');
 				}
+
 				$keys = array($this->getKeyName() => $keys);
 			}
 			else
@@ -951,6 +970,7 @@ abstract class JTable extends JObject implements JObservableInterface
 			{
 				throw new UnexpectedValueException('Null primary key not allowed.');
 			}
+
 			$this->$key = $pk[$key];
 		}
 
@@ -1250,7 +1270,11 @@ abstract class JTable extends JObject implements JObservableInterface
 		}
 
 		$db = JFactory::getDbo();
-		$db->setQuery('SELECT COUNT(userid) FROM ' . $db->quoteName('#__session') . ' WHERE ' . $db->quoteName('userid') . ' = ' . (int) $against);
+		$query = $db->getQuery(true)
+			->select('COUNT(userid)')
+			->from($db->quoteName('#__session'))
+			->where($db->quoteName('userid') . ' = ' . (int) $against);
+		$db->setQuery($query);
 		$checkedOut = (boolean) $db->loadResult();
 
 		// If a session exists for the user then it is checked out.

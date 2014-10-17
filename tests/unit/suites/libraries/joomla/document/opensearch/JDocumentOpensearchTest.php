@@ -79,59 +79,14 @@ class JDocumentOpensearchTest extends TestCase
 		$expected = '<?xml version="1.0" encoding="utf-8"?>' . PHP_EOL .
 			'<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"><ShortName>ShortName</ShortName>' .
 			'<Description>Description</Description><InputEncoding>UTF-8</InputEncoding>' .
-			'<Url type="application/opensearchdescription+xml" rel="self" template=""/>' .
+			'<Url type="application/opensearchdescription+xml" rel="self" template="http://mydomain.com/index.php"/>' .
 			'<Url type="text/html" template="http://www.example.com"/>' .
 			'<Url type="application/rss+xml" rel="suggestions" template="http://www.example.com?format=feed"/>' .
 			'</OpenSearchDescription>' . PHP_EOL;
 
-		$this->assertThat(
+		$this->assertXmlStringEqualsXmlString(
 			$this->object->render(),
-			$this->equalTo($expected)
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetShortName().
-	 *
-	 * @return void
-	 */
-	public function testSetShortName()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testAddItem().
-	 *
-	 * @return void
-	 */
-	public function testAddItem()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testAddImage().
-	 *
-	 * @return void
-	 */
-	public function testAddImage()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
+			$expected
 		);
 	}
 }

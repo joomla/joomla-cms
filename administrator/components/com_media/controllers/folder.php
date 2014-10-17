@@ -15,9 +15,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Folder Media Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       1.5
+ * @since  1.5
  */
 class MediaControllerFolder extends JControllerLegacy
 {
@@ -174,7 +172,8 @@ class MediaControllerFolder extends JControllerLegacy
 
 			if (($folderCheck !== null) && ($folder !== $folderCheck))
 			{
-				$this->setMessage(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'));
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'), 'warning');
 
 				return false;
 			}

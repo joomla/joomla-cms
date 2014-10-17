@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla Authentication plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Authentication.joomla
- * @since       1.5
+ * @since  1.5
  */
 class PlgAuthenticationJoomla extends JPlugin
 {
@@ -191,7 +189,7 @@ class PlgAuthenticationJoomla extends JPlugin
 						 */
 						return false;
 					}
-					}
+				}
 
 				// Clean up the OTEP (remove dashes, spaces and other funny stuff
 				// our beloved users may have unwittingly stuffed in it)

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Cpanel component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_cpanel
- * @since       1.0
+ * @since  1.0
  */
 class CpanelViewCpanel extends JViewLegacy
 {
@@ -55,7 +53,7 @@ class CpanelViewCpanel extends JViewLegacy
 			require_once JPATH_LIBRARIES . '/fof/include.php';
 		}
 
-		$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel', array('input' => array('eid' => 700)));
+		$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel')->eid(700);
 		$messages = $messages_model->getItemList();
 
 		$this->postinstall_message_count = count($messages);

@@ -17,31 +17,4 @@
 		<language tag="en-GB">en-GB.plg_system_remember.ini</language>
 		<language tag="en-GB">en-GB.plg_system_remember.sys.ini</language>
 	</languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field name="cookie_lifetime" type="text"
-					description="PLG_SYSTEM_REMEMBER_FIELD_COOKIE_LIFETIME_DESC"
-					label="PLG_SYSTEM_REMEMBER_FIELD_COOKIE_LIFETIME_LABEL"
-					default="60"
-					filter="integer"
-					required="required"
-				/>
-
-				<field name="key_length" type="list"
-					description="PLG_SYSTEM_REMEMBER_FIELD_KEY_LENGTH_DESC"
-					label="PLG_SYSTEM_REMEMBER_FIELD_KEY_LENGTH_LABEL"
-					default="16"
-					filter="integer"
-					required="required">
-					<option value="8">8</option>
-					<option value="16">16</option>
-					<option value="32">32</option>
-					<option value="64">64</option>
-				</field>
-
-			</fieldset>
-		</fields>
-	</config>
-
 </extension>
