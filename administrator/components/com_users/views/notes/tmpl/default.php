@@ -72,9 +72,13 @@ $sortFields = $this->getSortFields();
 					<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder); ?>
 				</select>
 			</div>
-			<div class="clearfix"> </div>
 		</div>
-
+		<div class="clearfix"> </div>
+		<?php if (empty($this->items)) : ?>
+			<div class="alert alert-no-items">
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
+		<?php else : ?>
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -153,14 +157,17 @@ $sortFields = $this->getSortFields();
 						<?php echo (int) $item->id; ?>
 					</td>
 				</tr>
-				<?php endforeach; ?>
+			<?php endforeach; ?>
 			</tbody>
-		</table>
+			</table>
+		<?php endif; ?>
 
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-		<?php echo JHtml::_('form.token'); ?>
+		<div>
+			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="boxchecked" value="0" />
+			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+			<?php echo JHtml::_('form.token'); ?>
+		</div>
 	</div>
 </form>

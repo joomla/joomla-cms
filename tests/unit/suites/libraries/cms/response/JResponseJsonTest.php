@@ -30,6 +30,8 @@ class JResponseJsonTest extends TestCase
 		parent::setUp();
 
 		$this->saveFactoryState();
+
+		JFactory::$application = new JApplicationResponseJsonMock;
 	}
 
 	/**
@@ -141,10 +143,8 @@ class JResponseJsonTest extends TestCase
 	 */
 	public function testFailureWithMessages()
 	{
-		$app = new JApplicationResponseJsonMock;
-		$app->enqueueMessage('This part was successful');
-		$app->enqueueMessage('You should not do that', 'warning');
-		JFactory::$application = $app;
+		JFactory::$application->enqueueMessage('This part was successful');
+		JFactory::$application->enqueueMessage('You should not do that', 'warning');
 
 		$output = new JResponseJson(new Exception('A major error occured'));
 
@@ -169,10 +169,8 @@ class JResponseJsonTest extends TestCase
 	 */
 	public function testFailureWithIgnoreMessages()
 	{
-		$app = new JApplicationResponseJsonMock;
-		$app->enqueueMessage('This part was successful');
-		$app->enqueueMessage('You should not do that', 'warning');
-		JFactory::$application = $app;
+		JFactory::$application->enqueueMessage('This part was successful');
+		JFactory::$application->enqueueMessage('You should not do that', 'warning');
 
 		$output = new JResponseJson(new Exception('A major error occured'), null, false, true);
 
@@ -193,10 +191,8 @@ class JResponseJsonTest extends TestCase
 	 */
 	public function testSuccessWithMessages()
 	{
-		$app = new JApplicationResponseJsonMock;
-		$app->enqueueMessage('This part was successful');
-		$app->enqueueMessage('This one was also successful');
-		JFactory::$application = $app;
+		JFactory::$application->enqueueMessage('This part was successful');
+		JFactory::$application->enqueueMessage('This one was also successful');
 
 		$output = new JResponseJson;
 
