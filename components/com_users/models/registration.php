@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Registration model class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelRegistration extends JModelForm
 {
@@ -70,10 +68,6 @@ class UsersModelRegistration extends JModelForm
 
 		// Activate the user.
 		$user = JFactory::getUser($userId);
-
-		// Permissions check for admin to activate user
-		$admin = JFactory::getUser();
-		$allow	= $admin->authorise('core.edit.state', 'com_users');
 
 		// Admin activation is on and user is verifying their email
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
@@ -143,7 +137,7 @@ class UsersModelRegistration extends JModelForm
 			}
 		}
 		// Admin activation is on and admin is activating the account
-		elseif (($userParams->get('useractivation') == 2) && $user->getParam('activate', 0) && $allow)
+		elseif (($userParams->get('useractivation') == 2) && $user->getParam('activate', 0))
 		{
 			$user->set('activation', '');
 			$user->set('block', '0');

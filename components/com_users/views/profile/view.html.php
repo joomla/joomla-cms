@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Profile view class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersViewProfile extends JViewLegacy
 {

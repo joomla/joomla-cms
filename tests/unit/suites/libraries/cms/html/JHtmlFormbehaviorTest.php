@@ -37,7 +37,7 @@ class JHtmlFormbehaviorTest extends TestCase
 
 		parent::setUp();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$document = $this->getMockDocument();
 
 		$this->backupServer = $_SERVER;

@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Cancel Controller for Admin
  *
- * @package     Joomla.Libraries
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigControllerCanceladmin extends ConfigControllerCancel
 {

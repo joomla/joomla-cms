@@ -146,7 +146,7 @@ class JApplicationAdministrator extends JApplicationCms
 		 * $this->input->getCmd('option'); or $this->input->getCmd('view');
 		 * ex: due of the sef urls
 		 */
-		$this->checkUserRequireReset('com_admin', 'profile', 'edit', 'profile.save,profile.apply');
+		$this->checkUserRequireReset('com_admin', 'profile', 'edit', 'com_admin/profile.save,com_admin/profile.apply,com_login/logout');
 
 		// Dispatch the application
 		$this->dispatch();

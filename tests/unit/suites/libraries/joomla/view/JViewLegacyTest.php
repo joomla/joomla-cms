@@ -54,71 +54,6 @@ class JViewLegacyTest extends TestCase
 	protected $class;
 
 	/**
-	 * Test JViewLegacy::__construct
-	 *
-	 * @todo    Implement test__Construct().
-	 *
-	 * @return  void
-	 */
-	public function test__Construct()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JViewLegacy::display
-	 *
-	 * @todo    Implement testDisplay().
-	 *
-	 * @return  void
-	 */
-	public function testDisplay()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JViewLegacy::assign
-	 *
-	 * @todo    Implement testAssign().
-	 *
-	 * @return  void
-	 */
-	public function testAssign()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JViewLegacy::assignRef
-	 *
-	 * @todo    Implement testAssignRef().
-	 *
-	 * @return  void
-	 */
-	public function testAssignRef()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JViewLegacy::escape
-	 *
-	 * @todo    Implement testEscape().
-	 *
-	 * @return  void
-	 */
-	public function testEscape()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Test JViewLegacy::get()
 	 *
 	 * @since   11.3
@@ -441,45 +376,6 @@ class JViewLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JViewLegacy::leadTemplate
-	 *
-	 * @todo    Implement testLoadTemplate().
-	 *
-	 * @return  void
-	 */
-	public function testLoadTemplate()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JViewLegacy::loadHelper
-	 *
-	 * @todo    Implement testLoadHelper().
-	 *
-	 * @return  void
-	 */
-	public function testLoadHelper()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test JViewLegacy::_setPath
-	 *
-	 * @todo    Implement test_setPath().
-	 *
-	 * @return  void
-	 */
-	public function test_setPath()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Test JViewLegacy::_addPath()
 	 *
 	 * @since   11.3
@@ -530,19 +426,6 @@ class JViewLegacyTest extends TestCase
 			'_path',
 			$this->class
 		);
-	}
-
-	/**
-	 * Test JViewLegacy::_createFileName
-	 *
-	 * @todo    Implement test_createFileName().
-	 *
-	 * @return  void
-	 */
-	public function test_createFileName()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete();
 	}
 
 	/**

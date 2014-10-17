@@ -137,17 +137,4 @@ class JDocumentRendererRSSTest extends TestCase
 			'Line:' . __LINE__ . ' The feed does not generate properly.'
 		);
 	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test_relToAbs().
-	 *
-	 * @return void
-	 */
-	public function test_relToAbs()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
 }

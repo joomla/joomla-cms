@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Categories helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesHelper
 {
@@ -93,6 +91,14 @@ class CategoriesHelper
 		return $result;
 	}
 
+	/**
+	 * Gets a list of associations for a given item.
+	 *
+	 * @param   integer  $pk         Content item key.
+	 * @param   string   $extension  Optional extension name.
+	 *
+	 * @return  array of associations. 
+	 */
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
 		$associations = array();

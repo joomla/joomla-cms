@@ -100,7 +100,6 @@ class JArchiveBzip2 implements JArchiveExtractable
 					throw new RuntimeException('Unable to write archive');
 				}
 			}
-
 		}
 		else
 		{
@@ -159,6 +158,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 					}
 				}
 			}
+
 			while ($this->_data);
 
 			$output->close();

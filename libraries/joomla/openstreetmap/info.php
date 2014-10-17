@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die();
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  * @since       13.1
-*/
+ */
 class JOpenstreetmapInfo extends JOpenstreetmapObject
 {
 	/**
