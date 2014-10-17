@@ -31,14 +31,23 @@ class ModArchiveHelper
 	{
 		// Get database
 		$db    = JFactory::getDbo();
+
+		$orderDate = $params->get('list_show_date', 'publish_up');
+
 		$query = $db->getQuery(true);
-		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
-			->select('created, id, title')
-			->select($query->year($db->quoteName('created')) . ' AS created_year')
+		$query->select(
+				array(
+					$db->qn($orderDate, 'order_date'),
+					$db->qn('id'),
+					$db->qn('title'),
+					$query->month($db->qn($orderDate)) . ' AS ' . $db->qn('order_month'),
+					$query->year($db->qn($orderDate)) . ' AS ' . $db->qn('order_year'),
+				)
+			)
 			->from('#__content')
 			->where('state = 2 AND checked_out = 0')
-			->group('created_year, created_month, created, id, title')
-			->order('created_year DESC, created_month DESC');
+			->group('order_year, order_month')
+			->order('order_year DESC, order_month DESC');
 
 		// Filter by language
 		if (JFactory::getApplication()->getLanguageFilter())
@@ -59,18 +68,18 @@ class ModArchiveHelper
 
 		foreach ($rows as $row)
 		{
-			$date = JFactory::getDate($row->created);
+			$date = JFactory::getDate($row->order_date);
 
-			$created_month = $date->format('n');
-			$created_year  = $date->format('Y');
+			$order_month = $date->format('n');
+			$order_year  = $date->format('Y');
 
-			$created_year_cal = JHTML::_('date', $row->created, 'Y');
-			$month_name_cal   = JHTML::_('date', $row->created, 'F');
+			$order_year_cal = JHTML::_('date', $row->order_date, 'Y');
+			$order_month_cal   = JHTML::_('date', $row->order_date, 'F');
 
 			$lists[$i] = new stdClass;
 
-			$lists[$i]->link = JRoute::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
-			$lists[$i]->text = JText::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $month_name_cal, $created_year_cal);
+			$lists[$i]->link = JRoute::_('index.php?option=com_content&view=archive&year=' . $order_year . '&month=' . $order_month . $itemid);
+			$lists[$i]->text = JText::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $order_month_cal, $order_year_cal);
 
 			$i++;
 		}
