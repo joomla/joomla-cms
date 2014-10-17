@@ -16,8 +16,10 @@ class WrapperViewWrapper extends JViewLegacy
 {
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
-		$document	= JFactory::getDocument();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+		$active   = $app->getMenu()->getActive();
+
 
 		$menus	= $app->getMenu();
 		$menu	= $menus->getActive();
@@ -79,6 +81,12 @@ class WrapperViewWrapper extends JViewLegacy
 		}
 		else {
 			$wrapper->url = $url;
+		}
+
+		// Check for layout override
+		if (isset($active->query['layout']))
+		{
+			$this->setLayout($active->query['layout']);
 		}
 
 		//Escape strings for HTML output
