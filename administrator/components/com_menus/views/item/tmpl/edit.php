@@ -19,6 +19,8 @@ JHtml::_('formbehavior.chosen', 'select');
 
 JText::script('ERROR');
 JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
+JText::script('JLIB_FORM_FIELD_INVALID');
+JText::script('COM_MENUS_ITEM_FIELD_TYPE_LABEL');
 
 $app = JFactory::getApplication();
 $assoc = JLanguageAssociations::isEnabled();
@@ -81,7 +83,18 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			});
 
 			$('system-message').getElement('h4').innerHTML  = Joomla.JText._('ERROR');
-			$('system-message').getElement('div').innerHTML = Joomla.JText._('JGLOBAL_VALIDATION_FORM_FAILED');
+
+			if ($$('#item-form .modal-value').length > 0)
+			{
+				$('system-message').getElement('div').innerHTML = Joomla.JText._('JGLOBAL_VALIDATION_FORM_FAILED');
+			}
+			else if (document.id('jform_type').value == '')
+			{
+				$('system-message').getElement('div').innerHTML = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
+				$('system-message').getElement('div').innerHTML += Joomla.JText._('COM_MENUS_ITEM_FIELD_TYPE_LABEL');
+				$$('#jform_type').addClass('invalid');
+				$$('#jform_type-lbl').addClass('invalid');
+			}
 		}
 	}
 </script>
