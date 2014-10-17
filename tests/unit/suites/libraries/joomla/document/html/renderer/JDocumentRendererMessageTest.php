@@ -45,8 +45,6 @@ class JDocumentRendererMessageTest extends TestCaseDatabase
 	/**
 	 * Test Render
 	 *
-	 * @todo Implement testRender().
-	 *
 	 * @return void
 	 */
 	public function testRender()

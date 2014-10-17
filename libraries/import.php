@@ -22,6 +22,7 @@ if (!defined('IS_WIN'))
 {
 	define('IS_WIN', ($os === 'WIN') ? true : false);
 }
+
 if (!defined('IS_UNIX'))
 {
 	define('IS_UNIX', (IS_WIN === false) ? true : false);

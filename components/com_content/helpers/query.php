@@ -12,10 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Content Component Query Helper
  *
- * @static
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentHelperQuery
 {
@@ -59,6 +56,7 @@ class ContentHelperQuery
 	 * @param   string  $orderDate  The ordering code for the date.
 	 *
 	 * @return  string  The SQL field(s) to order by.
+	 *
 	 * @since   1.5
 	 */
 	public static function orderbySecondary($orderby, $orderDate = 'created')
@@ -192,7 +190,7 @@ class ContentHelperQuery
 	 * desired article ordering is achieved down the columns.
 	 *
 	 * @param   array    &$articles   Array of intro text articles
-	 * @param   integer	 $numColumns  Number of columns in the layout
+	 * @param   integer  $numColumns  Number of columns in the layout
 	 *
 	 * @return  array  Reordered array to achieve desired ordering down columns
 	 *
@@ -231,16 +229,19 @@ class ContentHelperQuery
 						// Put -1 in empty cells
 						$index[$row][$col] = -1;
 					}
-					else {
+					else
+					{
 						// Put in zero as placeholder
 						$index[$row][$col] = 0;
 					}
+
 					$i++;
 				}
 			}
 
 			// Layout the articles in column order, skipping empty cells
 			$i = 0;
+
 			for ($col = 1; ($col <= $numColumns) && ($i < $count); $col++)
 			{
 				for ($row = 1; ($row <= $maxRows) && ($i < $count); $row++)
@@ -257,6 +258,7 @@ class ContentHelperQuery
 			// so that they will actually be ordered down the columns (when read by row in the layout)
 			$return = array();
 			$i = 0;
+
 			for ($row = 1; ($row <= $maxRows) && ($i < $count); $row++)
 			{
 				for ($col = 1; ($col <= $numColumns) && ($i < $count); $col++)
@@ -266,6 +268,7 @@ class ContentHelperQuery
 				}
 			}
 		}
+
 		return $return;
 	}
 }

@@ -15,6 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       12.1
+ *
+ * @property-read  JDatabaseDriverPostgresql  $db  The database connector to use for exporting structure and/or data.
  */
 class JDatabaseExporterPostgresql extends JDatabaseExporter
 {

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Users mail model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelMail extends JModelAdmin
 {

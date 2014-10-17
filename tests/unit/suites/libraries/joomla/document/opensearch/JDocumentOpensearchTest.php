@@ -89,49 +89,4 @@ class JDocumentOpensearchTest extends TestCase
 			$expected
 		);
 	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetShortName().
-	 *
-	 * @return void
-	 */
-	public function testSetShortName()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testAddItem().
-	 *
-	 * @return void
-	 */
-	public function testAddItem()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testAddImage().
-	 *
-	 * @return void
-	 */
-	public function testAddImage()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
 }

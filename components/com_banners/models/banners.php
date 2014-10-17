@@ -14,9 +14,7 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 /**
  * Banners model for the Joomla Banners component.
  *
- * @package     Joomla.Site
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersModelBanners extends JModelList
 {
@@ -146,10 +144,15 @@ class BannersModelBanners extends JModelList
 				foreach ($keywords as $keyword)
 				{
 					$keyword = trim($keyword);
-					$condition1 = "a.own_prefix=1 AND a.metakey_prefix=SUBSTRING(" . $db->quote($keyword) .
-						",1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING(" . $db->quote($keyword) .
-						",1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND "
-						. ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
+
+					$condition1 = "a.own_prefix=1 "
+						. " AND a.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH( a.metakey_prefix)) "
+						. " OR a.own_prefix=0 "
+						. " AND cl.own_prefix=1 "
+						. " AND cl.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH(cl.metakey_prefix)) "
+						. " OR a.own_prefix=0 "
+						. " AND cl.own_prefix=0 "
+						. " AND " . ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
 
 					$condition2 = "a.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 
