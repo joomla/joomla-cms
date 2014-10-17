@@ -930,14 +930,13 @@ class ModulesModelModule extends JModelAdmin
 		// Alter the title and published state for Save as Copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$orig_data  = $input->post->get('jform', array(), 'array');
 			$orig_table = clone $this->getTable();
-			$orig_table->load((int) $orig_data['id']);
+			$orig_table->load((int) $input->getInt('id'));
+			$data['published'] = 0;
 
 			if ($data['title'] == $orig_table->title)
 			{
 				$data['title'] .= ' ' . JText::_('JGLOBAL_COPY');
-				$data['published'] = 0;
 			}
 		}
 

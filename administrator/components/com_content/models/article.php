@@ -215,12 +215,6 @@ class ContentModelArticle extends JModelAdmin
 
 		// Increment the content version number.
 		$table->version++;
-
-		// Reorder the articles within the category so the new article is first
-		if (empty($table->id))
-		{
-			$table->reorder('catid = ' . (int) $table->catid . ' AND state >= 0');
-		}
 	}
 
 	/**
@@ -536,6 +530,13 @@ class ContentModelArticle extends JModelAdmin
 					}
 				}
 			}
+
+			// Reorder the articles within the category so the new article is first
+			$table = $this->getTable();
+			$key = $table->getKeyName();
+			$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+			$table->load($pk);
+			$table->reorder('catid = ' . (int) $table->catid . ' AND state >= 0');
 
 			return true;
 		}
