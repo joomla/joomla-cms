@@ -130,7 +130,10 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 		src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/>
 	</div>
 <?php endif; ?>
+
+<?php if ($params->get('show_intro')) : ?>
 <?php echo $this->item->introtext; ?>
+<?php endif; ?>
 
 <?php if ($params->get('show_readmore') && $this->item->readmore) :
 	if ($params->get('access-view')) :
@@ -169,4 +172,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 <?php endif; ?>
 
 <div class="item-separator"></div>
+<?php if ($params->get('show_intro')) : ?>
 <?php echo $this->item->event->afterDisplayContent; ?>
+<?php endif; ?>
