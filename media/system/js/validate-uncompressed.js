@@ -51,7 +51,7 @@ var JFormValidator = new Class({
 
 		this.setHandler('email',
 			function (value) {
-				regex=/^[a-zA-Z0-9._-]+(\+[a-zA-Z0-9._-]+)*@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,8}$/;
+				regex=/^[a-zA-Z0-9._-]+(\+[a-zA-Z0-9._-]+)*@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,15}$/;
 				return regex.test(value);
 			}
 		);
