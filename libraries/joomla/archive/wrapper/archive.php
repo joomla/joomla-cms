@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Archive
  * @since       3.4
  */
-class JArchiveWrapper
+class JArchiveWrapperArchive
 {
 	/**
 	 * Helper wrapper method for extract

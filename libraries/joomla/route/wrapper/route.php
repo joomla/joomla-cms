@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Application
  * @since       3.4
  */
-class JRouteWrapper
+class JRouteWrapperRoute
 {
 	/**
 	 * Helper wrapper method for _
