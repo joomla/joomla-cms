@@ -7814,6 +7814,9 @@ th .tooltip-inner {
 .alert-no-items {
 	margin-top: 20px;
 }
+@media (max-width: 480px) {
+	table{display:inline-table}
+}
 @media (max-width: 767px) {
 	html[dir=rtl] #toolbar #toolbar-options,
 	html[dir=rtl] #toolbar #toolbar-help,
@@ -7821,6 +7824,12 @@ th .tooltip-inner {
 	#toolbar #toolbar-help {
 		float: none;
 	}
+	.chzn-container{width:auto!important}
+	.table td,.label{padding-right:0;padding:4px}
+	.nav-tabs > li > a{padding:6px}
+	body {padding-left: 9px;padding-right: 9px}
+	.navbar,.header,.subhead{margin-left:-9px;margin-right:-9px}
+	.input-prepend input, .input-append input{width: 85px}
 }
 input.input-large-text {
 	font-size: 18px;
