@@ -7,16 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/document/json/json.php';
+require_once JPATH_PLATFORM . '/joomla/document/raw/raw.php';
 
 /**
- * Test class for JDocumentJSON
+ * Test class for JDocumentRaw
  */
-class JDocumentJSONTest extends TestCase
+class JDocumentRawTest extends TestCase
 {
 	/**
-	 * @var  JDocumentJSON
-\	 */
+	 * @var  JDocumentRaw
+	 */
 	protected $object;
 
 	/**
@@ -31,7 +31,7 @@ class JDocumentJSONTest extends TestCase
 
 		JFactory::$application = $this->getMockWeb();
 
-		$this->object = new JDocumentJSON;
+		$this->object = new JDocumentRaw;
 	}
 
 	/**
@@ -51,21 +51,5 @@ class JDocumentJSONTest extends TestCase
 	public function testTheDefaultReturnForRender()
 	{
 		$this->assertEmpty($this->object->render());
-	}
-
-	/**
-	 * @testdox  Test the default return for getName
-	 */
-	public function testTheDefaultReturnForGetName()
-	{
-		$this->assertSame('joomla', $this->object->getName());
-	}
-
-	/**
-	 * @testdox  Test that setName returns an instance of $this
-	 */
-	public function testEnsureSetNameReturnsThisObject()
-	{
-		$this->assertSame($this->object, $this->object->setName('CMS'));
 	}
 }

@@ -6,17 +6,17 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/joomla/document/html/renderer/message.php';
+include_once JPATH_PLATFORM . '/joomla/document/html/renderer/component.php';
 
 /**
- * Test class for JDocumentRendererMessage
+ * Test class for JDocumentRendererComponent
  */
-class JDocumentRendererMessageTest extends TestCaseDatabase
+class JDocumentRendererComponentTest extends TestCase
 {
 	/**
 	 * The instance of the object to test.
 	 *
-	 * @var  JDocumentRendererMessage
+	 * @var  JDocumentRendererComponent
 	 */
 	private $instance;
 
@@ -31,11 +31,9 @@ class JDocumentRendererMessageTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$document = $this->getMockDocument();
-		JFactory::$session = $this->getMockSession();
 
-		$this->instance = new JDocumentRendererMessage(JFactory::getDocument());
+		$this->instance = new JDocumentRendererComponent(JFactory::getDocument());
 	}
 
 	/**
@@ -54,6 +52,6 @@ class JDocumentRendererMessageTest extends TestCaseDatabase
 	 */
 	public function testTheDefaultReturnForRender()
 	{
-		$this->assertContains('<div id="system-message-container"', $this->instance->render('unused'));
+		$this->assertNull($this->instance->render());
 	}
 }
