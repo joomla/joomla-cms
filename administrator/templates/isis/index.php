@@ -148,7 +148,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 								</span>
 								</li>
 								<li class="divider"></li>
-								<li class="">
+								<li>
 									<a href="index.php?option=com_admin&amp;task=profile.edit&amp;id=<?php echo $user->id; ?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT'); ?></a>
 								</li>
 								<li class="divider"></li>
