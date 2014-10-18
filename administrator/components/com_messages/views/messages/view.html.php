@@ -66,8 +66,8 @@ class MessagesViewMessages extends JViewLegacy
 		if ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::divider();
-			JToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ',true);
-			JToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD',true);
+			JToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ', true);
+			JToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD', true);
 		}
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
