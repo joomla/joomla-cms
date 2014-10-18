@@ -317,8 +317,10 @@ class ContentRouter extends JComponentRouterBase
 			{
 				$vars['view'] = 'article';
 				
-				foreach(array_reverse($segments) as $seg) {
-					if (preg_match('/^\d+\:/', $seg)) {
+				foreach(array_reverse($segments) as $seg)
+				{
+					if (preg_match('/^\d+\:/', $seg))
+					{
 						$vars['id'] = $seg;
 						break;
 					}
