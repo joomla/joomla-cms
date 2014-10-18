@@ -346,12 +346,12 @@ final class JApplicationSite extends JApplicationCms
 
 			// Retrieve com_menu global settings
 			$temp = clone JComponentHelper::getParams('com_menus');
-			
+
 			if (is_object($menu))
 			{
 				// Get show_page_heading from com_menu global settings
 				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
-				
+	
 				$temp = new JRegistry;
 				$temp->loadString($menu->params);
 				$params[$hash]->merge($temp);
