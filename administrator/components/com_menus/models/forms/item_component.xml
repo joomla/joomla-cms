@@ -39,12 +39,13 @@
 				label="COM_MENUS_ITEM_FIELD_PAGE_TITLE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC" />
 
-			<field name="show_page_heading" type="radio"
-				class="btn-group btn-group-yesno"
+			<field name="show_page_heading" type="list"
+				class="chzn-color"
 				label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 				description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
-				default="0" filter="integer"
+				default=""
 			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1" class="yes">JYES</option>
 				<option value="0" class="no">JNO</option>
 			</field>
