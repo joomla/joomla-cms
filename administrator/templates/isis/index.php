@@ -138,7 +138,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				<jdoc:include type="modules" name="menu" style="none" />
 				<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
 					<li class="dropdown">
-						<a class="<?php echo ($hidden == true) ? ' disabled' : 'dropdown-toggle'; ?>" data-toggle="<?php if (!$hidden) echo "dropdown"; ?>" href="#"><span class="icon-cog"></span>
+						<a class="<?php echo ($hidden == true) ? ' disabled' : 'dropdown-toggle'; ?>" data-toggle="<?php if (!$hidden) echo "dropdown"; ?>" <?php if (!$hidden) echo 'href="#"'; ?>><span class="icon-cog"></span>
 							<b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<?php if (!$hidden) : ?>
