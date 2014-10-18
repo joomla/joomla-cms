@@ -172,9 +172,6 @@ class ContentRouter extends JComponentRouterBase
 			if (!$advanced && count($array))
 			{
 				$array[0] = (int) $catid . ':' . $array[0];
-				if (count($array) > 1) {
-					$array[count($array) - 1] = (int) $catid . ':' . $array[count($array) - 1];
-				}
 			}
 
 			$segments = array_merge($segments, $array);
@@ -319,7 +316,13 @@ class ContentRouter extends JComponentRouterBase
 			if (strpos($segments[0], ':') === false)
 			{
 				$vars['view'] = 'article';
-				$vars['id'] = (int) $segments[0];
+				
+				foreach(array_reverse($segments) as $seg) {
+					if (preg_match('/^\d+\:/', $seg)) {
+						$vars['id'] = $seg;
+						break;
+					}
+				}
 
 				return $vars;
 			}
