@@ -397,22 +397,17 @@ margin-right:5px;
 
 @media only screen and (max-width: 480px) {
 
-	img {
-  max-width: 100%;
-  height: auto;
-  border: 0;
-  -ms-interpolation-mode: bicubic;
-}
-
+	img {max-width: 100%;height: auto;border: 0;-ms-interpolation-mode: bicubic}
 
 	#fontsize{display:none}
-	#nav,#wrapper2,#wrapper,.cols-3 .column-1,.cols-3 .column-2,.cols-3 .column-3,#right,.box,#header form
-		{
+	#nav,#wrapper2,#wrapper,.cols-3 .column-1,.cols-3 .column-2,.cols-3 .column-3,#right,.box,#header form {
 		float: none;
 		width: 100%
 	}
+	body h1 {margin-bottom:0}
 	#header {padding-top:0}
 	#header form  {margin:0}
+	#logo {padding: 1em 20px 35px 10px}
 	.logoheader {background:#0C1D43; min-height:100px; margin:0}
 	.box {
 		border-left: 0 !important;
