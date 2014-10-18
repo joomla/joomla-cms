@@ -740,7 +740,7 @@ class JControllerForm extends JControllerLegacy
 			// Save the data in the session.
 			$app->setUserState($context . '.data', $validData);
 			
-			if($context == "com_users.edit.level")
+			if ($context == "com_users.edit.level")
 			{	
 				$warningMsg = JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED_EXISTS', $validData['title']);
 				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $warningMsg));
