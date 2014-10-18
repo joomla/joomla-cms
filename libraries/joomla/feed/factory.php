@@ -41,7 +41,7 @@ class JFeedFactory
 		$reader = new XMLReader;
 
 		// Open the URI within the stream reader.
-		if (!$reader->open($uri, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
+		if (!@$reader->open($uri, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
 		{
 			// If allow_url_fopen is enabled
 			if (ini_get('allow_url_fopen'))
