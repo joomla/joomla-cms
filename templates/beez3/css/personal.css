@@ -404,10 +404,11 @@ margin-right:5px;
 		float: none;
 		width: 100%
 	}
+	#logo span.header1{padding-left: 0;padding-top:10px;}
 	body h1 {margin-bottom:0}
 	#header {padding-top:0}
 	#header form  {margin:0}
-	#logo {padding: 1em 20px 35px 10px}
+	#logo {padding:38px 20px 38px 10px}
 	.logoheader {background:#0C1D43; min-height:100px; margin:0}
 	.box {
 		border-left: 0 !important;
