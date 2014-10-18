@@ -8,29 +8,35 @@
  */
 
 defined('_JEXEC') or die;
+
+if ($this->params->get('presentation_style') == 'sliders')
+{
+	echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_LINKS'), 'display-links');
+}
+
+if ($this->params->get('presentation_style') == 'tabs')
+{
+	echo JHtml::_('bootstrap.addTab', 'myTab', 'display-links', JText::_('COM_CONTACT_LINKS', true));
+}
+
+if ($this->params->get('presentation_style') == 'plain')
+{
+	echo '<h3>' . JText::_('COM_CONTACT_LINKS') . '</h3>';
+}
 ?>
-
-<?php if ($this->params->get('presentation_style') == 'sliders') : ?>
-	<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_LINKS'), 'display-links'); ?>
-<?php endif; ?>
-<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-links', JText::_('COM_CONTACT_LINKS', true)); ?>
-<?php endif; ?>
-<?php if ($this->params->get('presentation_style') == 'plain'):?>
-	<?php echo '<h3>' . JText::_('COM_CONTACT_LINKS') . '</h3>';  ?>
-<?php endif; ?>
-
 <div class="contact-links">
 	<ul class="nav nav-tabs nav-stacked">
-		<?php
+	<?php
 		// Letters 'a' to 'e'
-		foreach (range('a', 'e') as $char) :
+		foreach (range('a', 'e') as $char)
+		{
 			$link = $this->contact->params->get('link' . $char);
 			$label = $this->contact->params->get('link' . $char . '_name');
 
-			if (!$link) :
+			if (!$link)
+			{
 				continue;
-			endif;
+			}
 
 			// Add 'http://' if not present
 			$link = (0 === strpos($link, 'http')) ? $link : 'http://' . $link;
@@ -38,18 +44,24 @@ defined('_JEXEC') or die;
 			// If no label is present, take the link
 			$label = ($label) ? $label : $link;
 			?>
-			<li>
-				<a href="<?php echo $link; ?>" itemprop="url">
-					<?php echo $label; ?>
-				</a>
-			</li>
-		<?php endforeach; ?>
+				<li>
+					<a href="<?php echo $link; ?>" itemprop="url">
+						<?php echo $label; ?>
+					</a>
+				</li>
+			<?php
+		}
+	?>
 	</ul>
 </div>
+<?php
+if ($this->params->get('presentation_style') == 'sliders')
+{
+	echo JHtml::_('bootstrap.endSlide');
+}
 
-<?php if ($this->params->get('presentation_style') == 'sliders') : ?>
-	<?php echo JHtml::_('bootstrap.endSlide'); ?>
-<?php endif; ?>
-<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-	<?php echo JHtml::_('bootstrap.endTab'); ?>
-<?php endif; ?>
+if ($this->params->get('presentation_style') == 'tabs')
+{
+	echo JHtml::_('bootstrap.endTab');
+}
+
