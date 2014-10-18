@@ -181,7 +181,8 @@ class ContentModelArticles extends JModelList
 
 		// Get the id
 		$q_badcats
-			->select($db->quoteName('c.id', 'bad'))
+			->select($db->quoteName('c.id', 'id'))
+			->select($db->quoteName('c.published', 'state'))
 			->from($db->quoteName('#__categories', 'c'))
 			->join('INNER', $db->quoteName('#__categories', 'p') . ' ON (' . $db->quoteName('c.lft') .
 				' BETWEEN ' . $db->quoteName('p.lft') . ' AND ' . $db->quoteName('p.rgt') . ') ')
@@ -191,14 +192,36 @@ class ContentModelArticles extends JModelList
 		// Execute query
 		$db->setQuery($q_badcats);
 
-		// Load bad categories in a plain array and filter duplicates
-		$r_badcats = array_unique(array_keys($db->loadAssocList('bad')));
+		// Load bad categories
+		$r_badcats = $db->loadAssocList();
+
+		// Init categories as empty arrays
+		$a_unpublished = array();
+		$a_archived = array();
+
+		// Divide bad categories by type and filter duplicates
+		foreach ($r_badcats as $element)
+		{
+			// Unpublished elements
+			if ($element['state'] == 0)
+			{
+				$a_unpublished[$element['id']] = $element['id'];
+			}
+
+			// Archived elements
+			elseif ($element['state'] == 2)
+			{
+				$a_archived[$element['id']] = $element['id'];
+			}
+		}
 
 		// Convert to comma-separated list (will be used in the IN clause)
-		$badcats = implode(',', $r_badcats);
+		$unpublished_cats = implode(',', $a_unpublished);
+		$archived_cats = implode(',', $a_archived);
+		$bad_cats = implode(',', $a_unpublished + $a_unpublished);
 
 		// Free memory
-		unset($r_badcats, $q_badcats);
+		unset($q_badcats, $r_badcats, $a_unpublished, $a_archived);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -217,21 +240,27 @@ class ContentModelArticles extends JModelList
 			)
 		);
 
-		// Process an Archived Article layout
-		if ($this->getState('filter.published') == 2)
+		// Process an Archived Article layout (if there is at least an archived category)
+		if ($this->getState('filter.published') == 2 && $archived_cats != '')
 		{
-			// If badcats is not null, this means that the article is inside an archived category
-			// In this case, the state is set to 2 to indicate Archived (even if the article state is Published)
-			$query->select($this->getState('list.select', 'CASE WHEN a.catid NOT IN (' . $badcats . ') THEN a.state ELSE 2 END AS state'));
+			// If the article is inside an archived category, the state is set to 2 to indicate Archived
+			// (even if the article state is Published)
+			$query->select($this->getState('list.select', 'CASE WHEN a.catid IN (' . $archived_cats . ') THEN 2 ELSE a.state END AS state'));
 		}
+		// Process non-archived layout
 		else
 		{
-			/*
-			Process non-archived layout
-			If badcats is not null, this means that the article is inside an unpublished category
-			In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
-			*/
-			$query->select($this->getState('list.select', 'CASE WHEN a.catid IN (' . $badcats . ') THEN 0 ELSE a.state END AS state'));
+			if ($unpublished_cats != '')
+			{
+				// If the article is inside an unpublished category, the state is set to 0 to indicate Unpublished
+				// (even if the article state is Published)
+				$query->select($this->getState('list.select', 'CASE WHEN a.catid IN (' . $unpublished_cats . ') THEN 0 ELSE a.state END AS state'));
+			}
+			else
+			{
+				// Why bother, if all categories are published?
+				$query->select($this->getState('list.select', 'a.state AS state'));
+			}
 		}
 
 		$query->from('#__content AS a');
@@ -255,11 +284,26 @@ class ContentModelArticles extends JModelList
 		$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
 			->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
+		// Select category state
+		$query->select('c.published');
+
+		// Is this field needed anymore?
+		if ($bad_cats != '')
+		{
+			$query->select('CASE WHEN a.catid NOT IN (' . $bad_cats . ') THEN c.published ELSE 0 END AS parents_published');
+		}
+		else
+		{
+			$query->select('c.published AS parents_published');
+		}
+		
 		// Join to check for category published state in parent categories up the tree
-		$query->select('c.published, CASE WHEN a.catid NOT IN (' . $badcats . ') THEN c.published ELSE 0 END AS parents_published');
 		$subquery = 'SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
 		$subquery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
 		$subquery .= 'WHERE parent.extension = ' . $db->quote('com_content');
+
+		// Init category state filter
+		$publishedWhere = ' a.state ';
 
 		if ($this->getState('filter.published') == 2)
 		{
@@ -267,8 +311,11 @@ class ContentModelArticles extends JModelList
 			// If any up-path categories are archived, include all children in archived layout
 			$subquery .= ' AND parent.published = 2 GROUP BY cat.id ';
 
-			// Set effective state to archived if up-path category is archived
-			$publishedWhere = 'CASE WHEN a.catid NOT IN (' . $badcats . ') THEN a.state ELSE 2 END';
+			// Set effective state to archived if up-path category is archived (if any)
+			if ($archived_cats != '')
+			{
+				$publishedWhere = 'CASE WHEN a.catid NOT IN (' . $archived_cats . ') THEN a.state ELSE 2 END';
+			}
 		}
 		else
 		{
@@ -276,8 +323,11 @@ class ContentModelArticles extends JModelList
 			// If all categories are published, badcats.id will be null, and we just use the article state
 			$subquery .= ' AND parent.published != 1 GROUP BY cat.id ';
 
-			// Select state to unpublished if up-path category is unpublished
-			$publishedWhere = 'CASE WHEN a.catid NOT IN (' . $badcats . ') THEN a.state ELSE 0 END';
+			// Select state to unpublished if up-path category is unpublished (if any)
+			if ($unpublished_cats != '')
+			{
+				$publishedWhere = 'CASE WHEN a.catid NOT IN (' . $unpublished_cats . ') THEN a.state ELSE 0 END';
+			}
 		}
 
 		// Filter by access level.
