@@ -144,7 +144,8 @@ class PlgUserSession extends JPlugin
 						if ($session = $handler->read($session_id))
 						{
 							// Unserialize session data.
-							$session = JSessionHelper::unserialize($session);
+							$session_helper = new JSessionHelper;
+							$session        = $session_helper->unserialize($session);
 
 							// Populate helper vars.
 							$sess_namespace = current(array_keys($session));
