@@ -84,7 +84,7 @@ class InstallerViewManage extends InstallerViewDefault
 			JToolbarHelper::divider();
 		}
 
-		JToolbarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE', true);
+		JToolbarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE', false);
 		JToolbarHelper::divider();
 
 		if ($canDo->get('core.delete'))
