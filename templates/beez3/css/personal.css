@@ -408,8 +408,9 @@ margin-right:5px;
 	body h1 {margin-bottom:0}
 	#header {padding-top:0}
 	#header form  {margin:0}
-	#logo {padding:38px 20px 38px 10px}
+	#logo {padding:38px 20px 28px 10px;width:auto}
 	.logoheader {background:#0C1D43; min-height:100px; margin:0}
+	#logo span.header1{margin-left: 0;line-height: 0.9em}
 	.box {
 		border-left: 0 !important;
 		border-bottom: solid 1px #ddd;
