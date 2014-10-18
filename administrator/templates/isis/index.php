@@ -283,7 +283,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 						window.onbeforeunload = function () { };
 					});
 				});
-			}
+				}
 
 			processScroll()
 
