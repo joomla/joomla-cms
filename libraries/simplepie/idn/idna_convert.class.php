@@ -966,4 +966,3 @@ class Net_IDNA_php4 extends idna_convert
     }
 }
 
-?>

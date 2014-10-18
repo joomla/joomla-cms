@@ -134,4 +134,3 @@ function map_iso8859_1_w1252($string = '')
     return $return;
 }
 
-?>
