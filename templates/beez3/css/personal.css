@@ -411,7 +411,7 @@ margin-right:5px;
 		float: none;
 		width: 100%
 	}
-	#header {padding-top:3em}
+	#header {padding-top:0}
 	#header form  {margin:0}
 	.logoheader {background:#0C1D43; min-height:100px; margin:0}
 	.box {
