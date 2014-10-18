@@ -205,9 +205,9 @@ class JUser extends JObject
 	protected $_errorMsg = null;
 
 	/**
-	 * JUserHelperWrapper object
+	 * JUserWrapperHelper object
 	 *
-	 * @var    JUserHelperWrapper
+	 * @var    JUserWrapperHelper
 	 * @since  3.4
 	 */
 	protected $userHelper = null;
@@ -222,15 +222,15 @@ class JUser extends JObject
 	 * Constructor activating the default information of the language
 	 *
 	 * @param   integer             $identifier  The primary key of the user to load (optional).
-	 * @param   JUserHelperWrapper  $userHelper  The JUserHelperWrapper for the static methods.
+	 * @param   JUserWrapperHelper  $userHelper  The JUserWrapperHelper for the static methods.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($identifier = 0, JUserHelperWrapper $userHelper = null)
+	public function __construct($identifier = 0, JUserWrapperHelper $userHelper = null)
 	{
 		if (null === $userHelper)
 		{
-			$userHelper = new JUserHelperWrapper;
+			$userHelper = new JUserWrapperHelper;
 		}
 
 		$this->userHelper = $userHelper;
@@ -257,17 +257,17 @@ class JUser extends JObject
 	 * Returns the global User object, only creating it if it doesn't already exist.
 	 *
 	 * @param   integer             $identifier  The primary key of the user to load (optional).
-	 * @param   JUserHelperWrapper  $userHelper  The JUserHelperWrapper for the static methods.
+	 * @param   JUserWrapperHelper  $userHelper  The JUserWrapperHelper for the static methods.
 	 *
 	 * @return  JUser  The User object.
 	 *
 	 * @since   11.1
 	 */
-	public static function getInstance($identifier = 0, JUserHelperWrapper $userHelper = null)
+	public static function getInstance($identifier = 0, JUserWrapperHelper $userHelper = null)
 	{
 		if (null === $userHelper)
 		{
-			$userHelper = new JUserHelperWrapper;
+			$userHelper = new JUserWrapperHelper;
 		}
 
 		// Find the user id
