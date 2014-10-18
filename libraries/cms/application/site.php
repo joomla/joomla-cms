@@ -343,8 +343,15 @@ final class JApplicationSite extends JApplicationCms
 			$robots = $this->get('robots');
 
 			// Lets cascade the parameters if we have menu item parameters
+
+			// Retrieve com_menu global settings
+			$temp = clone JComponentHelper::getParams('com_menus');
+			
 			if (is_object($menu))
 			{
+				// Get show_page_heading from com_menu global settings
+				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
+				
 				$temp = new JRegistry;
 				$temp->loadString($menu->params);
 				$params[$hash]->merge($temp);
@@ -352,8 +359,7 @@ final class JApplicationSite extends JApplicationCms
 			}
 			else
 			{
-				// Get com_menu global settings
-				$temp = clone JComponentHelper::getParams('com_menus');
+				// Merge com_menu global settings
 				$params[$hash]->merge($temp);
 
 				// If supplied, use page title
