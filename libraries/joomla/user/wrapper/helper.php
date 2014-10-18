@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  User
  * @since       3.4
  */
-class JUserHelperWrapper
+class JUserWrapperHelper
 {
 	/**
 	 * Helper wrapper method for addUserToGroup
