@@ -1017,13 +1017,13 @@ abstract class JHtml
 						return true;
 					var state = false;' .
 					// Both ranges set
-					($dateStart && $dateEnd ? 'if(date.getTime()/1000 >= ' . $dateStart . ' && date.getTime()/1000 <= ' . $dateEnd . '+ 24*60*60) state = false; else state =  true; return state;' : '') .
+					($dateStart && $dateEnd ? 'if(date.getTime()/1000 >= ' . $dateStart . ' && date.getTime()/1000 <= ' . $dateEnd . ' + 24*60*60) state = false; else state =  true; return state;' : '') .
 					// If start date set
 					($dateStart ? 'if(date.getTime()/1000 >= ' . $dateStart . ') state = false; else state =  true; return state;' : '') .
 					// If end date set
-					($dateEnd ? 'if(date.getTime()/1000 <= ' . $dateEnd . '+ 24*60*60) state =  false; else state =  true; return state;' : '') . '
+					($dateEnd ? 'if(date.getTime()/1000 <= ' . $dateEnd . ' + 24*60*60) state =  false; else state =  true; return state;' : '') . '
 					},' : ''
-				).'
+				) . '
 			firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
 			});});'
 			);
