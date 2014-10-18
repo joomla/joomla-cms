@@ -21,8 +21,8 @@ class JLanguageWrapperTransliterate
 	/**
 	 * Helper wrapper method for utf8_latin_to_ascii
 	 *
-	 * @param   string  $string String to transliterate.
-	 * @param   integer $case   Optionally specify upper or lower case. Default to null.
+	 * @param   string   $string  String to transliterate.
+	 * @param   integer  $case    Optionally specify upper or lower case. Default to null.
 	 *
 	 * @return  string  Transliterated string.
 	 *
