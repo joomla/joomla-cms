@@ -30,8 +30,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 
 <?php if (empty($this->items)) : ?>
-	<p> <?php echo JText::_('COM_WEBLINKS_NO_WEBLINKS'); ?></p>
-<?php else : ?>
+	<p class="alert alert-info"> <?php echo JText::_('COM_WEBLINKS_NO_WEBLINKS'); ?></p>
+<?php endif; ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
@@ -53,6 +53,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php endif; ?>
 	</fieldset>
 	<?php endif; ?>
+	<?php if (!empty($this->items)) : ?>
 		<ul class="category list-striped list-condensed">
 
 			<?php foreach ($this->items as $i => $item) : ?>
@@ -160,7 +161,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php endif;?>
 			<?php endforeach; ?>
 		</ul>
-
+		<?php endif; ?>
 		<?php // Code to add a link to submit a weblink. ?>
 		<?php /* if ($canCreate) : // TODO This is not working due to some problem in the router, I think. Ref issue #23685 ?>
 			<?php echo JHtml::_('icon.create', $item, $item->params); ?>
@@ -176,4 +177,3 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</div>
 		<?php endif; ?>
 	</form>
-<?php endif; ?>
