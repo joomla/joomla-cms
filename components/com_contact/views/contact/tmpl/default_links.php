@@ -64,4 +64,3 @@ if ($this->params->get('presentation_style') == 'tabs')
 {
 	echo JHtml::_('bootstrap.endTab');
 }
-
