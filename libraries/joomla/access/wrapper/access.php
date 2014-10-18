@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  User
  * @since       3.4
  */
-class JAccessWrapper
+class JAccessWrapperAccess
 {
 	/**
 	 * Helper wrapper method for addUserToGroup
