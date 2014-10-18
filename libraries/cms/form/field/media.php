@@ -380,7 +380,7 @@ class JFormFieldMedia extends JFormField
 			{
 				JHtml::_('behavior.modal');
 
-				$html[] = '<a class="modal btn" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '" href="' . $url .'" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
+				$html[] = '<a class="modal btn" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '" href="' . $url . '" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
 			}
 
 			if (JFactory::getApplication()->isAdmin())
