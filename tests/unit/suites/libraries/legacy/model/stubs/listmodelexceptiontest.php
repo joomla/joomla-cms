@@ -8,24 +8,24 @@
  */
 
 /**
- * Stub to test JModelLegacy.
+ * Stub to test JModelList.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
  * @since       12.3
  */
-class NomodelInName extends JModelLegacy
+class ListModelExceptionTest extends JModelList
 {
 	/**
-	 * Override parent __construct, so we bypass the Exception
-	 * thrown when 'Model' is not in the class name so we can
-	 * test the getName() function fully
+	 * throws a Exception for testing purposes
 	 *
-	 * @since   12.3
+	 * @throws RuntimeException
+	 *
+	 * @return void
 	 */
-	public function __construct()
+	protected function _getList()
 	{
-		return;
+		throw new RuntimeException;
 	}
 }

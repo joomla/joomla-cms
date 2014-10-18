@@ -64,12 +64,12 @@ class JFormFieldModulelayout extends JFormField
 		$template = preg_replace('#\W#', '', $template);
 
 		// Get the style.
+		$template_style_id = '';
 		if ($this->form instanceof JForm)
 		{
 			$template_style_id = $this->form->getValue('template_style_id');
+			$template_style_id = preg_replace('#\W#', '', $template_style_id);
 		}
-
-		$template_style_id = preg_replace('#\W#', '', $template_style_id);
 
 		// If an extension and view are present build the options.
 		if ($module && $client)

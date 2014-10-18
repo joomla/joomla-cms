@@ -9,6 +9,9 @@
 // Set flag that this is a parent file.
 const _JEXEC = 1;
 
+// Set fixed precision value to avoid round related issues
+ini_set('precision', 14);
+
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
 {

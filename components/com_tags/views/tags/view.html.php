@@ -119,14 +119,14 @@ class TagsViewTags extends JViewLegacy
 				}
 			}
 		}
-		else
+		elseif(!empty($items[0]))
 		{
 			// Merge so that tag params take priority
-			$temp->merge($item[0]->params);
-			$item[0]->params = $temp;
+			$temp->merge($items[0]->params);
+			$items[0]->params = $temp;
 			// Check for alternative layouts (since we are not in a single-tag menu item)
 			// Single-tag menu item layout takes priority over alt layout for a tag
-			if ($layout = $item[0]->params->get('tag_layout'))
+			if ($layout = $items[0]->params->get('tag_layout'))
 			{
 				$this->setLayout($layout);
 			}

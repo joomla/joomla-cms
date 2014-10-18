@@ -47,14 +47,10 @@ class JSchemaChangesetTest extends TestCase
 		// Store the factory state so we can mock the necessary objects
 		$this->saveFactoryState();
 
-		JFactory::$database = $this->getMockDatabase();
-
-		// Set up our mock database
-		$this->db = JFactory::getDbo();
-		$this->db->name = 'mysqli';
+		JFactory::$database = $this->getMockDatabase('Mysqli');
 
 		// Register the object
-		$this->object = JSchemaChangeset::getInstance($this->db, null);
+		$this->object = JSchemaChangeset::getInstance(JFactory::getDbo(), null);
 	}
 
 	/**
@@ -74,76 +70,61 @@ class JSchemaChangesetTest extends TestCase
 	}
 
 	/**
-	 * Tests the __construct method
+	 * Provides the testable database drivers
 	 *
-	 * @return  void
-	 *
-	 * @since   3.0
+	 * @return  array
 	 */
-	public function test__construct()
+	public function dataDriver()
 	{
-		$this->assertThat(
-			new JSchemaChangeset($this->db, null),
-			$this->isInstanceOf('JSchemaChangeset')
+		return array(
+			array('Mysql'),
+			array('Postgresql'),
+			array('Sqlsrv'),
 		);
 	}
 
 	/**
-	 * Tests the __construct method with the PostgreSQL driver
+	 * Tests the __construct method with the given driver
+	 *
+	 * @medium
+	 *
+	 * @param   string  $driver  Driver to test against
 	 *
 	 * @return  void
 	 *
+	 * @dataProvider dataDriver
 	 * @since   3.0
 	 */
-	public function test__constructPostgresql()
+	public function test__construct($driver)
 	{
-		$this->db->name = 'postgresql';
+		$db     = $this->getMockDatabase($driver);
+		$schema = new JSchemaChangeset($db, null);
 
-		$this->assertThat(
-			new JSchemaChangeset($this->db, null),
-			$this->isInstanceOf('JSchemaChangeset')
-		);
+		$this->assertAttributeInstanceOf('JDatabaseDriver' . $driver, 'db', $schema);
 	}
 
 	/**
-	 * Tests the __construct method with the SQL Server driver
+	 * Tests the getInstance method with the MySQLi driver
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public function test__constructSqlsrv()
+	public function testGetInstanceMysqli()
 	{
-		$this->db->name = 'sqlsrv';
-
-		$this->assertThat(
-			new JSchemaChangeset($this->db, null),
-			$this->isInstanceOf('JSchemaChangeset')
-		);
+		$this->assertAttributeInstanceOf('JDatabaseDriverMysqli', 'db', $this->object);
 	}
-
 
 	/**
-	 * Tests the getInstance method with the MySQL driver
+	 * Tests the getStatus method
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public function testGetInstanceMysql()
-	{
-		$this->assertThat(
-			JSchemaChangeset::getInstance($this->db, null),
-			$this->isInstanceOf('JSchemaChangeset')
-		);
-	}
-
 	public function testGetStatus()
 	{
-		$this->assertThat(
-			$this->object->getStatus(),
-			$this->isType('array')
-		);
+		$this->assertInternalType('array', $this->object->getStatus());
 	}
 
 	/**
@@ -155,9 +136,6 @@ class JSchemaChangesetTest extends TestCase
 	 */
 	public function testGetSchema()
 	{
-		$this->assertThat(
-			$this->object->getSchema(),
-			$this->isType('string')
-		);
+		$this->assertInternalType('string', $this->object->getSchema());
 	}
 }
