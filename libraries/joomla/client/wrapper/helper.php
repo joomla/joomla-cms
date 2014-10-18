@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Client
  * @since       3.4
  */
-class JClientHelperWrapper
+class JClientWrapperHelper
 {
 	/**
 	 * Helper wrapper method for getCredentials
