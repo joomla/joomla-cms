@@ -107,7 +107,7 @@ class InstallerModel extends JModelList
 	 *
 	 * @return  array The array of translated objects
 	 */
-	private function translate(&$items)
+	protected function translate(&$items)
 	{
 		$lang = JFactory::getLanguage();
 

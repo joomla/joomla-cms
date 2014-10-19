@@ -21,6 +21,12 @@ defined('JPATH_PLATFORM') or die;
  */
 class JObject
 {
+	/** Return properties of any accessibility level: private, protected, or public. */
+	const RETURN_ALL = false;
+
+	/** Return public properties only. These always include properties created on the fly. */
+	const RETURN_PUBLIC = true;
+
 	/**
 	 * An array of error messages or Exception objects.
 	 *
@@ -29,7 +35,7 @@ class JObject
 	 * @see    JError
 	 * @deprecated  12.3  JError has been deprecated
 	 */
-	protected $_errors = array();
+	protected $errors = array();
 
 	/**
 	 * Class constructor, overridden in descendant classes.
@@ -41,7 +47,7 @@ class JObject
 	 */
 	public function __construct($properties = null)
 	{
-		if ($properties !== null)
+		if (!empty($properties))
 		{
 			$this->setProperties($properties);
 		}
@@ -50,7 +56,7 @@ class JObject
 	/**
 	 * Magic method to convert the object to a string gracefully.
 	 *
-	 * @return  string  The classname.
+	 * @return  string  The class name.
 	 *
 	 * @since   11.1
 	 * @deprecated 12.3  Classes should provide their own __toString() implementation.
@@ -61,7 +67,88 @@ class JObject
 	}
 
 	/**
-	 * Sets a default value if not alreay assigned
+	 * Magic getter method to convert access to underscored properties to their replacement without the underscore
+	 *
+	 * CAVEAT: Don't rely on this existing in future versions. It is here only to get rid of the underscores
+	 *         without breaking BC.
+	 *
+	 * @param   string $property The property to be retrieved
+	 *
+	 * @return  mixed  The value of the property
+	 *
+	 * @since   3.4
+	 */
+	public function __get($property)
+	{
+		$property = $this->deUnderscore($property);
+
+		if (!property_exists($this, $property))
+		{
+			return null;
+		}
+		return $this->$property;
+	}
+
+	/**
+	 * Magic setter method to convert access to underscored properties to their replacement without the underscore
+	 *
+	 * CAVEAT: Don't rely on this existing in future versions. It is here only to get rid of the underscores
+	 *         without breaking BC.
+	 *
+	 * @param   string $property The property to be retrieved
+	 * @param   mixed  $value    The value of the property
+	 *
+	 * @return  mixed  The value of the property
+	 *
+	 * @since   3.4
+	 */
+	public function __set($property, $value)
+	{
+		$property = $this->deUnderscore($property);
+
+		return $this->$property = $value;
+	}
+
+	/**
+	 * Magic isset method to convert access to underscored properties to their replacement without the underscore
+	 *
+	 * CAVEAT: Don't rely on this existing in future versions. It is here only to get rid of the underscores
+	 *         without breaking BC.
+	 *
+	 * @param   string $property The property to be checked
+	 *
+	 * @return  bool  Whether or not the property exists
+	 *
+	 * @since   3.4
+	 */
+	public function __isset($property)
+	{
+		$property = $this->deUnderscore($property);
+
+		return (property_exists($this, $property) && isset($this->$property));
+	}
+
+	/**
+	 * Magic unset method to convert access to underscored properties to their replacement without the underscore
+	 *
+	 * CAVEAT: Don't rely on this existing in future versions. It is here only to get rid of the underscores
+	 *         without breaking BC.
+	 *
+	 * @param   string $property The property to be unset
+	 *
+	 * @return  bool  void
+	 *
+	 * @since   3.4
+	 */
+	public function __unset($property)
+	{
+		$property = $this->deUnderscore($property);
+
+		unset($this->$property);
+	}
+
+	/**
+	 * Sets a default value if not already assigned
 	 *
 	 * @param   string  $property  The name of the property.
 	 * @param   mixed   $default   The default value.
@@ -102,83 +189,39 @@ class JObject
 	/**
 	 * Returns an associative array of object properties.
 	 *
-	 * @param   boolean  $public  If true, returns only the public properties.
+	 * @param   boolean $scope   If set to JObject::RETURN_PUBLIC (default),
+	 *                           getProperties() returns only the public properties.
+	 *                           If set to JObject::RETURN_ALL, also private and
+	 *                           protected properties are included.
 	 *
-	 * @return  array
+	 * @return  array  The property values indexed by property names
 	 *
 	 * @since   11.1
 	 *
 	 * @see     JObject::get()
 	 */
-	public function getProperties($public = true)
+	public function getProperties($scope = self::RETURN_PUBLIC)
 	{
-		$vars = get_object_vars($this);
-
-		if ($public)
+		if ($scope)
 		{
-			foreach ($vars as $key => $value)
+			$ref = new ReflectionObject($this);
+			$vars = array();
+			foreach ($ref->getProperties(ReflectionProperty::IS_PUBLIC) as $property)
 			{
-				if ('_' == substr($key, 0, 1))
+				if ($property->isStatic())
 				{
-					unset($vars[$key]);
+					continue;
 				}
+				$name = $property->getName();
+				$vars[$name] = $this->$name;
 			}
-		}
-
-		return $vars;
-	}
-
-	/**
-	 * Get the most recent error message.
-	 *
-	 * @param   integer  $i         Option error index.
-	 * @param   boolean  $toString  Indicates if JError objects should return their error message.
-	 *
-	 * @return  string   Error message
-	 *
-	 * @since   11.1
-	 * @see     JError
-	 * @deprecated 12.3  JError has been deprecated
-	 */
-	public function getError($i = null, $toString = true)
-	{
-		// Find the error
-		if ($i === null)
-		{
-			// Default, return the last message
-			$error = end($this->_errors);
-		}
-		elseif (!array_key_exists($i, $this->_errors))
-		{
-			// If $i has been specified but does not exist, return false
-			return false;
 		}
 		else
 		{
-			$error = $this->_errors[$i];
+			$vars = get_object_vars($this);
 		}
 
-		// Check if only the string is requested
-		if ($error instanceof Exception && $toString)
-		{
-			return (string) $error;
-		}
-
-		return $error;
-	}
-
-	/**
-	 * Return all errors, if any.
-	 *
-	 * @return  array  Array of error messages or JErrors.
-	 *
-	 * @since   11.1
-	 * @see     JError
-	 * @deprecated 12.3  JError has been deprecated
-	 */
-	public function getErrors()
-	{
-		return $this->_errors;
+		return $vars;
 	}
 
 	/**
@@ -239,6 +282,73 @@ class JObject
 	 */
 	public function setError($error)
 	{
-		array_push($this->_errors, $error);
+		$this->errors[] = $error;
+	}
+
+	/**
+	 * Get the most recent error message.
+	 *
+	 * @param   integer $i        Option error index.
+	 * @param   boolean $toString Indicates if JError objects should return their error message.
+	 *
+	 * @return  string   Error message
+	 *
+	 * @since      11.1
+	 * @see        JError
+	 * @deprecated 12.3  JError has been deprecated
+	 */
+	public function getError($i = null, $toString = true)
+	{
+		if ($i === null)
+		{
+			$error = end($this->errors);
+		}
+		elseif (!array_key_exists($i, $this->errors))
+		{
+			return false;
+		}
+		else
+		{
+			$error = $this->errors[$i];
+		}
+
+		if ($toString)
+		{
+			$error = (string) $error;
+		}
+
+		return $error;
+	}
+
+	/**
+	 * Return all errors, if any.
+	 *
+	 * @return  array  Array of error messages or JErrors.
+	 *
+	 * @since      11.1
+	 * @see        JError
+	 * @deprecated 12.3  JError has been deprecated
+	 */
+	public function getErrors()
+	{
+		return $this->errors;
+	}
+
+	/**
+	 * Remove a leading underscore
+	 *
+	 * @param   string $property The name of a property
+	 *
+	 * @return  string  The name without leading underscore
+	 */
+	private function deUnderscore($property)
+	{
+		if (is_string($property) && !empty($property) && $property[0] == '_' && !property_exists($this, $property))
+		{
+			JLog::add('Property names starting with an underscore are deprecated. Use their counterpart without the underscore instead.', JLog::INFO, 'deprecated');
+			$property = substr($property, 1);
+		}
+
+		return $property;
 	}
 }

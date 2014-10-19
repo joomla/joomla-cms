@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 jimport('joomla.filesystem.path');
 require_once JPATH_COMPONENT . '/helpers/menus.php';
 
@@ -686,7 +688,7 @@ class MenusModelItem extends JModelAdmin
 		$result = JArrayHelper::toObject($properties);
 
 		// Convert the params field to an array.
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($table->params);
 		$result->params = $registry->toArray();
 
@@ -1097,7 +1099,7 @@ class MenusModelItem extends JModelAdmin
 
 		foreach ($items as &$item)
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->params);
 			$params = (string) $registry;
 

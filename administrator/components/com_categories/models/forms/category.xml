@@ -218,14 +218,21 @@
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				view="category"
-				useglobal="true"
-				/>
+				useglobal="true" />
 
 			<field
 				name="image"
 				type="media"
 				label="COM_CATEGORIES_FIELD_IMAGE_LABEL"
 				description="COM_CATEGORIES_FIELD_IMAGE_DESC" />
+
+			<field 
+				name="image_alt"
+				type="text"
+				label="COM_CATEGORIES_FIELD_IMAGE_ALT_LABEL"
+				description="COM_CATEGORIES_FIELD_IMAGE_ALT_DESC"
+				size="20" />
+
 		</fieldset>
 	</fields>
 
