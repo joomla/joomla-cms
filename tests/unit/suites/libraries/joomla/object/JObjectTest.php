@@ -228,6 +228,74 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Ensure that isset() on non-existing properties works on JObject
+	 * as on stdClass.
+	 *
+	 * @testdox isset() works on JObject as on stdClass
+	 */
+	public function testIssetWorksOnJObjectAsOnStdClass()
+	{
+		$object = new JObject();
+		$stdClass = new stdClass();
+
+		$this->assertEquals(
+			isset($stdClass->leave),
+			isset($object->leave)
+		);
+	}
+
+	/**
+	 * Ensure that isset() on non-existing properties works on JObject
+	 * as on stdClass.
+	 *
+	 * @testdox isset() works on JObject as on stdClass with multiple levels
+	 */
+	public function testIssetWorksOnJObjectAsOnStdClassWithMultipleLevels()
+	{
+		$object = new JObject();
+		$stdClass = new stdClass();
+
+		$this->assertEquals(
+			isset($stdClass->node->leave),
+			isset($object->node->leave)
+		);
+	}
+
+	/**
+	 * Ensure that empty() on non-existing properties works on JObject
+	 * as on stdClass.
+	 *
+	 * @testdox empty() works on JObject as on stdClass
+	 */
+	public function testEmptyWorksOnJObjectAsOnStdClass()
+	{
+		$object = new JObject();
+		$stdClass = new stdClass();
+
+		$this->assertEquals(
+			empty($stdClass->leave),
+			empty($object->leave)
+		);
+	}
+
+	/**
+	 * Ensure that empty() on non-existing properties works on JObject
+	 * as on stdClass.
+	 *
+	 * @testdox empty() works on JObject as on stdClass with multiple levels
+	 */
+	public function testEmptyWorksOnJObjectAsOnStdClassWithMultipleLevels()
+	{
+		$object = new JObject();
+		$stdClass = new stdClass();
+
+		$this->assertEquals(
+			empty($stdClass->node->leave),
+			empty($object->node->leave)
+		);
+	}
+
+	/**
 	 * @testdox [deprecated] Errors can be set
 	 */
 	public function testSetError()

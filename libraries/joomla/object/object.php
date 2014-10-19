@@ -82,6 +82,10 @@ class JObject
 	{
 		$property = $this->deUnderscore($property);
 
+		if (!property_exists($this, $property))
+		{
+			return null;
+		}
 		return $this->$property;
 	}
 
@@ -111,7 +115,7 @@ class JObject
 	 * CAVEAT: Don't rely on this existing in future versions. It is here only to get rid of the underscores
 	 *         without breaking BC.
 	 *
-	 * @param   string $property The property to be retrieved
+	 * @param   string $property The property to be checked
 	 *
 	 * @return  bool  Whether or not the property exists
 	 *
@@ -121,7 +125,26 @@ class JObject
 	{
 		$property = $this->deUnderscore($property);
 
-		return property_exists($this, $property);
+		return (property_exists($this, $property) && isset($this->$property));
+	}
+
+	/**
+	 * Magic unset method to convert access to underscored properties to their replacement without the underscore
+	 *
+	 * CAVEAT: Don't rely on this existing in future versions. It is here only to get rid of the underscores
+	 *         without breaking BC.
+	 *
+	 * @param   string $property The property to be unset
+	 *
+	 * @return  bool  void
+	 *
+	 * @since   3.4
+	 */
+	public function __unset($property)
+	{
+		$property = $this->deUnderscore($property);
+
+		unset($this->$property);
 	}
 
 	/**
