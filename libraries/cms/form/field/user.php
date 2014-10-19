@@ -47,9 +47,6 @@ class JFormFieldUser extends JFormField
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->required ? ' required' : '';
 
-		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal_' . $this->id);
-
 		// Build the script.
 		$script = array();
 		$script[] = '	function jSelectUser_' . $this->id . '(id, title) {';
@@ -61,11 +58,17 @@ class JFormFieldUser extends JFormField
 			. $this->id . '").className = document.getElementById("' . $this->id . '").className.replace(" invalid" , "");';
 		$script[] = '			' . $this->onchange;
 		$script[] = '		}';
-		$script[] = '		SqueezeBox.close();';
-		$script[] = '	}';
 
-		// Add the script to the document head.
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		if (JFactory::getApplication()->isSite())
+		{
+			$script[] = '		SqueezeBox.close();';
+		}
+		elseif (JFactory::getApplication()->isSite())
+		{
+			$script[] = '		jQuery("#userModal").modal("hide"); ';
+		}
+
+		$script[] = '	}';
 
 		// Load the current username if available.
 		$table = JTable::getInstance('user');
@@ -94,9 +97,27 @@ class JFormFieldUser extends JFormField
 		// Create the user select button.
 		if ($this->readonly === false)
 		{
-			$html[] = '		<a class="btn btn-primary modal_' . $this->id . '" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '" href="' . $link . '"'
-				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = '<i class="icon-user"></i></a>';
+			// Add the script to the document head.
+			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+
+			if (JFactory::getApplication()->isSite())
+			{
+				// Load the modal behavior script.
+				JHtml::_('behavior.modal', 'a.modal_' . $this->id);
+
+				$html[] = '<a class="btn btn-primary modal_' . $this->id . '" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '" href="' . $link . '"'
+							. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
+				$html[] = '<i class="icon-user"></i></a>';
+			}
+			elseif (JFactory::getApplication()->isAdmin())
+			{
+				// Include jQuery
+				JHtml::_('jquery.framework');
+				JHtml::_('bootstrap.modal');
+
+				$html[] = '<a href="#userModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '"><i class="icon-user"></i></a>';
+				$html[] = JHtmlBootstrap::renderModal('userModal', array( 'url' => $link, 'title' => JText::_('JLIB_FORM_CHANGE_USER'),'height' => '600px', 'width' => '800px'), '');
+			}
 		}
 
 		$html[] = '</div>';
