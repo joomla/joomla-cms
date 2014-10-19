@@ -21,4 +21,7 @@ class SampleObject extends JObject
 	private static   $privateStaticProperty   = 'private, static';
 	protected static $protectedStaticProperty = 'protected, static';
 	public static    $publicStaticProperty    = 'public, static';
+	private   $_privateUnderscore   = 'private, declared, underscored';
+	protected $_protectedUnderscore = 'protected, declared, underscored';
+	public    $_publicUnderscore    = 'public, declared, underscored';
 }

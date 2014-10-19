@@ -289,9 +289,9 @@ class JObject
 			$error = $this->errors[$i];
 		}
 
-		if ($error instanceof Exception && $toString)
+		if ($toString)
 		{
-			return (string) $error;
+			$error = (string) $error;
 		}
 
 		return $error;

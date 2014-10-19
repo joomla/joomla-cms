@@ -234,74 +234,108 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	{
 		$object = new JObject();
 
-		$object->setError('A Test Error');
-		$this->assertAttributeEquals(
-			array('A Test Error'),
-			'errors',
-			$object
-		);
-	}
-
-	/**
-	 * @testdox [deprecated] Errors can be retrieved one by one
-	 */
-	public function testGetError()
-	{
-		$object = new JObject();
-
-		$object->setError(1234);
-		$object->setError('Second Test Error');
-		$object->setError('Third Test Error');
-		$this->assertEquals(
-			1234,
-			$object->getError(0, false),
-			'Should return the test error as number'
-		);
-		$this->assertEquals(
-			'Second Test Error',
-			$object->getError(1),
-			'Should return the second test error'
-		);
-		$this->assertEquals(
-			'Third Test Error',
-			$object->getError(),
-			'Should return the third test error'
-		);
-		$this->assertFalse(
-			$object->getError(20),
-			'Should return false, since the error does not exist'
-		);
-
-		$exception = new Exception('error');
-		$object->setError($exception);
-		$this->assertThat(
-			$object->getError(3, true),
-			$this->equalTo((string) $exception)
-		);
-	}
-
-	/**
-	 * @testdox [deprecated] Errors can be retrieved all at once
-	 */
-	public function testGetErrors()
-	{
-		$object = new JObject();
-
 		$errors = array(1234, 'Second Test Error', 'Third Test Error');
 
 		foreach ($errors as $error)
 		{
 			$object->setError($error);
 		}
+
 		$this->assertAttributeEquals(
-			$object->getErrors(),
+			$errors,
 			'errors',
 			$object
 		);
+
+		return $object;
+	}
+
+	/**
+	 * @depends testSetError
+	 * @testdox [deprecated] getError() returns the last error by default
+	 */
+	public function testGetErrorReturnsTheLastErrorByDefault($object)
+	{
 		$this->assertEquals(
-			$errors,
-			$object->getErrors(),
-			'Should return every error set'
+			'Third Test Error',
+			$object->getError()
+		);
+	}
+
+	/**
+	 * @depends testSetError
+	 * @testdox [deprecated] Errors can be retrieved by index
+	 */
+	public function testErrorsCanBeRetrievedByIndex($object)
+	{
+		$this->assertEquals(
+			'Second Test Error',
+			$object->getError(1)
+		);
+	}
+
+	/**
+	 * @depends testSetError
+	 * @testdox [deprecated] Accessing an undefined error index returns 0
+	 */
+	public function testAccessingAnUndefinedErrorIndexReturns0($object)
+	{
+		$this->assertFalse(
+			$object->getError(20)
+		);
+	}
+
+	/**
+	 * @depends testSetError
+	 * @testdox [deprecated] Numerical errors can be retrieved unchanged
+	 */
+	public function testNumericalErrorsCanBeRetrievedUnchanged($object)
+	{
+		$this->assertSame(
+			1234,
+			$object->getError(0, false)
+		);
+	}
+
+	/**
+	 * @depends testSetError
+	 * @testdox [deprecated] Numerical errors can be retrieved as string
+	 */
+	public function testNumericalErrorsCanBeRetrievedAsString($object)
+	{
+		$this->assertSame(
+			'1234',
+			$object->getError(0, true)
+		);
+	}
+
+	/**
+	 * @testdox [deprecated] Exceptions can be retrieved unchanged
+	 */
+	public function testExceptionsCanBeRetrievedUnchanged()
+	{
+		$object = new JObject();
+
+		$exception = new Exception('error');
+		$object->setError($exception);
+		$this->assertSame(
+			$exception,
+			$object->getError(null, false)
+		);
+	}
+
+	/**
+	 * @testdox [deprecated] Exceptions can be retrieved as string
+	 */
+	public function testExceptionsCanBeRetrievedAsString()
+	{
+		$object = new JObject();
+
+		$exception = new Exception('error');
+		$object->setError($exception);
+		$this->assertSame(
+			(string) $exception,
+			$object->getError(null, true)
 		);
 	}
 
@@ -314,64 +348,28 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	 * In order to achieve that, requesting a non-existing underscored property
 	 * will return the corresponding property without the underscore.
 	 *
-	 * @testdox [deprecated] Underscored properties are read correctly
+	 * @testdox [deprecated] Underscored properties are redirected correctly
 	 */
-	public function testUnderscoredPropertiesAreReadCorrectly()
+	public function testUnderscoredPropertiesAreRedirectedCorrectly()
 	{
-		$object = new JObject();
-
-		$object->setError('foo');
+		$this->object->_testProperty = 'public, dynamic, underscore';
 
 		$this->assertEquals(
-			array('foo'),
-			// Was '_errors' earlier,but is 'errors' now
-			$object->_errors
+			$this->object->_testProperty,
+			$this->object->testProperty
 		);
 	}
 
 	/**
-	 * @testdox [deprecated] Not underscored properties are read correctly
+	 * @testdox [deprecated] Not underscored properties are redirected correctly
 	 */
-	public function testNotUnderscoredPropertiesAreReadCorrectly()
+	public function testNotUnderscoredPropertiesAreRedirectedCorrectly()
 	{
-		$object = new JObject();
-
-		$object->setError('foo');
+		$this->object->testProperty = 'public, dynamic';
 
 		$this->assertEquals(
-			array('foo'),
-			// Was '_errors' earlier,but is 'errors' now
-			$object->errors
-		);
-	}
-
-	/**
-	 * @testdox [deprecated] Underscored properties are written correctly
-	 */
-	public function testUnderscoredPropertiesAreWrittenCorrectly()
-	{
-		$object = new JObject();
-
-		// Was '_errors' earlier,but is 'errors' now
-		$object->_errors = array('foo');
-		$this->assertEquals(
-			array('foo'),
-			$object->getErrors()
-		);
-	}
-
-	/**
-	 * @testdox [deprecated] Not underscored properties are written correctly
-	 */
-	public function testNotUnderscoredPropertiesAreWrittenCorrectly()
-	{
-		$object = new JObject();
-
-		// Was '_errors' earlier,but is 'errors' now
-		$object->errors = array('foo');
-		$this->assertEquals(
-			array('foo'),
-			$object->getErrors()
+			$this->object->_testProperty,
+			$this->object->testProperty
 		);
 	}
 }
