@@ -117,7 +117,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 									// Open in a modal window
 									JHtml::_('behavior.modal', 'a.modal');
 									echo '<a class="modal" href="' . $link . '"  rel="{handler: \'iframe\', size: {x:' . $this->escape($width) . ', y:' . $this->escape($height) . '}}">' .
-										$this->escape($item->title) . ' </a>';
+									$this->escape($item->title) . ' </a>';
 									break;
 
 								default:

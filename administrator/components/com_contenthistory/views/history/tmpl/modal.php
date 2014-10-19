@@ -87,7 +87,6 @@ JFactory::getDocument()->addScriptDeclaration("
 );
 
 ?>
-<h3><?php echo JText::_('COM_CONTENTHISTORY_MODAL_TITLE'); ?></h3>
 <div class="btn-group pull-right">
 	<button id="toolbar-load" type="submit" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>"
 		data-url="<?php echo JRoute::_($loadUrl);?>" id="content-url">
