@@ -228,114 +228,6 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Ensure that isset() on non-existing properties works on JObject
-	 * as on stdClass.
-	 *
-	 * @testdox isset() works on JObject as on stdClass
-	 */
-	public function testIssetWorksOnJObjectAsOnStdClass()
-	{
-		$object = new JObject();
-		$stdClass = new stdClass();
-
-		$this->assertEquals(
-			isset($stdClass->leave),
-			isset($object->leave)
-		);
-	}
-
-	/**
-	 * Ensure that isset() on non-existing properties works on JObject
-	 * as on stdClass.
-	 *
-	 * @testdox isset() works on JObject as on stdClass with multiple levels
-	 */
-	public function testIssetWorksOnJObjectAsOnStdClassWithMultipleLevels()
-	{
-		$object = new JObject();
-		$stdClass = new stdClass();
-
-		$this->assertEquals(
-			isset($stdClass->node->leave),
-			isset($object->node->leave)
-		);
-	}
-
-	/**
-	 * Ensure that empty() on non-existing properties works on JObject
-	 * as on stdClass.
-	 *
-	 * @testdox empty() works on JObject as on stdClass
-	 */
-	public function testEmptyWorksOnJObjectAsOnStdClass()
-	{
-		$object = new JObject();
-		$stdClass = new stdClass();
-
-		$this->assertEquals(
-			empty($stdClass->leave),
-			empty($object->leave)
-		);
-	}
-
-	/**
-	 * Ensure that empty() on non-existing properties works on JObject
-	 * as on stdClass.
-	 *
-	 * @testdox empty() works on JObject as on stdClass with multiple levels
-	 */
-	public function testEmptyWorksOnJObjectAsOnStdClassWithMultipleLevels()
-	{
-		$object = new JObject();
-		$stdClass = new stdClass();
-
-		$this->assertEquals(
-			empty($stdClass->node->leave),
-			empty($object->node->leave)
-		);
-	}
-
-	/**
-	 * Ensure that unset() of existing properties works on JObject
-	 * as on stdClass.
-	 *
-	 * @testdox unset() of existing properties works on JObject as on stdClass
-	 */
-	public function testUnsetExistingPropertiesWorksOnJObjectAsOnStdClass()
-	{
-		$object = new JObject($this->testData);
-		$stdClass = (object) $this->testData;
-
-		unset($object->publicProperty);
-		unset($stdClass->publicProperty);
-
-		$this->assertEquals(
-			(array) $stdClass,
-			$object->getProperties()
-		);
-	}
-
-	/**
-	 * Ensure that unset() of non-existing properties works on JObject
-	 * as on stdClass.
-	 *
-	 * @testdox unset() of non-existing properties works on JObject as on stdClass
-	 */
-	public function testUnsetNonExistentPropertyWorksOnJObjectAsOnStdClass()
-	{
-		$object = new JObject($this->testData);
-		$stdClass = (object) $this->testData;
-
-		unset($object->nonExistent);
-		unset($stdClass->nonExistent);
-
-		$this->assertEquals(
-			(array) $stdClass,
-			$object->getProperties()
-		);
-	}
-
-	/**
 	 * @testdox [deprecated] Errors can be set
 	 */
 	public function testSetError()
@@ -359,6 +251,8 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @param   JObject  $object  The test object, preset in testSetError()
+	 *
 	 * @depends testSetError
 	 * @testdox [deprecated] getError() returns the last error by default
 	 */
@@ -371,6 +265,8 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @param   JObject  $object  The test object, preset in testSetError()
+	 *
 	 * @depends testSetError
 	 * @testdox [deprecated] Errors can be retrieved by index
 	 */
@@ -383,6 +279,8 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @param   JObject  $object  The test object, preset in testSetError()
+	 *
 	 * @depends testSetError
 	 * @testdox [deprecated] Accessing an undefined error index returns 0
 	 */
@@ -394,6 +292,8 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @param   JObject  $object  The test object, preset in testSetError()
+	 *
 	 * @depends testSetError
 	 * @testdox [deprecated] Numerical errors can be retrieved unchanged
 	 */
@@ -406,6 +306,8 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @param   JObject  $object  The test object, preset in testSetError()
+	 *
 	 * @depends testSetError
 	 * @testdox [deprecated] Numerical errors can be retrieved as string
 	 */
@@ -478,6 +380,114 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$this->object->_testProperty,
 			$this->object->testProperty
+		);
+	}
+
+	/**
+	 * Ensure that isset() on non-existing properties works on JObject
+	 * as on stdClass.
+	 *
+	 * @testdox [deprecated] isset() works on JObject as on stdClass
+	 */
+	public function testIssetWorksOnJObjectAsOnStdClass()
+	{
+		$object = new JObject();
+		$stdClass = new stdClass();
+
+		$this->assertEquals(
+			isset($stdClass->leave),
+			isset($object->leave)
+		);
+	}
+
+	/**
+	 * Ensure that isset() on non-existing properties works on JObject
+	 * as on stdClass.
+	 *
+	 * @testdox [deprecated] isset() works on JObject as on stdClass with multiple levels
+	 */
+	public function testIssetWorksOnJObjectAsOnStdClassWithMultipleLevels()
+	{
+		$object = new JObject();
+		$stdClass = new stdClass();
+
+		$this->assertEquals(
+			isset($stdClass->node->leave),
+			isset($object->node->leave)
+		);
+	}
+
+	/**
+	 * Ensure that empty() on non-existing properties works on JObject
+	 * as on stdClass.
+	 *
+	 * @testdox [deprecated] empty() works on JObject as on stdClass
+	 */
+	public function testEmptyWorksOnJObjectAsOnStdClass()
+	{
+		$object = new JObject();
+		$stdClass = new stdClass();
+
+		$this->assertEquals(
+			empty($stdClass->leave),
+			empty($object->leave)
+		);
+	}
+
+	/**
+	 * Ensure that empty() on non-existing properties works on JObject
+	 * as on stdClass.
+	 *
+	 * @testdox [deprecated] empty() works on JObject as on stdClass with multiple levels
+	 */
+	public function testEmptyWorksOnJObjectAsOnStdClassWithMultipleLevels()
+	{
+		$object = new JObject();
+		$stdClass = new stdClass();
+
+		$this->assertEquals(
+			empty($stdClass->node->leave),
+			empty($object->node->leave)
+		);
+	}
+
+	/**
+	 * Ensure that unset() of existing properties works on JObject
+	 * as on stdClass.
+	 *
+	 * @testdox [deprecated] unset() of existing properties works on JObject as on stdClass
+	 */
+	public function testUnsetExistingPropertiesWorksOnJObjectAsOnStdClass()
+	{
+		$object = new JObject($this->testData);
+		$stdClass = (object) $this->testData;
+
+		unset($object->publicProperty);
+		unset($stdClass->publicProperty);
+
+		$this->assertEquals(
+			(array) $stdClass,
+			$object->getProperties()
+		);
+	}
+
+	/**
+	 * Ensure that unset() of non-existing properties works on JObject
+	 * as on stdClass.
+	 *
+	 * @testdox [deprecated] unset() of non-existing properties works on JObject as on stdClass
+	 */
+	public function testUnsetNonExistentPropertyWorksOnJObjectAsOnStdClass()
+	{
+		$object = new JObject($this->testData);
+		$stdClass = (object) $this->testData;
+
+		unset($object->nonExistent);
+		unset($stdClass->nonExistent);
+
+		$this->assertEquals(
+			(array) $stdClass,
+			$object->getProperties()
 		);
 	}
 }
