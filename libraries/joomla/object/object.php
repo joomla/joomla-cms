@@ -291,7 +291,7 @@ class JObject
 	 * @param   integer $i        Option error index.
 	 * @param   boolean $toString Indicates if JError objects should return their error message.
 	 *
-	 * @return  string   Error message
+	 * @return  string|JError|Exception|mixed  Error message/object/code
 	 *
 	 * @since      11.1
 	 * @see        JError
@@ -339,7 +339,7 @@ class JObject
 	 *
 	 * @param   string $property The name of a property
 	 *
-	 * @return  string  The name without leading underscore
+	 * @return  string  The unchanged name of the property (if it exists) or the name without a leading underscore
 	 */
 	private function deUnderscore($property)
 	{
