@@ -43,69 +43,69 @@ class JFacebook
 	protected $user;
 
 	/**
-	* @var    JFacebookStatus  Facebook API object for status.
-	* @since  13.1
-	*/
+	 * @var    JFacebookStatus  Facebook API object for status.
+	 * @since  13.1
+	 */
 	protected $status;
 
 	/**
-	* @var    JFacebookCheckin  Facebook API object for checkin.
-	* @since  13.1
-	*/
+	 * @var    JFacebookCheckin  Facebook API object for checkin.
+	 * @since  13.1
+	 */
 	protected $checkin;
 
 	/**
-	* @var    JFacebookEvent  Facebook API object for event.
-	* @since  13.1
-	*/
+	 * @var    JFacebookEvent  Facebook API object for event.
+	 * @since  13.1
+	 */
 	protected $event;
 
 	/**
-	* @var    JFacebookGroup  Facebook API object for group.
-	* @since  13.1
-	*/
+	 * @var    JFacebookGroup  Facebook API object for group.
+	 * @since  13.1
+	 */
 	protected $group;
 
 	/**
-	* @var    JFacebookLink  Facebook API object for link.
-	* @since  13.1
-	*/
+	 * @var    JFacebookLink  Facebook API object for link.
+	 * @since  13.1
+	 */
 	protected $link;
 
 	/**
-	* @var    JFacebookNote  Facebook API object for note.
-	* @since  13.1
-	*/
+	 * @var    JFacebookNote  Facebook API object for note.
+	 * @since  13.1
+	 */
 	protected $note;
 
 	/**
-	* @var    JFacebookPost  Facebook API object for post.
-	* @since  13.1
-	*/
+	 * @var    JFacebookPost  Facebook API object for post.
+	 * @since  13.1
+	 */
 	protected $post;
 
 	/**
-	* @var    JFacebookComment  Facebook API object for comment.
-	* @since  13.1
-	*/
+	 * @var    JFacebookComment  Facebook API object for comment.
+	 * @since  13.1
+	 */
 	protected $comment;
 
 	/**
-	* @var    JFacebookPhoto  Facebook API object for photo.
-	* @since  13.1
-	*/
+	 * @var    JFacebookPhoto  Facebook API object for photo.
+	 * @since  13.1
+	 */
 	protected $photo;
 
 	/**
-	* @var    JFacebookVideo  Facebook API object for video.
-	* @since  13.1
-	*/
+	 * @var    JFacebookVideo  Facebook API object for video.
+	 * @since  13.1
+	 */
 	protected $video;
 
 	/**
-	* @var    JFacebookAlbum  Facebook API object for album.
-	* @since  13.1
-	*/
+	 * @var    JFacebookAlbum  Facebook API object for album.
+	 * @since  13.1
+	 */
 	protected $album;
 
 	/**
@@ -171,13 +171,13 @@ class JFacebook
 	/**
 	 * Set an option for the JFacebook instance.
 	 *
-	* @param   string  $key    The name of the option to set.
-	* @param   mixed   $value  The option value to set.
-	*
-	* @return  JFacebook  This object for method chaining.
-	*
-	* @since   13.1
-	*/
+	 * @param   string  $key    The name of the option to set.
+	 * @param   mixed   $value  The option value to set.
+	 *
+	 * @return  JFacebook  This object for method chaining.
+	 *
+	 * @since   13.1
+	 */
 	public function setOption($key, $value)
 	{
 		$this->options->set($key, $value);

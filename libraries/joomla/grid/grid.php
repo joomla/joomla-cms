@@ -99,6 +99,7 @@ class JGrid
 		{
 			$this->options = array_merge($this->options, $options);
 		}
+
 		return $this;
 	}
 
@@ -154,6 +155,7 @@ class JGrid
 	public function deleteColumn($name)
 	{
 		$index = array_search($name, $this->columns);
+
 		if ($index !== false)
 		{
 			unset($this->columns[$index]);
@@ -195,6 +197,7 @@ class JGrid
 	{
 		$this->rows[]['_row'] = $options;
 		$this->activeRow = count($this->rows) - 1;
+
 		if ($special)
 		{
 			if ($special === 1)
@@ -262,6 +265,7 @@ class JGrid
 	public function setActiveRow($id)
 	{
 		$this->activeRow = (int) $id;
+
 		return $this;
 	}
 
@@ -344,6 +348,7 @@ class JGrid
 				return $this->specialRows['footer'];
 			}
 		}
+
 		return array_diff(array_keys($this->rows), array_merge($this->specialRows['header'], $this->specialRows['footer']));
 	}
 
@@ -402,12 +407,14 @@ class JGrid
 		}
 
 		$ids = array_diff(array_keys($this->rows), array_merge($this->specialRows['header'], $this->specialRows['footer']));
+
 		if (count($ids))
 		{
 			$output[] = $this->renderArea($ids);
 		}
 
 		$output[] = '</table>';
+
 		return implode('', $output);
 	}
 
@@ -426,9 +433,11 @@ class JGrid
 	{
 		$output = array();
 		$output[] = '<' . $area . ">\n";
+
 		foreach ($ids as $id)
 		{
 			$output[] = "\t<tr" . $this->renderAttributes($this->rows[$id]['_row']) . ">\n";
+
 			foreach ($this->getColumns() as $name)
 			{
 				if (isset($this->rows[$id][$name]))
@@ -440,6 +449,7 @@ class JGrid
 
 			$output[] = "\t</tr>\n";
 		}
+
 		$output[] = '</' . $area . '>';
 
 		return implode('', $output);
@@ -460,11 +470,14 @@ class JGrid
 		{
 			return '';
 		}
+
 		$return = array();
+
 		foreach ($attributes as $key => $option)
 		{
 			$return[] = $key . '="' . $option . '"';
 		}
+
 		return ' ' . implode(' ', $return);
 	}
 }

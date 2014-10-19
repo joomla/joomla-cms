@@ -17,9 +17,9 @@ class TestMockLanguage
 	/**
 	 * Creates and instance of the mock JLanguage object.
 	 *
-	 * @param   object  $test  A test object.
+	 * @param   PHPUnit_Framework_TestCase  $test  A test object.
 	 *
-	 * @return  object
+	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   11.3
 	 */

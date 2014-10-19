@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Messages component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.6
+ * @since  1.6
  */
 class MessagesViewMessage extends JViewLegacy
 {
@@ -50,6 +48,7 @@ class MessagesViewMessage extends JViewLegacy
 	{
 		if ($this->getLayout() == 'edit')
 		{
+			JFactory::getApplication()->input->set('hidemainmenu', true);
 			JToolbarHelper::title(JText::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-opened new-privatemessage');
 			JToolbarHelper::save('message.save', 'COM_MESSAGES_TOOLBAR_SEND');
 			JToolbarHelper::cancel('message.cancel');

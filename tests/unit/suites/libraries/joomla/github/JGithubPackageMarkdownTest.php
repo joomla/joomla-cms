@@ -44,7 +44,6 @@ class JGithubPackageMarkdownTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageMarkdown::render
-	 * @todo   Implement testRender().
 	 */
 	public function testRender()
 	{
