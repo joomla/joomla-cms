@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  */
 class JObject
 {
-	/** Return properties of any accessibility level: private, protected, or public. */
+	/** Return protected and public properties. */
 	const RETURN_ALL = false;
 
 	/** Return public properties only. These always include properties created on the fly. */
@@ -53,11 +53,11 @@ class JObject
 
 	/**
 	 * Magic method to convert the object to a string gracefully.
+	 * Derived classes should provide their own __toString() implementation.
 	 *
 	 * @return  string  The class name.
 	 *
 	 * @since      11.1
-	 * @deprecated 12.3  Classes should provide their own __toString() implementation.
 	 */
 	public function __toString()
 	{
