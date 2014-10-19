@@ -296,6 +296,46 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Ensure that unset() of existing properties works on JObject
+	 * as on stdClass.
+	 *
+	 * @testdox unset() of existing properties works on JObject as on stdClass
+	 */
+	public function testUnsetExistingPropertiesWorksOnJObjectAsOnStdClass()
+	{
+		$object = new JObject($this->testData);
+		$stdClass = (object) $this->testData;
+
+		unset($object->publicProperty);
+		unset($stdClass->publicProperty);
+
+		$this->assertEquals(
+			(array) $stdClass,
+			$object->getProperties()
+		);
+	}
+
+	/**
+	 * Ensure that unset() of non-existing properties works on JObject
+	 * as on stdClass.
+	 *
+	 * @testdox unset() of non-existing properties works on JObject as on stdClass
+	 */
+	public function testUnsetNonExistentPropertyWorksOnJObjectAsOnStdClass()
+	{
+		$object = new JObject($this->testData);
+		$stdClass = (object) $this->testData;
+
+		unset($object->nonExistent);
+		unset($stdClass->nonExistent);
+
+		$this->assertEquals(
+			(array) $stdClass,
+			$object->getProperties()
+		);
+	}
+
+	/**
 	 * @testdox [deprecated] Errors can be set
 	 */
 	public function testSetError()
