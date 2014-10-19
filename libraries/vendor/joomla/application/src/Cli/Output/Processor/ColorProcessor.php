@@ -53,10 +53,23 @@ class ColorProcessor implements ProcessorInterface
 	/**
 	 * Class constructor
 	 *
+	 * @param   boolean  $noColors  Defines non-colored mode on construct
+	 *
 	 * @since  1.1.0
 	 */
-	public function __construct()
+	public function __construct($noColors = null)
 	{
+		if (is_null($noColors))
+		{
+			/*
+			 * By default windows cmd.exe and PowerShell does not support ANSI-colored output
+			 * if the variable is not set explicitly colors should be disabled on Windows
+			 */
+			$noColors = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
+		}
+
+		$this->noColors = $noColors;
+
 		$this->addPredefinedStyles();
 	}
 

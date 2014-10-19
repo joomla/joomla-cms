@@ -18,7 +18,7 @@ interface ProcessorInterface
 	/**
 	 * Process the provided output into a string.
 	 *
-	 * @param   mixed
+	 * @param   string  $output  The string to process.
 	 *
 	 * @return  string
 	 *

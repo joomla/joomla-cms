@@ -61,7 +61,7 @@ class Files extends Input
 	 *
 	 * @return  mixed  The filtered input value.
 	 *
-	 * @see     JFilterInput::clean
+	 * @see     \Joomla\Filter\InputFilter::clean()
 	 * @since   1.0
 	 */
 	public function get($name, $default = null, $filter = 'cmd')

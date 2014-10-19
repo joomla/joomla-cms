@@ -24,6 +24,7 @@ namespace Joomla\Application\Web;
  * @property-read  string   $acceptLanguage  The web client's accepted languages string.
  * @property-read  array    $detection       An array of flags determining whether or not a detection routine has been run.
  * @property-read  boolean  $robot           True if the web client is a robot
+ * @property-read  array    $headers         An array of all headers sent by client
  *
  * @since  1.0
  */
@@ -125,6 +126,12 @@ class WebClient
 	protected $detection = array();
 
 	/**
+	 * @var    array  An array of headers sent by client
+	 * @since  1.3.0
+	 */
+	protected $headers;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   string  $userAgent       The optional user-agent string to parse.
@@ -220,6 +227,12 @@ class WebClient
 				if (empty($this->detection['robot']))
 				{
 					$this->detectRobot($this->userAgent);
+				}
+				break;
+			case 'headers':
+				if (empty($this->detection['headers']))
+				{
+					$this->detectHeaders();
 				}
 				break;
 		}
@@ -510,5 +523,37 @@ class WebClient
 		}
 
 		$this->detection['robot'] = true;
+	}
+
+	/**
+	 * Fills internal array of headers
+	 *
+	 * @return  void
+	 *
+	 * @since   1.3.0
+	 */
+	protected function detectHeaders()
+	{
+		if (function_exists('getallheaders'))
+		// If php is working under Apache, there is a special function
+		{
+			$this->headers = getallheaders();
+		}
+		else
+		// Else we fill headers from $_SERVER variable
+		{
+			$this->headers = array();
+
+			foreach ($_SERVER as $name => $value)
+			{
+				if (substr($name, 0, 5) == 'HTTP_')
+				{
+					$this->headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+				}
+			}
+		}
+
+		// Mark this detection routine as run.
+		$this->detection['headers'] = true;
 	}
 }

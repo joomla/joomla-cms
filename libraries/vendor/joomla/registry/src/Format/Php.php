@@ -45,7 +45,15 @@ class Php extends AbstractRegistryFormat
 			}
 		}
 
-		$str = "<?php\nclass " . $params['class'] . " {\n";
+		$str = "<?php\n";
+
+		// If supplied, add a namespace to the class object
+		if (isset($params['namespace']) && $params['namespace'] != '')
+		{
+			$str .= "namespace " . $params['namespace'] . ";\n\n";
+		}
+
+		$str .= "class " . $params['class'] . " {\n";
 		$str .= $vars;
 		$str .= "}";
 

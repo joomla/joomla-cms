@@ -15,7 +15,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.0
  */
-class Registry implements \JsonSerializable, \ArrayAccess
+class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \Countable
 {
 	/**
 	 * Registry Object
@@ -78,6 +78,26 @@ class Registry implements \JsonSerializable, \ArrayAccess
 	public function __toString()
 	{
 		return $this->toString();
+	}
+
+	/**
+	 * Count elements of the data object
+	 *
+	 * @return  integer  The custom count as an integer.
+	 *
+	 * @link    http://php.net/manual/en/countable.count.php
+	 * @since   1.3.0
+	 */
+	public function count()
+	{
+		$i = 0;
+
+		foreach ($this->data as $item)
+		{
+			$i++;
+		}
+
+		return $i++;
 	}
 
 	/**
@@ -223,6 +243,21 @@ class Registry implements \JsonSerializable, \ArrayAccess
 		}
 
 		return self::$instances[$id];
+	}
+
+	/**
+	 * Gets this object represented as an ArrayIterator.
+	 *
+	 * This allows the data properties to be accessed via a foreach statement.
+	 *
+	 * @return  \ArrayIterator  This object represented as an ArrayIterator.
+	 *
+	 * @see     IteratorAggregate::getIterator()
+	 * @since   1.3.0
+	 */
+	public function getIterator()
+	{
+		return new \ArrayIterator($this->data);
 	}
 
 	/**
@@ -561,5 +596,54 @@ class Registry implements \JsonSerializable, \ArrayAccess
 		}
 
 		return $array;
+	}
+
+	/**
+	 * Dump to one dimension array.
+	 *
+	 * @param   string  $separator  The key separator.
+	 *
+	 * @return  string[]  Dumped array.
+	 *
+	 * @since   1.3.0
+	 */
+	public function flatten($separator = '.')
+	{
+		$array = array();
+
+		$this->toFlatten($separator, $this->data, $array);
+
+		return $array;
+	}
+
+	/**
+	 * Method to recursively convert data to one dimension array.
+	 *
+	 * @param   string        $separator  The key separator.
+	 * @param   array|object  $data       Data source of this scope.
+	 * @param   array         &$array     The result array, it is pass by reference.
+	 * @param   string        $prefix     Last level key prefix.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.3.0
+	 */
+	protected function toFlatten($separator = '.', $data = null, &$array = array(), $prefix = '')
+	{
+		$data = (array) $data;
+
+		foreach ($data as $k => $v)
+		{
+			$key = $prefix ? $prefix . $separator . $k : $k;
+
+			if (is_object($v) || is_array($v))
+			{
+				$this->toFlatten($separator, $v, $array, $key);
+			}
+			else
+			{
+				$array[$key] = $v;
+			}
+		}
 	}
 }

@@ -329,6 +329,9 @@ abstract class AbstractWebApplication extends AbstractApplication
 				$this->header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
 				$this->header('Location: ' . $url);
 				$this->header('Content-Type: text/html; charset=' . $this->charSet);
+
+				// Send other headers that may have been set.
+				$this->sendHeaders();
 			}
 		}
 
@@ -684,6 +687,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 		if ($siteUri != '')
 		{
 			$uri = new Uri($siteUri);
+			$path = $uri->toString(array('path'));
 		}
 		else
 		// No explicit base URI was set so we need to detect it.
@@ -695,30 +699,26 @@ abstract class AbstractWebApplication extends AbstractApplication
 			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
 			{
 				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
-				$uri->setPath(rtrim(dirname($_SERVER['PHP_SELF']), '/\\'));
+				$path = dirname($_SERVER['PHP_SELF']);
 			}
 			else
 			// Pretty much everything else should be handled with SCRIPT_NAME.
 			{
-				$uri->setPath(rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\'));
+				$path = dirname($_SERVER['SCRIPT_NAME']);
 			}
-
-			// Clear the unused parts of the requested URI.
-			$uri->setQuery(null);
-			$uri->setFragment(null);
 		}
 
-		// Get the host and path from the URI.
+		// Get the host from the URI.
 		$host = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-		$path = rtrim($uri->toString(array('path')), '/\\');
 
 		// Check if the path includes "index.php".
 		if (strpos($path, 'index.php') !== false)
 		{
 			// Remove the index.php portion of the path.
 			$path = substr_replace($path, '', strpos($path, 'index.php'), 9);
-			$path = rtrim($path, '/\\');
 		}
+
+		$path = rtrim($path, '/\\');
 
 		// Set the base URI both as just a path and as the full URI.
 		$this->set('uri.base.full', $host . $path . '/');
@@ -726,7 +726,10 @@ abstract class AbstractWebApplication extends AbstractApplication
 		$this->set('uri.base.path', $path . '/');
 
 		// Set the extended (non-base) part of the request URI as the route.
-		$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, strlen($this->get('uri.base.full'))));
+		if (stripos($this->get('uri.request'), $this->get('uri.base.full')) === 0)
+		{
+			$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, strlen($this->get('uri.base.full'))));
+		}
 
 		// Get an explicitly set media URI is present.
 		$mediaURI = trim($this->get('media_uri'));
@@ -765,6 +768,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 * @return  boolean  True if found and valid, false otherwise.
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0  Deprecated without replacement
 	 */
 	public function checkToken($method = 'post')
 	{
@@ -797,6 +801,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 * @return  string  Hashed var name
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0  Deprecated without replacement
 	 */
 	public function getFormToken($forceNew = false)
 	{
