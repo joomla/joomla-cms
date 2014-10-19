@@ -59,13 +59,10 @@ abstract class ModTagssimilarHelper
 		$query = $db->getQuery(true)
 			->select(
 			array(
-				$db->quoteName('m.tag_id'),
 				$db->quoteName('m.core_content_id'),
 				$db->quoteName('m.content_item_id'),
 				$db->quoteName('m.type_alias'),
 					'COUNT( ' . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('count'),
-				$db->quoteName('t.access'),
-				$db->quoteName('t.id'),
 				$db->quoteName('ct.router'),
 				$db->quoteName('cc.core_title'),
 				$db->quoteName('cc.core_alias'),
@@ -107,7 +104,7 @@ abstract class ModTagssimilarHelper
 
 		$query->group(
 			$db->quoteName(
-				array('m.tag_id', 'm.core_content_id', 'm.content_item_id', 'm.type_alias', 't.access', 't.id', 'ct.router', 'cc.core_title',
+				array('m.core_content_id', 'm.content_item_id', 'm.type_alias', 'ct.router', 'cc.core_title',
 				'cc.core_alias', 'cc.core_catid', 'cc.core_language', 'cc.core_params')
 			)
 		);
