@@ -68,7 +68,7 @@ class JResponseJson
 		$this->message = $message;
 
 		// Get the message queue if requested and available
-		$app = JFactory::$application;
+		$app = JFactory::getApplication();
 
 		if (!$ignoreMessages && !is_null($app) && is_callable(array($app, 'getMessageQueue')))
 		{

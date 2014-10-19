@@ -101,7 +101,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 		$config->set('session', false);
 
 		// Get a new JApplicationSite instance.
-		$this->class = new JApplicationSite(null, $config);
+		$this->class = new JApplicationSite($this->getMockInput(), $config);
 		TestReflection::setValue('JApplicationCms', 'instances', array('site' => $this->class));
 	}
 
@@ -157,10 +157,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testGetClientId()
 	{
-		$this->assertEquals(
-			$this->class->getClientId(),
-			0
-		);
+		$this->assertSame(0, $this->class->getClientId());
 	}
 
 	/**
@@ -172,10 +169,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testGetName()
 	{
-		$this->assertEquals(
-			$this->class->getName(),
-			'site'
-		);
+		$this->assertSame('site', $this->class->getName());
 	}
 
 	/**
@@ -187,10 +181,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testGetMenu()
 	{
-		$this->assertThat(
-			$this->class->getMenu(),
-			$this->isInstanceOf('JMenuSite')
-		);
+		$this->assertInstanceOf('JMenuSite', $this->class->getMenu());
 	}
 
 	/**
@@ -222,10 +213,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testGetPathway()
 	{
-		$this->assertThat(
-			$this->class->getPathway(),
-			$this->isInstanceOf('JPathwaySite')
-		);
+		$this->assertInstanceOf('JPathwaySite', $this->class->getPathway());
 	}
 
 	/**
@@ -237,10 +225,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testGetRouter()
 	{
-		$this->assertThat(
-			$this->class->getRouter(),
-			$this->isInstanceOf('JRouterSite')
-		);
+		$this->assertInstanceOf('JRouterSite', $this->class->getRouter());
 	}
 
 	/**
@@ -254,15 +239,9 @@ class JApplicationSiteTest extends TestCaseDatabase
 	{
 		$template = $this->class->getTemplate(true);
 
-		$this->assertThat(
-			$template->params,
-			$this->isInstanceOf('JRegistry')
-		);
+		$this->assertInstanceOf('JRegistry', $template->params);
 
-		$this->assertThat(
-			$template->template,
-			$this->equalTo('protostar')
-		);
+		$this->assertEquals('protostar', $template->template);
 	}
 
 	/**
@@ -274,11 +253,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testIsAdmin()
 	{
-		$this->assertThat(
-			$this->class->isAdmin(),
-			$this->isFalse(),
-			'JApplicationAdministrator is not an admin app'
-		);
+		$this->assertFalse($this->class->isAdmin());
 	}
 
 	/**
@@ -290,11 +265,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testIsSite()
 	{
-		$this->assertThat(
-			$this->class->isSite(),
-			$this->isTrue(),
-			'JApplicationAdministrator is a site app'
-		);
+		$this->assertTrue($this->class->isSite());
 	}
 
 	/**
@@ -317,12 +288,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 
 		TestReflection::invoke($this->class, 'render');
 
-		$this->assertThat(
-			TestReflection::getValue($this->class, 'response')->body,
-			$this->equalTo(
-				array('JWeb Body')
-			)
-		);
+		$this->assertEquals(array('JWeb Body'), TestReflection::getValue($this->class, 'response')->body);
 	}
 
 	/**
@@ -334,15 +300,9 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testSetGetDetectBrowser()
 	{
-		$this->assertFalse(
-			$this->class->setDetectBrowser(true),
-			'setDetectBrowser should return the previous state.'
-		);
+		$this->assertFalse($this->class->setDetectBrowser(true));
 
-		$this->assertTrue(
-			$this->class->getDetectBrowser(),
-			'setDetectBrowser should return the new state.'
-		);
+		$this->assertTrue($this->class->getDetectBrowser());
 	}
 
 	/**
@@ -354,15 +314,9 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testSetGetLanguageFilter()
 	{
-		$this->assertFalse(
-			$this->class->setLanguageFilter(true),
-			'setLanguageFilter should return the previous state.'
-		);
+		$this->assertFalse($this->class->setLanguageFilter(true));
 
-		$this->assertTrue(
-			$this->class->getLanguageFilter(),
-			'setLanguageFilter should return the new state.'
-		);
+		$this->assertTrue($this->class->getLanguageFilter());
 	}
 
 	/**
@@ -378,14 +332,8 @@ class JApplicationSiteTest extends TestCaseDatabase
 
 		$template = $this->class->getTemplate(true);
 
-		$this->assertThat(
-			$template->params,
-			$this->isInstanceOf('JRegistry')
-		);
+		$this->assertInstanceOf('JRegistry', $template->params);
 
-		$this->assertThat(
-			$template->template,
-			$this->equalTo('beez3')
-		);
+		$this->assertEquals('beez3', $template->template);
 	}
 }

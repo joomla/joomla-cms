@@ -60,7 +60,6 @@ class JGithubPackageUsersEmailsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageUsersEmails::getList
-     * @todo   Implement testGetList().
      */
     public function testGetList()
     {
@@ -80,7 +79,6 @@ class JGithubPackageUsersEmailsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageUsersEmails::add
-     * @todo   Implement testAdd().
      */
     public function testAdd()
     {
@@ -100,7 +98,6 @@ class JGithubPackageUsersEmailsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageUsersEmails::delete
-     * @todo   Implement testDelete().
      */
     public function testDelete()
     {

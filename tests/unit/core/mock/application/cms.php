@@ -31,6 +31,8 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'initialiseApp',
 			'isAdmin',
 			'isSite',
+			'getUserState',
+			'getUserStateFromRequest'
 		);
 
 		return array_merge($methods, parent::getMethods());
@@ -63,14 +65,15 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	 *
 	 * If any *Body methods are implemented in the test class, all should be implemented otherwise behaviour will be unreliable.
 	 *
-	 * @param   TestCase  $test     A test object.
-	 * @param   array     $options  A set of options to configure the mock.
+	 * @param   TestCase  $test         A test object.
+	 * @param   array     $options      A set of options to configure the mock.
+	 * @param   array     $constructor  An array containing constructor arguments to inject into the mock.
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   3.2
 	 */
-	public static function create($test, $options = array())
+	public static function create($test, $options = array(), $constructor = array())
 	{
 		// Set expected server variables.
 		if (!isset($_SERVER['HTTP_HOST']))
@@ -80,12 +83,13 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 
 		$methods = self::getMethods();
 
+		if (isset($options))
 		// Create the mock.
 		$mockObject = $test->getMock(
 			'JApplicationCms',
 			$methods,
 			// Constructor arguments.
-			array(),
+			$constructor,
 			// Mock class name.
 			'',
 			// Call original constructor.

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Messages master display controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.6
+ * @since  1.6
  */
 class MessagesController extends JControllerLegacy
 {

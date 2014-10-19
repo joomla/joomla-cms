@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Debug plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.Debug
- * @since       1.5
+ * @since  1.5
  */
 class PlgSystemDebug extends JPlugin
 {
@@ -654,7 +652,11 @@ class PlgSystemDebug extends JPlugin
 		$bytes = memory_get_usage();
 
 		return '<span class="label">' . JHtml::_('number.bytes', $bytes) . '</span>'
-			. ' (<span class="label">' . number_format($bytes, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')) . ' ' . JText::_('PLG_DEBUG_BYTES') . '</span>)';
+			. ' (<span class="label">'
+			. number_format($bytes, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'))
+			. ' '
+			. JText::_('PLG_DEBUG_BYTES')
+			. '</span>)';
 	}
 
 	/**

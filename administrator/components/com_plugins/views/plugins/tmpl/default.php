@@ -47,12 +47,12 @@ $sortFields = $this->getSortFields();
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&view=plugins'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
-	<div id="sidebar-container" class="span2">
+	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
-	<div id="main-container" class="span10">
+	<div id="j-main-container" class="span10">
 <?php else : ?>
-	<div id="main-container">
+	<div id="j-main-container">
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">

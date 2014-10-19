@@ -39,10 +39,12 @@ class JFormRuleUrl extends JFormRule
 	{
 		// If the field is empty and not required, the field is valid.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+
 		if (!$required && empty($value))
 		{
 			return true;
 		}
+
 		$urlParts = JString::parse_url($value);
 
 		// See http://www.w3.org/Addressing/URL/url-spec.txt
@@ -66,12 +68,15 @@ class JFormRuleUrl extends JFormRule
 		{
 			return false;
 		}
+
 		$urlScheme = (string) $urlParts['scheme'];
 		$urlScheme = strtolower($urlScheme);
+
 		if (in_array($urlScheme, $scheme) == false)
 		{
 			return false;
 		}
+
 		// For some schemes here must be two slashes.
 		if (($urlScheme == 'http' || $urlScheme == 'https' || $urlScheme == 'ftp' || $urlScheme == 'sftp' || $urlScheme == 'gopher'
 			|| $urlScheme == 'wais' || $urlScheme == 'gopher' || $urlScheme == 'prospero' || $urlScheme == 'telnet' || $urlScheme == 'git')
@@ -79,20 +84,24 @@ class JFormRuleUrl extends JFormRule
 		{
 			return false;
 		}
+
 		// The best we can do for the rest is make sure that the strings are valid UTF-8
 		// and the port is an integer.
 		if (array_key_exists('host', $urlParts) && !JString::valid((string) $urlParts['host']))
 		{
 			return false;
 		}
+
 		if (array_key_exists('port', $urlParts) && !is_int((int) $urlParts['port']))
 		{
 			return false;
 		}
+
 		if (array_key_exists('path', $urlParts) && !JString::valid((string) $urlParts['path']))
 		{
 			return false;
 		}
+
 		return true;
 	}
 }

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Model class to manage postinstall messages
  *
- * @package     Joomla.Administrator
- * @subpackage  com_postinstall
- * @since       3.2
+ * @since  3.2
  */
 class PostinstallModelMessages extends FOFModel
 {
@@ -117,7 +115,7 @@ class PostinstallModelMessages extends FOFModel
 	 * Do note that this a core method of the RAD Layer which operates directly
 	 * on the list it's being fed. A little touch of modern magic.
 	 *
-	 * @param   array  $resultArray  A list of items to process
+	 * @param   array  &$resultArray  A list of items to process
 	 *
 	 * @return  void
 	 *
@@ -130,7 +128,7 @@ class PostinstallModelMessages extends FOFModel
 
 		foreach ($resultArray as $key => $item)
 		{
-			// Filter out messages based on dynamically loaded programmatic conditions
+			// Filter out messages based on dynamically loaded programmatic conditions.
 			if (!empty($item->condition_file) && !empty($item->condition_method))
 			{
 				jimport('joomla.filesystem.file');
@@ -150,7 +148,7 @@ class PostinstallModelMessages extends FOFModel
 				}
 			}
 
-			// Load the necessary language files
+			// Load the necessary language files.
 			if (!empty($item->language_extension))
 			{
 				$hash = $item->language_client_id . '-' . $item->language_extension;

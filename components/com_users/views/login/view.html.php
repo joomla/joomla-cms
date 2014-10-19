@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Login view class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.5
+ * @since  1.5
  */
 class UsersViewLogin extends JViewLegacy
 {
