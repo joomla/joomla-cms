@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 /**
  * Test class for JOAuth2Client.
  *
@@ -17,7 +19,7 @@
 class JOAuth2ClientTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var    Registry  Options for the JOAuth2Client object.
 	 */
 	protected $options;
 
@@ -56,7 +58,7 @@ class JOAuth2ClientTest extends TestCase
 		$_SERVER['REQUEST_URI'] = '/index.php';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
-		$this->options = new JRegistry;
+		$this->options = new Registry;
 		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
 		$array = array();
 		$this->input = new JInput($array);

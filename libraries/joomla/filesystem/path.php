@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 if (!defined('JPATH_ROOT'))
 {
 	// Define a string constant for the root directory of the file system in native format
-	define('JPATH_ROOT', JPath::clean(JPATH_SITE));
+	$pathHelper = new JFilesystemWrapperPath;
+	define('JPATH_ROOT', $pathHelper->clean(JPATH_SITE));
 }
 
 /**

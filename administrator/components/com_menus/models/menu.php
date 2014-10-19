@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Menu Item Model for Menus.
  *
@@ -267,7 +269,7 @@ class MenusModelMenu extends JModelForm
 
 		foreach ($modules as &$module)
 		{
-			$params = new JRegistry;
+			$params = new Registry;
 			$params->loadString($module->params);
 
 			$menuType = $params->get('menutype');
