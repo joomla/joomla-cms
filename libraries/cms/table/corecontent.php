@@ -277,6 +277,7 @@ class JTableCorecontent extends JTable
 		$query = $db->getQuery(true);
 		$languageId = JHelperContent::getLanguageId($this->core_language);
 
+		// Selecting "all languages" doesn't give a language id - we can't store a blank string in non mysql databases, so save 0 (the default value)
 		if (!$languageId)
 		{
 			$languageId = '0';
