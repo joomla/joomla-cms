@@ -30,9 +30,9 @@ class JObject
 	/**
 	 * An array of error messages or Exception objects.
 	 *
-	 * @var    array
-	 * @since  11.1
-	 * @see    JError
+	 * @var         array
+	 * @since       11.1
+	 * @see         JError
 	 * @deprecated  12.3  JError has been deprecated
 	 */
 	protected $errors = array();
@@ -58,7 +58,7 @@ class JObject
 	 *
 	 * @return  string  The class name.
 	 *
-	 * @since   11.1
+	 * @since      11.1
 	 * @deprecated 12.3  Classes should provide their own __toString() implementation.
 	 */
 	public function __toString()
@@ -72,9 +72,9 @@ class JObject
 	 * CAVEAT: Don't rely on this existing in future versions. It is here only to get rid of the underscores
 	 *         without breaking BC.
 	 *
-	 * @param   string $property The property to be retrieved
+	 * @param   string  $property  The property to be retrieved
 	 *
-	 * @return  mixed  The value of the property
+	 * @return  mixed   The value of the property
 	 *
 	 * @since   3.4
 	 */
@@ -86,6 +86,7 @@ class JObject
 		{
 			return null;
 		}
+
 		return $this->$property;
 	}
 
@@ -95,10 +96,10 @@ class JObject
 	 * CAVEAT: Don't rely on this existing in future versions. It is here only to get rid of the underscores
 	 *         without breaking BC.
 	 *
-	 * @param   string $property The property to be retrieved
-	 * @param   mixed  $value    The value of the property
+	 * @param   string  $property  The property to be retrieved
+	 * @param   mixed   $value     The value of the property
 	 *
-	 * @return  mixed  The value of the property
+	 * @return  mixed   The value of the property
 	 *
 	 * @since   3.4
 	 */
@@ -115,9 +116,9 @@ class JObject
 	 * CAVEAT: Don't rely on this existing in future versions. It is here only to get rid of the underscores
 	 *         without breaking BC.
 	 *
-	 * @param   string $property The property to be checked
+	 * @param   string  $property  The property to be checked
 	 *
-	 * @return  bool  Whether or not the property exists
+	 * @return  bool    Whether or not the property exists
 	 *
 	 * @since   3.4
 	 */
@@ -134,9 +135,9 @@ class JObject
 	 * CAVEAT: Don't rely on this existing in future versions. It is here only to get rid of the underscores
 	 *         without breaking BC.
 	 *
-	 * @param   string $property The property to be unset
+	 * @param   string  $property  The property to be unset
 	 *
-	 * @return  bool  void
+	 * @return  bool    void
 	 *
 	 * @since   3.4
 	 */
@@ -170,7 +171,7 @@ class JObject
 	 * @param   string  $property  The name of the property.
 	 * @param   mixed   $default   The default value.
 	 *
-	 * @return  mixed    The value of the property.
+	 * @return  mixed   The value of the property.
 	 *
 	 * @since   11.1
 	 *
@@ -189,7 +190,7 @@ class JObject
 	/**
 	 * Returns an associative array of object properties.
 	 *
-	 * @param   boolean $scope   If set to JObject::RETURN_PUBLIC (default),
+	 * @param   boolean  $scope  If set to JObject::RETURN_PUBLIC (default),
 	 *                           getProperties() returns only the public properties.
 	 *                           If set to JObject::RETURN_ALL, also private and
 	 *                           protected properties are included.
@@ -230,7 +231,7 @@ class JObject
 	 * @param   string  $property  The name of the property.
 	 * @param   mixed   $value     The value of the property to set.
 	 *
-	 * @return  mixed  Previous value of the property.
+	 * @return  mixed   Previous value of the property.
 	 *
 	 * @since   11.1
 	 */
@@ -272,12 +273,12 @@ class JObject
 	/**
 	 * Add an error message.
 	 *
-	 * @param   string  $error  Error message.
+	 * @param   string|JError|Exception|mixed  $error  Error message/object/code
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 * @see     JError
+	 * @since      11.1
+	 * @see        JError
 	 * @deprecated 12.3  JError has been deprecated
 	 */
 	public function setError($error)
@@ -288,8 +289,8 @@ class JObject
 	/**
 	 * Get the most recent error message.
 	 *
-	 * @param   integer $i        Option error index.
-	 * @param   boolean $toString Indicates if JError objects should return their error message.
+	 * @param   integer  $i         Option error index.
+	 * @param   boolean  $toString  Indicates if JError objects should return their error message.
 	 *
 	 * @return  string|JError|Exception|mixed  Error message/object/code
 	 *
@@ -337,7 +338,7 @@ class JObject
 	/**
 	 * Remove a leading underscore
 	 *
-	 * @param   string $property The name of a property
+	 * @param   string  $property  The name of a property
 	 *
 	 * @return  string  The unchanged name of the property (if it exists) or the name without a leading underscore
 	 */
