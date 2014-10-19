@@ -107,6 +107,7 @@ abstract class JHtmlIcon
 
 		$attribs['title']   = JText::_('JGLOBAL_EMAIL');
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
+		$attribs['rel']     = 'nofollow';
 
 		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
 
