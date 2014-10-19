@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,7 +34,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 	 * in all caps and be within curly brackets eg. {FOOBAR}.
 	 * @since  11.1
 	 */
-	protected $format = '{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}';
+	protected $format = '{DATETIME}	{PRIORITY} {CLIENTIP}	{CATEGORY}	{MESSAGE}';
 
 	/**
 	 * @var    array  The parsed fields from the format string.

@@ -2,14 +2,17 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once 'PHPUnit/Extensions/Database/TestCase.php';
-require_once 'PHPUnit/Extensions/Database/DataSet/XmlDataSet.php';
-require_once 'PHPUnit/Extensions/Database/DataSet/QueryDataSet.php';
-require_once 'PHPUnit/Extensions/Database/DataSet/MysqlXmlDataSet.php';
+if (!class_exists('PHPUnit_Extensions_Database_TestCase'))
+{
+	require_once 'PHPUnit/Extensions/Database/TestCase.php';
+	require_once 'PHPUnit/Extensions/Database/DataSet/XmlDataSet.php';
+	require_once 'PHPUnit/Extensions/Database/DataSet/QueryDataSet.php';
+	require_once 'PHPUnit/Extensions/Database/DataSet/MysqlXmlDataSet.php';
+}
 
 /**
  * Abstract test case class for database testing.

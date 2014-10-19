@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -129,7 +129,7 @@ class JDatabaseIteratorPostgresqlTest extends TestCaseDatabasePostgresql
 			$this->setExpectedException($exception);
 		}
 
-		self::$driver->setQuery(self::$driver->getQuery(true)->select($select)->from($from)->setLimit($limit, $offset));
+		self::$driver->setQuery(self::$driver->getQuery(true)->select($select)->from($from), $offset, $limit);
 		$iterator = self::$driver->getIterator($column, $class);
 
 		// Run the Iterator pattern
@@ -156,14 +156,14 @@ class JDatabaseIteratorPostgresqlTest extends TestCaseDatabasePostgresql
 			__LINE__
 		);
 
-		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest')->setLimit(2));
+		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 0, 2);
 		$this->assertThat(
 			count(self::$driver->getIterator()),
 			$this->equalTo(2),
 			__LINE__
 		);
 
-		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest')->setLimit(2, 3));
+		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 3, 2);
 		$this->assertThat(
 			count(self::$driver->getIterator()),
 			$this->equalTo(1),

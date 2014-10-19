@@ -19,6 +19,7 @@
 		<field name="alias" type="text"
 			description="JFIELD_ALIAS_DESC"
 			label="JFIELD_ALIAS_LABEL"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="30"
 		/>
 

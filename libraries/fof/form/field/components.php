@@ -1,11 +1,12 @@
 <?php
 /**
  * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2013 Akeeba Ltd. All rights reserved.
+ * @subpackage form
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 if (!class_exists('JFormFieldList'))
 {
@@ -26,6 +27,12 @@ class FOFFormFieldComponents extends JFormFieldList implements FOFFormField
 	protected $repeatable;
 
 	public $client_ids = null;
+	
+	/** @var   FOFTable  The item being rendered in a repeatable form field */
+	public $item;
+	
+	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
+	public $rowid;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -110,7 +117,7 @@ class FOFFormFieldComponents extends JFormFieldList implements FOFFormField
 	 */
 	protected function getOptions()
 	{
-		$db = JFactory::getDbo();
+		$db = FOFPlatform::getInstance()->getDbo();
 
 		// Check for client_ids override
 		if ($this->client_ids !== null)
@@ -193,6 +200,8 @@ class FOFFormFieldComponents extends JFormFieldList implements FOFFormField
 	 */
 	public function translate($item, $type)
 	{
+        $platform = FOFPlatform::getInstance();
+
 		// Map the manifest cache to $item. This is needed to get the name from the
 		// manifest_cache and NOT from the name column, else some JText::_() translations fails.
 		$mData = json_decode($item->manifest_cache);
@@ -211,7 +220,7 @@ class FOFFormFieldComponents extends JFormFieldList implements FOFFormField
 			}
 		}
 
-		$lang = JFactory::getLanguage();
+		$lang = $platform->getLanguage();
 
 		switch ($type)
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,14 @@ defined('_JEXEC') or die;
 class NewsfeedsTableNewsfeed extends JTable
 {
 	/**
+	 * Ensure the params, metadata and images are json encoded in the bind method
+	 *
+	 * @var    array
+	 * @since  3.3
+	 */
+	protected $_jsonEncode = array('params', 'metadata', 'images');
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  &$db  A database connector object
@@ -23,43 +31,9 @@ class NewsfeedsTableNewsfeed extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__newsfeeds', 'id', $db);
-	}
 
-	/**
-	 * Overloaded bind function to pre-process the params.
-	 *
-	 * @param   mixed  $array   An associative array or object to bind to the JTable instance.
-	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @see     JTable:bind
-	 * @since   1.5
-	 */
-	public function bind($array, $ignore = '')
-	{
-		if (isset($array['params']) && is_array($array['params']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['params']);
-			$array['params'] = (string) $registry;
-		}
-
-		if (isset($array['metadata']) && is_array($array['metadata']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['metadata']);
-			$array['metadata'] = (string) $registry;
-		}
-
-		if (isset($array['images']) && is_array($array['images']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['images']);
-			$array['images'] = (string) $registry;
-		}
-
-		return parent::bind($array, $ignore);
+		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_newsfeeds.newsfeed'));
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_newsfeeds.newsfeed'));
 	}
 
 	/**

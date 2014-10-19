@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -52,6 +52,12 @@ abstract class JModelForm extends JModelLegacy
 			{
 				$this->setError($table->getError());
 				return false;
+			}
+
+			// If there is no checked_out or checked_out_time field, just return true.
+			if (!property_exists($table, 'checked_out') || !property_exists($table, 'checked_out_time'))
+			{
+				return true;
 			}
 
 			// Check if this is the user having previously checked out the row.

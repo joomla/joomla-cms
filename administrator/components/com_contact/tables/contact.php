@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,14 @@ defined('_JEXEC') or die;
 class ContactTableContact extends JTable
 {
 	/**
+	 * Ensure the params and metadata in json encoded in the bind method
+	 *
+	 * @var    array
+	 * @since  3.3
+	 */
+	protected $_jsonEncode = array('params', 'metadata');
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  &$db  Database connector object
@@ -25,34 +33,9 @@ class ContactTableContact extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__contact_details', 'id', $db);
-	}
 
-	/**
-	 * Overloaded bind function
-	 *
-	 * @param   array  $array   Named array to bind
-	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
-	 *
-	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
-	 * @since   1.6
-	 */
-	public function bind($array, $ignore = '')
-	{
-		if (isset($array['params']) && is_array($array['params']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['params']);
-			$array['params'] = (string) $registry;
-		}
-
-		if (isset($array['metadata']) && is_array($array['metadata']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['metadata']);
-			$array['metadata'] = (string) $registry;
-		}
-
-		return parent::bind($array, $ignore);
+		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_contact.contact'));
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_contact.contact'));
 	}
 
 	/**
@@ -160,15 +143,9 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		if (empty($this->alias))
-		{
-			$this->alias = $this->name;
-		}
-		$this->alias = JApplication::stringURLSafe($this->alias);
-		if (trim(str_replace('-', '', $this->alias)) == '')
-		{
-			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
-		}
+		// Generate a valid alias
+		$this->generateAlias();
+
 		/** check for valid category */
 		if (trim($this->catid) == '')
 		{
@@ -213,5 +190,28 @@ class ContactTableContact extends JTable
 		}
 
 		return true;
+	}
+
+	/**
+	 * Generate a valid alias from title / date.
+	 * Remains public to be able to check for duplicated alias before saving
+	 *
+	 * @return  string
+	 */
+	public function generateAlias()
+	{
+		if (empty($this->alias))
+		{
+			$this->alias = $this->name;
+		}
+
+		$this->alias = JApplication::stringURLSafe($this->alias);
+
+		if (trim(str_replace('-', '', $this->alias)) == '')
+		{
+			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
+		}
+
+		return $this->alias;
 	}
 }

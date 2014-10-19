@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,7 +56,7 @@ class AdminViewProfile extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', 1);
 
-		JToolbarHelper::title(JText::_('COM_ADMIN_VIEW_PROFILE_TITLE'), 'user-profile');
+		JToolbarHelper::title(JText::_('COM_ADMIN_VIEW_PROFILE_TITLE'), 'user user-profile');
 		JToolbarHelper::apply('profile.apply');
 		JToolbarHelper::save('profile.save');
 		JToolbarHelper::cancel('profile.cancel', 'JTOOLBAR_CLOSE');

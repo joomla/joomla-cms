@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -17,6 +23,8 @@ class UserManagerPage extends AdminManagerPage
 	protected $url = 'administrator/index.php?option=com_users&view=users';
 
 	public $filters = array(
+			'Sort Table By:' => 'list_fullordering',
+			'20' => 'list_limit',
 			'State' => 'filter_state',
 			'Active' => 'filter_active',
 			'Group' => 'filter_group_id',

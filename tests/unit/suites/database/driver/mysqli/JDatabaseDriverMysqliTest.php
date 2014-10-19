@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -584,8 +584,53 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		$this->assertThat(self::$driver->execute(), $this->isTrue(), __LINE__);
 
 		$this->assertThat(self::$driver->insertid(), $this->equalTo(5), __LINE__);
-
 	}
+
+	/**
+	 * Test the JDatabaseDriverMysqli::execute() method when there is a limit set
+	 * in the query object that respects the JDatabaseQueryLimitable interface
+	 *
+	 * @return  void
+	 *
+	 * @since   3.3
+	 */
+	public function testExecuteWithLimitsInQuery()
+	{
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('jos_dbtest');
+		$query->where('description=' . self::$driver->quote('one'));
+		$query->setLimit(1);
+		self::$driver->setQuery($query);
+		$result = self::$driver->loadRowList();
+
+		$expected = array(array(1, 'Testing', '1980-04-18 00:00:00', 'one'));
+
+		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+	}
+
+	/**
+	 * Test the JDatabaseDriverMysqli::execute() method when there is a limit set
+	 * in the query object that respects the setQuery method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.3
+	 */
+	public function testExecuteWithLimitsInSetQuery()
+	{
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('jos_dbtest');
+		$query->where('description=' . self::$driver->quote('one'));
+		self::$driver->setQuery($query, 0, 1);
+		$result = self::$driver->loadRowList();
+
+		$expected = array(array(1, 'Testing', '1980-04-18 00:00:00', 'one'));
+
+		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+	}
+
 
 	/**
 	 * Tests the renameTable method.

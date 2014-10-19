@@ -6,7 +6,7 @@
 		</dispatcher>
 		<view name="messages">
 			<acl>
-				<task name="reset">core.edit</task>
+				<task name="reset">core.edit.state</task>
 			</acl>
 			<taskmap>
 				<task name="read">browse</task>

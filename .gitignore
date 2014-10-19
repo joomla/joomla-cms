@@ -17,6 +17,13 @@
 # Test Related Files #
 /phpunit.xml
 /tests/system/webdriver/tests/logs/
+/tests/system/servers/configdef.php
 
 # phpDocumentor Logs #
 phpdoc-*
+
+# Patch Tester
+administrator/components/com_patchtester/
+administrator/templates/hathor/html/com_patchtester
+components/com_patchtester/
+

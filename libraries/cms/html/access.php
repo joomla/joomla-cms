@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,6 +59,7 @@ abstract class JHtmlAccess
 		{
 			$options = array_merge($params, $options);
 		}
+
 		// If all levels is allowed, push it into the array.
 		elseif ($params)
 		{
@@ -84,13 +85,14 @@ abstract class JHtmlAccess
 	 * @param   string   $selected  The name of the selected section.
 	 * @param   string   $attribs   Additional attributes to add to the select field.
 	 * @param   boolean  $allowAll  True to add "All Groups" option.
+	 * @param   mixed    $id        The form field id
 	 *
 	 * @return  string   The required HTML for the SELECT tag.
 	 *
 	 * @see     JFormFieldUsergroup
 	 * @since   1.6
 	 */
-	public static function usergroup($name, $selected, $attribs = '', $allowAll = true)
+	public static function usergroup($name, $selected, $attribs = '', $allowAll = true, $id = false)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -113,7 +115,7 @@ abstract class JHtmlAccess
 			array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_ACCESS_SHOW_ALL_GROUPS')));
 		}
 
-		return JHtml::_('select.genericlist', $options, $name, array('list.attr' => $attribs, 'list.select' => $selected));
+		return JHtml::_('select.genericlist', $options, $name, array('list.attr' => $attribs, 'list.select' => $selected, 'id' => $id));
 	}
 
 	/**
@@ -164,6 +166,7 @@ abstract class JHtmlAccess
 				{
 					$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
 				}
+
 				$rel = ($item->parent_id > 0) ? ' rel="' . $count . 'group_' . $item->parent_id . '"' : '';
 
 				// Build the HTML for the item.

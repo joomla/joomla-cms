@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -52,10 +52,8 @@ class JInstallerAdapterFile extends JAdapterInstance
 		$extension = 'files_' . str_replace('files_', '', strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd')));
 		$lang = JFactory::getLanguage();
 		$source = $path;
-		$lang->load($extension . '.sys', $source, null, false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		$lang->load($extension . '.sys', $source, null, false, true)
+			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, true);
 	}
 
 	/**
@@ -191,7 +189,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 		{
 			if (!JFolder::exists($folder))
 			{
-
 				if (!$created = JFolder::create($folder))
 				{
 					JLog::add(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $folder), JLog::WARNING, 'jerror');
@@ -210,7 +207,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 					$this->parent->pushStep(array('type' => 'folder', 'path' => $folder));
 				}
 			}
-
 		}
 
 		// Now that we have file list, let's start copying them
@@ -595,7 +591,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 						if ($eFileName->getName() == 'folder')
 						{
 							$folderList[] = $targetFolder . '/' . $eFileName;
-
 						}
 						else
 						{
@@ -684,7 +679,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -778,7 +772,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 
 					array_push($this->fileList, $path);
 				}
-
 			}
 		}
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -121,14 +121,24 @@ class ContentModelCategory extends JModelList
 		$mergedParams->merge($params);
 
 		$this->setState('params', $mergedParams);
-		$user		= JFactory::getUser();
-				// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$user  = JFactory::getUser();
 
-		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
+		// Create a new query object.
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$asset = 'com_content';
+
+		if ($pk)
+		{
+			$asset .= '.category.' . $pk;
+		}
+
+		if ((!$user->authorise('core.edit.state', $asset)) &&  (!$user->authorise('core.edit', $asset)))
+		{
 			// limit to published for people who can't edit or edit.state.
 			$this->setState('filter.published', 1);
+
 			// Filter by start and end dates.
 			$nullDate = $db->quote($db->getNullDate());
 			$nowDate = $db->quote(JFactory::getDate()->toSQL());
@@ -197,7 +207,7 @@ class ContentModelCategory extends JModelList
 
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
-		$this->setState('layout', $app->input->get('layout'));
+		$this->setState('layout', $app->input->getString('layout'));
 
 	}
 
@@ -226,7 +236,7 @@ class ContentModelCategory extends JModelList
 			$model->setState('list.filter', $this->getState('list.filter'));
 			// filter.subcategories indicates whether to include articles from subcategories in the list or blog
 			$model->setState('filter.subcategories', $this->getState('filter.subcategories'));
-			$model->setState('filter.max_category_levels', $this->setState('filter.max_category_levels'));
+			$model->setState('filter.max_category_levels', $this->getState('filter.max_category_levels'));
 			$model->setState('list.links', $this->getState('list.links'));
 
 			if ($limit >= 0)

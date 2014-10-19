@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,6 +30,7 @@ class UsersModelReset extends JModelForm
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.reset_request', 'reset_request', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -50,6 +51,7 @@ class UsersModelReset extends JModelForm
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.reset_complete', 'reset_complete', $options = array('control' => 'jform'));
+
 		if (empty($form))
 		{
 			return false;
@@ -61,18 +63,25 @@ class UsersModelReset extends JModelForm
 	/**
 	 * Method to get the password reset confirm form.
 	 *
-	 * @param   array      $data        Data for the form.
-	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
-	 * @return  JForm    A JForm object on success, false on failure
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  JForm  A JForm object on success, false on failure
+	 *
 	 * @since   1.6
 	 */
 	public function getResetConfirmForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', $options = array('control' => 'jform'));
+
 		if (empty($form))
 		{
 			return false;
+		}
+		else
+		{
+			$form->setValue('token', '', JFactory::getApplication()->input->get('token'));
 		}
 
 		return $form;
@@ -110,7 +119,7 @@ class UsersModelReset extends JModelForm
 	/**
 	 * @since   1.6
 	 */
-	function processResetComplete($data)
+	public function processResetComplete($data)
 	{
 		// Get the form.
 		$form = $this->getResetCompleteForm();
@@ -140,6 +149,7 @@ class UsersModelReset extends JModelForm
 			{
 				$this->setError($formError->getMessage());
 			}
+
 			return false;
 		}
 
@@ -161,6 +171,7 @@ class UsersModelReset extends JModelForm
 		if (empty($user) || $user->activation !== $token)
 		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
+
 			return false;
 		}
 
@@ -168,16 +179,20 @@ class UsersModelReset extends JModelForm
 		if ($user->block)
 		{
 			$this->setError(JText::_('COM_USERS_USER_BLOCKED'));
+
 			return false;
 		}
 
-		// Generate the new password hash.
-		$salt = JUserHelper::genRandomPassword(32);
-		$crypted = JUserHelper::getCryptedPassword($data['password1'], $salt);
-		$password = $crypted . ':' . $salt;
+		// Check if the user is reusing the current password if required to reset their password
+		if ($user->requireReset == 1 && JUserHelper::verifyPassword($data['password1'], $user->password))
+		{
+			$this->setError(JText::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
+
+			return false;
+		}
 
 		// Update the user object.
-		$user->password = $password;
+		$user->password = JUserHelper::hashPassword($data['password1']);
 		$user->activation = '';
 		$user->password_clear = $data['password1'];
 
@@ -197,7 +212,7 @@ class UsersModelReset extends JModelForm
 	/**
 	 * @since   1.6
 	 */
-	function processResetConfirm($data)
+	public function processResetConfirm($data)
 	{
 		// Get the form.
 		$form = $this->getResetConfirmForm();
@@ -227,6 +242,7 @@ class UsersModelReset extends JModelForm
 			{
 				$this->setError($formError->getMessage());
 			}
+
 			return false;
 		}
 
@@ -255,23 +271,27 @@ class UsersModelReset extends JModelForm
 		if (empty($user))
 		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
+
 			return false;
 		}
 
 		$parts = explode(':', $user->activation);
 		$crypt = $parts[0];
+
 		if (!isset($parts[1]))
 		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 			return false;
 		}
+
 		$salt = $parts[1];
-		$testcrypt = JUserHelper::getCryptedPassword($data['token'], $salt);
+		$testcrypt = JUserHelper::getCryptedPassword($data['token'], $salt, 'md5-hex');
 
 		// Verify the token
 		if (!($crypt == $testcrypt))
 		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
+
 			return false;
 		}
 
@@ -279,6 +299,7 @@ class UsersModelReset extends JModelForm
 		if ($user->block)
 		{
 			$this->setError(JText::_('COM_USERS_USER_BLOCKED'));
+
 			return false;
 		}
 
@@ -328,6 +349,7 @@ class UsersModelReset extends JModelForm
 			{
 				$this->setError($formError->getMessage());
 			}
+
 			return false;
 		}
 
@@ -348,6 +370,7 @@ class UsersModelReset extends JModelForm
 		catch (RuntimeException $e)
 		{
 			$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+
 			return false;
 		}
 
@@ -355,6 +378,7 @@ class UsersModelReset extends JModelForm
 		if (empty($userId))
 		{
 			$this->setError(JText::_('COM_USERS_INVALID_EMAIL'));
+
 			return false;
 		}
 
@@ -365,6 +389,7 @@ class UsersModelReset extends JModelForm
 		if ($user->block)
 		{
 			$this->setError(JText::_('COM_USERS_USER_BLOCKED'));
+
 			return false;
 		}
 
@@ -372,6 +397,7 @@ class UsersModelReset extends JModelForm
 		if ($user->authorise('core.admin'))
 		{
 			$this->setError(JText::_('COM_USERS_REMIND_SUPERADMIN_ERROR'));
+
 			return false;
 		}
 
@@ -380,13 +406,14 @@ class UsersModelReset extends JModelForm
 		{
 			$resetLimit = (int) JFactory::getApplication()->getParams()->get('reset_time');
 			$this->setError(JText::plural('COM_USERS_REMIND_LIMIT_ERROR_N_HOURS', $resetLimit));
+
 			return false;
 		}
+
 		// Set the confirmation token.
 		$token = JApplication::getHash(JUserHelper::genRandomPassword());
 		$salt = JUserHelper::getSalt('crypt-md5');
 		$hashedToken = md5($token . $salt) . ':' . $salt;
-
 		$user->activation = $hashedToken;
 
 		// Save the user to the database.
@@ -399,7 +426,7 @@ class UsersModelReset extends JModelForm
 		$mode = $config->get('force_ssl', 0) == 2 ? 1 : -1;
 		$itemid = UsersHelperRoute::getLoginRoute();
 		$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-		$link = 'index.php?option=com_users&view=reset&layout=confirm' . $itemid;
+		$link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token . $itemid;
 
 		// Put together the email template data.
 		$data = $user->getProperties();
@@ -452,24 +479,23 @@ class UsersModelReset extends JModelForm
 		$lastResetTime = strtotime($user->lastResetTime) ? strtotime($user->lastResetTime) : 0;
 		$hoursSinceLastReset = (strtotime(JFactory::getDate()->toSql()) - $lastResetTime) / 3600;
 
-		// If it's been long enough, start a new reset count
 		if ($hoursSinceLastReset > $resetHours)
 		{
+			// If it's been long enough, start a new reset count
 			$user->lastResetTime = JFactory::getDate()->toSql();
 			$user->resetCount = 1;
 		}
-
-		// If we are under the max count, just increment the counter
 		elseif ($user->resetCount < $maxCount)
 		{
+			// If we are under the max count, just increment the counter
 			$user->resetCount;
 		}
-
-		// At this point, we know we have exceeded the maximum resets for the time period
 		else
 		{
+			// At this point, we know we have exceeded the maximum resets for the time period
 			$result = false;
 		}
+
 		return $result;
 	}
 }

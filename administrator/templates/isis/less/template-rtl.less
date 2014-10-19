@@ -1,0 +1,94 @@
+@import "template.less";
+@import "../../../../media/jui/less/bootstrap-rtl.less";
+
+.navbar {
+	.admin-logo {
+		float: right;
+		padding: 7px 15px 0px 12px;
+	}
+	.brand {
+		float: left;
+		padding: 6px 10px;
+	}
+	.nav {
+		margin: 0 0 0 10px;
+		> li > a {
+			padding: 6px 10px;
+		}
+	}
+}
+.container-logo {
+	padding-top: 0;
+	float: left;
+	text-align: left;
+}
+.page-title {
+	[class^="icon-"],
+	[class*=" icon-"] {
+		margin-right: 0;
+		margin-left: 16px;
+	}
+}
+@media (max-width: 767px) {
+	.navbar {
+		.admin-logo {
+			margin-right: 10px;
+			padding: 9px 9px 0 9px;
+		}
+		.btn-navbar {
+			float: left;
+			margin-right: 5px;
+			margin-left: 3px;
+		}
+		.nav-collapse .nav.pull-left {
+			float: none;
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+	.nav-collapse .nav > li {
+		float: none;
+	}
+	.page-title {
+		[class^="icon-"],
+		[class*=" icon-"] {
+			margin-left: 10px;
+		}
+	}
+}
+/* Status module */
+#status .badge {
+	margin-left: 0;
+}
+/* Menus */
+.dropdown-menu > li > a {
+	text-align: right;
+}
+/* Dropdown toggle icon align */
+.btn-group > .btn + .dropdown-toggle {
+	float: none;
+}
+
+/* For grid.boolean */
+a.grid_false {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/admin/publish_r.png');
+}
+a.grid_true {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/admin/icon-16-allow.png');
+}
+/* Login */
+.view-login .login-joomla {
+	position: absolute;
+	right: 50%;
+	height: 24px;
+	width: 24px;
+	text-indent: -9999px;
+	background: url('../images/login-joomla.png') no-repeat;
+	margin-right: -12px;
+}

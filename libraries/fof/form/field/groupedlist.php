@@ -1,11 +1,12 @@
 <?php
 /**
  * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @subpackage form
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 if (!class_exists('JFormFieldGroupedList'))
 {
@@ -24,6 +25,12 @@ class FOFFormFieldGroupedlist extends JFormFieldGroupedList implements FOFFormFi
 	protected $static;
 
 	protected $repeatable;
+	
+	/** @var   FOFTable  The item being rendered in a repeatable form field */
+	public $item;
+	
+	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
+	public $rowid;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -73,7 +80,7 @@ class FOFFormFieldGroupedlist extends JFormFieldGroupedList implements FOFFormFi
 	{
 		$class = $this->element['class'] ? (string) $this->element['class'] : '';
 
-		$selected = self::getOptionName($this->getOptions(), $this->value);
+		$selected = self::getOptionName($this->getGroups(), $this->value);
 
 		if (is_null($selected))
 		{
@@ -103,7 +110,7 @@ class FOFFormFieldGroupedlist extends JFormFieldGroupedList implements FOFFormFi
 	{
 		$class = $this->element['class'] ? (string) $this->element['class'] : '';
 
-		$selected = self::getOptionName($this->getOptions(), $this->value);
+		$selected = self::getOptionName($this->getGroups(), $this->value);
 
 		if (is_null($selected))
 		{

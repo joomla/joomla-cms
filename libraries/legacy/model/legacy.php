@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -321,7 +321,7 @@ abstract class JModelLegacy extends JObject
 			&& $query->having === null)
 		{
 			$query = clone $query;
-			$query->clear('select')->clear('order')->select('COUNT(*)');
+			$query->clear('select')->clear('order')->clear('limit')->select('COUNT(*)');
 
 			$this->_db->setQuery($query);
 			return (int) $this->_db->loadResult();

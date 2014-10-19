@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -201,12 +201,12 @@ class UsersModelDebuggroup extends JModelList
 		if ($this->getState('filter.search'))
 		{
 			// Escape the search token.
-			$token = $db->quote('%' . $db->escape($this->getState('filter.search')) . '%');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
 
 			// Compile the different search clauses.
 			$searches = array();
-			$searches[] = 'a.name LIKE ' . $token;
-			$searches[] = 'a.title LIKE ' . $token;
+			$searches[] = 'a.name LIKE ' . $search;
+			$searches[] = 'a.title LIKE ' . $search;
 
 			// Add the clauses to the query.
 			$query->where('(' . implode(' OR ', $searches) . ')');

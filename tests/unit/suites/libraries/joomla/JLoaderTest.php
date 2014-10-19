@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -411,6 +411,12 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			$aliases['foo'],
 			'bar',
 			'Assert the alias is set in the classAlias array.'
+		);
+
+		$this->assertEquals(
+			JLoader::registerAlias('foo', 'bar'),
+			false,
+			'Assert adding an existing alias will return false.'
 		);
 	}
 

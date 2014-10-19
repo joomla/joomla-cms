@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -162,11 +162,11 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Options list dataset
+	 * Test...
 	 *
 	 * @return  array
 	 *
-	 * @since   3.2
+	 * @since   3.1
 	 */
 	public function getOptionsData()
 	{
@@ -222,11 +222,11 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			array(
-				"<option value=\"1\" class=\"foo bar\" style=\"color:red;\">&nbsp;Test</option>\n",
+				"<option value=\"1\" class=\"foo bar\" style=\"color:red;\">-&nbsp;Test -</option>\n",
 				array(
 					array(
 						'value' => '1',
-						'text' => '&nbsp;Test -         ',
+						'text' => '-&nbsp;Test -',
 						'label' => 'My Label',
 						'id' => 'myId',
 						'attrs' => array('class' => "foo bar",'style' => 'color:red;',),

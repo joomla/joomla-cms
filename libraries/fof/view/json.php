@@ -1,13 +1,12 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  view
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
-
-JLoader::import('joomla.application.component.view');
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework JSON View class. Renders the data as a JSON object or
@@ -54,7 +53,7 @@ class FOFViewJson extends FOFViewHtml
 		$model = $this->getModel();
 
 		$items = $model->getItemList();
-		$this->assignRef('items', $items);
+		$this->items = $items;
 
 		$document = FOFPlatform::getInstance()->getDocument();
 
@@ -75,10 +74,7 @@ class FOFViewJson extends FOFViewHtml
 			$tpl = 'json';
 		}
 
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'lt'))
-		{
-			FOFPlatform::getInstance()->setErrorHandling(E_ALL, 'ignore');
-		}
+		FOFPlatform::getInstance()->setErrorHandling(E_ALL, 'ignore');
 
 		$hasFailed = false;
 
@@ -94,14 +90,6 @@ class FOFViewJson extends FOFViewHtml
 		catch (Exception $e)
 		{
 			$hasFailed = true;
-		}
-
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'lt'))
-		{
-			if ($result instanceof Exception)
-			{
-				$hasFailed = true;
-			}
 		}
 
 		if ($hasFailed)
@@ -155,7 +143,7 @@ class FOFViewJson extends FOFViewHtml
 		$model = $this->getModel();
 
 		$item = $model->getItem();
-		$this->assign('item', $item);
+		$this->item = $item;
 
 		$document = FOFPlatform::getInstance()->getDocument();
 
@@ -176,28 +164,22 @@ class FOFViewJson extends FOFViewHtml
 			$tpl = 'json';
 		}
 
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'lt'))
-		{
-			FOFPlatform::getInstance()->setErrorHandling(E_ALL, 'ignore');
-		}
+    	FOFPlatform::getInstance()->setErrorHandling(E_ALL, 'ignore');
 
 		$hasFailed = false;
 
 		try
 		{
 			$result = $this->loadTemplate($tpl, true);
+
+            if ($result instanceof Exception)
+            {
+                $hasFailed = true;
+            }
 		}
 		catch (Exception $e)
 		{
 			$hasFailed = true;
-		}
-
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'lt'))
-		{
-			if ($result instanceof Exception)
-			{
-				$hasFailed = true;
-			}
 		}
 
 		if ($hasFailed)
@@ -348,7 +330,7 @@ class FOFViewJson extends FOFViewHtml
 
 		if (is_null($root))
 		{
-			$root = rtrim(JURI::base(), '/');
+			$root = rtrim(FOFPlatform::getInstance()->URIbase(), '/');
 			$rootlen = strlen($root);
 		}
 

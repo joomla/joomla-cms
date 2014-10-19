@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -909,7 +909,7 @@ class JInstaller extends JAdapter
 
 			if ($fCharset == 'utf8' && $fDriver == $dbDriver)
 			{
-				$sqlfile = $this->getPath('extension_root') . '/' . $file;
+				$sqlfile = $this->getPath('extension_root') . '/' . trim($file);
 
 				// Check that sql files exists before reading. Otherwise raise error for rollback
 				if (!file_exists($sqlfile))
@@ -1065,7 +1065,15 @@ class JInstaller extends JAdapter
 				{
 					$attrs = $entry->attributes();
 
-					if ($attrs['type'] == $dbDriver)
+					// Assuming that the type is a mandatory attribute but if it is not mandatory then there should be a discussion for it.
+					$uDriver = strtolower($attrs['type']);
+
+					if ($uDriver == 'mysqli')
+					{
+						$uDriver = 'mysql';
+					}
+
+					if ($uDriver == $dbDriver)
 					{
 						$schemapath = $entry;
 						break;
@@ -1089,57 +1097,65 @@ class JInstaller extends JAdapter
 					$db->setQuery($query);
 					$version = $db->loadResult();
 
-					if ($version)
+					// No version - use initial version.
+					if (!$version)
 					{
-						// We have a version!
-						foreach ($files as $file)
+						$version = '0.0.0';
+					}
+
+					foreach ($files as $file)
+					{
+						if (version_compare($file, $version) > 0)
 						{
-							if (version_compare($file, $version) > 0)
+							$buffer = file_get_contents($this->getPath('extension_root') . '/' . $schemapath . '/' . $file . '.sql');
+
+							// Graceful exit and rollback if read not successful
+							if ($buffer === false)
 							{
-								$buffer = file_get_contents($this->getPath('extension_root') . '/' . $schemapath . '/' . $file . '.sql');
+								JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), JLog::WARNING, 'jerror');
 
-								// Graceful exit and rollback if read not successful
-								if ($buffer === false)
+								return false;
+							}
+
+							// Create an array of queries from the sql file
+							$queries = JDatabaseDriver::splitSql($buffer);
+
+							if (count($queries) == 0)
+							{
+								// No queries to process
+								continue;
+							}
+
+							// Process each query in the $queries array (split out of sql file).
+							foreach ($queries as $query)
+							{
+								$query = trim($query);
+
+								if ($query != '' && $query{0} != '#')
 								{
-									JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), JLog::WARNING, 'jerror');
+									$db->setQuery($query);
 
-									return false;
-								}
-
-								// Create an array of queries from the sql file
-								$queries = JDatabaseDriver::splitSql($buffer);
-
-								if (count($queries) == 0)
-								{
-									// No queries to process
-									continue;
-								}
-
-								// Process each query in the $queries array (split out of sql file).
-								foreach ($queries as $query)
-								{
-									$query = trim($query);
-
-									if ($query != '' && $query{0} != '#')
+									if (!$db->execute())
 									{
-										$db->setQuery($query);
+										JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
 
-										if (!$db->execute())
-										{
-											JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
-
-											return false;
-										}
-
-										$update_count++;
+										return false;
 									}
+									else
+									{
+										$queryString = (string) $query;
+										$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
+										JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
+									}
+
+									$update_count++;
 								}
 							}
 						}
 					}
 
 					// Update the database
-					$query->clear()
+					$query = $db->getQuery(true)
 						->delete('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
@@ -1569,7 +1585,6 @@ class JInstaller extends JAdapter
 		 */
 		if (is_array($files) && count($files) > 0)
 		{
-
 			foreach ($files as $file)
 			{
 				// Get the source and destination paths
@@ -1589,7 +1604,6 @@ class JInstaller extends JAdapter
 				}
 				elseif (($exists = file_exists($filedest)) && !$overwrite)
 				{
-
 					// It's okay if the manifest already exists
 					if ($this->getPath('manifest') == $filesource)
 					{
@@ -1621,6 +1635,12 @@ class JInstaller extends JAdapter
 						if (!(JFile::copy($filesource, $filedest, null)))
 						{
 							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), JLog::WARNING, 'jerror');
+
+							// In 3.2, TinyMCE language handling changed.  Display a special notice in case an older language pack is installed.
+							if (strpos($filedest, 'media/editors/tinymce/jscripts/tiny_mce/langs'))
+							{
+								JLog::add(JText::_('JLIB_INSTALLER_NOT_ERROR'), JLog::WARNING, 'jerror');
+							}
 
 							return false;
 						}
@@ -1857,7 +1877,6 @@ class JInstaller extends JAdapter
 		// If at least one XML file exists
 		if (!empty($xmlfiles))
 		{
-
 			foreach ($xmlfiles as $file)
 			{
 				// Is it a valid Joomla installation manifest file?

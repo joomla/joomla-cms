@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,7 +36,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 */
 	public function __construct(JRegistry $options = null, JUri $uri = null, JHttp $http = null)
 	{
-		parent::__construct($options = null, $uri = null);
+		parent::__construct($options, $uri);
 		$this->http = $http ? $http : new JHttp($this->options);
 	}
 
@@ -549,11 +549,6 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 */
 	public function getHeader()
 	{
-		if (!$this->getOption('key'))
-		{
-			throw new UnexpectedValueException('A Google Maps API key is required.');
-		}
-
 		$zoom = $this->getZoom();
 		$center = $this->getCenter();
 		$maptype = $this->getMapType();
@@ -598,13 +593,13 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			$onload = "function() {";
 			$onload .= 'var script = document.createElement("script");';
 			$onload .= 'script.type = "text/javascript";';
-			$onload .= "script.src = '{$scheme}://maps.googleapis.com/maps/api/js?key={$key}&sensor={$sensor}&callback={$asynccallback}';";
+			$onload .= "script.src = '{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : "") . "sensor={$sensor}&callback={$asynccallback}';";
 			$onload .= 'document.body.appendChild(script);';
 			$onload .= '}';
 		}
 		else
 		{
-			$output = "<script type='text/javascript' src='{$scheme}://maps.googleapis.com/maps/api/js?key={$key}&sensor={$sensor}'>";
+			$output = "<script type='text/javascript' src='{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : "") . "sensor={$sensor}'>";
 			$output .= '</script>';
 			$output .= '<script type="text/javascript">';
 

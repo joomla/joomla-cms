@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,6 +27,8 @@ class JGithubStatuses extends JGithubObject
 	 * @param   string  $state        The state (pending, success, error or failure).
 	 * @param   string  $targetUrl    Optional target URL.
 	 * @param   string  $description  Optional description for the status.
+	 *
+	 * @deprecated  use repositories->statuses->create()
 	 *
 	 * @return  object
 	 *
@@ -77,6 +79,8 @@ class JGithubStatuses extends JGithubObject
 	 * @param   string  $user  The name of the owner of the GitHub repository.
 	 * @param   string  $repo  The name of the GitHub repository.
 	 * @param   string  $sha   SHA1 for which to get the statuses.
+	 *
+	 * @deprecated  use repositories->statuses->getList()
 	 *
 	 * @return  array
 	 *

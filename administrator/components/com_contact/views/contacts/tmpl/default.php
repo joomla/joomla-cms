@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,23 +13,24 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
-$app		= JFactory::getApplication();
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$archived	= $this->state->get('filter.published') == 2 ? true : false;
-$trashed	= $this->state->get('filter.published') == -2 ? true : false;
-$canOrder	= $user->authorise('core.edit.state', 'com_contact.category');
-$saveOrder	= $listOrder == 'a.ordering';
+$app       = JFactory::getApplication();
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$archived  = $this->state->get('filter.published') == 2 ? true : false;
+$trashed   = $this->state->get('filter.published') == -2 ? true : false;
+$canOrder  = $user->authorise('core.edit.state', 'com_contact.category');
+$saveOrder = $listOrder == 'a.ordering';
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_contact&task=contacts.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
+
 $sortFields = $this->getSortFields();
 $assoc		= JLanguageAssociations::isEnabled();
 ?>
@@ -131,12 +132,12 @@ $assoc		= JLanguageAssociations::isEnabled();
 			<?php
 			$n = count($this->items);
 			foreach ($this->items as $i => $item) :
-				$ordering	= $listOrder == 'a.ordering';
-				$canCreate	= $user->authorise('core.create',     'com_contact.category.'.$item->catid);
-				$canEdit	= $user->authorise('core.edit',       'com_contact.category.'.$item->catid);
-				$canCheckin	= $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-				$canEditOwn	= $user->authorise('core.edit.own',   'com_contact.category.'.$item->catid) && $item->created_by == $userId;
-				$canChange	= $user->authorise('core.edit.state', 'com_contact.category.'.$item->catid) && $canCheckin;
+				$ordering   = $listOrder == 'a.ordering';
+				$canCreate  = $user->authorise('core.create',     'com_contact.category.'.$item->catid);
+				$canEdit    = $user->authorise('core.edit',       'com_contact.category.'.$item->catid);
+				$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+				$canEditOwn = $user->authorise('core.edit.own',   'com_contact.category.'.$item->catid) && $item->created_by == $userId;
+				$canChange  = $user->authorise('core.edit.state', 'com_contact.category.'.$item->catid) && $canCheckin;
 
 				$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id='.$item->catid);
 				?>
@@ -165,7 +166,20 @@ $assoc		= JLanguageAssociations::isEnabled();
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
 					<td class="center">
-						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+						<div class="btn-group">
+							<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+							<?php
+							// Create dropdown items
+							$action = $archived ? 'unarchive' : 'archive';
+							JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'contacts');
+
+							$action = $trashed ? 'untrash' : 'trash';
+							JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'contacts');
+
+							// Render dropdown list
+							echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+							?>
+						</div>
 					</td>
 					<td class="nowrap has-context">
 						<div class="pull-left">
@@ -185,47 +199,8 @@ $assoc		= JLanguageAssociations::isEnabled();
 								<?php echo $item->category_title; ?>
 							</div>
 						</div>
-						<div class="pull-left">
-							<?php
-								// Create dropdown items
-								JHtml::_('dropdown.edit', $item->id, 'contact.');
-								JHtml::_('dropdown.divider');
-								if ($item->published) :
-									JHtml::_('dropdown.unpublish', 'cb' . $i, 'contacts.');
-								else :
-									JHtml::_('dropdown.publish', 'cb' . $i, 'contacts.');
-								endif;
-
-								if ($item->featured) :
-									JHtml::_('dropdown.unfeatured', 'cb' . $i, 'contacts.');
-								else :
-									JHtml::_('dropdown.featured', 'cb' . $i, 'contacts.');
-								endif;
-
-								JHtml::_('dropdown.divider');
-
-								if ($archived) :
-									JHtml::_('dropdown.unarchive', 'cb' . $i, 'contacts.');
-								else :
-									JHtml::_('dropdown.archive', 'cb' . $i, 'contacts.');
-								endif;
-
-								if ($item->checked_out) :
-									JHtml::_('dropdown.checkin', 'cb' . $i, 'contacts.');
-								endif;
-
-								if ($trashed) :
-									JHtml::_('dropdown.untrash', 'cb' . $i, 'contacts.');
-								else :
-									JHtml::_('dropdown.trash', 'cb' . $i, 'contacts.');
-								endif;
-
-								// render dropdown list
-								echo JHtml::_('dropdown.render');
-							?>
-						</div>
 					</td>
-					<td align="small hidden-phone">
+					<td align="center" class="small hidden-phone">
 						<?php if (!empty($item->linked_user)) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.$item->user_id);?>"><?php echo $item->linked_user;?></a>
 						<?php endif; ?>
@@ -233,7 +208,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 					<td class="center hidden-phone">
 						<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
 					</td>
-					<td align="small hidden-phone">
+					<td align="center" class="small hidden-phone">
 						<?php echo $item->access_level; ?>
 					</td>
 					<?php if ($assoc) : ?>
@@ -250,7 +225,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 							<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 						<?php endif;?>
 					</td>
-					<td align="center hidden-phone">
+					<td align="center" class="hidden-phone">
 						<?php echo $item->id; ?>
 					</td>
 				</tr>

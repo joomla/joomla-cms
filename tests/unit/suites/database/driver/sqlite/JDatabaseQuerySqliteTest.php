@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,6 +84,22 @@ class JDatabaseQuerySqliteTest extends TestCase
 		$this->assertThat(
 			$this->_instance->dateAdd($date, $interval, $datePart),
 			$this->equalTo($expected)
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuerySqlite::currentTimestamp method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuerySqlite::currentTimestamp
+	 * @since   3.4
+	 */
+	public function testCurrentTimestamp()
+	{
+		$this->assertThat(
+			$this->_instance->currentTimestamp(),
+			$this->equalTo('CURRENT_TIMESTAMP')
 		);
 	}
 }
