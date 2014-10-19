@@ -89,7 +89,8 @@ class PlgSystemSession extends JPlugin
 				if ($db_session = $handler->read($session_id))
 				{
 					// Get the session data.
-					$db_session = JSessionHelper::unserialize($db_session);
+					$session_helper = new JSessionHelper;
+					$db_session     = $session_helper->unserialize($db_session);
 
 					// Populate helper vars.
 					$sess_namespace = current(array_keys($db_session));
