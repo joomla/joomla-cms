@@ -277,6 +277,11 @@ class JTableCorecontent extends JTable
 		$query = $db->getQuery(true);
 		$languageId = JHelperContent::getLanguageId($this->core_language);
 
+		if (!$languageId)
+		{
+			$languageId = '0';
+		}
+
 		if ($isNew)
 		{
 			$query->insert($db->quoteName('#__ucm_base'))
