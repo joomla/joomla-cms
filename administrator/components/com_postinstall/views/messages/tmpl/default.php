@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
+JHtml::_('formbehavior.chosen', 'select');
+
 ?>
 
 <form action="index.php" method="post" name="adminForm" class="form-inline">
