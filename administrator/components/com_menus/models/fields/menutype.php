@@ -38,7 +38,7 @@ class JFormFieldMenutype extends JFormFieldList
 		$recordId	= (int) $this->form->getValue('id');
 		$size		= ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
 		$class		= ($v = $this->element['class']) ? ' class="' . $v . '"' : 'class="text_area"';
-		$required   = ($v = $this->element['required']) ? ' required="required"' : '';
+		$required	= ($v = $this->element['required']) ? ' required="required"' : '';
 
 		// Get a reverse lookup of the base link URL to Title
 		$model 	= JModelLegacy::getInstance('menutypes', 'menusModel');
