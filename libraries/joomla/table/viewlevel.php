@@ -71,6 +71,22 @@ class JTableViewlevel extends JTable
 			return false;
 		}
 
+		// Check for a duplicate title.
+		$db = $this->_db;
+		$query = $db->getQuery(true)
+			->select('COUNT(title)')
+			->from($db->quoteName('#__viewlevels'))
+			->where($db->quoteName('title') . ' = ' . $db->quote($this->title))
+			->where($db->quoteName('id') . ' != ' . (int) $this->id);
+		$db->setQuery($query);
+
+		if ($db->loadResult() > 0)
+		{
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_VIEWLEVEL_TITLE_EXISTS'));
+
+			return false;
+		}
+
 		return true;
 	}
 }
