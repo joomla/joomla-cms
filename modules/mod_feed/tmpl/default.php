@@ -53,7 +53,7 @@ else
 	if ($feed != false)
 	{
 		// Image handling
-		$iUrl	= isset($feed->image)	? $feed->image	: null;
+		$iUrl	= isset($feed->image) ? $feed->image : null;
 		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
 		?>
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed<?php echo $moduleclass_sfx; ?>">
@@ -63,7 +63,8 @@ else
 		{
 			?>
 					<h2 class="<?php echo $direction; ?>">
-						<a href="<?php echo str_replace('&', '&amp;', $rssurl); ?>" target="_blank">
+						<?php preg_replace('/&(?!amp;)/', '&amp;', $rssurl); ?>
+						<a href="<?php echo $rssurl; ?>" target="_blank">
 						<?php echo $feed->title; ?></a>
 					</h2>
 			<?php
@@ -94,13 +95,14 @@ else
 			}
 			?>
 			<?php
-				$uri = (!empty($feed[$i]->uri) || !is_null($feed[$i]->uri)) ? $feed[$i]->uri : $feed[$i]->guid;
-				$uri = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
+				$uri  = (!empty($feed[$i]->uri) || !is_null($feed[$i]->uri)) ? $feed[$i]->uri : $feed[$i]->guid;
+				$uri  = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
 				$text = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
 			?>
 				<li>
 					<?php if (!empty($uri)) : ?>
 						<h5 class="feed-link">
+						<?php preg_replace('/&(?!amp;)/', '&amp;', $uri); ?>
 						<a href="<?php echo $uri; ?>" target="_blank">
 						<?php  echo $feed[$i]->title; ?></a></h5>
 					<?php else : ?>
