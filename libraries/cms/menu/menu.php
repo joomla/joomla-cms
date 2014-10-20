@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JMenu class
  *
- * @package     Joomla.Libraries
- * @subpackage  Menu
- * @since       1.5
+ * @since  1.5
  */
 class JMenu
 {
@@ -239,7 +237,7 @@ class JMenu
 	 * Gets menu items by attribute
 	 *
 	 * @param   mixed    $attributes  The field name(s).
-	 * @param   mixed    $values      The value(s) of the field. If an array, need to match field names 
+	 * @param   mixed    $values      The value(s) of the field. If an array, need to match field names
 	 *                                each attribute may have multiple values to lookup for.
 	 * @param   boolean  $firstonly   If true, only returns the first item found
 	 *

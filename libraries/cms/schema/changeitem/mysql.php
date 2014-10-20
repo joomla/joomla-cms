@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Checks the database schema against one MySQL DDL query to see if it has been run.
  *
- * @package     Joomla.Libraries
- * @subpackage  Schema
- * @since       2.5
+ * @since  2.5
  */
 class JSchemaChangeitemMysql extends JSchemaChangeitem
 {

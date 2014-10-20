@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML helper class for rendering telephone numbers.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlTel
 {
