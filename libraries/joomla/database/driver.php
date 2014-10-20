@@ -29,7 +29,7 @@ interface JDatabaseInterface
 /**
  * Joomla Platform Database Driver Class
  *
- * @since       12.1
+ * @since  12.1
  *
  * @method      string  q()   q($text, $escape = true)  Alias for quote method
  * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
