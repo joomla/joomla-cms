@@ -99,18 +99,16 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					try {
 						var obj = document.getElementById(item.get('id'));
 						if ((typeof obj.value != 'undefined') && (obj.value)) {
-							console.log(obj.value);
-							console.log(typeof obj.value);
-							console.log(obj.value.length);
-							errorMessage += Joomla.JText._('JLIB_FORM_FIELD_INVALID') + obj.value;
+							errorMessage += '<p>' + Joomla.JText._('JLIB_FORM_FIELD_INVALID') + obj.value + '</p>';
 						}
 					}
 					catch (e) {
 					}
 				});
-				console.log($('system-message').getElement('div').innerHTML);
-				console.log(errorMessage);
-				$('system-message').getElement('div').innerHTML += errorMessage;
+				errorMessage = $('system-message').getElement('div').innerHTML + errorMessage;
+				var removeMsg = Joomla.JText._('JLIB_FORM_FIELD_INVALID').replace('&#160', '&nbsp;');
+				errorMessage = errorMessage.replace("<p>" + removeMsg + "</p>", "");
+				$('system-message').getElement('div').innerHTML = errorMessage;
 			}
 			else if (document.formvalidator.isValid(document.id('item-form'))) {
 				if (document.id('jform_type').value == '')
