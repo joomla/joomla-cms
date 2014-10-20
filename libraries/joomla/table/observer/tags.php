@@ -16,10 +16,8 @@ defined('JPATH_PLATFORM') or die;
  * The classes extending this class should not be instanciated directly, as they
  * are automatically instanciated by the JObserverMapper
  *
- * @package     Joomla.Libraries
- * @subpackage  Table
- * @link        http://docs.joomla.org/JTableObserver
- * @since       3.1.2
+ * @link   http://docs.joomla.org/JTableObserver
+ * @since  3.1.2
  */
 class JTableObserverTags extends JTableObserver
 {

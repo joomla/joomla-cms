@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Cache callback type object
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @since  11.1
  */
 class JCacheControllerCallback extends JCacheController
 {

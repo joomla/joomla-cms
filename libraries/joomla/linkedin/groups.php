@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Linkedin API Groups class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Linkedin
- * @since       13.1
+ * @since  13.1
  */
 class JLinkedinGroups extends JLinkedinObject
 {

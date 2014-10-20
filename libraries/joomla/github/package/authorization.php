@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/oauth/
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Authorization
- * @since       12.3
+ * @since  12.3
  */
 class JGithubPackageAuthorization extends JGithubPackage
 {

@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Cache output type object
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @since  11.1
  */
 class JCacheControllerOutput extends JCacheController
 {
