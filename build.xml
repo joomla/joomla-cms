@@ -54,13 +54,6 @@
 		</exec>
 	</target>
 
-	<target name="installdep" description="Install build dependencies using composer">
-		<exec executable="composer">
-			<arg value="update" />
-			<arg value="--no-dev" />
-		</exec>
-	</target>
-
 	<target name="phpmd" description="Generate pmd.xml using PHPMD">
 		<exec executable="phpmd">
 			<arg path="${joomlasource}" />
@@ -73,10 +66,8 @@
 
 	<target name="phpdoc" description="Generate API documentation using phpDocumentor">
 		<exec executable="phpdoc">
-			<arg value="-i" />
-			<arg path="${basedir}/libraries/vendor/joomla/*/Tests/,${basedir}/libraries/vendor/joomla/*/_Tests/" />
 			<arg value="-d" />
-			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/,${basedir}/libraries/vendor/joomla/" />
+			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/,${basedir}/libraries/framework/Joomla/" />
 			<arg value="-f" />
 			<arg path="${basedir}/libraries/loader.php,${basedir}/libraries/platform.php" />
 			<arg value="-t" />

@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+require_once JPATH_PLATFORM . '/lessc/lessc.inc.php';
+
 /**
  * Wrapper class for lessc
  *

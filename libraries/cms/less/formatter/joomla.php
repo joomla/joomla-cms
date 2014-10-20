@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+require_once JPATH_PLATFORM . '/lessc/lessc.inc.php';
+
 /**
  * Formatter ruleset for Joomla formatted CSS generated via LESS
  *

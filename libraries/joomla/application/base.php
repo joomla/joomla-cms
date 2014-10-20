@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Application\AbstractApplication;
-
 /**
  * Joomla Platform Base Application Class
  *
@@ -18,7 +16,7 @@ use Joomla\Application\AbstractApplication;
  * @subpackage  Application
  * @since       12.1
  */
-abstract class JApplicationBase extends AbstractApplication
+abstract class JApplicationBase
 {
 	/**
 	 * The application dispatcher object.
@@ -35,6 +33,29 @@ abstract class JApplicationBase extends AbstractApplication
 	 * @since  12.1
 	 */
 	protected $identity;
+
+	/**
+	 * The application input object.
+	 *
+	 * @var    JInput
+	 * @since  12.1
+	 */
+	public $input = null;
+
+	/**
+	 * Method to close the application.
+	 *
+	 * @param   integer  $code  The exit code (optional; default is 0).
+	 *
+	 * @return  void
+	 *
+	 * @codeCoverageIgnore
+	 * @since   12.1
+	 */
+	public function close($code = 0)
+	{
+		exit($code);
+	}
 
 	/**
 	 * Get the application identity.
@@ -127,18 +148,4 @@ abstract class JApplicationBase extends AbstractApplication
 
 		return $this;
 	}
-
-	/**
-	 * Method to run the application routines.  Most likely you will want to instantiate a controller
-	 * and execute it, or perform some sort of task directly.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4 (CMS)
-	 */
-	protected function doExecute()
-	{
-		return;
-	}
-
 }
