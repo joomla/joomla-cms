@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * JArrayHelper is an array utility class for doing all sorts of odds and ends with arrays.
  *
- * @since  11.1
+ * @since       11.1
  * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper instead
  */
 abstract class JArrayHelper
