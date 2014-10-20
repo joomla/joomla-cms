@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * User class.  Handles all application interaction with a user
  *
- * @package     Joomla.Platform
- * @subpackage  User
- * @since       11.1
+ * @since  11.1
  */
 class JUser extends JObject
 {

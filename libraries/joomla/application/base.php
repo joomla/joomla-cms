@@ -14,9 +14,7 @@ use Joomla\Application\AbstractApplication;
 /**
  * Joomla Platform Base Application Class
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       12.1
+ * @since  12.1
  */
 abstract class JApplicationBase extends AbstractApplication
 {

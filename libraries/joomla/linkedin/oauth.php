@@ -14,8 +14,6 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for generating Linkedin API access token.
  *
- * @package     Joomla.Platform
- * @subpackage  Linkedin
  * @since       13.1
  */
 class JLinkedinOauth extends JOAuth1Client

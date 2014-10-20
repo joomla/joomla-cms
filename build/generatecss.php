@@ -31,8 +31,7 @@ require_once JPATH_LIBRARIES . '/cms.php';
 /**
  * This script will recompile the CSS files for templates using Less to build their stylesheets.
  *
- * @package  Joomla.Build
- * @since    3.0
+ * @since  3.0
  */
 class GenerateCss extends JApplicationCli
 {

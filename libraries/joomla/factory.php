@@ -11,10 +11,9 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Registry\Registry;
 
 /**
- * Joomla Platform Factory class
+ * Joomla Platform Factory class.
  *
- * @package  Joomla.Platform
- * @since    11.1
+ * @since  11.1
  */
 abstract class JFactory
 {

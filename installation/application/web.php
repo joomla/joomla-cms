@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Joomla! Installation Application class.
  *
- * @package     Joomla.Installation
- * @subpackage  Application
- * @since       3.1
+ * @since  3.1
  */
 final class InstallationApplicationWeb extends JApplicationCms
 {

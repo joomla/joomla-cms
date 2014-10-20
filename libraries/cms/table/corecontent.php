@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Core content table
  *
- * @package     Joomla.Libraries
- * @subpackage  Table
- * @since       3.1
+ * @since  3.1
  */
 class JTableCorecontent extends JTable
 {

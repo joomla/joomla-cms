@@ -17,9 +17,7 @@ require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus
 /**
  * Supports an HTML select list of menus
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldMenu extends JFormFieldList
 {

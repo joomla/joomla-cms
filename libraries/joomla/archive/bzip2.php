@@ -15,9 +15,7 @@ jimport('joomla.filesystem.stream');
 /**
  * Bzip2 format adapter for the JArchive class
  *
- * @package     Joomla.Platform
- * @subpackage  Archive
- * @since       11.1
+ * @since  11.1
  */
 class JArchiveBzip2 implements JArchiveExtractable
 {

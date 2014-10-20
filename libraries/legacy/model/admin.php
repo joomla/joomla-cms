@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Prototype admin model.
  *
- * @package     Joomla.Legacy
- * @subpackage  Model
- * @since       12.2
+ * @since  12.2
  */
 abstract class JModelAdmin extends JModelForm
 {

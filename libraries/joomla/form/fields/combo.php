@@ -15,9 +15,7 @@ JFormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Implements a combo box field.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormFieldCombo extends JFormFieldList
 {

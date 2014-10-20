@@ -17,9 +17,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Language installer
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstallerAdapterLanguage extends JAdapterInstance
 {
@@ -671,8 +669,6 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 /**
  * Deprecated class placeholder. You should use JInstallerAdapterLanguage instead.
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore

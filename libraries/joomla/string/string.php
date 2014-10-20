@@ -16,8 +16,6 @@ use Joomla\String\String;
  * Wraps the phputf8 library
  * All functions assume the validity of utf-8 strings.
  *
- * @package     Joomla.Platform
- * @subpackage  String
  * @since       11.1
  * @deprecated  4.0  Use {@link \Joomla\String\String} instead unless otherwise noted.
  */

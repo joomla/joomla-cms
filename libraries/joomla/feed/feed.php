@@ -24,9 +24,7 @@ defined('JPATH_PLATFORM') or die();
  * @property  JDate        $updatedDate    The last time the content of the feed changed.
  * @property  string       $uri            Universal, permanent identifier for the feed.
  *
- * @package     Joomla.Platform
- * @subpackage  Feed
- * @since       12.3
+ * @since  12.3
  */
 class JFeed implements ArrayAccess
 {

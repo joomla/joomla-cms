@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a help popup window button
  *
- * @package     Joomla.Libraries
- * @subpackage  Toolbar
- * @since       3.0
+ * @since  3.0
  */
 class JToolbarButtonHelp extends JToolbarButton
 {
