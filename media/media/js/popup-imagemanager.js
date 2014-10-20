@@ -48,7 +48,7 @@
 		onloadimageview: function()
 		{
 			var folder = this.getImageFolder(),
-				$form = $('uploadForm'),
+				$form = $('#uploadForm'),
 				portString = '',
 				i, l, a, q;
 
@@ -221,13 +221,8 @@
 			var bitsAssociate = {},
 				bits = u.match(/^(?:([^:\/?#.]+):)?(?:\/\/)?(([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[\?#]|$)))*\/?)?([^?#\/]*))?(?:\?([^#]*))?(?:#(.*))?/);
 
-			if (!bits)
-			{
-				return null;
-			}
-
 			$.each(['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'], function(key, index) {
-				bitsAssociate[key] = bits[index];
+				bitsAssociate[index] = (!!bits && !!bits[key]) ? bits[key] : '';
 			});
 
 			return bitsAssociate;
