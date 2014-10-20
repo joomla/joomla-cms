@@ -67,7 +67,7 @@ class InstallerModel extends JModelList
 
 			if (!empty($search))
 			{
-				$escapedSearchString = $this->refineSearchStringToRegex( $search, '/' );
+				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 				foreach ($result as $i => $item)
 				{
 					if (!preg_match("/$escapedSearchString/i", $item->name))
@@ -98,31 +98,6 @@ class InstallerModel extends JModelList
 			return $result;
 		}
 	}
-
-	/**
-	 * Parse and transform the search string into a string fit for regex-ing extensions' names against
-	 *
-	 * @param string The search string
-	 * @param string The regex delimiter to use for the quoting 
-	 *
-	 * @return string Search string escaped for regex
-	 */
-	private function refineSearchStringToRegex($search, $regexDelimiter = '/')
-	{
-		$searchArr = explode('|', trim($search, ' |'));
-		foreach ($searchArr as $key => $searchString)
-		{
-			if (strlen(trim($searchString)) == 0)
-			{
-				unset($searchArr[$key]);
-				continue;
-			}
-			$searchArr[$key] = str_replace(' ', '.*', preg_quote(trim($searchString), $regexDelimiter));
-		}
-
-		return implode('|', $searchArr);
-	}
-
 
 	/**
 	 * Translate a list of objects
