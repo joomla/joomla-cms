@@ -33,7 +33,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form')))
+		if (task == 'banner.cancel' || document.formvalidator.isValid(document.getElementById('banner-form')))
 		{
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}

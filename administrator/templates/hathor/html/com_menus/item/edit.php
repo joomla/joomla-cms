@@ -52,15 +52,15 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		{
 			if (task == 'item.setType')
 			{
-				document.id('item-form').elements['jform[type]'].value = type;
-				document.id('fieldtype').value = 'type';
+				document.getElementById('item-form').elements['jform[type]'].value = type;
+				document.getElementById('fieldtype').value = 'type';
 			} else {
-				document.id('item-form').elements['jform[menutype]'].value = type;
+				document.getElementById('item-form').elements['jform[menutype]'].value = type;
 			}
-			Joomla.submitform('item.setType', document.id('item-form'));
-		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
+			Joomla.submitform('item.setType', document.getElementById('item-form'));
+		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
 		{
-			Joomla.submitform(task, document.id('item-form'));
+			Joomla.submitform(task, document.getElementById('item-form'));
 		}
 		else
 		{
@@ -69,7 +69,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				var idReversed = field.id.split("").reverse().join("");
 				var separatorLocation = idReversed.indexOf('_');
 				var name = idReversed.substr(separatorLocation).split("").reverse().join("")+'name';
-				document.id(name).addClass('invalid');
+				document.getElementById(name).addClass('invalid');
 			});
 		}
 	}

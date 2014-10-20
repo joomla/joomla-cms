@@ -14,12 +14,13 @@ JHtml::_('behavior.formvalidation');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
+
 ?>
 
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('adminForm')))
+		if (task == 'weblink.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
 		{
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task);

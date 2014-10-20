@@ -17,7 +17,7 @@ $user = JFactory::getUser();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'config.cancel' || document.formvalidator.isValid(document.id('templates-form')))
+		if (task == 'config.cancel' || document.formvalidator.isValid(document.getElementById('templates-form')))
 		{
 			Joomla.submitform(task, document.getElementById('templates-form'));
 		}
