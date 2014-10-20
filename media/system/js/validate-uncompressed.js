@@ -166,19 +166,19 @@ var JFormValidator = function() {
  	 	 	return input.type !== "text";
  	 	})();
  	 	// Default handlers
- 	 	setHandler('username', function(value) {
+ 	 	setHandler('username', function(value, element) {
  	 	 	regex = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&]", "i");
  	 	 	return !regex.test(value);
  	 	});
- 	 	setHandler('password', function(value) {
+ 	 	setHandler('password', function(value, element) {
  	 	 	regex = /^\S[\S ]{2,98}\S$/;
  	 	 	return regex.test(value);
  	 	});
- 	 	setHandler('numeric', function(value) {
+ 	 	setHandler('numeric', function(value, element) {
  	 	 	regex = /^(\d|-)?(\d|,)*\.?\d*$/;
  	 	 	return regex.test(value);
  	 	});
- 	 	setHandler('email', function(value) {
+ 	 	setHandler('email', function(value, element) {
 		    value = punycode.toASCII(value);
  	 	 	regex = /^[a-zA-Z0-9.!#$%&‚Äô*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
  	 	 	return regex.test(value);
