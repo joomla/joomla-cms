@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Google+ data class for the Joomla Platform.
  *
- * @since       12.3
+ * @since  12.3
  */
 class JGoogleDataPlusActivities extends JGoogleData
 {
