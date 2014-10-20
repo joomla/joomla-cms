@@ -82,7 +82,7 @@ class JTableViewlevel extends JTable
 
 		if ($db->loadResult() > 0)
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_VIEWLEVEL_TITLE_EXISTS'));
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_VIEWLEVEL_NAME_EXISTS'));
 
 			return false;
 		}
