@@ -14,7 +14,7 @@ JHtml::_('behavior.framework', true);
 $script = array();
 $script[] = "	window.addEvent('domready', function() {";
 $script[] = "		document.getElementById('showmods').addEvent('click', function(e) {";
-$scrdocument.getElementById(document.getElementById('showmods').setStyle('display', 'block');";
+$script[] = "			document.getElementById('showmods').setStyle('display', 'block');";
 $script[] = "		jQuery('.table tr.no').toggle();";
 $script[] = "		});";
 $script[] = "	})";
