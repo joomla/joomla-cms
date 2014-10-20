@@ -683,8 +683,8 @@ class JModelList extends JModelLegacy
 	/**
 	 * Parse and transform the search string into a string fit for regex-ing arbitrary strings against
 	 *
-	 * @param string The search string
-	 * @param string The regex delimiter to use for the quoting 
+	 * @param string $search The search string
+	 * @param string $regexDelimiter The regex delimiter to use for the quoting
 	 *
 	 * @return string Search string escaped for regex
 	 */
