@@ -131,7 +131,7 @@ class JDatabaseQueryElement
 /**
  * Query Building Class.
  *
- * @since       11.1
+ * @since  11.1
  *
  * @method      string  q()   q($text, $escape = true)  Alias for quote method
  * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
