@@ -108,6 +108,9 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 	 */
 	public function addMaps($maps)
 	{
+		// Clear old maps
+		$this->maps = array();
+
 		foreach ($maps as $pattern => $controller)
 		{
 			$this->addMap($pattern, $controller);
