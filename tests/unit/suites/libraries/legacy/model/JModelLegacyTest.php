@@ -73,6 +73,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox Constructor sets correct $option property
 	 */
 	public function testConstructorSetsCorrectOption()
 	{
@@ -85,6 +87,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox Constructor sets correct $name property
 	 */
 	public function testConstructorSetsCorrectName()
 	{
@@ -97,6 +101,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox Constructor sets JObject as default value for the $state property
 	 */
 	public function testConstructorSetsCorrectStateObject()
 	{
@@ -110,6 +116,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox Constructor sets default JDatabase object as default value for the $_db property
 	 */
 	public function testConstructorSetsCorrectDatabaseObject()
 	{
@@ -123,6 +131,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox New object instances has a null as value for the $__state_set property
 	 */
 	public function testNewObjectHasEmptyStatesetFlag()
 	{
@@ -135,6 +145,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox Constructor sets correct default clean_cache event
 	 */
 	public function testConstructorSetsDefaultCleanCacheEvent()
 	{
@@ -147,6 +159,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox Constructor applies configuration passed as an argument correctly
 	 */
 	public function testConstructorAppliesConfigCorrectly()
 	{
@@ -176,8 +190,10 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @expectedException Exception
+	 *
+	 * @testdox Constructor throws an exception when no "model" appears in the class name
 	 */
-	public function testThatAnExecptionIsThrownWhenNoModelIsNotInTheName()
+	public function testThatAnExecptionIsThrownWhenNoModelIsInTheName()
 	{
 		new Supercalifragilisticexpialigetisch;
 	}
@@ -188,6 +204,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox getInstance() can return an instance of an existing class
 	 */
 	public function testReturningAnInstanceOfAnExistingClassWorks()
 	{
@@ -200,6 +218,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox getInstance() returns false if instance of nonexistent class is requested
 	 */
 	public function testGettingAnInstanceOfNonExistentClassReturnsFalse()
 	{
@@ -213,6 +233,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox getInstance() returns false if instance of nonexistent class of an existing is requested
 	 */
 	public function testGettingAnInstanceOfNonExistentClassFormAnExistingFile()
 	{
@@ -228,6 +250,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox setState() updates $state correctly
 	 */
 	public function testSetState()
 	{
@@ -242,7 +266,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @testdox getState returns correct object
+	 * @testdox getState() returns correct object
 	 */
 	public function testGetstateReturnsCorrectObject()
 	{
@@ -257,7 +281,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @textdox getState sets internal __state_set flag
+	 * @testdox getState() sets internal __state_set flag
 	 */
 	public function testGetStateSetsInternalStatesetFlag()
 	{
@@ -273,7 +297,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @textdox getState returns correct value
+	 * @testdox getState() returns correct value
 	 */
 	public function testGetStateReturnsCorrectValue()
 	{
@@ -288,7 +312,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @textdox getState returns default value
+	 * @testdox getState() returns default value
 	 */
 	public function testGetStateReturnsDefaultValue()
 	{
@@ -302,6 +326,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox getDbo() returns a database object
 	 */
 	public function testGetThatDboReturnsCorrectObject()
 	{
@@ -315,6 +341,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox setDbo() updates $_db property
 	 */
 	public function testSetDbo()
 	{
@@ -328,6 +356,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox getName() determines and returns class name
 	 */
 	public function testGetNameReturnsCorrectName()
 	{
@@ -341,6 +371,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox getName() returns value of $name property
 	 */
 	public function testGetNameUsesNamePropertyIfAvailable()
 	{
@@ -357,6 +389,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox getName() has correct behavior while handling lowercase 'model' in class name
 	 */
 	public function testGetNameOfClassWithLowercaseModelInName()
 	{
@@ -375,6 +409,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox getName() throws exception if class has no 'model' in classname
 	 */
 	public function testNameOfExistingClassThatDoesNotContainModel()
 	{
@@ -390,6 +426,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox getTable() throws exception while returning non existent table passed as an argument
 	 */
 	public function testExceptionIsThrownWhenGettingExplicitlyCalledNonExistentTable()
 	{
@@ -404,6 +442,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox getTable() throws exception while returning non existent default table
 	 */
 	public function testExceptionIsThrownWhenGettingNonExistentTable()
 	{
@@ -416,6 +456,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox getTable() returns JTable object
 	 */
 	public function testGetTableReturnsJtableObject()
 	{
@@ -428,6 +470,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox addIncludePath() appends directory to include path
 	 */
 	public function testIncludePathIsAppended()
 	{
@@ -442,6 +486,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox addIncludePath() returns null
 	 */
 	public function testAddTablePathReturnsNull()
 	{
@@ -455,6 +501,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox _createFileName() generates correct file name
 	 */
 	public function testGeneratedFileNameForModelIsCorrect()
 	{
@@ -470,6 +518,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox _getList() passes arguments to database driver
 	 */
 	public function testGetListPassesParamsToDatabaseDriver()
 	{
@@ -499,6 +549,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox _getList() returns database result
 	 */
 	public function testGetListReturnsDatabaseResult()
 	{
@@ -523,6 +575,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox _getListCount() passes query string to database
 	 */
 	public function testGetListCountPassesQueryStringToDatabase()
 	{
@@ -556,8 +610,10 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox _getListCount() passes query object to database
 	 */
-	public function testGetListCountPassesQueryQueryToDatabase()
+	public function testGetListCountPassesQueryObjectToDatabase()
 	{
 		$method = new ReflectionMethod('TestModelLead', '_getListCount');
 		$method->setAccessible(true);
@@ -590,6 +646,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @since   12.3
 	 *
 	 * @return  void
+	 *
+	 * @testdox _createTable() returns core table class
 	 */
 	public function testCreateTableReturnsCoreTableClass()
 	{

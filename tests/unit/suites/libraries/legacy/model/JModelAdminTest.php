@@ -42,6 +42,8 @@ class JModelAdminTest extends TestCase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox Constructor applies configuration
 	 */
 	public function testConstructorAppliesConfiguration()
 	{
@@ -76,6 +78,8 @@ class JModelAdminTest extends TestCase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox Constructor applies default configuration
 	 */
 	public function testConstructorAppliesDefaultConfiguration()
 	{

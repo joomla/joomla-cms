@@ -61,8 +61,10 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox Test $filter_fields is set in constructor
 	 */
-	public function testFilterFieldsIsAppliedInConstructor()
+	public function testFilterFieldsIsSetInConstructor()
 	{
 		$this->assertSame(array("field1", "field2"), TestReflection::getValue($this->object, 'filter_fields'));
 	}
@@ -73,8 +75,10 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox Test $context is applied in constructor
 	 */
-	public function testConstructorIsSetInConstructor()
+	public function testContextIsSetInConstructor()
 	{
 		$this->assertSame("com_j.list", TestReflection::getValue($this->object, 'context'));
 	}
@@ -85,6 +89,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox Active filters with string as state are returned correctly
 	 */
 	public function testActiveFiltersWithStringAsStateAreReturned()
 	{
@@ -98,6 +104,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox Active filters with numeric values as state are returned correctly
 	 */
 	public function testActiveFiltersWithNumericValuesAsStateAreReturned()
 	{
@@ -111,6 +119,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getStoreId() includes all states to create the ID
 	 */
 	public function testGetStoreIdIncludesAllStates()
 	{
@@ -134,6 +144,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getListQuery() returns an instance of JDatabaseQuery
 	 */
 	public function testGetListQueryReturnsQueryObject()
 	{
@@ -149,6 +161,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox _getListQuery() returns an instance of JDatabaseQuery
 	 */
 	public function testGetListQueryCachingMethodReturnsQueryObject()
 	{
@@ -166,6 +180,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox _getListQuery() stores query in object cache
 	 */
 	public function testListQueryGetsCached()
 	{
@@ -185,6 +201,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getStart() reads from object cache
 	 */
 	public function testGetStartReadsFromCache()
 	{
@@ -210,6 +228,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @dataProvider getStartDataProvider
 	 *
 	 * @return  void
+	 *
+	 * @testdox getStart() makes correct calculations
 	 */
 	public function testGetStartCalculatesCorrectly($start, $limit, $total, $totalCacheKey, $expected)
 	{
@@ -230,6 +250,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getStart() stores result in object cache
 	 */
 	public function testGetStartWritesToCache()
 	{
@@ -246,6 +268,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getTotal() reads from object cache
 	 */
 	public function testGetTotalReadsFromCache()
 	{
@@ -263,6 +287,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getTotal() returns false if an empty query is passed to the database object
 	 */
 	public function testGetTotalReturnsFalseOnEmptyQuery()
 	{
@@ -277,6 +303,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getTotal() returns the correct total count
 	 */
 	public function testGetTotalReturnsCorrectTotalCount()
 	{
@@ -294,6 +322,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getTotal() stores the total count in the object cache
 	 */
 	public function testGetTotalStoresTotalCountInCache()
 	{
@@ -316,6 +346,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getPagination() reads data from object cache
 	 */
 	public function testGetPaginationReadsFromCache()
 	{
@@ -333,6 +365,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getPagination() creates an instance of JPagination with the correct total, limit and limitstart
 	 */
 	public function testGetPaginationReturnsProperPaginationObject()
 	{
@@ -357,6 +391,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getPagination() stores JPagination object in object cache
 	 */
 	public function testGetPaginationSavesPaginationObjectInCache()
 	{
@@ -373,6 +409,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getItems() reads from object cache
 	 */
 	public function testGetItemsReadsFromCache()
 	{
@@ -390,6 +428,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getItems() returns false on a database exception
 	 */
 	public function testGetItemsReturnsFalseOnDatabaseException()
 	{
@@ -406,6 +446,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getItems() returns correct results from the database
 	 */
 	public function testGetItemsReturnsItemsFromDatabase()
 	{
@@ -432,6 +474,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getItems() applies list.limit state correctly
 	 */
 	public function testGetItemsAppliesLimit()
 	{
@@ -458,6 +502,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getItems() applies list.start state correctly
 	 */
 	public function testGetItemsAppliesOffset()
 	{
@@ -484,6 +530,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getItems() stores result in object cache
 	 */
 	public function testGetItemsStoresItemsInObjectCache()
 	{
@@ -508,6 +556,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox loadFormData() returns correct data from currently set states
 	 */
 	public function testListInfoIsAppendedToFormData()
 	{
@@ -551,6 +601,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox loadFormData() does not overwrite passed "list" data from the form
 	 */
 	public function testLoadFormDataDoesNotOverwriteListInfo()
 	{
@@ -579,6 +631,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox populateState() applies filters passed from getUserStateFromRequest()
 	 */
 	public function testPopulateStateAppliesFilters()
 	{
@@ -637,6 +691,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox populateState() makes correct use of the column whitelist for order columns
 	 */
 	public function testPopulateStateUsesWhitelistForOrderColumn()
 	{
@@ -687,6 +743,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox populateState() fixes an invalid order direction passed by getUserStateFromRequest()
 	 */
 	public function testPopulateStateFixedInvalidOrderDirection()
 	{
@@ -733,6 +791,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox populateState() supports the legacy filter_order and filter_order_Dir inputs
 	 */
 	public function testPopulateStateSupportsOldFilterOrder()
 	{
@@ -787,6 +847,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox populateState() supports the the new "list." filters passed by getUserStateFromRequest()
 	 */
 	public function testPopulateStateSupportsListFilters()
 	{
@@ -839,6 +901,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox populateState() supports the "fullordering" syntax
 	 */
 	public function testPopulateStateSupportsFullordering()
 	{
@@ -887,6 +951,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox populateState() fixes an invalid "fullordering" syntax
 	 */
 	public function testPopulateStateFixesInvalidFullordering()
 	{
@@ -932,6 +998,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox populateState() fixes an invalid "ordering" and "direction" values passed by "list." states
 	 */
 	public function testPopulateStateFixesInvalidOrderValuesFromList()
 	{
@@ -978,6 +1046,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox populateState() returns 0 without an applied context
 	 */
 	public function testPopulateStateReturnsZeroWithoutContext()
 	{
@@ -999,6 +1069,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getUserStates() returns default value
 	 */
 	public function testGetuserstateUsesDefault()
 	{
@@ -1029,6 +1101,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getUserState() returns data from the current request if exisiting
 	 */
 	public function testGetuserstateUsesRequestData()
 	{
@@ -1061,6 +1135,8 @@ class JModelListTest extends TestCaseDatabase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getUserState() supports the resetPage attribute
 	 */
 	public function testGetuserstateSupportsResetPage()
 	{

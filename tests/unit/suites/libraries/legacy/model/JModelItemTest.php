@@ -42,6 +42,8 @@ class JModelItemTest extends TestCase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox getStoreId() returns correct id
 	 */
 	public function testCorrectStoreIdIsReturned()
 	{
