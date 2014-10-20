@@ -69,7 +69,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		{
 			Joomla.submitform(task, document.id('item-form'));
 		}
-		else
+		elseif (document.formvalidator.isValid(document.getElementById('item-form')))
 		{
 			// special case for modal popups validation response
 			$$('#item-form .modal-value.invalid').each(function(field)
