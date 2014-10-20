@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Component routing interface
  *
- * @package     Joomla.Libraries
- * @subpackage  Component
- * @since       3.3
+ * @since  3.3
  */
 interface JComponentRouterInterface
 {
@@ -22,7 +20,7 @@ interface JComponentRouterInterface
 	 * Prepare-method for URLs
 	 * This method is meant to validate and complete the URL parameters.
 	 * For example it can add the Itemid or set a language parameter.
-	 * This method is executed on each URL, regardless of SEF mode switched 
+	 * This method is executed on each URL, regardless of SEF mode switched
 	 * on or not.
 	 *
 	 * @param   array  $query  An associative array of URL arguments

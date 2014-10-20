@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi import driver.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.1
+ * @since  11.1
  */
 class JDatabaseImporterMysqli extends JDatabaseImporter
 {

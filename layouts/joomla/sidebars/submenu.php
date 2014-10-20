@@ -8,6 +8,8 @@
  */
 
 defined('JPATH_BASE') or die;
+
+JHtmlBehavior::core();
 ?>
 
 	<script type="text/javascript">

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * The Installation Complete View
  *
- * @package     Joomla.Installation
- * @subpackage  View
- * @since       3.1
+ * @since  3.1
  */
 class InstallationViewCompleteHtml extends JViewHtml
 {

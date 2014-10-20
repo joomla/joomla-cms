@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Core content table
  *
- * @package     Joomla.Libraries
- * @subpackage  Table
- * @since       3.1
+ * @since  3.1
  */
 class JTableCorecontent extends JTable
 {
@@ -276,6 +274,12 @@ class JTableCorecontent extends JTable
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$languageId = JHelperContent::getLanguageId($this->core_language);
+
+		// Selecting "all languages" doesn't give a language id - we can't store a blank string in non mysql databases, so save 0 (the default value)
+		if (!$languageId)
+		{
+			$languageId = '0';
+		}
 
 		if ($isNew)
 		{

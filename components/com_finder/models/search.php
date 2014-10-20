@@ -1138,7 +1138,7 @@ class FinderModelSearch extends JModelList
 				$this->setState('list.ordering', 'm.weight');
 				break;
 
-			// custom field that is indexed and might be required for ordering
+			// Custom field that is indexed and might be required for ordering
 			case 'title':
 				$this->setState('list.ordering', 'l.title');
 				break;

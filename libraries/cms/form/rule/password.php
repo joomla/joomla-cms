@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.1.2
+ * @since  3.1.2
  */
 class JFormRulePassword extends JFormRule
 {

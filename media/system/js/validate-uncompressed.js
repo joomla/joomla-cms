@@ -8,9 +8,7 @@
  *
  * Inspired by: Chris Campbell <www.particletree.com>
  *
- * @package     Joomla.Framework
- * @subpackage  Forms
- * @since       1.5
+ * @since  1.5
  */
 var JFormValidator = function() {
 	var $, handlers, inputEmail, custom,

@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://dev.mysql.com/doc/
- * @since       12.1
+ * @see    http://dev.mysql.com/doc/
+ * @since  12.1
  */
 class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 {
