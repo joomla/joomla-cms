@@ -194,7 +194,9 @@ class UsersModelLevel extends JModelAdmin
 		if (!isset($data['rules'])) {
 			$data['rules']=array();
 		}
-
+		
+		$data['title'] = trim($data['title']);
+		
 		return parent::save($data);
 	}
 }
