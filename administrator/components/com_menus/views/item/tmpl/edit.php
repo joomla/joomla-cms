@@ -69,7 +69,15 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			Joomla.submitform('item.setType', document.id('item-form'));
 		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
 		{
-			Joomla.submitform(task, document.id('item-form'));
+			if (document.id('jform_type').value == '') {
+				$('system-message').getElement('div').innerHTML = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
+				$('system-message').getElement('div').innerHTML += Joomla.JText._('COM_MENUS_ITEM_FIELD_TYPE_LABEL');
+				$$('#jform_type').addClass('invalid');
+				$$('#jform_type-lbl').addClass('invalid');
+			}
+			else {
+				Joomla.submitform(task, document.id('item-form'));
+			}
 		}
 		else
 		{
@@ -86,14 +94,17 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 			if ($$('#item-form .modal-value').length > 0)
 			{
+				console.log($$('#item-form .modal-value'));
 				$('system-message').getElement('div').innerHTML = Joomla.JText._('JGLOBAL_VALIDATION_FORM_FAILED');
 			}
-			else if (document.id('jform_type').value == '')
-			{
-				$('system-message').getElement('div').innerHTML = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
-				$('system-message').getElement('div').innerHTML += Joomla.JText._('COM_MENUS_ITEM_FIELD_TYPE_LABEL');
-				$$('#jform_type').addClass('invalid');
-				$$('#jform_type-lbl').addClass('invalid');
+			else if (document.formvalidator.isValid(document.id('item-form'))) {
+				if (document.id('jform_type').value == '')
+				{
+					$('system-message').getElement('div').innerHTML = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
+					$('system-message').getElement('div').innerHTML += Joomla.JText._('COM_MENUS_ITEM_FIELD_TYPE_LABEL');
+					$$('#jform_type').addClass('invalid');
+					$$('#jform_type-lbl').addClass('invalid');
+				}
 			}
 		}
 	}
