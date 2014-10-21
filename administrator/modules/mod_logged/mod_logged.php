@@ -8,7 +8,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-// Include dependancies.
+// Include dependencies.
 require_once dirname(__FILE__).'/helper.php';
 
 $users = modLoggedHelper::getList($params);
