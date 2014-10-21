@@ -260,7 +260,7 @@ class BannersModelBanner extends JModelAdmin
 
 			// New category ID
 			$table->catid = $categoryId;
-	
+
 			// Unpublish because we are making a copy
 			$this->table->state = 0;
 
