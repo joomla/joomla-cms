@@ -75,8 +75,6 @@ class JToolbarButtonHelp extends JToolbarButton
 	 */
 	protected function _getCommand($ref, $com, $override, $component)
 	{
-		JHtml::_('behavior.framework');
-
 		// Get Help URL
 		$url = JHelp::createURL($ref, $com, $override, $component);
 		$url = htmlspecialchars($url, ENT_QUOTES);
