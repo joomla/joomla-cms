@@ -84,21 +84,18 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 					$query .= (string) $this->group;
 				}
 
-				if ($this->order)
-				{
-					$query .= (string) $this->order;
-				}
+			
 
 				if ($this->having)
 				{
 					$query .= (string) $this->having;
 				}
 
-				if ($this instanceof JDatabaseQueryLimitable && ($this->limit > 0 || $this->offset > 0))
+				if ($this->order)
 				{
-					$query = $this->processLimit($query, $this->limit, $this->offset);
+					$query .= (string) $this->order;
 				}
-
+				
 				break;
 
 			case 'insert':
@@ -139,6 +136,11 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 			default:
 				$query = parent::__toString();
 				break;
+		}
+		
+		if ($this instanceof JDatabaseQueryLimitable && ($this->limit > 0 || $this->offset > 0))
+		{
+			$query = $this->processLimit($query, $this->limit, $this->offset);
 		}
 
 		return $query;
@@ -260,23 +262,24 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{
-		$start = $offset + 1;
+			$start = $offset + 1;
 		$end   = $offset + $limit;
 
 		$orderBy = stristr($query, 'ORDER BY');
-
-		if (is_null($orderBy) || empty($orderBy))
+		
+		if (strpos($query,'SELECT') !== false)  
 		{
-			$orderBy = 'ORDER BY (select 0)';
+			if (is_null($orderBy) || empty($orderBy))
+			{
+				$orderBy = 'ORDER BY (select 0)';
+			}
+
+			$query = str_ireplace($orderBy, '', $query);
+			$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
+
+			$query = preg_replace('/\sFROM\s/i', $rowNumberText, $query, 1);
+			$query = 'SELECT * FROM (' . $query . ') _myResults WHERE RowNumber BETWEEN ' . $start . ' AND ' . $end;
 		}
-
-		$query = str_ireplace($orderBy, '', $query);
-
-		$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
-
-		$query = preg_replace('/\sFROM\s/i', $rowNumberText, $query, 1);
-		$query = 'SELECT * FROM (' . $query . ') _myResults WHERE RowNumber BETWEEN ' . $start . ' AND ' . $end;
-
 		return $query;
 	}
 
