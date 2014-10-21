@@ -79,7 +79,7 @@ class JHtmlBehaviorTest extends TestCase
 	public function getFrameworkData()
 	{
 		$data = array(
-			array(array('JHtmlBehavior::core' => true)),
+			array(array('JHtmlBehavior::core' => true, 'JHtmlJquery::framework' => true)),
 			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true))),
 			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true, 'more' => true)), true),
 			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true)), false, false),
