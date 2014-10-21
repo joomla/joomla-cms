@@ -79,6 +79,7 @@ class JHtmlBehaviorTest extends TestCase
 	public function getFrameworkData()
 	{
 		$data = array(
+			array(array('JHtmlBehavior::core' => true),
 			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true))),
 			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true, 'more' => true)), true),
 			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true)), false, false),
@@ -204,7 +205,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::formvalidation();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::formvalidation' => true),
+			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::formvalidation' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
@@ -266,7 +267,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::combobox();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::combobox' => true),
+			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::combobox' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
@@ -446,14 +447,12 @@ class JHtmlBehaviorTest extends TestCase
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
-					'JHtmlBehavior::framework' => array('core' => true),
 					'JHtmlBehavior::multiselect' => array('adminForm' => true),
 				)
 			),
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
-					'JHtmlBehavior::framework' => array('core' => true),
 					'JHtmlBehavior::multiselect' => array('adminForm2' => true),
 				),
 				'adminForm2'
@@ -677,7 +676,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::noframes();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::noframes' => true, 'JHtmlBehavior::framework' => array('core' => true)),
+			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::noframes' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}

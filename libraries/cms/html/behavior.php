@@ -145,11 +145,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
-
-		// Include jQuery Framework
-		JHtml::_('jquery.framework');
+		// Include core
+		static::core();
 
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
@@ -209,10 +206,10 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
-		// Include MooTools framework
-		static::framework();
+		// Include core
+		static::core();
 
-		JHtml::_('script', 'system/combobox.js', true, true);
+		JHtml::_('script', 'system/combobox.js', false, true);
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -400,9 +397,9 @@ abstract class JHtmlBehavior
 		}
 
 		// Include jQuery
-		JHtml::_('jquery.framework');
+		static::core();
 
-		JHtml::_('script', 'system/multiselect.js', true, true);
+		JHtml::_('script', 'system/multiselect.js', false, true);
 
 		// Attach multiselect to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -649,9 +646,9 @@ abstract class JHtmlBehavior
 		}
 
 		// Include jQuery
-		JHtml::_('jquery.framework');
+		static::core();
 
-		JHtml::_('script', 'system/highlighter.js', true, true);
+		JHtml::_('script', 'system/highlighter.js', false, true);
 
 		$terms = str_replace('"', '\"', $terms);
 
@@ -694,9 +691,6 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
-
-		// Include MooTools framework
-		static::framework();
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
