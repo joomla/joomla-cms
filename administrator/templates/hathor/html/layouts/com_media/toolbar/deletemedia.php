@@ -12,5 +12,5 @@ defined('_JEXEC') or die;
 $title = JText::_('JTOOLBAR_DELETE');
 ?>
 <button onclick="MediaManager.submit('folder.delete')" class="toolbar">
-	<span class="icon-32-delete" title="<?php echo $title; ?>"></span> <?php echo $title; ?>
+	<span class="icon-32-delete" title="<?php echo $title; ?>"></span><?php echo $title; ?>
 </button>

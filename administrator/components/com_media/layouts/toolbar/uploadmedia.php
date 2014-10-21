@@ -12,5 +12,5 @@ defined('_JEXEC') or die;
 $title = JText::_('JTOOLBAR_UPLOAD');
 ?>
 <button data-toggle="collapse" data-target="#collapseUpload" class="btn btn-small btn-success">
-	<i class="icon-plus icon-white" title="<?php echo $title; ?>"></i> <?php echo $title; ?>
+	<i class="icon-plus icon-white" title="<?php echo $title; ?>"></i><?php echo $title; ?>
 </button>

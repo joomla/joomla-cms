@@ -36,10 +36,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<span class="adminlist-searchstatus">
 			<?php if ($this->state->get('filter.results')) : ?>
 				<a class="btn" href="<?php echo JRoute::_('index.php?option=com_search&filter_results=0');?>">
-					<i class="icon-zoom-out"></i> <?php echo JText::_('COM_SEARCH_HIDE_SEARCH_RESULTS'); ?></a>
+					<i class="icon-zoom-out"></i><?php echo JText::_('COM_SEARCH_HIDE_SEARCH_RESULTS'); ?></a>
 			<?php else : ?>
 				<a class="btn" href="<?php echo JRoute::_('index.php?option=com_search&filter_results=1');?>">
-					<i class="icon-zoom-in"></i> <?php echo JText::_('COM_SEARCH_SHOW_SEARCH_RESULTS'); ?></a>
+					<i class="icon-zoom-in"></i><?php echo JText::_('COM_SEARCH_SHOW_SEARCH_RESULTS'); ?></a>
 			<?php endif; ?>
 			</span>
 		</div>

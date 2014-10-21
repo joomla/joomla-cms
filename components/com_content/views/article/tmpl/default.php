@@ -114,8 +114,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				<dd class="published">
 					<span class="icon-calendar"></span>
 					<time datetime="<?php echo JHtml::_('date', $this->item->publish_up, 'c'); ?>" itemprop="datePublished">
-						<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
-					</time>
+						<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?></time>
 				</dd>
 			<?php endif; ?>
 
@@ -141,7 +140,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 					<dd class="hits">
 						<span class="icon-eye-open"></span>
 						<meta itemprop="interactionCount" content="UserPageVisits:<?php echo $this->item->hits; ?>" />
-						<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
+							<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 					</dd>
 				<?php endif; ?>
 			<?php endif; ?>
