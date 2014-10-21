@@ -693,7 +693,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include jQuery
-		JHtml::_('jquery.framework');
+		static::core();
 
 		$js = "jQuery(function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
 			" else {top.location = self.location; }});";
