@@ -9,7 +9,7 @@
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @author    Marc McIntyre <mmcintyre@squiz.net>
  * @copyright 2006 Squiz Pty Ltd (ABN 77 084 670 600)
- * @license   http://matrix.squiz.net/developer/tools/php_cs/licence BSD Licence
+ * @license   http://matrix.squiz.net/developer/tools/php_cs/license BSD License
  * @version   CVS: $Id: ElseIfDeclarationSniff.php 301632 2010-07-28 01:57:56Z squiz $
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
