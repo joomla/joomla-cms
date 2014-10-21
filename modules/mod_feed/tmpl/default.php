@@ -63,8 +63,7 @@ else
 		{
 			?>
 					<h2 class="<?php echo $direction; ?>">
-						<?php preg_replace('/&(?!amp;)/', '&amp;', $rssurl); ?>
-						<a href="<?php echo $rssurl; ?>" target="_blank">
+						<a href="<?php echo htmlspecialchars($rssurl); ?>" target="_blank">
 						<?php echo $feed->title; ?></a>
 					</h2>
 			<?php
@@ -102,9 +101,8 @@ else
 				<li>
 					<?php if (!empty($uri)) : ?>
 						<h5 class="feed-link">
-						<?php preg_replace('/&(?!amp;)/', '&amp;', $uri); ?>
-						<a href="<?php echo $uri; ?>" target="_blank">
-						<?php  echo $feed[$i]->title; ?></a></h5>
+						<a href="<?php echo htmlspecialchars($uri); ?>" target="_blank">
+						<?php echo $feed[$i]->title; ?></a></h5>
 					<?php else : ?>
 						<h5 class="feed-link"><?php  echo $feed[$i]->title; ?></h5>
 					<?php  endif; ?>
