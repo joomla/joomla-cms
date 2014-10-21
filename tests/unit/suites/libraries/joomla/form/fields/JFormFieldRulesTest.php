@@ -19,7 +19,7 @@ JFormHelper::loadFieldClass('rules');
 class JFormFieldRulesTest extends TestCaseDatabase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Sets up dependencies for the test.
 	 *
 	 * @return void
 	 */
