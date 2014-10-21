@@ -13,7 +13,7 @@ JHtml::_('behavior.framework', true);
 
 $script = array();
 $script[] = "	window.addEvent('domready', function() {";
-$script[] = "		document.getElementById('showmods').addEvent('click', function(e) {";
+$script[] = "		document.id('showmods').addEvent('click', function(e) {";
 $script[] = "			document.id('showmods').setStyle('display', 'block');";
 $script[] = "		jQuery('.table tr.no').toggle();";
 $script[] = "		});";
