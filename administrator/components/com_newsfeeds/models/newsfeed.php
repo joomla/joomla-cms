@@ -89,6 +89,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			// Reset the ID because we are making a copy
 			$this->table->id = 0;
 
+			// Unpublish because we are making a copy
+			$this->table->published = 0;
+
 			// New category ID
 			$this->table->catid = $categoryId;
 
