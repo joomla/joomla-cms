@@ -403,8 +403,8 @@ abstract class JHtmlBehavior
 
 		// Attach multiselect to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('domready', function() {
-				new Joomla.JMultiSelect('" . $id . "');
+			"jQuery(document).ready(function() {
+				Joomla.JMultiSelect('" . $id . "');
 			});"
 		);
 
