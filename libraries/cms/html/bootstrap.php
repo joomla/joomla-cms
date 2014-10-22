@@ -55,7 +55,7 @@ abstract class JHtmlBootstrap
 
 			$options = JHtml::getJSObject($opt);
 
-			// Attach the carousel to document
+			// Attach affix to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"(function($){
 					$('#$selector').affix($options);
@@ -121,7 +121,7 @@ abstract class JHtmlBootstrap
 		// Include Bootstrap framework
 		static::framework();
 
-		// Attach the alerts to the document
+		// Attach the button to the document
 		JFactory::getDocument()->addScriptDeclaration(
 			"(function($){
 				$('.$selector').button();
