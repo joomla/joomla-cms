@@ -240,7 +240,7 @@ abstract class JFactory
 				$instance = JUser::getInstance();
 			}
 		}
-		elseif ($instance->id != $id)
+		elseif (!($instance instanceof JUser) || $instance->id != $id)
 		{
 			$instance = JUser::getInstance($id);
 		}
