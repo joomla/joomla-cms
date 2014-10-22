@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * The article controller
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_content
  * @since       1.6
@@ -145,8 +147,8 @@ class ContentControllerArticle extends JControllerForm
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   array         $validData   The validated data.
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
 	 *
 	 * @return	void
 	 *
