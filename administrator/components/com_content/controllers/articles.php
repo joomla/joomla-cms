@@ -83,7 +83,16 @@ class ContentControllerArticles extends JControllerAdmin
 			}
 		}
 
-		$this->setRedirect('index.php?option=com_content&view=articles');
+		$view = $this->input->get('view', '');
+
+		if ($view == 'featured')
+		{
+			$this->setRedirect('index.php?option=com_content&view=featured');
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_content&view=articles');
+		}
 	}
 
 	/**
@@ -91,7 +100,7 @@ class ContentControllerArticles extends JControllerAdmin
 	 *
 	 * @param   string  $name    The model name. Optional.
 	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   array   $config  The array of possible config values. Optional.
 	 *
 	 * @return  JModel
 	 *
@@ -118,5 +127,4 @@ class ContentControllerArticles extends JControllerAdmin
 	protected function postDeleteHook(JModelLegacy $model, $ids = null)
 	{
 	}
-
 }

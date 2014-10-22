@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Site Application class
  *
- * @package     Joomla.Libraries
- * @subpackage  Application
- * @since       3.2
+ * @since  3.2
  */
 final class JApplicationSite extends JApplicationCms
 {

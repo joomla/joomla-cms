@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JEditor class to handle WYSIWYG editors
  *
- * @package     Joomla.Libraries
- * @subpackage  Editor
- * @since       1.5
+ * @since  1.5
  */
 class JEditor extends JObject
 {
