@@ -32,7 +32,7 @@ class ContentController extends JControllerLegacy
 	 *
 	 * @since   1.5
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		$view   = $this->input->get('view', 'articles');
 		$layout = $this->input->get('layout', 'articles');
