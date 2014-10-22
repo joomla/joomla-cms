@@ -66,7 +66,7 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
 		{
 			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
