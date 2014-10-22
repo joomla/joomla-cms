@@ -137,8 +137,8 @@ abstract class JHtmlBootstrap
 	 * Add javascript support for Bootstrap carousels
 	 *
 	 * @param   string  $selector  Common class for the carousels.
-	 * @param   array   $params    An array of options for the modal.
-	 *                             Options for the modal can be:
+	 * @param   array   $params    An array of options for the carousel.
+	 *                             Options for the carousel can be:
 	 *                             - interval  number  The amount of time to delay between automatically cycling an item.
 	 *                                                 If false, carousel will not automatically cycle.
 	 *                             - pause     string  Pauses the cycling of the carousel on mouseenter and resumes the cycling
@@ -391,7 +391,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * @param   string  $selector  The ID selector for the ScrollSpy element.
 	 * @param   array   $params    An array of options for the ScrollSpy.
-	 *                             Options for the modal can be:
+	 *                             Options for the ScrollSpy can be:
 	 *                             - offset  number  Pixels to offset from top when calculating position of scroll.
 	 *
 	 * @return  void
