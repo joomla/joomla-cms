@@ -556,7 +556,7 @@ abstract class JHtmlBootstrap
 
 			$options = JHtml::getJSObject($opt);
 
-			// Attach tooltips to document
+			// Attach typehead to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"jQuery(document).ready(function()
 				{
@@ -787,7 +787,7 @@ abstract class JHtmlBootstrap
 			// Setup options object
 			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 
-			// Attach tooltips to document
+			// Attach tab to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"(function($){
 					$('#$selector a').click(function (e) {
