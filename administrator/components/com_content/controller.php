@@ -49,8 +49,8 @@ class ContentController extends JControllerLegacy
 			return false;
 		}
 
-		parent::display();
+		
 
-		return $this;
+		return parent::display();
 	}
 }
