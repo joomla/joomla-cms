@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// Include dependancies.
+// Include dependencies.
 require_once __DIR__ . '/helper.php';
 
 $list = ModLatestHelper::getList($params);

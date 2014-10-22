@@ -35,7 +35,7 @@ class ContentControllerArticles extends JControllerAdmin
 			$this->view_list = 'featured';
 		}
 
-		$this->registerTask('unfeatured',	'featured');
+		$this->registerTask('unfeatured', 'featured');
 	}
 
 	/**

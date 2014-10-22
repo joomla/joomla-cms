@@ -7981,7 +7981,7 @@ a.grid_true {
 	background-image: url('../images/admin/icon-16-allow.png');
 }
 #j-sidebar-container {
-	margin-right: 10px;
+	margin-right: 0;
 }
 div#j-sidebar-container.j-toggle-hidden {
 	width: 0;
