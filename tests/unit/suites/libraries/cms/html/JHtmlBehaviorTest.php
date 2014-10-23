@@ -634,13 +634,13 @@ class JHtmlBehaviorTest extends TestCase
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate and getRouter
-		$mock = $this->getMock('myMockObject', array('getTemplate', 'getRouter'));
-		$mock->expects($this->any())
-			->method('getTemplate')
-			->will($this->returnValue($template));
-		$mock->expects($this->any())
-			->method('getRouter')
-			->will($this->returnValue(new JRouter));
+		$mock = eval(
+			'class JJApplication_JHtmlBehavior_Keepalive_Stub {' .
+			'public function getTemplate() { return \'' . $template . '\'; }' .
+			'public static function getRouter() { return new JRouter; }' .
+			'}' .
+			'return new JJApplication_JHtmlBehavior_Keepalive_Stub;'
+		);
 
 		// @todo We need to mock this.
 		$mock->input = new JInput;
