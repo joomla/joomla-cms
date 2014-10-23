@@ -611,13 +611,15 @@ abstract class JHtmlBehavior
 			$refreshTime = 3600000;
 		}
 
+		$url = JRoute::_("index.php?option=com_ajax&format=json", false);
+
 		$document = JFactory::getDocument();
 		$script = 'window.setInterval(function(){';
 		$script .= 'var r;';
 		$script .= 'try{';
 		$script .= 'r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")';
 		$script .= '}catch(e){}';
-		$script .= 'if(r){r.open("GET","./",true);r.send(null)}';
+		$script .= 'if(r){r.open("GET","' . $url . '",true);r.send(null)}';
 		$script .= '},' . $refreshTime . ');';
 
 		$document->addScriptDeclaration($script);
