@@ -80,7 +80,7 @@ JHtml::_('behavior.keepalive');
 			<?php 
 			$jinput = JFactory::getApplication()->input;
 			$return = base64_encode($this->params->get('login_redirect_url', $this->form->getValue('return'))); 
-			$return= $jinput->get("return",$return); //If a callback URL is set via GET or POST should have priority
+			$return= $jinput->get("return",$return,"BASE64"); //If a callback URL is set via GET or POST should have priority
 			?>
 			<input type="hidden" name="return" value="<?php echo $return;?>" />
 			<?php echo JHtml::_('form.token'); ?>
