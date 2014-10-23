@@ -123,7 +123,7 @@ abstract class JMailHelper
 
 		/*
 		 * Check the local address
-		 * We're a bit more conservative about what constitutes a "legal" address, that is, A-Za-z0-9!#$%&\‚Äô*+/=?^_`{|}~-
+		 * We're a bit more conservative about what constitutes a "legal" address, that is, a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-
 		 * The first and last character in local cannot be a period ('.')
 		 * Also, period should not appear 2 or more times consecutively
 		 */
