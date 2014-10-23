@@ -84,6 +84,11 @@ class ContentModelArticles extends JModelList
 			$this->context .= '.' . $layout;
 		}
 
+		$extension = $app->getUserStateFromRequest('com_content.articles.filter.extension', 'extension', 'com_content', 'cmd');
+
+		$this->setState('filter.extension', $extension);
+		$parts = explode('.', $extension);
+
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
@@ -138,6 +143,7 @@ class ContentModelArticles extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.extension');
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.category_id');
@@ -200,6 +206,12 @@ class ContentModelArticles extends JModelList
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
 				->group('a.id');
+		}
+
+		// Filter by extension
+		if( $extension = $this->getState('filter.extension') )
+		{
+			$query->where('c.extension = ' . $db->quote($extension));
 		}
 
 		// Filter by access level.
@@ -299,7 +311,7 @@ class ContentModelArticles extends JModelList
 				->join(
 					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote($extension . '.article')
 				);
 		}
 
