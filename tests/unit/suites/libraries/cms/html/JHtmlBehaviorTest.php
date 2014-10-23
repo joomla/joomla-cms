@@ -633,11 +633,14 @@ class JHtmlBehaviorTest extends TestCase
 		$template = 'mytemplate' . rand(1, 10000);
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
+		// to return a value from getTemplate and getRouter
+		$mock = $this->getMock('myMockObject', array('getTemplate', 'getRouter'));
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+		$mock->expects($this->any())
+			->method('getRouter')
+			->will($this->returnValue(new JRouter));
 
 		// @todo We need to mock this.
 		$mock->input = new JInput;
