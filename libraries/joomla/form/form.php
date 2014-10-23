@@ -2057,7 +2057,7 @@ class JForm
 	 * @param   array    $options  An array of form options.
 	 * @param   boolean  $replace  Flag to toggle whether form fields should be replaced if a field
 	 *                             already exists with the same group/name.
-	 * @param   mixed  $xpath      An optional xpath to search for the fields. String if a path is to
+	 * @param   mixed    $xpath    An optional xpath to search for the fields. String if a path is to
 	 *                             be used, false otherwise
 	 *
 	 * @return  JForm  JForm instance.
