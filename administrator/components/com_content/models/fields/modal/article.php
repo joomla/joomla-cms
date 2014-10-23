@@ -145,7 +145,7 @@ class JFormFieldModal_Article extends JFormField
 		if ($allowClear)
 		{
 			$html[] = '<button id="' . $this->id . '_clear" class="btn' . ($value ? '' : ' hidden') . '" onclick="return jClearArticle(\'' .
-				$this->id . '\')"><span class="icon-remove"></span>' . JText::_('JCLEAR') . '</button>';
+				$this->id . '\')"><span class="icon-remove"></span> ' . JText::_('JCLEAR') . '</button>';
 		}
 
 		$html[] = '</span>';
