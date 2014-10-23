@@ -1,4 +1,4 @@
-Joomla! CMS TM [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon)
+Joomla! CMS ™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon)
 ====================
 
 Build Status
@@ -21,7 +21,7 @@ What is Joomla?
 
 Is Joomla! for you?
 ---------------------
-* Joomla is [a good solution for most content web projects](http://docs.joomla.org/Joomla_Is_it_for_me%3F).
+* Joomla is [the right solution for most content web projects](http://docs.joomla.org/Joomla_Is_it_for_me%3F).
 * View Joomla's core [features here](http://www.joomla.org/core-features.html).
 * Try it out for yourself in our [online demo](http://demo.joomla.org).
 
@@ -74,15 +74,15 @@ Do you already have a Joomla site that isn't built with Joomla 3.x ?
 * How to [migrate from 2.5.x to 3.x](http://docs.joomla.org/Should_I_update_from_Joomla!_2.5_to_3.x%3F).
 * What are the [main differences betwen 1.5 and 2.5](http://docs.joomla.org/Differences_from_Joomla_1.5_to_Joomla_2.5)?
 * How to [migrate from 1.5.x to 3.x](http://docs.joomla.org/Migrating_from_Joomla_1.5_to_Joomla_3.0).
-* How to[convert an existing website to Joomla](http://docs.joomla.org/How_to_Convert_an_existing_Web_site_to_a_Joomla!_Web_site)
+* How to[convert an existing website to Joomla](http://docs.joomla.org/How_to_Convert_an_existing_Web_site_to_a_Joomla!_Web_site).
 
 Do you want to improve Joomla?
 --------------------
 * How do you [request a feature](http://docs.joomla.org/How_do_you_request_a_feature%3F)?
 * How do you [report a bug](http://docs.joomla.org/Filing_bugs_and_issues)?
 * Get Involved: Joomla! is community developed software. [Join the community](http://www.joomla.org).
-* Documentation for [Developers](http://docs.joomla.org/Developers)
-* Documentation for [Web designers](http://docs.joomla.org/Web_designers)
+* Documentation for [Developers](http://docs.joomla.org/Developers).
+* Documentation for [Web designers](http://docs.joomla.org/Web_designers).
 
 Copyright
 ---------------------
