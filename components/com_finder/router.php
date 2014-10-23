@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_finder
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       3.3
+ * @since  3.3
  */
 class FinderRouter extends JComponentRouterBase
 {
@@ -139,6 +137,10 @@ class FinderRouter extends JComponentRouterBase
  * These functions are proxys for the new router interface
  * for old SEF extensions.
  *
+ * @param   array  &$query  An array of URL arguments
+ *
+ * @return  array  The URL arguments to use to assemble the subsequent URL.
+ *
  * @deprecated  4.0  Use Class based routers instead
  */
 function FinderBuildRoute(&$query)
@@ -148,6 +150,18 @@ function FinderBuildRoute(&$query)
 	return $router->build($query);
 }
 
+/**
+ * Finder router functions
+ *
+ * These functions are proxys for the new router interface
+ * for old SEF extensions.
+ *
+ * @param   array  &$segments  The segments of the URL to parse.
+ *
+ * @return  array  The URL attributes to be used by the application.
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
 function FinderParseRoute($segments)
 {
 	$router = new FinderRouter;

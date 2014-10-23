@@ -16,10 +16,8 @@ defined('JPATH_PLATFORM') or die;
  * produce valid atom files. For example, you have to specify either an editor
  * for the feed or an author for every single feed item.
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @see         http://www.atomenabled.org/developers/syndication/atom-format-spec.php
- * @since       11.1
+ * @see    http://www.atomenabled.org/developers/syndication/atom-format-spec.php
+ * @since  11.1
  */
 class JDocumentRendererAtom extends JDocumentRenderer
 {

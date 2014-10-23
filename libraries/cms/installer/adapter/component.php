@@ -15,9 +15,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Component installer
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstallerAdapterComponent extends JAdapterInstance
 {
@@ -1249,6 +1247,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			$query->clear()
 				->select('e.extension_id')
 				->from('#__extensions AS e')
+				->where('e.type = ' . $db->quote('component'))
 				->where('e.element = ' . $db->quote($option));
 
 			$db->setQuery($query);
@@ -1260,7 +1259,12 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
 		$menuElement = $this->manifest->administration->menu;
 
-		if ($menuElement)
+		// @TODO: Just do not create the menu if $menuElement not exist
+		if (in_array((string) $menuElement['hidden'], array('true', 'hidden')))
+		{
+			return true;
+		}
+		elseif ($menuElement)
 		{
 			$data = array();
 			$data['menutype'] = 'main';
@@ -1889,8 +1893,6 @@ class JInstallerAdapterComponent extends JAdapterInstance
 /**
  * Deprecated class placeholder. You should use JInstallerAdapterComponent instead.
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore

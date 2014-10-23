@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Display Controller for global configuration
  *
- * @package     Joomla.Site
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigControllerConfigDisplay extends ConfigControllerDisplay
 {

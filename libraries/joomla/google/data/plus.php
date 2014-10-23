@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google+ data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       1234
+ * @since  12.3
  */
 class JGoogleDataPlus extends JGoogleData
 {
@@ -42,7 +40,7 @@ class JGoogleDataPlus extends JGoogleData
 	 * @param   JRegistry    $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   1234
+	 * @since   12.3
 	 */
 	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{

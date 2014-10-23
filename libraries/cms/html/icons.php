@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for icons.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       2.5
+ * @since  2.5
  */
 abstract class JHtmlIcons
 {

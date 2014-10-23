@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_newsfeeds
  *
- * @package     Joomla.Site
- * @subpackage  com_newsfeeds
- * @since       3.3
+ * @since  3.3
  */
 class NewsfeedsRouter extends JComponentRouterBase
 {

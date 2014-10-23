@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/git/
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Data
- * @since       12.3
+ * @since  12.3
  *
  * http://developer.github.com/v3/git/
  * Git DB API

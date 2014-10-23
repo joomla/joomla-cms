@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Controller for single contact view
  *
- * @package     Joomla.Site
- * @subpackage  com_contact
- * @since       1.5.19
+ * @since  1.5.19
  */
 class ContactControllerContact extends JControllerForm
 {

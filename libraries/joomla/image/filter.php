@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to manipulate an image.
  *
- * @package     Joomla.Platform
- * @subpackage  Image
- * @since       11.3
+ * @since  11.3
  */
 abstract class JImageFilter
 {

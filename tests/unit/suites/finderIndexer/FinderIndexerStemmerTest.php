@@ -24,9 +24,9 @@ class FinderIndexerStemmerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetInstance()
 	{
-		$this->assertThat(
+		$this->assertInstanceOf(
+			'FinderIndexerStemmerPorter_en',
 			FinderIndexerStemmer::getInstance('porter_en'),
-			$this->isInstanceOf('FinderIndexerStemmerPorter_en'),
 			'getInstance with param "porter_en" returns an instance of FinderIndexerStemmerPorter_en.'
 		);
 	}

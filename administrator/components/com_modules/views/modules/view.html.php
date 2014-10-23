@@ -132,18 +132,6 @@ class ModulesViewModules extends JViewLegacy
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
 
-		JHtmlSidebar::addEntry(
-			JText::_('JSITE'),
-			'index.php?option=com_modules&filter_client_id=0',
-			$this->state->get('filter.client_id') == 0
-		);
-
-		JHtmlSidebar::addEntry(
-			JText::_('JADMINISTRATOR'),
-			'index.php?option=com_modules&filter_client_id=1',
-			$this->state->get('filter.client_id') == 1
-		);
-
 		JHtmlSidebar::setAction('index.php?option=com_modules');
 
 		JHtmlSidebar::addFilter(

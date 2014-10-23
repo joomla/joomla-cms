@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocumentJSON class, provides an easy interface to parse and display JSON output
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @see         http://www.json.org/
- * @since       11.1
+ * @see    http://www.json.org/
+ * @since  11.1
  */
 class JDocumentJSON extends JDocument
 {

@@ -14,9 +14,7 @@ require_once __DIR__ . '/articles.php';
 /**
  * Content Component Archive Model
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentModelArchive extends ContentModelArticles
 {

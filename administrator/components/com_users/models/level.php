@@ -214,6 +214,8 @@ class UsersModelLevel extends JModelAdmin
 			$data['rules'] = array();
 		}
 
+		$data['title'] = JFilterInput::getInstance()->clean($data['title'], 'TRIM');
+
 		return parent::save($data);
 	}
 }
