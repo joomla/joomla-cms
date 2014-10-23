@@ -42,12 +42,12 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = '<span class="icon-plus"></span>&#160;' . JText::_('JNEW') . '&#160;';
+				$text = '<span class="icon-plus"></span>' . JText::_('JNEW');
 			}
 		}
 		else
 		{
-			$text = JText::_('JNEW') . '&#160;';
+			$text = JText::_('JNEW');
 		}
 
 		// Add the button classes to the attribs array
@@ -97,7 +97,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = '<span class="icon-envelope"></span> ' . JText::_('JGLOBAL_EMAIL');
+				$text = '<span class="icon-envelope"></span>' . JText::_('JGLOBAL_EMAIL');
 			}
 		}
 		else
@@ -244,7 +244,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = '<span class="icon-print"></span>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;';
+				$text = '<span class="icon-print"></span>' . JText::_('JGLOBAL_PRINT');
 			}
 		}
 		else
@@ -280,7 +280,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = '<span class="icon-print"></span>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;';
+				$text = '<span class="icon-print"></span>' . JText::_('JGLOBAL_PRINT');
 			}
 		}
 		else
