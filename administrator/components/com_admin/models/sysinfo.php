@@ -294,17 +294,13 @@ class AdminModelSysInfo extends JModelLegacy
 	/**
 	 * Method to add a directory
 	 *
-	 * @return void
-	 * @since  1.6
-	 */
-	/**
-	 * Method to add a directory
-	 *
 	 * @param   string  $name     Directory Name
 	 * @param   string  $path     Directory path
 	 * @param   string  $message  Message
 	 *
 	 * @return   void
+	 * 
+	 * @since  1.6
 	 */
 	private function _addDirectory($name, $path, $message = '')
 	{
@@ -318,10 +314,19 @@ class AdminModelSysInfo extends JModelLegacy
 	 *
 	 * @note: has to be removed (it is present in the config...)
 	 *
+	 * @deprecated  4.0  It is present in the config
+	 * 
 	 * @since  1.6
 	 */
 	public function &getEditor()
 	{
+		JLog::add( 
+ 			'AdminModelSysInfo->getEditor() is deprecated. It is present in the config.', 
+ 			JLog::WARNING, 
+ 			'deprecated' 
+ 		); 
+
+		
 		if (is_null($this->editor))
 		{
 			$config       = JFactory::getConfig();
