@@ -28,12 +28,14 @@ class AdminViewProfile extends JViewLegacy
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$this->form			= $this->get('Form');
-		$this->item			= $this->get('Item');
-		$this->state		= $this->get('State');
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -43,8 +45,8 @@ class AdminViewProfile extends JViewLegacy
 			return false;
 		}
 
-		$this->form->setValue('password',	null);
-		$this->form->setValue('password2',	null);
+		$this->form->setValue('password', null);
+		$this->form->setValue('password2', null);
 
 		parent::display($tpl);
 		$this->addToolbar();
