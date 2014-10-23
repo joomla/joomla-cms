@@ -89,7 +89,7 @@ class AdminModelHelp extends JModelLegacy
 	{
 		if (is_null($this->page))
 		{
-			$page = JFactory::getApplication()->input->get('page', 'JHELP_START_HERE');
+			$page       = JFactory::getApplication()->input->get('page', 'JHELP_START_HERE');
 			$this->page = JHelp::createUrl($page);
 		}
 
@@ -107,7 +107,7 @@ class AdminModelHelp extends JModelLegacy
 	{
 		if (is_null($this->lang_tag))
 		{
-			$lang = JFactory::getLanguage();
+			$lang           = JFactory::getLanguage();
 			$this->lang_tag = $lang->getTag();
 
 			if (!is_dir(JPATH_BASE . '/help/' . $this->lang_tag))
@@ -124,13 +124,15 @@ class AdminModelHelp extends JModelLegacy
 	 * Method to get the toc
 	 *
 	 * @return  array  Table of contents
+	 *
+	 * @since   1.6
 	 */
 	public function &getToc()
 	{
 		if (is_null($this->toc))
 		{
 			// Get vars
-			$lang_tag = $this->getLangTag();
+			$lang_tag    = $this->getLangTag();
 			$help_search = $this->getHelpSearch();
 
 			// New style - Check for a TOC JSON file
@@ -148,7 +150,7 @@ class AdminModelHelp extends JModelLegacy
 			{
 				// Get Help files
 				jimport('joomla.filesystem.folder');
-				$files = JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
+				$files     = JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
 				$this->toc = array();
 
 				foreach ($files as $file)
@@ -196,12 +198,14 @@ class AdminModelHelp extends JModelLegacy
 	 * Method to get the latest version check
 	 *
 	 * @return  string  Latest Version Check URL
+	 *
+	 * @since   1.6
 	 */
 	public function &getLatestVersionCheck()
 	{
 		if (!$this->latest_version_check)
 		{
-			$override = 'http://help.joomla.org/proxy/index.php?option=com_help&keyref=Help{major}{minor}:Joomla_Version_{major}_{minor}_{maintenance}';
+			$override                   = 'http://help.joomla.org/proxy/index.php?option=com_help&keyref=Help{major}{minor}:Joomla_Version_{major}_{minor}_{maintenance}';
 			$this->latest_version_check = JHelp::createUrl('JVERSION', false, $override);
 		}
 
