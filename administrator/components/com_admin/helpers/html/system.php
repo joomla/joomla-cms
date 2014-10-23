@@ -22,7 +22,7 @@ abstract class JHtmlSystem
 	 * @param   string  $val  A php ini value
 	 *
 	 * @return  string html code
-	 * 
+	 *
 	 * @since   1.6
 	 */
 	public static function server($val)
