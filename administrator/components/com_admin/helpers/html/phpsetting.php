@@ -20,7 +20,7 @@ abstract class JHtmlPhpSetting
 	 * Method to generate a boolean message for a value
 	 *
 	 * @param   boolean  $val  Is the value set?
-	 * 
+	 *
 	 * @since   1.6
 	 *
 	 * @return  string html code
@@ -41,7 +41,7 @@ abstract class JHtmlPhpSetting
 	 * Method to generate a boolean message for a value
 	 *
 	 * @param   boolean  $val  Is the value set?
-	 * 
+	 *
 	 * @since   1.6
 	 *
 	 * @return  string html code
@@ -62,7 +62,7 @@ abstract class JHtmlPhpSetting
 	 * Method to generate a string message for a value
 	 *
 	 * @param   string  $val  A php ini value
-	 * 
+	 *
 	 * @since   1.6
 	 *
 	 * @return  string html code
@@ -85,7 +85,7 @@ abstract class JHtmlPhpSetting
 	 * @param   string  $val  A php ini value
 	 *
 	 * @return  string html code
-	 * 
+	 *
 	 * @since   1.6
 	 *
 	 * @deprecated  4.0  Use intval() or casting instead.
