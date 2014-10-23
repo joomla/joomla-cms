@@ -22,6 +22,8 @@ class JoomlaInstallerScript
 	 * @param   JInstallerFile  $installer  The class calling this method
 	 *
 	 * @return void
+	 *
+	 * @since  1.6.4
 	 */
 	public function update($installer)
 	{
@@ -41,6 +43,8 @@ class JoomlaInstallerScript
 	 * Medtho to update Database
 	 *
 	 * @return void
+	 *
+	 * @since  1.6.4
 	 */
 	protected function updateDatabase()
 	{
@@ -82,6 +86,8 @@ class JoomlaInstallerScript
 	 * Update the manifest caches
 	 *
 	 * @return void
+	 *
+	 * @since  1.6.4
 	 */
 	protected function updateManifestCaches()
 	{
@@ -238,7 +244,7 @@ class JoomlaInstallerScript
 		// None in core at this time
 
 		// Attempt to refresh manifest caches
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__extensions');
@@ -278,6 +284,8 @@ class JoomlaInstallerScript
 	 * Delete files that should not exist
 	 *
 	 * @return void
+	 *
+	 * @since  1.6.4
 	 */
 	public function deleteUnexistingFiles()
 	{
