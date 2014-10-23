@@ -32,9 +32,7 @@ jimport('joomla.filesystem.folder');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @package     Joomla.Platform
- * @subpackage  Archive
- * @since       11.1
+ * @since  11.1
  */
 class JArchiveZip implements JArchiveExtractable
 {
@@ -403,6 +401,7 @@ class JArchiveZip implements JArchiveExtractable
 		{
 			$last = $fhLast;
 		}
+
 		while (($fhLast = strpos($data, $this->_ctrlDirEnd, $fhLast + 1)) !== false);
 
 		// Find the central directory offset
@@ -502,6 +501,7 @@ class JArchiveZip implements JArchiveExtractable
 			// Bump the max execution time because not using the built in php zip libs makes this process slow.
 			@set_time_limit(ini_get('max_execution_time'));
 		}
+
 		while ((($fhStart = strpos($data, $this->_ctrlDirHeader, $fhStart + 46)) !== false));
 
 		$this->_metadata = array_values($entries);

@@ -16,11 +16,9 @@ jimport('joomla.filesystem.path');
  *
  * Parent class to all tables.
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @link        http://docs.joomla.org/JTable
- * @since       11.1
- * @tutorial	Joomla.Platform/jtable.cls
+ * @link   http://docs.joomla.org/JTable
+ * @since  11.1
+ * @tutorial  Joomla.Platform/jtable.cls
  */
 abstract class JTable extends JObject implements JObservableInterface, JTableInterface
 {
@@ -688,6 +686,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 				{
 					throw new InvalidArgumentException('Table has multiple primary keys specified, only one primary key value provided.');
 				}
+
 				$keys = array($this->getKeyName() => $keys);
 			}
 			else
@@ -969,6 +968,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			{
 				throw new UnexpectedValueException('Null primary key not allowed.');
 			}
+
 			$this->$key = $pk[$key];
 		}
 

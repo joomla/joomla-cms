@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Remind model class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.5
+ * @since  1.5
  */
 class UsersModelRemind extends JModelForm
 {

@@ -15,9 +15,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Component installer
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstallerAdapterComponent extends JAdapterInstance
 {
@@ -1249,6 +1247,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			$query->clear()
 				->select('e.extension_id')
 				->from('#__extensions AS e')
+				->where('e.type = ' . $db->quote('component'))
 				->where('e.element = ' . $db->quote($option));
 
 			$db->setQuery($query);
@@ -1889,8 +1888,6 @@ class JInstallerAdapterComponent extends JAdapterInstance
 /**
  * Deprecated class placeholder. You should use JInstallerAdapterComponent instead.
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore

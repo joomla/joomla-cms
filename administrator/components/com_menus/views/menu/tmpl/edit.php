@@ -12,16 +12,20 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
+JHtml::_('behavior.core');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
+
+JText::script('ERROR');
 ?>
 
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'menu.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		var form = document.getElementById('item-form');
+		if (task == 'menu.cancel' || document.formvalidator.isValid(form))
 		{
-			Joomla.submitform(task, document.getElementById('item-form'));
+			Joomla.submitform(task, form);
 		}
 	}
 </script>

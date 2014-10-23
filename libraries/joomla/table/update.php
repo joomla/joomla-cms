@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Update table
  * Stores updates temporarily
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @since       11.1
+ * @since  11.1
  */
 class JTableUpdate extends JTable
 {
@@ -48,6 +46,7 @@ class JTableUpdate extends JTable
 
 			return false;
 		}
+
 		return true;
 	}
 

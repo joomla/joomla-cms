@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Menu table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
- * @since       11.1
+ * @since  11.1
  */
 class JTableMenu extends JTableNested
 {
@@ -161,7 +159,14 @@ class JTableMenu extends JTableNested
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
 
-		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id, 'language' => $this->language))
+		if ($table->load(
+				array(
+				'alias' => $this->alias,
+				'parent_id' => $this->parent_id,
+				'client_id' => (int) $this->client_id,
+				'language' => $this->language
+				)
+			)
 			&& ($table->id != $this->id || $this->id == 0))
 		{
 			if ($this->menutype == $table->menutype)

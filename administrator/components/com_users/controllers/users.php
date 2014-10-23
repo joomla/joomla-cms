@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Users list controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerUsers extends JControllerAdmin
 {
@@ -28,8 +26,6 @@ class UsersControllerUsers extends JControllerAdmin
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @return  UsersControllerUsers
 	 *
 	 * @since   1.6
 	 * @see     JController

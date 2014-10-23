@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Menus component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
- * @since       1.6
+ * @since  1.6
  */
 class MenusHelper
 {
@@ -175,7 +173,7 @@ class MenusHelper
 		}
 
 		$query->where('a.published != -2')
-			->group('a.id, a.title, a.level, a.menutype, a.type, a.template_style_id, a.checked_out, a.lft')
+			->group('a.id, a.title, a.alias, a.level, a.menutype, a.type, a.template_style_id, a.checked_out, a.lft')
 			->order('a.lft ASC');
 
 		// Get the options.

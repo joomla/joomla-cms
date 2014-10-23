@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Tags helper class, provides methods to perform various tasks relevant
  * tagging of content.
  *
- * @package     Joomla.Libraries
- * @subpackage  Helper
- * @since       3.1
+ * @since  3.1
  */
 class JHelperTags extends JHelper
 {
@@ -72,11 +70,27 @@ class JHelperTags extends JHelper
 
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
-		$query->columns(array($db->quoteName('type_alias'), $db->quoteName('core_content_id'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'),  $db->quoteName('type_id')));
+		$query->columns(
+			array(
+				$db->quoteName('type_alias'),
+				$db->quoteName('core_content_id'),
+				$db->quoteName('content_item_id'),
+				$db->quoteName('tag_id'),
+				$db->quoteName('tag_date'),
+				$db->quoteName('type_id')
+			)
+		);
 
 		foreach ($tags as $tag)
 		{
-			$query->values($db->quote($this->typeAlias) . ', ' . (int) $ucmId . ', ' . (int) $item . ', ' . $db->quote($tag) . ', ' . $query->currentTimestamp() . ', ' . (int) $typeId);
+			$query->values(
+				$db->quote($this->typeAlias)
+				. ', ' . (int) $ucmId
+				. ', ' . (int) $item
+				. ', ' . $db->quote($tag)
+				. ', ' . $query->currentTimestamp()
+				. ', ' . (int) $typeId
+			);
 		}
 
 		$db->setQuery($query);
@@ -529,9 +543,21 @@ class JHelperTags extends JHelper
 		JArrayHelper::toInteger($stateFilters);
 
 		// M is the mapping table. C is the core_content table. Ct is the content_types table.
-		$query->select('m.type_alias, m.content_item_id, m.core_content_id, count(m.tag_id) AS match_count,  MAX(m.tag_date) as tag_date, MAX(c.core_title) AS core_title')
+		$query
+			->select(
+				'm.type_alias'
+				. ', ' . 'm.content_item_id'
+				. ', ' . 'm.core_content_id'
+				. ', ' . 'count(m.tag_id) AS match_count'
+				. ', ' . 'MAX(m.tag_date) as tag_date'
+				. ', ' . 'MAX(c.core_title) AS core_title'
+			)
 			->select('MAX(c.core_alias) AS core_alias, MAX(c.core_body) AS core_body, MAX(c.core_state) AS core_state, MAX(c.core_access) AS core_access')
-			->select('MAX(c.core_metadata) AS core_metadata, MAX(c.core_created_user_id) AS core_created_user_id, MAX(c.core_created_by_alias) AS core_created_by_alias')
+			->select(
+				'MAX(c.core_metadata) AS core_metadata'
+				. ', ' . 'MAX(c.core_created_user_id) AS core_created_user_id'
+				. ', ' . 'MAX(c.core_created_by_alias) AS core_created_by_alias'
+			)
 			->select('MAX(c.core_created_time) as core_created_time, MAX(c.core_images) as core_images')
 			->select('CASE WHEN c.core_modified_time = ' . $nullDate . ' THEN c.core_created_time ELSE c.core_modified_time END as core_modified_time')
 			->select('MAX(c.core_language) AS core_language, MAX(c.core_catid) AS core_catid')
@@ -539,7 +565,14 @@ class JHelperTags extends JHelper
 			->select('MAX(ct.type_title) AS content_type_title, MAX(ct.router) AS router')
 
 			->from('#__contentitem_tag_map AS m')
-			->join('INNER', '#__ucm_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id AND c.core_state IN (' . implode(',', $stateFilters) . ')' . (in_array('0', $stateFilters) ? '' : ' AND (c.core_publish_up = ' . $nullDate . ' OR c.core_publish_up <= ' . $nowDate . ') AND (c.core_publish_down = ' . $nullDate . ' OR  c.core_publish_down >= ' . $nowDate . ')'))
+			->join(
+				'INNER',
+				'#__ucm_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id AND c.core_state IN ('
+					. implode(',', $stateFilters) . ')'
+					. (in_array('0', $stateFilters) ? '' : ' AND (c.core_publish_up = ' . $nullDate
+					. ' OR c.core_publish_up <= ' . $nowDate . ') '
+					. ' AND (c.core_publish_down = ' . $nullDate . ' OR  c.core_publish_down >= ' . $nowDate . ')')
+			)
 			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
 
 			// Join over the users for the author and email

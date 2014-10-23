@@ -14,11 +14,9 @@ jimport('joomla.filesystem.folder');
 /**
  * Class to turn JCli applications into daemons.  It requires CLI and PCNTL support built into PHP.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @see         http://www.php.net/manual/en/book.pcntl.php
- * @see         http://php.net/manual/en/features.commandline.php
- * @since       11.1
+ * @see    http://www.php.net/manual/en/book.pcntl.php
+ * @see    http://php.net/manual/en/features.commandline.php
+ * @since  11.1
  */
 class JApplicationDaemon extends JApplicationCli
 {
@@ -564,7 +562,6 @@ class JApplicationDaemon extends JApplicationCli
 		// Attempt to change the identity of user running the process.
 		if (!$this->changeIdentity())
 		{
-
 			// If the identity change was required then we need to return false.
 			if ($this->config->get('application_require_identity'))
 			{

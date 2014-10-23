@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.1
+ * @since  11.1
  */
 class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimitable
 {
@@ -98,7 +96,6 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 				if ($this instanceof JDatabaseQueryLimitable && ($this->limit > 0 || $this->offset > 0))
 				{
-
 					$query = $this->processLimit($query, $this->limit, $this->offset);
 				}
 

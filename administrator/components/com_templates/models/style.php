@@ -12,26 +12,31 @@ defined('_JEXEC') or die;
 /**
  * Template style model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesModelStyle extends JModelAdmin
 {
 	/**
-	 * @var	    string	The help screen key for the module.
+	 * The help screen key for the module.
+	 *
+	 * @var	    string
 	 * @since   1.6
 	 */
 	protected $helpKey = 'JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES_EDIT';
 
 	/**
-	 * @var	    string	The help screen base URL for the module.
+	 * The help screen base URL for the module.
+	 *
+	 * @var	    string
 	 * @since   1.6
 	 */
 	protected $helpURL;
 
 	/**
 	 * Item cache.
+	 *
+	 * @var    array
+	 * @since  1.6
 	 */
 	private $_cache = array();
 
@@ -63,6 +68,9 @@ class TemplatesModelStyle extends JModelAdmin
 	 * @param   array  &$pks  An array of item ids.
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
+	 *
+	 * @since   1.6
+	 * @throws  Exception
 	 */
 	public function delete(&$pks)
 	{
@@ -299,7 +307,7 @@ class TemplatesModelStyle extends JModelAdmin
 
 			// Get the template XML.
 			$client	= JApplicationHelper::getClientInfo($table->client_id);
-			$path	= JPath::clean($client->path.'/templates/'.$table->template.'/templateDetails.xml');
+			$path	= JPath::clean($client->path . '/templates/' . $table->template . '/templateDetails.xml');
 
 			if (file_exists($path))
 			{
@@ -329,11 +337,11 @@ class TemplatesModelStyle extends JModelAdmin
 	}
 
 	/**
-	 * TODO
+	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   object  $form   A form object.
+	 * @param   JForm   $form   A JForm object.
 	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  TODO
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *

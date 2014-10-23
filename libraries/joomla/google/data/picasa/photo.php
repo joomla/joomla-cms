@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google Picasa data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @since  12.3
  */
 class JGoogleDataPicasaPhoto extends JGoogleData
 {
@@ -77,6 +75,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 				{
 					throw new RuntimeException("Etag match failed: `$match`.");
 				}
+
 				throw $e;
 			}
 
@@ -84,6 +83,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
+
 			$this->xml = null;
 
 			return true;
@@ -114,6 +114,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 				return (string) $link->attributes()->href;
 			}
 		}
+
 		return false;
 	}
 
@@ -147,6 +148,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			$height = (int) $item->attributes()->height;
 			$thumbs[$width] = array('url' => $url, 'w' => $width, 'h' => $height);
 		}
+
 		return $thumbs;
 	}
 
@@ -330,6 +332,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 				{
 					throw new RuntimeException("Etag match failed: `$match`.");
 				}
+
 				throw $e;
 			}
 

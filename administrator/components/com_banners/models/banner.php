@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Banner model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersModelBanner extends JModelAdmin
 {
@@ -262,6 +260,9 @@ class BannersModelBanner extends JModelAdmin
 
 			// New category ID
 			$table->catid = $categoryId;
+
+			// Unpublish because we are making a copy
+			$table->state = 0;
 
 			// TODO: Deal with ordering?
 			// $table->ordering	= 1;

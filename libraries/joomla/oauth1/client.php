@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Joomla Platform class for interacting with an OAuth 1.0 and 1.0a server.
  *
- * @package     Joomla.Platform
- * @subpackage  OAuth1
- * @since       13.1
+ * @since  13.1
  */
 abstract class JOAuth1Client
 {

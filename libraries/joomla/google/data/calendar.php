@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google Calendar data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @since  12.3
  */
 class JGoogleDataCalendar extends JGoogleData
 {
@@ -56,6 +54,7 @@ class JGoogleDataCalendar extends JGoogleData
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
+
 			return true;
 		}
 		else
@@ -209,6 +208,7 @@ class JGoogleDataCalendar extends JGoogleData
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
+
 			return true;
 		}
 		else
@@ -237,6 +237,7 @@ class JGoogleDataCalendar extends JGoogleData
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
+
 			return true;
 		}
 		else
@@ -335,6 +336,7 @@ class JGoogleDataCalendar extends JGoogleData
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
+
 			return true;
 		}
 		else

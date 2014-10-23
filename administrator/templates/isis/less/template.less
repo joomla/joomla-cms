@@ -92,6 +92,11 @@ html {
 body {
     height: 100%;
 }
+a:hover,
+a:active,
+a:focus {
+	outline: none;
+}
 /* Login */
 .view-login{
 	padding-top: 0;
@@ -302,14 +307,11 @@ body .navbar-fixed-top{
 	background: -ms-linear-gradient(top,  #ffffff 0%,#ededed 100%); /* IE10+ */
 	background: linear-gradient(top,  #ffffff 0%,#ededed 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
-
 	border-bottom: 1px solid #D3D3D3;
-
 	color: #0C192E;
 	text-shadow: 0 1px 0 #FFF;
-
 	margin-bottom: 10px;
-
+	min-height:43px;
 }
 .subhead-collapse.collapse {
 	height: auto;
@@ -1043,7 +1045,7 @@ a.grid_true {
 
 /* For collapsible sidebar */
 #j-sidebar-container {
-	margin-right: 10px;
+	margin-right: 0;
 }
 
 div#j-sidebar-container.j-toggle-hidden {

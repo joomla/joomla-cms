@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google API data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @since  12.3
  */
 abstract class JGoogleData
 {
@@ -114,6 +112,7 @@ abstract class JGoogleData
 		{
 			$qurl .= 'pageToken=' . $token;
 		}
+
 		$jdata = $this->query($qurl);
 		$data = json_decode($jdata->body, true);
 
@@ -123,6 +122,7 @@ abstract class JGoogleData
 			{
 				$data['items'] = array_merge($data['items'], $this->listGetData($url, $maxpages - 1, $data['nextPageToken']));
 			}
+
 			return $data['items'];
 		}
 		elseif ($data)

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
@@ -186,7 +186,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'newsfeeds.', $canCheckin); ?>
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id='.(int) $item->id); ?>">
+								<a href="<?php echo JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id); ?>">
 									<?php echo $this->escape($item->name); ?></a>
 							<?php else : ?>
 									<?php echo $this->escape($item->name); ?>
@@ -230,7 +230,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 			</tbody>
 		</table>
 
-		<?php //Load the batch processing form. ?>
+		<?php // Load the batch processing form. ?>
 		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="task" value="" />

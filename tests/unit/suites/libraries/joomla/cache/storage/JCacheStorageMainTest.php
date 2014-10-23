@@ -138,11 +138,11 @@ class JCacheStorageTest_Main extends TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @param   string  $store  The store.
+	 * @medium
 	 *
 	 * @dataProvider provider
+	 *
+	 * @param   string  $store  The store.
 	 *
 	 * @return void
 	 */

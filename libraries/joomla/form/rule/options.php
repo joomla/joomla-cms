@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Rule class for the Joomla Platform.
  * Requires the value entered be one of the options in a field of type="list"
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormRuleOptions extends JFormRule
 {
@@ -43,6 +41,7 @@ class JFormRuleOptions extends JFormRule
 				return true;
 			}
 		}
+
 		return false;
 	}
 }

@@ -15,9 +15,7 @@ jimport('joomla.filesystem.folder');
 /**
  * File Media Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       1.6
+ * @since  1.6
  */
 class MediaControllerFile extends JControllerLegacy
 {
@@ -28,7 +26,7 @@ class MediaControllerFile extends JControllerLegacy
 	 *
 	 * @since   1.5
 	 */
-	function upload()
+	public function upload()
 	{
 		$params = JComponentHelper::getParams('com_media');
 
@@ -55,12 +53,10 @@ class MediaControllerFile extends JControllerLegacy
 		// Instantiate the media helper
 		$mediaHelper = new JHelperMedia;
 
-		if (
-			$_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024) ||
-			$_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('upload_max_filesize')) ||
-			$_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('post_max_size')) ||
-			$_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('memory_limit'))
-		)
+		if ($_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024)
+			|| $_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('upload_max_filesize'))
+			|| $_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('post_max_size'))
+			|| $_SERVER['CONTENT_LENGTH'] > $mediaHelper->toBytes(ini_get('memory_limit')))
 		{
 			$response = array(
 				'status' => '0',

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View for the component configuration
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigViewApplicationJson extends ConfigViewCmsJson
 {

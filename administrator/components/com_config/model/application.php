@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Model for the global configuration
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigModelApplication extends ConfigModelForm
 {
@@ -199,8 +197,9 @@ class ConfigModelApplication extends ConfigModelForm
 			$data['caching'] = 0;
 		}
 
+		$path = JPATH_SITE . '/cache';
+
 		// Give a warning if the cache-folder can not be opened
-		$path = JPATH_SITE.'/cache';
 		if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) == false)
 		{
 			JLog::add(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), JLog::WARNING, 'jerror');

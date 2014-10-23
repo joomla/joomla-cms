@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to create and parse routes for the site application
  *
- * @package     Joomla.Libraries
- * @subpackage  Router
- * @since       1.5
+ * @since  1.5
  */
 class JRouterSite extends JRouter
 {
@@ -581,14 +579,11 @@ class JRouterSite extends JRouter
 
 		if ($this->_mode == JROUTER_MODE_SEF && $route)
 		{
-			$limitstart = (int) $uri->getVar('limitstart');
-
-			if ($limitstart > 0)
+			if ($limitstart = $uri->getVar('limitstart'))
 			{
-				$uri->setVar('start', $limitstart);
+				$uri->setVar('start', (int) $limitstart);
+				$uri->delVar('limitstart');
 			}
-
-			$uri->delVar('limitstart');
 		}
 
 		$uri->setPath($route);

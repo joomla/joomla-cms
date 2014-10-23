@@ -14,11 +14,8 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Facebook API Status class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Facebook
- *
- * @see         http://developers.facebook.com/docs/reference/api/status/
- * @since       13.1
+ * @see    http://developers.facebook.com/docs/reference/api/status/
+ * @since  13.1
  */
 class JFacebookStatus extends JFacebookObject
 {
@@ -131,5 +128,4 @@ class JFacebookStatus extends JFacebookObject
 	{
 		return $this->deleteConnection($status, 'likes');
 	}
-
 }

@@ -12,10 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of article records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- *
- * @since       1.6
+ * @since  1.6
  */
 class ContentModelArticles extends JModelList
 {

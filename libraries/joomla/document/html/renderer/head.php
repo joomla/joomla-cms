@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocument head renderer
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JDocumentRendererHead extends JDocumentRenderer
 {
@@ -72,6 +70,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		// Generate base tag (need to happen early)
 		$base = $document->getBase();
+
 		if (!empty($base))
 		{
 			$buffer .= $tab . '<base href="' . $document->getBase() . '" />' . $lnEnd;
@@ -95,6 +94,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		// Don't add empty descriptions
 		$documentDescription = $document->getDescription();
+
 		if ($documentDescription)
 		{
 			$buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription) . '" />' . $lnEnd;
@@ -102,6 +102,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		// Don't add empty generators
 		$generator = $document->getGenerator();
+
 		if ($generator)
 		{
 			$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator) . '" />' . $lnEnd;
@@ -113,10 +114,12 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_links as $link => $linkAtrr)
 		{
 			$buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
+
 			if ($temp = JArrayHelper::toString($linkAtrr['attribs']))
 			{
 				$buffer .= ' ' . $temp;
 			}
+
 			$buffer .= ' />' . $lnEnd;
 		}
 

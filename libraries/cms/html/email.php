@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for cloaking email addresses
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.5
+ * @since  1.5
  */
 abstract class JHtmlEmail
 {
@@ -73,11 +71,13 @@ abstract class JHtmlEmail
 					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
 				}
 
-				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+					. $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';";
 			}
 			else
 			{
-				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>' +addy" . $rand . "+'<\/a>';";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+					. $rand . " + '\'>' +addy" . $rand . "+'<\/a>';";
 			}
 		}
 		else

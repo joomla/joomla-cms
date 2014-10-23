@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Display a JSON loaded window with a repeatable set of sub fields
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       3.2
+ * @since  3.2
  */
 class JFormFieldRepeatable extends JFormField
 {
@@ -111,6 +109,7 @@ class JFormFieldRepeatable extends JFormField
 
 		JText::script('JAPPLY');
 		JText::script('JCANCEL');
+
 		return implode("\n", $str);
 	}
 }

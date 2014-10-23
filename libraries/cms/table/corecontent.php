@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Core content table
  *
- * @package     Joomla.Libraries
- * @subpackage  Table
- * @since       3.1
+ * @since  3.1
  */
 class JTableCorecontent extends JTable
 {
@@ -186,6 +184,7 @@ class JTableCorecontent extends JTable
 		{
 			throw new UnexpectedValueException('Null content item key not allowed.');
 		}
+
 		if ($typeAlias === null)
 		{
 			throw new UnexpectedValueException('Null type alias not allowed.');
@@ -276,6 +275,12 @@ class JTableCorecontent extends JTable
 		$query = $db->getQuery(true);
 		$languageId = JHelperContent::getLanguageId($this->core_language);
 
+		// Selecting "all languages" doesn't give a language id - we can't store a blank string in non mysql databases, so save 0 (the default value)
+		if (!$languageId)
+		{
+			$languageId = '0';
+		}
+
 		if ($isNew)
 		{
 			$query->insert($db->quoteName('#__ucm_base'))
@@ -355,7 +360,11 @@ class JTableCorecontent extends JTable
 		if (property_exists($this, 'core_checked_out_user_id') && property_exists($this, 'core_checked_out_time'))
 		{
 			$checkin = true;
-			$query->where(' (' . $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId . ')');
+			$query->where(
+				' ('
+				. $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId
+				. ')'
+			);
 		}
 
 		$this->_db->setQuery($query);

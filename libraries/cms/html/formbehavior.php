@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for form related behaviors
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.0
+ * @since  3.0
  */
 abstract class JHtmlFormbehavior
 {
@@ -55,11 +53,30 @@ abstract class JHtmlFormbehavior
 		}
 
 		// Default settings
-		$options['disable_search_threshold']  = isset($options['disable_search_threshold']) ? $options['disable_search_threshold'] : 10;
-		$options['allow_single_deselect']     = isset($options['allow_single_deselect']) ? $options['allow_single_deselect'] : true;
-		$options['placeholder_text_multiple'] = isset($options['placeholder_text_multiple']) ? $options['placeholder_text_multiple']: JText::_('JGLOBAL_SELECT_SOME_OPTIONS');
-		$options['placeholder_text_single']   = isset($options['placeholder_text_single']) ? $options['placeholder_text_single'] : JText::_('JGLOBAL_SELECT_AN_OPTION');
-		$options['no_results_text']           = isset($options['no_results_text']) ? $options['no_results_text'] : JText::_('JGLOBAL_SELECT_NO_RESULTS_MATCH');
+		if (!isset($options['disable_search_threshold']))
+		{
+			$options['disable_search_threshold'] = 10;
+		}
+
+		if (!isset($options['allow_single_deselect']))
+		{
+			$options['allow_single_deselect'] = true;
+		}
+
+		if (!isset($options['placeholder_text_multiple']))
+		{
+			$options['placeholder_text_multiple'] = JText::_('JGLOBAL_SELECT_SOME_OPTIONS');
+		}
+
+		if (!isset($options['placeholder_text_single']))
+		{
+			$options['placeholder_text_single'] = JText::_('JGLOBAL_SELECT_AN_OPTION');
+		}
+
+		if (!isset($options['no_results_text']))
+		{
+			$options['no_results_text'] = JText::_('JGLOBAL_SELECT_NO_RESULTS_MATCH');
+		}
 
 		// Options array to json options string
 		$options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));

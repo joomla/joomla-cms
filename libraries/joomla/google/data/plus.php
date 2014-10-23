@@ -12,28 +12,26 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google+ data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       1234
+ * @since  12.3
  */
 class JGoogleDataPlus extends JGoogleData
 {
 	/**
-	* @var    JGoogleDataPlusPeople  Google+ API object for people.
-	* @since  12.3
-	*/
+	 * @var    JGoogleDataPlusPeople  Google+ API object for people.
+	 * @since  12.3
+	 */
 	protected $people;
 
 	/**
-	* @var    JGoogleDataPlusActivities  Google+ API object for people.
-	* @since  12.3
-	*/
+	 * @var    JGoogleDataPlusActivities  Google+ API object for people.
+	 * @since  12.3
+	 */
 	protected $activities;
 
 	/**
-	* @var    JGoogleDataPlusComments  Google+ API object for people.
-	* @since  12.3
-	*/
+	 * @var    JGoogleDataPlusComments  Google+ API object for people.
+	 * @since  12.3
+	 */
 	protected $comments;
 
 	/**
@@ -42,7 +40,7 @@ class JGoogleDataPlus extends JGoogleData
 	 * @param   JRegistry    $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   1234
+	 * @since   12.3
 	 */
 	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
@@ -75,6 +73,7 @@ class JGoogleDataPlus extends JGoogleData
 				{
 					$this->people = new JGoogleDataPlusPeople($this->options, $this->auth);
 				}
+
 				return $this->people;
 
 			case 'activities':
@@ -82,6 +81,7 @@ class JGoogleDataPlus extends JGoogleData
 				{
 					$this->activities = new JGoogleDataPlusActivities($this->options, $this->auth);
 				}
+
 				return $this->activities;
 
 			case 'comments':
@@ -89,6 +89,7 @@ class JGoogleDataPlus extends JGoogleData
 				{
 					$this->comments = new JGoogleDataPlusComments($this->options, $this->auth);
 				}
+
 				return $this->comments;
 		}
 	}

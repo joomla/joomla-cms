@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Base class for a Joomla! Web application.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.4
+ * @since  11.4
  */
 class JApplicationWeb extends JApplicationBase
 {
@@ -1154,6 +1152,7 @@ class JApplicationWeb extends JApplicationBase
 			// Remove the index.php portion of the path.
 			$path = substr_replace($path, '', strpos($path, 'index.php'), 9);
 		}
+
 		$path = rtrim($path, '/\\');
 
 		// Set the base URI both as just a path and as the full URI.

@@ -12,13 +12,18 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/articles.php';
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_content
+ * Featured content controller class.
+ *
+ * @since  1.6
  */
 class ContentControllerFeatured extends ContentControllerArticles
 {
 	/**
-	 * Removes an item
+	 * Removes an item.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function delete()
 	{
@@ -31,7 +36,7 @@ class ContentControllerFeatured extends ContentControllerArticles
 		// Access checks.
 		foreach ($ids as $i => $id)
 		{
-			if (!$user->authorise('core.delete', 'com_content.article.'.(int) $id))
+			if (!$user->authorise('core.delete', 'com_content.article.' . (int) $id))
 			{
 				// Prune items that you can't delete.
 				unset($ids[$i]);
@@ -62,6 +67,7 @@ class ContentControllerFeatured extends ContentControllerArticles
 	 * Method to publish a list of articles.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.0
 	 */
 	public function publish()

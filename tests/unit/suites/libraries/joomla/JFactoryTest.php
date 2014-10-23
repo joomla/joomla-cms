@@ -15,7 +15,7 @@ require_once JPATH_PLATFORM . '/joomla/factory.php';
  * @subpackage  Utilities
  * @since       11.3
  */
-class JFactoryTest extends TestCase
+class JFactoryTest extends TestCaseDatabase
 {
 	/**
 	 * Sets up the fixture.
@@ -47,22 +47,6 @@ class JFactoryTest extends TestCase
 		$this->restoreFactoryState();
 
 		parent::tearDown();
-	}
-
-	/**
-	 * Tests the JFactory::getApplication method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testGetApplication().
-	 */
-	public function testGetApplication()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**
@@ -229,6 +213,8 @@ class JFactoryTest extends TestCase
 
 	/**
 	 * Tests the JFactory::getDate method.
+	 *
+	 * @medium
 	 *
 	 * @return  void
 	 *

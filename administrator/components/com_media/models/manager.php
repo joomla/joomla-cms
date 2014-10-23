@@ -60,7 +60,7 @@ class MediaModelManager extends JModelLegacy
 	}
 
 	/**
-	 * Image Manager Popup
+	 * Get a select field with a list of available folders
 	 *
 	 * @param   string  $base  The image directory to display
 	 *
@@ -124,7 +124,8 @@ class MediaModelManager extends JModelLegacy
 		$author = $input->get('author', 0, 'integer');
 
 		// Create the drop-down folder select list
-		$list = JHtml::_('select.genericlist', $options, 'folderlist', 'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, ' . $asset . ', ' . $author . ')" ', 'value', 'text', $base);
+		$attribs = 'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, ' . $asset . ', ' . $author . ')" ';
+		$list = JHtml::_('select.genericlist', $options, 'folderlist', $attribs, 'value', 'text', $base);
 
 		return $list;
 	}

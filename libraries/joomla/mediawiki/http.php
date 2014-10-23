@@ -12,20 +12,18 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTTP client class for connecting to a MediaWiki instance.
  *
- * @package     Joomla.Platform
- * @subpackage  MediaWiki
- * @since       12.3
+ * @since  12.3
  */
 class JMediawikiHttp extends JHttp
 {
 	/**
-     * Constructor.
-     *
-     * @param   JRegistry       $options    Client options object.
-     * @param   JHttpTransport  $transport  The HTTP transport object.
-     *
-     * @since   12.3
-     */
+	 * Constructor.
+	 *
+	 * @param   JRegistry       $options    Client options object.
+	 * @param   JHttpTransport  $transport  The HTTP transport object.
+	 *
+	 * @since   12.3
+	 */
 	public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
 	{
 		// Override the JHttp contructor to use JHttpTransportStream.

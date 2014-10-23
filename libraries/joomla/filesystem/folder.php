@@ -14,9 +14,7 @@ jimport('joomla.filesystem.path');
 /**
  * A Folder handling class
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
- * @since       11.1
+ * @since  11.1
  */
 abstract class JFolder
 {
@@ -54,6 +52,7 @@ abstract class JFolder
 		{
 			throw new RuntimeException('Source folder not found', -1);
 		}
+
 		if (self::exists($dest) && !$force)
 		{
 			throw new RuntimeException('Destination folder already exists', -1);
@@ -154,6 +153,7 @@ abstract class JFolder
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -253,6 +253,7 @@ abstract class JFolder
 						break;
 					}
 				}
+
 				if ($inBaseDir == false)
 				{
 					// Return false for JFolder::create because the path to be created is not in open_basedir
@@ -279,6 +280,7 @@ abstract class JFolder
 			// Reset umask
 			@umask($origmask);
 		}
+
 		return $ret;
 	}
 

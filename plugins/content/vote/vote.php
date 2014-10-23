@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Vote plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.vote
- * @since       1.5
+ * @since  1.5
  */
 class PlgContentVote extends JPlugin
 {

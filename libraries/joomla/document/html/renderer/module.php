@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocument Module renderer
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JDocumentRendererModule extends JDocumentRenderer
 {
@@ -89,7 +87,6 @@ class JDocumentRendererModule extends JDocumentRenderer
 
 		if ($params->get('cache', 0) == 1 && $conf->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
 		{
-
 			// Default to itemid creating method and workarounds on
 			$cacheparams = new stdClass;
 			$cacheparams->cachemode = $cachemode;
@@ -98,7 +95,6 @@ class JDocumentRendererModule extends JDocumentRenderer
 			$cacheparams->methodparams = array($module, $attribs);
 
 			$contents = JModuleHelper::ModuleCache($module, $params, $cacheparams);
-
 		}
 		else
 		{

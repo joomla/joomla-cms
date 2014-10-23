@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Base HTML View class for the a Category list
  *
- * @package     Joomla.Legacy
- * @subpackage  View
- * @since       3.2
+ * @since  3.2
  */
 class JViewCategory extends JViewLegacy
 {
@@ -139,7 +137,7 @@ class JViewCategory extends JViewLegacy
 
 		// Setup the category parameters.
 		$cparams          = $category->getParams();
-		$category->params = clone($params);
+		$category->params = clone $params;
 		$category->params->merge($cparams);
 
 		$children = array($category->id => $children);

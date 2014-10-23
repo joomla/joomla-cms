@@ -60,7 +60,6 @@ class JGithubPackageUsersKeysTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageUsersKeys::getListUser
-     * @todo   Implement testGetListUser().
      */
     public function testGetListUser()
     {
@@ -80,7 +79,6 @@ class JGithubPackageUsersKeysTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageUsersKeys::getList
-     * @todo   Implement testGetList().
      */
     public function testGetList()
     {
@@ -100,7 +98,6 @@ class JGithubPackageUsersKeysTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageUsersKeys::get
-     * @todo   Implement testGet().
      */
     public function testGet()
     {
@@ -120,7 +117,6 @@ class JGithubPackageUsersKeysTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageUsersKeys::create
-     * @todo   Implement testCreate().
      */
     public function testCreate()
     {
@@ -140,7 +136,6 @@ class JGithubPackageUsersKeysTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageUsersKeys::edit
-     * @todo   Implement testEdit().
      */
     public function testEdit()
     {
@@ -160,7 +155,6 @@ class JGithubPackageUsersKeysTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageUsersKeys::delete
-     * @todo   Implement testDelete().
      */
     public function testDelete()
     {
