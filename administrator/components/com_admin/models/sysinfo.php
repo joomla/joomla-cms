@@ -17,25 +17,37 @@ defined('_JEXEC') or die;
 class AdminModelSysInfo extends JModelLegacy
 {
 	/**
-	 * @var array Some PHP settings
+	 * Some PHP settings
+	 *
+	 * @var array
+	 *
 	 * @since  1.6
 	 */
 	protected $php_settings = null;
 
 	/**
-	 * @var array Config values
+	 * Config values
+	 *
+	 * @var array
+	 *
 	 * @since  1.6
 	 */
 	protected $config = null;
 
 	/**
-	 * @var array Some system values
+	 * Some system values
+	 *
+	 * @var array
+	 *
 	 * @since  1.6
 	 */
 	protected $info = null;
 
 	/**
-	 * @var string PHP info
+	 * PHP info
+	 *
+	 * @var string
+	 *
 	 * @since  1.6
 	 */
 	protected $php_info = null;
@@ -44,6 +56,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 * Information about writable state of directories
 	 *
 	 * @var array
+	 *
 	 * @since  1.6
 	 */
 	protected $directories = null;
@@ -52,6 +65,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 * The current editor.
 	 *
 	 * @var string
+	 *
 	 * @since  1.6
 	 */
 	protected $editor = null;
@@ -299,7 +313,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 * @param   string  $message  Message
 	 *
 	 * @return   void
-	 * 
+	 *
 	 * @since  1.6
 	 */
 	private function _addDirectory($name, $path, $message = '')
@@ -315,7 +329,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 * @note: has to be removed (it is present in the config...)
 	 *
 	 * @deprecated  4.0  It is present in the config
-	 * 
+	 *
 	 * @since  1.6
 	 */
 	public function &getEditor()
