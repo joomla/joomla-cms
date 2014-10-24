@@ -40,7 +40,7 @@ defined('_JEXEC') or die;
 				<button type="submit" class="btn btn-primary"><span class="icon-arrow-left icon-white"></span> <?php echo JText::_('JLOGOUT'); ?></button>
 			</div>
 		</div>
-		<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('logout_redirect_url', $this->form->getValue('return'))); ?>" />
+		<input type="hidden" name="return" value="<?php echo $this->redirect; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 </div>
