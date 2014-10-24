@@ -2178,6 +2178,21 @@ class JInstaller extends JAdapter
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
 
+		if ($xml->files && count($xml->files->children()))
+		{
+			$filename = JFile::getName($path);
+			$data['filename'] = JFile::stripExt($filename);
+
+			foreach ($xml->files->children() as $oneFile)
+			{
+				if ((string) $oneFile->attributes()->plugin)
+				{
+					$data['filename'] = (string) $oneFile->attributes()->plugin;
+					break;
+				}
+			}
+		}
+
 		return $data;
 	}
 }

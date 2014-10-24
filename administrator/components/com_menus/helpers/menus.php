@@ -24,7 +24,11 @@ class MenusHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string    The name of the active view.
+	 * @param   string  $vName  The name of the active view.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -43,7 +47,7 @@ class MenusHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   integer  The menu ID.
+	 * @param   integer  $parentId  The menu ID.
 	 *
 	 * @return  JObject
 	 *
@@ -64,9 +68,11 @@ class MenusHelper
 	/**
 	 * Gets a standard form of a link for lookups.
 	 *
-	 * @param   mixed    A link string or array of request variables.
+	 * @param   mixed  $request  A link string or array of request variables.
 	 *
 	 * @return  mixed  A link in standard option-view-layout form, or false if the supplied response is invalid.
+	 *
+	 * @since   1.6
 	 */
 	public static function getLinkKey($request)
 	{
@@ -79,6 +85,7 @@ class MenusHelper
 		if (is_string($request))
 		{
 			$args = array();
+
 			if (strpos($request, 'index.php') === 0)
 			{
 				parse_str(parse_url(htmlspecialchars_decode($request), PHP_URL_QUERY), $args);
@@ -87,6 +94,7 @@ class MenusHelper
 			{
 				parse_str($request, $args);
 			}
+
 			$request = $args;
 		}
 
@@ -108,8 +116,9 @@ class MenusHelper
 	/**
 	 * Get the menu list for create a menu module
 	 *
-	 * @return    array    The menu array list
-	 * @since        1.6
+	 * @return   array  The menu array list
+	 *
+	 * @since    1.6
 	 */
 	public static function getMenuTypes()
 	{
@@ -125,10 +134,15 @@ class MenusHelper
 	/**
 	 * Get a list of menu links for one or all menus.
 	 *
-	 * @param   string    An option menu to filter the list on, otherwise all menu links are returned as a grouped array.
-	 * @param   integer   An optional parent ID to pivot results around.
-	 * @param   integer   An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
-	 * @param   array     An optional array of states
+	 * @param   string   $menuType   An option menu to filter the list on, otherwise all menu links are returned as a grouped array.
+	 * @param   integer  $parentId   An optional parent ID to pivot results around.
+	 * @param   integer  $mode       An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
+	 * @param   array    $published  An optional array of states
+	 * @param   array    $languages  Optional array of specify which languages we want to filter
+	 *
+	 * @return  array
+	 *
+	 * @since   1.6
 	 */
 	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published = array(), $languages = array())
 	{
@@ -160,6 +174,7 @@ class MenusHelper
 			{
 				$languages = '(' . implode(',', array_map(array($db, 'quote'), $languages)) . ')';
 			}
+
 			$query->where('a.language IN ' . $languages);
 		}
 
@@ -169,6 +184,7 @@ class MenusHelper
 			{
 				$published = '(' . implode(',', $published) . ')';
 			}
+
 			$query->where('a.published IN ' . $published);
 		}
 
@@ -186,6 +202,7 @@ class MenusHelper
 		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, $e->getMessage());
+
 			return false;
 		}
 
@@ -206,11 +223,13 @@ class MenusHelper
 			catch (RuntimeException $e)
 			{
 				JError::raiseWarning(500, $e->getMessage());
+
 				return false;
 			}
 
 			// Create a reverse lookup and aggregate the links.
 			$rlu = array();
+
 			foreach ($menuTypes as &$type)
 			{
 				$rlu[$type->menutype] = & $type;
@@ -237,7 +256,16 @@ class MenusHelper
 		}
 	}
 
-	static public function getAssociations($pk)
+	/**
+	 * Get the items associations
+	 *
+	 * @param   integer  $pk  Menu item id
+	 *
+	 * @return  array
+	 *
+	 * @since   3.0
+	 */
+	public static function getAssociations($pk)
 	{
 		$associations = array();
 		$db = JFactory::getDbo();
@@ -267,6 +295,7 @@ class MenusHelper
 				$associations[$tag] = $item->id;
 			}
 		}
+
 		return $associations;
 	}
 }
