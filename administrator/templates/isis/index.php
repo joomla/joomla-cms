@@ -275,15 +275,26 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 			if (edit)
 			{
 				// Alert on closing window
-				window.onbeforeunload = function () {
-					return ('<?php echo JText::_('TPL_ISIS_WARNING_MSG'); ?>');
-				}
-				$(function () {
-					$('.btn').click(function () {
-						window.onbeforeunload = function () { };
-					});
+				// Prevent alerts for buttons
+				$(':button').bindFirst("mousedown", function () {
+					$(window).off("beforeunload");
 				});
-				}
+
+				// Prevent alert for forms
+				$('form').bindFirst("submit", function () {
+					$(window).off("beforeunload");
+				});
+
+				// Prevent alert for forms
+				$('input[type=submit]').bindFirst("mousedown", function () {
+					$(window).off("beforeunload");
+				});
+
+				var message = '<?php echo JText::_('TPL_ISIS_WARNING_MSG'); ?>';
+				$(window).on("beforeunload", function(event){
+					return message;
+				});
+			}
 
 			processScroll()
 
