@@ -101,7 +101,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
-		</table></div>
+		</table>
 	<?php endif; ?>
 
 <?php // Add pagination links ?>
