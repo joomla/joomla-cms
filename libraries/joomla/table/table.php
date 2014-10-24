@@ -16,9 +16,11 @@ jimport('joomla.filesystem.path');
  *
  * Parent class to all tables.
  *
- * @link   http://docs.joomla.org/JTable
- * @since  11.1
- * @tutorial  Joomla.Platform/jtable.cls
+ * @package     Joomla.Platform
+ * @subpackage  Table
+ * @link        http://docs.joomla.org/JTable
+ * @since       11.1
+ * @tutorial	Joomla.Platform/jtable.cls
  */
 abstract class JTable extends JObject implements JObservableInterface, JTableInterface
 {
@@ -1378,6 +1380,10 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 		$this->_db->setQuery($query);
 		$rows = $this->_db->loadObjectList();
+		$queries = array();
+
+		// Check if we can execute the query as batch
+		$batchExecute = method_exists($this->_db, 'executeBatch');
 
 		// Compact the ordering values.
 		foreach ($rows as $i => $row)
@@ -1393,10 +1399,25 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 						->update($this->_tbl)
 						->set('ordering = ' . ($i + 1));
 					$this->appendPrimaryKeys($query, $row);
-					$this->_db->setQuery($query);
-					$this->_db->execute();
+					if ($batchExecute)
+					{
+						// Put the query into an array to execute it later in one transaction
+						$queries[] = $query;
+					}
+					else
+					{
+						// Execute the query now, bad performance if we need to reorder a lot of items
+						$this->_db->setQuery($query);
+						$this->_db->execute();
+					}
 				}
 			}
+		}
+
+		// If we have a not empty array we can execute it in a batch
+		if (!empty($queries))
+		{
+			$this->_db->executeBatch($queries);
 		}
 
 		return true;
