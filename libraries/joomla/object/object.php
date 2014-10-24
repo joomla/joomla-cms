@@ -15,23 +15,31 @@ defined('JPATH_PLATFORM') or die;
  * This class allows for simple but smart objects with get and set methods
  * and an internal error handler.
  *
- * @since  11.1
+ * @since  1.5
  */
 class JObject
 {
-	/** Return protected and public properties. */
+	/**
+	 * Return protected and public properties.
+	 *
+	 * @since  3.4
+	 */
 	const RETURN_ALL = false;
 
-	/** Return public properties only. These always include properties created on the fly. */
+	/**
+	 * Return public properties only. These always include properties created on the fly.
+	 *
+	 * @since  3.4
+	 */
 	const RETURN_PUBLIC = true;
 
 	/**
 	 * An array of error messages or Exception objects.
 	 *
 	 * @var         array
-	 * @since       11.1
+	 * @since       1.5
 	 * @see         JError
-	 * @deprecated  12.3  JError has been deprecated
+	 * @deprecated  2.5  JError has been deprecated
 	 */
 	protected $errors = array();
 
@@ -41,7 +49,7 @@ class JObject
 	 * @param   mixed  $properties  Either and associative array or another
 	 *                              object to set the initial properties of the object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct($properties = null)
 	{
@@ -57,7 +65,7 @@ class JObject
 	 *
 	 * @return  string  The class name.
 	 *
-	 * @since      11.1
+	 * @since   1.6
 	 */
 	public function __toString()
 	{
@@ -156,7 +164,7 @@ class JObject
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function def($property, $default = null)
 	{
@@ -173,7 +181,7 @@ class JObject
 	 *
 	 * @return  mixed   The value of the property.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 *
 	 * @see     JObject::getProperties()
 	 */
@@ -197,7 +205,7 @@ class JObject
 	 *
 	 * @return  array  The property values indexed by property names
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 *
 	 * @see     JObject::get()
 	 */
@@ -233,7 +241,7 @@ class JObject
 	 *
 	 * @return  mixed   Previous value of the property.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function set($property, $value = null)
 	{
@@ -250,7 +258,7 @@ class JObject
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 *
 	 * @see     JObject::set()
 	 */
@@ -277,9 +285,9 @@ class JObject
 	 *
 	 * @return  void
 	 *
-	 * @since      11.1
+	 * @since      1.5
 	 * @see        JError
-	 * @deprecated 12.3  JError has been deprecated
+	 * @deprecated 2.5  JError has been deprecated
 	 */
 	public function setError($error)
 	{
@@ -294,9 +302,9 @@ class JObject
 	 *
 	 * @return  string|JError|Exception|mixed  Error message/object/code
 	 *
-	 * @since      11.1
+	 * @since      1.5
 	 * @see        JError
-	 * @deprecated 12.3  JError has been deprecated
+	 * @deprecated 2.5  JError has been deprecated
 	 */
 	public function getError($i = null, $toString = true)
 	{
@@ -326,9 +334,9 @@ class JObject
 	 *
 	 * @return  array  Array of error messages or JErrors.
 	 *
-	 * @since      11.1
+	 * @since      1.5
 	 * @see        JError
-	 * @deprecated 12.3  JError has been deprecated
+	 * @deprecated 2.5  JError has been deprecated
 	 */
 	public function getErrors()
 	{
@@ -341,6 +349,8 @@ class JObject
 	 * @param   string  $property  The name of a property
 	 *
 	 * @return  string  The unchanged name of the property (if it exists) or the name without a leading underscore
+	 *
+	 * @since   3.4
 	 */
 	private function deUnderscore($property)
 	{
