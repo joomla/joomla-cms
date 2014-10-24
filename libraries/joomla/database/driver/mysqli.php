@@ -573,8 +573,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Execute an array of SQL Statements in one go
 	 *
-	 * @param   array  $queries
-	 * @param   bool   $transactionSave
+	 * @param   array  $queries          an array of queries
+	 * @param   bool   $transactionSave  if true lets run the queries in a transaction if possible
 	 *
 	 * @return  mixed  A database cursor resource on success.
 	 *
@@ -916,8 +916,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Debug a query
 	 *
-	 * @param   string  $query
-	 * @param   string  $when
+	 * @param   string  $query  the query string
+	 * @param   string  $when   are we before or after we have executed the query
 	 *
 	 * @return  void
 	 */
