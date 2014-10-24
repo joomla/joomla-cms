@@ -70,19 +70,21 @@ class JObject
 	 * CAVEAT: Don't rely on this existing in future versions. It is here only to get rid of the underscores
 	 *         without breaking BC.
 	 *
+	 * @see     http://stackoverflow.com/questions/13421661/getting-indirect-modification-of-overloaded-property-has-no-effect-notice#answer-19749730
+	 *
 	 * @param   string  $property  The property to be retrieved
 	 *
 	 * @return  mixed   The value of the property
 	 *
 	 * @since   3.4
 	 */
-	public function __get($property)
+	public function &__get($property)
 	{
 		$property = $this->deUnderscore($property);
 
 		if (!property_exists($this, $property))
 		{
-			return null;
+			$this->$property = null;
 		}
 
 		return $this->$property;
