@@ -121,14 +121,6 @@ abstract class JMailHelper
 			return false;
 		}
 
-		// Check if domain contains a dot
-		$domainDot = strstr($domain, '.');
-
-		if ($domainDot === false)
-		{
-			return false;
-		}
-
 		/*
 		 * Check the local address
 		 * We're a bit more conservative about what constitutes a "legal" address, that is, a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-
