@@ -297,6 +297,8 @@ function usersBuildRoute(&$query)
  * @param   array  $segments  Segments in the current URL
  *
  * @return  array  Query variables
+ *
+ * @deprecated  4.0  Use Class based routers instead
  */
 function usersParseRoute($segments)
 {

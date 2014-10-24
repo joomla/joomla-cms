@@ -24,6 +24,8 @@ abstract class JHtmlUsers
 	 * @param   mixed  $value  Value of the field
 	 *
 	 * @return  mixed  String/void
+	 *
+	 * @since   1.6
 	 */
 	public static function value($value)
 	{
@@ -49,6 +51,8 @@ abstract class JHtmlUsers
 	 * @param   mixed  $value  Value of the field
 	 *
 	 * @return  string
+	 *
+	 * @since   1.6
 	 */
 	public static function spacer($value)
 	{
@@ -61,6 +65,8 @@ abstract class JHtmlUsers
 	 * @param   mixed  $value  Value of the field
 	 *
 	 * @return  mixed  String/void
+	 *
+	 * @since   1.6
 	 */
 	public static function helpsite($value)
 	{
@@ -105,6 +111,8 @@ abstract class JHtmlUsers
 	 * @param   mixed  $value  Value of the field
 	 *
 	 * @return  mixed  String/void
+	 *
+	 * @since   1.6
 	 */
 	public static function templatestyle($value)
 	{
@@ -139,6 +147,8 @@ abstract class JHtmlUsers
 	 * @param   mixed  $value  Value of the field
 	 *
 	 * @return  mixed  String/void
+	 *
+	 * @since   1.6
 	 */
 	public static function admin_language($value)
 	{
@@ -175,6 +185,8 @@ abstract class JHtmlUsers
 	 * @param   mixed  $value  Value of the field
 	 *
 	 * @return  mixed  String/void
+	 *
+	 * @since   1.6
 	 */
 	public static function language($value)
 	{
@@ -211,6 +223,8 @@ abstract class JHtmlUsers
 	 * @param   mixed  $value  Value of the field
 	 *
 	 * @return  mixed  String/void
+	 *
+	 * @since   1.6
 	 */
 	public static function editor($value)
 	{

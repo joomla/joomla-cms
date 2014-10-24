@@ -29,6 +29,8 @@ class UsersModelProfile extends JModelForm
 	 *
 	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
+	 * @since   3.2
+	 *
 	 * @throws  Exception
 	 */
 	public function __construct($config = array())
@@ -414,6 +416,8 @@ class UsersModelProfile extends JModelForm
 	 * @param   integer  $user_id  The user ID to load the forms for (optional)
 	 *
 	 * @return  array
+	 *
+	 * @since   3.2
 	 */
 	public function getTwofactorform($user_id = null)
 	{
