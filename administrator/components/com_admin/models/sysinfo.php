@@ -334,13 +334,12 @@ class AdminModelSysInfo extends JModelLegacy
 	 */
 	public function &getEditor()
 	{
-		JLog::add( 
- 			'AdminModelSysInfo->getEditor() is deprecated. It is present in the config.', 
- 			JLog::WARNING, 
- 			'deprecated' 
- 		); 
+		JLog::add(
+			'AdminModelSysInfo->getEditor() is deprecated. It is present in the config.',
+			JLog::WARNING,
+			'deprecated'
+		);
 
-		
 		if (is_null($this->editor))
 		{
 			$config       = JFactory::getConfig();
