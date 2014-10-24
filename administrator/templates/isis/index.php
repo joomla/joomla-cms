@@ -284,8 +284,8 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 			// Disable cpanel and user menu
 			if (edit)
 			{
-				// Alert on closing window
-				// Prevent alerts for buttons
+				// Alert on unintentional exit
+				// Prevent alert for buttons
 				$(':button').bindFirst("mousedown", function () {
 					$(window).off("beforeunload");
 				});
