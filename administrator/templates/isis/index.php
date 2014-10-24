@@ -264,6 +264,16 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<script>
 		(function($)
 		{
+			$.fn.bindFirst = function(name, fn) {
+				var elem, handlers, i, _len;
+				this.bind(name, fn);
+				for (i = 0, _len = this.length; i < _len; i++) {
+					elem = this[i];
+					handlers = jQuery._data(elem).events[name.split('.')[0]];
+					handlers.unshift(handlers.pop());
+				}
+			};
+
 			// fix sub nav on scroll
 			var $win = $(window)
 				, $nav    = $('.subhead')
