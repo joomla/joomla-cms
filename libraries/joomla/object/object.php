@@ -23,6 +23,7 @@ class JObject
 	 * Return protected and public properties.
 	 *
 	 * @since  3.4
+	 * @see    JObject::getProperties()
 	 */
 	const RETURN_ALL = false;
 
@@ -30,6 +31,7 @@ class JObject
 	 * Return public properties only. These always include properties created on the fly.
 	 *
 	 * @since  3.4
+	 * @see    JObject::getProperties()
 	 */
 	const RETURN_PUBLIC = true;
 
@@ -356,7 +358,7 @@ class JObject
 	{
 		if (is_string($property) && !empty($property) && $property[0] == '_' && !property_exists($this, $property))
 		{
-			JLog::add('Property names starting with an underscore are deprecated. Use their counterpart without the underscore instead.', JLog::INFO, 'deprecated');
+			JLog::add('Property names starting with an underscore are deprecated. Use their counterpart without the underscore instead.', JLog::WARNING, 'deprecated');
 			$property = substr($property, 1);
 		}
 

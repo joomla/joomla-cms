@@ -42,7 +42,7 @@ class InstallerController extends JControllerLegacy
 		if ($view = $this->getView($vName, $vFormat))
 		{
 			$ftp = JClientHelper::setCredentialsFromRequest('ftp');
-			$view->ftp = &$ftp;
+			$view->ftp = $ftp;
 
 			// Get the model for the view.
 			$model = $this->getModel($vName);
