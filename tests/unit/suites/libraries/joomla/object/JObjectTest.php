@@ -234,6 +234,20 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 			(string) $this->object
 		);
 	}
+
+	/**
+	 * @see https://github.com/joomla/joomla-cms/pull/4909#issuecomment-60359570
+	 */
+	public function testIndirectModificationOfOverloadedPropertyIsPossible()
+	{
+		$this->object->foo['key'] = 'value';
+
+		$this->assertEquals(
+			array('key' => 'value'),
+			$this->object->foo
+		);
+	}
+
 	/**
 	 * @testdox [deprecated] Errors can be set
 	 */
