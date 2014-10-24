@@ -47,7 +47,7 @@ function admin_postinstall_eaccelerator_action()
 	$data   = array('cacheHandler' => 'file');
 	$data   = array_merge($prev, $data);
 	$config = new JRegistry('config');
-	
+
 	$config->loadArray($data);
 
 	jimport('joomla.filesystem.path');
