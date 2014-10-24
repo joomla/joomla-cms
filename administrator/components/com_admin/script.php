@@ -255,16 +255,18 @@ class JoomlaInstallerScript
 		}
 
 		$db->setQuery($query);
-		$extensions = $db->loadObjectList();
-		$installer = new JInstaller;
 
 		// Check for a database error.
-		if ($db->getErrorNum())
+		try
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
-
-			return;
+			$extensions = $db->loadObjectList();
 		}
+		catch (Exception $e)
+		{
+			throw new RuntimeException($e->getMessage());
+		}
+
+		$installer = new JInstaller;
 
 		foreach ($extensions as $extension)
 		{
