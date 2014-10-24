@@ -772,7 +772,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				{
 					continue;
 				}
-				
+
 				$element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
 				$extension = JTable::getInstance('extension');
@@ -804,7 +804,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 					{
 						continue;
 					}
-					
+
 					$element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
 					// Ignore example plugins
