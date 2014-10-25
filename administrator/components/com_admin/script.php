@@ -264,6 +264,8 @@ class JoomlaInstallerScript
 		catch (Exception $e)
 		{
 			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+	
+			return;
 		}
 
 		$installer = new JInstaller;
