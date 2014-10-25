@@ -8,6 +8,7 @@
 .CodeMirror-scroll {
   /* Set scrolling behaviour here */
   overflow: auto;
+  cursor: text;
 }
 
 /* PADDING */
