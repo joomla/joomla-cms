@@ -48,10 +48,10 @@ function sendFileToUploadController(formData,status)
 function createStatusbar(obj)
 {
      this.statusbar = jQuery("<tr></tr>");
-     this.filename = jQuery("<td 'width: 10%;'><div class='filename'></div></td>").appendTo(this.statusbar);
-     this.size = jQuery("<td 'width: 20%;'><div class='filesize'></div></td>").appendTo(this.statusbar);
-     this.progressBar = jQuery("<td style='width: 50%;'><div class='progress' ><div class='bar'></div></div></td>").appendTo(this.statusbar);
-     this.abort = jQuery("<td 'width: 10%;'><span class='badge badge-important'>&times;</span></td>").appendTo(this.statusbar);
+     this.filename = jQuery("<td><div class='filename'></div></td>").appendTo(this.statusbar);
+     this.size = jQuery("<td><div class='filesize'></div></td>").appendTo(this.statusbar);
+     this.progressBar = jQuery("<td><div class='progress' style='width: 120px;'><div class='bar'></div></div></td>").appendTo(this.statusbar);
+     this.abort = jQuery("<td><span class='badge badge-important'>&times;</span></td>").appendTo(this.statusbar);
 
      jQuery("#upload-container").prepend(this.statusbar);
  
