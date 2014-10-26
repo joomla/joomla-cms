@@ -109,8 +109,10 @@ abstract class JHtmlContentAdministrator
 
 		if ($canChange)
 		{
-			$html	= '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-micro hasTooltip' . ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[3]) . '"><i class="icon-'
-					. $icon . '"></i></a>';
+			$html	= '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' 
+                                . $state[1] . '\')" class="btn btn-micro hasTooltip' 
+                                . ($value == 1 ? ' active' : '') . '" title="' 
+                                . JHtml::tooltipText($state[3]) . '"><i class="icon-' . $icon . '"></i></a>';
 		}
 		else
 		{
