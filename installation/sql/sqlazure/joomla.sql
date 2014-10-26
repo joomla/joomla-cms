@@ -2376,13 +2376,14 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__redirect_links](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[old_url] [nvarchar](255) NOT NULL,
-	[new_url] [nvarchar](255) NOT NULL,
+	[new_url] [nvarchar](255),
 	[referer] [nvarchar](150) NOT NULL,
 	[comment] [nvarchar](255) NOT NULL,
 	[hits] [bigint] NOT NULL DEFAULT 0,
 	[published] [smallint] NOT NULL,
 	[created_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[modified_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[header] [smallint] NOT NULL DEFAULT 301,
  CONSTRAINT [PK_#__redirect_links_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC

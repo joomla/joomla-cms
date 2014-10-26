@@ -167,7 +167,9 @@ class UsersRouter extends JComponentRouterBase
 					{
 						$segments[] = $query['view'];
 					}
+
 					unset ($query['view']);
+
 					if ($query['Itemid'] = $profile)
 					{
 						unset ($query['view']);
@@ -179,10 +181,12 @@ class UsersRouter extends JComponentRouterBase
 
 					// Only append the user id if not "me".
 					$user = JFactory::getUser();
+
 					if (!empty($query['user_id']) && ($query['user_id'] != $user->id))
 					{
 						$segments[] = $query['user_id'];
 					}
+
 					unset ($query['user_id']);
 
 					break;
@@ -230,6 +234,7 @@ class UsersRouter extends JComponentRouterBase
 		if (!is_numeric($userId))
 		{
 			$vars['view'] = 'profile';
+
 			return $vars;
 		}
 
@@ -271,16 +276,29 @@ class UsersRouter extends JComponentRouterBase
  * These functions are proxys for the new router interface
  * for old SEF extensions.
  *
+ * @param   array  &$query  REQUEST query
+ *
+ * @return  array  Segments of the SEF url
+ *
  * @deprecated  4.0  Use Class based routers instead
  */
-function UsersBuildRoute(&$query)
+function usersBuildRoute(&$query)
 {
 	$router = new UsersRouter;
 
 	return $router->build($query);
 }
 
-function UsersParseRoute($segments)
+/**
+ * Convert SEF URL segments into query variables
+ *
+ * @param   array  $segments  Segments in the current URL
+ *
+ * @return  array  Query variables
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function usersParseRoute($segments)
 {
 	$router = new UsersRouter;
 

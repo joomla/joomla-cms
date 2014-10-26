@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Abstract observable class to implement the observer design pattern
  *
- * @package     Joomla.Legacy
- * @subpackage  Base
  * @since       11.1
  * @deprecated  12.3 (Platform) & 4.0 (CMS)
  * @codeCoverageIgnore

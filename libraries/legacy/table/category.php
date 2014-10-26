@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Category table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
- * @since       11.1
+ * @since  11.1
  */
 class JTableCategory extends JTableNested
 {

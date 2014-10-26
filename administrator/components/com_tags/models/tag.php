@@ -45,6 +45,7 @@ class TagsModelTag extends JModelAdmin
 			{
 				return;
 			}
+
 			return parent::canDelete($record);
 		}
 	}
@@ -73,7 +74,7 @@ class TagsModelTag extends JModelAdmin
 	 * @return  JTable  A JTable object
 	 *
 	 * @since   3.1
-	*/
+	 */
 	public function getTable($type = 'Tag', $prefix = 'TagsTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
@@ -117,7 +118,6 @@ class TagsModelTag extends JModelAdmin
 	{
 		if ($result = parent::getItem($pk))
 		{
-
 			// Prime required properties.
 			if (empty($result->id))
 			{
@@ -184,12 +184,14 @@ class TagsModelTag extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_tags.tag', 'tag', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
 		}
 
 		$user = JFactory::getUser();
+
 		if (!$user->authorise('core.edit.state', 'com_tags' . $jinput->get('id')))
 		{
 			// Disable fields for display.
@@ -305,6 +307,7 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->bind($data))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -319,14 +322,17 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->check())
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
 		// Trigger the onContentBeforeSave event.
 		$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, &$table, $isNew));
+
 		if (in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -334,6 +340,7 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->store())
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -344,6 +351,7 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->rebuildPath($table->id))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -378,6 +386,7 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->rebuild())
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -398,7 +407,7 @@ class TagsModelTag extends JModelAdmin
 	 * @return  boolean  False on failure or error, True otherwise
 	 *
 	 * @since   3.1
-	*/
+	 */
 	public function saveorder($idArray = null, $lft_array = null)
 	{
 		// Get an instance of the table object.
@@ -407,6 +416,7 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->saveorder($idArray, $lft_array))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 

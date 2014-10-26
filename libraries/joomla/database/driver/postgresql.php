@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @since  12.1
  */
 class JDatabaseDriverPostgresql extends JDatabaseDriver
 {
@@ -126,6 +124,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		pg_set_error_verbosity($this->connection, PGSQL_ERRORS_DEFAULT);
 		pg_query('SET standard_conforming_strings=off');
+		pg_query('SET escape_string_warning=off');
 	}
 
 	/**

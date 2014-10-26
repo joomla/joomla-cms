@@ -6981,6 +6981,11 @@ html {
 body {
 	height: 100%;
 }
+a:hover,
+a:active,
+a:focus {
+	outline: none;
+}
 .view-login {
 	padding-top: 0;
 	background-color: #142849;
@@ -7196,6 +7201,7 @@ body .navbar-fixed-top {
 	color: #0C192E;
 	text-shadow: 0 1px 0 #FFF;
 	margin-bottom: 10px;
+	min-height: 43px;
 }
 .subhead-collapse.collapse {
 	height: auto;
@@ -7969,7 +7975,7 @@ a.grid_true {
 	background-image: url('../images/admin/icon-16-allow.png');
 }
 #j-sidebar-container {
-	margin-right: 10px;
+	margin-right: 0;
 }
 div#j-sidebar-container.j-toggle-hidden {
 	width: 0;
@@ -8356,6 +8362,22 @@ body {
 .navbar .nav > li > a {
 	padding: 8px 10px;
 	color: #FFFFFF;
+}
+.navigation .nav li li .nav-child {
+	left: auto;
+	right: 100%;
+}
+.navigation .nav li li .nav-child:before {
+	left: auto;
+	right: -7px;
+	border-left: 7px solid rgba(0,0,0,0.2);
+	border-right-width: 0;
+}
+.navigation .nav li li .nav-child:after {
+	left: auto;
+	right: -6px;
+	border-left: 6px solid #ffffff;
+	border-right-width: 0;
 }
 .container-logo {
 	padding-top: 6px;

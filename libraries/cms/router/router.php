@@ -18,9 +18,7 @@ const JROUTER_MODE_SEF = 1;
 /**
  * Class to create and parse routes
  *
- * @package     Joomla.Libraries
- * @subpackage  Router
- * @since       1.5
+ * @since  1.5
  */
 class JRouter
 {

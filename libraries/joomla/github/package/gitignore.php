@@ -17,9 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @documentation http://developer.github.com/v3/gitignore/
  * @documentation https://github.com/github/gitignore
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Gitignore
- * @since       12.4
+ * @since  12.4
  */
 class JGithubPackageGitignore extends JGithubPackage
 {

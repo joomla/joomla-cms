@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Model class for handling lists of items.
  *
- * @package     Joomla.Legacy
- * @subpackage  Model
- * @since       12.2
+ * @since  12.2
  */
 class JModelList extends JModelLegacy
 {
@@ -578,7 +576,7 @@ class JModelList extends JModelLegacy
 			// Support old ordering field
 			$oldOrdering = $app->input->get('filter_order');
 
-			if (!empty($oldOrdering) && in_array($value, $this->filter_fields))
+			if (!empty($oldOrdering) && in_array($oldOrdering, $this->filter_fields))
 			{
 				$this->setState('list.ordering', $oldOrdering);
 			}

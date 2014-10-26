@@ -93,7 +93,8 @@ class ContactModelContact extends JModelForm
 		$contact = $this->_item[$id];
 		$params->merge($contact->params);
 
-		if (!$params->get('show_email_copy', 0)){
+		if (!$params->get('show_email_copy', 0))
+		{
 			$form->removeField('contact_email_copy');
 		}
 
@@ -213,7 +214,8 @@ class ContactModelContact extends JModelForm
 				$data->tags->getItemTags('com_contact.contact', $data->id);
 
 				// Compute access permissions.
-				if ($access = $this->getState('filter.access')) {
+				if ($access = $this->getState('filter.access'))
+				{
 
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
