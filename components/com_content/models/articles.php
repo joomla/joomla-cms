@@ -155,6 +155,8 @@ class ContentModelArticles extends JModelList
 		$id .= ':' . $this->getState('filter.start_date_range');
 		$id .= ':' . $this->getState('filter.end_date_range');
 		$id .= ':' . $this->getState('filter.relative_date');
+		$id .= ':' . $this->getState('ignore.users');
+		$id .= ':' . $this->getState('ignore.ratings');
 
 		return parent::getStoreId($id);
 	}
@@ -232,7 +234,7 @@ class ContentModelArticles extends JModelList
 					'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 					// Use created if modified is 0
 					'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
-					'a.modified_by, uam.name as modified_by_name,' .
+					'a.modified_by, ' .
 					// Use created if publish_up is 0
 					'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 					'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
@@ -269,20 +271,29 @@ class ContentModelArticles extends JModelList
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
-		// Join over the users for the author and modified_by names.
-		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author")
-			->select("ua.email AS author_email")
+		// Join over users only if needed
+		if ($this->getState('ignore.users') == 0)
+		{
+			// Join over the users for the author and modified_by names.
+			$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author")
+				->select("ua.email AS author_email")
+				->select("uam.name as modified_by_name")
 
-			->join('LEFT', '#__users AS ua ON ua.id = a.created_by')
-			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
+				->join('LEFT', '#__users AS ua ON ua.id = a.created_by')
+				->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
+		}
 
 		// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
 			->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
-		// Join on voting table
-		$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
-			->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+		// Join over content_rating only if needed
+		if ($this->getState('ignore.ratings') == 0)
+		{
+			// Join on voting table
+			$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
+				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+		}
 
 		// Select category state
 		$query->select('c.published');
@@ -296,7 +307,7 @@ class ContentModelArticles extends JModelList
 		{
 			$query->select('c.published AS parents_published');
 		}
-		
+
 		// Join to check for category published state in parent categories up the tree
 		$subquery = 'SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
 		$subquery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
