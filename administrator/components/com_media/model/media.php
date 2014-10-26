@@ -116,7 +116,15 @@ class MediaModelMedia extends ConfigModelForm
 		$author = $input->get('author', 0, 'integer');
 
 		// Create the drop-down folder select list
-		$list = JHtml::_('select.genericlist', $options, 'folderlist', 'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, ' . $asset . ', ' . $author . ')" ', 'value', 'text', $base);
+		$list = JHtml::_(
+						'select.genericlist',
+						$options,
+						'folderlist',
+						'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, ' . $asset . ', ' . $author . ')" ',
+						'value',
+						'text',
+						$base
+						);
 
 		return $list;
 	}
@@ -221,7 +229,7 @@ class MediaModelMedia extends ConfigModelForm
 		$data = array();
 		$data['core_urls'] = $rel_path;
 
-		$fname = explode('.', $file['name']);
+		$fname = explode('.', $file['original_name']);
 		$data['core_type_id'] = $typeId;
 		$data['core_type_alias'] = 'com_media.image';
 		$data['core_title'] = $fname[0];

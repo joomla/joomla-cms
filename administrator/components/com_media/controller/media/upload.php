@@ -143,9 +143,12 @@ class MediaControllerMediaUpload extends JControllerBase
 				return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), false);
 			}
 
-			// Hash destination filename
+			// Enable uploading filenames with alphanumeric and spaces
 			$fileparts = pathinfo($file['filepath']);
-			$date	   = JFactory::getDate();
+			$file['original_name'] = $fileparts['filename'];
+			$safeFileName = preg_replace("/[^a-zA-Z0-9]/", "", $fileparts['filename']) . '.' . $fileparts['extension'];
+			$file['filepath'] = $fileparts['dirname'] . DIRECTORY_SEPARATOR . $safeFileName;
+			$file['name'] = $safeFileName;
 		}
 
 		// Set FTP credentials, if given
@@ -168,7 +171,9 @@ class MediaControllerMediaUpload extends JControllerBase
 			if (in_array(false, $result, true))
 			{
 				// There are some errors in the plugins
-				$this->app->enqueueMessage(JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors)), 'warning');
+				$this->app->enqueueMessage(
+						JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors)),
+						'warning');
 
 				return $this->redirect(JRoute::_($return . '&folder=' . $this->folder, false), false);
 			}
