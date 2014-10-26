@@ -75,7 +75,6 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 			{
 				$result = 'SELECT column_name FROM information_schema.columns WHERE table_name='
 				. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]);
-			
 
 				$this->queryType = 'DROP_COLUMN';
 				$this->checkQueryExpected = 0;
