@@ -149,7 +149,7 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object    $record    A record object.
+	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 *
@@ -207,6 +207,7 @@ class ContentModelArticle extends JModelAdmin
 	 * @param   JTable  $table  A JTable object.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function prepareTable($table)
@@ -313,10 +314,11 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array      $data        Data for the form.
-	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
+	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
@@ -343,8 +345,10 @@ class ContentModelArticle extends JModelAdmin
 		if ($this->getState('article.id'))
 		{
 			$id = $this->getState('article.id');
+
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
+
 			// Existing record. Can only edit own articles in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
 		}
@@ -442,7 +446,7 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$app = JFactory::getApplication();
+		$input = JFactory::getApplication()->input;
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
@@ -468,11 +472,23 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Alter the title for save as copy
-		if ($app->input->get('task') == 'save2copy')
+		if ($input->get('task') == 'save2copy')
 		{
-			list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-			$data['title'] = $title;
-			$data['alias'] = $alias;
+			$origTable = clone $this->getTable();
+			$origTable->load((int) $input->getInt('id'));
+			if ($data['title'] == $origTable->title)
+			{
+				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+				$data['title'] = $title;
+				$data['alias'] = $alias;
+			}
+			else
+			{
+				if ($data['alias'] == $origTable->alias)
+				{
+					$data['alias'] = '';
+				}
+			}
 			$data['state'] = 0;
 		}
 
@@ -700,8 +716,8 @@ class ContentModelArticle extends JModelAdmin
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   JForm   $form  The form object
-	 * @param   array   $data  The data to be merged into the form object
+	 * @param   JForm   $form   The form object
+	 * @param   array   $data   The data to be merged into the form object
 	 * @param   string  $group  The plugin group to be executed
 	 *
 	 * @return  void

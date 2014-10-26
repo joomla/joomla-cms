@@ -35,10 +35,6 @@
  <rule ref="Generic.Files.LineLength">
 	 <!-- These exceptions are temporary -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
-  <exclude-pattern type="relative">libraries/*</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
@@ -89,7 +85,6 @@
  <rule ref="Squiz.WhiteSpace.ScopeClosingBrace">
  <!-- These exceptions are temporary -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
@@ -164,7 +159,6 @@
   <!-- We only want this for libraries, languages and cli for now -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">includes/*</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
@@ -176,7 +170,6 @@
  <rule ref="Joomla.ControlStructures.InlineControlStructure">
   <!-- These exceptions are temporary -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
@@ -188,7 +181,6 @@
   <!-- We only want this for libraries, language and cli for now -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>

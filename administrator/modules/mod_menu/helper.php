@@ -133,7 +133,7 @@ abstract class ModMenuHelper
 			}
 		}
 
-		$result = JArrayHelper::sortObjects($result, 'text', 1, true, true);
+		$result = JArrayHelper::sortObjects($result, 'text', 1, false, true);
 
 		return $result;
 	}
