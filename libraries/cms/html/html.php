@@ -17,7 +17,9 @@ jimport('joomla.utilities.arrayhelper');
 /**
  * Utility class for all HTML drawing classes
  *
- * @since  1.5
+ * @package     Joomla.Libraries
+ * @subpackage  HTML
+ * @since       1.5
  */
 abstract class JHtml
 {

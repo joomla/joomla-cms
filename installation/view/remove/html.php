@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * The HTML Joomla Core Install Remove View
  *
- * @since  3.1
+ * @package     Joomla.Installation
+ * @subpackage  View
+ * @since       3.1
  */
 class InstallationViewRemoveHtml extends JViewHtml
 {

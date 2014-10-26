@@ -19,11 +19,10 @@ class UsersController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean			If true, the view output will be cached
+	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController  This object to support chaining.
-	 *
+	 * @return  JController		This object to support chaining.
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -44,12 +43,10 @@ class UsersController extends JControllerLegacy
 				case 'registration':
 					// If the user is already logged in, redirect to the profile page.
 					$user = JFactory::getUser();
-
 					if ($user->get('guest') != 1)
 					{
 						// Redirect to profile page.
 						$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile', false));
-
 						return;
 					}
 
@@ -58,7 +55,6 @@ class UsersController extends JControllerLegacy
 					{
 						// Registration is disabled - Redirect to login page.
 						$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
-
 						return;
 					}
 
@@ -71,15 +67,12 @@ class UsersController extends JControllerLegacy
 
 					// If the user is a guest, redirect to the login page.
 					$user = JFactory::getUser();
-
 					if ($user->get('guest') == 1)
 					{
 						// Redirect to login page.
 						$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
-
 						return;
 					}
-
 					$model = $this->getModel($vName);
 					break;
 
@@ -91,12 +84,10 @@ class UsersController extends JControllerLegacy
 				case 'reset':
 					// If the user is already logged in, redirect to the profile page.
 					$user = JFactory::getUser();
-
 					if ($user->get('guest') != 1)
 					{
 						// Redirect to profile page.
 						$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile', false));
-
 						return;
 					}
 
@@ -106,12 +97,10 @@ class UsersController extends JControllerLegacy
 				case 'remind':
 					// If the user is already logged in, redirect to the profile page.
 					$user = JFactory::getUser();
-
 					if ($user->get('guest') != 1)
 					{
 						// Redirect to profile page.
 						$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile', false));
-
 						return;
 					}
 

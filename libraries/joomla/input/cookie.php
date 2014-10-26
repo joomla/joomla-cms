@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Input Cookie Class
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Input
+ * @since       11.1
  */
 class JInputCookie extends JInput
 {

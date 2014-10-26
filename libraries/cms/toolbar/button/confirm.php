@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a standard button with a confirm dialog
  *
- * @since  3.0
+ * @package     Joomla.Libraries
+ * @subpackage  Toolbar
+ * @since       3.0
  */
 class JToolbarButtonConfirm extends JToolbarButton
 {

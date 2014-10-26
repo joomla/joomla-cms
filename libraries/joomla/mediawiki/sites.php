@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MediaWiki API Sites class for the Joomla Platform.
  *
- * @since  12.3
+ * @package     Joomla.Platform
+ * @subpackage  MediaWiki
+ * @since       12.3
  */
 class JMediawikiSites extends JMediawikiObject
 {

@@ -14,7 +14,9 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/issues/assignees/
  *
- * @since  12.3
+ * @package     Joomla.Platform
+ * @subpackage  GitHub.Issues
+ * @since       12.3
  */
 class JGithubPackageIssuesAssignees extends JGithubPackage
 {

@@ -13,7 +13,8 @@ JFormHelper::loadFieldClass('radio');
 /**
  * Sample data Form Field class.
  *
- * @since  1.6
+ * @package  Joomla.Installation
+ * @since    1.6
  */
 class JFormFieldSample extends JFormFieldRadio
 {

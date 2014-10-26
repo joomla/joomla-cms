@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Menu table
  *
- * @since  1.6
  */
 class MenusTableMenu extends JTableMenu
 {

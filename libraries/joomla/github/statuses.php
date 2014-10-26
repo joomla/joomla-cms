@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API References class for the Joomla Platform.
  *
- * @since  12.3
+ * @package     Joomla.Platform
+ * @subpackage  GitHub
+ * @since       12.3
  */
 class JGithubStatuses extends JGithubObject
 {

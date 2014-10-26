@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * ToolBar handler
  *
- * @since  1.5
+ * @package     Joomla.Libraries
+ * @subpackage  Toolbar
+ * @since       1.5
  */
 class JToolbar
 {

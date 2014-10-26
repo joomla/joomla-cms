@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML utility class for creating a sortable table list
  *
- * @since  3.0
+ * @package     Joomla.Libraries
+ * @subpackage  HTML
+ * @since       3.0
  */
 abstract class JHtmlSortablelist
 {

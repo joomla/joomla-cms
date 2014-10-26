@@ -14,7 +14,9 @@ jimport('joomla.filesystem.path');
 /**
  * Joomla Platform HTML View Class
  *
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  View
+ * @since       12.1
  */
 abstract class JViewHtml extends JViewBase
 {

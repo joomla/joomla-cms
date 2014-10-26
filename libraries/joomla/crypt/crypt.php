@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCrypt is a Joomla Platform class for handling basic encryption/decryption of data.
  *
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  Crypt
+ * @since       12.1
  */
 class JCrypt
 {

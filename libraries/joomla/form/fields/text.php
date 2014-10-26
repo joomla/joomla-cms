@@ -13,8 +13,10 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Supports a one line text field.
  *
- * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @link        http://www.w3.org/TR/html-markup/input.text.html#input.text
+ * @since       11.1
  */
 class JFormFieldText extends JFormField
 {

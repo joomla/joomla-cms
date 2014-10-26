@@ -68,7 +68,9 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
 /**
  * A command line cron job to run the Smart Search indexer.
  *
- * @since  2.5
+ * @package  Joomla.Cli
+ *
+ * @since    2.5
  */
 class FinderCli extends JApplicationCli
 {

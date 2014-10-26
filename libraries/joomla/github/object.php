@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API object class for the Joomla Platform.
  *
- * @since  11.3
+ * @package     Joomla.Platform
+ * @subpackage  GitHub
+ * @since       11.3
  */
 abstract class JGithubObject
 {

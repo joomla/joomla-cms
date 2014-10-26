@@ -16,22 +16,12 @@ defined('_JEXEC') or die;
  */
 abstract class JHtmlUsers
 {
-	/**
-	 * Get the sanitized value
-	 *
-	 * @param   mixed  $value  Value of the field
-	 *
-	 * @return  mixed  String/void
-	 *
-	 * @since   1.6
-	 */
 	public static function value($value)
 	{
 		if (is_string($value))
 		{
 			$value = trim($value);
 		}
-
 		if (empty($value))
 		{
 			return JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
@@ -43,29 +33,11 @@ abstract class JHtmlUsers
 		}
 	}
 
-	/**
-	 * Get the space symbol
-	 *
-	 * @param   mixed  $value  Value of the field
-	 *
-	 * @return  string
-	 *
-	 * @since   1.6
-	 */
 	public static function spacer($value)
 	{
 		return '';
 	}
 
-	/**
-	 * Get the sanitized helpsite link
-	 *
-	 * @param   mixed  $value  Value of the field
-	 *
-	 * @return  mixed  String/void
-	 *
-	 * @since   1.6
-	 */
 	public static function helpsite($value)
 	{
 		if (empty($value))
@@ -77,7 +49,6 @@ abstract class JHtmlUsers
 			$pathToXml = JPATH_ADMINISTRATOR . '/help/helpsites.xml';
 
 			$text = $value;
-
 			if (!empty($pathToXml) && $xml = simplexml_load_file($pathToXml))
 			{
 				foreach ($xml->sites->site as $site)
@@ -91,7 +62,6 @@ abstract class JHtmlUsers
 			}
 
 			$value = htmlspecialchars($value);
-
 			if (substr($value, 0, 4) == "http")
 			{
 				return '<a href="' . $value . '">' . $text . '</a>';
@@ -103,15 +73,6 @@ abstract class JHtmlUsers
 		}
 	}
 
-	/**
-	 * Get the sanitized template style
-	 *
-	 * @param   mixed  $value  Value of the field
-	 *
-	 * @return  mixed  String/void
-	 *
-	 * @since   1.6
-	 */
 	public static function templatestyle($value)
 	{
 		if (empty($value))
@@ -127,7 +88,6 @@ abstract class JHtmlUsers
 				->where('id = ' . $db->quote($value));
 			$db->setQuery($query);
 			$title = $db->loadResult();
-
 			if ($title)
 			{
 				return htmlspecialchars($title);
@@ -139,15 +99,6 @@ abstract class JHtmlUsers
 		}
 	}
 
-	/**
-	 * Get the sanitized language
-	 *
-	 * @param   mixed  $value  Value of the field
-	 *
-	 * @return  mixed  String/void
-	 *
-	 * @since   1.6
-	 */
 	public static function admin_language($value)
 	{
 		if (empty($value))
@@ -160,7 +111,6 @@ abstract class JHtmlUsers
 			$file = "$value.xml";
 
 			$result = null;
-
 			if (is_file("$path/$file"))
 			{
 				$result = JLanguage::parseXMLLanguageFile("$path/$file");
@@ -177,15 +127,6 @@ abstract class JHtmlUsers
 		}
 	}
 
-	/**
-	 * Get the sanitized language
-	 *
-	 * @param   mixed  $value  Value of the field
-	 *
-	 * @return  mixed  String/void
-	 *
-	 * @since   1.6
-	 */
 	public static function language($value)
 	{
 		if (empty($value))
@@ -198,7 +139,6 @@ abstract class JHtmlUsers
 			$file = "$value.xml";
 
 			$result = null;
-
 			if (is_file("$path/$file"))
 			{
 				$result = JLanguage::parseXMLLanguageFile("$path/$file");
@@ -215,15 +155,6 @@ abstract class JHtmlUsers
 		}
 	}
 
-	/**
-	 * Get the sanitized editor name
-	 *
-	 * @param   mixed  $value  Value of the field
-	 *
-	 * @return  mixed  String/void
-	 *
-	 * @since   1.6
-	 */
 	public static function editor($value)
 	{
 		if (empty($value))
@@ -241,13 +172,11 @@ abstract class JHtmlUsers
 				->where('folder = ' . $db->quote('editors'));
 			$db->setQuery($query);
 			$title = $db->loadResult();
-
 			if ($title)
 			{
 				$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, true)
 					|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, true);
 				$lang->load($title . '.sys');
-
 				return JText::_($title);
 			}
 			else

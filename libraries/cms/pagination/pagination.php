@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Pagination Class. Provides a common interface for content pagination for the Joomla! CMS.
  *
- * @since  1.5
+ * @package     Joomla.Libraries
+ * @subpackage  Pagination
+ * @since       1.5
  */
 class JPagination
 {

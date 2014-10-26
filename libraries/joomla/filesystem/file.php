@@ -14,7 +14,9 @@ jimport('joomla.filesystem.path');
 /**
  * A File handling class
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  FileSystem
+ * @since       11.1
  */
 class JFile
 {

@@ -8,9 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
-JHtml::_('formbehavior.chosen', 'select');
-
 ?>
 
 <?php if (empty($this->items)): ?>

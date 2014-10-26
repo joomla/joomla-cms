@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Viewlevels table class.
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Table
+ * @since       11.1
  */
 class JTableViewlevel extends JTable
 {

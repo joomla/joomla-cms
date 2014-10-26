@@ -13,7 +13,9 @@ defined('JPATH_PLATFORM') or die;
  * JData is a class that is used to store data but allowing you to access the data
  * by mimicking the way PHP handles class properties.
  *
- * @since  12.3
+ * @package     Joomla.Platform
+ * @subpackage  Data
+ * @since       12.3
  */
 class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Countable
 {

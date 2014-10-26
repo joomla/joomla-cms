@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for tags
  *
- * @since  3.1
+ * @package     Joomla.Libraries
+ * @subpackage  HTML
+ * @since       3.1
  */
 abstract class JHtmlTag
 {

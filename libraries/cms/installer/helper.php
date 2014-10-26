@@ -16,7 +16,9 @@ jimport('joomla.filesystem.path');
 /**
  * Installer helper class
  *
- * @since  3.1
+ * @package     Joomla.Libraries
+ * @subpackage  Installer
+ * @since       3.1
  */
 abstract class JInstallerHelper
 {

@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Importer Class
  *
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       12.1
  */
 abstract class JDatabaseImporter
 {

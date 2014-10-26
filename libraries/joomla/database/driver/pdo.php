@@ -12,8 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform PDO Database Driver Class
  *
- * @see    http://php.net/pdo
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @see         http://php.net/pdo
+ * @since       12.1
  */
 abstract class JDatabaseDriverPdo extends JDatabaseDriver
 {

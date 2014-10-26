@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Deprecated class placeholder.  You should use JApplicationWeb instead.
  *
+ * @package     Joomla.Legacy
+ * @subpackage  Application
  * @since       11.3
  * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationWeb instead.
  * @codeCoverageIgnore

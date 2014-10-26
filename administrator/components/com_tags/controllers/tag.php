@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
  */
 class TagsControllerTag extends JControllerForm
 {
+
 	/**
 	 * Method to check if you can add a new record.
 	 *
@@ -28,7 +29,6 @@ class TagsControllerTag extends JControllerForm
 	protected function allowAdd($data = array())
 	{
 		$user = JFactory::getUser();
-
 		return ($user->authorise('core.create', 'com_tags'));
 	}
 
@@ -46,6 +46,7 @@ class TagsControllerTag extends JControllerForm
 	{
 		// Since there is no asset tracking and no categories, revert to the component permissions.
 		return parent::allowEdit($data, $key);
+
 	}
 
 	/**

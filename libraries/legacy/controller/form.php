@@ -12,8 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Controller tailored to suit most form-based admin operations.
  *
- * @since  12.2
- * @todo   Add ability to set redirect manually to better cope with frontend usage.
+ * @package     Joomla.Legacy
+ * @subpackage  Controller
+ * @since       12.2
+ * @todo        Add ability to set redirect manually to better cope with frontend usage.
  */
 class JControllerForm extends JControllerLegacy
 {

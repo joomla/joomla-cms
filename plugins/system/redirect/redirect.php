@@ -64,7 +64,7 @@ class PlgSystemRedirect extends JPlugin
 			// See if the current url exists in the database as a redirect.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('new_url', 'header')))
+				->select($db->quoteName('new_url'))
 				->select($db->quoteName('published'))
 				->from($db->quoteName('#__redirect_links'))
 				->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
@@ -87,31 +87,7 @@ class PlgSystemRedirect extends JPlugin
 			// If a redirect exists and is published, permanently redirect.
 			if ($link and ($link->published == 1))
 			{
-				// If no header is set use a 301 permanent redirect
-				if (!$link->header || JComponentHelper::getParams('com_redirect')->get('mode', 0) == false)
-				{
-					$link->header = 301;
-				}
-
-				// If we have a redirect in the 300 range use JApplicationWeb::redirect().
-				if ($link->header < 400 && $link->header >= 300)
-				{
-					$app->redirect($link->new_url, intval($link->header));
-				}
-				else
-				{
-					// Else rethrow the exeception with the new header and return
-					try
-					{
-						throw new RuntimeException($error->getMessage(), $link->header, $error);
-					}
-					catch (Exception $e)
-					{
-						$newError = $e;
-					}
-
-					JError::customErrorPage($newError);
-				}
+				$app->redirect($link->new_url, true);
 			}
 			else
 			{

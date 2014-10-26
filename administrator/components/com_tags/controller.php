@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
  */
 class TagsController extends JControllerLegacy
 {
+
 	/**
 	 * Method to display a view.
 	 *
@@ -28,7 +29,7 @@ class TagsController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT . '/helpers/tags.php';
+		require_once JPATH_COMPONENT.'/helpers/tags.php';
 
 		$view   = $this->input->get('view', 'tags');
 		$layout = $this->input->get('layout', 'default');
@@ -44,9 +45,9 @@ class TagsController extends JControllerLegacy
 
 			return false;
 		}
-
 		parent::display();
 
 		return $this;
+
 	}
 }

@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API object class for the Joomla Platform.
  *
- * @since  12.3
+ * @package     Joomla.Platform
+ * @subpackage  Twitter
+ * @since       12.3
  */
 abstract class JTwitterObject
 {

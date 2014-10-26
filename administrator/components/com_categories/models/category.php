@@ -919,9 +919,6 @@ class CategoriesModelCategory extends JModelAdmin
 			$this->table->title = $title;
 			$this->table->alias = $alias;
 
-			// Unpublish because we are making a copy
-			$this->table->published = 0;
-
 			parent::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 
 			// Store the row.

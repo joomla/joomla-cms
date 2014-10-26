@@ -261,9 +261,6 @@ class BannersModelBanner extends JModelAdmin
 			// New category ID
 			$table->catid = $categoryId;
 
-			// Unpublish because we are making a copy
-			$table->state = 0;
-
 			// TODO: Deal with ordering?
 			// $table->ordering	= 1;
 

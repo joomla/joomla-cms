@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for Sliders elements
  *
- * @since  1.6
+ * @package     Joomla.Libraries
+ * @subpackage  HTML
+ * @since       1.6
  */
 abstract class JHtmlSliders
 {

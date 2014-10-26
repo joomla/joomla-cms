@@ -14,8 +14,11 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Facebook API Photo class for the Joomla Platform.
  *
- * @see    http://developers.facebook.com/docs/reference/api/photo/
- * @since  13.1
+ * @package     Joomla.Platform
+ * @subpackage  Facebook
+ *
+ * @see         http://developers.facebook.com/docs/reference/api/photo/
+ * @since       13.1
  */
 class JFacebookPhoto extends JFacebookObject
 {

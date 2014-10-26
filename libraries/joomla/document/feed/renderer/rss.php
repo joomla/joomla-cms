@@ -12,8 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocumentRenderer_RSS is a feed that implements RSS 2.0 Specification
  *
- * @see    http://www.rssboard.org/rss-specification
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ * @see         http://www.rssboard.org/rss-specification
+ * @since       11.1
  */
 class JDocumentRendererRSS extends JDocumentRenderer
 {

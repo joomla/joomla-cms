@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MediaWiki API Links class for the Joomla Platform.
  *
- * @since  12.3
+ * @package     Joomla.Platform
+ * @subpackage  MediaWiki
+ * @since       12.3
  */
 class JMediawikiLinks extends JMediawikiObject
 {

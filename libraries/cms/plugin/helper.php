@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Plugin helper class
  *
- * @since  1.5
+ * @package     Joomla.Libraries
+ * @subpackage  Plugin
+ * @since       1.5
  */
 abstract class JPluginHelper
 {

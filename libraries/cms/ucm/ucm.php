@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface to handle UCM
  *
- * @since  3.1
+ * @package     Joomla.Libraries
+ * @subpackage  UCM
+ * @since       3.1
  */
 interface JUcm
 {

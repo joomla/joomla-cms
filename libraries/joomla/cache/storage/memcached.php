@@ -12,8 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcached cache storage handler
  *
- * @see    http://php.net/manual/en/book.memcached.php
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ * @see         http://php.net/manual/en/book.memcached.php
+ * @since       12.1
  */
 class JCacheStorageMemcached extends JCacheStorage
 {

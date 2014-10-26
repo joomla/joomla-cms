@@ -8,7 +8,9 @@
  *
  * Inspired by: Chris Campbell <www.particletree.com>
  *
- * @since  1.5
+ * @package     Joomla.Framework
+ * @subpackage  Forms
+ * @since       1.5
  */
 var JFormValidator = function() {
 	var $, handlers, inputEmail, custom,
@@ -178,7 +180,7 @@ var JFormValidator = function() {
  	 	});
  	 	setHandler('email', function(value) {
 		    value = punycode.toASCII(value);
- 	 	 	regex = /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+ 	 	 	regex = /^[a-zA-Z0-9.!#$%&‚Äô*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
  	 	 	return regex.test(value);
  	 	});
  	 	// Attach to forms with class 'form-validate'

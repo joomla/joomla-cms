@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Application helper functions
  *
- * @since  1.5
+ * @package     Joomla.Libraries
+ * @subpackage  Application
+ * @since       1.5
  */
 class JApplicationHelper
 {

@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Linkedin API Jobs class for the Joomla Platform.
  *
- * @since  13.1
+ * @package     Joomla.Platform
+ * @subpackage  Linkedin
+ * @since       13.1
  */
 class JLinkedinJobs extends JLinkedinObject
 {

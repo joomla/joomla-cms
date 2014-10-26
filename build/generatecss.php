@@ -9,9 +9,6 @@
 // Set flag that this is a parent file.
 const _JEXEC = 1;
 
-// Set fixed precision value to avoid round related issues
-ini_set('precision', 14);
-
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
 {
@@ -31,7 +28,8 @@ require_once JPATH_LIBRARIES . '/cms.php';
 /**
  * This script will recompile the CSS files for templates using Less to build their stylesheets.
  *
- * @since  3.0
+ * @package  Joomla.Build
+ * @since    3.0
  */
 class GenerateCss extends JApplicationCli
 {

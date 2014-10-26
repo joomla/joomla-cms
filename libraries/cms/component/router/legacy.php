@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Default routing class for missing or legacy component routers
  *
- * @since  3.3
+ * @package     Joomla.Libraries
+ * @subpackage  Component
+ * @since       3.3
  */
 class JComponentRouterLegacy implements JComponentRouterInterface
 {

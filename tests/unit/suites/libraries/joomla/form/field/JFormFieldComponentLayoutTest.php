@@ -12,6 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldComponentLayoutTest extends TestCaseDatabase
 {
@@ -19,6 +20,8 @@ class JFormFieldComponentLayoutTest extends TestCaseDatabase
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 *
+	 * @since   12.1
 	 */
 	protected function getDataSet()
 	{
@@ -32,20 +35,34 @@ class JFormFieldComponentLayoutTest extends TestCaseDatabase
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 * @todo    Should check all the attributes have come in properly.
 	 */
 	public function testGetInput()
 	{
-		$field = new JFormFieldComponentlayout();
+		$form = new JForm('form1');
 
-		$this->assertTrue(
-			$field->setup(
-				new SimpleXmlElement('<field name="componentlayout" type="componentlayout" extension="com_content" client_id="0" view="blog" />'),
-				'value'
-			)
+		$this->assertThat(
+			$form->load('<form><field name="componentlayout" type="componentlayout" extension="com_content" client_id="0" view="blog" /></form>'),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$this->assertNotEmpty(
-			$field->input
+		$field = new JFormFieldComponentlayout($form);
+
+		$this->assertThat(
+			$field->setup($form->getXml()->field, 'value'),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true.'
+		);
+
+		$this->assertThat(
+			strlen($field->input),
+			$this->greaterThan(0),
+			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
 	}
 }

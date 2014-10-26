@@ -21,8 +21,6 @@ class UsersControllerUser extends UsersController
 	/**
 	 * Method to log in a user.
 	 *
-	 * @return  void
-	 *
 	 * @since   1.6
 	 */
 	public function login()
@@ -85,8 +83,6 @@ class UsersControllerUser extends UsersController
 	/**
 	 * Method to log out a user.
 	 *
-	 * @return  void
-	 *
 	 * @since   1.6
 	 */
 	public function logout()
@@ -106,7 +102,6 @@ class UsersControllerUser extends UsersController
 			// Get the return url from the request and validate that it is internal.
 			$return = $input->$method->get('return', '', 'BASE64');
 			$return = base64_decode($return);
-
 			if (!JUri::isInternal($return))
 			{
 				$return = '';
@@ -123,8 +118,6 @@ class UsersControllerUser extends UsersController
 
 	/**
 	 * Method to register a user.
-	 *
-	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */
@@ -166,7 +159,6 @@ class UsersControllerUser extends UsersController
 
 			// Redirect back to the registration form.
 			$this->setRedirect('index.php?option=com_users&view=registration');
-
 			return false;
 		}
 
@@ -182,20 +174,17 @@ class UsersControllerUser extends UsersController
 			// Redirect back to the registration form.
 			$message = JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_users&view=registration', $message, 'error');
-
 			return false;
 		}
 
 		// Flush the data from the session.
 		$app->setUserState('users.registration.form.data', null);
 
-		return true;
+		exit;
 	}
 
 	/**
 	 * Method to login a user.
-	 *
-	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */
@@ -266,8 +255,6 @@ class UsersControllerUser extends UsersController
 
 	/**
 	 * Method to login a user.
-	 *
-	 * @return  void
 	 *
 	 * @since   1.6
 	 */

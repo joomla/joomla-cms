@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Feed Person class.
  *
- * @since  12.3
+ * @package     Joomla.Platform
+ * @subpackage  Feed
+ * @since       12.3
  */
 class JFeedPerson
 {

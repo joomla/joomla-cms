@@ -19,8 +19,9 @@ class ContentControllerArticles extends JControllerAdmin
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
+	 * @param   array  $config	An optional associative array of configuration settings.
+
+	 * @return  ContentControllerArticles
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -35,14 +36,13 @@ class ContentControllerArticles extends JControllerAdmin
 			$this->view_list = 'featured';
 		}
 
-		$this->registerTask('unfeatured', 'featured');
+		$this->registerTask('unfeatured',	'featured');
 	}
 
 	/**
 	 * Method to toggle the featured setting of a list of articles.
 	 *
 	 * @return  void
-	 *
 	 * @since   1.6
 	 */
 	public function featured()
@@ -59,7 +59,7 @@ class ContentControllerArticles extends JControllerAdmin
 		// Access checks.
 		foreach ($ids as $i => $id)
 		{
-			if (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
+			if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id))
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
@@ -83,27 +83,16 @@ class ContentControllerArticles extends JControllerAdmin
 			}
 		}
 
-		$view = $this->input->get('view', '');
-
-		if ($view == 'featured')
-		{
-			$this->setRedirect('index.php?option=com_content&view=featured');
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=com_content&view=articles');
-		}
+		$this->setRedirect('index.php?option=com_content&view=articles');
 	}
 
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  The array of possible config values. Optional.
+	 * @param   string	$name	The name of the model.
+	 * @param   string	$prefix	The prefix for the PHP class name.
 	 *
 	 * @return  JModel
-	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Article', $prefix = 'ContentModel', $config = array('ignore_request' => true))
@@ -127,4 +116,5 @@ class ContentControllerArticles extends JControllerAdmin
 	protected function postDeleteHook(JModelLegacy $model, $ids = null)
 	{
 	}
+
 }

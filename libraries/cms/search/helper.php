@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Helper class for Joomla! Search components
  *
- * @since  3.0
+ * @package     Joomla.Libraries
+ * @subpackage  Search
+ * @since       3.0
  */
 class JSearchHelper
 {

@@ -35,9 +35,10 @@ ini_set('display_errors', 1);
 JFactory::getLanguage()->load('joomla', JPATH_ADMINISTRATOR, null, false, false);
 
 /**
- * Utility CLI to retrieve the list of help screens from the docs wiki and create an index for the admin help view.
+ * Utility CLI to retrieve the list of help screens from the docs wiki and create an index for the admin help view
  *
- * @since  3.0
+ * @package  Joomla.Build
+ * @since    3.0
  */
 class MediawikiCli extends JApplicationCli
 {

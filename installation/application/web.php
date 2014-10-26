@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Installation Application class.
  *
- * @since  3.1
+ * @package     Joomla.Installation
+ * @subpackage  Application
+ * @since       3.1
  */
 final class InstallationApplicationWeb extends JApplicationCms
 {

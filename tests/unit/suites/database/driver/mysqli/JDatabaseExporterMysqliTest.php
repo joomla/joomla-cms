@@ -12,11 +12,13 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
+ * @since       11.1
  */
 class JDatabaseExporterMysqliTest extends TestCase
 {
 	/**
 	 * @var    JDatabaseDriverMysqli  The mocked database object for use by test methods.
+	 * @since  11.1
 	 */
 	protected $dbo = null;
 
@@ -24,9 +26,14 @@ class JDatabaseExporterMysqliTest extends TestCase
 	 * Sets up the testing conditions
 	 *
 	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function setup()
 	{
+		parent::setUp();
+
+		// Set up the database object mock.
 		$this->dbo = $this->getMockDatabase('Mysqli');
 
 		$this->dbo->expects($this->any())
@@ -90,6 +97,8 @@ class JDatabaseExporterMysqliTest extends TestCase
 	 * Callback for the dbo loadObjectList method.
 	 *
 	 * @return  array  An array of results based on the setting of the last query.
+	 *
+	 * @since   11.1
 	 */
 	public function callbackLoadObjectList()
 	{
@@ -98,11 +107,16 @@ class JDatabaseExporterMysqliTest extends TestCase
 
 	/**
 	 * Test the magic __toString method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function test__toString()
 	{
 		$instance = new JDatabaseExporterMysqli;
 
+		// Set up the export settings.
 		$instance
 			->setDbo($this->dbo)
 			->from('#__test')
@@ -127,6 +141,10 @@ class JDatabaseExporterMysqliTest extends TestCase
 
 	/**
 	 * Tests the asXml method.
+	 *
+	 * @return void
+	 *
+	 * @since  11.1
 	 */
 	public function testAsXml()
 	{
@@ -149,11 +167,16 @@ class JDatabaseExporterMysqliTest extends TestCase
 
 	/**
 	 * Test the buildXML method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testBuildXml()
 	{
 		$instance = new JDatabaseExporterMysqli;
 
+		// Set up the export settings.
 		$instance
 			->setDbo($this->dbo)
 			->from('jos_test')
@@ -179,11 +202,16 @@ class JDatabaseExporterMysqliTest extends TestCase
 
 	/**
 	 * Tests the buildXmlStructure method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testBuildXmlStructure()
 	{
 		$instance = new JDatabaseExporterMysqli;
 
+		// Set up the export settings.
 		$instance
 			->setDbo($this->dbo)
 			->from('jos_test')
@@ -205,30 +233,58 @@ class JDatabaseExporterMysqliTest extends TestCase
 	/**
 	 * Tests the check method.
 	 *
-	 * @expectedException Exception
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testCheckWithNoDbo()
 	{
 		$instance = new JDatabaseExporterMysqli;
 
-		$instance->check();
+		try
+		{
+			$instance->check();
+		}
+		catch (Exception $e)
+		{
+			// Exception expected.
+			return;
+		}
+
+		$this->fail('Check method should throw exception if DBO not set');
 	}
 
 	/**
 	 * Tests the check method.
 	 *
-	 * @expectedException Exception
+	 * @return void
+	 *
+	 * @since  11.1
 	 */
 	public function testCheckWithNoTables()
 	{
 		$instance = new JDatabaseExporterMysqli;
 		$instance->setDbo($this->dbo);
 
-		$instance->check();
+		try
+		{
+			$instance->check();
+		}
+		catch (Exception $e)
+		{
+			// Exception expected.
+			return;
+		}
+
+		$this->fail('Check method should throw exception if the from property not set');
 	}
 
 	/**
 	 * Tests the check method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testCheckWithGoodInput()
 	{
@@ -236,51 +292,85 @@ class JDatabaseExporterMysqliTest extends TestCase
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
-		$result = $instance->check();
+		try
+		{
+			$result = $instance->check();
 
-		$this->assertSame(
-			$instance,
-			$result,
-			'check must return an object to support chaining.'
-		);
+			$this->assertSame(
+				$instance,
+				$result,
+				'check must return an object to support chaining.'
+			);
+		}
+		catch (Exception $e)
+		{
+			$this->fail('Check method should not throw exception with good setup: ' . $e->getMessage());
+		}
 	}
 
 	/**
 	 * Tests the from method with bad input.
 	 *
-	 * @expectedException Exception
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testFromWithBadInput()
 	{
 		$instance = new JDatabaseExporterMysqli;
 
-		$instance->from(new stdClass);
+		try
+		{
+			$instance->from(new stdClass);
+		}
+		catch (Exception $e)
+		{
+			// Exception expected.
+			return;
+		}
+
+		$this->fail('From method should thrown an exception if argument is not a string or array.');
 	}
 
 	/**
 	 * Tests the from method with expected good inputs.
+	 *
+	 * @return void
+	 *
+	 * @since  11.1
 	 */
 	public function testFromWithGoodInput()
 	{
 		$instance = new JDatabaseExporterMysqli;
 
-		$result = $instance->from('jos_foobar');
+		try
+		{
+			$result = $instance->from('jos_foobar');
 
-		$this->assertSame(
-			$instance,
-			$result,
-			'from must return an object to support chaining.'
-		);
+			$this->assertSame(
+				$instance,
+				$result,
+				'from must return an object to support chaining.'
+			);
 
-		$this->assertSame(
-			array('jos_foobar'),
-			TestReflection::getValue($instance, 'from'),
-			'The from method should convert a string input to an array.'
-		);
+			$this->assertSame(
+				array('jos_foobar'),
+				TestReflection::getValue($instance, 'from'),
+				'The from method should convert a string input to an array.'
+			);
+		}
+		catch (Exception $e)
+		{
+			$this->fail('From method should not throw exception with good input: ' . $e->getMessage());
+		}
 	}
 
 	/**
 	 * Tests the method getGenericTableName method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetGenericTableName()
 	{
@@ -296,22 +386,62 @@ class JDatabaseExporterMysqliTest extends TestCase
 
 	/**
 	 * Tests the setDbo method with the wrong type of class.
+	 *
+	 * @return void
+	 *
+	 * @since  11.1
+	 */
+	public function testSetDboWithBadInput()
+	{
+		$instance = new JDatabaseExporterMysqli;
+
+		try
+		{
+			$instance->setDbo(new stdClass);
+		}
+		catch (PHPUnit_Framework_Error $e)
+		{
+			// Expecting the error, so just ignore it.
+			return;
+		}
+
+		$this->fail('setDbo requires a JDatabaseDriverMysqli object and should throw an exception if one is not provided.');
+	}
+
+	/**
+	 * Tests the setDbo method with the wrong type of class.
+	 *
+	 * @return void
+	 *
+	 * @since  11.1
 	 */
 	public function testSetDboWithGoodInput()
 	{
 		$instance = new JDatabaseExporterMysqli;
 
-		$result = $instance->setDbo($this->dbo);
+		try
+		{
+			$result = $instance->setDbo($this->dbo);
 
-		$this->assertSame(
-			$instance,
-			$result,
-			'setDbo must return an object to support chaining.'
-		);
+			$this->assertSame(
+				$instance,
+				$result,
+				'setDbo must return an object to support chaining.'
+			);
+		}
+		catch (PHPUnit_Framework_Error $e)
+		{
+			// Unknown error has occurred.
+			$this->fail($e->getMessage());
+		}
 	}
 
 	/**
 	 * Tests the withStructure method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testWithStructure()
 	{

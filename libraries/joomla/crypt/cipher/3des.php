@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCrypt cipher for Triple DES encryption, decryption and key generation.
  *
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  Crypt
+ * @since       12.1
  */
 class JCryptCipher3Des extends JCryptCipherMcrypt
 {

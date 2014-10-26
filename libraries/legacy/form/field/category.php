@@ -15,7 +15,9 @@ JFormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Supports an HTML select list of categories
  *
- * @since  11.1
+ * @package     Joomla.Legacy
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldCategory extends JFormFieldList
 {

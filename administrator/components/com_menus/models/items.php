@@ -64,11 +64,7 @@ class MenusModelItems extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
 	 * @return  void
-	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -179,8 +175,6 @@ class MenusModelItems extends JModelList
 	 * Builds an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery    A query object.
-	 *
-	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -195,16 +189,8 @@ class MenusModelItems extends JModelList
 			$this->getState(
 				'list.select',
 				$db->quoteName(
-					array(
-						'a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id',
-						'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav',
-						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'
-					),
-					array(
-						null, null, null, null, null, null, null, null, null,
-						null, 'apublished', null, null, null, null,
-						null, null, null, null, null, null, null, null, null
-					)
+					array('a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id', 'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav', 'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'),
+					array(null, null, null, null, null, null, null, null, null, null, 'apublished', null, null, null, null, null, null, null, null, null, null, null, null, null)
 				)
 			)
 		);

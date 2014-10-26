@@ -13,7 +13,9 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla CMS.
  * Provides a modal media selector including upload mechanism
  *
- * @since  1.6
+ * @package     Joomla.Libraries
+ * @subpackage  Form
+ * @since       1.6
  */
 class JFormFieldMedia extends JFormField
 {

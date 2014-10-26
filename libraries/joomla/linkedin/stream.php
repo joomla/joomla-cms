@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Linkedin API Social Stream class for the Joomla Platform.
  *
- * @since  13.1
+ * @package     Joomla.Platform
+ * @subpackage  Linkedin
+ * @since       13.1
  */
 class JLinkedinStream extends JLinkedinObject
 {

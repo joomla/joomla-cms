@@ -18,15 +18,7 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
 abstract class MenusHtmlMenus
 {
 	/**
-	 * Generate the markup to display the item associations
-	 *
-	 * @param   int  $itemid  The menu item id
-	 *
-	 * @return  string
-	 *
-	 * @since   3.0
-	 *
-	 * @throws Exception If there is an error on the query
+	 * @param   int $itemid	The menu item id
 	 */
 	public static function association($itemid)
 	{
@@ -75,8 +67,7 @@ abstract class MenusHtmlMenus
 						$item->title,
 						'(' . $item->menu_title . ')'
 					);
-					$class = 'hasTooltip label label-association label-' . $item->lang_sef;
-					$item->link = JHtml::_('tooltip', implode(' ', $tooltipParts), null, null, $text, $url, null, $class);
+					$item->link = JHtml::_('tooltip', implode(' ', $tooltipParts), null, null, $text, $url, null, 'hasTooltip label label-association label-' . $item->lang_sef);
 				}
 			}
 
@@ -89,10 +80,10 @@ abstract class MenusHtmlMenus
 	/**
 	 * Returns a published state on a grid
 	 *
-	 * @param   integer  $value     The state value.
-	 * @param   integer  $i         The row index
-	 * @param   boolean  $enabled   An optional setting for access control on the action.
-	 * @param   string   $checkbox  An optional prefix for checkboxes.
+	 * @param   integer       $value			The state value.
+	 * @param   integer       $i				The row index
+	 * @param   boolean       $enabled			An optional setting for access control on the action.
+	 * @param   string        $checkbox			An optional prefix for checkboxes.
 	 *
 	 * @return  string        The Html code
 	 *

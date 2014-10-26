@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JUtility is a utility functions class
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Utilities
+ * @since       11.1
  */
 class JUtility
 {

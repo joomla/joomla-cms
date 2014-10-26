@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform class for interacting with Microdata semantics.
  *
- * @since  3.2
+ * @package     Joomla.Platform
+ * @subpackage  Microdata
+ * @since       3.2
  */
 class JMicrodata
 {
@@ -131,7 +133,7 @@ class JMicrodata
 	 * Reset all params
 	 *
 	 * @return void
-	 *
+	 * 
 	 * @since   3.2
 	 */
 	protected function resetParams()

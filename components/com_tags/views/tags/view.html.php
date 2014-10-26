@@ -44,18 +44,16 @@ class TagsViewTags extends JViewLegacy
 		$item		= $this->get('Item');
 		$pagination	= $this->get('Pagination');
 
-		/*
-		 * // Change to catch
-		 * if (count($errors = $this->get('Errors'))) {
-		 * JError::raiseError(500, implode("\n", $errors));
-		 * return false;
-		 */
+		// Change to catch
+		/*if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}*/
 
 		// Check whether access level allows access.
-		// @todo: Should already be computed in $item->params->get('access-view')
+		// TODO: SHould already be computed in $item->params->get('access-view')
 		$user	= JFactory::getUser();
 		$groups	= $user->getAuthorisedViewLevels();
-
 		if (!empty($items))
 		{
 			foreach ($items as $itemElement)
@@ -68,7 +66,7 @@ class TagsViewTags extends JViewLegacy
 				// Prepare the data.
 				$temp = new JRegistry;
 				$temp->loadString($itemElement->params);
-				$itemElement->params = clone $params;
+				$itemElement->params = clone($params);
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);
 			}
@@ -80,26 +78,24 @@ class TagsViewTags extends JViewLegacy
 		$this->user       = &$user;
 		$this->item       = &$item;
 
-		// Escape strings for HTML output
+		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		// Merge tag params. If this is single-tag view, menu params override tag params
 		// Otherwise, article params override menu item params
 		$this->params	= $this->state->get('params');
 		$active	= $app->getMenu()->getActive();
-		$temp	= clone $this->params;
+		$temp	= clone ($this->params);
 
 		// Check to see which parameters should take priority
 		if ($active)
 		{
 			$currentLink = $active->link;
-
 			// If the current view is the active item and the tags view, then the menu item params take priority
 			if (strpos($currentLink, 'view=tags'))
 			{
 				$this->params = $active->params;
 				$this->params->merge($temp);
-
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout']))
 				{
@@ -121,15 +117,14 @@ class TagsViewTags extends JViewLegacy
 				}
 			}
 		}
-		elseif(!empty($items[0]))
+		else
 		{
 			// Merge so that tag params take priority
-			$temp->merge($items[0]->params);
-			$items[0]->params = $temp;
-
+			$temp->merge($item[0]->params);
+			$item[0]->params = $temp;
 			// Check for alternative layouts (since we are not in a single-tag menu item)
 			// Single-tag menu item layout takes priority over alt layout for a tag
-			if ($layout = $items[0]->params->get('tag_layout'))
+			if ($layout = $item[0]->params->get('tag_layout'))
 			{
 				$this->setLayout($layout);
 			}
@@ -142,8 +137,6 @@ class TagsViewTags extends JViewLegacy
 
 	/**
 	 * Prepares the document
-	 *
-	 * @return void
 	 */
 	protected function _prepareDocument()
 	{
@@ -269,5 +262,6 @@ class TagsViewTags extends JViewLegacy
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
+
 	}
 }

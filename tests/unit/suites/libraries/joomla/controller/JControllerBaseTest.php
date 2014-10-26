@@ -33,11 +33,11 @@ class JControllerBaseTest extends TestCase
 	 */
 	public function test__construct()
 	{
-		// New controller with no dependencies.
+		// New controller with no dependancies.
 		$this->assertEquals('default', TestReflection::getValue($this->_instance, 'app')->input, 'Checks the mock application came from the factory.');
 		$this->assertAttributeEquals('default', 'input', $this->_instance, 'Checks the input came from the application.');
 
-		// New controller with dependencies
+		// New controller with dependancies
 		$app = TestMockApplicationWeb::create($this);
 		$app->test = 'ok';
 

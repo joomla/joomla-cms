@@ -16,24 +16,12 @@ defined('_JEXEC') or die;
  */
 class MenusViewItems extends JViewLegacy
 {
-	/**
-	 * @var  array
-	 */
 	protected $f_levels;
 
-	/**
-	 * @var  mixed
-	 */
 	protected $items;
 
-	/**
-	 * @var  JPagination
-	 */
 	protected $pagination;
 
-	/**
-	 * @var  JObject
-	 */
 	protected $state;
 
 	/**
@@ -42,8 +30,6 @@ class MenusViewItems extends JViewLegacy
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -143,6 +129,7 @@ class MenusViewItems extends JViewLegacy
 											{
 												$file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
 											}
+
 										}
 
 										if (is_file($file) && $xml = simplexml_load_file($file))

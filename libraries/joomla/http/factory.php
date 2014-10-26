@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTTP factory class.
  *
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  HTTP
+ * @since       12.1
  */
 class JHttpFactory
 {

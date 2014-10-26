@@ -220,7 +220,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'weblinks', 'finder', 0);
 		$extensions[] = array('plugin', 'tags', 'finder', 0);
 		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
-		$extensions[] = array('plugin', 'yubikey', 'twofactorauth', 0);
 
 		// Templates
 		$extensions[] = array('template', 'beez3', '', 0);

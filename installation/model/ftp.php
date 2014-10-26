@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * FTP configuration model for the Joomla Core Installer.
  *
- * @since  3.1
+ * @package     Joomla.Installation
+ * @subpackage  Model
+ * @since       3.1
  */
 class InstallationModelFtp extends JModelBase
 {

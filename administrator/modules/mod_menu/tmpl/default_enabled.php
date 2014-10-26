@@ -111,11 +111,8 @@ if ($user->authorise('core.manage', 'com_users'))
 		$menu->getParent();
 	}
 
-	if (JFactory::getApplication()->get('massmailoff') != 1)
-	{
-		$menu->addSeparator();
-		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MASS_MAIL_USERS'), 'index.php?option=com_users&view=mail', 'class:massmail'));
-	}
+	$menu->addSeparator();
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MASS_MAIL_USERS'), 'index.php?option=com_users&view=mail', 'class:massmail'));
 
 	$menu->getParent();
 }

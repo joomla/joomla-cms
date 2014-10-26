@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Categories view base class.
  *
- * @since  3.2
+ * @package     Joomla.Libraries
+ * @subpackage  View
+ * @since       3.2
  */
 class JViewCategories extends JViewLegacy
 {

@@ -46,7 +46,9 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  string  $core_xreference
  * @property-read  string  $core_typeid
  *
- * @since  3.1
+ * @package     Joomla.Libraries
+ * @subpackage  UCM
+ * @since       3.1
  */
 class JUcmType implements JUcm
 {

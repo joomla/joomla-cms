@@ -13,7 +13,9 @@ defined('JPATH_PLATFORM') or die;
  * Extension table
  * Replaces plugins table
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Table
+ * @since       11.1
  */
 class JTableExtension extends JTable
 {

@@ -16,38 +16,14 @@ defined('_JEXEC') or die;
  */
 class NewsfeedsViewNewsfeed extends JViewLegacy
 {
-	/**
-	 * The item object for the newsfeed
-	 *
-	 * @var    JObject
-	 * @since  1.6
-	 */
 	protected $item;
 
-	/**
-	 * The form object for the newsfeed
-	 *
-	 * @var    JForm
-	 * @since  1.6
-	 */
 	protected $form;
 
-	/**
-	 * The model state of the newsfeed
-	 *
-	 * @var    JObject
-	 * @since  1.6
-	 */
 	protected $state;
 
 	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
-	 *
-	 * @since   1.6
+	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
@@ -59,7 +35,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
-
 			return false;
 		}
 
@@ -75,8 +50,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
-	 *
-	 * @return  void
 	 *
 	 * @since   1.6
 	 */

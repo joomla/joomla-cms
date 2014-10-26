@@ -9,26 +9,23 @@
 
 /**
  * Test class for JDocumentRenderer.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Document
+ * @since       11.1
  */
 class JDocumentRendererTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var  JDocumentRenderer
+	 * @var    JDocumentRenderer
 	 */
 	protected $object;
-
-	/**
-	 * Backup of the SERVER superglobal
-	 *
-	 * @var  array
-	 */
-	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	protected function setUp()
 	{
@@ -36,36 +33,37 @@ class JDocumentRendererTest extends PHPUnit_Framework_TestCase
 
 		$doc = new JDocument;
 		$this->object = new JDocumentRenderer($doc);
-
-		$this->backupServer = $_SERVER;
-
-		$_SERVER['HTTP_HOST'] = 'example.com';
-		$_SERVER['SCRIPT_NAME'] = '';
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
+	 * Test JDocumentRenderer::render().
 	 *
-	 * @return  void
+	 * Empty test because the base class does nothing
+	 *
+	 * @since 11.3
+	 *
+	 * @return void
 	 */
-	protected function tearDown()
+	public function testRender()
 	{
-		$_SERVER = $this->backupServer;
-
-		parent::tearDown();
+		$this->assertThat(
+			$this->object->render('test'),
+			$this->equalTo(null)
+		);
 	}
 
-	public function testRenderByDefaultReturnsNull()
+	/**
+	 * Test JDocumentRenderer::getContentType().
+	 *
+	 * @since 11.3
+	 *
+	 * @return void
+	 */
+	public function testGetContentType()
 	{
-		$this->assertNull($this->object->render('test'));
-	}
-
-	public function testGetTheDefaultContentType()
-	{
-		$this->assertEquals(
-			'text/html',
-			$this->object->getContentType()
+		$this->assertThat(
+			$this->object->getContentType(),
+			$this->equalTo('text/html')
 		);
 	}
 }

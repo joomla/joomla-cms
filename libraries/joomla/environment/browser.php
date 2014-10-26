@@ -18,7 +18,9 @@ defined('JPATH_PLATFORM') or die;
  * This class has many influences from the lib/Browser.php code in
  * version 3 of Horde by Chuck Hagenbuch and Jon Parise.
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Environment
+ * @since       11.1
  */
 class JBrowser
 {

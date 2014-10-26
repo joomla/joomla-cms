@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Authentication class, provides an interface for the Joomla authentication system
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  User
+ * @since       11.1
  */
 class JAuthentication extends JObject
 {
@@ -339,7 +341,9 @@ class JAuthentication extends JObject
 /**
  * Authentication response class, provides an object for storing user and error details
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  User
+ * @since       11.1
  */
 class JAuthenticationResponse
 {

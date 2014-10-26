@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Adapter Instance Class
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Base
+ * @since       11.1
  */
 class JAdapterInstance extends JObject
 {

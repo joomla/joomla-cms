@@ -48,7 +48,6 @@ class UsersViewProfile extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode('<br />', $errors));
-
 			return false;
 		}
 
@@ -71,7 +70,6 @@ class UsersViewProfile extends JViewLegacy
 		if (!$this->data->id)
 		{
 			JError::raiseError(404, JText::_('JERROR_USERS_PROFILE_NOT_FOUND'));
-
 			return false;
 		}
 
@@ -86,7 +84,7 @@ class UsersViewProfile extends JViewLegacy
 			$this->setLayout($active->query['layout']);
 		}
 
-		// Escape strings for HTML output
+		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
 		$this->prepareDocument();
@@ -96,8 +94,6 @@ class UsersViewProfile extends JViewLegacy
 
 	/**
 	 * Prepares the document
-	 *
-	 * @return  void
 	 *
 	 * @since   1.6
 	 */

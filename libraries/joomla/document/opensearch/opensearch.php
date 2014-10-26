@@ -12,8 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * OpenSearch class, provides an easy interface to display an OpenSearch document
  *
- * @see    http://www.opensearch.org/
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ * @see         http://www.opensearch.org/
+ * @since       11.1
  */
 class JDocumentOpensearch extends JDocument
 {
@@ -228,7 +230,9 @@ class JDocumentOpensearch extends JDocument
 /**
  * JOpenSearchUrl is an internal class that stores the search URLs for the OpenSearch description
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ * @since       11.1
  */
 class JOpenSearchUrl
 {
@@ -266,7 +270,9 @@ class JOpenSearchUrl
 /**
  * JOpenSearchImage is an internal class that stores Images for the OpenSearch Description
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ * @since       11.1
  */
 class JOpenSearchImage
 {

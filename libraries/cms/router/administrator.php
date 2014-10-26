@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to create and parse routes
  *
- * @since  1.5
+ * @package     Joomla.Libraries
+ * @subpackage  Router
+ * @since       1.5
  */
 class JRouterAdministrator extends JRouter
 {

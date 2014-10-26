@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Tree based class to render the admin menu
  *
- * @since  1.5
+ * @package     Joomla.Administrator
+ * @subpackage  mod_menu
+ * @since       1.5
  */
 class JAdminCssMenu extends JObject
 {
@@ -308,8 +310,10 @@ class JAdminCssMenu extends JObject
 /**
  * A Node for JAdminCssMenu
  *
- * @see    JAdminCssMenu
- * @since  1.5
+ * @package     Joomla.Administrator
+ * @subpackage  mod_menu
+ * @see         JAdminCssMenu
+ * @since       1.5
  */
 class JMenuNode extends JObject
 {

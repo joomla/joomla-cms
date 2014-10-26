@@ -11,7 +11,8 @@ defined('JPATH_BASE') or die;
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since  1.6
+ * @package  Joomla.Installation
+ * @since    1.6
  */
 class JFormFieldPrefix extends JFormField
 {

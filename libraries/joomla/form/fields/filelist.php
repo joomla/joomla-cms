@@ -16,7 +16,9 @@ JFormHelper::loadFieldClass('list');
 /**
  * Supports an HTML select list of files
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldFileList extends JFormFieldList
 {

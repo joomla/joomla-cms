@@ -12,21 +12,25 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
+ * @since       11.1
  */
 class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
+	 * @since  11.1
 	 */
 	protected $dbo = null;
 
 	/**
 	 * @var    string  The last query sent to the dbo setQuery method.
+	 * @since  11.1
 	 */
 	protected $lastQuery = '';
 
 	/**
 	 * @var    array  Selected sample data for tests.
+	 * @since  11.1
 	 */
 	protected $sample = array(
 		'xml-id-field' =>
@@ -43,9 +47,14 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 * Sets up the testing conditions
 	 *
 	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function setup()
 	{
+		parent::setUp();
+
+		// Set up the database object mock.
 		$this->dbo = $this->getMock(
 			'JDatabaseDriverMysqli',
 			array(
@@ -176,6 +185,8 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 * Callback for the dbo loadObjectList method.
 	 *
 	 * @return array  An array of results based on the setting of the last query.
+	 *
+	 * @since  11.1
 	 */
 	public function callbackLoadObjectList()
 	{
@@ -188,6 +199,8 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 * @param   string  $value  The value to be quoted.
 	 *
 	 * @return string  The value passed wrapped in MySQL quotes.
+	 *
+	 * @since  11.1
 	 */
 	public function callbackQuote($value)
 	{
@@ -200,6 +213,8 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 * @param   string  $value  The value to be quoted.
 	 *
 	 * @return string  The value passed wrapped in MySQL quotes.
+	 *
+	 * @since  11.1
 	 */
 	public function callbackQuoteName($value)
 	{
@@ -212,6 +227,8 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 * @param   string  $query  The query.
 	 *
 	 * @return void
+	 *
+	 * @since  11.1
 	 */
 	public function callbackSetQuery($query)
 	{
@@ -222,6 +239,8 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 * Data for the testGetAlterTableSQL test.
 	 *
 	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
+	 *
+	 * @since   11.1
 	 */
 	public function dataGetAlterTableSQL()
 	{
@@ -275,6 +294,8 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 * Data for the testGetColumnSQL test.
 	 *
 	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
+	 *
+	 * @since   11.1
 	 */
 	public function dataGetColumnSQL()
 	{
@@ -307,6 +328,8 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 * Data for the testGetColumnSQL test.
 	 *
 	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
+	 *
+	 * @since   11.1
 	 */
 	public function dataGetKeySQL()
 	{
@@ -326,6 +349,10 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the asXml method.
+	 *
+	 * @return void
+	 *
+	 * @since  11.1
 	 */
 	public function testAsXml()
 	{
@@ -349,30 +376,62 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the check method.
 	 *
-	 * @expectedException Exception
+	 * @return void
+	 *
+	 * @since  11.1
 	 */
 	public function testCheckWithNoDbo()
 	{
 		$instance = new JDatabaseImporterMysqli;
 
-		$instance->check();
+		try
+		{
+			$instance->check();
+		}
+		catch (Exception $e)
+		{
+			// Exception expected.
+			return;
+		}
+
+		$this->fail(
+			'Check method should throw exception if DBO not set'
+		);
 	}
 
 	/**
 	 * Tests the check method.
 	 *
-	 * @expectedException Exception
+	 * @return void
+	 *
+	 * @since  11.1
 	 */
 	public function testCheckWithNoFrom()
 	{
 		$instance = new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
 
-		$instance->check();
+		try
+		{
+			$instance->check();
+		}
+		catch (Exception $e)
+		{
+			// Exception expected.
+			return;
+		}
+
+		$this->fail(
+			'Check method should throw exception if DBO not set'
+		);
 	}
 
 	/**
 	 * Tests the check method.
+	 *
+	 * @return void
+	 *
+	 * @since  11.1
 	 */
 	public function testCheckWithGoodInput()
 	{
@@ -380,41 +439,67 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
-		$result = $instance->check();
+		try
+		{
+			$result = $instance->check();
 
-		$this->assertThat(
-			$result,
-			$this->identicalTo($instance),
-			'check must return an object to support chaining.'
-		);
+			$this->assertThat(
+				$result,
+				$this->identicalTo($instance),
+				'check must return an object to support chaining.'
+			);
+		}
+		catch (Exception $e)
+		{
+			$this->fail(
+				'Check method should not throw exception with good setup: ' . $e->getMessage()
+			);
+		}
 	}
 
 	/**
 	 * Tests the from method with expected good inputs.
+	 *
+	 * @return void
+	 *
+	 * @since  11.1
 	 */
 	public function testFromWithGoodInput()
 	{
 		$instance = new JDatabaseImporterMysqli;
 
-		$result = $instance->from('foobar');
+		try
+		{
+			$result = $instance->from('foobar');
 
-		$this->assertThat(
-			$result,
-			$this->identicalTo($instance),
-			'from must return an object to support chaining.'
-		);
+			$this->assertThat(
+				$result,
+				$this->identicalTo($instance),
+				'from must return an object to support chaining.'
+			);
 
-		$this->assertThat(
-			TestReflection::getValue($instance, 'from'),
-			$this->equalTo('foobar'),
-			'The from method did not store the value as expected.'
-		);
+			$this->assertThat(
+				TestReflection::getValue($instance, 'from'),
+				$this->equalTo('foobar'),
+				'The from method did not store the value as expected.'
+			);
+		}
+		catch (Exception $e)
+		{
+			$this->fail(
+				'From method should not throw exception with good input: ' . $e->getMessage()
+			);
+		}
 	}
 
 	/**
 	 * Tests the getAddColumnSQL method.
 	 *
 	 * Note that combinations of fields is tested in testGetColumnSQL.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetAddColumnSQL()
 	{
@@ -434,6 +519,10 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 * Tests the getAddKeySQL method.
 	 *
 	 * Note that combinations of keys is tested in testGetKeySQL.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetAddKeySQL()
 	{
@@ -452,9 +541,13 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getAlterTableSQL method.
 	 *
-	 * @param   string $structure
-	 * @param   string $expected
-	 * @param   string $message
+	 * @param   string  $structure  @todo
+	 * @param   string  $expected   @todo
+	 * @param   string  $message    @todo
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 *
 	 * @dataProvider dataGetAlterTableSQL
 	 */
@@ -476,6 +569,10 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 * Tests the getChangeColumnSQL method.
 	 *
 	 * Note that combinations of fields is tested in testGetColumnSQL.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetChangeColumnSQL()
 	{
@@ -498,6 +595,11 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 * @param   string  $expected  The expected result from the getColumnSQL method.
 	 * @param   string  $message   The error message to display if the result does not match the expected value.
 	 *
+	 * @internal param \SimpleXmlElement $xml The database field as an object.
+	 * @return  void
+	 *
+	 * @since    11.1
+	 *
 	 * @dataProvider dataGetColumnSQL
 	 */
 	public function testGetColumnSQL($field, $expected, $message)
@@ -514,6 +616,10 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getDropColumnSQL method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetDropColumnSQL()
 	{
@@ -531,6 +637,10 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getDropKeySQL method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetDropKeySQL()
 	{
@@ -548,6 +658,10 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getDropPrimaryKeySQL method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetDropPrimaryKeySQL()
 	{
@@ -565,6 +679,10 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getKeyLookup method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetKeyLookup()
 	{
@@ -608,6 +726,11 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 * @param   string  $expected  The expected result from the getKeySQL method.
 	 * @param   string  $message   The error message to display if the result does not match the expected value.
 	 *
+	 * @internal param \SimpleXmlElement $xml The database key as an object.
+	 * @return  void
+	 *
+	 * @since    11.1
+	 *
 	 * @dataProvider dataGetKeySQL
 	 */
 	public function testGetKeySQL($field, $expected, $message)
@@ -624,6 +747,10 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getRealTableName method with the wrong type of class.
+	 *
+	 * @return void
+	 *
+	 * @since  11.1
 	 */
 	public function testGetRealTableName()
 	{
@@ -639,22 +766,67 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the setDbo method with the wrong type of class.
+	 *
+	 * @return void
+	 *
+	 * @since  11.1
+	 */
+	public function testSetDboWithBadInput()
+	{
+		$instance = new JDatabaseImporterMysqli;
+
+		try
+		{
+			$instance->setDbo(new stdClass);
+		}
+		catch (PHPUnit_Framework_Error $e)
+		{
+			// Expecting the error, so just ignore it.
+			return;
+		}
+
+		$this->fail(
+			'setDbo requires a JDatabaseDriverMysqli object and should throw an exception.'
+		);
+	}
+
+	/**
+	 * Tests the setDbo method with the wrong type of class.
+	 *
+	 * @return void
+	 *
+	 * @since  11.1
 	 */
 	public function testSetDboWithGoodInput()
 	{
 		$instance = new JDatabaseImporterMysqli;
 
-		$result = $instance->setDbo($this->dbo);
+		try
+		{
+			$result = $instance->setDbo($this->dbo);
 
-		$this->assertThat(
-			$result,
-			$this->identicalTo($instance),
-			'setDbo must return an object to support chaining.'
-		);
+			$this->assertThat(
+				$result,
+				$this->identicalTo($instance),
+				'setDbo must return an object to support chaining.'
+			);
+
+		}
+		catch (PHPUnit_Framework_Error $e)
+		{
+			// Unknown error has occurred.
+			$this->fail(
+				$e->getMessage()
+			);
+		}
 	}
 
 	/**
 	 * Tests the withStructure method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testWithStructure()
 	{

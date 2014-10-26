@@ -14,7 +14,9 @@ JFormHelper::loadFieldClass('text');
 /**
  * Form Field class for the Joomla! CMS.
  *
- * @since  1.6
+ * @package     Joomla.Libraries
+ * @subpackage  Form
+ * @since       1.6
  */
 class JFormFieldModulePosition extends JFormFieldText
 {

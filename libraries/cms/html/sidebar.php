@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class to render a list view sidebar
  *
- * @since  3.0
+ * @package     Joomla.Libraries
+ * @subpackage  HTML
+ * @since       3.0
  */
 abstract class JHtmlSidebar
 {

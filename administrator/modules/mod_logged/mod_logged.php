@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// Include dependencies.
+// Include dependancies.
 require_once __DIR__ . '/helper.php';
 
 $users = ModLoggedHelper::getList($params);

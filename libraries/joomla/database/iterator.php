@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Driver Class
  *
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       12.1
  */
 abstract class JDatabaseIterator implements Countable, Iterator
 {

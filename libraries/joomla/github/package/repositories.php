@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Activity class for the Joomla Platform.
  *
- * @since  3.3 (CMS)
+ * @package     Joomla.Platform
+ * @subpackage  GitHub.Repositories
+ * @since       3.3 (CMS)
  *
  * @documentation  http://developer.github.com/v3/repos
  *

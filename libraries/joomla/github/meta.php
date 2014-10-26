@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Meta class.
  *
- * @since  13.1
+ * @package     Joomla.Platform
+ * @subpackage  GitHub
+ * @since       13.1
  */
 class JGithubMeta extends JGithubObject
 {

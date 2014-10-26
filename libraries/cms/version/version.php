@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Version information class for the Joomla CMS.
  *
- * @since  1.0
+ * @package     Joomla.Libraries
+ * @subpackage  Version
+ * @since       1.0
  */
 final class JVersion
 {

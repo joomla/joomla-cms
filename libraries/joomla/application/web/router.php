@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to define an abstract Web application router.
  *
- * @since  12.2
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since       12.2
  */
 abstract class JApplicationWebRouter
 {

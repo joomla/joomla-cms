@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Client helper class
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Client
+ * @since       11.1
  */
 class JClientHelper
 {

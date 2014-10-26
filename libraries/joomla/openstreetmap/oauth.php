@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Joomla Platform class for generating Openstreetmap API access token.
  *
- * @since  13.1
+ * @package     Joomla.Platform
+ * @subpackage  Openstreetmap
+ * @since       13.1
  */
 class JOpenstreetmapOauth extends JOAuth1Client
 {

@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for Tabs elements.
  *
- * @since  1.6
+ * @package     Joomla.Libraries
+ * @subpackage  HTML
+ * @since       1.6
  */
 abstract class JHtmlTabs
 {

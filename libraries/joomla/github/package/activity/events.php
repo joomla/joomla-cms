@@ -14,7 +14,9 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/activity/events/
  *
- * @since  3.3 (CMS)
+ * @package     Joomla.Platform
+ * @subpackage  GitHub.Activity
+ * @since       3.3 (CMS)
  */
 class JGithubPackageActivityEvents extends JGithubPackage
 {

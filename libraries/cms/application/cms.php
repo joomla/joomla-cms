@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! CMS Application class
  *
- * @since  3.2
+ * @package     Joomla.Libraries
+ * @subpackage  Application
+ * @since       3.2
  */
 class JApplicationCms extends JApplicationWeb
 {
@@ -949,14 +951,14 @@ class JApplicationCms extends JApplicationWeb
 	 * or "303 See Other" code in the header pointing to the new location. If the headers have already been
 	 * sent this will be accomplished using a JavaScript statement.
 	 *
-	 * @param   string   $url     The URL to redirect to. Can only be http/https URL
-	 * @param   integer  $status  The HTTP 1.1 status code to be provided. 303 is assumed by default.
+	 * @param   string   $url    The URL to redirect to. Can only be http/https URL
+	 * @param   boolean  $moved  True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public function redirect($url, $status = 303)
+	public function redirect($url, $moved = false)
 	{
 		// Handle B/C by checking if a message was passed to the method, will be removed at 4.0
 		if (func_num_args() > 1)
@@ -969,9 +971,9 @@ class JApplicationCms extends JApplicationWeb
 			 * $args[0] = $url
 			 * $args[1] = Message to enqueue
 			 * $args[2] = Message type
-			 * $args[3] = $status (previously moved)
+			 * $args[3] = $moved
 			 */
-			if (isset($args[1]) && !empty($args[1]) && (!is_bool($args[1]) && !is_int($args[1])))
+			if (isset($args[1]) && !empty($args[1]) && !is_bool($args[1]))
 			{
 				// Log that passing the message to the function is deprecated
 				JLog::add(
@@ -997,7 +999,7 @@ class JApplicationCms extends JApplicationWeb
 				$this->enqueueMessage($message, $type);
 
 				// Reset the $moved variable
-				$status = isset($args[3]) ? (boolean) $args[3] : false;
+				$moved = isset($args[3]) ? (boolean) $args[3] : false;
 			}
 		}
 
@@ -1009,7 +1011,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// Hand over processing to the parent now
-		parent::redirect($url, $status);
+		parent::redirect($url, $moved);
 	}
 
 	/**

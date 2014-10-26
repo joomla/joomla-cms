@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQLite Query Building Class.
  *
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       12.1
  */
 class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPreparable, JDatabaseQueryLimitable
 {

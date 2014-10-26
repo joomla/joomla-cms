@@ -12,8 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * ATOM Feed Parser class.
  *
- * @link   http://www.atomenabled.org/developers/syndication/
- * @since  12.3
+ * @package     Joomla.Platform
+ * @subpackage  Feed
+ * @link        http://www.atomenabled.org/developers/syndication/
+ * @since       12.3
  */
 class JFeedParserAtom extends JFeedParser
 {

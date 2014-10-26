@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML helper class for rendering numbers.
  *
- * @since  1.6
+ * @package     Joomla.Libraries
+ * @subpackage  HTML
+ * @since       1.6
  */
 abstract class JHtmlNumber
 {

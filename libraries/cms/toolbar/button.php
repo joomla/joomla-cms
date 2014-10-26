@@ -14,7 +14,9 @@ defined('JPATH_PLATFORM') or die;
  *
  * The JButton is the base class for all JButton types
  *
- * @since  3.0
+ * @package     Joomla.Libraries
+ * @subpackage  Toolbar
+ * @since       3.0
  */
 abstract class JToolbarButton
 {
@@ -123,6 +125,8 @@ abstract class JToolbarButton
 /**
  * Deprecated class placeholder. You should use JToolbarButton instead.
  *
+ * @package     Joomla.Legacy
+ * @subpackage  Toolbar
  * @since       1.5
  * @deprecated  4.0  Use JToolbarButton instead.
  * @codeCoverageIgnore

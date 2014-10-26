@@ -15,7 +15,9 @@ JFormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Provides a select list of help sites.
  *
- * @since  1.6
+ * @package     Joomla.Libraries
+ * @subpackage  Form
+ * @since       1.6
  */
 class JFormFieldHelpsite extends JFormFieldList
 {

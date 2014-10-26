@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to manipulate an image.
  *
- * @since  11.3
+ * @package     Joomla.Platform
+ * @subpackage  Image
+ * @since       11.3
  */
 class JImage
 {

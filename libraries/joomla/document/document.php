@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Document class, provides an easy interface to parse and display a document
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ * @since       11.1
  */
 class JDocument
 {
@@ -300,10 +302,7 @@ class JDocument
 				}
 				else
 				{
-					// @codeCoverageIgnoreStart
 					throw new RuntimeException('Invalid JDocument Class', 500);
-
-					// @codeCoverageIgnoreEnd
 				}
 			}
 

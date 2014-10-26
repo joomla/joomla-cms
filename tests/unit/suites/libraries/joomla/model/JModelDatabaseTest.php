@@ -29,26 +29,17 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @covers  JModelDatabase::__construct
+	 * @since   12.1
 	 */
-	public function testChecksDefaultDatabaseDriver()
+	public function test__construct()
 	{
-		$this->assertSame(JFactory::getDbo(), $this->_instance->getDb());
-	}
+		$this->assertSame(JFactory::getDbo(), $this->_instance->getDb(), 'Checks default database driver.');
 
-	/**
-	 * Tests the __construct method.
-	 *
-	 * @return  void
-	 *
-	 * @since   34
-	 */
-	public function testChecksInjectedDatabaseDriver()
-	{
 		// Create a new datbase mock for injection.
 		$db = $this->getMockDatabase();
 		$class = new DatabaseModel(null, $db);
-		$this->assertSame($db, $class->getDb());
+		$this->assertSame($db, $class->getDb(), 'Checks injected database driver.');
 	}
 
 	/**
@@ -56,6 +47,7 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JModelDatabase::getDb
 	 * @since   12.1
 	 */
 	public function testGetDb()
@@ -71,6 +63,7 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JModelDatabase::setDb
 	 * @since   12.1
 	 */
 	public function testSetDb()
@@ -86,6 +79,7 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JModelDatabase::loadDb
 	 * @since   12.1
 	 */
 	public function testLoadDb()

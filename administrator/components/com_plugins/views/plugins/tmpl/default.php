@@ -50,9 +50,9 @@ $sortFields = $this->getSortFields();
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
-	<div id="j-main-container" class="span10">
+	<div id="main-container" class="span10">
 <?php else : ?>
-	<div id="j-main-container">
+	<div id="main-container">
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">

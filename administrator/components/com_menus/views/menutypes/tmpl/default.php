@@ -45,4 +45,4 @@ $document = JFactory::getDocument();
 		<?php echo JHtml::_('bootstrap.endSlide'); ?>
 	<?php endforeach; ?>
 	<?php echo JHtml::_('bootstrap.endSlide'); ?>
-<?php echo JHtml::_('bootstrap.endAccordion');
+<?php echo JHtml::_('bootstrap.endAccordion'); ?>

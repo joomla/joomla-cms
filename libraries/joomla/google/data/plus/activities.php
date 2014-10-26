@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google+ data class for the Joomla Platform.
  *
- * @since  12.3
+ * @package     Joomla.Platform
+ * @subpackage  Google
+ * @since       1234
  */
 class JGoogleDataPlusActivities extends JGoogleData
 {
@@ -22,7 +24,7 @@ class JGoogleDataPlusActivities extends JGoogleData
 	 * @param   JRegistry    $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   12.3
+	 * @since   1234
 	 */
 	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
@@ -47,7 +49,7 @@ class JGoogleDataPlusActivities extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   1234
 	 */
 	public function listActivities($userId, $collection, $fields = null, $max = 10, $token = null, $alt = null)
 	{
@@ -101,7 +103,7 @@ class JGoogleDataPlusActivities extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   1234
 	 */
 	public function getActivity($id, $fields = null, $alt = null)
 	{
@@ -145,7 +147,7 @@ class JGoogleDataPlusActivities extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   1234
 	 */
 	public function search($query, $fields = null, $language = null, $max = 10, $order = null, $token = null)
 	{

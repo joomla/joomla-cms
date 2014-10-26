@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQLite database iterator.
  *
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       12.1
  */
 class JDatabaseIteratorSqlite extends JDatabaseIteratorPdo
 {

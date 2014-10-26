@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a button to render an HTML element in a slider container
  *
- * @since  3.0
+ * @package     Joomla.Libraries
+ * @subpackage  Toolbar
+ * @since       3.0
  */
 class JToolbarButtonSlider extends JToolbarButton
 {

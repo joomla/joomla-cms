@@ -47,10 +47,17 @@ class JArchiveGzipTest extends JArchiveTestCase
 		if (!JArchiveGzip::isSupported())
 		{
 			$this->markTestSkipped('Gzip files can not be extracted.');
+
+			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo-gz.png.gz', $this->outputPath . '/logo-gz.png');
-		$this->assertTrue(is_file($this->outputPath . '/logo-gz.png'));
+		$this->object->extract(__DIR__ . '/logo.gz', static::$outputPath . '/logo-gz.png');
+		$this->assertTrue(is_file(static::$outputPath . '/logo-gz.png'));
+
+		if (is_file(static::$outputPath . '/logo-gz.png'))
+		{
+			unlink(static::$outputPath . '/logo-gz.png');
+		}
 	}
 
 	/**
@@ -63,10 +70,17 @@ class JArchiveGzipTest extends JArchiveTestCase
 		if (!JArchiveGzip::isSupported())
 		{
 			$this->markTestSkipped('Gzip files can not be extracted.');
+
+			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo-gz.png.gz', $this->outputPath . '/logo-gz.png', array('use_streams' => true));
-		$this->assertTrue(is_file($this->outputPath . '/logo-gz.png'));
+		$this->object->extract(__DIR__ . '/logo.gz', static::$outputPath . '/logo-gz.png', array('use_streams' => true));
+		$this->assertTrue(is_file(static::$outputPath . '/logo-gz.png'));
+
+		if (is_file(static::$outputPath . '/logo-gz.png'))
+		{
+			unlink(static::$outputPath . '/logo-gz.png');
+		}
 	}
 
 	/**

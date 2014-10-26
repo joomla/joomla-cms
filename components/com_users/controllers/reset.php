@@ -21,8 +21,6 @@ class UsersControllerReset extends UsersController
 	/**
 	 * Method to request a password reset.
 	 *
-	 * @return  boolean
-	 *
 	 * @since   1.6
 	 */
 	public function request()
@@ -57,7 +55,6 @@ class UsersControllerReset extends UsersController
 
 			// Go back to the request form.
 			$this->setRedirect(JRoute::_($route, false), $message, 'error');
-
 			return false;
 		}
 		elseif ($return === false)
@@ -71,7 +68,6 @@ class UsersControllerReset extends UsersController
 			// Go back to the request form.
 			$message = JText::sprintf('COM_USERS_RESET_REQUEST_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
-
 			return false;
 		}
 		else
@@ -84,15 +80,12 @@ class UsersControllerReset extends UsersController
 
 			// Proceed to step two.
 			$this->setRedirect(JRoute::_($route, false));
-
 			return true;
 		}
 	}
 
 	/**
 	 * Method to confirm the password request.
-	 *
-	 * @return  boolean
 	 *
 	 * @access	public
 	 * @since   1.6
@@ -129,7 +122,6 @@ class UsersControllerReset extends UsersController
 
 			// Go back to the confirm form.
 			$this->setRedirect(JRoute::_($route, false), $message, 'error');
-
 			return false;
 		}
 		elseif ($return === false)
@@ -143,7 +135,6 @@ class UsersControllerReset extends UsersController
 			// Go back to the confirm form.
 			$message = JText::sprintf('COM_USERS_RESET_CONFIRM_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
-
 			return false;
 		}
 		else
@@ -156,15 +147,12 @@ class UsersControllerReset extends UsersController
 
 			// Proceed to step three.
 			$this->setRedirect(JRoute::_($route, false));
-
 			return true;
 		}
 	}
 
 	/**
 	 * Method to complete the password reset process.
-	 *
-	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */

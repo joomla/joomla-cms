@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi export driver.
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       11.1
  */
 class JDatabaseExporterMysqli extends JDatabaseExporter
 {

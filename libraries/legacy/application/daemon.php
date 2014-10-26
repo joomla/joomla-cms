@@ -14,6 +14,8 @@ JLog::add('JDaemon has been renamed to JApplicationDaemon.', JLog::WARNING, 'dep
 /**
  * Backward Compatability Stub for JApplicationDaemon
  *
+ * @package     Joomla.Legacy
+ * @subpackage  Application
  * @since       11.1
  * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationDaemon instead.
  * @codeCoverageIgnore

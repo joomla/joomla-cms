@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML helper class for rendering manipulated strings.
  *
- * @since  1.6
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       1.6
  */
 abstract class JHtmlString
 {

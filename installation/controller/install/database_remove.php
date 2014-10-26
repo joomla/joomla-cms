@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Controller class to remove the old database for the Joomla Installer.
  *
- * @since  3.1
+ * @package     Joomla.Installation
+ * @subpackage  Controller
+ * @since       3.1
  */
 class InstallationControllerInstallDatabase_remove extends InstallationControllerInstallDatabase_backup
 {

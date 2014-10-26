@@ -15,7 +15,9 @@ defined('JPATH_PLATFORM') or die;
  * A class providing basic routing for urls that are for content types found in
  * the #__content_types table and rows found in the #__ucm_content table.
  *
- * @since  3.1
+ * @package     Joomla.Libraries
+ * @subpackage  Helper
+ * @since       3.1
  */
 class JHelperRoute
 {

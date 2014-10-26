@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Tags table
  *
- * @since  3.1
+ * @package     Joomla.Libraries
+ * @subpackage  Table
+ * @since       3.1
  */
 class JTableContenttype extends JTable
 {

@@ -12,8 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL database iterator.
  *
- * @see    http://dev.mysql.com/doc/
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @see         http://dev.mysql.com/doc/
+ * @since       12.1
  */
 class JDatabaseIteratorMysql extends JDatabaseIterator
 {

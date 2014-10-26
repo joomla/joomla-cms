@@ -14,7 +14,9 @@ JFormHelper::loadFieldClass('groupedlist');
 /**
  * Form Field class for the Joomla Platform.
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldTimezone extends JFormFieldGroupedList
 {

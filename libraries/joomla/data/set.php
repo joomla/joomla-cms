@@ -13,7 +13,9 @@ defined('JPATH_PLATFORM') or die;
  * JDataSet is a collection class that allows the developer to operate on a set of JData objects as if they were in a
  * typical PHP array.
  *
- * @since  12.3
+ * @package     Joomla.Platform
+ * @subpackage  Data
+ * @since       12.3
  */
 class JDataSet implements JDataDumpable, ArrayAccess, Countable, Iterator
 {

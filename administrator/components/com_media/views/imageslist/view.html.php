@@ -16,15 +16,6 @@ defined('_JEXEC') or die;
  */
 class MediaViewImagesList extends JViewLegacy
 {
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
-	 *
-	 * @since   1.0
-	 */
 	public function display($tpl = null)
 	{
 		// Do not allow cache
@@ -33,9 +24,7 @@ class MediaViewImagesList extends JViewLegacy
 		$lang	= JFactory::getLanguage();
 
 		JHtml::_('stylesheet', 'media/popup-imagelist.css', array(), true);
-
-		if ($lang->isRTL())
-		{
+		if ($lang->isRTL()) {
 			JHtml::_('stylesheet', 'media/popup-imagelist_rtl.css', array(), true);
 		}
 
@@ -54,16 +43,7 @@ class MediaViewImagesList extends JViewLegacy
 		parent::display($tpl);
 	}
 
-	/**
-	 * Set the active folder
-	 *
-	 * @param   integer  $index  Folder position
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function setFolder($index = 0)
+	function setFolder($index = 0)
 	{
 		if (isset($this->folders[$index]))
 		{
@@ -75,16 +55,7 @@ class MediaViewImagesList extends JViewLegacy
 		}
 	}
 
-	/**
-	 * Set the active image
-	 *
-	 * @param   integer  $index  Image position
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function setImage($index = 0)
+	function setImage($index = 0)
 	{
 		if (isset($this->images[$index]))
 		{

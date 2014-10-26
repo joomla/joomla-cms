@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * XCache session storage handler
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Session
+ * @since       11.1
  */
 class JSessionStorageXcache extends JSessionStorage
 {

@@ -14,7 +14,9 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/repos/users/followers
  *
- * @since  12.3
+ * @package     Joomla.Platform
+ * @subpackage  GitHub.Users
+ * @since       12.3
  */
 class JGithubPackageUsersFollowers extends JGithubPackage
 {

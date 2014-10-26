@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       11.1
  */
 class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimitable
 {

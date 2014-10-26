@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTTP client class for connecting to a GitHub instance.
  *
- * @since  11.3
+ * @package     Joomla.Platform
+ * @subpackage  GitHub
+ * @since       11.3
  */
 class JGithubHttp extends JHttp
 {

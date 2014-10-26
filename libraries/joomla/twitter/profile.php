@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Profile class for the Joomla Platform.
  *
- * @since  12.3
+ * @package     Joomla.Platform
+ * @subpackage  Twitter
+ * @since       12.3
  */
 class JTwitterProfile extends JTwitterObject
 {

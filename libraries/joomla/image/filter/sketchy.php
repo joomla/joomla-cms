@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Image Filter class to make an image appear "sketchy".
  *
- * @since  11.3
+ * @package     Joomla.Platform
+ * @subpackage  Image
+ * @since       11.3
  */
 class JImageFilterSketchy extends JImageFilter
 {

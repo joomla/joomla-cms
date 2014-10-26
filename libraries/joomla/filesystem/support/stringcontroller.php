@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * String Controller
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  FileSystem
+ * @since       11.1
  */
 class JStringController
 {

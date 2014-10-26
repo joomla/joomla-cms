@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Deprecated class placeholder.  You should use JEventDispatcher instead.
  *
+ * @package     Joomla.Legacy
+ * @subpackage  Dispatcher
  * @since       11.1
  * @deprecated  12.3 (Platform) & 4.0 (CMS)
  * @codeCoverageIgnore

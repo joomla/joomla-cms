@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCategories Class.
  *
- * @since  11.1
+ * @package     Joomla.Legacy
+ * @subpackage  Categories
+ * @since       11.1
  */
 class JCategories
 {
@@ -366,7 +368,9 @@ class JCategories
 /**
  * Helper class to load Categorytree
  *
- * @since  11.1
+ * @package     Joomla.Legacy
+ * @subpackage  Categories
+ * @since       11.1
  */
 class JCategoryNode extends JObject
 {

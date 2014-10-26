@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * User class.  Handles all application interaction with a user
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  User
+ * @since       11.1
  */
 class JUser extends JObject
 {
@@ -250,8 +252,9 @@ class JUser extends JObject
 		{
 			if (!$id = JUserHelper::getUserId($identifier))
 			{
-				// If the $identifier doesn't match with any id, just return an empty JUser.
-				return new JUser;
+				JLog::add(JText::sprintf('JLIB_USER_ERROR_ID_NOT_EXISTS', $identifier), JLog::WARNING, 'jerror');
+
+				return false;
 			}
 		}
 		else

@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * The HTML Joomla Core Pre-Install View
  *
- * @since  3.1
+ * @package     Joomla.Installation
+ * @subpackage  View
+ * @since       3.1
  */
 class InstallationViewPreinstallHtml extends InstallationViewDefault
 {

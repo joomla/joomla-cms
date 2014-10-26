@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extended Utility class for all HTML drawing classes.
  *
- * @since  1.6
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       1.6
  */
 abstract class JHtmlAccess
 {

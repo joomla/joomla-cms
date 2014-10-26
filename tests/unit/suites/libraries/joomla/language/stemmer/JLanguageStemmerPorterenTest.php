@@ -11,6 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Language
+ * @since       11.1
  */
 class JLanguageStemmerPorterenTest extends PHPUnit_Framework_TestCase
 {
@@ -27,6 +28,8 @@ class JLanguageStemmerPorterenTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->object = new JLanguageStemmerPorteren;
 	}
 
@@ -35,7 +38,7 @@ class JLanguageStemmerPorterenTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	public function dataWords()
+	public function testData()
 	{
 		return array(
 			array('Car', 'Car', 'en'),
@@ -60,17 +63,20 @@ class JLanguageStemmerPorterenTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @param   string $token
-	 * @param   string $result
-	 * @param   string $lang
+	 * Test...
 	 *
-	 * @dataProvider dataWords
+	 * @param   string  $token   @todo
+	 * @param   string  $result  @todo
+	 * @param   string  $lang    @todo
+	 *
+	 * @covers JLanguageStemmerPorteren::stem
+	 * @covers JLanguageStemmerPorteren::<!public>
+	 * @dataProvider testData
+	 *
+	 * @return void
 	 */
 	public function testStem($token, $result, $lang)
 	{
-		$this->assertEquals(
-			$result,
-			$this->object->stem($token, $lang)
-		);
+		$this->assertEquals($result, $this->object->stem($token, $lang));
 	}
 }

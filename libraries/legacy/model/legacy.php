@@ -15,7 +15,9 @@ defined('JPATH_PLATFORM') or die;
  * Acts as a Factory class for application specific objects and
  * provides many supporting API functions.
  *
- * @since  12.2
+ * @package     Joomla.Legacy
+ * @subpackage  Model
+ * @since       12.2
  */
 abstract class JModelLegacy extends JObject
 {

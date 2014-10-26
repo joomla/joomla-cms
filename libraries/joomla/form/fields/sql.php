@@ -14,7 +14,9 @@ JFormHelper::loadFieldClass('list');
 /**
  * Supports an custom SQL select list
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldSQL extends JFormFieldList
 {

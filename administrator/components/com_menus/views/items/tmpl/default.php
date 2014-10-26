@@ -120,21 +120,18 @@ $assoc		= JLanguageAssociations::isEnabled();
 					$canEdit    = $user->authorise('core.edit',       'com_menus');
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
 					$canChange  = $user->authorise('core.edit.state', 'com_menus') && $canCheckin;
-
 					// Get the parents of item for sorting
 					if ($item->level > 1)
 					{
 						$parentsStr = "";
 						$_currentParentId = $item->parent_id;
-						$parentsStr = " " . $_currentParentId;
-
+						$parentsStr = " ".$_currentParentId;
 						for ($j = 0; $j < $item->level; $j++)
 						{
 							foreach ($this->ordering as $k => $v)
 							{
 								$v = implode("-", $v);
 								$v = "-" . $v . "-";
-
 								if (strpos($v, "-" . $_currentParentId . "-") !== false)
 								{
 									$parentsStr .= " " . $k;
@@ -153,7 +150,6 @@ $assoc		= JLanguageAssociations::isEnabled();
 						<td class="order nowrap center hidden-phone">
 							<?php
 							$iconClass = '';
-
 							if (!$canChange)
 							{
 								$iconClass = ' inactive';
@@ -182,7 +178,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);?>">
+								<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&id='.(int) $item->id);?>">
 									<?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
@@ -209,7 +205,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 								<?php if ($item->language == '*' || $item->home == '0'):?>
 									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
 								<?php elseif ($canChange):?>
-									<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1');?>">
+									<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]='.$item->id.'&'.JSession::getFormToken().'=1');?>">
 										<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
 									</a>
 								<?php else:?>

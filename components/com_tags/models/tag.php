@@ -35,8 +35,7 @@ class TagsModelTag extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see     JController
 	 * @since   3.1
 	 */
@@ -88,8 +87,7 @@ class TagsModelTag extends JModelList
 			foreach ($items as $item)
 			{
 				$explodedTypeAlias = explode('.', $item->type_alias);
-				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id='
-					. $item->content_item_id . ':' . $item->core_alias;
+				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $item->content_item_id . ':' . $item->core_alias;
 
 				// Get display date
 				switch ($this->state->params->get('tag_list_show_date'))
@@ -126,6 +124,7 @@ class TagsModelTag extends JModelList
 	 */
 	protected function getListQuery()
 	{
+
 		$tagId  = $this->getState('tag.id') ? : '';
 
 		$typesr = $this->getState('tag.typesr');
@@ -255,10 +254,9 @@ class TagsModelTag extends JModelList
 	/**
 	 * Method to get tag data for the current tag or tags
 	 *
-	 * @param   integer  $pk  An optional ID
+	 * @param   integer  An optional ID
 	 *
 	 * @return  object
-	 *
 	 * @since   3.1
 	 */
 	public function getItem($pk = null)
@@ -276,7 +274,6 @@ class TagsModelTag extends JModelList
 			$table = JTable::getInstance('Tag', 'TagsTable');
 
 			$idsArray = explode(',', $id);
-
 			// Attempt to load the rows into an array.
 			foreach ($idsArray as $id)
 			{
@@ -300,7 +297,6 @@ class TagsModelTag extends JModelList
 				catch (RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
-
 					return false;
 				}
 			}
@@ -312,7 +308,7 @@ class TagsModelTag extends JModelList
 	/**
 	 * Increment the hit counter.
 	 *
-	 * @param   integer  $pk  Optional primary key of the article to increment.
+	 * @param   integer  Optional primary key of the article to increment.
 	 *
 	 * @return  boolean  True if successful; false otherwise and internal error set.
 	 *

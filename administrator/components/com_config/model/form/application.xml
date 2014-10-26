@@ -386,20 +386,6 @@
 			size="30" />
 
 		<field
-				name="massmailoff"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
-				description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
-				filter="integer">
-			<option
-					value="1">JYES</option>
-			<option
-					value="0">JNO</option>
-		</field>
-
-		<field
 			name="sendmail"
 			type="text"
 			default="/usr/sbin/sendmail"

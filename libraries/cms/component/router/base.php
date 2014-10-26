@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Base component routing class
  *
- * @since  3.3
+ * @package     Joomla.Libraries
+ * @subpackage  Component
+ * @since       3.3
  */
 abstract class JComponentRouterBase implements JComponentRouterInterface
 {

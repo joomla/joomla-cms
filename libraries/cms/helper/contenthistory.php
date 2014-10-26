@@ -13,7 +13,9 @@ defined('JPATH_PLATFORM') or die;
  * Versions helper class, provides methods to perform various tasks relevant
  * versioning of content.
  *
- * @since  3.2
+ * @package     Joomla.Libraries
+ * @subpackage  Helper
+ * @since       3.2
  */
 class JHelperContenthistory extends JHelper
 {

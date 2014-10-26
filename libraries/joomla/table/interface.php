@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * table class interface.
  *
- * @since  3.2
+ * @package     Joomla.Libraries
+ * @subpackage  Table
+ * @since       3.2
  */
 interface JTableInterface
 {

@@ -22,7 +22,7 @@ abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
 	 * @var    string
 	 * @since  3.1
 	 */
-	protected $outputPath;
+	protected static $outputPath;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -36,16 +36,11 @@ abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->outputPath = __DIR__ . '/output';
+		static::$outputPath = __DIR__ . '/output';
 
-		if (!is_dir($this->outputPath))
+		if (!is_dir(static::$outputPath))
 		{
-			mkdir($this->outputPath, 0777);
-		}
-
-		if (! is_dir($this->outputPath))
-		{
-			$this->markTestSkipped('We can not create the output dir, so skip all tests');
+			mkdir(static::$outputPath, 0777);
 		}
 	}
 
@@ -59,14 +54,9 @@ abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
-		if (is_dir($this->outputPath))
+		if (!is_dir(static::$outputPath))
 		{
-			// delete files in output directory
-			foreach(glob("{$this->outputPath}/*") as $file)
-			{
-				unlink($file);
-			}
-			rmdir($this->outputPath);
+			rmdir(static::$outputPath);
 		}
 
 		parent::tearDown();

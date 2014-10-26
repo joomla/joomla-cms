@@ -15,7 +15,9 @@ defined('JPATH_PLATFORM') or die;
  * This class serves to provide the Joomla Platform with a common interface to access
  * response variables for e.g. Ajax requests.
  *
- * @since  3.1
+ * @package     Joomla.Libraries
+ * @subpackage  Response
+ * @since       3.1
  */
 class JResponseJson
 {

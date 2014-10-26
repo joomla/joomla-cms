@@ -26,13 +26,27 @@ class JArchiveTest extends JArchiveTestCase
 	 */
 	public function testExtractZip()
 	{
+		if (!is_dir(static::$outputPath))
+		{
+			$this->markTestSkipped("Couldn't create folder.");
+
+			return;
+		}
+
 		if (!JArchiveZip::isSupported())
 		{
 			$this->markTestSkipped('ZIP files can not be extracted.');
+
+			return;
 		}
 
-		JArchive::extract(__DIR__ . '/logo.zip', $this->outputPath);
-		$this->assertFileExists($this->outputPath . '/logo-zip.png');
+		JArchive::extract(__DIR__ . '/logo.zip', static::$outputPath);
+		$this->assertTrue(is_file(static::$outputPath . '/logo-zip.png'));
+
+		if (is_file(static::$outputPath . '/logo-zip.png'))
+		{
+			unlink(static::$outputPath . '/logo-zip.png');
+		}
 	}
 
 	/**
@@ -42,13 +56,27 @@ class JArchiveTest extends JArchiveTestCase
 	 */
 	public function testExtractTar()
 	{
+		if (!is_dir(static::$outputPath))
+		{
+			$this->markTestSkipped("Couldn't create folder.");
+
+			return;
+		}
+
 		if (!JArchiveTar::isSupported())
 		{
 			$this->markTestSkipped('Tar files can not be extracted.');
+
+			return;
 		}
 
-		JArchive::extract(__DIR__ . '/logo.tar', $this->outputPath);
-		$this->assertFileExists($this->outputPath . '/logo-tar.png');
+		JArchive::extract(__DIR__ . '/logo.tar', static::$outputPath);
+		$this->assertTrue(is_file(static::$outputPath . '/logo-tar.png'));
+
+		if (is_file(static::$outputPath . '/logo-tar.png'))
+		{
+			unlink(static::$outputPath . '/logo-tar.png');
+		}
 	}
 
 	/**
@@ -58,17 +86,34 @@ class JArchiveTest extends JArchiveTestCase
 	 */
 	public function testExtractGzip()
 	{
+		if (!is_dir(static::$outputPath))
+		{
+			$this->markTestSkipped("Couldn't create folder.");
+
+			return;
+		}
+
+		if (!is_writable(static::$outputPath) || !is_writable(JFactory::getConfig()->get('tmp_path')))
+		{
+			$this->markTestSkipped("Folder not writable.");
+
+			return;
+		}
+
 		if (!JArchiveGzip::isSupported())
 		{
 			$this->markTestSkipped('Gzip files can not be extracted.');
+
+			return;
 		}
 
-		// we need a configuration with a tmp_path set
-		$config = JFactory::$config;
-		$config->set('tmp_path', __DIR__ . '/output');
+		JArchive::extract(__DIR__ . '/logo.gz', static::$outputPath);
+		$this->assertTrue(is_file(static::$outputPath . '/logo-gz.png'));
 
-		JArchive::extract(__DIR__ . '/logo-gz.png.gz', $this->outputPath);
-		$this->assertFileExists($this->outputPath . '/logo-gz.png');
+		if (is_file(static::$outputPath . '/logo-gz.png'))
+		{
+			unlink(static::$outputPath . '/logo-gz.png');
+		}
 	}
 
 	/**
@@ -78,85 +123,61 @@ class JArchiveTest extends JArchiveTestCase
 	 */
 	public function testExtractBzip2()
 	{
+		if (!is_dir(static::$outputPath))
+		{
+			$this->markTestSkipped("Couldn't create folder.");
+
+			return;
+		}
+
+		if (!is_writable(static::$outputPath) || !is_writable(JFactory::getConfig()->get('tmp_path')))
+		{
+			$this->markTestSkipped("Folder not writable.");
+
+			return;
+		}
+
 		if (!JArchiveBzip2::isSupported())
 		{
 			$this->markTestSkipped('Bzip2 files can not be extracted.');
+
+			return;
 		}
 
-		// we need a configuration with a tmp_path set
-		$config = JFactory::$config;
-		$config->set('tmp_path', __DIR__ . '/output');
+		JArchive::extract(__DIR__ . '/logo-bz2.png.bz2', static::$outputPath);
+		$this->assertTrue(is_file(static::$outputPath . '/logo-bz2.png'));
 
-		JArchive::extract(__DIR__ . '/logo-bz2.png.bz2', $this->outputPath);
-		$this->assertFileExists($this->outputPath . '/logo-bz2.png');
+		if (is_file(static::$outputPath . '/logo-bz2.png'))
+		{
+			unlink(static::$outputPath . '/logo-bz2.png');
+		}
 	}
 
 	/**
-	 * Tests extracting an unknown type
-	 *
-	 * @expectedException  InvalidArgumentException
-	 *
-	 * @return  void
-	 */
-	public function testExtractUnknownType()
-	{
-
-		JArchive::extract(__DIR__ . '/unknown.type', $this->outputPath);
-	}
-
-
-	/**
-	 * Test if Zip adapter is available
+	 * Test...
 	 *
 	 * @return  mixed
 	 */
-	public function testGetZipAdapter()
+	public function testGetAdapter()
 	{
 		$zip = JArchive::getAdapter('zip');
 		$this->assertInstanceOf('JArchiveZip', $zip);
-	}
-
-	/**
-	 * Test if Bzip2 adapter is available
-	 *
-	 * @return  mixed
-	 */
-	public function testGetBzip2Adapter()
-	{
 		$bzip2 = JArchive::getAdapter('bzip2');
 		$this->assertInstanceOf('JArchiveBzip2', $bzip2);
-	}
-
-	/**
-	 * Test if Gzip adapter is available
-	 *
-	 * @return  mixed
-	 */
-	public function testGetGzipAdapter()
-	{
 		$gzip = JArchive::getAdapter('gzip');
 		$this->assertInstanceOf('JArchiveGzip', $gzip);
-	}
-
-	/**
-	 * Test if tar adapter is available
-	 *
-	 * @return  mixed
-	 */
-	public function testGetTarAdapter()
-	{
 		$tar = JArchive::getAdapter('tar');
 		$this->assertInstanceOf('JArchiveTar', $tar);
 	}
 
 	/**
-	 * Test if the method throws an exception if the adapter is unknown
+	 * Test...
 	 *
 	 * @expectedException  UnexpectedValueException
 	 *
 	 * @return  mixed
 	 */
-	public function testIfItThrowsAnExceptionWhenAdapterIsNotKnown()
+	public function testGetAdapterException()
 	{
 		JArchive::getAdapter('unknown');
 	}

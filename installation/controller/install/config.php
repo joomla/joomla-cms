@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Controller class to write the config file for the Joomla Installer.
  *
- * @since  3.1
+ * @package     Joomla.Installation
+ * @subpackage  Controller
+ * @since       3.1
  */
 class InstallationControllerInstallConfig extends JControllerBase
 {

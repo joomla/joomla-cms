@@ -217,9 +217,6 @@ class ContactModelContact extends JModelAdmin
 			// New category ID
 			$this->table->catid = $categoryId;
 
-			// Unpublish because we are making a copy
-			$this->table->published = 0;
-
 			// TODO: Deal with ordering?
 
 			// Check the row.

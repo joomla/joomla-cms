@@ -46,11 +46,6 @@ class TestMockApplicationBase
 	 */
 	public static function addBehaviours($test, $mockObject, $options)
 	{
-		$test->assignMockReturns(
-			$mockObject,
-			array('close' => true)
-		);
-
 		return $mockObject;
 	}
 

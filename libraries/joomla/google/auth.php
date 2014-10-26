@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google authentication class abstract
  *
- * @since  12.3
+ * @package     Joomla.Platform
+ * @subpackage  Google
+ * @since       12.3
  */
 abstract class JGoogleAuth
 {

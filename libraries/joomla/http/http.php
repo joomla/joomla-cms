@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTTP client class.
  *
- * @since  11.3
+ * @package     Joomla.Platform
+ * @subpackage  HTTP
+ * @since       11.3
  */
 class JHttp
 {

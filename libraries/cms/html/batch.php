@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extended Utility class for batch processing widgets.
  *
- * @since  1.7
+ * @package     Joomla.Libraries
+ * @subpackage  HTML
+ * @since       1.7
  */
 abstract class JHtmlBatch
 {

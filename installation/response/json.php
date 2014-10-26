@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * JSON Response class for the Joomla Installer.
  *
- * @since  3.1
+ * @package     Joomla.Installation
+ * @subpackage  Response
+ * @since       3.1
  */
 class InstallationResponseJson
 {

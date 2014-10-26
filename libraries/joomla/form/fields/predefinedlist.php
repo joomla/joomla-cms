@@ -14,7 +14,9 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field to load a list of predefined values
  *
- * @since  3.2
+ * @package     Joomla.Libraries
+ * @subpackage  Form
+ * @since       3.2
  */
 abstract class JFormFieldPredefinedList extends JFormFieldList
 {

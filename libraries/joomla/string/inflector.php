@@ -14,7 +14,9 @@ defined('JPATH_PLATFORM') or die;
  *
  * The Inflector transforms words
  *
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  String
+ * @since       12.1
  */
 class JStringInflector
 {

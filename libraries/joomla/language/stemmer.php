@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Stemmer base class.
  *
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  Language
+ * @since       12.1
  */
 abstract class JLanguageStemmer
 {

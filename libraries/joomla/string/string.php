@@ -47,7 +47,9 @@ jimport('phputf8.strcasecmp');
  * Wraps the phputf8 library
  * All functions assume the validity of utf-8 strings.
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  String
+ * @since       11.1
  */
 abstract class JString
 {

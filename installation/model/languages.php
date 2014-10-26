@@ -15,7 +15,9 @@ jimport('legacy.component.helper');
 /**
  * Language Installer model for the Joomla Core Installer.
  *
- * @since  3.1
+ * @package     Joomla.Installation
+ * @subpackage  Model
+ * @since       3.1
  */
 class InstallationModelLanguages extends JModelBase
 {

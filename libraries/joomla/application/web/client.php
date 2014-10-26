@@ -25,7 +25,9 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  array    $detection       An array of flags determining whether or not a detection routine has been run.
  * @property-read  boolean  $robot           True if the web client is a robot
  *
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since       12.1
  */
 class JApplicationWebClient
 {

@@ -18,7 +18,9 @@ if (!defined('JPATH_ROOT'))
 /**
  * A Path handling class
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  FileSystem
+ * @since       11.1
  */
 class JPath
 {

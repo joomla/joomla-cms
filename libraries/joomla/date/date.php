@@ -26,7 +26,9 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  string   $week          W - Numeric representation of the day of the week.
  * @property-read  string   $year          Y - A full numeric representation of a year, 4 digits.
  *
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Date
+ * @since       11.1
  */
 class JDate extends DateTime
 {

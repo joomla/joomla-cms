@@ -12,8 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
- * @link   http://docs.joomla.org/JTableNested
- * @since  11.1
+ * @package     Joomla.Platform
+ * @subpackage  Table
+ * @link        http://docs.joomla.org/JTableNested
+ * @since       11.1
  */
 class JTableNested extends JTable
 {

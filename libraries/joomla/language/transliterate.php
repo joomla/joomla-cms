@@ -12,8 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to transliterate strings
  *
- * @since  11.1
- * @note   Port of phputf8's utf8_accents_to_ascii()
+ * @package     Joomla.Platform
+ * @subpackage  Language
+ * @since       11.1
+ * @note        Port of phputf8's utf8_accents_to_ascii()
  */
 class JLanguageTransliterate
 {

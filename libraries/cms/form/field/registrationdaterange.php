@@ -14,7 +14,9 @@ JFormHelper::loadFieldClass('predefinedlist');
 /**
  * Field to show a list of available user active statuses
  *
- * @since  3.2
+ * @package     Joomla.Libraries
+ * @subpackage  Form
+ * @since       3.2
  */
 class JFormFieldRegistrationDateRange extends JFormFieldPredefinedList
 {

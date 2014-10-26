@@ -25,10 +25,7 @@ class UsersViewReset extends JViewLegacy
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string  $tpl  The template file to include
-	 *
-	 * @return  mixed
-	 *
+	 * @param   string  The template file to include
 	 * @since   1.5
 	 */
 	public function display($tpl = null)
@@ -48,7 +45,7 @@ class UsersViewReset extends JViewLegacy
 		}
 		else
 		{
-			$formname = ucfirst($this->_name) . ucfirst($name) . 'Form';
+			$formname = ucfirst($this->_name).ucfirst($name).'Form';
 		}
 
 		// Get the view data.
@@ -60,11 +57,10 @@ class UsersViewReset extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode('<br />', $errors));
-
 			return false;
 		}
 
-		// Escape strings for HTML output
+		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
 		$this->prepareDocument();
@@ -74,8 +70,6 @@ class UsersViewReset extends JViewLegacy
 
 	/**
 	 * Prepares the document.
-	 *
-	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -88,7 +82,6 @@ class UsersViewReset extends JViewLegacy
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
-
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));

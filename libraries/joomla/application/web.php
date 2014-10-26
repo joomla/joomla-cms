@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Base class for a Joomla! Web application.
  *
- * @since  11.4
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since       11.4
  */
 class JApplicationWeb extends JApplicationBase
 {
@@ -75,25 +77,6 @@ class JApplicationWeb extends JApplicationBase
 	 * @since  11.3
 	 */
 	protected static $instance;
-
-	/**
-	 * A map of integer HTTP 1.1 response codes to the full HTTP Status for the headers.
-	 *
-	 * @var    object
-	 * @since  3.4
-	 * @see    http://tools.ietf.org/pdf/rfc7231.pdf
-	 */
-	private $responseMap = array(
-		300 => 'HTTP/1.1 300 Multiple Choices',
-		301 => 'HTTP/1.1 301 Moved Permanently',
-		302 => 'HTTP/1.1 302 Found',
-		303 => 'HTTP/1.1 303 See other',
-		304 => 'Not Modified',
-		305 => 'HTTP/1.1 305 Use Proxy',
-		306 => 'HTTP/1.1 306 (Unused)',
-		307 => 'HTTP/1.1 307 Temporary Redirect',
-		308 => 'Permanent Redirect'
-	);
 
 	/**
 	 * Class constructor.
@@ -473,14 +456,14 @@ class JApplicationWeb extends JApplicationBase
 	 * or "303 See Other" code in the header pointing to the new location. If the headers have already been
 	 * sent this will be accomplished using a JavaScript statement.
 	 *
-	 * @param   string   $url     The URL to redirect to. Can only be http/https URL.
-	 * @param   integer  $status  The HTTP 1.1 status code to be provided. 303 is assumed by default.
+	 * @param   string   $url    The URL to redirect to. Can only be http/https URL
+	 * @param   boolean  $moved  True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	public function redirect($url, $status = 303)
+	public function redirect($url, $moved = false)
 	{
 		// Import library dependencies.
 		jimport('phputf8.utils.ascii');
@@ -543,20 +526,8 @@ class JApplicationWeb extends JApplicationBase
 			}
 			else
 			{
-				// Check if we have a boolean for the status variable for compatability with old $move parameter
-				// @deprecated 4.0
-				if (is_bool($status))
-				{
-					$status = $status ? 301 : 303;
-				}
-
-				if (!is_int($status) && !isset($this->responseMap[$status]))
-				{
-					throw new \InvalidArgumentException('You have not supplied a valid HTTP 1.1 status code');
-				}
-
 				// All other cases use the more efficient HTTP header for redirection.
-				$this->header($this->responseMap[$status]);
+				$this->header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
 				$this->header('Location: ' . $url);
 				$this->header('Content-Type: text/html; charset=' . $this->charSet);
 			}

@@ -12,8 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Oracle database driver
  *
- * @see    http://php.net/pdo
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @see         http://php.net/pdo
+ * @since       12.1
  */
 class JDatabaseDriverOracle extends JDatabaseDriverPdo
 {

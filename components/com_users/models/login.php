@@ -22,18 +22,15 @@ class UsersModelLogin extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 *
+	 * @param   array  $data		An optional array of data for the form to interogate.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
-	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.login', 'login', array('load_data' => $loadData));
-
 		if (empty($form))
 		{
 			return false;
@@ -46,7 +43,6 @@ class UsersModelLogin extends JModelForm
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  array  The default data is an empty array.
-	 *
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -74,7 +70,6 @@ class UsersModelLogin extends JModelForm
 		{
 			$data['return'] = 'index.php?option=com_users&view=profile';
 		}
-
 		$app->setUserState('users.login.form.data', $data);
 
 		$this->preprocessData('com_users.login', $data);
@@ -85,9 +80,7 @@ class UsersModelLogin extends JModelForm
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * Calling getState in this method will result in recursion.
-	 *
-	 * @return  void
+	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @since   1.6
 	 */

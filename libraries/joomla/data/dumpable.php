@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * An interface to define if an object is dumpable.
  *
- * @since  12.3
+ * @package     Joomla.Platform
+ * @subpackage  Data
+ * @since       12.3
  */
 interface JDataDumpable
 {

@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extension object
  *
- * @since  3.1
+ * @package     Joomla.Libraries
+ * @subpackage  Installer
+ * @since       3.1
  */
 class JInstallerExtension extends JObject
 {
@@ -145,6 +147,8 @@ class JInstallerExtension extends JObject
 /**
  * Deprecated class placeholder. You should use JInstallerExtension instead.
  *
+ * @package     Joomla.Libraries
+ * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore

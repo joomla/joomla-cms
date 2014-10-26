@@ -46,7 +46,6 @@ class WeblinksViewForm extends JViewLegacy
 		if ($authorised !== true)
 		{
 			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
-
 			return false;
 		}
 
@@ -130,7 +129,7 @@ class WeblinksViewForm extends JViewLegacy
 			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
-		if ($this->params->get('robots'))
+			if ($this->params->get('robots'))
 		{
 			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
