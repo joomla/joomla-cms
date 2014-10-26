@@ -15,13 +15,13 @@ $dispatcher	= JEventDispatcher::getInstance();
 $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_doc, &$params));
 ?>
 		<li class="span2">
-			<input class="pull-left" type="checkbox" name="rm[]" value="<?php echo $this->_tmp_doc->name; ?>" />
+			<input class="pull-left" type="checkbox" name="rm[]" value="<?php echo $this->_tmp_doc->name; ?>" id="<?php echo $this->_tmp_doc->title; ?>" />
 			<?php if ($user->authorise('core.delete', 'com_media')):?>
 				<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;controller=media.delete.media&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->get('folder'); ?>&amp;rm[]=<?php echo $this->_tmp_doc->name; ?>" rel="<?php echo $this->_tmp_doc->name; ?>" title="<?php echo JText::_('JACTION_DELETE');?>">
-					<span class="label label-important">&#215;</span>
+					<i class="icon-delete" style="font-size: small; color: #CB0B0B;"></i>
 				</a>
 			<?php endif;?>
-			<article class="thumbnail center" >
+			<article class="thumbnail center" onclick="toggleCheckedStatus('<?php echo $this->_tmp_doc->title; ?>');">
 				<div class="height-20">
 					
 				</div>
@@ -31,7 +31,7 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 				</div>
 				<div class="height-20" title="<?php echo $this->_tmp_doc->name; ?>" >
 					
-					<?php echo JHtml::_('string.truncate', $this->_tmp_doc->name, 8, false); ?>
+					<?php echo JHtml::_('string.truncate', $this->_tmp_doc->name, 18, false); ?>
 					<div class="clearfix"></div>
 				</div>
 			</article>

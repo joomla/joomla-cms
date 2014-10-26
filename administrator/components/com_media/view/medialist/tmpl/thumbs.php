@@ -36,3 +36,17 @@ defined('_JEXEC') or die;
 		<?php echo JHtml::_('form.token'); ?>
 	</ul>
 </form>
+
+<script>
+function toggleCheckedStatus(item){
+	var checkbox = $(item);
+	checkbox.checked = !checkbox.checked
+}
+</script>
+
+<!-- Remove opacity set on close by template -->
+<style>
+.close {
+	opacity: 1;
+}
+</style>
