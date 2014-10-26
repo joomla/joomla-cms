@@ -122,7 +122,8 @@ class JFormFieldRepeatable extends JFormField
 
 		// Hidden input, where the main value is
 		$value = htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
-		$str[] = '<input type="hidden" name="' . $this->name . '" id="' . $this->id . '" value="' . $value . '"  class="form-field-repeatable" ' . implode(' ', $data) . ' />';
+		$str[] = '<input type="hidden" name="' . $this->name . '" id="' . $this->id . '" value="' . $value
+				. '"  class="form-field-repeatable" ' . implode(' ', $data) . ' />';
 
 		// Add scripts
 		JHtml::_('bootstrap.framework');
