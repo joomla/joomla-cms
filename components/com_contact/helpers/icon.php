@@ -35,7 +35,7 @@ class JHtmlIcon
 		}
 		else
 		{
-			$text = '&#160;' . JText::_('JGLOBAL_EMAIL');
+			$text =  JText::_('JGLOBAL_EMAIL');
 		}
 
 		$attribs['title']	= JText::_('JGLOBAL_EMAIL');
@@ -60,7 +60,7 @@ class JHtmlIcon
 		}
 		else
 		{
-			$text = JText::_('JGLOBAL_ICON_SEP') . '&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;' . JText::_('JGLOBAL_ICON_SEP');
+			$text = JText::_('JGLOBAL_ICON_SEP') .  JText::_('JGLOBAL_PRINT') .  JText::_('JGLOBAL_ICON_SEP');
 		}
 
 		$attribs['title']   = JText::_('JGLOBAL_PRINT');
@@ -79,7 +79,7 @@ class JHtmlIcon
 		}
 		else
 		{
-			$text = JText::_('JGLOBAL_ICON_SEP') .'&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;' . JText::_('JGLOBAL_ICON_SEP');
+			$text = JText::_('JGLOBAL_ICON_SEP') . JText::_('JGLOBAL_PRINT') .  JText::_('JGLOBAL_ICON_SEP');
 		}
 
 		return '<a href="#" onclick="window.print();return false;">' . $text . '</a>';
