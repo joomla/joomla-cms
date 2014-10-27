@@ -478,7 +478,7 @@ class CategoriesModelCategory extends JModelAdmin
 		if ($input->get('task') == 'save2copy')
 		{
 			$origTable = clone $this->getTable();
-			$origTable->load((int) $input->getInt('id'));
+			$origTable->load($input->getInt('id'));
 
 			if ($data['title'] == $origTable->title)
 			{
@@ -495,7 +495,6 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 			$data['published'] = 0;
 		}
-		
 
 		// Bind the data.
 		if (!$table->bind($data))
@@ -1187,7 +1186,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 	/**
 	 * Method to determine if a category association is available.
-	 * 
+	 *
 	 * @return  boolean True if a category association is available; false otherwise.
 	 */
 	public function getAssoc()

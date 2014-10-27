@@ -575,7 +575,7 @@ class BannersModelBanner extends JModelAdmin
 		if ($input->get('task') == 'save2copy')
 		{
 			$origTable = clone $this->getTable();
-			$origTable->load((int) $input->getInt('id'));
+			$origTable->load($input->getInt('id'));
 
 			if ($data['name'] == $origTable->name)
 			{

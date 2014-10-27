@@ -492,12 +492,12 @@ class ContactModelContact extends JModelAdmin
 	public function save($data)
 	{
 		$input = JFactory::getApplication()->input;
-		
+
 		// Alter the name for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
 			$origTable = clone $this->getTable();
-			$origTable->load((int) $input->getInt('id'));
+			$origTable->load($input->getInt('id'));
 
 			if ($data['name'] == $origTable->name)
 			{
