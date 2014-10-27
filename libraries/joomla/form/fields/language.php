@@ -45,10 +45,23 @@ class JFormFieldLanguage extends JFormFieldList
 			$client = 'site';
 		}
 
+		// Make sure the languages are sorted base on locale instead of random sorting
+		$languages = JLanguageHelper::createLanguageList($this->value, constant('JPATH_' . strtoupper($client)), true, true);
+		if (count($languages) > 1)
+		{
+			usort(
+				$languages,
+				function ($a, $b)
+				{
+					return strcmp($a["value"], $b["value"]);
+				}
+			);
+		}
+
 		// Merge any additional options in the XML definition.
 		$options = array_merge(
 			parent::getOptions(),
-			JLanguageHelper::createLanguageList($this->value, constant('JPATH_' . strtoupper($client)), true, true)
+			$languages
 		);
 
 		// Set the default value active language
