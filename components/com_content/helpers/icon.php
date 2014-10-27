@@ -42,12 +42,12 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = '<span class="icon-plus"></span>&#160;' . JText::_('JNEW') . '&#160;';
+				$text = '<span class="icon-plus"></span>' . JText::_('JNEW');
 			}
 		}
 		else
 		{
-			$text = JText::_('JNEW') . '&#160;';
+			$text = JText::_('JNEW');
 		}
 
 		// Add the button classes to the attribs array
@@ -97,7 +97,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = '<span class="icon-envelope"></span> ' . JText::_('JGLOBAL_EMAIL');
+				$text = '<span class="icon-envelope"></span>' . JText::_('JGLOBAL_EMAIL');
 			}
 		}
 		else
@@ -205,8 +205,8 @@ abstract class JHtmlIcon
 			}
 
 			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0)
-				. '"></span>&#160;'
-				. JText::_('JGLOBAL_EDIT') . '&#160;';
+				. '"></span>'
+				. JText::_('JGLOBAL_EDIT');
 		}
 
 		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
@@ -244,7 +244,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = '<span class="icon-print"></span>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;';
+				$text = '<span class="icon-print"></span>' . JText::_('JGLOBAL_PRINT');
 			}
 		}
 		else
@@ -280,7 +280,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = '<span class="icon-print"></span>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;';
+				$text = '<span class="icon-print"></span>' . JText::_('JGLOBAL_PRINT');
 			}
 		}
 		else
