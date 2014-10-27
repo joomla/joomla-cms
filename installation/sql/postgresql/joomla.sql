@@ -588,7 +588,7 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (420, 'plg_search_newsfeeds', 'plugin', 'newsfeeds', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","search_content":"1","search_archived":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (421, 'plg_search_weblinks', 'plugin', 'weblinks', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","search_content":"1","search_archived":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (422, 'plg_system_languagefilter', 'plugin', 'languagefilter', 'system', 0, 0, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 1, 0),
-(423, 'plg_system_p3p', 'plugin', 'p3p', 'system', 0, 1, 1, 0, '', '{"headers":"NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"}', '', '', 0, '1970-01-01 00:00:00', 2, 0),
+(423, 'plg_system_p3p', 'plugin', 'p3p', 'system', 0, 0, 1, 0, '', '{"headers":"NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"}', '', '', 0, '1970-01-01 00:00:00', 2, 0),
 (424, 'plg_system_cache', 'plugin', 'cache', 'system', 0, 0, 1, 1, '', '{"browsercache":"0","cachetime":"15"}', '', '', 0, '1970-01-01 00:00:00', 9, 0),
 (425, 'plg_system_debug', 'plugin', 'debug', 'system', 0, 1, 1, 0, '', '{"profile":"1","queries":"1","memory":"1","language_files":"1","language_strings":"1","strip-first":"1","strip-prefix":"","strip-suffix":""}', '', '', 0, '1970-01-01 00:00:00', 4, 0),
 (426, 'plg_system_log', 'plugin', 'log', 'system', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 5, 0),
@@ -1465,13 +1465,14 @@ INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description
 CREATE TABLE "#__redirect_links" (
   "id" serial NOT NULL,
   "old_url" varchar(255) NOT NULL,
-  "new_url" varchar(255) NOT NULL,
+  "new_url" varchar(255),
   "referer" varchar(150) NOT NULL,
   "comment" varchar(255) NOT NULL,
   "hits" bigint DEFAULT 0 NOT NULL,
   "published" smallint NOT NULL,
   "created_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "modified_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "header" INTEGER DEFAULT 301 NOT NULL,
   PRIMARY KEY ("id"),
   CONSTRAINT "#__redirect_links_idx_link_old" UNIQUE ("old_url")
 );
@@ -1738,6 +1739,13 @@ INSERT INTO "#__update_sites_extensions" ("update_site_id", "extension_id") VALU
 (2, 700),
 (3, 600),
 (4, 28);
+
+--
+-- Postgressql use the sequence instead of autoincrement,
+-- So, need to tell what is the last value of the sequnce after the 4
+--
+SELECT nextval('#__update_sites_update_site_id_seq');
+SELECT setval('#__update_sites_update_site_id_seq', 5, false);
 
 --
 -- Table: #__usergroups

@@ -975,7 +975,7 @@ SELECT 421, 'plg_search_weblinks', 'plugin', 'weblinks', 'search', 0, 1, 1, 0, '
 UNION ALL
 SELECT 422, 'plg_system_languagefilter', 'plugin', 'languagefilter', 'system', 0, 0, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 1, 0
 UNION ALL
-SELECT 423, 'plg_system_p3p', 'plugin', 'p3p', 'system', 0, 1, 1, 0, '', '{"headers":"NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"}', '', '', 0, '1900-01-01 00:00:00', 2, 0
+SELECT 423, 'plg_system_p3p', 'plugin', 'p3p', 'system', 0, 0, 1, 0, '', '{"headers":"NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"}', '', '', 0, '1900-01-01 00:00:00', 2, 0
 UNION ALL
 SELECT 424, 'plg_system_cache', 'plugin', 'cache', 'system', 0, 0, 1, 1, '', '{"browsercache":"0","cachetime":"15"}', '', '', 0, '1900-01-01 00:00:00', 9, 0
 UNION ALL
@@ -2376,13 +2376,14 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__redirect_links](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[old_url] [nvarchar](255) NOT NULL,
-	[new_url] [nvarchar](255) NOT NULL,
+	[new_url] [nvarchar](255),
 	[referer] [nvarchar](150) NOT NULL,
 	[comment] [nvarchar](255) NOT NULL,
 	[hits] [bigint] NOT NULL DEFAULT 0,
 	[published] [smallint] NOT NULL,
 	[created_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[modified_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[header] [smallint] NOT NULL DEFAULT 301,
  CONSTRAINT [PK_#__redirect_links_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC

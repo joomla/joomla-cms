@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.framework');
+JHtml::_('behavior.core');
+JHtml::_('behavior.tabstate');
 JHtml::_('behavior.formvalidation');
-JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
 
 JText::script('ERROR');
@@ -22,10 +22,9 @@ JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
 JText::script('JLIB_FORM_FIELD_INVALID');
 JText::script('COM_MENUS_ITEM_FIELD_TYPE_LABEL');
 
-$app = JFactory::getApplication();
 $assoc = JLanguageAssociations::isEnabled();
 
-//Ajax for parent items
+// Ajax for parent items
 $script = "jQuery(document).ready(function ($){
 				$('#jform_menutype').change(function(){
 					var menutype = $(this).val();
@@ -61,13 +60,13 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		{
 			if (task == 'item.setType')
 			{
-				document.id('item-form').elements['jform[type]'].value = type;
-				document.id('fieldtype').value = 'type';
+				jQuery('#item-form input[name="jform[type]"]').val(type);
+				jQuery('#fieldtype').val('type');
 			} else {
-				document.id('item-form').elements['jform[menutype]'].value = type;
+				jQuery('#item-form input[name="jform[menutype]"]').val(type);
 			}
-			Joomla.submitform('item.setType', document.id('item-form'));
-		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
+			Joomla.submitform('item.setType', document.getElementById('item-form'));
+		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
 		{
 			if (document.id('jform_type').value == '') {
 				$('system-message').getElement('div').innerHTML = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
@@ -82,12 +81,12 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		else
 		{
 			// special case for modal popups validation response
-			$$('#item-form .modal-value.invalid').each(function(field)
-			{
-				var idReversed = field.id.split("").reverse().join("");
-				var separatorLocation = idReversed.indexOf('_');
-				var name = idReversed.substr(separatorLocation).split("").reverse().join("") + 'name';
-				document.id(name).addClass('invalid');
+			jQuery('#item-form .modal-value.invalid').each(function(){
+				var $field = jQuery(this),
+					idReversed = $field.attr('id').split("").reverse().join(""),
+					separatorLocation = idReversed.indexOf('_'),
+					nameId = '#' + idReversed.substr(separatorLocation).split("").reverse().join("") + 'name';
+				jQuery(nameId).addClass('invalid');
 			});
 
 			$('system-message').getElement('h4').innerHTML = Joomla.JText._('ERROR');
@@ -159,6 +158,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				{
 					$this->form->setFieldAttribute('link', 'readonly', 'false');
 				}
+
 				echo $this->form->getControlGroup('link');
 
 				echo $this->form->getControlGroup('browserNav');
@@ -179,6 +179,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					'note'
 
 				);
+
 				if ($this->item->type != 'component')
 				{
 					$this->fields = array_diff($this->fields, array('home'));

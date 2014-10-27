@@ -38,8 +38,7 @@ $view     = $input->get('view', '');
 $layout   = $input->get('layout', '');
 $task     = $input->get('task', '');
 $itemid   = $input->get('Itemid', '');
-$sitename = $app->get('sitename');
-
+$sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $cpanel   = ($option === 'com_cpanel');
 
 $showSubmenu          = false;
@@ -146,7 +145,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 								</span>
 							</li>
 							<li class="divider"></li>
-							<li class="">
+							<li>
 								<a href="index.php?option=com_admin&amp;task=profile.edit&amp;id=<?php echo $user->id; ?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT'); ?></a>
 							</li>
 							<li class="divider"></li>
@@ -257,7 +256,10 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<!-- End Status Module -->
 <?php endif; ?>
 <jdoc:include type="modules" name="debug" style="none" />
-<?php if ($stickyToolbar) : ?>
+<?php
+// Get the singular view
+$singular = preg_match('/&id=|&view=mail|&layout=edit/', JURI::getInstance()->toString());
+if ($stickyToolbar) : ?>
 	<script>
 		(function($)
 		{
@@ -266,6 +268,17 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				, $nav    = $('.subhead')
 				, navTop  = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>40<?php else:?>20<?php endif;?>
 				, isFixed = 0
+				, edit = <?php echo $singular; ?>
+
+			// Disable cpanel and user menu
+			if (edit)
+			{
+				$('.icon-joomla').addClass('disabled');
+				$('.nav-user').addClass('disabled');
+				$(".admin-logo").removeAttr("href");
+				$('ul.nav-user > li > a').removeAttr("data-toggle").removeAttr("href");
+				$('ul.nav-user > li > .dropdown-menu').empty();
+			}
 
 			processScroll()
 

@@ -16,16 +16,13 @@ defined('JPATH_PLATFORM') or die;
  * where as the legacy JFile static class treated files in a rather
  * atomic manner.
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
- *
- * @note        This class adheres to the stream wrapper operations:
- * @see         http://php.net/manual/en/function.stream-get-wrappers.php
- * @see         http://php.net/manual/en/intro.stream.php PHP Stream Manual
- * @see         http://php.net/manual/en/wrappers.php Stream Wrappers
- * @see         http://php.net/manual/en/filters.php Stream Filters
- * @see         http://php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
- * @since       11.1
+ * @note   This class adheres to the stream wrapper operations:
+ * @see    http://php.net/manual/en/function.stream-get-wrappers.php
+ * @see    http://php.net/manual/en/intro.stream.php PHP Stream Manual
+ * @see    http://php.net/manual/en/wrappers.php Stream Wrappers
+ * @see    http://php.net/manual/en/filters.php Stream Filters
+ * @see    http://php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
+ * @since  11.1
  */
 class JStream extends JObject
 {

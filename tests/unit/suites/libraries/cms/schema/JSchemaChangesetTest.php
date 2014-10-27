@@ -47,14 +47,10 @@ class JSchemaChangesetTest extends TestCase
 		// Store the factory state so we can mock the necessary objects
 		$this->saveFactoryState();
 
-		JFactory::$database = $this->getMockDatabase();
-
-		// Set up our mock database
-		$this->db = JFactory::getDbo();
-		$this->db->name = 'mysqli';
+		JFactory::$database = $this->getMockDatabase('Mysqli');
 
 		// Register the object
-		$this->object = JSchemaChangeset::getInstance($this->db, null);
+		$this->object = JSchemaChangeset::getInstance(JFactory::getDbo(), null);
 	}
 
 	/**
@@ -73,12 +69,17 @@ class JSchemaChangesetTest extends TestCase
 		parent::tearDown();
 	}
 
+	/**
+	 * Provides the testable database drivers
+	 *
+	 * @return  array
+	 */
 	public function dataDriver()
 	{
 		return array(
-			array('mysqli'),
-			array('postgresql'),
-			array('sqlsrv'),
+			array('Mysql'),
+			array('Postgresql'),
+			array('Sqlsrv'),
 		);
 	}
 
@@ -87,42 +88,43 @@ class JSchemaChangesetTest extends TestCase
 	 *
 	 * @medium
 	 *
-	 * @dataProvider dataDriver
+	 * @param   string  $driver  Driver to test against
+	 *
 	 * @return  void
 	 *
+	 * @dataProvider dataDriver
 	 * @since   3.0
 	 */
 	public function test__construct($driver)
 	{
-		$this->db->name = $driver;
+		$db     = $this->getMockDatabase($driver);
+		$schema = new JSchemaChangeset($db, null);
 
-		$this->assertThat(
-			new JSchemaChangeset($this->db, null),
-			$this->isInstanceOf('JSchemaChangeset')
-		);
+		$this->assertAttributeInstanceOf('JDatabaseDriver' . $driver, 'db', $schema);
 	}
 
 	/**
-	 * Tests the getInstance method with the MySQL driver
+	 * Tests the getInstance method with the MySQLi driver
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public function testGetInstanceMysql()
+	public function testGetInstanceMysqli()
 	{
-		$this->assertThat(
-			JSchemaChangeset::getInstance($this->db, null),
-			$this->isInstanceOf('JSchemaChangeset')
-		);
+		$this->assertAttributeInstanceOf('JDatabaseDriverMysqli', 'db', $this->object);
 	}
 
+	/**
+	 * Tests the getStatus method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
 	public function testGetStatus()
 	{
-		$this->assertThat(
-			$this->object->getStatus(),
-			$this->isType('array')
-		);
+		$this->assertInternalType('array', $this->object->getStatus());
 	}
 
 	/**
@@ -134,9 +136,6 @@ class JSchemaChangesetTest extends TestCase
 	 */
 	public function testGetSchema()
 	{
-		$this->assertThat(
-			$this->object->getSchema(),
-			$this->isType('string')
-		);
+		$this->assertInternalType('string', $this->object->getSchema());
 	}
 }

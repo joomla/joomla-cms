@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Route handling class
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.1
+ * @since  11.1
  */
 class JRoute
 {
