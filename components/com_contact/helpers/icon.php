@@ -35,7 +35,7 @@ class JHtmlIcon
 		}
 		else
 		{
-			$text =  JText::_('JGLOBAL_EMAIL');
+			$text = '&#160;' . JText::_('JGLOBAL_EMAIL');
 		}
 
 		$attribs['title']	= JText::_('JGLOBAL_EMAIL');
