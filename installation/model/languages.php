@@ -599,7 +599,8 @@ class InstallationModelLanguages extends JModelBase
 				. '"module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',
 			'client_id' => 0,
 			'language'  => '*',
-			'published' => 1
+			'published' => 1,
+			'rules'     => array()
 		);
 
 		// Bind the data.
