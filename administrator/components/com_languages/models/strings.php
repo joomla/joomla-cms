@@ -124,7 +124,7 @@ class LanguagesModelStrings extends JModelLegacy
 
 		try
 		{
-			$searchstring = $this->_db->quote('%' . trim($input->getString('searchstring')) . '%');
+			$searchstring = $this->_db->quote('%' . $this->getSearchTermFromRequest() . '%');
 
 			// Create the search query.
 			$query = $this->_db->getQuery(true)
@@ -161,5 +161,16 @@ class LanguagesModelStrings extends JModelLegacy
 		}
 
 		return $results;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getSearchTermFromRequest()
+	{
+		$filter = JFilterInput::getInstance();
+		$searchTerm = $input->getString('searchstring');
+		
+		return $filter->clean($searchTerm, 'TRIM');
 	}
 }
