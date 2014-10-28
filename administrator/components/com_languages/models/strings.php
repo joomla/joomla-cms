@@ -171,7 +171,7 @@ class LanguagesModelStrings extends JModelLegacy
 		$input = JFactory::getApplication()->input;
 		$filter = JFilterInput::getInstance();
 		$searchTerm = $input->getString('searchstring');
-		
+
 		return $filter->clean($searchTerm, 'TRIM');
 	}
 }
