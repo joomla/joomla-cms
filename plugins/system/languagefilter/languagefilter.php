@@ -30,6 +30,8 @@ class PlgSystemLanguageFilter extends JPlugin
 
 	protected static $homes;
 
+	protected static $homepages;
+
 	protected static $default_lang;
 
 	protected static $default_sef;
@@ -67,6 +69,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				self::$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 				self::$default_sef 	= self::$lang_codes[self::$default_lang]->sef;
 				self::$homes		= MultilangstatusHelper::getHomes();
+				self::$homepages	= MultilangstatusHelper::getHomepages();
 
 				$user = JFactory::getUser();
 				$levels = $user->getAuthorisedViewLevels();
@@ -530,7 +533,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 				else
 				{
-					$itemid = isset(self::$homes[$lang_code]) ? self::$homes[$lang_code]->id : self::$homes['*']->id;
+					$itemid = isset(self::$homepages[$lang_code]) ? self::$homepages[$lang_code]->id : self::$homepages['*']->id;
 					$app->setUserState('users.login.form.return', 'index.php?&Itemid=' . $itemid);
 				}
 			}
