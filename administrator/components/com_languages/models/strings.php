@@ -168,6 +168,7 @@ class LanguagesModelStrings extends JModelLegacy
 	 */
 	protected function getSearchTermFromRequest()
 	{
+		$input = JFactory::getApplication()->input;
 		$filter = JFilterInput::getInstance();
 		$searchTerm = $input->getString('searchstring');
 		
