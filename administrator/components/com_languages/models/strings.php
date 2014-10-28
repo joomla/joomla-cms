@@ -124,7 +124,7 @@ class LanguagesModelStrings extends JModelLegacy
 
 		try
 		{
-			$searchstring = $this->_db->quote('%' . $input->getString('searchstring') . '%');
+			$searchstring = $this->_db->quote('%' . trim($input->getString('searchstring')) . '%');
 
 			// Create the search query.
 			$query = $this->_db->getQuery(true)
