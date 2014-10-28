@@ -119,12 +119,14 @@ class LanguagesModelStrings extends JModelLegacy
 	{
 		$results = array();
 		$input   = JFactory::getApplication()->input;
+		$filter  = JFilterInput::getInstance();
+		$searchTerm = $input->getString('searchstring');
 
 		$limitstart = $input->getInt('more');
 
 		try
 		{
-			$searchstring = $this->_db->quote('%' . $this->getSearchTermFromRequest() . '%');
+			$searchstring = $this->_db->quote('%' . $filter->clean($searchTerm, 'TRIM') . '%');
 
 			// Create the search query.
 			$query = $this->_db->getQuery(true)
@@ -163,15 +165,4 @@ class LanguagesModelStrings extends JModelLegacy
 		return $results;
 	}
 
-	/**
-	 * @return string
-	 */
-	protected function getSearchTermFromRequest()
-	{
-		$input = JFactory::getApplication()->input;
-		$filter = JFilterInput::getInstance();
-		$searchTerm = $input->getString('searchstring');
-
-		return $filter->clean($searchTerm, 'TRIM');
-	}
 }
