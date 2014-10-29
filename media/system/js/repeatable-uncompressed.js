@@ -54,8 +54,8 @@
             cancelButton.on('click', function (e) {
                 cancelled = true;
                 e.stopPropagation();
-                $(el).find('tbody tr').replaceWith(origContent);
-                origContainer.find('table').replaceWith(el);
+                $(el).find('tbody').replaceWith(origContent);
+                origContainer.find('table tr').replaceWith(el);
                 close();
                 win = null;
             });
