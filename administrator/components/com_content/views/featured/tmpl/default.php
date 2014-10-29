@@ -119,7 +119,7 @@ $saveOrder	= $listOrder == 'fp.ordering';
 					<?php endif; ?>
 					<?php if ($canEdit) : ?>						
 						<?php if ($this->showpreview) : 
-							(strlen($item->introtext) > 0) ? $textintro = htmlentities(utf8_decode($item->introtext)) : $textintro = JTEXT::_(JGLOBAL_NODESC); 
+							(strlen($item->introtext) > 0) ? $textintro = htmlspecialchars(htmlspecialchars_decode($item->introtext)) : $textintro = JTEXT::_(JGLOBAL_NODESC);
 							?>
 							<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_PREVIEW_DESCRIPTION');?>::<?php echo $textintro; ?>">
 								<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&return=featured&id='.$item->id);?>">
