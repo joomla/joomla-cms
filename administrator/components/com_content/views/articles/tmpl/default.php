@@ -137,7 +137,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php endif; ?>
 					<?php if ($canEdit || $canEditOwn) : ?>
 						<?php if ($this->showpreview) : 
-							(strlen($item->introtext) > 0) ? $textintro = htmlentities($item->introtext) : $textintro = JTEXT::_('JGLOBAL_NODESC');
+							(strlen($item->introtext) > 0) ? $textintro = htmlspecialchars(htmlspecialchars_decode($item->introtext)) : $textintro = JTEXT::_('JGLOBAL_NODESC');
 							?>
 							<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_PREVIEW_DESCRIPTION');?>::<?php echo $textintro; ?>">
 							<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);?>">
@@ -158,7 +158,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 						<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?></p>
 					<?php if (strlen($item->copete)>0): ?>
 						<p class="smallsub">
-							<span class="editlinktip hasTip" title="<?php echo JText::_('COM_COPETE_DETAILS');?>::<?php echo htmlentities($item->copete); ?>">
+							<span class="editlinktip hasTip" title="<?php echo JText::_('COM_COPETE_DETAILS');?>::<?php echo htmlspecialchars(htmlspecialchars_decode($item->copete)); ?>">
 								<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);?>">
 									<?php echo JTEXT::_('JGLOBAL_PREVIEW_COPETE_LINK') ?></a>
 							</span>
