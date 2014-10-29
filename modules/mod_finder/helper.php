@@ -30,24 +30,27 @@ class ModFinderHelper
 	 */
 	public static function getGetFields($route = null)
 	{
-		$fields = null;
+		// Determine if there is an item id before routing.
+		$needId = !JURI::getInstance($route)->getVar('Itemid');
+
+		$fields = array();
 		$uri = JURI::getInstance(JRoute::_($route));
 		$uri->delVar('q');
 
 		// Create hidden input elements for each part of the URI.
-		// Add the current menu id if it doesn't have one
-		$needId = true;
 		foreach ($uri->getQuery(true) as $n => $v)
 		{
-			$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
-			if ($n == 'Itemid') {
-				$needId = false;
-			}
+			$fields[] = '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
 		}
-		if ($needId) {
-			$fields .= '<input type="hidden" name="Itemid" value="' . JFactory::getApplication()->input->get('Itemid', '0', 'int') . '" />';
+
+		// Add a field for Itemid if we need one.
+		if ($needId)
+		{
+			$id = JFactory::getApplication()->input->get('Itemid', '0', 'int');
+			$fields[] = '<input type="hidden" name="Itemid" value="' . $id . '" />';
 		}
-		return $fields;
+
+		return implode('', $fields);
 	}
 
 	/**
