@@ -69,7 +69,7 @@
 				</field>
 
 				<field name="lang_code" type="text"
-					default="en"
+					default="es"
 					description="PLG_TINY_FIELD_LANGCODE_DESC"
 					label="PLG_TINY_FIELD_LANGCODE_LABEL"
 					size="2"
