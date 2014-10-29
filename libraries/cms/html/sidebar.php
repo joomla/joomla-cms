@@ -73,15 +73,14 @@ abstract class JHtmlSidebar
 	 * @param   string  $name    Name of the menu item.
 	 * @param   string  $link    URL of the menu item.
 	 * @param   bool    $active  True if the item is active, false otherwise.
-	 * @param   string  $icon    Name of the icon class.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public static function addEntry($name, $link = '', $active = false, $icon = '')
+	public static function addEntry($name, $link = '', $active = false)
 	{
-		array_push(static::$entries, array($name, $link, $active, $icon));
+		array_push(static::$entries, array($name, $link, $active));
 	}
 
 	/**
