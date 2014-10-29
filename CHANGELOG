@@ -28,6 +28,11 @@ $ -> Idioma corrección o cambio
 - -> Eliminado
 ! -> Nota
 
+03-Nov-2014
+ ^ Arreglo botones componente Checkin
+ ^ Filtro URL en campos de Contacto 
+ ^ Reinicio de hits cuando se copian por lotes artículos
+
 18-Ago-2014
  + Nuevo filtro para utilizar el componente de medios para gestionar diferente tipos de archivos
  + Nuevo Imagen en el perfil de usuario
