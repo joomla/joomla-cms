@@ -202,7 +202,6 @@ class JDispatcher extends JObject
 			}
 
 			$this->_observers[] = $observer;
-			end($this->_observers);
 			$methods = array($observer['event']);
 		}
 		else
