@@ -8,8 +8,8 @@ Para participar en el proyecto puedes registrarte en el sitio juuntos.org, acept
 
 ### Descarga Jokte! y vive la experiencia de trabajar con una herramienta 100% en el Dominio Público.
 ---
-  - [Comunidad](http://juuntos.org/comunidad-juuntos/nuestro-pacto-social.html)
-  - [Foro de Juuntos.org](http://juuntos.org/foro.html)
+  - [Comunidad](http://www.juuntos.org/comunidad-juuntos/nuestro-pacto-social.html)
+  - [Foro de Juuntos.org](http://www.jokte.org/foro.html)
   - [Asamblea Juuntos](https://groups.google.com/group/juuntos?hl=es)
 
 ### Instrucciones para descarga con git
