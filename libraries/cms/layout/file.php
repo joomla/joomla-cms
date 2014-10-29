@@ -13,10 +13,8 @@ defined('JPATH_PLATFORM') or die;
  * Base class for rendering a display layout
  * loaded from from a layout file
  *
- * @package     Joomla.Libraries
- * @subpackage  Layout
- * @see         http://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
- * @since       3.0
+ * @see    http://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
+ * @since  3.0
  */
 class JLayoutFile extends JLayoutBase
 {

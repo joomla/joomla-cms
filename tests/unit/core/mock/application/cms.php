@@ -31,6 +31,8 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'initialiseApp',
 			'isAdmin',
 			'isSite',
+			'getUserState',
+			'getUserStateFromRequest'
 		);
 
 		return array_merge($methods, parent::getMethods());

@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * This class is used to be the basis of logger classes to allow for defined functions
  * to exist regardless of the child class.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
- * @since       12.2
+ * @since  12.2
  */
 abstract class JLogLogger
 {
@@ -70,8 +68,6 @@ abstract class JLogLogger
 /**
  * Deprecated class placeholder.  You should use JLogLogger instead.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
  * @since       11.1
  * @deprecated  13.3 (Platform) & 4.0 (CMS)
  * @codeCoverageIgnore

@@ -14,9 +14,7 @@ jimport('phpmailer.phpmailer');
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Platform
  *
- * @package     Joomla.Platform
- * @subpackage  Mail
- * @since       11.1
+ * @since  11.1
  */
 class JMail extends PHPMailer
 {

@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Joomla Platform class for interacting with a Facebook API instance.
  *
- * @package     Joomla.Platform
- * @subpackage  Facebook
- * @since       13.1
+ * @since  13.1
  */
 class JFacebook
 {

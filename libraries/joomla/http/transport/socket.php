@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTTP transport class for using sockets directly.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
- * @since       11.3
+ * @since  11.3
  */
 class JHttpTransportSocket implements JHttpTransport
 {

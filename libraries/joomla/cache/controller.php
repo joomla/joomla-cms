@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Public cache handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @since  11.1
  */
 class JCacheController
 {

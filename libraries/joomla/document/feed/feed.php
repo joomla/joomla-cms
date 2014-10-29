@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * DocumentFeed class, provides an easy interface to parse and display any feed document
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JDocumentFeed extends JDocument
 {
@@ -246,9 +244,7 @@ class JDocumentFeed extends JDocument
 /**
  * JFeedItem is an internal class that stores feed item information
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JFeedItem
 {
@@ -392,9 +388,7 @@ class JFeedItem
 /**
  * JFeedEnclosure is an internal class that stores feed enclosure information
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JFeedEnclosure
 {
@@ -432,9 +426,7 @@ class JFeedEnclosure
 /**
  * JFeedImage is an internal class that stores feed image information
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JFeedImage
 {

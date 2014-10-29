@@ -1465,13 +1465,14 @@ INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description
 CREATE TABLE "#__redirect_links" (
   "id" serial NOT NULL,
   "old_url" varchar(255) NOT NULL,
-  "new_url" varchar(255) NOT NULL,
+  "new_url" varchar(255),
   "referer" varchar(150) NOT NULL,
   "comment" varchar(255) NOT NULL,
   "hits" bigint DEFAULT 0 NOT NULL,
   "published" smallint NOT NULL,
   "created_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "modified_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "header" INTEGER DEFAULT 301 NOT NULL,
   PRIMARY KEY ("id"),
   CONSTRAINT "#__redirect_links_idx_link_old" UNIQUE ("old_url")
 );
@@ -1738,6 +1739,13 @@ INSERT INTO "#__update_sites_extensions" ("update_site_id", "extension_id") VALU
 (2, 700),
 (3, 600),
 (4, 28);
+
+--
+-- Postgressql use the sequence instead of autoincrement,
+-- So, need to tell what is the last value of the sequnce after the 4
+--
+SELECT nextval('#__update_sites_update_site_id_seq');
+SELECT setval('#__update_sites_update_site_id_seq', 5, false);
 
 --
 -- Table: #__usergroups

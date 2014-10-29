@@ -15,9 +15,7 @@ jimport('legacy.component.helper');
 /**
  * Language Installer model for the Joomla Core Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Model
- * @since       3.1
+ * @since  3.1
  */
 class InstallationModelLanguages extends JModelBase
 {
@@ -601,7 +599,8 @@ class InstallationModelLanguages extends JModelBase
 				. '"module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',
 			'client_id' => 0,
 			'language'  => '*',
-			'published' => 1
+			'published' => 1,
+			'rules'     => array()
 		);
 
 		// Bind the data.
