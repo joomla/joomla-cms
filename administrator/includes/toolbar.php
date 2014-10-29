@@ -8,14 +8,14 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('JSubMenuHelper', JPATH_BASE . '/includes/subtoolbar.php');
+
 /**
  * Utility class for the button bar.
  *
  * @package  Joomla.Administrator
  * @since    1.5
  */
-JLoader::register('JSubMenuHelper', JPATH_BASE . '/includes/subtoolbar.php');
-
 abstract class JToolbarHelper
 {
 	/**
