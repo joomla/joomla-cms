@@ -25,6 +25,13 @@ JHtml::_('formbehavior.chosen', 'select');
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
+	
+	<!-- fake password autofill -->
+	<div class="hidden">
+		<input name="fake-username" type="text">
+		<input name="fake-password" type="password">
+	</div>	
+	
 	<div class="row-fluid">
 		<!-- Begin Sidebar -->
 		<div id="sidebar" class="span2">
