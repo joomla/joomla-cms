@@ -53,7 +53,7 @@ class plgSystemLanguageFilter extends JPlugin
 				self::$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
 				self::$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 				self::$default_sef 	= self::$lang_codes[self::$default_lang]->sef;
-				self::$homes		= MultilangstatusHelper::getHomes();
+				self::$homes		= MultilangstatusHelper::getHomepages();
 
 				$user = JFactory::getUser();
 				$levels = $user->getAuthorisedViewLevels();

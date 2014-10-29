@@ -434,7 +434,7 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			$this->parent->manifestClass->postflight('update', $this);
 		}
-		$msg .= ob_get_contents(); // append messages
+		$msg = ob_get_contents(); // append messages
 		ob_end_clean();
 		if ($msg != '')
 		{

@@ -85,6 +85,7 @@ abstract class multilangstatusHelper
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 		$query->select('language');
+		$query->select('id');
 		$query->from($db->quoteName('#__menu'));
 		$query->where('home = 1');
 		$query->where('published = 1');
