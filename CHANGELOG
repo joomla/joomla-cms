@@ -32,6 +32,31 @@ $ -> Idioma corrección o cambio
  ^ Arreglo botones componente Checkin
  ^ Filtro URL en campos de Contacto 
  ^ Reinicio de hits cuando se copian por lotes artículos
+ ^ Cambio en filtros para vista previa de artículos
+ # Arreglo salida HTML errores plantilla Hator
+ # Arreglo salida HTML errores plantilla de sistema
+ ^ Cambio reglas de emails en formulario de contacto
+ ^ Cambio salida mensaje de error formulario de registración
+ ^ Cambio invocación plugin usuarios en API aplicación
+ ^ Cambios en la librería table de la plataforma
+ - Eliminación línea errónea despachador de eventos
+ + Agregado campos en XML para uso de placeholders
+ ^ Cambios en la librería form de la plataforma
+ ^ Cambio en la librería behavoir de la plataforma
+ ^ Cambios en la librería emails de la plataforma. Agrego filtros
+ ^ Cambios en la librería help de la plataforma para codificación UTF-8
+ ^ Cambios en helper de la librería de instalación de extensiones de la plataforma
+ ^ Cambios importantes en la librería string de la plataforma
+ ^ Cambios en el adpatador de actualizador de extensiones para detectar versión de PHP
+ ^ Ajuste en librería user de la plataforma cuando no hay id
+ ^ Ajuste en el cargador para revisar las primeras letras de los nombres de clase
+ ^ Ajuste en el módulo buscador
+ * Ajuste en el plugin LDAP para limpiar bytes nulos de la contraseña
+ * Cambios importantes en el plugin que evita el robo de correos en contenidos
+ ^ Cambios importantes en el plugin que carga módulos en contenidos
+ ^ Ajuste importante en el plugin leer más por error de sintaxis
+ ^ Ajuste por revisión de alias en plugin creador de contactos
+ ^ Ajuste salida html de errores plantilla del sistema del frontend. Agrega filtros
 
 18-Ago-2014
  + Nuevo filtro para utilizar el componente de medios para gestionar diferente tipos de archivos
