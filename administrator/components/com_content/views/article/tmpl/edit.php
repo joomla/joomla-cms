@@ -155,6 +155,7 @@ endif;
 					<?php if ($this->item->hits) : ?>
 						<li><?php echo $this->form->getLabel('hits'); ?>
 						<?php echo $this->form->getInput('hits'); ?></li>
+                        <input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'ARTICLE_HITS_RESET' ); ?>" onclick="submitbutton('resethits');" />
 					<?php endif; ?>
 				</ul>
 			</fieldset>

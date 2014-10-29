@@ -562,4 +562,30 @@ class ContentModelArticle extends JModelAdmin
 		parent::cleanCache('mod_articles_news');
 		parent::cleanCache('mod_articles_popular');
 	}
+
+    /**
+     * Resetear hits
+     * @param articleID
+     * @return bool
+     */
+    public function resetHits($pk)
+    {
+        if (empty($pk)) {
+            $this->setError(JText::_('COM_CONTENT_NO_ITEM_SELECTED'));
+            return false;
+        }
+        try {
+            $db = $this->getDbo();
+            $db->setQuery(
+                'UPDATE #__content' .
+                ' SET hits = 0 '.
+                ' WHERE id = '.$pk
+            );
+            $db->query();
+        } catch (Exception $e) {
+            $this->setError($e->getMessage());
+            return false;
+        }
+        return true;
+    }
 }
