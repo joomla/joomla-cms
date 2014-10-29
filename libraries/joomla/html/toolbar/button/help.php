@@ -86,7 +86,7 @@ class JButtonHelp extends JButton
 		// Get Help URL
 		jimport('joomla.language.help');
 		$url = JHelp::createURL($ref, $com, $override, $component);
-		//$url = htmlspecialchars($url, ENT_QUOTES);
+		$url = htmlspecialchars($url, ENT_QUOTES);
 		$cmd = "Joomla.popupWindow('$url', '" . JText::_('JHELP', true) . "', 700, 500, 1)";
 
 		return $cmd;
