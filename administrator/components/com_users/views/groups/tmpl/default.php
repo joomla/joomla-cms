@@ -102,72 +102,77 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 			</div>
 		</div>
 		<div class="clearfix"> </div>
+		<?php if (empty($this->items)) : ?>
+			<div class="alert alert-no-items">
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
+		<?php else : ?>
+			<table class="table table-striped" id="groupList">
+				<thead>
+					<tr>
+						<th width="1%">
+							<?php echo JHtml::_('grid.checkall'); ?>
+						</th>
+						<th class="left">
+							<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
+						</th>
+						<th width="20%" class="center">
+							<?php echo JText::_('COM_USERS_HEADING_USERS_IN_GROUP'); ?>
+						</th>
+						<th width="1%">
+							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+						</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<td colspan="4">
+							<?php echo $this->pagination->getListFooter(); ?>
+						</td>
+					</tr>
+				</tfoot>
+				<tbody>
+				<?php foreach ($this->items as $i => $item) :
+					$canCreate = $user->authorise('core.create', 'com_users');
+					$canEdit   = $user->authorise('core.edit',    'com_users');
 
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th width="1%">
-						<?php echo JHtml::_('grid.checkall'); ?>
-					</th>
-					<th class="left">
-						<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
-					</th>
-					<th width="20%" class="center">
-						<?php echo JText::_('COM_USERS_HEADING_USERS_IN_GROUP'); ?>
-					</th>
-					<th width="1%">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
-					</th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<td colspan="4">
-						<?php echo $this->pagination->getListFooter(); ?>
-					</td>
-				</tr>
-			</tfoot>
-			<tbody>
-			<?php foreach ($this->items as $i => $item) :
-				$canCreate = $user->authorise('core.create', 'com_users');
-				$canEdit   = $user->authorise('core.edit',    'com_users');
-
-				// If this group is super admin and this user is not super admin, $canEdit is false
-				if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin')))
-				{
-					$canEdit = false;
-				}
-				$canChange	= $user->authorise('core.edit.state',	'com_users');
-			?>
-				<tr class="row<?php echo $i % 2; ?>">
-					<td class="center">
-						<?php if ($canEdit) : ?>
-							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
-						<?php endif; ?>
-					</td>
-					<td>
-						<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level) ?>
-						<?php if ($canEdit) : ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_users&task=group.edit&id='.$item->id);?>">
-							<?php echo $this->escape($item->title); ?></a>
-						<?php else : ?>
-							<?php echo $this->escape($item->title); ?>
-						<?php endif; ?>
-						<?php if (JDEBUG) : ?>
-							<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id='.(int) $item->id);?>">
-							<?php echo JText::_('COM_USERS_DEBUG_GROUP');?></a></div>
-						<?php endif; ?>
-					</td>
-					<td class="center">
-						<?php echo $item->user_count ? $item->user_count : ''; ?>
-					</td>
-					<td class="center">
-						<?php echo (int) $item->id; ?>
-					</td>
-				</tr>
-				<?php endforeach; ?>
-			</tbody>
-		</table>
+					// If this group is super admin and this user is not super admin, $canEdit is false
+					if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin')))
+					{
+						$canEdit = false;
+					}
+					$canChange	= $user->authorise('core.edit.state',	'com_users');
+				?>
+					<tr class="row<?php echo $i % 2; ?>">
+						<td class="center">
+							<?php if ($canEdit) : ?>
+								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+							<?php endif; ?>
+						</td>
+						<td>
+							<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level) ?>
+							<?php if ($canEdit) : ?>
+							<a href="<?php echo JRoute::_('index.php?option=com_users&task=group.edit&id='.$item->id);?>">
+								<?php echo $this->escape($item->title); ?></a>
+							<?php else : ?>
+								<?php echo $this->escape($item->title); ?>
+							<?php endif; ?>
+							<?php if (JDEBUG) : ?>
+								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id='.(int) $item->id);?>">
+								<?php echo JText::_('COM_USERS_DEBUG_GROUP');?></a></div>
+							<?php endif; ?>
+						</td>
+						<td class="center">
+							<?php echo $item->user_count ? $item->user_count : ''; ?>
+						</td>
+						<td class="center">
+							<?php echo (int) $item->id; ?>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php endif;?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
