@@ -335,7 +335,7 @@ class UsersModelRegistration extends JModelForm
 
 		// Store the data.
 		if (!$user->save()) {
-			$this->setError($user->getError());
+			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
 			return false;
 		}
 
