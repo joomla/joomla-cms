@@ -475,7 +475,8 @@ class ContentModelArticle extends JModelAdmin
 		if ($input->get('task') == 'save2copy')
 		{
 			$origTable = clone $this->getTable();
-			$origTable->load((int) $input->getInt('id'));
+			$origTable->load($input->getInt('id'));
+
 			if ($data['title'] == $origTable->title)
 			{
 				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
