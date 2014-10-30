@@ -173,8 +173,15 @@ class PlgSearchTags extends JPlugin
 				{
 					foreach ($tagged_items as $k => $item)
 					{
+						// Making up type string
 						$type = mb_strtoupper(str_replace(' ', '_', $item->content_type_title), 'UTF-8');
 						$type = 'PLG_SEARCH_TAGS_CONTENT_TYPE_' . $type;
+
+						// For 3rd party extensions we need to load the component strings from its sys.ini file
+						$parts = explode('.', $item->type_alias);
+						$comp = $parts[0];
+						$lang->load($comp . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+						|| $lang->load($comp . '.sys', JPATH_ADMINISTRATOR . '/components/' . $comp, null, false, true);
 
 						$new_item = new stdClass;
 						$new_item->href = $item->link;
