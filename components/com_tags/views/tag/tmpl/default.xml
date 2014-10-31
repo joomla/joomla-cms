@@ -11,7 +11,9 @@
 
 	<!-- Add fields to the request variables for the layout. -->
 	<fields name="request">
-		<fieldset name="request">
+		<fieldset name="request"
+			addfieldpath="/administrator/components/com_tags/models/fields"
+		>
 
 			<field 
 				name="id" 
@@ -25,7 +27,7 @@
 			
 			<field 
 				name="types" 
-				type="contenttype"
+				type="contenttypetag"
 				label="COM_TAGS_FIELD_TYPE_LABEL"
 				description="COM_TAGS_FIELD_TYPE_DESC"
 				multiple="true"
