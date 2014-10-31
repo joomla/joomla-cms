@@ -95,9 +95,18 @@ class JFormFieldContenttype extends JFormFieldList
 			$lang->load($comp . '.sys', JPATH_ADMINISTRATOR, null, false, true)
 			|| $lang->load($comp . '.sys', JPATH_ADMINISTRATOR . '/components/' . $comp, null, false, true);
 
-			$option->text = mb_strtoupper(str_replace(' ', '_', $option->text), 'UTF-8');
-			$option->text = $comp . '_CONTENT_TYPE_' . $option->text;
-			$option->text = JText::_($option->text);
+			$option->string = mb_strtoupper(str_replace(' ', '_', $option->text), 'UTF-8');
+			$option->string = $comp . '_CONTENT_TYPE_' . $option->string;
+
+			if ($lang->hasKey($option->string))
+			{
+				$option->text = JText::_($option->string);
+			}
+			else
+			{
+				$option->text = $option->text;
+			}
+
 		}
 
 		return $options;
