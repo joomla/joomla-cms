@@ -22,6 +22,8 @@ var MediaManager = this.MediaManager = {
 
 		this.frame		= window.frames['folderframe'];
 		this.frameurl	= this.frame.location.href;
+
+		this.setTreeviewState();		
 	},
 
 	submit: function(task)
@@ -158,6 +160,28 @@ var MediaManager = this.MediaManager = {
 		return (bits)
 			? bitsAssociate
 			: null;
+	},
+
+	setTreeviewState: function(){
+		// Load the value from localStorage
+		if (typeof(Storage) !== "undefined")
+		{
+			var $visible = localStorage.getItem('jsidebar');
+		}
+
+		// Need to convert the value to a boolean
+		$visible = ($visible == 'true') ? true : false;
+
+		// Toggle according to j-sidebar class status or storage saved status
+		var classStatus = jQuery('#j-sidebar-container').attr('class');
+		if(classStatus.contains('j-toggle-hidden') || $visible)
+		{
+			jQuery('#treeview').attr('hidden', true);
+		}
+		else
+		{
+			jQuery('#treeview').attr('hidden', false);
+		}
 	}
 };
 })(jQuery);

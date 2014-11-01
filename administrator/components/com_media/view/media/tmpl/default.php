@@ -16,15 +16,18 @@ $input = JFactory::getApplication()->input;
 	<!-- Begin Sidebar -->
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
-		<hr>
-		<b>
-		<?php echo JText::_('COM_MEDIA_FOLDERS');?>
-		</b>
-		<hr>
 		<div id="treeview">
+			<hr>
+			<b><?php echo JText::_('COM_MEDIA_FOLDERS');?></b>
+			<hr>
 			<div id="media-tree_tree" class="sidebar-nav">
 				<?php echo $this->loadTemplate('folders'); ?>
 			</div>
+			<script>
+				jQuery('#j-toggle-sidebar-button').click(function(){
+					MediaManager.setTreeviewState();	
+				});
+			</script>
 		</div>
 	</div>
 
