@@ -86,6 +86,7 @@ class ContentViewFeatured extends JViewLegacy
 		{
 			JToolbarHelper::addNew('article.add');
 		}
+		
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('article.edit');
@@ -95,9 +96,6 @@ class ContentViewFeatured extends JViewLegacy
 		{
 			JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::custom('featured.delete', 'remove.png', 'remove_f2.png', 'JTOOLBAR_REMOVE', true);
-			JToolbarHelper::archiveList('articles.archive');
-			JToolbarHelper::checkin('articles.checkin');
 		}
 
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
@@ -108,7 +106,14 @@ class ContentViewFeatured extends JViewLegacy
 		{
 			JToolbarHelper::trash('articles.trash');
 		}
-
+                
+        	if ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::checkin('articles.checkin');
+			JToolbarHelper::archiveList('articles.archive');
+			JToolbarHelper::custom('featured.delete', 'remove.png', 'remove_f2.png', 'JTOOLBAR_REMOVE', true);
+		}
+		
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_content');
