@@ -36,14 +36,14 @@
 					name="url0sep"
 					type="text"
 					size="50"		
-					default="Blogs Comunidad Juuntos"
+					default="Noticias Jokte!"
 					label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
 					description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />	
 				<field
 					name="rssurl0"
 					type="text"
 					size="50"
-					default="http://www.juuntos.net/noticias.feed?type=rss"
+					default="http://www.jokte.org/noticias.feed?type=rss"
 					label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
 					description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />						
 				<field type="spacer" name="myspacer" hr="true" />
@@ -51,14 +51,14 @@
 					name="url1sep"
 					type="text"
 					size="50"
-					default="Proyecto JDOC"
+					default=""
 					label="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_LABEL"
 					description="MOD_HILANDOJUUNTOS_FIELD_RSSURLSEP_DESC" />
 				<field
 					name="rssurl1"
 					type="text"
 					size="50"
-					default="http://jdoc.juuntos.net/?format=feed&amp;type=rss"
+					default=""
 					label="MOD_HILANDOJUUNTOS_FIELD_RSSURL_LABEL"
 					description="MOD_HILANDOJUUNTOS_FIELD_RSSURL_DESC" />
 				<field type="spacer" name="myspacer2" hr="true" />
