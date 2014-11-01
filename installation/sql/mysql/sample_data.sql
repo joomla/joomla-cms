@@ -30,7 +30,6 @@ INSERT IGNORE INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`
 (26, 1, 303, 304, 1, 'com_wrapper', 'com_wrapper', '{}'),
 (27, 8, 22, 25, 2, 'com_content.category.2', 'Sin categoría', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
 (33, 1, 305, 306, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(38, 1, 307, 308, 1, 'com_extplorer', 'extplorer', '{}'),
 (39, 8, 28, 39, 2, 'com_content.category.9', 'Juuntos', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
 (41, 39, 29, 30, 3, 'com_content.article.5', 'Contrato Social Juuntos', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (42, 69, 51, 52, 3, 'com_content.article.6', '¿Qué es Jokte!?', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
