@@ -107,9 +107,6 @@ class ContentViewArticles extends JViewLegacy
 		{
 			JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURED', true);
-			JToolbarHelper::archiveList('articles.archive');
-			JToolbarHelper::checkin('articles.checkin');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
@@ -119,6 +116,13 @@ class ContentViewArticles extends JViewLegacy
 		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('articles.trash');
+		}
+
+		if ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::checkin('articles.checkin');
+			JToolbarHelper::archiveList('articles.archive');
+			JToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURED', true);
 		}
 
 		// Add a batch button
