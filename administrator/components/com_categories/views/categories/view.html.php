@@ -138,17 +138,11 @@ class CategoriesViewCategories extends JViewLegacy
 		{
 			JToolbarHelper::editList('category.edit');
 		}
-
+		
 		if ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('categories.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::archiveList('categories.archive');
-		}
-
-		if (JFactory::getUser()->authorise('core.admin'))
-		{
-			JToolbarHelper::checkin('categories.checkin');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component))
@@ -158,8 +152,23 @@ class CategoriesViewCategories extends JViewLegacy
 		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('categories.trash');
+		}             
+                
+                if (JFactory::getUser()->authorise('core.admin'))
+		{
+			JToolbarHelper::checkin('categories.checkin');
 		}
-
+                
+                if ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::archiveList('categories.archive');
+		}
+                
+		if ($canDo->get('core.admin'))
+		{
+			JToolbarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+		}
+		
 		// Add a batch button
 		if ($user->authorise('core.create', $extension) & $user->authorise('core.edit', $extension) && $user->authorise('core.edit.state', $extension))
 		{
@@ -172,10 +181,9 @@ class CategoriesViewCategories extends JViewLegacy
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
-
+		
 		if ($canDo->get('core.admin'))
 		{
-			JToolbarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 			JToolbarHelper::preferences($component);
 		}
 
