@@ -66,7 +66,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 					<a rel="{handler: 'iframe', size: {x: 750, y: 600}}" href="contrasoc.html" target="_blank" class="modal"><?php echo JText::_('INSTL_CMS_AGREEMENT'); ?></a>
 				</p>
 				<p class="stepBarrHigthLight">
-					<a rel="{handler: 'iframe', size: {x: 750, y: 600}}" href=" http://jokte.org/foro/11-instalacion-de-jokte-zona-de-ayuda.html" target="_blank" class="modal"><?php echo JText::_('INSTL_HELP'); ?></a>
+					<a rel="{handler: 'iframe', size: {x: 750, y: 600}}" href=" http://www.jokte.org/foro/11-instalacion-de-jokte-zona-de-ayuda.html" target="_blank" class="modal"><?php echo JText::_('INSTL_HELP'); ?></a>
 				</p>
 				
 				<p class="stepBarrRapid">
@@ -74,10 +74,10 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 				</p>
 				
 				<p class="stepBarrLnk">
-					<a href="http://jokte.org" target="_blank">Jokte.org</a>
+					<a href="http://www.jokte.org" target="_blank">Jokte.org</a>
 				</p>
 				<p class="stepBarrLnk">
-					<a href="http://juuntos.net" target="_blank">Juuntos.net</a>
+					<a href="http://www.juuntos.org" target="_blank">Juuntos.org</a>
 				</p>
 			</div>
 			<div id="warning">
@@ -101,7 +101,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 				<?php echo JText::_('INSTL_CMS_URL'); ?>
 			</a> 
 			<?php echo JText::_('INSTL_CMS_SLOGAN'); ?> 
-			<a href="http://juuntos.net" target="_blank" title="Comunidad Latinaomericana de Tecnología Web">Comunidad Juuntos </a>  
+			<a href="http://www.juuntos.org" target="_blank" title="Comunidad Latinaomericana de Tecnología Web">Comunidad Juuntos </a>
 		</p>
 	</div>
 </body>
