@@ -146,7 +146,14 @@ class MediaControllerMediaUpload extends JControllerBase
 			// Enable uploading filenames with alphanumeric and spaces
 			$fileparts = pathinfo($file['filepath']);
 			$file['original_name'] = $fileparts['filename'];
-			$safeFileName = preg_replace("/[^a-zA-Z0-9]/", "", $fileparts['filename']) . '.' . $fileparts['extension'];
+
+			// Transform filename to punycode
+			$fileparts['filename'] = JStringPunycode::toPunycode($fileparts['filename']);
+
+			// Transform filename to punycode, then neglect otherthan non-alphanumeric characters & underscores
+			$safeFileName = preg_replace(array("/[\\s]/", "/[^a-zA-Z0-9_]/"), array("_", ""), $fileparts['filename']) . '.' . $fileparts['extension'];
+
+			// Create filepath with safe-filename
 			$file['filepath'] = $fileparts['dirname'] . DIRECTORY_SEPARATOR . $safeFileName;
 			$file['name'] = $safeFileName;
 		}
