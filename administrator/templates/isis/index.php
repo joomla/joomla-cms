@@ -16,6 +16,8 @@ $this->language  = $doc->language;
 $this->direction = $doc->direction;
 $input           = $app->input;
 $user            = JFactory::getUser();
+$debugModeLang   = $app->get('debug_lang');
+$debugMode       = $app->get('debug');
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -285,7 +287,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 			if (edit)
 			{
 				// Alert on unintentional exit
-				if (<?php echo JFactory::getApplication()->get('debug'); ?> === 0)
+				if ((<?php echo $debugMode; ?> || <?php echo $debugModeLang; ?>) == 0)
 				{
 					// Prevent alerts for buttons
 					$(':button').bindFirst("mousedown", function () {
