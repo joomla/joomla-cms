@@ -285,25 +285,27 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 			if (edit)
 			{
 				// Alert on unintentional exit
-				// Prevent alert for buttons
-				$(':button').bindFirst("mousedown", function () {
-					$(window).off("beforeunload");
-				});
+				if (<?php echo JFactory::getApplication()->get('debug'); ?> === 0)
+				{
+					// Prevent alerts for buttons
+					$(':button').bindFirst("mousedown", function () {
+						$(window).off("beforeunload");
+					});
 
-				// Prevent alert for forms
-				$('form').bindFirst("submit", function () {
-					$(window).off("beforeunload");
-				});
+					// Prevent alert for forms
+					$('form').bindFirst("submit", function () {
+						$(window).off("beforeunload");
+					});
 
-				// Prevent alert for forms
-				$('input[type=submit]').bindFirst("mousedown", function () {
-					$(window).off("beforeunload");
-				});
+					// Prevent alert for forms
+					$('input[type=submit]').bindFirst("mousedown", function () {
+						$(window).off("beforeunload");
+					});
 
-				var message = '<?php echo JText::_('TPL_ISIS_WARNING_MSG'); ?>';
-				$(window).on("beforeunload", function(event){
-					return message;
-				});
+					$(window).on("beforeunload", function(event){
+						return '<?php echo JText::_('TPL_ISIS_WARNING_MSG'); ?>';
+					});
+				}
 			}
 
 			processScroll()
