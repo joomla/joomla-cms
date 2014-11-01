@@ -57,6 +57,10 @@ $ -> Idioma corrección o cambio
  ^ Ajuste importante en el plugin leer más por error de sintaxis
  ^ Ajuste por revisión de alias en plugin creador de contactos
  ^ Ajuste salida html de errores plantilla del sistema del frontend. Agrega filtros
+ # Limpiezas varias y arreglos de errores de ortografía en algunos archivos
+ - Eliminación del plugin Admin Bar Unlocker
+ - Eliminación de archivos de instalación para SQL y Azure
+ - Elimación y corrección de módulos de la administración
 
 18-Ago-2014
  + Nuevo filtro para utilizar el componente de medios para gestionar diferente tipos de archivos

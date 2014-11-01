@@ -21,7 +21,7 @@ correcciones de código.
 Leyenda:
 
 * -> Revisión de seguridad
-# -> Arreglo normal 
+# -> Arreglo normal
 $ -> Idioma corrección o cambio
 + -> Adición
 ^ -> Cambiar
@@ -30,7 +30,7 @@ $ -> Idioma corrección o cambio
 
 03-Nov-2014
  ^ Arreglo botones componente Checkin
- ^ Filtro URL en campos de Contacto 
+ ^ Filtro URL en campos de Contacto
  ^ Reinicio de hits cuando se copian por lotes artículos
  ^ Cambio en filtros para vista previa de artículos
  # Arreglo salida HTML errores plantilla Hator
@@ -57,6 +57,10 @@ $ -> Idioma corrección o cambio
  ^ Ajuste importante en el plugin leer más por error de sintaxis
  ^ Ajuste por revisión de alias en plugin creador de contactos
  ^ Ajuste salida html de errores plantilla del sistema del frontend. Agrega filtros
+ # Limpiezas varias y arreglos de errores de ortografía en algunos archivos
+ - Eliminación del plugin Admin Bar Unlocker
+ - Eliminación de archivos de instalación para SQL y Azure
+ - Elimación y corrección de módulos de la administración
 
 18-Ago-2014
  + Nuevo filtro para utilizar el componente de medios para gestionar diferente tipos de archivos
@@ -113,7 +117,7 @@ $ -> Idioma corrección o cambio
 26-abr-2013
  + Ajustes relativos a Joomla 2.5.10/2.5.11
  + Agregado en Gestor de Módulo el nombre de la carpeta del módulo.
- - Eliminado carpetas SQLSRV 
+ - Eliminado carpetas SQLSRV
  $ Agregada etiquetas faltantes en el Gestor de Plantillas
  $ Agregada etiqueta por nueva funcionalidad en el Gestor de módulos.
 
@@ -143,8 +147,8 @@ $ -> Idioma corrección o cambio
  # Instalación forzosa en es-LA y se define como lenguaje por defecto
  + Minisistema de descargas en los artículos (permite adjuntar hasta 3 archivos)
  + Agregada opción nueva para el módulo Quién está en línea
- + Agregado nuevo campo para parámetros en las extensiones que permite agregar ayuda con pieles 
- 
+ + Agregado nuevo campo para parámetros en las extensiones que permite agregar ayuda con pieles
+
 03-Ene-2013
  ^ Nueva presentación de Epígrafe o Copete.Cambio en la salida HTML Jokte Antu
  - Borrado de archivos de idioma que no corresponden
@@ -152,15 +156,15 @@ $ -> Idioma corrección o cambio
  ^ Nueva columna en el Actualizador de extensiones instaladas
  ^ Agregado campo epígrafe para redacción de artículos
  ^ Agregado opción en XML global para mostrar o no el campo epígrafe para redacción de articulos
-    
+
 30-Nov-2012
- ^ Error en SQL reparado (cache cleaner)  
+ ^ Error en SQL reparado (cache cleaner)
 
 28-Nov-2012
  # Actualización archivos
  - Se quitaron líneas de los archivos de idioma que ya que no se usan más
  - Borrando archivos que no se usarán más
- 
+
 27-Nov-2012
  # Actualización archivos
  - Eliminación de archivos SQL que no se usan más
@@ -187,7 +191,7 @@ $ -> Idioma corrección o cambio
  ^ Cambio de versionado (evaluar borrado definitivo)
  ^ Cambios por versionado de Jokte!
  ^ Cambios para actualización on line de Jokte!
- ^ Rest para prueba por el original 
+ ^ Rest para prueba por el original
 
 15-Nov-2012
  - Eliminado componente actualizador de Joomla
@@ -215,7 +219,7 @@ $ -> Idioma corrección o cambio
  - Eliminado plugin Googlemaps que estaba pre instalado
  - Eliminado plugin Ipfloating que estaba pre instalado
  ! Cambio de versión Jokte v1.1.4 - No se liberó
- 
+
 
 09-Oct-2012
  # Fix varios
@@ -223,7 +227,7 @@ $ -> Idioma corrección o cambio
 
 30-Sep-2012
  # Fix varios
- ! Cambio de versión Jokte v1.1.1 
+ ! Cambio de versión Jokte v1.1.1
 
 17-Sep-2012
  ^ Instalación simplificada en tres pasos
@@ -234,7 +238,7 @@ $ -> Idioma corrección o cambio
 30-Jul-2012
  * Actualización a la última versión de Joomla 2.5.6
  $ Cambio del paquete de idiomas por defecto a es-LA
- - Eliminación de la sección languages de com_installer 
+ - Eliminación de la sección languages de com_installer
  + Creación de funcionalidad para instalar extensiones con 1 clic desde la administración
  + Creación de funcionalidad para el registro de instalaciones Jokte
  ^ Cambio de los contenidos de ejemplo
