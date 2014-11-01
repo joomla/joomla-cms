@@ -90,7 +90,7 @@ class JFormFieldContenttypeTag extends JFormFieldList
 			// Make up the string from the component sys.ini file
 			$parts = explode('.', $option->alias);
 			$comp = $parts[0];
-			
+
 			// Cope with content_types which are not used by tags
 			if ($comp != 'com_banners' && $comp != 'com_users' && $comp != 'com_tags')
 			{
