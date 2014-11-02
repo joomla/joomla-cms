@@ -50,9 +50,11 @@ class JHtmlUtiles
 		// Si imagen del perfil
 		case '1':
 		  $profile 	= JUserHelper::getProfile($item->created_by);
-		  ($profile->profile['avatar'] == '') ? $imgautor = $imgdefault_g : $imgautor = $profile->profile['avatar'];
-		  ($profile->profile['website'] != '') ? $link = $profile->profile['website'] : $link = "#" ;
-		  $title_g = $item->created_by_alias ? $item->created_by_alias : $item->author;
+          if (isset($profile->profile)) {
+		    ($profile->profile['avatar'] == '') ? $imgautor = $imgdefault_g : $imgautor = $profile->profile['avatar'];
+            ($profile->profile['website'] != '') ? $link = $profile->profile['website'] : $link = "#" ;
+            $title_g = $item->created_by_alias ? $item->created_by_alias : $item->author;
+          }
 		  break;
 		  
 		// Si es Gravatar
