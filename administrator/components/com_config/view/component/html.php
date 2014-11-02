@@ -57,7 +57,7 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 		$this->fieldsets = $form->getFieldsets();
 
 		// Don't show permissions fieldset if not authorised.
-		if (!$user->authorise('core.admin', $component->option) && array_key_exists('permissions', $this->fieldsets))
+		if (!$user->authorise('core.admin', $component->option) && isset($this->fieldsets['permissions']))
 		{
 			unset($this->fieldsets['permissions']);
 		}
