@@ -24,7 +24,7 @@ abstract class JInstallerHelper
 	 * Downloads a package
 	 *
 	 * @param   string  $url     URL of file to download
-	 * @param   string  $target  Download target filename [optional]
+	 * @param   mixed   $target  Download target filename or false to get the filename from the URL
 	 *
 	 * @return  mixed  Path to downloaded package or boolean false on failure
 	 *
