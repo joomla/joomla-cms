@@ -425,7 +425,10 @@ class Registry implements \JsonSerializable, \ArrayAccess
 			}
 
 			// Get the old value if exists so we can return it
-			$result = $node->$nodes[$i] = $value;
+			if (is_object($node))
+			{
+				$result = $node->$nodes[$i] = $value;
+			}
 		}
 
 		return $result;
