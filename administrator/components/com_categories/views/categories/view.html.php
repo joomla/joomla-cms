@@ -167,6 +167,10 @@ class CategoriesViewCategories extends JViewLegacy
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
 			JToolbarHelper::preferences($component);
 		}
 

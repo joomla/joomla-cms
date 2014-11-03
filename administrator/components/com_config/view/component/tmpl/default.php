@@ -37,15 +37,13 @@ JHtml::_('formbehavior.chosen', 'select');
 		<!-- End Sidebar -->
 		<div class="span10">
 			<ul class="nav nav-tabs" id="configTabs">
-				<?php $fieldSets = $this->form->getFieldsets(); ?>
-				<?php foreach ($fieldSets as $name => $fieldSet) : ?>
+				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
 					<li><a href="#<?php echo $name; ?>" data-toggle="tab"><?php echo JText::_($label); ?></a></li>
 				<?php endforeach; ?>
 			</ul>
 			<div class="tab-content">
-				<?php $fieldSets = $this->form->getFieldsets(); ?>
-				<?php foreach ($fieldSets as $name => $fieldSet) : ?>
+				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<div class="tab-pane" id="<?php echo $name; ?>">
 						<?php
 						if (isset($fieldSet->description) && !empty($fieldSet->description))
