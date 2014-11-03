@@ -10,11 +10,13 @@
 defined('_JEXEC') or die;
 
 /**
- * Installer Database Controller
+ * Installer Service Controller
  *
- * @since  2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       3.4
  */
-class InstallerControllerDatabase extends JControllerLegacy
+class InstallerControllerService extends JControllerLegacy
 {
 	/**
 	 * Tries to fix missing database updates
@@ -26,7 +28,7 @@ class InstallerControllerDatabase extends JControllerLegacy
 	 */
 	public function fix()
 	{
-		$model = $this->getModel('database');
+		$model = $this->getModel('service');
 		$model->fix();
 
 		// Purge updates
@@ -37,6 +39,6 @@ class InstallerControllerDatabase extends JControllerLegacy
 		// Refresh versionable assets cache
 		JFactory::getApplication()->flushAssets();
 
-		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=database', false));
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=service', false));
 	}
 }

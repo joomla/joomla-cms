@@ -12,14 +12,16 @@ defined('_JEXEC') or die;
 include_once __DIR__ . '/../default/view.php';
 
 /**
- * Extension Manager Manage View
+ * Extension Manager Templates View
  *
- * @since  1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
-class InstallerViewDatabase extends InstallerViewDefault
+class InstallerViewService extends InstallerViewDefault
 {
 	/**
-	 * Display the view.
+	 * Display the view
 	 *
 	 * @param   string  $tpl  Template
 	 *
@@ -29,9 +31,12 @@ class InstallerViewDatabase extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model.
+		$items = $this->get('Items');
+		$this->messages = &$items;
+
+		// Get data from the model
 		$this->state = $this->get('State');
-		$this->changeSet = $this->get('Items');
+		$this->changeSet = $this->get('Changeset');
 		$this->errors = $this->changeSet->check();
 		$this->results = $this->changeSet->getStatus();
 		$this->schemaVersion = $this->get('SchemaVersion');
@@ -46,12 +51,10 @@ class InstallerViewDatabase extends InstallerViewDefault
 		{
 			$this->errorCount++;
 		}
-
 		if (!$this->filterParams)
 		{
 			$this->errorCount++;
 		}
-
 		if (version_compare($this->updateVersion, JVERSION) != 0)
 		{
 			$this->errorCount++;
@@ -70,11 +73,10 @@ class InstallerViewDatabase extends InstallerViewDefault
 	protected function addToolbar()
 	{
 		/*
-		 * Set toolbar items for the page.
+		 * Set toolbar items for the page
 		 */
-		JToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', false, false);
-		JToolbarHelper::divider();
+		JToolbarHelper::custom('service.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_SERVICE_DATABASE_FIX', false, false);
 		parent::addToolbar();
-		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DATABASE');
+		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_SERVICE');
 	}
 }
