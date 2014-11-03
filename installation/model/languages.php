@@ -1036,6 +1036,7 @@ class InstallationModelLanguages extends JModelBase
 		// Using $category->setLocation(1, 'last-child'); would be ideal here but doesn't seem to work in postgres
 		// as we're in install and 'know' the structure we'll just manually set it to be a child of the root category.
 		$data['parent_id'] = 1;
+		$data['level']     = 1;
 
 		// Bind the data to the table
 		if (!$category->bind($data))
