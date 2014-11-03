@@ -89,22 +89,18 @@ class JFormFieldContenttype extends JFormFieldList
 		{
 			// Make up the string from the component sys.ini file
 			$parts = explode('.', $option->alias);
-			$comp = $parts[0];
+			$comp = array_shift($parts);
 
 			// Make sure the component sys.ini is loaded
 			$lang->load($comp . '.sys', JPATH_ADMINISTRATOR, null, false, true)
 			|| $lang->load($comp . '.sys', JPATH_ADMINISTRATOR . '/components/' . $comp, null, false, true);
 
-			$option->string = mb_strtoupper(str_replace(' ', '_', $option->text), 'UTF-8');
+			$option->string = implode('_', $parts);
 			$option->string = $comp . '_CONTENT_TYPE_' . $option->string;
 
 			if ($lang->hasKey($option->string))
 			{
 				$option->text = JText::_($option->string);
-			}
-			else
-			{
-				$option->text = $option->text;
 			}
 
 		}
