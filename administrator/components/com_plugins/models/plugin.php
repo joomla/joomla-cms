@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Plugin model.
  *
@@ -155,7 +157,7 @@ class PluginsModelPlugin extends JModelAdmin
 			$this->_cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($table->params);
 			$this->_cache[$pk]->params = $registry->toArray();
 

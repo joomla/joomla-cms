@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Module helper class
  *
@@ -164,7 +166,7 @@ abstract class JModuleHelper
 		$app->scope = $module->module;
 
 		// Get module parameters
-		$params = new JRegistry;
+		$params = new Registry;
 		$params->loadString($module->params);
 
 		// Get the template

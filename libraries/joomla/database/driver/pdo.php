@@ -199,13 +199,15 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 				break;
 
+			// The pdomysql case is a special case within the CMS environment
+			case 'pdomysql':
 			case 'mysql':
 				$this->options['port'] = (isset($this->options['port'])) ? $this->options['port'] : 3306;
 
-				$format = 'mysql:host=#HOST#;port=#PORT#;dbname=#DBNAME#';
+				$format = 'mysql:host=#HOST#;port=#PORT#;dbname=#DBNAME#;charset=#CHARSET#';
 
-				$replace = array('#HOST#', '#PORT#', '#DBNAME#');
-				$with = array($this->options['host'], $this->options['port'], $this->options['database']);
+				$replace = array('#HOST#', '#PORT#', '#DBNAME#', '#CHARSET#');
+				$with = array($this->options['host'], $this->options['port'], $this->options['database'], $this->options['charset']);
 
 				break;
 
@@ -251,7 +253,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				break;
 
 			case 'sqlite':
-
 				if (isset($this->options['version']) && $this->options['version'] == 2)
 				{
 					$format = 'sqlite2:#DBNAME#';

@@ -19,7 +19,7 @@ class JViewCategories extends JViewLegacy
 	/**
 	 * State data
 	 *
-	 * @var    JRegistry
+	 * @var    \Joomla\Registry\Registry
 	 * @since  3.2
 	 */
 	protected $state;

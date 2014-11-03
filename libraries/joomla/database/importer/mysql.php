@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL import driver.
  *
- * @since  11.1
+ * @since       11.1
+ * @deprecated  Will be removed when the minimum supported PHP version no longer includes the deprecated PHP `mysql` extension
  */
 class JDatabaseImporterMysql extends JDatabaseImporterMysqli
 {

@@ -9,10 +9,7 @@
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
-if (!class_exists('JFormFieldCacheHandler'))
-{
-	require_once JPATH_LIBRARIES . '/joomla/form/fields/cachehandler.php';
-}
+JFormHelper::loadFieldClass('cachehandler');
 
 /**
  * Form Field class for FOF
@@ -26,10 +23,10 @@ class FOFFormFieldCachehandler extends JFormFieldCacheHandler implements FOFForm
 	protected $static;
 
 	protected $repeatable;
-	
+
 	/** @var   FOFTable  The item being rendered in a repeatable form field */
 	public $item;
-	
+
 	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
 	public $rowid;
 
@@ -61,7 +58,7 @@ class FOFFormFieldCachehandler extends JFormFieldCacheHandler implements FOFForm
 					$this->repeatable = $this->getRepeatable();
 				}
 
-				return $this->static;
+				return $this->repeatable;
 				break;
 
 			default:

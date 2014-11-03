@@ -9,10 +9,7 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die;
 
-if (!class_exists('JFormFieldUsergroup'))
-{
-	require_once JPATH_LIBRARIES . '/joomla/form/fields/usergroup.php';
-}
+JFormHelper::loadFieldClass('usergroup');
 
 /**
  * Form Field class for FOF
@@ -26,10 +23,10 @@ class FOFFormFieldUsergroup extends JFormFieldUsergroup implements FOFFormField
 	protected $static;
 
 	protected $repeatable;
-	
+
 	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
 	public $rowid;
-	
+
 	/** @var   FOFTable  The item being rendered in a repeatable form field */
 	public $item;
 
@@ -61,7 +58,7 @@ class FOFFormFieldUsergroup extends JFormFieldUsergroup implements FOFFormField
 					$this->repeatable = $this->getRepeatable();
 				}
 
-				return $this->static;
+				return $this->repeatable;
 				break;
 
 			default:
