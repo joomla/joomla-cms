@@ -102,10 +102,6 @@ class JFormFieldContenttype extends JFormFieldList
 			{
 				$option->text = JText::_($option->string);
 			}
-			else
-			{
-				$option->text = $option->text;
-			}
 
 		}
 
