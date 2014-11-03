@@ -61,10 +61,10 @@ Updates are free!
 
 Where can you get support and help?
 ---------------------
-* [Frequently Asked Questions](http://docs.joomla.org/Category:FAQ) (FAQ);
-* Find the [information you need](http://docs.joomla.org/Start_here);
-* Find [help and other users](http://www.joomla.org/about-joomla/create-and-share.html);
-* Post questions at [our forums](http://forum.joomla.org);
+* [Frequently Asked Questions](http://docs.joomla.org/Category:FAQ) (FAQ).
+* Find the [information you need](http://docs.joomla.org/Start_here).
+* Find [help and other users](http://www.joomla.org/about-joomla/create-and-share.html).
+* Post questions at [our forums](http://forum.joomla.org).
 * [Joomla Resources Directory](http://resources.joomla.org/tos.html) (JRD).
 
 Do you already have a Joomla site that isn't built with Joomla 3.x ?
