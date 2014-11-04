@@ -62,6 +62,7 @@ $params = $params->toArray();
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
+		<?php $this->ignore_fieldsets = array('jmetadata'); ?>
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS', true)); ?>
