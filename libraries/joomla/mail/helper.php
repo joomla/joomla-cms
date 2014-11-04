@@ -121,12 +121,13 @@ abstract class JMailHelper
 
 		/*
 		 * Check the local address
-		 * We're a bit more conservative about what constitutes a "legal" address, that is, A-Za-z0-9!#$%&\'*+/=?^_`{|}~-
-		 * Also, the last character in local cannot be a period ('.')
+		 * We're a bit more conservative about what constitutes a "legal" address, that is, a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-
+		 * The first and last character in local cannot be a period ('.')
+		 * Also, period should not appear 2 or more times consecutively
 		 */
-		$allowed = 'A-Za-z0-9!#&*+=?_-';
+		$allowed = 'a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-';
 		$regex = "/^[$allowed][\.$allowed]{0,63}$/";
-		if (!preg_match($regex, $local) || substr($local, -1) == '.')
+		if (!preg_match($regex, $local) || substr($local, -1) == '.' || $local[0] == '.' || preg_match('/\.\./', $local))
 		{
 			return false;
 		}
@@ -147,7 +148,7 @@ abstract class JMailHelper
 
 		// Check the domain
 		$domain_array = explode(".", rtrim($domain, '.'));
-		$regex = '/^[A-Za-z0-9-]{0,63}$/';
+		$regex = '/^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
 		foreach ($domain_array as $domain)
 		{
 
