@@ -87,10 +87,14 @@ function modChrome_horz($module, &$params, &$attribs)
  */
 function modChrome_xhtml($module, &$params, &$attribs)
 {
+	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
+	$headerClass	= $params->get('header_class');
+	$headerClass	= !empty($headerClass) ? ' class="' . htmlspecialchars($headerClass) . '"' : '';
+	
 	if (!empty ($module->content)) : ?>
 		<div class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
 		<?php if ((bool) $module->showtitle) : ?>
-			<h3><?php echo $module->title; ?></h3>
+			<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
 		<?php endif; ?>
 			<?php echo $module->content; ?>
 		</div>
@@ -101,13 +105,17 @@ function modChrome_xhtml($module, &$params, &$attribs)
  * Module chrome that allows for rounded corners by wrapping in nested div tags
  */
 function modChrome_rounded($module, &$params, &$attribs)
-{ ?>
+{ 
+	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
+	$headerClass	= $params->get('header_class');
+	$headerClass	= !empty($headerClass) ? ' class="' . htmlspecialchars($headerClass) . '"' : '';
+	?>
 		<div class="module<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
 			<div>
 				<div>
 					<div>
 						<?php if ((bool) $module->showtitle) : ?>
-							<h3><?php echo $module->title; ?></h3>
+							<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
 						<?php endif; ?>
 					<?php echo $module->content; ?>
 					</div>
