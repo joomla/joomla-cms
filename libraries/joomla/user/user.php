@@ -485,7 +485,7 @@ class JUser extends JObject
 	 *
 	 * @since   3.4.0
 	 */
-	public function clearAccessRíghts()
+	public function clearAccessRights()
 	{
 		$this->_authLevels = null;
 		$this->_authGroups = null;
