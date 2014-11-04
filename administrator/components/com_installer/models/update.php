@@ -190,7 +190,7 @@ class InstallerModelUpdate extends JModelList
 	 */
 	public function purge()
 	{
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 
 		// Note: TRUNCATE is a DDL operation
 		// This may or may not mean depending on your database
@@ -225,7 +225,7 @@ class InstallerModelUpdate extends JModelList
 	 */
 	public function enableSites()
 	{
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->update('#__update_sites')
 			->set('enabled = 1')

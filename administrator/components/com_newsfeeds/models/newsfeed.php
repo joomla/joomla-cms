@@ -348,7 +348,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 				$associations[$item->language] = $item->id;
 
 				// Deleting old association for these items
-				$db = JFactory::getDbo();
+				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->delete('#__associations')
 					->where($db->quoteName('context') . ' = ' . $db->quote('com_newsfeeds.item'))
@@ -472,7 +472,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
 			{
-				$db = JFactory::getDbo();
+				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select('MAX(ordering)')
 					->from($db->quoteName('#__newsfeeds'));
