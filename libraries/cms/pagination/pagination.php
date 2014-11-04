@@ -80,6 +80,13 @@ class JPagination
 	protected $additionalUrlParams = array();
 
 	/**
+	 * Pagination data object
+	 *
+	 * @var object
+	 */
+	protected $data;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   integer  $total       The total number of items.
@@ -227,14 +234,12 @@ class JPagination
 	 */
 	public function getData()
 	{
-		static $data;
-
-		if (!is_object($data))
+		if (!$this->data)
 		{
-			$data = $this->_buildDataObject();
+			$this->data = $this->_buildDataObject();
 		}
 
-		return $data;
+		return $this->data;
 	}
 
 	/**
