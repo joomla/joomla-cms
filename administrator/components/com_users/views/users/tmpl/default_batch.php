@@ -29,7 +29,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_USERS_BATCH_OPTIONS'); ?></h3>
 	</div>
-	<div class="modal-body modal-batch">
+	<div class="modal-body modal-batch overflow-visible">
 		<div class="row-fluid">
 			<div id="batch-choose-action" class="combo control-group">
 				<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
