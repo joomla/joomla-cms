@@ -127,7 +127,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->info = array();
 			$version = new JVersion;
 			$platform = new JPlatform;
-			$db = JFactory::getDbo();
+			$db = $this->getDbo();
 
 			if (isset($_SERVER['SERVER_SOFTWARE']))
 			{

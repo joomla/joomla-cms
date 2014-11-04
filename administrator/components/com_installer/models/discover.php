@@ -68,7 +68,7 @@ class InstallerModelDiscover extends InstallerModel
 		$client = $this->getState('filter.client_id');
 		$group  = $this->getState('filter.group');
 
-		$query = JFactory::getDbo()->getQuery(true)
+		$query = $this->getDbo()->getQuery(true)
 			->select('*')
 			->from('#__extensions')
 			->where('state=-1');
@@ -117,7 +117,7 @@ class InstallerModelDiscover extends InstallerModel
 		$results	= $installer->discover();
 
 		// Get all templates, including discovered ones
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('extension_id, element, folder, client_id, type')
 			->from('#__extensions');
@@ -207,7 +207,7 @@ class InstallerModelDiscover extends InstallerModel
 	 */
 	public function purge()
 	{
-		$db		= JFactory::getDbo();
+		$db		= $this->getDbo();
 		$query	= $db->getQuery(true)
 			->delete('#__extensions')
 			->where('state = -1');

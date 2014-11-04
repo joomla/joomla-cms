@@ -46,7 +46,7 @@ class InstallerModelLanguages extends JModelList
 	 */
 	protected function _getListQuery()
 	{
-		$db   = JFactory::getDbo();
+		$db   = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the updates table.

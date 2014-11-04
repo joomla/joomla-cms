@@ -556,7 +556,7 @@ class ContactModelContact extends JModelAdmin
 				$associations[$item->language] = $item->id;
 
 				// Deleting old association for these items
-				$db = JFactory::getDbo();
+				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->delete('#__associations')
 					->where('context=' . $db->quote('com_contact.item'))
@@ -627,7 +627,7 @@ class ContactModelContact extends JModelAdmin
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
 			{
-				$db = JFactory::getDbo();
+				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select('MAX(ordering)')
 					->from($db->quoteName('#__contact_details'));

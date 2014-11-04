@@ -282,7 +282,7 @@ class ContentModelArticle extends JModelItem
 			$userIP = $_SERVER['REMOTE_ADDR'];
 
 			// Initialize variables.
-			$db    = JFactory::getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true);
 
 			// Create the base select statement.

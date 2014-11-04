@@ -1315,7 +1315,7 @@ class MenusModelItem extends JModelAdmin
 			$associations[$table->language] = $table->id;
 
 			// Deleting old association for these items
-			$db = JFactory::getDbo();
+			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete('#__associations')
 				->where('context=' . $db->quote('com_menus.item'))

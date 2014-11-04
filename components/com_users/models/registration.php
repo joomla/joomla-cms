@@ -565,7 +565,7 @@ class UsersModelRegistration extends JModelForm
 			$this->setError(JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
 
 			// Send a system message to administrators receiving system mails
-			$db = JFactory::getDbo();
+			$db = $this->getDbo();
 			$query->clear()
 				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))

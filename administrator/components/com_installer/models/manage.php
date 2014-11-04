@@ -290,7 +290,7 @@ class InstallerModelManage extends InstallerModel
 		$type = $this->getState('filter.type');
 		$client = $this->getState('filter.client_id');
 		$group = $this->getState('filter.group');
-		$query = JFactory::getDbo()->getQuery(true)
+		$query = $this->getDbo()->getQuery(true)
 			->select('*')
 			->select('2*protected+(1-protected)*enabled as status')
 			->from('#__extensions')
