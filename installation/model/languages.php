@@ -1034,7 +1034,7 @@ class InstallationModelLanguages extends JModelBase
 			'parent_id'    => 1
 		);
 
-		// Set the level of the category
+		// Set the location in the tree.
 		$category->setLocation(1, 'last-child');
 
 		// Bind the data to the table
