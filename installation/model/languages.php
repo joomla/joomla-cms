@@ -1030,13 +1030,12 @@ class InstallationModelLanguages extends JModelBase
 			'metadata'     => '{"page_title":"","author":"","robots":""}',
 			'created_time' => JFactory::getDate()->toSql(),
 			'language'     => $itemLanguage->language,
-			'rules'        => array()
+			'rules'        => array(),
+			'parent_id'    => 1
 		);
 
-		// Using $category->setLocation(1, 'last-child'); would be ideal here but doesn't seem to work in postgres
-		// as we're in install and 'know' the structure we'll just manually set it to be a child of the root category.
-		$data['parent_id'] = 1;
-		$data['level']     = 1;
+		// Set the level of the category
+		$category->setLocation(1, 'last-child');
 
 		// Bind the data to the table
 		if (!$category->bind($data))
