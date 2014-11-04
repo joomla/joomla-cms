@@ -1,1 +1,1 @@
-# Placeholder file for database changes for version 2.5.28
+ALTER TABLE [#__user_profiles] ALTER COLUMN [profile_value] [nvarchar](max) NOT NULL;
