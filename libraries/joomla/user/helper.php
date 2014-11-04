@@ -348,6 +348,32 @@ abstract class JUserHelper
 
 			$rehash = false;
 		}
+		elseif ($hash[0] == '$')
+		{
+			// JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
+			JCrypt::hasStrongPasswordSupport();
+			
+			if (function_exists('password_verify'))
+			{
+   				$match = password_verify($password, $hash);
+   
+   				// Uncomment this line if we actually move to bcrypt.
+   				$rehash = password_needs_rehash($hash, PASSWORD_DEFAULT);
+			}
+		}
+		elseif (substr($hash, 0, 8) == '{SHA256}')
+		{
+			// Check the password
+			$parts     = explode(':', $hash);
+			$crypt     = $parts[0];
+			$salt      = @$parts[1];
+			$testcrypt = static::getCryptedPassword($password, $salt, 'sha256', true);
+
+			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
+
+			$rehash = true;
+		}
+		
 		else
 		{
 			// Check the password
