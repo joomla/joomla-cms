@@ -160,17 +160,9 @@ class PlgSearchContent extends JPlugin
 			$case_when .= ' ELSE ';
 			$case_when .= $a_id . ' END as slug';
 
-			$case_when1 = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('c.alias', '!=', '0');
-			$case_when1 .= ' THEN ';
-			$c_id = $query->castAsChar('c.id');
-			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
-			$case_when1 .= ' ELSE ';
-			$case_when1 .= $c_id . ' END as catslug';
-
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
-				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
+				->select('c.title AS section, ' . $case_when . ', a.catid, ' . '\'2\' AS browsernav')
 
 				->from('#__content AS a')
 				->join('INNER', '#__categories AS c ON c.id=a.catid')
@@ -198,7 +190,7 @@ class PlgSearchContent extends JPlugin
 			{
 				foreach ($list as $key => $item)
 				{
-					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
+					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catid);
 				}
 			}
 
@@ -219,18 +211,10 @@ class PlgSearchContent extends JPlugin
 			$case_when .= ' ELSE ';
 			$case_when .= $a_id . ' END as slug';
 
-			$case_when1 = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('c.alias', '!=', '0');
-			$case_when1 .= ' THEN ';
-			$c_id = $query->castAsChar('c.id');
-			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
-			$case_when1 .= ' ELSE ';
-			$case_when1 .= $c_id . ' END as catslug';
-
 			$query->select(
 				'a.title AS title, a.metadesc, a.metakey, a.created AS created, '
 					. $query->concatenate(array("a.introtext", "a.fulltext")) . ' AS text,'
-					. $case_when . ',' . $case_when1 . ', '
+					. $case_when . ', '
 					. 'c.title AS section, \'2\' AS browsernav'
 			);
 

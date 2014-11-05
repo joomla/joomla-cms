@@ -133,14 +133,7 @@ class PlgContentPagenavigation extends JPlugin
 			$case_when .= ' ELSE ';
 			$case_when .= $a_id . ' END as slug';
 
-			$case_when1 = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('cc.alias', '!=', '0');
-			$case_when1 .= ' THEN ';
-			$c_id = $query->castAsChar('cc.id');
-			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
-			$case_when1 .= ' ELSE ';
-			$case_when1 .= $c_id . ' END as catslug';
-			$query->select('a.id,' . $case_when . ',' . $case_when1)
+			$query->select('a.id,' . $case_when . ', a.catid')
 				->from('#__content AS a')
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
 				->where(
@@ -194,7 +187,7 @@ class PlgContentPagenavigation extends JPlugin
 
 			if ($row->prev)
 			{
-				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catslug));
+				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catid));
 			}
 			else
 			{
@@ -203,7 +196,7 @@ class PlgContentPagenavigation extends JPlugin
 
 			if ($row->next)
 			{
-				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catslug));
+				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catid));
 			}
 			else
 			{
