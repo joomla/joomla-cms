@@ -12,8 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi database driver
  *
- * @see    http://php.net/manual/en/book.mysqli.php
- * @since  12.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @see         http://php.net/manual/en/book.mysqli.php
+ * @since       12.1
  */
 class JDatabaseDriverMysqli extends JDatabaseDriver
 {
@@ -505,20 +507,14 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Execute the SQL statement.
 	 *
-	 * @return  mixed  A database cursor resource on success, boolean false on failure.
+	 * @return  mixed  A database cursor resource on success.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
 	public function execute()
 	{
-		$this->connect();
-
-		if (!is_object($this->connection))
-		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
-		}
+		$this->checkConnection();
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
@@ -534,25 +530,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Reset the error values.
 		$this->errorNum = 0;
 		$this->errorMsg = '';
-		$memoryBefore   = null;
 
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
-			// Add the query to the object queue.
-			$this->log[] = $query;
-
-			JLog::add($query, JLog::DEBUG, 'databasequery');
-
-			$this->timings[] = microtime(true);
-
-			if (is_object($this->cursor))
-			{
-				// Avoid warning if result already freed by third-party library
-				@$this->freeResult();
-			}
-
-			$memoryBefore = memory_get_usage();
+			$this->debugQuery($query, 'before');
 		}
 
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
@@ -560,22 +542,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		if ($this->debug)
 		{
-			$this->timings[] = microtime(true);
-
-			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
-			{
-				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-			}
-			else
-			{
-				$this->callStacks[] = debug_backtrace();
-			}
-
-			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array(
-				$memoryBefore,
-				memory_get_usage(),
-				is_object($this->cursor) ? $this->getNumRows() : null
-			);
+			$this->debugQuery($query, 'after');
 		}
 
 		// If an error occurred handle it.
@@ -587,18 +554,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			// Check if the server was disconnected.
 			if (!$this->connected())
 			{
-				try
-				{
-					// Attempt to reconnect.
-					$this->connection = null;
-					$this->connect();
-				}
-				// If connect fails, ignore that exception and throw the normal exception.
-				catch (RuntimeException $e)
-				{
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-					throw new RuntimeException($this->errorMsg, $this->errorNum);
-				}
+				$this->reConnect();
 
 				// Since we were able to reconnect, run the query again.
 				return $this->execute();
@@ -609,6 +565,78 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
+		}
+
+		return $this->cursor;
+	}
+
+	/**
+	 * Execute an array of SQL Statements in one go
+	 *
+	 * @param   array  $queries          an array of queries
+	 * @param   bool   $transactionSave  if true lets run the queries in a transaction if possible
+	 *
+	 * @return  mixed  A database cursor resource on success.
+	 *
+	 * @throws  RuntimeException
+	 */
+	public function executeBatch($queries, $transactionSave = false)
+	{
+		$this->checkConnection();
+
+		$query = $this->replacePrefix((string) implode(';', $queries));
+
+		// Increment the query counter.
+		$this->count++;
+
+		// Reset the error values.
+		$this->errorNum = 0;
+		$this->errorMsg = '';
+
+		// If debugging is enabled then let's log the query.
+		if ($this->debug)
+		{
+			$this->debugQuery($query, 'before');
+		}
+
+		if ($transactionSave)
+		{
+			$this->transactionStart();
+		}
+
+		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
+		$this->cursor = @mysqli_multi_query($this->connection, $query);
+
+		// If an error occurred handle it.
+		if (!$this->cursor)
+		{
+			$this->errorNum = (int) mysqli_errno($this->connection);
+			$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $query;
+
+			// Check if the server was disconnected.
+			if (!$this->connected())
+			{
+				$this->reConnect();
+
+				// Since we were able to reconnect, run the query again.
+				return $this->executeBatch($queries, $transactionSave);
+			}
+			// The server was not disconnected.
+			else
+			{
+				if ($transactionSave)
+				{
+					$this->transactionRollback();
+				}
+
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				throw new RuntimeException($this->errorMsg, $this->errorNum);
+			}
+		}
+
+		if ($transactionSave)
+		{
+			$this->transactionCommit();
 		}
 
 		return $this->cursor;
@@ -864,6 +892,97 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		catch (Exception $e)
 		{
 			return false;
+		}
+	}
+
+	/**
+	 * Check is we have a connection
+	 *
+	 * @return  void
+	 *
+	 * @throws  RuntimeException
+	 */
+	protected function checkConnection()
+	{
+		$this->connect();
+
+		if (!is_object($this->connection))
+		{
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new RuntimeException($this->errorMsg, $this->errorNum);
+		}
+	}
+
+	/**
+	 * Debug a query
+	 *
+	 * @param   string  $query  the query string
+	 * @param   string  $when   are we before or after we have executed the query
+	 *
+	 * @return  void
+	 */
+	protected function debugQuery($query, $when='before')
+	{
+		static $memoryBefore = null;
+
+		if ($when == 'before')
+		{
+			// Add the query to the object queue.
+			$this->log[] = $query;
+
+			JLog::add($query, JLog::DEBUG, 'databasequery');
+
+			$this->timings[] = microtime(true);
+
+			if (is_object($this->cursor))
+			{
+				// Avoid warning if result already freed by third-party library
+				@$this->freeResult();
+			}
+
+			$memoryBefore = memory_get_usage();
+		}
+		else
+		{
+			$this->timings[] = microtime(true);
+
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
+
+			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array(
+				$memoryBefore,
+				memory_get_usage(),
+				is_object($this->cursor) ? $this->getNumRows() : null
+			);
+		}
+	}
+
+	/**
+	 * Try to reConnect to the database server
+	 *
+	 * @return  void
+	 *
+	 * @throws  RuntimeException
+	 */
+	protected function reConnect()
+	{
+		try
+		{
+			// Attempt to reconnect.
+			$this->connection = null;
+			$this->connect();
+		}
+			// If connect fails, ignore that exception and throw the normal exception.
+		catch (RuntimeException $e)
+		{
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+			throw new RuntimeException($this->errorMsg, $this->errorNum);
 		}
 	}
 }
