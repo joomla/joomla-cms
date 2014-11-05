@@ -19,9 +19,11 @@ abstract class JHtmlSystem
 	/**
 	 * Method to generate a string message for a value
 	 *
-	 * @param   string  $val  a php ini value
+	 * @param   string  $val  A php ini value
 	 *
 	 * @return  string html code
+	 *
+	 * @since   1.6
 	 */
 	public static function server($val)
 	{

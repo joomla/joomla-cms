@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
  */
 function admin_postinstall_eaccelerator_condition()
 {
-	$app = JFactory::getApplication();
+	$app          = JFactory::getApplication();
 	$cacheHandler = $app->get('cacheHandler', '');
 
 	return (ucfirst($cacheHandler) == 'Eaccelerator');
@@ -42,14 +42,12 @@ function admin_postinstall_eaccelerator_condition()
  */
 function admin_postinstall_eaccelerator_action()
 {
-	$prev = new JConfig;
-	$prev = JArrayHelper::fromObject($prev);
-
-	$data = array('cacheHandler' => 'file');
-
-	$data = array_merge($prev, $data);
-
+	$prev   = new JConfig;
+	$prev   = JArrayHelper::fromObject($prev);
+	$data   = array('cacheHandler' => 'file');
+	$data   = array_merge($prev, $data);
 	$config = new JRegistry('config');
+
 	$config->loadArray($data);
 
 	jimport('joomla.filesystem.path');
