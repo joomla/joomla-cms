@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * MediaWiki API object class for the Joomla Platform.
  *
@@ -17,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 abstract class JMediawikiObject
 {
 	/**
-	 * @var    JRegistry  Options for the MediaWiki object.
+	 * @var    Registry  Options for the MediaWiki object.
 	 * @since  12.3
 	 */
 	protected $options;
@@ -29,16 +31,16 @@ abstract class JMediawikiObject
 	protected $client;
 
 	/**
-	 * Constructor.
-	 *
-	 * @param   JRegistry       $options  Mediawiki options object.
-	 * @param   JMediawikiHttp  $client   The HTTP client object.
-	 *
-	 * @since   12.3
-	 */
-	public function __construct(JRegistry $options = null, JMediawikiHttp $client = null)
+     * Constructor.
+     *
+     * @param   Registry        $options  Mediawiki options object.
+     * @param   JMediawikiHttp  $client   The HTTP client object.
+     *
+     * @since   12.3
+     */
+	public function __construct(Registry $options = null, JMediawikiHttp $client = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client = isset($client) ? $client : new JMediawikiHttp($this->options);
 	}
 

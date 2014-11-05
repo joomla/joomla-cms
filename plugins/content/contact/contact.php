@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Contact Plugin
  *
@@ -44,7 +46,7 @@ class PlgContentContact extends JPlugin
 		}
 
 		// Return if we don't have valid params or don't link the author
-		if (!($params instanceof JRegistry) || !$params->get('link_author'))
+		if (!($params instanceof Registry) || !$params->get('link_author'))
 		{
 			return true;
 		}

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 /**
  * Test class for JApplicationAdministrator.
  *
@@ -97,7 +99,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		// Set the config for the app
-		$config = new JRegistry;
+		$config = new Registry;
 		$config->set('session', false);
 
 		// Get a new JApplicationAdministrator instance.
@@ -221,7 +223,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 
 		$template = $this->class->getTemplate(true);
 
-		$this->assertInstanceOf('JRegistry', $template->params);
+		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
 		$this->assertEquals('isis', $template->template);
 	}

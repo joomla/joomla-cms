@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Library helper class
  *
@@ -50,7 +52,7 @@ class JLibraryHelper
 		{
 			$result = new stdClass;
 			$result->enabled = $strict ? false : true;
-			$result->params = new JRegistry;
+			$result->params = new Registry;
 		}
 
 		return $result;
@@ -78,9 +80,9 @@ class JLibraryHelper
 	 * @param   string   $element  Element of the library in the extensions table.
 	 * @param   boolean  $strict   If set and the library does not exist, false will be returned
 	 *
-	 * @return  JRegistry  A JRegistry object.
+	 * @return  Registry  A Registry object.
 	 *
-	 * @see     JRegistry
+	 * @see     Registry
 	 * @since   3.2
 	 */
 	public static function getParams($element, $strict = false)
@@ -93,12 +95,12 @@ class JLibraryHelper
 	/**
 	 * Save the parameters object for the library
 	 *
-	 * @param   string     $element  Element of the library in the extensions table.
-	 * @param   JRegistry  $params   Params to save
+	 * @param   string    $element  Element of the library in the extensions table.
+	 * @param   Registry  $params   Params to save
 	 *
-	 * @return  JRegistry  A JRegistry object.
+	 * @return  Registry  A Registry object.
 	 *
-	 * @see     JRegistry
+	 * @see     Registry
 	 * @since   3.2
 	 */
 	public static function saveParams($element, $params)
@@ -173,7 +175,7 @@ class JLibraryHelper
 		// Convert the params to an object.
 		if (is_string(static::$libraries[$element]->params))
 		{
-			$temp = new JRegistry;
+			$temp = new Registry;
 			$temp->loadString(static::$libraries[$element]->params);
 			static::$libraries[$element]->params = $temp;
 		}

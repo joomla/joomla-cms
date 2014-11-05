@@ -8,6 +8,9 @@
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
+
 jimport('joomla.oauth.v2client');
 
 /**
@@ -26,14 +29,14 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      $options  JGoogleAuth options object.
+	 * @param   Registry       $options  JGoogleAuth options object.
 	 * @param   JOAuth2Client  $client   OAuth client for Google authentication.
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JOAuth2Client $client = null)
+	public function __construct(Registry $options = null, JOAuth2Client $client = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client = isset($client) ? $client : new JOAuth2Client($this->options);
 	}
 

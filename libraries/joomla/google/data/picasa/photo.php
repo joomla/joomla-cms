@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Google Picasa data class for the Joomla Platform.
  *
@@ -26,12 +28,12 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 * Constructor.
 	 *
 	 * @param   SimpleXMLElement  $xml      XML from Google
-	 * @param   JRegistry         $options  Google options object
+	 * @param   Registry          $options  Google options object
 	 * @param   JGoogleAuth       $auth     Google data http client object
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(SimpleXMLElement $xml, JRegistry $options = null, JGoogleAuth $auth = null)
+	public function __construct(SimpleXMLElement $xml, Registry $options = null, JGoogleAuth $auth = null)
 	{
 		$this->xml = $xml;
 
@@ -51,7 +53,9 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 * @return  boolean  Success or failure.
 	 *
 	 * @since   12.3
-	 * @throws UnexpectedValueException
+	 * @throws  Exception
+	 * @throws  RuntimeException
+	 * @throws  UnexpectedValueException
 	 */
 	public function delete($match = '*')
 	{

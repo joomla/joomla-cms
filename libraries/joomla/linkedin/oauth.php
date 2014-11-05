@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die();
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform class for generating Linkedin API access token.
  *
@@ -17,23 +19,23 @@ defined('JPATH_PLATFORM') or die();
 class JLinkedinOauth extends JOAuth1Client
 {
 	/**
-	 * @var    JRegistry  Options for the JLinkedinOauth object.
-	 * @since  13.1
-	 */
+	* @var    Registry  Options for the JLinkedinOauth object.
+	* @since  13.1
+	*/
 	protected $options;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  JLinkedinOauth options object.
-	 * @param   JHttp      $client   The HTTP client object.
-	 * @param   JInput     $input    The input object
+	 * @param   Registry  $options  JLinkedinOauth options object.
+	 * @param   JHttp     $client   The HTTP client object.
+	 * @param   JInput    $input    The input object
 	 *
-	 * @since 13.1
+	 * @since   13.1
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null)
+	public function __construct(Registry $options = null, JHttp $client = null, JInput $input = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 
 		$this->options->def('accessTokenURL', 'https://www.linkedin.com/uas/oauth/accessToken');
 		$this->options->def('authenticateURL', 'https://www.linkedin.com/uas/oauth/authenticate');

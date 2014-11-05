@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * This models supports retrieving lists of article categories.
  *
@@ -100,7 +102,7 @@ class ContentModelCategories extends JModelList
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry;
+			$params = new Registry;
 
 			if ($active)
 			{

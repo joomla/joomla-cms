@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Profile model class for Users.
  *
@@ -146,7 +148,7 @@ class UsersModelProfile extends JModelForm
 			unset($this->data->password1);
 			unset($this->data->password2);
 
-			$registry = new JRegistry($this->data->params);
+			$registry = new Registry($this->data->params);
 			$this->data->params = $registry->toArray();
 
 			// Get the dispatcher and load the users plugins.
