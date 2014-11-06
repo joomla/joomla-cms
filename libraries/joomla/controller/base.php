@@ -9,38 +9,43 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Controller\AbstractController;
+use Joomla\Application\AbstractApplication;
+
 /**
  * Joomla Platform Base Controller Class
  *
  * @since  12.1
  */
-abstract class JControllerBase implements JController
+abstract class JControllerBase extends AbstractController implements JController
 {
 	/**
 	 * The application object.
 	 *
-	 * @var    JApplicationBase
-	 * @since  12.1
+	 * @var         AbstractApplication
+	 * @since       12.1
+	 * @deprecated  3.4  This class variable will be private from 4.0
 	 */
 	protected $app;
 
 	/**
 	 * The input object.
 	 *
-	 * @var    JInput
-	 * @since  12.1
+	 * @var         JInput
+	 * @since       12.1
+	 * @deprecated  3.4  This class variable will be private from 4.0
 	 */
 	protected $input;
 
 	/**
 	 * Instantiate the controller.
 	 *
-	 * @param   JInput            $input  The input object.
-	 * @param   JApplicationBase  $app    The application object.
+	 * @param   JInput               $input  The input object.
+	 * @param   AbstractApplication  $app    The application object.
 	 *
 	 * @since  12.1
 	 */
-	public function __construct(JInput $input = null, JApplicationBase $app = null)
+	public function __construct(JInput $input = null, AbstractApplication $app = null)
 	{
 		// Setup dependencies.
 		$this->app = isset($app) ? $app : $this->loadApplication();
@@ -50,7 +55,7 @@ abstract class JControllerBase implements JController
 	/**
 	 * Get the application object.
 	 *
-	 * @return  JApplicationBase  The application object.
+	 * @return  AbstractApplication  The application object.
 	 *
 	 * @since   12.1
 	 */
@@ -112,7 +117,7 @@ abstract class JControllerBase implements JController
 	/**
 	 * Load the application object.
 	 *
-	 * @return  JApplicationBase  The application object.
+	 * @return  JApplicationCms  The application object.
 	 *
 	 * @since   12.1
 	 */
@@ -131,5 +136,37 @@ abstract class JControllerBase implements JController
 	protected function loadInput()
 	{
 		return $this->app->input;
+	}
+
+	/**
+	 * Set the application object.
+	 *
+	 * @param   AbstractApplication  $app  The application object.
+	 *
+	 * @return  JControllerBase  Returns itself to support chaining.
+	 *
+	 * @since   3.4
+	 */
+	public function setApplication(AbstractApplication $app)
+	{
+		$this->app = $app;
+
+		return $this;
+	}
+
+	/**
+	 * Set the input object.
+	 *
+	 * @param   Input\Input  $input  The input object.
+	 *
+	 * @return  JControllerBase  Returns itself to support chaining.
+	 *
+	 * @since   3.4
+	 */
+	public function setInput(Joomla\Input\Input $input)
+	{
+		$this->input = $input;
+
+		return $this;
 	}
 }
