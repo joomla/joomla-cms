@@ -824,12 +824,12 @@ class JHelperTags extends JHelper
 				$result = $result && $ucmContentTable->bind($ucmData['common']);
 				$result = $result && $ucmContentTable->check();
 				$result = $result && $ucmContentTable->store();
-				
+
 				if (!$result)
 				{
 					throw new Exception($ucmContentTable->getError());
 				}
-				
+
 				$ucmId = $ucmContentTable->core_content_id;
 
 				// Store the tag data if the article data was saved and run related methods.
