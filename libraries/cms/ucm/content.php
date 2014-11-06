@@ -133,9 +133,19 @@ class JUcmContent extends JUcmBase
 	{
 		$contentType = isset($type) ? $type : $this->type;
 
+		if (!is_object($contentType->type))
+		{
+			throw new \LogicException('Please add a row to content_type');
+		}
+
 		$fields = json_decode($contentType->type->field_mappings);
 
 		$ucmData = array();
+
+		if (!$fields)
+		{
+			throw new \LogicException('Please add field_mappings for this content type: ' . $contentType->type->type_alias);
+		}
 
 		$common = (is_object($fields->common)) ? $fields->common : $fields->common[0];
 
