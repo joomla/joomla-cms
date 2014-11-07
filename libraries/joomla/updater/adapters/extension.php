@@ -52,6 +52,8 @@ class JUpdaterExtension extends JUpdateAdapter
 				break;
 			// Don't do anything
 			case 'UPDATES':
+				// Store compatibility info per updates block (usually one per file)
+				$this->compatibility = array();
 				break;
 			default:
 				if (in_array($name, $this->_updatecols))
@@ -62,6 +64,11 @@ class JUpdaterExtension extends JUpdateAdapter
 				if ($name == 'TARGETPLATFORM')
 				{
 					$this->current_update->targetplatform = $attrs;
+
+					if (isset($attrs['NAME']) && ($attrs['NAME'] == 'joomla') && !empty($attrs['VERSION']))
+					{
+						$this->current_update->compatibility = $attrs['VERSION'];
+					}
 				}
 				if ($name == 'PHP_MINIMUM')
 				{
@@ -90,6 +97,14 @@ class JUpdaterExtension extends JUpdateAdapter
 			case 'UPDATE':
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
+
+				// Keep compatibility information in class property
+				if (isset($this->current_update->compatibility))
+				{
+					$this->compatibility[$this->current_update->version][] = $this->current_update->compatibility;
+					unset($this->current_update->compatibility);
+				}
+
 				// Check that the product matches and that the version matches (optionally a regexp)
 				if ($product == $this->current_update->targetplatform['NAME']
 					&& preg_match('/' . $this->current_update->targetplatform['VERSION'] . '/', $ver->RELEASE))
@@ -253,6 +268,6 @@ class JUpdaterExtension extends JUpdateAdapter
 			$updates = array();
 		}
 
-		return array('update_sites' => array(), 'updates' => $updates);
+		return array('update_sites' => array(), 'updates' => $updates, 'compatibility' => $this->compatibility);
 	}
 }

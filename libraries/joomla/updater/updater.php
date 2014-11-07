@@ -153,6 +153,31 @@ class JUpdater extends JAdapter
 									$current_update->extension_id = $eid;
 									$current_update->store();
 								}
+
+								// Store compatibility information into the extension table
+								if (!empty($update_result['compatibility']))
+								{
+									$system_data = json_decode($extension->system_data);
+									$system_data->compatibility = new stdClass();
+
+									$compatibility = $update_result['compatibility'];
+									ksort($compatibility);
+
+									// Check data for current installed version
+									if (!empty($compatibility[$data['version']]))
+									{
+										$system_data->compatibility->installed          = new stdClass();
+										$system_data->compatibility->installed->value   = $compatibility[$data['version']];
+										$system_data->compatibility->installed->version = $data['version'];
+									}
+
+									// Get last item in array which is highest release
+									$system_data->compatibility->available          = new stdClass();
+									$system_data->compatibility->available->value   = end($compatibility);
+									$system_data->compatibility->available->version = key($compatibility);
+									$extension->system_data = json_encode($system_data);
+									$extension->store();
+								}
 							}
 							else
 							{
