@@ -271,6 +271,7 @@ class JModelList extends JModelLegacy
 
 		try
 		{
+			$query->clear('offset');
 			$total = (int) $this->_getListCount($query);
 		}
 		catch (RuntimeException $e)
