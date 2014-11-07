@@ -207,7 +207,7 @@ class PlgContentPagenavigation extends JPlugin
 			}
 
 			$objAttrib = json_decode($rows[$location]->attribs);
-			
+
 			if ($objAttrib->show_item_navigation != '' && intval($objAttrib->show_item_navigation) == 0)
 			{
 				$row->prev = '';
@@ -229,9 +229,6 @@ class PlgContentPagenavigation extends JPlugin
 
 				// This will default to the 1.5 and 1.6-1.7 behavior.
 				$row->paginationrelative = $this->params->get('relative', 0);
-				
-
-
 			}
 		}
 
