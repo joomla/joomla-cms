@@ -14,3 +14,8 @@ JLoader::registerAlias('JRegistryFormatPHP',  '\\Joomla\\Registry\\Format\\Php')
 JLoader::registerAlias('JRegistryFormatXML',  '\\Joomla\\Registry\\Format\\Xml');
 JLoader::registerAlias('JStringInflector',    '\\Joomla\\String\\Inflector');
 JLoader::registerAlias('JStringNormalise',    '\\Joomla\\String\\Normalise');
+JLoader::registerAlias('JInput',              '\\Joomla\\Input\\Input');
+JLoader::registerAlias('JInputCli',           '\\Joomla\\Input\\Cli');
+JLoader::registerAlias('JInputCookie',        '\\Joomla\\Input\\Cookie');
+JLoader::registerAlias('JInputFiles',         '\\Joomla\\Input\\Files');
+JLoader::registerAlias('JInputJson',          '\\Joomla\\Input\\Json');
