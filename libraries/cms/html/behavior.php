@@ -136,8 +136,37 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @Deprecated Use formvalidator() instead
 	 */
 	public static function formvalidation()
+	{
+		// Only load once
+		if (isset(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		// Include MooTools framework
+		static::framework();
+
+		// Load the new jQuery code
+		static::formvalidator();
+	}
+
+	/**
+	 * Add unobtrusive JavaScript support for form validation.
+	 *
+	 * To enable form validation the form tag must have class="form-validate".
+	 * Each field that needs to be validated needs to have class="validate".
+	 * Additional handlers can be added to the handler for username, password,
+	 * numeric and email. To use these add class="validate-email" and so on.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public static function formvalidator()
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
