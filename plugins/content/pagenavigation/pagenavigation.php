@@ -140,7 +140,7 @@ class PlgContentPagenavigation extends JPlugin
 			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
-			$query->select('a.id, a.title, a.attribs,' . $case_when . ',' . $case_when1)
+			$query->select('a.id, a.title,' . $case_when . ',' . $case_when1)
 				->from('#__content AS a')
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
 				->where(
@@ -203,14 +203,6 @@ class PlgContentPagenavigation extends JPlugin
 			else
 			{
 				$row->next_label = '';
-				$row->next = '';
-			}
-
-			$objAttrib = json_decode($rows[$location]->attribs);
-
-			if ($objAttrib->show_item_navigation != '' && intval($objAttrib->show_item_navigation) == 0)
-			{
-				$row->prev = '';
 				$row->next = '';
 			}
 
