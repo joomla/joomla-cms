@@ -13,13 +13,13 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.core');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
 JText::script('ERROR');
-?>
 
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
+jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		var form = document.getElementById('item-form');
@@ -28,8 +28,8 @@ JText::script('ERROR');
 			Joomla.submitform(task, form);
 		}
 	}
-</script>
-
+});");
+?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-horizontal">
 	<fieldset>
 		<legend><?php echo JText::_('COM_MENUS_MENU_DETAILS');?></legend>

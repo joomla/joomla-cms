@@ -13,19 +13,20 @@ $input = JFactory::getApplication()->input;
 // Checking if loaded via index.php or component.php
 $tmpl = $input->getCmd('tmpl', '');
 $document = JFactory::getDocument();
-?>
 
-<script type="text/javascript">
-	setmenutype = function(type)
-	{
-		<?php if ($tmpl) : ?>
-			window.parent.Joomla.submitbutton('item.setType', type);
-			window.parent.SqueezeBox.close();
-		<?php else : ?>
-			window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+('item.setType', type);
-		<?php endif; ?>
-	}
-</script>
+$script[] = 'jQuery(document).ready(function() {';
+$script[] = '	setmenutype = function(type)';
+$script[] = '	{';
+if ($tmpl) :
+	$script[] = '	window.parent.Joomla.submitbutton(\'item.setType\', type);';
+	$script[] = '	window.parent.SqueezeBox.close();';
+else :
+	$script[] = '	window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+(\'item.setType\', type);';
+endif;
+$script[] = '	}';
+$script[] = '});';
+JFactory::getDocument()->addScriptDeclaration(implode($script, ''));
+?>
 
 <?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
 	<?php
