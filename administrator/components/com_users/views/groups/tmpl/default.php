@@ -47,7 +47,7 @@ $script[] = '	Joomla.submitform(task);';
 $script[] = '	}';
 $script[] = '});';
 
-JFactory::getDocument()->addScriptDeclaration($script);
+JFactory::getDocument()->addScriptDeclaration(implode($script, ''));
 JFactory::getDocument()->addScriptDeclaration('
 jQuery(document).ready(function() {
 	Joomla.orderTable = function()
