@@ -73,7 +73,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			});
 		}
 	}
-</script>
+</script>   
 
 <div class="menuitem-edit">
 
