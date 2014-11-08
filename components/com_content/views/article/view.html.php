@@ -53,7 +53,7 @@ class ContentViewArticle extends JViewLegacy
 		}
 
 		// Create a shortcut for $item.
-		$item            = this->item;
+		$item            = $this->item;
 		$item->tagLayout = new JLayoutFile('joomla.content.tags');
 
 		// Add router helpers.
