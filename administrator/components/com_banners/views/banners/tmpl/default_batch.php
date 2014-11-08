@@ -18,18 +18,18 @@ $published = $this->state->get('filter.published');
 	</div>
 	<div class="modal-body modal-batch">
 		<p><?php echo JText::_('COM_BANNERS_BATCH_TIP'); ?></p>
-		<div class="row-fluid">
-			<div class="control-group span6">
-				<div class="controls">
-					<?php echo JHtml::_('banner.clients'); ?>
-				</div>
-			</div>
+		<div class="row-fluid">	
 			<div class="control-group span6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.language'); ?>
 				</div>
 			</div>
-		</div>
+                        <div class="control-group span6">
+				<div class="controls">
+					<?php echo JHtml::_('banner.clients'); ?>
+				</div>
+			</div>
+		</div>		
 		<div class="row-fluid">
 			<?php if ($published >= 0) : ?>
 				<div class="control-group span6">
