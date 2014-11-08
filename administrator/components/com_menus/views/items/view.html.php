@@ -247,11 +247,6 @@ class MenusViewItems extends JViewLegacy
 			JToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 
-		if (JFactory::getUser()->authorise('core.admin'))
-		{
-			JToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
-		}
-
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
@@ -259,6 +254,11 @@ class MenusViewItems extends JViewLegacy
 		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('items.trash');
+		}
+
+		if (JFactory::getUser()->authorise('core.admin'))
+		{
+			JToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 
 		if ($canDo->get('core.edit.state'))
