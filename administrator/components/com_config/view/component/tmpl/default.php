@@ -14,18 +14,21 @@ $template = $app->getTemplate();
 
 // Load the tooltip behavior.
 JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
-?>
-<script type="text/javascript">
+
+JFactory::getDocument()->addScriptDeclaration('
+jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'config.cancel.component' || document.formvalidator.isValid(document.id('component-form')))
+		if (task == "config.cancel.component" || document.formvalidator.isValid(document.getElementById("component-form")))
 		{
-			Joomla.submitform(task, document.getElementById('component-form'));
+			Joomla.submitform(task, document.getElementById("component-form"));
 		}
 	}
-</script>
+});');
+?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
 	<div class="row-fluid">
 		<!-- Begin Sidebar -->
