@@ -16,6 +16,8 @@ $this->language  = $doc->language;
 $this->direction = $doc->direction;
 $input           = $app->input;
 $user            = JFactory::getUser();
+$debugModeLang   = $app->get('debug_lang');
+$debugMode       = $app->get('debug');
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -274,11 +276,49 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<script>
 		(function($)
 		{
+			$.fn.bindFirst = function(name, fn) {
+				var elem, handlers, i, _len;
+				this.bind(name, fn);
+				for (i = 0, _len = this.length; i < _len; i++) {
+					elem = this[i];
+					handlers = jQuery._data(elem).events[name.split('.')[0]];
+					handlers.unshift(handlers.pop());
+				}
+			};
+
 			// fix sub nav on scroll
 			var $win = $(window)
 				, $nav    = $('.subhead')
 				, navTop  = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>40<?php else:?>20<?php endif;?>
 				, isFixed = 0
+				, edit = <?php echo $hidden; ?>
+
+			// Disable cpanel and user menu
+			if (edit)
+			{
+				if ((<?php echo $debugMode; ?> || <?php echo $debugModeLang; ?>) == 0)
+				{
+					// Prevent alerts for buttons
+					$(':button').bindFirst("mousedown", function () {
+						$(window).off("beforeunload");
+					});
+
+					// Prevent alert for forms
+					$('form').bindFirst("submit", function () {
+						$(window).off("beforeunload");
+					});
+
+					// Prevent alert for forms
+					$('input[type=submit]').bindFirst("mousedown", function () {
+						$(window).off("beforeunload");
+					});
+
+					// Alert on unintentional exit
+					$(window).on("beforeunload", function (event) {
+						return '<?php echo JText::_('TPL_ISIS_WARNING_MSG'); ?>';
+					});
+				}
+			}
 
 			processScroll()
 
