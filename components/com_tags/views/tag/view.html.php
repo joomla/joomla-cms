@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTML View class for the Tags component
  *
@@ -74,7 +76,7 @@ class TagsViewTag extends JViewLegacy
 			// Prepare the data.
 			if (!empty($itemElement))
 			{
-				$temp = new JRegistry;
+				$temp = new Registry;
 				$temp->loadString($itemElement->params);
 				$itemElement->params = clone $params;
 				$itemElement->params->merge($temp);
