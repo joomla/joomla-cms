@@ -1323,16 +1323,7 @@ class JTableNested extends JTable
 			$query->select($this->_tbl_key . ', alias');
 			$query->from($this->_tbl);
 			$query->where('parent_id = %d');
-
-			// If the table has an ordering field, use that for ordering.
-			if (property_exists($this, 'ordering'))
-			{
-				$query->order('parent_id, ordering, lft');
-			}
-			else
-			{
-				$query->order('parent_id, lft');
-			}
+			$query->order('lft');
 			$this->_cache['rebuild.sql'] = (string) $query;
 		}
 
@@ -1462,13 +1453,33 @@ class JTableNested extends JTable
 		// Validate arguments
 		if (is_array($idArray) && is_array($lft_array) && count($idArray) == count($lft_array))
 		{
-			for ($i = 0, $count = count($idArray); $i < $count; $i++)
+			$query = $this->_db->getQuery(true);
+			$query->select('lft');
+			$query->from($this->_tbl);
+			$query->where($this->_tbl_key . ' = ' . (int) $idArray[0]);
+			$this->_db->setQuery($query);
+			$lftStart = $this->_db->loadResult();
+
+			if (!$lftStart)
+			{
+				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_REORDER_FAILED', get_class($this), $this->_db->getErrorMsg()));
+				$this->setError($e);
+				$this->_unlock();
+				return false;
+			}
+			if ($this->_debug)
+			{
+				$this->_logtable(false);
+			}
+
+			asort($lft_array);
+			foreach (array_keys($lft_array) as $idNext)
 			{
 				// Do an update to change the lft values in the table for each id
 				$query = $this->_db->getQuery(true);
 				$query->update($this->_tbl);
-				$query->where($this->_tbl_key . ' = ' . (int) $idArray[$i]);
-				$query->set('lft = ' . (int) $lft_array[$i]);
+				$query->where($this->_tbl_key . ' = ' . (int) $idArray[$idNext]);
+				$query->set('lft = ' . (int) $lftStart++);
 				$this->_db->setQuery($query);
 
 				// Check for a database error.
