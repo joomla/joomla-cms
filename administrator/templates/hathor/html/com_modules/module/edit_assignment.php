@@ -19,8 +19,8 @@ $menuTypes = MenusHelper::getMenuLinks();
 				document.getElements('select').addEvent('change', function(e){validate();});
 			});
 			function validate(){
-				var value	= document.getElementById('jform_assignment').value;
-				var list	= document.getElementById('menu-assignment');
+				var value	= document.id('jform_assignment').value;
+				var list	= document.id('menu-assignment');
 				if (value == '-' || value == '0'){
 					$$('.jform-assignments-button').each(function(el) {el.setProperty('disabled', true); });
 					list.getElements('input').each(function(el){

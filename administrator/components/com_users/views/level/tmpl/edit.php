@@ -18,7 +18,7 @@ JHtml::_('behavior.formvalidation');
 <script type="text/javascript">
 Joomla.submitbutton = function(task)
 {
-	if (task == 'level.cancel' || document.formvalidator.isValid(document.getElementById('level-form')))
+	if (task == 'level.cancel' || document.formvalidator.isValid(document.id('level-form')))
 	{
 		Joomla.submitform(task, document.getElementById('level-form'));
 	}
