@@ -7429,6 +7429,9 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	.row-fluid [class*="span"] {
 		margin-left: 15px;
 	}
+	.row-fluid .modal-batch [class*="span"] {
+		margin-left: 0;
+	}
 }
 @media (max-width: 767px) {
 	.navbar-search.pull-right {
@@ -8714,5 +8717,17 @@ div#j-sidebar-container.j-toggle-visible #j-toggle-sidebar-button {
 	margin-right: 4px;
 }
 #j-main-container.expanded {
+	margin-right: 0;
+}
+@media (min-width: 768px) {
+	.row-fluid [class*="span"] {
+		margin-right: 15px;
+		margin-left: 0;
+	}
+	.row-fluid .modal-batch [class*="span"] {
+		margin-right: 0;
+	}
+}
+.row-fluid .modal-batch [class*="span"] {
 	margin-right: 0;
 }
