@@ -40,79 +40,21 @@ class InstallationControllerRemovefolder extends JControllerBase
 			$app->sendJsonResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED'), 500));
 		}
 
-		// Check whether we need to use FTP.
-		$useFTP = false;
+		/*
+		 * Try to delete the folder.
+		 * We use output buffering so that any error message echoed JFolder::delete
+		 * doesn't land in our JSON output.
+		 */
+		ob_start();
+		$return = JFolder::delete($path) && (!file_exists(JPATH_ROOT . '/joomla.xml') || JFile::delete(JPATH_ROOT . '/joomla.xml'));
 
-		if ((file_exists($path) && !is_writable($path)))
+		// Rename the robots.txt.dist file if robots.txt doesn't exist
+		if ($return && !file_exists(JPATH_ROOT . '/robots.txt') && file_exists(JPATH_ROOT . '/robots.txt.dist'))
 		{
-			$useFTP = true;
+			$return = JFile::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
 		}
 
-		// Check for safe mode.
-		if (ini_get('safe_mode'))
-		{
-			$useFTP = true;
-		}
-
-		// Enable/Disable override.
-		if (!isset($options->ftpEnable) || ($options->ftpEnable != 1))
-		{
-			$useFTP = false;
-		}
-
-		if ($useFTP == true)
-		{
-			// Connect the FTP client.
-			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
-			$ftp->login($options->ftp_user, $options->ftp_pass);
-
-			// Translate path for the FTP account.
-			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
-			$return = $ftp->delete($file);
-
-			// Delete the extra XML file while we're at it.
-			if ($return)
-			{
-				$file = JPath::clean($options->ftp_root . '/joomla.xml');
-
-				if (file_exists($file))
-				{
-					$return = $ftp->delete($file);
-				}
-			}
-
-			// Rename the robots.txt.dist file to robots.txt.
-			if ($return)
-			{
-				$robotsFile = JPath::clean($options->ftp_root . '/robots.txt');
-				$distFile = JPath::clean($options->ftp_root . '/robots.txt.dist');
-
-				if (!file_exists($robotsFile) && file_exists($distFile))
-				{
-					$return = $ftp->rename($distFile, $robotsFile);
-				}
-			}
-
-			$ftp->quit();
-		}
-		else
-		{
-			/*
-			 * Try to delete the folder.
-			 * We use output buffering so that any error message echoed JFolder::delete
-			 * doesn't land in our JSON output.
-			 */
-			ob_start();
-			$return = JFolder::delete($path) && (!file_exists(JPATH_ROOT . '/joomla.xml') || JFile::delete(JPATH_ROOT . '/joomla.xml'));
-
-			// Rename the robots.txt.dist file if robots.txt doesn't exist
-			if ($return && !file_exists(JPATH_ROOT . '/robots.txt') && file_exists(JPATH_ROOT . '/robots.txt.dist'))
-			{
-				$return = JFile::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
-			}
-
-			ob_end_clean();
-		}
+		ob_end_clean();
 
 		// If an error was encountered return an error.
 		if (!$return)
