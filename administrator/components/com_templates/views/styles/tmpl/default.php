@@ -21,14 +21,14 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if (!empty( $this->sidebar)) : ?>
-		<div id="j-sidebar-container" class="span2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div id="j-main-container" class="span10">
-	<?php else : ?>
-		<div id="j-main-container">
-	<?php endif;?>
+<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
@@ -49,7 +49,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo JText::_('COM_TEMPLATES_MSG_MANAGE_NO_STYLES'); ?>
 				</div>
 		<?php else : ?>
-			<table class="table table-striped">
+			<table class="table table-striped" id="styleList">
 				<thead>
 					<tr>
 						<th width="5">
@@ -144,6 +144,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</tbody>
 			</table>
 		<?php endif;?>
+
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
