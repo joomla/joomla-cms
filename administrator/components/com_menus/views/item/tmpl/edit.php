@@ -78,7 +78,7 @@ jQuery(document).ready(function (){
 ";
 
 // Add the script to the document head.
-JFactory::getDocument()->addScriptDeclaration($script);
+JFactory::getDocument()->addScriptDeclaration('\n', $script);
 
 ?>
 

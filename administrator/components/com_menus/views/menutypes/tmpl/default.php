@@ -25,7 +25,7 @@ else :
 endif;
 $script[] = '	}';
 $script[] = '});';
-JFactory::getDocument()->addScriptDeclaration(implode($script, ''));
+JFactory::getDocument()->addScriptDeclaration(implode('\n',  $script));
 ?>
 
 <?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
