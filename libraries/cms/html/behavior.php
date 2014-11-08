@@ -141,13 +141,13 @@ abstract class JHtmlBehavior
 	 */
 	public static function formvalidation()
 	{
+		JLog::add('The use of formvalidation is deprecated use formvalidator instead.', JLog::WARNING, 'deprecated');
+
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
-
-		JLog::add('The use of formvalidation is deprecated use formvalidator instead.', JLog::WARNING, 'deprecated');
 
 		// Include MooTools framework
 		static::framework();
