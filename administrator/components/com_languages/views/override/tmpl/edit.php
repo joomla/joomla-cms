@@ -14,30 +14,30 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
+
+
+$script[] = 'jQuery(document).ready(function() {';
+$script[] = '   document.getElementById("jform_searchstring").addEvent("focus", function()';
+$script[] = '   {';
+$script[] = '       if (!Joomla.overrider.states.refreshed)';
+$script[] = '       {';
+			if ($this->state->get("cache_expired")) :
+$script[] = '           Joomla.overrider.refreshCache();';
+$script[] = '           Joomla.overrider.states.refreshed = true;';
+			endif;
+$script[] = '       }';
+$script[] = '       this.removeClass("invalid");';
+$script[] = '   });';
+$script[] = '   Joomla.submitbutton = function(task)';
+$script[] = '   {';
+$script[] = '       if (task == "override.cancel" || document.formvalidator.isValid(document.getElementById("override-form")))';
+$script[] = '       {';
+$script[] = '           Joomla.submitform(task, document.getElementById("override-form"));';
+$script[] = '       }';
+$script[] = '   }';
+$script[] = '});';
+JFactory::getDocument()->addScriptDeclaration(implode($script, ''));
 ?>
-<script type="text/javascript">
-		window.addEvent('domready', function()
-		{
-			document.id('jform_searchstring').addEvent('focus', function()
-			{
-				if (!Joomla.overrider.states.refreshed)
-				{
-					<?php if ($this->state->get('cache_expired')) : ?>
-					Joomla.overrider.refreshCache();
-					Joomla.overrider.states.refreshed = true;
-					<?php endif; ?>
-				}
-				this.removeClass('invalid');
-			});
-		});
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'override.cancel' || document.formvalidator.isValid(document.id('override-form')))
-		{
-			Joomla.submitform(task, document.getElementById('override-form'));
-		}
-	}
-</script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&id='.$this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate form-horizontal">
 	<div class="row-fluid">
