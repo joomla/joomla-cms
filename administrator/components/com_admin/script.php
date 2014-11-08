@@ -76,6 +76,20 @@ class JoomlaInstallerScript
 				}
 			}
 		}
+
+		// Check if the 2.5 EOS plugin is present and uninstall it if so
+		$id = $db->setQuery(
+			$db->getQuery(true)
+				->select('extension_id')
+				->from('#__extensions')
+				->where('name = ' . $db->quote('PLG_EOSNOTIFY'))
+		)->loadResult();
+
+		if ($id)
+		{
+			$installer = new JInstaller;
+			$installer->uninstall('plugin', $id);
+		}
 	}
 
 	/**
