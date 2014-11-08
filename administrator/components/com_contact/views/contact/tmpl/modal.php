@@ -19,24 +19,26 @@ $app = JFactory::getApplication();
 
 $input = $app->input;
 $assoc = JLanguageAssociations::isEnabled();
-?>
-<script type="text/javascript">
+
+JFactory::getDocument()->addScriptDeclaration('
+jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form')))
+		if (task == "contact.cancel" || document.formvalidator.isValid(document.getElementById("contact-form")))
 		{
-			<?php echo $this->form->getField('misc')->save(); ?>
+			' . $this->form->getField('misc')->save() . '
 
-			if (window.opener && (task == 'contact.save' || task == 'contact.cancel'))
+			if (window.opener && (task == "contact.save" || task == "contact.cancel"))
 			{
 				window.opener.document.closeEditWindow = self;
-				window.opener.setTimeout('window.document.closeEditWindow.close()', 1000);
+				window.opener.setTimeout("window.document.closeEditWindow.close()", 1000);
 			}
 
-			Joomla.submitform(task, document.getElementById('contact-form'));
+			Joomla.submitform(task, document.getElementById("contact-form"));
 		}
 	}
-</script>
+});');
+?>
 <div class="container-popup">
 
 <div class="pull-right">
