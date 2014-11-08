@@ -36,7 +36,7 @@ $script[] = '           Joomla.submitform(task, document.getElementById("overrid
 $script[] = '       }';
 $script[] = '   }';
 $script[] = '});';
-JFactory::getDocument()->addScriptDeclaration(implode($script, ''));
+JFactory::getDocument()->addScriptDeclaration(implode('\n', $script));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&id='.$this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate form-horizontal">
