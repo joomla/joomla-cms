@@ -1,6 +1,8 @@
 <?php
-
 /**
+ * @package		Joomla.Plugin
+ * @subpackage	Quickicon.Joomla
+ *
  * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -8,10 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * Joomla! udpate notification plugin
+ * Joomla! update notification plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Quickicon.Joomla
  * @since		2.5
  */
 class plgQuickiconEosnotify extends JPlugin
@@ -51,16 +51,19 @@ class plgQuickiconEosnotify extends JPlugin
 		if(date('Ymd')>='20150101')
 			$text = JText::_('PLG_EOSNOTIFY_SUPPORT_ENDED');
 			
-		if (JAdministratorHelper::findOption() == 'com_cpanel') { 
+		if (JAdministratorHelper::findOption() == 'com_cpanel')
+		{ 
 			$messtext = '<div style="background-color:#FFCFCF; font-size:16px; font-weight:bold; margin-bottom: 10px; padding: 10px; border-radius: 10px;">' . $text . ' ' . JText::_('PLG_EOSNOTIFY_CLICK_FOR_INFORMATION_WITH_LINK') . '</div>';
 			echo("<script>document.getElementById('system-message-container').innerHTML = '" . $messtext . "';</script>");
 		}
 		
-		return array(array(
-			'link' => 'http://docs.joomla.org/Why_Migrate',
-			'image' => JURI::root() . 'plugins/quickicon/eosnotify/stop15.png',
-			'text' => '<span style="color:red;">' . $text . '<br />' . JText::_('PLG_EOSNOTIFY_CLICK_FOR_INFORMATION') . '.</span>',
-			'id' => 'plg_quickicon_eos'
-		));
+		return array(
+			array(
+				'link' => 'http://docs.joomla.org/Why_Migrate',
+				'image' => JURI::root() . 'plugins/quickicon/eosnotify/stop15.png',
+				'text' => '<span style="color:red;">' . $text . '<br />' . JText::_('PLG_EOSNOTIFY_CLICK_FOR_INFORMATION') . '.</span>',
+				'id' => 'plg_quickicon_eos'
+			)
+		);
 	}
 }
