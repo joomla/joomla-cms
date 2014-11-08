@@ -22,48 +22,51 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $sortFields = $this->getSortFields();
 
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
-?>
-<script type="text/javascript">
-	Joomla.submitbutton = function(task)
+
+$script[] = 'jQuery(document).ready(function() {';
+$script[] = '	Joomla.submitbutton = function(task) {';
+$script[] = '		if (task == "groups.delete")';
+$script[] = '		{';
+$script[] = '			var f = document.adminForm;';
+$script[] = '			var cb="";';
+foreach ($this->items as $i => $item)
+{
+	if ($item->user_count > 0)
 	{
-		if (task == 'groups.delete')
-		{
-			var f = document.adminForm;
-			var cb='';
-<?php foreach ($this->items as $i => $item):?>
-<?php if ($item->user_count > 0):?>
-			cb = f['cb'+<?php echo $i;?>];
-			if (cb && cb.checked)
-			{
-				if (confirm(Joomla.JText._('COM_USERS_GROUPS_CONFIRM_DELETE')))
-				{
-					Joomla.submitform(task);
-				}
-				return;
-			}
-<?php endif;?>
-<?php endforeach;?>
-		}
-		Joomla.submitform(task);
+		$script[] = '	cb = f["cb"+' . $i . '];';
+		$script[] = '	if (cb && cb.checked) { ';
+		$script[] = '		if (confirm(Joomla.JText._("COM_USERS_GROUPS_CONFIRM_DELETE"))) { ';
+		$script[] = '			Joomla.submitform(task);';
+		$script[] = '		}';
+		$script[] = '		return;';
+		$script[] = '	}';
 	}
-</script>
-<script type="text/javascript">
+}
+$script[] = '		}';
+$script[] = '	Joomla.submitform(task);';
+$script[] = '	}';
+$script[] = '});';
+
+JFactory::getDocument()->addScriptDeclaration($script);
+JFactory::getDocument()->addScriptDeclaration('
+jQuery(document).ready(function() {
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != '<?php echo $listOrder; ?>')
+		if (order != ' . $listOrder . ')
 		{
-			dirn = 'asc';
+			dirn = "asc";
 		}
 		else
 		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
-		Joomla.tableOrdering(order, dirn, '');
+		Joomla.tableOrdering(order, dirn, "");
 	}
-</script>
+});');
+?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=groups');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
