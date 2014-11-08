@@ -137,7 +137,7 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   1.5
 	 *
-	 * @Deprecated Use formvalidator() instead
+	 * @Deprecated 3.4 Use formvalidator instead
 	 */
 	public static function formvalidation()
 	{
@@ -146,6 +146,8 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
+
+		JLog::add('The use of formvalidation is deprecated use formvalidator instead.', JLog::WARNING, 'deprecated');
 
 		// Include MooTools framework
 		static::framework();
