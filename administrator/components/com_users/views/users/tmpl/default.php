@@ -18,26 +18,24 @@ $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
 $sortFields = $this->getSortFields();
-
-JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
+?>
+<script type="text/javascript">
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != ' . $listOrder . ')
+		if (order != '<?php echo $listOrder; ?>')
 		{
-			dirn = "asc";
+			dirn = 'asc';
 		}
 		else
 		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
-		Joomla.tableOrdering(order, dirn, "");
+		Joomla.tableOrdering(order, dirn, '');
 	}
-});');
-?>
+</script>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
