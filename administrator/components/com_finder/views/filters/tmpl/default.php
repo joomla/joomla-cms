@@ -18,25 +18,27 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
+
+JFactory::getDocument()->addScriptDeclaration('
+jQuery(document).ready(function() {
+	Joomla.submitbutton = function(pressbutton)
+	{
+		if (pressbutton == "filters.delete")
+		{
+			if (confirm(Joomla.JText._("COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT")))
+			{
+				Joomla.submitform(pressbutton);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		Joomla.submitform(pressbutton);
+	}
+});');
 ?>
 
-<script type="text/javascript">
-Joomla.submitbutton = function(pressbutton)
-{
-	if (pressbutton == 'filters.delete')
-	{
-		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')))
-		{
-			Joomla.submitform(pressbutton);
-		}
-		else
-		{
-			return false;
-		}
-	}
-	Joomla.submitform(pressbutton);
-}
-</script>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
