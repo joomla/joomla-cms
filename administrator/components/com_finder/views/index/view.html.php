@@ -81,6 +81,13 @@ class FinderViewIndex extends JViewLegacy
 			JToolbarHelper::unpublishList('index.unpublish');
 		}
 
+		if ($canDo->get('core.admin'))
+		{
+			JToolbarHelper::preferences('com_finder');
+		}
+
+		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'index.delete');
@@ -90,13 +97,6 @@ class FinderViewIndex extends JViewLegacy
 		{
 			JToolbarHelper::trash('index.purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', false);
 		}
-
-		if ($canDo->get('core.admin'))
-		{
-			JToolbarHelper::preferences('com_finder');
-		}
-
-		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_INDEXED_CONTENT');
 
