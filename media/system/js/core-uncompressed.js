@@ -263,6 +263,19 @@ Joomla.toggleSidebar = function(force)
 			localStorage.setItem(context, false);
 		}
 	}
+	if (jQuery(window).width() < 728)
+	{
+		jQuery('#j-toggle-sidebar-button').removeClass( "hidden-phone" );
+		if (!$visible)
+		{
+			jQuery('#sidebar').show();
+			jQuery('#j-sidebar-container').removeClass('span1').addClass('span2');
+			jQuery('#j-sidebar-container').removeClass('j-toggle-hidden').addClass('j-toggle-visible');
+			jQuery('#j-main-container').removeClass('span12 expanded').addClass('span10');
+			jQuery('#j-toggle-sidebar-icon').removeClass('icon-menu-3').addClass('icon-remove');
+			jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_HIDE_SIDEBAR'));
+		}
+	}
 }
 
 /**
