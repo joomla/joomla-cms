@@ -689,6 +689,7 @@ class JModelList extends JModelLegacy
 	protected function refineSearchStringToRegex($search, $regexDelimiter = '/')
 	{
 		$searchArr = explode('|', trim($search, ' |'));
+
 		foreach ($searchArr as $key => $searchString)
 		{
 			if (strlen(trim($searchString)) == 0)
