@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @since       2.5.28
  * @deprecated  3.0
  */
-class plgQuickiconEosnotify extends JPlugin
+class PlgQuickiconEosnotify extends JPlugin
 {
 	/**
 	 * Constructor
@@ -49,19 +49,19 @@ class plgQuickiconEosnotify extends JPlugin
 	public function onGetIcons($context)
 	{
 		if (!JFactory::getApplication()->isAdmin())
-        {
+		{
 			return;
 		}
 
 		$text = JText::_('PLG_EOSNOTIFY_SUPPORT_ENDING');
 
 		if (JFactory::getDate() >= '2015-01-01')
-        {
+		{
 			$text = JText::_('PLG_EOSNOTIFY_SUPPORT_ENDED');
 		}
 
 		if (JAdministratorHelper::findOption() == 'com_cpanel')
-        {
+		{
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_EOSNOTIFY_CLICK_FOR_INFORMATION_WITH_LINK', $text), 'error');
 		}
 	}
