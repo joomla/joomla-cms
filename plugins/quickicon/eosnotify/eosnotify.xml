@@ -10,7 +10,6 @@
 	<version>2.5.0</version>
 	<description>End of Support Notifier</description>
 	<files>
-		<folder>language</folder>
 		<filename plugin="eosnotify">eosnotify.php</filename>
 		<filename>index.html</filename>
 		<filename>stop15.png</filename>
