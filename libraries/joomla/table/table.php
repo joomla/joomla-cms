@@ -16,10 +16,8 @@ jimport('joomla.filesystem.path');
  *
  * Parent class to all tables.
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @since       11.1
- * @tutorial	Joomla.Platform/jtable.cls
+ * @since  11.1
+ * @tutorial  Joomla.Platform/jtable.cls
  */
 abstract class JTable extends JObject implements JObservableInterface, JTableInterface
 {

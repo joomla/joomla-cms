@@ -16,22 +16,6 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/parse
 class FinderIndexerParserTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp()
-	{
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown()
-	{
-	}
-
-	/**
 	 * Tests the getInstance method
 	 *
 	 * @return  void
@@ -40,9 +24,9 @@ class FinderIndexerParserTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetInstance()
 	{
-		$this->assertThat(
+		$this->assertInstanceOf(
+			'FinderIndexerParserHtml',
 			FinderIndexerParser::getInstance('html'),
-			$this->isInstanceOf('FinderIndexerParserHtml'),
 			'getInstance with param "html" returns an instance of FinderIndexerParserHtml.'
 		);
 	}

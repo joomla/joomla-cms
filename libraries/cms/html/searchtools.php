@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Searchtools elements.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.2
+ * @since  3.2
  */
 abstract class JHtmlSearchtools
 {

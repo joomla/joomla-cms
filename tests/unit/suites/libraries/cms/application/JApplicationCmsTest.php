@@ -159,29 +159,11 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function test__construct()
 	{
-		$this->assertInstanceOf(
-			'JInput',
-			$this->class->input,
-			'Input property wrong type'
-		);
+		$this->assertInstanceOf('JInput', $this->class->input);
 
-		$this->assertInstanceOf(
-			'\\Joomla\\Registry\\Registry',
-			TestReflection::getValue($this->class, 'config'),
-			'Config property wrong type'
-		);
-
-		$this->assertInstanceOf(
-			'JApplicationWebClient',
-			$this->class->client,
-			'Client property wrong type'
-		);
-
-		$this->assertInstanceOf(
-			'JEventDispatcher',
-			TestReflection::getValue($this->class, 'dispatcher'),
-			'Client property wrong type'
-		);
+		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
+		$this->assertAttributeInstanceOf('JApplicationWebClient', 'client', $this->class);
+		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
 	}
 
 	/**
@@ -198,43 +180,18 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
 		}
 
-		$mockInput = $this->getMock('JInput', array('test'), array(), '', false);
-		$mockInput
-			->expects($this->any())
-			->method('test')
-			->will(
-			$this->returnValue('ok')
-		);
+		$mockInput = $this->getMockInput();
 
 		$config = new Registry;
 		$config->set('session', false);
 
 		$mockClient = $this->getMock('JApplicationWebClient', array('test'), array(), '', false);
-		$mockClient
-			->expects($this->any())
-			->method('test')
-			->will(
-			$this->returnValue('ok')
-		);
 
 		$inspector = new JApplicationCmsInspector($mockInput, $config, $mockClient);
 
-		$this->assertThat(
-			$inspector->input->test(),
-			$this->equalTo('ok'),
-			'Tests input injection.'
-		);
-
-		$this->assertFalse(
-			$inspector->get('session'),
-			'Tests config injection.'
-		);
-
-		$this->assertThat(
-			$inspector->client->test(),
-			$this->equalTo('ok'),
-			'Tests client injection.'
-		);
+		$this->assertAttributeSame($mockInput, 'input', $inspector);
+		$this->assertFalse($inspector->get('session'));
+		$this->assertAttributeSame($mockClient, 'client', $inspector);
 	}
 
 	/**
@@ -255,16 +212,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$this->class->execute();
 
-		$this->assertThat(
-			TestMockDispatcher::$triggered,
-			$this->equalTo(
-				array(
-					'JWebDoExecute',
-					'onAfterRespond',
-				)
-			),
-			'Check that events fire in the right order.'
-		);
+		$this->assertEquals(array('JWebDoExecute', 'onAfterRespond'), TestMockDispatcher::$triggered);
 	}
 
 	/**
@@ -299,30 +247,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$buffer = ob_get_contents();
 		ob_end_clean();
 
-		$this->assertThat(
-			TestMockDispatcher::$triggered,
-			$this->equalTo(
-				array(
-					'JWebDoExecute',
-					'onBeforeRender',
-					'onAfterRender',
-					'onAfterRespond',
-				)
-			),
-			'Check that events fire in the right order (with document).'
-		);
-
-		$this->assertThat(
-			$this->class->getBody(),
-			$this->equalTo('JWeb Body'),
-			'Check that the body was set with the return value of document render method.'
-		);
-
-		$this->assertThat(
-			$buffer,
-			$this->equalTo('JWeb Body'),
-			'Check that the body is output correctly.'
-		);
+		$this->assertEquals(array('JWebDoExecute', 'onBeforeRender', 'onAfterRender', 'onAfterRespond'), TestMockDispatcher::$triggered);
+		$this->assertEquals('JWeb Body', $this->class->getBody());
+		$this->assertEquals('JWeb Body', $buffer);
 	}
 
 	/**
@@ -338,17 +265,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		TestReflection::setValue($this->class, 'config', $config);
 
-		$this->assertThat(
-			$this->class->getCfg('foo', 'car'),
-			$this->equalTo('bar'),
-			'Checks a known configuration setting is returned.'
-		);
-
-		$this->assertThat(
-			$this->class->getCfg('goo', 'car'),
-			$this->equalTo('car'),
-			'Checks an unknown configuration setting returns the default.'
-		);
+		$this->assertEquals('bar', $this->class->getCfg('foo', 'car'));
+		$this->assertEquals('car', $this->class->getCfg('goo', 'car'));
 	}
 
 	/**
@@ -362,19 +280,11 @@ class JApplicationCmsTest extends TestCaseDatabase
 	{
 		TestReflection::setValue('JApplicationCms', 'instances', array('CmsInspector' => $this->class));
 
-		$this->assertInstanceOf(
-			'JApplicationCmsInspector',
-			JApplicationCms::getInstance('CmsInspector'),
-			'Tests that getInstance will instantiate a valid child class of JApplicationCms.'
-		);
+		$this->assertInstanceOf('JApplicationCmsInspector', JApplicationCms::getInstance('CmsInspector'));
 
 		TestReflection::setValue('JApplicationCms', 'instances', array('CmsInspector' => 'foo'));
 
-		$this->assertThat(
-			JApplicationCms::getInstance('CmsInspector'),
-			$this->equalTo('foo'),
-			'Tests that singleton value is returned.'
-		);
+		$this->assertEquals('foo', JApplicationCms::getInstance('CmsInspector'));
 	}
 
 	/**
@@ -386,10 +296,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testGetMenu()
 	{
-		$this->assertThat(
-			$this->class->getMenu(''),
-			$this->isInstanceOf('JMenu')
-		);
+		$this->assertInstanceOf('JMenu', $this->class->getMenu(''));
 	}
 
 	/**
@@ -401,10 +308,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testGetPathway()
 	{
-		$this->assertThat(
-			$this->class->getPathway(''),
-			$this->isInstanceOf('JPathway')
-		);
+		$this->assertInstanceOf('JPathway', $this->class->getPathway(''));
 	}
 
 	/**
@@ -416,10 +320,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testGetRouter()
 	{
-		$this->assertThat(
-			$this->class->getRouter(''),
-			$this->isInstanceOf('JRouter')
-		);
+		$this->assertInstanceOf('JRouter', $this->class->getRouter(''));
 	}
 
 	/**
@@ -433,15 +334,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 	{
 		$template = $this->class->getTemplate(true);
 
-		$this->assertInstanceOf(
-			'\\Joomla\\Registry\\Registry',
-			$template->params
-		);
+		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertThat(
-			$template->template,
-			$this->equalTo('system')
-		);
+		$this->assertEquals('system', $template->template);
 	}
 
 	/**
@@ -453,10 +348,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testIsAdmin()
 	{
-		$this->assertFalse(
-			$this->class->isAdmin(),
-			'By default, JApplicationCms is neither a site or admin app'
-		);
+		$this->assertFalse($this->class->isAdmin());
 	}
 
 	/**
@@ -468,11 +360,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testIsSite()
 	{
-		$this->assertThat(
-			$this->class->isSite(),
-			$this->isFalse(),
-			'By default, JApplicationCms is neither a site or admin app'
-		);
+		$this->assertFalse($this->class->isSite());
 	}
 
 	/**
@@ -504,15 +392,13 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$this->class->redirect($url, false);
 
-		$this->assertThat(
-			$this->class->headers,
-			$this->equalTo(
-				array(
-					array('HTTP/1.1 303 See other', true, null),
-					array('Location: ' . $base . $url, true, null),
-					array('Content-Type: text/html; charset=utf-8', true, null),
-				)
-			)
+		$this->assertEquals(
+			array(
+				array('HTTP/1.1 303 See other', true, null),
+				array('Location: ' . $base . $url, true, null),
+				array('Content-Type: text/html; charset=utf-8', true, null),
+			),
+			$this->class->headers
 		);
 	}
 
@@ -545,30 +431,23 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$this->class->redirect($url, 'Test Message', 'message', false);
 
-		$messageQueue = $this->class->getMessageQueue();
-
-		$this->assertThat(
-			$messageQueue,
-			$this->equalTo(
+		$this->assertEquals(
+			array(
 				array(
-					array(
-						'message' => 'Test Message',
-						'type' => 'message'
-					)
+					'message' => 'Test Message',
+					'type' => 'message'
 				)
 			),
-			'Tests to ensure legacy redirect handling works'
+			$this->class->getMessageQueue()
 		);
 
-		$this->assertThat(
-			$this->class->headers,
-			$this->equalTo(
-				array(
-					array('HTTP/1.1 303 See other', true, null),
-					array('Location: ' . $base . $url, true, null),
-					array('Content-Type: text/html; charset=utf-8', true, null),
-				)
-			)
+		$this->assertEquals(
+			array(
+				array('HTTP/1.1 303 See other', true, null),
+				array('Location: ' . $base . $url, true, null),
+				array('Content-Type: text/html; charset=utf-8', true, null),
+			),
+			$this->class->headers
 		);
 	}
 
@@ -599,10 +478,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$buffer = ob_get_contents();
 		ob_end_clean();
 
-		$this->assertThat(
-			$buffer,
-			$this->equalTo("<script>document.location.href='{$base}{$url}';</script>\n")
-		);
+		$this->assertEquals("<script>document.location.href='{$base}{$url}';</script>\n", $buffer);
 	}
 
 	/**
@@ -631,14 +507,10 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$buffer = ob_get_contents();
 		ob_end_clean();
 
-		$this->assertThat(
-			trim($buffer),
-			$this->equalTo(
-				'<html><head>'
-					. '<meta http-equiv="content-type" content="text/html; charset=utf-8" />'
-					. "<script>document.location.href='{$url}';</script>"
-					. '</head><body></body></html>'
-			)
+		$this->assertEquals(
+			'<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8" />'
+			. "<script>document.location.href='{$url}';</script></head><body></body></html>",
+			trim($buffer)
 		);
 	}
 
@@ -664,15 +536,13 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$this->class->redirect($url, true);
 
-		$this->assertThat(
-			$this->class->headers,
-			$this->equalTo(
-				array(
-					array('HTTP/1.1 301 Moved Permanently', true, null),
-					array('Location: ' . $url, true, null),
-					array('Content-Type: text/html; charset=utf-8', true, null),
-				)
-			)
+		$this->assertEquals(
+			array(
+				array('HTTP/1.1 301 Moved Permanently', true, null),
+				array('Location: ' . $url, true, null),
+				array('Content-Type: text/html; charset=utf-8', true, null),
+			),
+			$this->class->headers
 		);
 	}
 
@@ -709,10 +579,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$this->class->redirect($url, false);
 
-		$this->assertThat(
-			$this->class->headers[1][0],
-			$this->equalTo('Location: ' . $expected)
-		);
+		$this->assertEquals('Location: ' . $expected, $this->class->headers[1][0]);
 	}
 
 	/**
@@ -735,11 +602,6 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		TestReflection::invoke($this->class, 'render');
 
-		$this->assertThat(
-			TestReflection::getValue($this->class, 'response')->body,
-			$this->equalTo(
-				array('JWeb Body')
-			)
-		);
+		$this->assertEquals(array('JWeb Body'), TestReflection::getValue($this->class, 'response')->body);
 	}
 }

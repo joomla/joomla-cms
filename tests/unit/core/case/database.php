@@ -198,18 +198,19 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock CMS application object.
 	 *
-	 * @param   array  $options  A set of options to configure the mock.
+	 * @param   array  $options      A set of options to configure the mock.
+	 * @param   array  $constructor  An array containing constructor arguments to inject into the mock.
 	 *
 	 * @return  JApplicationCms
 	 *
 	 * @since   3.2
 	 */
-	public function getMockCmsApp($options = array())
+	public function getMockCmsApp($options = array(), $constructor = array())
 	{
 		// Attempt to load the real class first.
 		class_exists('JApplicationCms');
 
-		return TestMockApplicationCms::create($this, $options);
+		return TestMockApplicationCms::create($this, $options, $constructor);
 	}
 
 	/**
@@ -227,16 +228,21 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock database object.
 	 *
+	 * @param   string  $driver        Optional driver to create a sub-class of JDatabaseDriver
+	 * @param   array   $extraMethods  An array of additional methods to add to the mock
+	 * @param   string  $nullDate      A null date string for the driver.
+	 * @param   string  $dateFormat    A date format for the driver.
+	 *
 	 * @return  JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function getMockDatabase()
+	public function getMockDatabase($driver = '', array $extraMethods = array(), $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
 	{
 		// Attempt to load the real class first.
 		class_exists('JDatabaseDriver');
 
-		return TestMockDatabaseDriver::create($this);
+		return TestMockDatabaseDriver::create($this, $driver, $extraMethods, $nullDate, $dateFormat);
 	}
 
 	/**

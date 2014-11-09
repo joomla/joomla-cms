@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * HTTP factory class.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
- * @since       12.1
+ * @since  12.1
  */
 class JHttpFactory
 {

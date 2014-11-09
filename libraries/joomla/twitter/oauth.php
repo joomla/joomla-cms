@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for generating Twitter API access token.
  *
- * @package     Joomla.Platform
- * @subpackage  Twitter
- * @since       12.3
+ * @since  12.3
  */
 class JTwitterOAuth extends JOAuth1Client
 {

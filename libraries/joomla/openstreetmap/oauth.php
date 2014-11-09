@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for generating Openstreetmap API access token.
  *
- * @package     Joomla.Platform
- * @subpackage  Openstreetmap
- * @since       13.1
+ * @since  13.1
  */
 class JOpenstreetmapOauth extends JOAuth1Client
 {

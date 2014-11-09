@@ -15,7 +15,7 @@ require_once JPATH_PLATFORM . '/joomla/factory.php';
  * @subpackage  Utilities
  * @since       11.3
  */
-class JFactoryTest extends TestCase
+class JFactoryTest extends TestCaseDatabase
 {
 	/**
 	 * Sets up the fixture.
@@ -213,6 +213,8 @@ class JFactoryTest extends TestCase
 
 	/**
 	 * Tests the JFactory::getDate method.
+	 *
+	 * @medium
 	 *
 	 * @return  void
 	 *

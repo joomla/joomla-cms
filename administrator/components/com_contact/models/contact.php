@@ -219,6 +219,9 @@ class ContactModelContact extends JModelAdmin
 			// New category ID
 			$this->table->catid = $categoryId;
 
+			// Unpublish because we are making a copy
+			$this->table->published = 0;
+
 			// TODO: Deal with ordering?
 
 			// Check the row.
@@ -490,14 +493,27 @@ class ContactModelContact extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$app = JFactory::getApplication();
+		$input = JFactory::getApplication()->input;
 
-		// Alter the title for save as copy
-		if ($app->input->get('task') == 'save2copy')
+		// Alter the name for save as copy
+		if ($input->get('task') == 'save2copy')
 		{
-			list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-			$data['name'] = $name;
-			$data['alias'] = $alias;
+			$origTable = clone $this->getTable();
+			$origTable->load($input->getInt('id'));
+
+			if ($data['name'] == $origTable->name)
+			{
+				list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+				$data['name'] = $name;
+				$data['alias'] = $alias;
+			}
+			else
+			{
+				if ($data['alias'] == $origTable->alias)
+				{
+					$data['alias'] = '';
+				}
+			}
 			$data['published'] = 0;
 		}
 

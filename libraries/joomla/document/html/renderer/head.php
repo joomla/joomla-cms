@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocument head renderer
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JDocumentRendererHead extends JDocumentRenderer
 {

@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * JCategories Class.
  *
- * @package     Joomla.Legacy
- * @subpackage  Categories
- * @since       11.1
+ * @since  11.1
  */
 class JCategories
 {
@@ -370,9 +368,7 @@ class JCategories
 /**
  * Helper class to load Categorytree
  *
- * @package     Joomla.Legacy
- * @subpackage  Categories
- * @since       11.1
+ * @since  11.1
  */
 class JCategoryNode extends JObject
 {
