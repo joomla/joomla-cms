@@ -14,29 +14,29 @@ Joomla.editors.instances = {};
  * Generic submit form
  */
 Joomla.submitform = function(task, form) {
-    if (typeof(form) === 'undefined') {
-        form = document.getElementById('adminForm');
-    }
+	if (typeof(form) === 'undefined') {
+		form = document.getElementById('adminForm');
+	}
 
-    if (typeof(task) !== 'undefined' && task !== "") {
-        form.task.value = task;
-    }
+	if (typeof(task) !== 'undefined' && task !== "") {
+		form.task.value = task;
+	}
 
-    // Submit the form.
-    if (typeof form.onsubmit == 'function') {
-        form.onsubmit();
-    }
-    if (typeof form.fireEvent == "function") {
-        form.fireEvent('submit');
-    }
-    form.submit();
+	// Submit the form.
+	if (typeof form.onsubmit == 'function') {
+		form.onsubmit();
+	}
+	if (typeof form.fireEvent == "function") {
+		form.fireEvent('submit');
+	}
+	form.submit();
 };
 
 /**
  * Default function. Usually would be overriden by the component
  */
 Joomla.submitbutton = function(pressbutton) {
-    Joomla.submitform(pressbutton);
+	Joomla.submitform(pressbutton);
 }
 
 /**
@@ -45,28 +45,28 @@ Joomla.submitbutton = function(pressbutton) {
  * Allows you to call Joomla.JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
  */
 Joomla.JText = {
-    strings: {},
-    '_': function(key, def) {
-        return typeof this.strings[key.toUpperCase()] !== 'undefined' ? this.strings[key.toUpperCase()] : def;
-    },
-    load: function(object) {
-        for (var key in object) {
-            this.strings[key.toUpperCase()] = object[key];
-        }
-        return this;
-    }
+	strings: {},
+	'_': function(key, def) {
+		return typeof this.strings[key.toUpperCase()] !== 'undefined' ? this.strings[key.toUpperCase()] : def;
+	},
+	load: function(object) {
+		for (var key in object) {
+			this.strings[key.toUpperCase()] = object[key];
+		}
+		return this;
+	}
 };
 
 /**
  * Method to replace all request tokens on the page with a new one.
  */
 Joomla.replaceTokens = function(n) {
-    var els = document.getElementsByTagName('input'), i;
-    for (i = 0; i < els.length; i++) {
-        if ((els[i].type == 'hidden') && (els[i].name.length == 32) && els[i].value == '1') {
-            els[i].name = n;
-        }
-    }
+	var els = document.getElementsByTagName('input'), i;
+	for (i = 0; i < els.length; i++) {
+		if ((els[i].type == 'hidden') && (els[i].name.length == 32) && els[i].value == '1') {
+			els[i].name = n;
+		}
+	}
 };
 
 /**
@@ -78,8 +78,8 @@ Joomla.replaceTokens = function(n) {
  * @return boolean
  */
 Joomla.isEmail = function(text) {
-    var regex = new RegExp("^[\\w-_\.]*[\\w-_\.]\@[\\w]\.+[\\w]+[\\w]$");
-    return regex.test(text);
+	var regex = new RegExp("^[\\w-_\.]*[\\w-_\.]\@[\\w]\.+[\\w]+[\\w]$");
+	return regex.test(text);
 };
 
 /**
@@ -93,26 +93,26 @@ Joomla.isEmail = function(text) {
  * @param   string  An alternative field name
  */
 Joomla.checkAll = function(checkbox, stub) {
-    if (!stub) {
-        stub = 'cb';
-    }
-    if (checkbox.form) {
-        var c = 0, i, e;
-        for (i = 0, n = checkbox.form.elements.length; i < n; i++) {
-            e = checkbox.form.elements[i];
-            if (e.type == checkbox.type) {
-                if ((stub && e.id.indexOf(stub) == 0) || !stub) {
-                    e.checked = checkbox.checked;
-                    c += (e.checked == true ? 1 : 0);
-                }
-            }
-        }
-        if (checkbox.form.boxchecked) {
-            checkbox.form.boxchecked.value = c;
-        }
-        return true;
-    }
-    return false;
+	if (!stub) {
+		stub = 'cb';
+	}
+	if (checkbox.form) {
+		var c = 0, i, e;
+		for (i = 0, n = checkbox.form.elements.length; i < n; i++) {
+			e = checkbox.form.elements[i];
+			if (e.type == checkbox.type) {
+				if ((stub && e.id.indexOf(stub) == 0) || !stub) {
+					e.checked = checkbox.checked;
+					c += (e.checked == true ? 1 : 0);
+				}
+			}
+		}
+		if (checkbox.form.boxchecked) {
+			checkbox.form.boxchecked.value = c;
+		}
+		return true;
+	}
+	return false;
 }
 
 /**
@@ -122,32 +122,32 @@ Joomla.checkAll = function(checkbox, stub) {
  * @return  void
  */
 Joomla.renderMessages = function(messages) {
-    var $ = jQuery.noConflict(), $container, $div, $h4, $divList, $p;
-    Joomla.removeMessages();
-    $container = $('#system-message-container');
+	var $ = jQuery.noConflict(), $container, $div, $h4, $divList, $p;
+	Joomla.removeMessages();
+	$container = $('#system-message-container');
 
-    $.each(messages, function(type, item) {
-        $div = $('<div/>', {
-            'id' : 'system-message',
-            'class' : 'alert alert-' + type
-        });
-        $container.append($div)
+	$.each(messages, function(type, item) {
+		$div = $('<div/>', {
+			'id' : 'system-message',
+			'class' : 'alert alert-' + type
+		});
+		$container.append($div)
 
-        $h4 = $('<h4/>', {
-            'class' : 'alert-heading',
-            'text' : Joomla.JText._(type)
-        });
-        $div.append($h4);
+		$h4 = $('<h4/>', {
+			'class' : 'alert-heading',
+			'text' : Joomla.JText._(type)
+		});
+		$div.append($h4);
 
-        $divList = $('<div/>');
-        $.each(item, function(index, item) {
-            $p = $('<p/>', {
-                html : item
-            });
-            $divList.append($p);
-        });
-        $div.append($divList);
-    });
+		$divList = $('<div/>');
+		$.each(item, function(index, item) {
+			$p = $('<p/>', {
+				html : item
+			});
+			$divList.append($p);
+		});
+		$div.append($divList);
+	});
 };
 
 
@@ -157,7 +157,7 @@ Joomla.renderMessages = function(messages) {
  * @return  void
  */
 Joomla.removeMessages = function() {
-    jQuery('#system-message-container').empty();
+	jQuery('#system-message-container').empty();
 }
 
 /**
@@ -172,30 +172,30 @@ Joomla.removeMessages = function() {
  * @return
  */
 Joomla.isChecked = function(isitchecked, form) {
-    if (typeof(form) === 'undefined') {
-        form = document.getElementById('adminForm');
-    }
+	if (typeof(form) === 'undefined') {
+		form = document.getElementById('adminForm');
+	}
 
-    if (isitchecked == true) {
-        form.boxchecked.value++;
-    } else {
-        form.boxchecked.value--;
-    }
+	if (isitchecked == true) {
+		form.boxchecked.value++;
+	} else {
+		form.boxchecked.value--;
+	}
 
-    // Toggle main toggle checkbox depending on checkbox selection
-    var c = true, i, e;
-    for (i = 0, n = form.elements.length; i < n; i++) {
-        e = form.elements[i];
-        if (e.type == 'checkbox') {
-            if (e.name != 'checkall-toggle' && e.checked == false) {
-                c = false;
-                break;
-            }
-        }
-    }
-    if (form.elements['checkall-toggle']) {
-        form.elements['checkall-toggle'].checked = c;
-    }
+	// Toggle main toggle checkbox depending on checkbox selection
+	var c = true, i, e;
+	for (i = 0, n = form.elements.length; i < n; i++) {
+		e = form.elements[i];
+		if (e.type == 'checkbox') {
+			if (e.name != 'checkall-toggle' && e.checked == false) {
+				c = false;
+				break;
+			}
+		}
+	}
+	if (form.elements['checkall-toggle']) {
+		form.elements['checkall-toggle'].checked = c;
+	}
 }
 
 /**
@@ -204,12 +204,12 @@ Joomla.isChecked = function(isitchecked, form) {
  * Pops up a new window in the middle of the screen
  */
 Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
-    var winl = (screen.width - w) / 2, wint, winprops, win;
-    wint = (screen.height - h) / 2;
-    winprops = 'height=' + h + ',width=' + w + ',top=' + wint + ',left=' + winl
-            + ',scrollbars=' + scroll + ',resizable'
-    win = window.open(mypage, myname, winprops)
-    win.window.focus();
+	var winl = (screen.width - w) / 2, wint, winprops, win;
+	wint = (screen.height - h) / 2;
+	winprops = 'height=' + h + ',width=' + w + ',top=' + wint + ',left=' + winl
+	+ ',scrollbars=' + scroll + ',resizable'
+	win = window.open(mypage, myname, winprops)
+	win.window.focus();
 }
 
 /**
@@ -237,7 +237,7 @@ Joomla.toggleSidebar = function(force)
 	{
 		jQuery('#sidebar').hide();
 		jQuery('#j-sidebar-container').removeClass('span2').addClass('span1');
-        jQuery('#j-sidebar-container').removeClass('j-toggle-visible').addClass('j-toggle-hidden');
+		jQuery('#j-sidebar-container').removeClass('j-toggle-visible').addClass('j-toggle-hidden');
 		jQuery('#j-main-container').removeClass('span10').addClass('span12 expanded');
 		jQuery('#j-toggle-sidebar-icon').removeClass('icon-remove').addClass('icon-menu-3');
 		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_SHOW_SIDEBAR'));
@@ -252,7 +252,7 @@ Joomla.toggleSidebar = function(force)
 	{
 		jQuery('#sidebar').show();
 		jQuery('#j-sidebar-container').removeClass('span1').addClass('span2');
-        jQuery('#j-sidebar-container').removeClass('j-toggle-hidden').addClass('j-toggle-visible');
+		jQuery('#j-sidebar-container').removeClass('j-toggle-hidden').addClass('j-toggle-visible');
 		jQuery('#j-main-container').removeClass('span12 expanded').addClass('span10');
 		jQuery('#j-toggle-sidebar-icon').removeClass('icon-menu-3').addClass('icon-remove');
 		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_HIDE_SIDEBAR'));
@@ -263,19 +263,39 @@ Joomla.toggleSidebar = function(force)
 			localStorage.setItem(context, false);
 		}
 	}
+	if (jQuery(window).width() < 728)
+	{
+		if (!($visible))
+		{
+			jQuery('#sidebar').show();
+			jQuery('#j-sidebar-container').removeClass('span1').addClass('span2');
+			jQuery('#j-sidebar-container').removeClass('j-toggle-hidden').addClass('j-toggle-visible');
+			jQuery('#j-main-container').removeClass('span12 expanded').addClass('span10');
+			jQuery('#j-toggle-sidebar-icon').removeClass('icon-menu-3').addClass('icon-remove');
+			jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_HIDE_SIDEBAR'));
+
+			if (typeof(Storage) !== "undefined")
+			{
+				// Set the last selection in localStorage
+				localStorage.setItem(context, false);
+			}
+
+			jQuery('#j-toggle-sidebar-button').removeClass( "hidden-phone" );
+		}
+	}
 }
 
 /**
  * USED IN: libraries/joomla/html/html/grid.php
  */
 Joomla.tableOrdering = function(order, dir, task, form) {
-    if (typeof(form) === 'undefined') {
-        form = document.getElementById('adminForm');
-    }
+	if (typeof(form) === 'undefined') {
+		form = document.getElementById('adminForm');
+	}
 
-    form.filter_order.value = order;
-    form.filter_order_Dir.value = dir;
-    Joomla.submitform(task, form);
+	form.filter_order.value = order;
+	form.filter_order_Dir.value = dir;
+	Joomla.submitform(task, form);
 }
 
 /**
@@ -295,23 +315,23 @@ Joomla.tableOrdering = function(order, dir, task, form) {
  *          The original item value that was selected
  */
 function writeDynaList(selectParams, source, key, orig_key, orig_val) {
-    var html = '\n  <select ' + selectParams + '>', i, selected;
-    i = 0;
-    for (x in source) {
-        if (source[x][0] == key) {
-            selected = '';
-            if ((orig_key == key && orig_val == source[x][1])
-                    || (i == 0 && orig_key != key)) {
-                selected = 'selected="selected"';
-            }
-            html += '\n     <option value="' + source[x][1] + '" ' + selected
-                    + '>' + source[x][2] + '</option>';
-        }
-        i++;
-    }
-    html += '\n </select>';
+	var html = '\n  <select ' + selectParams + '>', i, selected;
+	i = 0;
+	for (x in source) {
+		if (source[x][0] == key) {
+			selected = '';
+			if ((orig_key == key && orig_val == source[x][1])
+				|| (i == 0 && orig_key != key)) {
+				selected = 'selected="selected"';
+			}
+			html += '\n     <option value="' + source[x][1] + '" ' + selected
+			+ '>' + source[x][2] + '</option>';
+		}
+		i++;
+	}
+	html += '\n </select>';
 
-    document.writeln(html);
+	document.writeln(html);
 }
 
 /**
@@ -331,26 +351,26 @@ function writeDynaList(selectParams, source, key, orig_key, orig_val) {
  *          The original item value that was selected
  */
 function changeDynaList(listname, source, key, orig_key, orig_val) {
-    var list = document.adminForm[listname];
+	var list = document.adminForm[listname];
 
-    // empty the list
-    for (i in list.options.length) {
-        list.options[i] = null;
-    }
-    i = 0;
-    for (x in source) {
-        if (source[x][0] == key) {
-            opt = new Option();
-            opt.value = source[x][1];
-            opt.text = source[x][2];
+	// empty the list
+	for (i in list.options.length) {
+		list.options[i] = null;
+	}
+	i = 0;
+	for (x in source) {
+		if (source[x][0] == key) {
+			opt = new Option();
+			opt.value = source[x][1];
+			opt.text = source[x][2];
 
-            if ((orig_key == key && orig_val == opt.value) || i == 0) {
-                opt.selected = true;
-            }
-            list.options[i++] = opt;
-        }
-    }
-    list.length = i;
+			if ((orig_key == key && orig_val == opt.value) || i == 0) {
+				opt.selected = true;
+			}
+			list.options[i++] = opt;
+		}
+	}
+	list.length = i;
 }
 
 /**
@@ -363,23 +383,23 @@ function changeDynaList(listname, source, key, orig_key, orig_val) {
 // return an empty string if none are checked, or
 // there are no radio buttons
 function radioGetCheckedValue(radioObj) {
-    if (!radioObj) {
-        return '';
-    }
-    var n = radioObj.length, i;
-    if (n == undefined) {
-        if (radioObj.checked) {
-            return radioObj.value;
-        } else {
-            return '';
-        }
-    }
-    for (i = 0; i < n; i++) {
-        if (radioObj[i].checked) {
-            return radioObj[i].value;
-        }
-    }
-    return '';
+	if (!radioObj) {
+		return '';
+	}
+	var n = radioObj.length, i;
+	if (n == undefined) {
+		if (radioObj.checked) {
+			return radioObj.value;
+		} else {
+			return '';
+		}
+	}
+	for (i = 0; i < n; i++) {
+		if (radioObj[i].checked) {
+			return radioObj[i].value;
+		}
+	}
+	return '';
 }
 
 /**
@@ -400,15 +420,15 @@ function radioGetCheckedValue(radioObj) {
  * @return
  */
 function getSelectedValue(frmName, srcListName) {
-    var form = document[frmName],
-    srcList = form[srcListName];
+	var form = document[frmName],
+		srcList = form[srcListName];
 
-    i = srcList.selectedIndex;
-    if (i != null && i > -1) {
-        return srcList.options[i].value;
-    } else {
-        return null;
-    }
+	i = srcList.selectedIndex;
+	if (i != null && i > -1) {
+		return srcList.options[i].value;
+	} else {
+		return null;
+	}
 }
 
 /**
@@ -419,20 +439,20 @@ function getSelectedValue(frmName, srcListName) {
  * @return
  */
 function listItemTask(id, task) {
-    var f = document.adminForm, i, cbx,
-    cb = f[id];
-    if (cb) {
-        for (i = 0; true; i++) {
-            cbx = f['cb'+i];
-            if (!cbx)
-                break;
-            cbx.checked = false;
-        } // for
-        cb.checked = true;
-        f.boxchecked.value = 1;
-        submitbutton(task);
-    }
-    return false;
+	var f = document.adminForm, i, cbx,
+		cb = f[id];
+	if (cb) {
+		for (i = 0; true; i++) {
+			cbx = f['cb'+i];
+			if (!cbx)
+				break;
+			cbx.checked = false;
+		} // for
+		cb.checked = true;
+		f.boxchecked.value = 1;
+		submitbutton(task);
+	}
+	return false;
 }
 
 /**
@@ -441,7 +461,7 @@ function listItemTask(id, task) {
  * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
  */
 function submitbutton(pressbutton) {
-    submitform(pressbutton);
+	submitform(pressbutton);
 }
 
 /**
@@ -450,16 +470,16 @@ function submitbutton(pressbutton) {
  * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
  */
 function submitform(pressbutton) {
-    if (pressbutton) {
-        document.adminForm.task.value = pressbutton;
-    }
-    if (typeof document.adminForm.onsubmit == "function") {
-        document.adminForm.onsubmit();
-    }
-    if (typeof document.adminForm.fireEvent == "function") {
-        document.adminForm.fireEvent('submit');
-    }
-    document.adminForm.submit();
+	if (pressbutton) {
+		document.adminForm.task.value = pressbutton;
+	}
+	if (typeof document.adminForm.onsubmit == "function") {
+		document.adminForm.onsubmit();
+	}
+	if (typeof document.adminForm.fireEvent == "function") {
+		document.adminForm.fireEvent('submit');
+	}
+	document.adminForm.submit();
 }
 
 // needed for Table Column ordering
@@ -467,24 +487,24 @@ function submitform(pressbutton) {
  * USED IN: libraries/joomla/html/html/grid.php
  */
 function saveorder(n, task) {
-    checkAll_button(n, task);
+	checkAll_button(n, task);
 }
 
 function checkAll_button(n, task) {
-    if (!task) {
-        task = 'saveorder';
-    }
-    var j, box;
-    for (j = 0; j <= n; j++) {
-        box = document.adminForm['cb'+j];
-        if (box) {
-            if (box.checked == false) {
-                box.checked = true;
-            }
-        } else {
-            alert("You cannot change the order of items, as an item in the list is `Checked Out`");
-            return;
-        }
-    }
-    submitform(task);
+	if (!task) {
+		task = 'saveorder';
+	}
+	var j, box;
+	for (j = 0; j <= n; j++) {
+		box = document.adminForm['cb'+j];
+		if (box) {
+			if (box.checked == false) {
+				box.checked = true;
+			}
+		} else {
+			alert("You cannot change the order of items, as an item in the list is `Checked Out`");
+			return;
+		}
+	}
+	submitform(task);
 }
