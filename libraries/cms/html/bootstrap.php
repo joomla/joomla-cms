@@ -248,7 +248,8 @@ abstract class JHtmlBootstrap
 	 * @param   string  $selector  The ID selector for the modal.
 	 * @param   array   $params    An array of options for the modal.
 	 *                             Options for the modal can be:
-	 *                             - backdrop  boolean  Includes a modal-backdrop element.
+	 *                             - backdrop  mixed    If boolean select to include a modal-backdrop element.
+	 *                                                  Alternatively, the string 'static' for a backdrop which doesn't close the modal on click.
 	 *                             - keyboard  boolean  Closes the modal when escape key is pressed.
 	 *                             - show      boolean  Shows the modal when initialized.
 	 *                             - remote    string   An optional remote URL to load
@@ -267,7 +268,18 @@ abstract class JHtmlBootstrap
 			static::framework();
 
 			// Setup options object
-			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
+			$opt['backdrop'] = true;
+			if (isset($params['backdrop']))
+			{
+				if (strcmp($params['backdrop'],'static') === 0)
+				{
+					$opt['backdrop'] = 'static';
+				}
+				else
+				{
+					$opt['backdrop'] = (boolean) $params['backdrop'];
+				}
+			}
 			$opt['keyboard'] = isset($params['keyboard']) ? (boolean) $params['keyboard'] : true;
 			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : true;
 			$opt['remote']   = isset($params['remote']) ?  $params['remote'] : '';
@@ -294,19 +306,23 @@ abstract class JHtmlBootstrap
 	 * @param   string  $selector  The ID selector for the modal.
 	 * @param   array   $params    An array of options for the modal.
 	 * @param   string  $footer    Optional markup for the modal footer
+	 * @param	boolean $closebtn  Optional display modal close button
 	 *
 	 * @return  string  HTML markup for a modal
 	 *
 	 * @since   3.0
 	 */
-	public static function renderModal($selector = 'modal', $params = array(), $footer = '')
+	public static function renderModal($selector = 'modal', $params = array(), $footer = '', $closebtn = true)
 	{
 		// Ensure the behavior is loaded
 		static::modal($selector, $params);
 
 		$html = "<div class=\"modal hide fade\" id=\"" . $selector . "\">\n";
 		$html .= "<div class=\"modal-header\">\n";
-		$html .= "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">×</button>\n";
+		if ($closebtn)
+		{
+			$html .= "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">×</button>\n";
+		}
 		$html .= "<h3>" . $params['title'] . "</h3>\n";
 		$html .= "</div>\n";
 		$html .= "<div id=\"" . $selector . "-container\">\n";
