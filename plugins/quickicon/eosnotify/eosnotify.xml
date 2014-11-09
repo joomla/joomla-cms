@@ -12,6 +12,5 @@
 	<files>
 		<filename plugin="eosnotify">eosnotify.php</filename>
 		<filename>index.html</filename>
-		<filename>stop15.png</filename>
 	</files>
 </extension>
