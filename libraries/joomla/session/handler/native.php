@@ -35,18 +35,6 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	private $closed;
 
 	/**
-	 * Public constructor
-	 */
-	public function __construct()
-	{
-		// Disable transparent sid support
-		ini_set('session.use_trans_sid', '0');
-
-		// Only allow the session ID to come from cookies and nothing else.
-		ini_set('session.use_only_cookies', '1');
-	}
-
-	/**
 	 * Starts the session.
 	 *
 	 * @return  bool  True if started.

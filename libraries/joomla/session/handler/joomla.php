@@ -24,24 +24,36 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 * @var    JInput
 	 * @since  3.4
 	 */
-	private $input = null;
+	public $input = null;
+
+	/**
+	 * Force cookies to be SSL only
+	 * Default  false
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $_force_ssl = false;
 
 	/**
 	 * Public constructor
 	 *
-	 * @param  JInput  $input  The input object
+	 * @param   array  $options  An array of configuration options
 	 *
 	 * @since  3.4
 	 */
-	public function __construct($input)
+	public function __construct($options = array())
 	{
-		$this->input = $input;
-
 		// Disable transparent sid support
 		ini_set('session.use_trans_sid', '0');
 
 		// Only allow the session ID to come from cookies and nothing else.
 		ini_set('session.use_only_cookies', '1');
+
+		// Set options
+		$this->_setOptions($options);
+
+		$this->_setCookieParams();
 	}
 
 	/**
@@ -70,5 +82,80 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 		}
 
 		return parent::start();
+	}
+
+	/**
+	 * Clear all session data in memory.
+	 *
+	 * @return  void
+	 */
+	public function clear()
+	{
+		$session_name = $this->getName();
+
+		/*
+		 * In order to kill the session altogether, such as to log the user out, the session id
+		 * must also be unset. If a cookie is used to propagate the session id (default behavior),
+		 * then the session cookie must be deleted.
+		 */
+		if (isset($_COOKIE[$session_name]))
+		{
+			$config = JFactory::getConfig();
+			$cookie_domain = $config->get('cookie_domain', '');
+			$cookie_path = $config->get('cookie_path', '/');
+			setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain);
+		}
+
+		parent::clear();
+	}
+
+	/**
+	 * Set session cookie parameters
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function _setCookieParams()
+	{
+		$cookie = session_get_cookie_params();
+
+		if ($this->_force_ssl)
+		{
+			$cookie['secure'] = true;
+		}
+
+		$config = JFactory::getConfig();
+
+		if ($config->get('cookie_domain', '') != '')
+		{
+			$cookie['domain'] = $config->get('cookie_domain');
+		}
+
+		if ($config->get('cookie_path', '') != '')
+		{
+			$cookie['path'] = $config->get('cookie_path');
+		}
+
+		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], true);
+	}
+
+	/**
+	 * Set additional session options
+	 *
+	 * @param   array  $options  List of parameter
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   11.1
+	 */
+	protected function _setOptions(array $options)
+	{
+		if (isset($options['force_ssl']))
+		{
+			$this->_force_ssl = (bool) $options['force_ssl'];
+		}
+
+		return true;
 	}
 }

@@ -594,7 +594,8 @@ abstract class JFactory
 		// Config time is in minutes
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
-		$session = JSession::getInstance($handler, $options);
+		$sessionHandler = new JSessionHandlerJoomla($options);
+		$session = JSession::getInstance($handler, $options, $sessionHandler);
 
 		if ($session->getState() == 'expired')
 		{
