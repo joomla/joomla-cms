@@ -16,21 +16,24 @@ JFactory::getDocument()->addScriptDeclaration(
 var off = jQuery('#sidebar').is(':visible'),
 	windowsize = jQuery(window).width();
 
-	if (windowsize < 728)
-	{
-		if (off)
+	jQuery(window).resize(function() {
+		windowsize = jQuery(window).width();
+
+		if (windowsize < 728)
 		{
-			if (jQuery('#j-sidebar-container').hasClass('span1'))
+			if (off)
 			{
-				jQuery(function()
+				if (jQuery('#j-sidebar-container').hasClass('span1'))
 				{
-					Joomla.toggleSidebar(false); return false;
-					jQuery('#j-toggle-sidebar-button').removeClass('hidden-phone');
-				});
+					jQuery(function()
+					{
+						Joomla.toggleSidebar(false); return false;
+						jQuery('#j-toggle-sidebar-button').removeClass('hidden-phone');
+					});
+				}
 			}
 		}
-	}
-
+	});
 });"
 );
 ?>
