@@ -25,7 +25,7 @@ jQuery(document).ready(function() {
 		if (task == "contact.cancel" || document.formvalidator.isValid(document.getElementById("contact-form")))
 		{
 			' . $this->form->getField("misc")->save() . '
-			Joomla.submitform(task, document.("contact-form"));
+			Joomla.submitform(task, document.getElementById("contact-form"));
 		}
 	}
 });');
