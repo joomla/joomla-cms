@@ -108,15 +108,6 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			JToolbarHelper::checkin('newsfeeds.checkin');
 		}
 
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			JToolbarHelper::deleteList('', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::trash('newsfeeds.trash');
-		}
-
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_newsfeeds') &&
 			$user->authorise('core.edit', 'com_newsfeeds') &&
@@ -130,6 +121,15 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
+		}
+
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::trash('newsfeeds.trash');
 		}
 
 		if ($user->authorise('core.admin', 'com_newsfeeds'))
