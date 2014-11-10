@@ -26,7 +26,7 @@ jQuery(document).ready(function() {
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != ' . $listOrder . ')
+		if (order != "' . $listOrder . '")
 		{
 			dirn = "asc";
 		}
