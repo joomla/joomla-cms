@@ -107,7 +107,7 @@ class MediaModelManager extends JModelLegacy
 		$author = $input->get('author', 0, 'integer');
 
 		// Create the drop-down folder select list
-		$attribs = 'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, ' . $asset . ', ' . $author . ')" ';
+		$attribs = 'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, ' . json_encode($asset) . ', ' . $author . ')" ';
 		$list = JHtml::_('select.genericlist', $options, 'folderlist', $attribs, 'value', 'text', $base);
 
 		return $list;
