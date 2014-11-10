@@ -72,13 +72,13 @@ jQuery(document).ready(function (){
 					nameId = '#' + idReversed.substr(separatorLocation).split('').reverse().join('') + 'name';
 				jQuery(nameId).addClass('invalid');
 			});
-		};
+		}
 	}
 });
 ";
 
 // Add the script to the document head.
-JFactory::getDocument()->addScriptDeclaration('\n', $script);
+JFactory::getDocument()->addScriptDeclaration($script);
 
 ?>
 
