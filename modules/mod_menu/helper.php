@@ -194,7 +194,18 @@ class ModMenuHelper
 	public static function getActive(&$params)
 	{
 		$menu = JFactory::getApplication()->getMenu();
+		$lang = JFactory::getLanguage();
 
-		return $menu->getActive() ? $menu->getActive() : $menu->getDefault();
+		// Look for the home menu
+		if (JLanguageMultilang::isEnabled())
+		{
+			$home = $menu->getDefault($lang->getTag());
+		}
+		else
+		{
+			$home  = $menu->getDefault();
+		}
+
+		return $menu->getActive() ? $menu->getActive() : $home;
 	}
 }

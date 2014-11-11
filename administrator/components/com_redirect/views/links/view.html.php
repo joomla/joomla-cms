@@ -104,17 +104,6 @@ class RedirectViewLinks extends JViewLegacy
 			}
 		}
 
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
-			JToolbarHelper::deleteList('', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolbarHelper::divider();
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::trash('links.trash');
-			JToolbarHelper::divider();
-		}
-
 		if ($canDo->get('core.create'))
 		{
 			// Get the toolbar object instance
@@ -128,6 +117,17 @@ class RedirectViewLinks extends JViewLegacy
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
+		}
+
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::divider();
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::trash('links.trash');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin'))

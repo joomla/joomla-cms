@@ -1195,9 +1195,14 @@ class MenusModelItem extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$pk = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
-		$isNew = true;
-		$table = $this->getTable();
+		$dispatcher = JEventDispatcher::getInstance();
+		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
+		$isNew      = true;
+		$table      = $this->getTable();
+		$context    = $this->option . '.' . $this->name;
+
+		// Include the plugins for the on save events.
+		JPluginHelper::importPlugin($this->events_map['save']);
 
 		// Load the row if saving an existing item.
 		if ($pk > 0)
@@ -1270,13 +1275,19 @@ class MenusModelItem extends JModelAdmin
 			return false;
 		}
 
+		// Trigger the before save event.
+		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew));
+
 		// Store the data.
-		if (!$table->store())
+		if (in_array(false, $result, true)|| !$table->store())
 		{
 			$this->setError($table->getError());
 
 			return false;
 		}
+
+		// Trigger the after save event.
+		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew));
 
 		// Rebuild the tree path.
 		if (!$table->rebuildPath($table->id))
