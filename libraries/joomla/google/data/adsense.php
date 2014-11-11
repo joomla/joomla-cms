@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Google Adsense data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @since  12.3
  */
 class JGoogleDataAdsense extends JGoogleData
 {

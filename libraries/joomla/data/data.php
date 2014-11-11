@@ -15,9 +15,7 @@ use Joomla\Registry\Registry;
  * JData is a class that is used to store data but allowing you to access the data
  * by mimicking the way PHP handles class properties.
  *
- * @package     Joomla.Platform
- * @subpackage  Data
- * @since       12.3
+ * @since  12.3
  */
 class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Countable
 {

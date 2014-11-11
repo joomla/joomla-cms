@@ -62,12 +62,6 @@ $twofactormethods = UsersHelper::getTwoFactorMethods();
 				<input type="text" name="secretkey" class="inputbox" size="18" alt="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
 			</p>
 		<?php endif; ?>
-		<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
-			<p id="form-login-remember">
-				<label for="remember"><?php echo JText::_('JGLOBAL_REMEMBER_ME'); ?></label>
-				<input type="checkbox" name="remember" class="inputbox" value="yes" alt="<?php echo JText::_('JGLOBAL_REMEMBER_ME'); ?>" id="remember" />
-			</p>
-		<?php endif; ?>
 		<p id="submit-buton">
 			<label>&nbsp;</label>
 			<input type="submit" name="Submit" class="button login" value="<?php echo JText::_('JLOGIN'); ?>" />

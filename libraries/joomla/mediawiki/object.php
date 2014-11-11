@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * MediaWiki API object class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  MediaWiki
- * @since       12.3
+ * @since  12.3
  */
 abstract class JMediawikiObject
 {

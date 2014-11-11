@@ -13,10 +13,8 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Provides an input field for files
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @link        http://www.w3.org/TR/html-markup/input.file.html#input.file
- * @since       11.1
+ * @link   http://www.w3.org/TR/html-markup/input.file.html#input.file
+ * @since  11.1
  */
 class JFormFieldFile extends JFormField
 {

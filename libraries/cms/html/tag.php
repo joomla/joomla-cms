@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Utility class for tags
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.1
+ * @since  3.1
  */
 abstract class JHtmlTag
 {

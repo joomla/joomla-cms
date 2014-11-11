@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_login
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_login
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModLoginHelper
 {
@@ -31,6 +29,14 @@ abstract class ModLoginHelper
 		{
 			return '';
 		}
+
+		usort(
+			$languages,
+			function ($a, $b)
+			{
+				return strcmp($a["value"], $b["value"]);
+			}
+		);
 
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULTLANGUAGE')));
 

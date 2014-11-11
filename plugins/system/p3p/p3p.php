@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
  * Joomla! P3P Header Plugin.
  *
  * @since  1.6
+ * @deprecate  4.0  Obsolete
  */
 class PlgSystemP3p extends JPlugin
 {
@@ -22,6 +23,7 @@ class PlgSystemP3p extends JPlugin
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @deprecate  4.0  Obsolete
 	 */
 	public function onAfterInitialise()
 	{

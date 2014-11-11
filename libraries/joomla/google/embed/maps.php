@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Google Maps embed class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @since  12.3
  */
 class JGoogleEmbedMaps extends JGoogleEmbed
 {
@@ -618,7 +616,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			break;
 
 			case 'jquery':
-			$output .= "$(document).ready({$onload});";
+			$output .= "jQuery(document).ready({$onload});";
 			break;
 
 			case 'mootools':

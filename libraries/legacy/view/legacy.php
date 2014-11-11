@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * Class holding methods for displaying presentation data.
  *
- * @package     Joomla.Legacy
- * @subpackage  View
- * @since       12.2
+ * @since  12.2
  */
 class JViewLegacy extends JObject
 {
@@ -763,6 +761,8 @@ class JViewLegacy extends JObject
 		// Loop through the path directories
 		foreach ($path as $dir)
 		{
+			jimport('joomla.filesystem.path');
+
 			// Clean up the path
 			$dir = JPath::clean($dir);
 

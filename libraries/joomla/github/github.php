@@ -36,9 +36,7 @@ use Joomla\Registry\Registry;
  * @property-read  JGithubHooks       $hooks       Deprecated GitHub API object for hooks.
  * @property-read  JGithubMeta        $meta        Deprecated GitHub API object for meta.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
- * @since       11.3
+ * @since  11.3
  */
 class JGithub
 {

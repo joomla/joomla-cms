@@ -265,7 +265,7 @@ class PlgContentPagebreak extends JPlugin
 
 			if ($this->params->get('article_index_text'))
 			{
-				htmlspecialchars($headingtext = $this->params->get('article_index_text'));
+				$headingtext = htmlspecialchars($this->params->get('article_index_text'), ENT_QUOTES, 'UTF-8');
 			}
 
 			$row->toc .= '<h3>' . $headingtext . '</h3>';

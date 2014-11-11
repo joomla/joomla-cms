@@ -22,9 +22,7 @@ use Joomla\Registry\Registry;
  * @property-read  JMediawikiImages         $images         MediaWiki API object for images.
  * @property-read  JMediawikiSearch         $search         MediaWiki API object for search.
  *
- * @package     Joomla.Platform
- * @subpackage  MediaWiki
- * @since       12.3
+ * @since  12.3
  */
 class JMediawiki
 {

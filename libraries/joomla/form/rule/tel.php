@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla Platform
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormRuleTel extends JFormRule
 {

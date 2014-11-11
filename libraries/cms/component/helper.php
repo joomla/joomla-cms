@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Component helper class
  *
- * @package     Joomla.Libraries
- * @subpackage  Component
- * @since       1.5
+ * @since  1.5
  */
 class JComponentHelper
 {

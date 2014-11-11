@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * JMenu class
  *
- * @package     Joomla.Libraries
- * @subpackage  Menu
- * @since       1.5
+ * @since  1.5
  */
 class JMenu
 {

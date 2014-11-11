@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform Database Model Class
  *
- * @package     Joomla.Platform
- * @subpackage  Model
- * @since       12.1
+ * @since  12.1
  */
 abstract class JModelDatabase extends JModelBase
 {

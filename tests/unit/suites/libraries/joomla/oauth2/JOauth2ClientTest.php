@@ -47,7 +47,6 @@ class JOAuth2ClientTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @access protected
 	 * @return void
 	 */
 	protected function setUp()
@@ -65,17 +64,6 @@ class JOAuth2ClientTest extends TestCase
 		$this->input = new JInput($array);
 		$this->application = new JApplicationWebInspector;
 		$this->object = new JOAuth2Client($this->options, $this->http, $this->input, $this->application);
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 * @return void
-	 */
-	protected function tearDown()
-	{
 	}
 
 	/**

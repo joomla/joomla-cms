@@ -17,9 +17,7 @@ jimport('joomla.base.adapter');
 /**
  * Joomla base installer class
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstaller extends JAdapter
 {
@@ -2179,6 +2177,21 @@ class JInstaller extends JAdapter
 		$data['version'] = (string) $xml->version;
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
+
+		if ($xml->files && count($xml->files->children()))
+		{
+			$filename = JFile::getName($path);
+			$data['filename'] = JFile::stripExt($filename);
+
+			foreach ($xml->files->children() as $oneFile)
+			{
+				if ((string) $oneFile->attributes()->plugin)
+				{
+					$data['filename'] = (string) $oneFile->attributes()->plugin;
+					break;
+				}
+			}
+		}
 
 		return $data;
 	}

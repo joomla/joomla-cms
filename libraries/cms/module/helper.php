@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Module helper class
  *
- * @package     Joomla.Libraries
- * @subpackage  Module
- * @since       1.5
+ * @since  1.5
  */
 abstract class JModuleHelper
 {

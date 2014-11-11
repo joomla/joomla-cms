@@ -17,13 +17,13 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
-$this->configFieldsets  = array('editorConfig');
-$this->hiddenFieldsets  = array('basic-limited');
-$this->ignore_fieldsets = array('jmetadata');
+$this->hiddenFieldsets = array();
+$this->hiddenFieldsets[0] = 'basic-limited';
+$this->configFieldsets = array();
+$this->configFieldsets[0] = 'editorConfig';
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
-//$params = $params->toArray();
 
 $app = JFactory::getApplication();
 $input = $app->input;
@@ -92,7 +92,7 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 <div class="clearfix"> </div>
 <hr class="hr-condensed" />
 
-<form action="<?php echo JRoute::_('index.php?option=com_content&layout=modal&tmpl=component&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_content&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 <?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div class="form-horizontal">

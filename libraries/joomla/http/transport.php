@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * HTTP transport class interface.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
- * @since       11.3
+ * @since  11.3
  */
 interface JHttpTransport
 {
