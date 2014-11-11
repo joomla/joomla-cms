@@ -63,7 +63,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			if ($app->isSite())
 			{
 				// Setup language data.
-				self::$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
+				self::$mode_sef 	= $router->getMode() == JROUTER_MODE_SEF;
 				self::$sefs 		= JLanguageHelper::getLanguages('sef');
 				self::$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
 				self::$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
