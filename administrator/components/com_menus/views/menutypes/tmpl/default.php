@@ -14,18 +14,18 @@ $input = JFactory::getApplication()->input;
 $tmpl = $input->getCmd('tmpl', '');
 $document = JFactory::getDocument();
 
-$script[] = 'jQuery(document).ready(function() {';
-$script[] = '	setmenutype = function(type)';
-$script[] = '	{';
+$script = 'jQuery(document).ready(function() {';
+$script .= '	setmenutype = function(type)';
+$script .= '	{';
 if ($tmpl) :
-	$script[] = '	window.parent.Joomla.submitbutton(\'item.setType\', type);';
-	$script[] = '	window.parent.SqueezeBox.close();';
+	$script .= '	window.parent.Joomla.submitbutton(\'item.setType\', type);';
+	$script .= '	window.parent.SqueezeBox.close();';
 else :
-	$script[] = '	window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+(\'item.setType\', type);';
+	$script .= '	window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+(\'item.setType\', type);';
 endif;
-$script[] = '	}';
-$script[] = '});';
-JFactory::getDocument()->addScriptDeclaration(implode('\n',  $script));
+$script .= '	}';
+$script .= '});';
+JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 
 <?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
