@@ -247,11 +247,6 @@ abstract class JHtmlBootstrap
 	 *
 	 * @param   string  $selector  The ID selector for the modal.
 	 * @param   array   $params    An array of options for the modal.
-	 *                             Options for the modal can be:
-	 *                             - backdrop  boolean  Includes a modal-backdrop element.
-	 *                             - keyboard  boolean  Closes the modal when escape key is pressed.
-	 *                             - show      boolean  Shows the modal when initialized.
-	 *                             - remote    string   An optional remote URL to load
 	 *
 	 * @return  void
 	 *
@@ -259,32 +254,6 @@ abstract class JHtmlBootstrap
 	 */
 	public static function modal($selector = 'modal', $params = array())
 	{
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (!isset(static::$loaded[__METHOD__][$sig]))
-		{
-			// Include Bootstrap framework
-			static::framework();
-
-			// Setup options object
-			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
-			$opt['keyboard'] = isset($params['keyboard']) ? (boolean) $params['keyboard'] : true;
-			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : true;
-			$opt['remote']   = isset($params['remote']) ?  $params['remote'] : '';
-
-			$options = JHtml::getJSObject($opt);
-
-			// Attach the modal to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('#$selector').modal($options);
-					})(jQuery);"
-			);
-
-			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
-		}
-
 		return;
 	}
 
@@ -293,6 +262,15 @@ abstract class JHtmlBootstrap
 	 *
 	 * @param   string  $selector  The ID selector for the modal.
 	 * @param   array   $params    An array of options for the modal.
+	 *                             Options for the modal can be:
+	 *                             - title     string   The modal title
+	 *                             - backdrop  mixed    If boolean select to include a modal-backdrop element.
+	 *                                                  Alternatively, the string 'static' for a backdrop which doesn't close the modal on click.
+	 *                             - keyboard  boolean  Closes the modal when escape key is pressed.
+	 *                             - show      boolean  Shows the modal when initialized.
+	 *                             - remote    string   An optional remote URL to load
+	 *                             - closebtn  boolean  Display modal close button (default = true)
+	 *                             - animation boolean  Fade in from the top of the page (default = true) 
 	 * @param   string  $footer    Optional markup for the modal footer
 	 *
 	 * @return  string  HTML markup for a modal
@@ -301,17 +279,36 @@ abstract class JHtmlBootstrap
 	 */
 	public static function renderModal($selector = 'modal', $params = array(), $footer = '')
 	{
-		// Ensure the behavior is loaded
-		static::modal($selector, $params);
+		// Include Bootstrap framework
+		static::framework();
 
-		$html = "<div class=\"modal hide fade\" id=\"" . $selector . "\">\n";
-		$html .= "<div class=\"modal-header\">\n";
-		$html .= "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">×</button>\n";
-		$html .= "<h3>" . $params['title'] . "</h3>\n";
-		$html .= "</div>\n";
-		$html .= "<div id=\"" . $selector . "-container\">\n";
-		$html .= "</div>\n";
-		$html .= "</div>\n";
+		$html = '<div id="' . $selector . '" class="modal hide';
+		if (!isset($params['animation']) || $params['animation'])
+		{
+			$html .= ' fade';
+		}
+		$html .= '"';
+		foreach (array('backdrop', 'keyboard', 'show', 'remote') as $key)
+		{
+			if (isset($params[$key]))
+			{
+				$html .= ' data-' . $key . '="' . (is_bool($params[$key]) ? ($params[$key] ? 'true' : 'false') : $params[$key]) . '"';
+			}
+		}
+		$html .= '>';
+		$html .= '<div class="modal-header">';
+		if (!isset($params['closebtn']) || $params['closebtn'])
+		{
+			$html .= '<button type="button" class="close" data-dismiss="modal">×</button>';
+		}
+		if (isset($params['title']))
+		{
+			$html .= '<h3>' . $params['title'] . '</h3>';
+		}
+		$html .= '</div>';
+		$html .= '<div id="' . $selector . '-container">';
+		$html .= '</div>';
+		$html .= '</div>';
 
 		$html .= "<script>";
 		$html .= "jQuery('#" . $selector . "').on('show', function () {\n";
