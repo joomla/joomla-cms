@@ -16,27 +16,27 @@ JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
 
-$script[] = 'jQuery(document).ready(function() {';
-$script[] = '   document.getElementById("jform_searchstring").addEvent("focus", function()';
-$script[] = '   {';
-$script[] = '       if (!Joomla.overrider.states.refreshed)';
-$script[] = '       {';
+$script = 'jQuery(document).ready(function() {';
+$script .= '   document.getElementById("jform_searchstring").addEvent("focus", function()';
+$script .= '   {';
+$script .= '       if (!Joomla.overrider.states.refreshed)';
+$script .= '       {';
 			if ($this->state->get("cache_expired")) :
-$script[] = '           Joomla.overrider.refreshCache();';
-$script[] = '           Joomla.overrider.states.refreshed = true;';
+$script .= '           Joomla.overrider.refreshCache();';
+$script .= '           Joomla.overrider.states.refreshed = true;';
 			endif;
-$script[] = '       }';
-$script[] = '       this.removeClass("invalid");';
-$script[] = '   });';
-$script[] = '   Joomla.submitbutton = function(task)';
-$script[] = '   {';
-$script[] = '       if (task == "override.cancel" || document.formvalidator.isValid(document.getElementById("override-form")))';
-$script[] = '       {';
-$script[] = '           Joomla.submitform(task, document.getElementById("override-form"));';
-$script[] = '       }';
-$script[] = '   }';
-$script[] = '});';
-JFactory::getDocument()->addScriptDeclaration(implode('', $script));
+$script .= '       }';
+$script .= '       this.removeClass("invalid");';
+$script .= '   });';
+$script .= '   Joomla.submitbutton = function(task)';
+$script .= '   {';
+$script .= '       if (task == "override.cancel" || document.formvalidator.isValid(document.getElementById("override-form")))';
+$script .= '       {';
+$script .= '           Joomla.submitform(task, document.getElementById("override-form"));';
+$script .= '       }';
+$script .= '   }';
+$script .= '});';
+JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&id='.$this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate form-horizontal">
