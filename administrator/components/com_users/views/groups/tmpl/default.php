@@ -23,31 +23,31 @@ $sortFields = $this->getSortFields();
 
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
-$script[] = 'jQuery(document).ready(function() {';
-$script[] = '	Joomla.submitbutton = function(task) {';
-$script[] = '		if (task == "groups.delete")';
-$script[] = '		{';
-$script[] = '			var f = document.adminForm;';
-$script[] = '			var cb="";';
+$script = 'jQuery(document).ready(function() {';
+$script .= '	Joomla.submitbutton = function(task) {';
+$script .= '		if (task == "groups.delete")';
+$script .= '		{';
+$script .= '			var f = document.adminForm;';
+$script .= '			var cb="";';
 foreach ($this->items as $i => $item)
 {
 	if ($item->user_count > 0)
 	{
-		$script[] = '	cb = f["cb"+' . $i . '];';
-		$script[] = '	if (cb && cb.checked) { ';
-		$script[] = '		if (confirm(Joomla.JText._("COM_USERS_GROUPS_CONFIRM_DELETE"))) { ';
-		$script[] = '			Joomla.submitform(task);';
-		$script[] = '		}';
-		$script[] = '		return;';
-		$script[] = '	}';
+		$script .= '	cb = f["cb"+' . $i . '];';
+		$script .= '	if (cb && cb.checked) { ';
+		$script .= '		if (confirm(Joomla.JText._("COM_USERS_GROUPS_CONFIRM_DELETE"))) { ';
+		$script .= '			Joomla.submitform(task);';
+		$script .= '		}';
+		$script .= '		return;';
+		$script .= '	}';
 	}
 }
-$script[] = '		}';
-$script[] = '	Joomla.submitform(task);';
-$script[] = '	}';
-$script[] = '});';
+$script .= '		}';
+$script .= '	Joomla.submitform(task);';
+$script .= '	}';
+$script .= '});';
 
-JFactory::getDocument()->addScriptDeclaration(implode('\n', $script));
+JFactory::getDocument()->addScriptDeclaration($script);
 JFactory::getDocument()->addScriptDeclaration('
 jQuery(document).ready(function() {
 	Joomla.orderTable = function()
