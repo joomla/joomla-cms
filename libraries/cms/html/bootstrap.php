@@ -300,7 +300,8 @@ abstract class JHtmlBootstrap
 		{
 			$html .= ' data-keyboard="' . (is_bool($params['keyboard']) ? ($params['keyboard'] ? 'true' : 'false') : 'true') . '"';
 		}
-		$html .= ' tabindex="-1">';  // Must set tabindex="-1" to allow closing the modal with the esc key
+		// Must set tabindex="-1" to allow closing the modal with the esc key
+		$html .= ' tabindex="-1">';
 
 		// The modal-header (may be empty: is this an issue?)
 		$html .= '<div class="modal-header">';
@@ -325,9 +326,10 @@ abstract class JHtmlBootstrap
 			$html .= '</div>';
 		}
 
-		$html .= '</div>';  // The modal div
+		$html .= '</div>';
 
-		if (isset($params['url'])) // We have an URL so we must populate the modal-body with it "on show"
+		// If we have an URL we must populate the modal-body with it "on show"
+		if (isset($params['url']))
 		{
 			$params['height'] = isset($params['height']) ? " height=\"{$params['height']}\"" : '';
 			$params['width'] = isset($params['width']) ? " width=\"{$params['width']}\"" : '';
