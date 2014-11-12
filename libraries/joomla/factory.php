@@ -588,14 +588,14 @@ abstract class JFactory
 	protected static function createSession(array $options = array())
 	{
 		// Get the editor configuration setting
-		$conf = self::getConfig();
+		$conf    = self::getConfig();
 		$handler = $conf->get('session_handler', 'none');
 
 		// Config time is in minutes
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
 		$sessionHandler = new JSessionHandlerJoomla($options);
-		$session = JSession::getInstance($handler, $options, $sessionHandler);
+		$session        = JSession::getInstance($handler, $options, $sessionHandler);
 
 		if ($session->getState() == 'expired')
 		{
@@ -617,13 +617,13 @@ abstract class JFactory
 	{
 		$conf = self::getConfig();
 
-		$host = $conf->get('host');
-		$user = $conf->get('user');
+		$host     = $conf->get('host');
+		$user     = $conf->get('user');
 		$password = $conf->get('password');
 		$database = $conf->get('db');
-		$prefix = $conf->get('dbprefix');
-		$driver = $conf->get('dbtype');
-		$debug = $conf->get('debug');
+		$prefix   = $conf->get('dbprefix');
+		$driver   = $conf->get('dbtype');
+		$debug    = $conf->get('debug');
 
 		$options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 
