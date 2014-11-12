@@ -617,13 +617,13 @@ abstract class JFactory
 	{
 		$conf = self::getConfig();
 
-		$host     = $conf->get('host');
-		$user     = $conf->get('user');
+		$host = $conf->get('host');
+		$user = $conf->get('user');
 		$password = $conf->get('password');
 		$database = $conf->get('db');
-		$prefix   = $conf->get('dbprefix');
-		$driver   = $conf->get('dbtype');
-		$debug    = $conf->get('debug');
+		$prefix = $conf->get('dbprefix');
+		$driver = $conf->get('dbtype');
+		$debug = $conf->get('debug');
 
 		$options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 
