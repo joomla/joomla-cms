@@ -15,27 +15,27 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
-
-$script = 'jQuery(document).ready(function() {';
-$script .= '   document.getElementById("jform_searchstring").addEvent("focus", function()';
-$script .= '   {';
-$script .= '       if (!Joomla.overrider.states.refreshed)';
-$script .= '       {';
-			if ($this->state->get("cache_expired")) :
-$script .= '           Joomla.overrider.refreshCache();';
-$script .= '           Joomla.overrider.states.refreshed = true;';
-			endif;
-$script .= '       }';
-$script .= '       this.removeClass("invalid");';
-$script .= '   });';
-$script .= '   Joomla.submitbutton = function(task)';
-$script .= '   {';
-$script .= '       if (task == "override.cancel" || document.formvalidator.isValid(document.getElementById("override-form")))';
-$script .= '       {';
-$script .= '           Joomla.submitform(task, document.getElementById("override-form"));';
-$script .= '       }';
-$script .= '   }';
-$script .= '});';
+$script = 'jQuery(document).ready(function() {' . PHP_EOL;
+$script .= '   document.getElementById("jform_searchstring").addEvent("focus", function()' . PHP_EOL;
+$script .= '   {' . PHP_EOL;
+$script .= '       if (!Joomla.overrider.states.refreshed)' . PHP_EOL;
+$script .= '       {'. PHP_EOL;
+if ($this->state->get("cache_expired"))
+{
+	$script .= '           Joomla.overrider.refreshCache();'. PHP_EOL;
+	$script .= '           Joomla.overrider.states.refreshed = true;' . PHP_EOL;
+}
+$script .= '       }' . PHP_EOL;
+$script .= '       this.removeClass("invalid");' . PHP_EOL;
+$script .= '   });' . PHP_EOL;
+$script .= '   Joomla.submitbutton = function(task)' . PHP_EOL;
+$script .= '   {' . PHP_EOL;
+$script .= '       if (task == "override.cancel" || document.formvalidator.isValid(document.getElementById("override-form")))' . PHP_EOL;
+$script .= '       {' . PHP_EOL;
+$script .= '           Joomla.submitform(task, document.getElementById("override-form"));' . PHP_EOL;
+$script .= '       }' . PHP_EOL;
+$script .= '   }' . PHP_EOL;
+$script .= '});' . PHP_EOL;
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 
