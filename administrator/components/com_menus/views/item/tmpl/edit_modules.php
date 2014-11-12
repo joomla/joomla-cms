@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
 
-$script = "	jQuery(document).ready(function() {";
-$script .= "		jQuery('#showmods').on('click', function(e) {";
-$script .= "			jQuery('.table tr.no').toggle();";
-$script .= "		});";
-$script .= "	})";
+$script = "	jQuery(document).ready(function() {" . PHP_EOL;
+$script .= "		jQuery('#showmods').on('click', function(e) {" . PHP_EOL;
+$script .= "			jQuery('.table tr.no').toggle();" . PHP_EOL;
+$script .= "		});" . PHP_EOL;
+$script .= "	})" . PHP_EOL;
 
 // Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration($script);?>

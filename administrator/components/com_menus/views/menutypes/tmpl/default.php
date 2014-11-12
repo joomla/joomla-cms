@@ -14,17 +14,21 @@ $input = JFactory::getApplication()->input;
 $tmpl = $input->getCmd('tmpl', '');
 $document = JFactory::getDocument();
 
-$script = 'jQuery(document).ready(function() {';
-$script .= '	setmenutype = function(type)';
-$script .= '	{';
-if ($tmpl) :
-	$script .= '	window.parent.Joomla.submitbutton(\'item.setType\', type);';
-	$script .= '	window.parent.SqueezeBox.close();';
-else :
-	$script .= '	window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+(\'item.setType\', type);';
-endif;
-$script .= '	}';
-$script .= '});';
+$script = 'jQuery(document).ready(function() {' . PHP_EOL;
+$script .= '	setmenutype = function(type)' . PHP_EOL;
+$script .= '	{' . PHP_EOL;
+if ($tmpl)
+{
+	$script .= '	window.parent.Joomla.submitbutton(\'item.setType\', type);' . PHP_EOL;
+	$script .= '	window.parent.SqueezeBox.close();' . PHP_EOL;
+}
+else
+{
+	$script .= '	window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+(\'item.setType\', type);' . PHP_EOL;
+}
+$script .= '	}' . PHP_EOL;
+$script .= '});' . PHP_EOL;
+
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 
