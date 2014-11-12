@@ -20,7 +20,6 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 * The input object
 	 *
 	 * @var    JInput
-	 *
 	 * @since  3.4
 	 */
 	public $input = null;
@@ -30,7 +29,6 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 * Default  false
 	 *
 	 * @var    boolean
-	 *
 	 * @since  3.4
 	 */
 	protected $_force_ssl = false;
@@ -38,7 +36,7 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	/**
 	 * Public constructor
 	 *
-	 * @param   array  $options  An array of configuration options
+	 * @param  array  $options  An array of configuration options
 	 *
 	 * @since  3.4
 	 */
