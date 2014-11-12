@@ -20,7 +20,6 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * Has the session been started
 	 *
 	 * @var    boolean
-	 *
 	 * @since  3.4
 	 */
 	private $started;
@@ -29,7 +28,6 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * Has the session been closed
 	 *
 	 * @var    boolean
-	 *
 	 * @since  3.4
 	 */
 	private $closed;
@@ -190,7 +188,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 *
 	 * @since   3.4
 	 *
-	 * @throws RuntimeException If the session is saved without being started, or if the session
+	 * @throws  RuntimeException If the session is saved without being started, or if the session
 	 *                           is already closed.
 	 *
 	 * @see     session_write_close()
