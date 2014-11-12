@@ -27,6 +27,11 @@ administrator/components/com_patchtester/
 administrator/templates/hathor/html/com_patchtester
 components/com_patchtester/
 
+# german language #
+administrator/language/de-DE/
+administrator/manifests/packages/pkg_de-DE.xml
+language/de-DE/
+
 # OSX #
 ._*
 .Spotlight-V100
