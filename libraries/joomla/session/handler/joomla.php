@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for managing HTTP sessions
  *
- * @package     Joomla.Platform
- * @subpackage  Session
- * @since       3.4
+ * @since  3.4
  */
 class JSessionHandlerJoomla extends JSessionHandlerNative
 {
@@ -22,6 +20,7 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 * The input object
 	 *
 	 * @var    JInput
+	 *
 	 * @since  3.4
 	 */
 	public $input = null;
@@ -31,7 +30,8 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 * Default  false
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 *
+	 * @since  3.4
 	 */
 	protected $_force_ssl = false;
 
@@ -61,6 +61,8 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 *
 	 * @return  bool  True if started.
 	 *
+	 * @since   3.4
+	 *
 	 * @throws RuntimeException If something goes wrong starting the session.
 	 */
 	public function start()
@@ -88,6 +90,8 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 * Clear all session data in memory.
 	 *
 	 * @return  void
+	 *
+	 * @since   3.4
 	 */
 	public function clear()
 	{
@@ -100,9 +104,9 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 		 */
 		if (isset($_COOKIE[$session_name]))
 		{
-			$config = JFactory::getConfig();
+			$config        = JFactory::getConfig();
 			$cookie_domain = $config->get('cookie_domain', '');
-			$cookie_path = $config->get('cookie_path', '/');
+			$cookie_path   = $config->get('cookie_path', '/');
 			setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain);
 		}
 
@@ -114,7 +118,7 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   3.4
 	 */
 	protected function _setCookieParams()
 	{
@@ -147,7 +151,7 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   3.4
 	 */
 	protected function _setOptions(array $options)
 	{
