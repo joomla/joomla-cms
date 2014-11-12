@@ -251,6 +251,7 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @deprecated  3.3.7  Useless
 	 */
 	public static function modal($selector = 'modal', $params = array())
 	{
@@ -264,38 +265,44 @@ abstract class JHtmlBootstrap
 	 * @param   array   $params    An array of options for the modal.
 	 *                             Options for the modal can be:
 	 *                             - title     string   The modal title
-	 *                             - backdrop  mixed    If boolean select to include a modal-backdrop element.
-	 *                                                  Alternatively, the string 'static' for a backdrop which doesn't close the modal on click.
-	 *                             - keyboard  boolean  Closes the modal when escape key is pressed.
-	 *                             - show      boolean  Shows the modal when initialized.
-	 *                             - remote    string   An optional remote URL to load
+	 *                             - backdrop  mixed    A boolean select if a modal-backdrop element should be included (default = true)
+	 *                                                  The string 'static' includes a backdrop which doesn't close the modal on click.
+	 *                             - keyboard  boolean  Closes the modal when escape key is pressed (default = true)
 	 *                             - closebtn  boolean  Display modal close button (default = true)
-	 *                             - animation boolean  Fade in from the top of the page (default = true) 
-	 * @param   string  $footer    Optional markup for the modal footer
+	 *                             - animation boolean  Fade in from the top of the page (default = true)
+	 *                             - footer    string   Optional markup for the modal footer
+	 *                             - url       string   URL of a resource to be inserted as an <iframe> inside the modal body
+	 *                             - height    string   height of the <iframe> containing the remote resource
+	 *                             - width     string   width of the <iframe> containing the remote resource
+	 * @param   string  $body      Markup for the modal body (appended after the <iframe> if the url option is set)
 	 *
 	 * @return  string  HTML markup for a modal
 	 *
 	 * @since   3.0
 	 */
-	public static function renderModal($selector = 'modal', $params = array(), $footer = '')
+	public static function renderModal($selector = 'modal', $params = array(), $body = '')
 	{
 		// Include Bootstrap framework
 		static::framework();
 
-		$html = '<div id="' . $selector . '" class="modal hide';
+		// the modal (containig) div
+		$html = "<div id=\"{$selector}\" class=\"modal hide";
 		if (!isset($params['animation']) || $params['animation'])
 		{
 			$html .= ' fade';
 		}
 		$html .= '"';
-		foreach (array('backdrop', 'keyboard', 'show', 'remote') as $key)
+		if (isset($params['backdrop']))
 		{
-			if (isset($params[$key]))
-			{
-				$html .= ' data-' . $key . '="' . (is_bool($params[$key]) ? ($params[$key] ? 'true' : 'false') : $params[$key]) . '"';
-			}
+			$html .= ' data-backdrop="' . (is_bool($params['backdrop']) ? ($params['backdrop'] ? 'true' : 'false') : $params['backdrop']) . '"';
 		}
-		$html .= '>';
+		if (isset($params['keyboard']))
+		{
+			$html .= ' data-keyboard="' . (is_bool($params['keyboard']) ? ($params['keyboard'] ? 'true' : 'false') : 'true') . '"';
+		}
+		$html .= ' tabindex="-1">';  // tabindex="-1" is needed to allow closing with the esc key
+
+		// the modal-header (may be empty: is this an issue?)
 		$html .= '<div class="modal-header">';
 		if (!isset($params['closebtn']) || $params['closebtn'])
 		{
@@ -303,19 +310,37 @@ abstract class JHtmlBootstrap
 		}
 		if (isset($params['title']))
 		{
-			$html .= '<h3>' . $params['title'] . '</h3>';
+			$html .= "<h3>{$params['title']}</h3>";
 		}
 		$html .= '</div>';
-		$html .= '<div id="' . $selector . '-container">';
-		$html .= '</div>';
-		$html .= '</div>';
 
-		$html .= "<script>";
-		$html .= "jQuery('#" . $selector . "').on('show', function () {\n";
-		$html .= "document.getElementById('" . $selector . "-container').innerHTML = '<div class=\"modal-body\"><iframe class=\"iframe\" src=\""
-			. $params['url'] . "\" height=\"" . $params['height'] . "\" width=\"" . $params['width'] . "\"></iframe></div>" . $footer . "';\n";
-		$html .= "});\n";
-		$html .= "</script>";
+		// the modal-body
+		$html .= "<div class=\"modal-body\">{$body}</div>";
+
+		// the modal-footer
+		if (isset($params['footer']))
+		{
+			$html .= '<div class="modal-footer">';
+			$html .= $params['footer'];
+			$html .= '</div>';
+		}
+
+		$html .= '</div>';  // the modal
+
+		if (isset($params['url'])) // We have an URL so we must populate the modal-body with it "on show"
+		{
+			$params['height'] = isset($params['height']) ? " height=\"{$params['height']}\"" : '';
+			$params['width'] = isset($params['width']) ? " width=\"{$params['width']}\"" : '';
+
+			// Add the script to the document head.
+			$script[] = "jQuery(document).ready(function() {";
+			$script[] = "	jQuery('#{$selector}').on('show', function() {";
+			$script[] = "		jQuery(this).find('.modal-body').html('<iframe class=\"iframe\" src=\"{$params['url']}\""
+				. $params['height'] . $params['width'] . "></iframe>{$body}');";
+			$script[] = "	});";
+			$script[] = "});";
+			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		}
 
 		return $html;
 	}
