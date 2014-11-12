@@ -285,7 +285,7 @@ abstract class JHtmlBootstrap
 		// Include Bootstrap framework
 		static::framework();
 
-		// the modal (containig) div
+		// The modal (containig) div
 		$html = "<div id=\"{$selector}\" class=\"modal hide";
 		if (!isset($params['animation']) || $params['animation'])
 		{
@@ -300,9 +300,9 @@ abstract class JHtmlBootstrap
 		{
 			$html .= ' data-keyboard="' . (is_bool($params['keyboard']) ? ($params['keyboard'] ? 'true' : 'false') : 'true') . '"';
 		}
-		$html .= ' tabindex="-1">';  // tabindex="-1" is needed to allow closing with the esc key
+		$html .= ' tabindex="-1">';  // Must set tabindex="-1" to allow closing the modal with the esc key
 
-		// the modal-header (may be empty: is this an issue?)
+		// The modal-header (may be empty: is this an issue?)
 		$html .= '<div class="modal-header">';
 		if (!isset($params['closebtn']) || $params['closebtn'])
 		{
@@ -314,10 +314,10 @@ abstract class JHtmlBootstrap
 		}
 		$html .= '</div>';
 
-		// the modal-body
+		// The modal-body
 		$html .= "<div class=\"modal-body\">{$body}</div>";
 
-		// the modal-footer
+		// The modal-footer
 		if (isset($params['footer']))
 		{
 			$html .= '<div class="modal-footer">';
@@ -325,7 +325,7 @@ abstract class JHtmlBootstrap
 			$html .= '</div>';
 		}
 
-		$html .= '</div>';  // the modal
+		$html .= '</div>';  // The modal div
 
 		if (isset($params['url'])) // We have an URL so we must populate the modal-body with it "on show"
 		{
