@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for managing HTTP sessions
  *
- * @package     Joomla.Platform
- * @subpackage  Session
- * @since       3.4
+ * @since  3.4
  */
 class JSessionHandlerNative implements JSessionHandlerInterface
 {
@@ -38,6 +36,8 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * Starts the session.
 	 *
 	 * @return  bool  True if started.
+	 *
+	 * @since   3.4
 	 *
 	 * @throws RuntimeException If something goes wrong starting the session.
 	 */
@@ -67,6 +67,8 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * Checks if the session is started.
 	 *
 	 * @return  bool  True if started, false otherwise.
+	 *
+	 * @since   3.4
 	 */
 	public function isStarted()
 	{
@@ -77,6 +79,8 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * Returns the session ID
 	 *
 	 * @return  string  The session ID or empty.
+	 *
+	 * @since   3.4
 	 */
 	public function getId()
 	{
@@ -89,6 +93,8 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * @param   string  $id  Set the session id
 	 *
 	 * @return  void
+	 *
+	 * @since   3.4
 	 */
 	public function setId($id)
 	{
@@ -99,6 +105,8 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * Returns the session name
 	 *
 	 * @return  mixed   The session name.
+	 *
+	 * @since   3.4
 	 */
 	public function getName()
 	{
@@ -111,6 +119,8 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * @param   string  $name  Set the name of the session
 	 *
 	 * @return  void
+	 *
+	 * @since   3.4
 	 *
 	 * @throws  LogicException
 	 */
@@ -137,6 +147,8 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 *                           not a Unix timestamp.
 	 *
 	 * @return  bool  True if session regenerated, false if error
+	 *
+	 * @since   3.4
 	 */
 	public function regenerate($destroy = false, $lifetime = null)
 	{
@@ -174,7 +186,9 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 *
 	 * @return  void
 	 *
-	 * @throws RuntimeException If the session is saved without being started, or if the session
+	 * @since   3.4
+	 *
+	 * @throws  RuntimeException If the session is saved without being started, or if the session
 	 *                           is already closed.
 	 *
 	 * @see     session_write_close()
@@ -183,7 +197,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	{
 		session_write_close();
 
-		$this->closed = true;
+		$this->closed  = true;
 		$this->started = false;
 	}
 
@@ -191,6 +205,8 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * Clear all session data in memory.
 	 *
 	 * @return  void
+	 *
+	 * @since   3.4
 	 */
 	public function clear()
 	{
@@ -201,7 +217,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 			session_destroy();
 		}
 
-		$this->closed = true;
+		$this->closed  = true;
 		$this->started = false;
 	}
 }

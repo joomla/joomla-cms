@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for managing HTTP sessions
  *
- * @package     Joomla.Platform
- * @subpackage  Session
- * @since       3.4
+ * @since  3.4
  */
 interface JSessionHandlerInterface
 {
@@ -22,6 +20,8 @@ interface JSessionHandlerInterface
 	 * Starts the session.
 	 *
 	 * @return  bool  True if started.
+	 *
+	 * @since   3.4
 	 *
 	 * @throws RuntimeException If something goes wrong starting the session.
 	 */
@@ -31,6 +31,8 @@ interface JSessionHandlerInterface
 	 * Checks if the session is started.
 	 *
 	 * @return  bool  True if started, false otherwise.
+	 *
+	 * @since   3.4
 	 */
 	public function isStarted();
 
@@ -38,6 +40,8 @@ interface JSessionHandlerInterface
 	 * Returns the session ID
 	 *
 	 * @return  string  The session ID or empty.
+	 *
+	 * @since   3.4
 	 */
 	public function getId();
 
@@ -47,6 +51,8 @@ interface JSessionHandlerInterface
 	 * @param   string  $id  Set the session id
 	 *
 	 * @return  void
+	 *
+	 * @since   3.4
 	 */
 	public function setId($id);
 
@@ -54,6 +60,8 @@ interface JSessionHandlerInterface
 	 * Returns the session name
 	 *
 	 * @return  mixed   The session name.
+	 *
+	 * @since   3.4
 	 */
 	public function getName();
 
@@ -63,6 +71,8 @@ interface JSessionHandlerInterface
 	 * @param   string  $name  Set the name of the session
 	 *
 	 * @return  void
+	 *
+	 * @since   3.4
 	 */
 	public function setName($name);
 
@@ -85,6 +95,8 @@ interface JSessionHandlerInterface
 	 *
 	 * @return  bool  True if session regenerated, false if error
 	 *
+	 * @since   3.4
+	 *
 	 * @throws  RuntimeException  If an error occurs while regenerating this storage
 	 */
 	public function regenerate($destroy = false, $lifetime = null);
@@ -99,6 +111,8 @@ interface JSessionHandlerInterface
 	 *
 	 * @return  void
 	 *
+	 * @since   3.4
+	 *
 	 * @throws RuntimeException If the session is saved without being started, or if the session
 	 *                           is already closed.
 	 */
@@ -108,6 +122,8 @@ interface JSessionHandlerInterface
 	 * Clear all session data in memory.
 	 *
 	 * @return  void
+	 *
+	 * @since   3.4
 	 */
 	public function clear();
 }
