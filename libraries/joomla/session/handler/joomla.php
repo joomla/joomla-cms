@@ -36,7 +36,7 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	/**
 	 * Public constructor
 	 *
-	 * @param  array  $options  An array of configuration options
+	 * @param   array  $options  An array of configuration options
 	 *
 	 * @since  3.4
 	 */
