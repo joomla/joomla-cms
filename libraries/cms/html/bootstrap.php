@@ -335,9 +335,9 @@ abstract class JHtmlBootstrap
 			$params['width'] = isset($params['width']) ? " width=\"{$params['width']}\"" : '';
 
 			// Add the script to the document head.
-			$script[] = "jQuery(document).ready(function() {";
-			$script[] = "	jQuery('#{$selector}').on('show', function() {";
-			$script[] = "		jQuery(this).find('.modal-body').html('<iframe class=\"iframe\" src=\"{$params['url']}\""
+			$script[] = "jQuery(document).ready(function($) {";
+			$script[] = "	$('#{$selector}').on('show', function() {";
+			$script[] = "		$(this).find('.modal-body').html('<iframe class=\"iframe\" src=\"{$params['url']}\""
 				. $params['height'] . $params['width'] . "></iframe>{$body}');";
 			$script[] = "	});";
 			$script[] = "});";
