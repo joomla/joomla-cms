@@ -1,6 +1,7 @@
 FinderFilter = new Class({
 
-	Extends: Fx.Elements,
+	Implements: [Options, Events],
+	Extends: Fx,
 
 	options: {
 		onActive: Class.empty,
@@ -20,8 +21,8 @@ FinderFilter = new Class({
 		this.frame = document.id(frame);
 
 		this.effects = {};
-		if (this.options.opacity) this.effects.opacity = 'fullOpacity';
-		if (this.options.width) this.effects.width = this.options.fixedWidth ? 'fullWidth' : 'offsetWidth';
+//		if (this.options.opacity) this.effects.opacity = 'fullOpacity';
+//		if (this.options.width) this.effects.width = this.options.fixedWidth ? 'fullWidth' : 'offsetWidth';
 		this.container.setStyle('width', '230px');
 
 		this.addEvent('onActive', function (toggler, element) {

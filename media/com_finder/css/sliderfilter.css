@@ -5,14 +5,17 @@
 	overflow: auto;
 }
 
-.checklist,
-#branch-selectors {
+.checklist {
 	border: 1px solid #ccc;
 	height: 220px;
 	overflow: auto;
 	width: 220px;
 	float: left;
 	margin: 0;
+}
+
+#branch-selectors {
+	display:none;
 }
 
 #finder-filter-window dl {
