@@ -47,7 +47,14 @@ class ModFinderHelper
 		// Add a field for Itemid if we need one.
 		if ($needId)
 		{
-			$id = JFactory::getApplication()->input->get('Itemid', '0', 'int');
+			if (!$paramItem)
+			{
+				$id = JFactory::getApplication()->input->get('Itemid', '0', 'int');
+			}
+			else
+			{
+				$id = $paramItem;
+			}
 			$fields[] = '<input type="hidden" name="Itemid" value="' . $id . '" />';
 		}
 
