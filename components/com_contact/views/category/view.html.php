@@ -85,7 +85,7 @@ class ContactViewCategory extends JViewCategory
 		parent::prepareDocument();
 
 		$menu = $this->menu;
-		if(isset($menu->query['view']) && ($menu->query['view'] == 'category' || $menu->query['view'] == 'categories'))
+		if (isset($menu->query['view']) && ($menu->query['view'] == 'category' || $menu->query['view'] == 'categories'))
 		{
 			$id = (int) @$menu->query['id'];
 		}
