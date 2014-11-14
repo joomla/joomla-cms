@@ -14,9 +14,7 @@ JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR . '/components/co
 /**
  * Template style controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesControllerTemplate extends JControllerLegacy
 {
@@ -309,7 +307,10 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		default:
 
 			// Redirect to the list screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=templates', false));
+			$file = base64_encode('home');
+			$id   = $app->input->get('id');
+			$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$this->setRedirect(JRoute::_($url, false));
 			break;
 		}
 	}

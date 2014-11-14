@@ -9,17 +9,17 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTTP transport class for using cURL.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
- * @since       11.3
+ * @since  11.3
  */
 class JHttpTransportCurl implements JHttpTransport
 {
 	/**
-	 * @var    JRegistry  The client options.
+	 * @var    Registry  The client options.
 	 * @since  11.3
 	 */
 	protected $options;
@@ -27,13 +27,13 @@ class JHttpTransportCurl implements JHttpTransport
 	/**
 	 * Constructor. CURLOPT_FOLLOWLOCATION must be disabled when open_basedir or safe_mode are enabled.
 	 *
-	 * @param   JRegistry  $options  Client options object.
+	 * @param   Registry  $options  Client options object.
 	 *
 	 * @see     http://www.php.net/manual/en/function.curl-setopt.php
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JRegistry $options)
+	public function __construct(Registry $options)
 	{
 		if (!function_exists('curl_init') || !is_callable('curl_init'))
 		{
@@ -139,8 +139,27 @@ class JHttpTransportCurl implements JHttpTransport
 		// Link: http://the-stickman.com/web-development/php-and-curl-disabling-100-continue-header/
 		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
 
-		// Follow redirects.
-		$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
+		/*
+		 * Follow redirects if server config allows
+		 * @deprecated  safe_mode is removed in PHP 5.4, check will be dropped when PHP 5.3 support is dropped
+		 */
+		if (!ini_get('safe_mode') && !ini_get('open_basedir'))
+		{
+			$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
+		}
+
+		// Proxy configuration
+		$config = JFactory::getConfig();
+
+		if ($config->get('proxy_enable'))
+		{
+			$options[CURLOPT_PROXY] = $config->get('proxy_host') . ':' . $config->get('proxy_port');
+
+			if ($user = $config->get('proxy_user'))
+			{
+				$options[CURLOPT_PROXYUSERPWD] = $user . ':' . $config->get('proxy_pass');
+			}
+		}
 
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);

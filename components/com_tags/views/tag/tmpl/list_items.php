@@ -47,7 +47,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php endif; ?>
 
 	<?php if ($this->items == false || $n == 0) : ?>
-		<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p></div>
+		<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
 		<table class="category table table-striped table-bordered table-hover">
 			<?php if ($this->params->get('show_headings')) : ?>
@@ -101,7 +101,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
-		</table></div>
+		</table>
 	<?php endif; ?>
 
 <?php // Add pagination links ?>

@@ -7,14 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Extended Utility class for batch processing widgets.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.7
+ * @since  1.7
  */
 abstract class JHtmlBatch
 {
@@ -44,8 +42,6 @@ abstract class JHtmlBatch
 					'id' => 'batch-access'
 				)
 			);
-
-		return implode("\n", $lines);
 	}
 
 	/**

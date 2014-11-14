@@ -7,14 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class for icons.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.2
+ * @since  3.2
  */
 abstract class JHtmlLinks
 {

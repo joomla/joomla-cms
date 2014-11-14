@@ -30,37 +30,18 @@ JHtml::_('formbehavior.chosen', 'select');
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'basic')); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic', empty($this->item->id) ? JText::_('COM_REDIRECT_NEW_LINK', true) : JText::sprintf('COM_REDIRECT_EDIT_LINK', $this->item->id, true)); ?>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('old_url'); ?></div>
-					<div class="controls"><?php echo rawurldecode($this->form->getInput('old_url')); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('new_url'); ?></div>
-					<div class="controls"><?php echo rawurldecode($this->form->getInput('new_url')); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('published'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('published'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('comment'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('comment'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('id'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('id'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('created_date'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('created_date'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('modified_date'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('modified_date'); ?></div>
-				</div>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic', empty($this->item->id) ? JText::_('COM_REDIRECT_NEW_LINK', true) : JText::sprintf('COM_REDIRECT_EDIT_LINK', $this->item->id, array('jsSafe' => true))); ?>
+				<?php echo $this->form->renderField('old_url'); ?>
+				<?php echo $this->form->renderField('new_url'); ?>
+				<?php echo $this->form->renderField('published'); ?>
+				<?php echo $this->form->renderField('comment'); ?>
+				<?php echo $this->form->renderField('id'); ?>
+				<?php echo $this->form->renderField('created_date'); ?>
+				<?php echo $this->form->renderField('modified_date'); ?>
+				<?php if (JComponentHelper::getParams('com_redirect')->get('mode')) : ?>
+					<?php echo $this->form->renderFieldset('advanced'); ?>
+				<?php endif; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
-
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 		<input type="hidden" name="task" value="" />

@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @link        http://docs.joomla.org/JTableObserver
- * @since       3.1.2
+ * @link   http://docs.joomla.org/JTableObserver
+ * @since  3.1.2
  */
 abstract class JTableObserver implements JObserverInterface
 {
@@ -30,11 +28,11 @@ abstract class JTableObserver implements JObserverInterface
 	/**
 	 * Constructor: Associates to $table $this observer
 	 *
-	 * @param   JTable  $table  Table to be observed
+	 * @param   JTableInterface  $table  Table to be observed
 	 *
 	 * @since   3.1.2
 	 */
-	public function __construct(JTable $table)
+	public function __construct(JTableInterface $table)
 	{
 		$table->attachObserver($this);
 		$this->table = $table;

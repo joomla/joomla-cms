@@ -66,7 +66,8 @@ class JDocumentRendererRSSTest extends TestCase
 		);
 
 		$_SERVER['REQUEST_METHOD'] = 'get';
-		JRequest::setVar('type', 'rss');
+		$input = JFactory::getApplication()->input;
+		$input->set('type', 'rss');
 		$this->object = new JDocumentFeed;
 		$_SERVER['HTTP_HOST'] = 'localhost';
 		$_SERVER['SCRIPT_NAME'] = '';
@@ -135,18 +136,5 @@ class JDocumentRendererRSSTest extends TestCase
 '),
 			'Line:' . __LINE__ . ' The feed does not generate properly.'
 		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test_relToAbs().
-	 *
-	 * @return void
-	 */
-	public function test_relToAbs()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

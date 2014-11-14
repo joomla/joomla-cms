@@ -9,15 +9,15 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.folder');
 
 /**
  * Language installer
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstallerAdapterLanguage extends JAdapterInstance
 {
@@ -265,7 +265,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'folder' => ''));
 
 		if ($uid)
 		{
@@ -520,7 +520,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 		foreach ($users as $user)
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($user->params);
 
 			if ($registry->get($param_name) == $element)
@@ -669,8 +669,6 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 /**
  * Deprecated class placeholder. You should use JInstallerAdapterLanguage instead.
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore

@@ -14,9 +14,7 @@ jimport('joomla.filesystem.path');
 /**
  * A File handling class
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
- * @since       11.1
+ * @since  11.1
  */
 class JFile
 {
@@ -186,6 +184,11 @@ class JFile
 		foreach ($files as $file)
 		{
 			$file = JPath::clean($file);
+
+			if (!is_file($file))
+			{
+				continue;
+			}
 
 			// Try making the file writable first. If it's read-only, it can't be deleted
 			// on Windows, even if the parent folder is writable

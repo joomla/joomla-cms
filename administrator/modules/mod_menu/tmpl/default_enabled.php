@@ -104,15 +104,18 @@ if ($user->authorise('core.manage', 'com_users'))
 	{
 		$menu->addChild(
 			new JMenuNode(
-				JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_users.notes',
+				JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_users',
 				'class:newarticle'
 			)
 		);
 		$menu->getParent();
 	}
 
-	$menu->addSeparator();
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MASS_MAIL_USERS'), 'index.php?option=com_users&view=mail', 'class:massmail'));
+	if (JFactory::getApplication()->get('massmailoff') != 1)
+	{
+		$menu->addSeparator();
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MASS_MAIL_USERS'), 'index.php?option=com_users&view=mail', 'class:massmail'));
+	}
 
 	$menu->getParent();
 }

@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Field to select a user id from a modal list.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.2
+ * @since  3.2
  */
 class JFormFieldContenthistory extends JFormField
 {
@@ -44,13 +42,13 @@ class JFormFieldContenthistory extends JFormField
 			. $this->element['data-typeAlias'] . '&amp;' . JSession::getFormToken() . '=1';
 
 		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal_' . $this->id);
+		JHtml::_('behavior.modal', 'button.modal_' . $this->id);
 
-		$html[] = '		<a class="btn modal_' . $this->id . '" title="' . $label . '" href="' . $link . '"'
+		$html[] = '		<button class="btn modal_' . $this->id . '" title="' . $label . '" href="' . $link . '"'
 			. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
 		$html[] = '<i class="icon-archive"></i>';
 		$html[] = $label;
-		$html[] = '</a>';
+		$html[] = '</button>';
 
 		return implode("\n", $html);
 	}

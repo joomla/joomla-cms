@@ -13,6 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
+JHtml::_('formbehavior.chosen', 'select');
 $user = JFactory::getUser();
 ?>
 <script type="text/javascript">
@@ -85,7 +86,7 @@ $user = JFactory::getUser();
 
 		<?php
 		$this->fieldsets = array();
-		$this->ignore_fieldsets = array('basic');
+		$this->ignore_fieldsets = array('basic', 'description');
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
 

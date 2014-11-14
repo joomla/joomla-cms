@@ -7,21 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base HTML View class for the a Category list
  *
- * @package     Joomla.Legacy
- * @subpackage  View
- * @since       3.2
+ * @since  3.2
  */
 class JViewCategory extends JViewLegacy
 {
 	/**
 	 * State data
 	 *
-	 * @var    JRegistry
+	 * @var    \Joomla\Registry\Registry
 	 * @since  3.2
 	 */
 	protected $state;
@@ -139,7 +137,7 @@ class JViewCategory extends JViewLegacy
 
 		// Setup the category parameters.
 		$cparams          = $category->getParams();
-		$category->params = clone($params);
+		$category->params = clone $params;
 		$category->params->merge($cparams);
 
 		$children = array($category->id => $children);

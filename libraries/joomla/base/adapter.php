@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Retains common adapter pattern functions
  * Class harvested from joomla.installer.installer
  *
- * @package     Joomla.Platform
- * @subpackage  Base
- * @since       11.1
+ * @since  11.1
  */
 class JAdapter extends JObject
 {
@@ -165,13 +163,13 @@ class JAdapter extends JObject
 	{
 		$files = new DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
 
+		/* @type  $file  DirectoryIterator */
 		foreach ($files as $file)
 		{
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-			if (!$file->isFile() || substr($fileName, strrpos($fileName, '.') + 1) != 'php')
+			if (!$file->isFile() || $file->getExtension() != 'php')
 			{
 				continue;
 			}

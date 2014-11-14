@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Abstract class for a renderer
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JDocumentRenderer
 {
@@ -71,5 +69,22 @@ class JDocumentRenderer
 	public function getContentType()
 	{
 		return $this->_mime;
+	}
+
+	/**
+	 * Convert links in a text from relative to absolute
+	 *
+	 * @param   string  $text  The text processed
+	 *
+	 * @return  string   Text with converted links
+	 *
+	 * @since   11.1
+	 */
+	protected function _relToAbs($text)
+	{
+		$base = JUri::base();
+		$text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto|data)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
+
+		return $text;
 	}
 }

@@ -15,10 +15,8 @@ JFormHelper::loadFieldClass('number');
  * Form Field class for the Joomla Platform.
  * Provides a horizontal scroll bar to specify a value in a range.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @link        http://www.w3.org/TR/html-markup/input.text.html#input.text
- * @since       3.2
+ * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
+ * @since  3.2
  */
 class JFormFieldRange extends JFormFieldNumber
 {

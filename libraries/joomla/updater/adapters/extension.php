@@ -14,10 +14,8 @@ jimport('joomla.updater.updateadapter');
 /**
  * Extension class for updater
  *
- * @package     Joomla.Platform
- * @subpackage  Updater
- * @since       11.1
- * */
+ * @since  11.1
+ */
 class JUpdaterExtension extends JUpdateAdapter
 {
 	/**
@@ -61,10 +59,12 @@ class JUpdaterExtension extends JUpdateAdapter
 					$name = strtolower($name);
 					$this->currentUpdate->$name = '';
 				}
+
 				if ($name == 'TARGETPLATFORM')
 				{
 					$this->currentUpdate->targetplatform = $attrs;
 				}
+
 				if ($name == 'PHP_MINIMUM')
 				{
 					$this->currentUpdate->php_minimum = '';
@@ -164,11 +164,7 @@ class JUpdaterExtension extends JUpdateAdapter
 	protected function _characterData($parser, $data)
 	{
 		$tag = $this->_getLastTag();
-		/**
-		 * @todo remove code
-		 * if(!isset($this->$tag->_data)) $this->$tag->_data = '';
-		 * $this->$tag->_data .= $data;
-		 */
+
 		if (in_array($tag, $this->updatecols))
 		{
 			$tag = strtolower($tag);
@@ -209,6 +205,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			{
 				$url .= '/';
 			}
+
 			$url .= 'extension.xml';
 		}
 
@@ -216,22 +213,23 @@ class JUpdaterExtension extends JUpdateAdapter
 
 		$http = JHttpFactory::getHttp();
 
-		// JHttp transport throws an exception when there's no reponse.
+		// JHttp transport throws an exception when there's no response.
 		try
 		{
 			$response = $http->get($url);
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			$response = null;
 		}
 
-		if (!isset($response) || (!empty($response->code) && 200 != $response->code))
+		if ($response === null || $response->code !== 200)
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
 			if (!$appendExtension && (substr($url, -4) != '.xml'))
 			{
 				$options['append_extension'] = true;
+
 				return $this->findUpdate($options);
 			}
 
@@ -260,6 +258,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			if (!$appendExtension && (substr($url, -4) != '.xml'))
 			{
 				$options['append_extension'] = true;
+
 				return $this->findUpdate($options);
 			}
 

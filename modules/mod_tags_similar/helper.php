@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Helper for mod_tags_popular
  *
@@ -21,9 +23,9 @@ abstract class ModTagssimilarHelper
 	/**
 	 * Get a list of tags
 	 *
-	 * @param   JRegistry  &$params  Module parameters
+	 * @param   Registry  &$params  Module parameters
 	 *
-	 * @return  mixed                Results array / null
+	 * @return  mixed  Results array / null
 	 */
 	public static function getList(&$params)
 	{
@@ -43,11 +45,13 @@ abstract class ModTagssimilarHelper
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$matchtype  = $params->get('matchtype', 'all');
 		$maximum    = $params->get('maximum', 5);
+		$ordering   = $params->get('ordering', 'count');
 		$tagsHelper = new JHelperTags;
 		$prefix     = $option . '.' . $view;
 		$id         = $app->input->getInt('id');
 
 		$tagsToMatch = $tagsHelper->getTagIds($id, $prefix);
+
 		if (!$tagsToMatch || is_null($tagsToMatch))
 		{
 			return;
@@ -58,18 +62,16 @@ abstract class ModTagssimilarHelper
 		$query = $db->getQuery(true)
 			->select(
 			array(
-				$db->quoteName('m.tag_id'),
 				$db->quoteName('m.core_content_id'),
 				$db->quoteName('m.content_item_id'),
 				$db->quoteName('m.type_alias'),
-					'COUNT( '  . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('count'),
-				$db->quoteName('t.access'),
-				$db->quoteName('t.id'),
+					'COUNT( ' . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('count'),
 				$db->quoteName('ct.router'),
 				$db->quoteName('cc.core_title'),
 				$db->quoteName('cc.core_alias'),
 				$db->quoteName('cc.core_catid'),
-				$db->quoteName('cc.core_language')
+				$db->quoteName('cc.core_language'),
+				$db->quoteName('cc.core_params')
 				)
 		);
 
@@ -81,9 +83,11 @@ abstract class ModTagssimilarHelper
 
 		$query->where($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')');
 		$query->where('t.access IN (' . $groups . ')');
+		$query->where('(cc.core_access IN (' . $groups . ') OR cc.core_access = 0)');
 
 		// Don't show current item
-		$query->where('(' . $db->quoteName('m.content_item_id') . ' <> ' . $id . ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')');
+		$query->where('(' . $db->quoteName('m.content_item_id') . ' <> ' . $id
+			. ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')');
 
 		// Only return published tags
 		$query->where($db->quoteName('cc.core_state') . ' = 1 ');
@@ -97,28 +101,47 @@ abstract class ModTagssimilarHelper
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
+
 			$query->where($db->quoteName('cc.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
-		$query->group($db->quoteName(array('m.core_content_id')));
+		$query->group(
+			$db->quoteName(
+				array('m.core_content_id', 'm.content_item_id', 'm.type_alias', 'ct.router', 'cc.core_title',
+				'cc.core_alias', 'cc.core_catid', 'cc.core_language', 'cc.core_params')
+			)
+		);
+
 		if ($matchtype == 'all' && $tagCount > 0)
 		{
-			$query->having('COUNT( '  . $db->quoteName('tag_id') . ')  = ' . $tagCount);
+			$query->having('COUNT( ' . $db->quoteName('tag_id') . ')  = ' . $tagCount);
 		}
 		elseif ($matchtype == 'half' && $tagCount > 0)
 		{
 			$tagCountHalf = ceil($tagCount / 2);
-			$query->having('COUNT( '  . $db->quoteName('tag_id') . ')  >= ' . $tagCountHalf);
+			$query->having('COUNT( ' . $db->quoteName('tag_id') . ')  >= ' . $tagCountHalf);
 		}
 
-		$query->order($db->quoteName('count') . ' DESC');
+		if ($ordering == 'count' || $ordering == 'countrandom')
+		{
+			$query->order($db->quoteName('count') . ' DESC');
+		}
+
+		if ($ordering == 'random' || $ordering == 'countrandom')
+		{
+			$query->order('RAND()');
+		}
+
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 
 		foreach ($results as $result)
 		{
 			$explodedAlias = explode('.', $result->type_alias);
-			$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . $result->content_item_id . '-' . $result->core_alias;
+			$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1]
+				. '&id=' . $result->content_item_id . '-' . $result->core_alias;
+
+			$result->core_params = new Registry($result->core_params);
 		}
 
 		return $results;

@@ -33,16 +33,11 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			</div>
 			<div class="control-group span6">
 				<div class="controls">
-					<?php echo JHtml::_('batch.tag'); ?>
+					<?php echo JHtml::_('batch.access'); ?>
 				</div>
 			</div>
 		</div>
 		<div class="row-fluid">
-			<div class="control-group span6">
-				<div class="controls">
-					<?php echo JHtml::_('batch.access'); ?>
-				</div>
-			</div>
 			<?php if ($published >= 0) : ?>
 				<div class="span6">
 					<div class="control-group">
@@ -50,7 +45,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 							<?php echo JText::_('COM_CATEGORIES_BATCH_CATEGORY_LABEL'); ?>
 						</label>
 						<div id="batch-choose-action" class="combo controls">
-							<select name="batch[category_id]" class="inputbox" id="batch-category-id">
+							<select name="batch[category_id]" id="batch-category-id">
 								<option value=""><?php echo JText::_('JSELECT') ?></option>
 								<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $published))); ?>
 							</select>
@@ -61,6 +56,11 @@ $extension = $this->escape($this->state->get('filter.extension'));
 					</div>
 				</div>
 			<?php endif; ?>
+			<div class="control-group span6">
+				<div class="controls">
+					<?php echo JHtml::_('batch.tag'); ?>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="modal-footer">

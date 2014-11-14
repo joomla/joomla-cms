@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Plugin helper class
  *
- * @package     Joomla.Libraries
- * @subpackage  Plugin
- * @since       1.5
+ * @since  1.5
  */
 abstract class JPluginHelper
 {
@@ -297,7 +295,7 @@ abstract class JPluginHelper
 
 		$levels = implode(',', $user->getAuthorisedViewLevels());
 
-		if (!static::$plugins = $cache->get($levels))
+		if (!(static::$plugins = $cache->get($levels)))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)

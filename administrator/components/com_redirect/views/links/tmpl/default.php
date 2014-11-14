@@ -48,6 +48,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<div class="alert alert-info">
 			<a class="close" data-dismiss="alert">&#215;</a>
 			<?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?>
+			<?php if ($this->collect_urls_enabled) : ?>
+				<?php echo JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'); ?>
+			<?php else : ?>
+				<?php echo JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'); ?>
+			<?php endif; ?>
 		</div>
 			<?php else : ?>
 		<div class="alert alert-error">
@@ -77,6 +82,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						</th>
 						<th width="10%" class="nowrap">
 							<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_CREATED_DATE', 'a.created_date', $listDirn, $listOrder); ?>
+						</th>
+						<th width="1%" class="nowrap">
+							<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap center">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -119,6 +127,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('date', $item->created_date, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
 						<td class="center">
+							<?php echo (int) $item->hits; ?>
+						</td>
+						<td class="center">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
@@ -130,6 +141,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php if (!empty($this->items)) : ?>
 			<?php echo $this->loadTemplate('addform'); ?>
 		<?php endif; ?>
+
+		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

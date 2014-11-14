@@ -18,7 +18,7 @@ $title = empty($displayData['title']) ? '' : $displayData['title'];
 echo "(function($){
 				$(document).ready(function() {
 					// Handler for .ready() called.
-					var tab = $('<li class=\"" . addslashes($active) . "\"><a href=\"#" . addslashes($id) . "\" data-toggle=\"tab\">" . addslashes($title) . "</a></li>');
-					$('#" . addslashes($selector) . "Tabs').append(tab);
+					var tab = $('<li class=\"" . $active . "\"><a href=\"#" . $id . "\" data-toggle=\"tab\">" . $title . "</a></li>');
+					$('#" . $selector . "Tabs').append(tab);
 				});
 			})(jQuery);";

@@ -7,16 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 JFormHelper::loadFieldClass('predefinedlist');
 
 /**
  * Field to show a list of available user active statuses
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.2
+ * @since  3.2
  */
 class JFormFieldRegistrationDateRange extends JFormFieldPredefinedList
 {

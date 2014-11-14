@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @since  12.1
  */
 class JDatabaseDriverPostgresql extends JDatabaseDriver
 {
@@ -126,6 +124,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		pg_set_error_verbosity($this->connection, PGSQL_ERRORS_DEFAULT);
 		pg_query('SET standard_conforming_strings=off');
+		pg_query('SET escape_string_warning=off');
 	}
 
 	/**
@@ -387,7 +386,20 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->column_name] = $field;
+				// Do some dirty translation to MySQL output.
+				// TODO: Come up with and implement a standard across databases.
+				$result[$field->column_name] = (object) array(
+					'column_name' => $field->column_name,
+					'type' => $field->type,
+					'null' => $field->null,
+					'Default' => $field->Default,
+					'comments' => '',
+					'Field' => $field->column_name,
+					'Type' => $field->type,
+					'Null' => $field->null,
+					// TODO: Improve query above to return primary key info as well
+					// 'Key' => ($field->PK == '1' ? 'PRI' : '')
+				);
 			}
 		}
 
@@ -1056,8 +1068,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				continue;
 			}
 
-			// Ignore any internal fields.
-			if ($k[0] == '_')
+			// Ignore any internal fields or primary keys with value 0.
+			if (($k[0] == "_") || ($k == $key && $v === 0))
 			{
 				continue;
 			}

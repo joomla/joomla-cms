@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin and Andrew Eddie.
  *
- * @package     Joomla.Platform
- * @subpackage  Filter
- * @since       11.1
+ * @since  11.1
  */
 class JFilterInput
 {
@@ -182,6 +180,7 @@ class JFilterInput
 	 *                           HTML:      A sanitised string,
 	 *                           ARRAY:     An array,
 	 *                           PATH:      A sanitised file path,
+	 *                           TRIM:      A string trimmed from normal, non-breaking and multibyte spaces
 	 *                           USERNAME:  Do not use (use an application specific filter),
 	 *                           RAW:       The raw string is returned with no filtering,
 	 *                           unknown:   An unknown filter will act like STRING. If the input is an array it will return an
@@ -256,6 +255,12 @@ class JFilterInput
 				$result = @ (string) $matches[0];
 				break;
 
+			case 'TRIM':
+				$result = (string) trim($source);
+				$result = trim($result, chr(0xE3) . chr(0x80) . chr(0x80));
+				$result = trim($result, chr(0xC2) . chr(0xA0));
+				break;
+
 			case 'USERNAME':
 				$result = (string) preg_replace('/[\x00-\x1F\x7F<>"\'%&]/', '', $source);
 				break;
@@ -276,6 +281,7 @@ class JFilterInput
 							$source[$key] = $this->_remove($this->_decode($value));
 						}
 					}
+
 					$result = $source;
 				}
 				else
@@ -484,6 +490,7 @@ class JFilterInput
 						$fromSpace = substr($fromSpace, $attribEnd + 1);
 					}
 				}
+
 				if (strpos($fromSpace, '=') !== false)
 				{
 					// If the attribute value is wrapped in quotes we need to grab the substring from
@@ -688,14 +695,7 @@ class JFilterInput
 		if (!is_array($ttr))
 		{
 			// Entity decode
-			if (version_compare(PHP_VERSION, '5.3.4', '>='))
-			{
-				$trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');
-			}
-			else
-			{
-				$trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT);
-			}
+			$trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');
 
 			foreach ($trans_tbl as $k => $v)
 			{

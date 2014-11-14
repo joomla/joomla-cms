@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Update class.
  *
- * @package     Joomla.Platform
- * @subpackage  Updater
- * @since       11.1
+ * @since  11.1
  */
 class JUpdate extends JObject
 {
@@ -252,6 +250,7 @@ class JUpdate extends JObject
 				{
 					$this->currentUpdate->$name = new stdClass;
 				}
+
 				$this->currentUpdate->$name->_data = '';
 
 				foreach ($attrs as $key => $data)
@@ -277,6 +276,7 @@ class JUpdate extends JObject
 	public function _endElement($parser, $name)
 	{
 		array_pop($this->stack);
+
 		switch ($name)
 		{
 			// Closing update, find the latest version and check
@@ -325,6 +325,7 @@ class JUpdate extends JObject
 					{
 						$this->$key = $val;
 					}
+
 					unset($this->latest);
 					unset($this->currentUpdate);
 				}
@@ -357,6 +358,7 @@ class JUpdate extends JObject
 
 		// Throw the data for this item together
 		$tag = strtolower($tag);
+
 		if (isset($this->currentUpdate->$tag))
 		{
 			$this->currentUpdate->$tag->_data .= $data;
@@ -375,11 +377,21 @@ class JUpdate extends JObject
 	public function loadFromXML($url)
 	{
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
-		if (200 != $response->code)
+
+		try
+		{
+			$response = $http->get($url);
+		}
+		catch (RuntimeException $e)
+		{
+			$response = null;
+		}
+
+		if ($response === null || $response->code !== 200)
 		{
 			// TODO: Add a 'mark bad' setting here somehow
 			JLog::add(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -390,14 +402,19 @@ class JUpdate extends JObject
 
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
-			die(
+			JLog::add(
 				sprintf(
 					"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xmlParser)),
 					xml_get_current_line_number($this->xmlParser)
-				)
+				),
+				JLog::WARNING, 'updater'
 			);
+
+			return false;
 		}
+
 		xml_parser_free($this->xmlParser);
+
 		return true;
 	}
 }

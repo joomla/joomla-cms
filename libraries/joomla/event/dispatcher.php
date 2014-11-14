@@ -15,11 +15,9 @@ defined('JPATH_PLATFORM') or die;
  * This is the Observable part of the Observer design pattern
  * for the event architecture.
  *
- * @package     Joomla.Platform
- * @subpackage  Event
- * @link        http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
- * @see         JPlugin
- * @since       12.1
+ * @link   http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
+ * @see    JPlugin
+ * @since  12.1
  */
 class JEventDispatcher extends JObject
 {
@@ -204,7 +202,6 @@ class JEventDispatcher extends JObject
 			}
 
 			$this->_observers[] = $observer;
-			end($this->_observers);
 			$methods = array($observer['event']);
 		}
 		else
@@ -229,6 +226,7 @@ class JEventDispatcher extends JObject
 			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
 		}
 
+		end($this->_observers);
 		$key = key($this->_observers);
 
 		foreach ($methods as $method)

@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Password Crypter
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
- * @since       12.2
+ * @since  12.2
  */
 class JCryptPasswordSimple implements JCryptPassword
 {
@@ -43,15 +41,6 @@ class JCryptPasswordSimple implements JCryptPassword
 	 */
 	public function create($password, $type = null)
 	{
-		// We set a maximum length to prevent abuse since it is unfiltered and not all controllers check.
-		// 55 is the maximum for bcrypt currently the strongest available method:
-		if (strlen($password) > 55)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TOO_LONG'), 'error');
-
-			return false;
-		}
-
 		if (empty($type))
 		{
 			$type = $this->defaultType;

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_login
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_login
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModLoginHelper
 {
@@ -32,9 +30,17 @@ abstract class ModLoginHelper
 			return '';
 		}
 
+		usort(
+			$languages,
+			function ($a, $b)
+			{
+				return strcmp($a["value"], $b["value"]);
+			}
+		);
+
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULTLANGUAGE')));
 
-		return JHtml::_('select.genericlist', $languages, 'lang', ' class="inputbox advancedSelect"', 'value', 'text', null);
+		return JHtml::_('select.genericlist', $languages, 'lang', ' class="advancedSelect"', 'value', 'text', null);
 	}
 
 	/**
@@ -57,9 +63,16 @@ abstract class ModLoginHelper
 		}
 	}
 
+	/**
+	 * Creates a list of two factor authentication methods used in com_users
+	 * on user view
+	 *
+	 * @return  array
+	 */
 	public static function getTwoFactorMethods()
 	{
 		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
+
 		return UsersHelper::getTwoFactorMethods();
 	}
 }

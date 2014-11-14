@@ -9,14 +9,14 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\Registry\Registry;
+
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
  * Smart Search adapter for com_content.
  *
- * @package     Joomla.Plugin
- * @subpackage  Finder.Content
- * @since       2.5
+ * @since  2.5
  */
 class PlgFinderContent extends FinderIndexerAdapter
 {
@@ -252,12 +252,12 @@ class PlgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Initialise the item parameters.
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($item->params);
 		$item->params = JComponentHelper::getParams('com_content', true);
 		$item->params->merge($registry);
 
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($item->metadata);
 		$item->metadata = $registry;
 
@@ -358,7 +358,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$a_id = $query->castAsChar('a.id');
 		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when_item_alias .= ' ELSE ';
-		$case_when_item_alias .= $a_id.' END as slug';
+		$case_when_item_alias .= $a_id . ' END as slug';
 		$query->select($case_when_item_alias);
 
 		$case_when_category_alias = ' CASE WHEN ';
@@ -367,7 +367,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$c_id = $query->castAsChar('c.id');
 		$case_when_category_alias .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when_category_alias .= ' ELSE ';
-		$case_when_category_alias .= $c_id.' END as catslug';
+		$case_when_category_alias .= $c_id . ' END as catslug';
 		$query->select($case_when_category_alias)
 
 			->select('u.name AS author')

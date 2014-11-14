@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for Bootstrap elements.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.0
+ * @since  3.0
  */
 abstract class JHtmlBootstrap
 {
@@ -55,7 +53,7 @@ abstract class JHtmlBootstrap
 
 			$options = JHtml::getJSObject($opt);
 
-			// Attach the carousel to document
+			// Attach affix to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"(function($){
 					$('#$selector').affix($options);
@@ -121,7 +119,7 @@ abstract class JHtmlBootstrap
 		// Include Bootstrap framework
 		static::framework();
 
-		// Attach the alerts to the document
+		// Attach the button to the document
 		JFactory::getDocument()->addScriptDeclaration(
 			"(function($){
 				$('.$selector').button();
@@ -137,8 +135,8 @@ abstract class JHtmlBootstrap
 	 * Add javascript support for Bootstrap carousels
 	 *
 	 * @param   string  $selector  Common class for the carousels.
-	 * @param   array   $params    An array of options for the modal.
-	 *                             Options for the modal can be:
+	 * @param   array   $params    An array of options for the carousel.
+	 *                             Options for the carousel can be:
 	 *                             - interval  number  The amount of time to delay between automatically cycling an item.
 	 *                                                 If false, carousel will not automatically cycle.
 	 *                             - pause     string  Pauses the cycling of the carousel on mouseenter and resumes the cycling
@@ -391,7 +389,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * @param   string  $selector  The ID selector for the ScrollSpy element.
 	 * @param   array   $params    An array of options for the ScrollSpy.
-	 *                             Options for the modal can be:
+	 *                             Options for the ScrollSpy can be:
 	 *                             - offset  number  Pixels to offset from top when calculating position of scroll.
 	 *
 	 * @return  void
@@ -468,16 +466,42 @@ abstract class JHtmlBootstrap
 			$opt['delay']     = isset($params['delay']) ? (int) $params['delay'] : null;
 			$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
 			$opt['template']  = isset($params['template']) ? (string) $params['template'] : null;
+			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
+			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
+			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
+			$onHidden = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
 			$options = JHtml::getJSObject($opt);
 
+			// Build the script.
+			$script = array();
+			$script[] = "jQuery(document).ready(function(){";
+			$script[] = "\tjQuery('" . $selector . "').tooltip(" . $options . ");";
+
+			if ($onShow)
+			{
+				$script[] = "\tjQuery('" . $selector . "').on('show.bs.tooltip', " . $onShow . ");";
+			}
+
+			if ($onShown)
+			{
+				$script[] = "\tjQuery('" . $selector . "').on('shown.bs.tooltip', " . $onShown . ");";
+			}
+
+			if ($onHide)
+			{
+				$script[] = "\tjQuery('" . $selector . "').on('hide.bs.tooltip', " . $onHide . ");";
+			}
+
+			if ($onHidden)
+			{
+				$script[] = "\tjQuery('" . $selector . "').on('hidden.bs.tooltip', " . $onHidden . ");";
+			}
+
+			$script[] = "});";
+
 			// Attach tooltips to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function()
-				{
-					jQuery('" . $selector . "').tooltip(" . $options . ");
-				});"
-			);
+			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 			// Set static array
 			static::$loaded[__METHOD__][$selector] = true;
@@ -530,7 +554,7 @@ abstract class JHtmlBootstrap
 
 			$options = JHtml::getJSObject($opt);
 
-			// Attach tooltips to document
+			// Attach typehead to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"jQuery(document).ready(function()
 				{
@@ -761,7 +785,7 @@ abstract class JHtmlBootstrap
 			// Setup options object
 			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 
-			// Attach tooltips to document
+			// Attach tab to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"(function($){
 					$('#$selector a').click(function (e) {

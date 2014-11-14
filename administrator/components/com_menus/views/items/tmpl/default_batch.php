@@ -23,14 +23,14 @@ $published = $this->state->get('filter.published');
 	<div class="modal-body modal-batch">
 		<p><?php echo JText::_('COM_MENUS_BATCH_TIP'); ?></p>
 		<div class="row-fluid">
-            <div class="control-group span6">
+			<div class="control-group span6">
 				<div class="controls">
-					<?php echo JHtml::_('batch.access'); ?>
+					<?php echo JHtml::_('batch.language'); ?>
 				</div>
 			</div>
 			<div class="control-group span6">
 				<div class="controls">
-					<?php echo JHtml::_('batch.language'); ?>
+					<?php echo JHtml::_('batch.access'); ?>
 				</div>
 			</div>
 		</div>
@@ -41,7 +41,7 @@ $published = $this->state->get('filter.published');
 						<?php echo JText::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
 					</label>
 					<div class="controls">
-						<select name="batch[menu_id]" class="inputbox" id="batch-menu-id">
+						<select name="batch[menu_id]" id="batch-menu-id">
 							<option value=""><?php echo JText::_('JSELECT') ?></option>
 							<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published))); ?>
 						</select>

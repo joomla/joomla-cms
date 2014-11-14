@@ -7,14 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * UCM map table
  *
- * @package     Joomla.Libraries
- * @subpackage  Table
- * @since       3.1
+ * @since  3.1
  */
 class JTableUcm extends JTable
 {

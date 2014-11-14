@@ -16,7 +16,7 @@ $title = $form->getField('title') ? 'title' : ($form->getField('name') ? 'name' 
 ?>
 <div class="form-inline form-inline-header">
 	<?php
-	echo $title ? $form->getControlGroup($title) : '';
-	echo $form->getControlGroup('alias');
+	echo $title ? $form->renderField($title) : '';
+	echo $form->renderField('alias');
 	?>
 </div>

@@ -13,14 +13,14 @@ $app = JFactory::getApplication();
 $template = $app->getTemplate();
 
 // Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (document.formvalidator.isValid(document.id('component-form')))
+		if (task == 'config.cancel.component' || document.formvalidator.isValid(document.id('component-form')))
 		{
 			Joomla.submitform(task, document.getElementById('component-form'));
 		}

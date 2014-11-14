@@ -24,7 +24,6 @@ $this->configFieldsets[0] = 'editorConfig';
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
-//$params = $params->toArray();
 
 $app = JFactory::getApplication();
 $input = $app->input;
@@ -93,7 +92,7 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 <div class="clearfix"> </div>
 <hr class="hr-condensed" />
 
-<form action="<?php echo JRoute::_('index.php?option=com_content&layout=modal&tmpl=component&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_content&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 <?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div class="form-horizontal">
@@ -154,16 +153,7 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG', true)); ?>
-				<?php foreach ($this->form->getFieldset('editorConfig') as $field) : ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $field->label; ?>
-						</div>
-						<div class="controls">
-							<?php echo $field->input; ?>
-						</div>
-					</div>
-				<?php endforeach; ?>
+			<?php echo $this->form->renderFieldset('editorConfig'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 

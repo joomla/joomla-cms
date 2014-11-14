@@ -17,9 +17,7 @@ jimport('joomla.base.adapter');
 /**
  * Joomla base installer class
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstaller extends JAdapter
 {
@@ -891,7 +889,7 @@ class JInstaller extends JAdapter
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->name);
 
-		if ($dbDriver == 'mysqli')
+		if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 		{
 			$dbDriver = 'mysql';
 		}
@@ -902,7 +900,7 @@ class JInstaller extends JAdapter
 			$fCharset = (strtolower($file->attributes()->charset) == 'utf8') ? 'utf8' : '';
 			$fDriver = strtolower($file->attributes()->driver);
 
-			if ($fDriver == 'mysqli')
+			if ($fDriver == 'mysqli' || $fDriver == 'pdomysql')
 			{
 				$fDriver = 'mysql';
 			}
@@ -987,7 +985,7 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli')
+				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1054,7 +1052,7 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli')
+				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1065,7 +1063,15 @@ class JInstaller extends JAdapter
 				{
 					$attrs = $entry->attributes();
 
-					if ($attrs['type'] == $dbDriver)
+					// Assuming that the type is a mandatory attribute but if it is not mandatory then there should be a discussion for it.
+					$uDriver = strtolower($attrs['type']);
+
+					if ($uDriver == 'mysqli' || $uDriver == 'pdomysql')
+					{
+						$uDriver = 'mysql';
+					}
+
+					if ($uDriver == $dbDriver)
 					{
 						$schemapath = $entry;
 						break;
@@ -1089,56 +1095,58 @@ class JInstaller extends JAdapter
 					$db->setQuery($query);
 					$version = $db->loadResult();
 
-					if ($version)
+					// No version - use initial version.
+					if (!$version)
 					{
-						// We have a version!
-						foreach ($files as $file)
+						$version = '0.0.0';
+					}
+
+					foreach ($files as $file)
+					{
+						if (version_compare($file, $version) > 0)
 						{
-							if (version_compare($file, $version) > 0)
+							$buffer = file_get_contents($this->getPath('extension_root') . '/' . $schemapath . '/' . $file . '.sql');
+
+							// Graceful exit and rollback if read not successful
+							if ($buffer === false)
 							{
-								$buffer = file_get_contents($this->getPath('extension_root') . '/' . $schemapath . '/' . $file . '.sql');
+								JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), JLog::WARNING, 'jerror');
 
-								// Graceful exit and rollback if read not successful
-								if ($buffer === false)
+								return false;
+							}
+
+							// Create an array of queries from the sql file
+							$queries = JDatabaseDriver::splitSql($buffer);
+
+							if (count($queries) == 0)
+							{
+								// No queries to process
+								continue;
+							}
+
+							// Process each query in the $queries array (split out of sql file).
+							foreach ($queries as $query)
+							{
+								$query = trim($query);
+
+								if ($query != '' && $query{0} != '#')
 								{
-									JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), JLog::WARNING, 'jerror');
+									$db->setQuery($query);
 
-									return false;
-								}
-
-								// Create an array of queries from the sql file
-								$queries = JDatabaseDriver::splitSql($buffer);
-
-								if (count($queries) == 0)
-								{
-									// No queries to process
-									continue;
-								}
-
-								// Process each query in the $queries array (split out of sql file).
-								foreach ($queries as $query)
-								{
-									$query = trim($query);
-
-									if ($query != '' && $query{0} != '#')
+									if (!$db->execute())
 									{
-										$db->setQuery($query);
+										JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
 
-										if (!$db->execute())
-										{
-											JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
-
-											return false;
-										}
-										else
-										{
-											$queryString = (string) $query;
-											$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
-											JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
-										}
-
-										$update_count++;
+										return false;
 									}
+									else
+									{
+										$queryString = (string) $query;
+										$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
+										JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
+									}
+
+									$update_count++;
 								}
 							}
 						}
@@ -1575,7 +1583,6 @@ class JInstaller extends JAdapter
 		 */
 		if (is_array($files) && count($files) > 0)
 		{
-
 			foreach ($files as $file)
 			{
 				// Get the source and destination paths
@@ -1595,7 +1602,6 @@ class JInstaller extends JAdapter
 				}
 				elseif (($exists = file_exists($filedest)) && !$overwrite)
 				{
-
 					// It's okay if the manifest already exists
 					if ($this->getPath('manifest') == $filesource)
 					{
@@ -1869,7 +1875,6 @@ class JInstaller extends JAdapter
 		// If at least one XML file exists
 		if (!empty($xmlfiles))
 		{
-
 			foreach ($xmlfiles as $file)
 			{
 				// Is it a valid Joomla installation manifest file?
@@ -2172,6 +2177,21 @@ class JInstaller extends JAdapter
 		$data['version'] = (string) $xml->version;
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
+
+		if ($xml->files && count($xml->files->children()))
+		{
+			$filename = JFile::getName($path);
+			$data['filename'] = JFile::stripExt($filename);
+
+			foreach ($xml->files->children() as $oneFile)
+			{
+				if ((string) $oneFile->attributes()->plugin)
+				{
+					$data['filename'] = (string) $oneFile->attributes()->plugin;
+					break;
+				}
+			}
+		}
 
 		return $data;
 	}

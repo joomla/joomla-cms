@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('formbehavior.chosen', 'select');
+
 // Load tooltip instance without HTML support because we have a HTML tag in the tip
 JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
 
@@ -135,7 +136,7 @@ echo $params->get('image_path', 'images'); ?>/';
 					</div>
 				</div>
 			</fieldset>
-			<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&tmpl=component&fieldid=' . $input->getCmd('fieldid', '') . '&e_name=' . $input->getCmd('e_name') . '&asset=' . $input->getCmd('asset') . '&author=' . $input->getCmd('author')); ?>" />
+			<?php JFactory::getSession()->set('com_media.return_url', 'index.php?option=com_media&view=images&tmpl=component&fieldid=' . $input->getCmd('fieldid', '') . '&e_name=' . $input->getCmd('e_name') . '&asset=' . $input->getCmd('asset') . '&author=' . $input->getCmd('author')); ?>
 		</div>
 	</form>
-<?php endif; ?>
+<?php endif;
