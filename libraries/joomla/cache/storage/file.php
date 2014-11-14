@@ -275,9 +275,8 @@ class JCacheStorageFile extends JCacheStorage
 		$returning = new stdClass;
 		$returning->locklooped = false;
 
-		$looptime = $locktime * 10;
-		$path     = $this->_getFilePath($id, $group);
-
+		$looptime  = $locktime * 10;
+		$path      = $this->_getFilePath($id, $group);
 		$_fileopen = @fopen($path, "r+b");
 
 		if ($_fileopen)
@@ -327,8 +326,7 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function unlock($id, $group = null)
 	{
-		$path = $this->_getFilePath($id, $group);
-
+		$path      = $this->_getFilePath($id, $group);
 		$_fileopen = @fopen($path, "r+b");
 
 		if ($_fileopen)
