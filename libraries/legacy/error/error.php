@@ -808,6 +808,7 @@ abstract class JError
 				$app->allowCache(false);
 
 				$app->setBody($data);
+				$app->triggerEvent('onAfterRender');
 				echo $app->toString();
 			}
 		}
