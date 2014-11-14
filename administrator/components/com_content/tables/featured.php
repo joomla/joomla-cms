@@ -11,11 +11,17 @@ defined('_JEXEC') or die;
 
 /**
  * Featured Table class.
+ *
+ * @since  1.6
  */
 class ContentTableFeatured extends JTable
 {
 	/**
-	 * @param   JDatabaseDriver  A database connector object
+	 * Constructor
+	 *
+	 * @param   JDatabaseDriver  &$db  Database connector object
+	 *
+	 * @since   1.6
 	 */
 	public function __construct(&$db)
 	{

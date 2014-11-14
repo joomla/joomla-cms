@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * Controller (Controllers are where you put all the actual code.) Provides basic
  * functionality, such as rendering views (aka displaying templates).
  *
- * @package     Joomla.Legacy
- * @subpackage  Controller
- * @since       12.2
+ * @since  12.2
  */
 class JControllerLegacy extends JObject
 {

@@ -616,7 +616,7 @@ class JGoogleEmbedMapsTest extends TestCase
 
 		$this->object->setAutoload('jquery');
 		$header = $this->object->getHeader();
-		$this->assertContains('$(document).ready(', $header);
+		$this->assertContains('jQuery(document).ready(', $header);
 
 		$this->object->setAutoload('mootools');
 		$header = $this->object->getHeader();

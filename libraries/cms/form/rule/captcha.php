@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla Framework.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       2.5
+ * @since  2.5
  */
 class JFormRuleCaptcha extends JFormRule
 {

@@ -14,8 +14,6 @@ use Joomla\Registry\Registry;
 /**
  * Content table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
  * @since       11.1
  * @deprecated  Class will be removed upon completion of transition to UCM
  */

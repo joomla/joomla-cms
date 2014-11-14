@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for interacting with a Linkedin API instance.
  *
- * @package     Joomla.Platform
- * @subpackage  Linkedin
- * @since       13.1
+ * @since  13.1
  */
 class JLinkedin
 {

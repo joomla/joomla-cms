@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fields name="urls">
-		<field
-			name="urla"
-			type="hidden"
-		/>
+		<!-- This fieldset is needed to stop the URLs column being null which throws errors in postgres -->
+		<fieldset name="urls">
+			<field
+				name="urla"
+				type="hidden"
+			/>
+		</fieldset>
 	</fields>
 
 	<field
@@ -209,12 +212,12 @@
 	>
 		<option value="*">JALL</option>
 	</field>
-	
-	<field name="version_note" 
-		type="text" 
+
+	<field name="version_note"
+		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-		description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
-		class="span12" size="45" 
+		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+		class="span12" size="45"
 		labelclass="control-label"
 	/>
 
@@ -246,7 +249,9 @@
 			/>
 
 		</fieldset>
+	</fields>
 
+	<fields name="images">
 		<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
 			<field
 				name="image_intro"

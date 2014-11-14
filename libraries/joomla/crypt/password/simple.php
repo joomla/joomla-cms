@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Password Crypter
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
- * @since       12.2
+ * @since  12.2
  */
 class JCryptPasswordSimple implements JCryptPassword
 {

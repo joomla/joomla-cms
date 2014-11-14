@@ -820,8 +820,6 @@ UNION ALL
 SELECT 32, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
-SELECT 100, 'PHPMailer', 'library', 'phpmailer', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
-UNION ALL
 SELECT 101, 'SimplePie', 'library', 'simplepie', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 102, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -2356,13 +2354,14 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__redirect_links](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[old_url] [nvarchar](255) NOT NULL,
-	[new_url] [nvarchar](255) NOT NULL,
+	[new_url] [nvarchar](255),
 	[referer] [nvarchar](150) NOT NULL,
 	[comment] [nvarchar](255) NOT NULL,
 	[hits] [bigint] NOT NULL DEFAULT 0,
 	[published] [smallint] NOT NULL,
 	[created_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[modified_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[header] [smallint] NOT NULL DEFAULT 301,
  CONSTRAINT [PK_#__redirect_links_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC

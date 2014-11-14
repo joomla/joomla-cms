@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JSimpleCrypt is a very simple encryption algorithm for encrypting/decrypting strings
  *
- * @package     Joomla.Legacy
- * @subpackage  Simplecrypt
  * @since       11.1
  * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JCrypt instead.
  */

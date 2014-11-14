@@ -84,77 +84,82 @@ if ($saveOrder)
 			</div>
 		</div>
 		<div class="clearfix"> </div>
-
-		<table class="table table-striped" id="levelList">
-			<thead>
-				<tr>
-					<th width="1%" class="nowrap center hidden-phone">
-						<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
-					</th>
-					<th width="1%">
-						<?php echo JHtml::_('grid.checkall'); ?>
-					</th>
-					<th>
-						<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
-					</th>
-					<th width="5%" class="nowrap center hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
-					</th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<td colspan="15">
-						<?php echo $this->pagination->getListFooter(); ?>
-					</td>
-				</tr>
-			</tfoot>
-			<tbody>
-			<?php $count = count($this->items); ?>
-			<?php foreach ($this->items as $i => $item) :
-				$ordering  = ($listOrder == 'a.ordering');
-				$canCreate = $user->authorise('core.create',     'com_users');
-				$canEdit   = $user->authorise('core.edit',       'com_users');
-				$canChange = $user->authorise('core.edit.state', 'com_users');
-				?>
-				<tr class="row<?php echo $i % 2; ?>">
-					<td class="order nowrap center hidden-phone">
-						<?php
-						$iconClass = '';
-						if (!$canChange)
-						{
-							$iconClass = ' inactive';
-						}
-						elseif (!$saveOrder)
-						{
-							$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
-						}
-						?>
-						<span class="sortable-handler<?php echo $iconClass ?>">
-							<i class="icon-menu"></i>
-						</span>
-						<?php if ($canChange && $saveOrder) : ?>
-							<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
-						<?php endif; ?>
-					</td>
-					<td class="center">
-						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
-					</td>
-					<td>
-						<?php if ($canEdit) : ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_users&task=level.edit&id='.$item->id);?>">
-							<?php echo $this->escape($item->title); ?></a>
-						<?php else : ?>
-							<?php echo $this->escape($item->title); ?>
-						<?php endif; ?>
-					</td>
-					<td class="center">
-						<?php echo (int) $item->id; ?>
-					</td>
-				</tr>
-			<?php endforeach; ?>
-			</tbody>
-		</table>
+		<?php if (empty($this->items)) : ?>
+			<div class="alert alert-no-items">
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
+		<?php else : ?>
+			<table class="table table-striped" id="levelList">
+				<thead>
+					<tr>
+						<th width="1%" class="nowrap center hidden-phone">
+							<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
+						</th>
+						<th width="1%">
+							<?php echo JHtml::_('grid.checkall'); ?>
+						</th>
+						<th>
+							<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
+						</th>
+						<th width="5%" class="nowrap center hidden-phone">
+							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+						</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<td colspan="15">
+							<?php echo $this->pagination->getListFooter(); ?>
+						</td>
+					</tr>
+				</tfoot>
+				<tbody>
+				<?php $count = count($this->items); ?>
+				<?php foreach ($this->items as $i => $item) :
+					$ordering  = ($listOrder == 'a.ordering');
+					$canCreate = $user->authorise('core.create',     'com_users');
+					$canEdit   = $user->authorise('core.edit',       'com_users');
+					$canChange = $user->authorise('core.edit.state', 'com_users');
+					?>
+					<tr class="row<?php echo $i % 2; ?>">
+						<td class="order nowrap center hidden-phone">
+							<?php
+							$iconClass = '';
+							if (!$canChange)
+							{
+								$iconClass = ' inactive';
+							}
+							elseif (!$saveOrder)
+							{
+								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+							}
+							?>
+							<span class="sortable-handler<?php echo $iconClass ?>">
+								<i class="icon-menu"></i>
+							</span>
+							<?php if ($canChange && $saveOrder) : ?>
+								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
+							<?php endif; ?>
+						</td>
+						<td class="center">
+							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+						</td>
+						<td>
+							<?php if ($canEdit) : ?>
+							<a href="<?php echo JRoute::_('index.php?option=com_users&task=level.edit&id='.$item->id);?>">
+								<?php echo $this->escape($item->title); ?></a>
+							<?php else : ?>
+								<?php echo $this->escape($item->title); ?>
+							<?php endif; ?>
+						</td>
+						<td class="center">
+							<?php echo (int) $item->id; ?>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php endif;?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

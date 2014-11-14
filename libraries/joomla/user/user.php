@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * User class.  Handles all application interaction with a user
  *
- * @package     Joomla.Platform
- * @subpackage  User
- * @since       11.1
+ * @since  11.1
  */
 class JUser extends JObject
 {
@@ -275,9 +273,8 @@ class JUser extends JObject
 		{
 			if (!$id = $userHelper->getUserId($identifier))
 			{
-				JLog::add(JText::sprintf('JLIB_USER_ERROR_ID_NOT_EXISTS', $identifier), JLog::WARNING, 'jerror');
-
-				return false;
+				// If the $identifier doesn't match with any id, just return an empty JUser.
+				return new JUser;
 			}
 		}
 		else

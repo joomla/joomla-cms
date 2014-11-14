@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Display a JSON loaded window with a repeatable set of sub fields
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       3.2
+ * @since  3.2
  */
 class JFormFieldRepeatable extends JFormField
 {
@@ -124,7 +122,8 @@ class JFormFieldRepeatable extends JFormField
 
 		// Hidden input, where the main value is
 		$value = htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
-		$str[] = '<input type="hidden" name="' . $this->name . '" id="' . $this->id . '" value="' . $value . '"  class="form-field-repeatable" ' . implode(' ', $data) . ' />';
+		$str[] = '<input type="hidden" name="' . $this->name . '" id="' . $this->id . '" value="' . $value
+				. '"  class="form-field-repeatable" ' . implode(' ', $data) . ' />';
 
 		// Add scripts
 		JHtml::_('bootstrap.framework');

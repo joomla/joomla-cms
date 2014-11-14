@@ -514,7 +514,8 @@ class PlgEditorTinymce extends JPlugin
 							$description = JText::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC');
 						}
 
-						$templates .= '{title: \'' . $title . '\', description: \'' . $description . '\', url:\'' . JUri::root() . 'media/editors/tinymce/templates/' . $filename . '.html\'},';
+						$templates .= '{title: \'' . $title . '\', description: \'' . $description . '\', url:\''
+									. JUri::root() . 'media/editors/tinymce/templates/' . $filename . '.html\'},';
 					}
 				}
 

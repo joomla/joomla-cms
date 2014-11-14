@@ -14,9 +14,7 @@ JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/mode
 /**
  * Helper for mod_popular
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_popular
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModPopularHelper
 {
