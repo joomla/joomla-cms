@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://php.net/manual/en/book.mysqli.php
- * @since       12.1
+ * @see    http://php.net/manual/en/book.mysqli.php
+ * @since  12.1
  */
 class JDatabaseDriverMysqli extends JDatabaseDriver
 {
@@ -63,13 +61,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	public function __construct($options)
 	{
 		// Get some basic values from the options.
-		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
-		$options['user'] = (isset($options['user'])) ? $options['user'] : 'root';
+		$options['host']     = (isset($options['host'])) ? $options['host'] : 'localhost';
+		$options['user']     = (isset($options['user'])) ? $options['user'] : 'root';
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
-		$options['select'] = (isset($options['select'])) ? (bool) $options['select'] : true;
-		$options['port'] = null;
-		$options['socket'] = null;
+		$options['select']   = (isset($options['select'])) ? (bool) $options['select'] : true;
+		$options['port']     = null;
+		$options['socket']   = null;
 
 		// Finalize initialisation.
 		parent::__construct($options);
@@ -104,27 +102,55 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		 * Unlike mysql_connect(), mysqli_connect() takes the port and socket as separate arguments. Therefore, we
 		 * have to extract them from the host string.
 		 */
-		$tmp = substr(strstr($this->options['host'], ':'), 1);
-		if (!empty($tmp))
+		$port = isset($this->options['port']) ? $this->options['port'] : 3306;
+		$regex = '/^(?P<host>((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(:(?P<port>.+))?$/';
+
+		if (preg_match($regex, $this->options['host'], $matches))
 		{
-			// Get the port number or socket name
-			if (is_numeric($tmp))
-			{
-				$this->options['port'] = $tmp;
-			}
-			else
-			{
-				$this->options['socket'] = $tmp;
-			}
+			// It's an IPv4 address with ot without port
+			$this->options['host'] = $matches['host'];
 
-			// Extract the host name only
-			$this->options['host'] = substr($this->options['host'], 0, strlen($this->options['host']) - (strlen($tmp) + 1));
-
-			// This will take care of the following notation: ":3306"
-			if ($this->options['host'] == '')
+			if (!empty($matches['port']))
 			{
-				$this->options['host'] = 'localhost';
+				$port = $matches['port'];
 			}
+		}
+		elseif (preg_match('/^(?P<host>\[.*\])(:(?P<port>.+))?$/', $this->options['host'], $matches))
+		{
+			// We assume square-bracketed IPv6 address with or without port, e.g. [fe80:102::2%eth1]:3306
+			$this->options['host'] = $matches['host'];
+
+			if (!empty($matches['port']))
+			{
+				$port = $matches['port'];
+			}
+		}
+		elseif (preg_match('/^(?P<host>(\w+:\/{2,3})?[a-z0-9\.\-]+)(:(?P<port>[^:]+))?$/i', $this->options['host'], $matches))
+		{
+			// Named host (e.g domain.com or localhost) with ot without port
+			$this->options['host'] = $matches['host'];
+
+			if (!empty($matches['port']))
+			{
+				$port = $matches['port'];
+			}
+		}
+		elseif (preg_match('/^:(?P<port>[^:]+)$/', $this->options['host'], $matches))
+		{
+			// Empty host, just port, e.g. ':3306'
+			$this->options['host'] = 'localhost';
+			$port = $matches['port'];
+		}
+		// ... else we assume normal (naked) IPv6 address, so host and port stay as they are or default
+
+		// Get the port number or socket name
+		if (is_numeric($port))
+		{
+			$this->options['port'] = (int) $port;
+		}
+		else
+		{
+			$this->options['socket'] = $port;
 		}
 
 		// Make sure the MySQLi extension for PHP is installed and enabled.
@@ -278,7 +304,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	}
 
 	/**
-	 * Method to get the database collation in use by sampling a text field of a table in the database.
+	 * Method to get the database collation.
 	 *
 	 * @return  mixed  The collation in use by the database (string) or boolean false if not supported.
 	 *
@@ -289,20 +315,18 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		$tables = $this->getTableList();
+		// Attempt to get the database collation by accessing the server system variable.
+		$this->setQuery('SHOW VARIABLES LIKE "collation_database"');
+		$result = $this->loadObject();
 
-		$this->setQuery('SHOW FULL COLUMNS FROM ' . $tables[0]);
-		$array = $this->loadAssocList();
-
-		foreach ($array as $field)
+		if (property_exists($result, 'Value'))
 		{
-			if (!is_null($field['Collation']))
-			{
-				return $field['Collation'];
-			}
+			return $result->Value;
 		}
-
-		return null;
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -337,6 +361,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		// Sanitize input to an array and iterate over the list.
 		settype($tables, 'array');
+
 		foreach ($tables as $table)
 		{
 			// Set the query to get the table CREATE statement.
@@ -497,7 +522,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
-		if ($this->limit > 0 || $this->offset > 0)
+
+		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$query .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
 		}
@@ -508,7 +534,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Reset the error values.
 		$this->errorNum = 0;
 		$this->errorMsg = '';
-		$memoryBefore = null;
+		$memoryBefore   = null;
 
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
@@ -525,6 +551,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				// Avoid warning if result already freed by third-party library
 				@$this->freeResult();
 			}
+
 			$memoryBefore = memory_get_usage();
 		}
 
@@ -534,6 +561,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
+
 			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -542,7 +570,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			{
 				$this->callStacks[] = debug_backtrace();
 			}
-			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array($memoryBefore, memory_get_usage(), is_object($this->cursor) ? $this->getNumRows() : null);
+
+			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array(
+				$memoryBefore,
+				memory_get_usage(),
+				is_object($this->cursor) ? $this->getNumRows() : null
+			);
 		}
 
 		// If an error occurred handle it.
@@ -790,6 +823,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	protected function freeResult($cursor = null)
 	{
 		mysqli_free_result($cursor ? $cursor : $this->cursor);
+
 		if ((! $cursor) || ($cursor === $this->cursor))
 		{
 			$this->cursor = null;

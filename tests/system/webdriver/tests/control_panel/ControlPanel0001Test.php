@@ -66,7 +66,7 @@ class ControlPanel0001Test extends JoomlaWebdriverTestCase
 
 		// These pages are skipped because they don't have a help icon, which is used by the GenericAdminPage.
 		// As we create page classes for each screen, we could check to see if the page class exists and use that instead of the generic.
-		$skipPages = array('Control Panel', 'Edit Account', 'Logout', 'Joomla! Update', 'Joomla Help');
+		$skipPages = array('Control Panel', 'Edit Account', 'Logout', 'Joomla! Update', 'Joomla Help', 'Post-installation Messages');
 		foreach ($cpPage->allMenuLinks as $menuText => $link)
 		{
 			if (strpos($link, 'http') !== 0 && (array_search($menuText, $skipPages) === false) && ($link != 'administrator/index.php#'))

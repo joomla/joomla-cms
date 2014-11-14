@@ -18,7 +18,7 @@
  *
  * @package		Joomla.Build
  *
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ if (substr($systemGit, 0, -1) != $gitPath)
 umask(022);
 
 // Import JVersion to set the version information
-define('_JEXEC', 1);
+define('JPATH_PLATFORM', 1);
 require_once dirname(__DIR__) . '/libraries/cms/version/version.php';
 $jversion = new JVersion;
 
@@ -84,30 +84,60 @@ echo "Create list of changed files from git repository.\n";
  * Note: If we add new top-level directories or files, be sure to include them here.
  */
 $filesArray = array(
-		"administrator/index.php\n" => true,
-		"bin/index.html\n" => true,
-		"cache/index.html\n" => true,
-		"cli/index.html\n" => true,
-		"components/index.html\n" => true,
-		"images/index.html\n" => true,
-		"includes/index.html\n" => true,
-		"language/index.html\n" => true,
-		"layouts/index.html\n" => true,
-		"libraries/index.html\n" => true,
-		"logs/index.html\n" => true,
-		"media/index.html\n" => true,
-		"modules/index.html\n" => true,
-		"plugins/index.html\n" => true,
-		"templates/index.html\n" => true,
-		"tmp/index.html\n" => true,
-		"htaccess.txt\n" => true,
-		"index.php\n" => true,
-		"LICENSE.txt\n" => true,
-		"README.txt\n" => true,
-		"robots.txt.dist\n" => true,
-		"web.config.txt\n" => true,
-		"joomla.xml\n" => true,
+	"administrator/index.php\n" => true,
+	"bin/index.html\n" => true,
+	"cache/index.html\n" => true,
+	"cli/index.html\n" => true,
+	"components/index.html\n" => true,
+	"images/index.html\n" => true,
+	"includes/index.html\n" => true,
+	"language/index.html\n" => true,
+	"layouts/index.html\n" => true,
+	"libraries/index.html\n" => true,
+	"logs/index.html\n" => true,
+	"media/index.html\n" => true,
+	"modules/index.html\n" => true,
+	"plugins/index.html\n" => true,
+	"templates/index.html\n" => true,
+	"tmp/index.html\n" => true,
+	"htaccess.txt\n" => true,
+	"index.php\n" => true,
+	"LICENSE.txt\n" => true,
+	"README.txt\n" => true,
+	"robots.txt.dist\n" => true,
+	"web.config.txt\n" => true,
+	"joomla.xml\n" => true
 );
+
+/*
+ * Here we set the files/folders which should not be packaged at any time
+ * These paths are from the repository root without the leading slash
+ */
+$doNotPackage = array(
+	'.gitignore',
+	'.travis.yml',
+	'CONTRIBUTING.md',
+	'README.md',
+	'build',
+	'build.xml',
+	'composer.json',
+	'composer.lock',
+	'phpunit.xml.dist',
+	'tests',
+	'travisci-phpunit.xml',
+);
+
+/*
+ * Here we set the files/folders which should not be packaged with patch packages only
+ * These paths are from the repository root without the leading slash
+ */
+$doNotPatch = array(
+	'installation',
+    'images'
+);
+
+// For the packages, replace spaces in stability (RC) with underscores
+$packageStability = str_replace(' ', '_', $stability);
 
 // Count down starting with the latest release and add diff files to this array
 for ($num = $release - 1; $num >= 0; $num--)
@@ -124,21 +154,31 @@ for ($num = $release - 1; $num >= 0; $num--)
 	$deletedFiles = array();
 	$files        = file('diffdocs/' . $version . '.' . $num);
 
-	// Loop through and add all files except: tests, installation, build, .git, or docs
+	// Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
 	foreach ($files as $file)
 	{
-		if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file, 2, 5) != 'build' && substr($file, 2, 4) != '.git'
-			&& substr($file, 2, 7) != '.travis' && substr($file, 2, 6) != 'travis' && substr($file, 2, 7) != 'phpunit' && substr($file, -3) != '.md')
+		$fileName   = substr($file, 2);
+		$folderPath = explode('/', $file);
+		$folderName = $folderPath[0];
+
+		// TODO - Old check, commented for reference, remove when complete
+		/*if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file, 2, 5) != 'build' && substr($file, 2, 4) != '.git'
+			&& substr($file, 2, 7) != '.travis' && substr($file, 2, 6) != 'travis' && substr($file, 2, 7) != 'phpunit' && substr($file, -3) != '.md'
+			&& substr($file, 2, 6) != 'images')
+		{*/
+
+		if (!in_array($fileName, $doNotPackage) && !in_array($fileName, $doNotPatch)
+			&& !in_array($folderName, $doNotPackage) && !in_array($folderName, $doNotPatch))
 		{
 			// Don't add deleted files to the list
 			if (substr($file, 0, 1) != 'D')
 			{
-				$filesArray[substr($file, 2)] = true;
+				$filesArray[$fileName] = true;
 			}
 			else
 			{
 				// Add deleted files to the deleted files list
-				$deletedFiles[] = substr($file, 2);
+				$deletedFiles[] = $fileName;
 			}
 		}
 	}
@@ -159,17 +199,17 @@ for ($num = $release - 1; $num >= 0; $num--)
 
 	$fromName = $num == 0 ? 'x' : $num;
 	// Create the diff archive packages using the file name list.
-	system('tar --create --bzip2 --no-recursion --directory ' . $fullVersion . ' --file packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $stability . '-Patch_Package.tar.bz2 --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
-	system('tar --create --gzip  --no-recursion --directory ' . $fullVersion . ' --file packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $stability . '-Patch_Package.tar.gz  --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+	system('tar --create --bzip2 --no-recursion --directory ' . $fullVersion . ' --file packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.bz2 --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+	system('tar --create --gzip  --no-recursion --directory ' . $fullVersion . ' --file packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.gz  --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
 
 	chdir($fullVersion);
-	system('zip ../packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $stability . '-Patch_Package.zip -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
+	system('zip ../packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
 	chdir('..');
 }
 
 // Delete the files and folders we exclude from the packages (tests, docs, build, etc.).
 echo "Delete folders not included in packages.\n";
-$doNotPackage = array('tests', '.gitignore', '.travis.yml', 'build', 'build.xml', 'phpunit.xml.dist', 'travisci-phpunit.xml', 'README.md', 'CONTRIBUTING.md');
+
 foreach ($doNotPackage as $removeFile)
 {
 	system('rm -rf ' . $fullVersion . '/' . $removeFile);
@@ -180,21 +220,34 @@ system('mkdir packages_full' . $fullVersion);
 echo "Build full package files.\n";
 chdir($fullVersion);
 
+// The weblinks package manifest should not be present for new installs, temporarily move it
+system('mv administrator/manifests/packages/pkg_weblinks.xml ../pkg_weblinks.xml');
+
 // Create full archive packages.
-system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $stability . '-Full_Package.tar.bz2 * > /dev/null');
+system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2 * > /dev/null');
 
-system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $stability . '-Full_Package.tar.gz * > /dev/null');
+system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.gz * > /dev/null');
 
-system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $stability . '-Full_Package.zip * > /dev/null');
+system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip * > /dev/null');
 
-// Create full update file without installation folder.
+// Create full update file without installation folder or sample images.
 echo "Build full update package.\n";
 system('rm -r installation');
+system('rm -r images/banners');
+system('rm -r images/headers');
+system('rm -r images/sampledata');
+system('rm images/joomla_black.gif');
+system('rm images/joomla_green.gif');
+system('rm images/joomla_logo_black.jpg');
+system('rm images/powered_by.png');
 
-system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $stability . '-Update_Package.tar.bz2 * > /dev/null');
+// Move the weblinks manifest back
+system('mv ../pkg_weblinks.xml administrator/manifests/packages/pkg_weblinks.xml');
 
-system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $stability . '-Update_Package.tar.gz * > /dev/null');
+system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2 * > /dev/null');
 
-system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $stability . '-Update_Package.zip * > /dev/null');
+system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.gz * > /dev/null');
+
+system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip * > /dev/null');
 
 echo "Build of version $fullVersion complete!\n";

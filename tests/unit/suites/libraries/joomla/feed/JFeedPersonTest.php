@@ -21,7 +21,6 @@ class JFeedPersonTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedPerson::__construct
 	 * @since   12.3
 	 */
 	public function testConstruct()

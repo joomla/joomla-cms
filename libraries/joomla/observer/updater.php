@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Observer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,23 +12,24 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Observer updater pattern implementation for Joomla
  *
- * @package     Joomla
- * @subpackage  Observer
- * @link        http://docs.joomla.org/JObserverUpdater
- * @since       3.1.2
+ * @link   http://docs.joomla.org/JObserverUpdater
+ * @since  3.1.2
  */
 class JObserverUpdater implements JObserverUpdaterInterface
 {
 	/**
 	 * Generic JObserverInterface observers for this JObservableInterface
 	 *
-	 * @var    JObserverInterface[]
+	 * @var    JObserverInterface
+	 * @since  3.1.2
 	 */
 	protected $observers = array();
 
 	/**
 	 * Process observers (useful when a class extends significantly an observerved method, and calls observers itself
+	 *
 	 * @var    boolean
+	 * @since  3.1.2
 	 */
 	protected $doCallObservers = true;
 
@@ -36,6 +37,8 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	 * Constructor
 	 *
 	 * @param   JObservableInterface  $observable  The observable subject object
+	 *
+	 * @since   3.1.2
 	 */
 	public function __construct(JObservableInterface $observable)
 	{
@@ -49,6 +52,8 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	 * @param   JObserverInterface  $observer  The observer object
 	 *
 	 * @return  void
+	 *
+	 * @since   3.1.2
 	 */
 	public function attachObserver(JObserverInterface $observer)
 	{
@@ -61,6 +66,8 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	 * @param   string  $observerClass  The class name of the observer
 	 *
 	 * @return  JTableObserver|null  The observer object of this class if any
+	 *
+	 * @since   3.1.2
 	 */
 	public function getObserverOfClass($observerClass)
 	{
@@ -79,6 +86,8 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	 * @param   array   $params  Params of the event
 	 *
 	 * @return  void
+	 *
+	 * @since   3.1.2
 	 */
 	public function update($event, $params)
 	{
@@ -102,6 +111,8 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	 * @param   boolean  $enabled  Enable (true) or Disable (false) the observer events
 	 *
 	 * @return  boolean  Returns old state
+	 *
+	 * @since   3.1.2
 	 */
 	public function doCallObservers($enabled)
 	{

@@ -3,11 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
 
 jimport('joomla.filesystem.path');
 jimport('joomla.utilities.arrayhelper');
@@ -19,23 +21,23 @@ jimport('joomla.utilities.arrayhelper');
  * It uses XML definitions to construct form fields and a variety of field and rule classes to
  * render and validate the form.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @link        http://www.w3.org/TR/html4/interact/forms.html
- * @link        http://www.w3.org/TR/html5/forms.html
- * @since       11.1
+ * @link   http://www.w3.org/TR/html4/interact/forms.html
+ * @link   http://www.w3.org/TR/html5/forms.html
+ * @since  11.1
  */
 class JForm
 {
 	/**
-	 * The JRegistry data store for form fields during display.
-	 * @var    object
+	 * The Registry data store for form fields during display.
+	 *
+	 * @var    Registry
 	 * @since  11.1
 	 */
 	protected $data;
 
 	/**
 	 * The form object errors array.
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -43,6 +45,7 @@ class JForm
 
 	/**
 	 * The name of the form instance.
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -50,6 +53,7 @@ class JForm
 
 	/**
 	 * The form object options for use in rendering and validation.
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -57,6 +61,7 @@ class JForm
 
 	/**
 	 * The form XML definition.
+	 *
 	 * @var    SimpleXMLElement
 	 * @since  11.1
 	 */
@@ -64,10 +69,19 @@ class JForm
 
 	/**
 	 * Form instances.
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
 	protected static $forms = array();
+
+	/**
+	 * Alows extensions to implement repeating elements
+	 *
+	 * @var    mixed
+	 * @since  3.2
+	 */
+	public $repeat = false;
 
 	/**
 	 * Method to instantiate the form object.
@@ -82,8 +96,8 @@ class JForm
 		// Set the name for the form.
 		$this->name = $name;
 
-		// Initialise the JRegistry data.
-		$this->data = new JRegistry;
+		// Initialise the Registry data.
+		$this->data = new Registry;
 
 		// Set the options if specified.
 		$this->options['control'] = isset($options['control']) ? $options['control'] : false;
@@ -115,9 +129,9 @@ class JForm
 		// Convert the input to an array.
 		if (is_object($data))
 		{
-			if ($data instanceof JRegistry)
+			if ($data instanceof Registry)
 			{
-				// Handle a JRegistry.
+				// Handle a Registry.
 				$data = $data->toArray();
 			}
 			elseif ($data instanceof JObject)
@@ -199,8 +213,8 @@ class JForm
 			return false;
 		}
 
-		$input = new JRegistry($data);
-		$output = new JRegistry;
+		$input = new Registry($data);
+		$output = new Registry;
 
 		// Get the fields for which to filter the data.
 		$fields = $this->findFieldsByGroup($group);
@@ -617,6 +631,89 @@ class JForm
 	}
 
 	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @param   string  $name     The name of the field for which to get the value.
+	 * @param   string  $group    The optional dot-separated form group path on which to get the value.
+	 * @param   mixed   $default  The optional default value of the field value is empty.
+	 *
+	 * @return  string  A string containing the html for the control goup
+	 *
+	 * @since      3.2
+	 * @deprecated 3.2.3  Use renderField() instead of getControlGroup
+	 */
+	public function getControlGroup($name, $group = null, $default = null)
+	{
+		JLog::add('JForm->getControlGroup() is deprecated use JForm->renderField().', JLog::WARNING, 'deprecated');
+
+		return $this->renderField($name, $group, $default);
+	}
+
+	/**
+	 * Method to get all control groups with label and input of a fieldset.
+	 *
+	 * @param   string  $name  The name of the fieldset for which to get the values.
+	 *
+	 * @return  string  A string containing the html for the control goups
+	 *
+	 * @since      3.2
+	 * @deprecated 3.2.3 Use renderFieldset() instead of getControlGroups
+	 */
+	public function getControlGroups($name)
+	{
+		JLog::add('JForm->getControlGroups() is deprecated use JForm->renderFieldset().', JLog::WARNING, 'deprecated');
+
+		return $this->renderFieldset($name);
+	}
+
+	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @param   string  $name     The name of the field for which to get the value.
+	 * @param   string  $group    The optional dot-separated form group path on which to get the value.
+	 * @param   mixed   $default  The optional default value of the field value is empty.
+	 * @param   array   $options  Any options to be passed into the rendering of the field
+	 *
+	 * @return  string  A string containing the html for the control goup
+	 *
+	 * @since   3.2.3
+	 */
+	public function renderField($name, $group = null, $default = null, $options = array())
+	{
+		$field = $this->getField($name, $group, $default);
+
+		if ($field)
+		{
+			return $field->renderField($options);
+		}
+
+		return '';
+	}
+
+	/**
+	 * Method to get all control groups with label and input of a fieldset.
+	 *
+	 * @param   string  $name     The name of the fieldset for which to get the values.
+	 * @param   array   $options  Any options to be passed into the rendering of the field
+	 *
+	 * @return  string  A string containing the html for the control goups
+	 *
+	 * @since   3.2.3
+	 */
+	public function renderFieldset($name, $options = array())
+	{
+		$fields = $this->getFieldset($name);
+		$html = array();
+
+		foreach ($fields as $field)
+		{
+			$html[] = $field->renderField($options);
+		}
+
+		return implode('', $html);
+	}
+
+	/**
 	 * Method to load the form description from an XML string or object.
 	 *
 	 * The replace option works per field.  If a field being loaded already exists in the current
@@ -853,7 +950,7 @@ class JForm
 	public function reset($xml = false)
 	{
 		unset($this->data);
-		$this->data = new JRegistry;
+		$this->data = new Registry;
 
 		if ($xml)
 		{
@@ -887,7 +984,7 @@ class JForm
 		}
 
 		// Find the form field element from the definition.
-		$old = &$this->findField((string) $element['name'], $group);
+		$old = $this->findField((string) $element['name'], $group);
 
 		// If an existing field is found and replace flag is false do nothing and return true.
 		if (!$replace && !empty($old))
@@ -1074,7 +1171,7 @@ class JForm
 		$return = true;
 
 		// Create an input registry object from the data to validate.
-		$input = new JRegistry($data);
+		$input = new Registry($data);
 
 		// Get the fields for which to validate the data.
 		$fields = $this->findFieldsByGroup($group);
@@ -1225,8 +1322,11 @@ class JForm
 				}
 				break;
 
-			// Ensures a protocol is present in the saved field. Only use when
-			// the only permitted protocols requre '://'. See JFormRuleUrl for list of these.
+			/*
+			 * Ensures a protocol is present in the saved field unless the relative flag is set.
+			 * Only use when the only permitted protocols require '://'.
+			 * See JFormRuleUrl for list of these.
+			 */
 
 			case 'URL':
 				if (empty($value))
@@ -1234,8 +1334,12 @@ class JForm
 					return false;
 				}
 
+				// This cleans some of the more dangerous characters but leaves special characters that are valid.
 				$value = JFilterInput::getInstance()->clean($value, 'html');
 				$value = trim($value);
+
+				// <>" are never valid in a uri see http://www.ietf.org/rfc/rfc1738.txt.
+				$value = str_replace(array('<', '>', '"'), '', $value);
 
 				// Check for a protocol
 				$protocol = parse_url($value, PHP_URL_SCHEME);
@@ -1248,14 +1352,17 @@ class JForm
 					$protocol = 'http';
 
 					// If it looks like an internal link, then add the root.
-					if (substr($value, 0) == 'index.php')
+					if (substr($value, 0, 9) == 'index.php')
 					{
 						$value = JUri::root() . $value;
 					}
 
-					// Otherwise we treat it is an external link.
-					// Put the url back together.
-					$value = $protocol . '://' . $value;
+					// Otherwise we treat it as an external link.
+					else
+					{
+						// Put the url back together.
+						$value = $protocol . '://' . $value;
+					}
 				}
 
 				// If relative URLS are allowed we assume that URLs without protocols are internal.
@@ -1269,10 +1376,10 @@ class JForm
 						$value = 'http://' . $value;
 					}
 
-					// Otherwise prepend the root.
-					else
+					// Otherwise if it doesn't start with "/" prepend the prefix of the current site.
+					elseif (substr($value, 0, 1) != '/')
 					{
-						$value = JUri::root() . $value;
+						$value = JUri::root(true) . '/' . $value;
 					}
 				}
 
@@ -1500,9 +1607,10 @@ class JForm
 		/*
 		 * Get an array of <field /> elements that are underneath a <fieldset /> element
 		 * with the appropriate name attribute, and also any <field /> elements with
-		 * the appropriate fieldset attribute.
+		 * the appropriate fieldset attribute. To allow repeatable elements only fields
+		 * which are not descendants of other fields are selected.
 		 */
-		$fields = $this->xml->xpath('//fieldset[@name="' . $name . '"]//field | //field[@fieldset="' . $name . '"]');
+		$fields = $this->xml->xpath('(//fieldset[@name="' . $name . '"]//field | //field[@fieldset="' . $name . '"])[not(ancestor::field)]');
 
 		return $fields;
 	}
@@ -1828,7 +1936,7 @@ class JForm
 	 * @param   SimpleXMLElement  $element  The XML element object representation of the form field.
 	 * @param   string            $group    The optional dot-separated form group path on which to find the field.
 	 * @param   mixed             $value    The optional value to use as the default for the field.
-	 * @param   JRegistry         $input    An optional JRegistry object with the entire data set to validate
+	 * @param   Registry          $input    An optional Registry object with the entire data set to validate
 	 *                                      against the entire form.
 	 *
 	 * @return  mixed  Boolean true if field value is valid, Exception on failure.
@@ -1837,7 +1945,7 @@ class JForm
 	 * @throws  InvalidArgumentException
 	 * @throws  UnexpectedValueException
 	 */
-	protected function validateField(SimpleXMLElement $element, $group = null, $value = null, JRegistry $input = null)
+	protected function validateField(SimpleXMLElement $element, $group = null, $value = null, Registry $input = null)
 	{
 		$valid = true;
 
@@ -1946,7 +2054,7 @@ class JForm
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @see JFormHelper::addRulePath()
+	 * @see     JFormHelper::addRulePath()
 	 * @since   11.1
 	 */
 	public static function addRulePath($new = null)
@@ -2154,7 +2262,7 @@ class JForm
 	/**
 	 * Getter for the form data
 	 *
-	 * @return   JRegistry  Object with the data
+	 * @return   Registry  Object with the data
 	 *
 	 * @since    3.2
 	 */

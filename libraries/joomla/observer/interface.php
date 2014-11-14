@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Observer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,10 +41,8 @@ defined('JPATH_PLATFORM') or die;
  * JObserverMapper::addObserverClassToClass('ObserverClassname', 'ObservableClassname', array('paramName' => 'paramValue'));
  * where the last array will be provided to the observer instanciator function createObserver.
  *
- * @package     Joomla
- * @subpackage  Observer
- * @link        http://docs.joomla.org/JObserverInterface
- * @since       3.1.2
+ * @link   http://docs.joomla.org/JObserverInterface
+ * @since  3.1.2
  */
 interface JObserverInterface
 {
@@ -55,6 +53,8 @@ interface JObserverInterface
 	 * @param   array                 $params            Params for this observer
 	 *
 	 * @return  JObserverInterface
+	 *
+	 * @since   3.1.2
 	 */
 	public static function createObserver(JObservableInterface $observableObject, $params = array());
 }

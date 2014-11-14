@@ -1,0 +1,77 @@
+{
+	"anonymous_pro": {
+		"name": "Anonymous Pro",
+		"url": "http://fonts.googleapis.com/css?family=Anonymous+Pro",
+		"css": "'Anonymous Pro', monospace"
+	},
+	"cousine": {
+		"name": "Cousine",
+		"url": "//fonts.googleapis.com/css?family=Cousine",
+		"css": "Cousine, monospace"
+	},
+	"cutive_mono": {
+		"name": "Cutive Mono",
+		"url": "//fonts.googleapis.com/css?family=Cutive+Mono",
+		"css": "'Cutive Mono', monospace"
+	},
+	"droid_sans_mono": {
+		"name": "Droid Sans Mono",
+		"url": "//fonts.googleapis.com/css?family=Droid+Sans+Mono",
+		"css": "'Droid Sans Mono', monospace"
+	},
+	"fira_mono": {
+		"name": "Fira Mono",
+		"url": "//fonts.googleapis.com/css?family=Fira+Mono",
+		"css": "'Fira Mono', monospace"
+	},
+	"inconsolata": {
+		"name": "Inconsolata",
+		"url": "//fonts.googleapis.com/css?family=Inconsolata",
+		"css": "Inconsolata, monospace"
+	},
+	"lekton": {
+		"name": "Lekton",
+		"url": "//fonts.googleapis.com/css?family=Lekton",
+		"css": "Lekton, monospace"
+	},
+	"nova_mono": {
+		"name": "Nova Mono",
+		"url": "//fonts.googleapis.com/css?family=Nova+Mono",
+		"css": "'Nova Mono', monospace"
+	},
+	"oxygen_mono": {
+		"name": "Oxygen Mono",
+		"url": "//fonts.googleapis.com/css?family=Oxygen+Mono",
+		"css": "'Oxygen Mono', monospace"
+	},
+	"press_start_2p": {
+		"name": "Press Start 2P",
+		"url": "//fonts.googleapis.com/css?family=Press+Start+2P",
+		"css": "'Press Start 2P', monospace"
+	},
+	"pt_mono": {
+		"name": "PT Mono",
+		"url": "//fonts.googleapis.com/css?family=PT+Mono",
+		"css": "'PT Mono', monospace"
+	},
+	"share_tech_mono": {
+		"name": "Share Tech Mono",
+		"url": "//fonts.googleapis.com/css?family=Share+Tech+Mono",
+		"css": "'Share Tech Mono', monospace"
+	},
+	"source_code_pro": {
+		"name": "Source Code Pro",
+		"url": "//fonts.googleapis.com/css?family=Source+Code+Pro",
+		"css": "'Source Code Pro', monospace"
+	},
+	"ubuntu_mono": {
+		"name": "Ubuntu Mono",
+		"url": "//fonts.googleapis.com/css?family=Ubuntu+Mono",
+		"css": "'Ubuntu Mono', monospace"
+	},
+	"vt323": {
+		"name": "VT323",
+		"url": "//fonts.googleapis.com/css?family=VT323",
+		"css": "'VT323', monospace"
+	}
+}

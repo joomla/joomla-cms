@@ -21,7 +21,6 @@ class JFeedLinkTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedLink::__construct
 	 * @since   12.3
 	 */
 	public function testConstruct()
@@ -41,12 +40,11 @@ class JFeedLinkTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeedLink::__construct
 	 * @expectedException  InvalidArgumentException
 	 * @since              12.3
 	 */
 	public function testConstructWithInvalidLength()
 	{
-		$link = new JFeedLink('URI', 'self', 'application/x-pdf', 'en-GB', 'My Link', 'foobar');
+		new JFeedLink('URI', 'self', 'application/x-pdf', 'en-GB', 'My Link', 'foobar');
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,25 +12,29 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Feed Parser class.
  *
- * @package     Joomla.Platform
- * @subpackage  Feed
- * @since       12.3
+ * @since  12.3
  */
 abstract class JFeedParser
 {
 	/**
-	 * @var    string  The feed element name for the entry elements.
+	 * The feed element name for the entry elements.
+	 *
+	 * @var    string
 	 * @since  12.3
 	 */
 	protected $entryElementName = 'entry';
 
 	/**
+	 * Array of JFeedParserNamespace objects
+	 *
 	 * @var    array
 	 * @since  12.3
 	 */
 	protected $namespaces = array();
 
 	/**
+	 * The XMLReader stream object for the feed.
+	 *
 	 * @var    XMLReader
 	 * @since  12.3
 	 */
@@ -97,6 +101,7 @@ abstract class JFeedParser
 			// Skip over this element's children since it has been processed.
 			$this->moveToClosingElement();
 		}
+
 		while ($this->moveToNextElement());
 
 		return $feed;

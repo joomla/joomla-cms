@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,9 +18,7 @@ const JROUTER_MODE_SEF = 1;
 /**
  * Class to create and parse routes
  *
- * @package     Joomla.Libraries
- * @subpackage  Router
- * @since       1.5
+ * @since  1.5
  */
 class JRouter
 {
@@ -80,6 +78,14 @@ class JRouter
 		'build' => array(),
 		'parse' => array()
 	);
+
+	/**
+	 * Caching of processed URIs
+	 *
+	 * @var    array
+	 * @since  3.3
+	 */
+	protected $cache = array();
 
 	/**
 	 * JRouter instances container.
@@ -190,7 +196,7 @@ class JRouter
 	/**
 	 * Function to convert an internal URI to a route
 	 *
-	 * @param   string  $url  The internal URL
+	 * @param   string  $url  The internal URL or an associative array
 	 *
 	 * @return  string  The absolute search engine friendly URL
 	 *
@@ -198,8 +204,15 @@ class JRouter
 	 */
 	public function build($url)
 	{
+		$key = md5(serialize($url));
+
+		if (isset($this->cache[$key]))
+		{
+			return clone $this->cache[$key];
+		}
+
 		// Create the URI object
-		$uri = $this->_createURI($url);
+		$uri = $this->createURI($url);
 
 		// Process the uri information based on custom defined rules
 		$this->_processBuildRules($uri);
@@ -215,6 +228,8 @@ class JRouter
 		{
 			$this->_buildSefRoute($uri);
 		}
+
+		$this->cache[$key] = clone $uri;
 
 		return $uri;
 	}
@@ -367,13 +382,13 @@ class JRouter
 	 *
 	 * @param   JUri  &$uri  The raw route
 	 *
-	 * @return  boolean
+	 * @return  array  Array of variables
 	 *
 	 * @since   3.2
 	 */
 	protected function parseRawRoute(&$uri)
 	{
-		return false;
+		return array();
 	}
 
 	/**
@@ -396,13 +411,13 @@ class JRouter
 	 *
 	 * @param   JUri  &$uri  The sef URI
 	 *
-	 * @return  string  Internal URI
+	 * @return  array  Array of variables
 	 *
 	 * @since   3.2
 	 */
 	protected function parseSefRoute(&$uri)
 	{
-		return false;
+		return array();
 	}
 
 	/**
@@ -538,6 +553,7 @@ class JRouter
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  Use createURI() instead
+	 * @codeCoverageIgnore
 	 */
 	protected function _createURI($url)
 	{
@@ -547,7 +563,7 @@ class JRouter
 	/**
 	 * Create a uri based on a full or partial url string
 	 *
-	 * @param   string  $url  The URI
+	 * @param   string  $url  The URI or an associative array
 	 *
 	 * @return  JUri
 	 *
@@ -555,8 +571,14 @@ class JRouter
 	 */
 	protected function createURI($url)
 	{
-		// Create full URL if we are only appending variables to it
-		if (substr($url, 0, 1) == '&')
+		if (!is_array($url) && substr($url, 0, 1) != '&')
+		{
+			return new JUri($url);
+		}
+
+		$uri = new JUri('index.php');
+
+		if (is_string($url))
 		{
 			$vars = array();
 
@@ -566,22 +588,25 @@ class JRouter
 			}
 
 			parse_str($url, $vars);
-
-			$vars = array_merge($this->getVars(), $vars);
-
-			foreach ($vars as $key => $var)
-			{
-				if ($var == "")
-				{
-					unset($vars[$key]);
-				}
-			}
-
-			$url = 'index.php?' . JUri::buildQuery($vars);
+		}
+		else
+		{
+			$vars = $url;
 		}
 
-		// Decompose link into url component parts
-		return new JUri($url);
+		$vars = array_merge($this->getVars(), $vars);
+
+		foreach ($vars as $key => $var)
+		{
+			if ($var == "")
+			{
+				unset($vars[$key]);
+			}
+		}
+
+		$uri->setQuery($vars);
+
+		return $uri;
 	}
 
 	/**
@@ -592,7 +617,8 @@ class JRouter
 	 * @return  array  Array of encoded route segments
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use encodeSegments() instead
+	 * @deprecated  4.0  This should be performed in the component router instead
+	 * @codeCoverageIgnore
 	 */
 	protected function _encodeSegments($segments)
 	{
@@ -607,6 +633,7 @@ class JRouter
 	 * @return  array  Array of encoded route segments
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  This should be performed in the component router instead
 	 */
 	protected function encodeSegments($segments)
 	{
@@ -628,7 +655,8 @@ class JRouter
 	 * @return  array  Array of decoded route segments
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use decodeSegments() instead
+	 * @deprecated  4.0  This should be performed in the component router instead
+	 * @codeCoverageIgnore
 	 */
 	protected function _decodeSegments($segments)
 	{
@@ -643,6 +671,7 @@ class JRouter
 	 * @return  array  Array of decoded route segments
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  This should be performed in the component router instead
 	 */
 	protected function decodeSegments($segments)
 	{

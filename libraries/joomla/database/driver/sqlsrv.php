@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQL Server database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
- * @since       12.1
+ * @see    http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
+ * @since  12.1
  */
 class JDatabaseDriverSqlsrv extends JDatabaseDriver
 {
@@ -575,7 +573,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
 
-		if ($this->limit > 0 || $this->offset > 0)
+		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$query = $this->limit($query, $this->limit, $this->offset);
 		}
@@ -614,6 +612,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
+
 			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -1002,6 +1001,14 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	protected function limit($query, $limit, $offset)
 	{
+		if ($limit == 0 && $offset == 0)
+		{
+			return $query;
+		}
+
+		$start = $offset + 1;
+		$end   = $offset + $limit;
+
 		$orderBy = stristr($query, 'ORDER BY');
 
 		if (is_null($orderBy) || empty($orderBy))
@@ -1011,10 +1018,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		$query = str_ireplace($orderBy, '', $query);
 
-		$rowNumberText = ',ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
+		$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
 
-		$query = preg_replace('/\\s+FROM/', '\\1 ' . $rowNumberText . ' ', $query, 1);
-		$query = 'SELECT TOP ' . $this->limit . ' * FROM (' . $query . ') _myResults WHERE RowNumber > ' . $this->offset . ' ORDER BY RowNumber';
+		$query = preg_replace('/\sFROM\s/i', $rowNumberText, $query, 1);
+		$query = 'SELECT * FROM (' . $query . ') _myResults WHERE RowNumber BETWEEN ' . $start . ' AND ' . $end;
 
 		return $query;
 	}
@@ -1040,6 +1047,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			$constraints = $this->getTableConstraints($oldTable);
 		}
+
 		if (!empty($constraints))
 		{
 			$this->renameConstraints($constraints, $prefix, $backup);

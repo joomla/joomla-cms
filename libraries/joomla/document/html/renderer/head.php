@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocument head renderer
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JDocumentRendererHead extends JDocumentRenderer
 {
@@ -33,12 +31,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 */
 	public function render($head, $params = array(), $content = null)
 	{
-		ob_start();
-		echo $this->fetchHead($this->_doc);
-		$buffer = ob_get_contents();
-		ob_end_clean();
-
-		return $buffer;
+		return $this->fetchHead($this->_doc);
 	}
 
 	/**
@@ -77,6 +70,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		// Generate base tag (need to happen early)
 		$base = $document->getBase();
+
 		if (!empty($base))
 		{
 			$buffer .= $tab . '<base href="' . $document->getBase() . '" />' . $lnEnd;
@@ -100,6 +94,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		// Don't add empty descriptions
 		$documentDescription = $document->getDescription();
+
 		if ($documentDescription)
 		{
 			$buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription) . '" />' . $lnEnd;
@@ -107,6 +102,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		// Don't add empty generators
 		$generator = $document->getGenerator();
+
 		if ($generator)
 		{
 			$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator) . '" />' . $lnEnd;
@@ -118,25 +114,35 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_links as $link => $linkAtrr)
 		{
 			$buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
+
 			if ($temp = JArrayHelper::toString($linkAtrr['attribs']))
 			{
 				$buffer .= ' ' . $temp;
 			}
+
 			$buffer .= ' />' . $lnEnd;
 		}
 
 		// Generate stylesheet links
 		foreach ($document->_styleSheets as $strSrc => $strAttr)
 		{
-			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '" type="' . $strAttr['mime'] . '"';
+			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '"';
+
+			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || $strAttr['mime'] != 'text/css'))
+			{
+				$buffer .= ' type="' . $strAttr['mime'] . '"';
+			}
+
 			if (!is_null($strAttr['media']))
 			{
-				$buffer .= ' media="' . $strAttr['media'] . '" ';
+				$buffer .= ' media="' . $strAttr['media'] . '"';
 			}
+
 			if ($temp = JArrayHelper::toString($strAttr['attribs']))
 			{
 				$buffer .= ' ' . $temp;
 			}
+
 			$buffer .= $tagEnd . $lnEnd;
 		}
 
@@ -148,7 +154,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			// This is for full XHTML support.
 			if ($document->_mime != 'text/html')
 			{
-				$buffer .= $tab . $tab . '<![CDATA[' . $lnEnd;
+				$buffer .= $tab . $tab . '/*<![CDATA[*/' . $lnEnd;
 			}
 
 			$buffer .= $content . $lnEnd;
@@ -156,8 +162,9 @@ class JDocumentRendererHead extends JDocumentRenderer
 			// See above note
 			if ($document->_mime != 'text/html')
 			{
-				$buffer .= $tab . $tab . ']]>' . $lnEnd;
+				$buffer .= $tab . $tab . '/*]]>*/' . $lnEnd;
 			}
+
 			$buffer .= $tab . '</style>' . $lnEnd;
 		}
 
@@ -165,18 +172,25 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_scripts as $strSrc => $strAttr)
 		{
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
-			if (!is_null($strAttr['mime']))
+			$defaultMimes = array(
+				'text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript'
+			);
+
+			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultMimes)))
 			{
 				$buffer .= ' type="' . $strAttr['mime'] . '"';
 			}
+
 			if ($strAttr['defer'])
 			{
 				$buffer .= ' defer="defer"';
 			}
+
 			if ($strAttr['async'])
 			{
 				$buffer .= ' async="async"';
 			}
+
 			$buffer .= '></script>' . $lnEnd;
 		}
 
@@ -188,7 +202,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			// This is for full XHTML support.
 			if ($document->_mime != 'text/html')
 			{
-				$buffer .= $tab . $tab . '<![CDATA[' . $lnEnd;
+				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
 			}
 
 			$buffer .= $content . $lnEnd;
@@ -196,8 +210,9 @@ class JDocumentRendererHead extends JDocumentRenderer
 			// See above note
 			if ($document->_mime != 'text/html')
 			{
-				$buffer .= $tab . $tab . ']]>' . $lnEnd;
+				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
 			}
+
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
@@ -205,6 +220,12 @@ class JDocumentRendererHead extends JDocumentRenderer
 		if (count(JText::script()))
 		{
 			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
+
+			if ($document->_mime != 'text/html')
+			{
+				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
+			}
+
 			$buffer .= $tab . $tab . '(function() {' . $lnEnd;
 			$buffer .= $tab . $tab . $tab . 'var strings = ' . json_encode(JText::script()) . ';' . $lnEnd;
 			$buffer .= $tab . $tab . $tab . 'if (typeof Joomla == \'undefined\') {' . $lnEnd;
@@ -215,6 +236,12 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$buffer .= $tab . $tab . $tab . $tab . 'Joomla.JText.load(strings);' . $lnEnd;
 			$buffer .= $tab . $tab . $tab . '}' . $lnEnd;
 			$buffer .= $tab . $tab . '})();' . $lnEnd;
+
+			if ($document->_mime != 'text/html')
+			{
+				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
+			}
+
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 

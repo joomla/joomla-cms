@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,9 +17,7 @@ JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 /**
  * Prototype adapter class for the Finder indexer package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 abstract class FinderIndexerAdapter extends JPlugin
 {
@@ -167,7 +165,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	public function onStartIndex()
 	{
-
 		// Get the indexer state.
 		$iState = FinderIndexer::getState();
 
@@ -323,6 +320,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Run the setup method.
 		$this->setup();
 
+		// Remove the old item.
+		$this->remove($id);
+
 		// Get the item.
 		$item = $this->getItem($id);
 
@@ -389,7 +389,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function categoryAccessChange($row)
 	{
-		$query = clone($this->getStateQuery());
+		$query = clone $this->getStateQuery();
 		$query->where('c.id = ' . (int) $row->id);
 
 		// Get the access level.
@@ -429,7 +429,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		 */
 		foreach ($pks as $pk)
 		{
-			$query = clone($this->getStateQuery());
+			$query = clone $this->getStateQuery();
 			$query->where('c.id = ' . (int) $pk);
 
 			// Get the published states.
@@ -517,7 +517,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Tweak the SQL query to make the total lookup faster.
 		if ($query instanceof JDatabaseQuery)
 		{
-			$query = clone($query);
+			$query = clone $query;
 			$query->clear('select')
 				->select('COUNT(*)')
 				->clear('order');
@@ -809,7 +809,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function itemAccessChange($row)
 	{
-		$query = clone($this->getStateQuery());
+		$query = clone $this->getStateQuery();
 		$query->where('a.id = ' . (int) $row->id);
 
 		// Get the access level.
@@ -842,7 +842,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		 */
 		foreach ($pks as $pk)
 		{
-			$query = clone($this->getStateQuery());
+			$query = clone $this->getStateQuery();
 			$query->where('a.id = ' . (int) $pk);
 
 			// Get the published states.
@@ -878,7 +878,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 			if ($this->getPluginType($pk) == strtolower($this->context))
 			{
 				// Get all of the items to unindex them
-				$query = clone($this->getStateQuery());
+				$query = clone $this->getStateQuery();
 				$this->db->setQuery($query);
 				$items = $this->db->loadColumn();
 

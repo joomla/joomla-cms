@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,8 +28,6 @@ const JERROR_ILLEGAL_MODE = 3;
  * - Sebastian Mordziol	<argh@php-tools.net>
  * - Stephan Schmidt		<scst@php-tools.net>
  *
- * @package     Joomla.Legacy
- * @subpackage  Error
  * @since       11.1
  * @deprecated  12.1 (Platform) & 4.0 (CMS) - Use PHP Exception
  */
@@ -53,12 +51,23 @@ abstract class JError
 	 */
 	protected static $levels = array(E_NOTICE => 'Notice', E_WARNING => 'Warning', E_ERROR => 'Error');
 
+	/**
+	 * Array of message handlers
+	 * @var    array
+	 * @since  11.1
+	 */
 	protected static $handlers = array(
 		E_NOTICE => array('mode' => 'ignore'),
 		E_WARNING => array('mode' => 'ignore'),
 		E_ERROR => array('mode' => 'ignore')
 	);
 
+	/**
+	 * Array containing the error stack
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
 	protected static $stack = array();
 
 	/**
@@ -105,6 +114,7 @@ abstract class JError
 		{
 			$error = &self::$stack[0];
 		}
+
 		return $error;
 	}
 
@@ -165,6 +175,7 @@ abstract class JError
 
 		// Build error object
 		$exception = new JException($msg, $code, $level, $info, $backtrace);
+
 		return self::throwError($exception);
 	}
 
@@ -201,6 +212,7 @@ abstract class JError
 		$handler = self::getErrorHandling($level);
 
 		$function = 'handle' . ucfirst($handler['mode']);
+
 		if (is_callable(array('JError', $function)))
 		{
 			$reference = call_user_func_array(array('JError', $function), array(&$exception, (isset($handler['options'])) ? $handler['options'] : array()));
@@ -232,7 +244,7 @@ abstract class JError
 	 * @return  object  $error  The configured JError object
 	 *
 	 * @deprecated   12.1       Use PHP Exception
-	 * @see        raise()
+	 * @see        JError::raise()
 	 * @since   11.1
 	 */
 	public static function raiseError($code, $msg, $info = null)
@@ -255,8 +267,7 @@ abstract class JError
 	 * @return  object  The configured JError object
 	 *
 	 * @deprecated  12.1  Use PHP Exception
-	 * @see        JError
-	 * @see        raise()
+	 * @see        JError::raise()
 	 * @since      11.1
 	 */
 	public static function raiseWarning($code, $msg, $info = null)
@@ -365,6 +376,7 @@ abstract class JError
 				if (!is_callable($options))
 				{
 					$tmp = array('GLOBAL');
+
 					if (is_array($options))
 					{
 						$tmp[0] = $options[0];
@@ -386,6 +398,7 @@ abstract class JError
 
 			// Save settings
 			self::$handlers[$eLevel] = array('mode' => $mode);
+
 			if ($options != null)
 			{
 				self::$handlers[$eLevel]['options'] = $options;
@@ -493,7 +506,7 @@ abstract class JError
 	 * @return  object   The exception object
 	 *
 	 * @deprecated  12.1
-	 * @see     raise()
+	 * @see     JError::raise()
 	 * @since   11.1
 	 */
 	public static function handleIgnore(&$error, $options)
@@ -513,7 +526,7 @@ abstract class JError
 	 * @return  object  The exception object
 	 *
 	 * @deprecated  12.1
-	 * @see         raise()
+	 * @see         JError::raise()
 	 * @since       11.1
 	 */
 	public static function handleEcho(&$error, $options)
@@ -527,6 +540,7 @@ abstract class JError
 		{
 			$backtrace = $error->getTrace();
 			$trace = '';
+
 			for ($i = count($backtrace) - 1; $i >= 0; $i--)
 			{
 				if (isset($backtrace[$i]['class']))
@@ -558,6 +572,7 @@ abstract class JError
 			if (defined('STDERR'))
 			{
 				fwrite(STDERR, "J$level_human: " . $error->get('message') . "\n");
+
 				if (defined('JDEBUG'))
 				{
 					fwrite(STDERR, $trace);
@@ -566,6 +581,7 @@ abstract class JError
 			else
 			{
 				echo "J$level_human: " . $error->get('message') . "\n";
+
 				if (defined('JDEBUG'))
 				{
 					echo $trace;
@@ -586,7 +602,7 @@ abstract class JError
 	 * @return  object  The exception object
 	 *
 	 * @deprecated  12.1
-	 * @see         raise()
+	 * @see         JError::raise()
 	 * @since       11.1
 	 */
 	public static function handleVerbose(&$error, $options)
@@ -612,11 +628,11 @@ abstract class JError
 		{
 			// Output as simple text
 			echo "J$level_human: " . $error->get('message') . "\n";
+
 			if ($info != null)
 			{
 				echo "\t" . $info . "\n";
 			}
-
 		}
 
 		return $error;
@@ -632,7 +648,7 @@ abstract class JError
 	 * @return  object  The exception object
 	 *
 	 * @deprecated  12.1
-	 * @see         raise()
+	 * @see         JError::raise()
 	 * @since       11.1
 	 */
 	public static function handleDie(&$error, $options)
@@ -673,7 +689,7 @@ abstract class JError
 	 * @return  object  The exception object
 	 *
 	 * @deprecated  12.1
-	 * @see         raise()
+	 * @see         JError::raise()
 	 * @since       11.1
 	 */
 	public static function handleMessage(&$error, $options)
@@ -697,7 +713,7 @@ abstract class JError
 	 * @return  object  The exception object
 	 *
 	 * @deprecated  12.1
-	 * @see         raise()
+	 * @see         JError::raise()
 	 * @since       11.1
 	 */
 	public static function handleLog(&$error, $options)
@@ -734,7 +750,7 @@ abstract class JError
 	 * @return  object  The exception object
 	 *
 	 * @deprecated  12.1
-	 * @see         raise()
+	 * @see         JError::raise()
 	 * @since       11.1
 	 */
 	public static function handleCallback(&$error, $options)
@@ -760,6 +776,7 @@ abstract class JError
 
 		$app = JFactory::getApplication();
 		$document = JDocument::getInstance('error');
+
 		if ($document)
 		{
 			$config = JFactory::getConfig();
@@ -788,10 +805,10 @@ abstract class JError
 			else
 			{
 				// Do not allow cache
-				JResponse::allowCache(false);
+				$app->allowCache(false);
 
-				JResponse::setBody($data);
-				echo JResponse::toString();
+				$app->setBody($data);
+				echo $app->toString();
 			}
 		}
 		else
@@ -800,6 +817,7 @@ abstract class JError
 			// This is a common use case for Command Line Interface applications.
 			self::handleEcho($error, array());
 		}
+
 		$app->close(0);
 	}
 
