@@ -616,7 +616,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			break;
 
 			case 'jquery':
-			$output .= "$(document).ready({$onload});";
+			$output .= "jQuery(document).ready({$onload});";
 			break;
 
 			case 'mootools':
