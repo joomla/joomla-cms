@@ -136,7 +136,7 @@ class TagsHelperRoute extends JHelperRoute
 						{
 							self::$lookup[$lang] = array();
 						}
-						
+
 						$view = $item->query['view'];
 
 						if (!isset(self::$lookup[$lang][$view]))
