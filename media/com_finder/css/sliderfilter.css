@@ -5,17 +5,14 @@
 	overflow: auto;
 }
 
-.checklist {
+.checklist,
+#branch-selectors {
 	border: 1px solid #ccc;
 	height: 220px;
 	overflow: auto;
 	width: 220px;
 	float: left;
 	margin: 0;
-}
-
-#branch-selectors {
-	display:none;
 }
 
 #finder-filter-window dl {
@@ -26,9 +23,6 @@
 
 .checklist {
 	border-left-width: 0;
-}
-dl.checklist {
-	border: 1px solid #ccc;
 }
 
 #filter_lists div {
