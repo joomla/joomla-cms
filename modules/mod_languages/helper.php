@@ -51,7 +51,7 @@ abstract class ModLanguagesHelper
 		$lang_codes		= JLanguageHelper::getLanguages('lang_code');
 		$default_lang 	= JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 		$default_sef 	= $lang_codes[$default_lang]->sef;
-		
+
 		// Get menu home items
 		$homes = array();
 
