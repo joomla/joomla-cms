@@ -37,6 +37,7 @@ abstract class ModLanguagesHelper
 
 		// Get parameters from the Language Filter Plugin and check if "Remove URL Language Code" is set
 		$languagefilter = JPluginHelper::getPlugin('system', 'languagefilter');
+
 		// TODO: below, also check if the plugin is enabled. I have to find out how...
 		if (is_object($languagefilter))
 		{
