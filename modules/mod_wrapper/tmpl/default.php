@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-?>
-<script type="text/javascript">
+
+JFactory::getDocument()->addScriptDeclaration("
 	function iFrameHeight()
 	{
 		var h = 0;
@@ -23,8 +23,8 @@ defined('_JEXEC') or die;
 			document.all.blockrandom.style.height = h + 20 + 'px';
 		}
 	}
-</script>
-
+");
+?>
 <iframe <?php echo $load; ?>
 	id="blockrandom"
 	name="<?php echo $target; ?>"
