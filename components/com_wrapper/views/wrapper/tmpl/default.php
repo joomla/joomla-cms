@@ -15,7 +15,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		var h = 0;
 		if (!document.all)
 		{
-			h = document.getElementById('blockrandom').contentDocument.height;
+			h = document.getElementById('blockrandom').height;
 			document.getElementById('blockrandom').style.height = h + 60 + 'px';
 		} else if (document.all)
 		{
