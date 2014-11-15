@@ -1,10 +1,11 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  inflector
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * The FOFInflector is an adaptation of the Akelos PHP Inflector which is a PHP
@@ -30,25 +31,36 @@ class FOFInflector
 			'/move$/i'                      => 'moves',
 			'/sex$/i'                       => 'sexes',
 			'/child$/i'                     => 'children',
+			'/children$/i'                  => 'children',
 			'/man$/i'                       => 'men',
+			'/men$/i'                       => 'men',
 			'/foot$/i'                      => 'feet',
+			'/feet$/i'                      => 'feet',
 			'/person$/i'                    => 'people',
+			'/people$/i'                    => 'people',
 			'/taxon$/i'                     => 'taxa',
+			'/taxa$/i'                      => 'taxa',
 			'/(quiz)$/i'                    => '$1zes',
 			'/^(ox)$/i'                     => '$1en',
+			'/oxen$/i'                      => 'oxen',
 			'/(m|l)ouse$/i'                 => '$1ice',
+			'/(m|l)ice$/i'                  => '$1ice',
 			'/(matr|vert|ind|suff)ix|ex$/i' => '$1ices',
 			'/(x|ch|ss|sh)$/i'              => '$1es',
 			'/([^aeiouy]|qu)y$/i'           => '$1ies',
 			'/(?:([^f])fe|([lr])f)$/i'      => '$1$2ves',
 			'/sis$/i'                       => 'ses',
 			'/([ti]|addend)um$/i'           => '$1a',
+			'/([ti]|addend)a$/i'            => '$1a',
 			'/(alumn|formul)a$/i'           => '$1ae',
+			'/(alumn|formul)ae$/i'          => '$1ae',
 			'/(buffal|tomat|her)o$/i'       => '$1oes',
 			'/(bu)s$/i'                     => '$1ses',
 			'/(alias|status)$/i'            => '$1es',
 			'/(octop|vir)us$/i'             => '$1i',
+			'/(octop|vir)i$/i'              => '$1i',
 			'/(gen)us$/i'                   => '$1era',
+			'/(gen)era$/i'                  => '$1era',
 			'/(ax|test)is$/i'               => '$1es',
 			'/s$/i'                         => 's',
 			'/$/'                           => 's',
@@ -63,22 +75,27 @@ class FOFInflector
 			'/people$/i'                                                       => 'person',
 			'/taxa$/i'                                                         => 'taxon',
 			'/databases$/i'                                                    => 'database',
+      '/menus$/i'                                                        => 'menu',
 			'/(quiz)zes$/i'                                                    => '\1',
 			'/(matr|suff)ices$/i'                                              => '\1ix',
-			'/(vert|ind)ices$/i'                                               => '\1ex',
+			'/(vert|ind|cod)ices$/i'                                           => '\1ex',
 			'/^(ox)en/i'                                                       => '\1',
 			'/(alias|status)es$/i'                                             => '\1',
 			'/(tomato|hero|buffalo)es$/i'                                      => '\1',
 			'/([octop|vir])i$/i'                                               => '\1us',
 			'/(gen)era$/i'                                                     => '\1us',
 			'/(cris|^ax|test)es$/i'                                            => '\1is',
+			'/is$/i'                                                           => 'is',
+			'/us$/i'                                                           => 'us',
+			'/ias$/i'                                                          => 'ias',
 			'/(shoe)s$/i'                                                      => '\1',
-			'/(o)es$/i'                                                        => '\1',
+			'/(o)es$/i'                                                        => '\1e',
 			'/(bus)es$/i'                                                      => '\1',
 			'/([m|l])ice$/i'                                                   => '\1ouse',
 			'/(x|ch|ss|sh)es$/i'                                               => '\1',
 			'/(m)ovies$/i'                                                     => '\1ovie',
 			'/(s)eries$/i'                                                     => '\1eries',
+			'/(v)ies$/i'                                                       => '\1ie',
 			'/([^aeiouy]|qu)ies$/i'                                            => '\1y',
 			'/([lr])ves$/i'                                                    => '\1f',
 			'/(tive)s$/i'                                                      => '\1',
@@ -122,10 +139,16 @@ class FOFInflector
 	/**
 	 * Constructor
 	 *
-	 * Prevent creating instances of this class by making the contructor private
+	 * Prevent creating instances of this class by making the constructor private
 	 */
 	private function __construct()
 	{
+	}
+
+	public static function deleteCache()
+	{
+		static::$_cache['pluralized'] = array();
+		static::$_cache['singularized'] = array();
 	}
 
 	/**
@@ -138,8 +161,8 @@ class FOFInflector
 	 */
 	public static function addWord($singular, $plural)
 	{
-		self::$_cache['pluralized'][$singular] = $plural;
-		self::$_cache['singularized'][$plural] = $singular;
+		static::$_cache['pluralized'][$singular] = $plural;
+		static::$_cache['singularized'][$plural] = $singular;
 	}
 
 	/**
@@ -152,15 +175,15 @@ class FOFInflector
 	public static function pluralize($word)
 	{
 		// Get the cached noun of it exists
-		if (isset(self::$_cache['pluralized'][$word]))
+		if (isset(static::$_cache['pluralized'][$word]))
 		{
-			return self::$_cache['pluralized'][$word];
+			return static::$_cache['pluralized'][$word];
 		}
 
 		// Create the plural noun
 		if (in_array($word, self::$_rules['countable']))
 		{
-			$_cache['pluralized'][$word] = $word;
+			static::$_cache['pluralized'][$word] = $word;
 
 			return $word;
 		}
@@ -172,13 +195,15 @@ class FOFInflector
 
 			if ($matches > 0)
 			{
-				$_cache['pluralized'][$word] = $plural;
+				static::$_cache['pluralized'][$word] = $plural;
 
 				return $plural;
 			}
 		}
 
-		return $word;
+		static::$_cache['pluralized'][$word] = $word;
+
+		return static::$_cache['pluralized'][$word];
 	}
 
 	/**
@@ -191,15 +216,15 @@ class FOFInflector
 	public static function singularize($word)
 	{
 		// Get the cached noun of it exists
-		if (isset(self::$_cache['singularized'][$word]))
+		if (isset(static::$_cache['singularized'][$word]))
 		{
-			return self::$_cache['singularized'][$word];
+			return static::$_cache['singularized'][$word];
 		}
 
 		// Create the singular noun
 		if (in_array($word, self::$_rules['countable']))
 		{
-			$_cache['singularized'][$word] = $word;
+			static::$_cache['singularized'][$word] = $word;
 
 			return $word;
 		}
@@ -211,13 +236,15 @@ class FOFInflector
 
 			if ($matches > 0)
 			{
-				$_cache['singularized'][$word] = $singular;
+				static::$_cache['singularized'][$word] = $singular;
 
 				return $singular;
 			}
 		}
 
-		return $word;
+		static::$_cache['singularized'][$word] = $word;
+
+		return static::$_cache['singularized'][$word];
 	}
 
 	/**
@@ -374,8 +401,8 @@ class FOFInflector
 	public static function isSingular($string)
 	{
 		// Check cache assuming the string is plural.
-		$singular = isset(self::$_cache['singularized'][$string]) ? self::$_cache['singularized'][$string] : null;
-		$plural   = $singular && isset(self::$_cache['pluralized'][$singular]) ? self::$_cache['pluralized'][$singular] : null;
+		$singular = isset(static::$_cache['singularized'][$string]) ? static::$_cache['singularized'][$string] : null;
+		$plural   = $singular && isset(static::$_cache['pluralized'][$singular]) ? static::$_cache['pluralized'][$singular] : null;
 
 		if ($singular && $plural)
 		{
@@ -396,8 +423,8 @@ class FOFInflector
 	public static function isPlural($string)
 	{
 		// Check cache assuming the string is singular.
-		$plural   = isset(self::$_cache['pluralized'][$string]) ? self::$_cache['pluralized'][$string] : null;
-		$singular = $plural && isset(self::$_cache['singularized'][$plural]) ? self::$_cache['singularized'][$plural] : null;
+		$plural   = isset(static::$_cache['pluralized'][$string]) ? static::$_cache['pluralized'][$string] : null;
+		$singular = $plural && isset(static::$_cache['singularized'][$plural]) ? static::$_cache['singularized'][$plural] : null;
 
 		if ($plural && $singular)
 		{

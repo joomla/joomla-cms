@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Contenthistory list controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contenthistory
- * @since       3.2
+ * @since  3.2
  */
 class ContenthistoryControllerHistory extends JControllerAdmin
 {
@@ -30,7 +28,7 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
-		$cid       = $this->input->get('cid', array(), 'array');
+		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -78,9 +76,7 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 	 */
 	public function getModel($name = 'History', $prefix = 'ContenthistoryModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**

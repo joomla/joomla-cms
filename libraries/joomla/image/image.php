@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to manipulate an image.
  *
- * @package     Joomla.Platform
- * @subpackage  Image
- * @since       11.3
+ * @since  11.3
  */
 class JImage
 {
@@ -47,6 +45,12 @@ class JImage
 	 * @since  12.3
 	 */
 	const CROP_RESIZE = 5;
+
+	/**
+	 * @const  integer
+	 * @since  3.2
+	 */
+	const SCALE_FIT = 6;
 
 	/**
 	 * @var    resource  The image resource handle.
@@ -600,6 +604,16 @@ class JImage
 				}
 
 				$this->handle = $handle;
+
+				// Set transparency for non-transparent PNGs.
+				if (!$this->isTransparent())
+				{
+					// Assign to black which is default for transparent PNGs
+					$transparency = imagecolorallocatealpha($handle, 0, 0, 0, 127);
+
+					imagecolortransparent($handle, $transparency);
+				}
+
 				break;
 
 			default:
@@ -643,8 +657,30 @@ class JImage
 		// Prepare the dimensions for the resize operation.
 		$dimensions = $this->prepareDimensions($width, $height, $scaleMethod);
 
-		// Create the new truecolor image handle.
-		$handle = imagecreatetruecolor($dimensions->width, $dimensions->height);
+		// Instantiate offset.
+		$offset = new stdClass;
+		$offset->x = $offset->y = 0;
+
+		// Center image if needed and create the new truecolor image handle.
+		if ($scaleMethod == self::SCALE_FIT)
+		{
+			// Get the offsets
+			$offset->x	= round(($width - $dimensions->width) / 2);
+			$offset->y	= round(($height - $dimensions->height) / 2);
+
+			$handle = imagecreatetruecolor($width, $height);
+
+			// Make image transparent, otherwise cavas outside initial image would default to black
+			if (!$this->isTransparent())
+			{
+				$transparency = imagecolorAllocateAlpha($this->handle, 0, 0, 0, 127);
+				imagecolorTransparent($this->handle, $transparency);
+			}
+		}
+		else
+		{
+			$handle = imagecreatetruecolor($dimensions->width, $dimensions->height);
+		}
 
 		// Allow transparency for the new image handle.
 		imagealphablending($handle, false);
@@ -654,17 +690,39 @@ class JImage
 		{
 			// Get the transparent color values for the current image.
 			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
-			$color = imageColorAllocate($this->handle, $rgba['red'], $rgba['green'], $rgba['blue']);
+			$color = imageColorAllocateAlpha($this->handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
 
-			imagecopyresized($handle, $this->handle, 0, 0, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
+			imagecopyresized(
+				$handle,
+				$this->handle,
+				$offset->x,
+				$offset->y,
+				0,
+				0,
+				$dimensions->width,
+				$dimensions->height,
+				$this->getWidth(),
+				$this->getHeight()
+			);
 		}
 		else
 		{
-			imagecopyresampled($handle, $this->handle, 0, 0, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
+			imagecopyresampled(
+				$handle,
+				$this->handle,
+				$offset->x,
+				$offset->y,
+				0,
+				0,
+				$dimensions->width,
+				$dimensions->height,
+				$this->getWidth(),
+				$this->getHeight()
+			);
 		}
 
 		// If we are resizing to a new image, create a new JImage object.
@@ -695,7 +753,7 @@ class JImage
 	 *
 	 * @param   integer  $width      The desired width of the image in pixels or a percentage.
 	 * @param   integer  $height     The desired height of the image in pixels or a percentage.
-	 * @param   integer  $createNew  If true the current image will be cloned, resized, cropped and returned.
+	 * @param   boolean  $createNew  If true the current image will be cloned, resized, cropped and returned.
 	 *
 	 * @return  object  JImage Object for chaining.
 	 *
@@ -706,16 +764,19 @@ class JImage
 		$width   = $this->sanitizeWidth($width, $height);
 		$height  = $this->sanitizeHeight($height, $width);
 
+		$resizewidth = $width;
+		$resizeheight = $height;
+
 		if (($this->getWidth() / $width) < ($this->getHeight() / $height))
 		{
-			$this->resize($width, 0, false);
+			$resizeheight = 0;
 		}
 		else
 		{
-			$this->resize(0, $height, false);
+			$resizewidth = 0;
 		}
 
-		return $this->crop($width, $height, null, null, $createNew);
+		return $this->resize($resizewidth, $resizeheight, $createNew)->crop($width, $height, null, null, false);
 	}
 
 	/**
@@ -745,9 +806,15 @@ class JImage
 		// Create the new truecolor image handle.
 		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
 
-		// Allow transparency for the new image handle.
-		imagealphablending($handle, false);
-		imagesavealpha($handle, true);
+		// Make background transparent if no external background color is provided.
+		if ($background == -1)
+		{
+			// Allow transparency for the new image handle.
+			imagealphablending($handle, false);
+			imagesavealpha($handle, true);
+
+			$background = imagecolorallocatealpha($handle, 0, 0, 0, 127);
+		}
 
 		// Copy the image
 		imagecopy($handle, $this->handle, 0, 0, 0, 0, $this->getWidth(), $this->getHeight());
@@ -880,16 +947,17 @@ class JImage
 
 			case self::SCALE_INSIDE:
 			case self::SCALE_OUTSIDE:
+			case self::SCALE_FIT:
 				$rx = ($width > 0) ? ($this->getWidth() / $width) : 0;
 				$ry = ($height > 0) ? ($this->getHeight() / $height) : 0;
 
-				if ($scaleMethod == self::SCALE_INSIDE)
+				if ($scaleMethod != self::SCALE_OUTSIDE)
 				{
-					$ratio = ($rx > $ry) ? $rx : $ry;
+					$ratio = max($rx, $ry);
 				}
 				else
 				{
-					$ratio = ($rx < $ry) ? $rx : $ry;
+					$ratio = min($rx, $ry);
 				}
 
 				$dimensions->width = (int) round($this->getWidth() / $ratio);

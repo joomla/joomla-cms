@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ jimport('joomla.base.adapterinstance');
 /**
  * UpdateAdapter class.
  *
- * @package     Joomla.Platform
- * @subpackage  Updater
- * @since       11.1
+ * @since  11.1
  */
 class JUpdateAdapter extends JAdapterInstance
 {

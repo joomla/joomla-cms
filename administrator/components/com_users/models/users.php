@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of user records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelUsers extends JModelList
 {
@@ -40,6 +38,10 @@ class UsersModelUsers extends JModelList
 				'registerDate', 'a.registerDate',
 				'lastvisitDate', 'a.lastvisitDate',
 				'activation', 'a.activation',
+				'active',
+				'group_id',
+				'range',
+				'state',
 			);
 		}
 
@@ -50,6 +52,9 @@ class UsersModelUsers extends JModelList
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -82,17 +87,21 @@ class UsersModelUsers extends JModelList
 		$this->setState('filter.range', $range);
 
 		$groups = json_decode(base64_decode($app->input->get('groups', '', 'BASE64')));
+
 		if (isset($groups))
 		{
 			JArrayHelper::toInteger($groups);
 		}
+
 		$this->setState('filter.groups', $groups);
 
 		$excluded = json_decode(base64_decode($app->input->get('excluded', '', 'BASE64')));
+
 		if (isset($excluded))
 		{
 			JArrayHelper::toInteger($excluded);
 		}
+
 		$this->setState('filter.excluded', $excluded);
 
 		// Load the parameters.
@@ -143,8 +152,9 @@ class UsersModelUsers extends JModelList
 		// Try to load the data from internal storage.
 		if (empty($this->cache[$store]))
 		{
-			$groups = $this->getState('filter.groups');
+			$groups  = $this->getState('filter.groups');
 			$groupId = $this->getState('filter.group_id');
+
 			if (isset($groups) && (empty($groups) || $groupId && !in_array($groupId, $groups)))
 			{
 				$items = array();
@@ -167,6 +177,7 @@ class UsersModelUsers extends JModelList
 
 			// First pass: get list of the user id's and reset the counts.
 			$userIds = array();
+
 			foreach ($items as $item)
 			{
 				$userIds[] = (int) $item->id;
@@ -176,7 +187,7 @@ class UsersModelUsers extends JModelList
 			}
 
 			// Get the counts from the database only for the users in the list.
-			$db = $this->getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true);
 
 			// Join over the group mapping table.
@@ -197,6 +208,7 @@ class UsersModelUsers extends JModelList
 			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
+
 				return false;
 			}
 
@@ -217,6 +229,7 @@ class UsersModelUsers extends JModelList
 			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
+
 				return false;
 			}
 
@@ -226,7 +239,8 @@ class UsersModelUsers extends JModelList
 				if (isset($userGroups[$item->id]))
 				{
 					$item->group_count = $userGroups[$item->id]->group_count;
-					//Group_concat in other databases is not supported
+
+					// Group_concat in other databases is not supported
 					$item->group_names = $this->_getUserDisplayedGroups($item->id);
 				}
 
@@ -253,7 +267,7 @@ class UsersModelUsers extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -281,17 +295,17 @@ class UsersModelUsers extends JModelList
 		{
 			if ($active == '0')
 			{
-				$query->where('a.activation = ' . $db->quote(''));
+				$query->where('a.activation IN (' . $db->quote('') . ', 0)');
 			}
 			elseif ($active == '1')
 			{
-				$query->where($query->length('a.activation') . ' = 32');
+				$query->where($query->length('a.activation') . ' > 1');
 			}
 		}
 
 		// Filter the items over the group id if set.
 		$groupId = $this->getState('filter.group_id');
-		$groups = $this->getState('filter.groups');
+		$groups  = $this->getState('filter.groups');
 
 		if ($groupId || isset($groups))
 		{
@@ -313,13 +327,13 @@ class UsersModelUsers extends JModelList
 		if ($this->getState('filter.search') !== '' && $this->getState('filter.search') !== null)
 		{
 			// Escape the search token.
-			$token = $db->quote('%' . $db->escape($this->getState('filter.search')) . '%');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
 
 			// Compile the different search clauses.
-			$searches = array();
-			$searches[] = 'a.name LIKE ' . $token;
-			$searches[] = 'a.username LIKE ' . $token;
-			$searches[] = 'a.email LIKE ' . $token;
+			$searches   = array();
+			$searches[] = 'a.name LIKE ' . $search;
+			$searches[] = 'a.username LIKE ' . $search;
+			$searches[] = 'a.email LIKE ' . $search;
 
 			// Add the clauses to the query.
 			$query->where('(' . implode(' OR ', $searches) . ')');
@@ -332,7 +346,7 @@ class UsersModelUsers extends JModelList
 		if ($range)
 		{
 			// Get UTC for now.
-			$dNow = new JDate;
+			$dNow   = new JDate;
 			$dStart = clone $dNow;
 
 			switch ($range)
@@ -360,8 +374,8 @@ class UsersModelUsers extends JModelList
 
 				case 'today':
 					// Ranges that need to align with local 'days' need special treatment.
-					$app = JFactory::getApplication();
-					$offset = $app->getCfg('offset');
+					$app    = JFactory::getApplication();
+					$offset = $app->get('offset');
 
 					// Reset the start time to be the beginning of today, local time.
 					$dStart = new JDate('now', $offset);
@@ -390,6 +404,7 @@ class UsersModelUsers extends JModelList
 
 		// Filter by excluded users
 		$excluded = $this->getState('filter.excluded');
+
 		if (!empty($excluded))
 		{
 			$query->where('id NOT IN (' . implode(',', $excluded) . ')');
@@ -401,16 +416,23 @@ class UsersModelUsers extends JModelList
 		return $query;
 	}
 
-	//sqlsrv change
+	/**
+	 * SQL server change
+	 *
+	 * @param   integer  $user_id  User identifier
+	 *
+	 * @return  string   Groups titles imploded :$
+	 */
 	function _getUserDisplayedGroups($user_id)
 	{
 		$db = JFactory::getDbo();
 		$query = "SELECT title FROM " . $db->quoteName('#__usergroups') . " ug left join " .
 			$db->quoteName('#__user_usergroup_map') . " map on (ug.id = map.group_id)" .
-			" WHERE map.user_id=" . $user_id;
+			" WHERE map.user_id=" . (int) $user_id;
 
 		$db->setQuery($query);
 		$result = $db->loadColumn();
+
 		return implode("\n", $result);
 	}
 }

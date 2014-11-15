@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,15 +12,14 @@ defined('JPATH_PLATFORM') or die;
 if (!defined('JPATH_ROOT'))
 {
 	// Define a string constant for the root directory of the file system in native format
-	define('JPATH_ROOT', JPath::clean(JPATH_SITE));
+	$pathHelper = new JFilesystemWrapperPath;
+	define('JPATH_ROOT', $pathHelper->clean(JPATH_SITE));
 }
 
 /**
  * A Path handling class
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
- * @since       11.1
+ * @since  11.1
  */
 class JPath
 {
@@ -194,7 +193,7 @@ class JPath
 	 */
 	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
-		if (!is_string($path))
+		if (!is_string($path) && !empty($path))
 		{
 			throw new UnexpectedValueException('JPath::clean: $path is not a string.');
 		}
@@ -232,7 +231,7 @@ class JPath
 	{
 		jimport('joomla.filesystem.file');
 
-		$tmp = md5(mt_rand());
+		$tmp = md5(JCrypt::genRandomBytes());
 		$ssp = ini_get('session.save_path');
 		$jtp = JPATH_SITE . '/tmp';
 

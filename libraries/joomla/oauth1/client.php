@@ -3,24 +3,23 @@
  * @package     Joomla.Platform
  * @subpackage  OAuth1
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die();
-jimport('joomla.environment.response');
+
+use Joomla\Registry\Registry;
 
 /**
  * Joomla Platform class for interacting with an OAuth 1.0 and 1.0a server.
  *
- * @package     Joomla.Platform
- * @subpackage  OAuth1
- * @since       13.1
+ * @since  13.1
  */
 abstract class JOAuth1Client
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth1Client object.
+	 * @var    Registry  Options for the JOAuth1Client object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -58,7 +57,7 @@ abstract class JOAuth1Client
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry        $options      OAuth1Client options object.
+	 * @param   Registry         $options      OAuth1Client options object.
 	 * @param   JHttp            $client       The HTTP client object.
 	 * @param   JInput           $input        The input object
 	 * @param   JApplicationWeb  $application  The application object
@@ -66,10 +65,10 @@ abstract class JOAuth1Client
 	 *
 	 * @since   13.1
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null,
+	public function __construct(Registry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null,
 		$version = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client = isset($client) ? $client : JHttpFactory::getHttp($this->options);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 		$this->application = isset($application) ? $application : new JApplicationWeb;
@@ -518,7 +517,7 @@ abstract class JOAuth1Client
 	public static function generateNonce()
 	{
 		$mt = microtime();
-		$rand = mt_rand();
+		$rand = JCrypt::genRandomBytes();
 
 		// The md5s look nicer than numbers.
 		return md5($mt . $rand);

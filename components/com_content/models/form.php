@@ -3,21 +3,21 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 // Base this model on the backend version.
-require_once JPATH_ADMINISTRATOR.'/components/com_content/models/article.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_content/models/article.php';
 
 /**
  * Content Component Article Model
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentModelForm extends ContentModelArticle
 {
@@ -54,7 +54,7 @@ class ContentModelForm extends ContentModelArticle
 		$params	= $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('layout', $app->input->get('layout'));
+		$this->setState('layout', $app->input->getString('layout'));
 	}
 
 	/**
@@ -86,7 +86,7 @@ class ContentModelForm extends ContentModelArticle
 		$value = JArrayHelper::toObject($properties, 'JObject');
 
 		// Convert attrib field to Registry.
-		$value->params = new JRegistry;
+		$value->params = new Registry;
 		$value->params->loadString($value->attribs);
 
 		// Compute selected asset permissions.
@@ -140,7 +140,7 @@ class ContentModelForm extends ContentModelArticle
 		}
 
 		// Convert the metadata field to an array.
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($value->metadata);
 		$value->metadata = $registry->toArray();
 
@@ -177,13 +177,20 @@ class ContentModelForm extends ContentModelArticle
 	 */
 	public function save($data)
 	{
-		// Prevent deleting multilang associations
-		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
-		$app->item_associations = 0;
-		$result = parent::save($data);
-		$app->item_associations = $assoc;
+		// Associations are not edited in frontend ATM so we have to inherit them
+		if (JLanguageAssociations::isEnabled() && !empty($data['id']))
+		{
+			if ($associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $data['id']))
+			{
+				foreach ($associations as $tag => $associated)
+				{
+					$associations[$tag] = (int) $associated->id;
+				}
 
-		return $result;
+				$data['associations'] = $associations;
+			}
+		}
+
+		return parent::save($data);
 	}
 }

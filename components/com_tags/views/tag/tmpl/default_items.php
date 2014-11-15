@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,18 +71,23 @@ $n = count($this->items);
 					</a>
 				</h3>
 			<?php endif; ?>
+			<?php echo $item->event->afterDisplayTitle; ?>
 			<?php $images  = json_decode($item->core_images);?>
 			<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) :?>
+				<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 				<img src="<?php echo htmlspecialchars($images->image_intro);?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
+				</a>
 			<?php endif; ?>
 			<?php if ($this->params->get('tag_list_show_item_description', 1)) : ?>
+				<?php echo $item->event->beforeDisplayContent; ?>
 				<span class="tag-body">
 					<?php echo JHtml::_('string.truncate', $item->core_body, $this->params->get('tag_list_item_maximum_characters')); ?>
 				</span>
+				<?php echo $item->event->afterDisplayContent; ?>
 			<?php endif; ?>
 				</li>
 		<?php endforeach; ?>
 	</ul>
-</form>
 
-<?php endif; ?>
+	<?php endif; ?>
+</form>

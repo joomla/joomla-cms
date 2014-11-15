@@ -7,10 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/crypt/key.php';
-require_once JPATH_PLATFORM . '/joomla/crypt/cipher.php';
-require_once JPATH_PLATFORM . '/joomla/crypt/cipher/blowfish.php';
-
 /**
  * Test class for JCryptCipherBlowfish.
  *
@@ -141,7 +137,7 @@ class JCryptCipherBlowfishTest extends TestCase
 	 */
 	public function testGenerateKey()
 	{
-		$key = $this->_cipher->generateKey();
+		$key = $this->_cipher->generateKey(array('password' => 'J00ml@R0cks!'));
 
 		// Assert that the key is the correct type.
 		$this->assertInstanceOf('JCryptKey', $key);

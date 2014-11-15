@@ -1,11 +1,12 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  query
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework query base class; for compatibility purposes
@@ -25,11 +26,11 @@ abstract class FOFQueryAbstract
 	 */
 	public static function &getNew($db = null)
 	{
-		JLog::add('FOFQueryAbstract is deprecated. Use JDatabaseQuery instead.', JLog::WARNING, 'deprecated');
+		FOFPlatform::getInstance()->logDeprecated('FOFQueryAbstract is deprecated. Use JDatabaseQuery instead.');
 
 		if (is_null($db))
 		{
-			$ret = JFactory::getDbo()->getQuery(true);
+			$ret = FOFPlatform::getInstance()->getDbo()->getQuery(true);
 		}
 		else
 		{

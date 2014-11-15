@@ -48,7 +48,6 @@ class JFeedParserAtomTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserAtom::handleAuthor
 	 * @since   12.3
 	 */
 	public function testHandleAuthor()
@@ -71,7 +70,6 @@ class JFeedParserAtomTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserAtom::handleContributor
 	 * @since   12.3
 	 */
 	public function testHandleContributor()
@@ -91,7 +89,6 @@ class JFeedParserAtomTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserAtom::handleGenerator
 	 * @since   12.3
 	 */
 	public function testHandleGenerator()
@@ -113,7 +110,6 @@ class JFeedParserAtomTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserAtom::handleId
 	 * @since   12.3
 	 */
 	public function testHandleId()
@@ -135,7 +131,6 @@ class JFeedParserAtomTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserAtom::handleLink
 	 * @since   12.3
 	 */
 	public function testHandleLink()
@@ -158,7 +153,6 @@ class JFeedParserAtomTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserAtom::handleRights
 	 * @since   12.3
 	 */
 	public function testHandleRights()
@@ -180,7 +174,6 @@ class JFeedParserAtomTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserAtom::handleSubtitle
 	 * @since   12.3
 	 */
 	public function testHandleSubtitle()
@@ -202,7 +195,6 @@ class JFeedParserAtomTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserAtom::handleTitle
 	 * @since   12.3
 	 */
 	public function testHandleTitle()
@@ -224,7 +216,6 @@ class JFeedParserAtomTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserAtom::handleUpdated
 	 * @since   12.3
 	 */
 	public function testHandleUpdated()
@@ -250,7 +241,6 @@ class JFeedParserAtomTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers        JFeedParserAtom::initialise
 	 * @dataProvider  seedInitialise
 	 * @since         12.3
 	 */
@@ -291,7 +281,6 @@ class JFeedParserAtomTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserAtom::processFeedEntry
 	 * @since   12.3
 	 */
 	public function testProcessFeedEntry()

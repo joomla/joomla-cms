@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,16 +44,16 @@ $clientId	= $this->state->get('filter.client_id', 0);
 					<th>
 						<?php echo JText::_('COM_LANGUAGES_HEADING_DEFAULT'); ?>
 					</th>
-					<th>
+					<th class="hidden-phone">
 						<?php echo JText::_('JVERSION'); ?>
 					</th>
-					<th>
+					<th class="hidden-phone">
 						<?php echo JText::_('JDATE'); ?>
 					</th>
-					<th>
+					<th class="hidden-phone">
 						<?php echo JText::_('JAUTHOR'); ?>
 					</th>
-					<th>
+					<th class="hidden-phone">
 						<?php echo JText::_('COM_LANGUAGES_HEADING_AUTHOR_EMAIL'); ?>
 					</th>
 				</tr>
@@ -76,7 +76,9 @@ $clientId	= $this->state->get('filter.client_id', 0);
 						<?php echo JHtml::_('languages.id', $i, $row->language);?>
 					</td>
 					<td width="25%">
-						<?php echo $this->escape($row->name); ?>
+						<label for="cb<?php echo $i; ?>">
+							<?php echo $this->escape($row->name); ?>
+						</label>
 					</td>
 					<td align="center">
 						<?php echo $this->escape($row->language); ?>
@@ -87,16 +89,16 @@ $clientId	= $this->state->get('filter.client_id', 0);
 					<td align="center">
 						<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.', !$row->published && $canChange);?>
 					</td>
-					<td align="center">
+					<td align="center" class="hidden-phone">
 						<?php echo $this->escape($row->version); ?>
 					</td>
-					<td align="center">
+					<td align="center" class="hidden-phone">
 						<?php echo $this->escape($row->creationDate); ?>
 					</td>
-					<td align="center">
+					<td align="center" class="hidden-phone">
 						<?php echo $this->escape($row->author); ?>
 					</td>
-					<td align="center">
+					<td align="center" class="hidden-phone">
 						<?php echo JStringPunycode::emailToUTF8($this->escape($row->authorEmail)); ?>
 					</td>
 				</tr>

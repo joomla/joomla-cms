@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @since  12.1
  */
 class JDatabaseDriverPostgresql extends JDatabaseDriver
 {
@@ -126,6 +124,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		pg_set_error_verbosity($this->connection, PGSQL_ERRORS_DEFAULT);
 		pg_query('SET standard_conforming_strings=off');
+		pg_query('SET escape_string_warning=off');
 	}
 
 	/**
@@ -387,7 +386,20 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->column_name] = $field;
+				// Do some dirty translation to MySQL output.
+				// TODO: Come up with and implement a standard across databases.
+				$result[$field->column_name] = (object) array(
+					'column_name' => $field->column_name,
+					'type' => $field->type,
+					'null' => $field->null,
+					'Default' => $field->Default,
+					'comments' => '',
+					'Field' => $field->column_name,
+					'Type' => $field->type,
+					'Null' => $field->null,
+					// TODO: Improve query above to return primary key info as well
+					// 'Key' => ($field->PK == '1' ? 'PRI' : '')
+				);
 			}
 		}
 
@@ -628,7 +640,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
 
-		if ($this->limit > 0 || $this->offset > 0)
+		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$query .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
 		}
@@ -1056,8 +1068,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				continue;
 			}
 
-			// Ignore any internal fields.
-			if ($k[0] == '_')
+			// Ignore any internal fields or primary keys with value 0.
+			if (($k[0] == "_") || ($k == $key && $v === 0))
 			{
 				continue;
 			}
@@ -1344,7 +1356,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @param   string   $table    The name of the database table to update.
 	 * @param   object   &$object  A reference to an object whose public properties match the table fields.
-	 * @param   string   $key      The name of the primary key.
+	 * @param   array    $key      The name of the primary key.
 	 * @param   boolean  $nulls    True to update null fields or false to ignore them.
 	 *
 	 * @return  boolean  True on success.
@@ -1355,13 +1367,21 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function updateObject($table, &$object, $key, $nulls = false)
 	{
 		$columns = $this->getTableColumns($table);
-		$fields = array();
-		$where = '';
+		$fields  = array();
+		$where   = array();
+
+		if (is_string($key))
+		{
+			$key = array($key);
+		}
+
+		if (is_object($key))
+		{
+			$key = (array) $key;
+		}
 
 		// Create the base update statement.
-		$query = $this->getQuery(true)
-			->update($table);
-		$stmt = '%s WHERE %s';
+		$statement = 'UPDATE ' . $this->quoteName($table) . ' SET %s WHERE %s';
 
 		// Iterate over the object variables to build the query fields/value pairs.
 		foreach (get_object_vars($object) as $k => $v)
@@ -1373,10 +1393,10 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			}
 
 			// Set the primary key to the WHERE clause instead of a field to update.
-			if ($k == $key)
+			if (in_array($k, $key))
 			{
 				$key_val = $this->sqlValue($columns, $k, $v);
-				$where = $this->quoteName($k) . '=' . $key_val;
+				$where[] = $this->quoteName($k) . '=' . $key_val;
 				continue;
 			}
 
@@ -1411,8 +1431,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 
 		// Set the query and execute the update.
-		$query->set(sprintf($stmt, implode(",", $fields), $where));
-		$this->setQuery($query);
+		$this->setQuery(sprintf($statement, implode(",", $fields), implode(' AND ', $where)));
 
 		return $this->execute();
 	}

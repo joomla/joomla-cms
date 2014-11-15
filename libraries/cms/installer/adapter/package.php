@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ jimport('joomla.base.adapterinstance');
 /**
  * Package installer
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstallerAdapterPackage extends JAdapterInstance
 {
@@ -52,10 +50,8 @@ class JInstallerAdapterPackage extends JAdapterInstance
 		$extension = 'pkg_' . strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->packagename, 'cmd'));
 		$lang = JFactory::getLanguage();
 		$source = $path;
-		$lang->load($extension . '.sys', $source, null, false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		$lang->load($extension . '.sys', $source, null, false, true)
+			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, true);
 	}
 
 	/**
@@ -218,6 +214,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 					// If it's an archive
 					$package = JInstallerHelper::unpack($file);
 				}
+
 				$tmpInstaller = new JInstaller;
 				$installResult = $tmpInstaller->{$this->route}($package['dir']);
 
@@ -239,6 +236,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 						'result' => $installResult
 					);
 				}
+
 				$i++;
 			}
 		}
@@ -374,6 +372,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 		{
 			$this->parent->set('extension_message', $msg);
 		}
+
 		return $row->extension_id;
 	}
 
@@ -430,7 +429,6 @@ class JInstallerAdapterPackage extends JAdapterInstance
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSINGMANIFEST'), JLog::WARNING, 'jerror');
 
 			return false;
-
 		}
 
 		$xml = simplexml_load_file($manifestFile);
@@ -530,6 +528,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 			{
 				JFolder::delete($folder);
 			}
+
 			$row->delete();
 		}
 		else
@@ -628,8 +627,6 @@ class JInstallerAdapterPackage extends JAdapterInstance
 /**
  * Deprecated class placeholder. You should use JInstallerAdapterPackage instead.
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore

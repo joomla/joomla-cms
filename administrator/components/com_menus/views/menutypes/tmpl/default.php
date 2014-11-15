@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,4 +45,4 @@ $document = JFactory::getDocument();
 		<?php echo JHtml::_('bootstrap.endSlide'); ?>
 	<?php endforeach; ?>
 	<?php echo JHtml::_('bootstrap.endSlide'); ?>
-<?php echo JHtml::_('bootstrap.endAccordion'); ?>
+<?php echo JHtml::_('bootstrap.endAccordion');

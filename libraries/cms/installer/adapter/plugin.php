@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,9 +15,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Plugin installer
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstallerAdapterPlugin extends JAdapterInstance
 {
@@ -87,6 +85,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		{
 			$this->parent->setPath('source', JPATH_PLUGINS . '/' . $this->parent->extension->folder . '/' . $this->parent->extension->element);
 		}
+
 		$this->manifest = $this->parent->getManifest();
 		$element = $this->manifest->files;
 
@@ -106,6 +105,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 					}
 				}
 			}
+
 			if ($name)
 			{
 				$extension = "plg_${group}_${name}";
@@ -117,10 +117,9 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				{
 					$source = "$path/$folder";
 				}
-				$lang->load($extension . '.sys', $source, null, false, false)
-					|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-					|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-					|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+
+				$lang->load($extension . '.sys', $source, null, false, true)
+					|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true);
 			}
 		}
 	}
@@ -183,6 +182,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				}
 			}
 		}
+
 		$group = (string) $xml->attributes()->group;
 
 		if (!empty($element) && !empty($group))
@@ -418,6 +418,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 
 				return false;
 			}
+
 			$row->load($id);
 			$row->name = $this->get('name');
 			$row->manifest_cache = $this->parent->generateManifestCache();
@@ -767,22 +768,25 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				$file = JFile::stripExt($file);
 
 				// Ignore example plugins
-				if ($file == 'example')
+				if ($file == 'example' || $manifest_details === false)
 				{
 					continue;
 				}
 
+				$element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
+
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'plugin');
 				$extension->set('client_id', 0);
-				$extension->set('element', $file);
+				$extension->set('element', $element);
 				$extension->set('folder', $folder);
-				$extension->set('name', $file);
+				$extension->set('name', $manifest_details['name']);
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
 				$extension->set('params', '{}');
 				$results[] = $extension;
 			}
+
 			$folder_list = JFolder::folders(JPATH_SITE . '/plugins/' . $folder);
 
 			foreach ($folder_list as $plugin_folder)
@@ -796,18 +800,20 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 					);
 					$file = JFile::stripExt($file);
 
-					if ($file == 'example')
+					if ($file == 'example' || $manifest_details === false)
 					{
 						continue;
 					}
+
+					$element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
 					// Ignore example plugins
 					$extension = JTable::getInstance('extension');
 					$extension->set('type', 'plugin');
 					$extension->set('client_id', 0);
-					$extension->set('element', $file);
+					$extension->set('element', $element);
 					$extension->set('folder', $folder);
-					$extension->set('name', $file);
+					$extension->set('name', $manifest_details['name']);
 					$extension->set('state', -1);
 					$extension->set('manifest_cache', json_encode($manifest_details));
 					$extension->set('params', '{}');
@@ -815,6 +821,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				}
 			}
 		}
+
 		return $results;
 	}
 
@@ -843,6 +850,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		{
 			$manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '.xml';
 		}
+
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$description = (string) $this->parent->manifest->description;
 
@@ -854,6 +862,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		{
 			$this->parent->set('message', '');
 		}
+
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JInstaller::parseXMLInstallFile($manifestPath);
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
@@ -914,8 +923,6 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 /**
  * Deprecated class placeholder. You should use JInstallerAdapterPlugin instead.
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @link        http://docs.joomla.org/JTableNested
- * @since       11.1
+ * @link   http://docs.joomla.org/JTableNested
+ * @since  11.1
  */
 class JTableNested extends JTable
 {
@@ -97,6 +95,14 @@ class JTableNested extends JTable
 	 * @since  11.1
 	 */
 	protected $_debug = 0;
+
+	/**
+	 * Cache for the root ID
+	 *
+	 * @var    integer
+	 * @since  3.3
+	 */
+	protected static $root_id = 0;
 
 	/**
 	 * Sets the debug level on or off
@@ -551,6 +557,7 @@ class JTableNested extends JTable
 
 					return false;
 				}
+
 				$asset->_unlock();
 			}
 			else
@@ -716,7 +723,11 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 
 		// Implement JObservableInterface: Pre-processing by observers
-		$this->_observers->update('onBeforeStore', array($updateNulls, $k));
+		// 2.5 upgrade issue - check if property_exists before executing
+		if (property_exists($this, '_observers'))
+		{
+			$this->_observers->update('onBeforeStore', array($updateNulls, $k));
+		}
 
 		// @codeCoverageIgnoreStart
 		if ($this->_debug)
@@ -843,12 +854,21 @@ class JTableNested extends JTable
 
 		// Implement JObservableInterface: We do not want parent::store to update observers,
 		// since tables are locked and we are updating it from this level of store():
-		$oldCallObservers = $this->_observers->doCallObservers(false);
+
+		// 2.5 upgrade issue - check if property_exists before executing
+		if (property_exists($this, '_observers'))
+		{
+			$oldCallObservers = $this->_observers->doCallObservers(false);
+		}
 
 		$result = parent::store($updateNulls);
 
 		// Implement JObservableInterface: Restore previous callable observers state:
-		$this->_observers->doCallObservers($oldCallObservers);
+		// 2.5 upgrade issue - check if property_exists before executing
+		if (property_exists($this, '_observers'))
+		{
+			$this->_observers->doCallObservers($oldCallObservers);
+		}
 
 		if ($result)
 		{
@@ -864,7 +884,11 @@ class JTableNested extends JTable
 		$this->_unlock();
 
 		// Implement JObservableInterface: Post-processing by observers
-		$this->_observers->update('onAfterStore', array(&$result));
+		// 2.5 upgrade issue - check if property_exists before executing
+		if (property_exists($this, '_observers'))
+		{
+			$this->_observers->update('onAfterStore', array(&$result));
+		}
 
 		return $result;
 	}
@@ -1185,6 +1209,11 @@ class JTableNested extends JTable
 	 */
 	public function getRootId()
 	{
+		if ((int) self::$root_id > 0)
+		{
+			return self::$root_id;
+		}
+
 		// Get the root item.
 		$k = $this->_tbl_key;
 
@@ -1198,7 +1227,9 @@ class JTableNested extends JTable
 
 		if (count($result) == 1)
 		{
-			return $result[0];
+			self::$root_id = $result[0];
+
+			return self::$root_id;
 		}
 
 		// Test for a unique record with lft = 0
@@ -1211,7 +1242,9 @@ class JTableNested extends JTable
 
 		if (count($result) == 1)
 		{
-			return $result[0];
+			self::$root_id = $result[0];
+
+			return self::$root_id;
 		}
 
 		$fields = $this->getFields();
@@ -1228,12 +1261,15 @@ class JTableNested extends JTable
 
 			if (count($result) == 1)
 			{
-				return $result[0];
+				self::$root_id = $result[0];
+
+				return self::$root_id;
 			}
 		}
 
 		$e = new UnexpectedValueException(sprintf('%s::getRootId', get_class($this)));
 		$this->setError($e);
+		self::$root_id = false;
 
 		return false;
 	}
@@ -1285,6 +1321,7 @@ class JTableNested extends JTable
 			{
 				$query->order('parent_id, lft');
 			}
+
 			$this->_cache['rebuild.sql'] = (string) $query;
 		}
 
@@ -1386,6 +1423,23 @@ class JTableNested extends JTable
 		$this->path = $path;
 
 		return true;
+	}
+
+	/**
+	 * Method to reset class properties to the defaults set in the class
+	 * definition. It will ignore the primary key as well as any private class
+	 * properties (except $_errors).
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2.1
+	 */
+	public function reset()
+	{
+		parent::reset();
+
+		// Reset the location properties.
+		$this->setLocation(0);
 	}
 
 	/**
@@ -1625,8 +1679,10 @@ class JTableNested extends JTable
 			{
 				$buffer .= sprintf("\n| %4s | %4s | %4s | %4s |", $row[0], $row[1], $row[2], $row[3]);
 			}
+
 			$buffer .= $sep;
 		}
+
 		echo $buffer;
 	}
 

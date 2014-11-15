@@ -1,16 +1,14 @@
 <?php
 /**
  * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @subpackage form
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
-if (!class_exists('JFormFieldTimezone'))
-{
-	require_once JPATH_LIBRARIES . '/joomla/form/fields/timezone.php';
-}
+JFormHelper::loadFieldClass('timezone');
 
 /**
  * Form Field class for FOF
@@ -24,6 +22,12 @@ class FOFFormFieldTimezone extends JFormFieldTimezone implements FOFFormField
 	protected $static;
 
 	protected $repeatable;
+
+	/** @var   FOFTable  The item being rendered in a repeatable form field */
+	public $item;
+
+	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
+	public $rowid;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -53,7 +57,7 @@ class FOFFormFieldTimezone extends JFormFieldTimezone implements FOFFormField
 					$this->repeatable = $this->getRepeatable();
 				}
 
-				return $this->static;
+				return $this->repeatable;
 				break;
 
 			default:

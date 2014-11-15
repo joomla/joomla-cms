@@ -1,89 +1,105 @@
-var FinderIndexer = new Class({
-	totalItems: null,
-	batchSize: null,
-	offset: null,
-	progress: null,
-	optimized: false,
-	path: 'index.php?option=com_finder&tmpl=component&format=json',
-	initialize: function () {
-		this.offset = 0;
-		this.progress = 0;
-		this.pb = new Fx.ProgressBar(document.id('finder-progress-container'));
-		this.path = this.path + '&' + document.id('finder-indexer-token').get('name') + '=1';
-		this.getRequest('indexer.start').send()
-	},
-	getRequest: function (task) {
-		return new Request.JSON({
-			url: this.path,
-			method: 'get',
-			data: 'task=' + task,
-			onSuccess: this.handleResponse.bind(this),
-			onFailure: this.handleFailure.bind(this)
-		});
-	},
-	handleResponse: function (json, resp) {
+var FinderIndexer = function(){
+	var totalItems= null;
+	var batchSize= null;
+	var offset= null;
+	var progress= null;
+	var optimized= false;
+	var pb;
+	var $ = jQuery.noConflict();
+	var path = 'index.php?option=com_finder&tmpl=component&format=json';
+
+	var initialize = function () {
+		offset = 0;
+		progress = 0;
+		pb = new Fx.ProgressBar(document.getElementById('finder-progress-container'));
+		path = path + '&' + $('#finder-indexer-token').attr('name') + '=1';
+		getRequest('indexer.start');
+	};
+
+	var getRequest= function (task) {
+       $.ajax({
+            type : "GET",
+            url : path,
+            data :  'task=' + task,
+            dataType : 'json',
+            success : handleResponse,
+            error : handleFailure
+        });
+	};
+
+	var handleResponse = function (json, resp) {
 		try {
-			if (json === null) {
-				throw resp;
-			}
-			if (json.error) {
-				throw json;
-			}
-			if (json.start) this.totalItems = json.totalItems;
-			this.offset += json.batchOffset;
-			this.updateProgress(json.header, json.message);
-			if (this.offset < this.totalItems) {
-				this.getRequest('indexer.batch').send();
-			} else if (!this.optimized) {
-				this.optimized = true;
-				this.getRequest('indexer.optimize').send();
-			}
+            if (json === null) {
+                throw resp;
+            }
+            if (json.error) {
+                throw json;
+            }
+            if (json.start) {
+                totalItems = json.totalItems;
+            }
+            offset += json.batchOffset;
+            updateProgress(json.header, json.message);
+            if (offset < totalItems) {
+                getRequest('indexer.batch');
+            } else if (!optimized) {
+                optimized = true;
+                getRequest('indexer.optimize');
+            }
 		} catch (error) {
-			if (this.pb) document.id(this.pb.element).dispose();
+			if (pb) {
+			    $(pb.element).remove();
+			}
 			try {
 				if (json.error) {
-					document.id('finder-progress-header').set('text', json.header).addClass('finder-error');
-					document.id('finder-progress-message').set('html', json.message).addClass('finder-error');
+					$('#finder-progress-header').text(json.header).addClass('finder-error');
+					$('#finder-progress-message').html(json.message).addClass('finder-error');
 				}
 			} catch (ignore) {
-				if (error == '') {
+				if (error === '') {
 					error = Joomla.JText._('COM_FINDER_NO_ERROR_RETURNED');
 				}
-				document.id('finder-progress-header').set('text', Joomla.JText._('COM_FINDER_AN_ERROR_HAS_OCCURRED')).addClass('finder-error');
-				document.id('finder-progress-message').set('html', error).addClass('finder-error');
+				$('#finder-progress-header').text(Joomla.JText._('COM_FINDER_AN_ERROR_HAS_OCCURRED')).addClass('finder-error');
+				$('#finder-progress-message').html(error).addClass('finder-error');
 			}
 		}
 		return true;
-	},
-	handleFailure: function (xhr) {
+	};
+
+	var handleFailure= function (xhr) {
 		json = (typeof xhr == 'object' && xhr.responseText) ? xhr.responseText : null;
 		json = json ? JSON.decode(json, true) : null;
-		if (this.pb) document.id(this.pb.element).dispose();
+        if (pb) {
+            $(pb.element).remove();
+        };
 		if (json) {
 			json = json.responseText != null ? Json.evaluate(json.responseText, true) : json;
 		}
 		var header = json ? json.header : Joomla.JText._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
-		var message = json ? json.message : Joomla.JText._('COM_FINDER_MESSAGE_RETURNED') + ' <br />' + json
-		document.id('finder-progress-header').set('text', header).addClass('finder-error');
-		document.id('finder-progress-message').set('html', message).addClass('finder-error');
-	},
-	updateProgress: function (header, message) {
-		this.progress = (this.offset / this.totalItems) * 100;
-		document.id('finder-progress-header').set('text', header);
-		document.id('finder-progress-message').set('html', message);
-		if (this.pb && this.progress < 100) {
-			this.pb.set(this.progress);
-		} else if (this.pb) {
-			document.id(this.pb.element).dispose();
-			this.pb = false;
-		}
-	}
-});
+		var message = json ? json.message : Joomla.JText._('COM_FINDER_MESSAGE_RETURNED') + ' <br />' + json;
+		$('#finder-progress-header').text(header).addClass('finder-error');
+		$('#finder-progress-message').html(message).addClass('finder-error');
+	};
 
-window.addEvent('domready', function () {
+	var updateProgress = function (header, message) {
+		progress = (offset / totalItems) * 100;
+		$('#finder-progress-header').text(header);
+		$('#finder-progress-message').html(message);
+		if (pb && progress < 100) {
+			pb.set(progress);
+		} else if (pb) {
+	        $(pb.element).remove();
+			pb = false;
+		}
+	};
+
+	initialize();
+};
+
+jQuery(function ($) {
 	Indexer = new FinderIndexer();
 	if (typeof window.parent.SqueezeBox == 'object') {
-		window.parent.SqueezeBox.addEvent('onClose', function () {
+		$(window.parent.SqueezeBox).on('close', function () {
 			window.parent.location.reload(true);
 		});
 	}
