@@ -312,12 +312,12 @@ class PlgSystemLanguageFilter extends JPlugin
 
 						if ($app->get('sef_rewrite'))
 						{
-							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
+							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')), true);  // here
 						}
 						else
 						{
 							$path = $uri->toString(array('path', 'query', 'fragment'));
-							$app->redirect($uri->base() . 'index.php' . ($path ? ('/' . $path) : ''));
+							$app->redirect($uri->base() . 'index.php' . ($path ? ('/' . $path) : ''), true); //here
 						}
 					}
 				}
@@ -331,12 +331,12 @@ class PlgSystemLanguageFilter extends JPlugin
 
 						if ($app->get('sef_rewrite'))
 						{
-							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
+							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')), true); // here
 						}
 						else
 						{
 							$path = $uri->toString(array('path', 'query', 'fragment'));
-							$app->redirect($uri->base() . 'index.php' . ($path ? ('/' . $path) : ''));
+							$app->redirect($uri->base() . 'index.php' . ($path ? ('/' . $path) : ''), true); // here
 						}
 					}
 					// Redirect if sef is the default one.
@@ -350,12 +350,12 @@ class PlgSystemLanguageFilter extends JPlugin
 
 						if ($app->get('sef_rewrite'))
 						{
-							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
+							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')), true ); // here
 						}
 						else
 						{
 							$path = $uri->toString(array('path', 'query', 'fragment'));
-							$app->redirect($uri->base() . 'index.php' . ($path ? ('/' . $path) : ''));
+							$app->redirect($uri->base() . 'index.php' . ($path ? ('/' . $path) : ''), true); // here
 						}
 					}
 				}
@@ -380,7 +380,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 				if ($app->input->getMethod() != "POST" || count($app->input->post) == 0)
 				{
-					$app->redirect(JUri::base(true) . '/index.php?' . $uri->getQuery());
+					$app->redirect(JUri::base(true) . '/index.php?' . $uri->getQuery()); // NOT here
 				}
 			}
 		}
