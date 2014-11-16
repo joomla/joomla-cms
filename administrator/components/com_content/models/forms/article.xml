@@ -794,8 +794,76 @@
 				label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
 				description="COM_CONTENT_FIELD_XREFERENCE_DESC"
 				size="20" />
-
 		</fieldset>
+        <fieldset name="microdata" label="JGLOBAL_FIELDSET_MICRODATA_OPTIONS">
+            <field name="microdata_types"
+                   type="list"
+                   label="JFIELD_MICRODATA_TYPES_LABEL"
+                   description="JFIELD_MICRODATA_TYPES_DESC"
+                   >
+                <option value="Article">JGLOBAL_MICRODATA_ARTICLE</option>
+                <option value="Event">JGLOBAL_MICRODATA_EVENT</option>
+	            <option value="Product">JGLOBAL_MICRODATA_PRODUCT</option>
+	            <option value="Recipe">JGLOBAL_MICRODATA_RECIPE</option>
+	            <option value="Review">JGLOBAL_MICRODATA_REVIEW</option>
+            </field>
+        </fieldset>
+        <fieldset name="microdata_event">
+            <field name="microdata_event_location"
+                   type="text"
+                   label="JFIELD_MICRODATA_EVENT_LOCATION_LABEL"
+                   description="JFIELD_MICRODATA_EVENT_LOCATION_DESC"
+                   showon="microdata_types:Event"
+                   size="20"/>
+            <field name="microdata_event_startDate"
+                   type="calendar"
+                   format="%Y-%m-%d %H:%M:%S" size="22"
+                   filter="user_utc"
+                   label="JFIELD_MICRODATA_EVENT_STARTDATE_LABEL"
+                   description="JFIELD_MICRODATA_EVENT_STARTDATE_DESC"
+                   showon="microdata_types:Event"/>
+            <field name="microdata_event_endDate"
+                   type="calendar"
+                   format="%Y-%m-%d %H:%M:%S" size="22"
+                   filter="user_utc"
+                   label="JFIELD_MICRODATA_EVENT_ENDDATE_LABEL"
+                   description="JFIELD_MICRODATA_EVENT_ENDDATE_DESC"
+                   showon="microdata_types:Event"/>
+        </fieldset>
+        <fieldset name="microdata_recipe">
+            <field name="microdata_recipe_prepTime"
+                   type="integer"
+                   first="1"
+                   step="1"
+                   last="480"
+                   label="JFIELD_MICRODATA_RECIPE_PREPTIME_LABEL"
+                   description="JFIELD_MICRODATA_RECIPE_PREPTIME_DESC"
+                   showon="microdata_types:Recipe"/>
+            <field name="microdata_recipe_cookTime"
+                   type="integer"
+                   first="1"
+                   step="1"
+                   last="480"
+                   label="JFIELD_MICRODATA_RECIPE_COOKTIME_LABEL"
+                   description="JFIELD_MICRODATA_RECIPE_COOKTIME_DESC"
+                   showon="microdata_types:Recipe"/>
+	        <field name="microdata_recipe_ingredients"
+	               type="textarea"
+	               filter="string"
+	               maxlength="500"
+	               cols="30"
+	               rows="2"
+	               label="JFIELD_MICRODATA_RECIPE_INGREDIENTS_LABEL"
+	               description="JFIELD_MICRODATA_RECIPE_INGREDIENTS_DESC"
+	               showon="microdata_types:Recipe"/>
+	        <field name="microdata_recipe_calories"
+	               type="text"
+	               size="20"
+	               filter="integer"
+	               label="JFIELD_MICRODATA_RECIPE_CALORIES_LABEL"
+	               description="JFIELD_MICRODATA_RECIPE_CALORIES_DESC"
+	               showon="microdata_types:Recipe" />
+        </fieldset>
 	</fields>
 	<!-- These fields are used to get labels for the Content History Preview and Compare Views -->
 	<fields>
