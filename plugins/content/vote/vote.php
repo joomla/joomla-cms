@@ -68,11 +68,11 @@ class PlgContentVote extends JPlugin
 				$img .= $starImageOff;
 			}
 
-			$html .= '<div class="content_rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">';
+			$html .= '<div class="content_rating" data-sd="reviewRating.Rating aggregateRating.AggregateRating">';
 			$html .= '<p class="unseen element-invisible">'
-					. JText::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>')
-					. '<meta itemprop="ratingCount" content="' . (int) $row->rating_count . '" />'
-					. '<meta itemprop="worstRating" content="0" />'
+					. JText::sprintf('PLG_VOTE_USER_RATING', '<span data-sd="ratingValue">' . $rating . '</span>', '<span data-sd="bestRating">5</span>')
+					. '<meta data-sd="ratingCount" content="' . (int) $row->rating_count . '" />'
+					. '<meta data-sd="worstRating" content="0" />'
 					. '</p>';
 			$html .= $img;
 			$html .= '</div>';

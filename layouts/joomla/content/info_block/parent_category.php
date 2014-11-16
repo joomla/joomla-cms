@@ -13,9 +13,9 @@ defined('JPATH_BASE') or die;
 			<dd class="parent-category-name">
 				<?php $title = $this->escape($displayData['item']->parent_title); ?>
 				<?php if ($displayData['params']->get('link_parent_category') && !empty($displayData['item']->parent_slug)) : ?>
-					<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($displayData['item']->parent_slug)) . '" itemprop="genre">' . $title . '</a>'; ?>
+					<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($displayData['item']->parent_slug)) . '" data-sd="genre">' . $title . '</a>'; ?>
 					<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
-					<?php echo JText::sprintf('COM_CONTENT_PARENT', '<span itemprop="genre">' . $title . '</span>'); ?>
+					<?php echo JText::sprintf('COM_CONTENT_PARENT', '<span data-sd="genre">' . $title . '</span>'); ?>
 				<?php endif; ?>
 			</dd>

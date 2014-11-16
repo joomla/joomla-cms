@@ -18,13 +18,13 @@ $urls    = json_decode($this->item->urls);
 $canEdit = $params->get('access-edit');
 $user    = JFactory::getUser();
 $info    = $params->get('info_block_position', 0);
+$type    = $this->item->metadata->get('microdata_types', 'Article');
 JHtml::_('behavior.caption');
 $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
 	|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author'));
 
 ?>
-<div class="item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="http://schema.org/Article">
-	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? JFactory::getConfig()->get('language') : $this->item->language; ?>" />
+<div class="item-page<?php echo $this->pageclass_sfx; ?>" data-sd="<?php echo $type;?>">
 	<?php if ($this->params->get('show_page_heading', 1)) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -43,7 +43,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 	<?php endif; ?>
 	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
 	<div class="page-header">
-		<h2 itemprop="name">
+		<h2 data-sd="itemReviewed name">
 			<?php if ($params->get('show_title')) : ?>
 				<?php echo $this->escape($this->item->title); ?>
 			<?php endif; ?>
@@ -77,11 +77,11 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
 			<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
-				<dd class="createdby" itemprop="author" itemscope itemtype="http://schema.org/Person">
+				<dd class="createdby" data-sd="author.Person">
 					<?php $author = $this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author; ?>
-					<?php $author = '<span itemprop="name">' . $author . '</span>'; ?>
+					<?php $author = '<span data-sd="Person name">' . $author . '</span>'; ?>
 					<?php if (!empty($this->item->contact_link) && $params->get('link_author') == true) : ?>
-						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author, array('itemprop' => 'url'))); ?>
+						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author, array('data-sd' => 'url'))); ?>
 					<?php else: ?>
 						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 					<?php endif; ?>
@@ -91,10 +91,10 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				<dd class="parent-category-name">
 					<?php $title = $this->escape($this->item->parent_title); ?>
 					<?php if ($params->get('link_parent_category') && !empty($this->item->parent_slug)) : ?>
-						<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '" itemprop="genre">' . $title . '</a>'; ?>
+						<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '" data-sd="' . $type . ' genre">' . $title . '</a>'; ?>
 						<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 					<?php else : ?>
-						<?php echo JText::sprintf('COM_CONTENT_PARENT', '<span itemprop="genre">' . $title . '</span>'); ?>
+						<?php echo JText::sprintf('COM_CONTENT_PARENT', '<span data-sd="' . $type . ' genre">' . $title . '</span>'); ?>
 					<?php endif; ?>
 				</dd>
 			<?php endif; ?>
@@ -102,10 +102,10 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				<dd class="category-name">
 					<?php $title = $this->escape($this->item->category_title); ?>
 					<?php if ($params->get('link_category') && $this->item->catslug) : ?>
-						<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)) . '" itemprop="genre">' . $title . '</a>'; ?>
+						<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)) . '" data-sd="' . $type . ' genre">' . $title . '</a>'; ?>
 						<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 					<?php else : ?>
-						<?php echo JText::sprintf('COM_CONTENT_CATEGORY', '<span itemprop="genre">' . $title . '</span>'); ?>
+						<?php echo JText::sprintf('COM_CONTENT_CATEGORY', '<span data-sd="' . $type . ' genre">' . $title . '</span>'); ?>
 					<?php endif; ?>
 				</dd>
 			<?php endif; ?>
@@ -113,7 +113,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php if ($params->get('show_publish_date')) : ?>
 				<dd class="published">
 					<span class="icon-calendar"></span>
-					<time datetime="<?php echo JHtml::_('date', $this->item->publish_up, 'c'); ?>" itemprop="datePublished">
+					<time datetime="<?php echo JHtml::_('date', $this->item->publish_up, 'c'); ?>" data-sd="<?php echo $type;?> datePublished">
 						<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
 					</time>
 				</dd>
@@ -123,7 +123,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				<?php if ($params->get('show_modify_date')) : ?>
 					<dd class="modified">
 						<span class="icon-calendar"></span>
-						<time datetime="<?php echo JHtml::_('date', $this->item->modified, 'c'); ?>" itemprop="dateModified">
+						<time datetime="<?php echo JHtml::_('date', $this->item->modified, 'c'); ?>" data-sd="<?php echo $type;?> dateModified">
 							<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
 						</time>
 					</dd>
@@ -131,7 +131,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				<?php if ($params->get('show_create_date')) : ?>
 					<dd class="create">
 						<span class="icon-calendar"></span>
-						<time datetime="<?php echo JHtml::_('date', $this->item->created, 'c'); ?>" itemprop="dateCreated">
+						<time datetime="<?php echo JHtml::_('date', $this->item->created, 'c'); ?>" data-sd="<?php echo $type;?> dateCreated">
 							<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3'))); ?>
 						</time>
 					</dd>
@@ -140,11 +140,12 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				<?php if ($params->get('show_hits')) : ?>
 					<dd class="hits">
 						<span class="icon-eye-open"></span>
-						<meta itemprop="interactionCount" content="UserPageVisits:<?php echo $this->item->hits; ?>" />
+						<meta data-sd="<?php echo $type;?> interactionCount" content="UserPageVisits:<?php echo $this->item->hits; ?>" />
 						<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 					</dd>
 				<?php endif; ?>
 			<?php endif; ?>
+				<?php echo JLayoutHelper::render('joomla.content.microdata.' . lcfirst($type), array('params' => $params, 'item' => $this->item)); ?>
 			</dl>
 		</div>
 	<?php endif; ?>
@@ -169,7 +170,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 	<?php if ($images->image_fulltext_caption):
 		echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_fulltext_caption) . '"';
 	endif; ?>
-	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>" itemprop="image"/> </div>
+	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>" data-sd="<?php echo $type;?> image"/> </div>
 	<?php endif; ?>
 	<?php
 	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative):
@@ -179,7 +180,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 	<?php if (isset ($this->item->toc)) :
 		echo $this->item->toc;
 	endif; ?>
-	<div itemprop="articleBody">
+	<div data-sd="<?php echo $type;?> reviewBody articleBody description">
 		<?php echo $this->item->text; ?>
 	</div>
 
@@ -190,11 +191,11 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 
 			<?php if ($info == 1) : ?>
 				<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
-					<dd class="createdby" itemprop="author" itemscope itemtype="http://schema.org/Person">
+					<dd class="createdby" data-sd="<?php echo $type;?> author.Person">
 						<?php $author = $this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author; ?>
-						<?php $author = '<span itemprop="name">' . $author . '</span>'; ?>
+						<?php $author = '<span data-sd="name">' . $author . '</span>'; ?>
 						<?php if (!empty($this->item->contact_link) && $params->get('link_author') == true) : ?>
-							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author, array('itemprop' => 'url'))); ?>
+							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author, array('data-sd' => 'url'))); ?>
 						<?php else: ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 						<?php endif; ?>
@@ -204,10 +205,10 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 					<dd class="parent-category-name">
 						<?php $title = $this->escape($this->item->parent_title); ?>
 						<?php if ($params->get('link_parent_category') && $this->item->parent_slug) : ?>
-							<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '" itemprop="genre">' . $title . '</a>'; ?>
+							<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '" data-sd="' . $type . 'genre">' . $title . '</a>'; ?>
 							<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 						<?php else : ?>
-							<?php echo JText::sprintf('COM_CONTENT_PARENT', '<span itemprop="genre">' . $title . '</span>'); ?>
+							<?php echo JText::sprintf('COM_CONTENT_PARENT', '<span data-sd="' . $type . ' genre">' . $title . '</span>'); ?>
 						<?php endif; ?>
 					</dd>
 				<?php endif; ?>
@@ -215,17 +216,17 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 					<dd class="category-name">
 						<?php $title = $this->escape($this->item->category_title); ?>
 						<?php if ($params->get('link_category') && $this->item->catslug) : ?>
-							<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)) . '" itemprop="genre">' . $title . '</a>'; ?>
+							<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)) . '" data-sd="' . $type . ' genre">' . $title . '</a>'; ?>
 							<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 						<?php else : ?>
-							<?php echo JText::sprintf('COM_CONTENT_CATEGORY', '<span itemprop="genre">' . $title . '</span>'); ?>
+							<?php echo JText::sprintf('COM_CONTENT_CATEGORY', '<span data-sd="' . $type . ' genre">' . $title . '</span>'); ?>
 						<?php endif; ?>
 					</dd>
 				<?php endif; ?>
 				<?php if ($params->get('show_publish_date')) : ?>
 					<dd class="published">
 						<span class="icon-calendar"></span>
-						<time datetime="<?php echo JHtml::_('date', $this->item->publish_up, 'c'); ?>" itemprop="datePublished">
+						<time datetime="<?php echo JHtml::_('date', $this->item->publish_up, 'c'); ?>" data-sd="<?php echo $type;?> datePublished">
 							<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
 						</time>
 					</dd>
@@ -235,7 +236,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php if ($params->get('show_create_date')) : ?>
 				<dd class="create">
 					<span class="icon-calendar"></span>
-					<time datetime="<?php echo JHtml::_('date', $this->item->created, 'c'); ?>" itemprop="dateCreated">
+					<time datetime="<?php echo JHtml::_('date', $this->item->created, 'c'); ?>" data-sd="<?php echo $type;?> dateCreated">
 						<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3'))); ?>
 					</time>
 				</dd>
@@ -243,7 +244,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php if ($params->get('show_modify_date')) : ?>
 				<dd class="modified">
 					<span class="icon-calendar"></span>
-					<time datetime="<?php echo JHtml::_('date', $this->item->modified, 'c'); ?>" itemprop="dateModified">
+					<time datetime="<?php echo JHtml::_('date', $this->item->modified, 'c'); ?>" data-sd="<?php echo $type;?> dateModified">
 						<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
 					</time>
 				</dd>
@@ -251,10 +252,11 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php if ($params->get('show_hits')) : ?>
 				<dd class="hits">
 					<span class="icon-eye-open"></span>
-					<meta itemprop="interactionCount" content="UserPageVisits:<?php echo $this->item->hits; ?>" />
+					<meta data-sd="<?php echo $type;?> interactionCount" content="UserPageVisits:<?php echo $this->item->hits; ?>" />
 					<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 				</dd>
 			<?php endif; ?>
+				<?php echo JLayoutHelper::render('joomla.content.microdata.' . lcfirst($type), array('params' => $params, 'item' => $this->item)); ?>
 			</dl>
 			<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
 				<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
