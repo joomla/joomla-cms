@@ -12,11 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Keychain Class
  *
- * @package     Joomla.Platform
- * @subpackage  Keychain
- * @since       12.3
+ * @since  12.3
  */
-class JKeychain extends JRegistry
+class JKeychain extends \Joomla\Registry\Registry
 {
 	/**
 	 * @var    string  Method to use for encryption.

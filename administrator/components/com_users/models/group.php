@@ -16,17 +16,20 @@ defined('_JEXEC') or die;
  */
 class UsersModelGroup extends JModelAdmin
 {
-	/**
-	 * @var		string	The event to trigger after saving the data.
-	 * @since   1.6
-	 */
-	protected $event_after_save = 'onUserAfterSaveGroup';
+	public function __construct($config = array())
+	{
+		$config = array_merge(
+			array(
+				'event_after_delete'  => 'onUserAfterDeleteGroup',
+				'event_after_save'    => 'onUserAfterSaveGroup',
+				'event_before_delete' => 'onUserBeforeDeleteGroup',
+				'event_before_save'   => 'onUserBeforeSaveGroup',
+				'events_map'          => array('delete' => 'user', 'save' => 'user')
+			), $config
+		);
 
-	/**
-	 * @var		string	The event to trigger after before the data.
-	 * @since   1.6
-	 */
-	protected $event_before_save = 'onUserBeforeSaveGroup';
+		parent::__construct($config);
+	}
 
 	/**
 	 * Returns a reference to the a Table object, always creating it.
@@ -128,7 +131,7 @@ class UsersModelGroup extends JModelAdmin
 	public function save($data)
 	{
 		// Include the content plugins for events.
-		JPluginHelper::importPlugin('user');
+		JPluginHelper::importPlugin($this->events_map['save']);
 
 		/**
 		 * Check the super admin permissions for group
@@ -228,7 +231,7 @@ class UsersModelGroup extends JModelAdmin
 		$table = $this->getTable();
 
 		// Load plugins.
-		JPluginHelper::importPlugin('user');
+		JPluginHelper::importPlugin($this->events_map['delete']);
 		$dispatcher = JEventDispatcher::getInstance();
 
 		// Check if I am a Super Admin
@@ -257,14 +260,17 @@ class UsersModelGroup extends JModelAdmin
 
 				if ($allow)
 				{
-					// Fire the onUserBeforeDeleteGroup event.
-					$dispatcher->trigger('onUserBeforeDeleteGroup', array($table->getProperties()));
+					// Fire the before delete event.
+					$dispatcher->trigger($this->event_before_delete, array($table->getProperties()));
 
 					if (!$table->delete($pk))
 					{
 						$this->setError($table->getError());
 
 						return false;
+					} else {
+						// Trigger the after delete event.
+						$dispatcher->trigger($this->event_after_delete, array($table->getProperties(), true, $this->getError()));
 					}
 					else
 					{

@@ -42,6 +42,8 @@ class JModelFormTest extends TestCase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox validate() returns false on JForm exception
 	 */
 	public function testValidateReturnsFalseOnJformException()
 	{
@@ -67,6 +69,8 @@ class JModelFormTest extends TestCase
 	 * @depends testValidateReturnsFalseOnJformException
 	 *
 	 * @return  void
+	 *
+	 * @testdox validate() sets error message on exception
 	 */
 	public function testValidateSetsErrorMessageOnException($object)
 	{
@@ -79,6 +83,8 @@ class JModelFormTest extends TestCase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox validate() returns false when JForm returns false
 	 */
 	public function testValidateReturnsFalseOnJformFalse()
 	{
@@ -107,6 +113,8 @@ class JModelFormTest extends TestCase
 	 * @depends testValidateReturnsFalseOnJformFalse
 	 *
 	 * @return  void
+	 *
+	 * @testdox validate() sets error messages when JForm returns false
 	 */
 	public function testValidateSetsErrorMessageOnJformFalse($object)
 	{
@@ -124,6 +132,8 @@ class JModelFormTest extends TestCase
 	 * @dataProvider validationDataProvider
 	 *
 	 * @return  void
+	 *
+	 * @testdox validate() modifies tags array
 	 */
 	public function testValidateModifiesTagsArray($data, $expected)
 	{
@@ -146,6 +156,8 @@ class JModelFormTest extends TestCase
 	 * @since   3.4
 	 *
 	 * @return  void
+	 *
+	 * @testdox validate() passes data and group to JForm
 	 */
 	public function testValidatePassesDataAndGroupToJform()
 	{

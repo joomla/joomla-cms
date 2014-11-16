@@ -43,7 +43,7 @@ class JInputCliTest extends PHPUnit_Framework_TestCase
 	public function test_parseArguments($inputArgv, $expectedData, $expectedArgs)
 	{
 		$_SERVER['argv'] = $inputArgv;
-		$this->inspector = new JInputCLI(null, array('filter' => new JFilterInputMock));
+		$this->inspector = new JInputCli(null, array('filter' => new JFilterInputMock));
 
 		$this->assertThat(
 			TestReflection::getValue($this->inspector, 'data'),

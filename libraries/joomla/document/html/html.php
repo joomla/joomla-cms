@@ -9,14 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 jimport('joomla.utilities.utility');
 
 /**
  * DocumentHTML class, provides an easy interface to parse and display a HTML document
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JDocumentHTML extends JDocument
 {
@@ -93,7 +93,7 @@ class JDocumentHTML extends JDocument
 	protected $_caching = null;
 
 	/**
-	 * Set to true when the document should be output as HTML%
+	 * Set to true when the document should be output as HTML5
 	 *
 	 * @var    boolean
 	 * @since  12.1
@@ -634,7 +634,7 @@ class JDocumentHTML extends JDocument
 		// Assign the variables
 		$this->template = $template;
 		$this->baseurl = JUri::base(true);
-		$this->params = isset($params['params']) ? $params['params'] : new JRegistry;
+		$this->params = isset($params['params']) ? $params['params'] : new Registry;
 
 		// Load
 		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);

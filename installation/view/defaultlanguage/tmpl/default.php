@@ -95,10 +95,11 @@ defined('_JEXEC') or die;
 		</tr>
 		</thead>
 		<tbody>
-		<?php foreach ($this->items->administrator as $lang) : ?>
+		<?php foreach ($this->items->administrator as $i => $lang) : ?>
 			<tr>
 				<td>
 					<input
+						id="admin-language-cb<?php echo $i; ?>"
 						type="radio"
 						name="administratorlang"
 						value="<?php echo $lang->language; ?>"
@@ -106,7 +107,9 @@ defined('_JEXEC') or die;
 						/>
 				</td>
 				<td align="center">
-					<?php echo $lang->name; ?>
+					<label for="admin-language-cb<?php echo $i; ?>">
+						<?php echo $lang->name; ?>
+					</label>
 				</td>
 				<td align="center">
 					<?php echo $lang->language; ?>
@@ -133,10 +136,11 @@ defined('_JEXEC') or die;
 		</tr>
 		</thead>
 		<tbody>
-		<?php foreach ($this->items->frontend as $lang) : ?>
+		<?php foreach ($this->items->frontend as $i => $lang) : ?>
 			<tr>
 				<td>
 					<input
+						id="site-language-cb<?php echo $i; ?>"
 						type="radio"
 						name="frontendlang"
 						value="<?php echo $lang->language; ?>"
@@ -144,7 +148,9 @@ defined('_JEXEC') or die;
 						/>
 				</td>
 				<td align="center">
-					<?php echo $lang->name; ?>
+					<label for="site-language-cb<?php echo $i; ?>">
+						<?php echo $lang->name; ?>
+					</label>
 				</td>
 				<td align="center">
 					<?php echo $lang->language; ?>

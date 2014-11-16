@@ -125,12 +125,64 @@
 			showon="cache_handler:memcached"
 			filter="integer"
 			size="5" />
+
+		<field
+			name="redis_persist"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
+			filter="integer"
+			showon="cache_handler:redis">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="redis_server_host"
+			type="text"
+			default="localhost"
+			label="COM_CONFIG_FIELD_REDIS_HOST_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_HOST_DESC"
+			filter="string"
+			showon="cache_handler:redis"
+			size="25" />
+
+		<field
+			name="redis_server_port"
+			type="text"
+			default="6379"
+			label="COM_CONFIG_FIELD_REDIS_PORT_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_PORT_DESC"
+			filter="integer"
+			showon="cache_handler:redis"
+			size="5" />
+
+		<field
+			name="redis_server_auth"
+			type="password"
+			label="COM_CONFIG_FIELD_REDIS_AUTH_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_AUTH_DESC"
+			filter="raw"
+			showon="cache_handler:redis"
+			autocomplete="off"
+			size="30" />
+
+		<field
+			name="redis_server_db"
+			type="text"
+			default="0"
+			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_DB_DESC"
+			filter="integer"
+			showon="cache_handler:redis"
+			size="4" />
 	</fieldset>
 
 	<fieldset
 		name="memcache"
 		label="COM_CONFIG_MEMCACHE_SETTINGS_LABEL">
-
 	</fieldset>
 
 	<fieldset
@@ -141,7 +193,7 @@
 			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			supported="mysql,mysqli,postgresql,sqlsrv,sqlazure"
+			supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
 			filter="string" />
 
 		<field
@@ -384,6 +436,20 @@
 			description="COM_CONFIG_FIELD_MAIL_FROM_NAME_DESC"
 			filter="string"
 			size="30" />
+
+		<field
+				name="massmailoff"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
+				description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
+				filter="integer">
+			<option
+					value="1">JYES</option>
+			<option
+					value="0">JNO</option>
+		</field>
 
 		<field
 			name="sendmail"
