@@ -713,13 +713,17 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	private function getLangCookieTime()
 	{
-		if ($this->params->get('lang_cookie', 1) == 1)
+		switch ($this->params->get('lang_cookie', 1))
 		{
-			$lang_cookie = time() + 365 * 86400;
-		}
-		else
-		{
-			$lang_cookie = 0;
+			case 1:
+				$lang_cookie = time() + 365 * 86400;
+				break;
+			case 2:
+				$lang_cookie = time() - 3600;
+				break;
+			default:
+				$lang_cookie = 0;
+				break;
 		}
 
 		return $lang_cookie;
