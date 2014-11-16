@@ -48,7 +48,7 @@ class JComponentHelper
 			{
 				$result = new stdClass;
 				$result->enabled = $strict ? false : true;
-				$result->params = new JRegistry;
+				$result->params = new Registry;
 			}
 		}
 		else
@@ -58,7 +58,7 @@ class JComponentHelper
 
 		if (is_string($result->params))
 		{
-			$temp = new JRegistry;
+			$temp = new Registry;
 			$temp->loadString(static::$components[$option]->params);
 			static::$components[$option]->params = $temp;
 		}
