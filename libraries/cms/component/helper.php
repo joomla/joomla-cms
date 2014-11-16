@@ -48,12 +48,19 @@ class JComponentHelper
 			{
 				$result = new stdClass;
 				$result->enabled = $strict ? false : true;
-				$result->params = new Registry;
+				$result->params = new JRegistry;
 			}
 		}
 		else
 		{
 			$result = static::$components[$option];
+		}
+
+		if (is_string($result->params))
+		{
+			$temp = new JRegistry;
+			$temp->loadString(static::$components[$option]->params);
+			static::$components[$option]->params = $temp;
 		}
 
 		return $result;
@@ -406,15 +413,14 @@ class JComponentHelper
 		$query = $db->getQuery(true)
 			->select('extension_id AS id, element AS "option", params, enabled')
 			->from('#__extensions')
-			->where($db->quoteName('type') . ' = ' . $db->quote('component'))
-			->where($db->quoteName('element') . ' = ' . $db->quote($option));
+			->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 		$db->setQuery($query);
 
 		$cache = JFactory::getCache('_system', 'callback');
 
 		try
 		{
-			static::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
+			static::$components = $cache->get(array($db, 'loadObjectList'), array('option'), $option, false);
 		}
 		catch (RuntimeException $e)
 		{
@@ -431,14 +437,6 @@ class JComponentHelper
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
 
 			return false;
-		}
-
-		// Convert the params to an object.
-		if (is_string(static::$components[$option]->params))
-		{
-			$temp = new Registry;
-			$temp->loadString(static::$components[$option]->params);
-			static::$components[$option]->params = $temp;
 		}
 
 		return true;
