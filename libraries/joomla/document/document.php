@@ -275,13 +275,12 @@ class JDocument
 
 		if (empty(self::$instances[$signature]))
 		{
-			$app      = JFactory::getApplication();
-			$template = $app->getTemplate();
+			$template = JFactory::getApplication()->getTemplate();
 			$type     = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 			$ntype    = null;
 
 			// Determine the path and class
-			$class = 'JDocument' . $type;
+			$class    = 'JDocument' . $type;
 
 			if (!class_exists($class))
 			{
@@ -1015,12 +1014,11 @@ class JDocument
 	public function loadRenderer($type)
 	{
 		$class = 'JDocumentRenderer' . $type;
-		$app = JFactory::getApplication();
 
 		if (!class_exists($class))
 		{
 			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
-			$template = $app->getTemplate();
+			$template = JFactory::getApplication()->getTemplate();
 
 			if (file_exists(JPATH_THEMES . '/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
 			{
