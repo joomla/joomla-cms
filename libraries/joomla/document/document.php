@@ -275,10 +275,10 @@ class JDocument
 
 		if (empty(self::$instances[$signature]))
 		{
-			$app = JFactory::getApplication();
+			$app      = JFactory::getApplication();
 			$template = $app->getTemplate();
-			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-			$ntype = null;
+			$type     = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
+			$ntype    = null;
 
 			// Determine the path and class
 			$class = 'JDocument' . $type;
@@ -296,10 +296,10 @@ class JDocument
 				{
 					// Default to the raw format
 					$ntype = $type;
-					$type = 'raw';
+					$type  = 'raw';
 					$class = 'JDocument' . $type;
-					
-					$path = __DIR__ . '/' . $type . '/' . $type . '.php';
+
+					$path  = __DIR__ . '/' . $type . '/' . $type . '.php';
 				}
 
 				if (file_exists($path))
