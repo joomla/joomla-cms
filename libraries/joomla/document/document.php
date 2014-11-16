@@ -294,7 +294,7 @@ class JDocument
 				{
 					$ntype = $type;
 					$type = 'raw';
-					
+
 					$class = 'JDocument' . $type;
 
 					require_once $rawpath;
