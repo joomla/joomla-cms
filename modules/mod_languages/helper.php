@@ -34,15 +34,21 @@ abstract class ModLanguagesHelper
 		$lang 	= JFactory::getLanguage();
 		$app	= JFactory::getApplication();
 		$menu 	= $app->getMenu();
+		$active = $menu->getActive();
+		$levels	= $user->getAuthorisedViewLevels();
+		$languages = JLanguageHelper::getLanguages();
+		$activeLanguage = JFactory::getLanguage()->getTag();
+		$assoc = JLanguageAssociations::isEnabled();
 
 		// Get parameters from the Language Filter Plugin and check if "Remove URL Language Code" is set
 		$languagefilter = JPluginHelper::getPlugin('system', 'languagefilter');
-
-		// TODO: below, also check if the plugin is enabled. I have to find out how...
 		if (is_object($languagefilter))
 		{
 			$languagefilter_params = new JRegistry($languagefilter->params);
-			$remove_default_prefix = $languagefilter_params->get('remove_default_prefix') == '1';
+			$remove_default_prefix = 
+				$languagefilter_params->get('enabled') == '1' && 
+				$languagefilter_params->get('remove_default_prefix') == '1' && 
+				$active != $menu->getDefault($activeLanguage);
 		}
 		else
 		{
@@ -66,12 +72,8 @@ abstract class ModLanguagesHelper
 		}
 
 		// Load associations
-		$assoc = JLanguageAssociations::isEnabled();
-
 		if ($assoc)
 		{
-			$active = $menu->getActive();
-
 			if ($active)
 			{
 				$associations = MenusHelper::getAssociations($active->id);
@@ -88,10 +90,6 @@ abstract class ModLanguagesHelper
 				$cassociations = call_user_func(array($cName, 'getAssociations'));
 			}
 		}
-
-		$levels		= $user->getAuthorisedViewLevels();
-		$languages	= JLanguageHelper::getLanguages();
-		$activeLanguage = JFactory::getLanguage()->getTag();
 
 		// Filter allowed languages
 		foreach ($languages as $i => &$language)
