@@ -278,36 +278,32 @@ class JDocument
 			$app = JFactory::getApplication();
 			$template = $app->getTemplate();
 			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-			$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 			$ntype = null;
-
-			if (file_exists(JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
-			{
-				$path = JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php';
-			}
-
-			// Check if the document type exists
-			if (!file_exists($path))
-			{
-				// Default to the raw format
-				$ntype = $type;
-				$type = 'raw';
-			}
 
 			// Determine the path and class
 			$class = 'JDocument' . $type;
 
 			if (!class_exists($class))
 			{
-				if (file_exists(__DIR__ . '/' . $type . '/' . $type . '.php'))
+				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
+
+				if (file_exists(JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
 				{
+					$path = JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php';
+				}
+				// Check if the document type exists
+				elseif (!file_exists($path))
+				{
+					// Default to the raw format
+					$ntype = $type;
+					$type = 'raw';
+					$class = 'JDocument' . $type;
+					
 					$path = __DIR__ . '/' . $type . '/' . $type . '.php';
+				}
 
-					if (file_exists(JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
-					{
-						$path = JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php';
-					}
-
+				if (file_exists($path))
+				{
 					require_once $path;
 				}
 				else
