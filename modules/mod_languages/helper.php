@@ -46,6 +46,7 @@ abstract class ModLanguagesHelper
 		{
 			$languagefilter_params = new JRegistry($languagefilter->params);
 			$remove_default_prefix = $languagefilter_params->get('remove_default_prefix') == '1' &&
+				$languagefilter_params->get('lang_cookie', 1) == 2 &&
 				$active != $menu->getDefault($activeLanguage);
 		}
 		else
@@ -146,17 +147,17 @@ abstract class ModLanguagesHelper
 							$language->link = 'index.php?lang=' . $language->sef;
 						}
 					}
+
+					// Remove the default language code from the SEF URL when needed
+					if ($remove_default_prefix && $language->sef == $default_sef)
+					{
+						$language->link = preg_replace('|/' . $language->sef . '/|', '/', $language->link, 1);
+					}
 				}
 				else
 				{
 					$language->link = JRoute::_('&Itemid=' . $homes['*']->id);
 				}
-			}
-
-			// Remove the default language code from the SEF URL when needed
-			if ($remove_default_prefix && $language->sef == $default_sef)
-			{
-				$language->link = preg_replace('|/' . $language->sef . '/|', '/', $language->link, 1);
 			}
 		}
 
