@@ -587,10 +587,8 @@ class JLanguage
 		{
 			return call_user_func($this->upperLimitSearchWordCallback);
 		}
-		else
-		{
-			return 200;
-		}
+
+		return 200;
 	}
 
 	/**
