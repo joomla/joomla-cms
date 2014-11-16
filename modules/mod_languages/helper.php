@@ -46,7 +46,6 @@ abstract class ModLanguagesHelper
 		{
 			$languagefilter_params = new JRegistry($languagefilter->params);
 			$remove_default_prefix = $languagefilter_params->get('remove_default_prefix') == '1' &&
-				$languagefilter_params->get('enabled') == '1' &&
 				$active != $menu->getDefault($activeLanguage);
 		}
 		else
