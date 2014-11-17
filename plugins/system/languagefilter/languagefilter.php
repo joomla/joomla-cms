@@ -355,7 +355,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						else
 						{
 							$path = $uri->toString(array('path', 'query', 'fragment'));
-							$app->redirect($uri->base() . 'index.php' . ($path ? ('/' . $path) : ''));
+							$app->redirect($uri->base() . 'index.php' . ($path ? ('/' . $path) : ''), true);
 						}
 					}
 				}
