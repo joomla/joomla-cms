@@ -83,13 +83,16 @@ class BannersModelBanners extends JModelList
 			->where('(' . $query->currentTimestamp() . ' <= a.publish_down OR a.publish_down = ' . $nullDate . ')')
 			->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
 
-		if ($cid)
+		if ($cid OR $categoryId)
 		{
-			$query->join('LEFT', '#__categories as cat ON a.catid = cat.id')
-				->where('a.cid = ' . (int) $cid)
-				->where('cl.state = 1');
+			$query->join('LEFT', '#__categories as cat ON a.catid = cat.id');
 		}
 
+		if ($cid)
+		{
+    			$query->where('a.cid = ' . (int) $cid)
+           		      ->where('cl.state = 1');
+		}
 		// Filter by a single or group of categories
 		if (is_numeric($categoryId))
 		{
