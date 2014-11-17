@@ -10,12 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Suggestions JSON controller for Finder.
+ * Suggester JSON controller for Finder.
  *
- * @since       2.5
- * @Deprecated  3.4
+ * @since  3.4
  */
-class FinderControllerSuggestions extends JControllerLegacy
+class FinderControllerSuggester extends JControllerLegacy
 {
 	/**
 	 * Method to find search query suggestions.
@@ -25,7 +24,7 @@ class FinderControllerSuggestions extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   2.5
+	 * @since   3.4
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -35,7 +34,7 @@ class FinderControllerSuggestions extends JControllerLegacy
 		if ($params->get('show_autosuggest', 1))
 		{
 			// Get the suggestions.
-			$model = $this->getModel('Suggestions', 'FinderModel');
+			$model = $this->getModel('Suggester', 'FinderModel');
 			$return = $model->getItems();
 		}
 
@@ -49,7 +48,7 @@ class FinderControllerSuggestions extends JControllerLegacy
 		header('Content-Type: application/json');
 
 		// Send the response.
-		echo json_encode($return);
+		echo '{ "suggestions": ' . json_encode($return) . ' }';
 		JFactory::getApplication()->close();
 	}
 }

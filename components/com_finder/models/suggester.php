@@ -13,12 +13,11 @@ define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/help
 JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
 
 /**
- * Suggestions model class for the Finder package.
+ * Suggester model class for the Finder package.
  *
- * @since       2.5
- * @Deprecated  3.4
+ * @since  3.4
  */
-class FinderModelSuggestions extends JModelList
+class FinderModelSuggester extends JModelList
 {
 	/**
 	 * Context string for the model type.
@@ -26,16 +25,14 @@ class FinderModelSuggestions extends JModelList
 	 * @var    string
 	 * @since  2.5
 	 */
-	protected $context = 'com_finder.suggestions';
+	protected $context = 'com_finder.suggester';
 
 	/**
 	 * Method to get an array of data items.
 	 *
 	 * @return  array  An array of data items.
 	 *
-	 * @since   2.5
-	 *
-	 * @Deprecated  3.4
+	 * @since   3.4
 	 */
 	public function getItems()
 	{
@@ -56,14 +53,12 @@ class FinderModelSuggestions extends JModelList
 	 *
 	 * @return  JDatabaseQuery  A database query
 	 *
-	 * @since   2.5
-	 *
-	 * @Deprecated  3.4
+	 * @since   3.4
 	 */
 	protected function getListQuery()
 	{
-		JLog::add('The use of suggestions class is deprecated use suggester instead.', JLog::WARNING, 'deprecated');
-
+		// Get the input query
+		$field = JFactory::getApplication()->input->get('query', '', 'string');
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -71,7 +66,7 @@ class FinderModelSuggestions extends JModelList
 		// Select required fields
 		$query->select('t.term')
 			->from($db->quoteName('#__finder_terms') . ' AS t')
-			->where('t.term LIKE ' . $db->quote($db->escape($this->getState('input'), true) . '%'))
+			->where('t.term LIKE ' . $db->quote($db->escape($field, true) . '%'))
 			->where('t.common = 0')
 			->where('t.language IN (' . $db->quote($db->escape($this->getState('language'), true)) . ', ' . $db->quote('*') . ')')
 			->order('t.links DESC')
@@ -91,9 +86,7 @@ class FinderModelSuggestions extends JModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   2.5
-	 *
-	 * @Deprecated  3.4
+	 * @since   3.4
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -116,9 +109,7 @@ class FinderModelSuggestions extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   2.5
-	 *
-	 * @Deprecated  3.4
+	 * @since   3.4
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{

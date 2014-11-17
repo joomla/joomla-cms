@@ -127,7 +127,7 @@ if ($params->get('show_autosuggest', 1))
 	$script .= "
 	var a = jQuery('#mod-finder-searchword').autocomplete({
 		type: 'POST',
-		serviceUrl:'" . JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false) . "',
+		serviceUrl:'" . JRoute::_('index.php?option=com_finder&task=suggester.display&format=json&tmpl=component', false) . "',
 		minChars:1,
 		delimiter: /(,|;)\\s*/,
 		maxHeight:400,

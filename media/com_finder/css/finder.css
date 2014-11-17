@@ -49,6 +49,42 @@ span.highlight {
 	padding:1px 4px;
 }
 
+ul.autocompleter-choices {
+	position:absolute;
+	margin:0;
+	padding:0;
+	list-style:none;
+	border:1px solid #EEEEEE;
+	background-color:white;
+	border-right-color:#DDDDDD;
+	border-bottom-color:#DDDDDD;
+	text-align:left;
+	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+	z-index:50;
+}
+
+ul.autocompleter-choices li {
+	background:none;
+	position:relative;
+	padding:0.1em 1.5em 0.1em 1em;
+	cursor:pointer;
+	font-weight:normal;
+	font-size:1em;
+}
+
+ul.autocompleter-choices li.autocompleter-selected {
+	background-color:#444;
+	color:#fff;
+}
+
+ul.autocompleter-choices span.autocompleter-queried {
+	font-weight:bold;
+}
+
+ul.autocompleter-choices li.autocompleter-selected span.autocompleter-queried {
+	color:#9FCFFF;
+}
+
 .autocomplete-suggestions {
 	border: 1px solid #999;
 	background: #FFF; cursor: default;
