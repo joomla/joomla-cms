@@ -350,7 +350,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 						if ($app->get('sef_rewrite'))
 						{
-							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
+							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')), true);
 						}
 						else
 						{
