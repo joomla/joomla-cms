@@ -59,7 +59,7 @@ if ($this->params->get('show_advanced', 1))
  */
 if ($this->params->get('show_autosuggest', 1))
 {
-	JHtml::_('script', 'com_finder/autocompleter.js', false, true);
+	JHtml::_('script', 'com_finder/jquery.autocomplete.min.js', false, true, false, false, true);
 
 	$script .= "
 	var a = jQuery('#q').autocomplete({
