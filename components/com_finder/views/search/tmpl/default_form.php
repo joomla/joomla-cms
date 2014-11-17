@@ -8,62 +8,61 @@
  */
 
 defined('_JEXEC') or die;
-?>
 
-<script type="text/javascript">
-	jQuery(function($) {
-<?php if ($this->params->get('show_advanced', 1)) : ?>
-		/*
-		 * This segment of code adds the slide effect to the advanced search box.
-		 */
-		var $searchSlider = $('#advanced-search');
-		if ($searchSlider.length)
+$script = "jQuery(function() {";
+if ($this->params->get('show_advanced', 1))
+{
+	/*
+	 * This segment of code adds the slide effect to the advanced search box.
+	 */
+	$script .= "		var searchSlider = jQuery('#advanced-search');
+		if (searchSlider.length)
 		{
-			<?php if (!$this->params->get('expand_advanced', 0)) : ?>
-			$searchSlider.hide();
-			<?php endif; ?>
+		";
+	if (!$this->params->get('expand_advanced', 0))
+	{
+		$script .= "searchSlider.hide();";
+	}
 
-			$('#advanced-search-toggle').on('click', function(e)
-			{
+	$script .= "jQuery('#advanced-search-toggle').on('click', function(e) {
 				e.stopPropagation();
 				e.preventDefault();
-				$searchSlider.slideToggle();
+				searchSlider.slideToggle();
 			});
-		}
-
-		/*
-		 * This segment of code disables select boxes that have no value when the
-		 * form is submitted so that the URL doesn't get blown up with null values.
-		 */
-		if ($('#finder-search').length)
-		{
-			$('#finder-search').on('submit', function(e){
+		}";
+	/*
+	 * This segment of code disables select boxes that have no value when the
+	 * form is submitted so that the URL doesn't get blown up with null values.
+	 */
+	$script .= "		if (jQuery('#finder-search').length) {
+			jQuery('#finder-search').on('submit', function(e){
 				e.stopPropagation();
-
-				if ($searchSlider.length)
+				if (searchSlider.length)
 				{
 					// Disable select boxes with no value selected.
-					$searchSlider.find('select').each(function(index, el) {
-						var $el = $(el);
-			        	if(!$el.val()){
-			        		$el.attr('disabled', 'disabled');
-			        	}
-        			});
+					searchSlider.find('select').each(function(index, el) {
+						var el = jQuery(el);
+						if(!el.val()){
+							el.attr('disabled', 'disabled');
+						}
+					});
 				}
-
 			});
-		}
-<?php endif; ?>
-		/*
-		 * This segment of code sets up the autocompleter.
-		 */
-<?php if ($this->params->get('show_autosuggest', 1)) : ?>
-	<?php JHtml::_('script', 'com_finder/autocompleter.js', false, true); ?>
-	var url = '<?php echo JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false); ?>';
-	var completer = new Autocompleter.Request.JSON(document.getElementById("q"), url, {'postVar': 'q'});
-<?php endif; ?>
-	});
-</script>
+		}";
+}
+/*
+ * This segment of code sets up the autocompleter.
+ */
+if ($this->params->get('show_autosuggest', 1))
+{
+	JHtml::_('script', 'com_finder/autocompleter.js', true, true);
+	$script .= "var url = '" . JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false) . "', ";
+	$script .= "completer = new Autocompleter.Request.JSON(document.getElementById('q'), url, {'postVar': 'q'});";
+}
+$script .= "});";
+
+JFactory::getDocument()->addScriptDeclaration($script);
+?>
 
 <form id="finder-search" action="<?php echo JRoute::_($this->query->toURI()); ?>" method="get" class="form-inline">
 	<?php echo $this->getFields(); ?>
