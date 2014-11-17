@@ -63,13 +63,13 @@ if ($this->params->get('show_autosuggest', 1))
 
 	$script .= "
 	var a = jQuery('#q').autocomplete({
-		type: 'POST',
-		serviceUrl:'" . JRoute::_('index.php?option=com_finder&task=suggester.display&format=json&tmpl=component', false) . "',
-		minChars:1,
-		delimiter: /(,|;)\\s*/,
-		maxHeight:400,
-		width:300,
-		zIndex: 9999
+		type: 'GET',
+		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggester.display&format=json&tmpl=component', false) . "',
+		minChars: 1,
+		maxHeight: 400,
+		width: 300,
+		zIndex: 9999,
+		deferRequestBy: 500
 	});";
 }
 
