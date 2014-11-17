@@ -275,24 +275,31 @@ class JDocument
 
 		if (empty(self::$instances[$signature]))
 		{
-			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-			$path = __DIR__ . '/' . $type . '/' . $type . '.php';
-			$ntype = null;
-
-			// Check if the document type exists
-			if (!file_exists($path))
-			{
-				// Default to the raw format
-				$ntype = $type;
-				$type = 'raw';
-			}
+			$template = JFactory::getApplication()->getTemplate();
+			$type     = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
+			$ntype    = null;
 
 			// Determine the path and class
-			$class = 'JDocument' . $type;
+			$class    = 'JDocument' . $type;
 
 			if (!class_exists($class))
 			{
 				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
+
+				if (file_exists(JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php'))
+				{
+					$path = JPATH_THEMES . '/' . $template . '/' . 'document' . '/' . $type . '/' . $type . '.php';
+				}
+				// Check if the document type exists
+				elseif (!file_exists($path))
+				{
+					// Default to the raw format
+					$ntype = $type;
+					$type  = 'raw';
+					$class = 'JDocument' . $type;
+
+					$path  = __DIR__ . '/' . $type . '/' . $type . '.php';
+				}
 
 				if (file_exists($path))
 				{
@@ -1011,6 +1018,12 @@ class JDocument
 		if (!class_exists($class))
 		{
 			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
+			$template = JFactory::getApplication()->getTemplate();
+
+			if (file_exists(JPATH_THEMES . '/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php'))
+			{
+				$path = JPATH_THEMES . '/' . $template . '/document/' . $this->_type . '/renderer/' . $type . '.php';
+			}
 
 			if (file_exists($path))
 			{
