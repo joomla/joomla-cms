@@ -34,6 +34,30 @@ abstract class ModLanguagesHelper
 		$lang 	= JFactory::getLanguage();
 		$app	= JFactory::getApplication();
 		$menu 	= $app->getMenu();
+		$active = $menu->getActive();
+		$levels	= $user->getAuthorisedViewLevels();
+		$languages = JLanguageHelper::getLanguages();
+		$activeLanguage = JFactory::getLanguage()->getTag();
+		$assoc = JLanguageAssociations::isEnabled();
+
+		// Get parameters from the Language Filter Plugin and check if "Remove URL Language Code" is set
+		$languagefilter = JPluginHelper::getPlugin('system', 'languagefilter');
+		if (is_object($languagefilter))
+		{
+			$languagefilter_params = new JRegistry($languagefilter->params);
+			$remove_default_prefix = $languagefilter_params->get('remove_default_prefix') == '1' &&
+				$languagefilter_params->get('lang_cookie', 1) == 2 &&
+				$active != $menu->getDefault($activeLanguage);
+		}
+		else
+		{
+			$remove_default_prefix = false;
+		}
+
+		// Get language codes, default language and default language code
+		$lang_codes		= JLanguageHelper::getLanguages('lang_code');
+		$default_lang 	= JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+		$default_sef 	= $lang_codes[$default_lang]->sef;
 
 		// Get menu home items
 		$homes = array();
@@ -47,12 +71,8 @@ abstract class ModLanguagesHelper
 		}
 
 		// Load associations
-		$assoc = JLanguageAssociations::isEnabled();
-
 		if ($assoc)
 		{
-			$active = $menu->getActive();
-
 			if ($active)
 			{
 				$associations = MenusHelper::getAssociations($active->id);
@@ -69,10 +89,6 @@ abstract class ModLanguagesHelper
 				$cassociations = call_user_func(array($cName, 'getAssociations'));
 			}
 		}
-
-		$levels		= $user->getAuthorisedViewLevels();
-		$languages	= JLanguageHelper::getLanguages();
-		$activeLanguage = JFactory::getLanguage()->getTag();
 
 		// Filter allowed languages
 		foreach ($languages as $i => &$language)
@@ -130,6 +146,12 @@ abstract class ModLanguagesHelper
 						{
 							$language->link = 'index.php?lang=' . $language->sef;
 						}
+					}
+
+					// Remove the default language code from the SEF URL when needed
+					if ($remove_default_prefix && $language->sef == $default_sef)
+					{
+						$language->link = preg_replace('|/' . $language->sef . '/|', '/', $language->link, 1);
 					}
 				}
 				else
