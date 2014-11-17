@@ -18,23 +18,34 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	protected $object;
 
 	/**
-	 * Sets up the fixture, for example, open a network connection.
-	 * This method is called before a test is executed.
+	 * Setup for testing.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1.4
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
 
+		$this->saveFactoryState();
+		JFactory::$application = $app;
+
 		$this->object = new JDocument;
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.1.4
 	 */
 	protected function tearDown()
 	{
 		JDocument::$_buffer = null;
+		$this->restoreFactoryState();
 
 		parent::tearDown();
 	}
