@@ -58,11 +58,10 @@ class FinderModelSuggestions extends JModelList
 	protected function getListQuery()
 	{
 		// Get the input query
-		$field = JFactory::getApplication()->input->get('query', '', 'word');
+		$field = JFactory::getApplication()->input->get('query', '', 'string');
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$this->getState('input');
 
 		// Select required fields
 		$query->select('t.term')
