@@ -66,6 +66,7 @@ if ($this->params->get('show_autosuggest', 1))
 		type: 'POST',
 		serviceUrl:'" . JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false) . "',
 		minChars:1,
+		delimiter: /(,|;)\\s*/,
 		maxHeight:400,
 		width:300,
 		zIndex: 9999
