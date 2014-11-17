@@ -48,7 +48,7 @@ class FinderControllerSuggestions extends JControllerLegacy
 		header('Content-Type: application/json');
 
 		// Send the response.
-		echo json_encode($return);
+		echo '{ "suggestions": '. json_encode($return) . '}';
 		JFactory::getApplication()->close();
 	}
 }

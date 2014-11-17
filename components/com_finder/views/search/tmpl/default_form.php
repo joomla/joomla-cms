@@ -8,62 +8,81 @@
  */
 
 defined('_JEXEC') or die;
-?>
 
-<script type="text/javascript">
-	jQuery(function($) {
-<?php if ($this->params->get('show_advanced', 1)) : ?>
-		/*
-		 * This segment of code adds the slide effect to the advanced search box.
-		 */
-		var $searchSlider = $('#advanced-search');
-		if ($searchSlider.length)
-		{
-			<?php if (!$this->params->get('expand_advanced', 0)) : ?>
-			$searchSlider.hide();
-			<?php endif; ?>
+JHtml::_('behavior.core');
 
-			$('#advanced-search-toggle').on('click', function(e)
-			{
+$script = "jQuery(function() {";
+if ($this->params->get('show_advanced', 1))
+{
+	/*
+	 * This segment of code adds the slide effect to the advanced search box.
+	 */
+	$script .= "
+	var searchSlider = jQuery('#advanced-search');
+	if (searchSlider.length)
+	{";
+	if (!$this->params->get('expand_advanced', 0))
+	{
+		$script .= "searchSlider.hide();";
+	}
+
+	$script .= "
+		jQuery('#advanced-search-toggle').on('click', function(e) {
 				e.stopPropagation();
 				e.preventDefault();
-				$searchSlider.slideToggle();
+				searchSlider.slideToggle();
 			});
-		}
+	}";
+	/*
+	 * This segment of code disables select boxes that have no value when the
+	 * form is submitted so that the URL doesn't get blown up with null values.
+	 */
+	$script .= "
+	if (jQuery('#finder-search').length) {
+		jQuery('#finder-search').on('submit', function(e){
+			e.stopPropagation();
+			if (searchSlider.length)
+			{
+				// Disable select boxes with no value selected.
+				searchSlider.find('select').each(function(index, el) {
+					var el = jQuery(el);
+					if(!el.val()){
+						el.attr('disabled', 'disabled');
+					}
+				});
+			}
+		});
+	}";
+}
+/*
+ * This segment of code sets up the autocompleter.
+ */
+if ($this->params->get('show_autosuggest', 1))
+{
+	JHtml::_('script', 'com_finder/autocompleter.js', false, true);
 
-		/*
-		 * This segment of code disables select boxes that have no value when the
-		 * form is submitted so that the URL doesn't get blown up with null values.
-		 */
-		if ($('#finder-search').length)
-		{
-			$('#finder-search').on('submit', function(e){
-				e.stopPropagation();
+	$script .= "
+	var a = jQuery('#q').autocomplete({
+		type: 'POST',
+		serviceUrl:'" . JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false) . "',
+		minChars:1,
+		maxHeight:400,
+		width:300,
+		zIndex: 9999
+	});";
+}
 
-				if ($searchSlider.length)
-				{
-					// Disable select boxes with no value selected.
-					$searchSlider.find('select').each(function(index, el) {
-						var $el = $(el);
-			        	if(!$el.val()){
-			        		$el.attr('disabled', 'disabled');
-			        	}
-        			});
-				}
-
-			});
-		}
-<?php endif; ?>
-		/*
-		 * This segment of code sets up the autocompleter.
-		 */
-<?php if ($this->params->get('show_autosuggest', 1)) : ?>
-	<?php JHtml::_('script', 'com_finder/autocompleter.js', false, true); ?>
-	var url = '<?php echo JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false); ?>';
-	var completer = new Autocompleter.Request.JSON(document.getElementById("q"), url, {'postVar': 'q'});
-<?php endif; ?>
-	});
-</script>
+$script .= "
+});";
+JFactory::getDocument()->addStyleDeclaration(".autocomplete-suggestions { border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; -webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); -moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-no-suggestion { padding: 2px 5px;}
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: bold; color: #000; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { font-weight: bold; font-size: 16px; color: #000; display: block; border-bottom: 1px solid #000; }");
+JFactory::getDocument()->addScriptDeclaration($script);
+?>
 
 <form id="finder-search" action="<?php echo JRoute::_($this->query->toURI()); ?>" method="get" class="form-inline">
 	<?php echo $this->getFields(); ?>
@@ -89,7 +108,7 @@ defined('_JEXEC') or die;
 		<?php if ($this->params->get('show_advanced', 1)) : ?>
 			<a href="#advancedSearch" data-toggle="collapse" class="btn"><span class="icon-list"></span> <?php echo JText::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></a>
 		<?php endif; ?>
-</fieldset>
+	</fieldset>
 
 	<?php if ($this->params->get('show_advanced', 1)) : ?>
 		<div id="advancedSearch" class="collapse">

@@ -57,14 +57,17 @@ class FinderModelSuggestions extends JModelList
 	 */
 	protected function getListQuery()
 	{
+		// Get the input query
+		$field = JFactory::getApplication()->input->get('query', '', 'word');
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
+		$this->getState('input');
 
 		// Select required fields
 		$query->select('t.term')
 			->from($db->quoteName('#__finder_terms') . ' AS t')
-			->where('t.term LIKE ' . $db->quote($db->escape($this->getState('input'), true) . '%'))
+			->where('t.term LIKE ' . $db->quote($db->escape($field, true) . '%'))
 			->where('t.common = 0')
 			->where('t.language IN (' . $db->quote($db->escape($this->getState('language'), true)) . ', ' . $db->quote('*') . ')')
 			->order('t.links DESC')
