@@ -28,6 +28,10 @@ class JDocumentTest extends TestCase
 	{
 		parent::setUp();
 
+		// Set up the mock application and mock the getTemplate method
+		$app = $this->getMockCmsApp();
+		$app->expects($this->any())->method('getTemplate')->willReturn('foobar');
+
 		$this->saveFactoryState();
 		JFactory::$application = $app;
 
