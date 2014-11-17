@@ -247,14 +247,45 @@ abstract class JHtmlBootstrap
 	 *
 	 * @param   string  $selector  The ID selector for the modal.
 	 * @param   array   $params    An array of options for the modal.
+	 *                             Options for the modal can be:
+	 *                             - backdrop  boolean  Includes a modal-backdrop element.
+	 *                             - keyboard  boolean  Closes the modal when escape key is pressed.
+	 *                             - show      boolean  Shows the modal when initialized.
+	 *                             - remote    string   An optional remote URL to load
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
-	 * @deprecated  3.3.7  Useless
+	 * @deprecated  3.x  Unused, JS Not functioning
 	 */
 	public static function modal($selector = 'modal', $params = array())
 	{
+		$sig = md5(serialize(array($selector, $params)));
+
+		if (!isset(static::$loaded[__METHOD__][$sig]))
+		{
+			// Include Bootstrap framework
+			static::framework();
+
+			// Setup options object
+			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
+			$opt['keyboard'] = isset($params['keyboard']) ? (boolean) $params['keyboard'] : true;
+			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : true;
+			$opt['remote']   = isset($params['remote']) ?  $params['remote'] : '';
+
+			$options = JHtml::getJSObject($opt);
+
+			// Attach the modal to document
+			JFactory::getDocument()->addScriptDeclaration(
+				"(function($){
+					$('#$selector').modal($options);
+					})(jQuery);"
+			);
+
+			// Set static array
+			static::$loaded[__METHOD__][$sig] = true;
+		}
+
 		return;
 	}
 
