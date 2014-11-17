@@ -334,17 +334,20 @@ abstract class JHtmlBootstrap
 		// Must set tabindex="-1" to allow closing the modal with the esc key
 		$html .= ' tabindex="-1">';
 
-		// The modal-header (may be empty: is this an issue?)
-		$html .= '<div class="modal-header">';
-		if (!isset($params['closebtn']) || $params['closebtn'])
+		// The modal-header
+		if (!isset($params['closebtn']) || isset($params['title']) || $params['closebtn'])
 		{
-			$html .= '<button type="button" class="close" data-dismiss="modal">×</button>';
+			$html .= '<div class="modal-header">';
+			if (!isset($params['closebtn']) || $params['closebtn'])
+			{
+				$html .= '<button type="button" class="close" data-dismiss="modal">×</button>';
+			}
+			if (isset($params['title']))
+			{
+				$html .= "<h3>{$params['title']}</h3>";
+			}
+			$html .= '</div>';
 		}
-		if (isset($params['title']))
-		{
-			$html .= "<h3>{$params['title']}</h3>";
-		}
-		$html .= '</div>';
 
 		// The modal-body
 		$html .= "<div class=\"modal-body\">{$body}</div>";
