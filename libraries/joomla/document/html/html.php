@@ -565,8 +565,6 @@ class JDocumentHTML extends JDocument
 	 */
 	protected function _loadTemplate($directory, $filename)
 	{
-		// @todo remove code: $component	= JApplicationHelper::getComponentName();
-
 		$contents = '';
 
 		// Check to see if we have a valid template file
