@@ -221,6 +221,14 @@ Joomla.toggleSidebar = function(force)
 
 	var $visible = jQuery('#sidebar').is(":visible");
 
+    var open_icon = 'icon-arrow-left-2';
+    var closed_icon = 'icon-arrow-right-2';
+
+    if (jQuery(document.querySelector("html")).attr('dir') == 'rtl') {
+        open_icon = 'icon-arrow-right-2';
+        closed_icon = 'icon-arrow-left-2';
+    }
+
 	if (force)
 	{
 		// Load the value from localStorage
@@ -239,8 +247,8 @@ Joomla.toggleSidebar = function(force)
 		jQuery('#j-sidebar-container').removeClass('span2').addClass('span1');
         jQuery('#j-sidebar-container').removeClass('j-toggle-visible').addClass('j-toggle-hidden');
 		jQuery('#j-main-container').removeClass('span10').addClass('span12 expanded');
-		jQuery('#j-toggle-sidebar-icon').removeClass('icon-remove').addClass('icon-menu-3');
-		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_SHOW_SIDEBAR'));
+		jQuery('#j-toggle-sidebar-icon').removeClass(open_icon).addClass(closed_icon);
+		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JTOGGLE_SHOW_SIDEBAR'));
 
 		if (typeof(Storage) !== "undefined")
 		{
@@ -254,8 +262,8 @@ Joomla.toggleSidebar = function(force)
 		jQuery('#j-sidebar-container').removeClass('span1').addClass('span2');
         jQuery('#j-sidebar-container').removeClass('j-toggle-hidden').addClass('j-toggle-visible');
 		jQuery('#j-main-container').removeClass('span12 expanded').addClass('span10');
-		jQuery('#j-toggle-sidebar-icon').removeClass('icon-menu-3').addClass('icon-remove');
-		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_HIDE_SIDEBAR'));
+		jQuery('#j-toggle-sidebar-icon').removeClass(closed_icon).addClass(open_icon);
+		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JTOGGLE_HIDE_SIDEBAR'));
 
 		if (typeof(Storage) !== "undefined")
 		{

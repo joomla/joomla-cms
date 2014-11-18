@@ -96,31 +96,47 @@ a.grid_true {
 
 /* For collapsible sidebar */
 #j-sidebar-container {
-	margin-left: 10px;
+	margin-right: 10px;
+}
+div#j-sidebar-container.j-toggle-hidden {
+	width: 0;
 	margin-right: 0;
 }
-
 div#j-sidebar-container.j-toggle-hidden #j-toggle-sidebar-button {
-	padding: 6px 2px 0 4px;
-	border-radius: 4px 0 0 4px;
+	position: absolute;
+	color: #111;
+	padding: 8px 4px 0px 4px;
+	border-radius: 0 4px 4px 0;
+	background: #e6e6e6;
 }
-
 div#j-sidebar-container.j-toggle-visible #j-toggle-sidebar-button {
-	text-align: left;
+	position: relative;
+	color: #999;
+	padding: 2px 4px 4px;
+	border-radius: 4px 4px 0 0;
+	text-align: right;
 }
-
+div#j-sidebar-container.j-toggle-hidden #j-toggle-sidebar-button:hover {
+	color: #555;
+}
+div#j-sidebar-container.j-toggle-visible #j-toggle-sidebar-button:hover {
+	color: #555;
+}
 #j-toggle-sidebar-button {
-	right: 0;
-	left: auto;
-	border-right: 0;
+	left: 0;
+	border-left: 0;
+	margin-top: 0;
+	cursor: pointer;
+	height: 23px;
 }
-
+#sidebar {
+	padding: 4px;
+	border: 1px solid #e1e1e1;
+	border-radius: 4px;
+}
 .j-toggle-visible #j-toggle-sidebar-icon {
-	margin-right: 4px;
-}
-
-#j-main-container.expanded {
-	margin-right: 0;
+	margin-top: 6px;
+	margin-left: 4px;
 }
 
 /* Modal batch */
