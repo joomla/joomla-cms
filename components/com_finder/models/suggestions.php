@@ -16,7 +16,7 @@ JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
  * Suggestions model class for the Finder package.
  *
  * @since       2.5
- * @Deprecated  3.4
+ * @deprecated  3.4
  */
 class FinderModelSuggestions extends JModelList
 {
@@ -35,7 +35,7 @@ class FinderModelSuggestions extends JModelList
 	 *
 	 * @since   2.5
 	 *
-	 * @Deprecated  3.4
+	 * @deprecated  3.4
 	 */
 	public function getItems()
 	{
@@ -58,11 +58,11 @@ class FinderModelSuggestions extends JModelList
 	 *
 	 * @since   2.5
 	 *
-	 * @Deprecated  3.4
+	 * @deprecated  3.4
 	 */
 	protected function getListQuery()
 	{
-		JLog::add('The use of suggestions class is deprecated use suggester instead.', JLog::WARNING, 'deprecated');
+		JLog::add('The use of FinderModelSuggestions class is deprecated, use FinderModelSuggester instead.', JLog::WARNING, 'deprecated');
 
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -93,7 +93,7 @@ class FinderModelSuggestions extends JModelList
 	 *
 	 * @since   2.5
 	 *
-	 * @Deprecated  3.4
+	 * @deprecated  3.4
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -118,7 +118,7 @@ class FinderModelSuggestions extends JModelList
 	 *
 	 * @since   2.5
 	 *
-	 * @Deprecated  3.4
+	 * @deprecated  3.4
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{

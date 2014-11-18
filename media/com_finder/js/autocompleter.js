@@ -1,6 +1,4 @@
-/*
- * Deprecated 3.4 Please use the jQuery equivalent
- */
+//@deprecated  3.4
 var Observer = new Class({
 	Implements: [Options, Events],
 	options: {

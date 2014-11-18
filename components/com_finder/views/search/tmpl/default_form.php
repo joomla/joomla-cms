@@ -63,7 +63,6 @@ if ($this->params->get('show_autosuggest', 1))
 
 	$script .= "
 	var a = jQuery('#q').autocomplete({
-		type: 'GET',
 		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggester.display&format=json&tmpl=component', false) . "',
 		minChars: 1,
 		maxHeight: 400,

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * Suggestions JSON controller for Finder.
  *
  * @since       2.5
- * @Deprecated  3.4
+ * @deprecated  3.4
  */
 class FinderControllerSuggestions extends JControllerLegacy
 {

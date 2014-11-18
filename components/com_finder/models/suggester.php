@@ -59,6 +59,7 @@ class FinderModelSuggester extends JModelList
 	{
 		// Get the input query
 		$field = JFactory::getApplication()->input->get('query', '', 'string');
+
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);

@@ -31,6 +31,7 @@ class FinderControllerSuggester extends JControllerLegacy
 		$return = array();
 
 		$params = JComponentHelper::getParams('com_finder');
+
 		if ($params->get('show_autosuggest', 1))
 		{
 			// Get the suggestions.
