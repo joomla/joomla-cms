@@ -290,8 +290,8 @@ class PlgSystemLanguageFilter extends JPlugin
 			$sef = $parts[0];
 
 			// Redirect only if not in post.
-			if (!empty($lang_code) && ($this->app->input->getMethod() != "POST" ||
-				(count($this->app->input->post) == 0 && count($this->app->input->files) == 0)))
+			if (!empty($lang_code) && ($this->app->input->getMethod() != "POST"
+				|| (count($this->app->input->post) == 0 && count($this->app->input->files) == 0)))
 			{
 				if ($this->params->get('remove_default_prefix', 0) == 0)
 				{
