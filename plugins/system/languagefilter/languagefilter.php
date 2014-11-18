@@ -114,12 +114,15 @@ class PlgSystemLanguageFilter extends JPlugin
 				{
 					$lang_code = self::$sefs[$sef]->lang_code;
 
-					// Create a cookie.
-					$conf = JFactory::getConfig();
-					$cookie_domain 	= $conf->get('cookie_domain', '');
-					$cookie_path 	= $conf->get('cookie_path', '/');
-					setcookie(JApplication::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
-					$app->input->cookie->set(JApplication::getHash('language'), $lang_code);
+					if ($this->params->get('lang_cookie', 1) != 2)
+					{
+						// Create a cookie.
+						$conf = JFactory::getConfig();
+						$cookie_domain 	= $conf->get('cookie_domain', '');
+						$cookie_path 	= $conf->get('cookie_path', '/');
+						setcookie(JApplication::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
+						$app->input->cookie->set(JApplication::getHash('language'), $lang_code);
+					}
 
 					// Set the request var.
 					$app->input->set('language', $lang_code);
@@ -275,8 +278,12 @@ class PlgSystemLanguageFilter extends JPlugin
 	public function parseRule(&$router, &$uri)
 	{
 		$app = JFactory::getApplication();
+		$lang_code = null;
 
-		$lang_code = $app->input->cookie->getString(JApplication::getHash('language'));
+		if ($this->params->get('lang_cookie', 1) != 2)
+		{
+			$lang_code = $app->input->cookie->getString(JApplication::getHash('language'));
+		}
 
 		// No cookie - let's try to detect browser language or use site default.
 		if (!$lang_code)
@@ -463,11 +470,14 @@ class PlgSystemLanguageFilter extends JPlugin
 					);
 					self::$tag = $lang_code;
 
-					// Create a cookie.
-					$conf = JFactory::getConfig();
-					$cookie_domain 	= $conf->get('cookie_domain', '');
-					$cookie_path 	= $conf->get('cookie_path', '/');
-					setcookie(JApplication::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
+					if ($this->params->get('lang_cookie', 1) != 2)
+					{
+						// Create a cookie.
+						$conf = JFactory::getConfig();
+						$cookie_domain 	= $conf->get('cookie_domain', '');
+						$cookie_path 	= $conf->get('cookie_path', '/');
+						setcookie(JApplication::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
+					}
 				}
 			}
 		}
@@ -515,11 +525,14 @@ class PlgSystemLanguageFilter extends JPlugin
 				// Change language.
 				self::$tag = $lang_code;
 
-				// Create a cookie.
-				$conf = JFactory::getConfig();
-				$cookie_domain 	= $conf->get('cookie_domain', '');
-				$cookie_path 	= $conf->get('cookie_path', '/');
-				setcookie(JApplication::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
+				if ($this->params->get('lang_cookie', 1) != 2)
+				{
+					// Create a cookie.
+					$conf = JFactory::getConfig();
+					$cookie_domain 	= $conf->get('cookie_domain', '');
+					$cookie_path 	= $conf->get('cookie_path', '/');
+					setcookie(JApplication::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
+				}
 
 				// Change the language code.
 				JFactory::getLanguage()->setLanguage($lang_code);
@@ -601,8 +614,12 @@ class PlgSystemLanguageFilter extends JPlugin
 			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
 			{
 				$cassociations = call_user_func(array($cName, 'getAssociations'));
+				$lang_code = null;
 
-				$lang_code = $app->input->cookie->getString(JApplication::getHash('language'));
+				if ($this->params->get('lang_cookie', 1) != 2)
+				{
+					$lang_code = $app->input->cookie->getString(JApplication::getHash('language'));
+				}
 
 				// No cookie - let's try to detect browser language or use site default.
 				if (!$lang_code)
@@ -717,7 +734,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			$lang_cookie = time() + 365 * 86400;
 		}
-		else
+		elseif ($this->params->get('lang_cookie', 1) == 0)
 		{
 			$lang_cookie = 0;
 		}
