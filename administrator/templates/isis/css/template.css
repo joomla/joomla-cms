@@ -7150,6 +7150,26 @@ body .navbar-fixed-top {
 	max-width: 143px;
 	height: auto;
 }
+.container-title {
+    overflow: hidden;
+}
+.container-title .brand {
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 30px;
+    color: #fff;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+    line-height: 36px;
+}
+.container-title .brand span {
+    padding: 0 10px 10px 10px;
+}
+.container-title .brand:hover, .brand:focus {
+    text-shadow:none;
+    color:#fff;
+    text-decoration:underline;
+}
 .page-title {
 	color: white;
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
