@@ -3,22 +3,21 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.1.2
+ * @since  3.1.2
  */
 class JFormRulePassword extends JFormRule
 {
-
 	/**
 	 * Method to test if two values are not equal. To use this rule, the form
 	 * XML needs a validate attribute of equals and a field attribute
@@ -29,7 +28,7 @@ class JFormRulePassword extends JFormRule
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
-	 * @param   JRegistry         $input    An optional JRegistry object with the entire data set to validate against the entire form.
+	 * @param   Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
 	 * @param   JForm             $form     The form object for which the field is being tested.
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
@@ -38,10 +37,8 @@ class JFormRulePassword extends JFormRule
 	 * @throws  InvalidArgumentException
 	 * @throws  UnexpectedValueException
 	 */
-	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
-		$field = (string) $element['field'];
-
 		$meter		= isset($this->element['strengthmeter'])  ? ' meter="0"' : '1';
 		$threshold	= isset($this->element['threshold']) ? (int) $this->element['threshold'] : 66;
 		$minimumLength = isset($this->element['minimum_length']) ? (int) $this->element['minimum_length'] : 4;
@@ -81,12 +78,9 @@ class JFormRulePassword extends JFormRule
 		$valueLength = strlen($value);
 
 		// We set a maximum length to prevent abuse since it is unfiltered.
-		if ($valueLength > 99)
+		if ($valueLength > 4096)
 		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_USERS_MSG_PASSWORD_TOO_LONG'),
-				'warning'
-				);
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_MSG_PASSWORD_TOO_LONG'), 'warning');
 		}
 
 		// We don't allow white space inside passwords

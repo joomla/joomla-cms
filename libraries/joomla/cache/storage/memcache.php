@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,28 +12,32 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcache cache storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @see         http://php.net/manual/en/book.memcache.php
- * @since       11.1
+ * @see    http://php.net/manual/en/book.memcache.php
+ * @since  11.1
  */
 class JCacheStorageMemcache extends JCacheStorage
 {
 	/**
+	 * Memcache connection object
+	 *
 	 * @var    Memcache
 	 * @since  11.1
 	 */
 	protected static $_db = null;
 
 	/**
+	 * Persistent session flag
+	 *
 	 * @var    boolean
 	 * @since  11.1
 	 */
 	protected $_persistent = false;
 
 	/**
-	 * @var
-	 * @since   11.1
+	 * Payload compression level
+	 *
+	 * @var    integer
+	 * @since  11.1
 	 */
 	protected $_compress = 0;
 
@@ -47,6 +51,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
+
 		if (self::$_db === null)
 		{
 			$this->getConnection();
@@ -56,7 +61,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	/**
 	 * Return memcache connection object
 	 *
-	 * @return  object   memcache connection object
+	 * @return  mixed   Memcache connection object if present
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
@@ -86,6 +91,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		self::$_db->addServer($server['host'], $server['port'], $this->_persistent);
 
 		$memcachetest = @self::$_db->connect($server['host'], $server['port']);
+
 		if ($memcachetest == false)
 		{
 			throw new RuntimeException('Could not connect to memcache server', 404);
@@ -116,6 +122,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$back = self::$_db->get($cache_id);
+
 		return $back;
 	}
 
@@ -143,11 +150,11 @@ class JCacheStorageMemcache extends JCacheStorage
 				{
 					continue;
 				}
+
 				$namearr = explode('-', $key->name);
 
 				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
 				{
-
 					$group = $namearr[2];
 
 					if (!isset($data[$group]))
@@ -190,6 +197,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();
@@ -201,6 +209,7 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		$config = JFactory::getConfig();
 		$lifetime = (int) $config->get('cachetime', 15);
+
 		if ($this->_lifetime == $lifetime)
 		{
 			$this->_lifetime = $lifetime * 60;
@@ -239,6 +248,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();
@@ -250,8 +260,10 @@ class JCacheStorageMemcache extends JCacheStorage
 			{
 				unset($index[$key]);
 			}
+
 			break;
 		}
+
 		self::$_db->replace($this->_hash . '-index', $index, 0, 0);
 		$this->unlockindex();
 
@@ -278,23 +290,26 @@ class JCacheStorageMemcache extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();
 		}
 
 		$secret = $this->_hash;
+
 		foreach ($index as $key => $value)
 		{
-
 			if (strpos($value->name, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
 			{
 				self::$_db->delete($value->name, 0);
 				unset($index[$key]);
 			}
 		}
+
 		self::$_db->replace($this->_hash . '-index', $index, 0, 0);
 		$this->unlockindex();
+
 		return true;
 	}
 
@@ -355,6 +370,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();
@@ -371,14 +387,12 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		if ($data_lock === false)
 		{
-
 			$lock_counter = 0;
 
 			// Loop until you find that the lock has been released.
 			// That implies that data get from other thread has finished
 			while ($data_lock === false)
 			{
-
 				if ($lock_counter > $looptime)
 				{
 					$returning->locked = false;
@@ -390,8 +404,8 @@ class JCacheStorageMemcache extends JCacheStorage
 				$data_lock = self::$_db->add($cache_id . '_lock', 1, false, $locktime);
 				$lock_counter++;
 			}
-
 		}
+
 		$returning->locked = $data_lock;
 
 		return $returning;
@@ -417,6 +431,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();
@@ -428,8 +443,10 @@ class JCacheStorageMemcache extends JCacheStorage
 			{
 				unset($index[$key]);
 			}
+
 			break;
 		}
+
 		self::$_db->replace($this->_hash . '-index', $index, 0, 0);
 		$this->unlockindex();
 
@@ -450,7 +467,6 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		if ($data_lock === false)
 		{
-
 			$lock_counter = 0;
 
 			// Loop until you find that the lock has been released.  that implies that data get from other thread has finished

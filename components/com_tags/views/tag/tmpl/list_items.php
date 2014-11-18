@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.framework');
+JHtml::_('formbehavior.chosen', 'select');
 
 $n			= count($this->items);
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -18,9 +19,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if ($this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
+	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar">
-		<?php if ($this->params->get('filter_field') != 'hide') :?>
+		<?php if ($this->params->get('filter_field')) :?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search">
 					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL').'&#160;'; ?>
@@ -46,7 +47,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php endif; ?>
 
 	<?php if ($this->items == false || $n == 0) : ?>
-		<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p></div>
+		<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
 		<table class="category table table-striped table-bordered table-hover">
 			<?php if ($this->params->get('show_headings')) : ?>
@@ -100,7 +101,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
-		</table></div>
+		</table>
 	<?php endif; ?>
 
 <?php // Add pagination links ?>
@@ -117,5 +118,5 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php echo $this->pagination->getPagesLinks(); ?>
 	</div>
 	<?php endif; ?>
-</form>
 <?php endif; ?>
+</form>

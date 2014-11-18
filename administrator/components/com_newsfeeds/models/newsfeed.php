@@ -3,25 +3,34 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
 
 /**
  * Newsfeed model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
- * @since       1.6
+ * @since  1.6
  */
 class NewsfeedsModelNewsfeed extends JModelAdmin
 {
+
 	/**
-	 * @var        string    The prefix to use with controller messages.
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = 'com_newsfeeds.newsfeed';
+
+	/**
+	 * @var     string    The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_NEWSFEEDS';
@@ -41,40 +50,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	{
 		$categoryId = (int) $value;
 
-		$table = $this->getTable();
 		$i = 0;
 
-		// Check that the category exists
-		if ($categoryId)
+		if (!parent::checkCategoryId($categoryId))
 		{
-			$categoryTable = JTable::getInstance('Category');
-			if (!$categoryTable->load($categoryId))
-			{
-				if ($error = $categoryTable->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-					return false;
-				}
-				else
-				{
-					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
-					return false;
-				}
-			}
-		}
-
-		if (empty($categoryId))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
-			return false;
-		}
-
-		// Check that the user has create permission for the component
-		$user = JFactory::getUser();
-		if (!$user->authorise('core.create', 'com_newsfeeds.category.' . $categoryId))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 			return false;
 		}
 
@@ -84,15 +63,16 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			// Pop the first ID off the stack
 			$pk = array_shift($pks);
 
-			$table->reset();
+			$this->table->reset();
 
 			// Check that the row actually exists
-			if (!$table->load($pk))
+			if (!$this->table->load($pk))
 			{
-				if ($error = $table->getError())
+				if ($error = $this->table->getError())
 				{
 					// Fatal error
 					$this->setError($error);
+
 					return false;
 				}
 				else
@@ -104,35 +84,40 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			}
 
 			// Alter the title & alias
-			$data = $this->generateNewTitle($categoryId, $table->alias, $table->name);
-			$table->name = $data['0'];
-			$table->alias = $data['1'];
+			$data = $this->generateNewTitle($categoryId, $this->table->alias, $this->table->name);
+			$this->table->name = $data['0'];
+			$this->table->alias = $data['1'];
 
 			// Reset the ID because we are making a copy
-			$table->id = 0;
+			$this->table->id = 0;
+
+			// Unpublish because we are making a copy
+			$this->table->published = 0;
 
 			// New category ID
-			$table->catid = $categoryId;
+			$this->table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			//$table->ordering	= 1;
+			// $this->table->ordering	= 1;
 
 			// Check the row.
-			if (!$table->check())
+			if (!$this->table->check())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
+			parent::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+
 			// Store the row.
-			if (!$table->store())
+			if (!$this->table->store())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
 			// Get the new item ID
-			$newId = $table->get('id');
+			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
 			$newIds[$i] = $newId;
@@ -148,8 +133,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object    A record object.
+	 * @param   object  $record  A record object.
+	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 *
 	 * @since   1.6
 	 */
 	protected function canDelete($record)
@@ -158,8 +145,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		{
 			if ($record->published != -2)
 			{
-				return;
+				return false;
 			}
+
 			$user = JFactory::getUser();
 
 			if (!empty($record->catid))
@@ -171,13 +159,17 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 				return parent::canDelete($record);
 			}
 		}
+
+		return false;
 	}
 
 	/**
 	 * Method to test whether a record can have its state changed.
 	 *
-	 * @param   object    A record object.
+	 * @param   object  $record  A record object.
+	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
 	 * @since   1.6
 	 */
 	protected function canEditState($record)
@@ -197,10 +189,13 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Returns a Table object, always creating it.
 	 *
-	 * @param   type      The table type to instantiate
-	 * @param   string    A prefix for the table class name. Optional.
-	 * @param   array     Configuration array for model. Optional.
+	 * @param   string  $type    The table type to instantiate
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
 	 * @return  JTable    A database object
+	 *
+	 * @since   1.6
 	 */
 	public function getTable($type = 'Newsfeed', $prefix = 'NewsfeedsTable', $config = array())
 	{
@@ -212,13 +207,16 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 *
 	 * @param   array      $data        Data for the form.
 	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
+	 *
 	 * @return  JForm    A JForm object on success, false on failure
+	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_newsfeeds.newsfeed', 'newsfeed', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -260,6 +258,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
+	 *
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -287,28 +286,42 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array  The form data.
+	 * @param   array  $data  The form data.
 	 *
 	 * @return  boolean  True on success.
-	 * @since    3.0
+	 *
+	 * @since   3.0
 	 */
 	public function save($data)
 	{
-		$app = JFactory::getApplication();
+		$input = JFactory::getApplication()->input;
 
-		// Alter the title for save as copy
-		if ($app->input->get('task') == 'save2copy')
+		// Alter the name for save as copy
+		if ($input->get('task') == 'save2copy')
 		{
-			list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-			$data['name'] = $name;
-			$data['alias'] = $alias;
+			$origTable = clone $this->getTable();
+			$origTable->load($input->getInt('id'));
+
+			if ($data['name'] == $origTable->name)
+			{
+				list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+				$data['name'] = $name;
+				$data['alias'] = $alias;
+			}
+			else
+			{
+				if ($data['alias'] == $origTable->alias)
+				{
+					$data['alias'] = '';
+				}
+			}
 			$data['published'] = 0;
 		}
 
 		if (parent::save($data))
 		{
 
-			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			$assoc = JLanguageAssociations::isEnabled();
 			if ($assoc)
 			{
 				$id = (int) $this->getState($this->getName() . '.id');
@@ -382,9 +395,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   integer    The id of the primary key.
+	 * @param   integer  $pk  The id of the primary key.
 	 *
 	 * @return  mixed  Object on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function getItem($pk = null)
@@ -392,19 +406,19 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		if ($item = parent::getItem($pk))
 		{
 			// Convert the params field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
 
 			// Convert the images field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->images);
 			$item->images = $registry->toArray();
 		}
 
 		// Load associated newsfeeds items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 
 		if ($assoc)
 		{
@@ -420,6 +434,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 				}
 			}
 		}
+
 		if (!empty($item->id))
 		{
 			$item->tags = new JHelperTags;
@@ -432,6 +447,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 
 	/**
 	 * Prepare and sanitise the table prior to saving.
+	 *
+	 * @param   JTable  $table  The table object
+	 *
+	 * @return  void
 	 */
 	protected function prepareTable($table)
 	{
@@ -455,7 +474,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__newsfeeds');
+				$query = $db->getQuery(true)
+					->select('MAX(ordering)')
+					->from($db->quoteName('#__newsfeeds'));
+				$db->setQuery($query);
 				$max = $db->loadResult();
 
 				$table->ordering = $max + 1;
@@ -479,6 +501,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 * @param   integer  $value    The value of the published state.
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   1.6
 	 */
 	public function publish(&$pks, $value = 1)
@@ -494,8 +517,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   object    A record object.
+	 * @param   object  $table  A record object.
+	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
+	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
@@ -505,18 +530,25 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		return $condition;
 	}
 
+	/**
+	 * A protected method to get a set of ordering conditions.
+	 *
+	 * @param   JForm   $form   The form object.
+	 * @param   array   $data   The data to be injected into the form
+	 * @param   string  $group  The plugin group to process
+	 *
+	 * @return  array  An array of conditions to add to add to ordering queries.
+	 *
+	 * @since   1.6
+	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		// Association newsfeeds items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
-
-			// force to array (perhaps move to $this->loadFormData())
-			$data = (array) $data;
-
 			$addform = new SimpleXMLElement('<form />');
 			$fields = $addform->addChild('fields');
 			$fields->addAttribute('name', 'associations');
@@ -524,9 +556,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			$fieldset->addAttribute('name', 'item_associations');
 			$fieldset->addAttribute('description', 'COM_NEWSFEEDS_ITEM_ASSOCIATIONS_FIELDSET_DESC');
 			$add = false;
+
 			foreach ($languages as $tag => $language)
 			{
-				if (empty($data['language']) || $tag != $data['language'])
+				if (empty($data->language) || $tag != $data->language)
 				{
 					$add = true;
 					$field = $fieldset->addChild('field');
@@ -539,6 +572,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 					$field->addAttribute('clear', 'true');
 				}
 			}
+
 			if ($add)
 			{
 				$form->load($addform, false);
@@ -551,9 +585,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $parent_id  The id of the parent.
-	 * @param   string   $alias      The alias.
-	 * @param   string   $title      The title.
+	 * @param   integer  $category_id  The id of the parent.
+	 * @param   string   $alias        The alias.
+	 * @param   string   $name         The title.
 	 *
 	 * @return  array  Contains the modified title and alias.
 	 *

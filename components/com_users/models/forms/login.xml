@@ -16,10 +16,19 @@
 			class="validate-password"
 			required="true"
 			filter="raw"
-			label="JGLOBAL_PASSWORD"			
+			label="JGLOBAL_PASSWORD"
 			size="25"
 		/>
-	</fieldset>
+		</fieldset>
+
+		<field name="secretkey" type="text"
+			class=""
+			required="false"
+			filter="int"
+			label="JGLOBAL_SECRETKEY"
+			size="25"
+		/>
+
 	<fieldset>
 		<field name="return" type="hidden" />
 	</fieldset>

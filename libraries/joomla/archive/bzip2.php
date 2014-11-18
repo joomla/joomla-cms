@@ -3,20 +3,19 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.stream');
 
 /**
  * Bzip2 format adapter for the JArchive class
  *
- * @package     Joomla.Platform
- * @subpackage  Archive
- * @since       11.1
+ * @since  11.1
  */
 class JArchiveBzip2 implements JArchiveExtractable
 {
@@ -99,7 +98,6 @@ class JArchiveBzip2 implements JArchiveExtractable
 					throw new RuntimeException('Unable to write archive');
 				}
 			}
-
 		}
 		else
 		{
@@ -158,6 +156,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 					}
 				}
 			}
+
 			while ($this->_data);
 
 			$output->close();

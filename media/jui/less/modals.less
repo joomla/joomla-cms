@@ -21,9 +21,9 @@
 }
 
 // Base modal
-// /* >>> JUI >>> */
+// > Joomla JUI
 // .modal REMOVED
-// /* <<< JUI <<< */
+// < Joomla JUI
 
 .modal-header {
   padding: 9px 15px;
@@ -43,6 +43,11 @@
   overflow-y: auto;
   max-height: 400px;
   padding: 15px;
+}
+// Remove border and scrollbar from iframe modal
+.modal-body iframe {
+  max-height: 390px;
+  border: 0 !important;
 }
 // Remove bottom margin if need be
 .modal-form {

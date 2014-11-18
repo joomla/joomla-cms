@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,50 +15,62 @@ defined('JPATH_PLATFORM') or die;
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin and Andrew Eddie.
  *
- * @package     Joomla.Platform
- * @subpackage  Filter
- * @since       11.1
+ * @since  11.1
  */
 class JFilterInput
 {
 	/**
-	 * @var    array  A container for JFilterInput instances.
+	 * A container for JFilterInput instances.
+	 *
+	 * @var    array
 	 * @since  11.3
 	 */
 	protected static $instances = array();
 
 	/**
-	 * @var    array  An array of permitted tags.
+	 * The array of permitted tags (white list).
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	public $tagsArray;
 
 	/**
-	 * @var    array  An array of permitted tag attributes.
+	 * The array of permitted tag attributes (white list).
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	public $attrArray;
 
 	/**
-	 * @var    integer  Method for tags: WhiteList method = 0 (default), BlackList method = 1
+	 * The method for sanitising tags: WhiteList method = 0 (default), BlackList method = 1
+	 *
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $tagsMethod;
 
 	/**
-	 * @var    integer  Method for attributes: WhiteList method = 0 (default), BlackList method = 1
+	 * The method for sanitising attributes: WhiteList method = 0 (default), BlackList method = 1
+	 *
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $attrMethod;
 
 	/**
-	 * @var    integer  Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * A flag for XSS checks. Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 *
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $xssAuto;
 
 	/**
-	 * @var    array  A list of the default blacklisted tags.
+	 * The list of the default blacklisted tags.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	public $tagBlacklist = array(
@@ -87,7 +99,9 @@ class JFilterInput
 	);
 
 	/**
-	 * @var    array     A list of the default blacklisted tag attributes.  All event handlers implicit.
+	 * The list of the default blacklisted tag attributes. All event handlers implicit.
+	 *
+	 * @var    array
 	 * @since   11.1
 	 */
 	public $attrBlacklist = array(
@@ -153,7 +167,24 @@ class JFilterInput
 	 * specified bad code.
 	 *
 	 * @param   mixed   $source  Input string/array-of-string to be 'cleaned'
-	 * @param   string  $type    Return type for the variable (INT, UINT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
+	 * @param   string  $type    The return type for the variable:
+	 *                           INT:       An integer,
+	 *                           UINT:      An unsigned integer,
+	 *                           FLOAT:     A floating point number,
+	 *                           BOOLEAN:   A boolean value,
+	 *                           WORD:      A string containing A-Z or underscores only (not case sensitive),
+	 *                           ALNUM:     A string containing A-Z or 0-9 only (not case sensitive),
+	 *                           CMD:       A string containing A-Z, 0-9, underscores, periods or hyphens (not case sensitive),
+	 *                           BASE64:    A string containing A-Z, 0-9, forward slashes, plus or equals (not case sensitive),
+	 *                           STRING:    A fully decoded and sanitised string (default),
+	 *                           HTML:      A sanitised string,
+	 *                           ARRAY:     An array,
+	 *                           PATH:      A sanitised file path,
+	 *                           TRIM:      A string trimmed from normal, non-breaking and multibyte spaces
+	 *                           USERNAME:  Do not use (use an application specific filter),
+	 *                           RAW:       The raw string is returned with no filtering,
+	 *                           unknown:   An unknown filter will act like STRING. If the input is an array it will return an
+	 *                                      array of fully decoded and sanitised strings.
 	 *
 	 * @return  mixed  'Cleaned' version of input parameter
 	 *
@@ -224,6 +255,12 @@ class JFilterInput
 				$result = @ (string) $matches[0];
 				break;
 
+			case 'TRIM':
+				$result = (string) trim($source);
+				$result = trim($result, chr(0xE3) . chr(0x80) . chr(0x80));
+				$result = trim($result, chr(0xC2) . chr(0xA0));
+				break;
+
 			case 'USERNAME':
 				$result = (string) preg_replace('/[\x00-\x1F\x7F<>"\'%&]/', '', $source);
 				break;
@@ -244,6 +281,7 @@ class JFilterInput
 							$source[$key] = $this->_remove($this->_decode($value));
 						}
 					}
+
 					$result = $source;
 				}
 				else
@@ -325,6 +363,10 @@ class JFilterInput
 		// In the beginning we don't really have a tag, so everything is postTag
 		$preTag = null;
 		$postTag = $source;
+		$currentSpace = false;
+
+		// Setting to null to deal with undefined variables
+		$attr = '';
 
 		// Is there a tag? If so it will certainly start with a '<'.
 		$tagOpen_start = strpos($source, '<');
@@ -339,6 +381,7 @@ class JFilterInput
 
 			// Check for mal-formed tag where we have a second '<' before the first '>'
 			$nextOpenTag = (strlen($postTag) > $tagOpen_start) ? strpos($postTag, '<', $tagOpen_start + 1) : false;
+
 			if (($nextOpenTag !== false) && ($nextOpenTag < $tagOpen_end))
 			{
 				// At this point we have a mal-formed tag -- remove the offending open
@@ -357,6 +400,7 @@ class JFilterInput
 
 			// Do we have a nested tag?
 			$tagOpen_nested = strpos($fromTagOpen, '<');
+
 			if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end))
 			{
 				$preTag .= substr($postTag, 0, ($tagOpen_nested + 1));
@@ -366,6 +410,7 @@ class JFilterInput
 			}
 
 			// Let's get some information about our tag and setup attribute pairs
+			$tagOpen_nested = (strpos($fromTagOpen, '<') + $tagOpen_start + 1);
 			$currentTag = substr($fromTagOpen, 0, $tagOpen_end);
 			$tagLength = strlen($currentTag);
 			$tagLeft = $currentTag;
@@ -414,6 +459,9 @@ class JFilterInput
 				$openQuotes = strpos($fromSpace, '"');
 				$closeQuotes = strpos(substr($fromSpace, ($openQuotes + 1)), '"') + $openQuotes + 1;
 
+				$startAtt = '';
+				$startAttPosition = 0;
+
 				// Find position of equal and open quotes ignoring
 				if (preg_match('#\s*=\s*\"#', $fromSpace, $matches, PREG_OFFSET_CAPTURE))
 				{
@@ -442,6 +490,7 @@ class JFilterInput
 						$fromSpace = substr($fromSpace, $attribEnd + 1);
 					}
 				}
+
 				if (strpos($fromSpace, '=') !== false)
 				{
 					// If the attribute value is wrapped in quotes we need to grab the substring from
@@ -490,6 +539,7 @@ class JFilterInput
 					// Open or single tag
 					$attrSet = $this->_cleanAttributes($attrSet);
 					$preTag .= '<' . $tagName;
+
 					for ($i = 0, $count = count($attrSet); $i < $count; $i++)
 					{
 						$preTag .= ' ' . $attrSet[$i];
@@ -554,7 +604,8 @@ class JFilterInput
 			$attrSubSet = explode('=', trim($attrSet[$i]), 2);
 
 			// Take the last attribute in case there is an attribute with no value
-			$attrSubSet[0] = array_pop(explode(' ', trim($attrSubSet[0])));
+			$attrSubSet_0 = explode(' ', trim($attrSubSet[0]));
+			$attrSubSet[0] = array_pop($attrSubSet_0);
 
 			// Remove all "non-regular" attribute names
 			// AND blacklisted attributes
@@ -644,19 +695,30 @@ class JFilterInput
 		if (!is_array($ttr))
 		{
 			// Entity decode
-			$trans_tbl = get_html_translation_table(HTML_ENTITIES);
+			$trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');
+
 			foreach ($trans_tbl as $k => $v)
 			{
 				$ttr[$v] = utf8_encode($k);
 			}
 		}
+
 		$source = strtr($source, $ttr);
 
 		// Convert decimal
-		$source = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $source); // decimal notation
+		$source = preg_replace_callback('/&#(\d+);/m', function($m)
+		{
+			return utf8_encode(chr($m[1]));
+		}, $source
+		);
 
 		// Convert hex
-		$source = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
+		$source = preg_replace_callback('/&#x([a-f0-9]+);/mi', function($m)
+		{
+			return utf8_encode(chr('0x' . $m[1]));
+		}, $source
+		);
+
 		return $source;
 	}
 
@@ -700,6 +762,7 @@ class JFilterInput
 				// No closing quote
 				$nextAfter = strlen($remainder);
 			}
+
 			// Get the actual attribute value
 			$attributeValue = substr($remainder, $nextBefore, $nextAfter - $nextBefore);
 
@@ -745,6 +808,7 @@ class JFilterInput
 				$return = $test;
 			}
 		}
+
 		return $return;
 	}
 }

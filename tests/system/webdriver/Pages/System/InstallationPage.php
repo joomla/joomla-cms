@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -148,7 +154,7 @@ class InstallationPage extends AdminPage
 		}
 
 		$this->driver->findElement(By::xPath("//a[@title='Install']"))->click();
-		$this->driver->waitForElementUntilIsPresent(By::xPath("//input[contains(@onclick, 'Install.removeFolder')]"));
+		$this->driver->waitForElementUntilIsPresent(By::xPath("//input[contains(@onclick, 'Install.removeFolder')]"), 60);
 
 	}
 }

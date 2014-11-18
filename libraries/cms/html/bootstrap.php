@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for Bootstrap elements.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.0
+ * @since  3.0
  */
 abstract class JHtmlBootstrap
 {
@@ -55,7 +53,7 @@ abstract class JHtmlBootstrap
 
 			$options = JHtml::getJSObject($opt);
 
-			// Attach the carousel to document
+			// Attach affix to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"(function($){
 					$('#$selector').affix($options);
@@ -121,7 +119,7 @@ abstract class JHtmlBootstrap
 		// Include Bootstrap framework
 		static::framework();
 
-		// Attach the alerts to the document
+		// Attach the button to the document
 		JFactory::getDocument()->addScriptDeclaration(
 			"(function($){
 				$('.$selector').button();
@@ -137,8 +135,8 @@ abstract class JHtmlBootstrap
 	 * Add javascript support for Bootstrap carousels
 	 *
 	 * @param   string  $selector  Common class for the carousels.
-	 * @param   array   $params    An array of options for the modal.
-	 *                             Options for the modal can be:
+	 * @param   array   $params    An array of options for the carousel.
+	 *                             Options for the carousel can be:
 	 *                             - interval  number  The amount of time to delay between automatically cycling an item.
 	 *                                                 If false, carousel will not automatically cycle.
 	 *                             - pause     string  Pauses the cycling of the carousel on mouseenter and resumes the cycling
@@ -330,18 +328,18 @@ abstract class JHtmlBootstrap
 	 *
 	 * Use element's Title as popover content
 	 *
-	 * @param   string  $selector  Selector for the tooltip
-	 * @param   array   $params    An array of options for the tooltip.
-	 *                  Options for the tooltip can be:
-	 *                      animation  boolean          apply a css fade transition to the tooltip
-	 *                      html       boolean          Insert HTML into the tooltip. If false, jQuery's text method will be used to insert
+	 * @param   string  $selector  Selector for the popover
+	 * @param   array   $params    An array of options for the popover.
+	 *                  Options for the popover can be:
+	 *                      animation  boolean          apply a css fade transition to the popover
+	 *                      html       boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
 	 *                                                  content into the dom.
-	 *                      placement  string|function  how to position the tooltip - top | bottom | left | right
-	 *                      selector   string           If a selector is provided, tooltip objects will be delegated to the specified targets.
-	 *                      trigger    string           how tooltip is triggered - hover | focus | manual
+	 *                      placement  string|function  how to position the popover - top | bottom | left | right
+	 *                      selector   string           If a selector is provided, popover objects will be delegated to the specified targets.
+	 *                      trigger    string           how popover is triggered - hover | focus | manual
 	 *                      title      string|function  default title value if `title` tag isn't present
 	 *                      content    string|function  default content value if `data-content` attribute isn't present
-	 *                      delay      number|object    delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
+	 *                      delay      number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
 	 *                                                  If a number is supplied, delay is applied to both hide/show
 	 *                                                  Object structure is: delay: { show: 500, hide: 100 }
 	 *                      container  string|boolean   Appends the popover to a specific element: { container: 'body' }
@@ -362,14 +360,14 @@ abstract class JHtmlBootstrap
 		static::framework();
 
 		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
-		$opt['html'] = isset($params['html']) ? $params['html'] : true;
+		$opt['html']      = isset($params['html']) ? $params['html'] : true;
 		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
-		$opt['selector'] = isset($params['selector']) ? $params['selector'] : null;
-		$opt['title'] = isset($params['title']) ? $params['title'] : null;
-		$opt['trigger'] = isset($params['trigger']) ? $params['trigger'] : 'hover';
-		$opt['content'] = isset($params['content']) ? $params['content'] : null;
-		$opt['delay'] = isset($params['delay']) ? $params['delay'] : null;
-		$opt['container'] = isset($params['container']) ? $params['container'] : false;
+		$opt['selector']  = isset($params['selector']) ? $params['selector'] : null;
+		$opt['title']     = isset($params['title']) ? $params['title'] : null;
+		$opt['trigger']   = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
+		$opt['content']   = isset($params['content']) ? $params['content'] : null;
+		$opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
+		$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
 
 		$options = JHtml::getJSObject($opt);
 
@@ -391,7 +389,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * @param   string  $selector  The ID selector for the ScrollSpy element.
 	 * @param   array   $params    An array of options for the ScrollSpy.
-	 *                             Options for the modal can be:
+	 *                             Options for the ScrollSpy can be:
 	 *                             - offset  number  Pixels to offset from top when calculating position of scroll.
 	 *
 	 * @return  void
@@ -460,24 +458,50 @@ abstract class JHtmlBootstrap
 
 			// Setup options object
 			$opt['animation'] = isset($params['animation']) ? (boolean) $params['animation'] : null;
-			$opt['html']      = isset($params['html']) ? (boolean) $params['html'] : null;
+			$opt['html']      = isset($params['html']) ? (boolean) $params['html'] : true;
 			$opt['placement'] = isset($params['placement']) ? (string) $params['placement'] : null;
 			$opt['selector']  = isset($params['selector']) ? (string) $params['selector'] : null;
 			$opt['title']     = isset($params['title']) ? (string) $params['title'] : null;
 			$opt['trigger']   = isset($params['trigger']) ? (string) $params['trigger'] : null;
 			$opt['delay']     = isset($params['delay']) ? (int) $params['delay'] : null;
-			$opt['container'] = isset($params['container']) ? (int) $params['container'] : false;
+			$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
 			$opt['template']  = isset($params['template']) ? (string) $params['template'] : null;
+			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
+			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
+			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
+			$onHidden = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
 			$options = JHtml::getJSObject($opt);
 
+			// Build the script.
+			$script = array();
+			$script[] = "jQuery(document).ready(function(){";
+			$script[] = "\tjQuery('" . $selector . "').tooltip(" . $options . ");";
+
+			if ($onShow)
+			{
+				$script[] = "\tjQuery('" . $selector . "').on('show.bs.tooltip', " . $onShow . ");";
+			}
+
+			if ($onShown)
+			{
+				$script[] = "\tjQuery('" . $selector . "').on('shown.bs.tooltip', " . $onShown . ");";
+			}
+
+			if ($onHide)
+			{
+				$script[] = "\tjQuery('" . $selector . "').on('hide.bs.tooltip', " . $onHide . ");";
+			}
+
+			if ($onHidden)
+			{
+				$script[] = "\tjQuery('" . $selector . "').on('hidden.bs.tooltip', " . $onHidden . ");";
+			}
+
+			$script[] = "});";
+
 			// Attach tooltips to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function()
-				{
-					jQuery('" . $selector . "').tooltip(" . $options . ");
-				});"
-			);
+			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 			// Set static array
 			static::$loaded[__METHOD__][$selector] = true;
@@ -530,7 +554,7 @@ abstract class JHtmlBootstrap
 
 			$options = JHtml::getJSObject($opt);
 
-			// Attach tooltips to document
+			// Attach typehead to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"jQuery(document).ready(function()
 				{
@@ -752,6 +776,7 @@ abstract class JHtmlBootstrap
 	public static function startPane($selector = 'myTab', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(static::$loaded['JHtmlBootstrap::startTabSet'][$sig]))
 		{
 			// Include Bootstrap framework
@@ -760,7 +785,7 @@ abstract class JHtmlBootstrap
 			// Setup options object
 			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 
-			// Attach tooltips to document
+			// Attach tab to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"(function($){
 					$('#$selector a').click(function (e) {

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Event
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,11 +15,9 @@ defined('JPATH_PLATFORM') or die;
  * This is the Observable part of the Observer design pattern
  * for the event architecture.
  *
- * @package     Joomla.Platform
- * @subpackage  Event
- * @link        http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
- * @see         JPlugin
- * @since       12.1
+ * @link   http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
+ * @see    JPlugin
+ * @since  12.1
  */
 class JEventDispatcher extends JObject
 {
@@ -94,7 +92,7 @@ class JEventDispatcher extends JObject
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws InvalidArgumentException
+	 * @throws  InvalidArgumentException
 	 */
 	public function register($event, $handler)
 	{
@@ -145,6 +143,7 @@ class JEventDispatcher extends JObject
 			// No Plugins Associated To Event!
 			return $result;
 		}
+
 		// Loop through all plugins having a method matching our event
 		foreach ($this->_methods[$event] as $key)
 		{
@@ -165,6 +164,7 @@ class JEventDispatcher extends JObject
 			{
 				$value = call_user_func_array($this->_observers[$key]['handler'], $args);
 			}
+
 			if (isset($value))
 			{
 				$result[] = $value;
@@ -202,7 +202,6 @@ class JEventDispatcher extends JObject
 			}
 
 			$this->_observers[] = $observer;
-			end($this->_observers);
 			$methods = array($observer['event']);
 		}
 		else
@@ -227,6 +226,7 @@ class JEventDispatcher extends JObject
 			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
 		}
 
+		end($this->_observers);
 		$key = key($this->_observers);
 
 		foreach ($methods as $method)

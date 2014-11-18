@@ -3,20 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.1
+ * @since  3.1
  */
 class JFormFieldTag extends JFormFieldList
 {
@@ -39,7 +37,7 @@ class JFormFieldTag extends JFormFieldList
 	/**
 	 * com_tags parameters
 	 *
-	 * @var    JRegistry
+	 * @var    \Joomla\Registry\Registry
 	 * @since  3.1
 	 */
 	protected $comParams = null;
@@ -112,80 +110,84 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		if (!empty($this->value[0]) || $this->element['parent'])
+		$published = $this->element['published']? $this->element['published'] : array(0,1);
+
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true)
+			->select('DISTINCT a.id AS value, a.path, a.title AS text, a.level, a.published, a.lft')
+			->from('#__tags AS a')
+			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+
+		// Ajax tag only loads assigned values
+		if (!$this->isNested() && !empty($this->value))
 		{
-			$published = $this->element['published']? $this->element['published'] : array(0,1);
+			// Only item assigned values
+			$values = (array) $this->value;
+			JArrayHelper::toInteger($values);
+			$query->where('a.id IN (' . implode(',', $values) . ')');
+		}
 
-			$db		= JFactory::getDbo();
-			$query	= $db->getQuery(true)
-				->select('a.id AS value, a.path, a.title AS text, a.level, a.published')
-				->from('#__tags AS a')
-				->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		// Filter language
+		if (!empty($this->element['language']))
+		{
+			$query->where('a.language = ' . $db->q($this->element['language']));
+		}
 
-			// Ajax tag only loads assigned values
-			if (!$this->isNested())
+		$query->where($db->qn('a.lft') . ' > 0');
+
+		// Filter on the published state
+		if (is_numeric($published))
+		{
+			$query->where('a.published = ' . (int) $published);
+		}
+		elseif (is_array($published))
+		{
+			JArrayHelper::toInteger($published);
+			$query->where('a.published IN (' . implode(',', $published) . ')');
+		}
+
+		$query->order('a.lft ASC');
+
+		// Get the options.
+		$db->setQuery($query);
+
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
+
+		// Block the possibility to set a tag as it own parent
+		if ($this->form->getName() == 'com_tags.tag')
+		{
+			$id   = (int) $this->form->getValue('id', 0);
+
+			foreach ($options as $option)
 			{
-				// Only item assigned values
-				$values = (array) $this->value;
-				JArrayHelper::toInteger($values);
-				$query->where('a.id IN (' . implode(',', $values) . ')');
+				if ($option->value == $id)
+				{
+					$option->disable = true;
+				}
 			}
+		}
 
-			// Filter language
-			if (!empty($this->element['language']))
-			{
-				$query->where('a.language = ' . $db->quote($this->element['language']));
-			}
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::getOptions(), $options);
 
-			$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
-
-			// Filter to only load active items
-
-			// Filter on the published state
-			if (is_numeric($published))
-			{
-				$query->where('a.published = ' . (int) $published);
-			}
-			elseif (is_array($published))
-			{
-				JArrayHelper::toInteger($published);
-				$query->where('a.published IN (' . implode(',', $published) . ')');
-			}
-
-			$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published, a.path')
-				->order('a.lft ASC');
-
-			// Get the options.
-			$db->setQuery($query);
-
-			try
-			{
-				$options = $db->loadObjectList();
-			}
-			catch (RuntimeException $e)
-			{
-				return false;
-			}
-
-			// Merge any additional options in the XML definition.
-			$options = array_merge(parent::getOptions(), $options);
-
-			// Prepare nested data
-			if ($this->isNested())
-			{
-				$this->prepareOptionsNested($options);
-			}
-			else
-			{
-				$options = JHelperTags::convertPathsToNames($options);
-			}
-
-			return $options;
+		// Prepare nested data
+		if ($this->isNested())
+		{
+			$this->prepareOptionsNested($options);
 		}
 		else
 		{
-			return true;
+			$options = JHelperTags::convertPathsToNames($options);
 		}
+
+		return $options;
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with menu select lists
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.5
+ * @since  1.5
  */
 abstract class JHtmlMenu
 {
@@ -70,15 +68,10 @@ abstract class JHtmlMenu
 	{
 		if (empty(static::$items))
 		{
+			$menus = static::menus();
+
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('menutype AS value, title AS text')
-				->from($db->quoteName('#__menu_types'))
-				->order('title');
-			$db->setQuery($query);
-			$menus = $db->loadObjectList();
-
-			$query->clear()
 				->select('a.id AS value, a.title AS text, a.level, a.menutype')
 				->from('#__menu AS a')
 				->where('a.parent_id > 0')
@@ -229,7 +222,7 @@ abstract class JHtmlMenu
 			->select('m.id, m.parent_id, m.title, m.menutype')
 			->from($db->quoteName('#__menu') . ' AS m')
 			->where($db->quoteName('m.published') . ' = 1')
-			->order('m.menutype, m.parent_id, m.ordering');
+			->order('m.menutype, m.parent_id');
 		$db->setQuery($query);
 
 		$mitems = $db->loadObjectList();

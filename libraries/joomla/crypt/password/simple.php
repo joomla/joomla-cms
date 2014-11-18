@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Password Crypter
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
- * @since       12.2
+ * @since  12.2
  */
 class JCryptPasswordSimple implements JCryptPassword
 {
@@ -36,9 +34,10 @@ class JCryptPasswordSimple implements JCryptPassword
 	 * @param   string  $password  The password to hash.
 	 * @param   string  $type      The hash type.
 	 *
-	 * @return  string  The hashed password.
+	 * @return  mixed  The hashed password or false if the password is too long.
 	 *
 	 * @since   12.2
+	 * @throws  InvalidArgumentException
 	 */
 	public function create($password, $type = null)
 	{
@@ -46,11 +45,12 @@ class JCryptPasswordSimple implements JCryptPassword
 		{
 			$type = $this->defaultType;
 		}
+
 		switch ($type)
 		{
 			case '$2a$':
 			case JCryptPassword::BLOWFISH:
-				if (version_compare(PHP_VERSION, '5.3.7') >= 0)
+				if (JCrypt::hasStrongPasswordSupport())
 				{
 					$type = '$2y$';
 				}
@@ -61,19 +61,19 @@ class JCryptPasswordSimple implements JCryptPassword
 
 				$salt = $type . str_pad($this->cost, 2, '0', STR_PAD_LEFT) . '$' . $this->getSalt(22);
 
-			return crypt($password, $salt);
+				return crypt($password, $salt);
 
 			case JCryptPassword::MD5:
 				$salt = $this->getSalt(12);
 
 				$salt = '$1$' . $salt;
 
-			return crypt($password, $salt);
+				return crypt($password, $salt);
 
 			case JCryptPassword::JOOMLA:
 				$salt = $this->getSalt(32);
 
-			return md5($password . $salt) . ':' . $salt;
+				return md5($password . $salt) . ':' . $salt;
 
 			default:
 				throw new InvalidArgumentException(sprintf('Hash type %s is not supported', $type));
@@ -128,7 +128,7 @@ class JCryptPasswordSimple implements JCryptPassword
 		// Check if the hash is a blowfish hash.
 		if (substr($hash, 0, 4) == '$2a$' || substr($hash, 0, 4) == '$2y$')
 		{
-			if (version_compare(PHP_VERSION, '5.3.7') >= 0)
+			if (JCrypt::hasStrongPasswordSupport())
 			{
 				$type = '$2y$';
 			}
@@ -136,6 +136,7 @@ class JCryptPasswordSimple implements JCryptPassword
 			{
 				$type = '$2a$';
 			}
+
 			$hash = $type . substr($hash, 4);
 
 			return (crypt($password, $hash) === $hash);
@@ -152,6 +153,7 @@ class JCryptPasswordSimple implements JCryptPassword
 		{
 			return md5($password . substr($hash, 33)) == substr($hash, 0, 32);
 		}
+
 		return false;
 	}
 
@@ -171,6 +173,7 @@ class JCryptPasswordSimple implements JCryptPassword
 			$this->defaultType = $type;
 		}
 	}
+
 	/**
 	 * Gets the default type
 	 *
