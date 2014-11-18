@@ -122,11 +122,12 @@ jQuery(document).ready(function() {
  */
 if ($params->get('show_autosuggest', 1))
 {
-	JHtml::_('script', 'com_finder/jquery.autocomplete.min.js', false, true, false, false, true);
+	JHtml::_('script', 'media/jui/js/jquery.autocomplete.min.js', false, false, false, false, true);
 
 	$script .= "
 	var a = jQuery('#mod-finder-searchword').autocomplete({
-		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggester.display&format=json&tmpl=component', false) . "',
+		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false) . "',
+		paramName: 'q',
 		minChars: 1,
 		maxHeight: 400,
 		width: 300,
