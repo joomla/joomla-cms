@@ -1644,9 +1644,9 @@ legend + .control-group {
 }
 .form-horizontal .control-label {
 	float: left;
-	width: 160px;
+	width: auto;
 	padding-top: 5px;
-	text-align: right;
+	text-align: left;
 }
 .form-horizontal .controls {
 	*display: inline-block;
@@ -6076,6 +6076,7 @@ fieldset.radio.btn-group {
 	overflow: hidden;
 }
 .form-vertical .control-label {
+	display: inline-block;
 	float: none;
 	width: auto;
 	padding-right: 0;

@@ -398,6 +398,7 @@ fieldset.radio.btn-group {
 	overflow: hidden;
 }
 .form-vertical .control-label {
+	display: inline-block;
 	float: none;
 	width: auto;
 	padding-right: 0;
