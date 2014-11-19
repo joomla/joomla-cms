@@ -36,8 +36,6 @@ class PlgSystemLanguageFilter extends JPlugin
 
 	protected $default_sef;
 
-	protected $cookie;
-
 	private $user_lang_code;
 
 	/**
@@ -59,9 +57,6 @@ class PlgSystemLanguageFilter extends JPlugin
 	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
-
-		// Ensure that constructor is called one time.
-		$this->cookie = SID == '';
 
 		if (!$this->default_lang)
 		{
@@ -97,7 +92,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				if (!$sef)
 				{
 					// Get the route path from the request.
-					$path = JString::substr($uri->toString(), JString::strlen($uri->base()));
+					$path = JString::str_ireplace($uri->base(), '', $uri->toString());
 
 					// Apache mod_rewrite is Off.
 					$path = $this->app->get('sef_rewrite') ? $path : JString::substr($path, 10);
@@ -175,83 +170,65 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function buildRule(&$router, &$uri)
 	{
-		$sef = $uri->getVar('lang');
-
-		if (empty($sef))
+		$lang = $uri->getVar('lang', $this->default_lang);
+		
+		if (isset($this->lang_codes[$lang]))
 		{
-			$sef = $this->lang_codes[$this->tag]->sef;
+			$sef = $this->lang_codes[$lang]->sef;
 		}
-		elseif (!isset($this->sefs[$sef]))
+		elseif (isset($this->sefs[$lang]))
+		{
+			$sef = $this->sefs[$lang]->sef;
+		}
+		else
 		{
 			$sef = $this->default_sef;
 		}
 
 		$Itemid = $uri->getVar('Itemid');
 
-		if (!is_null($Itemid))
+		if (!is_null($Itemid) && $item = $this->app->getMenu()->getItem($Itemid))
 		{
-			if ($item = $this->app->getMenu()->getItem($Itemid))
+			if ($item->home && $uri->getVar('option') != 'com_search')
 			{
-				if ($item->home && $uri->getVar('option') != 'com_search')
+				$query = $item->query;
+
+				// Test if the url contains same vars as in menu link.
+				$test = true;
+
+				foreach ($uri->getQuery(true) as $key => $value)
 				{
-					$link = $item->link;
-					$parts = JString::parse_url($link);
-
-					if (isset ($parts['query']) && strpos($parts['query'], '&amp;'))
+					if (!in_array($key, array('format', 'Itemid', 'lang')) && !(isset($query[$key]) && $query[$key] == $value))
 					{
-						$parts['query'] = str_replace('&amp;', '&', $parts['query']);
-					}
-
-					parse_str($parts['query'], $vars);
-
-					// Test if the url contains same vars as in menu link.
-					$test = true;
-
-					foreach ($uri->getQuery(true) as $key => $value)
-					{
-						if (!in_array($key, array('format', 'Itemid', 'lang')) && !(isset($vars[$key]) && $vars[$key] == $value))
-						{
-							$test = false;
-							break;
-						}
-					}
-
-					if ($test)
-					{
-						foreach ($vars as $key => $value)
-						{
-							$uri->delVar($key);
-						}
-
-						$uri->delVar('Itemid');
+						$test = false;
+						break;
 					}
 				}
+
+				if ($test)
+				{
+					foreach ($query as $key => $value)
+					{
+						$uri->delVar($key);
+					}
+
+					$uri->delVar('Itemid');
+				}
 			}
-			else
-			{
-				$uri->delVar('Itemid');
-			}
+		}
+		else
+		{
+			$uri->delVar('Itemid');
 		}
 
 		if ($this->mode_sef)
 		{
 			$uri->delVar('lang');
 
-			if ($this->params->get('remove_default_prefix', 0) == 0
-				|| $sef != $this->default_sef
-				|| $sef != $this->lang_codes[$this->tag]->sef
-				|| $this->params->get('detect_browser', 1) && JLanguageHelper::detectLanguage() != $this->tag && !$this->cookie)
+			if ($this->params->get('remove_default_prefix', 0) == 0)
 			{
 				$uri->setPath($uri->getPath() . '/' . $sef . '/');
 			}
-			else
-			{
-				$uri->setPath($uri->getPath());
-			}
-		}
-		else
-		{
-			$uri->setVar('lang', $sef);
 		}
 	}
 
@@ -334,7 +311,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					// Redirect if sef is the default one.
 					elseif (isset($this->sefs[$sef]) &&
 						$this->default_lang == $this->sefs[$sef]->lang_code &&
-						(!$this->params->get('detect_browser', 1) || JLanguageHelper::detectLanguage() == $this->tag || $this->cookie)
+						(!$this->params->get('detect_browser', 1) || JLanguageHelper::detectLanguage() == $this->tag || true)
 					)
 					{
 						array_shift($parts);
