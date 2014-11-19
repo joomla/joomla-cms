@@ -8671,9 +8671,15 @@ a.grid_true {
 		margin-top: -1px;
 		padding-top: 10px;
 		background: #fff;
+		background: -moz-linear-gradient(top,#ffffff 0%,#ededed 100%);
+		background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#ededed));
+		background: -webkit-linear-gradient(top,#ffffff 0%,#ededed 100%);
+		background: -o-linear-gradient(top,#ffffff 0%,#ededed 100%);
+		background: -ms-linear-gradient(top,#ffffff 0%,#ededed 100%);
+		background: linear-gradient(top,#ffffff 0%,#ededed 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ededed',GradientType=0);
 		border-left: 1px solid #d3d3d3;
-		overflow-y: auto;
-		z-index: 90;
+		overflow: hidden;
 	}
 	#j-toggle-sidebar-wrapper.j-sidebar-hidden {
 		right: -16.5%;
@@ -8695,7 +8701,6 @@ a.grid_true {
 		position: absolute;
 		display: block;
 		padding-top: 11px;
-		z-index: 95;
 	}
 	#j-toggle-button-wrapper.j-toggle-hidden {
 		right: 5px;
@@ -8707,14 +8712,15 @@ a.grid_true {
 		color: #999;
 		cursor: pointer;
 		text-decoration: none;
-		z-index: 95;
 	}
 	#j-toggle-sidebar-button:hover {
 		color: #555;
 	}
+	#j-main-container {
+		padding: 0 5px 0 0;
+	}
 	#j-main-container.j-toggle-main {
 		float: left;
-		padding: 0 5px 0 0;
 		-webkit-transition: all 0.5s ease;
 		-moz-transition: all 0.5s ease;
 		-o-transition: all 0.5s ease;
