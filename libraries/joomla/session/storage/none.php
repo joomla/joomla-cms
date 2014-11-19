@@ -26,7 +26,7 @@ class JSessionStorageNone extends JSessionStorage
 	 */
 	public function register()
 	{
-		// Set session.handler to file if nothing else is set
+		// Set session.handler to files only if nothing else is set
 		if (empty(ini_get('session.save_handler')))
 		{
 			ini_set('session.save_handler', 'files');
