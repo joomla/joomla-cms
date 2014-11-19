@@ -182,7 +182,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	public function buildRule(&$router, &$uri)
 	{
 		$lang = $uri->getVar('lang', $this->default_lang);
-		
+
 		if (isset($this->lang_codes[$lang]))
 		{
 			$sef = $this->lang_codes[$lang]->sef;
