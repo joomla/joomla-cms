@@ -342,12 +342,12 @@ class PlgSystemLanguageFilter extends JPlugin
 
 						if ($this->app->get('sef_rewrite'))
 						{
-							$this->app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
+							$this->app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')), true);
 						}
 						else
 						{
 							$path = $uri->toString(array('path', 'query', 'fragment'));
-							$this->app->redirect($uri->base() . 'index.php' . ($path ? ('/' . $path) : ''));
+							$this->app->redirect($uri->base() . 'index.php' . ($path ? ('/' . $path) : ''), true);
 						}
 					}
 				}
