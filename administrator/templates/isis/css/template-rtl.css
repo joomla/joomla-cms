@@ -8694,7 +8694,8 @@ a.grid_true {
 		border-top: 1px solid #d3d3d3;
 		border-bottom: 1px solid #eee;
 	}
-	#sidebar {
+	#sidebar,
+	.filter-select {
 		padding: 3px;
 	}
 	#j-toggle-button-wrapper {
