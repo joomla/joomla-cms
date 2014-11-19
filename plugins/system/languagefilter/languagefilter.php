@@ -68,7 +68,18 @@ class PlgSystemLanguageFilter extends JPlugin
 				$this->mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
 				$this->sefs 		= JLanguageHelper::getLanguages('sef');
 				$this->lang_codes 	= JLanguageHelper::getLanguages('lang_code');
-				$this->default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+				if ($this->params->get('detect_browser', 1))
+				{
+					$lang_code = JLanguageHelper::detectLanguage();
+					if (isset($this->lang_codes[$lang_code]))
+					{
+						$this->default_lang = $lang_code;
+					}
+				}
+				if (!$this->default_lang)
+				{
+					$this->default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+				}
 				$this->default_sef 	= $this->lang_codes[$this->default_lang]->sef;
 				$this->homes		= MultilangstatusHelper::getHomepages();
 
@@ -244,20 +255,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function parseRule(&$router, &$uri)
 	{
-		$lang_code = $this->app->input->cookie->getString(JApplication::getHash('language'));
-
-		// No cookie - let's try to detect browser language or use site default.
-		if (!$lang_code)
-		{
-			if ($this->params->get('detect_browser', 1))
-			{
-				$lang_code = JLanguageHelper::detectLanguage();
-			}
-			else
-			{
-				$lang_code = $this->default_lang;
-			}
-		}
+		$lang_code = $this->app->input->cookie->getString(JApplication::getHash('language'), $this->default_lang);
 
 		if ($this->mode_sef)
 		{
@@ -340,16 +338,16 @@ class PlgSystemLanguageFilter extends JPlugin
 		}
 		else
 		{
-			$sef = $uri->getVar('lang');
+			$lang = $uri->getVar('lang');
 
-			if (!isset($this->sefs[$sef]))
+			if (!isset($this->sefs[$lang]) && !isset($this->lang_codes[$lang]))
 			{
-				$sef = isset($this->lang_codes[$lang_code]) ? $this->lang_codes[$lang_code]->sef : $this->default_sef;
-				$uri->setVar('lang', $sef);
+				$sef = $lang_code;
+				$uri->setVar('lang', $lang_code);
 
 				if ($this->app->input->getMethod() != "POST" || count($this->app->input->post) == 0)
 				{
-					$this->app->redirect(JUri::base(true) . '/index.php?' . $uri->getQuery());
+					$this->app->redirect($uri->toString());
 				}
 			}
 		}
