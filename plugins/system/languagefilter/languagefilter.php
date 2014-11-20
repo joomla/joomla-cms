@@ -342,7 +342,6 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if (!isset($this->sefs[$lang]) && !isset($this->lang_codes[$lang]))
 			{
-				$sef = $lang_code;
 				$uri->setVar('lang', $lang_code);
 
 				if ($this->app->input->getMethod() != "POST" || count($this->app->input->post) == 0)
@@ -350,9 +349,13 @@ class PlgSystemLanguageFilter extends JPlugin
 					$this->app->redirect($uri->toString());
 				}
 			}
+			else
+			{
+				$lang_code = $lang;
+			}
 		}
 
-		$array = array('lang' => $sef);
+		$array = array('lang' => $lang_code);
 
 		return $array;
 	}
