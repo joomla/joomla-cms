@@ -321,25 +321,56 @@ class JTableUser extends JTable
 		// Store the group data if the user data was saved.
 		if (is_array($this->groups) && count($this->groups))
 		{
-			// Delete the old user group maps.
-			$query->delete($this->_db->quoteName('#__user_usergroup_map'))
-				->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id);
-			$this->_db->setQuery($query);
-			$this->_db->execute();
+            // Grab all usergroup entries for the user
+            $query -> clear()
+                -> select('*')
+                -> from($this->_db->quoteName('#__user_usergroup_map'))
+                -> where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id);
 
-			// Set the new user group maps.
-			$query->clear()
-				->insert($this->_db->quoteName('#__user_usergroup_map'))
-				->columns(array($this->_db->quoteName('user_id'), $this->_db->quoteName('group_id')));
+            $this->_db->setQuery($query);
+            $result = $this->_db->loadObjectList();
 
-			// Have to break this up into individual queries for cross-database support.
-			foreach ($this->groups as $group)
-			{
-				$query->clear('values')
-					->values($this->id . ', ' . $group);
-				$this->_db->setQuery($query);
-				$this->_db->execute();
-			}
+            // Loop through them and check if database contains something $this->groups does not
+            if(sizeof($result))
+            {
+                foreach($result as $map)
+                {
+                    if(array_key_exists($map->group_id, $this->groups))
+                    {
+                        // it already exists, no action required
+                        unset($this->groups[$map->group_id]);
+                    }
+                    else
+                    {
+                        // it should be removed
+                        $query -> clear()
+                            -> delete($this->_db->quoteName('#__user_usergroup_map'))
+                            -> where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id)
+                            -> where($this->_db->quoteName('group_id') . ' = ' . (int) $map->group_id);
+
+                        $this->_db->setQuery($query);
+                        $this->_db->execute();
+                    }
+                }
+            }
+
+            // If there is anything left in this->groups it needs to be inserted
+            if(sizeof($this->groups))
+            {
+			    // Set the new user group maps.
+			    $query->clear()
+				    ->insert($this->_db->quoteName('#__user_usergroup_map'))
+				    ->columns(array($this->_db->quoteName('user_id'), $this->_db->quoteName('group_id')));
+
+			    // Have to break this up into individual queries for cross-database support.
+			    foreach ($this->groups as $group)
+			    {
+				    $query->clear('values')
+					    ->values($this->id . ', ' . $group);
+				    $this->_db->setQuery($query);
+				    $this->_db->execute();
+			    }
+            }
 		}
 
 		// If a user is blocked, delete the cookie login rows
