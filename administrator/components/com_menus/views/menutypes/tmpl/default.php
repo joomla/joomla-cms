@@ -14,20 +14,23 @@ $input = JFactory::getApplication()->input;
 $tmpl = $input->getCmd('tmpl', '');
 $document = JFactory::getDocument();
 
-$script = 'jQuery(document).ready(function() {' . PHP_EOL;
-$script .= '	setmenutype = function(type)' . PHP_EOL;
-$script .= '	{' . PHP_EOL;
+$script = '
+jQuery(document).ready(function() {
+	setmenutype = function(type) {';
 if ($tmpl)
 {
-	$script .= '	window.parent.Joomla.submitbutton(\'item.setType\', type);' . PHP_EOL;
-	$script .= '	window.parent.SqueezeBox.close();' . PHP_EOL;
+	$script .= '
+		window.parent.Joomla.submitbutton(\'item.setType\', type);
+		window.parent.SqueezeBox.close();';
 }
 else
 {
-	$script .= '	window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+(\'item.setType\', type);' . PHP_EOL;
+	$script .= '
+		window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+(\'item.setType\', type);';
 }
-$script .= '	}' . PHP_EOL;
-$script .= '});' . PHP_EOL;
+$script .= '
+	}
+});';
 
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
