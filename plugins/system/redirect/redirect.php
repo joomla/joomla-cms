@@ -7,7 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Plugin class for redirect handling.
@@ -51,7 +53,7 @@ class PlgSystemRedirect extends JPlugin
 		if (!$app->isAdmin() and ($error->getCode() == 404))
 		{
 			// Get the full current URI.
-			$uri = JUri::getInstance();
+			$uri     = JUri::getInstance();
 			$current = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
 
 			// Attempt to ignore idiots.
@@ -62,7 +64,7 @@ class PlgSystemRedirect extends JPlugin
 			}
 
 			// See if the current url exists in the database as a redirect.
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('new_url', 'header')))
 				->select($db->quoteName('published'))
@@ -116,8 +118,7 @@ class PlgSystemRedirect extends JPlugin
 			else
 			{
 				$referer = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
-
-				$query = $db->getQuery(true)
+				$query   = $db->getQuery(true)
 					->select($db->quoteName('id'))
 					->from($db->quoteName('#__redirect_links'))
 					->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
@@ -126,27 +127,33 @@ class PlgSystemRedirect extends JPlugin
 
 				if (!$res)
 				{
-					// If not, add the new url to the database.
-					$columns = array(
-						$db->quoteName('old_url'),
-						$db->quoteName('new_url'),
-						$db->quoteName('referer'),
-						$db->quoteName('comment'),
-						$db->quoteName('hits'),
-						$db->quoteName('published'),
-						$db->quoteName('created_date')
-					);
-					$query->clear()
-						->insert($db->quoteName('#__redirect_links'), false)
-						->columns($columns)
-						->values(
-							$db->quote($current) . ', ' . $db->quote('') .
+					// If not, add the new url to the database but only if option is enabled
+					$params       = new Registry(JPluginHelper::getPlugin('system', 'redirect')->params);
+					$collect_urls = $params->get('collect_urls', 1);
+
+					if ($collect_urls == true)
+					{
+						$columns = array(
+							$db->quoteName('old_url'),
+							$db->quoteName('new_url'),
+							$db->quoteName('referer'),
+							$db->quoteName('comment'),
+							$db->quoteName('hits'),
+							$db->quoteName('published'),
+							$db->quoteName('created_date')
+						);
+						$query->clear()
+							->insert($db->quoteName('#__redirect_links'), false)
+							->columns($columns)
+							->values(
+								$db->quote($current) . ', ' . $db->quote('') .
 								' ,' . $db->quote($referer) . ', ' . $db->quote('') . ',1,0, ' .
 								$db->quote(JFactory::getDate()->toSql())
-						);
+							);
 
-					$db->setQuery($query);
-					$db->execute();
+						$db->setQuery($query);
+						$db->execute();
+					}
 				}
 				else
 				{

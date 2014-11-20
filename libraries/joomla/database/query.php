@@ -651,6 +651,10 @@ abstract class JDatabaseQuery
 				$this->limit = 0;
 				break;
 
+			case 'offset':
+				$this->offset = 0;
+				break;
+
 			case 'union':
 				$this->union = null;
 				break;
