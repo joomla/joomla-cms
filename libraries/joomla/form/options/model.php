@@ -32,10 +32,13 @@ abstract class JFormOptionModel
 	{
 		// The name of the model class.
 		$className = (string) $option['modelName'];
+
 		// Allow the model to use a method other than the default 'getOptions'
 		$methodName = isset($option['modelMethod']) ? (string) $option['modelMethod'] : 'getOptions';
+
 		// Allow a model path in the JLoader dot separated format.
 		$path = (string) $option['modelPath'];
+
 		// Allow a base path as either a constant (ex: JPATH_BASE) or string.
 		// Because JLoader:import will use 'libraries' by default and this is not usually what we will want.
 		$base = (string) $option['modelBase'];
