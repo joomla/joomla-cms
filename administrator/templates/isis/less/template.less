@@ -1056,17 +1056,12 @@ a.grid_true {
 /* For collapsible sidebar */
 @media (min-width: 768px) {
 	#j-sidebar-container {
-		margin-right: 0;
-		margin-top: -10px;
-		min-height: 0;
-	}
-	#j-toggle-sidebar-wrapper {
 		position: absolute;
 		display: block;
 		left: -16.5%;
 		width: 16.5%;
 		height: 100%;
-		margin-top: -1px;
+		margin: -10px 0 0 0;
 		padding-top: 10px;
 		background: #fff;
 		background: -moz-linear-gradient(top,#ffffff 0%,#ededed 100%);
@@ -1079,15 +1074,15 @@ a.grid_true {
 		border-right: 1px solid #d3d3d3;
 		overflow: hidden;
 	}
-	#j-toggle-sidebar-wrapper.j-sidebar-hidden {
+	#j-sidebar-container.j-sidebar-hidden {
 		left: -16.5%;
 	}
-	#j-toggle-sidebar-wrapper.j-sidebar-visible {
+	#j-sidebar-container.j-sidebar-visible {
 		left: 0;
 	}
 	#j-toggle-sidebar-header {
 		color: #999;
-		margin: -10px -3px 7px -3px;
+		margin: -11px -3px 7px -3px;
 		padding: 10px 0 10px 18px;
 		border-top: 1px solid #d3d3d3;
 		border-bottom: 1px solid #eee;
@@ -1095,11 +1090,11 @@ a.grid_true {
 	#sidebar {
 		padding: 3px;
 	}
-	#sidebar .filter-select {
+	#j-sidebar-container .filter-select {
 		padding: 0 13px;
 	}
 	#j-toggle-button-wrapper {
-		position: absolute;
+		position: fixed;
 		display: block;
 		padding-top: 11px;
 	}
@@ -1110,16 +1105,20 @@ a.grid_true {
 		left: 14.75%;
 	}
 	#j-toggle-sidebar-button {
-		color: #999;
+		font-size: 14px;
+		color: @linkColor;
 		cursor: pointer;
 		text-decoration: none;
 	}
 	#j-toggle-sidebar-button:hover {
-		color: #555;
+		color: @linkColorHover;
 	}
+	#system-message-container,
 	#j-main-container {
 		padding: 0 0 0 5px;
+		min-height: 0;
 	}
+	#system-message-container.j-toggle-main,
 	#j-main-container.j-toggle-main {
 		float: right;
 		-webkit-transition: all 0.5s ease;
