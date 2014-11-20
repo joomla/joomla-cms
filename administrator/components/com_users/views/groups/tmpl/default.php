@@ -23,29 +23,33 @@ $sortFields = $this->getSortFields();
 
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
-$script = 'jQuery(document).ready(function() {' . PHP_EOL;
-$script .= '	Joomla.submitbutton = function(task) {' . PHP_EOL;
-$script .= '		if (task == "groups.delete")' . PHP_EOL;
-$script .= '		{' . PHP_EOL;
-$script .= '			var f = document.adminForm;' . PHP_EOL;
-$script .= '			var cb="";' . PHP_EOL;
+$script = '
+jQuery(document).ready(function() {
+	Joomla.submitbutton = function(task) {
+		if (task == "groups.delete")
+		{
+			var f = document.adminForm;
+			var cb="";';
 foreach ($this->items as $i => $item)
 {
 	if ($item->user_count > 0)
 	{
-		$script .= '	cb = f["cb"+' . $i . '];' . PHP_EOL;
-		$script .= '	if (cb && cb.checked) { ' . PHP_EOL;
-		$script .= '		if (confirm(Joomla.JText._("COM_USERS_GROUPS_CONFIRM_DELETE"))) { ' . PHP_EOL;
-		$script .= '			Joomla.submitform(task);' . PHP_EOL;
-		$script .= '		}' . PHP_EOL;
-		$script .= '		return;' . PHP_EOL;
-		$script .= '	}' . PHP_EOL;
+		$script .= '
+			cb = f["cb"+' . $i . '];
+			if (cb && cb.checked) {
+				if (confirm(Joomla.JText._("COM_USERS_GROUPS_CONFIRM_DELETE"))) {
+					Joomla.submitform(task);
+				}
+				return;
+			}';
 	}
 }
-$script .= '		}' . PHP_EOL;
-$script .= '	Joomla.submitform(task);' . PHP_EOL;
-$script .= '	}' . PHP_EOL;
-$script .= '});' . PHP_EOL;
+$script .= '
+		}
+	Joomla.submitform(task);
+	}
+});';
+
 
 JFactory::getDocument()->addScriptDeclaration($script);
 JFactory::getDocument()->addScriptDeclaration('
