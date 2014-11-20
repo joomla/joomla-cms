@@ -331,18 +331,18 @@ class JTableUser extends JTable
 			$result = $this->_db->loadObjectList();
 
 			// Loop through them and check if database contains something $this->groups does not
-			if(count($result))
+			if (count($result))
 			{
 				foreach($result as $map)
 				{
-					if(array_key_exists($map->group_id, $this->groups))
+					if (array_key_exists($map->group_id, $this->groups))
 					{
-						// it already exists, no action required
+						// It already exists, no action required
 						unset($this->groups[$map->group_id]);
 					}
 					else
 					{
-						// it should be removed
+						// It should be removed
 						$query -> clear()
 							-> delete($this->_db->quoteName('#__user_usergroup_map'))
 							-> where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id)
@@ -355,7 +355,7 @@ class JTableUser extends JTable
 			}
 
 			// If there is anything left in this->groups it needs to be inserted
-			if(count($this->groups))
+			if (count($this->groups))
 			{
 				// Set the new user group maps.
 				$query->clear()
