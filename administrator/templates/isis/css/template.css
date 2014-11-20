@@ -1644,9 +1644,9 @@ legend + .control-group {
 }
 .form-horizontal .control-label {
 	float: left;
-	width: auto;
+	width: 160px;
 	padding-top: 5px;
-	text-align: left;
+	text-align: right;
 }
 .form-horizontal .controls {
 	*display: inline-block;
@@ -1670,6 +1670,9 @@ legend + .control-group {
 }
 .form-horizontal .form-actions {
 	padding-left: 180px;
+}
+.control-label .hasTooltip {
+	display: inline-block;
 }
 table {
 	max-width: 100%;
@@ -6076,7 +6079,6 @@ fieldset.radio.btn-group {
 	overflow: hidden;
 }
 .form-vertical .control-label {
-	display: inline-block;
 	float: none;
 	width: auto;
 	padding-right: 0;

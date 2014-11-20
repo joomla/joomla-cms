@@ -652,9 +652,9 @@ legend + .control-group {
   // Float the labels left
   .control-label {
     float: left;
-    width: auto;
+    width: @horizontalComponentOffset - 20;
     padding-top: 5px;
-    text-align: left;
+    text-align: right;
   }
   // Move over all input controls and content
   .controls {
@@ -687,4 +687,9 @@ legend + .control-group {
   .form-actions {
     padding-left: @horizontalComponentOffset;
   }
+}
+
+/*Fix for tooltips wrong positioning*/
+.control-label .hasTooltip {
+  display: inline-block;
 }
