@@ -9,12 +9,12 @@
 <script src="coffeescript.js"></script>
 <style>.CodeMirror {border-top: 1px solid silver; border-bottom: 1px solid silver;}</style>
 <div id=nav>
-  <a href="http://codemirror.net"><img id=logo src="../../doc/logo.png"></a>
+  <a href="http://codemirror.net"><h1>CodeMirror</h1><img id=logo src="../../doc/logo.png"></a>
 
   <ul>
     <li><a href="../../index.html">Home</a>
     <li><a href="../../doc/manual.html">Manual</a>
-    <li><a href="https://github.com/marijnh/codemirror">Code</a>
+    <li><a href="https://github.com/codemirror/codemirror">Code</a>
   </ul>
   <ul>
     <li><a href="../index.html">Language modes</a>
@@ -652,9 +652,9 @@ _.template = (str, data) ->
     str.replace(/\r/g, '\\r')
        .replace(/\n/g, '\\n')
        .replace(/\t/g, '\\t')
-       .replace(endMatch,"         ")
+       .replace(endMatch,"���")
        .split("'").join("\\'")
-       .split("         ").join("'")
+       .split("���").join("'")
        .replace(c.interpolate, "',$1,'")
        .split(c.start).join("');")
        .split(c.end).join("p.push('") +

@@ -61,7 +61,7 @@
   function CodeMirror(place, options) {
     if (!(this instanceof CodeMirror)) return new CodeMirror(place, options);
 
-    this.options = options = options || {};
+    this.options = options = options ? copyObj(options) : {};
     // Determine effective options based on given values and defaults.
     copyObj(defaults, options, false);
     setGuttersForLineNumbers(options);
@@ -96,21 +96,20 @@
     registerEventHandlers(this);
     ensureGlobalHandlers();
 
-    var cm = this;
-    runInOp(this, function() {
-      cm.curOp.forceUpdate = true;
-      attachDoc(cm, doc);
+    startOperation(this);
+    this.curOp.forceUpdate = true;
+    attachDoc(this, doc);
 
-      if ((options.autofocus && !mobile) || activeElt() == display.input)
-        setTimeout(bind(onFocus, cm), 20);
-      else
-        onBlur(cm);
+    if ((options.autofocus && !mobile) || activeElt() == display.input)
+      setTimeout(bind(onFocus, this), 20);
+    else
+      onBlur(this);
 
-      for (var opt in optionHandlers) if (optionHandlers.hasOwnProperty(opt))
-        optionHandlers[opt](cm, options[opt], Init);
-      maybeUpdateLineNumberWidth(cm);
-      for (var i = 0; i < initHooks.length; ++i) initHooks[i](cm);
-    });
+    for (var opt in optionHandlers) if (optionHandlers.hasOwnProperty(opt))
+      optionHandlers[opt](this, options[opt], Init);
+    maybeUpdateLineNumberWidth(this);
+    for (var i = 0; i < initHooks.length; ++i) initHooks[i](this);
+    endOperation(this);
   }
 
   // DISPLAY CONSTRUCTOR
@@ -723,9 +722,10 @@
   // view, so that we don't interleave reading and writing to the DOM.
   function getDimensions(cm) {
     var d = cm.display, left = {}, width = {};
+    var gutterLeft = d.gutters.clientLeft;
     for (var n = d.gutters.firstChild, i = 0; n; n = n.nextSibling, ++i) {
-      left[cm.options.gutters[i]] = n.offsetLeft;
-      width[cm.options.gutters[i]] = n.offsetWidth;
+      left[cm.options.gutters[i]] = n.offsetLeft + n.clientLeft + gutterLeft;
+      width[cm.options.gutters[i]] = n.clientWidth;
     }
     return {fixedPos: compensateForHScroll(d),
             gutterTotalWidth: d.gutters.offsetWidth,
@@ -3720,7 +3720,7 @@
   // measured, the position of something may 'drift' during drawing).
   function scrollPosIntoView(cm, pos, end, margin) {
     if (margin == null) margin = 0;
-    for (;;) {
+    for (var limit = 0; limit < 5; limit++) {
       var changed = false, coords = cursorCoords(cm, pos);
       var endCoords = !end || end == pos ? coords : cursorCoords(cm, end);
       var scrollPos = calculateScrollPos(cm, Math.min(coords.left, endCoords.left),
@@ -3769,7 +3769,7 @@
     var screenleft = cm.curOp && cm.curOp.scrollLeft != null ? cm.curOp.scrollLeft : display.scroller.scrollLeft;
     var screenw = display.scroller.clientWidth - scrollerCutOff - display.gutters.offsetWidth;
     var tooWide = x2 - x1 > screenw;
-    if (tooWide) x2 = y1 + screen;
+    if (tooWide) x2 = x1 + screenw;
     if (x1 < 10)
       result.scrollLeft = 0;
     else if (x1 < screenleft)
@@ -4570,10 +4570,8 @@
   // load a mode. (Preferred mechanism is the require/define calls.)
   CodeMirror.defineMode = function(name, mode) {
     if (!CodeMirror.defaults.mode && name != "null") CodeMirror.defaults.mode = name;
-    if (arguments.length > 2) {
-      mode.dependencies = [];
-      for (var i = 2; i < arguments.length; ++i) mode.dependencies.push(arguments[i]);
-    }
+    if (arguments.length > 2)
+      mode.dependencies = Array.prototype.slice.call(arguments, 2);
     modes[name] = mode;
   };
 
@@ -4865,7 +4863,7 @@
   // are simply ignored.
   keyMap.pcDefault = {
     "Ctrl-A": "selectAll", "Ctrl-D": "deleteLine", "Ctrl-Z": "undo", "Shift-Ctrl-Z": "redo", "Ctrl-Y": "redo",
-    "Ctrl-Home": "goDocStart", "Ctrl-Up": "goDocStart", "Ctrl-End": "goDocEnd", "Ctrl-Down": "goDocEnd",
+    "Ctrl-Home": "goDocStart", "Ctrl-End": "goDocEnd", "Ctrl-Up": "goLineUp", "Ctrl-Down": "goLineDown",
     "Ctrl-Left": "goGroupLeft", "Ctrl-Right": "goGroupRight", "Alt-Left": "goLineStart", "Alt-Right": "goLineEnd",
     "Ctrl-Backspace": "delGroupBefore", "Ctrl-Delete": "delGroupAfter", "Ctrl-S": "save", "Ctrl-F": "find",
     "Ctrl-G": "findNext", "Shift-Ctrl-G": "findPrev", "Shift-Ctrl-F": "replace", "Shift-Ctrl-R": "replaceAll",
@@ -4880,7 +4878,7 @@
     "Ctrl-Alt-Backspace": "delGroupAfter", "Alt-Delete": "delGroupAfter", "Cmd-S": "save", "Cmd-F": "find",
     "Cmd-G": "findNext", "Shift-Cmd-G": "findPrev", "Cmd-Alt-F": "replace", "Shift-Cmd-Alt-F": "replaceAll",
     "Cmd-[": "indentLess", "Cmd-]": "indentMore", "Cmd-Backspace": "delWrappedLineLeft", "Cmd-Delete": "delWrappedLineRight",
-    "Cmd-U": "undoSelection", "Shift-Cmd-U": "redoSelection",
+    "Cmd-U": "undoSelection", "Shift-Cmd-U": "redoSelection", "Ctrl-Up": "goDocStart", "Ctrl-Down": "goDocEnd",
     fallthrough: ["basic", "emacsy"]
   };
   // Very basic readline/emacs-style bindings, which are standard on Mac.
@@ -4988,6 +4986,7 @@
     cm.save = save;
     cm.getTextArea = function() { return textarea; };
     cm.toTextArea = function() {
+      cm.toTextArea = isNaN; // Prevent this from being ran twice
       save();
       textarea.parentNode.removeChild(cm.getWrapperElement());
       textarea.style.display = "";
@@ -7825,7 +7824,7 @@
 
   // THE END
 
-  CodeMirror.version = "4.6.0";
+  CodeMirror.version = "4.7.0";
 
   return CodeMirror;
 });
