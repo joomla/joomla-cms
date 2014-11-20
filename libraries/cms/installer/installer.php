@@ -1870,7 +1870,7 @@ class JInstaller extends JAdapter
 		$allXmlFiles    = JFolder::files($this->getPath('source'), '.xml$', 1, true);
 
 		// Create an unique array of files ordered by priority
-		$xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
+		$xmlfiles = array_unique(array_merge($parentXmlfiles ? $parentXmlfiles : array(), $allXmlFiles ? $allXmlFiles : array()));
 
 		// If at least one XML file exists
 		if (!empty($xmlfiles))
