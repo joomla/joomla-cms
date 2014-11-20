@@ -53,6 +53,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			// Don't do anything
 			case 'UPDATES':
 				break;
+
 			default:
 				if (in_array($name, $this->updatecols))
 				{
@@ -68,6 +69,11 @@ class JUpdaterExtension extends JUpdateAdapter
 				if ($name == 'PHP_MINIMUM')
 				{
 					$this->currentUpdate->php_minimum = '';
+				}
+
+				if ($name == 'STABILITY')
+				{
+					$this->currentUpdate->stability = '';
 				}
 				break;
 		}
@@ -124,14 +130,33 @@ class JUpdaterExtension extends JUpdateAdapter
 						$phpMatch = false;
 					}
 
-					// Target platform and php_minimum aren't valid fields in the update table so unset them to prevent J! from trying to store them
-					unset($this->currentUpdate->targetplatform);
-					unset($this->currentUpdate->php_minimum);
+					// TODO Check minimum stability
+					$stabilityMatch = true;
 
-					if ($phpMatch)
+					if (isset($this->currentUpdate->stability) && ($this->currentUpdate->stability < $this->minimum_stability))
+					{
+						$stabilityMatch = false;
+					}
+
+					// Some properties aren't valid fields in the update table so unset them to prevent J! from trying to store them
+					unset($this->currentUpdate->targetplatform);
+
+					if (isset($this->currentUpdate->php_minimum))
+					{
+						unset($this->currentUpdate->php_minimum);
+					}
+
+					if (isset($this->currentUpdate->stability))
+					{
+						unset($this->currentUpdate->stability);
+					}
+
+					// If the PHP version and minimum stability checks pass, consider this version as a possible update
+					if ($phpMatch && $stabilityMatch)
 					{
 						if (isset($this->latest))
 						{
+							// We already have a possible update. Check the version.
 							if (version_compare($this->currentUpdate->version, $this->latest->version, '>') == 1)
 							{
 								$this->latest = $this->currentUpdate;
@@ -139,11 +164,13 @@ class JUpdaterExtension extends JUpdateAdapter
 						}
 						else
 						{
+							// We don't have any possible updates yet, assume this is an available update.
 							$this->latest = $this->currentUpdate;
 						}
 					}
 				}
 				break;
+
 			case 'UPDATES':
 				// :D
 				break;
@@ -174,6 +201,35 @@ class JUpdaterExtension extends JUpdateAdapter
 		if ($tag == 'PHP_MINIMUM')
 		{
 			$this->currentUpdate->php_minimum = $data;
+		}
+
+		if ($tag == 'STABILITY')
+		{
+			$data = strtoupper($data);
+
+			switch ($data)
+			{
+				case 'DEV':
+					$this->currentUpdate->stability = 0;
+					break;
+
+				case 'ALPHA':
+					$this->currentUpdate->stability = 1;
+					break;
+
+				case 'BETA':
+					$this->currentUpdate->stability = 2;
+					break;
+
+				case 'RC':
+					$this->currentUpdate->stability = 3;
+					break;
+
+				// STABLE or any other unspecified stability tag
+				default:
+					$this->currentUpdate->stability = 4;
+					break;
+			}
 		}
 	}
 
@@ -245,6 +301,11 @@ class JUpdaterExtension extends JUpdateAdapter
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), 'warning');
 
 			return false;
+		}
+
+		if (array_key_exists('minimum_stability', $options))
+		{
+			$this->minimum_stability = $options['minimum_stability'];
 		}
 
 		$this->xmlParser = xml_parser_create('');

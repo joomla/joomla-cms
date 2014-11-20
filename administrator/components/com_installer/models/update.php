@@ -141,20 +141,21 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Finds updates for an extension.
 	 *
-	 * @param   int  $eid            Extension identifier to look for
-	 * @param   int  $cache_timeout  Cache timout
+	 * @param   int  $eid                Extension identifier to look for
+	 * @param   int  $cache_timeout      Cache timout
+	 * @param   int  $minimum_stability  Minimum stability for updates (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
 	 *
 	 * @return  boolean Result
 	 *
 	 * @since   1.6
 	 */
-	public function findUpdates($eid = 0, $cache_timeout = 0)
+	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = 3)
 	{
 		// Purge the updates list
 		$this->purge();
 
 		$updater = JUpdater::getInstance();
-		$updater->findUpdates($eid, $cache_timeout);
+		$updater->findUpdates($eid, $cache_timeout, $minimum_stability);
 
 		return true;
 	}

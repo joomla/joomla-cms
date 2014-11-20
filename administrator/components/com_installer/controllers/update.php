@@ -75,9 +75,13 @@ class InstallerControllerUpdate extends JControllerLegacy
 		$cache_timeout = $params->get('cachetimeout', 6, 'int');
 		$cache_timeout = 3600 * $cache_timeout;
 
+		// Get the minimum stability.
+		$minimum_stability = $params->get('minimum_stability', 3, 'int');
+
 		// Find updates.
+		/** @var InstallerModelUpdate $model */
 		$model = $this->getModel('update');
-		$model->findUpdates(0, $cache_timeout);
+		$model->findUpdates(0, $cache_timeout, $minimum_stability);
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=update', false));
 	}
 
@@ -117,20 +121,28 @@ class InstallerControllerUpdate extends JControllerLegacy
 		 * asynchronously. This means that between requests the token might
 		 * change, making it impossible for AJAX to work.
 		 */
-		$eid           = $this->input->getInt('eid', 0);
-		$skip          = $this->input->get('skip', array(), 'array');
-		$cache_timeout = $this->input->getInt('cache_timeout', 0);
+		$eid               = $this->input->getInt('eid', 0);
+		$skip              = $this->input->get('skip', array(), 'array');
+		$cache_timeout     = $this->input->getInt('cache_timeout', 0);
+		$minimum_stability = $this->input->getInt('minimum_stability', -1);
+
+		$component     = JComponentHelper::getComponent('com_installer');
+		$params        = $component->params;
 
 		if ($cache_timeout == 0)
 		{
-			$component     = JComponentHelper::getComponent('com_installer');
-			$params        = $component->params;
 			$cache_timeout = $params->get('cachetimeout', 6, 'int');
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 
+		if ($minimum_stability < 0)
+		{
+			$minimum_stability = $params->get('minimum_stability', 3, 'int');
+		}
+
+		/** @var InstallerModelUpdate $model */
 		$model = $this->getModel('update');
-		$model->findUpdates($eid, $cache_timeout);
+		$model->findUpdates($eid, $cache_timeout, $minimum_stability);
 
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);

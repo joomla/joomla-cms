@@ -10,7 +10,8 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Update class.
+ * Update class. It is used by JUpdater::update() to install an update. Use JUpdater::findUpdates() to find updates for
+ * an extension.
  *
  * @since  11.1
  */

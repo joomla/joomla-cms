@@ -167,7 +167,7 @@ class JUpdaterCollection extends JUpdateAdapter
 				{
 					$values['targetplatformversion'] = $ver->RELEASE;
 				}
-				// Set this to ourself as a default
+				// Set this to ourselves as a default
 				// validate that we can install the extension
 				if ($product == $values['targetplatform'] && preg_match('/' . $values['targetplatformversion'] . '/', $ver->RELEASE))
 				{
