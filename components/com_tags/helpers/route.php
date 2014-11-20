@@ -132,7 +132,7 @@ class TagsHelperRoute extends JHelperRoute
 					if (isset($item->query) && isset($item->query['view']))
 					{
 						$lang = ($item->language != '' ? $item->language : '*');
-						if (!isset(self::lookup[$lang]))
+						if (!isset(self::$lookup[$lang]))
 						{
 							self::$lookup[$lang] = array();
 						}
@@ -158,7 +158,7 @@ class TagsHelperRoute extends JHelperRoute
 		{
 			foreach ($needles as $view => $ids)
 			{
-				if (isset(self::$lookup{$language][$view]))
+				if (isset(self::$lookup[$language][$view]))
 				{
 					foreach ($ids as $id)
 					{
