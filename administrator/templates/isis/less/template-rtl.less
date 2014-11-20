@@ -97,16 +97,13 @@ a.grid_true {
 /* For collapsible sidebar */
 @media (min-width: 768px) {
 	#j-sidebar-container {
-		margin-right: 0;
-	}
-	#j-toggle-sidebar-wrapper {
 		right: -16.5%;
 		border-left: 1px solid #d3d3d3;
 	}
-	#j-toggle-sidebar-wrapper.j-sidebar-hidden {
+	#j-sidebar-container.j-sidebar-hidden {
 		right: -16.5%;
 	}
-	#j-toggle-sidebar-wrapper.j-sidebar-visible {
+	#j-sidebar-container.j-sidebar-visible {
 		right: 0;
 	}
 	#j-toggle-sidebar-header {
@@ -118,9 +115,11 @@ a.grid_true {
 	#j-toggle-button-wrapper.j-toggle-visible {
 		right: 14.75%;
 	}
+	#system-message-container,
 	#j-main-container {
 		padding: 0 5px 0 0;
 	}
+	#system-message-container.j-toggle-main,
 	#j-main-container.j-toggle-main {
 		float: left;
 	}
