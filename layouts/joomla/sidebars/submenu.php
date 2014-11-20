@@ -20,6 +20,9 @@ JHtmlBehavior::core();
 </script>
 
 <div id="j-toggle-sidebar-wrapper">
+	<div id="j-toggle-button-wrapper">
+		<?php echo JLayoutHelper::render('joomla.sidebars.toggle'); ?>
+	</div>
 	<div id="j-toggle-sidebar-header">
 		<?php echo JText::_('JTOGGLE_SIDEBAR_LABEL');?>
 	</div>
@@ -67,7 +70,4 @@ JHtmlBehavior::core();
 		</div>
 	</div>
 	<div id="j-toggle-sidebar"></div>
-</div>
-<div id="j-toggle-button-wrapper">
-	<?php echo JLayoutHelper::render('joomla.sidebars.toggle'); ?>
 </div>
