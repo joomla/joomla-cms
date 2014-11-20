@@ -73,6 +73,7 @@ abstract class JSubMenuHelper
 	public static function getEntries()
 	{
 		JLog::add('JSubMenuHelper::getEntries() is deprecated. Use JHtmlSidebar::getEntries() instead.', JLog::WARNING, 'deprecated');
+
 		return self::$entries;
 	}
 
@@ -106,6 +107,7 @@ abstract class JSubMenuHelper
 	public static function getFilters()
 	{
 		JLog::add('JSubMenuHelper::getFilters() is deprecated. Use JHtmlSidebar::getFilters() instead.', JLog::WARNING, 'deprecated');
+
 		return self::$filters;
 	}
 
@@ -136,6 +138,7 @@ abstract class JSubMenuHelper
 	public static function getAction()
 	{
 		JLog::add('JSubMenuHelper::getAction() is deprecated. Use JHtmlSidebar::getAction() instead.', JLog::WARNING, 'deprecated');
+
 		return self::$action;
 	}
 }
