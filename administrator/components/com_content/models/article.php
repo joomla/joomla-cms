@@ -519,7 +519,7 @@ class ContentModelArticle extends JModelAdmin
 
 				if (isset($msg))
 				{
-					$app->enqueueMessage($msg, 'warning');
+					JFactory::getApplication()->enqueueMessage($msg, 'warning');
 				}
 			}
 		}
