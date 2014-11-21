@@ -227,14 +227,6 @@ Joomla.toggleSidebar = function(force)
 	var open_icon = 'icon-cancel';
 	var closed_icon = 'icon-arrow-right-2';
 
-	var height_doc = jQuery(document).height();
-	var height_jsidebar = jQuery('#j-sidebar-container').height();
-
-	if (height_jsidebar < height_doc)
-	{
-		jQuery('#j-sidebar-container').height(height_doc-78);
-	}
-
 	if (force)
 	{
 		// Load the value from localStorage
