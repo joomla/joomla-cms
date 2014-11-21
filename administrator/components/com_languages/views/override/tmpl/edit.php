@@ -9,34 +9,36 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
-$script = 'jQuery(document).ready(function() {' . PHP_EOL;
-$script .= '   document.getElementById("jform_searchstring").addEvent("focus", function()' . PHP_EOL;
-$script .= '   {' . PHP_EOL;
-$script .= '       if (!Joomla.overrider.states.refreshed)' . PHP_EOL;
-$script .= '       {'. PHP_EOL;
-if ($this->state->get("cache_expired"))
-{
-	$script .= '           Joomla.overrider.refreshCache();'. PHP_EOL;
-	$script .= '           Joomla.overrider.states.refreshed = true;' . PHP_EOL;
-}
-$script .= '       }' . PHP_EOL;
-$script .= '       this.removeClass("invalid");' . PHP_EOL;
-$script .= '   });' . PHP_EOL;
-$script .= '   Joomla.submitbutton = function(task)' . PHP_EOL;
-$script .= '   {' . PHP_EOL;
-$script .= '       if (task == "override.cancel" || document.formvalidator.isValid(document.getElementById("override-form")))' . PHP_EOL;
-$script .= '       {' . PHP_EOL;
-$script .= '           Joomla.submitform(task, document.getElementById("override-form"));' . PHP_EOL;
-$script .= '       }' . PHP_EOL;
-$script .= '   }' . PHP_EOL;
-$script .= '});' . PHP_EOL;
-JFactory::getDocument()->addScriptDeclaration($script);
+$expired = ($this->state->get("cache_expired") == 1 ) ? '1' : '';
+
+JFactory::getDocument()->addScriptDeclaration('
+	jQuery(document).ready(function() {
+		document.getElementById("jform_searchstring").addEvent("focus", function() {
+			if (!Joomla.overrider.states.refreshed)
+			{
+				var expired = "' . $expired . '";
+				if (expired)
+				{
+					Joomla.overrider.refreshCache();
+					Joomla.overrider.states.refreshed = true;
+				}
+			}
+			this.removeClass("invalid");
+		});
+		Joomla.submitbutton = function(task) {
+			if (task == "override.cancel" || document.formvalidator.isValid(document.getElementById("override-form")))
+			{
+				Joomla.submitform(task, document.getElementById("override-form"));
+			}
+		}
+	});
+');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&id='.$this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate form-horizontal">
