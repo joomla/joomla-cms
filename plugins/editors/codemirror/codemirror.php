@@ -337,7 +337,7 @@ class PlgEditorCodemirror extends JPlugin
 		// Listen for Bootstrap's 'shown' event. If this editor was in a hidden element when created, it may need to be refreshed.
 		$html[] = '		!!jQuery && jQuery(function ($) {';
 		$html[] = '			$(document.body).on("shown shown.bs.tab shown.bs.modal", function () {';
-		$html[] = '				editor.refresh();';
+		$html[] = '				Joomla.editors.instances[id].refresh();';
 		$html[] = '			});';
 		$html[] = '		});';
 
