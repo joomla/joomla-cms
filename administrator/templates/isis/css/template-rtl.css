@@ -8674,6 +8674,7 @@ a.grid_true {
 		background: linear-gradient(top,#ffffff 0%,#ededed 100%);
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ededed',GradientType=0);
 		border-left: 1px solid #d3d3d3;
+		border-bottom: 1px solid #d3d3d3;
 		overflow: hidden;
 	}
 	#j-sidebar-container.j-sidebar-hidden {
@@ -8684,7 +8685,7 @@ a.grid_true {
 	}
 	#j-toggle-sidebar-header {
 		color: #999;
-		margin: -11px -3px 7px -3px;
+		margin: -11px 0 7px 0;
 		padding: 10px 18px 10px 0;
 		border-top: 1px solid #d3d3d3;
 		border-bottom: 1px solid #eee;
@@ -8696,21 +8697,23 @@ a.grid_true {
 		padding: 0 13px;
 	}
 	#j-toggle-button-wrapper {
-		position: fixed;
 		display: block;
-		padding-top: 11px;
+		margin-top: 11px;
+		padding: 0;
 	}
 	#j-toggle-button-wrapper.j-toggle-hidden {
+		position: fixed;
 		right: 5px;
 	}
 	#j-toggle-button-wrapper.j-toggle-visible {
-		right: 14.75%;
+		position: absolute;
+		left: 10px;
 	}
 	#j-toggle-sidebar-button {
 		font-size: 14px;
 		color: #999;
-		cursor: pointer;
 		text-decoration: none;
+		cursor: pointer;
 	}
 	#j-toggle-sidebar-button:hover {
 		color: #555;
