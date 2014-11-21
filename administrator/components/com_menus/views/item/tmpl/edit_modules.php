@@ -11,15 +11,14 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
 
-$script = "
-jQuery(document).ready(function() {
-	jQuery('#showmods').on('click', function(e) {
-		jQuery('.table tr.no').toggle();
-	});
-})";
-
-// Add the script to the document head.
-JFactory::getDocument()->addScriptDeclaration($script);?>
+JFactory::getDocument()->addScriptDeclaration("
+	jQuery(document).ready(function() {
+		jQuery('#showmods').on('click', function(e) {
+			jQuery('.table tr.no').toggle();
+		});
+	})
+");
+?>
 
 <div class="control-group">
 	<div class="control-label">

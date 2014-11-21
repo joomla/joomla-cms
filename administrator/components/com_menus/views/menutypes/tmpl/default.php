@@ -10,29 +10,26 @@
 defined('_JEXEC') or die;
 
 $input = JFactory::getApplication()->input;
+
 // Checking if loaded via index.php or component.php
-$tmpl = $input->getCmd('tmpl', '');
-$document = JFactory::getDocument();
+$tmpl = ($input->getCmd('tmpl') != '') ? '1' : '';
 
-$script = '
-jQuery(document).ready(function() {
-	setmenutype = function(type) {';
-if ($tmpl)
-{
-	$script .= '
-		window.parent.Joomla.submitbutton(\'item.setType\', type);
-		window.parent.SqueezeBox.close();';
-}
-else
-{
-	$script .= '
-		window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+(\'item.setType\', type);';
-}
-$script .= '
-	}
-});';
-
-JFactory::getDocument()->addScriptDeclaration($script);
+JFactory::getDocument()->addScriptDeclaration('
+	jQuery(document).ready(function() {
+		setmenutype = function(type) {
+			var tmpl = "' . $tmpl . '";
+			if (tmpl)
+			{
+				window.parent.Joomla.submitbutton(\'item.setType\', type);
+				window.parent.SqueezeBox.close();
+			}
+			else
+			{
+				window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+(\'item.setType\', type);
+			}
+		}
+	});
+');
 ?>
 
 <?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
