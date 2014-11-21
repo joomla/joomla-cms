@@ -7982,7 +7982,6 @@ a.grid_true {
 		display: block;
 		left: -16.5%;
 		width: 16.5%;
-		height: 100%;
 		margin: -10px 0 0 0;
 		padding-top: 10px;
 		background: #fff;
@@ -7995,7 +7994,6 @@ a.grid_true {
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ededed',GradientType=0);
 		border-right: 1px solid #d3d3d3;
 		border-bottom: 1px solid #d3d3d3;
-		overflow: hidden;
 	}
 	#j-sidebar-container.j-sidebar-hidden {
 		left: -16.5%;
@@ -8017,16 +8015,15 @@ a.grid_true {
 		padding: 0 13px;
 	}
 	#j-toggle-button-wrapper {
+		position: absolute;
 		display: block;
 		margin-top: 11px;
 		padding: 0;
 	}
 	#j-toggle-button-wrapper.j-toggle-hidden {
-		position: fixed;
-		left: 5px;
+		right: -20px;
 	}
 	#j-toggle-button-wrapper.j-toggle-visible {
-		position: absolute;
 		right: 10px;
 	}
 	#j-toggle-sidebar-button {
