@@ -10,7 +10,7 @@
 /**
  * JComponentRouterRules interface for Joomla
  *
- * @since   3.4
+ * @since  3.4
  */
 interface JComponentRouterRulesInterface
 {
