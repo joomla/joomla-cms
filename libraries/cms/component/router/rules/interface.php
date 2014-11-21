@@ -10,9 +10,7 @@
 /**
  * JComponentRouterRules interface for Joomla
  *
- * @package     Joomla.Libraries
- * @subpackage  Component
- * @since       3.4.0
+ * @since   3.4
  */
 interface JComponentRouterRulesInterface
 {
@@ -27,7 +25,7 @@ interface JComponentRouterRulesInterface
 	 * 
 	 * @return  void
 	 * 
-	 * @since   3.4.0
+	 * @since   3.4
 	 */
 	public function preprocess(JComponentRouterInterface &$router, &$query);
 
@@ -42,7 +40,7 @@ interface JComponentRouterRulesInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4.0
+	 * @since   3.4
 	 */
 	public function parse(JComponentRouterInterface &$router, &$segments, &$vars);
 
@@ -57,7 +55,7 @@ interface JComponentRouterRulesInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4.0
+	 * @since   3.4
 	 */
 	public function build(JComponentRouterInterface &$router, &$query, &$segments);
 }
