@@ -145,7 +145,7 @@ if($this->type == 'font')
 		@font-face
 		{
 			font-family: previewFont;
-			src: url('<?php echo $this->font['address'] ?>')
+			src: url('" . $this->font['address'] . "')
 		}
 
 		.font-preview{
