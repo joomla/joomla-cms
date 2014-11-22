@@ -113,14 +113,14 @@ class JApplicationDaemon extends JApplicationCli
 		// @codeCoverageIgnoreStart
 		if (!defined('SIGHUP'))
 		{
-			JLog::add('The PCNTL extension for PHP is not available.', JLog::ERROR);
+			JLog::add('The PCNTL extension for PHP is not available.', JLog::ERROR, 'daemon');
 			throw new RuntimeException('The PCNTL extension for PHP is not available.');
 		}
 
 		// Verify that POSIX support for PHP is available.
 		if (!function_exists('posix_getpid'))
 		{
-			JLog::add('The POSIX extension for PHP is not available.', JLog::ERROR);
+			JLog::add('The POSIX extension for PHP is not available.', JLog::ERROR, 'daemon');
 			throw new RuntimeException('The POSIX extension for PHP is not available.');
 		}
 		// @codeCoverageIgnoreEnd
@@ -154,12 +154,12 @@ class JApplicationDaemon extends JApplicationCli
 	public static function signal($signal)
 	{
 		// Log all signals sent to the daemon.
-		JLog::add('Received signal: ' . $signal, JLog::DEBUG);
+		JLog::add('Received signal: ' . $signal, JLog::DEBUG, 'daemon');
 
 		// Let's make sure we have an application instance.
 		if (!is_subclass_of(static::$instance, 'JApplicationDaemon'))
 		{
-			JLog::add('Cannot find the application instance.', JLog::EMERGENCY);
+			JLog::add('Cannot find the application instance.', JLog::EMERGENCY, 'daemon');
 			throw new RuntimeException('Cannot find the application instance.');
 		}
 
@@ -245,7 +245,7 @@ class JApplicationDaemon extends JApplicationCli
 		{
 			// No response so remove the process id file and log the situation.
 			@ unlink($pidFile);
-			JLog::add('The process found based on PID file was unresponsive.', JLog::WARNING);
+			JLog::add('The process found based on PID file was unresponsive.', JLog::WARNING, 'daemon');
 
 			return false;
 		}
@@ -368,7 +368,7 @@ class JApplicationDaemon extends JApplicationCli
 		// Enable basic garbage collection.
 		gc_enable();
 
-		JLog::add('Starting ' . $this->name, JLog::INFO);
+		JLog::add('Starting ' . $this->name, JLog::INFO, 'daemon');
 
 		// Set off the process for becoming a daemon.
 		if ($this->daemonize())
@@ -393,7 +393,7 @@ class JApplicationDaemon extends JApplicationCli
 		// We were not able to daemonize the application so log the failure and die gracefully.
 		else
 		{
-			JLog::add('Starting ' . $this->name . ' failed', JLog::INFO);
+			JLog::add('Starting ' . $this->name . ' failed', JLog::INFO, 'daemon');
 		}
 
 		// Trigger the onAfterExecute event.
@@ -410,7 +410,7 @@ class JApplicationDaemon extends JApplicationCli
 	 */
 	public function restart()
 	{
-		JLog::add('Stopping ' . $this->name, JLog::INFO);
+		JLog::add('Stopping ' . $this->name, JLog::INFO, 'daemon');
 		$this->shutdown(true);
 	}
 
@@ -424,7 +424,7 @@ class JApplicationDaemon extends JApplicationCli
 	 */
 	public function stop()
 	{
-		JLog::add('Stopping ' . $this->name, JLog::INFO);
+		JLog::add('Stopping ' . $this->name, JLog::INFO, 'daemon');
 		$this->shutdown();
 	}
 
@@ -448,7 +448,7 @@ class JApplicationDaemon extends JApplicationCli
 		// Change the user id for the process id file if necessary.
 		if ($uid && (fileowner($file) != $uid) && (!@ chown($file, $uid)))
 		{
-			JLog::add('Unable to change user ownership of the process id file.', JLog::ERROR);
+			JLog::add('Unable to change user ownership of the process id file.', JLog::ERROR, 'daemon');
 
 			return false;
 		}
@@ -456,7 +456,7 @@ class JApplicationDaemon extends JApplicationCli
 		// Change the group id for the process id file if necessary.
 		if ($gid && (filegroup($file) != $gid) && (!@ chgrp($file, $gid)))
 		{
-			JLog::add('Unable to change group ownership of the process id file.', JLog::ERROR);
+			JLog::add('Unable to change group ownership of the process id file.', JLog::ERROR, 'daemon');
 
 			return false;
 		}
@@ -470,7 +470,7 @@ class JApplicationDaemon extends JApplicationCli
 		// Change the user id for the process necessary.
 		if ($uid && (posix_getuid($file) != $uid) && (!@ posix_setuid($uid)))
 		{
-			JLog::add('Unable to change user ownership of the proccess.', JLog::ERROR);
+			JLog::add('Unable to change user ownership of the proccess.', JLog::ERROR, 'daemon');
 
 			return false;
 		}
@@ -478,7 +478,7 @@ class JApplicationDaemon extends JApplicationCli
 		// Change the group id for the process necessary.
 		if ($gid && (posix_getgid($file) != $gid) && (!@ posix_setgid($gid)))
 		{
-			JLog::add('Unable to change group ownership of the proccess.', JLog::ERROR);
+			JLog::add('Unable to change group ownership of the proccess.', JLog::ERROR, 'daemon');
 
 			return false;
 		}
@@ -487,7 +487,7 @@ class JApplicationDaemon extends JApplicationCli
 		$user = posix_getpwuid($uid);
 		$group = posix_getgrgid($gid);
 
-		JLog::add('Changed daemon identity to ' . $user['name'] . ':' . $group['name'], JLog::INFO);
+		JLog::add('Changed daemon identity to ' . $user['name'] . ':' . $group['name'], JLog::INFO, 'daemon');
 
 		return true;
 	}
@@ -505,7 +505,7 @@ class JApplicationDaemon extends JApplicationCli
 		// Is there already an active daemon running?
 		if ($this->isActive())
 		{
-			JLog::add($this->name . ' daemon is still running. Exiting the application.', JLog::EMERGENCY);
+			JLog::add($this->name . ' daemon is still running. Exiting the application.', JLog::EMERGENCY, 'daemon');
 
 			return false;
 		}
@@ -537,7 +537,7 @@ class JApplicationDaemon extends JApplicationCli
 		}
 		catch (RuntimeException $e)
 		{
-			JLog::add('Unable to fork.', JLog::EMERGENCY);
+			JLog::add('Unable to fork.', JLog::EMERGENCY, 'daemon');
 
 			return false;
 		}
@@ -545,7 +545,7 @@ class JApplicationDaemon extends JApplicationCli
 		// Verify the process id is valid.
 		if ($this->processId < 1)
 		{
-			JLog::add('The process id is invalid; the fork failed.', JLog::EMERGENCY);
+			JLog::add('The process id is invalid; the fork failed.', JLog::EMERGENCY, 'daemon');
 
 			return false;
 		}
@@ -556,7 +556,7 @@ class JApplicationDaemon extends JApplicationCli
 		// Write out the process id file for concurrency management.
 		if (!$this->writeProcessIdFile())
 		{
-			JLog::add('Unable to write the pid file at: ' . $this->config->get('application_pid_file'), JLog::EMERGENCY);
+			JLog::add('Unable to write the pid file at: ' . $this->config->get('application_pid_file'), JLog::EMERGENCY, 'daemon');
 
 			return false;
 		}
@@ -567,13 +567,13 @@ class JApplicationDaemon extends JApplicationCli
 			// If the identity change was required then we need to return false.
 			if ($this->config->get('application_require_identity'))
 			{
-				JLog::add('Unable to change process owner.', JLog::CRITICAL);
+				JLog::add('Unable to change process owner.', JLog::CRITICAL, 'daemon');
 
 				return false;
 			}
 			else
 			{
-				JLog::add('Unable to change process owner.', JLog::WARNING);
+				JLog::add('Unable to change process owner.', JLog::WARNING, 'daemon');
 			}
 		}
 
@@ -600,7 +600,7 @@ class JApplicationDaemon extends JApplicationCli
 	 */
 	protected function detach()
 	{
-		JLog::add('Detaching the ' . $this->name . ' daemon.', JLog::DEBUG);
+		JLog::add('Detaching the ' . $this->name . ' daemon.', JLog::DEBUG, 'daemon');
 
 		// Attempt to fork the process.
 		$pid = $this->fork();
@@ -609,7 +609,7 @@ class JApplicationDaemon extends JApplicationCli
 		if ($pid)
 		{
 			// Add the log entry for debugging purposes and exit gracefully.
-			JLog::add('Ending ' . $this->name . ' parent process', JLog::DEBUG);
+			JLog::add('Ending ' . $this->name . ' parent process', JLog::DEBUG, 'daemon');
 			$this->close();
 		}
 		// We are in the forked child process.
@@ -651,7 +651,7 @@ class JApplicationDaemon extends JApplicationCli
 		else
 		{
 			// Log the fork.
-			JLog::add('Process forked ' . $pid, JLog::DEBUG);
+			JLog::add('Process forked ' . $pid, JLog::DEBUG, 'daemon');
 		}
 
 		// Trigger the onFork event.
@@ -697,7 +697,7 @@ class JApplicationDaemon extends JApplicationCli
 			if (!defined($signal) || !is_int(constant($signal)) || (constant($signal) === 0))
 			{
 				// Define the signal to avoid notices.
-				JLog::add('Signal "' . $signal . '" not defined. Defining it as null.', JLog::DEBUG);
+				JLog::add('Signal "' . $signal . '" not defined. Defining it as null.', JLog::DEBUG, 'daemon');
 				define($signal, null);
 
 				// Don't listen for signal.
@@ -707,7 +707,7 @@ class JApplicationDaemon extends JApplicationCli
 			// Attach the signal handler for the signal.
 			if (!$this->pcntlSignal(constant($signal), array('JApplicationDaemon', 'signal')))
 			{
-				JLog::add(sprintf('Unable to reroute signal handler: %s', $signal), JLog::EMERGENCY);
+				JLog::add(sprintf('Unable to reroute signal handler: %s', $signal), JLog::EMERGENCY, 'daemon');
 
 				return false;
 			}
@@ -741,7 +741,7 @@ class JApplicationDaemon extends JApplicationCli
 		// If we aren't already daemonized then just kill the application.
 		if (!$this->running && !$this->isActive())
 		{
-			JLog::add('Process was not daemonized yet, just halting current process', JLog::INFO);
+			JLog::add('Process was not daemonized yet, just halting current process', JLog::INFO, 'daemon');
 			$this->close();
 		}
 
@@ -783,7 +783,7 @@ class JApplicationDaemon extends JApplicationCli
 		// Verify the process id is valid.
 		if ($this->processId < 1)
 		{
-			JLog::add('The process id is invalid.', JLog::EMERGENCY);
+			JLog::add('The process id is invalid.', JLog::EMERGENCY, 'daemon');
 
 			return false;
 		}
@@ -793,7 +793,7 @@ class JApplicationDaemon extends JApplicationCli
 
 		if (empty($file))
 		{
-			JLog::add('The process id file path is empty.', JLog::ERROR);
+			JLog::add('The process id file path is empty.', JLog::ERROR, 'daemon');
 
 			return false;
 		}
@@ -803,7 +803,7 @@ class JApplicationDaemon extends JApplicationCli
 
 		if (!is_dir($folder) && !JFolder::create($folder))
 		{
-			JLog::add('Unable to create directory: ' . $folder, JLog::ERROR);
+			JLog::add('Unable to create directory: ' . $folder, JLog::ERROR, 'daemon');
 
 			return false;
 		}
@@ -811,7 +811,7 @@ class JApplicationDaemon extends JApplicationCli
 		// Write the process id file out to disk.
 		if (!file_put_contents($file, $this->processId))
 		{
-			JLog::add('Unable to write proccess id file: ' . $file, JLog::ERROR);
+			JLog::add('Unable to write proccess id file: ' . $file, JLog::ERROR, 'daemon');
 
 			return false;
 		}
@@ -819,7 +819,7 @@ class JApplicationDaemon extends JApplicationCli
 		// Make sure the permissions for the proccess id file are accurate.
 		if (!chmod($file, 0644))
 		{
-			JLog::add('Unable to adjust permissions for the proccess id file: ' . $file, JLog::ERROR);
+			JLog::add('Unable to adjust permissions for the proccess id file: ' . $file, JLog::ERROR, 'daemon');
 
 			return false;
 		}
