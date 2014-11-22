@@ -790,7 +790,7 @@ class JBrowser extends JObject
 		// Can't identify browser version
 		$this->_majorVersion = 0;
 		$this->_minorVersion = 0;
-		JLog::add("Can't identify browser version. Agent: " . $this->_agent, JLog::NOTICE);
+		JLog::add("Can't identify browser version. Agent: " . $this->_agent, JLog::NOTICE, 'browser');
 	}
 
 	/**

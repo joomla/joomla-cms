@@ -34,7 +34,7 @@ class JImageFilterSmooth extends JImageFilter
 		// Verify that image filter support for PHP is available.
 		if (!function_exists('imagefilter'))
 		{
-			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR);
+			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR, 'image');
 			throw new RuntimeException('The imagefilter function for PHP is not available.');
 		}
 
