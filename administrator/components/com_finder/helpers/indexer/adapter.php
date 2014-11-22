@@ -157,7 +157,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	public function onStartIndex()
 	{
-		JLog::add('FinderIndexerAdapter::onStartIndex', JLog::INFO);
+		JLog::add('FinderIndexerAdapter::onStartIndex', JLog::DEBUG, 'com_finder');
 
 		// Get the indexer state.
 		$iState = FinderIndexer::getState();
@@ -187,7 +187,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	public function onBeforeIndex()
 	{
-		JLog::add('FinderIndexerAdapter::onBeforeIndex', JLog::INFO);
+		JLog::add('FinderIndexerAdapter::onBeforeIndex', JLog::DEBUG, 'com_finder');
 
 		// Get the indexer and adapter state.
 		$iState = FinderIndexer::getState();
@@ -216,7 +216,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	public function onBuildIndex()
 	{
-		JLog::add('FinderIndexerAdapter::onBuildIndex', JLog::INFO);
+		JLog::add('FinderIndexerAdapter::onBuildIndex', JLog::DEBUG, 'com_finder');
 
 		// Get the indexer and adapter state.
 		$iState = FinderIndexer::getState();
@@ -271,7 +271,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function change($id, $property, $value)
 	{
-		JLog::add('FinderIndexerAdapter::change', JLog::INFO);
+		JLog::add('FinderIndexerAdapter::change', JLog::DEBUG, 'com_finder');
 
 		// Check for a property we know how to handle.
 		if ($property !== 'state' && $property !== 'access')
@@ -349,7 +349,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function remove($id)
 	{
-		JLog::add('FinderIndexerAdapter::remove', JLog::INFO);
+		JLog::add('FinderIndexerAdapter::remove', JLog::DEBUG, 'com_finder');
 
 		// Get the item's URL
 		$url = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
@@ -517,7 +517,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getContentCount()
 	{
-		JLog::add('FinderIndexerAdapter::getContentCount', JLog::INFO);
+		JLog::add('FinderIndexerAdapter::getContentCount', JLog::DEBUG, 'com_finder');
 
 		$return = 0;
 
@@ -565,7 +565,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getItem($id)
 	{
-		JLog::add('FinderIndexerAdapter::getItem', JLog::INFO);
+		JLog::add('FinderIndexerAdapter::getItem', JLog::DEBUG, 'com_finder');
 
 		// Get the list query and add the extra WHERE clause.
 		$sql = $this->getListQuery();
@@ -608,7 +608,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getItems($offset, $limit, $sql = null)
 	{
-		JLog::add('FinderIndexerAdapter::getItems', JLog::INFO);
+		JLog::add('FinderIndexerAdapter::getItems', JLog::DEBUG, 'com_finder');
 
 		$items = array();
 
@@ -662,7 +662,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getListQuery($sql = null)
 	{
-		JLog::add('FinderIndexerAdapter::getListQuery', JLog::INFO);
+		JLog::add('FinderIndexerAdapter::getListQuery', JLog::DEBUG, 'com_finder');
 
 		// Check if we can use the supplied SQL query.
 		$sql = $sql instanceof JDatabaseQuery ? $sql : $this->db->getQuery(true);
@@ -726,7 +726,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getUpdateQueryByTime($time)
 	{
-		JLog::add('FinderIndexerAdapter::getUpdateQueryByTime', JLog::INFO);
+		JLog::add('FinderIndexerAdapter::getUpdateQueryByTime', JLog::DEBUG, 'com_finder');
 
 		// Build an SQL query based on the modified time.
 		$sql = $this->db->getQuery(true);
@@ -746,7 +746,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getUpdateQueryByIds($ids)
 	{
-		JLog::add('FinderIndexerAdapter::getUpdateQueryByIds', JLog::INFO);
+		JLog::add('FinderIndexerAdapter::getUpdateQueryByIds', JLog::DEBUG, 'com_finder');
 
 		// Build an SQL query based on the item ids.
 		$sql = $this->db->getQuery(true);
@@ -765,7 +765,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getTypeId()
 	{
-		JLog::add('FinderIndexerAdapter::getTypeId', JLog::INFO);
+		JLog::add('FinderIndexerAdapter::getTypeId', JLog::DEBUG, 'com_finder');
 
 		// Get the type id from the database.
 		$query = $this->db->getQuery(true);
@@ -815,7 +815,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getItemMenuTitle($url)
 	{
-		JLog::add('FinderIndexerAdapter::getItemMenuTitle', JLog::INFO);
+		JLog::add('FinderIndexerAdapter::getItemMenuTitle', JLog::DEBUG, 'com_finder');
 
 		$return = null;
 
