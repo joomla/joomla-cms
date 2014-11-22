@@ -43,7 +43,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		}
 
 		// Log the start
-		JLog::add('Starting the indexer', JLog::INFO);
+		JLog::add('Starting the indexer', JLog::INFO, 'com_finder');
 
 		// We don't want this form to be cached.
 		header('Pragma: no-cache');
@@ -110,7 +110,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		}
 
 		// Log the start
-		JLog::add('Starting the indexer batch process', JLog::INFO);
+		JLog::add('Starting the indexer batch process', JLog::INFO, 'com_finder');
 
 		// We don't want this form to be cached.
 		header('Pragma: no-cache');
@@ -280,7 +280,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		if ($data instanceof Exception)
 		{
 			$app = JFactory::getApplication();
-			JLog::add($data->getMessage(), JLog::ERROR);
+			JLog::add($data->getMessage(), JLog::ERROR, 'com_finder');
 			$app->setHeader('status', $data->getCode());
 			$app->sendHeaders();
 		}
@@ -336,7 +336,7 @@ class FinderIndexerResponse
 		if ($state instanceof Exception)
 		{
 			// Log the error
-			JLog::add($state->getMessage(), JLog::ERROR);
+			JLog::add($state->getMessage(), JLog::ERROR, 'com_finder');
 
 			// Prepare the error response.
 			$this->error = true;
