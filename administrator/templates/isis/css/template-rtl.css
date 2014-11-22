@@ -8708,12 +8708,12 @@ a.grid_true {
 	}
 	#j-toggle-sidebar-button {
 		font-size: 14px;
-		color: #999;
+		color: #08c;
 		text-decoration: none;
 		cursor: pointer;
 	}
 	#j-toggle-sidebar-button:hover {
-		color: #555;
+		color: #005580;
 	}
 	#system-message-container,
 	#j-main-container {
