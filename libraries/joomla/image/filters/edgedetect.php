@@ -34,7 +34,7 @@ class JImageFilterEdgedetect extends JImageFilter
 		if (!function_exists('imagefilter'))
 		{
 			// @codeCoverageIgnoreStart
-			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR);
+			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR, 'image');
 			throw new RuntimeException('The imagefilter function for PHP is not available.');
 
 			// @codeCoverageIgnoreEnd
