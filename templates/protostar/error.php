@@ -1,21 +1,22 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-// Getting params from template
-$params = JFactory::getApplication()->getTemplate(true)->params;
-
-$app = JFactory::getApplication();
-$doc = JFactory::getDocument();
-$this->language = $doc->language;
+$app             = JFactory::getApplication();
+$doc             = JFactory::getDocument();
+$user            = JFactory::getUser();
+$this->language  = $doc->language;
 $this->direction = $doc->direction;
+
+// Getting params from template
+$params = $app->getTemplate(true)->params;
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -23,7 +24,7 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$sitename = $app->getCfg('sitename');
+$sitename = $app->get('sitename');
 
 if($task == "edit" || $layout == "form" )
 {
@@ -37,86 +38,70 @@ else
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-// Add current user information
-$user = JFactory::getUser();
-
-
-// Logo file
+// Logo file or site title param
 if ($params->get('logoFile'))
 {
-	$logo = JURI::root() . $params->get('logoFile');
+	$logo = '<img src="' . JUri::root() . $params->get('logoFile') . '" alt="' . $sitename . '" />';
+}
+elseif ($params->get('sitetitle'))
+{
+	$logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($params->get('sitetitle')) . '</span>';
 }
 else
 {
-	$logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
+	$logo = '<span class="site-title" title="' . $sitename . '">' . $sitename . '</span>';
 }
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<title><?php echo $this->title; ?> <?php echo $this->error->getMessage();?></title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="language" content="<?php echo $this->language; ?>" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
-
-	<?php
-		$debug = JFactory::getConfig()->get('debug_lang');
-		if ((defined('JDEBUG') && JDEBUG) || $debug)
-		{
-	?>
-		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" type="text/css" />
-	<?php
-		}
-	?>
-	<?php
-	// If Right-to-Left
-	if ($this->direction == 'rtl')
-	{
-	?>
-		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
-	<?php
-	}
-	// Use of Google Font
-	if ($params->get('googleFont'))
-	{
-	?>
-		<link href='http://fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName');?>' rel='stylesheet' type='text/css'>
-	<?php
-	}
-	?>
-	<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
-	<?php
-	// Template color
-	if ($params->get('templateColor'))
-	{
-	?>
-	<style type="text/css">
-		body.site
-		{
-			border-top: 3px solid <?php echo $params->get('templateColor');?>;
-			background-color: <?php echo $params->get('templateBackgroundColor');?>
-		}
-		a
-		{
-			color: <?php echo $params->get('templateColor');?>;
-		}
-		.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover
-		{
-			background: <?php echo $params->get('templateColor');?>;
-		}
-		.navbar-inner
-		{
-			-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-			box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-		}
-	</style>
-	<?php
-	}
-	?>
+	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<?php // Use of Google Font ?>
+	<?php if ($params->get('googleFont')) : ?>
+		<link href='//fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName'); ?>' rel='stylesheet' type='text/css' />
+		<style type="text/css">
+			h1,h2,h3,h4,h5,h6,.site-title{
+				font-family: '<?php echo str_replace('+', ' ', $params->get('googleFontName')); ?>', sans-serif;
+			}
+		</style>
+	<?php endif; ?>
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
+		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/cms/css/debug.css" type="text/css" />
+	<?php endif; ?>
+	<?php // If Right-to-Left ?>
+	<?php if ($this->direction == 'rtl') : ?>
+		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
+	<?php endif; ?>
+	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+	<?php // Template color ?>
+	<?php if ($params->get('templateColor')) : ?>
+		<style type="text/css">
+			body.site
+			{
+				border-top: 3px solid <?php echo $params->get('templateColor'); ?>;
+				background-color: <?php echo $params->get('templateBackgroundColor'); ?>
+			}
+			a
+			{
+				color: <?php echo $params->get('templateColor'); ?>;
+			}
+			.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover
+			{
+				background: <?php echo $params->get('templateColor'); ?>;
+			}
+			.navbar-inner
+			{
+				-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+				-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+				box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+			}
+		</style>
+	<?php endif; ?>
 	<!--[if lt IE 9]>
-		<script src="<?php echo $this->baseurl ?>/media/jui/js/html5.js"></script>
+		<script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
 </head>
 
@@ -130,44 +115,26 @@ else
 
 	<!-- Body -->
 	<div class="body">
-		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<!-- Header -->
-			<div class="header">
+			<header class="header" role="banner">
 				<div class="header-inner clearfix">
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
-						<img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" />
+						<?php echo $logo; ?>
 					</a>
 					<div class="header-search pull-right">
-						<?php
-						// Display position-0 modules
-						$this->searchmodules = JModuleHelper::getModules('position-0');
-						foreach ($this->searchmodules as $searchmodule)
-						{
-							$output = JModuleHelper::renderModule($searchmodule, array('style' => 'none'));
-							$params = new JRegistry;
-							$params->loadString($searchmodule->params);
-							echo $output;
-						}
-						?>
+						<?php // Display position-0 modules ?>
+						<?php echo $doc->getBuffer('modules', 'position-0', array('style' => 'none')); ?>
 					</div>
 				</div>
-			</div>
+			</header>
 			<div class="navigation">
-				<?php
-				// Display position-1 modules
-				$this->navmodules = JModuleHelper::getModules('position-1');
-				foreach ($this->navmodules as $navmodule)
-				{
-					$output = JModuleHelper::renderModule($navmodule, array('style' => 'none'));
-					$params = new JRegistry;
-					$params->loadString($navmodule->params);
-					echo $output;
-				}
-				?>
+				<?php // Display position-1 modules ?>
+				<?php echo $doc->getBuffer('modules', 'position-1', array('style' => 'none')); ?>
 			</div>
 			<!-- Banner -->
 			<div class="banner">
-				<jdoc:include type="modules" name="banner" style="xhtml" />
+				<?php echo $doc->getBuffer('modules', 'banner', array('style' => 'xhtml')); ?>
 			</div>
 			<div class="row-fluid">
 				<div id="content" class="span12">
@@ -189,10 +156,7 @@ else
 								<?php if (JModuleHelper::getModule('search')) : ?>
 									<p><strong><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></strong></p>
 									<p><?php echo JText::_('JERROR_LAYOUT_SEARCH_PAGE'); ?></p>
-									<?php
-										$module = JModuleHelper::getModule('search');
-										echo JModuleHelper::renderModule($module);
-									?>
+									<?php echo $doc->getBuffer('module', 'search'); ?>
 								<?php endif; ?>
 								<p><?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?></p>
 								<p><a href="<?php echo $this->baseurl; ?>/index.php" class="btn"><i class="icon-home"></i> <?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>
@@ -201,7 +165,7 @@ else
 						<hr />
 						<p><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
 						<blockquote>
-							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo $this->error->getMessage();?>
+							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
 						</blockquote>
 					</div>
 					<!-- End Content -->
@@ -211,13 +175,19 @@ else
 	</div>
 	<!-- Footer -->
 	<div class="footer">
-		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<hr />
-			<jdoc:include type="modules" name="footer" style="none" />
-			<p class="pull-right"><a href="#top" id="back-top"><?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?></a></p>
-			<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
+			<?php echo $doc->getBuffer('modules', 'footer', array('style' => 'none')); ?>
+			<p class="pull-right">
+				<a href="#top" id="back-top">
+					<?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?>
+				</a>
+			</p>
+			<p>
+				&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
+			</p>
 		</div>
 	</div>
-	<jdoc:include type="modules" name="debug" style="none" />
+	<?php echo $doc->getBuffer('modules', 'debug', array('style' => 'none')); ?>
 </body>
 </html>

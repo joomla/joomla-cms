@@ -3,23 +3,23 @@
  * @package     Joomla.Platform
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die();
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform class for interacting with a Linkedin API instance.
  *
- * @package     Joomla.Platform
- * @subpackage  Linkedin
- * @since       13.1
+ * @since  13.1
  */
 class JLinkedin
 {
 	/**
-	 * @var    JRegistry  Options for the Linkedin object.
+	 * @var    Registry  Options for the Linkedin object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -76,15 +76,15 @@ class JLinkedin
 	 * Constructor.
 	 *
 	 * @param   JLinkedinOauth  $oauth    OAuth object
-	 * @param   JRegistry       $options  Linkedin options object.
+	 * @param   Registry        $options  Linkedin options object.
 	 * @param   JHttp           $client   The HTTP client object.
 	 *
 	 * @since   13.1
 	 */
-	public function __construct(JLinkedinOauth $oauth = null, JRegistry $options = null, JHttp $client = null)
+	public function __construct(JLinkedinOauth $oauth = null, Registry $options = null, JHttp $client = null)
 	{
 		$this->oauth = $oauth;
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client  = isset($client) ? $client : new JHttp($this->options);
 
 		// Setup the default API url if not already set.
@@ -99,59 +99,23 @@ class JLinkedin
 	 * @return  JLinkedinObject  Linkedin API object (statuses, users, favorites, etc.).
 	 *
 	 * @since   13.1
+	 * @throws  InvalidArgumentException
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		$class = 'JLinkedin' . ucfirst($name);
+
+		if (class_exists($class))
 		{
-			case 'people':
-				if ($this->people == null)
-				{
-					$this->people = new JLinkedinPeople($this->options, $this->client, $this->oauth);
-				}
+			if (false == isset($this->$name))
+			{
+				$this->$name = new $class($this->options, $this->client, $this->oauth);
+			}
 
-				return $this->people;
-
-			case 'groups':
-				if ($this->groups == null)
-				{
-					$this->groups = new JLinkedinGroups($this->options, $this->client, $this->oauth);
-				}
-
-				return $this->groups;
-
-			case 'companies':
-				if ($this->companies == null)
-				{
-					$this->companies = new JLinkedinCompanies($this->options, $this->client, $this->oauth);
-				}
-
-				return $this->companies;
-
-			case 'jobs':
-				if ($this->jobs == null)
-				{
-					$this->jobs = new JLinkedinJobs($this->options, $this->client, $this->oauth);
-				}
-
-				return $this->jobs;
-
-			case 'stream':
-				if ($this->stream == null)
-				{
-					$this->stream = new JLinkedinStream($this->options, $this->client, $this->oauth);
-				}
-
-				return $this->stream;
-
-			case 'communications':
-				if ($this->communications == null)
-				{
-					$this->communications = new JLinkedinCommunications($this->options, $this->client, $this->oauth);
-				}
-
-				return $this->communications;
+			return $this->$name;
 		}
+
+		throw new InvalidArgumentException(sprintf('Argument %s produced an invalid class name: %s', $name, $class));
 	}
 
 	/**

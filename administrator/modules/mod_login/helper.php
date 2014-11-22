@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_login
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_login
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModLoginHelper
 {
@@ -26,9 +24,23 @@ abstract class ModLoginHelper
 	public static function getLanguageList()
 	{
 		$languages = JLanguageHelper::createLanguageList(null, JPATH_ADMINISTRATOR, false, true);
+
+		if (count($languages) <= 1)
+		{
+			return '';
+		}
+
+		usort(
+			$languages,
+			function ($a, $b)
+			{
+				return strcmp($a["value"], $b["value"]);
+			}
+		);
+
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULTLANGUAGE')));
 
-		return JHtml::_('select.genericlist', $languages, 'lang', ' class="inputbox advancedSelect"', 'value', 'text', null);
+		return JHtml::_('select.genericlist', $languages, 'lang', ' class="advancedSelect"', 'value', 'text', null);
 	}
 
 	/**
@@ -49,5 +61,18 @@ abstract class ModLoginHelper
 		{
 			return base64_encode('index.php');
 		}
+	}
+
+	/**
+	 * Creates a list of two factor authentication methods used in com_users
+	 * on user view
+	 *
+	 * @return  array
+	 */
+	public static function getTwoFactorMethods()
+	{
+		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
+
+		return UsersHelper::getTwoFactorMethods();
 	}
 }

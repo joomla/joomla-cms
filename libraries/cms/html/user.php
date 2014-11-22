@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with users
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       2.5
+ * @since  2.5
  */
 abstract class JHtmlUser
 {
@@ -57,6 +55,7 @@ abstract class JHtmlUser
 					$filteredGroups[] = $group;
 				}
 			}
+
 			$groups = $filteredGroups;
 		}
 
@@ -72,17 +71,12 @@ abstract class JHtmlUser
 	 */
 	public static function userlist()
 	{
-		// Get the database object and a new query object.
 		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Build the query.
-		$query->select('a.id AS value, a.name AS text')
+		$query = $db->getQuery(true)
+			->select('a.id AS value, a.name AS text')
 			->from('#__users AS a')
 			->where('a.block = 0')
 			->order('a.name');
-
-		// Set the query and load the options.
 		$db->setQuery($query);
 		$items = $db->loadObjectList();
 

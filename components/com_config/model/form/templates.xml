@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			id="id"
+			name="id"
+			type="text"
+			default="0"
+			readonly="true"
+			class="readonly"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			description ="JGLOBAL_FIELD_ID_DESC" />
+
+		<field
+			name="template"
+			type="text"
+			label="COM_TEMPLATES_FIELD_TEMPLATE_LABEL"
+			description="COM_TEMPLATES_FIELD_TEMPLATE_DESC"
+			class="readonly"
+			size="30"
+			readonly="true" />
+
+		<field
+			name="client_id"
+			type="hidden"
+			label="COM_TEMPLATES_FIELD_CLIENT_LABEL"
+			description="COM_TEMPLATES_FIELD_CLIENT_DESC"
+			class="readonly"
+			default="0"
+			readonly="true" />
+
+		<field
+			name="title"
+			type="text"
+			class="inputbox"
+			size="50"
+			label="COM_TEMPLATES_FIELD_TITLE_LABEL"
+			description="COM_TEMPLATES_FIELD_TITLE_DESC"
+			required="true" />
+
+		<field name="assigned" type="hidden" />
+
+	</fieldset>
+</form>

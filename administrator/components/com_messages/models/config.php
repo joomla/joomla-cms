@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Message configuration model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.6
+ * @since  1.6
  */
 class MessagesModelConfig extends JModelForm
 {
@@ -27,7 +25,6 @@ class MessagesModelConfig extends JModelForm
 	 */
 	protected function populateState()
 	{
-		$app	= JFactory::getApplication('administrator');
 		$user	= JFactory::getUser();
 
 		$this->setState('user.id', $user->get('id'));
@@ -52,7 +49,7 @@ class MessagesModelConfig extends JModelForm
 		$query = $db->getQuery(true)
 			->select('cfg_name, cfg_value')
 			->from('#__messages_cfg')
-			->where('user_id = '.(int) $this->getState('user.id'));
+			->where($db->quoteName('user_id') . ' = '. (int) $this->getState('user.id'));
 
 		$db->setQuery($query);
 
@@ -108,10 +105,10 @@ class MessagesModelConfig extends JModelForm
 
 		if ($userId = (int) $this->getState('user.id'))
 		{
-			$db->setQuery(
-				'DELETE FROM #__messages_cfg'.
-				' WHERE user_id = '. $userId
-			);
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__messages_cfg'))
+				->where($db->quoteName('user_id') . '=' . (int) $userId);
+			$db->setQuery($query);
 
 			try
 			{
@@ -123,23 +120,22 @@ class MessagesModelConfig extends JModelForm
 				return false;
 			}
 
-			$tuples = array();
-			foreach ($data as $k => $v)
+			if (count($data))
 			{
-				$tuples[] = '(' . $userId.', ' . $db->quote($k) . ', ' . $db->quote($v) . ')';
-			}
+				$query = $db->getQuery(true)
+					->insert($db->quoteName('#__messages_cfg'))
+					->columns($db->quoteName(array('user_id', 'cfg_name', 'cfg_value')));
 
-			if ($tuples)
-			{
-				$db->setQuery(
-					'INSERT INTO #__messages_cfg'.
-					' (user_id, cfg_name, cfg_value)'.
-					' VALUES '.implode(',', $tuples)
-				);
+				foreach ($data as $k => $v)
+				{
+					$query->values($userId . ', ' . $db->quote($k) . ', ' . $db->quote($v));
+				}
+
+				$db->setQuery($query);
 
 				try
 				{
-				$db->execute();
+					$db->execute();
 				}
 				catch (RuntimeException $e)
 				{

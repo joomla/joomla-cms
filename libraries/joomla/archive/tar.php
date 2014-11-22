@@ -3,13 +3,15 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.path');
 
 /**
  * Tar format adapter for the JArchive class
@@ -20,9 +22,7 @@ jimport('joomla.filesystem.folder');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @package     Joomla.Platform
- * @subpackage  Archive
- * @since       11.1
+ * @since  11.1
  */
 class JArchiveTar implements JArchiveExtractable
 {
@@ -77,6 +77,7 @@ class JArchiveTar implements JArchiveExtractable
 		$this->_metadata = null;
 
 		$this->_data = file_get_contents($archive);
+
 		if (!$this->_data)
 		{
 			if (class_exists('JError'))
@@ -94,6 +95,7 @@ class JArchiveTar implements JArchiveExtractable
 		for ($i = 0, $n = count($this->_metadata); $i < $n; $i++)
 		{
 			$type = strtolower($this->_metadata[$i]['type']);
+
 			if ($type == 'file' || $type == 'unix file')
 			{
 				$buffer = $this->_metadata[$i]['data'];
@@ -111,6 +113,7 @@ class JArchiveTar implements JArchiveExtractable
 						throw new RuntimeException('Unable to create destination');
 					}
 				}
+
 				if (JFile::write($path, $buffer) === false)
 				{
 					if (class_exists('JError'))
@@ -124,6 +127,7 @@ class JArchiveTar implements JArchiveExtractable
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -164,10 +168,21 @@ class JArchiveTar implements JArchiveExtractable
 
 		while ($position < strlen($data))
 		{
-			$info = @unpack(
-				"a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor",
-				substr($data, $position)
-			);
+			if (version_compare(PHP_VERSION, '5.5', '>='))
+			{
+				$info = @unpack(
+					"Z100filename/Z8mode/Z8uid/Z8gid/Z12size/Z12mtime/Z8checksum/Ctypeflag/Z100link/Z6magic/Z2version/Z32uname/Z32gname/Z8devmajor/Z8devminor",
+					substr($data, $position)
+				);
+			}
+			else
+			{
+				$info = @unpack(
+					"a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor",
+					substr($data, $position)
+				);
+			}
+
 			if (!$info)
 			{
 				if (class_exists('JError'))
@@ -208,10 +223,13 @@ class JArchiveTar implements JArchiveExtractable
 				{
 					/* Some other type. */
 				}
+
 				$return_array[] = $file;
 			}
 		}
+
 		$this->_metadata = $return_array;
+
 		return true;
 	}
 }

@@ -2,7 +2,6 @@
 <form>
 	<fieldset name="user_details">
 		<field name="name" type="text"
-			class="inputbox"
 			description="COM_ADMIN_USER_FIELD_NAME_DESC"
 			label="COM_ADMIN_USER_HEADING_NAME"
 			required="true"
@@ -10,35 +9,36 @@
 		/>
 
 		<field name="username" type="text"
-			class="inputbox"
 			description="COM_ADMIN_USER_FIELD_USERNAME_DESC"
 			label="COM_ADMIN_USER_FIELD_USERNAME_LABEL"
 			required="true"
 			size="30"
 		/>
 
-		<field name="password" type="password"
-			autocomplete="off"
-			class="inputbox validate-password"
-			description="COM_ADMIN_USER_FIELD_PASSWORD_DESC"
-			filter="raw"
-			label="JGLOBAL_PASSWORD"
-			size="30"
-			validate="equals"
-			field="password2"
-		/>
-
 		<field name="password2" type="password"
 			autocomplete="off"
-			class="inputbox validate-password"
+			class="validate-password"
+			description="COM_ADMIN_USER_FIELD_PASSWORD_DESC"
+			field="password"
+			filter="raw"
+			label="JGLOBAL_PASSWORD"
+			message="COM_ADMIN_USER_FIELD_PASSWORD1_MESSAGE"
+			size="30"
+			validate="equals"
+		/>
+
+		<field name="password" type="password"
+			autocomplete="off"
+			class="validate-password"
 			description="COM_ADMIN_USER_FIELD_PASSWORD2_DESC"
 			filter="raw"
 			label="COM_ADMIN_USER_FIELD_PASSWORD2_LABEL"
 			size="30"
+			validate="password"
 		/>
 
 		<field name="email" type="email"
-			class="inputbox"
+			class="validate-email"
 			description="COM_ADMIN_USER_FIELD_EMAIL_DESC"
 			label="JGLOBAL_EMAIL"
 			required="true"

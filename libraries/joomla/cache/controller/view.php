@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,25 +12,23 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Cache view type object
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @since  11.1
  */
 class JCacheControllerView extends JCacheController
 {
 	/**
 	 * Get the cached view data
 	 *
-	 * @param   object   &$view       The view object to cache output for
+	 * @param   object   $view        The view object to cache output for
 	 * @param   string   $method      The method name of the view method to cache output for
-	 * @param   string   $id          The cache data id
+	 * @param   mixed    $id          The cache data id
 	 * @param   boolean  $wrkarounds  True to enable workarounds.
 	 *
 	 * @return  boolean  True if the cache is hit (false else)
 	 *
 	 * @since   11.1
 	 */
-	public function get( $view, $method = 'display' , $id = false, $wrkarounds = true )
+	public function get($view, $method = 'display', $id = false, $wrkarounds = true)
 	{
 		// If an id is not given generate it from the request
 		if ($id == false)
@@ -70,7 +68,7 @@ class JCacheControllerView extends JCacheController
 			else
 			{
 				// No workarounds, so all data is stored in one piece
-				echo (isset($data)) ? $data : null;
+				echo isset($data) ? $data : null;
 			}
 
 			if ($locktest->locked == true)
@@ -105,8 +103,6 @@ class JCacheControllerView extends JCacheController
 			 * of the document head after the view has been rendered.  This will allow us to properly cache any attached
 			 * scripts or stylesheets or links or any other modifications that the view has made to the document object
 			 */
-			$cached = array();
-
 			$cached = $wrkarounds == true ? JCache::setWorkarounds($data) : $data;
 
 			// Store the cache data
@@ -117,6 +113,7 @@ class JCacheControllerView extends JCacheController
 				$this->cache->unlock($id);
 			}
 		}
+
 		return false;
 	}
 

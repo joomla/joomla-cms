@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,17 @@ defined('_JEXEC') or die;
 /**
  * Search component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_search
- * @since       1.5
+ * @since  1.5
  */
 class SearchHelper
 {
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vName  The name of the active view.
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
@@ -33,49 +34,54 @@ class SearchHelper
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return  JObject
+	 *
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead.
 	 */
 	public static function getActions()
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-		$assetName = 'com_search';
+		// Log usage of deprecated function.
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
-		$actions = JAccess::getActions($assetName);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
+		// Get list of actions.
+		$result = JHelperContent::getActions('com_search');
 
 		return $result;
 	}
 
+	/**
+	 * Sanitise search word.
+	 *
+	 * @param   string  &$searchword   Search word to be sanitised.
+	 * @param   string  $searchphrase  Either 'all', 'any' or 'exact'.
+	 *
+	 * @return  boolean  True if search word needs to be sanitised.
+	 */
 	public static function santiseSearchWord(&$searchword, $searchphrase)
 	{
 		$ignored = false;
 
-		$lang = JFactory::getLanguage();
+		$lang          = JFactory::getLanguage();
+		$tag           = $lang->getTag();
+		$search_ignore = $lang->getIgnoredSearchWords();
 
-		$tag			= $lang->getTag();
-		$search_ignore	= $lang->getIgnoredSearchWords();
+		// Deprecated in 1.6 use $lang->getIgnoredSearchWords instead.
+		$ignoreFile = $lang->getLanguagePath() . '/' . $tag . '/' . $tag . '.ignore.php';
 
-		// Deprecated in 1.6 use $lang->getIgnoredSearchWords instead
-		$ignoreFile		= $lang->getLanguagePath() . '/' . $tag . '/' . $tag.'.ignore.php';
 		if (file_exists($ignoreFile))
 		{
 			include $ignoreFile;
 		}
 
-		// check for words to ignore
+		// Check for words to ignore.
 		$aterms = explode(' ', JString::strtolower($searchword));
 
-		// first case is single ignored word
+		// First case is single ignored word.
 		if (count($aterms) == 1 && in_array(JString::strtolower($searchword), $search_ignore))
 		{
 			$ignored = true;
 		}
 
-		// filter out search terms that are too small
+		// Filter out search terms that are too small.
 		$lower_limit = $lang->getLowerLimitSearchWord();
 
 		foreach ($aterms as $aterm)
@@ -86,10 +92,10 @@ class SearchHelper
 			}
 		}
 
-		// next is to remove ignored words from type 'all' or 'any' (not exact) searches with multiple words
+		// Next is to remove ignored words from type 'all' or 'any' (not exact) searches with multiple words.
 		if (count($aterms) > 1 && $searchphrase != 'exact')
 		{
-			$pruned = array_diff($aterms, $search_ignore);
+			$pruned     = array_diff($aterms, $search_ignore);
 			$searchword = implode(' ', $pruned);
 		}
 
@@ -97,6 +103,12 @@ class SearchHelper
 	}
 
 	/**
+	 * Does search word need to be limited?
+	 *
+	 * @param   string  &$searchword  Search word to be checked.
+	 *
+	 * @return  boolean  True if search word should be limited; false otherwise.
+	 *
 	 * @since  1.5
 	 */
 	public static function limitSearchWord(&$searchword)
@@ -105,33 +117,34 @@ class SearchHelper
 
 		$lang = JFactory::getLanguage();
 
-		// limit searchword to a maximum of characters
+		// Limit searchword to a maximum of characters.
 		$upper_limit = $lang->getUpperLimitSearchWord();
+
 		if (JString::strlen($searchword) > $upper_limit)
 		{
-			$searchword		= JString::substr($searchword, 0, $upper_limit - 1);
-			$restriction	= true;
+			$searchword  = JString::substr($searchword, 0, $upper_limit - 1);
+			$restriction = true;
 		}
 
-		// searchword must contain a minimum of characters
+		// Searchword must contain a minimum of characters.
 		if ($searchword && JString::strlen($searchword) < $lang->getLowerLimitSearchWord())
 		{
-			$searchword		= '';
-			$restriction	= true;
+			$searchword  = '';
+			$restriction = true;
 		}
 
 		return $restriction;
 	}
 
 	/**
-	 * Logs a search term
+	 * Logs a search term.
 	 *
-	 * @param   string  $search_term  The term being searched
+	 * @param   string  $search_term  The term being searched.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JSearchHelper::logSearch() instead
+	 * @deprecated  4.0  Use JSearchHelper::logSearch() instead.
 	 */
 	public static function logSearch($search_term)
 	{
@@ -141,43 +154,48 @@ class SearchHelper
 	}
 
 	/**
-	 * Prepares results from search for display
+	 * Prepares results from search for display.
 	 *
-	 * @param string The source string
-	 * @param string The searchword to select around
+	 * @param   string  $text        The source string.
+	 * @param   string  $searchword  The searchword to select around.
+	 *
 	 * @return  string
 	 *
-	 * @since  1.5
+	 * @since   1.5
 	 */
 	public static function prepareSearchContent($text, $searchword)
 	{
-		// strips tags won't remove the actual jscript
+		// Strips tags won't remove the actual jscript.
 		$text = preg_replace("'<script[^>]*>.*?</script>'si", "", $text);
 		$text = preg_replace('/{.+?}/', '', $text);
-		//$text = preg_replace('/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is','\2', $text);
-		// replace line breaking tags with whitespace
+
+		// $text = preg_replace('/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is','\2', $text);
+
+		// Replace line breaking tags with whitespace.
 		$text = preg_replace("'<(br[^/>]*?/|hr[^/>]*?/|/(div|h[1-6]|li|p|td))>'si", ' ', $text);
 
 		return self::_smartSubstr(strip_tags($text), $searchword);
 	}
 
 	/**
-	 * Checks an object for search terms (after stripping fields of HTML)
+	 * Checks an object for search terms (after stripping fields of HTML).
 	 *
-	 * @param object The object to check
-	 * @param string Search words to check for
-	 * @param array List of object variables to check against
-	 * @returns boolean True if searchTerm is in object, false otherwise
+	 * @param   object  $object      The object to check.
+	 * @param   string  $searchTerm  Search words to check for.
+	 * @param   array   $fields      List of object variables to check against.
+	 *
+	 * @return  boolean True if searchTerm is in object, false otherwise.
 	 */
 	public static function checkNoHtml($object, $searchTerm, $fields)
 	{
 		$searchRegex = array(
-				'#<script[^>]*>.*?</script>#si',
-				'#<style[^>]*>.*?</style>#si',
-				'#<!.*?(--|]])>#si',
-				'#<[^>]*>#i'
-				);
+			'#<script[^>]*>.*?</script>#si',
+			'#<style[^>]*>.*?</style>#si',
+			'#<!.*?(--|]])>#si',
+			'#<[^>]*>#i'
+		);
 		$terms = explode(' ', $searchTerm);
+
 		if (empty($fields))
 		{
 			return false;
@@ -189,6 +207,7 @@ class SearchHelper
 			{
 				continue;
 			}
+
 			$text = self::remove_accents($object->$field);
 
 			foreach ($searchRegex as $regex)
@@ -199,60 +218,68 @@ class SearchHelper
 			foreach ($terms as $term)
 			{
 				$term = self::remove_accents($term);
+
 				if (JString::stristr($text, $term) !== false)
 				{
 					return true;
 				}
 			}
 		}
+
 		return false;
 	}
-	
+
 	/**
-	 * Transliterates given text to ASCII//TRANSLIT.
-	 * Simulates glibc transliteration style even if libiconv is used by PHP
+	 * Transliterates given text to ASCII.
 	 *
-	 * @return string
+	 * @param   string  $str  String to remove accents from.
 	 *
-	 * @since  3.2
+	 * @return  string
+	 *
+	 * @since   3.2
 	 */
 	public static function remove_accents($str)
 	{
-		setlocale(LC_ALL, "en_GB.UTF-8");
-		$str = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", $str);
-		//TODO: remove other prefixes as well?
+		$str = JLanguageTransliterate::utf8_latin_to_ascii($str);
+
+		// @TODO: remove other prefixes as well?
 		return preg_replace("/[\"'^]([a-z])/ui", '\1', $str);
 	}
 
 	/**
-	 * returns substring of characters around a searchword
+	 * Returns substring of characters around a searchword.
 	 *
-	 * @param string The source string
-	 * @param int Number of chars to return
-	 * @param string The searchword to select around
+	 * @param   string   $text        The source string.
+	 * @param   integer  $searchword  Number of chars to return.
+	 *
 	 * @return  string
 	 *
-	 * @since  1.5
+	 * @since   1.5
 	 */
 	public static function _smartSubstr($text, $searchword)
 	{
-		$lang = JFactory::getLanguage();
-		$length = $lang->getSearchDisplayedCharactersNumber();
-		$ltext = self::remove_accents($text);
-		$textlen = JString::strlen($ltext);
+		$lang        = JFactory::getLanguage();
+		$length      = $lang->getSearchDisplayedCharactersNumber();
+		$ltext       = self::remove_accents($text);
+		$textlen     = JString::strlen($ltext);
 		$lsearchword = JString::strtolower(self::remove_accents($searchword));
-		$wordfound = false;
-		$pos = 0;
+		$wordfound   = false;
+		$pos         = 0;
+
 		while ($wordfound === false && $pos < $textlen)
 		{
 			if (($wordpos = @JString::strpos($ltext, ' ', $pos + $length)) !== false)
 			{
 				$chunk_size = $wordpos - $pos;
-			} else {
+			}
+			else
+			{
 				$chunk_size = $length;
 			}
-			$chunk = JString::substr($ltext, $pos, $chunk_size);
+
+			$chunk     = JString::substr($ltext, $pos, $chunk_size);
 			$wordfound = JString::strpos(JString::strtolower($chunk), $lsearchword);
+
 			if ($wordfound === false)
 			{
 				$pos += $chunk_size + 1;
@@ -268,7 +295,9 @@ class SearchHelper
 			if (($wordpos = @JString::strpos($text, ' ', $length)) !== false)
 			{
 				return JString::substr($text, 0, $wordpos) . '&#160;...';
-			} else {
+			}
+			else
+			{
 				return JString::substr($text, 0, $length);
 			}
 		}

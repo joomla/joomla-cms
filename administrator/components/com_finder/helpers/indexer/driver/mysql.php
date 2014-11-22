@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,9 +22,7 @@ jimport('joomla.filesystem.file');
  * Note: All exceptions thrown from within this class should be caught
  * by the controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       3.0
+ * @since  3.0
  */
 class FinderIndexerDriverMysql extends FinderIndexer
 {
@@ -177,7 +175,6 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		}
 
 		// Set up the variables we will need during processing.
-		$tokens = array();
 		$count = 0;
 
 		// Mark afterLinking in the profiler.
@@ -211,9 +208,11 @@ class FinderIndexerDriverMysql extends FinderIndexer
 					// Tokenize an array of content and add it to the database.
 					foreach ($item->$property as $ip)
 					{
-						// If the group is path, we need to a few extra processing
-						// steps to strip the extension and convert slashes and dashes
-						// to spaces.
+						/*
+						 * If the group is path, we need to a few extra processing
+						 * steps to strip the extension and convert slashes and dashes
+						 * to spaces.
+						 */
 						if ($group === static::PATH_CONTEXT)
 						{
 							$ip = JFile::stripExt($ip);
@@ -233,9 +232,11 @@ class FinderIndexerDriverMysql extends FinderIndexer
 				}
 				else
 				{
-					// If the group is path, we need to a few extra processing
-					// steps to strip the extension and convert slashes and dashes
-					// to spaces.
+					/*
+					 * If the group is path, we need to a few extra processing
+					 * steps to strip the extension and convert slashes and dashes
+					 * to spaces.
+					 */
 					if ($group === static::PATH_CONTEXT)
 					{
 						$item->$property = JFile::stripExt($item->$property);
@@ -463,9 +464,6 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		// Get the indexer state.
-		$state = static::getState();
-
 		// Update the link counts and remove the mapping records.
 		for ($i = 0; $i <= 15; $i++)
 		{
@@ -605,6 +603,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			);
 			$values++;
 		}
+
 		$db->setQuery($query);
 		$db->execute();
 

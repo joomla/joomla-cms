@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
@@ -17,9 +19,7 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
 /**
  * Query class for the Finder indexer package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderIndexerQuery
 {
@@ -183,21 +183,24 @@ class FinderIndexerQuery
 		$this->mode = 'AND';
 
 		// Initialize the temporary date storage.
-		$this->dates = new JRegistry;
+		$this->dates = new Registry;
 
 		// Populate the temporary date storage.
 		if (isset($options['date1']) && !empty($options['date1']))
 		{
 			$this->dates->set('date1', $options['date1']);
 		}
+
 		if (isset($options['date2']) && !empty($options['date1']))
 		{
 			$this->dates->set('date2', $options['date2']);
 		}
+
 		if (isset($options['when1']) && !empty($options['date1']))
 		{
 			$this->dates->set('when1', $options['when1']);
 		}
+
 		if (isset($options['when2']) && !empty($options['date1']))
 		{
 			$this->dates->set('when2', $options['when2']);
@@ -277,7 +280,7 @@ class FinderIndexerQuery
 		}
 
 		// Get the base URI.
-		$uri = JURI::getInstance($base);
+		$uri = JUri::getInstance($base);
 
 		// Add the static taxonomy filter if present.
 		if (!empty($this->filter))
@@ -300,6 +303,7 @@ class FinderIndexerQuery
 					{
 						continue;
 					}
+
 					$uri->setVar('t[]', $node);
 				}
 			}
@@ -374,8 +378,7 @@ class FinderIndexerQuery
 		}
 
 		// Sanitize the terms.
-		//@TODO: Should toInteger use $return?
-		$return = array_unique($results);
+		$results = array_unique($results);
 		JArrayHelper::toInteger($results);
 
 		return $results;
@@ -505,7 +508,7 @@ class FinderIndexerQuery
 		$this->filter = (int) $filterId;
 
 		// Get a parameter object for the filter date options.
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($return->params);
 		$params = $registry;
 
@@ -671,7 +674,7 @@ class FinderIndexerQuery
 		$when2 = JString::trim(JString::strtolower($when2));
 
 		// Get the time offset.
-		$offset = JFactory::getApplication()->getCfg('offset');
+		$offset = JFactory::getApplication()->get('offset');
 
 		// Array of allowed when values.
 		$whens = array('before', 'after', 'exact');
@@ -797,7 +800,7 @@ class FinderIndexerQuery
 					case 'after':
 					{
 						// Get the time offset.
-						$offset = JFactory::getApplication()->getCfg('offset');
+						$offset = JFactory::getApplication()->get('offset');
 
 						// Array of allowed when values.
 						$whens = array('before', 'after', 'exact');
@@ -915,10 +918,12 @@ class FinderIndexerQuery
 							// pieces are available to use.
 							switch ($c - $i)
 							{
-								// If only one word is left, we can break from
-								// the switch and loop because the last word
-								// was already used at the end of the last
-								// chunk.
+								/*
+								 * If only one word is left, we can break from
+								 * the switch and loop because the last word
+								 * was already used at the end of the last
+								 * chunk.
+								 */
 								case 1:
 									break 2;
 
@@ -1022,6 +1027,7 @@ class FinderIndexerQuery
 					{
 						unset($phrases[$pk]);
 					}
+
 					if (($pk = array_search($terms[$i + 2], $phrases)) !== false)
 					{
 						unset($phrases[$pk]);
@@ -1083,6 +1089,7 @@ class FinderIndexerQuery
 					{
 						unset($phrases[$pk]);
 					}
+
 					if (($pk = array_search($terms[$i + 2], $phrases)) !== false)
 					{
 						unset($phrases[$pk]);
@@ -1133,7 +1140,7 @@ class FinderIndexerQuery
 				unset($terms[$i + 1]);
 
 				// Adjust the loop.
-				$i += 1;
+				$i++;
 				continue;
 			}
 			// Handle the NOT operator.
@@ -1170,7 +1177,7 @@ class FinderIndexerQuery
 				unset($terms[$i + 1]);
 
 				// Adjust the loop.
-				$i += 1;
+				$i++;
 				continue;
 			}
 		}
@@ -1285,7 +1292,7 @@ class FinderIndexerQuery
 				->where('t.phrase = 0');
 
 			// Clone the query, replace the WHERE clause.
-			$sub = clone($query);
+			$sub = clone $query;
 			$sub->clear('where');
 			$sub->where('t.stem = ' . $db->quote($token->stem));
 			$sub->where('t.phrase = 0');
@@ -1315,7 +1322,7 @@ class FinderIndexerQuery
 		if (empty($token->matches))
 		{
 			// Create a database query to get the similar terms.
-			//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
+			// TODO: PostgreSQL doesn't support SOUNDEX out of the box
 			$query->clear()
 				->select('DISTINCT t.term_id AS id, t.term AS term')
 				->from('#__finder_terms AS t')

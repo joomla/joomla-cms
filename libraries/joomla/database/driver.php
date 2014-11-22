@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Interface
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.2
- */
+ * @since  11.2
+*/
 interface JDatabaseInterface
 {
 	/**
@@ -31,9 +29,7 @@ interface JDatabaseInterface
 /**
  * Joomla Platform Database Driver Class
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @since  12.1
  *
  * @method      string  q()   q($text, $escape = true)  Alias for quote method
  * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
@@ -91,6 +87,18 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since  11.1
 	 */
 	protected $log = array();
+
+	/**
+	 * @var    array  The log of executed SQL statements timings (start and stop microtimes) by the database driver.
+	 * @since  CMS 3.1.2
+	 */
+	protected $timings = array();
+
+	/**
+	 * @var    array  The log of executed SQL statements timings (start and stop microtimes) by the database driver.
+	 * @since  CMS 3.1.2
+	 */
+	protected $callStacks = array();
 
 	/**
 	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
@@ -171,6 +179,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected $transactionDepth = 0;
 
 	/**
+	 * @var    callable[]  List of callables to call just before disconnecting database
+	 * @since  CMS 3.1.2
+	 */
+	protected $disconnectHandlers = array();
+
+	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
 	 * the class exists and the static test method returns true.  This gives us the ability to have a multitude
 	 * of connector classes that are self-aware as to whether or not they are able to be used on a given system.
@@ -186,13 +200,13 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new DirectoryIterator(__DIR__ . '/driver');
 
+		/* @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-			if (!$file->isFile() || substr($fileName, strrpos($fileName, '.') + 1) != 'php')
+			if (!$file->isFile() || $file->getExtension() != 'php')
 			{
 				continue;
 			}
@@ -247,7 +261,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// If we already have a database connector instance for these options then just use that.
 		if (empty(self::$instances[$signature]))
 		{
-
 			// Derive the class name from the driver.
 			$class = 'JDatabaseDriver' . ucfirst(strtolower($options['driver']));
 
@@ -465,6 +478,20 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	abstract public function disconnect();
 
 	/**
+	 * Adds a function callable just before disconnecting the database. Parameter of the callable is $this JDatabaseDriver
+	 *
+	 * @param   callable  $callable  Function to call in disconnect() method just before disconnecting from database
+	 *
+	 * @return  void
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	public function addDisconnectHandler($callable)
+	{
+		$this->disconnectHandlers[] = $callable;
+	}
+
+	/**
 	 * Drops a table from the database.
 	 *
 	 * @param   string   $table     The name of the database table to drop.
@@ -554,9 +581,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	protected function getAlterDbCharacterSet($dbName)
 	{
-		$query = 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `utf8`';
-
-		return $query;
+		return 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `utf8`';
 	}
 
 	/**
@@ -575,14 +600,10 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		if ($utf)
 		{
-			$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `utf8`';
-		}
-		else
-		{
-			$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name);
+			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `utf8`';
 		}
 
-		return $query;
+		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
 	}
 
 	/**
@@ -653,6 +674,30 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function getLog()
 	{
 		return $this->log;
+	}
+
+	/**
+	 * Get the database driver SQL statement log.
+	 *
+	 * @return  array  SQL statements executed by the database driver.
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	public function getTimings()
+	{
+		return $this->timings;
+	}
+
+	/**
+	 * Get the database driver SQL statement log.
+	 *
+	 * @return  array  SQL statements executed by the database driver.
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	public function getCallStacks()
+	{
+		return $this->callStacks;
 	}
 
 	/**
@@ -871,6 +916,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function getUTFSupport()
 	{
 		JLog::add('JDatabaseDriver::getUTFSupport() is deprecated. Use JDatabaseDriver::hasUTFSupport() instead.', JLog::WARNING, 'deprecated');
+
 		return $this->hasUTFSupport();
 	}
 
@@ -1504,9 +1550,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
-		$escaped = false;
 		$startPos = 0;
-		$quoteChar = '';
 		$literal = '';
 
 		$sql = trim($sql);
@@ -1559,6 +1603,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				{
 					break;
 				}
+
 				$l = $k - 1;
 
 				while ($l >= 0 && $sql{$l} == '\\')
@@ -1652,8 +1697,26 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function setQuery($query, $offset = 0, $limit = 0)
 	{
 		$this->sql = $query;
-		$this->limit = (int) max(0, $limit);
-		$this->offset = (int) max(0, $offset);
+
+		if ($query instanceof JDatabaseQueryLimitable)
+		{
+			if (!$limit && $query->limit)
+			{
+				$limit = $query->limit;
+			}
+
+			if (!$offset && $query->offset)
+			{
+				$offset = $query->offset;
+			}
+
+			$query->setLimit($limit, $offset);
+		}
+		else
+		{
+			$this->limit = (int) max(0, $limit);
+			$this->offset = (int) max(0, $offset);
+		}
 
 		return $this;
 	}

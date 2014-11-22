@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -87,7 +87,8 @@ class WeblinkManagerPage extends AdminManagerPage
 		$this->clickButton('toolbar-new');
 		$contactEditPage = $this->test->getPageObject('WeblinkEditPage');
 		$contactEditPage->setFieldValues(array('Title' => $name, 'URL' => $url));
-		if($fields) {
+		if ($fields)
+		{
 			$contactEditPage->setFieldValues($fields);
 		}
 		$contactEditPage->clickButton('toolbar-save');
@@ -123,7 +124,7 @@ class WeblinkManagerPage extends AdminManagerPage
 	{
 		$result = false;
 		$row = $this->getRowNumber($name);
-		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]/a"))->getAttribute(@onclick);
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]//a"))->getAttribute(@onclick);
 		if (strpos($text, 'weblinks.unpublish') > 0)
 		{
 			$result = 'published';

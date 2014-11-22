@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * The JButton is the base class for all JButton types
  *
- * @package     Joomla.Libraries
- * @subpackage  Toolbar
- * @since       3.0
+ * @since  3.0
  */
 abstract class JToolbarButton
 {
@@ -72,22 +70,23 @@ abstract class JToolbarButton
 		/*
 		 * Initialise some variables
 		 */
-		$html = null;
 		$id = call_user_func_array(array(&$this, 'fetchId'), $definition);
 		$action = call_user_func_array(array(&$this, 'fetchButton'), $definition);
 
 		// Build id attribute
 		if ($id)
 		{
-			$id = "id=\"$id\"";
+			$id = ' id="' . $id . '"';
 		}
 
 		// Build the HTML Button
-		$html .= "<div class=\"btn-group\" $id>\n";
-		$html .= $action;
-		$html .= "</div>\n";
+		$options = array();
+		$options['id'] = $id;
+		$options['action'] = $action;
 
-		return $html;
+		$layout = new JLayoutFile('joomla.toolbar.base');
+
+		return $layout->render($options);
 	}
 
 	/**
@@ -103,7 +102,10 @@ abstract class JToolbarButton
 	 */
 	public function fetchIconClass($identifier)
 	{
-		return "icon-$identifier";
+		// It's an ugly hack, but this allows templates to define the icon classes for the toolbar
+		$layout = new JLayoutFile('joomla.toolbar.iconclass');
+
+		return $layout->render(array('icon' => $identifier));
 	}
 
 	/**
@@ -121,8 +123,6 @@ abstract class JToolbarButton
 /**
  * Deprecated class placeholder. You should use JToolbarButton instead.
  *
- * @package     Joomla.Legacy
- * @subpackage  Toolbar
  * @since       1.5
  * @deprecated  4.0  Use JToolbarButton instead.
  * @codeCoverageIgnore

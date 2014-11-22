@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Categories Component Categories Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesModelCategories extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -44,6 +43,7 @@ class CategoriesModelCategories extends JModelList
 				'rgt', 'a.rgt',
 				'level', 'a.level',
 				'path', 'a.path',
+				'tag'
 			);
 		}
 
@@ -55,10 +55,11 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string    An optional ordering field.
-	 * @param   string    An optional direction (asc|desc).
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -80,10 +81,10 @@ class CategoriesModelCategories extends JModelList
 		$search = $this->getUserStateFromRequest($context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$level = $this->getUserStateFromRequest($context . '.filter.level', 'filter_level', 0, 'int');
+		$level = $this->getUserStateFromRequest($context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
-		$access = $this->getUserStateFromRequest($context . '.filter.access', 'filter_access', 0, 'int');
+		$access = $this->getUserStateFromRequest($context . '.filter.access', 'filter_access');
 		$this->setState('filter.access', $access);
 
 		$published = $this->getUserStateFromRequest($context . '.filter.published', 'filter_published', '');
@@ -97,6 +98,15 @@ class CategoriesModelCategories extends JModelList
 
 		// List state information.
 		parent::populateState('a.lft', 'asc');
+
+		// Force a language
+		$forcedLanguage = $app->input->get('forcedLanguage');
+
+		if (!empty($forcedLanguage))
+		{
+			$this->setState('filter.language', $forcedLanguage);
+			$this->setState('filter.forcedLanguage', $forcedLanguage);
+		}
 	}
 
 	/**
@@ -106,9 +116,10 @@ class CategoriesModelCategories extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
+	 *
 	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
@@ -123,7 +134,9 @@ class CategoriesModelCategories extends JModelList
 	}
 
 	/**
-	 * @return  string
+	 * Method to get a database query to list categories.
+	 *
+	 * @return  JDatabaseQuery object.
 	 *
 	 * @since   1.6
 	 */
@@ -133,16 +146,15 @@ class CategoriesModelCategories extends JModelList
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
-		$app = JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.note, a.published, a.access' .
-					', a.checked_out, a.checked_out_time, a.created_user_id' .
-					', a.path, a.parent_id, a.level, a.lft, a.rgt' .
-					', a.language'
+				', a.checked_out, a.checked_out_time, a.created_user_id' .
+				', a.path, a.parent_id, a.level, a.lft, a.rgt' .
+				', a.language'
 			)
 		);
 		$query->from('#__categories AS a');
@@ -165,12 +177,13 @@ class CategoriesModelCategories extends JModelList
 
 		// Join over the associations.
 		$assoc = $this->getAssoc();
+
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_categories.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id');
+				->group('a.id, l.title, uc.name, ag.title, ua.name');
 		}
 
 		// Filter by extension
@@ -200,6 +213,7 @@ class CategoriesModelCategories extends JModelList
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.published = ' . (int) $published);
@@ -211,6 +225,7 @@ class CategoriesModelCategories extends JModelList
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -224,7 +239,7 @@ class CategoriesModelCategories extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
@@ -237,6 +252,7 @@ class CategoriesModelCategories extends JModelList
 
 		// Filter by a single tag.
 		$tagId = $this->getState('filter.tag');
+
 		if (is_numeric($tagId))
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
@@ -250,6 +266,7 @@ class CategoriesModelCategories extends JModelList
 		// Add the list ordering clause
 		$listOrdering = $this->getState('list.ordering', 'a.lft');
 		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));
+
 		if ($listOrdering == 'a.access')
 		{
 			$query->order('a.access ' . $listDirn . ', a.lft ' . $listDirn);
@@ -259,7 +276,6 @@ class CategoriesModelCategories extends JModelList
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
-		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 
@@ -283,7 +299,7 @@ class CategoriesModelCategories extends JModelList
 		$app = JFactory::getApplication();
 		$extension = $this->getState('filter.extension');
 
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		$extension = explode('.', $extension);
 		$component = array_shift($extension);
 		$cname = str_replace('com_', '', $component);

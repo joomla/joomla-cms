@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
 JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
@@ -16,9 +18,7 @@ JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 /**
  * Helper class for the Finder indexer package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderIndexerHelper
 {
@@ -93,7 +93,7 @@ class FinderIndexerHelper
 		$input = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $input);
 		$input = preg_replace('#(^|\s)[+-.,]+([\pL\pM]+)#mui', ' $1', $input);
 		$input = preg_replace('#([\pL\pM\pN]+)[+-.,]+(\s|$)#mui', '$1 ', $input);
-		$input = preg_replace('#([\pL\pM]+)[+.,]+([\pL\pM]+)#muiU', '$1 $2', $input); // Ungreedy
+		$input = preg_replace('#([\pL\pM]+)[+.,]+([\pL\pM]+)#muiU', '$1 $2', $input);
 		$input = preg_replace('#(^|\s)[\'+-.,]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#[' . $quotes . ']+#mui', '\'', $input);
@@ -121,6 +121,7 @@ class FinderIndexerHelper
 				for ($j = 0; $j < $charCount; $j++)
 				{
 					$tSplit = JString::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
+
 					if (!empty($tSplit))
 					{
 						$terms[$i] = $tSplit;
@@ -190,6 +191,7 @@ class FinderIndexerHelper
 		if ($store)
 		{
 			$cache[$store] = count($tokens) > 1 ? $tokens : array_shift($tokens);
+
 			return $cache[$store];
 		}
 		else
@@ -405,9 +407,6 @@ class FinderIndexerHelper
 		// Only get the router once.
 		if (!($router instanceof JRouter))
 		{
-			jimport('joomla.application.router');
-			include_once JPATH_SITE . '/includes/application.php';
-
 			// Get and configure the site router.
 			$config = JFactory::getConfig();
 			$router = JRouter::getInstance('site');
@@ -417,7 +416,7 @@ class FinderIndexerHelper
 		// Build the relative route.
 		$uri = $router->build($url);
 		$route = $uri->toString(array('path', 'query', 'fragment'));
-		$route = str_replace(JURI::base(true) . '/', '', $route);
+		$route = str_replace(JUri::base(true) . '/', '', $route);
 
 		return $route;
 	}
@@ -465,8 +464,8 @@ class FinderIndexerHelper
 	/**
 	 * Method to process content text using the onContentPrepare event trigger.
 	 *
-	 * @param   string     $text    The content to process.
-	 * @param   JRegistry  $params  The parameters object. [optional]
+	 * @param   string    $text    The content to process.
+	 * @param   Registry  $params  The parameters object. [optional]
 	 *
 	 * @return  string  The processed content.
 	 *
@@ -487,9 +486,9 @@ class FinderIndexerHelper
 		}
 
 		// Instantiate the parameter object if necessary.
-		if (!($params instanceof JRegistry))
+		if (!($params instanceof Registry))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($params);
 			$params = $registry;
 		}

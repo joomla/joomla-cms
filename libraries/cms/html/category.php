@@ -3,18 +3,16 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class for categories
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.5
+ * @since  1.5
  */
 abstract class JHtmlCategory
 {
@@ -41,7 +39,7 @@ abstract class JHtmlCategory
 	{
 		$hash = md5($extension . '.' . serialize($config));
 
-		if (!isset(self::$items[$hash]))
+		if (!isset(static::$items[$hash]))
 		{
 			$config = (array) $config;
 			$db = JFactory::getDbo();
@@ -80,6 +78,7 @@ abstract class JHtmlCategory
 					{
 						$language = $db->quote($language);
 					}
+
 					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
 				}
 			}
@@ -90,17 +89,17 @@ abstract class JHtmlCategory
 			$items = $db->loadObjectList();
 
 			// Assemble the list options.
-			self::$items[$hash] = array();
+			static::$items[$hash] = array();
 
 			foreach ($items as &$item)
 			{
 				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 				$item->title = str_repeat('- ', $repeat) . $item->title;
-				self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
+				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 			}
 		}
 
-		return self::$items[$hash];
+		return static::$items[$hash];
 	}
 
 	/**
@@ -117,7 +116,7 @@ abstract class JHtmlCategory
 	{
 		$hash = md5($extension . '.' . serialize($config));
 
-		if (!isset(self::$items[$hash]))
+		if (!isset(static::$items[$hash]))
 		{
 			$config = (array) $config;
 			$db = JFactory::getDbo();
@@ -149,18 +148,18 @@ abstract class JHtmlCategory
 			$items = $db->loadObjectList();
 
 			// Assemble the list options.
-			self::$items[$hash] = array();
+			static::$items[$hash] = array();
 
 			foreach ($items as &$item)
 			{
 				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 				$item->title = str_repeat('- ', $repeat) . $item->title;
-				self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
+				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 			}
 			// Special "Add to root" option:
-			self::$items[$hash][] = JHtml::_('select.option', '1', JText::_('JLIB_HTML_ADD_TO_ROOT'));
+			static::$items[$hash][] = JHtml::_('select.option', '1', JText::_('JLIB_HTML_ADD_TO_ROOT'));
 		}
 
-		return self::$items[$hash];
+		return static::$items[$hash];
 	}
 }

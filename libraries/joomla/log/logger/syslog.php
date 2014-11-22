@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,9 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * the Windows based implementations this can be found in the Event Log. For Windows,
  * permissions may prevent PHP from properly outputting messages.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
- * @since       11.1
+ * @since  11.1
  */
 class JLogLoggerSyslog extends JLogLogger
 {
@@ -77,17 +75,28 @@ class JLogLoggerSyslog extends JLogLogger
 
 		// Build the Syslog options from our log object options.
 		$sysOptions = 0;
+
 		if ($this->options['sys_add_pid'])
 		{
 			$sysOptions = $sysOptions | LOG_PID;
 		}
+
 		if ($this->options['sys_use_stderr'])
 		{
 			$sysOptions = $sysOptions | LOG_PERROR;
 		}
 
+		// Default logging facility is LOG_USER for Windows compatibility.
+		$sysFacility = LOG_USER;
+
+		// If we have a facility passed in and we're not on Windows, reset it.
+		if (isset($this->options['sys_facility']) && !IS_WIN)
+		{
+			$sysFacility = $this->options['sys_facility'];
+		}
+
 		// Open the Syslog connection.
-		openlog((string) $this->options['sys_ident'], $sysOptions, LOG_USER);
+		openlog((string) $this->options['sys_ident'], $sysOptions, $sysFacility);
 	}
 
 	/**

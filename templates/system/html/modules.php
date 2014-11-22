@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ function modChrome_none($module, &$params, &$attribs)
 }
 
 /*
- * html5 (chosen html5 tag and font headder tags)
+ * html5 (chosen html5 tag and font header tags)
  */
 function modChrome_html5($module, &$params, &$attribs)
 {
@@ -27,15 +27,19 @@ function modChrome_html5($module, &$params, &$attribs)
 	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
 	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
 
+	// Temporarily store header class in variable
+	$headerClass    = $params->get('header_class');
+	$headerClass    = !empty($headerClass) ? ' class="' . htmlspecialchars($headerClass) . '"' : '';
+
 	if (!empty ($module->content)) : ?>
-		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?><?php echo $moduleClass; ?>">
+		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass; ?>">
 
 		<?php if ((bool) $module->showtitle) :?>
-			<<?php echo $headerTag; ?> class="<?php echo $params->get('header_class'); ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
+			<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
 		<?php endif; ?>
 
 			<?php echo $module->content; ?>
-		
+
 		</<?php echo $moduleTag; ?>>
 
 	<?php endif;
@@ -79,17 +83,27 @@ function modChrome_horz($module, &$params, &$attribs)
 }
 
 /*
- * xhtml (divs and font headder tags)
+ * xhtml (divs and font header tags)
+ * With the new advanced parameter it does the same as the html5 chrome
  */
 function modChrome_xhtml($module, &$params, &$attribs)
 {
+	$moduleTag      = $params->get('module_tag', 'div');
+	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
+	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
+	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
+
+	// Temporarily store header class in variable
+	$headerClass    = $params->get('header_class');
+	$headerClass    = ($headerClass) ? ' class="' . htmlspecialchars($headerClass) . '"' : '';
+
 	if (!empty ($module->content)) : ?>
-		<div class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
-		<?php if ((bool) $module->showtitle) : ?>
-			<h3><?php echo $module->title; ?></h3>
-		<?php endif; ?>
+		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass; ?>">
+			<?php if ((bool) $module->showtitle) : ?>
+				<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
+			<?php endif; ?>
 			<?php echo $module->content; ?>
-		</div>
+		</<?php echo $moduleTag; ?>>
 	<?php endif;
 }
 

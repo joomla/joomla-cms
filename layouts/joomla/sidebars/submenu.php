@@ -3,13 +3,25 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
+JHtmlBehavior::core();
 ?>
+
+	<script type="text/javascript">
+		jQuery(function()
+		{
+			Joomla.toggleSidebar(true);
+		});
+	</script>
+
+	<div class="toggle-sidebar">
+		<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar'); ?>
+	</div>
 <div id="sidebar">
 	<div class="sidebar-nav">
 		<?php if ($displayData->displayMenu) : ?>

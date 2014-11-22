@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to define an abstract Web application router.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       12.2
+ * @since  12.2
  */
 abstract class JApplicationWebRouter
 {
@@ -62,7 +60,7 @@ abstract class JApplicationWebRouter
 	 *
 	 * @param   string  $route  The route string for which to find and execute a controller.
 	 *
-	 * @return  void
+	 * @return  mixed   The return value of the controller executed
 	 *
 	 * @since   12.2
 	 * @throws  InvalidArgumentException
@@ -77,7 +75,7 @@ abstract class JApplicationWebRouter
 		$controller = $this->fetchController($name);
 
 		// Execute the controller.
-		$controller->execute();
+		return $controller->execute();
 	}
 
 	/**

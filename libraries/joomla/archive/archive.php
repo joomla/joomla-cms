@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,9 +15,7 @@ jimport('joomla.filesystem.folder');
 /**
  * An Archive handling class
  *
- * @package     Joomla.Platform
- * @subpackage  Archive
- * @since       11.1
+ * @since  11.1
  */
 class JArchive
 {
@@ -78,6 +76,7 @@ class JArchive
 			case 'gzip':
 				// This may just be an individual file (e.g. sql script)
 				$adapter = self::getAdapter('gzip');
+
 				if ($adapter)
 				{
 					$config = JFactory::getConfig();
@@ -130,6 +129,7 @@ class JArchive
 					if ($bzresult instanceof Exception)
 					{
 						@unlink($tmpfname);
+
 						return false;
 					}
 
@@ -171,7 +171,7 @@ class JArchive
 	 *
 	 * @param   string  $type  The type of adapter (bzip2|gzip|tar|zip).
 	 *
-	 * @return  object  JArchiveExtractable
+	 * @return  JArchiveExtractable  Adapter for the requested type
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
@@ -182,6 +182,7 @@ class JArchive
 		{
 			// Try to load the adapter object
 			$class = 'JArchive' . ucfirst($type);
+
 			if (!class_exists($class))
 			{
 				throw new UnexpectedValueException('Unable to load archive', 500);

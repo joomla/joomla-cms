@@ -3,11 +3,13 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
 
 jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.folder');
@@ -15,9 +17,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Language installer
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstallerAdapterLanguage extends JAdapterInstance
 {
@@ -52,6 +52,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/' . $this->parent->extension->element
 			);
 		}
+
 		$this->manifest = $this->parent->getManifest();
 
 		// Get the client application target
@@ -66,6 +67,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 				return false;
 			}
+
 			$basePath = $client->path;
 			$clientId = $client->id;
 			$element = $this->manifest->files;
@@ -185,6 +187,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 						JLog::WARNING, 'jerror'
 					);
 				}
+
 				return false;
 			}
 		}
@@ -222,6 +225,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 			return false;
 		}
+
 		$this->parent->setOverwrite($overwrite);
 
 		// Get the language description
@@ -261,7 +265,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'folder' => ''));
 
 		if ($uid)
 		{
@@ -295,6 +299,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 			return false;
 		}
+
 		$basePath = $client->path;
 		$clientId = $client->id;
 
@@ -316,10 +321,9 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 		}
 
 		$this->set('tag', $tag);
-		$folder = $tag;
 
 		// Set the language installation path
-		$this->parent->setPath('extension_site', $basePath . '/language/' . $this->get('tag'));
+		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
 		if (count($xml->files->children()))
@@ -357,6 +361,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 			return false;
 		}
+
 		$this->parent->setOverwrite($overwrite);
 
 		// Get the language description and set it as message
@@ -397,6 +402,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 			$row->set('client_id', $clientId);
 			$row->set('params', $this->parent->getParams());
 		}
+
 		$row->set('name', $this->get('name'));
 		$row->set('type', 'language');
 		$row->set('element', $this->get('tag'));
@@ -514,13 +520,13 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 		foreach ($users as $user)
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($user->params);
 
 			if ($registry->get($param_name) == $element)
 			{
 				$registry->set($param_name, '');
-				$query = $db->getQuery(true)
+				$query->clear()
 					->update('#__users')
 					->set('params=' . $db->quote($registry))
 					->where('id=' . (int) $user->id);
@@ -529,6 +535,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				$count++;
 			}
 		}
+
 		if (!empty($count))
 		{
 			JLog::add(JText::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), JLog::NOTICE, 'jerror');
@@ -569,6 +576,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				$results[] = $extension;
 			}
 		}
+
 		foreach ($admin_languages as $language)
 		{
 			if (file_exists(JPATH_ADMINISTRATOR . '/language/' . $language . '/' . $language . '.xml'))
@@ -586,6 +594,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				$results[] = $extension;
 			}
 		}
+
 		return $results;
 	}
 
@@ -660,8 +669,6 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 /**
  * Deprecated class placeholder. You should use JInstallerAdapterLanguage instead.
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore

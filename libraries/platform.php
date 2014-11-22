@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,7 +20,7 @@ final class JPlatform
 	const PRODUCT = 'Joomla Platform';
 
 	// Release version.
-	const RELEASE = '12.2';
+	const RELEASE = '13.1';
 
 	// Maintenance version.
 	const MAINTENANCE = '0';
@@ -32,10 +32,10 @@ final class JPlatform
 	const BUILD = 0;
 
 	// Code name.
-	const CODE_NAME = 'Neil Armstrong';
+	const CODE_NAME = 'Curiosity';
 
 	// Release date.
-	const RELEASE_DATE = '21-September-2012';
+	const RELEASE_DATE = '24-Apr-2013';
 
 	// Release time.
 	const RELEASE_TIME = '00:00';
@@ -44,7 +44,7 @@ final class JPlatform
 	const RELEASE_TIME_ZONE = 'GMT';
 
 	// Copyright Notice.
-	const COPYRIGHT = 'Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.';
+	const COPYRIGHT = 'Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.';
 
 	// Link text.
 	const LINK_TEXT = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Message Table class
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.5
+ * @since  1.5
  */
 class MessagesTableMessage extends JTable
 {
@@ -83,7 +81,6 @@ class MessagesTableMessage extends JTable
 
 		// Sanitize input.
 		JArrayHelper::toInteger($pks);
-		$userId = (int) $userId;
 		$state  = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.

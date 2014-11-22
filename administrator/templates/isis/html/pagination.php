@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.Isis
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -147,6 +147,8 @@ function pagination_list_render($list)
  */
 function pagination_item_active(&$item)
 {
+	$class = '';
+
 	// Check for "Start" item
 	if ($item->text == JText::_('JLIB_HTML_START'))
 	{
@@ -156,6 +158,7 @@ function pagination_item_active(&$item)
 	// Check for "Prev" item
 	if ($item->text == JText::_('JPREV'))
 	{
+		$item->text = JText::_('JPREVIOUS');
 		$display = '<i class="icon-previous"></i>';
 	}
 
@@ -175,6 +178,7 @@ function pagination_item_active(&$item)
 	if (!isset($display))
 	{
 		$display = $item->text;
+		$class   = ' class="hidden-phone"';
 	}
 
 	if ($item->base > 0)
@@ -186,7 +190,14 @@ function pagination_item_active(&$item)
 		$limit = 'limitstart.value=0';
 	}
 
-	return '<li><a href="#" title="' . $item->text . '" onclick="document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;">' . $display . '</a></li>';
+	$title = '';
+	if (!is_numeric($item->text))
+	{
+		JHtml::_('bootstrap.tooltip');
+		$title = ' class="hasTooltip" title="' . $item->text . '"';
+	}
+
+	return '<li' . $class . '><a' . $title . ' href="#" onclick="document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;">' . $display . '</a></li>';
 }
 
 /**
@@ -227,9 +238,9 @@ function pagination_item_inactive(&$item)
 	// Check if the item is the active page
 	if (isset($item->active) && ($item->active))
 	{
-		return '<li class="active"><a>' . $item->text . '</a></li>';
+		return '<li class="active hidden-phone"><a>' . $item->text . '</a></li>';
 	}
 
 	// Doesn't match any other condition, render a normal item
-	return '<li class="disabled"><a>' . $item->text . '</a></li>';
+	return '<li class="disabled hidden-phone"><a>' . $item->text . '</a></li>';
 }

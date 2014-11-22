@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
+	<fieldset
+		addfieldpath="/administrator/components/com_plugins/models/fields"
+	>
 		<field
 			name="extension_id"
 			label="JGLOBAL_FIELD_ID_LABEL"
@@ -18,15 +20,28 @@
 
 		<field
 			name="enabled"
-			type="radio"
-			class="btn-group"
+			type="list"
+			class="chzn-color-state"
 			label="JSTATUS"
 			description="COM_PLUGINS_FIELD_ENABLED_DESC"
 			size="1"
 			default="1">
-			<option value="1">JENABLED</option>
-			<option value="0">JDISABLED</option>
+				<option value="1">JENABLED</option>
+				<option value="0">JDISABLED</option>
 		</field>
+
+        <field
+			name="access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC"
+			size="1" />
+
+		<field
+			name="ordering"
+			type="Pluginordering"
+			label="JFIELD_ORDERING_LABEL"
+			description="JFIELD_ORDERING_DESC" />
 
 		<field
 			name="folder"
@@ -45,21 +60,6 @@
 			label="COM_PLUGINS_FIELD_ELEMENT_LABEL"
 			description="COM_PLUGINS_FIELD_ELEMENT_DESC"
 			readonly="true" />
-
-		<field
-			name="access"
-			type="accesslevel"
-			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
-			class="inputbox"
-			size="1" />
-
-		<field
-			name="ordering"
-			type="ordering"
-			class="inputbox"
-			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC" />
 
 	</fieldset>
 </form>

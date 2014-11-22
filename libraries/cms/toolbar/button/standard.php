@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a standard button
  *
- * @package     Joomla.Libraries
- * @subpackage  Toolbar
- * @since       3.0
+ * @since  3.0
  */
 class JToolbarButtonStandard extends JToolbarButton
 {
@@ -40,28 +38,26 @@ class JToolbarButtonStandard extends JToolbarButton
 	 */
 	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true)
 	{
-		$i18n_text = JText::_($text);
-		$class = $this->fetchIconClass($name);
-		$doTask = $this->_getCommand($text, $task, $list);
+		// Store all data to the options array for use with JLayout
+		$options = array();
+		$options['text'] = JText::_($text);
+		$options['class'] = $this->fetchIconClass($name);
+		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
 
-		if ($name == "apply" || $name == "new")
+		if ($name == 'apply' || $name == 'new')
 		{
-			$btnClass = "btn btn-small btn-success";
-			$iconWhite = "icon-white";
+			$options['btnClass'] = 'btn btn-small btn-success';
+			$options['class'] .= ' icon-white';
 		}
 		else
 		{
-			$btnClass = "btn btn-small";
-			$iconWhite = "";
+			$options['btnClass'] = 'btn btn-small';
 		}
 
-		$html = "<button onclick=\"$doTask\" class=\"" . $btnClass . "\">\n";
-		$html .= "<i class=\"$class $iconWhite\">\n";
-		$html .= "</i>\n";
-		$html .= "$i18n_text\n";
-		$html .= "</button>\n";
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('joomla.toolbar.standard');
 
-		return $html;
+		return $layout->render($options);
 	}
 
 	/**
@@ -96,7 +92,6 @@ class JToolbarButtonStandard extends JToolbarButton
 	 */
 	protected function _getCommand($name, $task, $list)
 	{
-		JHtml::_('behavior.framework');
 		$message = JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 		$message = addslashes($message);
 

@@ -3,11 +3,12 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
 JHtml::_('bootstrap.tooltip');
 
 ?>
@@ -16,7 +17,11 @@ JHtml::_('bootstrap.tooltip');
 	<?php
 	if ($params->get('showHere', 1))
 	{
-		echo '<li class="active"><span class="divider icon-location hasTooltip" title="' . JText::_('MOD_BREADCRUMBS_HERE') . '"></span></li>';
+		echo '<li class="active">' . JText::_('MOD_BREADCRUMBS_HERE') . '&#160;</li>';
+	}
+	else
+	{
+		echo '<li class="active"><span class="divider icon-location"></span></li>';
 	}
 
 	// Get rid of duplicated entries on trail including home page when using multilanguage
@@ -34,10 +39,11 @@ JHtml::_('bootstrap.tooltip');
 	prev($list);
 	$penult_item_key = key($list);
 
-	// Generate the trail
-	foreach ($list as $key => $item) :
 	// Make a link if not the last item in the breadcrumbs
 	$show_last = $params->get('showLast', 1);
+
+	// Generate the trail
+	foreach ($list as $key => $item) :
 	if ($key != $last_item_key)
 	{
 		// Render all but last item - along with separator
@@ -61,7 +67,7 @@ JHtml::_('bootstrap.tooltip');
 	elseif ($show_last)
 	{
 		// Render last item if reqd.
-		echo '<li>';
+		echo '<li class="active">';
 		echo '<span>' . $item->name . '</span>';
 		echo '</li>';
 	}
