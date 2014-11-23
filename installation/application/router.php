@@ -25,7 +25,7 @@ class JRouterInstallation extends JRouter
 	 *
 	 * @since   1.5
 	 */
-	public function parse($url)
+	public function parse(&$url)
 	{
 		return true;
 	}
@@ -39,7 +39,7 @@ class JRouterInstallation extends JRouter
 	 *
 	 * @since   1.5
 	 */
-	public function build($url)
+	public function build(&$url)
 	{
 		$url = str_replace('&amp;', '&', $url);
 
