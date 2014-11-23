@@ -2,7 +2,7 @@
 <extension version="3.1" type="plugin" group="editors">
 	<name>plg_editors_none</name>
 	<version>3.0.0</version>
-	<creationDate>August 2004</creationDate>
+	<creationDate>September 2005</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
