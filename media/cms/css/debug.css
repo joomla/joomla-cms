@@ -113,6 +113,8 @@ div#system-debug {
 	font-size: 13px;
 	text-align: left;
 	direction: ltr;
+	white-space: pre;
+	word-wrap: break-word;
 }
 
 #system-debug p {

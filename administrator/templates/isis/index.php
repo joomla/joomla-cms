@@ -309,5 +309,15 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 		})(jQuery);
 	</script>
 <?php endif; ?>
+<?php if (JFactory::getApplication()->get('debug') || JFactory::getApplication()->get('debug_lang')) : ?>
+	<script>
+		jQuery(document).ready(function(){
+			if (jQuery('#j-main-container'))
+			{
+				jQuery('#j-main-container').append(jQuery('#system-debug'));
+			}
+		});
+	</script>
+<?php endif; ?>
 </body>
 </html>
