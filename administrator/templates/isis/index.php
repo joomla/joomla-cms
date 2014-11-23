@@ -312,12 +312,9 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 <?php if (JFactory::getApplication()->get('debug') || JFactory::getApplication()->get('debug_lang')) : ?>
 	<script>
 		jQuery(document).ready(function(){
-			var newParent = document.getElementById('j-main-container');
-
-			if (newParent)
+			if (jQuery('#j-main-container'))
 			{
-				var oldParent = document.getElementById('system-debug');
-				jQuery(newParent).append(oldParent);
+				jQuery('#j-main-container').append(jQuery('#system-debug'));
 			}
 		});
 	</script>
