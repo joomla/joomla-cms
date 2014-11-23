@@ -227,6 +227,11 @@ Joomla.toggleSidebar = function(force)
 	var open_icon = 'icon-cancel';
 	var closed_icon = 'icon-arrow-right-2';
 
+	var main_height = jQuery('#j-main-container').height()+30;
+	var sidebar_height = jQuery('#j-sidebar-container').height();
+	var content_width = jQuery('#content').width();
+	var sidebar_width = jQuery('#j-sidebar-container').width();
+
 	if (force)
 	{
 		// Load the value from localStorage
@@ -276,6 +281,7 @@ Joomla.toggleSidebar = function(force)
 	// Update to main content styling, for a smoother transition effect
 	jQuery('#system-message-container').addClass('j-toggle-main');
 	jQuery('#j-main-container').addClass('j-toggle-main');
+	jQuery('#system-debug').addClass('j-toggle-main');
 
 	if ($visible)
 	{
@@ -284,6 +290,7 @@ Joomla.toggleSidebar = function(force)
 		jQuery('#j-toggle-button-wrapper').removeClass('j-toggle-visible').addClass('j-toggle-hidden');
 		jQuery('#j-toggle-sidebar-icon').removeClass('j-toggle-visible').addClass('j-toggle-hidden');
 		jQuery('#system-message-container').removeClass('span10').addClass('span12');
+		jQuery('#system-debug').width(content_width);
 		jQuery('#j-main-container').removeClass('span10').addClass('span12 expanded');
 		jQuery('#j-toggle-sidebar-icon').removeClass(open_icon).addClass(closed_icon);
 		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JTOGGLE_SHOW_SIDEBAR'));
@@ -302,6 +309,14 @@ Joomla.toggleSidebar = function(force)
 		jQuery('#j-toggle-button-wrapper').removeClass('j-toggle-hidden').addClass('j-toggle-visible');
 		jQuery('#j-toggle-sidebar-icon').removeClass('j-toggle-hidden').addClass('j-toggle-visible');
 		jQuery('#system-message-container').removeClass('span12').addClass('span10');
+		if (main_height < sidebar_height)
+		{
+			jQuery('#system-debug').width(content_width-sidebar_width);
+		}
+		else
+		{
+			jQuery('#system-debug').width(content_width);
+		}
 		jQuery('#j-main-container').removeClass('span12 expanded').addClass('span10');
 		jQuery('#j-toggle-sidebar-icon').removeClass(closed_icon).addClass(open_icon);
 		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JTOGGLE_HIDE_SIDEBAR'));
