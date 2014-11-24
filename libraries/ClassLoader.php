@@ -4,6 +4,27 @@
  *
  * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
+ *
+ * This class is forked from the Composer\Autoload\ClassLoader class installed by Composer. The original copyright
+ * notice of the file is as follows:
+ *
+ * ----- BEGIN ORIGINAL COPYRIGHT NOTICE -----
+ * This file is part of Composer.
+ *
+ * (c) Nils Adermann <naderman@naderman.de>
+ *     Jordi Boggiano <j.boggiano@seld.be>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ * ----- END ORIGINAL COPYRIGHT NOTICE -----
+ *
+ * This file is NOT identical to the original. The class name was changed to ClassLoaderJoomla and the loadClass()
+ * method was modified to call the JLoader::applyAliasFor() method.
+ *
+ * The latest version of the original file can be found at
+ * https://github.com/composer/composer/blob/master/src/Composer/Autoload/ClassLoader.php
+ *
+ * The license of the original file can be found at https://github.com/composer/composer/blob/master/LICENSE
  */
 
 namespace Composer\Autoload;
@@ -11,11 +32,14 @@ namespace Composer\Autoload;
 defined('_JEXEC') or die;
 
 /**
- * ClassLoader implements a PSR-0 class loader
+ * This class is forked from the Composer\Autoload\ClassLoader class installed by Composer. This header is modified to
+ * reflect the name of the modified class. See the file header for more information on the original code.
+ *
+ * ClassLoaderJoomla implements a PSR-0 class loader
  *
  * See https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md
  *
- *     $loader = new \Composer\Autoload\ClassLoader();
+ *     $loader = new \Composer\Autoload\ClassLoaderJoomla();
  *
  *     // register classes with namespaces
  *     $loader->add('Symfony\Component', __DIR__.'/component');
@@ -34,9 +58,11 @@ defined('_JEXEC') or die;
  * found before giving up.
  *
  * This class is loosely based on the Symfony UniversalClassLoader.
+ * This class is forked from the Composer ClassLoader.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Jordi Boggiano <j.boggiano@seld.be>
+ * @author Nicholas Dionysopoulos (for the small changes made especially for Joomla! 3.4)
  */
 class ClassLoaderJoomla
 {
