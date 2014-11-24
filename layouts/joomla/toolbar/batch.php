@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.core');
+
 $title = $displayData['title'];
 $message = JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 ?>

@@ -16,6 +16,11 @@ defined('_JEXEC') or die;
  */
 class UsersModelGroup extends JModelAdmin
 {
+	/**
+	 * Constructor
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 */
 	public function __construct($config = array())
 	{
 		$config = array_merge(
@@ -268,14 +273,11 @@ class UsersModelGroup extends JModelAdmin
 						$this->setError($table->getError());
 
 						return false;
-					} else {
-						// Trigger the after delete event.
-						$dispatcher->trigger($this->event_after_delete, array($table->getProperties(), true, $this->getError()));
 					}
 					else
 					{
-						// Trigger the onUserAfterDeleteGroup event.
-						$dispatcher->trigger('onUserAfterDeleteGroup', array($table->getProperties(), true, $this->getError()));
+						// Trigger the after delete event.
+						$dispatcher->trigger($this->event_after_delete, array($table->getProperties(), true, $this->getError()));
 					}
 				}
 				else
