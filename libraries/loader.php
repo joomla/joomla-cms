@@ -517,7 +517,7 @@ abstract class JLoader
 	/**
 	 * Applies a class alias for an already loaded class, if a class alias was created for it.
 	 *
-	 * @param   string  $class
+	 * @param   string  $class  We'll look for and register aliases for this (real) class name
 	 *
 	 * @return  void
 	 *
