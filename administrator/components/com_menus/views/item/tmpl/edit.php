@@ -19,6 +19,8 @@ JHtml::_('formbehavior.chosen', 'select');
 
 JText::script('ERROR');
 JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
+JText::script('JLIB_FORM_FIELD_INVALID');
+JText::script('COM_MENUS_ITEM_FIELD_TYPE_LABEL');
 
 $assoc = JLanguageAssociations::isEnabled();
 
@@ -66,7 +68,15 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			Joomla.submitform('item.setType', document.getElementById('item-form'));
 		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
 		{
-			Joomla.submitform(task, document.getElementById('item-form'));
+			if (document.id('jform_type').value == '') {
+				$('system-message').getElement('div').innerHTML = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
+				$('system-message').getElement('div').innerHTML += Joomla.JText._('COM_MENUS_ITEM_FIELD_TYPE_LABEL');
+				$$('#jform_type').addClass('invalid');
+				$$('#jform_type-lbl').addClass('invalid');
+			}
+			else {
+				Joomla.submitform(task, document.id('item-form'));
+			}
 		}
 		else
 		{
@@ -78,6 +88,36 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					nameId = '#' + idReversed.substr(separatorLocation).split("").reverse().join("") + 'name';
 				jQuery(nameId).addClass('invalid');
 			});
+
+			$('system-message').getElement('h4').innerHTML = Joomla.JText._('ERROR');
+
+			if ($$('#item-form .modal-value').length > 0)
+			{
+				var errorMessage = '';
+				$$('#item-form .invalid').each(function(item, index){
+					try {
+						var obj = document.getElementById(item.get('id'));
+						if ((typeof obj.value != 'undefined') && (obj.value)) {
+							errorMessage += '<p>' + Joomla.JText._('JLIB_FORM_FIELD_INVALID') + obj.value + '</p>';
+						}
+					}
+					catch (e) {
+					}
+				});
+				errorMessage = $('system-message').getElement('div').innerHTML + errorMessage;
+				var removeMsg = Joomla.JText._('JLIB_FORM_FIELD_INVALID').replace('&#160', '&nbsp;');
+				errorMessage = errorMessage.replace("<p>" + removeMsg + "</p>", "");
+				$('system-message').getElement('div').innerHTML = errorMessage;
+			}
+			else if (document.formvalidator.isValid(document.id('item-form'))) {
+				if (document.id('jform_type').value == '')
+				{
+					$('system-message').getElement('div').innerHTML = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
+					$('system-message').getElement('div').innerHTML += Joomla.JText._('COM_MENUS_ITEM_FIELD_TYPE_LABEL');
+					$$('#jform_type').addClass('invalid');
+					$$('#jform_type-lbl').addClass('invalid');
+				}
+			}
 		}
 	}
 </script>
