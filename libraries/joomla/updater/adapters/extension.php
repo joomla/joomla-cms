@@ -53,6 +53,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			// Don't do anything
 			case 'UPDATES':
 				break;
+
 			default:
 				if (in_array($name, $this->updatecols))
 				{
@@ -124,14 +125,33 @@ class JUpdaterExtension extends JUpdateAdapter
 						$phpMatch = false;
 					}
 
-					// Target platform and php_minimum aren't valid fields in the update table so unset them to prevent J! from trying to store them
-					unset($this->currentUpdate->targetplatform);
-					unset($this->currentUpdate->php_minimum);
+					// Check minimum stability
+					$stabilityMatch = true;
 
-					if ($phpMatch)
+					if (isset($this->currentUpdate->stability) && ($this->currentUpdate->stability < $this->minimum_stability))
+					{
+						$stabilityMatch = false;
+					}
+
+					// Some properties aren't valid fields in the update table so unset them to prevent J! from trying to store them
+					unset($this->currentUpdate->targetplatform);
+
+					if (isset($this->currentUpdate->php_minimum))
+					{
+						unset($this->currentUpdate->php_minimum);
+					}
+
+					if (isset($this->currentUpdate->stability))
+					{
+						unset($this->currentUpdate->stability);
+					}
+
+					// If the PHP version and minimum stability checks pass, consider this version as a possible update
+					if ($phpMatch && $stabilityMatch)
 					{
 						if (isset($this->latest))
 						{
+							// We already have a possible update. Check the version.
 							if (version_compare($this->currentUpdate->version, $this->latest->version, '>') == 1)
 							{
 								$this->latest = $this->currentUpdate;
@@ -139,11 +159,13 @@ class JUpdaterExtension extends JUpdateAdapter
 						}
 						else
 						{
+							// We don't have any possible updates yet, assume this is an available update.
 							$this->latest = $this->currentUpdate;
 						}
 					}
 				}
 				break;
+
 			case 'UPDATES':
 				// :D
 				break;
@@ -174,6 +196,11 @@ class JUpdaterExtension extends JUpdateAdapter
 		if ($tag == 'PHP_MINIMUM')
 		{
 			$this->currentUpdate->php_minimum = $data;
+		}
+
+		if ($tag == 'TAG')
+		{
+			$this->stabilityTagToInteger((string) $data);
 		}
 	}
 
@@ -247,6 +274,11 @@ class JUpdaterExtension extends JUpdateAdapter
 			return false;
 		}
 
+		if (array_key_exists('minimum_stability', $options))
+		{
+			$this->minimum_stability = $options['minimum_stability'];
+		}
+
 		$this->xmlParser = xml_parser_create('');
 		xml_set_object($this->xmlParser, $this);
 		xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
@@ -303,5 +335,39 @@ class JUpdaterExtension extends JUpdateAdapter
 		}
 
 		return array('update_sites' => array(), 'updates' => $updates);
+	}
+
+	/**
+	 * Converts a tag to numeric stability representation. If the tag doesn't represent a known stability level (one of
+	 * dev, alpha, beta, rc, stable) it is ignored.
+	 *
+	 * @param   string  $tag  The tag string, e.g. dev, alpha, beta, rc, stable
+	 *
+	 * @return  void
+	 */
+	protected function stabilityTagToInteger($tag)
+	{
+		switch (strtoupper($tag))
+		{
+			case 'DEV':
+				$this->currentUpdate->stability = 0;
+				break;
+
+			case 'ALPHA':
+				$this->currentUpdate->stability = 1;
+				break;
+
+			case 'BETA':
+				$this->currentUpdate->stability = 2;
+				break;
+
+			case 'RC':
+				$this->currentUpdate->stability = 3;
+				break;
+
+			case 'STABLE':
+				$this->currentUpdate->stability = 4;
+				break;
+		}
 	}
 }

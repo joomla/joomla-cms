@@ -10,7 +10,8 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Update class.
+ * Update class. It is used by JUpdater::update() to install an update. Use JUpdater::findUpdates() to find updates for
+ * an extension.
  *
  * @since  11.1
  */
@@ -185,6 +186,19 @@ class JUpdate extends JObject
 	protected $latest;
 
 	/**
+	 * The minimum stability required for updates to be taken into account. The possible values are:
+	 * 0	dev			Development snapshots, nightly builds, pre-release versions and so on
+	 * 1	alpha		Alpha versions (work in progress, things are likely to be broken)
+	 * 2	beta		Beta versions (major functionality in place, show-stopper bugs are likely to be present)
+	 * 3	rc			Release Candidate versions (almost stable, minor bugs might be present)
+	 * 4	stable		Stable versions (production quality code)
+	 *
+	 * @var    int
+	 * @since  14.1
+	 */
+	protected $minimum_stability = 4;
+
+	/**
 	 * Gets the reference to the current direct parent
 	 *
 	 * @return  object
@@ -301,7 +315,15 @@ class JUpdate extends JObject
 						$phpMatch = false;
 					}
 
-					if ($phpMatch)
+					// Check minimum stability
+					$stabilityMatch = true;
+
+					if (isset($this->currentUpdate->stability) && ($this->currentUpdate->stability < $this->minimum_stability))
+					{
+						$stabilityMatch = false;
+					}
+
+					if ($phpMatch && $stabilityMatch)
 					{
 						if (isset($this->latest))
 						{
@@ -359,6 +381,13 @@ class JUpdate extends JObject
 		// Throw the data for this item together
 		$tag = strtolower($tag);
 
+		if ($tag == 'tag')
+		{
+			$this->stabilityTagToInteger((string) $data);
+
+			return;
+		}
+
 		if (isset($this->currentUpdate->$tag))
 		{
 			$this->currentUpdate->$tag->_data .= $data;
@@ -368,13 +397,14 @@ class JUpdate extends JObject
 	/**
 	 * Loads an XML file from a URL.
 	 *
-	 * @param   string  $url  The URL.
+	 * @param   string  $url                The URL.
+	 * @param   int     $minimum_stability  The minimum stability required for updating the extension
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
-	public function loadFromXML($url)
+	public function loadFromXML($url, $minimum_stability = 4)
 	{
 		$http = JHttpFactory::getHttp();
 
@@ -394,6 +424,8 @@ class JUpdate extends JObject
 
 			return false;
 		}
+
+		$this->minimum_stability = $minimum_stability;
 
 		$this->xmlParser = xml_parser_create('');
 		xml_set_object($this->xmlParser, $this);
@@ -416,5 +448,39 @@ class JUpdate extends JObject
 		xml_parser_free($this->xmlParser);
 
 		return true;
+	}
+
+	/**
+	 * Converts a tag to numeric stability representation. If the tag doesn't represent a known stability level (one of
+	 * dev, alpha, beta, rc, stable) it is ignored.
+	 *
+	 * @param   string  $tag  The tag string, e.g. dev, alpha, beta, rc, stable
+	 *
+	 * @return  void
+	 */
+	protected function stabilityTagToInteger($tag)
+	{
+		switch (strtoupper($tag))
+		{
+			case 'DEV':
+				$this->currentUpdate->stability = 0;
+				break;
+
+			case 'ALPHA':
+				$this->currentUpdate->stability = 1;
+				break;
+
+			case 'BETA':
+				$this->currentUpdate->stability = 2;
+				break;
+
+			case 'RC':
+				$this->currentUpdate->stability = 3;
+				break;
+
+			case 'STABLE':
+				$this->currentUpdate->stability = 4;
+				break;
+		}
 	}
 }
