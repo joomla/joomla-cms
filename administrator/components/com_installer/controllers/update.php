@@ -28,12 +28,20 @@ class InstallerControllerUpdate extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
+		/** @var InstallerModelUpdate $model */
 		$model = $this->getModel('update');
 		$uid   = $this->input->get('cid', array(), 'array');
 
 		JArrayHelper::toInteger($uid, array());
 
-		if ($model->update($uid))
+		// Get the minimum stability.
+		$component     = JComponentHelper::getComponent('com_installer');
+		$params        = $component->params;
+		$minimum_stability = $params->get('minimum_stability', 3, 'int');
+
+		$model->update($uid, $minimum_stability);
+
+		if ($model->getState('result', false))
 		{
 			$cache = JFactory::getCache('mod_menu');
 			$cache->clean();

@@ -233,13 +233,14 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * Sets the "result" state with the result of the operation.
 	 *
-	 * @param   array  $uids  Array[int] List of updates to apply
+	 * @param   array  $uids               Array[int] List of updates to apply
+	 * @param   int    $minimum_stability  The minimum allowed stability for installed updates
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function update($uids)
+	public function update($uids, $minimum_stability = 3)
 	{
 		$result = true;
 
@@ -248,7 +249,7 @@ class InstallerModelUpdate extends JModelList
 			$update = new JUpdate;
 			$instance = JTable::getInstance('update');
 			$instance->load($uid);
-			$update->loadFromXML($instance->detailsurl);
+			$update->loadFromXML($instance->detailsurl, $minimum_stability);
 			$update->set('extra_query', $instance->extra_query);
 
 			// Install sets state and enqueues messages
