@@ -342,6 +342,8 @@ class JUpdaterExtension extends JUpdateAdapter
 	 * dev, alpha, beta, rc, stable) it is ignored.
 	 *
 	 * @param   string  $tag  The tag string, e.g. dev, alpha, beta, rc, stable
+	 *
+	 * @return  void
 	 */
 	protected function stabilityTagToInteger($tag)
 	{

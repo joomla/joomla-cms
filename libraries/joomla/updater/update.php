@@ -397,7 +397,8 @@ class JUpdate extends JObject
 	/**
 	 * Loads an XML file from a URL.
 	 *
-	 * @param   string  $url  The URL.
+	 * @param   string  $url                The URL.
+	 * @param   int     $minimum_stability  The minimum stability required for updating the extension
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -454,6 +455,8 @@ class JUpdate extends JObject
 	 * dev, alpha, beta, rc, stable) it is ignored.
 	 *
 	 * @param   string  $tag  The tag string, e.g. dev, alpha, beta, rc, stable
+	 *
+	 * @return  void
 	 */
 	protected function stabilityTagToInteger($tag)
 	{
