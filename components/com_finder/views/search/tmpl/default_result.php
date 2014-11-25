@@ -27,12 +27,9 @@ if ($show_description)
 	// Find a potential start point
 	$start = ($pos && $pos > $pad_length) ? $pos - $pad_length : 0;
 
-	// If necessary, try to find a break between words
-	if ($start != 0 && $this->result->description[$start - 1] != ' ' && $this->result->description[$start] != ' ' )
-	{
-		$space = JString::strpos($this->result->description, ' ', $start);
-		$start = ($space && $space < $pos) ? $space : $start;
-	}
+	// Find a space between $start and $pos, start right after it.
+	$space = JString::strpos($this->result->description, ' ', $start > 0 ? $start - 1 : 0);
+	$start = ($space && $space < $pos) ? $space + 1 : $start;
 
 	$description = JHtml::_('string.truncate', JString::substr($this->result->description, $start), $desc_length, true);
 }
