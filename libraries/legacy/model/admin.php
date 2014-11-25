@@ -766,7 +766,7 @@ abstract class JModelAdmin extends JModelForm
 			{
 				if ($this->canDelete($table))
 				{
-					$context = $this->option . '.' . $this->name;
+					$context = $this->getContext();
 
 					// Trigger the before delete event.
 					$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
@@ -984,7 +984,7 @@ abstract class JModelAdmin extends JModelForm
 			return false;
 		}
 
-		$context = $this->option . '.' . $this->name;
+		$context = $this->getContext();
 
 		// Trigger the change state event.
 		$result = $dispatcher->trigger($this->event_change_state, array($context, $pks, $value));

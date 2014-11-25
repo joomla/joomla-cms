@@ -20,6 +20,14 @@ defined('JPATH_PLATFORM') or die;
 abstract class JModelLegacy extends JObject
 {
 	/**
+	 * Context string for the model type.  This is used to handle uniqueness
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $context = null;
+
+	/**
 	 * Indicates if the internal state has been set
 	 *
 	 * @var    boolean
@@ -284,6 +292,12 @@ abstract class JModelLegacy extends JObject
 		{
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
+
+		// Initialize context. Only here for B/C
+		if (empty($this->context))
+		{
+			$this->context = $this->getContext();
+		}
 	}
 
 	/**
@@ -365,6 +379,25 @@ abstract class JModelLegacy extends JObject
 		}
 
 		return JTable::getInstance($name, $prefix, $config);
+	}
+
+
+	/**
+	 * Overridable method to the active context
+	 *
+	 * @return  string
+	 *
+	 * @since   3.4
+	 */
+	public function getContext()
+	{
+		// Guess the context as Option.ModelName.
+		if (null === $this->context)
+		{
+			$this->context = strtolower($this->option . '.' . $this->getName());
+		}
+
+		return $this->context;
 	}
 
 	/**

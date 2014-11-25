@@ -25,15 +25,6 @@ class JModelList extends JModelLegacy
 	protected $cache = array();
 
 	/**
-	 * Context string for the model type.  This is used to handle uniqueness
-	 * when dealing with the getStoreId() method and caching data structures.
-	 *
-	 * @var    string
-	 * @since  12.2
-	 */
-	protected $context = null;
-
-	/**
 	 * Valid filter fields or ordering.
 	 *
 	 * @var    array
@@ -80,12 +71,6 @@ class JModelList extends JModelLegacy
 		if (isset($config['filter_fields']))
 		{
 			$this->filter_fields = $config['filter_fields'];
-		}
-
-		// Guess the context as Option.ModelName.
-		if (empty($this->context))
-		{
-			$this->context = strtolower($this->option . '.' . $this->getName());
 		}
 	}
 
@@ -245,7 +230,7 @@ class JModelList extends JModelLegacy
 		$id .= ':' . $this->getState('list.ordering');
 		$id .= ':' . $this->getState('list.direction');
 
-		return md5($this->context . ':' . $id);
+		return md5($this->getContext() . ':' . $id);
 	}
 
 	/**
@@ -346,7 +331,7 @@ class JModelList extends JModelLegacy
 		if (!empty($this->filterFormName))
 		{
 			// Get the form.
-			$form = $this->loadForm($this->context . '.filter', $this->filterFormName, array('control' => '', 'load_data' => $loadData));
+			$form = $this->loadForm($this->getContext() . '.filter', $this->filterFormName, array('control' => '', 'load_data' => $loadData));
 		}
 
 		return $form;
@@ -428,7 +413,7 @@ class JModelList extends JModelLegacy
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState($this->context, new stdClass);
+		$data = JFactory::getApplication()->getUserState($this->getContext(), new stdClass);
 
 		// Pre-fill the list options
 		if (!property_exists($data, 'list'))
@@ -462,142 +447,133 @@ class JModelList extends JModelLegacy
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// If the context is set, assume that stateful lists are used.
-		if ($this->context)
+		$app = JFactory::getApplication();
+
+		// Receive & set filters
+		if ($filters = $app->getUserStateFromRequest($this->getContext() . '.filter', 'filter', array(), 'array'))
 		{
-			$app = JFactory::getApplication();
-
-			// Receive & set filters
-			if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array'))
+			foreach ($filters as $name => $value)
 			{
-				foreach ($filters as $name => $value)
-				{
-					$this->setState('filter.' . $name, $value);
-				}
+				$this->setState('filter.' . $name, $value);
 			}
+		}
 
-			$limit = 0;
+		$limit = 0;
 
-			// Receive & set list options
-			if ($list = $app->getUserStateFromRequest($this->context . '.list', 'list', array(), 'array'))
+		// Receive & set list options
+		if ($list = $app->getUserStateFromRequest($this->getContext() . '.list', 'list', array(), 'array'))
+		{
+			foreach ($list as $name => $value)
 			{
-				foreach ($list as $name => $value)
+				// Extra validations
+				switch ($name)
 				{
-					// Extra validations
-					switch ($name)
-					{
-						case 'fullordering':
-							$orderingParts = explode(' ', $value);
+					case 'fullordering':
+						$orderingParts = explode(' ', $value);
 
-							if (count($orderingParts) >= 2)
+						if (count($orderingParts) >= 2)
+						{
+							// Latest part will be considered the direction
+							$fullDirection = end($orderingParts);
+
+							if (in_array(strtoupper($fullDirection), array('ASC', 'DESC', '')))
 							{
-								// Latest part will be considered the direction
-								$fullDirection = end($orderingParts);
-
-								if (in_array(strtoupper($fullDirection), array('ASC', 'DESC', '')))
-								{
-									$this->setState('list.direction', $fullDirection);
-								}
-
-								unset($orderingParts[count($orderingParts) - 1]);
-
-								// The rest will be the ordering
-								$fullOrdering = implode(' ', $orderingParts);
-
-								if (in_array($fullOrdering, $this->filter_fields))
-								{
-									$this->setState('list.ordering', $fullOrdering);
-								}
+								$this->setState('list.direction', $fullDirection);
 							}
-							else
+
+							unset($orderingParts[count($orderingParts) - 1]);
+
+							// The rest will be the ordering
+							$fullOrdering = implode(' ', $orderingParts);
+
+							if (in_array($fullOrdering, $this->filter_fields))
 							{
-								$this->setState('list.ordering', $ordering);
-								$this->setState('list.direction', $direction);
+								$this->setState('list.ordering', $fullOrdering);
 							}
-							break;
+						}
+						else
+						{
+							$this->setState('list.ordering', $ordering);
+							$this->setState('list.direction', $direction);
+						}
+						break;
 
-						case 'ordering':
-							if (!in_array($value, $this->filter_fields))
-							{
-								$value = $ordering;
-							}
-							break;
+					case 'ordering':
+						if (!in_array($value, $this->filter_fields))
+						{
+							$value = $ordering;
+						}
+						break;
 
-						case 'direction':
-							if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
-							{
-								$value = $direction;
-							}
-							break;
+					case 'direction':
+						if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
+						{
+							$value = $direction;
+						}
+						break;
 
-						case 'limit':
-							$limit = $value;
-							break;
+					case 'limit':
+						$limit = $value;
+						break;
 
-						// Just to keep the default case
-						default:
-							$value = $value;
-							break;
-					}
-
-					$this->setState('list.' . $name, $value);
-				}
-			}
-			else
-			// Keep B/C for components previous to jform forms for filters
-			{
-				// Pre-fill the limits
-				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
-				$this->setState('list.limit', $limit);
-
-				// Check if the ordering field is in the white list, otherwise use the incoming value.
-				$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
-
-				if (!in_array($value, $this->filter_fields))
-				{
-					$value = $ordering;
-					$app->setUserState($this->context . '.ordercol', $value);
+					// Just to keep the default case
+					default:
+						$value = $value;
+						break;
 				}
 
-				$this->setState('list.ordering', $value);
-
-				// Check if the ordering direction is valid, otherwise use the incoming value.
-				$value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
-
-				if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
-				{
-					$value = $direction;
-					$app->setUserState($this->context . '.orderdirn', $value);
-				}
-
-				$this->setState('list.direction', $value);
+				$this->setState('list.' . $name, $value);
 			}
-
-			// Support old ordering field
-			$oldOrdering = $app->input->get('filter_order');
-
-			if (!empty($oldOrdering) && in_array($oldOrdering, $this->filter_fields))
-			{
-				$this->setState('list.ordering', $oldOrdering);
-			}
-
-			// Support old direction field
-			$oldDirection = $app->input->get('filter_order_Dir');
-
-			if (!empty($oldDirection) && in_array(strtoupper($oldDirection), array('ASC', 'DESC', '')))
-			{
-				$this->setState('list.direction', $oldDirection);
-			}
-
-			$value = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', 0);
-			$limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
-			$this->setState('list.start', $limitstart);
 		}
 		else
+		// Keep B/C for components previous to jform forms for filters
 		{
-			$this->setState('list.start', 0);
-			$this->setState('list.limit', 0);
+			// Pre-fill the limits
+			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
+			$this->setState('list.limit', $limit);
+
+			// Check if the ordering field is in the white list, otherwise use the incoming value.
+			$value = $app->getUserStateFromRequest($this->getContext() . '.ordercol', 'filter_order', $ordering);
+
+			if (!in_array($value, $this->filter_fields))
+			{
+				$value = $ordering;
+				$app->setUserState($this->getContext() . '.ordercol', $value);
+			}
+
+			$this->setState('list.ordering', $value);
+
+			// Check if the ordering direction is valid, otherwise use the incoming value.
+			$value = $app->getUserStateFromRequest($this->getContext() . '.orderdirn', 'filter_order_Dir', $direction);
+
+			if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
+			{
+				$value = $direction;
+				$app->setUserState($this->getContext() . '.orderdirn', $value);
+			}
+
+			$this->setState('list.direction', $value);
 		}
+
+		// Support old ordering field
+		$oldOrdering = $app->input->get('filter_order');
+
+		if (!empty($oldOrdering) && in_array($oldOrdering, $this->filter_fields))
+		{
+			$this->setState('list.ordering', $oldOrdering);
+		}
+
+		// Support old direction field
+		$oldDirection = $app->input->get('filter_order_Dir');
+
+		if (!empty($oldDirection) && in_array(strtoupper($oldDirection), array('ASC', 'DESC', '')))
+		{
+			$this->setState('list.direction', $oldDirection);
+		}
+
+		$value = $app->getUserStateFromRequest($this->getContext() . '.limitstart', 'limitstart', 0);
+		$limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
+		$this->setState('list.start', $limitstart);
 	}
 
 	/**
@@ -697,6 +673,7 @@ class JModelList extends JModelLegacy
 				unset($searchArr[$key]);
 				continue;
 			}
+
 			$searchArr[$key] = str_replace(' ', '.*', preg_quote(trim($searchString), $regexDelimiter));
 		}
 
