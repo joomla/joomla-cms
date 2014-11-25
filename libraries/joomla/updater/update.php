@@ -196,7 +196,7 @@ class JUpdate extends JObject
 	 * @var    int
 	 * @since  14.1
 	 */
-	protected $minimum_stability = 3;
+	protected $minimum_stability = 4;
 
 	/**
 	 * Gets the reference to the current direct parent
@@ -403,7 +403,7 @@ class JUpdate extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function loadFromXML($url, $minimum_stability = 3)
+	public function loadFromXML($url, $minimum_stability = 4)
 	{
 		$http = JHttpFactory::getHttp();
 

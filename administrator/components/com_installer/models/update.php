@@ -149,7 +149,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = 3)
+	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = 4)
 	{
 		// Purge the updates list
 		$this->purge();
@@ -240,7 +240,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	public function update($uids, $minimum_stability = 3)
+	public function update($uids, $minimum_stability = 4)
 	{
 		$result = true;
 

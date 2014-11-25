@@ -29,7 +29,7 @@
                 type="list"
                 label="COM_INSTALLER_MINIMUM_STABILITY_LABEL"
                 description="COM_INSTALLER_MINIMUM_STABILITY_DESC"
-                default="3">
+                default="4">
             <option value="0">COM_INSTALLER_MINIMUM_STABILITY_DEV</option>
             <option value="1">COM_INSTALLER_MINIMUM_STABILITY_ALPHA</option>
             <option value="2">COM_INSTALLER_MINIMUM_STABILITY_BETA</option>

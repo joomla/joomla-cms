@@ -37,7 +37,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 		// Get the minimum stability.
 		$component     = JComponentHelper::getComponent('com_installer');
 		$params        = $component->params;
-		$minimum_stability = $params->get('minimum_stability', 3, 'int');
+		$minimum_stability = $params->get('minimum_stability', 4, 'int');
 
 		$model->update($uid, $minimum_stability);
 
@@ -84,7 +84,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 		$cache_timeout = 3600 * $cache_timeout;
 
 		// Get the minimum stability.
-		$minimum_stability = $params->get('minimum_stability', 3, 'int');
+		$minimum_stability = $params->get('minimum_stability', 4, 'int');
 
 		// Find updates.
 		/** @var InstallerModelUpdate $model */
@@ -145,7 +145,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		if ($minimum_stability < 0)
 		{
-			$minimum_stability = $params->get('minimum_stability', 3, 'int');
+			$minimum_stability = $params->get('minimum_stability', 4, 'int');
 		}
 
 		/** @var InstallerModelUpdate $model */

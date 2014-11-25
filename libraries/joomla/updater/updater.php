@@ -68,7 +68,7 @@ class JUpdater extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimum_stability = 3)
+	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimum_stability = 4)
 	{
 		$db     = $this->getDBO();
 		$query  = $db->getQuery(true);
