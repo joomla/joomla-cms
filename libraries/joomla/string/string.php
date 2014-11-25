@@ -22,7 +22,7 @@ if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN
 }
 
 // Same for iconv
-if (function_exists('iconv'))
+if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('iconv.so'))))
 {
 	// These are settings that can be set inside code
 	if (version_compare(PHP_VERSION, '5.6', '>='))
