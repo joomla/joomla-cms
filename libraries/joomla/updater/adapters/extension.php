@@ -70,11 +70,6 @@ class JUpdaterExtension extends JUpdateAdapter
 				{
 					$this->currentUpdate->php_minimum = '';
 				}
-
-				if ($name == 'STABILITY')
-				{
-					$this->currentUpdate->stability = '';
-				}
 				break;
 		}
 	}
@@ -130,7 +125,7 @@ class JUpdaterExtension extends JUpdateAdapter
 						$phpMatch = false;
 					}
 
-					// TODO Check minimum stability
+					// Check minimum stability
 					$stabilityMatch = true;
 
 					if (isset($this->currentUpdate->stability) && ($this->currentUpdate->stability < $this->minimum_stability))
@@ -203,33 +198,9 @@ class JUpdaterExtension extends JUpdateAdapter
 			$this->currentUpdate->php_minimum = $data;
 		}
 
-		if ($tag == 'STABILITY')
+		if ($tag == 'TAG')
 		{
-			$data = strtoupper($data);
-
-			switch ($data)
-			{
-				case 'DEV':
-					$this->currentUpdate->stability = 0;
-					break;
-
-				case 'ALPHA':
-					$this->currentUpdate->stability = 1;
-					break;
-
-				case 'BETA':
-					$this->currentUpdate->stability = 2;
-					break;
-
-				case 'RC':
-					$this->currentUpdate->stability = 3;
-					break;
-
-				// STABLE or any other unspecified stability tag
-				default:
-					$this->currentUpdate->stability = 4;
-					break;
-			}
+			$this->stabilityTagToInteger((string) $data);
 		}
 	}
 
@@ -364,5 +335,37 @@ class JUpdaterExtension extends JUpdateAdapter
 		}
 
 		return array('update_sites' => array(), 'updates' => $updates);
+	}
+
+	/**
+	 * Converts a tag to numeric stability representation. If the tag doesn't represent a known stability level (one of
+	 * dev, alpha, beta, rc, stable) it is ignored.
+	 *
+	 * @param   string  $tag  The tag string, e.g. dev, alpha, beta, rc, stable
+	 */
+	protected function stabilityTagToInteger($tag)
+	{
+		switch (strtoupper($tag))
+		{
+			case 'DEV':
+				$this->currentUpdate->stability = 0;
+				break;
+
+			case 'ALPHA':
+				$this->currentUpdate->stability = 1;
+				break;
+
+			case 'BETA':
+				$this->currentUpdate->stability = 2;
+				break;
+
+			case 'RC':
+				$this->currentUpdate->stability = 3;
+				break;
+
+			case 'STABLE':
+				$this->currentUpdate->stability = 4;
+				break;
+		}
 	}
 }
