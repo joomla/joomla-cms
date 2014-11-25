@@ -32,13 +32,13 @@ class JRouterInstallation extends JRouter
 	/**
 	 * Function to convert an internal URI to a route
 	 *
-	 * @param   string  &$url  The internal URL
+	 * @param   string  $url  The internal URL
 	 *
 	 * @return  string  The absolute search engine friendly URL
 	 *
 	 * @since   1.5
 	 */
-	public function build(&$url)
+	public function build($url)
 	{
 		$url = str_replace('&amp;', '&', $url);
 
