@@ -95,46 +95,58 @@ a.grid_true {
 }
 
 /* For collapsible sidebar */
-@media (min-width: 768px) {
-	#j-sidebar-container {
-		left: auto;
-		right: -16.5%;
-		border-right: 0;
-		border-left: 1px solid #d3d3d3;
-	}
-	#j-sidebar-container.j-sidebar-hidden {
-		left: auto;
-		right: -16.5%;
-	}
-	#j-sidebar-container.j-sidebar-visible {
-		left: auto;
-		right: 0;
-	}
-	#j-toggle-sidebar-header {
-		padding: 10px 18px 10px 0;
-	}
-	#j-toggle-button-wrapper.j-toggle-hidden {
-		right: auto;
-		left: -20px;
-	}
-	#j-toggle-button-wrapper.j-toggle-visible {
-		right: auto;
-		left: 10px;
-	}
-	#system-message-container,
-	#j-main-container {
-		padding: 0 5px 0 0;
-	}
-	#system-message-container.j-toggle-main,
-	#j-main-container.j-toggle-main,
-	#system-debug.j-toggle-main {
-		float: left;
-	}
+#j-sidebar-container {
+	left: auto;
+	right: -16.5%;
+	border-right: 0;
+	border-left: 1px solid #d3d3d3;
+}
+#j-sidebar-container.j-sidebar-hidden {
+	left: auto;
+	right: -16.5%;
+}
+#j-sidebar-container.j-sidebar-visible {
+	left: auto;
+	right: 0;
+}
+#j-toggle-sidebar-header {
+	padding: 10px 18px 10px 0;
+}
+#j-toggle-button-wrapper.j-toggle-hidden {
+	right: auto;
+	left: -20px;
+}
+#j-toggle-button-wrapper.j-toggle-visible {
+	right: auto;
+	left: 10px;
+}
+#system-message-container,
+#j-main-container {
+	padding: 0 5px 0 0;
+}
+#system-message-container.j-toggle-main,
+#j-main-container.j-toggle-main,
+#system-debug.j-toggle-main {
+	float: left;
 }
 @media (max-width: 979px) {
 	#j-toggle-button-wrapper.j-toggle-hidden {
 		right: auto;
 		left: -16px;
+	}
+}
+@media (max-width: 767px) {
+	#j-sidebar-container {
+		border-left: 0;
+		border-right: 0;
+	}
+	#j-sidebar-container.j-sidebar-hidden {
+		margin-left: auto;
+		margin-right: 16.5%;
+	}
+	#j-sidebar-container.j-sidebar-visible {
+		margin-left: auto;
+		margin-right: 0;
 	}
 }
 
