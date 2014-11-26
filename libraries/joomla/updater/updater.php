@@ -23,6 +23,46 @@ jimport('joomla.utilities.arrayhelper');
 class JUpdater extends JAdapter
 {
 	/**
+	 * Development snapshots, nightly builds, pre-release versions and so on
+	 *
+	 * @const  integer
+	 * @since  3.4
+	 */
+	const STABILITY_DEV = 0;
+
+	/**
+	 * Alpha versions (work in progress, things are likely to be broken)
+	 *
+	 * @const  integer
+	 * @since  3.4
+	 */
+	const STABILITY_ALPHA = 1;
+
+	/**
+	 * Beta versions (major functionality in place, show-stopper bugs are likely to be present)
+	 *
+	 * @const  integer
+	 * @since  3.4
+	 */
+	const STABILITY_BETA = 2;
+
+	/**
+	 * Release Candidate versions (almost stable, minor bugs might be present)
+	 *
+	 * @const  integer
+	 * @since  3.4
+	 */
+	const STABILITY_RC = 3;
+
+	/**
+	 * Stable versions (production quality code)
+	 *
+	 * @const  integer
+	 * @since  3.4
+	 */
+	const STABILITY_STABLE = 4;
+
+	/**
 	 * @var    JUpdater  JUpdater instance container.
 	 * @since  11.3
 	 */
@@ -68,7 +108,7 @@ class JUpdater extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimum_stability = 4)
+	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimum_stability = self::STABILITY_STABLE)
 	{
 		$db     = $this->getDBO();
 		$query  = $db->getQuery(true);

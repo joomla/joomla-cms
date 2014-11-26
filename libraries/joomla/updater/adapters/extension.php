@@ -200,7 +200,7 @@ class JUpdaterExtension extends JUpdateAdapter
 
 		if ($tag == 'TAG')
 		{
-			$this->stabilityTagToInteger((string) $data);
+			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
 		}
 	}
 
@@ -343,31 +343,19 @@ class JUpdaterExtension extends JUpdateAdapter
 	 *
 	 * @param   string  $tag  The tag string, e.g. dev, alpha, beta, rc, stable
 	 *
-	 * @return  void
+	 * @return  integer
+	 *
+	 * @since   3.4
 	 */
 	protected function stabilityTagToInteger($tag)
 	{
-		switch (strtoupper($tag))
+		$constant = 'JUpdater::STABILITY_' . strtoupper($tag);
+
+		if (defined($constant))
 		{
-			case 'DEV':
-				$this->currentUpdate->stability = 0;
-				break;
-
-			case 'ALPHA':
-				$this->currentUpdate->stability = 1;
-				break;
-
-			case 'BETA':
-				$this->currentUpdate->stability = 2;
-				break;
-
-			case 'RC':
-				$this->currentUpdate->stability = 3;
-				break;
-
-			case 'STABLE':
-				$this->currentUpdate->stability = 4;
-				break;
+			return constant($constant);
 		}
+
+		return JUpdater::STABILITY_STABLE;
 	}
 }

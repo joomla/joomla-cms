@@ -37,7 +37,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 		// Get the minimum stability.
 		$component     = JComponentHelper::getComponent('com_installer');
 		$params        = $component->params;
-		$minimum_stability = $params->get('minimum_stability', 4, 'int');
+		$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
 
 		$model->update($uid, $minimum_stability);
 
@@ -84,7 +84,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 		$cache_timeout = 3600 * $cache_timeout;
 
 		// Get the minimum stability.
-		$minimum_stability = $params->get('minimum_stability', 4, 'int');
+		$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
 
 		// Find updates.
 		/** @var InstallerModelUpdate $model */
@@ -108,9 +108,11 @@ class InstallerControllerUpdate extends JControllerLegacy
 		$model = $this->getModel('update');
 		$model->purge();
 
-		// We no longer need to enable update sites in Joomla! 3.4 as we now allow the users to manage update sites
-		// themselves.
-		// $model->enableSites();
+		/**
+		 * We no longer need to enable update sites in Joomla! 3.4 as we now allow the users to manage update sites
+		 * themselves.
+		 * $model->enableSites();
+		 */
 
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=update', false), $model->_message);
 	}
@@ -145,7 +147,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		if ($minimum_stability < 0)
 		{
-			$minimum_stability = $params->get('minimum_stability', 4, 'int');
+			$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
 		}
 
 		/** @var InstallerModelUpdate $model */
