@@ -398,9 +398,6 @@ class JMicrodataParser
 	 */
 	public function parse($html)
 	{
-		// Disable frontend error reporting
-		libxml_use_internal_errors(true);
-
 		// Create a new DOMDocument
 		$doc = new DOMDocument;
 		$doc->loadHTML($html);
