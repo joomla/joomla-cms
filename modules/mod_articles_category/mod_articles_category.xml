@@ -198,11 +198,6 @@
 					hr="true" />
 
 				<field
-					name="filteringspacer6"
-					type="spacer"
-					hr="true" />
-
-				<field
 					name="date_filtering"
 					type="list"
 					default="off"
