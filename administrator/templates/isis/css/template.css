@@ -7976,79 +7976,77 @@ a.grid_true {
 	width: 16px;
 	background-image: url('../images/admin/icon-16-allow.png');
 }
-@media (min-width: 768px) {
-	#j-sidebar-container {
-		position: absolute;
-		display: block;
-		left: -16.5%;
-		width: 16.5%;
-		margin: -10px 0 0 0;
-		padding-top: 10px;
-		background: #fff;
-		background: -moz-linear-gradient(top,#ffffff 0%,#ededed 100%);
-		background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#ededed));
-		background: -webkit-linear-gradient(top,#ffffff 0%,#ededed 100%);
-		background: -o-linear-gradient(top,#ffffff 0%,#ededed 100%);
-		background: -ms-linear-gradient(top,#ffffff 0%,#ededed 100%);
-		background: linear-gradient(top,#ffffff 0%,#ededed 100%);
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ededed',GradientType=0);
-		border-right: 1px solid #d3d3d3;
-		border-bottom: 1px solid #d3d3d3;
-	}
-	#j-sidebar-container.j-sidebar-hidden {
-		left: -16.5%;
-	}
-	#j-sidebar-container.j-sidebar-visible {
-		left: 0;
-	}
-	#j-toggle-sidebar-header {
-		color: #999;
-		margin: -11px 0 7px 0;
-		padding: 10px 0 10px 18px;
-		border-top: 1px solid #d3d3d3;
-		border-bottom: 1px solid #eee;
-	}
-	#sidebar {
-		padding: 3px;
-	}
-	#j-sidebar-container .filter-select {
-		padding: 0 13px;
-	}
-	#j-toggle-button-wrapper {
-		position: absolute;
-		display: block;
-		margin-top: 11px;
-		padding: 0;
-	}
-	#j-toggle-button-wrapper.j-toggle-hidden {
-		right: -20px;
-	}
-	#j-toggle-button-wrapper.j-toggle-visible {
-		right: 10px;
-	}
-	#j-toggle-sidebar-button {
-		font-size: 14px;
-		color: #08c;
-		text-decoration: none;
-		cursor: pointer;
-	}
-	#j-toggle-sidebar-button:hover {
-		color: #005580;
-	}
-	#system-message-container,
-	#j-main-container {
-		padding: 0 0 0 5px;
-		min-height: 0;
-	}
-	#system-message-container.j-toggle-main,
-	#j-main-container.j-toggle-main,
-	#system-debug.j-toggle-main {
-		float: right;
-		-webkit-transition: all 0.5s ease;
-		-moz-transition: all 0.5s ease;
-		-o-transition: all 0.5s ease;
-		transition: all 0.5s ease;
-	}
+#j-sidebar-container {
+	position: absolute;
+	display: block;
+	left: -16.5%;
+	width: 16.5%;
+	margin: -10px 0 0 0;
+	padding-top: 10px;
+	background: #fff;
+	background: -moz-linear-gradient(top,#ffffff 0%,#ededed 100%);
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#ededed));
+	background: -webkit-linear-gradient(top,#ffffff 0%,#ededed 100%);
+	background: -o-linear-gradient(top,#ffffff 0%,#ededed 100%);
+	background: -ms-linear-gradient(top,#ffffff 0%,#ededed 100%);
+	background: linear-gradient(top,#ffffff 0%,#ededed 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ededed',GradientType=0);
+	border-right: 1px solid #d3d3d3;
+	border-bottom: 1px solid #d3d3d3;
+}
+#j-sidebar-container.j-sidebar-hidden {
+	left: -16.5%;
+}
+#j-sidebar-container.j-sidebar-visible {
+	left: 0;
+}
+#j-toggle-sidebar-header {
+	color: #999;
+	margin: -11px 0 7px 0;
+	padding: 10px 0 10px 18px;
+	border-top: 1px solid #d3d3d3;
+	border-bottom: 1px solid #eee;
+}
+#sidebar {
+	padding: 3px;
+}
+#j-sidebar-container .filter-select {
+	padding: 0 13px;
+}
+#j-toggle-button-wrapper {
+	position: absolute;
+	display: block;
+	margin-top: 11px;
+	padding: 0;
+}
+#j-toggle-button-wrapper.j-toggle-hidden {
+	right: -20px;
+}
+#j-toggle-button-wrapper.j-toggle-visible {
+	right: 10px;
+}
+#j-toggle-sidebar-button {
+	font-size: 14px;
+	color: #08c;
+	text-decoration: none;
+	cursor: pointer;
+}
+#j-toggle-sidebar-button:hover {
+	color: #005580;
+}
+#system-message-container,
+#j-main-container {
+	padding: 0 0 0 5px;
+	min-height: 0;
+}
+#system-message-container.j-toggle-main,
+#j-main-container.j-toggle-main,
+#system-debug.j-toggle-main {
+	float: right;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
 }
 @media (max-width: 979px) {
 	#j-toggle-button-wrapper.j-toggle-hidden {
@@ -8056,6 +8054,21 @@ a.grid_true {
 	}
 }
 @media (max-width: 767px) {
+	#j-sidebar-container {
+		position: relative;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		background: transparent;
+		border-right: 0;
+		border-bottom: 0;
+	}
+	#j-sidebar-container.j-sidebar-hidden {
+		margin-left: 16.5%;
+	}
+	#j-sidebar-container.j-sidebar-visible {
+		margin-left: 0;
+	}
 	#j-toggle-sidebar-header,
 	#j-toggle-button-wrapper {
 		display: none;
