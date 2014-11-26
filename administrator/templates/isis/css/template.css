@@ -8043,10 +8043,16 @@ a.grid_true {
 #j-main-container.j-toggle-main,
 #system-debug.j-toggle-main {
 	float: right;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease;
+}
+@media (min-width: 768px) {
+	#system-message-container.j-toggle-main,
+	#j-main-container.j-toggle-main,
+	#system-debug.j-toggle-main {
+		-webkit-transition: all 0.5s ease;
+		-moz-transition: all 0.5s ease;
+		-o-transition: all 0.5s ease;
+		transition: all 0.5s ease;
+	}
 }
 @media (max-width: 979px) {
 	#j-toggle-button-wrapper.j-toggle-hidden {
@@ -8057,7 +8063,7 @@ a.grid_true {
 	#j-sidebar-container {
 		position: relative;
 		width: 100%;
-		margin: 0;
+		margin: 0 0 20px 0;
 		padding: 0;
 		background: transparent;
 		border-right: 0;
@@ -8072,5 +8078,10 @@ a.grid_true {
 	#j-toggle-sidebar-header,
 	#j-toggle-button-wrapper {
 		display: none;
+	}
+}
+@media (max-width: 420px) {
+	#j-sidebar-container {
+		margin: 0;
 	}
 }
