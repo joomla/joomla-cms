@@ -112,6 +112,12 @@ class JHttpTransportCurl implements JHttpTransport
 			// Add the headers string into the stream context options array.
 			$options[CURLOPT_HTTPHEADER] = $headerArray;
 		}
+		
+		// Curl needs the accepted encoding header as option
+		if (isset($headers['Accept-Encoding']))
+		{
+			$options[CURLOPT_ENCODING] = $headers['Accept-Encoding'];
+		}
 
 		// If an explicit timeout is given user it.
 		if (isset($timeout))
