@@ -25,9 +25,16 @@ if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN
 if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('iconv.so'))))
 {
 	// These are settings that can be set inside code
-	iconv_set_encoding("internal_encoding", "UTF-8");
-	iconv_set_encoding("input_encoding", "UTF-8");
-	iconv_set_encoding("output_encoding", "UTF-8");
+	if (version_compare(PHP_VERSION, '5.6', '>='))
+	{
+		@ini_set('default_charset', 'UTF-8');
+	}
+	else
+	{
+		iconv_set_encoding("internal_encoding", "UTF-8");
+		iconv_set_encoding("input_encoding", "UTF-8");
+		iconv_set_encoding("output_encoding", "UTF-8");
+	}
 }
 
 /**
