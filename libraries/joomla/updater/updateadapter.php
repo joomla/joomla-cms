@@ -61,7 +61,7 @@ abstract class JUpdateAdapter extends JAdapterInstance
 	 * @var    int
 	 * @since  14.1
 	 */
-	protected $minimum_stability = 4;
+	protected $minimum_stability = JUpdater::STABILITY_STABLE;
 
 	/**
 	 * Gets the reference to the current direct parent

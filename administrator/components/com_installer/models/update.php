@@ -143,13 +143,13 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @param   int  $eid                Extension identifier to look for
 	 * @param   int  $cache_timeout      Cache timout
-	 * @param   int  $minimum_stability  Minimum stability for updates (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
+	 * @param   int  $minimum_stability  Minimum stability for updates {@see JUpdater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
 	 *
 	 * @return  boolean Result
 	 *
 	 * @since   1.6
 	 */
-	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = 4)
+	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = JUpdater::STABILITY_STABLE)
 	{
 		// Purge the updates list
 		$this->purge();
@@ -234,13 +234,13 @@ class InstallerModelUpdate extends JModelList
 	 * Sets the "result" state with the result of the operation.
 	 *
 	 * @param   array  $uids               Array[int] List of updates to apply
-	 * @param   int    $minimum_stability  The minimum allowed stability for installed updates
+	 * @param   int    $minimum_stability  The minimum allowed stability for installed updates {@see JUpdater}
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function update($uids, $minimum_stability = 4)
+	public function update($uids, $minimum_stability = JUpdater::STABILITY_STABLE)
 	{
 		$result = true;
 
