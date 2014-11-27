@@ -510,7 +510,15 @@ abstract class JLoader
 
 		if (isset(self::$classAliases[$class]))
 		{
-			class_alias(self::$classAliases[$class], $class);
+			// Force auto-load of the regular class
+			class_exists(self::$classAliases[$class], true);
+
+			// Normally this shouldn't execute as the autoloader will execute applyAliasFor when the regular class is
+			// auto-loaded above.
+			if (!class_exists($class, false) && !interface_exists($class, false))
+			{
+				class_alias(self::$classAliases[$class], $class);
+			}
 		}
 	}
 
