@@ -147,7 +147,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		if ($minimum_stability < 0)
 		{
-			$minimum_stability = $params->get('minimum_stability', 4, 'int');
+			$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
 		}
 
 		/** @var InstallerModelUpdate $model */

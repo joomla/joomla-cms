@@ -195,6 +195,8 @@ class JUpdate extends JObject
 	 *
 	 * @var    int
 	 * @since  14.1
+	 *
+	 * @see    JUpdater
 	 */
 	protected $minimum_stability = JUpdater::STABILITY_STABLE;
 
@@ -398,13 +400,13 @@ class JUpdate extends JObject
 	 * Loads an XML file from a URL.
 	 *
 	 * @param   string  $url                The URL.
-	 * @param   int     $minimum_stability  The minimum stability required for updating the extension
+	 * @param   int     $minimum_stability  The minimum stability required for updating the extension {@see JUpdater}
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
-	public function loadFromXML($url, $minimum_stability = 4)
+	public function loadFromXML($url, $minimum_stability = JUpdater::STABILITY_STABLE)
 	{
 		$http = JHttpFactory::getHttp();
 

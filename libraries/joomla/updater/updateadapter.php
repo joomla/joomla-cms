@@ -60,6 +60,8 @@ abstract class JUpdateAdapter extends JAdapterInstance
 	 *
 	 * @var    int
 	 * @since  14.1
+	 *
+	 * @see    JUpdater
 	 */
 	protected $minimum_stability = JUpdater::STABILITY_STABLE;
 
