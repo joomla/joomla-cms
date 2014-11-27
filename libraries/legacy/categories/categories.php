@@ -370,7 +370,7 @@ class JCategories
  *
  * @since  11.1
  */
-class JCategoryNode extends JObject
+class JCategoryNode extends JObject implements JNodeInterface
 {
 	/**
 	 * Primary key
