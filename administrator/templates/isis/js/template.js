@@ -98,6 +98,10 @@
 			else
 			{
 				$sidebar_animate = true;
+
+				$('#system-message-container').addClass('j-toggle-transition');
+				$('#j-main-container').addClass('j-toggle-transition');
+				$('#system-debug').addClass('j-toggle-transition');
 			}
 
 			if (jQuery(document.querySelector("html")).attr('dir') == 'rtl')
@@ -126,7 +130,6 @@
 				}
 			}
 
-			// Update to main content styling, for a smoother transition effect
 			$('#system-message-container').addClass('j-toggle-main');
 			$('#j-main-container').addClass('j-toggle-main');
 			$('#system-debug').addClass('j-toggle-main');
