@@ -10,14 +10,18 @@
 defined('JPATH_BASE') or die;
 
 JHtmlBehavior::core();
-?>
 
-<script type="text/javascript">
-	jQuery(function()
-	{
-		Joomla.toggleSidebar(true);
-	});
-</script>
+JFactory::getDocument()->addScriptDeclaration('
+    jQuery(document).ready(function($){
+        if (typeof(Joomla.toggleSidebar) !== "undefined"){
+            Joomla.toggleSidebar(true);
+        } else {
+            $("#j-toggle-sidebar-header").css("display", "none");
+            $("#j-toggle-button-wrapper").css("display", "none");
+        }
+    });
+');
+?>
 
 <div id="j-toggle-sidebar-wrapper">
 	<div id="j-toggle-button-wrapper">
