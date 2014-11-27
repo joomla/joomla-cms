@@ -102,6 +102,7 @@
 				$('#system-message-container').addClass('j-toggle-transition');
 				$('#j-main-container').addClass('j-toggle-transition');
 				$('#system-debug').addClass('j-toggle-transition');
+				$('#j-toggle-sidebar-icon').hide().delay( 300 ).fadeIn( 300 );
 			}
 
 			if (jQuery(document.querySelector("html")).attr('dir') == 'rtl')
@@ -144,7 +145,6 @@
 				$('#j-main-container').removeClass('span10').addClass('span12 expanded');
 				$('#j-toggle-sidebar-icon').removeClass(open_icon).addClass(closed_icon);
 				$('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JTOGGLE_SHOW_SIDEBAR'));
-				$('#j-toggle-sidebar-icon').hide().delay( 300 ).fadeIn( 300 );
 				$('#system-debug').css('width', this_content+'%');
 
 				if (typeof(Storage) !== "undefined")
@@ -163,7 +163,6 @@
 				$('#j-main-container').removeClass('span12 expanded').addClass('span10');
 				$('#j-toggle-sidebar-icon').removeClass(closed_icon).addClass(open_icon);
 				$('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JTOGGLE_HIDE_SIDEBAR'));
-				$('#j-toggle-sidebar-icon').hide().delay( 300 ).fadeIn( 300 );
 
 				if (body_width > 768 && main_height < sidebar_height)
 				{
