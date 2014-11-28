@@ -202,25 +202,25 @@ class JTableContent extends JTable
 			// Images can be an empty json string
 			if (!isset($this->images))
 			{
-				$this->images = {};
+				$this->images = '{}';
 			}
 
 			// URLs can be an empty json string
 			if (!isset($this->urls))
 			{
-				$this->urls = {};
+				$this->urls = '{}';
 			}
 
 			// Attributes (article params) can be an empty json string
 			if (!isset($this->attribs))
 			{
-				$this->attribs = {};
+				$this->attribs = '{}';
 			}
 
 			// Metadata can be an empty json string
 			if (!isset($this->metadata))
 			{
-				$this->metadata = {};
+				$this->metadata = '{}';
 			}
 		}
 
