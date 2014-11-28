@@ -663,8 +663,13 @@ class JInstallerAdapterModule extends JAdapterInstance
 		// Modules are like templates, and are one of the easiest
 		// If its not in the extensions table we just add it
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
-		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$manifestPath = $client->path . '/modules/' . $this->parent->extension->element;
+
+		$this->parent->setPath('source', $manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+
+		$this->parent->manifest = $this->parent->getManifest();
+
 		$description = (string) $this->parent->manifest->description;
 
 		if ($description)
@@ -676,7 +681,6 @@ class JInstallerAdapterModule extends JAdapterInstance
 			$this->parent->set('message', '');
 		}
 
-		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 
 		// TODO: Re-evaluate this; should we run installation triggers? postflight perhaps?
@@ -708,9 +712,13 @@ class JInstallerAdapterModule extends JAdapterInstance
 	public function refreshManifestCache()
 	{
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
-		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$manifestPath = $client->path . '/modules/' . $this->parent->extension->element;
+
+		$this->parent->setPath('source', $manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
+
+		$this->parent->manifest = $this->parent->getManifest();
+
 		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];

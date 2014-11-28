@@ -851,7 +851,10 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 			$manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '.xml';
 		}
 
-		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$this->parent->setPath('source', $manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+
+		$this->parent->manifest = $this->parent->getManifest();
 		$description = (string) $this->parent->manifest->description;
 
 		if ($description)
@@ -863,7 +866,6 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 			$this->parent->set('message', '');
 		}
 
-		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JInstaller::parseXMLInstallFile($manifestPath);
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->state = 0;
@@ -898,10 +900,21 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		 * If it's not in the extensions table we just add it
 		 */
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '/'
-			. $this->parent->extension->element . '.xml';
-		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+
+		if (is_dir($client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element))
+		{
+			$manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '/'
+				. $this->parent->extension->element . '.xml';
+		}
+		else
+		{
+			$manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '.xml';
+		}
+
+		$this->parent->setPath('source', $manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
+
+		$this->parent->manifest = $this->parent->getManifest();
 		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 
