@@ -182,7 +182,7 @@ class JTableContent extends JTable
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -192,6 +192,36 @@ class JTableContent extends JTable
 		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '')
 		{
 			$this->fulltext = '';
+		}
+
+		// Ensure any new items have compulsory fields set. This is needed
+		// for things like frontend editing where we don't show all the fields
+		// or using some kind of API
+		if ($this->id)
+		{
+			// Images can be an empty json string
+			if (!isset($this->images))
+			{
+				$this->images = {};
+			}
+
+			// URLs can be an empty json string
+			if (!isset($this->urls))
+			{
+				$this->urls = {};
+			}
+
+			// Attributes (article params) can be an empty json string
+			if (!isset($this->attribs))
+			{
+				$this->attribs = {};
+			}
+
+			// Metadata can be an empty json string
+			if (!isset($this->metadata))
+			{
+				$this->metadata = {};
+			}
 		}
 
 		// Check the publish down date is not earlier than publish up.
