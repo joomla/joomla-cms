@@ -84,6 +84,11 @@
 			var this_content = content_width / body_width * 100;
 			var this_main = (content_width - sidebar_width) / body_width * 100;
 
+			$('#j-sidebar-container').removeClass('span2').addClass('j-sidebar-container');
+			$('#system-message-container').addClass('j-toggle-main');
+			$('#j-main-container').addClass('j-toggle-main');
+			$('#system-debug').addClass('j-toggle-main');
+
 			if (force)
 			{
 				// Load the value from localStorage
@@ -103,10 +108,6 @@
 				$('#j-main-container').addClass('j-toggle-transition');
 				$('#system-debug').addClass('j-toggle-transition');
 			}
-
-			$('#system-message-container').addClass('j-toggle-main');
-			$('#j-main-container').addClass('j-toggle-main');
-			$('#system-debug').addClass('j-toggle-main');
 
 			if ($visible)
 			{
