@@ -15,6 +15,15 @@
 interface JComponentRouterRulesInterface
 {
 	/**
+	 * Constructor for the rule
+	 * 
+	 * @param   JComponentRouterInterface  $router  The component router
+	 * 
+	 * @since   3.4
+	 */
+	public function __construct(JComponentRouterInterface $router);
+
+	/**
 	 * Prepares a query set to be handed over to the build() method.
 	 * This should complete a partial query set to work as a complete non-SEFed
 	 * URL and in general make sure that all information is present and properly
@@ -27,7 +36,7 @@ interface JComponentRouterRulesInterface
 	 * 
 	 * @since   3.4
 	 */
-	public function preprocess(JComponentRouterInterface &$router, &$query);
+	public function preprocess(&$query);
 
 	/**
 	 * Parses an URI to retrieve informations for the right route through
@@ -42,7 +51,7 @@ interface JComponentRouterRulesInterface
 	 *
 	 * @since   3.4
 	 */
-	public function parse(JComponentRouterInterface &$router, &$segments, &$vars);
+	public function parse(&$segments, &$vars);
 
 	/**
 	 * Builds URI segments from a query to encode the necessary informations
@@ -57,5 +66,5 @@ interface JComponentRouterRulesInterface
 	 *
 	 * @since   3.4
 	 */
-	public function build(JComponentRouterInterface &$router, &$query, &$segments);
+	public function build(&$query, &$segments);
 }
