@@ -8046,10 +8046,10 @@ a.grid_true {
 }
 @media (min-width: 768px) {
 	.j-toggle-transition {
-		-webkit-transition: all 0.5s ease;
-		-moz-transition: all 0.5s ease;
-		-o-transition: all 0.5s ease;
-		transition: all 0.5s ease;
+		-webkit-transition: all 0.3s ease;
+		-moz-transition: all 0.3s ease;
+		-o-transition: all 0.3s ease;
+		transition: all 0.3s ease;
 	}
 }
 @media (max-width: 979px) {
