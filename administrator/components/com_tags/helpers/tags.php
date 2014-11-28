@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tags helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsHelper extends JHelperContent
 {
@@ -56,7 +54,6 @@ class TagsHelper extends JHelperContent
 					// Loading language file from administrator/language directory then administrator/components/<extension>/language
 					$lang->load($component, JPATH_BASE, null, false, true)
 					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
-
 				}
 			}
 		}

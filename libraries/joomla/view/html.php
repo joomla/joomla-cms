@@ -14,9 +14,7 @@ jimport('joomla.filesystem.path');
 /**
  * Joomla Platform HTML View Class
  *
- * @package     Joomla.Platform
- * @subpackage  View
- * @since       12.1
+ * @since  12.1
  */
 abstract class JViewHtml extends JViewBase
 {
@@ -107,7 +105,7 @@ abstract class JViewHtml extends JViewBase
 		$file = JPath::clean($layout . '.php');
 
 		// Find the layout file path.
-		$path = JPath::find(clone($this->paths), $file);
+		$path = JPath::find(clone $this->paths, $file);
 
 		return $path;
 	}

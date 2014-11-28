@@ -15,9 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * This class allows for simple but smart objects with get and set methods
  * and an internal error handler.
  *
- * @package     Joomla.Platform
- * @subpackage  Object
  * @since       11.1
+ * @deprecated  4.0
  */
 class JObject
 {
@@ -73,6 +72,7 @@ class JObject
 	public function def($property, $default = null)
 	{
 		$value = $this->get($property, $default);
+
 		return $this->set($property, $value);
 	}
 
@@ -94,6 +94,7 @@ class JObject
 		{
 			return $this->$property;
 		}
+
 		return $default;
 	}
 
@@ -111,6 +112,7 @@ class JObject
 	public function getProperties($public = true)
 	{
 		$vars = get_object_vars($this);
+
 		if ($public)
 		{
 			foreach ($vars as $key => $value)
@@ -192,6 +194,7 @@ class JObject
 	{
 		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
+
 		return $previous;
 	}
 
@@ -215,6 +218,7 @@ class JObject
 				// Use the set function which might be overridden.
 				$this->set($k, $v);
 			}
+
 			return true;
 		}
 

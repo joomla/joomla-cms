@@ -13,9 +13,7 @@ JHtml::_('behavior.modal');
 /**
  * View class for a list of messages.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.6
+ * @since  1.6
  */
 class MessagesViewMessages extends JViewLegacy
 {
@@ -66,18 +64,8 @@ class MessagesViewMessages extends JViewLegacy
 		if ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::divider();
-			JToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ');
-			JToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD');
-		}
-
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
-			JToolbarHelper::divider();
-			JToolbarHelper::deleteList('', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::divider();
-			JToolbarHelper::trash('messages.trash');
+			JToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ', true);
+			JToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD', true);
 		}
 
 		//JToolbarHelper::addNew('module.add');
@@ -89,6 +77,16 @@ class MessagesViewMessages extends JViewLegacy
 		$layout = new JLayoutFile('toolbar.mysettings');
 
 		$bar->appendButton('Custom', $layout->render(array()), 'upload');
+
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::deleteList('', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
+		} elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::trash('messages.trash');
+		}
 
 		if ($canDo->get('core.admin'))
 		{

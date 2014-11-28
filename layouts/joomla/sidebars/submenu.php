@@ -9,7 +9,19 @@
 
 defined('JPATH_BASE') or die;
 
+JHtmlBehavior::core();
 ?>
+
+	<script type="text/javascript">
+		jQuery(function()
+		{
+			Joomla.toggleSidebar(true);
+		});
+	</script>
+
+	<div class="toggle-sidebar">
+		<?php echo JLayoutHelper::render('joomla.searchtools.default.togglesidebar'); ?>
+	</div>
 <div id="sidebar">
 	<div class="sidebar-nav">
 		<?php if ($displayData->displayMenu) : ?>

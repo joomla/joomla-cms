@@ -19,9 +19,7 @@ JLoader::register('FinderIndexerStemmer', FINDER_PATH_INDEXER . '/stemmer.php');
 /**
  * Search model class for the Finder package.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderModelSearch extends JModelList
 {
@@ -1118,8 +1116,14 @@ class FinderModelSearch extends JModelList
 		$this->setState('list.start', $input->get('limitstart', 0, 'uint'));
 		$this->setState('list.limit', $input->get('limit', $app->get('list_limit', 20), 'uint'));
 
-		// Load the sort ordering.
-		$order = $params->get('sort_order', 'relevance');
+		/* Load the sort ordering.
+		 * Currently this is 'hard' coded via menu item parameter but may not satisfy a users need.
+		 * More flexibility was way more user friendly. So we allow the user to pass a custom value
+		 * from the pool of fields that are indexed like the 'title' field.
+		 * Also, we allow this parameter to be passed in either case (lower/upper).
+		 */
+		$order = $input->getWord('filter_order', $params->get('sort_order', 'relevance'));
+		$order = JString::strtolower($order);
 		switch ($order)
 		{
 			case 'date':
@@ -1134,13 +1138,23 @@ class FinderModelSearch extends JModelList
 				$this->setState('list.ordering', 'm.weight');
 				break;
 
+			// Custom field that is indexed and might be required for ordering
+			case 'title':
+				$this->setState('list.ordering', 'l.title');
+				break;
+
 			default:
 				$this->setState('list.ordering', 'l.link_id');
 				break;
 		}
 
-		// Load the sort direction.
-		$dirn = $params->get('sort_direction', 'desc');
+		/* Load the sort direction.
+		 * Currently this is 'hard' coded via menu item parameter but may not satisfy a users need.
+		 * More flexibility was way more user friendly. So we allow to be inverted.
+		 * Also, we allow this parameter to be passed in either case (lower/upper).
+		 */
+		$dirn = $input->getWord('filter_order_Dir', $params->get('sort_direction', 'desc'));
+		$dirn = JString::strtolower($dirn);
 		switch ($dirn)
 		{
 			case 'asc':

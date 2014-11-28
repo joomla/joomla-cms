@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT.'/helpers/route.php';
-require_once JPATH_COMPONENT.'/helpers/query.php';
+require_once JPATH_COMPONENT . '/helpers/route.php';
+require_once JPATH_COMPONENT . '/helpers/query.php';
 
 $controller = JControllerLegacy::getInstance('Content');
 $controller->execute(JFactory::getApplication()->input->get('task'));

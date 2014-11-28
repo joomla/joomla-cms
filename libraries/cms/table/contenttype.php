@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Tags table
  *
- * @package     Joomla.Libraries
- * @subpackage  Table
- * @since       3.1
+ * @since  3.1
  */
 class JTableContenttype extends JTable
 {
@@ -121,6 +119,8 @@ class JTableContenttype extends JTable
 	 * @return  mixed  JTable object on success, otherwise false.
 	 *
 	 * @since   3.2
+	 *
+	 * @throws  RuntimeException
 	 */
 	public function getContentTable()
 	{
@@ -131,7 +131,15 @@ class JTableContenttype extends JTable
 		{
 			if (is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix))
 			{
-				$result = JTable::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
+				$class = isset($tableInfo->special->class) ? $tableInfo->special->class : 'JTable';
+
+				if (!class_implements($class, 'JTableInterface'))
+				{
+					// This isn't an instance of JTableInterface. Abort.
+					throw new RuntimeException('Class must be an instance of JTableInterface');
+				}
+
+				$result = $class::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
 			}
 		}
 

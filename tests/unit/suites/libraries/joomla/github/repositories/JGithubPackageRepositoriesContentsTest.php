@@ -60,7 +60,6 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageRepositoriesContents::getReadme
-     * @todo   Implement testGetReadme().
      */
     public function testGetReadme()
     {
@@ -80,7 +79,6 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositoriesContents::getReadme
-	 * @todo   Implement testGetReadme().
 	 */
 	public function testGetReadmeRef()
 	{
@@ -100,7 +98,6 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JGithubPackageRepositoriesContents::get
-     * @todo   Implement testGet().
      */
     public function testGet()
     {
@@ -109,7 +106,7 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
 	    $this->client->expects($this->once())
 		    ->method('get')
-		    ->with('/repos/joomla/joomla-platform/contents?path=path/to/file.php')
+		    ->with('/repos/joomla/joomla-platform/contents/path/to/file.php')
 		    ->will($this->returnValue($this->response));
 
 	    $this->assertThat(
@@ -120,7 +117,6 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositoriesContents::get
-	 * @todo   Implement testGet().
 	 */
 	public function testGetRef()
 	{
@@ -129,7 +125,7 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('get')
-			->with('/repos/joomla/joomla-platform/contents?path=path/to/file.php&ref=123abc')
+			->with('/repos/joomla/joomla-platform/contents/path/to/file.php?ref=123abc')
 			->will($this->returnValue($this->response));
 
 		$this->assertThat(
@@ -140,7 +136,6 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JGithubPackageRepositoriesContents::getArchiveLink
-     * @todo   Implement testGetArchiveLink().
      */
     public function testGetArchiveLink()
     {
@@ -160,7 +155,6 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositoriesContents::getArchiveLink
-	 * @todo   Implement testGetArchiveLink().
 	 */
 	public function testGetArchiveLinkRef()
 	{
@@ -180,7 +174,6 @@ class JGithubPackageRepositoriesContentsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositoriesContents::getArchiveLink
-	 * @todo   Implement testGetArchiveLink().
 	 *
 	 * @expectedException UnexpectedValueException
 	 */

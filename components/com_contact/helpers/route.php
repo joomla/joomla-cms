@@ -24,7 +24,15 @@ abstract class ContactHelperRoute
 	protected static $lang_lookup = array();
 
 	/**
-	 * @param   integer  The route of the contact
+	 * Get the URL route for a contact from a contact ID, contact category ID and language
+	 *
+	 * @param   integer  $id        The id of the contact
+	 * @param   integer  $catid     The id of the contact's category
+	 * @param   mixed    $language  The id of the language being used.
+	 *
+	 * @return  string  The link to the contact
+	 *
+	 * @since   1.5
 	 */
 	public static function getContactRoute($id, $catid, $language = 0)
 	{
@@ -66,6 +74,16 @@ abstract class ContactHelperRoute
 		return $link;
 	}
 
+	/**
+	 * Get the URL route for a contact category from a contact category ID and language
+	 *
+	 * @param   mixed    $catid     The id of the contact's category either an integer id or a instance of JCategoryNode
+	 * @param   mixed    $language  The id of the language being used.
+	 *
+	 * @return  string  The link to the contact
+	 *
+	 * @since   1.5
+	 */
 	public static function getCategoryRoute($catid, $language = 0)
 	{
 		if ($catid instanceof JCategoryNode)

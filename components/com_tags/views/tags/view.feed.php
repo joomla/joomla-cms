@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Tags component all tags view
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsViewTags extends JViewLegacy
 {
@@ -77,6 +75,5 @@ class TagsViewTags extends JViewLegacy
 			// Loads item info into RSS array
 			$document->addItem($feeditem);
 		}
-
 	}
 }

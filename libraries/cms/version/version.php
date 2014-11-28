@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Version information class for the Joomla CMS.
  *
- * @package     Joomla.Libraries
- * @subpackage  Version
- * @since       1.0
+ * @since  1.0
  */
 final class JVersion
 {
@@ -22,10 +20,10 @@ final class JVersion
 	public $PRODUCT = 'Joomla!';
 
 	/** @var  string  Release version. */
-	public $RELEASE = '3.3';
+	public $RELEASE = '3.4';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '4-dev';
+	public $DEV_LEVEL = '0-dev';
 
 	/** @var  string  Development STATUS. */
 	public $DEV_STATUS = 'Development';
@@ -37,10 +35,10 @@ final class JVersion
 	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELDATE = '25-July-2014';
+	public $RELDATE = '01-October-2014';
 
 	/** @var  string  Release time. */
-	public $RELTIME = '13:00';
+	public $RELTIME = '02:00';
 
 	/** @var  string  Release timezone. */
 	public $RELTZ = 'GMT';

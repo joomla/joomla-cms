@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Private Message model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.6
+ * @since  1.6
  */
 class MessagesModelMessage extends JModelAdmin
 {
@@ -66,7 +64,7 @@ class MessagesModelMessage extends JModelAdmin
 		{
 			if ($table->load($pk))
 			{
-				if ($table->user_id_to !== $user->id)
+				if ($table->user_id_to != $user->id)
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
@@ -246,7 +244,7 @@ class MessagesModelMessage extends JModelAdmin
 
 			if ($table->load($pk))
 			{
-				if ($table->user_id_to !== $user->id)
+				if ($table->user_id_to != $user->id)
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);

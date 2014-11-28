@@ -12,17 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Tags Component Controller
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  If true, the view output will be cached
-	 * @param   array    An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean        $cachable   If true, the view output will be cached
+	 * @param   mixed|boolean  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  This object to support chaining.
 	 *
