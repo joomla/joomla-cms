@@ -526,7 +526,7 @@ class JSession extends JObject
 					session_id(JRequest::getVar($session_name));
 					setcookie($session_name, '', time() - 3600);
 				}
-				elseif (JRequest::getVar($session_name) == '')
+				else
 				{
         				session_id($this->_createId());
         			}
