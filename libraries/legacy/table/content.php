@@ -197,7 +197,7 @@ class JTableContent extends JTable
 		// Ensure any new items have compulsory fields set. This is needed
 		// for things like frontend editing where we don't show all the fields
 		// or using some kind of API
-		if ($this->id)
+		if (!$this->id)
 		{
 			// Images can be an empty json string
 			if (!isset($this->images))
