@@ -24,7 +24,6 @@ Disallow: /language/
 Disallow: /layouts/
 Disallow: /libraries/
 Disallow: /logs/
-Disallow: /media/
 Disallow: /modules/
 Disallow: /plugins/
 Disallow: /templates/
