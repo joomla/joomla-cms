@@ -20,7 +20,7 @@ interface JComponentRouterRulesInterface
 	 * URL and in general make sure that all information is present and properly
 	 * formatted. For example, the Itemid should be retrieved and set here.
 	 * 
-	 * @param   array                      &$query   The query array to process
+	 * @param   array  &$query  The query array to process
 	 * 
 	 * @return  void
 	 * 
@@ -33,8 +33,8 @@ interface JComponentRouterRulesInterface
 	 * the component.
 	 * This method should retrieve all its input from its method arguments.
 	 *
-	 * @param   array                      &$segments  The URL segments to parse
-	 * @param   array                      &$vars      The vars that result from the segments
+	 * @param   array  &$segments  The URL segments to parse
+	 * @param   array  &$vars      The vars that result from the segments
 	 *
 	 * @return  void
 	 *
@@ -47,8 +47,8 @@ interface JComponentRouterRulesInterface
 	 * for a route in a human-readable URL.
 	 * This method should retrieve all its input from its method arguments.
 	 *
-	 * @param   array                      &$query     The vars that should be converted
-	 * @param   array                      &$segments  The URL segments to create
+	 * @param   array  &$query     The vars that should be converted
+	 * @param   array  &$segments  The URL segments to create
 	 *
 	 * @return  void
 	 *
