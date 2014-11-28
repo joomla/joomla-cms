@@ -68,6 +68,12 @@
 			var open_icon = 'icon-cancel';
 			var closed_icon = 'icon-arrow-right-2';
 
+			if (jQuery(document.querySelector("html")).attr('dir') == 'rtl')
+			{
+				open_icon = 'icon-cancel';
+				closed_icon = 'icon-arrow-left-2';
+			}
+
 			var main_height = $('#j-main-container').outerHeight()+30;
 			var sidebar_height = $('#j-sidebar-container').outerHeight();
 
@@ -76,10 +82,7 @@
 			var content_width = $('#content').outerWidth();
 
 			var this_content = content_width / body_width * 100;
-			var this_sidebar = sidebar_width / body_width * 100;
 			var this_main = (content_width - sidebar_width) / body_width * 100;
-
-			var $position_sidebar = $visible ? '-'+this_sidebar.toFixed(1)+'%' : 0;
 
 			if (force)
 			{
@@ -91,44 +94,14 @@
 
 				// Need to convert the value to a boolean
 				$visible = ($visible == 'true') ? true : false;
-
-				// Do not animate if no toggle
-				$sidebar_animate = false;
 			}
 			else
 			{
-				$sidebar_animate = true;
-
 				$('#system-message-container').addClass('j-toggle-transition');
+				$('#j-sidebar-container').addClass('j-toggle-transition');
+				$('#j-toggle-button-wrapper').addClass('j-toggle-transition');
 				$('#j-main-container').addClass('j-toggle-transition');
 				$('#system-debug').addClass('j-toggle-transition');
-				$('#j-toggle-sidebar-icon').hide().delay( 300 ).fadeIn( 300 );
-			}
-
-			if (jQuery(document.querySelector("html")).attr('dir') == 'rtl')
-			{
-				open_icon = 'icon-cancel';
-				closed_icon = 'icon-arrow-left-2';
-
-				if ($sidebar_animate)
-				{
-					$sidebar.animate({
-						'right': $position_sidebar,
-						'opacity': 1
-					},{duration: 300, queue: false,
-					specialEasing: {'right': 'linear', 'opacity': 'linear'}});
-				}
-			}
-			else
-			{
-				if ($sidebar_animate)
-				{
-					$sidebar.animate({
-						'left': $position_sidebar,
-						'opacity': 1
-					}, {duration: 300, queue: false,
-					specialEasing: {'left': 'linear', 'opacity': 'linear'}});
-				}
 			}
 
 			$('#system-message-container').addClass('j-toggle-main');
