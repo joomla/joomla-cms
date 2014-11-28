@@ -95,6 +95,8 @@ class ContentViewArticle extends JViewLegacy
 					$this->setLayout($layout);
 				}
 
+				// Get the global params
+				$globalParams = JComponentHelper::getParams('com_content', true);
 				$tempArray = $temp->toArray();
 
 				foreach ($tempArray as $key => $value)
@@ -110,14 +112,19 @@ class ContentViewArticle extends JViewLegacy
 						else
 						{
 							// Otherwise, use the global value
-							$tempArray[$key] = $item->params->get($key);
+							$tempArray[$key] = $globalParams->get($key);
 						}
 					}
 				}
 
 				// $item->params are the article params, $temp are the menu item params
 				// Merge so that the menu item params take priority
-				$item->params->merge($tempArray);
+				if (count($tempArray) > 0)
+				{
+					$articleParams = new Registry;
+					$articleParams->loadArray($tempArray);
+					$item->params->merge($articleParams);
+				}
 			}
 			else
 			{
