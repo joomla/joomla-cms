@@ -24,9 +24,7 @@ jimport('joomla.utilities.utility');
  * or
  * <code><hr class="system-pagebreak" alt="The first page" title="The page title" /></code>
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.pagebreak
- * @since       1.6
+ * @since  1.6
  */
 class PlgContentPagebreak extends JPlugin
 {
@@ -267,7 +265,7 @@ class PlgContentPagebreak extends JPlugin
 
 			if ($this->params->get('article_index_text'))
 			{
-				htmlspecialchars($headingtext = $this->params->get('article_index_text'));
+				$headingtext = htmlspecialchars($this->params->get('article_index_text'), ENT_QUOTES, 'UTF-8');
 			}
 
 			$row->toc .= '<h3>' . $headingtext . '</h3>';

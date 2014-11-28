@@ -45,11 +45,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 	<div class="page-header">
 		<h2 itemprop="name">
 			<?php if ($params->get('show_title')) : ?>
-				<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
-					<a href="<?php echo $this->item->readmore_link; ?>" itemprop="url"> <?php echo $this->escape($this->item->title); ?></a>
-				<?php else : ?>
-					<?php echo $this->escape($this->item->title); ?>
-				<?php endif; ?>
+				<?php echo $this->escape($this->item->title); ?>
 			<?php endif; ?>
 		</h2>
 		<?php if ($this->item->state == 0) : ?>
@@ -64,7 +60,9 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 	</div>
 	<?php endif; ?>
 	<?php if (!$this->print) : ?>
-		<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
+		<?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
+			<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
+		<?php endif; ?>
 	<?php else : ?>
 		<?php if ($useDefList) : ?>
 			<div id="pop-print" class="btn hidden-print">
@@ -151,7 +149,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 		</div>
 	<?php endif; ?>
 
-	<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
+	<?php if ($info == 0 && $params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
 		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 
 		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
@@ -258,6 +256,10 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				</dd>
 			<?php endif; ?>
 			</dl>
+			<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
+				<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+				<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 

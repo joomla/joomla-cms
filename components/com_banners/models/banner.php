@@ -14,9 +14,7 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 /**
  * Banner model for the Joomla Banners component.
  *
- * @package     Joomla.Site
- * @subpackage  com_banners
- * @since       1.5
+ * @since  1.5
  */
 class BannersModelBanner extends JModelLegacy
 {
@@ -103,7 +101,7 @@ class BannersModelBanner extends JModelLegacy
 			{
 				// Update count
 				$query->update('#__banner_tracks')
-					->set($db->quoteName('count') . ' = (' . $db->quote('count') . ' + 1)')
+					->set($db->quoteName('count') . ' = (' . $db->quoteName('count') . ' + 1)')
 					->where('track_type=2')
 					->where('banner_id=' . (int) $id)
 					->where('track_date=' . $db->quote($trackDate));

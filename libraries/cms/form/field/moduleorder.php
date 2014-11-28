@@ -7,14 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla! CMS.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldModuleOrder extends JFormField
 {

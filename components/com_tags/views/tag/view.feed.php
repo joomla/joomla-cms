@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Tags component
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsViewTag extends JViewLegacy
 {
@@ -27,15 +25,16 @@ class TagsViewTag extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
+		$app            = JFactory::getApplication();
+		$document       = JFactory::getDocument();
 		$document->link = JRoute::_(TagsHelperRoute::getTagRoute($app->input->getInt('id')));
 
-		$app->input->set('limit', $app->getCfg('feed_limit'));
-		$siteEmail = $app->getCfg('mailfrom');
-		$fromName  = $app->getCfg('fromname');
-		$feedEmail = $app->getCfg('feed_email', 'author');
+		$app->input->set('limit', $app->get('feed_limit'));
+		$siteEmail        = $app->get('mailfrom');
+		$fromName         = $app->get('fromname');
+		$feedEmail        = $app->get('feed_email', 'author');
 		$document->editor = $fromName;
+
 		if ($feedEmail != "none")
 		{
 			$document->editorEmail = $siteEmail;
@@ -43,6 +42,7 @@ class TagsViewTag extends JViewLegacy
 
 		// Get some data from the model
 		$items    = $this->get('Items');
+
 		foreach ($items as $item)
 		{
 			// Strip HTML from feed item title
@@ -55,16 +55,16 @@ class TagsViewTag extends JViewLegacy
 
 			// Strip HTML from feed item description text
 			$description = $item->core_body;
-			$author			= $item->core_created_by_alias ? $item->core_created_by_alias : $item->author;
-			$date = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
+			$author      = $item->core_created_by_alias ? $item->core_created_by_alias : $item->author;
+			$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 			// Load individual item creator class
-			$feeditem = new JFeedItem;
+			$feeditem              = new JFeedItem;
 			$feeditem->title       = $title;
 			$feeditem->link        = $link;
 			$feeditem->description = $description;
 			$feeditem->date        = $date;
-			$feeditem->category    = $item->title;
+			$feeditem->category    = $title;
 			$feeditem->author      = $author;
 
 			if ($feedEmail == 'site')
@@ -79,6 +79,5 @@ class TagsViewTag extends JViewLegacy
 			// Loads item info into RSS array
 			$document->addItem($feeditem);
 		}
-
 	}
 }

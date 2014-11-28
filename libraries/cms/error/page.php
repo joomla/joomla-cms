@@ -7,14 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Displays the custom error page when an uncaught exception occurs.
  *
- * @package     Joomla.Libraries
- * @subpackage  Error
- * @since       3.0
+ * @since  3.0
  */
 class JErrorPage
 {

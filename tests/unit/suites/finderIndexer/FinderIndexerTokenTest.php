@@ -27,14 +27,13 @@ class FinderIndexerTokenTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		// Store the factory state so we can mock the necessary objects
 		$this->saveFactoryState();
 
 		// Set up our mock database
-		$db = JFactory::getDbo();
-		$db->name = 'mysqli';
-
-		JFactory::$database = $db;
+		JFactory::$database = $this->getMockDatabase('Mysqli');
 
 		FinderIndexerHelper::$stemmer = FinderIndexerStemmer::getInstance('porter_en');
 	}
@@ -51,6 +50,8 @@ class FinderIndexerTokenTest extends TestCase
 	{
 		// Restore the factory state
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Content component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentHelper extends JHelperContent
 {

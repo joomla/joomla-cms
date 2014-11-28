@@ -15,11 +15,9 @@ defined('JPATH_PLATFORM') or die;
  * This is the Observable part of the Observer design pattern
  * for the event architecture.
  *
- * @package     Joomla.Platform
- * @subpackage  Event
- * @link        http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
- * @see         JPlugin
- * @since       12.1
+ * @link   http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
+ * @see    JPlugin
+ * @since  12.1
  */
 class JEventDispatcher extends JObject
 {

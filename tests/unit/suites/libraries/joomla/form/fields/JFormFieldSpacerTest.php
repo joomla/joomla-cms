@@ -40,7 +40,7 @@ class JFormFieldSpacerTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->backupServer = $_SERVER;
 
@@ -119,7 +119,7 @@ class JFormFieldSpacerTest extends TestCase
 		);
 
 		$equals = '<span class="spacer"><span class="before"></span><span>' .
-			'<label id="spacer-lbl" class="hasTooltip" title="<strong>spacer</strong>">spacer</label></span>' .
+			'<label id="spacer-lbl" class="hasTooltip" title="&lt;strong&gt;spacer&lt;/strong&gt;">spacer</label></span>' .
 			'<span class="after"></span></span>';
 
 		$this->assertEquals(

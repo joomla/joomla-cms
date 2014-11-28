@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Feed Link class.
  *
- * @package     Joomla.Platform
- * @subpackage  Feed
- * @since       12.3
+ * @since  12.3
  */
 class JFeedLink
 {
@@ -92,6 +90,7 @@ class JFeedLink
 		{
 			throw new InvalidArgumentException('Length must be numeric.');
 		}
+
 		$this->length = (int) $length;
 	}
 }

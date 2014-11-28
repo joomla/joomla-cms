@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * This class has influences and some method logic from the Horde Auth package
  *
- * @package     Joomla.Platform
- * @subpackage  User
- * @since       11.1
+ * @since  11.1
  */
 abstract class JUserHelper
 {
@@ -450,6 +448,7 @@ abstract class JUserHelper
 				{
 					$context .= substr($binary, 0, ($i > 16 ? 16 : $i));
 				}
+
 				for ($i = $length; $i > 0; $i >>= 1)
 				{
 					$context .= ($i & 1) ? chr(0) : $plaintext[0];
@@ -465,10 +464,12 @@ abstract class JUserHelper
 					{
 						$new .= $salt;
 					}
+
 					if ($i % 7)
 					{
 						$new .= $plaintext;
 					}
+
 					$new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
 					$binary = static::_bin(md5($new));
 				}
@@ -484,6 +485,7 @@ abstract class JUserHelper
 					{
 						$j = 5;
 					}
+
 					$p[] = static::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
 				}
 
@@ -683,6 +685,7 @@ abstract class JUserHelper
 			$aprmd5 .= $APRMD5[$value & 0x3f];
 			$value >>= 6;
 		}
+
 		return $aprmd5;
 	}
 
@@ -705,6 +708,7 @@ abstract class JUserHelper
 			$tmp = sscanf(substr($hex, $i, 2), '%x');
 			$bin .= chr(array_shift($tmp));
 		}
+
 		return $bin;
 	}
 
@@ -734,7 +738,7 @@ abstract class JUserHelper
 
 		// Destroy the cookie in the browser.
 		$app = JFactory::getApplication();
-		$app->input->cookie->set($cookieName, false, time() - 42000, $app->get('cookie_path'), $app->get('cookie_domain'), false, true);
+		$app->input->cookie->set($cookieName, false, time() - 42000, $app->get('cookie_path', '/'), $app->get('cookie_domain'), false, true);
 
 		return true;
 	}

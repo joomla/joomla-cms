@@ -14,10 +14,9 @@ define('JPATH_BASE', dirname(__FILE__));
 require_once realpath('../libraries/import.php');
 
 /**
- * Keychain Manager
+ * Keychain Manager.
  *
- * @package  Joomla.Platform
- * @since    12.3
+ * @since  12.3
  */
 class KeychainManager extends JApplicationCli
 {
@@ -94,6 +93,7 @@ class KeychainManager extends JApplicationCli
 		{
 			$this->saveKeychain();
 		}
+
 		exit(0);
 	}
 
@@ -203,6 +203,7 @@ class KeychainManager extends JApplicationCli
 			$this->out('error: entry already exists. To change this entry, use "change"');
 			exit(1);
 		}
+
 		$this->change();
 	}
 
@@ -220,6 +221,7 @@ class KeychainManager extends JApplicationCli
 			$this->out("usage: {$this->input->executable} [options] change entry_name entry_value");
 			exit(1);
 		}
+
 		$this->updated = true;
 		$this->keychain->setValue($this->input->args[1], $this->input->args[2]);
 	}
@@ -298,6 +300,7 @@ class KeychainManager extends JApplicationCli
 			{
 				$line .= ': ' . $this->dumpVar($value);
 			}
+
 			$this->out($line);
 		}
 	}

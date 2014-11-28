@@ -13,8 +13,7 @@ JFormHelper::loadFieldClass('radio');
 /**
  * Sample data Form Field class.
  *
- * @package  Joomla.Installation
- * @since    1.6
+ * @since  1.6
  */
 class JFormFieldSample extends JFormFieldRadio
 {
@@ -40,7 +39,7 @@ class JFormFieldSample extends JFormFieldRadio
 		$type = $this->form->getValue('db_type');
 
 		// Some database drivers share DDLs; point these drivers to the correct parent
-		if ($type == 'mysqli')
+		if ($type == 'mysqli' || $type == 'pdomysql')
 		{
 			$type = 'mysql';
 		}

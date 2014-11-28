@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * UCM Class for handling content types
@@ -46,9 +46,7 @@ defined('JPATH_BASE') or die;
  * @property-read  string  $core_xreference
  * @property-read  string  $core_typeid
  *
- * @package     Joomla.Libraries
- * @subpackage  UCM
- * @since       3.1
+ * @since  3.1
  */
 class JUcmType implements JUcm
 {

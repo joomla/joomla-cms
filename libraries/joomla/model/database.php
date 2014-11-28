@@ -9,12 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform Database Model Class
  *
- * @package     Joomla.Platform
- * @subpackage  Model
- * @since       12.1
+ * @since  12.1
  */
 abstract class JModelDatabase extends JModelBase
 {
@@ -29,12 +29,12 @@ abstract class JModelDatabase extends JModelBase
 	/**
 	 * Instantiate the model.
 	 *
-	 * @param   JRegistry        $state  The model state.
+	 * @param   Registry         $state  The model state.
 	 * @param   JDatabaseDriver  $db     The database adpater.
 	 *
 	 * @since   12.1
 	 */
-	public function __construct(JRegistry $state = null, JDatabaseDriver $db = null)
+	public function __construct(Registry $state = null, JDatabaseDriver $db = null)
 	{
 		parent::__construct($state);
 

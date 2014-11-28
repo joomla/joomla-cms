@@ -79,19 +79,6 @@ class JTableContentTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test JTableContent::bind
-	 *
-	 * @todo   Implement testBind().
-	 *
-	 * @return  void
-	 */
-	public function testBind()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Tests JTableContent::check
 	 *
 	 * @return  void

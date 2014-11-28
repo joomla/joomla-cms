@@ -9,12 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Module helper class
  *
- * @package     Joomla.Libraries
- * @subpackage  Module
- * @since       1.5
+ * @since  1.5
  */
 abstract class JModuleHelper
 {
@@ -166,7 +166,7 @@ abstract class JModuleHelper
 		$app->scope = $module->module;
 
 		// Get module parameters
-		$params = new JRegistry;
+		$params = new Registry;
 		$params->loadString($module->params);
 
 		// Get the template
@@ -493,7 +493,8 @@ abstract class JModuleHelper
 
 				if (is_array($cacheparams->modeparams))
 				{
-					$uri = JRequest::get();
+					$input   = JFactory::getApplication()->input;
+					$uri     = $input->getArray();
 					$safeuri = new stdClass;
 
 					foreach ($cacheparams->modeparams as $key => $value)

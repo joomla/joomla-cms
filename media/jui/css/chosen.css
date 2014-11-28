@@ -311,7 +311,6 @@
   background-image: -moz-linear-gradient(#eeeeee 20%, #ffffff 80%);
   background-image: -o-linear-gradient(#eeeeee 20%, #ffffff 80%);
   background-image: linear-gradient(#eeeeee 20%, #ffffff 80%);
-  box-shadow: 0 1px 0 #fff inset;
 }
 .chzn-container-active.chzn-with-drop .chzn-single div {
   border-left: none;

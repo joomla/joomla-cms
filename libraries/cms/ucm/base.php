@@ -7,14 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base class for implementing UCM
  *
- * @package     Joomla.Libraries
- * @subpackage  UCM
- * @since       3.1
+ * @since  3.1
  */
 class JUcmBase implements JUcm
 {

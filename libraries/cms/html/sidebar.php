@@ -7,14 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class to render a list view sidebar
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.0
+ * @since  3.0
  */
 abstract class JHtmlSidebar
 {

@@ -280,6 +280,8 @@ abstract class JLoader
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
+			$path = (str_replace(JPATH_ROOT, '', $path) == $path) ? basename($path) : str_replace(JPATH_ROOT, '', $path);
+
 			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
@@ -344,6 +346,8 @@ abstract class JLoader
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
+			$path = (str_replace(JPATH_ROOT, '', $path) == $path) ? basename($path) : str_replace(JPATH_ROOT, '', $path);
+
 			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 

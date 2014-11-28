@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Prototype admin view.
  *
- * @package     Joomla.Libraries
- * @subpackage  Model
- * @since       3.2
+ * @since  3.2
  */
 abstract class ConfigViewCmsJson extends ConfigViewCmsHtml
 {

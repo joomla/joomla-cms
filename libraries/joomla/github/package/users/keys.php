@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/repos/users/keys
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Users
- * @since       12.3
+ * @since  12.3
  */
 class JGithubPackageUsersKeys extends JGithubPackage
 {

@@ -33,16 +33,11 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			</div>
 			<div class="control-group span6">
 				<div class="controls">
-					<?php echo JHtml::_('batch.tag'); ?>
+					<?php echo JHtml::_('batch.access'); ?>
 				</div>
 			</div>
 		</div>
 		<div class="row-fluid">
-			<div class="control-group span6">
-				<div class="controls">
-					<?php echo JHtml::_('batch.access'); ?>
-				</div>
-			</div>
 			<?php if ($published >= 0) : ?>
 				<div class="span6">
 					<div class="control-group">
@@ -61,6 +56,11 @@ $extension = $this->escape($this->state->get('filter.extension'));
 					</div>
 				</div>
 			<?php endif; ?>
+			<div class="control-group span6">
+				<div class="controls">
+					<?php echo JHtml::_('batch.tag'); ?>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="modal-footer">

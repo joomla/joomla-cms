@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Oracle Query Building Class.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @since  12.1
  */
 class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPreparable, JDatabaseQueryLimitable
 {

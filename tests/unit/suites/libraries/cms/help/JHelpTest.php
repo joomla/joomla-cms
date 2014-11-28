@@ -19,7 +19,7 @@ class JHelpTest extends TestCase
 	/**
 	 * The mock config object
 	 *
-	 * @var    JRegistry
+	 * @var    \Joomla\Registry\Registry
 	 * @since  3.0
 	 */
 	protected $config;
@@ -39,9 +39,10 @@ class JHelpTest extends TestCase
 		// Store the factory state so we can mock the necessary objects
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$config      = $this->getMockConfig();
 		JFactory::$session     = $this->getMockSession();
+		JFactory::$language    = JLanguage::getInstance('en-GB');
 
 		// Set up our mock config
 		$this->config = JFactory::getConfig();

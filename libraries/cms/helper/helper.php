@@ -7,14 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base Helper class.
  *
- * @package     Joomla.Libraries
- * @subpackage  Helper
- * @since       3.2
+ * @since  3.2
  */
 class JHelper
 {

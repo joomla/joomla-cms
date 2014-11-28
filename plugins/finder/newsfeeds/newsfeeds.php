@@ -9,14 +9,14 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\Registry\Registry;
+
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
  * Smart Search adapter for Joomla Newsfeeds.
  *
- * @package     Joomla.Plugin
- * @subpackage  Finder.Newsfeeds
- * @since       2.5
+ * @since  2.5
  */
 class PlgFinderNewsfeeds extends FinderIndexerAdapter
 {
@@ -260,11 +260,11 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		$item->setLanguage();
 
 		// Initialize the item parameters.
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($item->params);
 		$item->params = $registry;
 
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($item->metadata);
 		$item->metadata = $registry;
 

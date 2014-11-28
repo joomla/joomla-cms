@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.framework', true);
+JHtml::_('behavior.core');
 
 $script = array();
-$script[] = "	window.addEvent('domready', function() {";
-$script[] = "		document.id('showmods').addEvent('click', function(e) {";
-$script[] = "			document.id('showmods').setStyle('display', 'block');";
-$script[] = "		jQuery('.table tr.no').toggle();";
+$script[] = "	jQuery(document).ready(function() {";
+$script[] = "		jQuery('#showmods').on('click', function(e) {";
+$script[] = "			jQuery('.table tr.no').toggle();";
 $script[] = "		});";
 $script[] = "	})";
 

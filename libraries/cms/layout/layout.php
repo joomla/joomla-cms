@@ -7,15 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Interface to handle display layout
  *
- * @package     Joomla.Libraries
- * @subpackage  Layout
- * @see         http://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
- * @since       3.0
+ * @see    http://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
+ * @since  3.0
  */
 interface JLayout
 {

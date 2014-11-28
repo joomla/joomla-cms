@@ -9,14 +9,14 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\Registry\Registry;
+
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
  * Smart Search adapter for Joomla Categories.
  *
- * @package     Joomla.Plugin
- * @subpackage  Finder.Categories
- * @since       2.5
+ * @since  2.5
  */
 class PlgFinderCategories extends FinderIndexerAdapter
 {
@@ -264,11 +264,11 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$extension = ucfirst(substr($item->extension, 4));
 
 		// Initialize the item parameters.
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($item->params);
 		$item->params = $registry;
 
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($item->metadata);
 		$item->metadata = $registry;
 
@@ -303,7 +303,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		}
 		else
 		{
-			$item->route = ContentHelperRoute::getCategoryRoute($item->slug, $item->catid);
+			$item->route = ContentHelperRoute::getCategoryRoute($item->id, $item->language);
 		}
 
 		$item->path = FinderIndexerHelper::getContentPath($item->route);

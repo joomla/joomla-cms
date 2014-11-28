@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Statistics view class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderViewStatistics extends JViewLegacy
 {
@@ -36,6 +34,7 @@ class FinderViewStatistics extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
