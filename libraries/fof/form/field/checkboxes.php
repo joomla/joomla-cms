@@ -8,20 +8,26 @@
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
-JFormHelper::loadFieldClass('text');
+JFormHelper::loadFieldClass('checkboxes');
 
 /**
- * Form Field class for the FOF framework
- * Supports a button input.
+ * Form Field class for FOF
+ * Supports a list of checkbox.
  *
  * @package  FrameworkOnFramework
  * @since    2.0
  */
-class FOFFormFieldButton extends FOFFormFieldText implements FOFFormField
+class FOFFormFieldCheckboxes extends JFormFieldCheckboxes implements FOFFormField
 {
 	protected $static;
 
 	protected $repeatable;
+
+	/** @var   FOFTable  The item being rendered in a repeatable form field */
+	public $item;
+
+	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
+	public $rowid;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -69,7 +75,7 @@ class FOFFormFieldButton extends FOFFormFieldText implements FOFFormField
 	 */
 	public function getStatic()
 	{
-		return $this->getInput();
+		return $this->getRepeatable();
 	}
 
 	/**
@@ -82,7 +88,26 @@ class FOFFormFieldButton extends FOFFormFieldText implements FOFFormField
 	 */
 	public function getRepeatable()
 	{
-		return $this->getInput();
+		$class     = $this->element['class'] ? (string) $this->element['class'] : $this->id;
+		$translate = $this->element['translate'] ? (string) $this->element['translate'] : false;
+
+		$html = '<span class="' . $class . '">';
+		foreach ($this->value as $value) {
+
+			$html .= '<span>';
+
+			if ($translate == true)
+			{
+				$html .= JText::_($value);
+			}
+			else
+			{
+				$html .= $value;
+			}
+
+			$html .= '</span>';
+		}
+		$html .= '</span>';
 	}
 
 	/**
@@ -95,43 +120,9 @@ class FOFFormFieldButton extends FOFFormFieldText implements FOFFormField
 	 */
 	public function getInput()
 	{
-		$this->label = '';
+		// Used for J! 2.5 compatibility
+		$this->value = !is_array($this->value) ? explode(',', $this->value) : $this->value;
 
-		$allowedElement = array('button', 'a');
-
-		if (in_array($this->element['htmlelement'], $allowedElement))
-			$type = $this->element['htmlelement'];
-		else
-			$type = 'button';
-
-		$text    = $this->element['text'];
-		$class   = $this->element['class'] ? (string) $this->element['class'] : '';
-		$icon    = $this->element['icon'] ? (string) $this->element['icon'] : '';
-		$onclick = $this->element['onclick'] ? 'onclick="' . (string) $this->element['onclick'] . '"' : '';
-		$url     = $this->element['url'] ? 'href="' . $this->parseFieldTags((string) $this->element['url']) . '"' : '';
-		$title   = $this->element['title'] ? 'title="' . JText::_((string) $this->element['title']) . '"' : '';
-
-		$this->value = JText::_($text);
-
-		if ($icon)
-		{
-			$icon = '<span class="icon ' . $icon . '"></span>';
-		}
-
-		return '<' . $type . ' id="' . $this->id . '" class="btn ' . $class . '" ' .
-			$onclick . $url . $title . '>' .
-			$icon .
-			htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') .
-			'</' . $type . '>';
-	}
-
-	/**
-	 * Method to get the field title.
-	 *
-	 * @return  string  The field title.
-	 */
-	protected function getTitle()
-	{
-		return null;
+		return parent::getInput();
 	}
 }
