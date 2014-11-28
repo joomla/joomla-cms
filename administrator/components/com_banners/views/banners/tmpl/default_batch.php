@@ -21,12 +21,12 @@ $published = $this->state->get('filter.published');
 		<div class="row-fluid">
 			<div class="control-group span6">
 				<div class="controls">
-					<?php echo JHtml::_('banner.clients'); ?>
+					<?php echo JHtml::_('batch.language'); ?>
 				</div>
 			</div>
 			<div class="control-group span6">
 				<div class="controls">
-					<?php echo JHtml::_('batch.language'); ?>
+					<?php echo JHtml::_('banner.clients'); ?>
 				</div>
 			</div>
 		</div>

@@ -49,9 +49,7 @@ if (!defined('FTP_NATIVE'))
 /**
  * FTP client class
  *
- * @package     Joomla.Platform
- * @subpackage  Client
- * @since       12.1
+ * @since  12.1
  */
 class JClientFtp
 {
@@ -1805,8 +1803,6 @@ class JClientFtp
 /**
  * Deprecated class placeholder. You should use JClientFtp instead.
  *
- * @package     Joomla.Platform
- * @subpackage  Client
  * @since       11.1
  * @deprecated  12.3 (Platform) & 4.0 (CMS)
  */

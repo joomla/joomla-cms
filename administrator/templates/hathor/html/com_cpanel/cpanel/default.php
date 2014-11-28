@@ -10,6 +10,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 echo JHtml::_('sliders.start', 'panel-sliders', array('useCookie' => '1'));
 if (JFactory::getUser()->authorise('core.manage', 'com_postinstall')) :
 	if ($this->postinstall_message_count):
@@ -34,7 +36,7 @@ if (JFactory::getUser()->authorise('core.manage', 'com_postinstall')) :
 foreach ($this->modules as $module)
 {
 	$output = JModuleHelper::renderModule($module);
-	$params = new JRegistry;
+	$params = new Registry;
 	$params->loadString($module->params);
 	if ($params->get('automatic_title', '0') == '0')
 	{

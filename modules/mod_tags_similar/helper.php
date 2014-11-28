@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Helper for mod_tags_popular
  *
@@ -21,9 +23,9 @@ abstract class ModTagssimilarHelper
 	/**
 	 * Get a list of tags
 	 *
-	 * @param   JRegistry  &$params  Module parameters
+	 * @param   Registry  &$params  Module parameters
 	 *
-	 * @return  mixed                Results array / null
+	 * @return  mixed  Results array / null
 	 */
 	public static function getList(&$params)
 	{
@@ -43,6 +45,7 @@ abstract class ModTagssimilarHelper
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$matchtype  = $params->get('matchtype', 'all');
 		$maximum    = $params->get('maximum', 5);
+		$ordering   = $params->get('ordering', 'count');
 		$tagsHelper = new JHelperTags;
 		$prefix     = $option . '.' . $view;
 		$id         = $app->input->getInt('id');
@@ -59,13 +62,10 @@ abstract class ModTagssimilarHelper
 		$query = $db->getQuery(true)
 			->select(
 			array(
-				$db->quoteName('m.tag_id'),
 				$db->quoteName('m.core_content_id'),
 				$db->quoteName('m.content_item_id'),
 				$db->quoteName('m.type_alias'),
 					'COUNT( ' . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('count'),
-				$db->quoteName('t.access'),
-				$db->quoteName('t.id'),
 				$db->quoteName('ct.router'),
 				$db->quoteName('cc.core_title'),
 				$db->quoteName('cc.core_alias'),
@@ -105,7 +105,12 @@ abstract class ModTagssimilarHelper
 			$query->where($db->quoteName('cc.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
-		$query->group($db->quoteName(array('m.core_content_id')));
+		$query->group(
+			$db->quoteName(
+				array('m.core_content_id', 'm.content_item_id', 'm.type_alias', 'ct.router', 'cc.core_title',
+				'cc.core_alias', 'cc.core_catid', 'cc.core_language', 'cc.core_params')
+			)
+		);
 
 		if ($matchtype == 'all' && $tagCount > 0)
 		{
@@ -117,7 +122,16 @@ abstract class ModTagssimilarHelper
 			$query->having('COUNT( ' . $db->quoteName('tag_id') . ')  >= ' . $tagCountHalf);
 		}
 
-		$query->order($db->quoteName('count') . ' DESC');
+		if ($ordering == 'count' || $ordering == 'countrandom')
+		{
+			$query->order($db->quoteName('count') . ' DESC');
+		}
+
+		if ($ordering == 'random' || $ordering == 'countrandom')
+		{
+			$query->order('RAND()');
+		}
+
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 
@@ -127,7 +141,7 @@ abstract class ModTagssimilarHelper
 			$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1]
 				. '&id=' . $result->content_item_id . '-' . $result->core_alias;
 
-			$result->core_params = new JRegistry($result->core_params);
+			$result->core_params = new Registry($result->core_params);
 		}
 
 		return $results;

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_menu
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_menu
- * @since       1.5
+ * @since  1.5
  */
 abstract class ModMenuHelper
 {
@@ -135,7 +133,7 @@ abstract class ModMenuHelper
 			}
 		}
 
-		$result = JArrayHelper::sortObjects($result, 'text', 1, true, true);
+		$result = JArrayHelper::sortObjects($result, 'text', 1, false, true);
 
 		return $result;
 	}

@@ -6981,15 +6981,13 @@ html {
 body {
 	height: 100%;
 }
+a:hover,
+a:active,
+a:focus {
+	outline: none;
+}
 .view-login {
 	padding-top: 0;
-	background-color: #142849;
-	background-image: -webkit-gradient(radial,center center,0,center center,460,from(#165387),to(#142849));
-	background-image: -webkit-radial-gradient(circle,#165387,#142849);
-	background-image: -moz-radial-gradient(circle,#165387,#142849);
-	background-image: -o-radial-gradient(circle,#165387,#142849);
-	background-image: radial-gradient(circle,#165387,#142849);
-	background-repeat: no-repeat;
 }
 .view-login .container {
 	width: 300px;
@@ -7196,7 +7194,7 @@ body .navbar-fixed-top {
 	color: #0C192E;
 	text-shadow: 0 1px 0 #FFF;
 	margin-bottom: 10px;
-	min-height:43px;
+	min-height: 43px;
 }
 .subhead-collapse.collapse {
 	height: auto;
@@ -7431,6 +7429,9 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	.row-fluid [class*="span"] {
 		margin-left: 15px;
 	}
+	.row-fluid .modal-batch [class*="span"] {
+		margin-left: 0;
+	}
 }
 @media (max-width: 767px) {
 	.navbar-search.pull-right {
@@ -7621,6 +7622,12 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 .sortable-handler.inactive {
 	opacity: 0.3;
 	filter: alpha(opacity=30);
+}
+.alert-joomlaupdate {
+	text-align: center;
+}
+.alert-joomlaupdate button {
+	vertical-align: baseline;
 }
 .form-horizontal .control-label {
 	width: auto;
@@ -7970,7 +7977,7 @@ a.grid_true {
 	background-image: url('../images/admin/icon-16-allow.png');
 }
 #j-sidebar-container {
-	margin-right: 10px;
+	margin-right: 0;
 }
 div#j-sidebar-container.j-toggle-hidden {
 	width: 0;

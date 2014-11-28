@@ -46,7 +46,12 @@ class FOFModelBehaviorEnabled extends FOFModelBehavior
 
 		// Filter by enabled fields only
 		$db = FOFPlatform::getInstance()->getDbo();
-		$query->where($db->qn($enabledField) . ' = ' . $db->q(1));
+
+		// Alias
+		$alias = $model->getTableAlias();
+		$alias = $alias ? $db->qn($alias) . '.' : '';
+
+		$query->where($alias . $db->qn($enabledField) . ' = ' . $db->q(1));
 	}
 
 	/**

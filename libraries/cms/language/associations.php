@@ -9,12 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Utitlity class for associations in multilang
  *
- * @package     Joomla.Libraries
- * @subpackage  Language
- * @since       3.1
+ * @since  3.1
  */
 class JLanguageAssociations
 {
@@ -130,7 +130,7 @@ class JLanguageAssociations
 
 				if (!empty($plugin))
 				{
-					$params = new JRegistry($plugin->params);
+					$params = new Registry($plugin->params);
 					$enabled  = (boolean) $params->get('item_associations', true);
 				}
 
