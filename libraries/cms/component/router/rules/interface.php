@@ -15,15 +15,6 @@
 interface JComponentRouterRulesInterface
 {
 	/**
-	 * Constructor for the rule
-	 * 
-	 * @param   JComponentRouterInterface  $router  The component router
-	 * 
-	 * @since   3.4
-	 */
-	public function __construct(JComponentRouterInterface $router);
-
-	/**
 	 * Prepares a query set to be handed over to the build() method.
 	 * This should complete a partial query set to work as a complete non-SEFed
 	 * URL and in general make sure that all information is present and properly
