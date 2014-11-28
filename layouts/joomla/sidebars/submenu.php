@@ -12,14 +12,18 @@ defined('JPATH_BASE') or die;
 JHtmlBehavior::core();
 
 JFactory::getDocument()->addScriptDeclaration('
-    jQuery(document).ready(function($){
-        if (typeof(Joomla.toggleSidebar) !== "undefined"){
-            Joomla.toggleSidebar(true);
-        } else {
-            $("#j-toggle-sidebar-header").css("display", "none");
-            $("#j-toggle-button-wrapper").css("display", "none");
-        }
-    });
+	jQuery(document).ready(function($)
+	{
+		if (typeof(Joomla.toggleSidebar) !== "undefined")
+		{
+			Joomla.toggleSidebar(true);
+		}
+		else
+		{
+			$("#j-toggle-sidebar-header").css("display", "none");
+			$("#j-toggle-button-wrapper").css("display", "none");
+		}
+	});
 ');
 ?>
 
