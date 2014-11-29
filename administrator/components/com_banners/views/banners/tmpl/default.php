@@ -33,7 +33,6 @@ if ($saveOrder)
 
 $sortFields = $this->getSortFields();
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -48,8 +47,7 @@ jQuery(document).ready(function() {
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, "");
-	}
-});
+	};
 ');
 ?>
 

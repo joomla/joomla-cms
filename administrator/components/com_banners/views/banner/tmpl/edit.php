@@ -14,7 +14,6 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "banner.cancel" || document.formvalidator.isValid(document.getElementById("banner-form")))
@@ -22,7 +21,6 @@ jQuery(document).ready(function() {
 			Joomla.submitform(task, document.getElementById("banner-form"));
 		}
 	};
-});
 jQuery(document).ready(function ($){
 	$("#jform_type").change(function(){
 		if($(this).val() == 1) {

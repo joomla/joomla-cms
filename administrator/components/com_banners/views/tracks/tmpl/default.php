@@ -21,7 +21,6 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 $sortFields = $this->getSortFields();
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -38,11 +37,11 @@ jQuery(document).ready(function() {
 		Joomla.tableOrdering(order, dirn, "");
 	}
 
-Joomla.closeModalDialog = function()
-{
-	window.jQuery("#modal-download").modal("hide");
-}
-});');
+	Joomla.closeModalDialog = function()
+	{
+		window.jQuery("#modal-download").modal("hide");
+	}
+');
 ?>
 <script type="text/javascript">
 

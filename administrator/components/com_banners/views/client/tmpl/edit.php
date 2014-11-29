@@ -14,15 +14,14 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "client.cancel" || document.formvalidator.isValid(document.getElementById("client-form")))
 		{
 			Joomla.submitform(task, document.getElementById("client-form"));
 		}
-	}
-});');
+	};
+');
 ?>
 <script type="text/javascript">
 
