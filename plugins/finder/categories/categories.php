@@ -303,7 +303,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		}
 		else
 		{
-			$item->route = ContentHelperRoute::getCategoryRoute($item->slug, $item->catid);
+			$item->route = ContentHelperRoute::getCategoryRoute($item->id, $item->language);
 		}
 
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
