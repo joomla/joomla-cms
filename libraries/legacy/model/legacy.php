@@ -321,6 +321,8 @@ abstract class JModelLegacy extends JObject
 		if ($query instanceof JDatabaseQuery
 			&& $query->type == 'select'
 			&& $query->group === null
+			&& $query->union === null
+			&& $query->unionAll === null
 			&& $query->having === null)
 		{
 			$query = clone $query;

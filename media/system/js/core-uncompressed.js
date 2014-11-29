@@ -213,59 +213,6 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
 }
 
 /**
- * USED IN: All list views to hide/show the sidebar
- */
-Joomla.toggleSidebar = function(force)
-{
-	var context = 'jsidebar';
-
-	var $visible = jQuery('#sidebar').is(":visible");
-
-	if (force)
-	{
-		// Load the value from localStorage
-		if (typeof(Storage) !== "undefined")
-		{
-			var $visible = localStorage.getItem(context);
-		}
-
-		// Need to convert the value to a boolean
-		$visible = ($visible == 'true') ? true : false;
-	}
-
-	if ($visible)
-	{
-		jQuery('#sidebar').hide();
-		jQuery('#j-sidebar-container').removeClass('span2').addClass('span1');
-        jQuery('#j-sidebar-container').removeClass('j-toggle-visible').addClass('j-toggle-hidden');
-		jQuery('#j-main-container').removeClass('span10').addClass('span12 expanded');
-		jQuery('#j-toggle-sidebar-icon').removeClass('icon-remove').addClass('icon-menu-3');
-		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_SHOW_SIDEBAR'));
-
-		if (typeof(Storage) !== "undefined")
-		{
-			// Set the last selection in localStorage
-			localStorage.setItem(context, true);
-		}
-	}
-	else
-	{
-		jQuery('#sidebar').show();
-		jQuery('#j-sidebar-container').removeClass('span1').addClass('span2');
-        jQuery('#j-sidebar-container').removeClass('j-toggle-hidden').addClass('j-toggle-visible');
-		jQuery('#j-main-container').removeClass('span12 expanded').addClass('span10');
-		jQuery('#j-toggle-sidebar-icon').removeClass('icon-menu-3').addClass('icon-remove');
-		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_HIDE_SIDEBAR'));
-
-		if (typeof(Storage) !== "undefined")
-		{
-			// Set the last selection in localStorage
-			localStorage.setItem(context, false);
-		}
-	}
-}
-
-/**
  * USED IN: libraries/joomla/html/html/grid.php
  */
 Joomla.tableOrdering = function(order, dir, task, form) {

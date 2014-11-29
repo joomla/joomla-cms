@@ -19,28 +19,33 @@ $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $sortFields = $this->getSortFields();
-?>
-<script type="text/javascript">
+
+JFactory::getDocument()->addScriptDeclaration('
+jQuery(document).ready(function() {
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != '<?php echo $listOrder; ?>')
+		if (order != "' . $listOrder . '")
 		{
-			dirn = 'asc';
+		dirn = "asc";
 		}
 		else
 		{
-			dirn = direction.options[direction.selectedIndex].value;
+		dirn = direction.options[direction.selectedIndex].value;
 		}
-		Joomla.tableOrdering(order, dirn, '');
+		Joomla.tableOrdering(order, dirn, "");
 	}
 
-	Joomla.closeModalDialog = function()
-	{
-		window.jQuery('#modal-download').modal('hide');
-	}
+Joomla.closeModalDialog = function()
+{
+	window.jQuery("#modal-download").modal("hide");
+}
+});');
+?>
+<script type="text/javascript">
+
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=tracks'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
