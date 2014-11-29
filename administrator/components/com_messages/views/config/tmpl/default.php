@@ -17,15 +17,14 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.modal');
 
 JFactory::getDocument()->addScriptDeclaration("
-jQuery(document).ready(function() {
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'config.cancel' || document.formvalidator.isValid(document.getElementById('config-form')))
+		Joomla.submitbutton = function(task)
 		{
-			Joomla.submitform(task, document.getElementById('config-form'));
+			if (task == 'config.cancel' || document.formvalidator.isValid(document.getElementById('config-form')))
+			{
+				Joomla.submitform(task, document.getElementById('config-form'));
+			}
 		}
-	}
-});");
+");
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" class="form-validate form-horizontal">
 	<fieldset>
