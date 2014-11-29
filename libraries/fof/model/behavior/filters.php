@@ -32,6 +32,8 @@ class FOFModelBehaviorFilters extends FOFModelBehavior
 		$tableKey = $table->getKeyName();
 		$db = $model->getDBO();
 
+		$filterzero = $model->getState('_emptynonzero', null);
+
 		$fields = $model->getTableFields();
 
 		foreach ($fields as $fieldname => $fieldtype)
@@ -39,6 +41,7 @@ class FOFModelBehaviorFilters extends FOFModelBehavior
 			$field = new stdClass;
 			$field->name = $fieldname;
 			$field->type = $fieldtype;
+			$field->filterzero = $filterzero;
 
 			$filterName = ($field->name == $tableKey) ? 'id' : $field->name;
 			$filterState = $model->getState($filterName, null);
@@ -71,10 +74,12 @@ class FOFModelBehaviorFilters extends FOFModelBehavior
 			{
 				case 'between':
 				case 'outside':
+				case 'range' :
 					$sql = $field->$method($options->get('from', null), $options->get('to'));
 					break;
 
 				case 'interval':
+				case 'modulo':
 					$sql = $field->$method($options->get('value', null), $options->get('interval'));
 					break;
 
