@@ -8018,6 +8018,7 @@ a.grid_true {
 	display: block;
 	margin-top: 11px;
 	padding: 0;
+	cursor: pointer;
 }
 .j-toggle-button-wrapper.j-toggle-hidden {
 	right: -20px;
@@ -8029,7 +8030,6 @@ a.grid_true {
 	font-size: 14px;
 	color: #08c;
 	text-decoration: none;
-	cursor: pointer;
 }
 .j-toggle-sidebar-button:hover {
 	color: #005580;
