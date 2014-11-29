@@ -7981,7 +7981,7 @@ a.grid_true {
 	display: block;
 	left: -16.5%;
 	width: 16.5%;
-	margin: -10px 0 0 0;
+	margin: -10px 0 0 -1px;
 	padding-top: 10px;
 	background: #fff;
 	background: -moz-linear-gradient(top,#ffffff 0%,#ededed 100%);
@@ -8003,22 +8003,21 @@ a.grid_true {
 .j-toggle-sidebar-header {
 	color: #999;
 	margin: -11px 0 7px 0;
-	padding: 10px 0 10px 18px;
+	padding: 10px 0 10px 19px;
 	border-top: 1px solid #d3d3d3;
 	border-bottom: 1px solid #eee;
 }
 .sidebar {
-	padding: 3px;
+	padding: 3px 3px 3px 4px;
 }
 .j-sidebar-container .filter-select {
-	padding: 0 13px;
+	padding: 0 14px;
 }
 .j-toggle-button-wrapper {
 	position: absolute;
 	display: block;
 	margin-top: 11px;
 	padding: 0;
-	cursor: pointer;
 }
 .j-toggle-button-wrapper.j-toggle-hidden {
 	right: -20px;
@@ -8030,6 +8029,7 @@ a.grid_true {
 	font-size: 14px;
 	color: #08c;
 	text-decoration: none;
+	cursor: pointer;
 }
 .j-toggle-sidebar-button:hover {
 	color: #005580;
@@ -8751,6 +8751,7 @@ a.grid_true {
 .j-sidebar-container {
 	left: auto;
 	right: -16.5%;
+	margin: -10px -1px 0 0;
 	border-right: 0;
 	border-left: 1px solid #d3d3d3;
 }
@@ -8763,7 +8764,10 @@ a.grid_true {
 	right: 0;
 }
 .j-toggle-sidebar-header {
-	padding: 10px 18px 10px 0;
+	padding: 10px 19px 10px 0;
+}
+.sidebar {
+	padding: 3px 4px 3px 3px;
 }
 .j-toggle-button-wrapper.j-toggle-hidden {
 	right: auto;
