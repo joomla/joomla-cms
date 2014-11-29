@@ -256,7 +256,7 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.0
-	 * @deprecated  3.x  Unused, JS Not functioning
+	 * @deprecated  3.4  Unused, JS Not working
 	 */
 	public static function modal($selector = 'modal', $params = array())
 	{
@@ -299,13 +299,13 @@ abstract class JHtmlBootstrap
 	 *                             - backdrop  mixed    A boolean select if a modal-backdrop element should be included (default = true)
 	 *                                                  The string 'static' includes a backdrop which doesn't close the modal on click.
 	 *                             - keyboard  boolean  Closes the modal when escape key is pressed (default = true)
-	 *                             - closebtn  boolean  Display modal close button (default = true)
+	 *                             - closeButton  boolean  Display modal close button (default = true)
 	 *                             - animation boolean  Fade in from the top of the page (default = true)
 	 *                             - footer    string   Optional markup for the modal footer
 	 *                             - url       string   URL of a resource to be inserted as an <iframe> inside the modal body
 	 *                             - height    string   height of the <iframe> containing the remote resource
 	 *                             - width     string   width of the <iframe> containing the remote resource
-	 * @param   string  $body      Markup for the modal body (appended after the <iframe> if the url option is set)
+	 * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
 	 *
 	 * @return  string  HTML markup for a modal
 	 *
@@ -316,69 +316,13 @@ abstract class JHtmlBootstrap
 		// Include Bootstrap framework
 		static::framework();
 
-		// The modal (containig) div
-		$html = "<div id=\"{$selector}\" class=\"modal hide";
-		if (!isset($params['animation']) || $params['animation'])
-		{
-			$html .= ' fade';
-		}
-		$html .= '"';
-		if (isset($params['backdrop']))
-		{
-			$html .= ' data-backdrop="' . (is_bool($params['backdrop']) ? ($params['backdrop'] ? 'true' : 'false') : $params['backdrop']) . '"';
-		}
-		if (isset($params['keyboard']))
-		{
-			$html .= ' data-keyboard="' . (is_bool($params['keyboard']) ? ($params['keyboard'] ? 'true' : 'false') : 'true') . '"';
-		}
-		// Must set tabindex="-1" to allow closing the modal with the esc key
-		$html .= ' tabindex="-1">';
+		$layoutData = array(
+			'selector' => $selector,
+			'params'   => $params,
+			'body'     => $body
+		);
 
-		// The modal-header
-		if (!isset($params['closebtn']) || isset($params['title']) || $params['closebtn'])
-		{
-			$html .= '<div class="modal-header">';
-			if (!isset($params['closebtn']) || $params['closebtn'])
-			{
-				$html .= '<button type="button" class="close" data-dismiss="modal">×</button>';
-			}
-			if (isset($params['title']))
-			{
-				$html .= "<h3>{$params['title']}</h3>";
-			}
-			$html .= '</div>';
-		}
-
-		// The modal-body
-		$html .= "<div class=\"modal-body\">{$body}</div>";
-
-		// The modal-footer
-		if (isset($params['footer']))
-		{
-			$html .= '<div class="modal-footer">';
-			$html .= $params['footer'];
-			$html .= '</div>';
-		}
-
-		$html .= '</div>';
-
-		// If we have an URL we must populate the modal-body with it "on show"
-		if (isset($params['url']))
-		{
-			$params['height'] = isset($params['height']) ? " height=\"{$params['height']}\"" : '';
-			$params['width'] = isset($params['width']) ? " width=\"{$params['width']}\"" : '';
-
-			// Add the script to the document head.
-			$script[] = "jQuery(document).ready(function($) {";
-			$script[] = "	$('#{$selector}').on('show', function() {";
-			$script[] = "		$(this).find('.modal-body').html('<iframe class=\"iframe\" src=\"{$params['url']}\""
-				. $params['height'] . $params['width'] . "></iframe>{$body}');";
-			$script[] = "	});";
-			$script[] = "});";
-			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
-		}
-
-		return $html;
+		return JLayoutHelper::render('joomla.modal.main', $layoutData);
 	}
 
 	/**
