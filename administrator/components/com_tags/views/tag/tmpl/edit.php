@@ -21,15 +21,14 @@ $params = $this->state->get('params');
 $params = $params->toArray();
 
 JFactory::getDocument()->addScriptDeclaration("
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'tag.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
-			". $this->form->getField('description')->save() . "
+			" . $this->form->getField('description')->save() . "
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
 	}
-});");
+");
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tags&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
