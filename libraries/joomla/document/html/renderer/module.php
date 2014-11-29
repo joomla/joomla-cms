@@ -9,12 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * JDocument Module renderer
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JDocumentRendererModule extends JDocumentRenderer
 {
@@ -70,13 +70,13 @@ class JDocumentRendererModule extends JDocumentRenderer
 		}
 
 		// Get module parameters
-		$params = new JRegistry;
+		$params = new Registry;
 		$params->loadString($module->params);
 
 		// Use parameters from template
 		if (isset($attribs['params']))
 		{
-			$template_params = new JRegistry;
+			$template_params = new Registry;
 			$template_params->loadString(html_entity_decode($attribs['params'], ENT_COMPAT, 'UTF-8'));
 			$params->merge($template_params);
 			$module = clone $module;

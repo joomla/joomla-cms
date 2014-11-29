@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * Acts as a Factory class for application specific objects and
  * provides many supporting API functions.
  *
- * @package     Joomla.Legacy
- * @subpackage  Model
- * @since       12.2
+ * @since  12.2
  */
 abstract class JModelLegacy extends JObject
 {
@@ -323,10 +321,12 @@ abstract class JModelLegacy extends JObject
 		if ($query instanceof JDatabaseQuery
 			&& $query->type == 'select'
 			&& $query->group === null
+			&& $query->union === null
+			&& $query->unionAll === null
 			&& $query->having === null)
 		{
 			$query = clone $query;
-			$query->clear('select')->clear('order')->clear('limit')->select('COUNT(*)');
+			$query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
 			$this->_db->setQuery($query);
 

@@ -12,12 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Prototype form model.
  *
- * @package     Joomla.Legacy
- * @subpackage  Model
- * @see         JForm
- * @see         JFormField
- * @see         JFormRule
- * @since       12.2
+ * @see    JForm
+ * @see    JFormField
+ * @see    JFormRule
+ * @since  12.2
  */
 abstract class JModelForm extends JModelLegacy
 {

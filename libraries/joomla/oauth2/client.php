@@ -9,17 +9,17 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform class for interacting with an OAuth 2.0 server.
  *
- * @package     Joomla.Platform
- * @subpackage  OAuth2
- * @since       12.3
+ * @since  12.3
  */
 class JOAuth2Client
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var    Registry  Options for the JOAuth2Client object.
 	 * @since  12.3
 	 */
 	protected $options;
@@ -45,16 +45,16 @@ class JOAuth2Client
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry        $options      JOAuth2Client options object
+	 * @param   Registry         $options      JOAuth2Client options object
 	 * @param   JHttp            $http         The HTTP client object
 	 * @param   JInput           $input        The input object
 	 * @param   JApplicationWeb  $application  The application object
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JHttp $http = null, JInput $input = null, JApplicationWeb $application = null)
+	public function __construct(Registry $options = null, JHttp $http = null, JInput $input = null, JApplicationWeb $application = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->http = isset($http) ? $http : new JHttp($this->options);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 		$this->application = isset($application) ? $application : new JApplicationWeb;

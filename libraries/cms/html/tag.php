@@ -9,12 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Utility class for tags
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.1
+ * @since  3.1
  */
 abstract class JHtmlTag
 {
@@ -168,7 +168,7 @@ abstract class JHtmlTag
 		$minTermLength = (int) $params->get("min_term_length", 3);
 
 		// Tags field ajax
-		$chosenAjaxSettings = new JRegistry(
+		$chosenAjaxSettings = new Registry(
 			array(
 				'selector'      => $selector,
 				'type'          => 'GET',

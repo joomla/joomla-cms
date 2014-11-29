@@ -16,15 +16,17 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
- *
  * @since       11.1
  */
-class JCacheStorageTest_Main extends TestCase
+class JCacheStorageMainTest extends TestCase
 {
 	/**
-	 * Test setUp
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   3.4
 	 */
 	protected function setUp()
 	{
@@ -32,15 +34,19 @@ class JCacheStorageTest_Main extends TestCase
 
 		$this->saveFactoryState();
 
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$session = $this->getMockSession();
 
 		require_once dirname(__DIR__) . '/controller/JCacheControllerRaw.php';
 	}
 
 	/**
-	 * Overrides the parent tearDown method.
+	 * Tears down the fixture, for example, close a network connection.
+	 * This method is called after a test is executed.
 	 *
 	 * @return  void
+	 *
+	 * @since   3.4
 	 */
 	protected function tearDown()
 	{
@@ -52,7 +58,7 @@ class JCacheStorageTest_Main extends TestCase
 	/**
 	 * Test provider
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public static function provider()
 	{
@@ -76,30 +82,24 @@ class JCacheStorageTest_Main extends TestCase
 	 *
 	 * @param   string  $store  The store.
 	 *
-	 * @dataProvider provider
+	 * @return  void
 	 *
-	 * @return void
+	 * @dataProvider  provider
 	 */
 	public function testCacheHit($store)
 	{
-		if ($store == 'eaccelerator')
-		{
-			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
-		}
-
-		if ($store == 'xcache')
-		{
-			$this->markTestSkipped('Xcache does not work with cli, skipped');
-		}
+		$this->checkStore($store);
 
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
-		$cache =& JCache::getInstance('', array('storage' => $store));
+
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$this->assertTrue($cache->store($data, $id, $group), 'Initial Store Failed');
 		unset($cache);
-		$cache =& JCache::getInstance('', array('storage' => $store));
+
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$new = $cache->get($id, $group);
 		$this->assertSame($new, $data, 'Expected: ' . $data . ' Actual: ' . $new);
@@ -111,26 +111,19 @@ class JCacheStorageTest_Main extends TestCase
 	 *
 	 * @param   string  $store  The store.
 	 *
-	 * @dataProvider provider
+	 * @return  void
 	 *
-	 * @return void
+	 * @dataProvider  provider
 	 */
 	public function testCacheMiss($store)
 	{
-		if ($store == 'eaccelerator')
-		{
-			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
-		}
-
-		if ($store == 'xcache')
-		{
-			$this->markTestSkipped('Xcache does not work with cli, skipped');
-		}
+		$this->checkStore($store);
 
 		$id = 'randomTestID2423423';
 		$group = '_testing';
 		$data = 'testData';
-		$cache =& JCache::getInstance('', array('storage' => $store));
+
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$new = $cache->get($id, $group);
 		$this->assertFalse($new, 'Expected: false Actual: ' . $new);
@@ -138,6 +131,8 @@ class JCacheStorageTest_Main extends TestCase
 	}
 
 	/**
+	 * Test...
+	 * 
 	 * @medium
 	 *
 	 * @dataProvider provider
@@ -148,26 +143,21 @@ class JCacheStorageTest_Main extends TestCase
 	 */
 	public function testCacheTimeout($store)
 	{
-		if ($store == 'eaccelerator')
-		{
-			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
-		}
-
-		if ($store == 'xcache')
-		{
-			$this->markTestSkipped('Xcache does not work with cli, skipped');
-		}
+		$this->checkStore($store);
 
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
-		$cache =& JCache::getInstance('', array('storage' => $store));
+
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$cache->setLifeTime(2);
 		$this->assertTrue($cache->store($data, $id, $group), 'Initial Store Failed');
 		unset($cache);
+
 		sleep(5);
-		$cache =& JCache::getInstance('', array('storage' => $store));
+
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setLifeTime(2);
 		$new = $cache->get($id, $group);
 		$this->assertFalse($new, 'Expected: false Actual: ' . ((string) $new));
@@ -179,36 +169,30 @@ class JCacheStorageTest_Main extends TestCase
 	 *
 	 * @param   string  $store  The store.
 	 *
-	 * @dataProvider provider
+	 * @return  void
 	 *
-	 * @return void
+	 * @dataProvider  provider
 	 */
 	public function testCacheRemove($store)
 	{
-
-		if ($store == 'eaccelerator')
-		{
-			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
-		}
-
-		if ($store == 'xcache')
-		{
-			$this->markTestSkipped('Xcache does not work with cli, skipped');
-		}
+		$this->checkStore($store);
 
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
-		$cache =& JCache::getInstance('', array('storage' => $store));
+
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$this->assertTrue($cache->store($data, $id, $group), 'Initial Store Failed');
 		unset($cache);
-		$cache =& JCache::getInstance('', array('storage' => $store));
+
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$test = $cache->remove($id, $group);
 		$this->assertTrue($test, 'Removal Failed');
 		unset($cache);
-		$cache =& JCache::getInstance('', array('storage' => $store));
+
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$new = $cache->get($id, $group);
 		$this->assertFalse($new, 'Expected: false Actual: ' . ((string) $new));
@@ -220,35 +204,29 @@ class JCacheStorageTest_Main extends TestCase
 	 *
 	 * @param   string  $store  The store.
 	 *
-	 * @dataProvider provider
+	 * @return  void
 	 *
-	 * @return void
+	 * @dataProvider  provider
 	 */
 	public function testCacheClearGroup($store)
 	{
-
-		if ($store == 'eaccelerator')
-		{
-			$this->markTestSkipped('Eaccelerator does not wotk with cli, skipped');
-		}
-
-		if ($store == 'xcache')
-		{
-			$this->markTestSkipped('Xcache does not work with cli, skipped');
-		}
+		$this->checkStore($store);
 
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
-		$cache =& JCache::getInstance('', array('storage' => $store));
+
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$this->assertTrue($cache->store($data, $id, $group), 'Initial Store Failed');
 		unset($cache);
-		$cache =& JCache::getInstance('', array('storage' => $store));
+
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$this->assertTrue($cache->clean($group), 'Clean Failed');
 		unset($cache);
-		$cache =& JCache::getInstance('', array('storage' => $store));
+
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$new = $cache->get($id, $group);
 		$this->assertFalse($new, 'Expected: false Actual: ' . ((string) $new));
@@ -260,39 +238,48 @@ class JCacheStorageTest_Main extends TestCase
 	 *
 	 * @param   string  $store  The store.
 	 *
-	 * @dataProvider provider
+	 * @return  void
 	 *
-	 * @return void
+	 * @dataProvider  provider
 	 */
 	public function testCacheClearNotGroup($store)
 	{
-		if ($store == 'eaccelerator')
-		{
-			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
-		}
-
-		if ($store == 'xcache')
-		{
-			$this->markTestSkipped('Xcache does not work with cli, skipped');
-		}
+		$this->checkStore($store);
 
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
-		$cache =& JCache::getInstance('', array('storage' => $store));
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$this->assertTrue($cache->store($data, $id, $group), 'Initial Store Failed');
 		unset($cache);
 
-		$cache =& JCache::getInstance('', array('storage' => $store));
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$this->assertTrue((bool) $cache->clean($group, 'notgroup'), 'Clean Failed');
 		unset($cache);
 
-		$cache =& JCache::getInstance('', array('storage' => $store));
+		$cache = JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$new = $cache->get($id, $group);
 		$this->assertSame($new, $data, 'Expected: ' . $data . ' Actual: ' . ((string) $new));
 		unset($cache);
+	}
+
+	/**
+	 * Checks if a store is supported for testing
+	 *
+	 * @param   string  $store  The store.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	private function checkStore($store)
+	{
+		if (in_array($store, array('apc', 'eaccelerator', 'memcached', 'redis', 'xcache')))
+		{
+			$this->markTestSkipped('This storage adapter does not test properly from CLI or is not yet configured for testing.');
+		}
 	}
 }

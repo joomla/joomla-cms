@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * Class holding methods for displaying presentation data.
  *
- * @package     Joomla.Legacy
- * @subpackage  View
- * @since       12.2
+ * @since  12.2
  */
 class JViewLegacy extends JObject
 {

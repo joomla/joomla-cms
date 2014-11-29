@@ -17,9 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/repos/contents
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Repositories
- * @since       11.3
+ * @since  11.3
  */
 class JGithubPackageRepositoriesContents extends JGithubPackage
 {
@@ -127,13 +125,11 @@ class JGithubPackageRepositoriesContents extends JGithubPackage
 	public function get($owner, $repo, $path, $ref = '')
 	{
 		// Build the request path.
-		$rPath = '/repos/' . $owner . '/' . $repo . '/contents';
-
-		$rPath .= '?path=' . $path;
+		$rPath = '/repos/' . $owner . '/' . $repo . '/contents/' . $path;
 
 		if ($ref)
 		{
-			$rPath .= '&ref=' . $ref;
+			$rPath .= '?ref=' . $ref;
 		}
 
 		// Send the request.

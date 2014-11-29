@@ -235,6 +235,13 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	protected $_configProviderKey = '';
 
 	/**
+	 * The content type of the table. Required if using tags or content history behaviour
+	 *
+	 * @var  string
+	 */
+	protected $contentType = null;
+
+	/**
 	 * Returns a static object instance of a particular table type
 	 *
 	 * @param   string  $type    The table name
@@ -651,6 +658,20 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	}
 
 	/**
+	 * Does the specified field exist?
+	 *
+	 * @param   string  $fieldName  The field name to search (it's OK to use aliases)
+	 *
+	 * @return  bool
+	 */
+	public function hasField($fieldName)
+	{
+		$search = $this->getColumnAlias($fieldName);
+
+		return in_array($search, $this->knownFields);
+	}
+
+	/**
 	 * Add a field to the known fields array
 	 *
 	 * @param   string   $field       The name of the field to add
@@ -967,6 +988,8 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
         $known        = $this->getKnownFields();
         $skipFields[] = $this->_tbl_key;
 
+		if(in_array($this->getColumnAlias('title'), $known)
+			&& in_array($this->getColumnAlias('slug'), $known))      $skipFields[] = $this->getColumnAlias('slug');
         if(in_array($this->getColumnAlias('hits'), $known))         $skipFields[] = $this->getColumnAlias('hits');
         if(in_array($this->getColumnAlias('created_on'), $known))   $skipFields[] = $this->getColumnAlias('created_on');
         if(in_array($this->getColumnAlias('created_by'), $known))   $skipFields[] = $this->getColumnAlias('created_by');
@@ -1023,25 +1046,28 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 			$fields = array_merge($fields, $j_fields);
 		}
 
-		foreach ($fields as $k => $v)
+		if (is_array($fields) && !empty($fields))
 		{
-			// If the property is not the primary key or private, reset it.
-			if ($k != $this->_tbl_key && (strpos($k, '_') !== 0))
+			foreach ($fields as $k => $v)
 			{
-				$this->$k = $v->Default;
+				// If the property is not the primary key or private, reset it.
+				if ($k != $this->_tbl_key && (strpos($k, '_') !== 0))
+				{
+					$this->$k = $v->Default;
+				}
 			}
-		}
 
-		if (!$this->onAfterReset())
-		{
-			return false;
+			if (!$this->onAfterReset())
+			{
+				return false;
+			}
 		}
 	}
 
     /**
      * Clones the current object, after resetting it
      *
-     * @return FOFTable
+     * @return static
      */
     public function getClone()
     {
@@ -1676,7 +1702,6 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 				}
 			}
 
-			// TODO Should we notify the user that we had a problem with this record?
 			if (!$this->onBeforeCopy($item))
 			{
 				continue;
@@ -1689,10 +1714,8 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 			$this->$modified_by = null;
 
 			// Let's fire the event only if everything is ok
-			// TODO Should we notify the user that we had a problem with this record?
 			if ($this->store())
 			{
-				// TODO Should we notify the user that we had a problem with this record?
 				$this->onAfterCopy($item);
 			}
 
@@ -1766,7 +1789,6 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 			);
 		}
 
-		//Why this crazy statement?
 		// TODO Rewrite this statment using IN. Check if it work in SQLServer and PostgreSQL
 		$cids = $this->_db->qn($k) . ' = ' . implode(' OR ' . $this->_db->qn($k) . ' = ', $cid);
 
@@ -1799,7 +1821,6 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 		{
 			if ($this->_db->getAffectedRows() == 1)
 			{
-				// TODO should we check for its return value?
 				$this->checkin($cid[0]);
 
 				if ($this->$k == $cid[0])
@@ -1852,7 +1873,6 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 		$query->where($this->_tbl_key . ' = ' . $this->_db->q($pk));
 		$this->_db->setQuery($query);
 
-		// @TODO Check for a database error.
 		$this->_db->execute();
 
 		$result = $this->onAfterDelete($oid);
@@ -3397,6 +3417,18 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	}
 
 	/**
+	 * Returns the identity value of this record
+	 *
+	 * @return mixed
+	 */
+	public function getId()
+	{
+		$key = $this->getKeyName();
+
+		return $this->$key;
+	}
+
+	/**
 	 * Method to get the JDatabaseDriver object.
 	 *
 	 * @return  JDatabaseDriver  The internal database driver object.
@@ -3606,6 +3638,16 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	 */
 	public function getContentType()
 	{
+		if ($this->contentType)
+		{
+			return $this->contentType;
+		}
+
+		/**
+		 * When tags was first introduced contentType variable didn't exist - so we guess one
+		 * This will fail if content history behvaiour is enabled. This code is deprecated
+		 * and will be removed in FOF 3.0 in favour of the content type class variable
+		 */
 		$component = $this->input->get('option');
 
 		$view = FOFInflector::singularize($this->input->get('view'));
@@ -3647,5 +3689,140 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	public function getConfigProviderKey()
 	{
 		return $this->_configProviderKey;
+	}
+
+	/**
+	 * Check if a UCM content type exists for this resource, and
+	 * create it if it does not
+	 *
+	 * @param  string  $alias  The content type alias (optional)
+	 *
+	 * @return  null
+	 */
+	public function checkContentType($alias)
+	{
+		$contentType = new JTableContenttype($this->getDbo());
+
+		if (!$alias)
+		{
+			$alias = $this->getContentType();
+		}
+
+		$aliasParts = explode('.', $alias);
+
+		// Fetch the extension name
+		$component = $aliasParts[0];
+		$component = JComponentHelper::getComponent($component);
+
+		// Fetch the name using the menu item
+		$query = $this->getDbo()->getQuery(true);
+		$query->select('title')->from('#__menu')->where('component_id = ' . (int) $component->id);
+		$this->getDbo()->setQuery($query);
+		$component_name = JText::_($this->getDbo()->loadResult());
+
+		$name = $component_name . ' ' . ucfirst($aliasParts[1]);
+
+		// Create a new content type for our resource
+		if (!$contentType->load(array('type_alias' => $alias)))
+		{
+			$contentType->type_title = $name;
+			$contentType->type_alias = $alias;
+			$contentType->table = json_encode(
+				array(
+					'special' => array(
+						'dbtable' => $this->getTableName(),
+						'key'     => $this->getKeyName(),
+						'type'    => $name,
+						'prefix'  => $this->_tablePrefix,
+						'class'   => 'FOFTable',
+						'config'  => 'array()'
+					),
+					'common' => array(
+						'dbtable' => '#__ucm_content',
+						'key' => 'ucm_id',
+						'type' => 'CoreContent',
+						'prefix' => 'JTable',
+						'config' => 'array()'
+					)
+				)
+			);
+
+			$contentType->field_mappings = json_encode(
+				array(
+					'common' => array(
+						0 => array(
+							"core_content_item_id" => $this->getKeyName(),
+							"core_title"           => $this->getUcmCoreAlias('title'),
+							"core_state"           => $this->getUcmCoreAlias('enabled'),
+							"core_alias"           => $this->getUcmCoreAlias('alias'),
+							"core_created_time"    => $this->getUcmCoreAlias('created_on'),
+							"core_modified_time"   => $this->getUcmCoreAlias('created_by'),
+							"core_body"            => $this->getUcmCoreAlias('body'),
+							"core_hits"            => $this->getUcmCoreAlias('hits'),
+							"core_publish_up"      => $this->getUcmCoreAlias('publish_up'),
+							"core_publish_down"    => $this->getUcmCoreAlias('publish_down'),
+							"core_access"          => $this->getUcmCoreAlias('access'),
+							"core_params"          => $this->getUcmCoreAlias('params'),
+							"core_featured"        => $this->getUcmCoreAlias('featured'),
+							"core_metadata"        => $this->getUcmCoreAlias('metadata'),
+							"core_language"        => $this->getUcmCoreAlias('language'),
+							"core_images"          => $this->getUcmCoreAlias('images'),
+							"core_urls"            => $this->getUcmCoreAlias('urls'),
+							"core_version"         => $this->getUcmCoreAlias('version'),
+							"core_ordering"        => $this->getUcmCoreAlias('ordering'),
+							"core_metakey"         => $this->getUcmCoreAlias('metakey'),
+							"core_metadesc"        => $this->getUcmCoreAlias('metadesc'),
+							"core_catid"           => $this->getUcmCoreAlias('cat_id'),
+							"core_xreference"      => $this->getUcmCoreAlias('xreference'),
+							"asset_id"             => $this->getUcmCoreAlias('asset_id')
+						)
+					),
+					'special' => array(
+						0 => array(
+						)
+					)
+				)
+			);
+
+			$ignoreFields = array(
+				$this->getUcmCoreAlias('modified_on', null),
+				$this->getUcmCoreAlias('modified_by', null),
+				$this->getUcmCoreAlias('locked_by', null),
+				$this->getUcmCoreAlias('locked_on', null),
+				$this->getUcmCoreAlias('hits', null),
+				$this->getUcmCoreAlias('version', null)
+			);
+
+			$contentType->content_history_options = json_encode(
+				array(
+					"ignoreChanges" => array_filter($ignoreFields, 'strlen')
+				)
+			);
+
+			$contentType->router = '';
+
+			$contentType->store();
+		}
+	}
+
+	/**
+	 * Utility methods that fetches the column name for the field.
+	 * If it does not exists, returns a "null" string
+	 *
+	 * @param  string  $alias  The alias for the column
+	 * @param  string  $null   What to return if no column exists
+	 *
+	 * @return string The column name
+	 */
+	protected function getUcmCoreAlias($alias, $null = "null")
+	{
+		$alias = $this->getColumnAlias($alias);
+
+		if (in_array($alias, $this->getKnownFields()))
+		{
+			return $alias;
+		}
+
+		return $null;
 	}
 }

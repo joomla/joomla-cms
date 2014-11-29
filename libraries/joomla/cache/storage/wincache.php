@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * WINCACHE cache storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @see         http://php.net/manual/en/book.wincache.php
- * @since       11.1
+ * @see    http://php.net/manual/en/book.wincache.php
+ * @since  11.1
  */
 class JCacheStorageWincache extends JCacheStorage
 {

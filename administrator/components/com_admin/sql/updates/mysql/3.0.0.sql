@@ -9,10 +9,6 @@ ALTER TABLE `#__content` DROP COLUMN `sectionid`;
 ALTER TABLE `#__content` DROP COLUMN `mask`;
 ALTER TABLE `#__content` DROP COLUMN `parentid`;
 ALTER TABLE `#__newsfeeds` DROP COLUMN `filename`;
-ALTER TABLE `#__weblinks` DROP COLUMN `sid`;
-ALTER TABLE `#__weblinks` DROP COLUMN `date`;
-ALTER TABLE `#__weblinks` DROP COLUMN `archived`;
-ALTER TABLE `#__weblinks` DROP COLUMN `approved`;
 ALTER TABLE `#__menu` DROP COLUMN `ordering`;
 ALTER TABLE `#__session` DROP COLUMN `usertype`;
 ALTER TABLE `#__users` DROP COLUMN `usertype`;
@@ -95,10 +91,7 @@ ALTER TABLE `#__user_notes` ENGINE=InnoDB;
 ALTER TABLE `#__user_profiles` ENGINE=InnoDB;
 ALTER TABLE `#__user_usergroup_map` ENGINE=InnoDB;
 ALTER TABLE `#__viewlevels` ENGINE=InnoDB;
-ALTER TABLE `#__weblinks` ENGINE=InnoDB;
 
-ALTER TABLE `#__weblinks` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
-ALTER TABLE `#__weblinks` ADD COLUMN `images` text NOT NULL;
 ALTER TABLE `#__newsfeeds` ADD COLUMN `description` text NOT NULL;
 ALTER TABLE `#__newsfeeds` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
 ALTER TABLE `#__newsfeeds` ADD COLUMN `hits` int(10) unsigned NOT NULL DEFAULT '0';
@@ -124,7 +117,7 @@ INSERT INTO `#__extensions`
 	('isis', 'template', 'isis', '', 1, 1, 1, 0, '{"name":"isis","type":"template","creationDate":"3\\/30\\/2012","author":"Kyle Ledbetter","copyright":"Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"","version":"1.0","description":"TPL_ISIS_XML_DESCRIPTION","group":""}', '{"templateColor":"","logoFile":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 	('protostar', 'template', 'protostar', '', 0, 1, 1, 0, '{"name":"protostar","type":"template","creationDate":"4\\/30\\/2012","author":"Kyle Ledbetter","copyright":"Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"","version":"1.0","description":"TPL_PROTOSTAR_XML_DESCRIPTION","group":""}', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 	('beez3', 'template', 'beez3', '', 0, 1, 1, 0, '{"legacy":false,"name":"beez3","type":"template","creationDate":"25 November 2009","author":"Angie Radtke","copyright":"Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.","authorEmail":"a.radtke@derauftritt.de","authorUrl":"http:\\/\\/www.der-auftritt.de","version":"1.6.0","description":"TPL_BEEZ3_XML_DESCRIPTION","group":""}', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
-	
+
 INSERT INTO `#__template_styles` (`template`, `client_id`, `home`, `title`, `params`) VALUES
 	('protostar', 0, '0', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
 	('isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}'),
