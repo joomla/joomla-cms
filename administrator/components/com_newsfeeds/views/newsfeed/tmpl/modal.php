@@ -21,7 +21,6 @@ $input = $app->input;
 $assoc = JLanguageAssociations::isEnabled();
 
 JFactory::getDocument()->addScriptDeclaration("
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.getElementById('newsfeed-form')))
@@ -35,7 +34,7 @@ jQuery(document).ready(function() {
 			Joomla.submitform(task, document.getElementById('newsfeed-form'));
 		}
 	}
-});");
+");
 ?>
 <div class="container-popup">
 
