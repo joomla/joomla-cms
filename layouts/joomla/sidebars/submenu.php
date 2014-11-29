@@ -34,7 +34,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div id="j-toggle-sidebar-header" class="j-toggle-sidebar-header">
 		<?php echo JText::_('JTOGGLE_SIDEBAR_LABEL');?>
 	</div>
-	<div id="sidebar">
+	<div id="sidebar" class="sidebar">
 		<div class="sidebar-nav">
 			<?php if ($displayData->displayMenu) : ?>
 			<ul id="submenu" class="nav nav-list">
