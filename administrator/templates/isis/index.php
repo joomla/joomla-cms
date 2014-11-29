@@ -21,6 +21,9 @@ $user            = JFactory::getUser();
 JHtml::_('bootstrap.framework');
 $doc->addScriptVersion('templates/' . $this->template . '/js/template.js');
 
+// Force loading MooTools for B/C
+JHtml::_('behavior.framework', true);
+
 // Add Stylesheets
 $doc->addStyleSheetVersion('templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 
