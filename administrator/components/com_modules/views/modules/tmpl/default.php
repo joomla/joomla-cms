@@ -28,23 +28,22 @@ if ($saveOrder)
 $sortFields = $this->getSortFields();
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
-	Joomla.orderTable = function()
-	{
-		table = document.getElementById("sortTable");
-		direction = document.getElementById("directionTable");
-		order = table.options[table.selectedIndex].value;
-		if (order != "' . $listOrder . '")
+		Joomla.orderTable = function()
 		{
-			dirn = "asc";
+			table = document.getElementById("sortTable");
+			direction = document.getElementById("directionTable");
+			order = table.options[table.selectedIndex].value;
+			if (order != "' . $listOrder . '")
+			{
+				dirn = "asc";
+			}
+			else
+			{
+				dirn = direction.options[direction.selectedIndex].value;
+			}
+			Joomla.tableOrdering(order, dirn, "");
 		}
-		else
-		{
-			dirn = direction.options[direction.selectedIndex].value;
-		}
-		Joomla.tableOrdering(order, dirn, "");
-	}
-});');
+');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
