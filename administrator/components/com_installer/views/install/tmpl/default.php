@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.framework', true);
 JHtml::_('bootstrap.tooltip');
 ?>
 <script type="text/javascript">
