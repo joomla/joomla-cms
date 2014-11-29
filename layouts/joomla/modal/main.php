@@ -38,7 +38,6 @@ if (!isset($params['animation']) || $params['animation'])
 }
 
 $modalAttributes = array(
-	'id'       => $selector,
 	'tabindex' => '-1',
 	'class'    => implode(' ', $modalClasses)
 );
