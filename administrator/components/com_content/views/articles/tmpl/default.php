@@ -34,7 +34,6 @@ $sortFields = $this->getSortFields();
 $assoc		= JLanguageAssociations::isEnabled();
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -50,7 +49,7 @@ jQuery(document).ready(function() {
 		}
 		Joomla.tableOrdering(order, dirn, "");
 	}
-});');
+');
 
 ?>
 
