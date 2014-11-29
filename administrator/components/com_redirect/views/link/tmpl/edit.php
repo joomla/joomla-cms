@@ -17,7 +17,6 @@ JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
 JFactory::getDocument()->addScriptDeclaration("
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'link.cancel' || document.formvalidator.isValid(document.getElementById('link-form')))
@@ -25,7 +24,7 @@ jQuery(document).ready(function() {
 			Joomla.submitform(task, document.getElementById('link-form'));
 		}
 	}
-});");
+");
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_redirect&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="link-form" class="form-validate form-horizontal">
