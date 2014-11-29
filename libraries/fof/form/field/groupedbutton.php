@@ -113,13 +113,13 @@ class FOFFormFieldGroupedbutton extends JFormFieldText implements FOFFormField
 			{
 				if (!is_null($value))
 				{
-					$renderedAttributes[] = $name . '="' . $value . '"';
+					$renderedAttributes[] = $name . '="' . htmlentities($value) . '"';
 				}
 			}
 
 			$buttonXML   = new SimpleXMLElement('<field ' . implode(' ', $renderedAttributes) . ' />');
 			$buttonField = new FOFFormFieldButton($this->form);
-		
+
 			// Pass required objects to the field
 			$buttonField->item = $this->item;
 			$buttonField->rowid = $this->rowid;

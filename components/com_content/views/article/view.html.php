@@ -285,7 +285,8 @@ class ContentViewArticle extends JViewLegacy
 
 		if ($app->get('MetaAuthor') == '1')
 		{
-			$this->document->setMetaData('author', $this->item->author);
+			$author = $this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author;
+			$this->document->setMetaData('author', $author);
 		}
 
 		$mdata = $this->item->metadata->toArray();

@@ -27,6 +27,7 @@ $script .= "\t\t\t".'Joomla.submitform(pressbutton);'."\n";
 $script .= "\t\t".'}'."\n";
 $script .= "\t\t".'}'."\n";
 
+JHtml::_('behavior.core');
 JHtml::_('formbehavior.chosen', 'select');
 
 JFactory::getDocument()->addScriptDeclaration($script);
