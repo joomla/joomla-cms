@@ -7976,7 +7976,7 @@ a.grid_true {
 	width: 16px;
 	background-image: url('../images/admin/icon-16-allow.png');
 }
-#j-sidebar-container {
+.j-sidebar-container {
 	position: absolute;
 	display: block;
 	left: -16.5%;
@@ -7994,44 +7994,44 @@ a.grid_true {
 	border-right: 1px solid #d3d3d3;
 	border-bottom: 1px solid #d3d3d3;
 }
-#j-sidebar-container.j-sidebar-hidden {
+.j-sidebar-container.j-sidebar-hidden {
 	left: -16.5%;
 }
-#j-sidebar-container.j-sidebar-visible {
+.j-sidebar-container.j-sidebar-visible {
 	left: 0;
 }
-#j-toggle-sidebar-header {
+.j-toggle-sidebar-header {
 	color: #999;
 	margin: -11px 0 7px 0;
 	padding: 10px 0 10px 18px;
 	border-top: 1px solid #d3d3d3;
 	border-bottom: 1px solid #eee;
 }
-#sidebar {
+.sidebar {
 	padding: 3px;
 }
-#j-sidebar-container .filter-select {
+.j-sidebar-container .filter-select {
 	padding: 0 13px;
 }
-#j-toggle-button-wrapper {
+.j-toggle-button-wrapper {
 	position: absolute;
 	display: block;
 	margin-top: 11px;
 	padding: 0;
 }
-#j-toggle-button-wrapper.j-toggle-hidden {
+.j-toggle-button-wrapper.j-toggle-hidden {
 	right: -20px;
 }
-#j-toggle-button-wrapper.j-toggle-visible {
+.j-toggle-button-wrapper.j-toggle-visible {
 	right: 10px;
 }
-#j-toggle-sidebar-button {
+.j-toggle-sidebar-button {
 	font-size: 14px;
 	color: #08c;
 	text-decoration: none;
 	cursor: pointer;
 }
-#j-toggle-sidebar-button:hover {
+.j-toggle-sidebar-button:hover {
 	color: #005580;
 }
 #system-message-container,
@@ -8053,12 +8053,12 @@ a.grid_true {
 	}
 }
 @media (max-width: 979px) {
-	#j-toggle-button-wrapper.j-toggle-hidden {
+	.j-toggle-button-wrapper.j-toggle-hidden {
 		right: -16px;
 	}
 }
 @media (max-width: 767px) {
-	#j-sidebar-container {
+	.j-sidebar-container {
 		position: relative;
 		width: 100%;
 		margin: 0 0 20px 0;
@@ -8067,19 +8067,19 @@ a.grid_true {
 		border-right: 0;
 		border-bottom: 0;
 	}
-	#j-sidebar-container.j-sidebar-hidden {
+	.j-sidebar-container.j-sidebar-hidden {
 		margin-left: 16.5%;
 	}
-	#j-sidebar-container.j-sidebar-visible {
+	.j-sidebar-container.j-sidebar-visible {
 		margin-left: 0;
 	}
-	#j-toggle-sidebar-header,
-	#j-toggle-button-wrapper {
+	.j-toggle-sidebar-header,
+	.j-toggle-button-wrapper {
 		display: none;
 	}
 }
 @media (max-width: 420px) {
-	#j-sidebar-container {
+	.j-sidebar-container {
 		margin: 0;
 	}
 }
@@ -8748,28 +8748,28 @@ a.grid_true {
 	background: url('../images/login-joomla.png') no-repeat;
 	margin-right: -12px;
 }
-#j-sidebar-container {
+.j-sidebar-container {
 	left: auto;
 	right: -16.5%;
 	border-right: 0;
 	border-left: 1px solid #d3d3d3;
 }
-#j-sidebar-container.j-sidebar-hidden {
+.j-sidebar-container.j-sidebar-hidden {
 	left: auto;
 	right: -16.5%;
 }
-#j-sidebar-container.j-sidebar-visible {
+.j-sidebar-container.j-sidebar-visible {
 	left: auto;
 	right: 0;
 }
-#j-toggle-sidebar-header {
+.j-toggle-sidebar-header {
 	padding: 10px 18px 10px 0;
 }
-#j-toggle-button-wrapper.j-toggle-hidden {
+.j-toggle-button-wrapper.j-toggle-hidden {
 	right: auto;
 	left: -20px;
 }
-#j-toggle-button-wrapper.j-toggle-visible {
+.j-toggle-button-wrapper.j-toggle-visible {
 	right: auto;
 	left: 10px;
 }
@@ -8783,21 +8783,21 @@ a.grid_true {
 	float: left;
 }
 @media (max-width: 979px) {
-	#j-toggle-button-wrapper.j-toggle-hidden {
+	.j-toggle-button-wrapper.j-toggle-hidden {
 		right: auto;
 		left: -16px;
 	}
 }
 @media (max-width: 767px) {
-	#j-sidebar-container {
+	.j-sidebar-container {
 		border-right: 0;
 		border-left: 0;
 	}
-	#j-sidebar-container.j-sidebar-hidden {
+	.j-sidebar-container.j-sidebar-hidden {
 		margin-left: auto;
 		margin-right: 16.5%;
 	}
-	#j-sidebar-container.j-sidebar-visible {
+	.j-sidebar-container.j-sidebar-visible {
 		margin-left: auto;
 		margin-right: 0;
 	}
