@@ -13,6 +13,9 @@ $app  = JFactory::getApplication();
 $lang = JFactory::getLanguage();
 $doc  = JFactory::getDocument();
 
+// Mootools needed by template.js
+JHtml::_('behavior.framework');
+
 JHtml::_('behavior.noframes');
 
 // Load optional RTL Bootstrap CSS
