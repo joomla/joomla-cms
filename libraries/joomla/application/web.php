@@ -546,13 +546,18 @@ class JApplicationWeb extends JApplicationBase
 					$status = $status ? 301 : 303;
 				}
 
-				if (!is_int($status) && !isset($this->responseMap[$status]))
+				// Handle B/C by checking if a message was passed to the method, will be removed at 4.0
+				if (!count($this->_messageQueue))
 				{
-					throw new \InvalidArgumentException('You have not supplied a valid HTTP 1.1 status code');
+					if (!is_int($status) && !isset($this->responseMap[$status]))
+					{
+						throw new \InvalidArgumentException('You have not supplied a valid HTTP 1.1 status code');
+					}
+
+					// All other cases use the more efficient HTTP header for redirection.
+					$this->header($this->responseMap[$status]);
 				}
 
-				// All other cases use the more efficient HTTP header for redirection.
-				$this->header($this->responseMap[$status]);
 				$this->header('Location: ' . $url);
 				$this->header('Content-Type: text/html; charset=' . $this->charSet);
 			}
