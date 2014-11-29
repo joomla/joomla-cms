@@ -15,6 +15,9 @@ $lang  = JFactory::getLanguage();
 $input = $app->input;
 $user  = JFactory::getUser();
 
+// Force loading MooTools for B/C
+JHtml::_('behavior.framework', true);
+
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
