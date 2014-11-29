@@ -21,7 +21,6 @@ $input = $app->input;
 $assoc = JLanguageAssociations::isEnabled();
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "contact.cancel" || document.formvalidator.isValid(document.getElementById("contact-form")))
@@ -36,8 +35,8 @@ jQuery(document).ready(function() {
 
 			Joomla.submitform(task, document.getElementById("contact-form"));
 		}
-	}
-});');
+	};
+');
 ?>
 <div class="container-popup">
 

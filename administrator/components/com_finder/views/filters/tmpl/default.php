@@ -20,7 +20,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(pressbutton)
 	{
 		if (pressbutton == "filters.delete")
@@ -35,8 +34,8 @@ jQuery(document).ready(function() {
 			}
 		}
 		Joomla.submitform(pressbutton);
-	}
-});');
+	};
+');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters');?>" method="post" name="adminForm" id="adminForm">

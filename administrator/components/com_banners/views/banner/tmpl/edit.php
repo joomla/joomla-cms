@@ -14,7 +14,6 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "banner.cancel" || document.formvalidator.isValid(document.getElementById("banner-form")))
@@ -22,19 +21,18 @@ jQuery(document).ready(function() {
 			Joomla.submitform(task, document.getElementById("banner-form"));
 		}
 	};
-});
-jQuery(document).ready(function ($){
-	$("#jform_type").change(function(){
-		if($(this).val() == 1) {
-			$("#image").css("display", "none");
-			$("#custom").css("display", "block");
-		} else {
-			$("#image").css("display", "block");
-			$("#custom").css("display", "none");
-		}
-	}).trigger("change");
-});');
-
+	jQuery(document).ready(function ($){
+		$("#jform_type").change(function(){
+			if($(this).val() == 1) {
+				$("#image").css("display", "none");
+				$("#custom").css("display", "block");
+			} else {
+				$("#image").css("display", "block");
+				$("#custom").css("display", "none");
+			}
+		}).trigger("change");
+	});
+');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">
