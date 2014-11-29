@@ -19,7 +19,6 @@ $app = JFactory::getApplication();
 $assoc = JLanguageAssociations::isEnabled();
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "contact.cancel" || document.formvalidator.isValid(document.getElementById("contact-form")))
@@ -28,7 +27,7 @@ jQuery(document).ready(function() {
 			Joomla.submitform(task, document.getElementById("contact-form"));
 		}
 	}
-});');
+');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">
