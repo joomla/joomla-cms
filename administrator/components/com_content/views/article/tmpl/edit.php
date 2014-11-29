@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -61,18 +61,19 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 	$params->show_urls_images_backend = $this->item->attribs['show_urls_images_backend'];
 }
 
-?>
-
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration('
+jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		if (task == "article.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
-			<?php echo $this->form->getField('articletext')->save(); ?>
-			Joomla.submitform(task, document.getElementById('item-form'));
+			' . $this->form->getField('articletext')->save() . '
+			Joomla.submitform(task, document.getElementById("item-form"));
 		}
 	}
-</script>
+});');
+
+?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 

@@ -133,6 +133,9 @@ class FOFFormFieldOrdering extends JFormField implements FOFFormField
 			throw new Exception(__CLASS__ . ' needs a FOFTable to act upon');
 		}
 
+		$class = isset($this->element['class']) ? $this->element['class'] : 'input-mini';
+		$icon  = isset($this->element['icon']) ? $this->element['icon'] : 'icon-menu';
+
 		$html = '';
 
 		$view = $this->form->getView();
@@ -167,23 +170,16 @@ class FOFFormFieldOrdering extends JFormField implements FOFFormField
 					$disableClassName = 'inactive tip-top';
 				}
 
-				$class = $ordering ? 'order-enabled' : 'order-disabled';
+				$orderClass = $ordering ? 'order-enabled' : 'order-disabled';
 
-				$html .= '<div class="' . $class . '">';
+				$html .= '<div class="' . $orderClass . '">';
 				$html .= '<span class="sortable-handler ' . $disableClassName . '" title="' . $disabledLabel . '" rel="tooltip">';
-				$html .= '<i class="icon-menu"></i>';
+				$html .= '<i class="' . $icon . '"></i>';
 				$html .= '</span>';
 
 				if ($ordering)
 				{
-					$html .= '<input type="text" name="order[]" size="5" class="input-mini text-area-order" ';
-
-					if (!$hasAjaxOrderingSupport)
-					{
-						$html .= 'disabled="disabled" ';
-					}
-
-					$html .= 'value="' . $this->value . '"  class="' . 'input-mini text-area-order' . ' " />';
+					$html .= '<input type="text" name="order[]" size="5" class="' . $class . ' text-area-order" value="' . $this->value . '" />';
 				}
 
 				$html .= '</div>';
@@ -191,7 +187,7 @@ class FOFFormFieldOrdering extends JFormField implements FOFFormField
 			else
 			{
 				$html .= '<span class="sortable-handler inactive" >';
-				$html .= '<i class="icon-menu"></i>';
+				$html .= '<i class="' . $icon . '"></i>';
 				$html .= '</span>';
 			}
 		}
@@ -216,7 +212,7 @@ class FOFFormFieldOrdering extends JFormField implements FOFFormField
 		$query->select(array($db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')))
 				->from($db->quoteName($this->item->getTableName()))
 				->order($ordering);
-	
+
 		return $query;
 	}
 }
