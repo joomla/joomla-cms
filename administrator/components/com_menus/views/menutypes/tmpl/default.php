@@ -15,7 +15,6 @@ $input = JFactory::getApplication()->input;
 $tmpl = ($input->getCmd('tmpl') != '') ? '1' : '';
 
 JFactory::getDocument()->addScriptDeclaration('
-	jQuery(document).ready(function() {
 		setmenutype = function(type) {
 			var tmpl = "' . $tmpl . '";
 			if (tmpl)
@@ -27,8 +26,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			{
 				window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+(\'item.setType\', type);
 			}
-		}
-	});
+		};
 ');
 ?>
 

@@ -26,15 +26,14 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');
 
 JFactory::getDocument()->addScriptDeclaration("
-jQuery(document).ready(function() {
-	Joomla.submitbutton = function(task)
-	{
-		if (task != 'menus.delete' || confirm('" .  JText::_('COM_MENUS_MENU_CONFIRM_DELETE', true) . "'))
+		Joomla.submitbutton = function(task)
 		{
-			Joomla.submitform(task);
-		}
-	}
-});");
+			if (task != 'menus.delete' || confirm('" .  JText::_('COM_MENUS_MENU_CONFIRM_DELETE', true) . "'))
+			{
+				Joomla.submitform(task);
+			}
+		};
+");
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=menus');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
