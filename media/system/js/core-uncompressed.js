@@ -488,3 +488,331 @@ function checkAll_button(n, task) {
     }
     submitform(task);
 }
+
+/**
+ * Extend Objects function
+ */
+Joomla.extend = function(destination, source) {
+	for(var p in source) {
+		destination[p] = source[p];
+	}
+	return destination;
+};
+
+/**
+ * fallbacks
+ */
+if (!Function.prototype.bind) {
+	Function.prototype.bind = function(bind) {
+		var self = this;
+		var args = Array.prototype.slice.call(arguments, 1);
+		return function(){
+			return self.apply(bind, args);
+		};
+	};
+}
+//https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/IndexOf#Compatibility
+if (!Array.prototype.indexOf) {
+	Array.prototype.indexOf = function(searchElement /* , fromIndex */) {
+		"use strict";
+		if (this == null) {
+			throw new TypeError();
+		}
+		var t = Object(this);
+		var len = t.length >>> 0;
+		if (len === 0) {
+			return -1;
+		}
+		var n = 0;
+		if (arguments.length > 1) {
+			n = Number(arguments[1]);
+			if (n != n) { // shortcut for verifying if it's NaN
+				n = 0;
+			} else if (n != 0 && n != Infinity && n != -Infinity) {
+				n = (n > 0 || -1) * Math.floor(Math.abs(n));
+			}
+		}
+		if (n >= len) {
+			return -1;
+		}
+		var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
+		for (; k < len; k++) {
+			if (k in t && t[k] === searchElement) {
+				return k;
+			}
+		}
+		return -1;
+	}
+}
+
+/**
+ * One way scripts initialisation.
+ *
+ * For current implementation NOT required a MooTools or other js framework. So in theory also need make
+ * "core" behavior JHtml::_('behavior.core') and then 'behavior.framework' can change for load needed framework.
+ *
+ * Links:
+ * https://groups.google.com/d/topic/joomla-dev-platform/dWUbRsOAtNw/discussion
+ * http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=28119
+ * https://groups.google.com/d/topic/joomla-dev-cms/jyKt5VE5PWw/discussion
+ *
+ * TODO: wrap in to self executable function
+ */
+
+/**
+ * init options storage
+ */
+
+Joomla.optionsStorage = {};
+
+/**
+ * init events storage
+ */
+
+Joomla.eventsStorage = {};
+
+/**
+ * marker used for check whether domready was called-in
+ */
+
+Joomla.readyCalled = false;
+
+/**
+ * marker used for check whether a first load was called-in
+ */
+
+Joomla.initLoadCalled = false;
+
+/**
+ * domready listener
+ * 	based on contentloaded.js http://javascript.nwbox.com/ContentLoaded/
+ * 	written by Diego Perini (diego.perini at gmail.com)
+ */
+
+Joomla.DOMContentLoaded = function(fn) {
+	//init variables
+	var done = false, top = true,
+
+	win = window, doc = win.document, root = doc.documentElement,
+
+	add = doc.addEventListener ? 'addEventListener' : 'attachEvent',
+	rem = doc.addEventListener ? 'removeEventListener' : 'detachEvent',
+	pre = doc.addEventListener ? '' : 'on',
+
+	init = function(e) {
+		if (e.type == 'readystatechange' && doc.readyState != 'complete') return;
+		(e.type == 'load' ? win : doc)[rem](pre + e.type, init, false);
+		if (!done && (done = true)){
+			fn.call(win, e.type || e);
+			Joomla.readyCalled = true;
+		}
+	},
+
+	poll = function() {
+		try { root.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
+		init('poll');
+	};
+
+	//do action
+	if (doc.readyState == 'complete'){
+		fn.call(win, 'lazy');
+		Joomla.readyCalled = true;
+	} else {
+		if (doc.createEventObject && root.doScroll) {
+			try { top = !win.frameElement; } catch(e) { }
+			if (top) poll();
+		}
+		doc[add](pre + 'DOMContentLoaded', init, false);
+		doc[add](pre + 'readystatechange', init, false);
+		win[add](pre + 'load', init, false);
+	}
+
+};
+/**
+ * add DOM event listener
+ * @param event - string, event name
+ * @param fn - callback function
+ * @param to - add to DOM object, default is window,
+ * 				"domready" always attached only to the window
+ */
+Joomla.addListener = function(event, fn, to) {
+	to = to || window;
+	//add to eventlisteners, but only real events
+	if (event === 'domready') {
+		if(!Joomla.initLoadCalled)
+			Joomla.DOMContentLoaded(fn);
+	}
+	else if (to.addEventListener) { // W3C DOM
+		to.addEventListener(event, fn);
+	}
+	else if (to.attachEvent) { // IE DOM
+		to.attachEvent('on' + event, fn);
+	}
+
+	return Joomla;
+};
+
+/**
+ * remove DOM event listener
+ * @param event - string, event name
+ * @param fn - callback function
+ * @param from - remove DOM object, default is window,
+ */
+
+Joomla.removeListener = function(event, fn, from){
+	from = from || window;
+	//remove from eventlisteners, but only real events
+	if (event !== 'domready') {
+		if (from.removeEventListener) { // W3C DOM
+			from.removeEventListener(event, fn);
+		}
+		else if (from.detachEvent) { // IE DOM
+			from.detachEvent('on' + event, fn);
+		}
+	}
+
+	return Joomla;
+};
+
+/**
+ * add events for init
+ * use like:
+ * 		Joomla.addEvent('domready.extension_name', callback); // for domready, and the "load" that comes after first "load"
+ * 		Joomla.addEvent('load.extension_name', callback); // for load
+ * 		Joomla.addEvent('unload.extension_name', callback); // for unload only
+ *
+ *		all "domready" have subscription for "load" event automatically - it important for keep
+ *		the script working after DOM manipulation by other scripts, or for init scripts
+ *		that added "on fly"
+ *
+ * @param event - string, event name
+ * @param fn - callback function
+ *
+ */
+
+Joomla.addEvent = function (event, fn) {
+	//Init variables
+	var names = event.split('.'), nameBase = names[0];
+
+	// add to .jinit namespace
+	// that we will fire when first "domready" or "load" will fired
+	if(!Joomla.initLoadCalled && names[1] !== 'jinit'
+		&& (nameBase === 'load' || nameBase === 'domready')
+	){
+		Joomla.addEvent(nameBase+'.jinit', fn);
+	}
+
+	// subscribe a "domready" event to "load"
+	if(nameBase === 'domready' && names[1] !== 'jinit') {
+		names = event.replace(nameBase, 'load').split('.');
+		nameBase = 'load';
+	}
+
+	//attache only once, cause we use same callback
+	if(!Joomla.eventsStorage[nameBase]) {
+		//callback for execute all callbacs in the event
+		var initEvent =  (nameBase === 'load' || nameBase === 'domready') ? nameBase + '.jinit' : nameBase;
+		var callback = Joomla.fireEvent.bind(window, initEvent, document);
+		Joomla.addListener(nameBase, callback);
+	}
+
+	//build the event tree, and store the callback
+	var storage = Joomla.eventsStorage;
+	for (var i = 0; i < names.length; i++) {
+		storage[names[i]] = storage[names[i]] || {cb: []};
+		//add only once
+		if(storage[names[i]].cb.indexOf(fn) === -1){
+			storage[names[i]].cb.push(fn);
+		}
+		storage = storage[names[i]];
+	}
+
+	return Joomla;
+};
+
+/**
+ * remove events
+ *
+ * @param event - string, event name
+ * @param fn - callback function that need to remove
+ *
+ */
+Joomla.removeEvent = function (event, fn) {
+	//Init variables
+	var names = event.split('.'), nameBase = names[0];
+
+	//as we subscribed "domready" to "load", there also need clean up
+	if(nameBase === 'domready') {
+		Joomla.removeEvent(event.replace(nameBase, 'load'), fn);
+	}
+
+	//find calback in the event tree
+	var storage = Joomla.eventsStorage;
+	for (var i = 0; i < names.length; i++) {
+		storage = storage[names[i]] || {cb: []};
+		var index = storage.cb.indexOf(fn);
+		if( index !== -1) {
+			//use splice(k, 1) for keep length
+			delete storage.cb[index];
+			storage.cb.splice(index, 1)
+		}
+	}
+
+	return Joomla;
+};
+
+/**
+ * fire event before/after domchanged
+ * use like:
+ * 		Joomla.fireEvent('unload', 'unloaded-element'); //fires for all unload subscribers
+ * 		Joomla.fireEvent('unload.extension_name', 'unloaded-element'); //fires only for specified exstension
+ *
+ * 		Joomla.fireEvent('load', 'changed-element'); //fires for all domready, load subscribers
+ * 		Joomla.fireEvent('load.extension_name', 'changed-element'); //fires only for specified exstension
+ *
+ * @param event - string, event name
+ * @param element - element DOM object or ID of the element
+ *
+ */
+
+Joomla.fireEvent = function(event, element) {
+
+	//Init variables
+	var names = event.split('.'), nameBase = names[0],
+		storage = Joomla.eventsStorage;
+	arguments[1] = element || document;
+
+	//get a callback storage for a current event
+	for (var i = 0; i < names.length; i++) {
+		storage = storage[names[i]] || {cb: []};
+	}
+
+	//call functions
+	for (var i = 0; i < storage.cb.length; i++) {
+		//try do not break site if some script is buggy
+		try {
+			//using apply + arguments allow to more interaction
+			//when need to send a more arguments for a some event callback
+			storage.cb[i].apply(window, arguments);
+		} catch (e) {
+			if(window.console){ console.log(e); console.log(e.stack);}
+		}
+	}
+
+	//clean up "jinit" storage
+	if(names[1] === 'jinit')
+		delete Joomla.eventsStorage[nameBase].jinit;
+
+	//clean up "domready" storage
+	if(nameBase === 'domready')
+		delete Joomla.eventsStorage[nameBase];
+
+	//marker used for check whether a first "load" was fired
+	if(nameBase === 'load' && !Joomla.initLoadCalled)
+		Joomla.initLoadCalled = Joomla.readyCalled = true;
+
+
+	return Joomla;
+};
+
+
