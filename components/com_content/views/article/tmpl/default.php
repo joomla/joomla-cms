@@ -300,6 +300,33 @@ if (!empty($this->item->pagination) && $this->item->pagination && $this->item->p
 	<?php endif; ?>
 	<?php endif; ?>
 	<?php
+		if ($params->get('facebook', 0)
+			|| $params->get('twitter', 0)
+			|| $params->get('google', 0))
+		{
+		?>
+		<div id="social">
+		<?php
+			if ($params->get('facebook', 0))
+			{
+				echo JHtml::_('social.facebook');
+			}
+
+			if ($params->get('twitter', 0))
+			{
+				echo JHtml::_('social.share');
+			}
+
+			if ($params->get('google', 0))
+			{
+				echo JHtml::_('social.google');
+			}
+		?>
+		</div>
+		<?php
+		}
+	?>
+	<?php
 if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition && $this->item->paginationrelative) :
 	echo $this->item->pagination;
 ?>

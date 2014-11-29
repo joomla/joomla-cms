@@ -294,7 +294,52 @@
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 		</field>
-	</fieldset>
+
+        <field name="spacer5"
+               type="spacer"
+               hr="true"
+                />
+
+        <field
+                name="facebook"
+                type="radio"
+                class="btn-group"
+                label="COM_CONTENT_SOCIAL_FACEBOOK"
+                description="COM_CONTENT_SOCIAL_FACEBOOK_DESC"
+                default="0">
+            <option
+                    value="0">JHIDE</option>
+            <option
+                    value="1">JSHOW</option>
+        </field>
+
+        <field
+                name="twitter"
+                type="radio"
+                class="btn-group"
+                label="COM_CONTENT_SOCIAL_TWITTER"
+                description="COM_CONTENT_SOCIAL_TWITTER_DESC"
+                default="0">
+            <option
+                    value="0">JHIDE</option>
+            <option
+                    value="1">JSHOW</option>
+        </field>
+
+        <field
+                name="google"
+                type="radio"
+                class="btn-group"
+                label="COM_CONTENT_SOCIAL_GOOGLE"
+                description="COM_CONTENT_SOCIAL_GOOGLE_DESC"
+                default="0">
+            <option
+                    value="0">JHIDE</option>
+            <option
+                    value="1">JSHOW</option>
+        </field>
+
+    </fieldset>
 	<fieldset name="editinglayout" label="COM_CONTENT_EDITING_LAYOUT"
 				description="COM_CONTENT_CONFIG_EDITOR_LAYOUT">
 		<field
