@@ -15,15 +15,14 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "language.cancel" || document.formvalidator.isValid(document.getElementById("language-form")))
+		Joomla.submitbutton = function(task)
 		{
-			Joomla.submitform(task, document.getElementById("language-form"));
+			if (task == "language.cancel" || document.formvalidator.isValid(document.getElementById("language-form")))
+			{
+				Joomla.submitform(task, document.getElementById("language-form"));
+			}
 		}
-	}
-});');
+');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&layout=edit&lang_id='.(int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate form-horizontal">

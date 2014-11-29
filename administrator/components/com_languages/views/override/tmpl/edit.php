@@ -18,7 +18,6 @@ JHtml::_('formbehavior.chosen', 'select');
 $expired = ($this->state->get("cache_expired") == 1 ) ? '1' : '';
 
 JFactory::getDocument()->addScriptDeclaration('
-	jQuery(document).ready(function() {
 		document.getElementById("jform_searchstring").addEvent("focus", function() {
 			if (!Joomla.overrider.states.refreshed)
 			{
@@ -37,7 +36,6 @@ JFactory::getDocument()->addScriptDeclaration('
 				Joomla.submitform(task, document.getElementById("override-form"));
 			}
 		}
-	});
 ');
 ?>
 
