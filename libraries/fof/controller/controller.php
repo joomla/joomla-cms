@@ -996,12 +996,13 @@ class FOFController extends FOFUtilsObject
 	 * YOU MUST NOT USETHIS TASK DIRECTLY IN A URL. It is supposed to be
 	 * used ONLY inside your code. In the URL, use task=browse instead.
 	 *
-	 * @param   bool  $cachable   Is this view cacheable?
-	 * @param   bool  $urlparams  Add your safe URL parameters (see further down in the code)
+	 * @param   bool    $cachable   Is this view cacheable?
+	 * @param   bool    $urlparams  Add your safe URL parameters (see further down in the code)
+	 * @param   string  $tpl        The name of the template file to parse
 	 *
 	 * @return  bool
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = false, $tpl = null)
 	{
 		$document = FOFPlatform::getInstance()->getDocument();
 
@@ -1110,7 +1111,7 @@ class FOFController extends FOFUtilsObject
 		else
 		{
 			// Display without caching
-			$view->display();
+			$view->display($tpl);
 		}
 
 		return true;
@@ -1221,7 +1222,7 @@ class FOFController extends FOFUtilsObject
 
 		// Set the layout to form, if it's not set in the URL
 
-		if (is_null($this->layout))
+		if (!$this->layout)
 		{
 			$this->layout = 'form';
 		}
@@ -2771,15 +2772,15 @@ class FOFController extends FOFUtilsObject
 		if (!isset($config['linkbar_style']))
 		{
 			$style = $this->configProvider->get($config['option'] . '.views.' . $config['view'] . '.config.linkbar_style', false);
-			
+
 			if ($style) {
 				$config['linkbar_style'] = $style;
 			}
 		}
 
 		/**
-		 * Some stupid administrative templates force format=utf (yeah, I know, what the fuck, right?) when a format
-		 * URL parameter does not exist in the URL. Of course there is no such thing as FOFViewUtf (why the hell would
+		 * Some administrative templates force format=utf (yeah, I know, what the heck, right?) when a format
+		 * URL parameter does not exist in the URL. Of course there is no such thing as FOFViewUtf (why the heck would
 		 * it be, there is no such thing as a format=utf in Joomla! for crying out loud) which causes a Fatal Error. So
 		 * we have to detect that and force $type='html'...
 		 */

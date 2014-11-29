@@ -113,31 +113,7 @@ class FOFFormFieldList extends JFormFieldList implements FOFFormField
 
 		if ($show_link && ($this->item instanceof FOFTable))
 		{
-			// Replace [ITEM:ID] in the URL with the item's key value (usually:
-			// the auto-incrementing numeric ID)
-			$keyfield = $this->item->getKeyName();
-			$replace  = $this->item->$keyfield;
-			$link_url = str_replace('[ITEM:ID]', $replace, $link_url);
-
-			// Replace the [ITEMID] in the URL with the current Itemid parameter
-			$link_url = str_replace('[ITEMID]', JFactory::getApplication()->input->getInt('Itemid', 0), $link_url);
-
-			// Replace other field variables in the URL
-			$fields = $this->item->getFields();
-
-			foreach ($fields as $fielddata)
-			{
-				$fieldname = $fielddata->Field;
-
-				if (empty($fieldname))
-				{
-					$fieldname = $fielddata->column_name;
-				}
-
-				$search    = '[ITEM:' . strtoupper($fieldname) . ']';
-				$replace   = $this->item->$fieldname;
-				$link_url  = @str_replace($search, $replace, $link_url);
-			}
+			$link_url = $this->parseFieldTags($link_url);
 		}
 		else
 		{
@@ -362,5 +338,45 @@ class FOFFormFieldList extends JFormFieldList implements FOFFormField
 		reset($options);
 
 		return $options;
+	}
+
+	/**
+	 * Replace string with tags that reference fields
+	 *
+	 * @param   string  $text  Text to process
+	 *
+	 * @return  string         Text with tags replace
+	 */
+	protected function parseFieldTags($text)
+	{
+		$ret = $text;
+
+		// Replace [ITEM:ID] in the URL with the item's key value (usually:
+		// the auto-incrementing numeric ID)
+		$keyfield = $this->item->getKeyName();
+		$replace  = $this->item->$keyfield;
+		$ret = str_replace('[ITEM:ID]', $replace, $ret);
+
+		// Replace the [ITEMID] in the URL with the current Itemid parameter
+		$ret = str_replace('[ITEMID]', JFactory::getApplication()->input->getInt('Itemid', 0), $ret);
+
+		// Replace other field variables in the URL
+		$fields = $this->item->getTableFields();
+
+		foreach ($fields as $fielddata)
+		{
+			$fieldname = $fielddata->Field;
+
+			if (empty($fieldname))
+			{
+				$fieldname = $fielddata->column_name;
+			}
+
+			$search    = '[ITEM:' . strtoupper($fieldname) . ']';
+			$replace   = $this->item->$fieldname;
+			$ret  = str_replace($search, $replace, $ret);
+		}
+
+		return $ret;
 	}
 }

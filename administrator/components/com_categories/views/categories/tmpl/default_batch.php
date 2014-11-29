@@ -31,11 +31,11 @@ $extension = $this->escape($this->state->get('filter.extension'));
 					<?php echo JHtml::_('batch.language'); ?>
 				</div>
 			</div>
-                        <div class="control-group span6">
+			<div class="control-group span6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.access'); ?>
 				</div>
-			</div>                    
+			</div>
 		</div>
 		<div class="row-fluid">
 			<?php if ($published >= 0) : ?>
@@ -61,10 +61,10 @@ $extension = $this->escape($this->state->get('filter.extension'));
 					<?php echo JHtml::_('batch.tag'); ?>
 				</div>
 			</div>
-                </div>
-        </div>
+		</div>
+	</div>
 	<div class="modal-footer">
-		<button class="btn" type="button" onclick="document.id('batch-category-id').value='';document.id('batch-access').value='';document.id('batch-language-id').value=''" data-dismiss="modal">
+		<button class="btn" type="button" onclick="document.getElementById('batch-category-id').value='';document.getElementById('batch-access').value='';document.getElementById('batch-language-id').value=''" data-dismiss="modal">
 			<?php echo JText::_('JCANCEL'); ?>
 		</button>
 		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('category.batch');">
