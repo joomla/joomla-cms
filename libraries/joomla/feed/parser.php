@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Feed Parser class.
  *
- * @package     Joomla.Platform
- * @subpackage  Feed
- * @since       12.3
+ * @since  12.3
  */
 abstract class JFeedParser
 {
@@ -103,6 +101,7 @@ abstract class JFeedParser
 			// Skip over this element's children since it has been processed.
 			$this->moveToClosingElement();
 		}
+
 		while ($this->moveToNextElement());
 
 		return $feed;

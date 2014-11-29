@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of template style records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesModelStyles extends JModelList
 {
@@ -154,8 +152,9 @@ class TemplatesModelStyles extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('a.template LIKE ' . $search . ' OR a.title LIKE ' . $search);
+				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
+				$search = $db->quote($escapedSearchString);
+				$query->where('(' . 'a.template REGEXP ' . $search . ' OR a.title REGEXP ' . $search . ')');
 			}
 		}
 

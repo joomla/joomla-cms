@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQL Server database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
- * @since       12.1
+ * @see    http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
+ * @since  12.1
  */
 class JDatabaseDriverSqlsrv extends JDatabaseDriver
 {
@@ -614,6 +612,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
+
 			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -1048,6 +1047,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			$constraints = $this->getTableConstraints($oldTable);
 		}
+
 		if (!empty($constraints))
 		{
 			$this->renameConstraints($constraints, $prefix, $backup);

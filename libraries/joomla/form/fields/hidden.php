@@ -13,10 +13,8 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Provides a hidden field
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @link        http://www.w3.org/TR/html-markup/input.hidden.html#input.hidden
- * @since       11.1
+ * @link   http://www.w3.org/TR/html-markup/input.hidden.html#input.hidden
+ * @since  11.1
  */
 class JFormFieldHidden extends JFormField
 {

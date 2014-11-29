@@ -39,6 +39,20 @@ class JUserHelperTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+		parent::tearDown();
+	}
+
+	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet

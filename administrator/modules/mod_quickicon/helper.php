@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_quickicon
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_quickicon
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModQuickIconHelper
 {
@@ -192,6 +190,7 @@ abstract class ModQuickIconHelper
 		{
 			$groupedButtons[$button['group']][] = $button;
 		}
+
 		return $groupedButtons;
 	}
 

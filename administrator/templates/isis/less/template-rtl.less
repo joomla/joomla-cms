@@ -82,3 +82,92 @@ a.grid_true {
 	width: 16px;
 	background-image: url('../images/admin/icon-16-allow.png');
 }
+
+/* Login */
+.view-login .login-joomla {
+	position: absolute;
+	right: 50%;
+	height: 24px;
+	width: 24px;
+	text-indent: -9999px;
+	background: url('../images/login-joomla.png') no-repeat;
+	margin-right: -12px;
+}
+
+/* For collapsible sidebar */
+.j-sidebar-container {
+	left: auto;
+	right: -16.5%;
+	margin: -10px -1px 0 0;
+	border-right: 0;
+	border-left: 1px solid #d3d3d3;
+}
+.j-sidebar-container.j-sidebar-hidden {
+	left: auto;
+	right: -16.5%;
+}
+.j-sidebar-container.j-sidebar-visible {
+	left: auto;
+	right: 0;
+}
+.j-toggle-sidebar-header {
+	padding: 10px 19px 10px 0;
+}
+.sidebar {
+	padding: 3px 4px 3px 3px;
+}
+.j-toggle-button-wrapper.j-toggle-hidden {
+	right: auto;
+	left: -20px;
+}
+.j-toggle-button-wrapper.j-toggle-visible {
+	right: auto;
+	left: 10px;
+}
+#system-message-container,
+#j-main-container {
+	padding: 0 5px 0 0;
+}
+#system-message-container.j-toggle-main,
+#j-main-container.j-toggle-main,
+#system-debug.j-toggle-main {
+	float: left;
+}
+@media (max-width: 979px) {
+	.j-toggle-button-wrapper.j-toggle-hidden {
+		right: auto;
+		left: -16px;
+	}
+}
+@media (max-width: 767px) {
+	.j-sidebar-container {
+		border-right: 0;
+		border-left: 0;
+	}
+	.j-sidebar-container.j-sidebar-hidden {
+		margin-left: auto;
+		margin-right: 16.5%;
+	}
+	.j-sidebar-container.j-sidebar-visible {
+		margin-left: auto;
+		margin-right: 0;
+	}
+}
+
+#j-main-container.expanded {
+	margin-right: 0;
+}
+
+/* Modal batch */
+@media (min-width: 768px) {
+	.row-fluid [class*="span"]{
+		margin-right: 15px;
+		margin-left: 0;
+	}
+	.row-fluid .modal-batch [class*="span"] {
+		margin-right: 0;
+	}
+}
+.row-fluid .modal-batch [class*="span"] {
+	margin-right: 0;
+}

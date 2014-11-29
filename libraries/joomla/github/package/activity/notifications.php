@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/activity/notifications/
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Activity
- * @since       3.3 (CMS)
+ * @since  3.3 (CMS)
  */
 class JGithubPackageActivityNotifications extends JGithubPackage
 {

@@ -49,6 +49,7 @@ class JComponentHelperTest extends TestCaseDatabase
 			'com_content is extension ID 22'
 		);
 	}
+
 	/**
 	 * Test JComponentHelper::isEnabled
 	 *
@@ -63,10 +64,29 @@ class JComponentHelperTest extends TestCaseDatabase
 			'com_content should be enabled'
 		);
 	}
+
+	/**
+	 * Test JComponentHelper::isInstalled
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public function testIsInstalled()
+	{
+		$this->assertTrue(
+			(bool) JComponentHelper::isInstalled('com_content'),
+			'com_content should be installed'
+		);
+
+		$this->assertFalse(
+			(bool) JComponentHelper::isInstalled('com_willneverhappen'),
+			'com_willneverhappen should not be enabled'
+		);
+	}
+
 	/**
 	 * Test JComponentHelper::getParams
-	 *
-	 * @todo    Implement testGetParams().
 	 *
 	 * @return  void
 	 */
@@ -79,31 +99,5 @@ class JComponentHelperTest extends TestCaseDatabase
 			'1',
 			"com_content's show_print_icon param should be set to 1"
 		);
-	}
-
-	/**
-	 * Test JComponentHelper::filterText
-	 *
-	 * @todo    Implement testFilterText().
-	 *
-	 * @return  void
-	 */
-	public function testFilterText()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test JComponentHelper::renderComponent
-	 *
-	 * @todo    Implement testRenderComponent().
-	 *
-	 * @return  void
-	 */
-	public function testRenderComponent()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

@@ -190,10 +190,12 @@ class FOFToolbar
 		// If not in the administrative area, load the JToolbarHelper
 		if (!FOFPlatform::getInstance()->isBackend())
 		{
-            $platformDirs = FOFPlatform::getInstance()->getPlatformBaseDirs();
-
-			// Pretty ugly require...
-			require_once $platformDirs['root'] . '/administrator/includes/toolbar.php';
+            // Needed for tests, so we can inject our "special" helper class
+            if(!class_exists('JToolbarHelper'))
+            {
+                $platformDirs = FOFPlatform::getInstance()->getPlatformBaseDirs();
+                require_once $platformDirs['root'] . '/administrator/includes/toolbar.php';
+            }
 
 			// Things to do if we have to render a front-end toolbar
 			if ($this->renderFrontendButtons)
@@ -201,8 +203,12 @@ class FOFToolbar
 				// Load back-end toolbar language files in front-end
 				FOFPlatform::getInstance()->loadTranslations('');
 
-				// Load the core Javascript
-				JHtml::_('behavior.framework', true);
+                // Needed for tests (we can fake we're not in the backend, but we are still in CLI!)
+                if(!FOFPlatform::getInstance()->isCli())
+                {
+                    // Load the core Javascript
+                    JHtml::_('behavior.framework', true);
+                }
 			}
 		}
 
@@ -261,11 +267,11 @@ class FOFToolbar
 		$this->view = $view;
 		$this->task = $task;
 		$view = FOFInflector::pluralize($view);
-		$component = $input->get('option', 'com_foobar', 'cmd');
+		$component = $this->input->get('option', 'com_foobar', 'cmd');
 
 		$configProvider = new FOFConfigProvider;
 		$toolbar = $configProvider->get(
-			$component . '.views.' . '.toolbar'
+			$component . '.views.' . $view . '.toolbar.' . $task
 		);
 
 		// If we have a toolbar config specified
@@ -335,7 +341,6 @@ class FOFToolbar
 	public function onBrowse()
 	{
 		// On frontend, buttons must be added specifically
-
 		if (FOFPlatform::getInstance()->isBackend() || $this->renderFrontendSubmenu)
 		{
 			$this->renderSubmenu();
@@ -352,7 +357,6 @@ class FOFToolbar
 		JToolBarHelper::title(JText::_(strtoupper($option)) . ': ' . JText::_($subtitle_key), str_replace('com_', '', $option));
 
 		// Add toolbar buttons
-
 		if ($this->perms->create)
 		{
 			if (version_compare(JVERSION, '3.0', 'ge'))
@@ -392,7 +396,7 @@ class FOFToolbar
 		if ($this->perms->delete)
 		{
 			$msg = JText::_($this->input->getCmd('option', 'com_foobar') . '_CONFIRM_DELETE');
-			JToolBarHelper::deleteList($msg);
+			JToolBarHelper::deleteList(strtoupper($msg));
 		}
 	}
 
@@ -404,7 +408,6 @@ class FOFToolbar
 	public function onRead()
 	{
 		// On frontend, buttons must be added specifically
-
 		if (FOFPlatform::getInstance()->isBackend() || $this->renderFrontendSubmenu)
 		{
 			$this->renderSubmenu();
@@ -455,12 +458,12 @@ class FOFToolbar
         }
 
 		JToolBarHelper::save();
-		
+
 		if ($this->perms->create)
 		{
 			JToolBarHelper::custom('savenew', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
-		
+
 		JToolBarHelper::cancel();
 	}
 
@@ -522,13 +525,27 @@ class FOFToolbar
 
 		if (empty($parent))
 		{
-			$this->linkbar[$name] = $linkDefinition;
+            if(array_key_exists($name, $this->linkbar))
+            {
+                $this->linkbar[$name] = array_merge($this->linkbar[$name], $linkDefinition);
+
+                // If there already are some children, I have to put this view link in the "items" array in the first place
+                if(array_key_exists('items', $this->linkbar[$name]))
+                {
+                    array_unshift($this->linkbar[$name]['items'], $linkDefinition);
+                }
+            }
+            else
+            {
+                $this->linkbar[$name] = $linkDefinition;
+            }
 		}
 		else
 		{
 			if (!array_key_exists($parent, $this->linkbar))
 			{
 				$parentElement = $linkDefinition;
+                $parentElement['name'] = $parent;
 				$parentElement['link'] = null;
 				$this->linkbar[$parent] = $parentElement;
 				$parentElement['items'] = array();
@@ -546,7 +563,7 @@ class FOFToolbar
 
 			$parentElement['items'][] = $linkDefinition;
 			$parentElement['dropdown'] = true;
-			
+
 			if($active)
 			{
 				$parentElement['active'] = true;
@@ -598,13 +615,16 @@ class FOFToolbar
 			// Get the view name
 			$key = strtoupper($this->component) . '_TITLE_' . strtoupper($view);
 
+            //Do we have a translation for this key?
 			if (strtoupper(JText::_($key)) == $key)
 			{
 				$altview = FOFInflector::isPlural($view) ? FOFInflector::singularize($view) : FOFInflector::pluralize($view);
 				$key2 = strtoupper($this->component) . '_TITLE_' . strtoupper($altview);
 
+                // Maybe we have for the alternative view?
 				if (strtoupper(JText::_($key2)) == $key2)
 				{
+                    // Nope, let's use the raw name
 					$name = ucfirst($view);
 				}
 				else
@@ -782,6 +802,7 @@ class FOFToolbar
 	 *
 	 * @return  void
 	 *
+     * @codeCoverageIgnore
 	 * @throws  InvalidArgumentException
 	 */
 	private function renderToolbarElement($type, $value = null, array $attributes = array())

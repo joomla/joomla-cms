@@ -48,15 +48,47 @@ class FOFRenderJoomla extends FOFRenderAbstract
 			return;
 		}
 
-		if (!FOFPlatform::getInstance()->isCli())
+		$platform = FOFPlatform::getInstance();
+
+		if ($platform->isCli())
 		{
-			// Wrap output in a Joomla-versioned div
-			$version = new JVersion;
-			$versionParts = explode('.', $version->RELEASE);
-			$minorVersion = str_replace('.', '', $version->RELEASE);
-			$majorVersion = array_shift($versionParts);
-			echo "<div class=\"joomla-version-$majorVersion joomla-version-$minorVersion\">\n";
+			return;
 		}
+
+		// Wrap output in various classes
+		$version = new JVersion;
+		$versionParts = explode('.', $version->RELEASE);
+		$minorVersion = str_replace('.', '', $version->RELEASE);
+		$majorVersion = array_shift($versionParts);
+
+		if ($platform->isBackend())
+		{
+			$area = $platform->isBackend() ? 'admin' : 'site';
+			$option = $input->getCmd('option', '');
+			$view = $input->getCmd('view', '');
+			$layout = $input->getCmd('layout', '');
+			$task = $input->getCmd('task', '');
+
+			$classes = array(
+				'joomla-version-' . $majorVersion,
+				'joomla-version-' . $minorVersion,
+				$area,
+				$option,
+				'view-' . $view,
+				'layout-' . $layout,
+				'task-' . $task,
+			);
+		}
+		elseif ($platform->isFrontend())
+		{
+			// @TODO: Remove the frontend Joomla! version classes in FOF 3
+			$classes = array(
+				'joomla-version-' . $majorVersion,
+				'joomla-version-' . $minorVersion,
+			);
+		}
+
+		echo '<div id="akeeba-renderjoomla" class="' . implode($classes, ' ') . "\">\n";
 
 		// Render submenu and toolbar (only if asked to)
 		if ($input->getBool('render_toolbar', true))
@@ -96,7 +128,7 @@ class FOFRenderJoomla extends FOFRenderAbstract
 			return;
 		}
 
-		echo "</div>\n";
+		echo "</div>\n";    // Closes akeeba-renderjoomla div
 	}
 
 	/**
@@ -119,20 +151,30 @@ class FOFRenderJoomla extends FOFRenderAbstract
 		$html				 = '';
 		$filter_order		 = $form->getView()->getLists()->order;
 		$filter_order_Dir	 = $form->getView()->getLists()->order_Dir;
+        $actionUrl           = FOFPlatform::getInstance()->isBackend() ? 'index.php' : JUri::root().'index.php';
 
-		$html .= '<form action="index.php" method="post" name="adminForm" id="adminForm">' . PHP_EOL;
+		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
+		{
+			$itemid = $input->getCmd('Itemid', 0);
+			$uri = new JUri($actionUrl);
+
+			if ($itemid)
+			{
+				$uri->setVar('Itemid', $itemid);
+			}
+
+			$actionUrl = JRoute::_($uri->toString());
+		}
+
+		$html .= '<form action="'.$actionUrl.'" method="post" name="adminForm" id="adminForm">' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="option" value="' . $input->getCmd('option') . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="view" value="' . FOFInflector::pluralize($input->getCmd('view')) . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="task" value="" />' . PHP_EOL;
+		$html .= "\t" . '<input type="hidden" name="layout" value="' . $input->getCmd('layout', '') . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="boxchecked" value="" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="hidemainmenu" value="" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="filter_order" value="' . $filter_order . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="filter_order_Dir" value="' . $filter_order_Dir . '" />' . PHP_EOL;
-
-		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
-		{
-			$html .= "\t" . '<input type="hidden" name="Itemid" value="' . $input->getCmd('Itemid', 0) . '" />' . PHP_EOL;
-		}
 
 		$html .= "\t" . '<input type="hidden" name="' . JFactory::getSession()->getFormToken() . '" value="1" />' . PHP_EOL;
 
@@ -382,18 +424,37 @@ class FOFRenderJoomla extends FOFRenderAbstract
 			$formid = 'adminForm';
 		}
 
-		$html .= '<form action="index.php" method="post" name="' . $formname .
+		// Check if we have a custom task
+		$customTask = $form->getAttribute('customTask');
+
+		if (empty($customTask))
+		{
+			$customTask = '';
+		}
+
+		// Get the form action URL
+        $actionUrl = FOFPlatform::getInstance()->isBackend() ? 'index.php' : JUri::root().'index.php';
+
+		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
+		{
+			$itemid = $input->getCmd('Itemid', 0);
+			$uri = new JUri($actionUrl);
+
+			if ($itemid)
+			{
+				$uri->setVar('Itemid', $itemid);
+			}
+
+			$actionUrl = JRoute::_($uri->toString());
+		}
+
+		$html .= '<form action="'.$actionUrl.'" method="post" name="' . $formname .
 			'" id="' . $formid . '"' . $enctype . ' class="' . $class .
 			'">' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="option" value="' . $input->getCmd('option') . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="view" value="' . $input->getCmd('view', 'edit') . '" />' . PHP_EOL;
-		$html .= "\t" . '<input type="hidden" name="task" value="" />' . PHP_EOL;
+		$html .= "\t" . '<input type="hidden" name="task" value="' . $customTask . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="' . $key . '" value="' . $keyValue . '" />' . PHP_EOL;
-
-		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
-		{
-			$html .= "\t" . '<input type="hidden" name="Itemid" value="' . $input->getCmd('Itemid', 0) . '" />' . PHP_EOL;
-		}
 
 		$html .= "\t" . '<input type="hidden" name="' . JFactory::getSession()->getFormToken() . '" value="1" />' . PHP_EOL;
 
@@ -419,51 +480,166 @@ class FOFRenderJoomla extends FOFRenderAbstract
 
 		foreach ($form->getFieldsets() as $fieldset)
 		{
-			$fields = $form->getFieldset($fieldset->name);
+			$html .= $this->renderFieldset($fieldset, $form, $model, $input, $formType, false);
+		}
 
-			if (isset($fieldset->class))
+		return $html;
+	}
+
+	/**
+	 * Renders a raw fieldset of a FOFForm and returns the corresponding HTML
+	 *
+	 * @param   stdClass  &$fieldset   The fieldset to render
+	 * @param   FOFForm   &$form       The form to render
+	 * @param   FOFModel  $model       The model providing our data
+	 * @param   FOFInput  $input       The input object
+	 * @param   string    $formType    The form type e.g. 'edit' or 'read'
+	 * @param   boolean   $showHeader  Should I render the fieldset's header?
+	 *
+	 * @return  string    The HTML rendering of the fieldset
+	 */
+	protected function renderFieldset(stdClass &$fieldset, FOFForm &$form, FOFModel $model, FOFInput $input, $formType, $showHeader = true)
+	{
+		$html = '';
+
+		$fields = $form->getFieldset($fieldset->name);
+
+		if (isset($fieldset->class))
+		{
+			$class = 'class="' . $fieldset->class . '"';
+		}
+		else
+		{
+			$class = '';
+		}
+
+		$element = empty($fields) ? 'div' : 'fieldset';
+		$html .= "\t" . '<' . $element . ' id="' . $fieldset->name . '" ' . $class . '>' . PHP_EOL;
+
+		$isTabbedFieldset = $this->isTabFieldset($fieldset);
+
+		if (isset($fieldset->label) && !empty($fieldset->label) && !$isTabbedFieldset)
+		{
+			$html .= "\t\t" . '<h3>' . JText::_($fieldset->label) . '</h3>' . PHP_EOL;
+		}
+
+		foreach ($fields as $field)
+		{
+			$groupClass	 = $form->getFieldAttribute($field->fieldname, 'groupclass', '', $field->group);
+
+			// Auto-generate label and description if needed
+			// Field label
+			$title 		 = $form->getFieldAttribute($field->fieldname, 'label', '', $field->group);
+			$emptylabel  = $form->getFieldAttribute($field->fieldname, 'emptylabel', false, $field->group);
+
+			if (empty($title) && !$emptylabel)
 			{
-				$class = 'class="' . $fieldset->class . '"';
+				$model->getName();
+				$title = strtoupper($input->get('option') . '_' . $model->getName() . '_' . $field->id . '_LABEL');
+			}
+
+			// Field description
+			$description = $form->getFieldAttribute($field->fieldname, 'description', '', $field->group);
+
+			/**
+			 * The following code is backwards incompatible. Most forms don't require a description in their form
+			 * fields. Having to use emptydescription="1" on each one of them is an overkill. Removed.
+			 */
+			/*
+			$emptydescription   = $form->getFieldAttribute($field->fieldname, 'emptydescription', false, $field->group);
+			if (empty($description) && !$emptydescription)
+			{
+				$description = strtoupper($input->get('option') . '_' . $model->getName() . '_' . $field->id . '_DESC');
+			}
+			*/
+
+			if ($formType == 'read')
+			{
+				$inputField = $field->static;
+			}
+			elseif ($formType == 'edit')
+			{
+				$inputField = $field->input;
+			}
+
+			if (empty($title))
+			{
+				$html .= "\t\t\t" . $inputField . PHP_EOL;
+
+				if (!empty($description) && $formType == 'edit')
+				{
+					$html .= "\t\t\t\t" . '<span class="help-block">';
+					$html .= JText::_($description) . '</span>' . PHP_EOL;
+				}
 			}
 			else
 			{
-				$class = '';
-			}
+				$html .= "\t\t\t" . '<div class="fof-row ' . $groupClass . '">' . PHP_EOL;
+				$html .= $this->renderFieldsetLabel($field, $form, $title);
+				$html .= "\t\t\t\t" . $inputField . PHP_EOL;
 
-			$element = empty($fields) ? 'div' : 'fieldset';
-			$html .= "\t" . '<' . $element . ' id="' . $fieldset->name . '" ' . $class . '>' . PHP_EOL;
-
-			if (isset($fieldset->label) && !empty($fieldset->label))
-			{
-				$html .= "\t\t" . '<h3>' . JText::_($fieldset->label) . '</h3>' . PHP_EOL;
-			}
-
-			foreach ($fields as $field)
-			{
-				$label	 = $field->label;
-
-				$html .= "<div class=\"fof-row\">";
-
-				if (!is_null($label))
+				if (!empty($description))
 				{
-					$html .= "\t\t\t" . $label . PHP_EOL;
+					$html .= "\t\t\t\t" . '<span class="help-block">';
+					$html .= JText::_($description) . '</span>' . PHP_EOL;
 				}
 
-				if ($formType == 'read')
-				{
-					$html .= "\t\t\t" . $field->static . PHP_EOL;
-				}
-				elseif ($formType == 'edit')
-				{
-					$html .= "\t\t\t" . $field->input . PHP_EOL;
-				}
-
-				$html .= "</div>";
+				$html .= "\t\t\t" . '</div>' . PHP_EOL;
 			}
-
-			$element = empty($fields) ? 'div' : 'fieldset';
-			$html .= "\t" . '</' . $element . '>' . PHP_EOL;
 		}
+
+		$element = empty($fields) ? 'div' : 'fieldset';
+		$html .= "\t" . '</' . $element . '>' . PHP_EOL;
+
+		return $html;
+	}
+
+	/**
+	 * Renders a label for a fieldset.
+	 *
+	 * @param   object  	$field  	The field of the label to render
+	 * @param   FOFForm   	&$form      The form to render
+	 * @param 	string		$title		The title of the label
+	 *
+	 * @return 	string		The rendered label
+	 */
+	protected function renderFieldsetLabel($field, FOFForm &$form, $title)
+	{
+		$html = '';
+
+		$labelClass	 = $field->labelClass ? $field->labelClass : $field->labelclass; // Joomla! 2.5/3.x use different case for the same name
+		$required	 = $field->required;
+
+		if ($required)
+		{
+			$labelClass .= ' required';
+		}
+
+		$tooltip = $form->getFieldAttribute($field->fieldname, 'tooltip', '', $field->group);
+
+		if (!empty($tooltip))
+		{
+			JHtml::_('behavior.tooltip');
+
+			$tooltipText = JText::_($title) . '::' . JText::_($tooltip);
+
+			$labelClass .= ' hasTip';
+
+			$html .= "\t\t\t\t" . '<label id="' . $field->id . '-lbl" class="' . $labelClass . '" for="' . $field->id . '" title="' . $tooltipText . '" rel="tooltip">';
+		}
+		else
+		{
+			$html .= "\t\t\t\t" . '<label class="' . $labelClass . '" for="' . $field->id . '">';
+		}
+
+		$html .= JText::_($title);
+
+		if ($required)
+		{
+			$html .= '<span class="star">&nbsp;*</span>';
+		}
+
+		$html .= "\t\t\t\t" . '</label>' . PHP_EOL;
 
 		return $html;
 	}
@@ -479,7 +655,7 @@ class FOFRenderJoomla extends FOFRenderAbstract
 	{
 		$message = $form->getView()->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));
 
-		$js = <<<ENDJAVASCRIPT
+		$js = <<<JS
 Joomla.submitbutton = function(task)
 {
 	if (task == 'cancel' || document.formvalidator.isValid(document.id('adminForm')))
@@ -490,7 +666,7 @@ Joomla.submitbutton = function(task)
 		alert('$message');
 	}
 };
-ENDJAVASCRIPT;
+JS;
 
 		$document = FOFPlatform::getInstance()->getDocument();
 

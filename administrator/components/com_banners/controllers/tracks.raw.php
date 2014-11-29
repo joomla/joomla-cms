@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tracks list controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersControllerTracks extends JControllerLegacy
 {
@@ -88,7 +86,9 @@ class BannersControllerTracks extends JControllerLegacy
 			$model->setState('list.limit', 0);
 			$model->setState('list.start', 0);
 
-			$form = JRequest::getVar('jform');
+			$input = JFactory::getApplication()->input;
+			$form  = $input->get('jform', array(), 'array');
+
 			$model->setState('basename', $form['basename']);
 			$model->setState('compressed', $form['compressed']);
 

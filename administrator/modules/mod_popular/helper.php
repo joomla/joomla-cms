@@ -14,9 +14,7 @@ JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/mode
 /**
  * Helper for mod_popular
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_popular
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModPopularHelper
 {
@@ -103,7 +101,7 @@ abstract class ModPopularHelper
 	 */
 	public static function getTitle($params)
 	{
-		$who = $params->get('user_id');
+		$who   = $params->get('user_id');
 		$catid = (int) $params->get('catid');
 
 		if ($catid)

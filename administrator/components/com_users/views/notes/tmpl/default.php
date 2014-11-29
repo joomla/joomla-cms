@@ -51,7 +51,7 @@ $sortFields = $this->getSortFields();
 			</div>
 			<div class="btn-group">
 				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
@@ -72,9 +72,13 @@ $sortFields = $this->getSortFields();
 					<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder); ?>
 				</select>
 			</div>
-			<div class="clearfix"> </div>
 		</div>
-
+		<div class="clearfix"> </div>
+		<?php if (empty($this->items)) : ?>
+			<div class="alert alert-no-items">
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
+		<?php else : ?>
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -153,14 +157,17 @@ $sortFields = $this->getSortFields();
 						<?php echo (int) $item->id; ?>
 					</td>
 				</tr>
-				<?php endforeach; ?>
+			<?php endforeach; ?>
 			</tbody>
-		</table>
+			</table>
+		<?php endif; ?>
 
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-		<?php echo JHtml::_('form.token'); ?>
+		<div>
+			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="boxchecked" value="0" />
+			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+			<?php echo JHtml::_('form.token'); ?>
+		</div>
 	</div>
 </form>

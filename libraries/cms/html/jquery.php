@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for jQuery JavaScript behaviors
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.0
+ * @since  3.0
  */
 abstract class JHtmlJquery
 {

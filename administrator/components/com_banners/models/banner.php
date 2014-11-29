@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Banner model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersModelBanner extends JModelAdmin
 {
@@ -262,6 +260,9 @@ class BannersModelBanner extends JModelAdmin
 
 			// New category ID
 			$table->catid = $categoryId;
+
+			// Unpublish because we are making a copy
+			$table->state = 0;
 
 			// TODO: Deal with ordering?
 			// $table->ordering	= 1;
@@ -568,15 +569,28 @@ class BannersModelBanner extends JModelAdmin
 
 	public function save($data)
 	{
-		$app = JFactory::getApplication();
+		$input = JFactory::getApplication()->input;
 
 		// Alter the name for save as copy
-		if ($app->input->get('task') == 'save2copy')
+		if ($input->get('task') == 'save2copy')
 		{
-			list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-			$data['name']	= $name;
-			$data['alias']	= $alias;
-			$data['state']	= 0;
+			$origTable = clone $this->getTable();
+			$origTable->load($input->getInt('id'));
+
+			if ($data['name'] == $origTable->name)
+			{
+				list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+				$data['name'] = $name;
+				$data['alias'] = $alias;
+			}
+			else
+			{
+				if ($data['alias'] == $origTable->alias)
+				{
+					$data['alias'] = '';
+				}
+			}
+			$data['state'] = 0;
 		}
 
 		if (parent::save($data))

@@ -92,4 +92,14 @@
 			readonly="true"
 			filter="unset" />
 	</fieldset>
+	<fieldset name="advanced">
+		<field
+			name="header"
+			type="redirect"
+			default="301"
+			class="input-xlarge"
+			label="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_LABEL"
+			description="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_DESC"
+		/>
+	</fieldset>
 </form>

@@ -13,7 +13,10 @@ defined('_JEXEC') or die;
 <?php foreach ($list as $item) :  ?>
 	<li itemscope itemtype="http://schema.org/Article">
 		<a href="<?php echo $item->link; ?>" itemprop="url">
-			<span itemprop="name"><?php echo $item->title; ?></span></a>
+			<span itemprop="name">
+				<?php echo $item->title; ?>
+			</span>
+		</a>
 	</li>
 <?php endforeach; ?>
 </ul>
