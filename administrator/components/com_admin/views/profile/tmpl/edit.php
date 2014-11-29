@@ -15,7 +15,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidator');
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "profile.cancel" || document.formvalidator.isValid(document.id("profile-form")))
@@ -23,7 +22,7 @@ jQuery(document).ready(function() {
 			Joomla.submitform(task, document.getElementById("profile-form"));
 		}
 	}
-});');
+');
 // Load chosen.css
 JHtml::_('formbehavior.chosen', 'select');
 
