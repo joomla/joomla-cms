@@ -20,7 +20,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		{
 			Joomla.submitform(task, document.getElementById("banner-form"));
 		}
-	};
+	}
 jQuery(document).ready(function ($){
 	$("#jform_type").change(function(){
 		if($(this).val() == 1) {
