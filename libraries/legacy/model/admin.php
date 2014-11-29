@@ -1086,7 +1086,7 @@ abstract class JModelAdmin extends JModelForm
 	{
 		$dispatcher = JEventDispatcher::getInstance();
 		$table      = $this->getTable();
-		$context    = $this->option . '_' . $this->name;
+		$context    = $this->option . '.' . $this->name;
 
 		if ((!empty($data['tags']) && $data['tags'][0] != ''))
 		{
