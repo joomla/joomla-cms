@@ -23,7 +23,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		{
 			Joomla.submitform(task, document.getElementById('link-form'));
 		}
-	}
+	};
 ");
 ?>
 
