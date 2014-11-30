@@ -6,9 +6,6 @@
  * @since       3.0
  */
 
-// Only define the Joomla namespace if not defined.
-Joomla = window.Joomla || {};
-
 (function($)
 {
 	$(document).ready(function()
@@ -60,7 +57,7 @@ Joomla = window.Joomla || {};
 		/**
 		 * USED IN: All list views to hide/show the sidebar
 		 */
-		Joomla.toggleSidebar = function(force)
+		toggleSidebar = function(force)
 		{
 			var context = 'jsidebar';
 

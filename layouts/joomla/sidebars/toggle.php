@@ -18,7 +18,7 @@ JText::script('JTOGGLE_SHOW_SIDEBAR');
 	class="j-toggle-sidebar-button hidden-phone hasTooltip"
 	title="<?php echo JHtml::tooltipText('JTOGGLE_HIDE_SIDEBAR'); ?>"
 	type="button"
-	onclick="Joomla.toggleSidebar(false); return false;"
+	onclick="toggleSidebar(false); return false;"
 	>
 	<span id="j-toggle-sidebar-icon" class="icon-cancel"></span>
 </div>
