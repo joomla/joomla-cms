@@ -165,7 +165,15 @@ Joomla.renderMessages = function(messages) {
  * @return  void
  */
 Joomla.removeMessages = function() {
-	document.getElementById('system-message-container').innerHTML = '';
+	var messageContainer = document.getElementById('system-message-container');
+
+	// Empty container with a while for Chrome performance issues
+	while (messageContainer.firstChild) messageContainer.removeChild(messageContainer.firstChild);
+
+	// Fix Chrome bug not updating element height
+	messageContainer.style.display='none';
+	messageContainer.offsetHeight;
+	messageContainer.style.display='';
 }
 
 /**
