@@ -14,7 +14,6 @@ JHtml::_('behavior.keepalive');
 $user = JFactory::getUser();
 
 JFactory::getDocument()->addScriptDeclaration("
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'config.cancel' || document.formvalidator.isValid(document.getElementById('templates-form')))
@@ -22,7 +21,7 @@ jQuery(document).ready(function() {
 			Joomla.submitform(task, document.getElementById('templates-form'));
 		}
 	}
-});");
+");
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">

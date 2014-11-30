@@ -25,7 +25,6 @@ if (JLanguageMultilang::isEnabled())
 }
 
 JFactory::getDocument()->addScriptDeclaration("
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'config.cancel.modules' || document.formvalidator.isValid(document.getElementById('modules-form')))
@@ -33,7 +32,7 @@ jQuery(document).ready(function() {
 			Joomla.submitform(task, document.getElementById('modules-form'));
 		}
 	}
-});");
+");
 ?>
 
 <form
