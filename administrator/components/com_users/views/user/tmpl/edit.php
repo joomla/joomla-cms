@@ -24,23 +24,21 @@ JFactory::getDocument()->addScriptDeclaration("
 		}
 	};
 
-	jQuery(document).ready(function() {
-		Joomla.twoFactorMethodChange = function(e)
-		{
-			var selectedPane = 'com_users_twofactor_' + jQuery('#jform_twofactor_method').val();
+	Joomla.twoFactorMethodChange = function(e)
+	{
+		var selectedPane = 'com_users_twofactor_' + jQuery('#jform_twofactor_method').val();
 
-			jQuery.each(jQuery('#com_users_twofactor_forms_container>div'), function(i, el) {
-				if (el.id != selectedPane)
-				{
-					jQuery('#' + el.id).hide(0);
-				}
-				else
-				{
-					jQuery('#' + el.id).show(0);
-				}
-			});
-		}
-	});
+		jQuery.each(jQuery('#com_users_twofactor_forms_container>div'), function(i, el) {
+			if (el.id != selectedPane)
+			{
+				jQuery('#' + el.id).hide(0);
+			}
+			else
+			{
+				jQuery('#' + el.id).show(0);
+			}
+		});
+	};
 ");
 
 // Get the form fieldsets.
