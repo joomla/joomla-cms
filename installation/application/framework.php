@@ -15,6 +15,7 @@ defined('_JEXEC') or die;
 
 const JDEBUG = false;
 @ini_set('magic_quotes_runtime', 0);
+
 // Disable the max_execution_time for the installation
 // see: https://github.com/joomla/joomla-cms/issues/5193
 @set_time_limit(0);
