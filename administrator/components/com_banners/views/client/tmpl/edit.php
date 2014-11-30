@@ -20,7 +20,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		{
 			Joomla.submitform(task, document.getElementById("client-form"));
 		}
-	}
+	};
 ');
 ?>
 <script type="text/javascript">

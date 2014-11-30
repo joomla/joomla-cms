@@ -35,12 +35,12 @@ JFactory::getDocument()->addScriptDeclaration('
 		dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, "");
-	}
+	};
 
 	Joomla.closeModalDialog = function()
 	{
 		window.jQuery("#modal-download").modal("hide");
-	}
+	};
 ');
 ?>
 <script type="text/javascript">
