@@ -23,34 +23,38 @@ $sortFields = $this->getSortFields();
 
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
-$script = '
-	Joomla.submitbutton = function(task) {
-		if (task == "groups.delete")
-		{
-			var f = document.adminForm;
-			var cb="";';
+$groupsWithUsers = array();
+
 foreach ($this->items as $i => $item)
 {
 	if ($item->user_count > 0)
 	{
-		$script .= '
-			cb = f["cb"+' . $i . '];
-			if (cb && cb.checked) {
-				if (confirm(Joomla.JText._("COM_USERS_GROUPS_CONFIRM_DELETE"))) {
-					Joomla.submitform(task);
-				}
-				return;
-			}';
+		array_push($groupsWithUsers, $i);
 	}
 }
-$script .= '
-		}
-	Joomla.submitform(task);
-	}
-';
 
+JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
-JFactory::getDocument()->addScriptDeclaration($script);
+JFactory::getDocument()->addScriptDeclaration('
+		Joomla.submitbutton = function(task) {
+			if (task == "groups.delete") {
+				var f = document.adminForm;
+				var cb = "";
+				var groupsWithUsers = [' . implode(',', $groupsWithUsers) . '];
+				for (index = 0; index < groupsWithUsers.length; ++index) {
+					cb = f["cb" + groupsWithUsers[index]];
+					if (cb && cb.checked) {
+						if (confirm(Joomla.JText._("COM_USERS_GROUPS_CONFIRM_DELETE"))) {
+							Joomla.submitform(task);
+						}
+						return;
+					}
+				}
+			}
+			Joomla.submitform(task);
+		};
+');
+
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.orderTable = function()
 	{
@@ -66,7 +70,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, "");
-	}
+	};
 ');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=groups');?>" method="post" name="adminForm" id="adminForm">

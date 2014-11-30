@@ -22,7 +22,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		{
 			Joomla.submitform(task, document.getElementById('user-form'));
 		}
-	}
+	};
 
 	jQuery(document).ready(function() {
 		Joomla.twoFactorMethodChange = function(e)

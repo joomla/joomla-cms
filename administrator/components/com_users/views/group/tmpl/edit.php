@@ -22,7 +22,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		{
 			Joomla.submitform(task, document.getElementById('group-form'));
 		}
-	}
+	};
 ");
 ?>
 

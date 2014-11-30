@@ -21,7 +21,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		{
 			Joomla.submitform(task, document.getElementById('level-form'));
 		}
-	}
+	};
 ");
 /*
 window.addEvent('domready', function(){

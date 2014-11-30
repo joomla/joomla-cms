@@ -44,7 +44,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, "");
-	}
+	};
 ');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=levels');?>" method="post" id="adminForm" name="adminForm">
