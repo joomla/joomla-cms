@@ -46,35 +46,33 @@ jQuery(document).ready(function ($){
 		});
 	});
 });
-jQuery(document).ready(function (){
-	Joomla.submitbutton = function(task, type){
-		if (task == 'item.setType' || task == 'item.setMenuType')
+Joomla.submitbutton = function(task, type){
+	if (task == 'item.setType' || task == 'item.setMenuType')
+	{
+		if (task == 'item.setType')
 		{
-			if (task == 'item.setType')
-			{
-				jQuery('#item-form input[name=\"jform[type]\"]').val(type);
-				jQuery('#fieldtype').val('type');
-			} else {
-				jQuery('#item-form input[name=\"jform[menutype]\"]').val(type);
-			}
-			Joomla.submitform('item.setType', document.getElementById('item-form'));
-		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
-		{
-			Joomla.submitform(task, document.getElementById('item-form'));
+			jQuery('#item-form input[name=\"jform[type]\"]').val(type);
+			jQuery('#fieldtype').val('type');
+		} else {
+			jQuery('#item-form input[name=\"jform[menutype]\"]').val(type);
 		}
-		else
-		{
-			// special case for modal popups validation response
-			jQuery('#item-form .modal-value.invalid').each(function(){
-				var field = jQuery(this),
-					idReversed = field.attr('id').split('').reverse().join(''),
-					separatorLocation = idReversed.indexOf('_'),
-					nameId = '#' + idReversed.substr(separatorLocation).split('').reverse().join('') + 'name';
-				jQuery(nameId).addClass('invalid');
-			});
-		}
+		Joomla.submitform('item.setType', document.getElementById('item-form'));
+	} else if (task == 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
+	{
+		Joomla.submitform(task, document.getElementById('item-form'));
 	}
-});
+	else
+	{
+		// special case for modal popups validation response
+		jQuery('#item-form .modal-value.invalid').each(function(){
+			var field = jQuery(this),
+				idReversed = field.attr('id').split('').reverse().join(''),
+				separatorLocation = idReversed.indexOf('_'),
+				nameId = '#' + idReversed.substr(separatorLocation).split('').reverse().join('') + 'name';
+			jQuery(nameId).addClass('invalid');
+		});
+	}
+};
 ";
 
 // Add the script to the document head.
