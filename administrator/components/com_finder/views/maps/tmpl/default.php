@@ -33,7 +33,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			}
 		}
 		Joomla.submitform(pressbutton);
-	}
+	};
 ');
 ?>
 
