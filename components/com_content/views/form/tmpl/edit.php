@@ -29,7 +29,6 @@ if (!$editoroptions)
 }
 
 JFactory::getDocument()->addScriptDeclaration("
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
@@ -38,7 +37,6 @@ jQuery(document).ready(function() {
 			Joomla.submitform(task);
 		}
 	}
-});
 ");
 ?>
 <div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
