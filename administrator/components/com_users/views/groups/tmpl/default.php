@@ -24,7 +24,6 @@ $sortFields = $this->getSortFields();
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
 $script = '
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task) {
 		if (task == "groups.delete")
 		{
@@ -48,12 +47,11 @@ $script .= '
 		}
 	Joomla.submitform(task);
 	}
-});';
+';
 
 
 JFactory::getDocument()->addScriptDeclaration($script);
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -69,7 +67,7 @@ jQuery(document).ready(function() {
 		}
 		Joomla.tableOrdering(order, dirn, "");
 	}
-});');
+');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=groups');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
