@@ -12,11 +12,9 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.core');
 
 JFactory::getDocument()->addScriptDeclaration("
-	jQuery(document).ready(function() {
 		jQuery('#showmods').on('click', function(e) {
 			jQuery('.table tr.no').toggle();
 		});
-	})
 ");
 ?>
 
