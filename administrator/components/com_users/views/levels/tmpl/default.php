@@ -28,24 +28,25 @@ if ($saveOrder)
 	$saveOrderingUrl = 'index.php?option=com_users&task=levels.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'levelList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
-?>
-<script type="text/javascript">
+
+JFactory::getDocument()->addScriptDeclaration('
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != '<?php echo $listOrder; ?>')
+		if (order != "' . $listOrder . '")
 		{
-			dirn = 'asc';
+			dirn = "asc";
 		}
 		else
 		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
-		Joomla.tableOrdering(order, dirn, '');
-	}
-</script>
+		Joomla.tableOrdering(order, dirn, "");
+	};
+');
+?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=levels');?>" method="post" id="adminForm" name="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">

@@ -22,48 +22,57 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $sortFields = $this->getSortFields();
 
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
-?>
-<script type="text/javascript">
-	Joomla.submitbutton = function(task)
+
+$groupsWithUsers = array();
+
+foreach ($this->items as $i => $item)
+{
+	if ($item->user_count > 0)
 	{
-		if (task == 'groups.delete')
-		{
-			var f = document.adminForm;
-			var cb='';
-<?php foreach ($this->items as $i => $item):?>
-<?php if ($item->user_count > 0):?>
-			cb = f['cb'+<?php echo $i;?>];
-			if (cb && cb.checked)
-			{
-				if (confirm(Joomla.JText._('COM_USERS_GROUPS_CONFIRM_DELETE')))
-				{
-					Joomla.submitform(task);
-				}
-				return;
-			}
-<?php endif;?>
-<?php endforeach;?>
-		}
-		Joomla.submitform(task);
+		array_push($groupsWithUsers, $i);
 	}
-</script>
-<script type="text/javascript">
+}
+
+JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
+
+JFactory::getDocument()->addScriptDeclaration('
+		Joomla.submitbutton = function(task) {
+			if (task == "groups.delete") {
+				var f = document.adminForm;
+				var cb = "";
+				var groupsWithUsers = [' . implode(',', $groupsWithUsers) . '];
+				for (index = 0; index < groupsWithUsers.length; ++index) {
+					cb = f["cb" + groupsWithUsers[index]];
+					if (cb && cb.checked) {
+						if (confirm(Joomla.JText._("COM_USERS_GROUPS_CONFIRM_DELETE"))) {
+							Joomla.submitform(task);
+						}
+						return;
+					}
+				}
+			}
+			Joomla.submitform(task);
+		};
+');
+
+JFactory::getDocument()->addScriptDeclaration('
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != '<?php echo $listOrder; ?>')
+		if (order != "' . $listOrder . '")
 		{
-			dirn = 'asc';
+			dirn = "asc";
 		}
 		else
 		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
-		Joomla.tableOrdering(order, dirn, '');
-	}
-</script>
+		Joomla.tableOrdering(order, dirn, "");
+	};
+');
+?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=groups');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
