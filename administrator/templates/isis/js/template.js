@@ -6,6 +6,9 @@
  * @since       3.0
  */
 
+// Only define the Joomla namespace if not defined.
+Joomla = window.Joomla || {};
+
 (function($)
 {
 	$(document).ready(function()
