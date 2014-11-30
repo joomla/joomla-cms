@@ -85,7 +85,6 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/core.js', false, true);
 		static::$loaded[__METHOD__] = true;
 
