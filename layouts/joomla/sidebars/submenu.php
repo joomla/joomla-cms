@@ -14,7 +14,7 @@ JHtmlBehavior::core();
 JFactory::getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function($)
 	{
-		if (typeof(toggleSidebar) !== "undefined")
+		if (window.toggleSidebar)
 		{
 			toggleSidebar(true);
 		}

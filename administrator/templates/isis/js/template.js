@@ -57,7 +57,7 @@
 		/**
 		 * USED IN: All list views to hide/show the sidebar
 		 */
-		toggleSidebar = function(force)
+		window.toggleSidebar = function(force)
 		{
 			var context = 'jsidebar';
 
