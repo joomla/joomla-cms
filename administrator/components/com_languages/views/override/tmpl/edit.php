@@ -18,24 +18,25 @@ JHtml::_('formbehavior.chosen', 'select');
 $expired = ($this->state->get("cache_expired") == 1 ) ? '1' : '';
 
 JFactory::getDocument()->addScriptDeclaration('
-		document.getElementById("jform_searchstring").addEvent("focus", function() {
-			if (!Joomla.overrider.states.refreshed)
+	document.getElementById("jform_searchstring").addEvent("focus", function() {
+		if (!Joomla.overrider.states.refreshed)
+		{
+			var expired = "' . $expired . '";
+			if (expired)
 			{
-				var expired = "' . $expired . '";
-				if (expired)
-				{
-					Joomla.overrider.refreshCache();
-					Joomla.overrider.states.refreshed = true;
-				}
-			}
-			this.removeClass("invalid");
-		});
-		Joomla.submitbutton = function(task) {
-			if (task == "override.cancel" || document.formvalidator.isValid(document.getElementById("override-form")))
-			{
-				Joomla.submitform(task, document.getElementById("override-form"));
+				Joomla.overrider.refreshCache();
+				Joomla.overrider.states.refreshed = true;
 			}
 		}
+		this.removeClass("invalid");
+	});
+
+	Joomla.submitbutton = function(task) {
+		if (task == "override.cancel" || document.formvalidator.isValid(document.getElementById("override-form")))
+		{
+			Joomla.submitform(task, document.getElementById("override-form"));
+		}
+	};
 ');
 ?>
 

@@ -31,21 +31,21 @@ if ($saveOrder)
 $sortFields = $this->getSortFields();
 
 JFactory::getDocument()->addScriptDeclaration('
-		Joomla.orderTable = function()
+	Joomla.orderTable = function()
+	{
+		table = document.getElementById("sortTable");
+		direction = document.getElementById("directionTable");
+		order = table.options[table.selectedIndex].value;
+		if (order != "' . $listOrder . '")
 		{
-			table = document.getElementById("sortTable");
-			direction = document.getElementById("directionTable");
-			order = table.options[table.selectedIndex].value;
-			if (order != "' . $listOrder . '")
-			{
-				dirn = "asc";
-			}
-			else
-			{
-				dirn = direction.options[direction.selectedIndex].value;
-			}
-			Joomla.tableOrdering(order, dirn, "");
+			dirn = "asc";
 		}
+		else
+		{
+			dirn = direction.options[direction.selectedIndex].value;
+		}
+		Joomla.tableOrdering(order, dirn, "");
+	};
 ');
 ?>
 
