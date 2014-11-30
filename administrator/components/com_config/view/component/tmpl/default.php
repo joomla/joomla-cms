@@ -18,15 +18,14 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "config.cancel.component" || document.formvalidator.isValid(document.getElementById("component-form")))
 		{
 			Joomla.submitform(task, document.getElementById("component-form"));
 		}
-	}
-});');
+	};
+');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
