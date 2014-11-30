@@ -18,17 +18,19 @@ JHtml::_('formbehavior.chosen', 'select');
 $expired = ($this->state->get("cache_expired") == 1 ) ? '1' : '';
 
 JFactory::getDocument()->addScriptDeclaration('
-	document.getElementById("jform_searchstring").addEvent("focus", function() {
-		if (!Joomla.overrider.states.refreshed)
-		{
-			var expired = "' . $expired . '";
-			if (expired)
+	jQuery(document).ready(function() {
+		document.getElementById("jform_searchstring").addEvent("focus", function() {
+			if (!Joomla.overrider.states.refreshed)
 			{
-				Joomla.overrider.refreshCache();
-				Joomla.overrider.states.refreshed = true;
+				var expired = "' . $expired . '";
+				if (expired)
+				{
+					Joomla.overrider.refreshCache();
+					Joomla.overrider.states.refreshed = true;
+				}
 			}
-		}
-		this.removeClass("invalid");
+			this.removeClass("invalid");
+		});
 	});
 
 	Joomla.submitbutton = function(task) {
