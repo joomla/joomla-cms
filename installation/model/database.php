@@ -888,6 +888,11 @@ class InstallationModelDatabase extends JModelBase
 		// Get an array of queries from the schema and process them.
 		$queries = $this->_splitQueries($buffer);
 
+		// Reset the time limit so it run also on very low level HW (e.g. with XAMPP)
+		// see: https://github.com/joomla/joomla-cms/issues/5193
+		// see: https://github.com/joomla/joomla-cms/pull/5256
+		@set_time_limit();
+
 		foreach ($queries as $query)
 		{
 			// Trim any whitespace.
