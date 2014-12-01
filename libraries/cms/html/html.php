@@ -306,6 +306,9 @@ abstract class JHtml
 			$strip = JFile::stripExt($file);
 			$ext   = JFile::getExt($file);
 
+			// Get the debug settings.
+			$debug = JFactory::getConfig()->get('debug');
+
 			// Prepare array of files
 			$includes = array();
 
@@ -339,7 +342,7 @@ abstract class JHtml
 					$files = array();
 
 					// Detect debug mode
-					if ($detect_debug && JDEBUG)
+					if ($detect_debug && $debug)
 					{
 						/*
 						 * Detect if we received a file in the format name.min.ext
@@ -358,7 +361,7 @@ abstract class JHtml
 					}
 
 					// Detect Less - try to use precompiled and minified css.
-					if ($ext == 'less' && $detect_debug && !JDEBUG)
+					if ($ext == 'less' && $detect_debug && !$debug)
 					{
 						$files[] = $strip . '.min.css';
 						$files[] = $strip . '.css';
@@ -530,7 +533,7 @@ abstract class JHtml
 					}
 
 					// Detect Less - try to use precompiled and minified css.
-					if ($ext == 'less' && $detect_debug && !JDEBUG)
+					if ($ext == 'less' && $detect_debug && !$debug)
 					{
 						$files[] = $strip . '.min.css';
 						$files[] = $strip . '.css';
