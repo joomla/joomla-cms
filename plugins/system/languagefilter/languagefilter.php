@@ -158,6 +158,15 @@ class PlgSystemLanguageFilter extends JPlugin
 			// Attach build rules for language SEF.
 			$router->attachBuildRule(array($this, 'buildRule'));
 
+			if ($this->mode_sef)
+			{
+				$router->attachBuildRule(array($this, 'postprocessSEFBuildRule'), 'postprocess');
+			}
+			else
+			{
+				$router->attachBuildRule(array($this, 'postprocessNonSEFBuildRule'), 'postprocess');
+			}
+
 			// Attach parse rules for language SEF.
 			$router->attachParseRule(array($this, 'parseRule'));
 
@@ -183,13 +192,15 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		$lang = $uri->getVar('lang', $this->default_lang);
 
+		if (isset($this->sefs[$lang]))
+		{
+			$lang = $this->sefs[$lang]->lang_code;
+			$uri->setVar('lang', $lang);
+		}
+
 		if (isset($this->lang_codes[$lang]))
 		{
 			$sef = $this->lang_codes[$lang]->sef;
-		}
-		elseif (isset($this->sefs[$lang]))
-		{
-			$sef = $this->sefs[$lang]->sef;
 		}
 		else
 		{
@@ -232,14 +243,44 @@ class PlgSystemLanguageFilter extends JPlugin
 			$uri->delVar('Itemid');
 		}
 
-		if ($this->mode_sef)
+		if ($this->mode_sef && $this->params->get('remove_default_prefix', 0) == 0)
 		{
-			$uri->delVar('lang');
+			$uri->setPath($uri->getPath() . '/' . $sef . '/');
+		}
+	}
 
-			if ($this->params->get('remove_default_prefix', 0) == 0)
-			{
-				$uri->setPath($uri->getPath() . '/' . $sef . '/');
-			}
+	/**
+	 * postprocess build rule for SEF URLs
+	 *
+	 * @param   JRouter  &$router  JRouter object.
+	 * @param   JUri     &$uri     JUri object.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public function postprocessSEFBuildRule(&$router, &$uri)
+	{
+		$uri->delVar('lang');
+	}
+
+	/**
+	 * postprocess build rule for non-SEF URLs
+	 *
+	 * @param   JRouter  &$router  JRouter object.
+	 * @param   JUri     &$uri     JUri object.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public function postprocessNonSEFBuildRule(&$router, &$uri)
+	{
+		$lang = $uri->getVar('lang');
+
+		if (isset($this->lang_codes[$lang]))
+		{
+			$uri->setVar('lang', $this->lang_codes[$lang]->sef);
 		}
 	}
 
