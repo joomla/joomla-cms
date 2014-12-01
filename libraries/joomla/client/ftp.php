@@ -1224,6 +1224,8 @@ class JClientFtp
 	 * @param   string  $buffer  Contents to append to the FTP server
 	 *
 	 * @return  boolean  True if successful
+	 *
+	 * @since   3.4
 	 */
 	public function append($remote, $buffer)
 	{
@@ -1308,6 +1310,8 @@ class JClientFtp
 	 * @param   string  $remote  FTP path to file whose size to get
 	 *
 	 * @return  mixed  number of bytes or false on error
+	 *
+	 * @since   3.4
 	 */
 	public function size($remote)
 	{

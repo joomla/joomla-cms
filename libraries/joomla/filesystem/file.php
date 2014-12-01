@@ -447,6 +447,8 @@ class JFile
 	 * @param   boolean  $use_streams  Use streams
 	 *
 	 * @return  boolean  True on success
+	 *
+	 * @since   3.4
 	 */
 	public static function append($file, &$buffer, $use_streams = false)
 	{
