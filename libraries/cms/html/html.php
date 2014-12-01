@@ -339,7 +339,7 @@ abstract class JHtml
 					$files = array();
 
 					// Detect debug mode
-					if ($detect_debug && JFactory::getConfig()->get('debug'))
+					if ($detect_debug && JDEBUG)
 					{
 						/*
 						 * Detect if we received a file in the format name.min.ext
@@ -355,6 +355,13 @@ abstract class JHtml
 						{
 							$files[] = $strip . '-uncompressed.' . $ext;
 						}
+					}
+
+					// Detect Less - try to use precompiled and minified css.
+					if ($ext == 'less' && $detect_debug && !JDEBUG)
+					{
+						$files[] = $strip . '.min.css';
+						$files[] = $strip . '.css';
 					}
 
 					$files[] = $strip . '.' . $ext;
@@ -649,9 +656,35 @@ abstract class JHtml
 
 			foreach ($includes as $include)
 			{
+				if (JFile::getExt($include) == 'less' && !static::$lessLoaded)
+				{
+					static::loadLessJS();
+				}
+
 				$document->addStylesheet($include, 'text/css', null, $attribs);
 			}
 		}
+	}
+
+	/**
+	 * Loads less.js (only once).
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected static function loadLessJS()
+	{
+		static $loaded;
+
+		if ($loaded)
+		{
+			return;
+		}
+
+		static::_('script', 'less/less.min.js', false, true);
+
+		$loaded = true;
 	}
 
 	/**
