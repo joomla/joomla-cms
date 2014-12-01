@@ -69,7 +69,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			' . $this->form->getField('articletext')->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
 		}
-	}
+	};
 ');
 
 ?>

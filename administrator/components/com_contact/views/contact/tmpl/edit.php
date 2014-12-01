@@ -26,7 +26,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			' . $this->form->getField("misc")->save() . '
 			Joomla.submitform(task, document.getElementById("contact-form"));
 		}
-	}
+	};
 ');
 ?>
 

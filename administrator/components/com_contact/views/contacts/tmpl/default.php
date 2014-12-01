@@ -49,7 +49,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, "");
-	}
+	};
 ');
 ?>
 
