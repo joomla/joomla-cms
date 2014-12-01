@@ -529,6 +529,13 @@ abstract class JHtml
 						}
 					}
 
+					// Detect Less - try to use precompiled and minified css.
+					if ($ext == 'less' && $detect_debug && !JDEBUG)
+					{
+						$files[] = $strip . '.min.css';
+						$files[] = $strip . '.css';
+					}
+
 					$files[] = $strip . '.' . $ext;
 
 					/*
