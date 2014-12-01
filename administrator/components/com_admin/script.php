@@ -268,6 +268,7 @@ class joomlaInstallerScript
 		$extensions[] = array('plugin', 'joomlaupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'extensionupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'recaptcha', 'captcha', 0);
+		$extensions[] = array('plugin', 'eosnotify', 'quickicon', 0);
 
 		// Templates
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="quickicon">
+	<name>PLG_EOSNOTIFY</name>
+	<author>Joomla! Project</author>
+	<creationDate>October 2014</creationDate>
+	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>2.5.0</version>
+	<description>End of Support Notifier</description>
+	<files>
+		<filename plugin="eosnotify">eosnotify.php</filename>
+		<filename>index.html</filename>
+	</files>
+</extension>
