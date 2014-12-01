@@ -168,7 +168,7 @@ class PlgSearchContent extends JPlugin
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
 
-			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created')
+			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
 				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
 
@@ -198,7 +198,7 @@ class PlgSearchContent extends JPlugin
 			{
 				foreach ($list as $key => $item)
 				{
-					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
+					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language);
 				}
 			}
 
