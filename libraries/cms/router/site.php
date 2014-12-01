@@ -534,7 +534,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Process the parsed router variables based on custom defined rules
 	 *
-	 * @param   JUri  &$uri  The URI to parse
+	 * @param   JUri    &$uri   The URI to parse
 	 * @param   string  $stage  The stage that should be processed.
 	 *                          Possible values: 'preprocess', 'postprocess'
 	 *                          and '' for the main parse stage

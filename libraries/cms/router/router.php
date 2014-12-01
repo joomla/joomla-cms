@@ -185,7 +185,7 @@ class JRouter
 	{
 		// Do the preprocess stage of the URL build process
 		$vars = $this->processParseRules($uri, 'preprocess');
-	
+
 		// Process the parsed variables based on custom defined rules
 		// This is the main parse stage
 		$vars += $this->_processParseRules($uri);
@@ -201,9 +201,9 @@ class JRouter
 		{
 			$vars += $this->_parseSefRoute($uri);
 		}
-		
+
 		// Do the postprocess stage of the URL build process
-		$vars = $this->processParseRules($uri, 'postprocess');
+		$vars += $this->processParseRules($uri, 'postprocess');
 
 		return array_merge($this->getVars(), $vars);
 	}
@@ -228,7 +228,7 @@ class JRouter
 
 		// Create the URI object
 		$uri = $this->createURI($url);
-		
+
 		// Do the preprocess stage of the URL build process
 		$this->processBuildRules($uri, 'preprocess');
 
@@ -247,7 +247,7 @@ class JRouter
 		{
 			$this->_buildSefRoute($uri);
 		}
-		
+
 		// Do the postprocess stage of the URL build process
 		$this->processBuildRules($uri, 'postprocess');
 

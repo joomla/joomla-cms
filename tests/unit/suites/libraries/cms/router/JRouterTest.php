@@ -322,12 +322,25 @@ class JRouterTest extends TestCase
 	public function casesAttachBuildRule()
 	{
 		$cases = array();
-		$cases[] = array(array(), array('build' => array(), 'parse' => array()));
+		$cases[] = array(array(),
+			array(
+				'buildpreprocess' => array(),
+				'build' => array(),
+				'buildpostprocess' => array(),
+				'parsepreprocess' => array(),
+				'parse' => array(),
+				'parsepostprocess' => array()
+			)
+		);
 		$callbacks = array(function (&$router, &$uri) {});
 		$cases[] = array($callbacks,
 			array(
+				'buildpreprocess' => array(),
 				'build' => $callbacks,
-				'parse' => array()
+				'buildpostprocess' => array(),
+				'parsepreprocess' => array(),
+				'parse' => array(),
+				'parsepostprocess' => array()
 			)
 		);
 
@@ -367,12 +380,25 @@ class JRouterTest extends TestCase
 	public function casesAttachParseRule()
 	{
 		$cases     = array();
-		$cases[]   = array(array(), array('build' => array(), 'parse' => array()));
+		$cases[]   = array(array(), 
+			array(
+				'buildpreprocess' => array(),
+				'build' => array(),
+				'buildpostprocess' => array(),
+				'parsepreprocess' => array(),
+				'parse' => array(),
+				'parsepostprocess' => array()
+			)
+		);
 		$callbacks = array(function (&$router, &$uri) {});
 		$cases[]   = array($callbacks,
 			array(
+				'buildpreprocess' => array(),
 				'build' => array(),
-				'parse' => $callbacks
+				'buildpostprocess' => array(),
+				'parsepreprocess' => array(),
+				'parse' => $callbacks,
+				'parsepostprocess' => array()
 			)
 		);
 
