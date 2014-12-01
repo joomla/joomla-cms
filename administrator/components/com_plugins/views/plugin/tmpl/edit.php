@@ -21,7 +21,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		if (task == 'plugin.cancel' || document.formvalidator.isValid(document.getElementById('style-form'))) {
 			Joomla.submitform(task, document.getElementById('style-form'));
 		}
-	}
+	};
 ");
 ?>
 

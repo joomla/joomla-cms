@@ -27,7 +27,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			" . $this->form->getField('description')->save() . "
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
-	}
+	};
 ");
 ?>
 

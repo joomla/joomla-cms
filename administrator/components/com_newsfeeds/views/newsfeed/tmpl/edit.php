@@ -26,7 +26,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.getElementById('newsfeed-form'))) {
 			Joomla.submitform(task, document.getElementById('newsfeed-form'));
 		}
-	}
+	};
 ");
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">
