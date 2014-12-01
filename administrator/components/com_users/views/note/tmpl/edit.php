@@ -16,7 +16,7 @@ JHtml::_('formbehavior.chosen', 'select');
 Joomla.submitbutton = function(task)
 {
 	if (task == 'note.cancel' || document.formvalidator.isValid(document.id('note-form')))
-	{
+	{         <?php echo $this->form->getField('body')->save(); ?>
 		Joomla.submitform(task, document.getElementById('note-form'));
 	}
 }
