@@ -46,7 +46,6 @@ abstract class ContentHelperRoute
 			if (isset(self::$lang_lookup[$language]))
 			{
 				$link .= '&lang=' . self::$lang_lookup[$language];
-				$needles['language'] = $language;
 			}
 		}
 
@@ -85,7 +84,6 @@ abstract class ContentHelperRoute
 				if (isset(self::$lang_lookup[$language]))
 				{
 					$link .= '&lang=' . self::$lang_lookup[$language];
-					$needles['language'] = $language;
 				}
 			}
 		}

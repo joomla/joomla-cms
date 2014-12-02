@@ -89,9 +89,9 @@ class ContentRouter extends JComponentRouterBase
 			$needles['form'] = array(0);
 		}
 
-		if (isset($query['language']) && $query['language'] != '*')
+		if (isset($query['lang']) && $query['lang'] != '*')
 		{
-			$needles['language'] = $query['language'];
+			$needles['language'] = $query['lang'];
 		}
 
 		if ($item = $this->findItem($needles))
