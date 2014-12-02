@@ -49,7 +49,6 @@ abstract class ContactHelperRoute
 			if (isset(self::$lang_lookup[$language]))
 			{
 				$link .= '&lang=' . self::$lang_lookup[$language];
-				$needles['language'] = $language;
 			}
 		}
 
@@ -89,7 +88,6 @@ abstract class ContactHelperRoute
 				if (isset(self::$lang_lookup[$language]))
 				{
 					$link .= '&lang=' . self::$lang_lookup[$language];
-					$needles['language'] = $language;
 				}
 			}
 		}
