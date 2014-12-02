@@ -545,7 +545,7 @@ class ContentRouter extends JComponentRouterBase
 	 *
 	 * @since   3.4
 	 */
-	protected function findItem($needles = null)
+	private function findItem($needles = null)
 	{
 		$language = isset($needles['language']) ? $needles['language'] : '*';
 
