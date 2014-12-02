@@ -241,7 +241,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		// Did we find the current and existing language yet?
 		$found = false;
-		
+
 		// We are called via POST. We don't care about the language
 		// and simply set the default language as our current language.
 		if ($this->app->input->getMethod() == "POST"
@@ -285,7 +285,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 
 				// If we found our language, but its the default language and we don't want a prefix for that, we are on a wrong URL
-				if ($this->params->get('remove_default_prefix', 0) 
+				if ($this->params->get('remove_default_prefix', 0)
 					&& $lang_code == JComponentHelper::getParams('com_languages')->get('site', 'en-GB'))
 				{
 					$found = false;
@@ -347,7 +347,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			else
 			{
 				$uri->setVar('lang', $this->lang_codes[$lang_code]->sef);
-				$this->app->redirect($uri->base().'index.php?'.$uri->getQuery());
+				$this->app->redirect($uri->base() . 'index.php?' . $uri->getQuery());
 			}
 		}
 
@@ -539,6 +539,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			$assocs = array();
 
 			$home = false;
+
 			// Load menu associations.
 			if ($active)
 			{
@@ -553,6 +554,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					$associations = MenusHelper::getAssociations($active->id);
 					unset($associations[$active->language]);
 					$assocs = array_keys($associations);
+
 					// If the menu item is a home menu item and the URLs are identical, we are on the homepage
 					$home = true;
 				}
