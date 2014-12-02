@@ -403,6 +403,45 @@ class JApplicationCmsTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests the JApplicationCms::redirect method using the legacy status parameter.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function testRedirectWithLegacyMovedParam()
+	{
+		$base = 'http://mydomain.com/';
+		$url = 'index.php';
+
+		// Inject the client information.
+		TestReflection::setValue(
+			$this->class,
+			'client',
+			(object) array(
+				'engine' => JApplicationWebClient::GECKO,
+			)
+		);
+
+		// Inject the internal configuration.
+		$config = new Registry;
+		$config->set('uri.base.full', $base);
+
+		TestReflection::setValue($this->class, 'config', $config);
+
+		$this->class->redirect($url, true);
+
+		$this->assertEquals(
+			array(
+				array('HTTP/1.1 301 Moved Permanently', true, null),
+				array('Location: ' . $base . $url, true, null),
+				array('Content-Type: text/html; charset=utf-8', true, null),
+			),
+			$this->class->headers
+		);
+	}
+
+	/**
 	 * Tests the JApplicationCms::redirect method.
 	 *
 	 * @return  void
