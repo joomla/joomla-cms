@@ -44,8 +44,6 @@ class ContentRouter extends JComponentRouterBase
 
 		if (isset($query['view']))
 		{
-			$needles['view'] = $query['view'];
-
 			if ($query['view'] == 'category')
 			{
 				if (isset($query['id']))
@@ -88,7 +86,7 @@ class ContentRouter extends JComponentRouterBase
 
 		if (isset($query['task']) && $query['task'] == 'article.edit')
 		{
-			$needles['view'] = array('form');
+			$needles['form'] = array(0);
 		}
 
 
@@ -592,6 +590,10 @@ class ContentRouter extends JComponentRouterBase
 						{
 							$this->lookup[$language][$view][$item->query['id']] = $item->id;
 						}
+					}
+					else
+					{
+						$this->lookup[$language][$view][0] = $item->id;
 					}
 				}
 			}
