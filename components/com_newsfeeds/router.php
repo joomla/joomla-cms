@@ -17,6 +17,87 @@ defined('_JEXEC') or die;
 class NewsfeedsRouter extends JComponentRouterBase
 {
 	/**
+	 * Itemid lookup array
+	 * 
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected $lookup;
+
+	/**
+	 * Find the right Itemid for a com_content article
+	 *
+	 * @param   array  $query  An associative array of URL arguments
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 *
+	 * @since   3.4
+	 */
+	public function preprocess($query)
+	{
+		if (isset($query['Itemid']))
+		{
+			return $query;
+		}
+
+		$needles = array();
+
+		if (isset($query['view']))
+		{
+			if ($query['view'] == 'category')
+			{
+				if (isset($query['id']))
+				{
+					$category = JCategories::getInstance('Newsfeeds')->get((int) $query['id']);
+
+					if ($id < 1 || !($category instanceof JCategoryNode))
+					{
+						$link = '';
+					}
+					else
+					{
+						$catids                = array_reverse($category->getPath());
+						$needles['category']   = $catids;
+						$needles['categories'] = $catids;
+					}
+				}
+			}
+
+			if ($query['view'] == 'newsfeed')
+			{
+				if (isset($query['id']))
+				{
+					$needles['newsfeed'] = array($query['id']);
+				}
+
+				if (isset($query['catid']) && (int) $query['catid'] > 1)
+				{
+					$categories = JCategories::getInstance('Newsfeeds');
+					$category   = $categories->get((int) $query['catid']);
+
+					if ($category)
+					{
+						$needles['category']   = array_reverse($category->getPath());
+						$needles['categories'] = $needles['category'];
+					}
+				}
+			}
+		}
+
+		if (isset($query['lang']) && $query['lang'] != '*')
+		{
+			$needles['language'] = $query['lang'];
+		}
+
+		if ($item = $this->findItem($needles))
+		{
+			$query['Itemid'] = $item;
+		}
+
+		return $query;
+	}
+
+	/**
 	 * Build the route for the com_newsfeeds component
 	 *
 	 * @param   array  &$query  An array of URL arguments
@@ -242,6 +323,101 @@ class NewsfeedsRouter extends JComponentRouterBase
 		}
 
 		return $vars;
+	}
+
+	/**
+	 * Find an item ID.
+	 *
+	 * @param   array  $needles  An array of needles to search for.
+	 *
+	 * @return  mixed  The ID found or null otherwise.
+	 *
+	 * @since   3.4
+	 */
+	private function findItem($needles = null)
+	{
+		$language = isset($needles['language']) ? $needles['language'] : '*';
+
+		// Prepare the reverse lookup array.
+		if (!isset($this->lookup[$language]))
+		{
+			$this->lookup[$language] = array();
+
+			$component  = JComponentHelper::getComponent('com_newsfeeds');
+
+			$attributes = array('component_id');
+			$values     = array($component->id);
+
+			if ($language != '*')
+			{
+				$attributes[] = 'language';
+				$values[]     = array($needles['language'], '*');
+			}
+
+			$items = $this->menu->getItems($attributes, $values);
+
+			foreach ($items as $item)
+			{
+				if (isset($item->query) && isset($item->query['view']))
+				{
+					$view = $item->query['view'];
+
+					if (!isset($this->lookup[$language][$view]))
+					{
+						$this->lookup[$language][$view] = array();
+					}
+
+					if (isset($item->query['id']))
+					{
+						/**
+						 * Here it will become a bit tricky
+						 * language != * can override existing entries
+						 * language == * cannot override existing entries
+						 */
+						if (!isset($this->lookup[$language][$view][$item->query['id']]) || $item->language != '*')
+						{
+							$this->lookup[$language][$view][$item->query['id']] = $item->id;
+						}
+					}
+					else
+					{
+						$this->lookup[$language][$view][0] = $item->id;
+					}
+				}
+			}
+		}
+
+		if ($needles)
+		{
+			foreach ($needles as $view => $ids)
+			{
+				if (isset($this->lookup[$language][$view]))
+				{
+					foreach ($ids as $id)
+					{
+						if (isset($this->lookup[$language][$view][(int) $id]))
+						{
+							return $this->lookup[$language][$view][(int) $id];
+						}
+					}
+				}
+			}
+		}
+
+		// Check if the active menuitem matches the requested language
+		$active = $this->menu->getActive();
+
+		if ($active
+			&& $active->component == 'com_content'
+			&& ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
+		{
+			return $active->id;
+		}
+
+		// If not found, return language specific home link
+		$default = $this->menu->getDefault($language);
+
+		return !empty($default->id) ? $default->id : null;
 	}
 }
 
