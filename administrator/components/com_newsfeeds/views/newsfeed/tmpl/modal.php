@@ -33,7 +33,7 @@ JFactory::getDocument()->addScriptDeclaration("
 
 			Joomla.submitform(task, document.getElementById('newsfeed-form'));
 		}
-	}
+	};
 ");
 ?>
 <div class="container-popup">

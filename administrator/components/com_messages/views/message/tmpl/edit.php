@@ -22,7 +22,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			{
 				Joomla.submitform(task, document.getElementById('message-form'));
 			}
-		}
+		};
 ");
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" class="form-validate form-horizontal">
