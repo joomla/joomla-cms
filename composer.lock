@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "24791640ff576790cc25e687c275b0ee",
+    "hash": "eab479cd212197cdcdeabf36f71703a2",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -133,6 +133,52 @@
                 "joomla"
             ],
             "time": "2014-02-09 19:29:20"
+        },
+        {
+            "name": "joomla/controller",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/controller.git",
+                "reference": "5177cf40e146c74d71f0c04ef0568d549afd564c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/controller/zipball/5177cf40e146c74d71f0c04ef0568d549afd564c",
+                "reference": "5177cf40e146c74d71f0c04ef0568d549afd564c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.10"
+            },
+            "require-dev": {
+                "joomla/application": "~1.0",
+                "joomla/input": "~1.0",
+                "joomla/test": "~1.0"
+            },
+            "suggest": {
+                "joomla/application": "~1.0",
+                "joomla/input": "~1.0"
+            },
+            "type": "joomla-package",
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Controller\\": "src/",
+                    "Joomla\\Controller\\Tests\\": "Tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Joomla Controller Package",
+            "homepage": "https://github.com/joomla-framework/controller",
+            "keywords": [
+                "controller",
+                "framework",
+                "joomla"
+            ],
+            "time": "2014-02-09 01:25:57"
         },
         {
             "name": "joomla/di",
@@ -667,17 +713,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.5.5",
+            "version": "v2.5.6",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "b1dbc53593b98c2d694ebf383660ac9134d30b96"
+                "reference": "2d9f527449cabfa8543dd7fa3a466d6ae83d6726"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/b1dbc53593b98c2d694ebf383660ac9134d30b96",
-                "reference": "b1dbc53593b98c2d694ebf383660ac9134d30b96",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/2d9f527449cabfa8543dd7fa3a466d6ae83d6726",
+                "reference": "2d9f527449cabfa8543dd7fa3a466d6ae83d6726",
                 "shasum": ""
             },
             "require": {
@@ -710,7 +756,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-09-22 09:14:18"
+            "time": "2014-10-01 05:50:18"
         }
     ],
     "packages-dev": null,
