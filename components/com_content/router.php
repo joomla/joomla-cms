@@ -48,7 +48,7 @@ class ContentRouter extends JComponentRouterBase
 			{
 				if (isset($query['id']))
 				{
-					$category = JCategories::getInstance('Content')->get((int)$query['id']);
+					$category = JCategories::getInstance('Content')->get((int) $query['id']);
 
 					if ($id < 1 || !($category instanceof JCategoryNode))
 					{
@@ -88,7 +88,6 @@ class ContentRouter extends JComponentRouterBase
 		{
 			$needles['form'] = array(0);
 		}
-
 
 		if (isset($query['language']) && $query['language'] != '*')
 		{
