@@ -276,7 +276,9 @@ class PlgContentPagebreak extends JPlugin
 		$row->toc .= '<ul class="nav nav-tabs nav-stacked">
 		<li class="' . $class . '">
 
-			<a href="' . JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=') . '" class="' . $class . '">'
+			<a href="'
+			. JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) .
+			'&showall=&limitstart=') . '" class="' . $class . '">'
 			. $heading .
 			'</a>
 
