@@ -76,7 +76,7 @@ abstract class ContentHelperRoute
 		}
 		else
 		{
-			$link                  = 'index.php?option=com_content&view=category&id=' . $id;
+			$link = 'index.php?option=com_content&view=category&id=' . $catid;
 
 			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 			{
