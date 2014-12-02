@@ -321,10 +321,12 @@ abstract class JModelLegacy extends JObject
 		if ($query instanceof JDatabaseQuery
 			&& $query->type == 'select'
 			&& $query->group === null
+			&& $query->union === null
+			&& $query->unionAll === null
 			&& $query->having === null)
 		{
 			$query = clone $query;
-			$query->clear('select')->clear('order')->clear('limit')->select('COUNT(*)');
+			$query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
 			$this->_db->setQuery($query);
 

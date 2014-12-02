@@ -37,6 +37,29 @@ class ModulesModelModule extends JModelAdmin
 	protected $helpURL;
 
 	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 */
+	public function __construct($config = array())
+	{
+		$config = array_merge(
+			array(
+				'event_after_delete'  => 'onExtensionAfterDelete',
+				'event_after_save'    => 'onExtensionAfterSave',
+				'event_before_delete' => 'onExtensionBeforeDelete',
+				'event_before_save'   => 'onExtensionBeforeSave',
+				'events_map'          => array(
+					'save'   => 'extension',
+					'delete' => 'extension'
+				)
+			), $config
+		);
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
@@ -365,9 +388,14 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function delete(&$pks)
 	{
-		$pks	= (array) $pks;
-		$user	= JFactory::getUser();
-		$table	= $this->getTable();
+		$dispatcher = JEventDispatcher::getInstance();
+		$pks        = (array) $pks;
+		$user       = JFactory::getUser();
+		$table      = $this->getTable();
+		$context    = $this->option . '.' . $this->name;
+
+		// Include the plugins for the on delete events.
+		JPluginHelper::importPlugin($this->events_map['delete']);
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $pk)
@@ -382,7 +410,10 @@ class ModulesModelModule extends JModelAdmin
 					return;
 				}
 
-				if (!$table->delete($pk))
+				// Trigger the before delete event.
+				$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
+
+				if (in_array(false, $result, true) || !$table->delete($pk))
 				{
 					throw new Exception($table->getError());
 				}
@@ -395,6 +426,9 @@ class ModulesModelModule extends JModelAdmin
 						->where('moduleid=' . (int) $pk);
 					$db->setQuery($query);
 					$db->execute();
+
+					// Trigger the after delete event.
+					$dispatcher->trigger($this->event_after_delete, array($context, $table));
 				}
 
 				// Clear module cache
@@ -918,9 +952,10 @@ class ModulesModelModule extends JModelAdmin
 		$table      = $this->getTable();
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
 		$isNew      = true;
+		$context    = $this->option . '.' . $this->name;
 
-		// Include the content modules for the onSave events.
-		JPluginHelper::importPlugin('extension');
+		// Include the plugins for the save event.
+		JPluginHelper::importPlugin($this->events_map['save']);
 
 		// Load the row if saving an existing record.
 		if ($pk > 0)
@@ -961,8 +996,8 @@ class ModulesModelModule extends JModelAdmin
 			return false;
 		}
 
-		// Trigger the onExtensionBeforeSave event.
-		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_modules.module', &$table, $isNew));
+		// Trigger the before save event.
+		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew));
 
 		if (in_array(false, $result, true))
 		{
@@ -1065,8 +1100,8 @@ class ModulesModelModule extends JModelAdmin
 			}
 		}
 
-		// Trigger the onExtensionAfterSave event.
-		$dispatcher->trigger('onExtensionAfterSave', array('com_modules.module', &$table, $isNew));
+		// Trigger the after save event.
+		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew));
 
 		// Compute the extension id of this module in case the controller wants it.
 		$query	= $db->getQuery(true)

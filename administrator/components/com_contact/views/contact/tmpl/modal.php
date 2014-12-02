@@ -19,24 +19,26 @@ $app = JFactory::getApplication();
 
 $input = $app->input;
 $assoc = JLanguageAssociations::isEnabled();
-?>
-<script type="text/javascript">
+
+JFactory::getDocument()->addScriptDeclaration('
+jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form')))
+		if (task == "contact.cancel" || document.formvalidator.isValid(document.getElementById("contact-form")))
 		{
-			<?php echo $this->form->getField('misc')->save(); ?>
+			' . $this->form->getField('misc')->save() . '
 
-			if (window.opener && (task == 'contact.save' || task == 'contact.cancel'))
+			if (window.opener && (task == "contact.save" || task == "contact.cancel"))
 			{
 				window.opener.document.closeEditWindow = self;
-				window.opener.setTimeout('window.document.closeEditWindow.close()', 1000);
+				window.opener.setTimeout("window.document.closeEditWindow.close()", 1000);
 			}
 
-			Joomla.submitform(task, document.getElementById('contact-form'));
+			Joomla.submitform(task, document.getElementById("contact-form"));
 		}
 	}
-</script>
+});');
+?>
 <div class="container-popup">
 
 <div class="pull-right">
@@ -48,7 +50,10 @@ $assoc = JLanguageAssociations::isEnabled();
 <div class="clearfix"> </div>
 <hr class="hr-condensed" />
 
-<form action="<?php echo JRoute::_('index.php?option=com_contact&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_contact&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">
+
+	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 

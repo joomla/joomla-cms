@@ -129,11 +129,11 @@ class PluginsModelPlugins extends JModelList
 
 			if (!empty($search))
 			{
-				$search = str_replace(' ', '.*', preg_quote(trim($search), '/'));
+				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 
 				foreach ($result as $i => $item)
 				{
-					if (!preg_match("/$search/i", $item->name))
+					if (!preg_match("/$escapedSearchString/i", $item->name))
 					{
 						unset($result[$i]);
 					}

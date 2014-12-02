@@ -12,18 +12,18 @@ defined('_JEXEC') or die;
 // Include the HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
 $input = $app->input;
 $assoc = JLanguageAssociations::isEnabled();
-?>
-<script type="text/javascript">
+
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form')))
+		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.getElementById('newsfeed-form')))
 		{
 			if (window.opener && (task == 'newsfeed.save' || task == 'newsfeed.cancel'))
 			{
@@ -33,8 +33,9 @@ $assoc = JLanguageAssociations::isEnabled();
 
 			Joomla.submitform(task, document.getElementById('newsfeed-form'));
 		}
-	}
-</script>
+	};
+");
+?>
 <div class="container-popup">
 
 <div class="pull-right">
