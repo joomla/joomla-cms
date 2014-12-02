@@ -52,7 +52,7 @@ Ready to install Joomla?
 ---------------------
 * Check the [minimum requirements](http://www.joomla.org/technical-requirements.html). 
 * How do you [install Joomla](http://docs.joomla.org/Installing_Joomla!)?
-* You could start your Joomla! experience by [building your site on a local test server](http://docs.joomla.org/Tutorial:Joomla_Local_install).
+* You could start your Joomla! experience by [building your site on a local test server](http://docs.joomla.org/Installing_Joomla_locally).
 When ready, it can be moved to an on-line hosting account of your choice.
 
 Updates are free!

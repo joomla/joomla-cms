@@ -12,17 +12,17 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-JHtml::_('behavior.formvalidation');
-?>
+JHtml::_('behavior.formvalidator');
 
-<script type="text/javascript">
-Joomla.submitbutton = function(task)
-{
-	if (task == 'level.cancel' || document.formvalidator.isValid(document.id('level-form')))
+JFactory::getDocument()->addScriptDeclaration("
+	Joomla.submitbutton = function(task)
 	{
-		Joomla.submitform(task, document.id('level-form'));
-	}
-}
+		if (task == 'level.cancel' || document.formvalidator.isValid(document.getElementById('level-form')))
+		{
+			Joomla.submitform(task, document.getElementById('level-form'));
+		}
+	};
+");
 /*
 window.addEvent('domready', function(){
 	document.id('user-groups').getElements('input').each(function(i){
@@ -88,8 +88,7 @@ window.addEvent('domready', function(){
 	});
 });
 */
-</script>
-
+?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="level-form" class="form-validate form-horizontal">
 	<fieldset>

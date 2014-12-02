@@ -20,42 +20,39 @@ interface JComponentRouterRulesInterface
 	 * URL and in general make sure that all information is present and properly
 	 * formatted. For example, the Itemid should be retrieved and set here.
 	 * 
-	 * @param   JComponentRouterInterface  &$router  The calling router object
-	 * @param   array                      &$query   The query array to process
+	 * @param   array  &$query  The query array to process
 	 * 
 	 * @return  void
 	 * 
 	 * @since   3.4
 	 */
-	public function preprocess(JComponentRouterInterface &$router, &$query);
+	public function preprocess(&$query);
 
 	/**
 	 * Parses an URI to retrieve informations for the right route through
 	 * the component.
 	 * This method should retrieve all its input from its method arguments.
 	 *
-	 * @param   JComponentRouterInterface  &$router    The calling router object
-	 * @param   array                      &$segments  The URL segments to parse
-	 * @param   array                      &$vars      The vars that result from the segments
+	 * @param   array  &$segments  The URL segments to parse
+	 * @param   array  &$vars      The vars that result from the segments
 	 *
 	 * @return  void
 	 *
 	 * @since   3.4
 	 */
-	public function parse(JComponentRouterInterface &$router, &$segments, &$vars);
+	public function parse(&$segments, &$vars);
 
 	/**
 	 * Builds URI segments from a query to encode the necessary informations
 	 * for a route in a human-readable URL.
 	 * This method should retrieve all its input from its method arguments.
 	 *
-	 * @param   JComponentRouterInterface  &$router    The calling router object
-	 * @param   array                      &$query     The vars that should be converted
-	 * @param   array                      &$segments  The URL segments to create
+	 * @param   array  &$query     The vars that should be converted
+	 * @param   array  &$segments  The URL segments to create
 	 *
 	 * @return  void
 	 *
 	 * @since   3.4
 	 */
-	public function build(JComponentRouterInterface &$router, &$query, &$segments);
+	public function build(&$query, &$segments);
 }
