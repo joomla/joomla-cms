@@ -9,35 +9,38 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
-?>
-<script type="text/javascript">
-		window.addEvent('domready', function()
-		{
-			document.id('jform_searchstring').addEvent('focus', function()
+
+$expired = ($this->state->get("cache_expired") == 1 ) ? '1' : '';
+
+JFactory::getDocument()->addScriptDeclaration('
+	jQuery(document).ready(function() {
+		document.getElementById("jform_searchstring").addEvent("focus", function() {
+			if (!Joomla.overrider.states.refreshed)
 			{
-				if (!Joomla.overrider.states.refreshed)
+				var expired = "' . $expired . '";
+				if (expired)
 				{
-					<?php if ($this->state->get('cache_expired')) : ?>
 					Joomla.overrider.refreshCache();
 					Joomla.overrider.states.refreshed = true;
-					<?php endif; ?>
 				}
-				this.removeClass('invalid');
-			});
+			}
+			this.removeClass("invalid");
 		});
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'override.cancel' || document.formvalidator.isValid(document.id('override-form')))
+	});
+
+	Joomla.submitbutton = function(task) {
+		if (task == "override.cancel" || document.formvalidator.isValid(document.getElementById("override-form")))
 		{
-			Joomla.submitform(task, document.getElementById('override-form'));
+			Joomla.submitform(task, document.getElementById("override-form"));
 		}
-	}
-</script>
+	};
+');
+?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&id='.$this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate form-horizontal">
 	<div class="row-fluid">

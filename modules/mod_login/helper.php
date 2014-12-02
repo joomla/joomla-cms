@@ -60,8 +60,7 @@ class ModLoginHelper
 		if (!$url)
 		{
 			// Stay on the same page
-			$uri = clone JUri::getInstance();
-			$vars = $router->parse($uri);
+			$vars = $router->getVars();
 			unset($vars['lang']);
 
 			if ($router->getMode() == JROUTER_MODE_SEF)

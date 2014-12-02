@@ -9,8 +9,21 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('formbehavior.chosen', 'select');
+$renderer = JFactory::getDocument()->loadRenderer('module');
+$options  = array('style' => 'raw');
+$mod      = JModuleHelper::getModule('mod_feed');
+$param    = array(
+		"rssurl" => "http://www.joomla.org/announcements/release-news.feed?type=rss",
+		"rsstitle" => 0,
+		"rssdesc" => 0,
+		"rssimage" => 1,
+		"rssitems" => 5,
+		"rssitemdesc" => 1,
+		"word_count" => 200,
+		"cache" => 0);
+$params = array('params' => json_encode($param));
 
+JHtml::_('formbehavior.chosen', 'select');
 ?>
 
 <form action="index.php" method="post" name="adminForm" class="form-inline">
@@ -58,7 +71,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	</div>
 	<div class="span4">
 		<h2><?php echo JText::_('COM_POSTINSTALL_LBL_RELEASENEWS'); ?></h2>
-		<iframe width="100%" height="1000" src="http://www.joomla.org/announcements/release-news"></iframe>
+		<?php echo $renderer->render($mod, $params, $options); ?>
 	</div>
 </div>
 <?php endif; ?>

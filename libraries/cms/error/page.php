@@ -36,7 +36,6 @@ class JErrorPage
 			{
 				// We're probably in an CLI environment
 				exit($error->getMessage());
-				$app->close(0);
 			}
 
 			$config = JFactory::getConfig();

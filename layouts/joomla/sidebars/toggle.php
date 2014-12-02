@@ -10,15 +10,15 @@
 defined('JPATH_BASE') or die;
 
 // Set the tooltips
-JText::script('JSEARCH_HIDE_SIDEBAR');
-JText::script('JSEARCH_SHOW_SIDEBAR');
+JText::script('JTOGGLE_HIDE_SIDEBAR');
+JText::script('JTOGGLE_SHOW_SIDEBAR');
 ?>
 <div
 	id="j-toggle-sidebar-button"
-	class="hidden-phone hasTooltip"
-	title="<?php echo JHtml::tooltipText('JSEARCH_HIDE_SIDEBAR'); ?>"
+	class="j-toggle-sidebar-button hidden-phone hasTooltip"
+	title="<?php echo JHtml::tooltipText('JTOGGLE_HIDE_SIDEBAR'); ?>"
 	type="button"
 	onclick="Joomla.toggleSidebar(false); return false;"
 	>
-	<span id="j-toggle-sidebar-icon" class="icon-remove"></span>
+	<span id="j-toggle-sidebar-icon" class="icon-cancel"></span>
 </div>

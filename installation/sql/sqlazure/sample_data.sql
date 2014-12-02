@@ -59,8 +59,8 @@ INSERT [#__content] ([id], [asset_id], [title], [alias], [introtext], [fulltext]
 <p>The new article interface gives you a lot of options, but all you need to do is add a title and put something in the content area. To make it easy to find, set the state to published.</p>
 <div>You can edit an existing article by clicking on the edit icon (this only displays to users who have the right to edit).</div>
 <h3>Template, site settings, and modules</h3>
-<p>The look and feel of your site is controlled by a template. You can change the site name, background colour, highlights colour and more by editing the template settings. Click the "Template Settings" in the user menu. </p>
-<p>The boxes around the main content of the site are called modules.  You can modify modules on the current page by moving your cursor to the module and clicking the edit link. Always be sure to save and close any module you edit.</p>
+<p>The look and feel of your site is controlled by a template. You can change the site name, background colour, highlights colour and more by editing the template settings. Click the "Template Settings" in the user menu.</p>
+<p>The boxes around the main content of the site are called modules. You can modify modules on the current page by moving your cursor to the module and clicking the edit link. Always be sure to save and close any module you edit.</p>
 <p><span style="line-height: 1.3em;">You can change some site settings such as the site name and description by clicking on the "Site Settings" link.</span></p>
 <p>More advanced options for templates, site settings, modules, and more are available in the site administrator.</p>
 <h3>Site and Administrator</h3>
