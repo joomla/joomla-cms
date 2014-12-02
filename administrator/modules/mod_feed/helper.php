@@ -30,8 +30,16 @@ abstract class modFeedHelper
 
 		// get RSS parsed object
 		$cache_time = 0;
-		if ($params->get('cache')) {
-			$cache_time  = $params->get('cache_time', 15) * 60;
+		if ($params->get('cache'))
+		{
+			/*
+			 * The cache_time will get fed into JCache to initiate the feed_parser cache group and eventually
+			 * JCacheStorage will multiply the value by 60 and use that for its lifetime. The only way to sync
+			 * the feed_parser cache (which caches with an empty dataset anyway) with the module cache is to
+			 * first divide the module's cache time by 60 then inject that forward, which once stored into the
+			 * JCacheStorage object, will be the correct value in minutes.
+			 */
+			$cache_time  = $params->get('cache_time', 15) / 60;
 		}
 
 		$rssDoc = JFactory::getFeedParser($rssurl, $cache_time);
