@@ -11,8 +11,8 @@ services:
   - redis-server
 
 before_script:
-  - composer self-update
-  - composer update
+  # - composer self-update
+  # - composer update
   - pyrus install -f pear/PHP_CodeSniffer-1.5.5
   - pyrus install -f pear/Cache_Lite
   - phpenv rehash

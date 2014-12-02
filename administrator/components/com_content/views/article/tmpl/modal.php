@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -62,25 +62,26 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 	$params->show_urls_images_backend = $this->item->attribs['show_urls_images_backend'];
 }
 
-?>
-
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration('
+jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		if (task == "article.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
-			<?php echo $this->form->getField('articletext')->save(); ?>
-
-			if (window.opener && (task == 'article.save' || task == 'article.cancel'))
+			'. $this->form->getField('articletext')->save() . '
+			if (window.opener && (task == "article.save" || task == "article.cancel"))
 			{
 				window.opener.document.closeEditWindow = self;
-				window.opener.setTimeout('window.document.closeEditWindow.close()', 1000);
+				window.opener.setTimeout("window.document.closeEditWindow.close()", 1000);
 			}
 
-		Joomla.submitform(task, document.getElementById('item-form'));
+		Joomla.submitform(task, document.getElementById("item-form"));
 		}
 	}
-</script>
+});');
+
+?>
+
 <div class="container-popup">
 
 <div class="pull-right">
