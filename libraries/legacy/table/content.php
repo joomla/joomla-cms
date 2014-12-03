@@ -223,6 +223,13 @@ class JTableContent extends JTable
 			{
 				$this->metadata = '{}';
 			}
+
+			// If we don't have any access rules set at this point just use an empty JAccessRules class
+			if (!isset($this->rules))
+			{
+				$rules = new JAccessRules;
+				$this->setRules($rules);
+			}
 		}
 
 		// Check the publish down date is not earlier than publish up.
