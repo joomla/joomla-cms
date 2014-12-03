@@ -153,7 +153,7 @@ class InstallerHelper
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from('#__update_sites')
-			->where($db->quoteName('enabled') . ' = 0 AND ' . $db->quoteName('update_site_id') . '= 3');
+			->where($db->quoteName('enabled') . ' = 0 AND ' . $db->quoteName('name') . ' = ' . $db->quote('Accredited Joomla! Translations'));
 		$db->setQuery($query);
 
 		return (int) $db->loadResult();
