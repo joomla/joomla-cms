@@ -177,8 +177,11 @@ class PlgContentPagebreak extends JPlugin
 				$row->text .= '</div>';
 
 				// Page text.
-				$text[$page] = str_replace('<hr id="system-readmore" />', '', $text[$page]);
-				$row->text .= $text[$page];
+				if (!empty($text[$page]))
+				{
+					$text[$page] = str_replace('<hr id="system-readmore" />', '', $text[$page]);
+					$row->text .= $text[$page];
+				}
 
 				// $row->text .= '<br />';
 				$row->text .= '<div class="pager">';
