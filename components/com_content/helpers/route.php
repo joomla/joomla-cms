@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
  * Content Component Route Helper.
  *
  * @since  1.5
+ * @deprecated 4.0 Simply write non-SEF URLs instead
  */
 abstract class ContentHelperRoute
 {
@@ -28,6 +29,7 @@ abstract class ContentHelperRoute
 	 * @return  string  The article route.
 	 *
 	 * @since   1.5
+	 * @deprecated 4.0 Simply write a static non-SEF URL instead
 	 */
 	public static function getArticleRoute($id, $catid = 0, $language = 0)
 	{
@@ -61,6 +63,7 @@ abstract class ContentHelperRoute
 	 * @return  string  The article route.
 	 *
 	 * @since   1.5
+	 * @deprecated 4.0 Simply write a static non-SEF URL instead
 	 */
 	public static function getCategoryRoute($catid, $language = 0)
 	{
@@ -99,6 +102,7 @@ abstract class ContentHelperRoute
 	 * @return  string  The article route.
 	 *
 	 * @since   1.5
+	 * @deprecated 4.0 Simply write a static non-SEF URL instead
 	 */
 	public static function getFormRoute($id)
 	{
@@ -140,5 +144,20 @@ abstract class ContentHelperRoute
 				self::$lang_lookup[$lang->lang_code] = $lang->sef;
 			}
 		}
+	}
+
+	/**
+	 * Find an item ID.
+	 *
+	 * @param   array  $needles  An array of language codes.
+	 *
+	 * @return  mixed  The ID found or null otherwise.
+	 *
+	 * @since   1.5
+	 * @deprecated 4.0
+	 */
+	protected static function _findItem($needles = null)
+	{
+		return null;
 	}
 }
