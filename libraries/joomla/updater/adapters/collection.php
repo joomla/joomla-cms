@@ -265,13 +265,6 @@ class JUpdaterCollection extends JUpdateAdapter
 				return $this->findUpdate($options);
 			}
 
-			$query = $db->getQuery(true)
-				->update('#__update_sites')
-				->set('enabled = 0')
-				->where('update_site_id = ' . $this->updateSiteId);
-			$db->setQuery($query);
-			$db->execute();
-
 			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_OPEN_URL', $url), 'warning');
