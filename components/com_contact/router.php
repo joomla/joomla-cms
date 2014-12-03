@@ -327,7 +327,6 @@ class ContactRouter extends JComponentRouterBase
 		return $vars;
 	}
 
-
 	/**
 	 * Find an item ID.
 	 *
