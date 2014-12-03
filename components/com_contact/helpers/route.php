@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Site
  * @subpackage  com_contact
  * @since       1.5
+ * @deprecated 4.0 Simply write non-SEF URLs instead
  */
 abstract class ContactHelperRoute
 {
@@ -31,6 +32,7 @@ abstract class ContactHelperRoute
 	 * @return  string  The link to the contact
 	 *
 	 * @since   1.5
+	 * @deprecated 4.0 Simply write a static non-SEF URL instead
 	 */
 	public static function getContactRoute($id, $catid, $language = 0)
 	{
@@ -64,6 +66,7 @@ abstract class ContactHelperRoute
 	 * @return  string  The link to the contact
 	 *
 	 * @since   1.5
+	 * @deprecated 4.0 Simply write a static non-SEF URL instead
 	 */
 	public static function getCategoryRoute($catid, $language = 0)
 	{
@@ -113,5 +116,15 @@ abstract class ContactHelperRoute
 				self::$lang_lookup[$lang->lang_code] = $lang->sef;
 			}
 		}
+	}
+
+	/**
+	 * Was used to calculate the right Itemid
+	 * 
+	 * @deprecated 4.0
+	 */
+	protected static function _findItem($needles = null)
+	{
+		return null;
 	}
 }
