@@ -139,6 +139,27 @@ class InstallerModelUpdate extends JModelList
 	}
 
 	/**
+	 * Get the count of disabled update sites
+	 *
+	 * @return  integer
+	 *
+	 * @since   3.4
+	 */
+	public function getDisabledUpdateSites()
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->select('count(*)')
+			->from('#__update_sites')
+			->where('enabled = 0');
+
+		$db->setQuery($query);
+
+		return $db->loadResult();
+	}
+
+	/**
 	 * Finds updates for an extension.
 	 *
 	 * @param   int  $eid                Extension identifier to look for
