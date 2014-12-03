@@ -311,10 +311,10 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{
-	    if ($limit == 0 && $offset == 0)
-	    {
-	       return $query;
-	    }
+		if ($limit == 0 && $offset == 0)
+		{
+			return $query;
+		}
 
 		$start = $offset + 1;
 		$end   = $offset + $limit;
