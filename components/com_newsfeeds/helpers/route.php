@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
  * Newsfeeds Component Route Helper
  *
  * @since  1.5
+ * @deprecated 4.0 Simply write non-SEF URLs instead
  */
 abstract class NewsfeedsHelperRoute
 {
@@ -26,6 +27,7 @@ abstract class NewsfeedsHelperRoute
 	 * @param   int  $language  language
 	 *
 	 * @return string
+	 * @deprecated 4.0 Simply write a static non-SEF URL instead
 	 */
 	public static function getNewsfeedRoute($id, $catid, $language = 0)
 	{
@@ -57,6 +59,7 @@ abstract class NewsfeedsHelperRoute
 	 * @param   int  $language  language
 	 *
 	 * @return string
+	 * @deprecated 4.0 Simply write a static non-SEF URL instead
 	 */
 	public static function getCategoryRoute($catid, $language = 0)
 	{
@@ -95,7 +98,6 @@ abstract class NewsfeedsHelperRoute
 	 *
 	 * @throws Exception
 	 */
-
 	protected static function buildLanguageLookup()
 	{
 		if (count(self::$lang_lookup) == 0)
@@ -114,5 +116,20 @@ abstract class NewsfeedsHelperRoute
 				self::$lang_lookup[$lang->lang_code] = $lang->sef;
 			}
 		}
+	}
+
+	/**
+	 * finditem
+	 *
+	 * @param   null  $needles  what we are searching for
+	 *
+	 * @return  int  menu itemid
+	 *
+	 * @throws Exception
+	 * @deprecated 4.0
+	 */
+	protected static function _findItem($needles = null)
+	{
+		return null;
 	}
 }
