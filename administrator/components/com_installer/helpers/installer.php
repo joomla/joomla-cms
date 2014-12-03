@@ -139,4 +139,23 @@ class InstallerHelper
 
 		return $result;
 	}
+
+	/**
+	 * Method to get the number of disabled registered language row.
+	 *
+	 * @return  integer
+	 *
+	 * @since	3.4
+	 */
+	public static function checkLangUpdateSites()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from('#__update_sites')
+			->where($db->quoteName('enabled') . ' = 0 AND ' . $db->quoteName('name') . ' = ' . $db->quote('Accredited Joomla! Translations'));
+		$db->setQuery($query);
+
+		return (int) $db->loadResult();
+	}
 }

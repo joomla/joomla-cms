@@ -30,6 +30,9 @@ $version = new JVersion;
 		<div id="j-main-container">
 	<?php endif;?>
 
+		<?php if (InstallerHelper::checkLangUpdateSites() > 0) : ?>
+				<div class="alert"><?php echo JText::_('COM_INSTALLER_MSG_LANGUAGES_CHECK_UPDATE_SITE'); ?></div>
+			<?php endif; ?>
 		<?php if (count($this->items) || $this->escape($this->state->get('filter.search'))) : ?>
 			<?php echo $this->loadTemplate('filter'); ?>
 			<table class="table table-striped">
