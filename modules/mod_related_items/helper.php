@@ -108,8 +108,11 @@ abstract class ModRelatedItemsHelper
 						->where('a.id != ' . (int) $id)
 						->where('a.state = 1')
 						->where('a.access IN (' . $groups . ')');
-
-					$query->where('a.metakey LIKE '.$db->quote('%modules%').' OR '.'a.metakey LIKE '.$db->quote('%content%'))
+                                        $wheres = array();
+                                        foreach ($likes as $keyword) {
+                                            $wheres[] = 'a.metakey LIKE '.$db->quote('%'.$keyword.'%'); 
+                                        }  
+					$query->where('('.implode(' OR ', $wheres).')')
 						->where('(a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ')')
 						->where('(a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')');
 
