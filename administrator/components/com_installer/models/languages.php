@@ -46,7 +46,7 @@ class InstallerModelLanguages extends JModelList
 	 */
 	protected function _getListQuery()
 	{
-		$db   = JFactory::getDbo();
+		$db   = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the updates table.
@@ -116,6 +116,39 @@ class InstallerModelLanguages extends JModelList
 	}
 
 	/**
+	 * Enable languages update server
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.4
+	 */
+	protected function enableUpdateSite()
+	{
+		$db = $this->getDbo();
+		$siteName = 'Accredited Joomla! Translations';
+
+		$query = $db->getQuery(true)
+			->update('#__update_sites')
+			->set('enabled = 1')
+			->where('name = ' . $db->quote($siteName));
+
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Method to find available languages in the Accredited Languages Update Site.
 	 *
 	 * @param   int  $cache_timeout  time before refreshing the cached updates
@@ -126,6 +159,11 @@ class InstallerModelLanguages extends JModelList
 	 */
 	public function findLanguages($cache_timeout = 0)
 	{
+		if (!$this->enableUpdateSite())
+		{
+			return false;
+		}
+
 		$updater = JUpdater::getInstance();
 
 		/*
