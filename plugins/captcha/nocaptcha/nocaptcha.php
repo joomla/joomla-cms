@@ -28,7 +28,7 @@ class PlgCaptchaNocaptcha extends JPlugin
 	/**
 	 * Initialise the captcha
 	 *
-	 * @param   string   $id  The id of the field.
+	 * @param   string  $id  The id of the field.
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
@@ -66,10 +66,10 @@ class PlgCaptchaNocaptcha extends JPlugin
 	/**
 	 * Gets the challenge HTML
 	 *
-	 * @param   string  $name    The name of the field.
-	 * @param   string  $id      The id of the field.
-	 * @param   string  $class   The class of the field. This should be passed as
-	 *                           e.g. 'class="required"'.
+	 * @param   string  $name   The name of the field.
+	 * @param   string  $id     The id of the field.
+	 * @param   string  $class  The class of the field. This should be passed as
+	 *                          e.g. 'class="required"'.
 	 *
 	 * @return  string  The HTML to be embedded in the form.
 	 *
