@@ -33,7 +33,9 @@ $script = "
 			{
 				var updPosition = jQuery('#jform_position').chosen().val(),
 					updTitle = jQuery('#jform_title').val(),
-					updMenus = jQuery('#jform_assignment').chosen().val();
+					updMenus = jQuery('#jform_assignment').chosen().val(),
+					updAccess = jQuery('#jform_access').chosen().val();
+					console.log(updAccess);
 				";
 if ($hasContent)
 {
@@ -42,22 +44,33 @@ if ($hasContent)
 $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 				if (self != top)
 				{
+					if (updAccess == 1){
+						jQuery('#access-" . $this->item->id . "', parent.document).html('Public');}
+					if (updAccess == 2){
+						jQuery('#access-" . $this->item->id . "', parent.document).html('Registered');}
+					if (updAccess == 3){
+						jQuery('#access-" . $this->item->id . "', parent.document).html('Special');}
+					if (updAccess == 5){
+						jQuery('#access-" . $this->item->id . "', parent.document).html('Guest');}
+					if (updAccess == 6){
+						jQuery('#access-" . $this->item->id . "', parent.document).html('Super Users');}
+
 					if (updMenus == 0) {
 						jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
 						if (jQuery('#tr-" . $this->item->id . "', parent.document).hasClass('no')) { jQuery('#tr-" . $this->item->id . "', parent.document).removeClass('no '); }
-					};
+					}
 					if (updMenus > 0) {
 						jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
 						if (jQuery('#tr-" . $this->item->id . "', parent.document).hasClass('no')) { jQuery('#tr-" . $this->item->id . "', parent.document).removeClass('no '); }
-					};
+					}
 					if (updMenus < 0) {
 						jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
 						if (!jQuery('#tr-" . $this->item->id . "', parent.document).hasClass('no')) { jQuery('#tr-" . $this->item->id . "', parent.document).addClass(' no '); }
-					};
+					}
 					if (updMenus == '-') {
 						jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
 						if (!jQuery('#tr-" . $this->item->id . "', parent.document).hasClass('no')) { jQuery('#tr-" . $this->item->id . "', parent.document).addClass('no '); }
-					};
+					}
 
 					jQuery('#title-" . $this->item->id . "', parent.document).text(updTitle);
 					jQuery('#position-" . $this->item->id . "', parent.document).text(updPosition);
