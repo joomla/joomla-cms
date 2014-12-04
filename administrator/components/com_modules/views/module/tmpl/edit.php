@@ -34,8 +34,6 @@ $script = "
 				var updPosition = jQuery('#jform_position').chosen().val(),
 					updTitle = jQuery('#jform_title').val(),
 					updMenus = jQuery('#jform_assignment').chosen().val();
-	//				console.log(updMenus);
-
 				";
 if ($hasContent)
 {
@@ -44,7 +42,6 @@ if ($hasContent)
 $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 				if (self != top)
 				{
-				console.log(updMenus);
 					if (updMenus == 0) { jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>'); };
 					if (updMenus > 0) { jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>'); };
 					if (updMenus < 0) { jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>'); };
