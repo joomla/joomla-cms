@@ -39,19 +39,15 @@
 		<field
 			name="theme"
 			type="list"
-			default="clean"
+			default="dark"
 			label="PLG_RECAPTCHA_THEME_LABEL"
 			description="PLG_RECAPTCHA_THEME_DESC"
 			required="true"
 			filter="">
 			<option
-				value="clean">PLG_RECAPTCHA_THEME_CLEAN</option>
+				value="light">PLG_RECAPTCHA_THEME_LIGHT</option>
 			<option
-				value="white">PLG_RECAPTCHA_THEME_WHITE</option>
-			<option
-				value="blackglass">PLG_RECAPTCHA_THEME_BLACKGLASS</option>
-			<option
-				value="red">PLG_RECAPTCHA_THEME_RED</option>
+				value="dark">PLG_RECAPTCHA_THEME_DARK</option>
 			</field>
 		</fieldset>
 	</fields>
