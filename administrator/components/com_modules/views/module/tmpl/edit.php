@@ -27,9 +27,13 @@ if ($hasContent)
 // Get Params Fieldsets
 $this->fieldsets = $this->form->getFieldsets('params');
 
-$script = "Joomla.submitbutton = function(task)
-	{
-			if (task == 'module.cancel' || document.formvalidator.isValid(document.getElementById('module-form'))) {";
+$script = "
+	Joomla.submitbutton = function(task) {
+			if (task == 'module.cancel' || document.formvalidator.isValid(document.getElementById('module-form')))
+			{
+				var updPosition = jQuery('#jform_position').chosen().val(),
+					updTitle = jQuery('#jform_title').val();
+				";
 if ($hasContent)
 {
 	$script .= $this->form->getField($hasContentFieldName)->save();
@@ -37,6 +41,8 @@ if ($hasContent)
 $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 				if (self != top)
 				{
+					jQuery('#title-" . $this->item->id . "', parent.document).text(updTitle);
+					jQuery('#position-" . $this->item->id . "', parent.document).text(updPosition);
 					window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
 				}
 			}
