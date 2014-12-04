@@ -20,20 +20,20 @@ switch ($params->get('updatesource', 'default'))
 		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_NEXT';
 		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
 		break;
-	
+
 	// "Testing"
 	case 'testing':
 		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_TESTING';
 		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING');
 		break;
-	
+
 	// "Custom" if custom URL empty no changes.
 	// TODO: check if the customurl is valid and not just "not empty". Add a trim()
 	case 'custom':
 		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_CUSTOM';
 		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM');
 		break;
-	
+
 	// "Minor & Patch Release for Current version (recommended and default)".
 	// Old "lts" and broken "nochange" falls here
 	// The three "case" below are useless, but just there for easy understanding...
