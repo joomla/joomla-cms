@@ -19,13 +19,13 @@ class InstallerModelLanguages extends JModelList
 {
 	/**
 	 * @var     integer  Extension ID of the en-GB language pack.
-	 * @since   3.4.0
+	 * @since   3.4
 	 */
 	private $enGbExtentionId = 0;
 
 	/**
 	 * @var     integer  Upate Site ID of the en-GB language pack.
-	 * @since   3.4.0
+	 * @since   3.4
 	 */
 	private $updateSiteId = 0;
 
