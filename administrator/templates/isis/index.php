@@ -325,25 +325,31 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				}
 			};
 
-			// Prevent alert for buttons
-			$(':button').bindFirst("mousedown", function () {
-				$(window).off("beforeunload");
-			});
+				// Prevent alert for links
+				$('a').bindFirst("mousedown", function () {
+					$(window).off("beforeunload");
+				});
 
-			// Prevent alert for forms
-			$('form').bindFirst("submit", function () {
-				$(window).off("beforeunload");
-			});
+				// Prevent alert for buttons
+				$(':button').bindFirst("mousedown", function () {
+					$(window).off("beforeunload");
+				});
 
-			// Prevent alert for forms
-			$('input[type=submit]').bindFirst("mousedown", function () {
-				$(window).off("beforeunload");
-			});
+				// Prevent alert for forms
+				$('form').bindFirst("submit", function () {
+					$(window).off("beforeunload");
+				});
 
-			// Alert on unintentional exit
-			$(window).on("beforeunload", function (event) {
-				return '<?php echo JText::_('TPL_ISIS_WARNING_MSG'); ?>';
-			});
+				// Prevent alert for forms
+				$('input[type=submit]').bindFirst("mousedown", function () {
+					$(window).off("beforeunload");
+				});
+
+				// Alert on unintentional exit
+				$(window).on("beforeunload", function (event) {
+					return '<?php echo JText::_('TPL_ISIS_WARNING_MSG'); ?>';
+				});
+
 		});
 	</script>
 <?php endif; ?>
