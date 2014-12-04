@@ -220,7 +220,7 @@ abstract class JModelAdmin extends JModelForm
 
 				if (is_array($result))
 				{
-					$contexts = array_merge($contexts, array_fill_keys($result, $contexts[$pks[0]]));
+					$contexts = array_combine($result, $contexts);
 					$pks = $result;
 				}
 				else
