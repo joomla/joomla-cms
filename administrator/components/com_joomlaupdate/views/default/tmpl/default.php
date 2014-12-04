@@ -27,8 +27,7 @@ switch ($params->get('updatesource', 'default'))
 		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING');
 		break;
 
-	// "Custom" if custom URL empty no changes.
-	// TODO: check if the customurl is valid and not just "not empty". Add a trim()
+	// "Custom"
 	case 'custom':
 		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_CUSTOM';
 		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM');
@@ -41,7 +40,6 @@ switch ($params->get('updatesource', 'default'))
 	case 'lts':
 	case 'nochange':
 	default:
-		$updateURL = 'http://update.joomla.org/core/list.xml';
 		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_DEFAULT';
 		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
 }
