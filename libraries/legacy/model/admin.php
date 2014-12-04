@@ -220,8 +220,11 @@ abstract class JModelAdmin extends JModelForm
 
 				if (is_array($result))
 				{
-					$contexts = array_combine($result, $contexts);
-					$pks = $result;
+					foreach ($result as $old => $new)
+					{
+						$contexts[$new] = $contexts[$old];
+					}
+					$pks = array_values($result);
 				}
 				else
 				{
@@ -440,7 +443,7 @@ abstract class JModelAdmin extends JModelForm
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[]	= $newId;
+			$newIds[$pk]	= $newId;
 		}
 
 		// Clean the cache
