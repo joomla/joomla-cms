@@ -30,9 +30,9 @@ class PlgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Initialise the captcha
 	 *
-	 * @param   string $id The id of the field.
+	 * @param   string  $id  The id of the field.
 	 *
-	 * @return  Boolean    True on success, false otherwise
+	 * @return  Boolean      True on success, false otherwise
 	 *
 	 * @since  2.5
 	 */
@@ -67,10 +67,10 @@ class PlgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Gets the challenge HTML
 	 *
-	 * @param   string $name    The name of the field.
-	 * @param   string $id      The id of the field.
-	 * @param   string $class   The class of the field. This should be passed as
-	 *                          e.g. 'class="required"'.
+	 * @param   string  $name    The name of the field.
+	 * @param   string  $id      The id of the field.
+	 * @param   string  $class   The class of the field. This should be passed as
+	 *                           e.g. 'class="required"'.
 	 *
 	 * @return  string  The HTML to be embedded in the form.
 	 *
@@ -84,7 +84,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Calls an HTTP POST function to verify if the user's guess was correct
 	 *
-	 * @param   string $code Answer provided by user.
+	 * @param   string  $code  Answer provided by user.
 	 *
 	 * @return  True if the answer is correct, false otherwise
 	 *
