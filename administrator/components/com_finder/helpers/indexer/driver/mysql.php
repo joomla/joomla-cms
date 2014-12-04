@@ -597,7 +597,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 					. $db->quote($token->stem) . ', '
 					. (int) $token->common . ', '
 					. (int) $token->phrase . ', '
-					. (float) $token->weight . ', '
+					. number_format($token->weight, 2, '.', '') . ', '
 					. (int) $context . ', '
 					. $db->quote($token->language)
 			);
