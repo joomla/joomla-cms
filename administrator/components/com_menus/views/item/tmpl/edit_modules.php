@@ -38,15 +38,17 @@ JHtml::_('behavior.core');
 				<?php if (!$module->except || $module->menuid < 0) : ?>
 					<tr class="no row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>">
 				<?php else : ?>
-			<tr class="row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>">
+					<tr class="row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>">
 				<?php endif; ?>
+			<?php else : ?>
+				<tr class="row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>">
 			<?php endif; ?>
 				<td id="<?php echo $module->id; ?>">
 					<?php $link = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;id=' . $module->id . '&amp;tmpl=component&amp;view=module&amp;layout=modal'; ?>
 					<a class="modal" href="<?php echo $link;?>" rel="{handler: 'iframe', size: {x: 900, y: 550}}" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>" id="title-<?php echo $module->id; ?>">
 						<?php echo JText::_($this->escape($module->title)); ?></a>
 				</td>
-				<td id="position-<?php echo $module->id; ?>">
+				<td id="access-<?php echo $module->id; ?>">
 					<?php echo JText::_($this->escape($module->access_title)); ?>
 				</td>
 				<td id="position-<?php echo $module->id; ?>">
