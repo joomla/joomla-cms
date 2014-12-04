@@ -60,7 +60,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<td id="position-<?php echo $module->id; ?>">
 					<?php echo $this->escape($module->position); ?>
 				</td>
-				<td class="center">
+				<td id="menus-<?php echo $module->id; ?>">
 					<?php if (is_null($module->menuid)) : ?>
 						<?php if ($module->except):?>
 							<span class="label label-success">
