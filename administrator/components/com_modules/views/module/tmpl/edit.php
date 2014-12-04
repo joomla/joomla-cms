@@ -42,10 +42,10 @@ if ($hasContent)
 $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 				if (self != top)
 				{
-					if (updMenus == 0) { jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>'); };
-					if (updMenus > 0) { jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>'); };
-					if (updMenus < 0) { jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>'); };
-					if (updMenus == '-') { jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>'); };
+					if (updMenus == 0) { jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>'); jQuery('#tr-" . $this->item->id . "', parent.document).removeClass('no row0'); };
+					if (updMenus > 0) { jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>'); jQuery('#tr-" . $this->item->id . "', parent.document).removeClass('no row0'); };
+					if (updMenus < 0) { jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>'); jQuery('#tr-" . $this->item->id . "', parent.document).addClass('no row0'); };
+					if (updMenus == '-') { jQuery('#menus-" . $this->item->id . "', parent.document).html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>'); jQuery('#tr-" . $this->item->id . "', parent.document).addClass('no row0'); };
 
 					jQuery('#title-" . $this->item->id . "', parent.document).text(updTitle);
 					jQuery('#position-" . $this->item->id . "', parent.document).text(updPosition);

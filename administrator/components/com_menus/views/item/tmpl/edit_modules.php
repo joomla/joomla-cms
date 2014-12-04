@@ -10,26 +10,12 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
-
-JFactory::getDocument()->addScriptDeclaration("
-	jQuery(document).ready(function() {
-		jQuery('#showmods').on('click', function(e) {
-			jQuery('.table tr.no').toggle();
-		});
-	});
-");
 ?>
 
 <div class="control-group">
-	<div class="control-label">
-		<label for="showmods"><?php echo JText::_('COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED');?></label>
-	</div>
-	<div class="controls">
-		<input type="checkbox" id="showmods" />
-	</div>
+	<button type="button" class="btn btn-default" id="showmods" onclick="jQuery('.table tr.no').toggle();"><?php echo JText::_('COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED');?></button>
 </div>
-
-	<table class="table table-striped" id="mod-table">
+	<table class="table table-striped">
 		<thead>
 		<tr>
 			<th class="left">
@@ -50,9 +36,9 @@ JFactory::getDocument()->addScriptDeclaration("
 		<?php foreach ($this->modules as $i => &$module) : ?>
  			<?php if (is_null($module->menuid)) : ?>
 				<?php if (!$module->except || $module->menuid < 0) : ?>
-					<tr class="no row<?php echo $i % 2;?>">
+					<tr class="no row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>">
 				<?php else : ?>
-			<tr class="row<?php echo $i % 2;?>">
+			<tr class="row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>">
 				<?php endif; ?>
 			<?php endif; ?>
 				<td id="<?php echo $module->id; ?>">
