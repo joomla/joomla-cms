@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * NoCaptcha Plugin.
  * Based on the official recaptcha library( https://developers.google.com/recaptcha/docs/php )
  *
- * @since  2.5
+ * @since  3.4
  */
 class PlgCaptchaNocaptcha extends JPlugin
 {
@@ -21,18 +21,18 @@ class PlgCaptchaNocaptcha extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  3.1
+	 * @since  3.4
 	 */
 	protected $autoloadLanguage = true;
 
 	/**
 	 * Initialise the captcha
 	 *
-	 * @param   string $id The id of the field.
+	 * @param   string   $id  The id of the field.
 	 *
-	 * @return  Boolean      True on success, false otherwise
+	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since  2.5
+	 * @since   3.4
 	 */
 	public function onInit($id = 'dynamic_recaptcha_1')
 	{
@@ -66,14 +66,14 @@ class PlgCaptchaNocaptcha extends JPlugin
 	/**
 	 * Gets the challenge HTML
 	 *
-	 * @param   string $name    The name of the field.
-	 * @param   string $id      The id of the field.
-	 * @param   string $class   The class of the field. This should be passed as
-	 *                          e.g. 'class="required"'.
+	 * @param   string  $name    The name of the field.
+	 * @param   string  $id      The id of the field.
+	 * @param   string  $class   The class of the field. This should be passed as
+	 *                           e.g. 'class="required"'.
 	 *
 	 * @return  string  The HTML to be embedded in the form.
 	 *
-	 * @since  2.5
+	 * @since   3.4
 	 */
 	public function onDisplay($name, $id = 'dynamic_recaptcha_1', $class = '')
 	{
@@ -83,11 +83,11 @@ class PlgCaptchaNocaptcha extends JPlugin
 	/**
 	 * Calls an HTTP POST function to verify if the user's guess was correct
 	 *
-	 * @param   string $code Answer provided by user.
+	 * @param   string  $code  Answer provided by user.
 	 *
 	 * @return  True if the answer is correct, false otherwise
 	 *
-	 * @since  2.5
+	 * @since   3.4
 	 */
 	public function onCheckAnswer($code)
 	{
