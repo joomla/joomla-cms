@@ -91,7 +91,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 								<?php echo $this->escape($item->subject); ?></a>
 						</td>
 						<td class="center">
-							<?php echo JHtml::_('messages.state', $item->state, $i, $canChange); ?>
+							<?php echo JHtml::_('messages.status', $i, $item->state, $canChange); ?>
 						</td>
 						<td>
 							<?php echo $item->user_from; ?>
