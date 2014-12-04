@@ -34,13 +34,11 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		switch ($params->get('updatesource', 'nochange'))
 		{
-			// "Current Minor & Patch Release (recommended)".
-			case 'lts':
-				$updateURL = 'http://update.joomla.org/core/list.xml';
-				break;
-
-			// "Current Major Release".
+			// "Minor & Patch Release for Current version AND Next Major Release".
+			// TODO: Should we change the name of the xml ??
+			//       Should we have this at all??
 			case 'sts':
+			case 'next':
 				$updateURL = 'http://update.joomla.org/core/sts/list_sts.xml';
 				break;
 
@@ -50,6 +48,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				break;
 
 			// "Custom" if custom URL empty no changes.
+			// TODO: check if the customurl is valid and not just "not empty". Add a trim()
 			case 'custom':
 				if ($params->get('customurl', '') != '')
 				{
@@ -61,11 +60,14 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				}
 				break;
 
-			// "Do not change".
+			// "Minor & Patch Release for Current version (recommended and default)".
+			// Old "lts" and broken "nochange" falls here
+			// The three "case" below are useless, but just there for easy understanding...
+			case 'default':
+			case 'lts':
 			case 'nochange':
 			default:
-				return;
-				break;
+				$updateURL = 'http://update.joomla.org/core/list.xml';
 		}
 
 		$db = $this->getDbo();

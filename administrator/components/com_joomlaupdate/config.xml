@@ -9,16 +9,17 @@
 		<field
 			name="updatesource"
 			type="list"
-			default="lts"
+			default="default"
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DESC"
 			>
-			<!-- Note: Change the values from sts and lts to major and minor with 4.0 -->
-			<option value="lts">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_MINOR</option>
-			<option value="sts">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_MAJOR</option>
+			<!-- Note: Changed the values lts to default and sts to next with 3.4.0 -->
+			<!--       Eliminated the 'nochange' option with 3.4.0 -->
+			<!--       All invalid/unsupported/obsolete options equated to default in code with 3.4.0 -->
+			<option value="default">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT</option>
+			<option value="next">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT</option>
 			<option value="testing">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING</option>
 			<option value="custom">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM</option>
-			<option value="nochange">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NOCHANGE</option>
 		</field>
 
 		<field
