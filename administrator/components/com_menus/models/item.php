@@ -809,13 +809,13 @@ class MenusModelItem extends JModelAdmin
 	}
 
 	/**
-	 * Get the list of all access levels
+	 * Get the list of all view levels
 	 *
 	 * @return  array  An array of access levels (id, title).
 	 *
 	 * @since   3.4
 	 */
-	public function getAcslevels()
+	public function getViewLevels()
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);

@@ -17,12 +17,23 @@ foreach ($this->levels as $key => $value) {
 
 JFactory::getDocument()->addScriptDeclaration('
 var acs = ' . json_encode($allLevels) . ';
+
+jQuery(document).ready(function() {
+	jQuery(document).on("click", "input:radio[id^=\'jform_toggle_modules1\']", function (event) {
+	    jQuery(".table tr.no").hide();
+	});
+	jQuery(document).on("click", "input:radio[id^=\'jform_toggle_modules0\']", function (event) {
+	    jQuery(".table tr.no").show();
+	});
+});
 ');
 ?>
+<?php
+// Set main fields.
+$this->fields = array('toggle_modules');
 
-<div class="control-group">
-	<button type="button" class="btn btn-default" id="showmods" onclick="jQuery('.table tr.no').toggle();"><?php echo JText::_('COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED');?></button>
-</div>
+echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+
 	<table class="table table-striped">
 		<thead>
 		<tr>
@@ -30,7 +41,7 @@ var acs = ' . json_encode($allLevels) . ';
 				<?php echo JText::_('COM_MENUS_HEADING_ASSIGN_MODULE');?>
 			</th>
 			<th>
-
+				<?php echo JText::_('COM_MENUS_HEADING_LEVELS');?>
 			</th>
 			<th>
 				<?php echo JText::_('COM_MENUS_HEADING_POSITION');?>
@@ -44,12 +55,12 @@ var acs = ' . json_encode($allLevels) . ';
 		<?php foreach ($this->modules as $i => &$module) : ?>
  			<?php if (is_null($module->menuid)) : ?>
 				<?php if (!$module->except || $module->menuid < 0) : ?>
-					<tr class="no row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>">
+					<tr class="no row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>" style="display:normal;">
 				<?php else : ?>
-					<tr class="row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>">
+					<tr class="row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>" style="display:normal;">
 				<?php endif; ?>
 			<?php else : ?>
-				<tr class="row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>">
+				<tr class="row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>" style="display:normal">
 			<?php endif; ?>
 				<td id="<?php echo $module->id; ?>">
 					<?php $link = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;id=' . $module->id . '&amp;tmpl=component&amp;view=module&amp;layout=modal'; ?>
