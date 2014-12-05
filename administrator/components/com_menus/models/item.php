@@ -817,13 +817,14 @@ class MenusModelItem extends JModelAdmin
 	 */
 	public function getViewLevels()
 	{
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Get all the available access levels
-		$query->select('id, title')
-			->from('#__viewlevels')
-			->order('id');
+		$query->select($db->quoteName('id'))
+			->select($db->quoteName('title'))
+			->from($db->quoteName('#__viewlevels'))
+			->order($db->quoteName('id'));
 
 		$db->setQuery($query);
 
