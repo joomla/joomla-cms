@@ -72,7 +72,7 @@ class InstallerModelLanguages extends JModelList
 			$siteQuery = $db->getQuery(true);
 
 			$siteQuery->select($db->quoteName('update_site_id'))
-				->from('#__update_sites_extensions')
+				->from($db->quoteName('#__update_sites_extensions'))
 				->where($db->quoteName('extension_id') . ' = ' . $extId);
 
 			$db->setQuery($siteQuery);
