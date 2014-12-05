@@ -256,8 +256,10 @@ abstract class JUpdateAdapter extends JAdapterInstance
 		// Log the time it took to load this update site's information
 		$endTime = microtime(true);
 		$timeToLoad = sprintf('%0.2f', $endTime - $startTime);
-		JLog::add("Loading information from update site #{$this->updateSiteId} with name " .
-			"\"$this->updateSiteName\" and URL $url took $timeToLoad seconds", JLog::INFO, 'updater');
+		JLog::add(
+			"Loading information from update site #{$this->updateSiteId} with name " .
+			"\"$this->updateSiteName\" and URL $url took $timeToLoad seconds", JLog::INFO, 'updater'
+		);
 
 		if ($response === null || $response->code !== 200)
 		{
