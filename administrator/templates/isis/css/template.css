@@ -7150,6 +7150,9 @@ body .navbar-fixed-top {
 	max-width: 143px;
 	height: auto;
 }
+.container-logo img.logo {
+	max-height:32px;
+}
 .page-title {
 	color: white;
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
