@@ -54,11 +54,11 @@ class InstallerModelLanguages extends JModelList
 		$extType   = 'language';
 		$extElem   = 'en-GB';
 
-		$extQuery->select('extension_id')
-			->from('#__extensions')
-			->where('type = ' . $db->quote($extType))
-			->where('element = ' . $db->quote($extElem))
-			->where('client_id = 0');
+		$extQuery->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote($extType))
+			->where($db->quoteName('element') . ' = ' . $db->quote($extElem))
+			->where($db->quoteName('client_id') . ' = 0');
 
 		$db->setQuery($extQuery);
 
@@ -71,9 +71,9 @@ class InstallerModelLanguages extends JModelList
 
 			$siteQuery = $db->getQuery(true);
 
-			$siteQuery->select('update_site_id')
+			$siteQuery->select($db->quoteName('update_site_id'))
 				->from('#__update_sites_extensions')
-				->where('extension_id = ' . $extId);
+				->where($db->quoteName('extension_id') . ' = ' . $extId);
 
 			$db->setQuery($siteQuery);
 
@@ -99,8 +99,8 @@ class InstallerModelLanguages extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the updates table.
-		$query->select('update_id, name, version, detailsurl, type')
-			->from('#__updates');
+		$query->select($db->quoteName(array('update_id', 'name', 'version', 'detailsurl', 'type')))
+			->from($db->quoteName('#__updates'));
 
 		/*
 		 * This where clause will limit to language updates only.
@@ -110,15 +110,15 @@ class InstallerModelLanguages extends JModelList
 		 */
 		if ($this->updateSiteId)
 		{
-			$query->where('update_site_id = ' . $this->updateSiteId);
+			$query->where($db->quoteName('update_site_id') . ' = ' . $this->updateSiteId);
 		}
 		else
 		{
-			$query->where('update_site_id = -1');
+			$query->where($db->quoteName('update_site_id') . ' = -1');
 		}
 
 		// This where clause will avoid to list languages already installed.
-		$query->where('extension_id = 0');
+		$query->where($db->quoteName('extension_id') . ' = 0');
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
