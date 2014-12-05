@@ -73,26 +73,47 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function getItems()
 	{
-		$updater = JUpdater::getInstance();
+		// Get the extension_id of the en-GB package.
+		$db        = JFactory::getDbo();
+		$extQuery  = $db->getQuery(true);
 
-		/*
-		 * The following function uses extension_id 600, that is the English language extension id.
-		 * In #__update_sites_extensions you should have 600 linked to the Accredited Translations Repo.
-		 */
-		$updater->findUpdates(array(600), 0);
+		$extQuery->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('language'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('en-GB'))
+			->where($db->quoteName('client_id') . ' = 0');
 
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$db->setQuery($extQuery);
 
-		// Select the required fields from the updates table.
-		$query->select('update_id, name, version')
-			->from('#__updates')
-			->order('name');
+		$extId = (int) $db->loadResult();
 
-		$db->setQuery($query);
-		$list = $db->loadObjectList();
+		if ($extId)
+		{
+			$updater = JUpdater::getInstance();
 
-		if (!$list || $list instanceof Exception)
+			/*
+			 * The following function call uses the extension_id of the en-GB package.
+			 * In #__update_sites_extensions you should have this extension_id linked
+			 * to the Accredited Translations Repo.
+			 */
+			$updater->findUpdates(array($extId), 0);
+
+			$query = $db->getQuery(true);
+
+			// Select the required fields from the updates table.
+			$query->select($db->quoteName(array('update_id', 'name', 'version')))
+				->from($db->quoteName('#__updates'))
+				->order($db->quoteName('name'));
+
+			$db->setQuery($query);
+			$list = $db->loadObjectList();
+
+			if (!$list || $list instanceof Exception)
+			{
+				$list = array();
+			}
+		}
+		else
 		{
 			$list = array();
 		}
@@ -337,12 +358,12 @@ class InstallationModelLanguages extends JModelBase
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
-		$query->select('a.element, a.name')
-			->from('#__extensions AS a')
-			->where('a.type = ' . $db->quote('language'))
-			->where('state = 0')
-			->where('enabled = 1')
-			->where('client_id=' . (int) $client_id);
+		$query->select($db->quoteName(array('a.element', 'a.name')))
+			->from($db->quoteName('#__extensions') . ' AS a')
+			->where($db->quoteName('a.type') . ' = ' . $db->quote('language'))
+			->where($db->quoteName('state') . ' = 0')
+			->where($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('client_id') . ' = ' . (int) $client_id);
 
 		$db->setQuery($query);
 
@@ -532,10 +553,10 @@ class InstallationModelLanguages extends JModelBase
 
 		$query
 			->clear()
-			->update('#__extensions')
-			->set('enabled = 1')
-			->where('name = ' . $db->quote($pluginName))
-			->where('type = ' . $db->quote('plugin'));
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('name') . ' = ' . $db->quote($pluginName))
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
 
 		$db->setQuery($query);
 
@@ -557,10 +578,10 @@ class InstallationModelLanguages extends JModelBase
 				. '}';
 			$query
 				->clear()
-				->update('#__extensions')
-				->set('params = ' . $db->quote($params))
-				->where('name = ' . $db->quote('plg_system_languagefilter'))
-				->where('type = ' . $db->quote('plugin'));
+				->update($db->quoteName('#__extensions'))
+				->set($db->quoteName('params') . ' = ' . $db->quote($params))
+				->where($db->quoteName('name') . ' = ' . $db->quote('plg_system_languagefilter'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
 
 			$db->setQuery($query);
 
@@ -641,7 +662,7 @@ class InstallationModelLanguages extends JModelBase
 
 		// Add Module in Module menus.
 		$query->clear()
-			->insert('#__modules_menu')
+			->insert($db->quoteName('#__modules_menu'))
 			->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
 			->values($moduleId . ', 0');
 		$db->setQuery($query);
@@ -1166,11 +1187,13 @@ class InstallationModelLanguages extends JModelBase
 		// Select the required fields from the updates table.
 		$query
 			->clear()
-			->select('u.id')
-			->from('#__users as u')
-			->join('LEFT', '#__user_usergroup_map AS map ON map.user_id = u.id')
-			->join('LEFT', '#__usergroups AS g ON map.group_id = g.id')
-			->where('g.title = ' . $db->q('Super Users'));
+			->select($db->quoteName('u.id'))
+			->from($db->quoteName('#__users') . ' AS u')
+			->join('LEFT', $db->quoteName('#__user_usergroup_map')
+				. ' AS map ON ' . $db->quoteName('map.user_id') . ' = ' . $db->quoteName('u.id'))
+			->join('LEFT', $db->quoteName('#__usergroups')
+				. ' AS g ON ' . $db->quoteName('map.group_id') . ' = ' . $db->quoteName('g.id'))
+			->where($db->quoteName('g.title') . ' = ' . $db->quote('Super Users'));
 
 		$db->setQuery($query);
 		$id = $db->loadResult();
