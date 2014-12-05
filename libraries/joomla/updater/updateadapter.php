@@ -128,11 +128,13 @@ abstract class JUpdateAdapter extends JAdapterInstance
 	 *
 	 * @param   int   $update_site_id  The numeric ID of the update site to enable/disable
 	 * @param   bool  $enabled         Enable the site when true, disable it when false
+	 *
+	 * @return  void
 	 */
 	protected function toggleUpdateSite($update_site_id, $enabled = true)
 	{
-		$update_site_id = (int)$update_site_id;
-		$enabled = (bool)$enabled;
+		$update_site_id = (int) $update_site_id;
+		$enabled = (bool) $enabled;
 
 		if (empty($update_site_id))
 		{
@@ -165,7 +167,7 @@ abstract class JUpdateAdapter extends JAdapterInstance
 	 */
 	protected function getUpdateSiteName($updateSiteId)
 	{
-		$updateSiteId = (int)$updateSiteId;
+		$updateSiteId = (int) $updateSiteId;
 
 		if (empty($updateSiteId))
 		{
@@ -254,7 +256,8 @@ abstract class JUpdateAdapter extends JAdapterInstance
 		// Log the time it took to load this update site's information
 		$endTime = microtime(true);
 		$timeToLoad = sprintf('%0.2f', $endTime - $startTime);
-		JLog::add("Loading information from update site #{$this->updateSiteId} with name \"$this->updateSiteName\" and URL $url took $timeToLoad seconds", JLog::INFO, 'updater');
+		JLog::add("Loading information from update site #{$this->updateSiteId} with name " .
+			"\"$this->updateSiteName\" and URL $url took $timeToLoad seconds", JLog::INFO, 'updater');
 
 		if ($response === null || $response->code !== 200)
 		{
