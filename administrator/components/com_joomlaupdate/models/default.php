@@ -35,8 +35,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		switch ($params->get('updatesource', 'nochange'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
-			// TODO: Should we change the name of the xml ??
-			//       Should we have this at all??
 			case 'sts':
 			case 'next':
 				$updateURL = 'http://update.joomla.org/core/sts/list_sts.xml';
@@ -61,11 +59,10 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				break;
 
 			// "Minor & Patch Release for Current version (recommended and default)".
-			// Old "lts" and broken "nochange" falls here
-			// The three "case" below are useless, but just there for easy understanding...
-			case 'default':
-			case 'lts':
-			case 'nochange':
+			// The commented "case" below are for documenting where 'default' and legacy options falls
+			// case 'default':
+			// case 'lts':
+			// case 'nochange':
 			default:
 				$updateURL = 'http://update.joomla.org/core/list.xml';
 		}

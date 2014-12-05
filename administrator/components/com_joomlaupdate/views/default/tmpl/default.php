@@ -34,11 +34,10 @@ switch ($params->get('updatesource', 'default'))
 		break;
 
 	// "Minor & Patch Release for Current version (recommended and default)".
-	// Old "lts" and broken "nochange" falls here
-	// The three "case" below are useless, but just there for easy understanding...
-	case 'default':
-	case 'lts':
-	case 'nochange':
+	// The commented "case" below are for documenting where 'default' and legacy options falls
+	// case 'default':
+	// case 'lts':
+	// case 'nochange':
 	default:
 		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_DEFAULT';
 		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
