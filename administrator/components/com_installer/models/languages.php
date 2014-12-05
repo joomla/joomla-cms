@@ -21,7 +21,7 @@ class InstallerModelLanguages extends JModelList
 	 * @var     integer  Extension ID of the en-GB language pack.
 	 * @since   3.4
 	 */
-	private $enGbExtentionId = 0;
+	private $enGbExtensionId = 0;
 
 	/**
 	 * @var     integer  Upate Site ID of the en-GB language pack.
@@ -67,7 +67,7 @@ class InstallerModelLanguages extends JModelList
 		// Get the update_site_id for the en-GB package if extension_id found before.
 		if ($extId)
 		{
-			$this->enGbExtentionId = $extId;
+			$this->enGbExtensionId = $extId;
 
 			$siteQuery = $db->getQuery(true);
 
@@ -232,7 +232,7 @@ class InstallerModelLanguages extends JModelList
 			return false;
 		}
 
-		if (!$this->enGbExtentionId)
+		if (!$this->enGbExtensionId)
 		{
 			return false;
 		}
@@ -244,7 +244,7 @@ class InstallerModelLanguages extends JModelList
 		 * In #__update_sites_extensions you should have this extension_id linked
 		 * to the Accredited Translations Repo.
 		 */
-		$updater->findUpdates(array($this->enGbExtentionId), $cache_timeout);
+		$updater->findUpdates(array($this->enGbExtensionId), $cache_timeout);
 
 		return true;
 	}
