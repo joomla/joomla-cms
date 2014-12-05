@@ -197,16 +197,7 @@ abstract class JModelAdmin extends JModelForm
 			$this->type = $type->getTypeByAlias($this->typeAlias);
 		}
 
-		if ($this->type === false)
-		{
-			$type = new JUcmType;
-			$this->type = $type->getTypeByAlias($this->typeAlias);
-			$typeAlias = $this->type->type_alias;
-		}
-		else
-		{
-			$typeAlias = $this->type->type_alias;
-		}
+		$typeAlias = $this->type->type_alias;
 
 		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
 
