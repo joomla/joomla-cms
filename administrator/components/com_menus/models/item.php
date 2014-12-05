@@ -809,6 +809,39 @@ class MenusModelItem extends JModelAdmin
 	}
 
 	/**
+	 * Get the list of all access levels
+	 *
+	 * @return  array  An array of access levels (id, title).
+	 *
+	 * @since   3.4
+	 */
+	public function getAcslevels()
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		// Get all the available access levels
+		$query->select('id, title')
+			->from('#__viewlevels')
+			->order('id');
+
+		$db->setQuery($query);
+
+		try
+		{
+			$result = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return $result;
+	}
+
+	/**
 	 * A protected method to get the where clause for the reorder.
 	 * This ensures that the row will be moved relative to a row with the same menutype.
 	 *

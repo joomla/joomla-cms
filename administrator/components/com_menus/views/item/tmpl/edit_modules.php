@@ -10,6 +10,14 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
+
+foreach ($this->levels as $key => $value) {
+	$allLevels[$value->id] = $value->title;
+}
+
+JFactory::getDocument()->addScriptDeclaration('
+var acs = ' . json_encode($allLevels) . ';
+');
 ?>
 
 <div class="control-group">
