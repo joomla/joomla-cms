@@ -1189,10 +1189,8 @@ class InstallationModelLanguages extends JModelBase
 			->clear()
 			->select($db->quoteName('u.id'))
 			->from($db->quoteName('#__users') . ' AS u')
-			->join('LEFT', $db->quoteName('#__user_usergroup_map')
-				. ' AS map ON ' . $db->quoteName('map.user_id') . ' = ' . $db->quoteName('u.id'))
-			->join('LEFT', $db->quoteName('#__usergroups')
-				. ' AS g ON ' . $db->quoteName('map.group_id') . ' = ' . $db->quoteName('g.id'))
+			->join('LEFT', $db->quoteName('#__user_usergroup_map') . ' AS map ON ' . $db->quoteName('map.user_id') . ' = ' . $db->quoteName('u.id'))
+			->join('LEFT', $db->quoteName('#__usergroups') . ' AS g ON ' . $db->quoteName('map.group_id') . ' = ' . $db->quoteName('g.id'))
 			->where($db->quoteName('g.title') . ' = ' . $db->quote('Super Users'));
 
 		$db->setQuery($query);
