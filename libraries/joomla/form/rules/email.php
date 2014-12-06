@@ -24,7 +24,8 @@ class JFormRuleEmail extends JFormRule
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $regex = '^[\w.-]+(\+[\w.-]+)*@\w+[\w.-]*?\.\w{2,4}$';
+	protected $regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
+	
 
 	/**
 	 * Method to test the email address and optionally check for uniqueness.
