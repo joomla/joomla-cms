@@ -109,7 +109,11 @@ class MenusModelItem extends JModelAdmin
 
 				if (is_array($result))
 				{
-					$pks = $result;
+					foreach ($result as $old => $new)
+					{
+						$contexts[$new] = $contexts[$old];
+					}
+					$pks = array_values($result);
 				}
 				else
 				{
@@ -175,7 +179,7 @@ class MenusModelItem extends JModelAdmin
 		$table = $this->getTable();
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$i = 0;
+		$newIds = array();
 
 		// Check that the parent exists
 		if ($parentId)
@@ -328,8 +332,7 @@ class MenusModelItem extends JModelAdmin
 			$newId = $table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i] = $newId;
-			$i++;
+			$newIds[$pk] = $newId;
 
 			// Now we log the old 'parent' to the new 'parent'
 			$parents[$oldId] = $table->id;

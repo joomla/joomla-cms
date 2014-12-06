@@ -72,7 +72,11 @@ class BannersModelBanner extends JModelAdmin
 
 				if (is_array($result))
 				{
-					$pks = $result;
+					foreach ($result as $old => $new)
+					{
+						$contexts[$new] = $contexts[$old];
+					}
+					$pks = array_values($result);
 				}
 				else
 				{
@@ -182,7 +186,7 @@ class BannersModelBanner extends JModelAdmin
 		$categoryId = (int) $value;
 
 		$table = $this->getTable();
-		$i = 0;
+		$newIds = array();
 
 		// Check that the category exists
 		if ($categoryId)
@@ -287,8 +291,7 @@ class BannersModelBanner extends JModelAdmin
 			$newId = $table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i] = $newId;
-			$i++;
+			$newIds[$pk] = $newId;
 		}
 
 		// Clean the cache
