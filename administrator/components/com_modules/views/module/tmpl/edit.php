@@ -28,9 +28,6 @@ if ($hasContent)
 $this->fieldsets = $this->form->getFieldsets('params');
 
 $script = "
-	// TODO get the assigned menus with javascript
-	window.parent.inMenus = " . json_encode(preg_replace('/-/', '', $this->item->assigned)) . ";
-
 	Joomla.submitbutton = function(task) {
 			if (task == 'module.cancel' || document.formvalidator.isValid(document.getElementById('module-form')))
 			{
@@ -49,6 +46,24 @@ $script .= "
 						updAccess = jQuery('#jform_access').chosen().val(),
 						tmpMenu = jQuery('#menus-" . $this->item->id . "', parent.document),
 						tmpRow = jQuery('#tr-" . $this->item->id . "', parent.document);
+						window.parent.inMenus = new Array();
+
+					jQuery('input[name=\"jform[assigned][]\"]').each(function(){
+						if (updMenus > 0 )
+						{
+							if (jQuery(this).is(':checked'))
+							{
+								window.parent.inMenus.push(parseInt(jQuery(this).val()));
+							}
+						}
+						if (updMenus < 0 )
+						{
+							if (!jQuery(this).is(':checked'))
+							{
+								window.parent.inMenus.push(parseInt(jQuery(this).val()));
+							}
+						}
+					});
 
 					if (updMenus == 0) {
 						tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
@@ -58,28 +73,30 @@ $script .= "
 						tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
 						if (!tmpRow.hasClass('no')) { tmpRow.addClass('no '); }
 					}
+
 					if (updMenus > 0) {
-						if (parent.menuId in window.parent.inMenus)
+						if (window.parent.inMenus.indexOf(parent.menuId) >= 0)
 						{
 							tmpMenu.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
 							if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
 						}
-						else
+						if (window.parent.inMenus.indexOf(parent.menuId) < 0)
 						{
 							tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
 							if (!tmpRow.hasClass('no')) { tmpRow.addClass('no '); }
 						}
 					}
+
 					if (updMenus < 0) {
-						if (parent.menuId in window.parent.inMenus)
+						if (window.parent.inMenus.indexOf(parent.menuId) >= 0)
 						{
-							tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
-							if (!tmpRow.hasClass('no')) { tmpRow.addClass('no '); }
-						}
-						else
-						{
-							tmpMenu.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
+							tmpMenu.html('<span class=\"label label-success\">" . JText::_("JNO") . "</span>');
 							if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+						}
+						if (window.parent.inMenus.indexOf(parent.menuId) < 0)
+						{
+							tmpMenu.html('<span class=\"label label-important\">" . JText::_("JYES") . "</span>');
+							if (!tmpRow.hasClass('no')) { tmpRow.addClass('no '); }
 						}
 					}
 

@@ -17,7 +17,7 @@ foreach ($this->levels as $key => $value) {
 
 JFactory::getDocument()->addScriptDeclaration('
 	var viewLevels = ' . json_encode($allLevels) . ',
-		menuId = ' . $this->item->id . ';
+		menuId = parseInt(' . $this->item->id . ');
 
 	jQuery(document).ready(function() {
 		jQuery(document).on("click", "input:radio[id^=\'jform_toggle_modules1\']", function (event) {
