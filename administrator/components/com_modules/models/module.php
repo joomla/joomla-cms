@@ -882,10 +882,30 @@ class ModulesModelModule extends JModelAdmin
 
 		if ($xml = $installer->getManifest())
 		{
-			// Get the module form.
-			if (!$form->load($xml, false, '//config'))
-			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			$manifestConfigXPath = $xml->xpath('//config');
+
+			// Look for the config tag inside the manifest file
+			if (!empty($manifestConfigXPath)) {
+				// Get the module params form from the manifest file
+				if (!$form->load($xml, false, '//config'))
+				{
+					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				}
+			} else {
+				// Look for the config.xml file
+				jimport('joomla.filesystem.file');
+
+				$configFilePath = $manifestPath . '/config.xml';
+
+				if (JFile::exists($configFilePath)) {
+					$configXML = JFile::read($configFilePath);
+
+					// Get the module params form from config.xml file
+					if (!$form->load($configXML, false, '//config'))
+					{
+						throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+					}
+				}
 			}
 
 			// Get the help data from the XML file if present.

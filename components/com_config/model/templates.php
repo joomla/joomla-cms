@@ -20,7 +20,7 @@ class ConfigModelTemplates extends ConfigModelForm
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
-	 * 
+	 *
 	 * @return  null
 	 *
 	 * @since   3.2
@@ -100,11 +100,16 @@ class ConfigModelTemplates extends ConfigModelForm
 		||	$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
 
 		// Look for com_config.xml, which contains fileds to display
-		$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
+		$formFile = JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
 
 		if (!file_exists($formFile))
 		{
-			// If com_config.xml not found, fall back to templateDetails.xml
+			// If com_config.xml not found, fall back to config.xml
+			$formFile = JPath::clean(JPATH_BASE . '/templates/' . $template . '/config.xml');
+		}
+
+		if (!file_exists($formFile))
+			// If config.xml not found, fall back to templateDetails.xml
 			$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
 		}
 

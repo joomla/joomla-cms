@@ -268,10 +268,30 @@ class PluginsModelPlugin extends JModelAdmin
 
 		if ($xml = $installer->getManifest())
 		{
-			// Get the plugin form.
-			if (!$form->load($xml, false, '//config'))
-			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			$manifestConfigXPath = $xml->xpath('//config');
+
+			// Look for the config tag inside the manifest file
+			if (!empty($manifestConfigXPath)) {
+				// Get the plugin params form from the manifest file
+				if (!$form->load($xml, false, '//config'))
+				{
+					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				}
+			} else {
+				// Look for the config.xml file
+				jimport('joomla.filesystem.file');
+
+				$configFilePath = $manifestPath . '/config.xml';
+
+				if (JFile::exists($configFilePath)) {
+					$configXML = JFile::read($configFilePath);
+
+					// Get the plugin params form from config.xml file
+					if (!$form->load($configXML, false, '//config'))
+					{
+						throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+					}
+				}
 			}
 		}
 		else

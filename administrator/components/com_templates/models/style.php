@@ -402,27 +402,46 @@ class TemplatesModelStyle extends JModelAdmin
 		$clientId = $this->getState('item.client_id');
 		$template = $this->getState('item.template');
 		$lang     = JFactory::getLanguage();
-		$client   = JApplicationHelper::getClientInfo($clientId);
+
+		$client       = JApplicationHelper::getClientInfo($clientId);
+		$manifestPath = $client->path . '/templates/' . $template;
+		$installer    = JInstaller::getInstance();
+		$installer->setPath('source', $manifestPath);
 
 		if (!$form->loadFile('style_' . $client->name, true))
 		{
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
-		jimport('joomla.filesystem.path');
-
-		$formFile = JPath::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
-
 		// Load the core and/or local language file(s).
 			$lang->load('tpl_' . $template, $client->path, null, false, true)
 		||	$lang->load('tpl_' . $template, $client->path . '/templates/' . $template, null, false, true);
 
-		if (file_exists($formFile))
-		{
-			// Get the template form.
-			if (!$form->loadFile($formFile, false, '//config'))
-			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+		if ($xml = $installer->getManifest()) {
+			$manifestConfigXPath = $xml->xpath('//config');
+
+			// Look for the config tag inside the manifest file
+			if (!empty($manifestConfigXPath)) {
+				// Get the template params form from the manifest file
+				if (!$form->load($xml, false, '//config'))
+				{
+					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				}
+			} else {
+				// Look for the config.xml file
+				jimport('joomla.filesystem.file');
+
+				$configFilePath = $manifestPath . '/config.xml';
+
+				if (JFile::exists($configFilePath)) {
+					$configXML = JFile::read($configFilePath);
+
+					// Get the template params form from config.xml file
+					if (!$form->load($configXML, false, '//config'))
+					{
+						throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+					}
+				}
 			}
 		}
 
@@ -432,12 +451,6 @@ class TemplatesModelStyle extends JModelAdmin
 			|| ((is_object($data) && isset($data->home) && $data->home == '1')))
 		{
 			$form->setFieldAttribute('home', 'readonly', 'true');
-		}
-
-		// Attempt to load the xml file.
-		if (!$xml = simplexml_load_file($formFile))
-		{
-			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Get the help data from the XML file if present.
