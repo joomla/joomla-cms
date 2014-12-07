@@ -77,11 +77,11 @@ class InstallationModelLanguages extends JModelBase
 		$db        = JFactory::getDbo();
 		$extQuery  = $db->getQuery(true);
 
-		$extQuery->select($db->quoteName('extension_id'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote('language'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('en-GB'))
-			->where($db->quoteName('client_id') . ' = 0');
+		$extQuery->select($db->qn('extension_id'))
+			->from($db->qn('#__extensions'))
+			->where($db->qn('type') . ' = ' . $db->q('language'))
+			->where($db->qn('element') . ' = ' . $db->q('en-GB'))
+			->where($db->qn('client_id') . ' = 0');
 
 		$db->setQuery($extQuery);
 
@@ -101,9 +101,9 @@ class InstallationModelLanguages extends JModelBase
 			$query = $db->getQuery(true);
 
 			// Select the required fields from the updates table.
-			$query->select($db->quoteName(array('update_id', 'name', 'version')))
-				->from($db->quoteName('#__updates'))
-				->order($db->quoteName('name'));
+			$query->select($db->qn(array('update_id', 'name', 'version')))
+				->from($db->qn('#__updates'))
+				->order($db->qn('name'));
 
 			$db->setQuery($query);
 			$list = $db->loadObjectList();
@@ -358,12 +358,12 @@ class InstallationModelLanguages extends JModelBase
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
-		$query->select($db->quoteName(array('a.element', 'a.name')))
-			->from($db->quoteName('#__extensions') . ' AS a')
-			->where($db->quoteName('a.type') . ' = ' . $db->quote('language'))
-			->where($db->quoteName('state') . ' = 0')
-			->where($db->quoteName('enabled') . ' = 1')
-			->where($db->quoteName('client_id') . ' = ' . (int) $client_id);
+		$query->select($db->qn(array('element', 'name')))
+			->from($db->qn('#__extensions'))
+			->where($db->qn('type') . ' = ' . $db->q('language'))
+			->where($db->qn('state') . ' = 0')
+			->where($db->qn('enabled') . ' = 1')
+			->where($db->qn('client_id') . ' = ' . (int) $client_id);
 
 		$db->setQuery($query);
 
@@ -553,10 +553,10 @@ class InstallationModelLanguages extends JModelBase
 
 		$query
 			->clear()
-			->update($db->quoteName('#__extensions'))
-			->set($db->quoteName('enabled') . ' = 1')
-			->where($db->quoteName('name') . ' = ' . $db->quote($pluginName))
-			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
+			->update($db->qn('#__extensions'))
+			->set($db->qn('enabled') . ' = 1')
+			->where($db->qn('name') . ' = ' . $db->q($pluginName))
+			->where($db->qn('type') . ' = ' . $db->q('plugin'));
 
 		$db->setQuery($query);
 
@@ -578,10 +578,10 @@ class InstallationModelLanguages extends JModelBase
 				. '}';
 			$query
 				->clear()
-				->update($db->quoteName('#__extensions'))
-				->set($db->quoteName('params') . ' = ' . $db->quote($params))
-				->where($db->quoteName('name') . ' = ' . $db->quote('plg_system_languagefilter'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
+				->update($db->qn('#__extensions'))
+				->set($db->qn('params') . ' = ' . $db->q($params))
+				->where($db->qn('name') . ' = ' . $db->q('plg_system_languagefilter'))
+				->where($db->qn('type') . ' = ' . $db->q('plugin'));
 
 			$db->setQuery($query);
 
@@ -662,8 +662,8 @@ class InstallationModelLanguages extends JModelBase
 
 		// Add Module in Module menus.
 		$query->clear()
-			->insert($db->quoteName('#__modules_menu'))
-			->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
+			->insert($db->qn('#__modules_menu'))
+			->columns(array($db->qn('moduleid'), $db->qn('menuid')))
 			->values($moduleId . ', 0');
 		$db->setQuery($query);
 
@@ -975,12 +975,12 @@ class InstallationModelLanguages extends JModelBase
 		// Add Module in Module menus.
 		$query
 			->clear()
-			->update($db->quoteName('#__modules'))
-			->set($db->quoteName('published') . ' = 0')
-			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
-			->where($db->quoteName('language') . ' = ' . $db->quote('*'))
-			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'))
-			->where($db->quoteName('position') . ' = ' . $db->quote('position-7'));
+			->update($db->qn('#__modules'))
+			->set($db->qn('published') . ' = 0')
+			->where($db->qn('module') . ' = ' . $db->q('mod_menu'))
+			->where($db->qn('language') . ' = ' . $db->q('*'))
+			->where($db->qn('client_id') . ' = ' . $db->q('0'))
+			->where($db->qn('position') . ' = ' . $db->q('position-7'));
 		$db->setQuery($query);
 
 		if (!$db->execute())
@@ -1008,9 +1008,9 @@ class InstallationModelLanguages extends JModelBase
 
 		$query
 			->clear()
-			->update($db->quoteName('#__modules'))
-			->set($db->quoteName('published') . ' = 1')
-			->where($db->quoteName('module') . ' = ' . $db->quote($moduleName));
+			->update($db->qn('#__modules'))
+			->set($db->qn('published') . ' = 1')
+			->where($db->qn('module') . ' = ' . $db->q($moduleName));
 		$db->setQuery($query);
 
 		if (!$db->execute())
@@ -1153,7 +1153,7 @@ class InstallationModelLanguages extends JModelBase
 		$newId = $article->get('id');
 
 		$query = $db->getQuery(true)
-			->insert($db->quoteName('#__content_frontpage'))
+			->insert($db->qn('#__content_frontpage'))
 			->values($newId . ', 0');
 
 		$db->setQuery($query);
@@ -1187,11 +1187,11 @@ class InstallationModelLanguages extends JModelBase
 		// Select the required fields from the updates table.
 		$query
 			->clear()
-			->select($db->quoteName('u.id'))
-			->from($db->quoteName('#__users') . ' AS u')
-			->join('LEFT', $db->quoteName('#__user_usergroup_map') . ' AS map ON ' . $db->quoteName('map.user_id') . ' = ' . $db->quoteName('u.id'))
-			->join('LEFT', $db->quoteName('#__usergroups') . ' AS g ON ' . $db->quoteName('map.group_id') . ' = ' . $db->quoteName('g.id'))
-			->where($db->quoteName('g.title') . ' = ' . $db->quote('Super Users'));
+			->select('u.id')
+			->from('#__users as u')
+			->join('LEFT', '#__user_usergroup_map AS map ON map.user_id = u.id')
+			->join('LEFT', '#__usergroups AS g ON map.group_id = g.id')
+			->where('g.title = ' . $db->q('Super Users'));
 
 		$db->setQuery($query);
 		$id = $db->loadResult();
