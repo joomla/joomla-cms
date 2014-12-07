@@ -1197,7 +1197,8 @@ class InstallationModelLanguages extends JModelBase
 			->join(
 				'LEFT', $db->qn('#__usergroups', 'g')
 				. ' ON ' . $db->qn('map') . '.' . $db->qn('group_id')
-				. ' = ' . $db->qn('g') . '.' . $db->qn('id'))
+				. ' = ' . $db->qn('g') . '.' . $db->qn('id')
+			)
 			->where(
 				$db->qn('g') . '.' . $db->qn('title')
 				. ' = ' . $db->q('Super Users')
