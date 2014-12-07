@@ -125,6 +125,15 @@ class ContentViewArticles extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::trash('articles.trash');
+		}
+
 		if ($user->authorise('core.admin', 'com_content') || $user->authorise('core.options', 'com_content'))
 		{
 			JToolbarHelper::preferences('com_content');
