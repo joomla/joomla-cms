@@ -1024,6 +1024,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format/xml.php',
 			// Joomla! 3.4
 			'/administrator/manifests/libraries/phpmailer.xml',
+			'/components/com_contact/helpers/icon.php',
 			'/language/en-GB/en-GB.lib_phpmailer.sys.ini',
 			'/libraries/compat/jsonserializable.php',
 			'/libraries/compat/password/lib/index.html',
