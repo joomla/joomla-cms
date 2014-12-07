@@ -1187,11 +1187,11 @@ class InstallationModelLanguages extends JModelBase
 		// Select the required fields from the updates table.
 		$query
 			->clear()
-			->select('u.id')
-			->from('#__users as u')
-			->join('LEFT', '#__user_usergroup_map AS map ON map.user_id = u.id')
-			->join('LEFT', '#__usergroups AS g ON map.group_id = g.id')
-			->where('g.title = ' . $db->q('Super Users'));
+			->select($db->qn('u') . '.' . $db->qn('id'))
+			->from($db->qn('#__users') . ' AS ' . $db->qn('u'))
+			->join('LEFT', $db->qn('#__user_usergroup_map') . ' AS ' . $db->qn('map') . ' ON ' . $db->qn('map') . '.' . $db->qn('user_id') . ' = ' . $db->qn('u') . '.' . $db->qn('id'))
+			->join('LEFT', $db->qn('#__usergroups') . ' AS ' . $db->qn('g') . ' ON ' . $db->qn('map') . '.' . $db->qn('group_id') . ' = ' . $db->qn('g') . '.' . $db->qn('id'))
+			->where($db->qn('g') . '.' . $db->qn('title') . ' = ' . $db->q('Super Users'));
 
 		$db->setQuery($query);
 		$id = $db->loadResult();
