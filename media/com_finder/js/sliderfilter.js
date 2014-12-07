@@ -21,34 +21,11 @@ FinderFilter = new Class({
 		this.frame = document.id(frame);
 
 		this.effects = {};
-		if (this.options.opacity) this.effects.opacity = 'fullOpacity';
-		if (this.options.width) this.effects.width = this.options.fixedWidth ? 'fullWidth' : 'offsetWidth';
-		this.container.setStyle('width', '230px');
 
-		this.addEvent('onActive', function (toggler, element) {
-			element.set('styles', {
-				'border-top': '1px solid #ccc',
-				'border-right': '1px solid #ccc',
-				'border-bottom': '1px solid #ccc',
-				'overflow': 'auto',
-				'width': '220px',
-				'opacity': 1
-			});
-			this.container.set('styles', {
-				width: this.container.getStyle('width').toInt() + element.fullWidth
-			});
-			coord = element.getCoordinates([this.frame]);
-			scroller = new Fx.Scroll(frame);
-			scroller.start(coord.top, coord.left);
-		});
 		this.addEvent('onBackground', function () {
 			el = this.elements[this.active];
 			el.getElements('input').each(function (n) {
 				n.removeProperty('checked');
-			});
-			el.set('styles', {
-				'width'  : '0',
-				'opacity': 0
 			});
 		});
 		this.addEvent('onComplete', function () {
@@ -109,13 +86,6 @@ FinderFilter = new Class({
 		}
 		var idx = this.togglers.indexOf(toggler);
 		toggler.addEvent('click', this.toggle.bind(this, idx));
-		if (this.options.width) element.set('styles', {
-			'padding-left': 0,
-			'border-left': 'none',
-			'padding-right': 0,
-			'border-right': 'none'
-		});
-		element.fullOpacity = 1;
 		if (this.options.fixedWidth) element.fullWidth = this.options.fixedWidth;
 		if (this.options.fixedHeight) element.fullHeight = this.options.fixedHeight;
 		element.set('styles', {'overflow': 'hidden'});
