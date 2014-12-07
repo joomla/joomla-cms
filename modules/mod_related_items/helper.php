@@ -92,6 +92,16 @@ abstract class ModRelatedItemsHelper
 					$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 					$case_when .= ' ELSE ';
 					$case_when .= $a_id . ' END as slug';
+					$query->select($case_when);
+
+					// TODO: To remove because catslug is not used in non-SEF article URLs in com_content.
+					$case_when = ' CASE WHEN ';
+					$case_when .= $query->charLength('cc.alias', '!=', '0');
+					$case_when .= ' THEN ';
+					$c_id = $query->castAsChar('cc.id');
+					$case_when .= $query->concatenate(array($c_id, 'cc.alias'), ':');
+					$case_when .= ' ELSE ';
+					$case_when .= $c_id . ' END as catslug';
 					$query->select($case_when)
 						->from('#__content AS a')
 						->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
