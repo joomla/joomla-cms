@@ -109,8 +109,9 @@ class ConfigModelTemplates extends ConfigModelForm
 		}
 
 		if (!file_exists($formFile))
+		{
 			// If config.xml not found, fall back to templateDetails.xml
-			$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
+			$formFile = JPath::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
 		}
 
 		if (file_exists($formFile))
