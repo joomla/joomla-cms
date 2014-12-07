@@ -1190,12 +1190,14 @@ class InstallationModelLanguages extends JModelBase
 			->select($db->qn('u') . '.' . $db->qn('id'))
 			->from($db->qn('#__users', 'u'))
 			->join(
-				'LEFT', $db->qn('#__user_usergroup_map', 'map')
+				'LEFT',
+				$db->qn('#__user_usergroup_map', 'map')
 				. ' ON ' . $db->qn('map') . '.' . $db->qn('user_id')
 				. ' = ' . $db->qn('u') . '.' . $db->qn('id')
 			)
 			->join(
-				'LEFT', $db->qn('#__usergroups', 'g')
+				'LEFT',
+				$db->qn('#__usergroups', 'g')
 				. ' ON ' . $db->qn('map') . '.' . $db->qn('group_id')
 				. ' = ' . $db->qn('g') . '.' . $db->qn('id')
 			)
