@@ -48,7 +48,7 @@ class PlgQuickiconEosnotify extends JPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if (!JFactory::getApplication()->isAdmin())
+		if (!JFactory::getApplication()->isAdmin() || version_compare(JVERSION, '3.0', '>='))
 		{
 			return;
 		}
