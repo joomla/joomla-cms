@@ -371,8 +371,9 @@ class JRouter
 	 */
 	public function attachBuildRule($callback, $stage = '')
 	{
-		if (!array_key_exists('build' . $stage, $this->_rules)) {
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered.', $stage));
+		if (!array_key_exists('build' . $stage, $this->_rules))
+		{
+			throw new InvalidArgumentException(sprintf('The %s stage is not registered.', $stage), __METHOD__);
 		}
 
 		$this->_rules['build' . $stage][] = $callback;
@@ -393,8 +394,9 @@ class JRouter
 	 */
 	public function attachParseRule($callback, $stage = '')
 	{
-		if (!array_key_exists('parse' . $stage, $this->_rules)) {
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered.', $stage));
+		if (!array_key_exists('parse' . $stage, $this->_rules))
+		{
+			throw new InvalidArgumentException(sprintf('The %s stage is not registered.', $stage), __METHOD__);
 		}
 
 		$this->_rules['parse' . $stage][] = $callback;
@@ -547,8 +549,9 @@ class JRouter
 	 */
 	protected function processParseRules(&$uri, $stage = '')
 	{
-		if (!array_key_exists('parse' . $stage, $this->_rules)) {
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered.', $stage));
+		if (!array_key_exists('parse' . $stage, $this->_rules))
+		{
+			throw new InvalidArgumentException(sprintf('The %s stage is not registered.', $stage), __METHOD__);
 		}
 
 		$vars = array();
@@ -590,8 +593,9 @@ class JRouter
 	 */
 	protected function processBuildRules(&$uri, $stage = '')
 	{
-		if (!array_key_exists('build' . $stage, $this->_rules)) {
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered.', $stage));
+		if (!array_key_exists('build' . $stage, $this->_rules))
+		{
+			throw new InvalidArgumentException(sprintf('The %s stage is not registered.', $stage), __METHOD__);
 		}
 
 		foreach ($this->_rules['build' . $stage] as $rule)
