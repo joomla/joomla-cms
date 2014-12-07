@@ -532,7 +532,8 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (443, 'plg_finder_contacts', 'plugin', 'contacts', 'finder', 0, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 2, 0),
 (444, 'plg_finder_content', 'plugin', 'content', 'finder', 0, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 3, 0),
 (445, 'plg_finder_newsfeeds', 'plugin', 'newsfeeds', 'finder', 0, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 4, 0),
-(446, 'plg_finder_weblinks', 'plugin', 'weblinks', 'finder', 0, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 5, 0);
+(446, 'plg_finder_weblinks', 'plugin', 'weblinks', 'finder', 0, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 5, 0),
+(447, 'plg_quickicon_eosnotify', 'plugin', 'eosnotify', 'quickicon', 0, 1, 1, 1, '', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 # Templates
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
@@ -1464,35 +1465,6 @@ CREATE TABLE IF NOT EXISTS `#__session` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__template_styles`
-#
-
-CREATE TABLE IF NOT EXISTS `#__template_styles` (
-  `id` integer unsigned NOT NULL AUTO_INCREMENT,
-  `template` varchar(50) NOT NULL DEFAULT '',
-  `client_id` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `home` char(7) NOT NULL DEFAULT '0',
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `params` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_template` (`template`),
-  KEY `idx_home` (`home`)
-) DEFAULT CHARSET=utf8;
-
-#
-# Dumping data for table `#__template_styles`
-#
-
-INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `params`) VALUES
-(2, 'bluestork', 1, '1', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}'),
-(3, 'atomic', 0, '0', 'Atomic - Default', '{}'),
-(4, 'beez_20', 0, '1', 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'),
-(5, 'hathor', 1, '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
-(6, 'beez5', 0, '0', 'Beez5 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/sampledata\\/fruitshop\\/fruits.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","html5":"0"}');
-
-# --------------------------------------------------------
-
-#
 # Table structure for table `#__updates`
 #
 
@@ -1513,21 +1485,6 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
   `infourl` text NOT NULL,
   PRIMARY KEY (`update_id`)
 ) DEFAULT CHARSET=utf8 COMMENT='Available Updates';
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__update_categories`
-#
-
-CREATE TABLE IF NOT EXISTS `#__update_categories` (
-  `categoryid` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) DEFAULT '',
-  `description` text NOT NULL,
-  `parent` int(11) DEFAULT '0',
-  `updatesite` int(11) DEFAULT '0',
-  PRIMARY KEY (`categoryid`)
-) DEFAULT CHARSET=utf8 COMMENT='Update Categories';
 
 # --------------------------------------------------------
 
@@ -1574,6 +1531,62 @@ INSERT INTO `#__update_sites_extensions` (`update_site_id`, `extension_id`) VALU
 (1, 700),
 (2, 700),
 (3, 600);
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__update_categories`
+#
+
+CREATE TABLE IF NOT EXISTS `#__update_categories` (
+  `categoryid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) DEFAULT '',
+  `description` text NOT NULL,
+  `parent` int(11) DEFAULT '0',
+  `updatesite` int(11) DEFAULT '0',
+  PRIMARY KEY (`categoryid`)
+) DEFAULT CHARSET=utf8 COMMENT='Update Categories';
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__template_styles`
+#
+
+CREATE TABLE IF NOT EXISTS `#__template_styles` (
+  `id` integer unsigned NOT NULL AUTO_INCREMENT,
+  `template` varchar(50) NOT NULL DEFAULT '',
+  `client_id` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `home` char(7) NOT NULL DEFAULT '0',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `params` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_template` (`template`),
+  KEY `idx_home` (`home`)
+) DEFAULT CHARSET=utf8;
+
+#
+# Dumping data for table `#__template_styles`
+#
+
+INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `params`) VALUES
+(2, 'bluestork', 1, '1', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}'),
+(3, 'atomic', 0, '0', 'Atomic - Default', '{}'),
+(4, 'beez_20', 0, '1', 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'),
+(5, 'hathor', 1, '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
+(6, 'beez5', 0, '0', 'Beez5 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/sampledata\\/fruitshop\\/fruits.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","html5":"0"}');
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__user_usergroup_map`
+#
+
+CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
+  `user_id` integer unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__users.id',
+  `group_id` integer unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__usergroups.id',
+  PRIMARY KEY (`user_id`,`group_id`)
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -1681,42 +1694,6 @@ CREATE TABLE IF NOT EXISTS `#__user_profiles` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__user_usergroup_map`
-#
-
-CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
-  `user_id` integer unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__users.id',
-  `group_id` integer unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__usergroups.id',
-  PRIMARY KEY (`user_id`,`group_id`)
-) DEFAULT CHARSET=utf8;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__viewlevels`
-#
-
-CREATE TABLE IF NOT EXISTS `#__viewlevels` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `title` varchar(100) NOT NULL DEFAULT '',
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
-) DEFAULT CHARSET=utf8;
-
-#
-# Dumping data for table `#__viewlevels`
-#
-
-INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
-(1, 'Public', 0, '[1]'),
-(2, 'Registered', 1, '[6,2,8]'),
-(3, 'Special', 2, '[6,3,8]');
-
-# --------------------------------------------------------
-
-#
 # Table structure for table `#__weblinks`
 #
 
@@ -1762,3 +1739,28 @@ CREATE TABLE IF NOT EXISTS `#__weblinks` (
   KEY `idx_xreference` (`xreference`)
 ) DEFAULT CHARSET=utf8;
 
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__viewlevels`
+#
+
+CREATE TABLE IF NOT EXISTS `#__viewlevels` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `title` varchar(100) NOT NULL DEFAULT '',
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
+) DEFAULT CHARSET=utf8;
+
+#
+# Dumping data for table `#__viewlevels`
+#
+
+INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
+(1, 'Public', 0, '[1]'),
+(2, 'Registered', 1, '[6,2,8]'),
+(3, 'Special', 2, '[6,3,8]');
+
+# --------------------------------------------------------
