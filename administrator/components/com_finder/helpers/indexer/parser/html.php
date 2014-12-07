@@ -36,7 +36,7 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 		$input = preg_replace('#<script[^>]*>.*?</script>#si', ' ', $input);
 
 		// Strip the tags from the input
-		$input = strip_tags($input);
+		$input = strip_tags(str_replace('>', '> ', $input));
 
 		// Deal with spacing issues in the input
 		$input = str_replace(array('&nbsp;', '&#160;'), ' ', $input);
