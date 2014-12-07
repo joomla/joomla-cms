@@ -11,15 +11,13 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
 
-$script = array();
-$script[] = "	jQuery(document).ready(function() {";
-$script[] = "		jQuery('#showmods').on('click', function(e) {";
-$script[] = "			jQuery('.table tr.no').toggle();";
-$script[] = "		});";
-$script[] = "	})";
-
-// Add the script to the document head.
-JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+JFactory::getDocument()->addScriptDeclaration("
+	jQuery(document).ready(function() {
+		jQuery('#showmods').on('click', function(e) {
+			jQuery('.table tr.no').toggle();
+		});
+	})
+");
 ?>
 
 <div class="control-group">

@@ -77,11 +77,11 @@ class ModWhosonlineHelper
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('a.username', 'a.time', 'a.userid', 'a.client_id')))
+			->select($db->quoteName(array('a.username', 'a.userid', 'a.client_id')))
 			->from('#__session AS a')
 			->where($db->quoteName('a.userid') . ' != 0')
 			->where($db->quoteName('a.client_id') . ' = 0')
-			->group($db->quoteName(array('a.username', 'a.time', 'a.userid', 'a.client_id')));
+			->group($db->quoteName(array('a.username', 'a.userid', 'a.client_id')));
 
 		$user = JFactory::getUser();
 

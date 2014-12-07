@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
-JHtml::_('behavior.framework');
+JHtml::_('behavior.core');
 JHtml::_('formbehavior.chosen', 'select');
 
 // Get the user object.

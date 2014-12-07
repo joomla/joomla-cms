@@ -330,7 +330,7 @@ class JApplicationDaemon extends JApplicationCli
 		/*
 		 * Setup the application runtime options.  By default our execution time limit is infinite obviously
 		 * because a daemon should be constantly running unless told otherwise.  The default limit for memory
-		 * usage is 128M, which admittedly is a little high, but remember it is a "limit" and PHP's memory
+		 * usage is 256M, which admittedly is a little high, but remember it is a "limit" and PHP's memory
 		 * management leaves a bit to be desired :-)
 		 */
 

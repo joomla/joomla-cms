@@ -22,11 +22,11 @@ class Parser
 {
     const FOLDED_SCALAR_PATTERN = '(?P<separator>\||>)(?P<modifiers>\+|\-|\d+|\+\d+|\-\d+|\d+\+|\d+\-)?(?P<comments> +#.*)?';
 
-    private $offset         = 0;
-    private $lines          = array();
-    private $currentLineNb  = -1;
-    private $currentLine    = '';
-    private $refs           = array();
+    private $offset = 0;
+    private $lines = array();
+    private $currentLineNb = -1;
+    private $currentLine = '';
+    private $refs = array();
 
     /**
      * Constructor
@@ -228,6 +228,11 @@ class Parser
                     }
                 }
             } else {
+                // multiple documents are not supported
+                if ('---' === $this->currentLine) {
+                    throw new ParseException('Multiple documents are not supported.');
+                }
+
                 // 1-liner optionally followed by newline
                 $lineCount = count($this->lines);
                 if (1 === $lineCount || (2 === $lineCount && empty($this->lines[1]))) {

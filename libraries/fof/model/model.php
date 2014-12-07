@@ -9,7 +9,7 @@
 defined('FOF_INCLUDED') or die;
 
 /**
- * FrameworkOnFramework Model class. The Model is the worhorse. It performs all
+ * FrameworkOnFramework Model class. The Model is the workhorse. It performs all
  * of the business logic based on its state and then returns the raw (processed)
  * data to the caller, or modifies its own state. It's important to note that
  * the model doesn't get data directly from the request (this is the
@@ -2092,8 +2092,14 @@ class FOFModel extends FOFUtilsObject
 				$order = $db->qn($this->getTableAlias()) . '.' . $order;
 			}
 
-			$dir = $this->getState('filter_order_Dir', 'ASC', 'cmd');
-			$query->order($order . ' ' . $dir);
+			$dir = strtoupper($this->getState('filter_order_Dir', 'ASC', 'cmd'));
+			$dir = in_array($dir, array('DESC', 'ASC')) ? $dir : 'ASC';
+
+			// If the table cache is broken you may end up with an empty order by.
+			if (!empty($order) && ($order != $db->qn('')))
+			{
+				$query->order($order . ' ' . $dir);
+			}
 		}
 
 		// Call the behaviors
