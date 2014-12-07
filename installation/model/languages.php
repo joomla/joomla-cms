@@ -1184,13 +1184,13 @@ class InstallationModelLanguages extends JModelBase
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		// Select the required fields from the updates table.
+		// Select the admin user ID
 		$query
 			->clear()
 			->select($db->qn('u') . '.' . $db->qn('id'))
-			->from($db->qn('#__users') . ' AS ' . $db->qn('u'))
-			->join('LEFT', $db->qn('#__user_usergroup_map') . ' AS ' . $db->qn('map') . ' ON ' . $db->qn('map') . '.' . $db->qn('user_id') . ' = ' . $db->qn('u') . '.' . $db->qn('id'))
-			->join('LEFT', $db->qn('#__usergroups') . ' AS ' . $db->qn('g') . ' ON ' . $db->qn('map') . '.' . $db->qn('group_id') . ' = ' . $db->qn('g') . '.' . $db->qn('id'))
+			->from($db->qn('#__users', 'u'))
+			->join('LEFT', $db->qn('#__user_usergroup_map', 'map') . ' ON ' . $db->qn('map') . '.' . $db->qn('user_id') . ' = ' . $db->qn('u') . '.' . $db->qn('id'))
+			->join('LEFT', $db->qn('#__usergroups', 'g') . ' ON ' . $db->qn('map') . '.' . $db->qn('group_id') . ' = ' . $db->qn('g') . '.' . $db->qn('id'))
 			->where($db->qn('g') . '.' . $db->qn('title') . ' = ' . $db->q('Super Users'));
 
 		$db->setQuery($query);
