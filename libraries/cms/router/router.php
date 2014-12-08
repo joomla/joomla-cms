@@ -373,7 +373,7 @@ class JRouter
 	{
 		if (!array_key_exists('build' . $stage, $this->_rules))
 		{
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%S)', $stage, __METHOD__));
+			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
 		$this->_rules['build' . $stage][] = $callback;
@@ -396,7 +396,7 @@ class JRouter
 	{
 		if (!array_key_exists('parse' . $stage, $this->_rules))
 		{
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%S)', $stage, __METHOD__));
+			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
 		$this->_rules['parse' . $stage][] = $callback;
@@ -551,7 +551,7 @@ class JRouter
 	{
 		if (!array_key_exists('parse' . $stage, $this->_rules))
 		{
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%S)', $stage, __METHOD__));
+			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
 		$vars = array();
@@ -595,7 +595,7 @@ class JRouter
 	{
 		if (!array_key_exists('build' . $stage, $this->_rules))
 		{
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%S)', $stage, __METHOD__));
+			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
 		foreach ($this->_rules['build' . $stage] as $rule)
