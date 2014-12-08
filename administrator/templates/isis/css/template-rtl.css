@@ -6988,13 +6988,6 @@ a:focus {
 }
 .view-login {
 	padding-top: 0;
-	background-color: #142849;
-	background-image: -webkit-gradient(radial,center center,0,center center,460,from(#165387),to(#142849));
-	background-image: -webkit-radial-gradient(circle,#165387,#142849);
-	background-image: -moz-radial-gradient(circle,#165387,#142849);
-	background-image: -o-radial-gradient(circle,#165387,#142849);
-	background-image: radial-gradient(circle,#165387,#142849);
-	background-repeat: no-repeat;
 }
 .view-login .container {
 	width: 300px;
@@ -7151,6 +7144,7 @@ body .navbar-fixed-top {
 .container-logo {
 	float: right;
 	text-align: right;
+	overflow: hidden;
 }
 .logo {
 	width: 100%;

@@ -7103,10 +7103,6 @@ body .navbar-fixed-top {
 	border-top: 1px solid rgba(255,255,255,0.2);
 	padding: 5px 25px;
 }
-.header .container-logo img {
-	max-height: 32px;
-	width: auto;
-}
 .navbar .btn-navbar {
 	background: #17568c;
 	background: -moz-linear-gradient(top,#17568c 0%,#1a3867 100%);
@@ -7148,6 +7144,7 @@ body .navbar-fixed-top {
 .container-logo {
 	float: right;
 	text-align: right;
+	overflow: hidden;
 }
 .logo {
 	width: 100%;
