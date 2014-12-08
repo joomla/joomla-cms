@@ -158,12 +158,14 @@ class InstallerModelInstall extends JModelLegacy
 			// There was an error installing the package.
 			$msg = JText::sprintf('COM_INSTALLER_INSTALL_ERROR', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = false;
+			$msgType = 'error';
 		}
 		else
 		{
 			// Package installed sucessfully.
 			$msg = JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = true;
+			$msgType = 'message';
 		}
 
 		// This event allows a custom a post-flight:
@@ -171,7 +173,7 @@ class InstallerModelInstall extends JModelLegacy
 
 		// Set some model state values.
 		$app	= JFactory::getApplication();
-		$app->enqueueMessage($msg);
+		$app->enqueueMessage($msg, $msgType);
 		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
 		$app->setUserState('com_installer.message', $installer->message);
