@@ -85,6 +85,8 @@ abstract class ModArticlesNewsHelper
 		{
 			$item->readmore = strlen(trim($item->fulltext));
 			$item->slug     = $item->id . ':' . $item->alias;
+
+			// TODO: To remove because catslug is not used in non-SEF article URLs in com_content.
 			$item->catslug  = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))

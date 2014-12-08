@@ -114,12 +114,14 @@ abstract class ModArticlesLatestHelper
 		foreach ($items as &$item)
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
+
+			// TODO: To remove because catslug is not used in non-SEF article URLs in com_content.
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
+				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid));
 			}
 			else
 			{

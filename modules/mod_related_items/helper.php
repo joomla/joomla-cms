@@ -94,6 +94,7 @@ abstract class ModRelatedItemsHelper
 					$case_when .= $a_id . ' END as slug';
 					$query->select($case_when);
 
+					// TODO: To remove because catslug is not used in non-SEF article URLs in com_content.
 					$case_when = ' CASE WHEN ';
 					$case_when .= $query->charLength('cc.alias', '!=', '0');
 					$case_when .= ' THEN ';
@@ -135,7 +136,7 @@ abstract class ModRelatedItemsHelper
 						{
 							if ($row->cat_state == 1)
 							{
-								$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug));
+								$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid));
 								$related[] = $row;
 							}
 						}
