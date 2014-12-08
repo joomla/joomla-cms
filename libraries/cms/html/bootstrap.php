@@ -256,7 +256,7 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.0
-	 * @deprecated  3.4  Unused, JS Not working
+	 * @deprecated  4.0  Unused, JS Not working
 	 */
 	public static function modal($selector = 'modal', $params = array())
 	{
