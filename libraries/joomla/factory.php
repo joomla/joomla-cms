@@ -587,7 +587,7 @@ abstract class JFactory
 	 */
 	protected static function createSession(array $options = array())
 	{
-		// Get the editor configuration setting
+		// Get the Joomla configuration settings
 		$conf    = self::getConfig();
 		$handler = $conf->get('session_handler', 'none');
 
