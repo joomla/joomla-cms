@@ -29,22 +29,27 @@ JFactory::getDocument()->addScriptDeclaration('
 		};
 ');
 
+?>
 <?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
-	<?php
-		$i = 0;
-		foreach ($this->types as $name => $list) : ?>
-		<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', $name, 'collapse' . $i++); ?>
+	<?php $i = 0; ?>
+	<?php foreach ($this->types as $name => $list) : ?>
+		<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', $name, 'collapse' . ($i++)); ?>
 			<ul class="nav nav-tabs nav-stacked">
 				<?php foreach ($list as $title => $item) : ?>
 					<li>
+						<?php $menutype = array('id' => $this->recordId, 'title' => (isset($item->type) ? $item->type : $item->title), 'request' => $item->request); ?>
+						<?php $menutype = base64_encode(json_encode($menutype)); ?>
 						<a class="choose_type" href="#" title="<?php echo JText::_($item->description); ?>"
-							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => (isset($item->type) ? $item->type : $item->title), 'request' => $item->request))); ?>')">
-							<?php echo $title;?> <small class="muted"><?php echo JText::_($item->description); ?></small>
+							onclick="javascript:setmenutype(<?php echo json_encode($menutype); ?>)">
+							<?php echo $title;?>
+							<small class="muted">
+								<?php echo JText::_($item->description); ?>
+							</small>
 						</a>
 					</li>
 				<?php endforeach; ?>
 			</ul>
 		<?php echo JHtml::_('bootstrap.endSlide'); ?>
 	<?php endforeach; ?>
-	<?php echo JHtml::_('bootstrap.endSlide'); ?>
+<?php echo JHtml::_('bootstrap.endSlide'); ?>
 <?php echo JHtml::_('bootstrap.endAccordion');
