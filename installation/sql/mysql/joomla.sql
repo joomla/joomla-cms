@@ -1,3 +1,10 @@
+
+#
+# Database: `joomla`
+#
+
+# --------------------------------------------------------
+
 #
 # Table structure for table `#__assets`
 #
@@ -21,8 +28,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 # Dumping data for table `#__assets`
 #
 
-INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`)
-VALUES
+INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
 (1, 0, 1, 67, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
@@ -58,149 +64,155 @@ VALUES
 (33, 1, 63, 64, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (34, 1, 65, 66, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}');
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__associations`
 #
 
 CREATE TABLE IF NOT EXISTS `#__associations` (
-  `id` VARCHAR(50) NOT NULL COMMENT 'A reference to the associated item.',
-  `context` VARCHAR(50) NOT NULL COMMENT 'The context of the associated item.',
-  `key` CHAR(32) NOT NULL COMMENT 'The key for the association computed from an md5 on associated ids.',
-  PRIMARY KEY `idx_context_id` (`context`, `id`),
-  INDEX `idx_key` (`key`)
+  `id` varchar(50) NOT NULL COMMENT 'A reference to the associated item.',
+  `context` varchar(50) NOT NULL COMMENT 'The context of the associated item.',
+  `key` char(32) NOT NULL COMMENT 'The key for the association computed from an md5 on associated ids.',
+  PRIMARY KEY `idx_context_id` (`context`,`id`),
+  KEY `idx_key` (`key`)
 ) DEFAULT CHARSET=utf8;
+
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__banners`
 #
 
-CREATE TABLE `#__banners` (
-  `id` INTEGER NOT NULL auto_increment,
-  `cid` INTEGER NOT NULL DEFAULT '0',
-  `type` INTEGER NOT NULL DEFAULT '0',
-  `name` VARCHAR(255) NOT NULL DEFAULT '',
-  `alias` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
-  `imptotal` INTEGER NOT NULL DEFAULT '0',
-  `impmade` INTEGER NOT NULL DEFAULT '0',
-  `clicks` INTEGER NOT NULL DEFAULT '0',
-  `clickurl` VARCHAR(200) NOT NULL DEFAULT '',
-  `state` TINYINT(3) NOT NULL DEFAULT '0',
-  `catid` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-  `description` TEXT NOT NULL,
-  `custombannercode` VARCHAR(2048) NOT NULL,
-  `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
-  `ordering` INTEGER NOT NULL DEFAULT 0,
-  `metakey` TEXT NOT NULL,
-  `params` TEXT NOT NULL,
-  `own_prefix` TINYINT(1) NOT NULL DEFAULT '0',
-  `metakey_prefix` VARCHAR(255) NOT NULL DEFAULT '',
-  `purchase_type` TINYINT NOT NULL DEFAULT '-1',
-  `track_clicks` TINYINT NOT NULL DEFAULT '-1',
-  `track_impressions` TINYINT NOT NULL DEFAULT '-1',
-  `checked_out` INTEGER UNSIGNED NOT NULL DEFAULT '0',
-  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_up` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `reset` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+CREATE TABLE IF NOT EXISTS `#__banners` (
+  `id` integer NOT NULL AUTO_INCREMENT,
+  `cid` integer NOT NULL DEFAULT '0',
+  `type` integer NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `imptotal` integer NOT NULL DEFAULT '0',
+  `impmade` integer NOT NULL DEFAULT '0',
+  `clicks` integer NOT NULL DEFAULT '0',
+  `clickurl` varchar(200) NOT NULL DEFAULT '',
+  `state` tinyint(3) NOT NULL DEFAULT '0',
+  `catid` integer unsigned NOT NULL DEFAULT '0',
+  `description` text NOT NULL,
+  `custombannercode` varchar(2048) NOT NULL,
+  `sticky` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `ordering` integer NOT NULL DEFAULT '0',
+  `metakey` text NOT NULL,
+  `params` text NOT NULL,
+  `own_prefix` tinyint(1) NOT NULL DEFAULT '0',
+  `metakey_prefix` varchar(255) NOT NULL DEFAULT '',
+  `purchase_type` tinyint NOT NULL DEFAULT '-1',
+  `track_clicks` tinyint NOT NULL DEFAULT '-1',
+  `track_impressions` tinyint NOT NULL DEFAULT '-1',
+  `checked_out` integer unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `reset` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `language` char(7) NOT NULL DEFAULT '',
-  PRIMARY KEY  (`id`),
-  INDEX `idx_state` (`state`),
-  INDEX `idx_own_prefix` (`own_prefix`),
-  INDEX `idx_metakey_prefix` (`metakey_prefix`),
-  INDEX `idx_banner_catid`(`catid`),
-  INDEX `idx_language` (`language`)
+  PRIMARY KEY (`id`),
+  KEY `idx_state` (`state`),
+  KEY `idx_own_prefix` (`own_prefix`),
+  KEY `idx_metakey_prefix` (`metakey_prefix`),
+  KEY `idx_banner_catid` (`catid`),
+  KEY `idx_language` (`language`)
 ) DEFAULT CHARSET=utf8;
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__banner_clients`
 #
 
-CREATE TABLE `#__banner_clients` (
-  `id` INTEGER NOT NULL auto_increment,
-  `name` VARCHAR(255) NOT NULL DEFAULT '',
-  `contact` VARCHAR(255) NOT NULL DEFAULT '',
-  `email` VARCHAR(255) NOT NULL DEFAULT '',
-  `extrainfo` TEXT NOT NULL,
-  `state` TINYINT(3) NOT NULL DEFAULT '0',
-  `checked_out` INTEGER UNSIGNED NOT NULL DEFAULT '0',
-  `checked_out_time` DATETIME NOT NULL default '0000-00-00 00:00:00',
-  `metakey` TEXT NOT NULL,
-  `own_prefix` TINYINT NOT NULL DEFAULT '0',
-  `metakey_prefix` VARCHAR(255) NOT NULL default '',
-  `purchase_type` TINYINT NOT NULL DEFAULT '-1',
-  `track_clicks` TINYINT NOT NULL DEFAULT '-1',
-  `track_impressions` TINYINT NOT NULL DEFAULT '-1',
-  PRIMARY KEY  (`id`),
-  INDEX `idx_own_prefix` (`own_prefix`),
-  INDEX `idx_metakey_prefix` (`metakey_prefix`)
-)  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `#__banner_clients` (
+  `id` integer NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `contact` varchar(255) NOT NULL DEFAULT '',
+  `email` varchar(255) NOT NULL DEFAULT '',
+  `extrainfo` text NOT NULL,
+  `state` tinyint(3) NOT NULL DEFAULT '0',
+  `checked_out` integer unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `metakey` text NOT NULL,
+  `own_prefix` tinyint NOT NULL DEFAULT '0',
+  `metakey_prefix` varchar(255) NOT NULL DEFAULT '',
+  `purchase_type` tinyint NOT NULL DEFAULT '-1',
+  `track_clicks` tinyint NOT NULL DEFAULT '-1',
+  `track_impressions` tinyint NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`id`),
+  KEY `idx_own_prefix` (`own_prefix`),
+  KEY `idx_metakey_prefix` (`metakey_prefix`)
+) DEFAULT CHARSET=utf8;
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__banner_tracks`
 #
 
-CREATE TABLE  `#__banner_tracks` (
-  `track_date` DATETIME NOT NULL,
-  `track_type` INTEGER UNSIGNED NOT NULL,
-  `banner_id` INTEGER UNSIGNED NOT NULL,
-  `count` INTEGER UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY (`track_date`, `track_type`, `banner_id`),
-  INDEX `idx_track_date` (`track_date`),
-  INDEX `idx_track_type` (`track_type`),
-  INDEX `idx_banner_id` (`banner_id`)
-)  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
+  `track_date` datetime NOT NULL,
+  `track_type` integer unsigned NOT NULL,
+  `banner_id` integer unsigned NOT NULL,
+  `count` integer unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`track_date`,`track_type`,`banner_id`),
+  KEY `idx_track_date` (`track_date`),
+  KEY `idx_track_type` (`track_type`),
+  KEY `idx_banner_id` (`banner_id`)
+) DEFAULT CHARSET=utf8;
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__categories`
 #
 
-CREATE TABLE `#__categories` (
-  `id` int(11) NOT NULL auto_increment,
-  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
-  `parent_id` int(10) unsigned NOT NULL default '0',
-  `lft` int(11) NOT NULL default '0',
-  `rgt` int(11) NOT NULL default '0',
-  `level` int(10) unsigned NOT NULL default '0',
-  `path` varchar(255) NOT NULL default '',
-  `extension` varchar(50) NOT NULL default '',
+CREATE TABLE IF NOT EXISTS `#__categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `asset_id` integer unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `lft` int(11) NOT NULL DEFAULT '0',
+  `rgt` int(11) NOT NULL DEFAULT '0',
+  `level` int(10) unsigned NOT NULL DEFAULT '0',
+  `path` varchar(255) NOT NULL DEFAULT '',
+  `extension` varchar(50) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL,
-  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
-  `note` varchar(255) NOT NULL default '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `note` varchar(255) NOT NULL DEFAULT '',
   `description` mediumtext NOT NULL,
-  `published` tinyint(1) NOT NULL default '0',
-  `checked_out` int(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `access` integer unsigned NOT NULL default '0',
-  `params` TEXT NOT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `access` integer unsigned NOT NULL DEFAULT '0',
+  `params` text NOT NULL,
   `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
   `metakey` varchar(1024) NOT NULL COMMENT 'The meta keywords for the page.',
   `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
-  `created_user_id` int(10) unsigned NOT NULL default '0',
+  `created_user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_user_id` int(10) unsigned NOT NULL default '0',
-  `modified_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `hits` int(10) unsigned NOT NULL default '0',
+  `modified_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
   `language` char(7) NOT NULL,
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   KEY `cat_idx` (`extension`,`published`,`access`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_path` (`path`),
   KEY `idx_left_right` (`lft`,`rgt`),
   KEY `idx_alias` (`alias`),
-  INDEX `idx_language` (`language`)
-)  DEFAULT CHARSET=utf8;
+  KEY `idx_language` (`language`)
+) DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__categories` VALUES
+#
+# Dumping data for table `#__categories`
+#
+
+INSERT INTO `#__categories` (`id`, `asset_id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `extension`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `modified_user_id`, `modified_time`, `hits`, `language`) VALUES
 (1, 0, 0, 0, 13, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-10-18 16:07:09', 0, '0000-00-00 00:00:00', 0, '*'),
 (2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:26:37', 0, '0000-00-00 00:00:00', 0, '*'),
 (3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"","foobar":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:35', 0, '0000-00-00 00:00:00', 0, '*'),
@@ -209,56 +221,56 @@ INSERT INTO `#__categories` VALUES
 (6, 31, 1, 9, 10, 1, 'uncategorised', 'com_weblinks', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*'),
 (7, 32, 1, 11, 12, 1, 'uncategorised', 'com_users', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*');
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__contact_details`
 #
 
-CREATE TABLE `#__contact_details` (
-  `id` integer NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default '',
-  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
-  `con_position` varchar(255) default NULL,
+CREATE TABLE IF NOT EXISTS `#__contact_details` (
+  `id` integer NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `con_position` varchar(255) DEFAULT NULL,
   `address` text,
-  `suburb` varchar(100) default NULL,
-  `state` varchar(100) default NULL,
-  `country` varchar(100) default NULL,
-  `postcode` varchar(100) default NULL,
-  `telephone` varchar(255) default NULL,
-  `fax` varchar(255) default NULL,
+  `suburb` varchar(100) DEFAULT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `country` varchar(100) DEFAULT NULL,
+  `postcode` varchar(100) DEFAULT NULL,
+  `telephone` varchar(255) DEFAULT NULL,
+  `fax` varchar(255) DEFAULT NULL,
   `misc` mediumtext,
-  `image` varchar(255) default NULL,
-  `imagepos` varchar(20) default NULL,
-  `email_to` varchar(255) default NULL,
-  `default_con` tinyint(1) unsigned NOT NULL default '0',
-  `published` tinyint(1) NOT NULL default '0',
-  `checked_out` integer unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `ordering` integer NOT NULL default '0',
+  `image` varchar(255) DEFAULT NULL,
+  `imagepos` varchar(20) DEFAULT NULL,
+  `email_to` varchar(255) DEFAULT NULL,
+  `default_con` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` integer unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ordering` integer NOT NULL DEFAULT '0',
   `params` text NOT NULL,
-  `user_id` integer NOT NULL default '0',
-  `catid` integer NOT NULL default '0',
-  `access` integer unsigned NOT NULL default '0',
-  `mobile` varchar(255) NOT NULL default '',
-  `webpage` varchar(255) NOT NULL default '',
+  `user_id` integer NOT NULL DEFAULT '0',
+  `catid` integer NOT NULL DEFAULT '0',
+  `access` integer unsigned NOT NULL DEFAULT '0',
+  `mobile` varchar(255) NOT NULL DEFAULT '',
+  `webpage` varchar(255) NOT NULL DEFAULT '',
   `sortname1` varchar(255) NOT NULL,
   `sortname2` varchar(255) NOT NULL,
   `sortname3` varchar(255) NOT NULL,
   `language` char(7) NOT NULL,
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL default '0',
-  `created_by_alias` varchar(255) NOT NULL default '',
-  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL default '0',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` int(10) unsigned NOT NULL DEFAULT '0',
+  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `metadata` text NOT NULL,
-  `featured` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Set if article is featured.',
+  `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Set if article is featured.',
   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`id`),
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`published`),
@@ -267,50 +279,50 @@ CREATE TABLE `#__contact_details` (
   KEY `idx_featured_catid` (`featured`,`catid`),
   KEY `idx_language` (`language`),
   KEY `idx_xreference` (`xreference`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__content`
 #
 
-CREATE TABLE `#__content` (
-  `id` integer unsigned NOT NULL auto_increment,
-  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
-  `title` varchar(255) NOT NULL default '',
-  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
-  `title_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '' COMMENT 'Deprecated in Joomla! 3.0',
+CREATE TABLE IF NOT EXISTS `#__content` (
+  `id` integer unsigned NOT NULL AUTO_INCREMENT,
+  `asset_id` integer unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `title_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'Deprecated in Joomla! 3.0',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
-  `state` tinyint(3) NOT NULL default '0',
-  `sectionid` integer unsigned NOT NULL default '0',
-  `mask` integer unsigned NOT NULL default '0',
-  `catid` integer unsigned NOT NULL default '0',
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
-  `created_by` integer unsigned NOT NULL default '0',
-  `created_by_alias` varchar(255) NOT NULL default '',
-  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
-  `modified_by` integer unsigned NOT NULL default '0',
-  `checked_out` integer unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
+  `state` tinyint(3) NOT NULL DEFAULT '0',
+  `sectionid` integer unsigned NOT NULL DEFAULT '0',
+  `mask` integer unsigned NOT NULL DEFAULT '0',
+  `catid` integer unsigned NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` integer unsigned NOT NULL DEFAULT '0',
+  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` integer unsigned NOT NULL DEFAULT '0',
+  `checked_out` integer unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `images` text NOT NULL,
   `urls` text NOT NULL,
   `attribs` varchar(5120) NOT NULL,
-  `version` integer unsigned NOT NULL default '1',
-  `parentid` integer unsigned NOT NULL default '0',
-  `ordering` integer NOT NULL default '0',
+  `version` integer unsigned NOT NULL DEFAULT '1',
+  `parentid` integer unsigned NOT NULL DEFAULT '0',
+  `ordering` integer NOT NULL DEFAULT '0',
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
-  `access` integer unsigned NOT NULL default '0',
-  `hits` integer unsigned NOT NULL default '0',
+  `access` integer unsigned NOT NULL DEFAULT '0',
+  `hits` integer unsigned NOT NULL DEFAULT '0',
   `metadata` text NOT NULL,
-  `featured` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Set if article is featured.',
+  `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Set if article is featured.',
   `language` char(7) NOT NULL COMMENT 'The language code for the article.',
   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`state`),
@@ -319,75 +331,78 @@ CREATE TABLE `#__content` (
   KEY `idx_featured_catid` (`featured`,`catid`),
   KEY `idx_language` (`language`),
   KEY `idx_xreference` (`xreference`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__content_frontpage`
 #
 
-CREATE TABLE `#__content_frontpage` (
-  `content_id` integer NOT NULL default '0',
-  `ordering` integer NOT NULL default '0',
-  PRIMARY KEY  (`content_id`)
-)  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `#__content_frontpage` (
+  `content_id` integer NOT NULL DEFAULT '0',
+  `ordering` integer NOT NULL DEFAULT '0',
+  PRIMARY KEY (`content_id`)
+) DEFAULT CHARSET=utf8;
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__content_rating`
 #
 
-CREATE TABLE `#__content_rating` (
-  `content_id` integer NOT NULL default '0',
-  `rating_sum` integer unsigned NOT NULL default '0',
-  `rating_count` integer unsigned NOT NULL default '0',
-  `lastip` varchar(50) NOT NULL default '',
-  PRIMARY KEY  (`content_id`)
-)  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `#__content_rating` (
+  `content_id` integer NOT NULL DEFAULT '0',
+  `rating_sum` integer unsigned NOT NULL DEFAULT '0',
+  `rating_count` integer unsigned NOT NULL DEFAULT '0',
+  `lastip` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`content_id`)
+) DEFAULT CHARSET=utf8;
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__core_log_searches`
 #
 
-CREATE TABLE `#__core_log_searches` (
-  `search_term` varchar(128) NOT NULL default '',
-  `hits` integer unsigned NOT NULL default '0'
-)  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `#__core_log_searches` (
+  `search_term` varchar(128) NOT NULL DEFAULT '',
+  `hits` integer unsigned NOT NULL DEFAULT '0'
+) DEFAULT CHARSET=utf8;
 
-
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__extensions`
 #
 
-CREATE TABLE `#__extensions` (
-  `extension_id` INT  NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(100)  NOT NULL,
-  `type` VARCHAR(20)  NOT NULL,
-  `element` VARCHAR(100) NOT NULL,
-  `folder` VARCHAR(100) NOT NULL,
-  `client_id` TINYINT(3) NOT NULL,
-  `enabled` TINYINT(3) NOT NULL DEFAULT '1',
-  `access` integer UNSIGNED NOT NULL DEFAULT '1',
-  `protected` TINYINT(3) NOT NULL DEFAULT '0',
-  `manifest_cache` TEXT  NOT NULL,
-  `params` TEXT NOT NULL,
+CREATE TABLE IF NOT EXISTS `#__extensions` (
+  `extension_id` integer NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `element` varchar(100) NOT NULL,
+  `folder` varchar(100) NOT NULL,
+  `client_id` tinyint(3) NOT NULL,
+  `enabled` tinyint(3) NOT NULL DEFAULT '1',
+  `access` integer unsigned NOT NULL DEFAULT '1',
+  `protected` tinyint(3) NOT NULL DEFAULT '0',
+  `manifest_cache` text NOT NULL,
+  `params` text NOT NULL,
   `custom_data` text NOT NULL,
   `system_data` text NOT NULL,
-  `checked_out` int(10) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `ordering` int(11) default '0',
-  `state` int(11) default '0',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ordering` int(11) DEFAULT '0',
+  `state` int(11) DEFAULT '0',
   PRIMARY KEY (`extension_id`),
-  INDEX `element_clientid`(`element`, `client_id`),
-  INDEX `element_folder_clientid`(`element`, `folder`, `client_id`),
-  INDEX `extension`(`type`,`element`,`folder`,`client_id`)
-) AUTO_INCREMENT=10000 CHARSET=utf8;
+  KEY `element_clientid` (`element`,`client_id`),
+  KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
+  KEY `extension` (`type`,`element`,`folder`,`client_id`)
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000;
+
+#
+# Dumping data for table `#__extensions`
+#
 
 # Components
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
@@ -426,8 +441,7 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (102, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (103, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '{"legacy":false,"name":"Joomla! Platform","type":"library","creationDate":"2008","author":"Joomla! Project","copyright":"Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"http:\\/\\/www.joomla.org","version":"11.4","description":"LIB_JOOMLA_XML_DESCRIPTION","group":""}', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
-# Modules
-## Site
+# Modules - Site
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (200, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (201, 'mod_articles_latest', 'module', 'mod_articles_latest', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -454,7 +468,7 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (222, 'mod_languages', 'module', 'mod_languages', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (223, 'mod_finder', 'module', 'mod_finder', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
-## Administrator
+# Modules - Administrator
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (300, 'mod_custom', 'module', 'mod_custom', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (301, 'mod_feed', 'module', 'mod_feed', '', 1, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -472,7 +486,6 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (314, 'mod_version', 'module', 'mod_version', '', 1, 1, 1, 0, '{"legacy":false,"name":"mod_version","type":"module","creationDate":"January 2012","author":"Joomla! Project","copyright":"Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"2.5.0","description":"MOD_VERSION_XML_DESCRIPTION","group":""}', '{"format":"short","product":"1","cache":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 # Plug-ins
-
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (400, 'plg_authentication_gmail', 'plugin', 'gmail', 'authentication', 0, 0, 1, 0, '', '{"applysuffix":"0","suffix":"","verifypeer":"1","user_blacklist":""}', '', '', 0, '0000-00-00 00:00:00', 1, 0),
 (401, 'plg_authentication_joomla', 'plugin', 'joomla', 'authentication', 0, 1, 1, 1, '', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -523,7 +536,6 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (447, 'plg_quickicon_eosnotify', 'plugin', 'eosnotify', 'quickicon', 0, 1, 1, 1, '', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 # Templates
-
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (500, 'atomic', 'template', 'atomic', '', 0, 1, 1, 0, '{"legacy":false,"name":"atomic","type":"template","creationDate":"10\\/10\\/09","author":"Ron Severdia","copyright":"Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.","authorEmail":"contact@kontentdesign.com","authorUrl":"http:\\/\\/www.kontentdesign.com","version":"1.6.0","description":"TPL_ATOMIC_XML_DESCRIPTION","group":""}', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (502, 'bluestork', 'template', 'bluestork', '', 1, 1, 1, 0, '{"legacy":false,"name":"bluestork","type":"template","creationDate":"07\\/02\\/09","author":"Joomla! Project","copyright":"Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"http:\\/\\/www.joomla.org","version":"1.6.0","description":"TPL_BLUESTORK_XML_DESCRIPTION","group":""}', '{"useRoundedCorners":"1","showSiteName":"0","textBig":"0","highContrast":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -542,57 +554,57 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (800, 'joomla', 'package', 'pkg_joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__finder_filters`
 #
 
 CREATE TABLE IF NOT EXISTS `#__finder_filters` (
-  `filter_id` int(10) unsigned NOT NULL auto_increment,
+  `filter_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL,
-  `state` tinyint(1) NOT NULL default '1',
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `state` tinyint(1) NOT NULL DEFAULT '1',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` int(10) unsigned NOT NULL,
   `created_by_alias` varchar(255) NOT NULL,
-  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL default '0',
-  `checked_out` int(10) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `map_count` int(10) unsigned NOT NULL default '0',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `map_count` int(10) unsigned NOT NULL DEFAULT '0',
   `data` text NOT NULL,
   `params` mediumtext,
-  PRIMARY KEY  (`filter_id`)
+  PRIMARY KEY (`filter_id`)
 ) DEFAULT CHARSET=utf8;
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__finder_links`
 #
 
 CREATE TABLE IF NOT EXISTS `#__finder_links` (
-  `link_id` int(10) unsigned NOT NULL auto_increment,
+  `link_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL,
   `route` varchar(255) NOT NULL,
-  `title` varchar(255) default NULL,
-  `description` varchar(255) default NULL,
-  `indexdate` datetime NOT NULL default '0000-00-00 00:00:00',
-  `md5sum` varchar(32) default NULL,
-  `published` tinyint(1) NOT NULL default '1',
-  `state` int(5) default '1',
-  `access` int(5) default '0',
+  `title` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `indexdate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `md5sum` varchar(32) DEFAULT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT '1',
+  `state` int(5) DEFAULT '1',
+  `access` int(5) DEFAULT '0',
   `language` varchar(8) NOT NULL,
-  `publish_start_date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_end_date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `start_date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `end_date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `list_price` double unsigned NOT NULL default '0',
-  `sale_price` double unsigned NOT NULL default '0',
+  `publish_start_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_end_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `start_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `end_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `list_price` double unsigned NOT NULL DEFAULT '0',
+  `sale_price` double unsigned NOT NULL DEFAULT '0',
   `type_id` int(11) NOT NULL,
   `object` mediumblob NOT NULL,
-  PRIMARY KEY  (`link_id`),
+  PRIMARY KEY (`link_id`),
   KEY `idx_type` (`type_id`),
   KEY `idx_title` (`title`),
   KEY `idx_md5` (`md5sum`),
@@ -601,7 +613,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
   KEY `idx_published_sale` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`sale_price`)
 ) DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__finder_links_terms0`
@@ -611,7 +623,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms0` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) DEFAULT CHARSET=utf8;
@@ -626,7 +638,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms1` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) DEFAULT CHARSET=utf8;
@@ -641,7 +653,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms2` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) DEFAULT CHARSET=utf8;
@@ -656,11 +668,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms3` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-)  DEFAULT CHARSET=utf8;
-
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -672,10 +683,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms4` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -687,10 +698,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms5` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -702,10 +713,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms6` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -717,10 +728,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms7` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -732,10 +743,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms8` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -747,10 +758,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms9` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -762,10 +773,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsa` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -777,10 +788,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsb` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -792,10 +803,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsc` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -807,10 +818,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsd` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -822,10 +833,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termse` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -837,10 +848,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsf` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`term_id`),
+  PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -849,19 +860,23 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsf` (
 #
 
 CREATE TABLE IF NOT EXISTS `#__finder_taxonomy` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `parent_id` int(10) unsigned NOT NULL default '0',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL default '1',
-  `access` tinyint(1) unsigned NOT NULL default '0',
-  `ordering` tinyint(1) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`id`),
+  `state` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `access` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `ordering` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`),
   KEY `state` (`state`),
   KEY `ordering` (`ordering`),
   KEY `access` (`access`),
   KEY `idx_parent_published` (`parent_id`,`state`,`access`)
-)   DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
+
+#
+# Dumping data for table `#__finder_taxonomy`
+#
 
 REPLACE INTO `#__finder_taxonomy` (`id`, `parent_id`, `title`, `state`, `access`, `ordering`) VALUES
 (1, 0, 'ROOT', 0, 0, 0);
@@ -875,10 +890,10 @@ REPLACE INTO `#__finder_taxonomy` (`id`, `parent_id`, `title`, `state`, `access`
 CREATE TABLE IF NOT EXISTS `#__finder_taxonomy_map` (
   `link_id` int(10) unsigned NOT NULL,
   `node_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`link_id`,`node_id`),
+  PRIMARY KEY (`link_id`,`node_id`),
   KEY `link_id` (`link_id`),
   KEY `node_id` (`node_id`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -887,20 +902,20 @@ CREATE TABLE IF NOT EXISTS `#__finder_taxonomy_map` (
 #
 
 CREATE TABLE IF NOT EXISTS `#__finder_terms` (
-  `term_id` int(10) unsigned NOT NULL auto_increment,
+  `term_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL,
-  `common` tinyint(1) unsigned NOT NULL default '0',
-  `phrase` tinyint(1) unsigned NOT NULL default '0',
-  `weight` float unsigned NOT NULL default '0',
+  `common` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `phrase` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `weight` float unsigned NOT NULL DEFAULT '0',
   `soundex` varchar(75) NOT NULL,
-  `links` int(10) NOT NULL default '0',
-  PRIMARY KEY  (`term_id`),
+  `links` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`term_id`),
   UNIQUE KEY `idx_term` (`term`),
   KEY `idx_term_phrase` (`term`,`phrase`),
   KEY `idx_stem_phrase` (`stem`,`phrase`),
   KEY `idx_soundex_phrase` (`soundex`,`phrase`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -913,7 +928,11 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms_common` (
   `language` varchar(3) NOT NULL,
   KEY `idx_word_lang` (`term`,`language`),
   KEY `idx_lang` (`language`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
+
+#
+# Dumping data for table `#__finder_terms_common`
+#
 
 REPLACE INTO `#__finder_terms_common` (`term`, `language`) VALUES
 ('a', 'en'),
@@ -1041,10 +1060,10 @@ REPLACE INTO `#__finder_terms_common` (`term`, `language`) VALUES
 CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
   `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL,
-  `common` tinyint(1) unsigned NOT NULL default '0',
-  `phrase` tinyint(1) unsigned NOT NULL default '0',
-  `weight` float unsigned NOT NULL default '1',
-  `context` tinyint(1) unsigned NOT NULL default '2',
+  `common` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `phrase` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `weight` float unsigned NOT NULL DEFAULT '1',
+  `context` tinyint(1) unsigned NOT NULL DEFAULT '2',
   KEY `idx_word` (`term`),
   KEY `idx_context` (`context`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8;
@@ -1060,10 +1079,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
   `map_suffix` char(1) NOT NULL,
   `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL,
-  `common` tinyint(1) unsigned NOT NULL default '0',
-  `phrase` tinyint(1) unsigned NOT NULL default '0',
+  `common` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `phrase` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `term_weight` float unsigned NOT NULL,
-  `context` tinyint(1) unsigned NOT NULL default '2',
+  `context` tinyint(1) unsigned NOT NULL DEFAULT '2',
   `context_weight` float unsigned NOT NULL,
   `total_weight` float unsigned NOT NULL,
   KEY `token` (`term`),
@@ -1077,12 +1096,12 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
 #
 
 CREATE TABLE IF NOT EXISTS `#__finder_types` (
-  `id` int(10) unsigned NOT NULL auto_increment,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
   `mime` varchar(100) NOT NULL,
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`)
-)   DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -1090,8 +1109,8 @@ CREATE TABLE IF NOT EXISTS `#__finder_types` (
 # Table structure for table `#__languages`
 #
 
-CREATE TABLE `#__languages` (
-  `lang_id` int(11) unsigned NOT NULL auto_increment,
+CREATE TABLE IF NOT EXISTS `#__languages` (
+  `lang_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `lang_code` char(7) NOT NULL,
   `title` varchar(50) NOT NULL,
   `title_native` varchar(50) NOT NULL,
@@ -1100,26 +1119,32 @@ CREATE TABLE `#__languages` (
   `description` varchar(512) NOT NULL,
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
-  `sitename` varchar(1024) NOT NULL default '',
-  `published` int(11) NOT NULL default '0',
+  `sitename` varchar(1024) NOT NULL DEFAULT '',
+  `published` int(11) NOT NULL DEFAULT '0',
   `access` integer unsigned NOT NULL DEFAULT '0',
-  `ordering` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`lang_id`),
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`lang_id`),
   UNIQUE `idx_sef` (`sef`),
   UNIQUE `idx_image` (`image`),
   UNIQUE `idx_langcode` (`lang_code`),
   KEY `idx_access` (`access`),
-  INDEX `idx_ordering` (`ordering`)
-)  DEFAULT CHARSET=utf8;
+  KEY `idx_ordering` (`ordering`)
+) DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__languages` (`lang_id`,`lang_code`,`title`,`title_native`,`sef`,`image`,`description`,`metakey`,`metadesc`, `published`, `access`, `ordering`)
-VALUES
-(1, 'en-GB', 'English (UK)', 'English (UK)', 'en', 'en', '', '', '', 1, 1, 1);
+#
+# Dumping data for table `#__languages`
+#
+
+INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `sef`, `image`, `description`, `metakey`, `metadesc`, `sitename`, `published`, `access`, `ordering`) VALUES
+(1, 'en-GB', 'English (UK)', 'English (UK)', 'en', 'en', '', '', '', '', 1, 1, 1);
+
+# --------------------------------------------------------
+
 #
 # Table structure for table `#__menu`
 #
 
-CREATE TABLE `#__menu` (
+CREATE TABLE IF NOT EXISTS `#__menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
@@ -1139,22 +1164,25 @@ CREATE TABLE `#__menu` (
   `access` integer unsigned NOT NULL DEFAULT '0' COMMENT 'The access level required to view the menu item.',
   `img` varchar(255) NOT NULL COMMENT 'The image of the menu item.',
   `template_style_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `params` TEXT NOT NULL COMMENT 'JSON encoded data for the menu item.',
+  `params` text NOT NULL COMMENT 'JSON encoded data for the menu item.',
   `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
   `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
   `home` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Indicates if this menu item is the home or default page.',
   `language` char(7) NOT NULL DEFAULT '',
   `client_id` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`, `language`),
+  UNIQUE KEY `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`,`language`),
   KEY `idx_componentid` (`component_id`,`menutype`,`published`,`access`),
   KEY `idx_menutype` (`menutype`),
   KEY `idx_left_right` (`lft`,`rgt`),
   KEY `idx_alias` (`alias`),
   KEY `idx_path` (`path`(333)),
   KEY `idx_language` (`language`)
-)   DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
+#
+# Dumping data for table `#__menu`
+#
 
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `ordering`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`) VALUES
 (1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, '', 0, '', 0, 43, 0, '*', 0),
@@ -1181,86 +1209,96 @@ INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link
 (22, 'menu', 'com_joomlaupdate', 'Joomla! Update', '', 'Joomla! Update', 'index.php?option=com_joomlaupdate', 'component', 0, 1, 1, 28, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:joomlaupdate', 0, '', 41, 42, 0, '*', 1),
 (101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, 0, '0000-00-00 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","orderby_pri":"","orderby_sec":"front","order_date":"","multi_column_order":"1","show_pagination":"2","show_pagination_results":"1","show_noauth":"","article-allow_ratings":"","article-allow_comments":"","show_feed_link":"1","feed_summary":"","show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 29, 30, 1, '*', 0);
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__menu_types`
 #
 
-CREATE TABLE `#__menu_types` (
-  `id` integer unsigned NOT NULL auto_increment,
+CREATE TABLE IF NOT EXISTS `#__menu_types` (
+  `id` integer unsigned NOT NULL AUTO_INCREMENT,
   `menutype` varchar(24) NOT NULL,
   `title` varchar(48) NOT NULL,
-  `description` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`id`),
+  `description` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
   UNIQUE `idx_menutype` (`menutype`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
+#
+# Dumping data for table `#__menu_types`
+#
 
-# -------------------------------------------------------
+INSERT INTO `#__menu_types` (`id`, `menutype`, `title`, `description`) VALUES
+(1, 'mainmenu', 'Main Menu', 'The main menu for the site');
+
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__messages`
 #
 
-CREATE TABLE `#__messages` (
-  `message_id` integer unsigned NOT NULL auto_increment,
-  `user_id_from` integer unsigned NOT NULL default '0',
-  `user_id_to` integer unsigned NOT NULL default '0',
+CREATE TABLE IF NOT EXISTS `#__messages` (
+  `message_id` integer unsigned NOT NULL AUTO_INCREMENT,
+  `user_id_from` integer unsigned NOT NULL DEFAULT '0',
+  `user_id_to` integer unsigned NOT NULL DEFAULT '0',
   `folder_id` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `date_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `date_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `state` tinyint(1) NOT NULL DEFAULT '0',
   `priority` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `subject` varchar(255) NOT NULL DEFAULT '',
   `message` text NOT NULL,
-  PRIMARY KEY  (`message_id`),
-  KEY `useridto_state` (`user_id_to`, `state`)
-)  DEFAULT CHARSET=utf8;
-# -------------------------------------------------------
+  PRIMARY KEY (`message_id`),
+  KEY `useridto_state` (`user_id_to`,`state`)
+) DEFAULT CHARSET=utf8;
+
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__messages_cfg`
 #
 
-CREATE TABLE `#__messages_cfg` (
-  `user_id` integer unsigned NOT NULL default '0',
-  `cfg_name` varchar(100) NOT NULL default '',
-  `cfg_value` varchar(255) NOT NULL default '',
+CREATE TABLE IF NOT EXISTS `#__messages_cfg` (
+  `user_id` integer unsigned NOT NULL DEFAULT '0',
+  `cfg_name` varchar(100) NOT NULL DEFAULT '',
+  `cfg_value` varchar(255) NOT NULL DEFAULT '',
   UNIQUE `idx_user_var_name` (`user_id`,`cfg_name`)
-)  DEFAULT CHARSET=utf8;
-# -------------------------------------------------------
+) DEFAULT CHARSET=utf8;
+
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__modules`
 #
 
-CREATE TABLE `#__modules` (
+CREATE TABLE IF NOT EXISTS `#__modules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL DEFAULT '',
-  `note` varchar(255) NOT NULL default '',
+  `note` varchar(255) NOT NULL DEFAULT '',
   `content` text NOT NULL,
   `ordering` int(11) NOT NULL DEFAULT '0',
   `position` varchar(50) NOT NULL DEFAULT '',
   `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `published` tinyint(1) NOT NULL DEFAULT '0',
   `module` varchar(50) DEFAULT NULL,
   `access` integer unsigned NOT NULL DEFAULT '0',
   `showtitle` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `params` TEXT NOT NULL,
+  `params` text NOT NULL,
   `client_id` tinyint(4) NOT NULL DEFAULT '0',
   `language` char(7) NOT NULL,
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   KEY `published` (`published`,`access`),
   KEY `newsfeeds` (`module`,`published`),
   KEY `idx_language` (`language`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
+#
+# Dumping data for table `#__modules`
+#
 
-INSERT INTO `#__modules` VALUES
+INSERT INTO `#__modules` (`id`, `title`, `note`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `publish_up`, `publish_down`, `published`, `module`, `access`, `showtitle`, `params`, `client_id`, `language`) VALUES
 (1, 'Main Menu', '', '', 1, 'position-7', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
 (2, 'Login', '', '', 1, 'login', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '', 1, '*'),
 (3, 'Popular Articles', '', '', 3, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
@@ -1276,77 +1314,77 @@ INSERT INTO `#__modules` VALUES
 (17, 'Breadcrumbs', '', '', 1, 'position-2', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"Home","showComponent":"1","separator":"","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
 (79, 'Multilanguage status', '', '', 1, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
 (86, 'Joomla Version', '', '', 1, 'footer', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*');
-# -------------------------------------------------------
+
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__modules_menu`
 #
 
-CREATE TABLE `#__modules_menu` (
-  `moduleid` integer NOT NULL default '0',
-  `menuid` integer NOT NULL default '0',
-  PRIMARY KEY  (`moduleid`,`menuid`)
-)  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `#__modules_menu` (
+  `moduleid` integer NOT NULL DEFAULT '0',
+  `menuid` integer NOT NULL DEFAULT '0',
+  PRIMARY KEY (`moduleid`,`menuid`)
+) DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table `#__modules_menu`
 #
 
-INSERT INTO `#__modules_menu` VALUES
-(1,0),
-(2,0),
-(3,0),
-(4,0),
-(6,0),
-(7,0),
-(8,0),
-(9,0),
-(10,0),
-(12,0),
-(13,0),
-(14,0),
-(15,0),
-(16,0),
-(17,0),
-(79,0),
-(86,0);
+INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
+(1, 0),
+(2, 0),
+(3, 0),
+(4, 0),
+(6, 0),
+(7, 0),
+(8, 0),
+(9, 0),
+(10, 0),
+(12, 0),
+(13, 0),
+(14, 0),
+(15, 0),
+(16, 0),
+(17, 0),
+(79, 0),
+(86, 0);
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__newsfeeds`
 #
 
-CREATE TABLE `#__newsfeeds` (
-  `catid` integer NOT NULL default '0',
-  `id` integer(10) UNSIGNED NOT NULL auto_increment,
-  `name`  varchar(100) NOT NULL DEFAULT '',
-  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
+CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
+  `catid` integer NOT NULL DEFAULT '0',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `link` varchar(200) NOT NULL DEFAULT '',
-  `filename` varchar(200) default NULL,
-  `published` tinyint(1) NOT NULL default '0',
-  `numarticles` integer unsigned NOT NULL default '1',
-  `cache_time` integer unsigned NOT NULL default '3600',
-  `checked_out` integer(10) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `ordering` integer NOT NULL default '0',
-  `rtl` tinyint(4) NOT NULL default '0',
-  `access` integer UNSIGNED NOT NULL DEFAULT '0',
+  `filename` varchar(200) DEFAULT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `numarticles` integer unsigned NOT NULL DEFAULT '1',
+  `cache_time` integer unsigned NOT NULL DEFAULT '3600',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ordering` integer NOT NULL DEFAULT '0',
+  `rtl` tinyint(4) NOT NULL DEFAULT '0',
+  `access` integer unsigned NOT NULL DEFAULT '0',
   `language` char(7) NOT NULL DEFAULT '',
   `params` text NOT NULL,
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL default '0',
-  `created_by_alias` varchar(255) NOT NULL default '',
-  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL default '0',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` int(10) unsigned NOT NULL DEFAULT '0',
+  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `metadata` text NOT NULL,
   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
-
-  PRIMARY KEY  (`id`),
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`published`),
@@ -1354,10 +1392,9 @@ CREATE TABLE `#__newsfeeds` (
   KEY `idx_createdby` (`created_by`),
   KEY `idx_language` (`language`),
   KEY `idx_xreference` (`xreference`)
+) DEFAULT CHARSET=utf8;
 
-)  DEFAULT CHARSET=utf8;
-
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__overrider`
@@ -1368,124 +1405,149 @@ CREATE TABLE IF NOT EXISTS `#__overrider` (
   `constant` varchar(255) NOT NULL,
   `string` text NOT NULL,
   `file` varchar(255) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8;
 
-
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__redirect_links`
 #
 
-CREATE TABLE `#__redirect_links` (
-  `id` integer unsigned NOT NULL auto_increment,
+CREATE TABLE IF NOT EXISTS `#__redirect_links` (
+  `id` integer unsigned NOT NULL AUTO_INCREMENT,
   `old_url` varchar(255) NOT NULL,
   `new_url` varchar(255) NOT NULL,
   `referer` varchar(150) NOT NULL,
   `comment` varchar(255) NOT NULL,
-  `hits` int(10) unsigned NOT NULL default '0',
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
   `published` tinyint(4) NOT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `idx_link_old` (`old_url`),
   KEY `idx_link_modifed` (`modified_date`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
-
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__schemas`
 #
 
-CREATE TABLE `#__schemas` (
+CREATE TABLE IF NOT EXISTS `#__schemas` (
   `extension_id` int(11) NOT NULL,
   `version_id` varchar(20) NOT NULL,
-  PRIMARY KEY (`extension_id`, `version_id`)
-)  DEFAULT CHARSET=utf8;
-# -------------------------------------------------------
+  PRIMARY KEY (`extension_id`,`version_id`)
+) DEFAULT CHARSET=utf8;
+
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__session`
 #
 
-CREATE TABLE `#__session` (
-  `session_id` varchar(200) NOT NULL default '',
-  `client_id` tinyint(3) unsigned NOT NULL default '0',
-  `guest` tinyint(4) unsigned default '1',
-  `time` varchar(14) default '',
-  `data` mediumtext default NULL,
-  `userid` int(11) default '0',
-  `username` varchar(150) default '',
-  `usertype` varchar(50) default '',
-  PRIMARY KEY  (`session_id`),
+CREATE TABLE IF NOT EXISTS `#__session` (
+  `session_id` varchar(200) NOT NULL DEFAULT '',
+  `client_id` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `guest` tinyint(4) unsigned DEFAULT '1',
+  `time` varchar(14) DEFAULT '',
+  `data` mediumtext DEFAULT NULL,
+  `userid` int(11) DEFAULT '0',
+  `username` varchar(150) DEFAULT '',
+  `usertype` varchar(50) DEFAULT '',
+  PRIMARY KEY (`session_id`),
   KEY `whosonline` (`guest`,`usertype`),
   KEY `userid` (`userid`),
   KEY `time` (`time`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
+# --------------------------------------------------------
 
-# -------------------------------------------------------
+#
+# Table structure for table `#__updates`
+#
 
-# Update Sites
-CREATE TABLE  `#__updates` (
-  `update_id` int(11) NOT NULL auto_increment,
-  `update_site_id` int(11) default '0',
-  `extension_id` int(11) default '0',
-  `categoryid` int(11) default '0',
-  `name` varchar(100) default '',
+CREATE TABLE IF NOT EXISTS `#__updates` (
+  `update_id` int(11) NOT NULL AUTO_INCREMENT,
+  `update_site_id` int(11) DEFAULT '0',
+  `extension_id` int(11) DEFAULT '0',
+  `categoryid` int(11) DEFAULT '0',
+  `name` varchar(100) DEFAULT '',
   `description` text NOT NULL,
-  `element` varchar(100) default '',
-  `type` varchar(20) default '',
-  `folder` varchar(20) default '',
-  `client_id` tinyint(3) default '0',
-  `version` varchar(10) default '',
+  `element` varchar(100) DEFAULT '',
+  `type` varchar(20) DEFAULT '',
+  `folder` varchar(20) DEFAULT '',
+  `client_id` tinyint(3) DEFAULT '0',
+  `version` varchar(10) DEFAULT '',
   `data` text NOT NULL,
   `detailsurl` text NOT NULL,
   `infourl` text NOT NULL,
-  PRIMARY KEY  (`update_id`)
-)  DEFAULT CHARSET=utf8 COMMENT='Available Updates';
+  PRIMARY KEY (`update_id`)
+) DEFAULT CHARSET=utf8 COMMENT='Available Updates';
 
-CREATE TABLE  `#__update_sites` (
-  `update_site_id` int(11) NOT NULL auto_increment,
-  `name` varchar(100) default '',
-  `type` varchar(20) default '',
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__update_sites`
+#
+
+CREATE TABLE IF NOT EXISTS `#__update_sites` (
+  `update_site_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT '',
+  `type` varchar(20) DEFAULT '',
   `location` text NOT NULL,
-  `enabled` int(11) default '0',
+  `enabled` int(11) DEFAULT '0',
   `last_check_timestamp` bigint(20) DEFAULT '0',
-  PRIMARY KEY  (`update_site_id`)
-)  DEFAULT CHARSET=utf8 COMMENT='Update Sites';
+  PRIMARY KEY (`update_site_id`)
+) DEFAULT CHARSET=utf8 COMMENT='Update Sites';
 
-INSERT INTO `#__update_sites` VALUES
+#
+# Dumping data for table `#__update_sites`
+#
+
+INSERT INTO `#__update_sites` (`update_site_id`, `name`, `type`, `location`, `enabled`, `last_check_timestamp`) VALUES
 (1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0),
 (2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0),
-(3,'Accredited Joomla! Translations','collection','http://update.joomla.org/language/translationlist.xml', 1 ,0);
+(3, 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.org/language/translationlist.xml', 1, 0);
 
-CREATE TABLE `#__update_sites_extensions` (
-  `update_site_id` INT DEFAULT 0,
-  `extension_id` INT DEFAULT 0,
-  PRIMARY KEY(`update_site_id`, `extension_id`)
-) DEFAULT CHARSET=utf8 COMMENT = 'Links extensions to update sites';
+# --------------------------------------------------------
 
-INSERT INTO `#__update_sites_extensions` VALUES
+#
+# Table structure for table `#__update_sites_extensions`
+#
+
+CREATE TABLE IF NOT EXISTS `#__update_sites_extensions` (
+  `update_site_id` integer DEFAULT '0',
+  `extension_id` integer DEFAULT '0',
+  PRIMARY KEY (`update_site_id`,`extension_id`)
+) DEFAULT CHARSET=utf8 COMMENT='Links extensions to update sites';
+
+#
+# Dumping data for table `#__update_sites_extensions`
+#
+
+INSERT INTO `#__update_sites_extensions` (`update_site_id`, `extension_id`) VALUES
 (1, 700),
 (2, 700),
 (3, 600);
 
+# --------------------------------------------------------
 
-CREATE TABLE  `#__update_categories` (
-  `categoryid` int(11) NOT NULL auto_increment,
-  `name` varchar(20) default '',
+#
+# Table structure for table `#__update_categories`
+#
+
+CREATE TABLE IF NOT EXISTS `#__update_categories` (
+  `categoryid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) DEFAULT '',
   `description` text NOT NULL,
-  `parent` int(11) default '0',
-  `updatesite` int(11) default '0',
-  PRIMARY KEY  (`categoryid`)
-)  DEFAULT CHARSET=utf8 COMMENT='Update Categories';
+  `parent` int(11) DEFAULT '0',
+  `updatesite` int(11) DEFAULT '0',
+  PRIMARY KEY (`categoryid`)
+) DEFAULT CHARSET=utf8 COMMENT='Update Categories';
 
-
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__template_styles`
@@ -1494,92 +1556,105 @@ CREATE TABLE  `#__update_categories` (
 CREATE TABLE IF NOT EXISTS `#__template_styles` (
   `id` integer unsigned NOT NULL AUTO_INCREMENT,
   `template` varchar(50) NOT NULL DEFAULT '',
-  `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `client_id` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `home` char(7) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
-  `params` TEXT NOT NULL,
-  PRIMARY KEY  (`id`),
+  `params` text NOT NULL,
+  PRIMARY KEY (`id`),
   KEY `idx_template` (`template`),
   KEY `idx_home` (`home`)
-)  DEFAULT CHARSET=utf8 ;
+) DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__template_styles` VALUES (2, 'bluestork', '1', '1', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
-INSERT INTO `#__template_styles` VALUES (3, 'atomic', '0', '0', 'Atomic - Default', '{}');
-INSERT INTO `#__template_styles` VALUES (4, 'beez_20', 0, 1, 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}');
-INSERT INTO `#__template_styles` VALUES (5, 'hathor', '1', '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}');
-INSERT INTO `#__template_styles` VALUES (6, 'beez5', 0, 0, 'Beez5 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/sampledata\\/fruitshop\\/fruits.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","html5":"0"}');
+#
+# Dumping data for table `#__template_styles`
+#
 
-# -------------------------------------------------------
+INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `params`) VALUES
+(2, 'bluestork', 1, '1', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}'),
+(3, 'atomic', 0, '0', 'Atomic - Default', '{}'),
+(4, 'beez_20', 0, '1', 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'),
+(5, 'hathor', 1, '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
+(6, 'beez5', 0, '0', 'Beez5 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/sampledata\\/fruitshop\\/fruits.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","html5":"0"}');
+
+# --------------------------------------------------------
+
 #
 # Table structure for table `#__user_usergroup_map`
 #
 
 CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
-  `user_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__users.id',
-  `group_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__usergroups.id',
-  PRIMARY KEY  (`user_id`,`group_id`)
-)  DEFAULT CHARSET=utf8;
+  `user_id` integer unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__users.id',
+  `group_id` integer unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__usergroups.id',
+  PRIMARY KEY (`user_id`,`group_id`)
+) DEFAULT CHARSET=utf8;
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__usergroups`
 #
 
 CREATE TABLE IF NOT EXISTS `#__usergroups` (
-  `id` integer unsigned NOT NULL auto_increment COMMENT 'Primary Key',
-  `parent_id` integer unsigned NOT NULL default '0' COMMENT 'Adjacency List Reference Id',
-  `lft` integer NOT NULL default '0' COMMENT 'Nested set lft.',
-  `rgt` integer NOT NULL default '0' COMMENT 'Nested set rgt.',
-  `title` varchar(100) NOT NULL default '',
-  PRIMARY KEY  (`id`),
+  `id` integer unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `parent_id` integer unsigned NOT NULL DEFAULT '0' COMMENT 'Adjacency List Reference Id',
+  `lft` integer NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
+  `rgt` integer NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
+  `title` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
   UNIQUE KEY `idx_usergroup_parent_title_lookup` (`parent_id`,`title`),
   KEY `idx_usergroup_title_lookup` (`title`),
   KEY `idx_usergroup_adjacency_lookup` (`parent_id`),
   KEY `idx_usergroup_nested_set_lookup` USING BTREE (`lft`,`rgt`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__usergroups` (`id` ,`parent_id` ,`lft` ,`rgt` ,`title`)
-VALUES
+#
+# Dumping data for table `#__usergroups`
+#
+
+INSERT INTO `#__usergroups` (`id`, `parent_id`, `lft`, `rgt`, `title`) VALUES
 (1, 0, 1, 20, 'Public'),
-	(2, 1, 6, 17, 'Registered'),
-		(3, 2, 7, 14, 'Author'),
-			(4, 3, 8, 11, 'Editor'),
-				(5, 4, 9, 10, 'Publisher'),
+(2, 1, 6, 17, 'Registered'),
+(3, 2, 7, 14, 'Author'),
+(4, 3, 8, 11, 'Editor'),
+(5, 4, 9, 10, 'Publisher'),
 (6, 1, 2, 5, 'Manager'),
-	(7, 6, 3, 4, 'Administrator'),
+(7, 6, 3, 4, 'Administrator'),
 (8, 1, 18, 19, 'Super Users');
 
-# -------------------------------------------------------
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__users`
 #
 
-CREATE TABLE `#__users` (
-  `id` integer NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default '',
-  `username` varchar(150) NOT NULL default '',
-  `email` varchar(100) NOT NULL default '',
-  `password` varchar(100) NOT NULL default '',
-  `usertype` varchar(25) NOT NULL default '',
-  `block` tinyint(4) NOT NULL default '0',
-  `sendEmail` tinyint(4) default '0',
-  `registerDate` datetime NOT NULL default '0000-00-00 00:00:00',
-  `lastvisitDate` datetime NOT NULL default '0000-00-00 00:00:00',
-  `activation` varchar(100) NOT NULL default '',
+CREATE TABLE IF NOT EXISTS `#__users` (
+  `id` integer NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `username` varchar(150) NOT NULL DEFAULT '',
+  `email` varchar(100) NOT NULL DEFAULT '',
+  `password` varchar(100) NOT NULL DEFAULT '',
+  `usertype` varchar(25) NOT NULL DEFAULT '',
+  `block` tinyint(4) NOT NULL DEFAULT '0',
+  `sendEmail` tinyint(4) DEFAULT '0',
+  `registerDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `lastvisitDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `activation` varchar(100) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `lastResetTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Date of last password reset',
   `resetCount` int(11) NOT NULL DEFAULT '0' COMMENT 'Count of password resets since lastResetTime',
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   KEY `usertype` (`usertype`),
   KEY `idx_name` (`name`),
   KEY `idx_block` (`block`),
   KEY `username` (`username`),
   KEY `email` (`email`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
-# -------------------------------------------------------
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__user_notes`
+#
 
 CREATE TABLE IF NOT EXISTS `#__user_notes` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -1595,60 +1670,65 @@ CREATE TABLE IF NOT EXISTS `#__user_notes` (
   `modified_user_id` int(10) unsigned NOT NULL,
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `review_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_up` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`),
   KEY `idx_category_id` (`catid`)
 ) DEFAULT CHARSET=utf8;
 
-# -------------------------------------------------------
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__user_profiles`
+#
 
 CREATE TABLE IF NOT EXISTS `#__user_profiles` (
   `user_id` int(11) NOT NULL,
   `profile_key` varchar(100) NOT NULL,
   `profile_value` varchar(255) NOT NULL,
-  `ordering` int(11) NOT NULL default '0',
+  `ordering` int(11) NOT NULL DEFAULT '0',
   UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`)
-)  DEFAULT CHARSET=utf8 COMMENT='Simple user profile storage table';
+) DEFAULT CHARSET=utf8 COMMENT='Simple user profile storage table';
+
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__weblinks`
 #
 
-CREATE TABLE `#__weblinks` (
-  `id` integer unsigned NOT NULL auto_increment,
-  `catid` integer NOT NULL default '0',
-  `sid` integer NOT NULL default '0',
-  `title` varchar(250) NOT NULL default '',
-  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL default '',
-  `url` varchar(250) NOT NULL default '',
-  `description` TEXT NOT NULL,
-  `date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `hits` integer NOT NULL default '0',
-  `state` tinyint(1) NOT NULL default '0',
-  `checked_out` integer NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `ordering` integer NOT NULL default '0',
-  `archived` tinyint(1) NOT NULL default '0',
-  `approved` tinyint(1) NOT NULL default '1',
-  `access` integer NOT NULL default '1',
+CREATE TABLE IF NOT EXISTS `#__weblinks` (
+  `id` integer unsigned NOT NULL AUTO_INCREMENT,
+  `catid` integer NOT NULL DEFAULT '0',
+  `sid` integer NOT NULL DEFAULT '0',
+  `title` varchar(250) NOT NULL DEFAULT '',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `url` varchar(250) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `hits` integer NOT NULL DEFAULT '0',
+  `state` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` integer NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ordering` integer NOT NULL DEFAULT '0',
+  `archived` tinyint(1) NOT NULL DEFAULT '0',
+  `approved` tinyint(1) NOT NULL DEFAULT '1',
+  `access` integer NOT NULL DEFAULT '1',
   `params` text NOT NULL,
   `language` char(7) NOT NULL DEFAULT '',
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL default '0',
-  `created_by_alias` varchar(255) NOT NULL default '',
-  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL default '0',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` int(10) unsigned NOT NULL DEFAULT '0',
+  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `metadata` text NOT NULL,
-  `featured` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Set if link is featured.',
+  `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Set if link is featured.',
   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
-
-  PRIMARY KEY  (`id`),
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`state`),
@@ -1657,7 +1737,9 @@ CREATE TABLE `#__weblinks` (
   KEY `idx_featured_catid` (`featured`,`catid`),
   KEY `idx_language` (`language`),
   KEY `idx_xreference` (`xreference`)
-)  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
+
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__viewlevels`
@@ -1670,7 +1752,7 @@ CREATE TABLE IF NOT EXISTS `#__viewlevels` (
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
-)   DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table `#__viewlevels`
@@ -1681,4 +1763,4 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (2, 'Registered', 1, '[6,2,8]'),
 (3, 'Special', 2, '[6,3,8]');
 
-# -------------------------------------------------------
+# --------------------------------------------------------
