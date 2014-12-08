@@ -227,7 +227,7 @@ class JTableContent extends JTable
 			// If we don't have any access rules set at this point just use an empty JAccessRules class
 			if (!isset($this->rules))
 			{
-				$rules = new JAccessRules;
+				$rules = $this->getDefaultAssetValues('com_content');
 				$this->setRules($rules);
 			}
 		}
@@ -271,6 +271,25 @@ class JTableContent extends JTable
 		}
 
 		return true;
+	}
+
+	/**
+	 * Gets the default asset values for a component.
+	 *
+	 * @return  JAccessRules  The JAccessRules object for the asset
+	 */
+	protected function getDefaultAssetValues($component)
+	{
+		// Need to find the asset id by the name of the component.
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__assets'))
+			->where($db->quoteName('name') . ' = ' . $db->quote($component));
+		$db->setQuery($query);
+		$assetId = (int) $db->loadResult();
+
+		return JAccess::getAssetRules($assetId);
 	}
 
 	/**
