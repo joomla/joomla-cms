@@ -276,6 +276,8 @@ class JTableContent extends JTable
 	/**
 	 * Gets the default asset values for a component.
 	 *
+	 * @param   $string  $component  The component asset name to search for
+	 *
 	 * @return  JAccessRules  The JAccessRules object for the asset
 	 */
 	protected function getDefaultAssetValues($component)
