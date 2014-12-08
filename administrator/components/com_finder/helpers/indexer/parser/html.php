@@ -69,7 +69,7 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 	protected function process($input)
 	{
 		// Replace any amount of white space with a single space.
-		$input = trim(preg_replace('#\s+#u', ' ', $input));
+		$input = preg_replace('#\s+#u', ' ', $input);
 
 		return $input;
 	}
@@ -117,6 +117,8 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 			// If no corresponding end tag, leave the string alone.
 			if ($end === false)
 			{
+				// Fix the offset so part of the string is not duplicated.
+				$offset = $start;
 				break;
 			}
 
