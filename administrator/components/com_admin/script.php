@@ -38,7 +38,7 @@ class JoomlaInstallerScript
 	}
 
 	/**
-	 * Medtho to update Database
+	 * Method to update Database
 	 *
 	 * @return void
 	 */
