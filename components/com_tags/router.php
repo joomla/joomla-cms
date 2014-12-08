@@ -84,7 +84,7 @@ class TagsRouter extends JComponentRouterBase
 					}
 					else
 					{
-						$id = $query['id'];
+						$id = (int) $query['id'];
 					}
 
 					$segments[] = $id;
