@@ -126,28 +126,29 @@ class ModulesModelModule extends JModelAdmin
 		{
 			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
 
-			if (!empty($commands['position_id']))
+			if ($cmd == 'c')
 			{
-				if ($cmd == 'c')
-				{
-					$result = $this->batchCopy($commands['position_id'], $pks, $contexts);
+				$result = $this->batchCopy($commands['position_id'], $pks, $contexts);
 
-					if (is_array($result))
+				if (is_array($result))
+				{
+					foreach ($result as $old => $new)
 					{
-						$pks = $result;
+						$contexts[$new] = $contexts[$old];
 					}
-					else
-					{
-						return false;
-					}
+					$pks = array_values($result);
 				}
-				elseif ($cmd == 'm' && !$this->batchMove($commands['position_id'], $pks, $contexts))
+				else
 				{
 					return false;
 				}
-
-				$done = true;
 			}
+			elseif ($cmd == 'm' && !$this->batchMove($commands['position_id'], $pks, $contexts))
+			{
+				return false;
+			}
+
+			$done = true;
 		}
 
 		if (!empty($commands['assetgroup_id']))
@@ -200,7 +201,6 @@ class ModulesModelModule extends JModelAdmin
 		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$newIds = array();
-		$i = 0;
 
 		foreach ($pks as $pk)
 		{
@@ -246,8 +246,7 @@ class ModulesModelModule extends JModelAdmin
 				$newId = $table->get('id');
 
 				// Add the new ID to the array
-				$newIds[$i]	= $newId;
-				$i++;
+				$newIds[$pk]	= $newId;
 
 				// Now we need to handle the module assignments
 				$db = $this->getDbo();

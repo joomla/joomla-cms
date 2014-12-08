@@ -197,8 +197,6 @@ abstract class JModelAdmin extends JModelForm
 			$this->type = $type->getTypeByAlias($this->typeAlias);
 		}
 
-		$typeAlias = $this->type->type_alias;
-
 		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
 
 		if (!empty($commands['category_id']))
@@ -211,7 +209,11 @@ abstract class JModelAdmin extends JModelForm
 
 				if (is_array($result))
 				{
-					$pks = $result;
+					foreach ($result as $old => $new)
+					{
+						$contexts[$new] = $contexts[$old];
+					}
+					$pks = array_values($result);
 				}
 				else
 				{
@@ -349,14 +351,14 @@ abstract class JModelAdmin extends JModelForm
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 
-		$i = 0;
-
 		$categoryId = $value;
 
 		if (!static::checkCategoryId($categoryId))
 		{
 			return false;
 		}
+
+		$newIds = array();
 
 		// Parent exists so let's proceed
 		while (!empty($pks))
@@ -430,8 +432,7 @@ abstract class JModelAdmin extends JModelForm
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i]	= $newId;
-			$i++;
+			$newIds[$pk]	= $newId;
 		}
 
 		// Clean the cache

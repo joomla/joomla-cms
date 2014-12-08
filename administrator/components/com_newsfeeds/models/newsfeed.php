@@ -50,7 +50,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	{
 		$categoryId = (int) $value;
 
-		$i = 0;
+		$newIds = array();
 
 		if (!parent::checkCategoryId($categoryId))
 		{
@@ -120,8 +120,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i] = $newId;
-			$i++;
+			$newIds[$pk] = $newId;
 		}
 
 		// Clean the cache
