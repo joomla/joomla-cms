@@ -61,8 +61,16 @@ class UsersControllerUser extends UsersController
 		$credentials['password']  = $data['password'];
 		$credentials['secretkey'] = $data['secretkey'];
 
-		// Perform the log in.
-		if (true === $app->login($credentials, $options))
+		// Perform the log in. 
+		// If you catch Exception you don't have 404 error
+		$rc=false;
+		try {
+			$rc=$app->login($credentials, $options);
+		}
+		catch (Exception $e) {
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+		if ($rc)
 		{
 			// Success
 			if ($options['remember'] == true)
