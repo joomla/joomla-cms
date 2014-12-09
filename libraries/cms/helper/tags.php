@@ -675,6 +675,7 @@ class JHelperTags extends JHelper
 	public function getTagTreeArray($id, &$tagTreeArray = array())
 	{
 		// Get a level row instance.
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 		$table = JTable::getInstance('Tag', 'TagsTable');
 
 		if ($table->isLeaf($id))
