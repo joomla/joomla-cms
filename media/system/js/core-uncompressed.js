@@ -140,11 +140,16 @@ Joomla.renderMessages = function(messages) {
 			messagesBox.className = 'alert alert-' + type;
 
 			// Title
-			var titleWrapper = document.createElement('h4');
-			titleWrapper.className = 'alert-heading';
-			titleWrapper.innerHTML = Joomla.JText._(type);
+			var title = Joomla.JText._(type);
 
-			messagesBox.appendChild(titleWrapper)
+			// Skip titles with untranslated strings
+			if (typeof title != 'undefined') {
+				var titleWrapper = document.createElement('h4');
+				titleWrapper.className = 'alert-heading';
+				titleWrapper.innerHTML = Joomla.JText._(type);
+
+				messagesBox.appendChild(titleWrapper)
+			}
 
 			// Add messages to the message box
 			for (var i = typeMessages.length - 1; i >= 0; i--) {
