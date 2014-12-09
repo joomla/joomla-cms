@@ -150,6 +150,7 @@
  <rule ref="Joomla.WhiteSpace.ConcatenationSpacing">
   <!-- We only want this for libraries, language and cli for now -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
  </rule>
