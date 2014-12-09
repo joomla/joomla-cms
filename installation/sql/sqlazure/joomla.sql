@@ -6028,7 +6028,7 @@ BEGIN
 CREATE TABLE [#__user_profiles](
  [user_id] [int] NOT NULL,
  [profile_key] [nvarchar](100) NOT NULL,
- [profile_value] [nvarchar](255) NOT NULL,
+ [profile_value] [nvarchar](max) NOT NULL,
  [ordering] [int] NOT NULL,
  CONSTRAINT [#__user_profiles$idx_user_id_profile_key] UNIQUE CLUSTERED
 (
