@@ -87,7 +87,6 @@
 
  <rule ref="Squiz.WhiteSpace.ScopeClosingBrace">
  <!-- These exceptions are temporary -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
@@ -151,18 +150,12 @@
  <rule ref="Joomla.WhiteSpace.ConcatenationSpacing">
   <!-- We only want this for libraries, language and cli for now -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
-  <exclude-pattern type="relative">includes/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.ControlStructures.ControlSignature">
-  <!-- We only want this for libraries, languages and cli for now -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
-  <exclude-pattern type="relative">includes/*</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
@@ -171,8 +164,6 @@
  </rule>
 
  <rule ref="Joomla.ControlStructures.InlineControlStructure">
-  <!-- These exceptions are temporary -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
@@ -181,9 +172,6 @@
  </rule>
 
  <rule ref="Joomla.ControlStructures.MultiLineCondition">
-  <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
