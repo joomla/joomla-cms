@@ -62,7 +62,7 @@ class PlgQuickiconEosnotify extends JPlugin
 
 		if (JAdministratorHelper::findOption() == 'com_cpanel')
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_EOSNOTIFY_CLICK_FOR_INFORMATION_WITH_LINK', $text), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_EOSNOTIFY_CLICK_FOR_INFORMATION_WITH_LINK', $text), 'notice');
 		}
 	}
 }
