@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 // Create a shortcut for params.
 $params = $this->item->params;
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $canEdit = $this->item->params->get('access-edit');
 $info    = $params->get('info_block_position', 0);
 ?>
