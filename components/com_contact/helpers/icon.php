@@ -24,7 +24,7 @@ class JHtmlIcon
 		require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
 		$uri	= JUri::getInstance();
 		$base	= $uri->toString(array('scheme', 'host', 'port'));
-		$link	= $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid), false);
+		$link	= $base . JRoute::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid, $contact->language), false);
 		$url	= 'index.php?option=com_mailto&tmpl=component&link=' . MailToHelper::addLink($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
@@ -46,9 +46,9 @@ class JHtmlIcon
 		return $output;
 	}
 
-	public static function print_popup($article, $params, $attribs = array())
+	public static function print_popup($contact, $params, $attribs = array())
 	{
-		$url  = ContentHelperRoute::getContactRoute($contact->slug, $contact->catid);
+		$url  = ContactHelperRoute::getContactRoute($contact->slug, $contact->catid, $contact->language);
 		$url .= '&tmpl=component&print=1&layout=default&page=' . @ $request->limitstart;
 
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';

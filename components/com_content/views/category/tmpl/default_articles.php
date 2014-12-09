@@ -111,7 +111,7 @@ if (!empty($this->items))
 				<?php endif; ?>
 					<td headers="categorylist_header_title" class="list-title">
 						<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
-							<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
+							<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 								<?php echo $this->escape($article->title); ?>
 							</a>
 						<?php else: ?>
@@ -121,7 +121,7 @@ if (!empty($this->items))
 							$active		= $menu->getActive();
 							$itemId		= $active->id;
 							$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
-							$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid));
+							$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language));
 							$fullURL = new JUri($link);
 							$fullURL->setVar('return', base64_encode($returnURL));
 							?>
