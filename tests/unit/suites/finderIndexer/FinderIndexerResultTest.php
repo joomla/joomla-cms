@@ -235,7 +235,7 @@ class FinderIndexerResultTest extends TestCaseDatabase
 			'*'
 		);
 
-		// Test for "en-GB" language
+		// Test for "it-IT" language
 		$this->object->language = 'it-IT';
 		$this->object->setLanguage();
 
