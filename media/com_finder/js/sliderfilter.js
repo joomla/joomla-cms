@@ -114,13 +114,4 @@ FinderFilter = new Class({
 
 window.addEvent('domready', function () {
 	Filter = new FinderFilter(document.getElements('input.toggler'), document.getElements('dl.checklist'), document.id('finder-filter-container'), document.id('finder-filter-window'));
-	document.id('tax-select-all').addEvent('change', function () {
-		if (document.id('tax-select-all').getProperty('checked')) {
-			document.id('finder-filter-window').getElements('input').each(function (input) {
-				if (input.getProperty('id') != 'tax-select-all') {
-					input.removeProperty('checked');
-				}
-			});
-		}
-	});
 });
