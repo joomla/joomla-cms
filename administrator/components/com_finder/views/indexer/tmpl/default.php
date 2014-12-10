@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('jquery.framework');
-JHtml::_('script', 'com_finder/indexer.js', true, true);
+JHtml::_('script', 'com_finder/indexer.js', false, true);
 ?>
 
 <div id="finder-indexer-container">
