@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 JHtml::_('behavior.core');
 JHtml::_('formbehavior.chosen', 'select');
@@ -33,7 +33,7 @@ $n = count($this->items);
 		<?php if ($this->params->get('filter_field')) :?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search">
-					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL').'&#160;'; ?>
+					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
 				</label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>" />
 			</div>
