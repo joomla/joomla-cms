@@ -12,6 +12,9 @@
 	width: 220px;
 	float: left;
 	margin: 0;
+	overflow-x: hidden;
+	-ms-overflow-y: auto;
+	-ms-overflow-x: hidden;
 }
 
 #branch-selectors {

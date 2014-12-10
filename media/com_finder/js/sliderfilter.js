@@ -88,7 +88,6 @@ FinderFilter = new Class({
 		toggler.addEvent('click', this.toggle.bind(this, idx));
 		if (this.options.fixedWidth) element.fullWidth = this.options.fixedWidth;
 		if (this.options.fixedHeight) element.fullHeight = this.options.fixedHeight;
-		element.set('styles', {'overflow-y': 'auto', 'overflow-x': 'hidden'});
 		return this;
 	},
 
