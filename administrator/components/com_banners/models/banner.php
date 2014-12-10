@@ -31,98 +31,22 @@ class BannersModelBanner extends JModelAdmin
 	public $typeAlias = 'com_banners.banner';
 
 	/**
-	 * Method to perform batch operations on an item or a set of items.
+	 * Batch copy/move command. If set to false, 
+	 * the batch copy/move command is not supported
 	 *
-	 * @param   array  $commands  An array of commands to perform.
-	 * @param   array  $pks       An array of item ids.
-	 * @param   array  $contexts  An array of item contexts.
-	 *
-	 * @return  boolean   Returns true on success, false on failure.
-	 *
-	 * @since	2.5
+	 * @var string
 	 */
-	public function batch($commands, $pks, $contexts)
-	{
-		// Sanitize user ids.
-		$pks = array_unique($pks);
-		JArrayHelper::toInteger($pks);
+	protected $batch_copymove = 'category_id';
 
-		// Remove any values of zero.
-		if (array_search(0, $pks, true))
-		{
-			unset($pks[array_search(0, $pks, true)]);
-		}
-
-		if (empty($pks))
-		{
-			$this->setError(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
-
-			return false;
-		}
-
-		$done = false;
-
-		if (!empty($commands['category_id']))
-		{
-			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
-
-			if ($cmd == 'c')
-			{
-				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
-
-				if (is_array($result))
-				{
-					foreach ($result as $old => $new)
-					{
-						$contexts[$new] = $contexts[$old];
-					}
-					$pks = array_values($result);
-				}
-				else
-				{
-					return false;
-				}
-			}
-			elseif ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (strlen($commands['client_id']) > 0)
-		{
-			if (!$this->batchClient($commands['client_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!empty($commands['language_id']))
-		{
-			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!$done)
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
-
-			return false;
-		}
-
-		// Clear the cache
-		$this->cleanCache();
-
-		return true;
-	}
+	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'client_id' => 'batchClient',
+		'language_id' => 'batchLanguage'
+	);
 
 	/**
 	 * Batch client changes for a group of banners.
