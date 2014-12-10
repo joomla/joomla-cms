@@ -68,7 +68,7 @@ jQuery(document).ready(function() {
 	{
 		if (task == "article.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
-			'. $this->form->getField('articletext')->save() . '
+			' . $this->form->getField('articletext')->save() . '
 			if (window.opener && (task == "article.save" || task == "article.cancel"))
 			{
 				window.opener.document.closeEditWindow = self;

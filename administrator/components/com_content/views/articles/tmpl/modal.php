@@ -27,7 +27,7 @@ $function  = $app->input->getCmd('function', 'jSelectArticle');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=' . $function . '&'.JSession::getFormToken() . '=1');?>"
+<form action="<?php echo JRoute::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=' . $function . '&' . JSession::getFormToken() . '=1');?>"
       method="post" name="adminForm" id="adminForm" class="form-inline">
 	<fieldset class="filter clearfix">
 		<div class="btn-toolbar">
