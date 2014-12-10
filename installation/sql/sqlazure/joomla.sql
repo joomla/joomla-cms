@@ -662,7 +662,7 @@ CREATE TABLE [#__updates](
 	[type] [nvarchar](20) NULL,
 	[folder] [nvarchar](20) NULL,
 	[client_id] [smallint] NULL,
-	[version] [nvarchar](10) NULL,
+	[version] [nvarchar](32) NULL,
 	[data] [nvarchar](max) NOT NULL,
 	[detailsurl] [nvarchar](max) NOT NULL,
  CONSTRAINT [PK_#__updates_update_id] PRIMARY KEY CLUSTERED
