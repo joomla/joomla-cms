@@ -64,10 +64,12 @@ class UsersControllerUser extends UsersController
 		// Perform the log in.
 		// If you catch Exception you don't have 404 error
 		$rc = false;
-		try {
+		try 
+		{
 			$rc = $app->login($credentials, $options);
 		}
-		catch (Exception $e) {
+		catch (Exception $e) 
+		{
 			echo 'Caught exception: ',  $e->getMessage(), "\n";
 		}
 		if ($rc)
