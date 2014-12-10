@@ -151,33 +151,33 @@ class JLog
 		self::$instance->addLogEntry($entry);
 	}
 
-    /**
-     * Add a logger to the JLog instance.  Loggers route log entries to the correct files/systems to be logged.
-     *
-     * @param   array    $options     The object configuration array.
-     * @param   integer  $priorities  Message priority
-     * @param   array    $categories  Types of entry
-     * @param   boolean  $exclude     If true, all categories will be logged except those in the $categories array
-     *
-     * @return  void
-     *
-     * @since   11.1
-     */
-    public static function addLogger(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
-    {
-        // Automatically instantiate the singleton object if not already done.
-        if (empty(self::$instance))
-        {
-            self::setInstance(new JLog);
-        }
+	/**
+	 * Add a logger to the JLog instance.  Loggers route log entries to the correct files/systems to be logged.
+	 *
+	 * @param   array    $options     The object configuration array.
+	 * @param   integer  $priorities  Message priority
+	 * @param   array    $categories  Types of entry
+	 * @param   boolean  $exclude     If true, all categories will be logged except those in the $categories array
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public static function addLogger(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
+	{
+		// Automatically instantiate the singleton object if not already done.
+		if (empty(self::$instance))
+		{
+			self::setInstance(new JLog);
+		}
 
-        self::$instance->addLoggerInternal($options, $priorities, $categories, $exclude);
-    }
+		self::$instance->addLoggerInternal($options, $priorities, $categories, $exclude);
+	}
 
 	/**
 	 * Add a logger to the JLog instance.  Loggers route log entries to the correct files/systems to be logged.
 	 * This method allows you to extend JLog completely.
-     *
+	 *
 	 * @param   array    $options     The object configuration array.
 	 * @param   integer  $priorities  Message priority
 	 * @param   array    $categories  Types of entry
