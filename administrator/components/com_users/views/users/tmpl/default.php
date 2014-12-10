@@ -117,7 +117,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						</td>
 						<td>
 							<?php if ($canEdit) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->id); ?>" title="<?php echo JText::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">
+								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">
 									<?php echo $this->escape($item->name); ?></a>
 							<?php else : ?>
 								<?php echo $this->escape($item->name); ?>
@@ -131,7 +131,7 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php endif; ?>
 							</div>
 							<?php if (JDEBUG) : ?>
-								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id='.(int) $item->id);?>">
+								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id);?>">
 								<?php echo JText::_('COM_USERS_DEBUG_USER');?></a></div>
 							<?php endif; ?>
 						</td>

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
@@ -87,7 +87,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('grid.id', $i, $item->message_id); ?>
 						</td>
 						<td>
-							<a href="<?php echo JRoute::_('index.php?option=com_messages&view=message&message_id='.(int) $item->message_id); ?>">
+							<a href="<?php echo JRoute::_('index.php?option=com_messages&view=message&message_id=' . (int) $item->message_id); ?>">
 								<?php echo $this->escape($item->subject); ?></a>
 						</td>
 						<td class="center">

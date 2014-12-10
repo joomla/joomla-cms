@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -22,7 +22,7 @@ $state     = $this->state->get('filter.state');
 $template  = $this->state->get('filter.template');
 $type      = $this->state->get('filter.type');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function='.$function.'&client_id=' .$clientId);?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function=' . $function . '&client_id=' . $clientId);?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filter clearfix">
 		<div class="left">
 			<label for="filter_search">

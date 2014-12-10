@@ -125,7 +125,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 						<?php endif; ?>
 						<?php if ($canEdit) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_users&task=note.edit&id='.$item->id);?>">
+							<a href="<?php echo JRoute::_('index.php?option=com_users&task=note.edit&id=' . $item->id);?>">
 								<?php echo $this->escape($item->user_name); ?></a>
 						<?php else : ?>
 							<?php echo $this->escape($item->user_name); ?>
