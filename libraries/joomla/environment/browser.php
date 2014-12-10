@@ -459,6 +459,11 @@ class JBrowser
 		// Can't identify browser version
 		$this->majorVersion = 0;
 		$this->minorVersion = 0;
+		//logging the agent string
+		$logCategory = 'identifyBrowser';
+		$priorities = JLog::DEBUG ;
+		JLog::addLogger(array('text_file' => $logFileName), $priorities, $logCategory);
+		JLog::add("Can't identify browser version. Agent: " . $this->agent, $priorities);
 	}
 
 	/**
