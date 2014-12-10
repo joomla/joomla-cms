@@ -205,6 +205,7 @@ class JInstallerPackage extends JAdapterInstance
 		}
 
 		// Parse optional tags
+		$this->parent->parseMedia($this->manifest->media);
 		$this->parent->parseLanguages($this->manifest->languages);
 
 		// Extension Registration
@@ -455,6 +456,7 @@ class JInstallerPackage extends JAdapterInstance
 		}
 
 		// Remove any language files
+		$this->parent->removeFiles($xml->media);
 		$this->parent->removeFiles($xml->languages);
 
 		// clean up manifest file after we're done if there were no errors
