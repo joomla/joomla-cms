@@ -479,6 +479,21 @@ class JUser extends JObject
 	}
 
 	/**
+	 * Clears the access rights cache of this user
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4.0
+	 */
+	public function clearAccessRights()
+	{
+		$this->_authLevels = null;
+		$this->_authGroups = null;
+		$this->isRoot = null;
+		JAccess::clearStatics();
+	}
+
+	/**
 	 * Pass through method to the table for setting the last visit date
 	 *
 	 * @param   integer  $timestamp  The timestamp, defaults to 'now'.
