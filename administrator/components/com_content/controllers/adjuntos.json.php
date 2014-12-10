@@ -246,18 +246,12 @@ class ContentControllerAdjuntos extends JControllerForm
         return $arr;
     }
 
-    public function mostrar() {
-
-        $jinput = JFactory::getApplication()->input;
-
-        $id = $jinput->get('id', null, null);
+    public function mostrar($id) {
 
         $db = JFactory::getDbo();
-
         $query = $db->getQuery(true);
 
         $columnas = array('propietario_id', 'nombre_archivo');
-
         $query
             ->select($db->quoteName($columnas))
             ->from($db->quoteName('#__adjuntos'))
