@@ -7,9 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
 
-use Joomla\Registry\Registry;
 
 /**
  * Joomla Platform class for generating Facebook API access token.
@@ -19,23 +18,23 @@ use Joomla\Registry\Registry;
 class JFacebookOAuth extends JOAuth2Client
 {
 	/**
-	 * @var    Registry Options for the JFacebookOAuth object.
-	 * @since  13.1
+	 * @var JRegistry Options for the JFacebookOAuth object.
+	 * @since 13.1
 	 */
 	protected $options;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry  $options  JFacebookOauth options object.
-	 * @param   JHttp     $client   The HTTP client object.
-	 * @param   JInput    $input    The input object.
+	 * @param   JRegistry  $options  JFacebookOauth options object.
+	 * @param   JHttp      $client   The HTTP client object.
+	 * @param   JInput     $input    The input object.
 	 *
 	 * @since   13.1
 	 */
-	public function __construct(Registry $options = null, JHttp $client = null, JInput $input = null)
+	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null)
 	{
-		$this->options = isset($options) ? $options : new Registry;
+		$this->options = isset($options) ? $options : new JRegistry;
 
 		// Setup the authentication and token urls if not already set.
 		$this->options->def('authurl', 'http://www.facebook.com/dialog/oauth');

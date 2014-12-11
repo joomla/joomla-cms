@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.core');
-
 $doTask = $displayData['doTask'];
 $text   = $displayData['text'];
 

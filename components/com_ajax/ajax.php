@@ -116,8 +116,7 @@ elseif ($input->get('module'))
 	}
 }
 /*
- * Plugin support by default is based on the "Ajax" plugin group.
- * An optional 'group' variable can be passed via the URL.
+ * Plugin support is based on the "Ajax" plugin group.
  *
  * The plugin event triggered is onAjaxFoo, where 'foo' is
  * the value of the 'plugin' variable passed via the URL
@@ -126,8 +125,7 @@ elseif ($input->get('module'))
  */
 elseif ($input->get('plugin'))
 {
-	$group      = $input->get('group', 'ajax');
-	JPluginHelper::importPlugin($group);
+	JPluginHelper::importPlugin('ajax');
 	$plugin     = ucfirst($input->get('plugin'));
 	$dispatcher = JEventDispatcher::getInstance();
 

@@ -33,7 +33,7 @@ class JFormFieldClicks extends JFormField
 	 */
 	protected function getInput()
 	{
-		$onclick = ' onclick="document.getElementById(\'' . $this->id . '\').value=\'0\';"';
+		$onclick = ' onclick="document.id(\'' . $this->id . '\').value=\'0\';"';
 
 		return
 			'<input class="input-small" type="text" name="' . $this->name . '" id="' . $this->id . '" value="'

@@ -41,7 +41,7 @@ interface JController extends Serializable
 	/**
 	 * Get the input object.
 	 *
-	 * @return  \Joomla\Input\Input  The input object.
+	 * @return  JInput  The input object.
 	 *
 	 * @since   12.1
 	 */

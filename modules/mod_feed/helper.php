@@ -21,7 +21,7 @@ class ModFeedHelper
 	/**
 	 * Retrieve feed information
 	 *
-	 * @param   \Joomla\Registry\Registry  $params  module parameters
+	 * @param   JRegistry  $params  module parameters
 	 *
 	 * @return  JFeedReader|string
 	 */

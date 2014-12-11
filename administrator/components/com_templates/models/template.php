@@ -187,7 +187,7 @@ class TemplatesModelTemplate extends JModelForm
 
 			// Get the template information.
 			$query = $db->getQuery(true)
-				->select('extension_id, client_id, element, name, manifest_cache')
+				->select('extension_id, client_id, element, name')
 				->from('#__extensions')
 				->where($db->quoteName('extension_id') . ' = ' . (int) $pk)
 				->where($db->quoteName('type') . ' = ' . $db->quote('template'));
@@ -325,12 +325,10 @@ class TemplatesModelTemplate extends JModelForm
 	{
 		// Rename Language files
 		// Get list of language files
-		$result   = true;
-		$files    = JFolder::files($this->getState('to_path'), '.ini', true, true);
-		$newName  = strtolower($this->getState('new_name'));
-		$template = $this->getTemplate();
-		$oldName  = $template->element;
-		$manifest = json_decode($template->manifest_cache);
+		$result = true;
+		$files = JFolder::files($this->getState('to_path'), '.ini', true, true);
+		$newName = strtolower($this->getState('new_name'));
+		$oldName = $this->getTemplate()->element;
 
 		jimport('joomla.filesystem.file');
 
@@ -346,7 +344,7 @@ class TemplatesModelTemplate extends JModelForm
 		if (JFile::exists($xmlFile))
 		{
 			$contents = file_get_contents($xmlFile);
-			$pattern[] = '#<name>\s*' . $manifest->name . '\s*</name>#i';
+			$pattern[] = '#<name>\s*' . $oldName . '\s*</name>#i';
 			$replace[] = '<name>' . $newName . '</name>';
 			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
 			$replace[] = '<language${1}' . $newName . '${2}</language>';
@@ -703,8 +701,14 @@ class TemplatesModelTemplate extends JModelForm
 			$fileName     = end($explodeArray);
 			$outFile      = reset(explode('.', $fileName));
 
-			$less = new JLess;
-			$less->setFormatter(new JLessFormatterJoomla);
+			// Load the RAD layer to use its LESS compiler
+			if (!defined('FOF_INCLUDED'))
+			{
+				require_once JPATH_LIBRARIES . '/fof/include.php';
+			}
+
+			$less = new FOFLess;
+			$less->setFormatter(new FOFLessFormatterJoomla);
 
 			try
 			{

@@ -12,8 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @since       11.1
- * @deprecated  Will be removed when the minimum supported PHP version no longer includes the deprecated PHP `mysql` extension
+ * @since  11.1
  */
 class JDatabaseQueryMysql extends JDatabaseQueryMysqli
 {

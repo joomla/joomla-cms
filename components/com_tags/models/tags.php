@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * This models supports retrieving a list of tags.
  *
@@ -91,7 +89,7 @@ class TagsModelTags extends JModelList
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new Registry;
+			$params = new JRegistry;
 
 			if ($active)
 			{

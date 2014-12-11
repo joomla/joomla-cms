@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * HTTP transport class for using sockets directly.
  *
@@ -25,7 +23,7 @@ class JHttpTransportSocket implements JHttpTransport
 	protected $connections;
 
 	/**
-	 * @var    Registry  The client options.
+	 * @var    JRegistry  The client options.
 	 * @since  11.3
 	 */
 	protected $options;
@@ -33,12 +31,12 @@ class JHttpTransportSocket implements JHttpTransport
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry  $options  Client options object.
+	 * @param   JRegistry  $options  Client options object.
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function __construct(Registry $options)
+	public function __construct(JRegistry $options)
 	{
 		if (!self::isSupported())
 		{

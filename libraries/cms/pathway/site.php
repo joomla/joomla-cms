@@ -29,21 +29,11 @@ class JPathwaySite extends JPathway
 
 		$app  = JApplication::getInstance('site');
 		$menu = $app->getMenu();
-		$lang = JFactory::getLanguage();
 
 		if ($item = $menu->getActive())
 		{
 			$menus = $menu->getMenu();
-
-			// Look for the home menu
-			if (JLanguageMultilang::isEnabled())
-			{
-				$home = $menu->getDefault($lang->getTag());
-			}
-			else
-			{
-				$home  = $menu->getDefault();
-			}
+			$home  = $menu->getDefault();
 
 			if (is_object($home) && ($item->id != $home->id))
 			{

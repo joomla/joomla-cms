@@ -41,8 +41,6 @@ $itemid   = $input->get('Itemid', '');
 $sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $cpanel   = ($option === 'com_cpanel');
 
-$hidden = JFactory::getApplication()->input->get('hidemainmenu');
-
 $showSubmenu          = false;
 $this->submenumodules = JModuleHelper::getModules('submenu');
 
@@ -110,16 +108,6 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 		</style>
 	<?php endif; ?>
 
-	<!-- Link color -->
-	<?php if ($this->params->get('linkColor')) : ?>
-		<style type="text/css">
-			a, .j-toggle-sidebar-button
-			{
-				color: <?php echo $this->params->get('linkColor'); ?>;
-			}
-		</style>
-	<?php endif; ?>
-
 	<!--[if lt IE 9]>
 	<script src="../media/jui/js/html5.js"></script>
 	<![endif]-->
@@ -138,7 +126,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				</a>
 			<?php endif; ?>
 
-			<a class="admin-logo <?php echo ($hidden ? 'disabled' : ''); ?>" <?php echo ($hidden ? '' : 'href="' . $this->baseurl . '"'); ?>><span class="icon-joomla"></span></a>
+			<a class="admin-logo" href="<?php echo $this->baseurl; ?>"><span class="icon-joomla"></span></a>
 
 			<a class="brand hidden-desktop hidden-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
 				<span class="icon-out-2 small"></span></a>
@@ -147,25 +135,23 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				<jdoc:include type="modules" name="menu" style="none" />
 				<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
 					<li class="dropdown">
-						<a class="<?php echo ($hidden ? ' disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hidden ? '' : 'dropdown'); ?>" <?php echo ($hidden ? '' : 'href="#"'); ?>><span class="icon-cog"></span>
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-cog"></span>
 							<b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<?php if (!$hidden) : ?>
-								<li>
-									<span>
-										<span class="icon-user"></span>
-										<strong><?php echo $user->name; ?></strong>
-									</span>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<a href="index.php?option=com_admin&amp;task=profile.edit&amp;id=<?php echo $user->id; ?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT'); ?></a>
-								</li>
-								<li class="divider"></li>
-								<li class="">
-									<a href="<?php echo JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1'); ?>"><?php echo JText::_('TPL_ISIS_LOGOUT'); ?></a>
-								</li>
-							<?php endif; ?>
+							<li>
+								<span>
+									<span class="icon-user"></span>
+									<strong><?php echo $user->name; ?></strong>
+								</span>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="index.php?option=com_admin&amp;task=profile.edit&amp;id=<?php echo $user->id; ?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT'); ?></a>
+							</li>
+							<li class="divider"></li>
+							<li class="">
+								<a href="<?php echo JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1'); ?>"><?php echo JText::_('TPL_ISIS_LOGOUT'); ?></a>
+							</li>
 						</ul>
 					</li>
 				</ul>
@@ -270,7 +256,10 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<!-- End Status Module -->
 <?php endif; ?>
 <jdoc:include type="modules" name="debug" style="none" />
-<?php if ($stickyToolbar) : ?>
+<?php
+// Get the singular view
+$singular = preg_match('/&id=|&view=mail|&layout=edit/', JURI::getInstance()->toString());
+if ($stickyToolbar) : ?>
 	<script>
 		(function($)
 		{
@@ -279,6 +268,17 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				, $nav    = $('.subhead')
 				, navTop  = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>40<?php else:?>20<?php endif;?>
 				, isFixed = 0
+				, edit = <?php echo $singular; ?>
+
+			// Disable cpanel and user menu
+			if (edit)
+			{
+				$('.icon-joomla').addClass('disabled');
+				$('.nav-user').addClass('disabled');
+				$(".admin-logo").removeAttr("href");
+				$('ul.nav-user > li > a').removeAttr("data-toggle").removeAttr("href");
+				$('ul.nav-user > li > .dropdown-menu').empty();
+			}
 
 			processScroll()
 

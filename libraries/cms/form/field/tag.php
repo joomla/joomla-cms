@@ -37,7 +37,7 @@ class JFormFieldTag extends JFormFieldList
 	/**
 	 * com_tags parameters
 	 *
-	 * @var    \Joomla\Registry\Registry
+	 * @var    JRegistry
 	 * @since  3.1
 	 */
 	protected $comParams = null;

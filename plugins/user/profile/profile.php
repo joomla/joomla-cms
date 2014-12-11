@@ -280,6 +280,16 @@ class PlgUserProfile extends JPlugin
 					&& $this->params->get('profile-require_' . $field, 1) == 0)
 				{
 					$form->removeField($field, 'profile');
+
+					if ($field == 'dob')
+					{
+						$form->removeField('dob_spacer', 'profile');
+					}
+				}
+
+				if ($this->params->get('profile-require_dob', 1) > 0)
+				{
+					$form->setFieldAttribute('spacer', 'type', 'spacer', 'profile');
 				}
 			}
 			// Case registration
@@ -293,6 +303,16 @@ class PlgUserProfile extends JPlugin
 				else
 				{
 					$form->removeField($field, 'profile');
+
+					if ($field == 'dob')
+					{
+						$form->removeField('dob_spacer', 'profile');
+					}
+				}
+
+				if ($this->params->get('register-require_dob', 1) > 0)
+				{
+					$form->setFieldAttribute('spacer', 'type', 'spacer', 'profile');
 				}
 			}
 			// Case profile in site or admin
@@ -306,6 +326,16 @@ class PlgUserProfile extends JPlugin
 				else
 				{
 					$form->removeField($field, 'profile');
+
+					if ($field == 'dob')
+					{
+						$form->removeField('dob_spacer', 'profile');
+					}
+				}
+
+				if ($this->params->get('profile-require_dob', 1) > 0)
+				{
+					$form->setFieldAttribute('spacer', 'type', 'spacer', 'profile');
 				}
 			}
 		}

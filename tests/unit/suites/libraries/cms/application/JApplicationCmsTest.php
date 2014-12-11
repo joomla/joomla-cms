@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Registry\Registry;
-
 include_once __DIR__ . '/stubs/JApplicationCmsInspector.php';
 
 /**
@@ -101,7 +99,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		// Set the config for the app
-		$config = new Registry;
+		$config = new JRegistry;
 		$config->set('session', false);
 
 		// Get a new JApplicationCmsInspector instance.
@@ -161,7 +159,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	{
 		$this->assertInstanceOf('JInput', $this->class->input);
 
-		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
+		$this->assertAttributeInstanceOf('JRegistry', 'config', $this->class);
 		$this->assertAttributeInstanceOf('JApplicationWebClient', 'client', $this->class);
 		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
 	}
@@ -182,7 +180,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$mockInput = $this->getMockInput();
 
-		$config = new Registry;
+		$config = new JRegistry;
 		$config->set('session', false);
 
 		$mockClient = $this->getMock('JApplicationWebClient', array('test'), array(), '', false);
@@ -261,7 +259,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testGetCfg()
 	{
-		$config = new Registry(array('foo' => 'bar'));
+		$config = new JRegistry(array('foo' => 'bar'));
 
 		TestReflection::setValue($this->class, 'config', $config);
 
@@ -334,7 +332,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	{
 		$template = $this->class->getTemplate(true);
 
-		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
+		$this->assertInstanceOf('JRegistry', $template->params);
 
 		$this->assertEquals('system', $template->template);
 	}
@@ -385,7 +383,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		// Inject the internal configuration.
-		$config = new Registry;
+		$config = new JRegistry;
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
@@ -424,7 +422,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		// Inject the internal configuration.
-		$config = new Registry;
+		$config = new JRegistry;
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
@@ -452,51 +450,6 @@ class JApplicationCmsTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the JApplicationCms::redirect method.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testRedirectLegacyWithEmptyMessageAndEmptyStatus()
-	{
-		$base = 'http://mydomain.com/';
-		$url = 'index.php';
-
-		// Inject the client information.
-		TestReflection::setValue(
-			$this->class,
-			'client',
-			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
-			)
-		);
-
-		// Inject the internal configuration.
-		$config = new Registry;
-		$config->set('uri.base.full', $base);
-
-		TestReflection::setValue($this->class, 'config', $config);
-
-		$this->class->redirect($url, '', 'message');
-
-		// The message isn't enqueued as it's an empty string
-		$this->assertEmpty(
-			$this->class->getMessageQueue()
-		);
-
-		// The redirect gives a 303 error code
-		$this->assertEquals(
-			array(
-				array('HTTP/1.1 303 See other', true, null),
-				array('Location: ' . $base . $url, true, null),
-				array('Content-Type: text/html; charset=utf-8', true, null),
-			),
-			$this->class->headers
-		);
-	}
-
-	/**
 	 * Tests the JApplicationCms::redirect method with headers already sent.
 	 *
 	 * @return  void
@@ -512,7 +465,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		JApplicationCmsInspector::$headersSent = true;
 
 		// Inject the internal configuration.
-		$config = new Registry;
+		$config = new JRegistry;
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
@@ -616,7 +569,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		// Inject the internal configuration.
-		$config = new Registry;
+		$config = new JRegistry;
 		$config->set('uri.base.full', $base);
 		$config->set('uri.request', $request);
 

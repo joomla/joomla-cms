@@ -15,10 +15,10 @@ defined('_JEXEC') or die;
 	$i = 0;
 
 	foreach ($fieldSets as $name => $fieldSet) :
-		$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_TAGS_' . $name . '_FIELDSET_LABEL';
+		$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_TAGS_'.$name.'_FIELDSET_LABEL';
 		echo JHtml::_('bootstrap.addSlide', 'categoryOptions', JText::_($label), 'collapse' . $i++);
 			if (isset($fieldSet->description) && trim($fieldSet->description)) :
-				echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
+				echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
 			endif;
 			?>
 				<?php foreach ($this->form->getFieldset($name) as $field) : ?>

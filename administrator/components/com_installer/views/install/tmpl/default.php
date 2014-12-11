@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// MooTools is loaded for B/C for extensions generating JavaScript in their install scripts, this call will be removed at 4.0
-JHtml::_('behavior.framework', true);
 JHtml::_('bootstrap.tooltip');
 ?>
 <script type="text/javascript">

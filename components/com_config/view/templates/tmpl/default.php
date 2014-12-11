@@ -9,20 +9,20 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 $user = JFactory::getUser();
 
-JFactory::getDocument()->addScriptDeclaration("
+?>
+<script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'config.cancel' || document.formvalidator.isValid(document.getElementById('templates-form')))
+		if (task == 'config.cancel' || document.formvalidator.isValid(document.id('templates-form')))
 		{
 			Joomla.submitform(task, document.getElementById('templates-form'));
 		}
 	}
-");
-?>
+</script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">
 

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Model for the display of system information.
  *
@@ -102,7 +100,7 @@ class AdminModelSysInfo extends JModelLegacy
 	{
 		if (is_null($this->config))
 		{
-			$registry = new Registry(new JConfig);
+			$registry = new JRegistry(new JConfig);
 			$this->config = $registry->toArray();
 			$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass');
 

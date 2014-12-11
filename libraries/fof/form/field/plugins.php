@@ -8,7 +8,10 @@
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
-JFormHelper::loadFieldClass('plugins');
+if (!class_exists('JFormFieldPlugins'))
+{
+	require_once JPATH_LIBRARIES . '/joomla/form/fields/plugins.php';
+}
 
 /**
  * Form Field class for FOF
@@ -22,10 +25,10 @@ class FOFFormFieldPlugins extends JFormFieldPlugins implements FOFFormField
 	protected $static;
 
 	protected $repeatable;
-
+	
 	/** @var   FOFTable  The item being rendered in a repeatable form field */
 	public $item;
-
+	
 	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
 	public $rowid;
 
@@ -57,7 +60,7 @@ class FOFFormFieldPlugins extends JFormFieldPlugins implements FOFFormField
 					$this->repeatable = $this->getRepeatable();
 				}
 
-				return $this->repeatable;
+				return $this->static;
 				break;
 
 			default:

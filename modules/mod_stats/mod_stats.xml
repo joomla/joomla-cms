@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension
+	type="module"
+	version="3.1"
+	client="site"
+	method="upgrade">
 	<name>mod_stats</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -13,7 +17,7 @@
 		<filename module="mod_stats">mod_stats.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>mod_stats.xml</filename>
+		<filename>index.html</filename>		<filename>mod_stats.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_stats.ini</language>

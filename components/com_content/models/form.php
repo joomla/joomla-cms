@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 // Base this model on the backend version.
 require_once JPATH_ADMINISTRATOR . '/components/com_content/models/article.php';
 
@@ -86,7 +84,7 @@ class ContentModelForm extends ContentModelArticle
 		$value = JArrayHelper::toObject($properties, 'JObject');
 
 		// Convert attrib field to Registry.
-		$value->params = new Registry;
+		$value->params = new JRegistry;
 		$value->params->loadString($value->attribs);
 
 		// Compute selected asset permissions.
@@ -140,7 +138,7 @@ class ContentModelForm extends ContentModelArticle
 		}
 
 		// Convert the metadata field to an array.
-		$registry = new Registry;
+		$registry = new JRegistry;
 		$registry->loadString($value->metadata);
 		$value->metadata = $registry->toArray();
 

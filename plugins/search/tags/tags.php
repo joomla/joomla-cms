@@ -61,7 +61,6 @@ class PlgSearchTags extends JPlugin
 		$query = $db->getQuery(true);
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
-		$lang = JFactory::getLanguage();
 
 		$section = JText::_('PLG_SEARCH_TAGS_TAGS');
 		$limit = $this->params->def('search_limit', 50);
@@ -173,30 +172,11 @@ class PlgSearchTags extends JPlugin
 				{
 					foreach ($tagged_items as $k => $item)
 					{
-						// For 3rd party extensions we need to load the component strings from its sys.ini file
-						$parts = explode('.', $item->type_alias);
-						$comp = array_shift($parts);
-						$lang->load($comp, JPATH_SITE, null, false, true)
-						|| $lang->load($comp, JPATH_SITE . '/components/' . $comp, null, false, true);
-
-						// Making up the type string
-						$type = implode('_', $parts);
-						$type = $comp . '_CONTENT_TYPE_' . $type;
-
 						$new_item = new stdClass;
 						$new_item->href = $item->link;
 						$new_item->title = $item->core_title;
 						$new_item->text = $item->core_body;
-
-						if ($lang->hasKey($type))
-						{
-							$new_item->section = JText::sprintf('PLG_SEARCH_TAGS_ITEM_TAGGED_WITH', JText::_($type), $row->title);
-						}
-						else
-						{
-							$new_item->section = JText::sprintf('PLG_SEARCH_TAGS_ITEM_TAGGED_WITH', $item->content_type_title, $row->title);
-						}
-
+						$new_item->section = JText::sprintf('PLG_SEARCH_TAGS_ITEM_TAGGED_WITH', $item->content_type_title, $row->title);
 						$new_item->created = $item->displayDate;
 						$new_item->browsernav = 0;
 						$final_items[] = $new_item;

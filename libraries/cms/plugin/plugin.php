@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * JPlugin Class
  *
@@ -19,9 +17,9 @@ use Joomla\Registry\Registry;
 abstract class JPlugin extends JEvent
 {
 	/**
-	 * A Registry object holding the parameters for the plugin
+	 * A JRegistry object holding the parameters for the plugin
 	 *
-	 * @var    Registry
+	 * @var    JRegistry
 	 * @since  1.5
 	 */
 	public $params = null;
@@ -65,13 +63,13 @@ abstract class JPlugin extends JEvent
 		// Get the parameters.
 		if (isset($config['params']))
 		{
-			if ($config['params'] instanceof Registry)
+			if ($config['params'] instanceof JRegistry)
 			{
 				$this->params = $config['params'];
 			}
 			else
 			{
-				$this->params = new Registry;
+				$this->params = new JRegistry;
 				$this->params->loadString($config['params']);
 			}
 		}

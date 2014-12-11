@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die();
 
-use Joomla\Registry\Registry;
-
 /**
  * Twitter API object class for the Joomla Platform.
  *
@@ -19,7 +17,7 @@ use Joomla\Registry\Registry;
 abstract class JTwitterObject
 {
 	/**
-	 * @var    Registry  Options for the Twitter object.
+	 * @var    JRegistry  Options for the Twitter object.
 	 * @since  12.3
 	 */
 	protected $options;
@@ -39,15 +37,15 @@ abstract class JTwitterObject
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry       &$options  Twitter options object.
+	 * @param   JRegistry      &$options  Twitter options object.
 	 * @param   JHttp          $client    The HTTP client object.
 	 * @param   JTwitterOAuth  $oauth     The OAuth client.
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(Registry &$options = null, JHttp $client = null, JTwitterOAuth $oauth = null)
+	public function __construct(JRegistry &$options = null, JHttp $client = null, JTwitterOAuth $oauth = null)
 	{
-		$this->options = isset($options) ? $options : new Registry;
+		$this->options = isset($options) ? $options : new JRegistry;
 		$this->client = isset($client) ? $client : new JHttp($this->options);
 		$this->oauth = $oauth;
 	}

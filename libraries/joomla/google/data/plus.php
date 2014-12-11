@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Google+ data class for the Joomla Platform.
  *
@@ -39,12 +37,12 @@ class JGoogleDataPlus extends JGoogleData
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry     $options  Google options object
+	 * @param   JRegistry    $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
+	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
 		// Setup the default API url if not already set.
 		$options->def('api.url', 'https://www.googleapis.com/plus/v1/');

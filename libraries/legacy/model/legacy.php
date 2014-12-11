@@ -317,16 +317,14 @@ abstract class JModelLegacy extends JObject
 	 */
 	protected function _getListCount($query)
 	{
-		// Use fast COUNT(*) on JDatabaseQuery objects if there is no GROUP BY or HAVING clause:
+		// Use fast COUNT(*) on JDatabaseQuery objects if there no GROUP BY or HAVING clause:
 		if ($query instanceof JDatabaseQuery
 			&& $query->type == 'select'
 			&& $query->group === null
-			&& $query->union === null
-			&& $query->unionAll === null
 			&& $query->having === null)
 		{
 			$query = clone $query;
-			$query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
+			$query->clear('select')->clear('order')->clear('limit')->select('COUNT(*)');
 
 			$this->_db->setQuery($query);
 
@@ -334,14 +332,6 @@ abstract class JModelLegacy extends JObject
 		}
 
 		// Otherwise fall back to inefficient way of counting all results.
-
-		// Remove the limit and offset part if it's a JDatabaseQuery object
-		if ($query instanceof JDatabaseQuery)
-		{
-			$query = clone $query;
-			$query->clear('limit')->clear('offset');
-		}
-
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 

@@ -39,7 +39,7 @@ class JFormFieldSample extends JFormFieldRadio
 		$type = $this->form->getValue('db_type');
 
 		// Some database drivers share DDLs; point these drivers to the correct parent
-		if ($type == 'mysqli' || $type == 'pdomysql')
+		if ($type == 'mysqli')
 		{
 			$type = 'mysql';
 		}

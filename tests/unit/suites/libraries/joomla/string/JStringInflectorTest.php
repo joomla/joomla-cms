@@ -97,18 +97,19 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Method to test JStringInflector::addRule().
+	 * Method to test JStringInflector::_addRule().
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::_addRule
 	 */
-	public function testAddRule()
+	public function test_addRule()
 	{
 		// Case 1
-		TestReflection::invoke($this->inflector, 'addRule', '/foo/', 'singular');
+		TestReflection::invoke($this->inflector, '_addRule', '/foo/', 'singular');
 
-		$rules = TestReflection::getValue($this->inflector, 'rules');
+		$rules = TestReflection::getValue($this->inflector, '_rules');
 
 		$this->assertThat(
 			in_array('/foo/', $rules['singular']),
@@ -117,9 +118,9 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 		);
 
 		// Case 2
-		TestReflection::invoke($this->inflector, 'addRule', '/bar/', 'plural');
+		TestReflection::invoke($this->inflector, '_addRule', '/bar/', 'plural');
 
-		$rules = TestReflection::getValue($this->inflector, 'rules');
+		$rules = TestReflection::getValue($this->inflector, '_rules');
 
 		$this->assertThat(
 			in_array('/bar/', $rules['plural']),
@@ -128,9 +129,9 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 		);
 
 		// Case 3
-		TestReflection::invoke($this->inflector, 'addRule', array('/goo/', '/car/'), 'singular');
+		TestReflection::invoke($this->inflector, '_addRule', array('/goo/', '/car/'), 'singular');
 
-		$rules = TestReflection::getValue($this->inflector, 'rules');
+		$rules = TestReflection::getValue($this->inflector, '_rules');
 
 		$this->assertThat(
 			in_array('/goo/', $rules['singular']),
@@ -146,108 +147,113 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Method to test JStringInflector::addRule().
+	 * Method to test JStringInflector::_addRule().
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @expectedException  InvalidArgumentException
+	 * @covers  JStringInflector::_addRule
 	 */
-	public function testaddRuleException()
+	public function test_addRuleException()
 	{
-		TestReflection::invoke($this->inflector, 'addRule', new stdClass, 'singular');
+		TestReflection::invoke($this->inflector, '_addRule', new stdClass, 'singular');
 	}
 
 	/**
-	 * Method to test JStringInflector::getCachedPlural().
+	 * Method to test JStringInflector::_getCachedPlural().
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::_getCachedPlural
 	 */
-	public function testGetCachedPlural()
+	public function test_getCachedPlural()
 	{
 		// Reset the cache.
-		TestReflection::setValue($this->inflector, 'cache', array('foo' => 'bar'));
+		TestReflection::setValue($this->inflector, '_cache', array('foo' => 'bar'));
 
 		$this->assertThat(
-			TestReflection::invoke($this->inflector, 'getCachedPlural', 'bar'),
+			TestReflection::invoke($this->inflector, '_getCachedPlural', 'bar'),
 			$this->isFalse(),
 			'Checks for an uncached plural.'
 		);
 
 		$this->assertThat(
-			TestReflection::invoke($this->inflector, 'getCachedPlural', 'foo'),
+			TestReflection::invoke($this->inflector, '_getCachedPlural', 'foo'),
 			$this->equalTo('bar'),
 			'Checks for a cached plural word.'
 		);
 	}
 
 	/**
-	 * Method to test JStringInflector::getCachedSingular().
+	 * Method to test JStringInflector::_getCachedSingular().
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::_getCachedSingular
 	 */
-	public function testGetCachedSingular()
+	public function test_getCachedSingular()
 	{
 		// Reset the cache.
-		TestReflection::setValue($this->inflector, 'cache', array('foo' => 'bar'));
+		TestReflection::setValue($this->inflector, '_cache', array('foo' => 'bar'));
 
 		$this->assertThat(
-			TestReflection::invoke($this->inflector, 'getCachedSingular', 'foo'),
+			TestReflection::invoke($this->inflector, '_getCachedSingular', 'foo'),
 			$this->isFalse(),
 			'Checks for an uncached singular.'
 		);
 
 		$this->assertThat(
-			TestReflection::invoke($this->inflector, 'getCachedSingular', 'bar'),
+			TestReflection::invoke($this->inflector, '_getCachedSingular', 'bar'),
 			$this->equalTo('foo'),
 			'Checks for a cached singular word.'
 		);
 	}
 
 	/**
-	 * Method to test JStringInflector::matchRegexRule().
+	 * Method to test JStringInflector::_matchRegexRule().
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::_matchRegexRule
 	 */
-	public function testMatchRegexRule()
+	public function test_matchRegexRule()
 	{
 		$this->assertThat(
-			TestReflection::invoke($this->inflector, 'matchRegexRule', 'xyz', 'plural'),
+			TestReflection::invoke($this->inflector, '_matchRegexRule', 'xyz', 'plural'),
 			$this->equalTo('xyzs'),
 			'Checks pluralising against the basic regex.'
 		);
 
 		$this->assertThat(
-			TestReflection::invoke($this->inflector, 'matchRegexRule', 'xyzs', 'singular'),
+			TestReflection::invoke($this->inflector, '_matchRegexRule', 'xyzs', 'singular'),
 			$this->equalTo('xyz'),
 			'Checks singularising against the basic regex.'
 		);
 
 		$this->assertThat(
-			TestReflection::invoke($this->inflector, 'matchRegexRule', 'xyz', 'singular'),
+			TestReflection::invoke($this->inflector, '_matchRegexRule', 'xyz', 'singular'),
 			$this->isFalse(),
 			'Checks singularising against an unmatched regex.'
 		);
 	}
 
 	/**
-	 * Method to test JStringInflector::setCache().
+	 * Method to test JStringInflector::_setCache().
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::_setCache
 	 */
-	public function testSetCache()
+	public function test_setCache()
 	{
-		TestReflection::invoke($this->inflector, 'setCache', 'foo', 'bar');
+		TestReflection::invoke($this->inflector, '_setCache', 'foo', 'bar');
 
-		$cache = TestReflection::getValue($this->inflector, 'cache');
+		$cache = TestReflection::getValue($this->inflector, '_cache');
 
 		$this->assertThat(
 			$cache['foo'],
@@ -255,9 +261,9 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 			'Checks the cache was set.'
 		);
 
-		TestReflection::invoke($this->inflector, 'setCache', 'foo', 'car');
+		TestReflection::invoke($this->inflector, '_setCache', 'foo', 'car');
 
-		$cache = TestReflection::getValue($this->inflector, 'cache');
+		$cache = TestReflection::getValue($this->inflector, '_cache');
 
 		$this->assertThat(
 			$cache['foo'],
@@ -272,13 +278,14 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::addCountableRule
 	 */
 	public function testAddCountableRule()
 	{
 		// Add string.
 		$this->inflector->addCountableRule('foo');
 
-		$rules = TestReflection::getValue($this->inflector, 'rules');
+		$rules = TestReflection::getValue($this->inflector, '_rules');
 
 		$this->assertThat(
 			in_array('foo', $rules['countable']),
@@ -289,7 +296,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 		// Add array.
 		$this->inflector->addCountableRule(array('goo', 'car'));
 
-		$rules = TestReflection::getValue($this->inflector, 'rules');
+		$rules = TestReflection::getValue($this->inflector, '_rules');
 
 		$this->assertThat(
 			in_array('car', $rules['countable']),
@@ -304,6 +311,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::addPluraliseRule
 	 */
 	public function testAddPluraliseRule()
 	{
@@ -315,7 +323,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 			'Checks chaining.'
 		);
 
-		$rules = TestReflection::getValue($this->inflector, 'rules');
+		$rules = TestReflection::getValue($this->inflector, '_rules');
 
 		$this->assertThat(
 			in_array('/bar/', $rules['plural']),
@@ -330,6 +338,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::addSingulariseRule
 	 */
 	public function testAddSingulariseRule()
 	{
@@ -341,7 +350,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 			'Checks chaining.'
 		);
 
-		$rules = TestReflection::getValue($this->inflector, 'rules');
+		$rules = TestReflection::getValue($this->inflector, '_rules');
 
 		$this->assertThat(
 			in_array('/bar/', $rules['singular']),
@@ -356,6 +365,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -366,7 +376,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 		);
 
 		// Inject an instance an test.
-		TestReflection::setValue($this->inflector, 'instance', new stdClass);
+		TestReflection::setValue($this->inflector, '_instance', new stdClass);
 
 		$this->assertThat(
 			JStringInflector::getInstance(),
@@ -391,6 +401,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedIsCountable
 	 * @since   12.1
+	 * @covers  JStringInflector::isCountable
 	 */
 	public function testIsCountable($input, $expected)
 	{
@@ -410,6 +421,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedSinglePlural
 	 * @since   12.1
+	 * @covers  JStringInflector::isPlural
 	 */
 	public function testIsPlural($singular, $plural)
 	{
@@ -439,6 +451,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedSinglePlural
 	 * @since   12.1
+	 * @covers  JStringInflector::isSingular
 	 */
 	public function testIsSingular($singular, $plural)
 	{
@@ -468,6 +481,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedSinglePlural
 	 * @since   12.1
+	 * @covers  JStringInflector::toPlural
 	 */
 	public function testToPlural($singular, $plural)
 	{
@@ -487,6 +501,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedSinglePlural
 	 * @since   12.1
+	 * @covers  JStringInflector::toSingular
 	 */
 	public function testToSingular($singular, $plural)
 	{

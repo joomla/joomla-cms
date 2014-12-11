@@ -558,7 +558,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang = new JLanguage('');
 
 		$this->assertEquals(
-			200,
+			20,
 			$lang->getUpperLimitSearchWord(),
 			'Line: ' . __LINE__
 		);

@@ -13,6 +13,7 @@
 		<filename module="mod_articles_category">mod_articles_category.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
+		<filename>index.html</filename>
 		<filename>mod_articles_category.xml</filename>
 	</files>
 	<languages>
@@ -57,13 +58,6 @@
 				label="MOD_ARTICLES_CATEGORY_FIELD_GROUP_FILTERING_LABEL"
 			>
 				<field
-					name="count"
-					type="text"
-					default="0"
-					label="MOD_ARTICLES_CATEGORY_FIELD_COUNT_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_COUNT_DESC" />
-
-				<field
 					name="show_front"
 					type="list"
 					default="show"
@@ -74,6 +68,13 @@
 					<option value="hide">JHIDE</option>
 					<option value="only">MOD_ARTICLES_CATEGORY_OPTION_ONLYFEATURED_VALUE</option>
 				</field>
+
+				<field
+					name="count"
+					type="text"
+					default="0"
+					label="MOD_ARTICLES_CATEGORY_FIELD_COUNT_LABEL"
+					description="MOD_ARTICLES_CATEGORY_FIELD_COUNT_DESC" />
 
 				<field
 					name="filteringspacer1"
@@ -193,6 +194,11 @@
 
 				<field
 					name="filteringspacer5"
+					type="spacer"
+					hr="true" />
+
+				<field
+					name="filteringspacer6"
 					type="spacer"
 					hr="true" />
 

@@ -32,27 +32,24 @@ if ($saveOrder)
 
 $sortFields = $this->getSortFields();
 $assoc		= JLanguageAssociations::isEnabled();
-
-JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
+?>
+<script type="text/javascript">
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != "' . $listOrder . '")
+		if (order != '<?php echo $listOrder; ?>')
 		{
-			dirn = "asc";
+			dirn = 'asc';
 		}
 		else
 		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
-		Joomla.tableOrdering(order, dirn, "");
+		Joomla.tableOrdering(order, dirn, '');
 	}
-});');
-
-?>
+</script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -227,7 +224,6 @@ jQuery(document).ready(function() {
 				</tbody>
 			</table>
 		<?php endif; ?>
-
 		<?php echo $this->pagination->getListFooter(); ?>
 		<?php // Load the batch processing form. ?>
 		<?php echo $this->loadTemplate('batch'); ?>

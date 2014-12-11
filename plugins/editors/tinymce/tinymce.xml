@@ -19,24 +19,7 @@
 	<config>
 		<fields name="params">
 
-			<fieldset name="basic" addfieldpath="/plugins/editors/tinymce/fields">
-				<field name="skins" type="note"
-					label="PLG_TINY_FIELD_SKIN_INFO_LABEL"
-					description="PLG_TINY_FIELD_SKIN_INFO_DESC"
-				/>
-
-				<field name="skin" type="skins"
-					description="PLG_TINY_FIELD_SKIN_DESC"
-					label="PLG_TINY_FIELD_SKIN_LABEL"
-				>
-				</field>
-
-				<field name="skin_admin" type="skins"
-					description="PLG_TINY_FIELD_SKIN_ADMIN_DESC"
-					label="PLG_TINY_FIELD_SKIN_ADMIN_LABEL"
-				>
-				</field>
-				
+			<fieldset name="basic">
 				<field name="mode" type="list"
 					default="2"
 					description="PLG_TINY_FIELD_FUNCTIONALITY_DESC"
@@ -47,6 +30,14 @@
 					<option value="2">PLG_TINY_FIELD_VALUE_EXTENDED</option>
 				</field>
 
+				<field name="skin" type="list"
+					default="0"
+					description="PLG_TINY_FIELD_SKIN_DESC"
+					label="PLG_TINY_FIELD_SKIN_LABEL"
+				>
+					<option value="0">PLG_TINY_FIELD_VALUE_DEFAULT</option>
+				</field>
+				
 				<field name="mobile" type="radio"
 					class="btn-group btn-group-yesno"
 					default="0"

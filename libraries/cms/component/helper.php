@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Component helper class
  *
@@ -48,19 +46,12 @@ class JComponentHelper
 			{
 				$result = new stdClass;
 				$result->enabled = $strict ? false : true;
-				$result->params = new Registry;
+				$result->params = new JRegistry;
 			}
 		}
 		else
 		{
 			$result = static::$components[$option];
-		}
-
-		if (is_string($result->params))
-		{
-			$temp = new Registry;
-			$temp->loadString(static::$components[$option]->params);
-			static::$components[$option]->params = $temp;
 		}
 
 		return $result;
@@ -83,35 +74,14 @@ class JComponentHelper
 	}
 
 	/**
-	 * Checks if a component is installed
-	 *
-	 * @param   string  $option  The component option.
-	 *
-	 * @return  integer
-	 *
-	 * @since   3.4
-	 */
-	public static function isInstalled($option)
-	{
-		$db = JFactory::getDbo();
-
-		return (int) $db->setQuery(
-			$db->getQuery(true)
-				->select('COUNT(extension_id)')
-				->from('#__extensions')
-				->where('element = ' . $db->quote($option))
-		)->loadResult();
-	}
-
-	/**
 	 * Gets the parameter object for the component
 	 *
 	 * @param   string   $option  The option for the component.
 	 * @param   boolean  $strict  If set and the component does not exist, false will be returned
 	 *
-	 * @return  Registry  A Registry object.
+	 * @return  JRegistry  A JRegistry object.
 	 *
-	 * @see     Registry
+	 * @see     JRegistry
 	 * @since   1.5
 	 */
 	public static function getParams($option, $strict = false)
@@ -413,14 +383,15 @@ class JComponentHelper
 		$query = $db->getQuery(true)
 			->select('extension_id AS id, element AS "option", params, enabled')
 			->from('#__extensions')
-			->where($db->quoteName('type') . ' = ' . $db->quote('component'));
+			->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($option));
 		$db->setQuery($query);
 
 		$cache = JFactory::getCache('_system', 'callback');
 
 		try
 		{
-			static::$components = $cache->get(array($db, 'loadObjectList'), array('option'), $option, false);
+			static::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
 		}
 		catch (RuntimeException $e)
 		{
@@ -437,6 +408,14 @@ class JComponentHelper
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
 
 			return false;
+		}
+
+		// Convert the params to an object.
+		if (is_string(static::$components[$option]->params))
+		{
+			$temp = new JRegistry;
+			$temp->loadString(static::$components[$option]->params);
+			static::$components[$option]->params = $temp;
 		}
 
 		return true;

@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * HTTP client class.
  *
@@ -19,7 +17,7 @@ use Joomla\Registry\Registry;
 class JHttp
 {
 	/**
-	 * @var    Registry  Options for the HTTP client.
+	 * @var    JRegistry  Options for the HTTP client.
 	 * @since  11.3
 	 */
 	protected $options;
@@ -33,15 +31,15 @@ class JHttp
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry        $options    Client options object. If the registry contains any headers.* elements,
+	 * @param   JRegistry       $options    Client options object. If the registry contains any headers.* elements,
 	 *                                      these will be added to the request headers.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(Registry $options = null, JHttpTransport $transport = null)
+	public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
 	{
-		$this->options   = isset($options) ? $options : new Registry;
+		$this->options   = isset($options) ? $options : new JRegistry;
 		$this->transport = isset($transport) ? $transport : JHttpFactory::getAvailableDriver($this->options);
 	}
 

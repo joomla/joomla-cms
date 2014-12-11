@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Utitlity class for associations in multilang
  *
@@ -32,8 +30,6 @@ class JLanguageAssociations
 	 * @return  array                The associated items
 	 *
 	 * @since   3.1
-	 *
-	 * @throws  Exception
 	 */
 	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid')
 	{
@@ -132,7 +128,7 @@ class JLanguageAssociations
 
 				if (!empty($plugin))
 				{
-					$params = new Registry($plugin->params);
+					$params = new JRegistry($plugin->params);
 					$enabled  = (boolean) $params->get('item_associations', true);
 				}
 

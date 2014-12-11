@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die();
 
-use Joomla\Registry\Registry;
-
 /**
  * Joomla Platform class for generating Openstreetmap API access token.
  *
@@ -21,7 +19,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	/**
 	 * Options for the JOpenstreetmapOauth object.
 	 *
-	 * @var    Registry
+	 * @var    JRegistry
 	 * @since  13.1
 	 */
 	protected $options;
@@ -29,15 +27,15 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry  $options  JOpenstreetmapOauth options object.
-	 * @param   JHttp     $client   The HTTP client object.
-	 * @param   JInput    $input    The input object
+	 * @param   JRegistry  $options  JOpenstreetmapOauth options object.
+	 * @param   JHttp      $client   The HTTP client object.
+	 * @param   JInput     $input    The input object
 	 *
 	 * @since   13.1
 	 */
-	public function __construct(Registry $options = null, JHttp $client = null, JInput $input = null)
+	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null)
 	{
-		$this->options = isset($options) ? $options : new Registry;
+		$this->options = isset($options) ? $options : new JRegistry;
 
 		$this->options->def('accessTokenURL', 'http://www.openstreetmap.org/oauth/access_token');
 		$this->options->def('authoriseURL', 'http://www.openstreetmap.org/oauth/authorize');

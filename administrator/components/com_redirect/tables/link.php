@@ -108,9 +108,12 @@ class RedirectTableLink extends JTable
 	{
 		$date = JFactory::getDate()->toSql();
 
-		$this->modified_date = $date;
-
-		if (!$this->id)
+		if ($this->id)
+		{
+			// Existing item
+			$this->modified_date = $date;
+		}
+		else
 		{
 			// New record.
 			$this->created_date = $date;

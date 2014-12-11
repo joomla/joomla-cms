@@ -18,8 +18,6 @@ class RedirectViewLinks extends JViewLegacy
 {
 	protected $enabled;
 
-	protected $collect_urls_enabled;
-
 	protected $items;
 
 	protected $pagination;
@@ -37,11 +35,10 @@ class RedirectViewLinks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->enabled              = RedirectHelper::isEnabled();
-		$this->collect_urls_enabled = RedirectHelper::collectUrlsEnabled();
-		$this->items                = $this->get('Items');
-		$this->pagination           = $this->get('Pagination');
-		$this->state                = $this->get('State');
+		$this->enabled		= RedirectHelper::isEnabled();
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+		$this->state		= $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -102,21 +99,6 @@ class RedirectViewLinks extends JViewLegacy
 					JToolbarHelper::unarchiveList('links.publish', 'JTOOLBAR_UNARCHIVE');
 				}
 			}
-		}
-
-		if ($canDo->get('core.create'))
-		{
-			// Get the toolbar object instance
-			$bar = JToolBar::getInstance('toolbar');
-
-			JHtml::_('bootstrap.modal', 'collapseModal');
-			$title = JText::_('JTOOLBAR_BATCH');
-
-			// Instantiate a new JLayoutFile instance and render the batch button
-			$layout = new JLayoutFile('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))

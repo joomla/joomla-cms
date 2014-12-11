@@ -10,32 +10,35 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 
-JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
+$app = JFactory::getApplication();
+
+$script = "
+	jQuery(document).ready(function ($){
+		$('#jform_type').change(function(){
+			if($(this).val() == 1) {
+				$('#image').css('display', 'none');
+				$('#custom').css('display', 'block');
+			} else {
+				$('#image').css('display', 'block');
+				$('#custom').css('display', 'none');
+			}
+		}).trigger('change');
+	});";
+// Add the script to the document head.
+JFactory::getDocument()->addScriptDeclaration($script);
+?>
+<script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == "banner.cancel" || document.formvalidator.isValid(document.getElementById("banner-form")))
+		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form')))
 		{
-			Joomla.submitform(task, document.getElementById("banner-form"));
+			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
-	};
-});
-jQuery(document).ready(function ($){
-	$("#jform_type").change(function(){
-		if($(this).val() == 1) {
-			$("#image").css("display", "none");
-			$("#custom").css("display", "block");
-		} else {
-			$("#image").css("display", "block");
-			$("#custom").css("display", "none");
-		}
-	}).trigger("change");
-});');
-
-?>
+	}
+</script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">
 

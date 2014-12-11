@@ -139,44 +139,22 @@ class InstallerModelUpdate extends JModelList
 	}
 
 	/**
-	 * Get the count of disabled update sites
-	 *
-	 * @return  integer
-	 *
-	 * @since   3.4
-	 */
-	public function getDisabledUpdateSites()
-	{
-		$db = $this->getDbo();
-
-		$query = $db->getQuery(true)
-			->select('count(*)')
-			->from('#__update_sites')
-			->where('enabled = 0');
-
-		$db->setQuery($query);
-
-		return $db->loadResult();
-	}
-
-	/**
 	 * Finds updates for an extension.
 	 *
-	 * @param   int  $eid                Extension identifier to look for
-	 * @param   int  $cache_timeout      Cache timout
-	 * @param   int  $minimum_stability  Minimum stability for updates {@see JUpdater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
+	 * @param   int  $eid            Extension identifier to look for
+	 * @param   int  $cache_timeout  Cache timout
 	 *
 	 * @return  boolean Result
 	 *
 	 * @since   1.6
 	 */
-	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = JUpdater::STABILITY_STABLE)
+	public function findUpdates($eid = 0, $cache_timeout = 0)
 	{
 		// Purge the updates list
 		$this->purge();
 
 		$updater = JUpdater::getInstance();
-		$updater->findUpdates($eid, $cache_timeout, $minimum_stability);
+		$updater->findUpdates($eid, $cache_timeout);
 
 		return true;
 	}
@@ -204,13 +182,13 @@ class InstallerModelUpdate extends JModelList
 				->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
 			$db->setQuery($query);
 			$db->execute();
-			$this->_message = JText::_('JLIB_INSTALLER_PURGED_UPDATES');
+			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
 
 			return true;
 		}
 		else
 		{
-			$this->_message = JText::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
+			$this->_message = JText::_('COM_INSTALLER_FAILED_TO_PURGE_UPDATES');
 
 			return false;
 		}
@@ -254,14 +232,13 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * Sets the "result" state with the result of the operation.
 	 *
-	 * @param   array  $uids               Array[int] List of updates to apply
-	 * @param   int    $minimum_stability  The minimum allowed stability for installed updates {@see JUpdater}
+	 * @param   array  $uids  Array[int] List of updates to apply
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function update($uids, $minimum_stability = JUpdater::STABILITY_STABLE)
+	public function update($uids)
 	{
 		$result = true;
 
@@ -270,7 +247,7 @@ class InstallerModelUpdate extends JModelList
 			$update = new JUpdate;
 			$instance = JTable::getInstance('update');
 			$instance->load($uid);
-			$update->loadFromXML($instance->detailsurl, $minimum_stability);
+			$update->loadFromXML($instance->detailsurl);
 			$update->set('extra_query', $instance->extra_query);
 
 			// Install sets state and enqueues messages

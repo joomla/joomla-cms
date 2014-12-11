@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -20,20 +20,18 @@ $app = JFactory::getApplication();
 $input = $app->input;
 
 $assoc = JLanguageAssociations::isEnabled();
+?>
 
-JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
+<script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
+		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form')))
 		{
-			' . $this->form->getField("description")->save() . '
-			Joomla.submitform(task, document.getElementById("item-form"));
+			<?php echo $this->form->getField('description')->save(); ?>
+			Joomla.submitform(task, document.getElementById('item-form'));
 		}
 	}
-});');
-
-?>
+</script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 

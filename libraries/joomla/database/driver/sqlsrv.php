@@ -136,9 +136,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			$this->select($this->options['database']);
 		}
-
-		// Set charactersets.
-		$this->utf = $this->setUTF();
 	}
 
 	/**
@@ -809,7 +806,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function setUTF()
 	{
-		return false;
+		// TODO: Remove this?
 	}
 
 	/**
@@ -1024,6 +1021,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
 
 		$query = preg_replace('/\sFROM\s/i', $rowNumberText, $query, 1);
+		$query = 'SELECT * FROM (' . $query . ') _myResults WHERE RowNumber BETWEEN ' . $start . ' AND ' . $end;
 
 		return $query;
 	}

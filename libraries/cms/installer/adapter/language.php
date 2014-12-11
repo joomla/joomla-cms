@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.folder');
 
@@ -520,7 +518,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 		foreach ($users as $user)
 		{
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadString($user->params);
 
 			if ($registry->get($param_name) == $element)

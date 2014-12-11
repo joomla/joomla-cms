@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * User class.  Handles all application interaction with a user
  *
@@ -117,7 +115,7 @@ class JUser extends JObject
 	/**
 	 * User parameters
 	 *
-	 * @var    Registry
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	public $params = null;
@@ -165,7 +163,7 @@ class JUser extends JObject
 	/**
 	 * User parameters
 	 *
-	 * @var    Registry
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	protected $_params = null;
@@ -203,14 +201,6 @@ class JUser extends JObject
 	protected $_errorMsg = null;
 
 	/**
-	 * JUserWrapperHelper object
-	 *
-	 * @var    JUserWrapperHelper
-	 * @since  3.4
-	 */
-	protected $userHelper = null;
-
-	/**
 	 * @var    array  JUser instances container.
 	 * @since  11.3
 	 */
@@ -219,22 +209,14 @@ class JUser extends JObject
 	/**
 	 * Constructor activating the default information of the language
 	 *
-	 * @param   integer             $identifier  The primary key of the user to load (optional).
-	 * @param   JUserWrapperHelper  $userHelper  The JUserWrapperHelper for the static methods.
+	 * @param   integer  $identifier  The primary key of the user to load (optional).
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($identifier = 0, JUserWrapperHelper $userHelper = null)
+	public function __construct($identifier = 0)
 	{
-		if (null === $userHelper)
-		{
-			$userHelper = new JUserWrapperHelper;
-		}
-
-		$this->userHelper = $userHelper;
-
 		// Create the user parameters object
-		$this->_params = new Registry;
+		$this->_params = new JRegistry;
 
 		// Load the user if it exists
 		if (!empty($identifier))
@@ -252,26 +234,21 @@ class JUser extends JObject
 	}
 
 	/**
-	 * Returns the global User object, only creating it if it doesn't already exist.
+	 * Returns the global User object, only creating it if it
+	 * doesn't already exist.
 	 *
-	 * @param   integer             $identifier  The primary key of the user to load (optional).
-	 * @param   JUserWrapperHelper  $userHelper  The JUserWrapperHelper for the static methods.
+	 * @param   integer  $identifier  The user to load - Can be an integer or string - If string, it is converted to ID automatically.
 	 *
 	 * @return  JUser  The User object.
 	 *
 	 * @since   11.1
 	 */
-	public static function getInstance($identifier = 0, JUserWrapperHelper $userHelper = null)
+	public static function getInstance($identifier = 0)
 	{
-		if (null === $userHelper)
-		{
-			$userHelper = new JUserWrapperHelper;
-		}
-
 		// Find the user id
 		if (!is_numeric($identifier))
 		{
-			if (!$id = $userHelper->getUserId($identifier))
+			if (!$id = JUserHelper::getUserId($identifier))
 			{
 				// If the $identifier doesn't match with any id, just return an empty JUser.
 				return new JUser;
@@ -292,7 +269,7 @@ class JUser extends JObject
 		// Check if the user ID is already cached.
 		if (empty(self::$instances[$id]))
 		{
-			$user = new JUser($id, $userHelper);
+			$user = new JUser($id);
 			self::$instances[$id] = $user;
 		}
 
@@ -408,17 +385,12 @@ class JUser extends JObject
 		// Brute force method: get all published category rows for the component and check each one
 		// TODO: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
 		$db = JFactory::getDbo();
-
-		$subQuery = $db->getQuery(true)
-			->select('id,asset_id')
-			->from('#__categories')
-			->where('extension = ' . $db->quote($component))
-			->where('published = 1');
-
 		$query = $db->getQuery(true)
 			->select('c.id AS id, a.name AS asset_name')
-			->from('(' . $subQuery->__toString() . ') AS c')
-			->join('INNER', '#__assets AS a ON c.asset_id = a.id');
+			->from('#__categories AS c')
+			->join('INNER', '#__assets AS a ON c.asset_id = a.id')
+			->where('c.extension = ' . $db->quote($component))
+			->where('c.published = 1');
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
@@ -476,21 +448,6 @@ class JUser extends JObject
 		}
 
 		return $this->_authGroups;
-	}
-
-	/**
-	 * Clears the access rights cache of this user
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4.0
-	 */
-	public function clearAccessRights()
-	{
-		$this->_authLevels = null;
-		$this->_authGroups = null;
-		$this->isRoot = null;
-		JAccess::clearStatics();
 	}
 
 	/**
@@ -557,7 +514,6 @@ class JUser extends JObject
 	 *
 	 * @return  object  The user table object
 	 *
-	 * @note    At 4.0 this method will no longer be static
 	 * @since   11.1
 	 */
 	public static function getTable($type = null, $prefix = 'JTable')
@@ -599,7 +555,7 @@ class JUser extends JObject
 			// Check the password and create the crypted password
 			if (empty($array['password']))
 			{
-				$array['password'] = $this->userHelper->genRandomPassword();
+				$array['password'] = JUserHelper::genRandomPassword();
 				$array['password2'] = $array['password'];
 			}
 
@@ -614,7 +570,7 @@ class JUser extends JObject
 
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
-			$array['password'] = $this->userHelper->hashPassword($array['password']);
+			$array['password'] = JUserHelper::hashPassword($array['password']);
 
 			// Set the registration timestamp
 			$this->set('registerDate', JFactory::getDate()->toSql());
@@ -643,14 +599,14 @@ class JUser extends JObject
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
 				// Check if the user is reusing the current password if required to reset their password
-				if ($this->requireReset == 1 && $this->userHelper->verifyPassword($this->password_clear, $this->password))
+				if ($this->requireReset == 1 && JUserHelper::verifyPassword($this->password_clear, $this->password))
 				{
 					$this->setError(JText::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
 
 					return false;
 				}
 
-				$array['password'] = $this->userHelper->hashPassword($array['password']);
+				$array['password'] = JUserHelper::hashPassword($array['password']);
 
 				// Reset the change password flag
 				$array['requireReset'] = 0;
@@ -798,7 +754,7 @@ class JUser extends JObject
 
 			if ($my->id == $table->id)
 			{
-				$registry = new Registry;
+				$registry = new JRegistry;
 				$registry->loadString($table->params);
 				$my->setParameters($registry);
 			}

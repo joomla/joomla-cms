@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Google Calendar data class for the Joomla Platform.
  *
@@ -21,12 +19,12 @@ class JGoogleDataCalendar extends JGoogleData
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry     $options  Google options object
+	 * @param   JRegistry    $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
+	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
 		parent::__construct($options, $auth);
 

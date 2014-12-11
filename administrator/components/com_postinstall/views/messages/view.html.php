@@ -27,27 +27,8 @@ class PostinstallViewMessages extends FOFViewHtml
 	 */
 	protected function onBrowse($tpl = null)
 	{
-		/** @var PostinstallModelMessages $model */
-		$model = $this->getModel();
-
-		$this->eid = (int) $model->getState('eid', '700', 'int');
-
-		if (empty($this->eid))
-		{
-			$this->eid = 700;
-		}
-
+		$this->eid = $this->input->getInt('eid', '700');
 		$this->token = JFactory::getSession()->getFormToken();
-		$this->extension_options = $model->getComponentOptions();
-
-		$extension_name = JText::_('COM_POSTINSTALL_TITLE_JOOMLA');
-
-		if ($this->eid != 700)
-		{
-			$extension_name = $model->getExtensionName($this->eid);
-		}
-
-		JToolBarHelper::title(JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $extension_name));
 
 		return parent::onBrowse($tpl);
 	}

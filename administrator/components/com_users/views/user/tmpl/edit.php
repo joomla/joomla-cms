@@ -10,19 +10,23 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 
-JFactory::getDocument()->addScriptDeclaration("
+// Get the form fieldsets.
+$fieldsets = $this->form->getFieldsets();
+?>
+
+<script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'user.cancel' || document.formvalidator.isValid(document.getElementById('user-form')))
+		if (task == 'user.cancel' || document.formvalidator.isValid(document.id('user-form')))
 		{
 			Joomla.submitform(task, document.getElementById('user-form'));
 		}
-	};
+	}
 
 	Joomla.twoFactorMethodChange = function(e)
 	{
@@ -38,14 +42,10 @@ JFactory::getDocument()->addScriptDeclaration("
 				jQuery('#' + el.id).show(0);
 			}
 		});
-	};
-");
+	}
+</script>
 
-// Get the form fieldsets.
-$fieldsets = $this->form->getFieldsets();
-?>
-
-<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" class="form-validate form-horizontal" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" class="form-validate form-horizontal" enctype="multipart/form-data">
 
 	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
 

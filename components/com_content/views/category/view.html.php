@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * HTML View class for the Content component
  *
@@ -237,7 +235,7 @@ class ContentViewCategory extends JViewCategory
 
 		if (!is_object($this->category->metadata))
 		{
-			$this->category->metadata = new Registry($this->category->metadata);
+			$this->category->metadata = new JRegistry($this->category->metadata);
 		}
 
 		if (($app->get('MetaAuthor') == '1') && $this->category->get('author', ''))

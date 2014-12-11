@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Filter table class for the Finder package.
  *
@@ -47,7 +45,7 @@ class FinderTableFilter extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
@@ -200,11 +198,10 @@ class FinderTableFilter extends JTable
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
-		$this->modified = $date->toSql();
-
 		if ($this->filter_id)
 		{
 			// Existing item
+			$this->modified = $date->toSql();
 			$this->modified_by = $user->get('id');
 		}
 		else

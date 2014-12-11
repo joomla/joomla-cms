@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_whosonline
  *
- * @since  1.5
+ * @package     Joomla.Site
+ * @subpackage  mod_whosonline
+ * @since       1.5
  */
 class ModWhosonlineHelper
 {
@@ -21,23 +23,21 @@ class ModWhosonlineHelper
 	 *
 	 * @return  array  The number of Users and Guests online.
 	 *
-	 * @since   1.5
+	 * @since   1.5.0
 	 **/
 	public static function getOnlineCount()
 	{
-		$db = JFactory::getDbo();
+		$db		= JFactory::getDbo();
 
 		// Calculate number of guests and users
-		$result	     = array();
+		$result	= array();
 		$user_array  = 0;
 		$guest_array = 0;
-
-		$query = $db->getQuery(true)
+		$query	= $db->getQuery(true)
 			->select('guest, client_id')
 			->from('#__session')
 			->where('client_id = 0');
 		$db->setQuery($query);
-
 		$sessions = (array) $db->loadObjectList();
 
 		if (count($sessions))
@@ -71,18 +71,17 @@ class ModWhosonlineHelper
 	 *
 	 * @return  array   (array) $db->loadObjectList()  The names of the online users.
 	 *
-	 * @since   1.5
+	 * @since   1.5.0
 	 **/
 	public static function getOnlineUserNames($params)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('a.username', 'a.userid', 'a.client_id')))
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true)
+			->select($db->quoteName(array('a.username', 'a.time', 'a.userid', 'a.client_id')))
 			->from('#__session AS a')
 			->where($db->quoteName('a.userid') . ' != 0')
 			->where($db->quoteName('a.client_id') . ' = 0')
-			->group($db->quoteName(array('a.username', 'a.userid', 'a.client_id')));
-
+			->group($db->quoteName(array('a.username', 'a.time', 'a.userid', 'a.client_id')));
 		$user = JFactory::getUser();
 
 		if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1)

@@ -115,12 +115,12 @@ class ContentModelArchive extends ContentModelArticles
 
 		if ($month = $this->getState('filter.month'))
 		{
-			$query->where($query->month($queryDate) . ' = ' . $month);
+			$query->where('MONTH(' . $queryDate . ') = ' . $month);
 		}
 
 		if ($year = $this->getState('filter.year'))
 		{
-			$query->where($query->year($queryDate) . ' = ' . $year);
+			$query->where('YEAR(' . $queryDate . ') = ' . $year);
 		}
 
 		return $query;

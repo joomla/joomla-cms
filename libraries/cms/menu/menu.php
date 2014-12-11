@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * JMenu class
  *
@@ -71,7 +69,7 @@ class JMenu
 			}
 
 			// Decode the item params
-			$result = new Registry;
+			$result = new JRegistry;
 			$result->loadString($item->params);
 			$item->params = $result;
 		}
@@ -301,7 +299,7 @@ class JMenu
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  Registry  A Registry object
+	 * @return  JRegistry  A JRegistry object
 	 *
 	 * @since   1.5
 	 */
@@ -313,7 +311,7 @@ class JMenu
 		}
 		else
 		{
-			return new Registry;
+			return new JRegistry;
 		}
 	}
 

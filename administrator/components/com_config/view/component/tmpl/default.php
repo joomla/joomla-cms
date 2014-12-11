@@ -14,20 +14,18 @@ $template = $app->getTemplate();
 
 // Load the tooltip behavior.
 JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
-
-JFactory::getDocument()->addScriptDeclaration('
+?>
+<script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == "config.cancel.component" || document.formvalidator.isValid(document.getElementById("component-form")))
+		if (task == 'config.cancel.component' || document.formvalidator.isValid(document.id('component-form')))
 		{
-			Joomla.submitform(task, document.getElementById("component-form"));
+			Joomla.submitform(task, document.getElementById('component-form'));
 		}
-	};
-');
-?>
-
+	}
+</script>
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
 	<div class="row-fluid">
 		<!-- Begin Sidebar -->
@@ -39,13 +37,15 @@ JFactory::getDocument()->addScriptDeclaration('
 		<!-- End Sidebar -->
 		<div class="span10">
 			<ul class="nav nav-tabs" id="configTabs">
-				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
+				<?php $fieldSets = $this->form->getFieldsets(); ?>
+				<?php foreach ($fieldSets as $name => $fieldSet) : ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
 					<li><a href="#<?php echo $name; ?>" data-toggle="tab"><?php echo JText::_($label); ?></a></li>
 				<?php endforeach; ?>
 			</ul>
 			<div class="tab-content">
-				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
+				<?php $fieldSets = $this->form->getFieldsets(); ?>
+				<?php foreach ($fieldSets as $name => $fieldSet) : ?>
 					<div class="tab-pane" id="<?php echo $name; ?>">
 						<?php
 						if (isset($fieldSet->description) && !empty($fieldSet->description))

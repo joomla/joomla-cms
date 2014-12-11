@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 jimport('joomla.filesystem.path');
 require_once JPATH_COMPONENT . '/helpers/menus.php';
 
@@ -21,14 +19,6 @@ require_once JPATH_COMPONENT . '/helpers/menus.php';
  */
 class MenusModelItem extends JModelAdmin
 {
-	/**
-	 * The type alias for this content type.
-	 *
-	 * @var      string
-	 * @since    3.4
-	 */
-	public $typeAlias = 'com_menus.item';
-
 	/**
 	 * @var        string    The prefix to use with controller messages.
 	 * @since   1.6
@@ -54,24 +44,6 @@ class MenusModelItem extends JModelAdmin
 	protected $helpLocal = false;
 
 	/**
-	 * Batch copy/move command. If set to false,
-	 * the batch copy/move command is not supported
-	 *
-	 * @var string
-	 */
-	protected $batch_copymove = 'menu_id';
-
-	/**
-	 * Allowed batch commands
-	 *
-	 * @var array
-	 */
-	protected $batch_commands = array(
-		'assetgroup_id' => 'batchAccess',
-		'language_id' => 'batchLanguage'
-	);
-
-	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object  $record  A record object.
@@ -91,6 +63,93 @@ class MenusModelItem extends JModelAdmin
 
 			return parent::canDelete($record);
 		}
+	}
+
+	/**
+	 * Method to perform batch operations on an item or a set of items.
+	 *
+	 * @param   array  $commands  An array of commands to perform.
+	 * @param   array  $pks       An array of item ids.
+	 * @param   array  $contexts  An array of item contexts.
+	 *
+	 * @return  boolean  Returns true on success, false on failure.
+	 *
+	 * @since   1.6
+	 */
+	public function batch($commands, $pks, $contexts)
+	{
+		// Sanitize user ids.
+		$pks = array_unique($pks);
+		JArrayHelper::toInteger($pks);
+
+		// Remove any values of zero.
+		if (array_search(0, $pks, true))
+		{
+			unset($pks[array_search(0, $pks, true)]);
+		}
+
+		if (empty($pks))
+		{
+			$this->setError(JText::_('COM_MENUS_NO_ITEM_SELECTED'));
+
+			return false;
+		}
+
+		$done = false;
+
+		if (!empty($commands['menu_id']))
+		{
+			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
+
+			if ($cmd == 'c')
+			{
+				$result = $this->batchCopy($commands['menu_id'], $pks, $contexts);
+
+				if (is_array($result))
+				{
+					$pks = $result;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			elseif ($cmd == 'm' && !$this->batchMove($commands['menu_id'], $pks, $contexts))
+			{
+				return false;
+			}
+
+			$done = true;
+		}
+
+		if (!empty($commands['assetgroup_id']))
+		{
+			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts))
+			{
+				return false;
+			}
+
+			$done = true;
+		}
+
+		if (!empty($commands['language_id']))
+		{
+			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
+			{
+				return false;
+			}
+
+			$done = true;
+		}
+
+		if (!$done)
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -114,7 +173,7 @@ class MenusModelItem extends JModelAdmin
 		$table = $this->getTable();
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$newIds = array();
+		$i = 0;
 
 		// Check that the parent exists
 		if ($parentId)
@@ -267,7 +326,8 @@ class MenusModelItem extends JModelAdmin
 			$newId = $table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$pk] = $newId;
+			$newIds[$i] = $newId;
+			$i++;
 
 			// Now we log the old 'parent' to the new 'parent'
 			$parents[$oldId] = $table->id;
@@ -657,7 +717,7 @@ class MenusModelItem extends JModelAdmin
 		$result = JArrayHelper::toObject($properties);
 
 		// Convert the params field to an array.
-		$registry = new Registry;
+		$registry = new JRegistry;
 		$registry->loadString($table->params);
 		$result->params = $registry->toArray();
 
@@ -1095,7 +1155,7 @@ class MenusModelItem extends JModelAdmin
 
 		foreach ($items as &$item)
 		{
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadString($item->params);
 			$params = (string) $registry;
 
@@ -1133,14 +1193,9 @@ class MenusModelItem extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$dispatcher = JEventDispatcher::getInstance();
-		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
-		$isNew      = true;
-		$table      = $this->getTable();
-		$context    = $this->option . '.' . $this->name;
-
-		// Include the plugins for the on save events.
-		JPluginHelper::importPlugin($this->events_map['save']);
+		$pk = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
+		$isNew = true;
+		$table = $this->getTable();
 
 		// Load the row if saving an existing item.
 		if ($pk > 0)
@@ -1213,19 +1268,13 @@ class MenusModelItem extends JModelAdmin
 			return false;
 		}
 
-		// Trigger the before save event.
-		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew));
-
 		// Store the data.
-		if (in_array(false, $result, true)|| !$table->store())
+		if (!$table->store())
 		{
 			$this->setError($table->getError());
 
 			return false;
 		}
-
-		// Trigger the after save event.
-		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew));
 
 		// Rebuild the tree path.
 		if (!$table->rebuildPath($table->id))

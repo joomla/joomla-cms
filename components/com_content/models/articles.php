@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * This models supports retrieving lists of articles.
  *
@@ -547,7 +545,7 @@ class ContentModelArticles extends JModelList
 		// Convert the parameter fields into objects.
 		foreach ($items as &$item)
 		{
-			$articleParams = new Registry;
+			$articleParams = new JRegistry;
 			$articleParams->loadString($item->attribs);
 
 			// Unpack readmore and layout params
@@ -587,7 +585,7 @@ class ContentModelArticles extends JModelList
 				// Merge the selected article params
 				if (count($articleArray) > 0)
 				{
-					$articleParams = new Registry;
+					$articleParams = new JRegistry;
 					$articleParams->loadArray($articleArray);
 					$item->params->merge($articleParams);
 				}

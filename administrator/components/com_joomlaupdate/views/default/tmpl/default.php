@@ -10,10 +10,6 @@
 defined('_JEXEC') or die;
 
 $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
-$params           = JComponentHelper::getParams('com_joomlaupdate');
-$updateOption     = strtoupper($params->get('updatesource', 'lts'));
-$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_' . $updateOption;
-$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_' . $updateOption);
 JHtml::_('formbehavior.chosen', 'select');
 
 ?>
@@ -27,12 +23,8 @@ JHtml::_('formbehavior.chosen', 'select');
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES') ?>
 	</legend>
 	<p>
-		<?php echo JText::sprintf($langKey, $updateSourceKey) ?>
-	</p>
-	<p>
 		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?>
 	</p>
-
 </fieldset>
 
 <?php else: ?>
@@ -41,9 +33,6 @@ JHtml::_('formbehavior.chosen', 'select');
 	<legend>
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATEFOUND') ?>
 	</legend>
-	<p>
-		<?php echo JText::sprintf($langKey, $updateSourceKey) ?>
-	</p>
 
 	<table class="table table-striped">
 		<tbody>

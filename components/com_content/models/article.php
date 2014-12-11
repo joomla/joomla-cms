@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Content Component Article Model
  *
@@ -170,13 +168,13 @@ class ContentModelArticle extends JModelItem
 				}
 
 				// Convert parameter fields to objects.
-				$registry = new Registry;
+				$registry = new JRegistry;
 				$registry->loadString($data->attribs);
 
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$registry = new Registry;
+				$registry = new JRegistry;
 				$registry->loadString($data->metadata);
 				$data->metadata = $registry;
 

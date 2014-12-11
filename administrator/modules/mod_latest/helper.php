@@ -21,7 +21,7 @@ abstract class ModLatestHelper
 	/**
 	 * Get a list of articles.
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  The module parameters.
+	 * @param   JRegistry  &$params  The module parameters.
 	 *
 	 * @return  mixed  An array of articles, or false on error.
 	 */
@@ -106,7 +106,7 @@ abstract class ModLatestHelper
 	/**
 	 * Get the alternate title for the module.
 	 *
-	 * @param   \Joomla\Registry\Registry  $params  The module parameters.
+	 * @param   JRegistry  $params  The module parameters.
 	 *
 	 * @return  string  The alternate title for the module.
 	 */

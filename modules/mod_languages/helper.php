@@ -24,7 +24,7 @@ abstract class ModLanguagesHelper
 	/**
 	 * Gets a list of available languages
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module params
+	 * @param   JRegistry  &$params  module params
 	 *
 	 * @return  array
 	 */

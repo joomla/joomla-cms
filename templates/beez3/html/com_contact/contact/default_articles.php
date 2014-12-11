@@ -18,7 +18,7 @@ require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 	<ol>
 		<?php foreach ($this->item->articles as $article) :	?>
 			<li>
-				<?php echo JHtml::_('link', JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)), htmlspecialchars($article->title, ENT_COMPAT, 'UTF-8')); ?>
+				<?php echo JHtml::_('link', JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catslug)), htmlspecialchars($article->title, ENT_COMPAT, 'UTF-8')); ?>
 			</li>
 		<?php endforeach; ?>
 	</ol>

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Menu Item Model for Menus.
  *
@@ -193,20 +191,14 @@ class MenusModelMenu extends JModelForm
 	 */
 	public function save($data)
 	{
-		$dispatcher = JEventDispatcher::getInstance();
-		$id         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('menu.id');
-		$isNew      = true;
+		$id = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('menu.id');
 
 		// Get a row instance.
 		$table = $this->getTable();
 
-		// Include the plugins for the save events.
-		JPluginHelper::importPlugin('content');
-
 		// Load the row if saving an existing item.
 		if ($id > 0)
 		{
-			$isNew = false;
 			$table->load($id);
 		}
 
@@ -226,19 +218,13 @@ class MenusModelMenu extends JModelForm
 			return false;
 		}
 
-		// Trigger the before event.
-		$result = $dispatcher->trigger('onContentBeforeSave', array($this->_context, &$table, $isNew));
-
 		// Store the data.
-		if (in_array(false, $result, true) || !$table->store())
+		if (!$table->store())
 		{
 			$this->setError($table->getError());
 
 			return false;
 		}
-
-		// Trigger the after save event.
-		$dispatcher->trigger('onContentAfterSave', array($this->_context, &$table, $isNew));
 
 		$this->setState('menu.id', $table->id);
 
@@ -259,8 +245,6 @@ class MenusModelMenu extends JModelForm
 	 */
 	public function delete($itemIds)
 	{
-		$dispatcher = JEventDispatcher::getInstance();
-
 		// Sanitize the ids.
 		$itemIds = (array) $itemIds;
 		JArrayHelper::toInteger($itemIds);
@@ -268,26 +252,17 @@ class MenusModelMenu extends JModelForm
 		// Get a group row instance.
 		$table = $this->getTable();
 
-		// Include the plugins for the delete events.
-		JPluginHelper::importPlugin('content');
-
 		// Iterate the items to delete each one.
 		foreach ($itemIds as $itemId)
 		{
-			// Trigger the before delete event.
-			$result = $dispatcher->trigger('onContentBeforeDelete', array($this->_context, $table));
+			// TODO: Delete the menu associations - Menu items and Modules
 
-			if (in_array(false, $result, true) || !$table->delete($itemId))
+			if (!$table->delete($itemId))
 			{
 				$this->setError($table->getError());
 
 				return false;
 			}
-
-			// Trigger the after delete event.
-			$dispatcher->trigger('onContentAfterDelete', array($this->_context, $table));
-
-			// TODO: Delete the menu associations - Menu items and Modules
 		}
 
 		// Clean the cache
@@ -321,7 +296,7 @@ class MenusModelMenu extends JModelForm
 
 		foreach ($modules as &$module)
 		{
-			$params = new Registry;
+			$params = new JRegistry;
 			$params->loadString($module->params);
 
 			$menuType = $params->get('menutype');

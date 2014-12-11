@@ -107,11 +107,11 @@ class PlgSearchContent extends JPlugin
 				{
 					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
 					$wheres2 = array();
-					$wheres2[] = 'LOWER(a.title) LIKE LOWER(' . $word . ')';
-					$wheres2[] = 'LOWER(a.introtext) LIKE LOWER(' . $word . ')';
-					$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word . ')';
-					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
-					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
+					$wheres2[] = 'a.title LIKE ' . $word;
+					$wheres2[] = 'a.introtext LIKE ' . $word;
+					$wheres2[] = 'a.fulltext LIKE ' . $word;
+					$wheres2[] = 'a.metakey LIKE ' . $word;
+					$wheres2[] = 'a.metadesc LIKE ' . $word;
 					$wheres[] = implode(' OR ', $wheres2);
 				}
 
@@ -168,7 +168,7 @@ class PlgSearchContent extends JPlugin
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
 
-			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language')
+			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
 				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
 
@@ -198,7 +198,7 @@ class PlgSearchContent extends JPlugin
 			{
 				foreach ($list as $key => $item)
 				{
-					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language);
+					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
 				}
 			}
 

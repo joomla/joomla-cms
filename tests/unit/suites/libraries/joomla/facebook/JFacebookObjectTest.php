@@ -9,8 +9,6 @@
 
 require_once __DIR__ . '/stubs/JFacebookObjectMock.php';
 
-use Joomla\Registry\Registry;
-
 /**
  * Test class for JFacebookObject.
  *
@@ -21,7 +19,7 @@ use Joomla\Registry\Registry;
 class JFacebookObjectTest extends TestCase
 {
 	/**
-	 * @var    Registry  Options for the Facebook object.
+	 * @var    JRegistry  Options for the Facebook object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -65,7 +63,7 @@ class JFacebookObjectTest extends TestCase
 		$_SERVER['REQUEST_URI'] = '/index.php';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
-		$this->options = new Registry;
+		$this->options = new JRegistry;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 
 		$this->object = new JFacebookObjectMock($this->options, $this->client);

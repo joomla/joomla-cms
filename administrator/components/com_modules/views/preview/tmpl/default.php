@@ -8,13 +8,14 @@
  */
 
 defined('_JEXEC') or die;
-
-JFactory::getDocument()->addScriptDeclaration('
-	var form = window.top.document.adminForm
-	var title = form.title.value;
-	var alltext = window.top.' . $this->editor->getContent('text') . ';
-');
 ?>
+
+<script>
+var form = window.top.document.adminForm
+var title = form.title.value;
+
+var alltext = window.top.<?php echo $this->editor->getContent('text') ?>;
+</script>
 
 <table class="center" width="90%">
 	<tr>

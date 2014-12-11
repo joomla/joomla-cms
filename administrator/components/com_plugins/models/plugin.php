@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Plugin model.
  *
@@ -37,24 +35,16 @@ class PluginsModelPlugin extends JModelAdmin
 	protected $_cache;
 
 	/**
-	 * Constructor.
-	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @var     string  The event to trigger after saving the data.
+	 * @since   1.6
 	 */
-	public function __construct($config = array())
-	{
-		$config = array_merge(
-			array(
-				'event_after_save'  => 'onExtensionAfterSave',
-				'event_before_save' => 'onExtensionBeforeSave',
-				'events_map'        => array(
-					'save' => 'extension'
-				)
-			), $config
-		);
+	protected $event_after_save = 'onExtensionAfterSave';
 
-		parent::__construct($config);
-	}
+	/**
+	 * @var     string  The event to trigger after before the data.
+	 * @since   1.6
+	 */
+	protected $event_before_save = 'onExtensionBeforeSave';
 
 	/**
 	 * Method to get the record form.
@@ -165,7 +155,7 @@ class PluginsModelPlugin extends JModelAdmin
 			$this->_cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadString($table->params);
 			$this->_cache[$pk]->params = $registry->toArray();
 
@@ -333,6 +323,9 @@ class PluginsModelPlugin extends JModelAdmin
 	 */
 	public function save($data)
 	{
+		// Load the extension plugin group.
+		JPluginHelper::importPlugin('extension');
+
 		// Setup type.
 		$data['type'] = 'plugin';
 

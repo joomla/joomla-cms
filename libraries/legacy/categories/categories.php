@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * JCategories Class.
  *
@@ -888,15 +886,15 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category parameters
 	 *
-	 * @return  Registry
+	 * @return  JRegistry
 	 *
 	 * @since   11.1
 	 */
 	public function getParams()
 	{
-		if (!($this->params instanceof Registry))
+		if (!($this->params instanceof JRegistry))
 		{
-			$temp = new Registry;
+			$temp = new JRegistry;
 			$temp->loadString($this->params);
 			$this->params = $temp;
 		}
@@ -907,15 +905,15 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category metadata
 	 *
-	 * @return  Registry  A Registry object containing the metadata
+	 * @return  JRegistry  A JRegistry object containing the metadata
 	 *
 	 * @since   11.1
 	 */
 	public function getMetadata()
 	{
-		if (!($this->metadata instanceof Registry))
+		if (!($this->metadata instanceof JRegistry))
 		{
-			$temp = new Registry;
+			$temp = new JRegistry;
 			$temp->loadString($this->metadata);
 			$this->metadata = $temp;
 		}

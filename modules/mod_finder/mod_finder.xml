@@ -4,7 +4,7 @@
 	<author>Joomla! Project</author>
 	<creationDate>August 2011</creationDate>
 	<copyright>(C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
@@ -13,6 +13,7 @@
 		<folder>tmpl</folder>
 		<filename module="mod_finder">mod_finder.php</filename>
 		<filename>helper.php</filename>
+		<filename>index.html</filename>
 		<filename>mod_finder.xml</filename>
 	</files>
 	<languages>

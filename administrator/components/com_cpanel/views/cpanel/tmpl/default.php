@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 $user = JFactory::getUser();
 ?>
 <div class="row-fluid">
@@ -58,7 +56,7 @@ $user = JFactory::getUser();
 			foreach ($this->modules as $module)
 			{
 				// Get module parameters
-				$params = new Registry;
+				$params = new JRegistry;
 				$params->loadString($module->params);
 				$bootstrapSize = $params->get('bootstrap_size');
 				if (!$bootstrapSize)

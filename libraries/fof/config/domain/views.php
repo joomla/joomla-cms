@@ -84,33 +84,30 @@ class FOFConfigDomainViews implements FOFConfigDomainInterface
 
 			// Parse the toolbar
 			$ret['views'][$key]['toolbar'] = array();
-			$toolBars = $aView->xpath('toolbar');
+			$toolBar = $aView->xpath('toolbar');
 
-			if (!empty($toolBars))
+			if (!empty($toolBar))
 			{
-				foreach ($toolBars as $toolBar)
+				$toolbarAttributes = $toolBar[0]->attributes();
+
+				// If a toolbar title is specified, create a title element.
+				if (isset($toolbarAttributes['title']))
 				{
-					$taskName = isset($toolBar['task']) ? (string) $toolBar['task'] : '*';
+					$ret['views'][$key]['toolbar']['title'] = array(
+						'value' => (string) $toolbarAttributes['title']
+					);
+				}
 
-					// If a toolbar title is specified, create a title element.
-					if (isset($toolBar['title']))
+				// Parse the toolbar buttons data
+				$toolbarData = $aView->xpath('toolbar/button');
+
+				if (!empty($toolbarData))
+				{
+					foreach ($toolbarData as $button)
 					{
-						$ret['views'][$key]['toolbar'][$taskName]['title'] = array(
-							'value' => (string) $toolBar['title']
-						);
-					}
-
-					// Parse the toolbar buttons data
-					$toolbarData = $toolBar->xpath('button');
-
-					if (!empty($toolbarData))
-					{
-						foreach ($toolbarData as $button)
-						{
-							$k = (string) $button['type'];
-							$ret['views'][$key]['toolbar'][$taskName][$k] = current($button->attributes());
-							$ret['views'][$key]['toolbar'][$taskName][$k]['value'] = (string) $button;
-						}
+						$k = (string) $button['type'];
+						$ret['views'][$key]['toolbar'][$k] = current($button->attributes());
+						$ret['views'][$key]['toolbar'][$k]['value'] = (string) $button;
 					}
 				}
 			}
@@ -264,32 +261,14 @@ class FOFConfigDomainViews implements FOFConfigDomainInterface
 	{
 		$toolbar = array();
 
-		if (isset($configuration['views']['*'])
-			&& isset($configuration['views']['*']['toolbar'])
-			&& isset($configuration['views']['*']['toolbar']['*']))
+		if (isset($configuration['views']['*']) && isset($configuration['views']['*']['toolbar']))
 		{
-			$toolbar = $configuration['views']['*']['toolbar']['*'];
+			$toolbar = $configuration['views']['*']['toolbar'];
 		}
 
-		if (isset($configuration['views']['*'])
-			&& isset($configuration['views']['*']['toolbar'])
-			&& isset($configuration['views']['*']['toolbar'][$params[0]]))
+		if (isset($configuration['views'][$view]) && isset($configuration['views'][$view]['toolbar']))
 		{
-			$toolbar = array_merge($toolbar, $configuration['views']['*']['toolbar'][$params[0]]);
-		}
-
-		if (isset($configuration['views'][$view])
-			&& isset($configuration['views'][$view]['toolbar'])
-			&& isset($configuration['views'][$view]['toolbar']['*']))
-		{
-			$toolbar = array_merge($toolbar, $configuration['views'][$view]['toolbar']['*']);
-		}
-
-		if (isset($configuration['views'][$view])
-			&& isset($configuration['views'][$view]['toolbar'])
-			&& isset($configuration['views'][$view]['toolbar'][$params[0]]))
-		{
-			$toolbar = array_merge($toolbar, $configuration['views'][$view]['toolbar'][$params[0]]);
+			$toolbar = array_merge($toolbar, $configuration['views'][$view]['toolbar']);
 		}
 
 		if (empty($toolbar))

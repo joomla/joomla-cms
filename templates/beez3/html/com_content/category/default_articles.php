@@ -98,7 +98,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
 
 					<td class="list-title">
-						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
+						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
 							<?php echo $this->escape($article->title); ?></a>
 					</td>
 
@@ -141,7 +141,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						$active		= $menu->getActive();
 						$itemId		= $active->id;
 						$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
-						$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language));
+						$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug));
 						$fullURL = new JUri($link);
 						$fullURL->setVar('return', base64_encode($returnURL));
 					?>

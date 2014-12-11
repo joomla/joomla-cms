@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Newsfeeds Component Newsfeed Model
  *
@@ -133,12 +131,12 @@ class NewsfeedsModelNewsfeed extends JModelItem
 				}
 
 				// Convert parameter fields to objects.
-				$registry = new Registry;
+				$registry = new JRegistry;
 				$registry->loadString($data->params);
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$registry = new Registry;
+				$registry = new JRegistry;
 				$registry->loadString($data->metadata);
 				$data->metadata = $registry;
 

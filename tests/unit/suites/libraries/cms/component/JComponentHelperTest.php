@@ -49,7 +49,6 @@ class JComponentHelperTest extends TestCaseDatabase
 			'com_content is extension ID 22'
 		);
 	}
-
 	/**
 	 * Test JComponentHelper::isEnabled
 	 *
@@ -64,27 +63,6 @@ class JComponentHelperTest extends TestCaseDatabase
 			'com_content should be enabled'
 		);
 	}
-
-	/**
-	 * Test JComponentHelper::isInstalled
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 */
-	public function testIsInstalled()
-	{
-		$this->assertTrue(
-			(bool) JComponentHelper::isInstalled('com_content'),
-			'com_content should be installed'
-		);
-
-		$this->assertFalse(
-			(bool) JComponentHelper::isInstalled('com_willneverhappen'),
-			'com_willneverhappen should not be enabled'
-		);
-	}
-
 	/**
 	 * Test JComponentHelper::getParams
 	 *

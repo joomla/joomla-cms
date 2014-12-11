@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 jimport('joomla.utilities.utility');
 
 /**
@@ -93,7 +91,7 @@ class JDocumentHTML extends JDocument
 	protected $_caching = null;
 
 	/**
-	 * Set to true when the document should be output as HTML5
+	 * Set to true when the document should be output as HTML%
 	 *
 	 * @var    boolean
 	 * @since  12.1
@@ -565,6 +563,8 @@ class JDocumentHTML extends JDocument
 	 */
 	protected function _loadTemplate($directory, $filename)
 	{
+		// @todo remove code: $component	= JApplicationHelper::getComponentName();
+
 		$contents = '';
 
 		// Check to see if we have a valid template file
@@ -632,7 +632,7 @@ class JDocumentHTML extends JDocument
 		// Assign the variables
 		$this->template = $template;
 		$this->baseurl = JUri::base(true);
-		$this->params = isset($params['params']) ? $params['params'] : new Registry;
+		$this->params = isset($params['params']) ? $params['params'] : new JRegistry;
 
 		// Load
 		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);

@@ -25,19 +25,13 @@ class PostinstallControllerMessage extends FOFController
 	 */
 	public function reset()
 	{
-		/** @var PostinstallModelMessages $model */
 		$model = $this->getThisModel();
 
-		$eid = (int) $model->getState('eid', '700', 'int');
-
-		if (empty($eid))
-		{
-			$eid = 700;
-		}
+		$eid = $this->input->getInt('eid', '700');
 
 		$model->resetMessages($eid);
 
-		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
+		$this->setRedirect('index.php?option=com_postinstall');
 	}
 
 	/**

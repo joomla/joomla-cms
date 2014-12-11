@@ -8,23 +8,26 @@
  */
 
 /**
- * Test class for JCacheStorageXcache.
+ * Test class for JCacheStorageXCache.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
+ *
  * @since       11.1
  */
-class JCacheStorageXcacheTest extends PHPUnit_Framework_TestCase
+class JCacheStorageXCacheTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JCacheStorageXcache
+	 * @var    JCacheStorageXCache
+	 * @access protected
 	 */
 	protected $object;
 
 	/**
-	 * @var    boolean
+	 * @var    JCacheStorageXCache
+	 * @access protected
 	 */
-	protected $extensionAvailable;
+	protected $xcacheAvailable;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -34,96 +37,34 @@ class JCacheStorageXcacheTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		parent::setUp();
+		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
+		include_once JPATH_PLATFORM . '/joomla/cache/storage/xcache.php';
 
-		$xcachetest = false;
-
-		if (extension_loaded('xcache'))
-		{
-			// XCache Admin must be disabled for Joomla to use XCache
-			$xcache_admin_enable_auth = ini_get('xcache.admin.enable_auth');
-
-			// Some extensions ini variables are reported as strings
-			if ($xcache_admin_enable_auth == 'Off')
-			{
-				$xcachetest = true;
-			}
-
-			// We require a string with contents 0, not a null value because it is not set since that then defaults to On/True
-			if ($xcache_admin_enable_auth === '0')
-			{
-				$xcachetest = true;
-			}
-
-			// In some enviorments empty is equivalent to Off; See JC: #34044 && Github: #4083
-			if ($xcache_admin_enable_auth === '')
-			{
-				$xcachetest = true;
-			}
-		}
-
-		$this->extensionAvailable = $xcachetest;
-
-		if ($this->extensionAvailable)
-		{
-			$this->object = JCacheStorage::getInstance('xcache');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->xcacheAvailable = extension_loaded('xcache');
+		$this->object = JCacheStorage::getInstance('xcache');
 	}
 
 	/**
-	 * Testing gc().
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
 	 *
-	 * @return  void
+	 * @return void
 	 */
-	public function testGc()
+	protected function tearDown()
 	{
-		$this->assertTrue(
-			$this->object->gc(),
-			'Should return default true'
-		);
 	}
 
 	/**
 	 * Testing isSupported().
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function testIsSupported()
 	{
-		$this->assertEquals(
-			$this->extensionAvailable,
+		$this->assertThat(
 			$this->object->isSupported(),
-			'Claims Wincache is not loaded.'
-		);
-	}
-
-	/**
-	 * Testing lock().
-	 *
-	 * @return  void
-	 */
-	public function testLock()
-	{
-		$this->assertFalse(
-			$this->object->lock(),
-			'Should return default false'
-		);
-	}
-
-	/**
-	 * Testing unlock().
-	 *
-	 * @return  void
-	 */
-	public function testUnlock()
-	{
-		$this->assertFalse(
-			$this->object->unlock(),
-			'Should return default false'
+			$this->equalTo($this->xcacheAvailable),
+			'Claims xcache is not loaded.'
 		);
 	}
 }

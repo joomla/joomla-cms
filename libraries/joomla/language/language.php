@@ -577,18 +577,20 @@ class JLanguage
 	/**
 	 * Returns an upper limit integer for length of search words
 	 *
-	 * @return  integer  The upper limit integer for length of search words (200 if no value was set or if default value is < 200).
+	 * @return  integer  The upper limit integer for length of search words (20 if no value was set for a specific language).
 	 *
 	 * @since   11.1
 	 */
 	public function getUpperLimitSearchWord()
 	{
-		if ($this->upperLimitSearchWordCallback !== null && call_user_func($this->upperLimitSearchWordCallback) > 200)
+		if ($this->upperLimitSearchWordCallback !== null)
 		{
 			return call_user_func($this->upperLimitSearchWordCallback);
 		}
-
-		return 200;
+		else
+		{
+			return 20;
+		}
 	}
 
 	/**

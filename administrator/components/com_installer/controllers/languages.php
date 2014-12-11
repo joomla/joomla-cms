@@ -39,12 +39,7 @@ class InstallerControllerLanguages extends JControllerLegacy
 
 		// Find updates
 		$model	= $this->getModel('languages');
-
-		if (!$model->findLanguages($cache_timeout))
-		{
-			$this->setError($model->getError());
-			$this->setMessage($this->getError(), 'error');
-		}
+		$model->findLanguages($cache_timeout);
 
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=languages', false));
 	}

@@ -9,10 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 $user = JFactory::getUser();
-$params = new Registry;
+$params = new JRegistry;
 $dispatcher	= JEventDispatcher::getInstance();
 $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_doc, &$params));
 ?>

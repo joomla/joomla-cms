@@ -382,13 +382,13 @@ class JRouter
 	 *
 	 * @param   JUri  &$uri  The raw route
 	 *
-	 * @return  array  Array of variables
+	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
 	protected function parseRawRoute(&$uri)
 	{
-		return array();
+		return false;
 	}
 
 	/**
@@ -411,13 +411,13 @@ class JRouter
 	 *
 	 * @param   JUri  &$uri  The sef URI
 	 *
-	 * @return  array  Array of variables
+	 * @return  string  Internal URI
 	 *
 	 * @since   3.2
 	 */
 	protected function parseSefRoute(&$uri)
 	{
-		return array();
+		return false;
 	}
 
 	/**
@@ -553,7 +553,6 @@ class JRouter
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  Use createURI() instead
-	 * @codeCoverageIgnore
 	 */
 	protected function _createURI($url)
 	{
@@ -571,14 +570,15 @@ class JRouter
 	 */
 	protected function createURI($url)
 	{
-		if (!is_array($url) && substr($url, 0, 1) != '&')
+		if (is_array($url))
 		{
-			return new JUri($url);
+			$uri = new JUri('index.php');
+			$uri->setQuery($url);
+
+			return $uri;
 		}
-
-		$uri = new JUri('index.php');
-
-		if (is_string($url))
+		// Create full URL if we are only appending variables to it
+		elseif (substr($url, 0, 1) == '&')
 		{
 			$vars = array();
 
@@ -588,25 +588,22 @@ class JRouter
 			}
 
 			parse_str($url, $vars);
-		}
-		else
-		{
-			$vars = $url;
-		}
 
-		$vars = array_merge($this->getVars(), $vars);
+			$vars = array_merge($this->getVars(), $vars);
 
-		foreach ($vars as $key => $var)
-		{
-			if ($var == "")
+			foreach ($vars as $key => $var)
 			{
-				unset($vars[$key]);
+				if ($var == "")
+				{
+					unset($vars[$key]);
+				}
 			}
+
+			$url = 'index.php?' . JUri::buildQuery($vars);
 		}
 
-		$uri->setQuery($vars);
-
-		return $uri;
+		// Decompose link into url component parts
+		return new JUri($url);
 	}
 
 	/**
@@ -618,7 +615,6 @@ class JRouter
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  This should be performed in the component router instead
-	 * @codeCoverageIgnore
 	 */
 	protected function _encodeSegments($segments)
 	{
@@ -656,7 +652,6 @@ class JRouter
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  This should be performed in the component router instead
-	 * @codeCoverageIgnore
 	 */
 	protected function _decodeSegments($segments)
 	{

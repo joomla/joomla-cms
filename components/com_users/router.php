@@ -43,7 +43,9 @@ class UsersRouter extends JComponentRouterBase
 		if (empty($items))
 		{
 			// Get all relevant menu items.
-			$items = $this->menu->getItems('component', 'com_users');
+			$app = JFactory::getApplication();
+			$menu = $app->getMenu();
+			$items = $menu->getItems('component', 'com_users');
 
 			// Build an array of serialized query strings to menu item id mappings.
 			for ($i = 0, $n = count($items); $i < $n; $i++)

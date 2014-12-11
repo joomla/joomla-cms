@@ -12,31 +12,43 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
+ *
  * @since       11.1
  */
 class JCacheStorageMemcacheTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JCacheStorageMemcache
+	 * @access protected
 	 */
 	protected $object;
 
 	/**
-	 * @var    boolean
+	 * @var    memcacheAvailable
+	 * @access protected
 	 */
-	protected $extensionAvailable;
+	protected $memcacheAvailable;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return void
+	 *
+	 * @access protected
 	 */
 	protected function setUp()
 	{
+		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
+		include_once JPATH_PLATFORM . '/joomla/cache/storage/memcache.php';
+
 		$memcachetest = false;
 
-		if (extension_loaded('memcache') || class_exists('Memcache'))
+		if (!extension_loaded('memcache') || !class_exists('Memcache'))
+		{
+			$this->memcacheAvailable = false;
+		}
+		else
 		{
 			$config = JFactory::getConfig();
 			$host = $config->get('memcache_server_host', 'localhost');
@@ -46,42 +58,39 @@ class JCacheStorageMemcacheTest extends PHPUnit_Framework_TestCase
 			$memcachetest = @$memcache->connect($host, $port);
 		}
 
-		$this->extensionAvailable = $memcachetest;
-
-		if ($this->extensionAvailable)
+		if (!$memcachetest)
 		{
-			$this->object = JCacheStorage::getInstance('memcache');
+			$this->memcacheAvailable = false;
 		}
 		else
 		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
+			$this->memcacheAvailable = true;
 		}
-	}
 
-	/**
-	 * Testing gc().
-	 *
-	 * @return  void
-	 */
-	public function testGc()
-	{
-		$this->assertTrue(
-			$this->object->gc(),
-			'Should return default true'
-		);
+		if ($this->memcacheAvailable)
+		{
+			$this->object = JCacheStorage::getInstance('memcache');
+		}
 	}
 
 	/**
 	 * Testing isSupported().
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function testIsSupported()
 	{
-		$this->assertEquals(
-			$this->extensionAvailable,
-			$this->object->isSupported(),
-			'Claims Memcache is not loaded.'
-		);
+		if ($this->memcacheAvailable)
+		{
+			$this->assertThat(
+				$this->object->isSupported(),
+				$this->isTrue(),
+				'Claims memcache is not loaded.'
+			);
+		}
+		else
+		{
+			$this->markTestSkipped('This caching method is not supported on this system.');
+		}
 	}
 }

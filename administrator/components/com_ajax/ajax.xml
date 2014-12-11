@@ -12,6 +12,7 @@
 
 	<files folder="site">
 		<filename>ajax.php</filename>
+		<filename>index.html</filename>
 	</files>
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB.com_ajax.ini</language>
@@ -20,6 +21,7 @@
 	<administration>
 		<files folder="admin">
 			<filename>ajax.php</filename>
+			<filename>index.html</filename>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_ajax.ini</language>

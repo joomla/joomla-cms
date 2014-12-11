@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Utility class for form related behaviors
  *
@@ -102,14 +100,14 @@ abstract class JHtmlFormbehavior
 	 *
 	 * If debugging mode is on an uncompressed version of AJAX Chosen is included for easier debugging.
 	 *
-	 * @param   Registry  $options  Options in a Registry object
-	 * @param   mixed     $debug    Is debugging mode on? [optional]
+	 * @param   JRegistry  $options  Options in a JRegistry object
+	 * @param   mixed      $debug    Is debugging mode on? [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public static function ajaxchosen(Registry $options, $debug = null)
+	public static function ajaxchosen(JRegistry $options, $debug = null)
 	{
 		// Retrieve options/defaults
 		$selector       = $options->get('selector', '.tagfield');

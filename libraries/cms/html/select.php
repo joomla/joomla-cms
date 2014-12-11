@@ -35,7 +35,7 @@ abstract class JHtmlSelect
 	 * @param   string  $selected  The key that is selected
 	 * @param   string  $yes       Language key for Yes
 	 * @param   string  $no        Language key for no
-	 * @param   mixed   $id        The id for the field or false for no id
+	 * @param   string  $id        The id for the field
 	 *
 	 * @return  string  HTML for the radio list
 	 *

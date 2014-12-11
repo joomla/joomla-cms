@@ -24,13 +24,7 @@ class MessagesViewMessages extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
-	 *
-	 * @since   1.6
+	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
@@ -42,7 +36,6 @@ class MessagesViewMessages extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
-
 			return false;
 		}
 
@@ -53,8 +46,6 @@ class MessagesViewMessages extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
-	 *
-	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -77,6 +68,17 @@ class MessagesViewMessages extends JViewLegacy
 			JToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD', true);
 		}
 
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::deleteList('', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
+		} elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::trash('messages.trash');
+		}
+
+		//JToolbarHelper::addNew('module.add');
 		JToolbarHelper::divider();
 		$bar = JToolBar::getInstance('toolbar');
 
@@ -85,17 +87,6 @@ class MessagesViewMessages extends JViewLegacy
 		$layout = new JLayoutFile('toolbar.mysettings');
 
 		$bar->appendButton('Custom', $layout->render(array()), 'upload');
-
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
-			JToolbarHelper::divider();
-			JToolbarHelper::deleteList('', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::divider();
-			JToolbarHelper::trash('messages.trash');
-		}
 
 		if ($canDo->get('core.admin'))
 		{

@@ -26,8 +26,7 @@ abstract class MailtoHelper
 	{
 		$hash = sha1($url);
 		self::cleanHashes();
-
-		$session      = JFactory::getSession();
+		$session = JFactory::getSession();
 		$mailto_links = $session->get('com_mailto.links', array());
 
 		if (!isset($mailto_links[$hash]))
@@ -35,7 +34,7 @@ abstract class MailtoHelper
 			$mailto_links[$hash] = new stdClass;
 		}
 
-		$mailto_links[$hash]->link   = $url;
+		$mailto_links[$hash]->link = $url;
 		$mailto_links[$hash]->expiry = time();
 		$session->set('com_mailto.links', $mailto_links);
 
@@ -51,9 +50,8 @@ abstract class MailtoHelper
 	 */
 	public static function validateHash($hash)
 	{
-		$retval  = false;
+		$retval = false;
 		$session = JFactory::getSession();
-
 		self::cleanHashes();
 		$mailto_links = $session->get('com_mailto.links', array());
 
@@ -81,8 +79,8 @@ abstract class MailtoHelper
 
 		if (!$cleaned)
 		{
-			$past         = time() - $lifetime;
-			$session      = JFactory::getSession();
+			$past = time() - $lifetime;
+			$session = JFactory::getSession();
 			$mailto_links = $session->get('com_mailto.links', array());
 
 			foreach ($mailto_links as $index => $link)

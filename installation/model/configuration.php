@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Configuration setup model for the Joomla Core Installer.
  *
@@ -59,7 +57,7 @@ class InstallationModelConfiguration extends JModelBase
 	public function _createConfiguration($options)
 	{
 		// Create a new registry to build the configuration options.
-		$registry = new Registry;
+		$registry = new JRegistry;
 
 		// Site settings.
 		$registry->set('offline', $options->site_offline);

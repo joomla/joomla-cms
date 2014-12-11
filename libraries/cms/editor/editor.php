@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * JEditor class to handle WYSIWYG editors
  *
@@ -508,7 +506,7 @@ class JEditor extends JObject
 
 		// Get the plugin
 		$plugin = JPluginHelper::getPlugin('editors', $this->_name);
-		$params = new Registry;
+		$params = new JRegistry;
 		$params->loadString($plugin->params);
 		$params->loadArray($config);
 		$plugin->params = $params;
