@@ -17,7 +17,6 @@
 
 	<files>
 		<filename module="mod_custom">mod_custom.php</filename>
-		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
