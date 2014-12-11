@@ -9,7 +9,6 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_CACHE_XML_DESCRIPTION</description>
-
 	<administration>
 		<files folder="admin">
 			<filename>cache.php</filename>
