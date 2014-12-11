@@ -9,7 +9,6 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_FINDER_CATEGORIES_XML_DESCRIPTION</description>
-	<scriptfile>script.php</scriptfile>
 	<files>
 		<file plugin="categories">categories.php</file>
 	</files>
