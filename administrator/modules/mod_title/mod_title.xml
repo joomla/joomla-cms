@@ -14,7 +14,6 @@
 	<description>MOD_TITLE_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_title">mod_title.php</filename>
-		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
