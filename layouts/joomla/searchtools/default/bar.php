@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\Registry\Registry;
+
 $data = $displayData;
 
 // Receive overridable options
@@ -16,7 +18,7 @@ $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
 if (is_array($data['options']))
 {
-	$data['options'] = new JRegistry($data['options']);
+	$data['options'] = new Registry($data['options']);
 }
 
 // Options

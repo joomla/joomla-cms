@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * The Category Controller
  *
@@ -188,14 +190,14 @@ class CategoriesControllerCategory extends JControllerForm
 
 		if (isset($item->params) && is_array($item->params))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($item->params);
 			$item->params = (string) $registry;
 		}
 
 		if (isset($item->metadata) && is_array($item->metadata))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($item->metadata);
 			$item->metadata = (string) $registry;
 		}

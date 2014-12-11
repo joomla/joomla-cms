@@ -167,7 +167,7 @@ class JUpdaterCollection extends JUpdateAdapter
 				{
 					$values['targetplatformversion'] = $ver->RELEASE;
 				}
-				// Set this to ourself as a default
+				// Set this to ourselves as a default
 				// validate that we can install the extension
 				if ($product == $values['targetplatform'] && preg_match('/' . $values['targetplatformversion'] . '/', $ver->RELEASE))
 				{
@@ -264,13 +264,6 @@ class JUpdaterCollection extends JUpdateAdapter
 
 				return $this->findUpdate($options);
 			}
-
-			$query = $db->getQuery(true)
-				->update('#__update_sites')
-				->set('enabled = 0')
-				->where('update_site_id = ' . $this->updateSiteId);
-			$db->setQuery($query);
-			$db->execute();
 
 			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();

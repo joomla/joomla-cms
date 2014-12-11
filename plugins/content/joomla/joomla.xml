@@ -12,7 +12,6 @@
 
 	<files>
 		<filename plugin="joomla">joomla.php</filename>
-		<filename>index.html</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_content_joomla.ini</language>

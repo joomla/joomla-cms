@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 /**
@@ -47,7 +49,7 @@ class ContentModelArticle extends JModelAdmin
 	{
 		$categoryId = (int) $value;
 
-		$i = 0;
+		$newIds = array();
 
 		if (!parent::checkCategoryId($categoryId))
 		{
@@ -123,8 +125,7 @@ class ContentModelArticle extends JModelAdmin
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i] = $newId;
-			$i++;
+			$newIds[$pk] = $newId;
 
 			// Check if the article was featured and update the #__content_frontpage table
 			if ($featured == 1)
@@ -259,22 +260,22 @@ class ContentModelArticle extends JModelAdmin
 		if ($item = parent::getItem($pk))
 		{
 			// Convert the params field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->attribs);
 			$item->attribs = $registry->toArray();
 
 			// Convert the metadata field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
 
 			// Convert the images field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->images);
 			$item->images = $registry->toArray();
 
 			// Convert the urls field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->urls);
 			$item->urls = $registry->toArray();
 
@@ -445,26 +446,36 @@ class ContentModelArticle extends JModelAdmin
 	public function save($data)
 	{
 		$input = JFactory::getApplication()->input;
+		$filter  = JFilterInput::getInstance();
+
+		if (isset($data['metadata']) && isset($data['metadata']['author']))
+		{
+			$data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
+		}
+
+		if (isset($data['created_by_alias']))
+		{
+			$data['created_by_alias'] = $filter->clean($data['created_by_alias'], 'TRIM');
+		}
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($data['images']);
 			$data['images'] = (string) $registry;
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
-
 			foreach ($data['urls'] as $i => $url)
 			{
 				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc'))
 				{
 					$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
 				}
-
 			}
-			$registry = new JRegistry;
+
+			$registry = new Registry;
 			$registry->loadArray($data['urls']);
 			$data['urls'] = (string) $registry;
 		}
@@ -488,7 +499,39 @@ class ContentModelArticle extends JModelAdmin
 					$data['alias'] = '';
 				}
 			}
+
 			$data['state'] = 0;
+		}
+
+		// Automatic handling of alias for empty fields
+		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (int) $input->get('id') == 0)
+		{
+			if ($data['alias'] == null)
+			{
+				if (JFactory::getConfig()->get('unicodeslugs') == 1)
+				{
+					$data['alias'] = JFilterOutput::stringURLUnicodeSlug($data['title']);
+				}
+				else
+				{
+					$data['alias'] = JFilterOutput::stringURLSafe($data['title']);
+				}
+
+				$table = JTable::getInstance('Content', 'JTable');
+
+				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
+				{
+					$msg = JText::_('COM_CONTENT_SAVE_WARNING');
+				}
+
+				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+				$data['alias'] = $alias;
+
+				if (isset($msg))
+				{
+					JFactory::getApplication()->enqueueMessage($msg, 'warning');
+				}
+			}
 		}
 
 		if (parent::save($data))

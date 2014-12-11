@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Content Component HTML Helper
  *
@@ -19,10 +21,10 @@ abstract class JHtmlIcon
 	/**
 	 * Method to generate a link to the create item page for the given category
 	 *
-	 * @param   object     $category  The category information
-	 * @param   JRegistry  $params    The item parameters
-	 * @param   array      $attribs   Optional attributes for the link
-	 * @param   boolean    $legacy    True to use legacy images, false to use icomoon based graphic
+	 * @param   object    $category  The category information
+	 * @param   Registry  $params    The item parameters
+	 * @param   array     $attribs   Optional attributes for the link
+	 * @param   boolean   $legacy    True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the create item link
 	 */
@@ -70,10 +72,10 @@ abstract class JHtmlIcon
 	/**
 	 * Method to generate a link to the email item page for the given article
 	 *
-	 * @param   object     $article  The article information
-	 * @param   JRegistry  $params   The item parameters
-	 * @param   array      $attribs  Optional attributes for the link
-	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   object    $article  The article information
+	 * @param   Registry  $params   The item parameters
+	 * @param   array     $attribs  Optional attributes for the link
+	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the email item link
 	 */
@@ -84,7 +86,7 @@ abstract class JHtmlIcon
 		$uri      = JUri::getInstance();
 		$base     = $uri->toString(array('scheme', 'host', 'port'));
 		$template = JFactory::getApplication()->getTemplate();
-		$link     = $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid), false);
+		$link     = $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
 		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailToHelper::addLink($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
@@ -120,10 +122,10 @@ abstract class JHtmlIcon
 	 * This icon will not display in a popup window, nor if the article is trashed.
 	 * Edit access checks must be performed in the calling code.
 	 *
-	 * @param   object     $article  The article information
-	 * @param   JRegistry  $params   The item parameters
-	 * @param   array      $attribs  Optional attributes for the link
-	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   object    $article  The article information
+	 * @param   Registry  $params   The item parameters
+	 * @param   array     $attribs  Optional attributes for the link
+	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string	The HTML for the article edit icon.
 	 *
@@ -217,10 +219,10 @@ abstract class JHtmlIcon
 	/**
 	 * Method to generate a popup link to print an article
 	 *
-	 * @param   object     $article  The article information
-	 * @param   JRegistry  $params   The item parameters
-	 * @param   array      $attribs  Optional attributes for the link
-	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   object    $article  The article information
+	 * @param   Registry  $params   The item parameters
+	 * @param   array     $attribs  Optional attributes for the link
+	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 */
@@ -230,7 +232,7 @@ abstract class JHtmlIcon
 		$input = $app->input;
 		$request = $input->request;
 
-		$url  = ContentHelperRoute::getArticleRoute($article->slug, $article->catid);
+		$url  = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
 		$url .= '&tmpl=component&print=1&layout=default&page=' . @ $request->limitstart;
 
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
@@ -262,10 +264,10 @@ abstract class JHtmlIcon
 	/**
 	 * Method to generate a link to print an article
 	 *
-	 * @param   object     $article  Not used, @deprecated for 4.0
-	 * @param   JRegistry  $params   The item parameters
-	 * @param   array      $attribs  Not used, @deprecated for 4.0
-	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   object    $article  Not used, @deprecated for 4.0
+	 * @param   Registry  $params   The item parameters
+	 * @param   array     $attribs  Not used, @deprecated for 4.0
+	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 */

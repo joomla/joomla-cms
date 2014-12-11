@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla! Site Application class
  *
@@ -37,19 +39,19 @@ final class JApplicationSite extends JApplicationCms
 	/**
 	 * Class constructor.
 	 *
-	 * @param   mixed  $input   An optional argument to provide dependency injection for the application's
-	 *                          input object.  If the argument is a JInput object that object will become
-	 *                          the application's input object, otherwise a default input object is created.
-	 * @param   mixed  $config  An optional argument to provide dependency injection for the application's
-	 *                          config object.  If the argument is a JRegistry object that object will become
-	 *                          the application's config object, otherwise a default config object is created.
-	 * @param   mixed  $client  An optional argument to provide dependency injection for the application's
-	 *                          client object.  If the argument is a JApplicationWebClient object that object will become
-	 *                          the application's client object, otherwise a default client object is created.
+	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
+	 *                                          input object.  If the argument is a JInput object that object will become
+	 *                                          the application's input object, otherwise a default input object is created.
+	 * @param   Registry               $config  An optional argument to provide dependency injection for the application's
+	 *                                          config object.  If the argument is a Registry object that object will become
+	 *                                          the application's config object, otherwise a default config object is created.
+	 * @param   JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
+	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
+	 *                                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, JRegistry $config = null, JApplicationWebClient $client = null)
+	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
 	{
 		// Register the application name
 		$this->_name = 'site';
@@ -343,7 +345,7 @@ final class JApplicationSite extends JApplicationCms
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu))
 			{
-				$temp = new JRegistry;
+				$temp = new Registry;
 				$temp->loadString($menu->params);
 				$params[$hash]->merge($temp);
 				$title = $menu->title;
@@ -478,7 +480,7 @@ final class JApplicationSite extends JApplicationCms
 
 			foreach ($templates as &$template)
 			{
-				$registry = new JRegistry;
+				$registry = new Registry;
 				$registry->loadString($template->params);
 				$template->params = $registry;
 
@@ -794,13 +796,13 @@ final class JApplicationSite extends JApplicationCms
 			$this->template = new stdClass;
 			$this->template->template = $template;
 
-			if ($styleParams instanceof JRegistry)
+			if ($styleParams instanceof Registry)
 			{
 				$this->template->params = $styleParams;
 			}
 			else
 			{
-				$this->template->params = new JRegistry($styleParams);
+				$this->template->params = new Registry($styleParams);
 			}
 		}
 	}

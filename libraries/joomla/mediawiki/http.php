@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTTP client class for connecting to a MediaWiki instance.
  *
@@ -17,17 +19,17 @@ defined('JPATH_PLATFORM') or die;
 class JMediawikiHttp extends JHttp
 {
 	/**
-	 * Constructor.
-	 *
-	 * @param   JRegistry       $options    Client options object.
-	 * @param   JHttpTransport  $transport  The HTTP transport object.
-	 *
-	 * @since   12.3
-	 */
-	public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
+     * Constructor.
+     *
+     * @param   Registry        $options    Client options object.
+     * @param   JHttpTransport  $transport  The HTTP transport object.
+     *
+     * @since   12.3
+     */
+	public function __construct(Registry $options = null, JHttpTransport $transport = null)
 	{
 		// Override the JHttp contructor to use JHttpTransportStream.
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->transport = isset($transport) ? $transport : new JHttpTransportStream($this->options);
 
 		// Make sure the user agent string is defined.

@@ -8,10 +8,12 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 JHtml::_('bootstrap.tooltip');
 
 $user = JFactory::getUser();
-$params = new JRegistry;
+$params = new Registry;
 $dispatcher	= JEventDispatcher::getInstance();
 $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_doc, &$params));
 ?>

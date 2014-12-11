@@ -889,7 +889,7 @@ class JInstaller extends JAdapter
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->name);
 
-		if ($dbDriver == 'mysqli')
+		if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 		{
 			$dbDriver = 'mysql';
 		}
@@ -900,7 +900,7 @@ class JInstaller extends JAdapter
 			$fCharset = (strtolower($file->attributes()->charset) == 'utf8') ? 'utf8' : '';
 			$fDriver = strtolower($file->attributes()->driver);
 
-			if ($fDriver == 'mysqli')
+			if ($fDriver == 'mysqli' || $fDriver == 'pdomysql')
 			{
 				$fDriver = 'mysql';
 			}
@@ -985,7 +985,7 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli')
+				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1052,7 +1052,7 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli')
+				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1066,7 +1066,7 @@ class JInstaller extends JAdapter
 					// Assuming that the type is a mandatory attribute but if it is not mandatory then there should be a discussion for it.
 					$uDriver = strtolower($attrs['type']);
 
-					if ($uDriver == 'mysqli')
+					if ($uDriver == 'mysqli' || $uDriver == 'pdomysql')
 					{
 						$uDriver = 'mysql';
 					}
