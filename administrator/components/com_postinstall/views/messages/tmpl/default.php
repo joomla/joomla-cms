@@ -9,69 +9,53 @@
 
 defined('_JEXEC') or die;
 
-$renderer = JFactory::getDocument()->loadRenderer('module');
-$options  = array('style' => 'raw');
-$mod      = JModuleHelper::getModule('mod_feed');
-$param    = array(
-		"rssurl" => "http://www.joomla.org/announcements/release-news.feed?type=rss",
-		"rsstitle" => 0,
-		"rssdesc" => 0,
-		"rssimage" => 1,
-		"rssitems" => 5,
-		"rssitemdesc" => 1,
-		"word_count" => 200,
-		"cache" => 0);
-$params = array('params' => json_encode($param));
-
 JHtml::_('formbehavior.chosen', 'select');
+
 ?>
 
-<form action="index.php" method="post" name="adminForm" class="form-inline">
-	<input type="hidden" name="option" value="com_postinstall">
-	<label for="eid"><?php echo JText::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
-	<?php echo JHTML::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'input-xlarge'), 'value', 'text', $this->eid, 'eid'); ?>
-</form>
-
-<?php if (empty($this->items)) : ?>
+<?php if (empty($this->items)): ?>
 <div class="hero-unit">
-	<h2><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h2>
-	<p><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?></p>
-	<a href="index.php?option=com_postinstall&view=messages&task=reset&eid=<?php echo $this->eid; ?>&<?php echo $this->token; ?>=1" class="btn btn-warning btn-large">
+	<h2><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE') ?></h2>
+	<p><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC') ?></p>
+	<a href="index.php?option=com_postinstall&view=messages&task=reset&eid=<?php echo $this->eid; ?>&<?php echo $this->token ?>=1" class="btn btn-warning btn-large">
 		<span class="icon icon-eye-open"></span>
-		<?php echo JText::_('COM_POSTINSTALL_BTN_RESET'); ?>
+		<?php echo JText::_('COM_POSTINSTALL_BTN_RESET') ?>
 	</a>
 </div>
-<?php else : ?>
-<?php if ($this->eid == 700) : ?>
+<?php else: ?>
+<?php if ($this->eid == 700): ?>
 <div class="row-fluid">
 	<div class="span8">
 <?php endif; ?>
-	<?php foreach ($this->items as $item) : ?>
+	<h2><?php echo JText::_('COM_POSTINSTALL_LBL_MESSAGES') ?></h2>
+	<?php foreach($this->items as $item): ?>
 	<fieldset>
-		<legend><?php echo JText::_($item->title_key); ?></legend>
+		<legend><?php echo JText::_($item->title_key) ?></legend>
 		<p class="small">
-			<?php echo JText::sprintf('COM_POSTINSTALL_LBL_SINCEVERSION', $item->version_introduced); ?>
+			<?php echo JText::sprintf('COM_POSTINSTALL_LBL_SINCEVERSION', $item->version_introduced) ?>
 		</p>
-		<p><?php echo JText::_($item->description_key); ?></p>
+		<p><?php echo JText::_($item->description_key) ?></p>
+
 		<div>
-			<?php if ($item->type !== 'message') : ?>
-			<a href="index.php?option=com_postinstall&view=messages&task=action&id=<?php echo $item->postinstall_message_id; ?>&<?php echo $this->token; ?>=1" class="btn btn-primary">
-				<?php echo JText::_($item->action_key); ?>
+			<?php if ($item->type !== 'message'): ?>
+			<a href="index.php?option=com_postinstall&view=messages&task=action&id=<?php echo $item->postinstall_message_id ?>&<?php echo $this->token ?>=1" class="btn btn-primary">
+				<?php echo JText::_($item->action_key) ?>
 			</a>
 			<?php endif; ?>
 			<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
-			<a href="index.php?option=com_postinstall&view=message&task=unpublish&id=<?php echo $item->postinstall_message_id; ?>&<?php echo $this->token; ?>=1" class="btn btn-inverse btn-small">
-				<?php echo JText::_('COM_POSTINSTALL_BTN_HIDE'); ?>
+			<a href="index.php?option=com_postinstall&view=message&task=unpublish&id=<?php echo $item->postinstall_message_id ?>&<?php echo $this->token ?>=1" class="btn btn-inverse btn-small">
+				<?php echo JText::_('COM_POSTINSTALL_BTN_HIDE') ?>
 			</a>
 			<?php endif; ?>
 		</div>
 	</fieldset>
 	<?php endforeach; ?>
-<?php if ($this->eid == 700) : ?>
+<?php if ($this->eid == 700): ?>
 	</div>
 	<div class="span4">
-		<h2><?php echo JText::_('COM_POSTINSTALL_LBL_RELEASENEWS'); ?></h2>
-		<?php echo $renderer->render($mod, $params, $options); ?>
+		<h2><?php echo JText::_('COM_POSTINSTALL_LBL_RELEASENEWS') ?></h2>
+		<iframe width="100%" height="1000" src="http://www.joomla.org/announcements/release-news">
+		</iframe>
 	</div>
 </div>
 <?php endif; ?>

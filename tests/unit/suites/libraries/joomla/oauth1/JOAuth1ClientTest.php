@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Registry\Registry;
-
 include_once __DIR__ . '/stubs/JOAuth1ClientInspector.php';
 include_once __DIR__ . '/../application/stubs/JApplicationWebInspector.php';
 
@@ -28,7 +26,7 @@ class JOAuth1ClientTest extends TestCase
 	protected $input;
 
 	/**
-	 * @var    Registry  Options for the OAuth object.
+	 * @var    JRegistry  Options for the OAuth object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -86,7 +84,7 @@ class JOAuth1ClientTest extends TestCase
 		$secret = "TEST_SECRET";
 		$my_url = "TEST_URL";
 
-		$this->options = new Registry;
+		$this->options = new JRegistry;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 		$this->input = new JInput(array());
 		$this->application = new JApplicationWebInspector;

@@ -13,6 +13,7 @@
 		<filename module="mod_articles_categories">mod_articles_categories.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
+		<filename>index.html</filename>
 		<filename>mod_articles_categories.xml</filename>
 	</files>
 	<languages>

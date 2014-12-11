@@ -20,7 +20,7 @@ $params = $this->params;
 			<div class="page-header">
 				<h2 itemprop="name">
 					<?php if ($params->get('link_titles')) : ?>
-						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
+						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug)); ?>" itemprop="url">
 							<?php echo $this->escape($item->title); ?>
 						</a>
 					<?php else: ?>

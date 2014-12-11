@@ -21,7 +21,7 @@ class ModMenuHelper
 	/**
 	 * Get a list of the menu items.
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  The module options.
+	 * @param   JRegistry  &$params  The module options.
 	 *
 	 * @return  array
 	 *
@@ -155,9 +155,9 @@ class ModMenuHelper
 	/**
 	 * Get base menu item.
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  The module options.
+	 * @param   JRegistry  &$params  The module options.
 	 *
-	 * @return  object
+	 * @return   object
 	 *
 	 * @since	3.0.2
 	 */
@@ -185,7 +185,7 @@ class ModMenuHelper
 	/**
 	 * Get active menu item.
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  The module options.
+	 * @param   JRegistry  &$params  The module options.
 	 *
 	 * @return  object
 	 *
@@ -194,18 +194,7 @@ class ModMenuHelper
 	public static function getActive(&$params)
 	{
 		$menu = JFactory::getApplication()->getMenu();
-		$lang = JFactory::getLanguage();
 
-		// Look for the home menu
-		if (JLanguageMultilang::isEnabled())
-		{
-			$home = $menu->getDefault($lang->getTag());
-		}
-		else
-		{
-			$home  = $menu->getDefault();
-		}
-
-		return $menu->getActive() ? $menu->getActive() : $home;
+		return $menu->getActive() ? $menu->getActive() : $menu->getDefault();
 	}
 }

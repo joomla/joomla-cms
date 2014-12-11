@@ -30,16 +30,18 @@ class NewsfeedsRouter extends JComponentRouterBase
 		$segments = array();
 
 		// Get a menu item based on Itemid or currently active
+		$app	= JFactory::getApplication();
+		$menu	= $app->getMenu();
 		$params = JComponentHelper::getParams('com_newsfeeds');
 		$advanced = $params->get('sef_advanced_link', 0);
 
 		if (empty($query['Itemid']))
 		{
-			$menuItem = $this->menu->getActive();
+			$menuItem = $menu->getActive();
 		}
 		else
 		{
-			$menuItem = $this->menu->getItem($query['Itemid']);
+			$menuItem = $menu->getItem($query['Itemid']);
 		}
 
 		$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
@@ -176,7 +178,9 @@ class NewsfeedsRouter extends JComponentRouterBase
 		}
 
 		// Get the active menu item.
-		$item	= $this->menu->getActive();
+		$app	= JFactory::getApplication();
+		$menu	= $app->getMenu();
+		$item	= $menu->getActive();
 		$params = JComponentHelper::getParams('com_newsfeeds');
 		$advanced = $params->get('sef_advanced_link', 0);
 

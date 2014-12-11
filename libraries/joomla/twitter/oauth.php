@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die();
 
-use Joomla\Registry\Registry;
-
 /**
  * Joomla Platform class for generating Twitter API access token.
  *
@@ -19,24 +17,24 @@ use Joomla\Registry\Registry;
 class JTwitterOAuth extends JOAuth1Client
 {
 	/**
-	* @var Registry  Options for the JTwitterOauth object.
-	* @since  12.3
-	*/
+	 * @var JRegistry Options for the JTwitterOauth object.
+	 * @since 12.3
+	 */
 	protected $options;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry         $options      JTwitterOauth options object.
+	 * @param   JRegistry        $options      JTwitterOauth options object.
 	 * @param   JHttp            $client       The HTTP client object.
 	 * @param   JInput           $input        The input object.
 	 * @param   JApplicationWeb  $application  The application object.
 	 *
-	 * @since   12.3
+	 * @since 12.3
 	 */
-	public function __construct(Registry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null)
+	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null)
 	{
-		$this->options = isset($options) ? $options : new Registry;
+		$this->options = isset($options) ? $options : new JRegistry;
 
 		$this->options->def('accessTokenURL', 'https://api.twitter.com/oauth/access_token');
 		$this->options->def('authenticateURL', 'https://api.twitter.com/oauth/authenticate');

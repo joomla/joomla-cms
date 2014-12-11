@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Template style table class.
  *
@@ -44,7 +42,7 @@ class TemplatesTableStyle extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}

@@ -9,51 +9,78 @@
 include_once JPATH_PLATFORM . '/joomla/document/html/renderer/message.php';
 
 /**
- * Test class for JDocumentRendererMessage
+ * Test class for JDocumentRendererMessage.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Document
+ * @since       11.1
  */
 class JDocumentRendererMessageTest extends TestCaseDatabase
 {
 	/**
 	 * The instance of the object to test.
 	 *
-	 * @var  JDocumentRendererMessage
+	 * @var    JDocumentRendererMessage
 	 */
-	private $instance;
+	private $_instance;
 
 	/**
 	 * Sets up the fixture.
 	 *
 	 * This method is called before a test is executed.
+	 *
+	 * @return  void
 	 */
 	protected function setUp()
 	{
-		parent::setUp();
-
-		$this->saveFactoryState();
-
 		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$document = $this->getMockDocument();
 		JFactory::$session = $this->getMockSession();
 
-		$this->instance = new JDocumentRendererMessage(JFactory::getDocument());
+		$this->_instance = new JDocumentRendererMessage(JFactory::getDocument());
+
+		parent::setUp();
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
+	 * Test Render
+	 *
+	 * @return void
 	 */
-	protected function tearDown()
+	public function testRender()
 	{
-		$this->restoreFactoryState();
+		$app = JFactory::getApplication();
 
-		parent::tearDown();
-	}
+		// Test with no messages in the queue
+		$matcher = array(
+			'id' => 'system-message-container',
+			'tag' => 'div'
+			);
 
-	/**
-	 * @testdox  Test the default return for render
-	 */
-	public function testTheDefaultReturnForRender()
-	{
-		$this->assertContains('<div id="system-message-container"', $this->instance->render('unused'));
+		$this->assertTag(
+			$matcher,
+			$this->_instance->render('foo'),
+			'Expected a <div> with id "system-message-container"'
+		);
+
+		// Test with a message in the queue
+		$app->enqueueMessage('foo', 'bar');
+
+		$matcher['child'] = array(
+				'id' => 'system-message',
+				'tag' => 'div',
+				'child' => array(
+						'tag' => 'div',
+						'attributes' => array(
+								'class' => 'alert alert-bar'
+							)
+					)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$this->_instance->render('foo'),
+			'Expected a tag structure like #system-message-container > #system-message > .alert.alert-bar'
+		);
 	}
 }

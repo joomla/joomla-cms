@@ -247,11 +247,6 @@ class FOFDispatcher extends FOFUtilsObject
 		$this->input->set('option', $this->component);
 		$this->input->set('view', $this->view);
 		$this->input->set('layout', $this->layout);
-
-		if (array_key_exists('authTimeStep', $config))
-		{
-			$this->fofAuth_timeStep = empty($config['authTimeStep']) ? 6 : $config['authTimeStep'];
-		}
 	}
 
     /**
@@ -260,7 +255,7 @@ class FOFDispatcher extends FOFUtilsObject
      *
      * @throws Exception
      *
-     * @return  void|Exception
+     * @return  null
      */
 	public function dispatch()
 	{
@@ -287,11 +282,7 @@ class FOFDispatcher extends FOFUtilsObject
 
 		if (!$canDispatch)
 		{
-            // We can set header only if we're not in CLI
-            if(!$platform->isCli())
-            {
-                $platform->setHeader('Status', '403 Forbidden', true);
-            }
+			$platform->setHeader('Status', '403 Forbidden', true);
 
             return $platform->raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 		}
@@ -327,11 +318,7 @@ class FOFDispatcher extends FOFUtilsObject
 
 		if (!$this->onAfterDispatch())
 		{
-            // We can set header only if we're not in CLI
-            if(!$platform->isCli())
-            {
-                $platform->setHeader('Status', '403 Forbidden', true);
-            }
+			$platform->setHeader('Status', '403 Forbidden', true);
 
             return $platform->raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 		}
@@ -339,9 +326,22 @@ class FOFDispatcher extends FOFUtilsObject
 		$format = $this->input->get('format', 'html', 'cmd');
 		$format = empty($format) ? 'html' : $format;
 
-		if ($controller->hasRedirect())
+		if ($format == 'html')
 		{
-			$controller->redirect();
+			// In HTML views perform a redirection
+			if ($controller->redirect())
+			{
+				return;
+			}
+		}
+		else
+		{
+			// In non-HTML views just exit the application with the proper HTTP headers
+			if ($controller->hasRedirect())
+			{
+				$headers = $platform->sendHeaders();
+				jexit();
+			}
 		}
 	}
 
@@ -475,6 +475,7 @@ class FOFDispatcher extends FOFUtilsObject
 	public function onAfterDispatch()
 	{
 		// If we have to log out the user, please do so now
+
 		if ($this->fofAuth_LogoutOnReturn && $this->_fofAuth_isLoggedIn)
 		{
 			FOFPlatform::getInstance()->logoutUser();
@@ -491,6 +492,7 @@ class FOFDispatcher extends FOFUtilsObject
 	public function transparentAuthentication()
 	{
 		// Only run when there is no logged in user
+
 		if (!FOFPlatform::getInstance()->getUser()->guest)
 		{
 			return;
@@ -507,6 +509,7 @@ class FOFDispatcher extends FOFUtilsObject
 		foreach ($this->fofAuth_AuthMethods as $method)
 		{
 			// If we're already logged in, don't bother
+
 			if ($this->_fofAuth_isLoggedIn)
 			{
 				continue;
@@ -626,7 +629,6 @@ class FOFDispatcher extends FOFUtilsObject
 	 *
 	 * @param   string  $encryptedData  The encrypted data
 	 *
-     * @codeCoverageIgnore
 	 * @return  array  The decrypted data
 	 */
 	private function _decryptWithTOTP($encryptedData)
@@ -684,7 +686,6 @@ class FOFDispatcher extends FOFUtilsObject
 	 *
 	 * @param   integer  $time  The timestamp used for TOTP calculation, leave empty to use current timestamp
 	 *
-     * @codeCoverageIgnore
 	 * @return  string  THe encryption key
 	 */
 	private function _createDecryptionKey($time = null)

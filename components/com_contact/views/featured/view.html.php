@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Featured View class
  *
@@ -93,7 +91,7 @@ class ContactViewFeatured extends JViewLegacy
 		{
 			$item       = &$items[$i];
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$temp       = new Registry;
+			$temp       = new JRegistry;
 
 			$temp->loadString($item->params);
 			$item->params = clone($params);

@@ -35,9 +35,9 @@ class TemplatesViewTemplates extends JViewLegacy
 	protected $state;
 
 	/**
-	 * @var		string
-	 * @since   3.2
-	 */
+     * @var		string
+     * @since   3.2
+     */
 	protected $file;
 
 	/**
@@ -67,8 +67,16 @@ class TemplatesViewTemplates extends JViewLegacy
 			return false;
 		}
 
-		$this->addToolbar();
+		// Check if there are no matching items
+		if (!count($this->items))
+		{
+			JFactory::getApplication()->enqueueMessage(
+				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES'),
+				'warning'
+			);
+		}
 
+		$this->addToolbar();
 		return parent::display($tpl);
 	}
 

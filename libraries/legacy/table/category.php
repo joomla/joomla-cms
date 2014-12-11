@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Category table
  *
@@ -174,14 +172,14 @@ class JTableCategory extends JTableNested
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
@@ -210,11 +208,10 @@ class JTableCategory extends JTableNested
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
-		$this->modified_time = $date->toSql();
-
 		if ($this->id)
 		{
 			// Existing category
+			$this->modified_time = $date->toSql();
 			$this->modified_user_id = $user->get('id');
 		}
 		else

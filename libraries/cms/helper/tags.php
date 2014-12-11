@@ -595,14 +595,15 @@ class JHelperTags extends JHelper
 		// Get the type data, limited to types in the request if there are any specified.
 		$typesarray = self::getTypes('assocList', $typesr, false);
 
-		$typeAliases = array();
+		$typeAliases = '';
 
 		foreach ($typesarray as $type)
 		{
-			$typeAliases[] = $db->quote($type['type_alias']);
+			$typeAliases .= "'" . $type['type_alias'] . "'" . ',';
 		}
 
-		$query->where('m.type_alias IN (' . implode(',', $typeAliases) . ')');
+		$typeAliases = rtrim($typeAliases, ',');
+		$query->where('m.type_alias IN (' . $typeAliases . ')');
 
 		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
 		$query->where('c.core_access IN (' . $groups . ')')

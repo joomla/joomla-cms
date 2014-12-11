@@ -204,7 +204,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::formvalidation();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::formvalidator' => true),
+			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::formvalidation' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
@@ -266,7 +266,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::combobox();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::combobox' => true),
+			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::combobox' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
@@ -446,12 +446,14 @@ class JHtmlBehaviorTest extends TestCase
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
+					'JHtmlBehavior::framework' => array('core' => true),
 					'JHtmlBehavior::multiselect' => array('adminForm' => true),
 				)
 			),
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
+					'JHtmlBehavior::framework' => array('core' => true),
 					'JHtmlBehavior::multiselect' => array('adminForm2' => true),
 				),
 				'adminForm2'
@@ -675,7 +677,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::noframes();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::noframes' => true),
+			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::noframes' => true, 'JHtmlBehavior::framework' => array('core' => true)),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}

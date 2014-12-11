@@ -15,8 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * This class allows for simple but smart objects with get and set methods
  * and an internal error handler.
  *
- * @since       11.1
- * @deprecated  4.0
+ * @since  11.1
  */
 class JObject
 {

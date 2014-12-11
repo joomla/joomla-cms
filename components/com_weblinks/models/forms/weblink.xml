@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
+		<field name="id" type="hidden"
+			label="WEBLINK_ID_LABEL"
+			readonly="true"
+			required="true"
+			size="10"
+			default="0"
+		/>
+
+		<field
+			id="contenthistory"
+			name="contenthistory"
+			type="contenthistory"
+			data-typeAlias="com_weblinks.weblink"
+			label="JTOOLBAR_VERSIONS" />
+
+		<field name="title" type="text"
+			description="COM_WEBLINKS_FIELD_TITLE_DESC"
+			label="JGLOBAL_TITLE"
+			required="true"
+			size="30"
+		/>
+
+		<field name="alias" type="text"
+			description="COM_WEBLINKS_FIELD_ALIAS_DESC"
+			label="JFIELD_ALIAS_LABEL"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+			size="45"
+		/>
+
+		<field name="description" type="editor"
+			buttons="true"
+			hide="pagebreak,readmore"
+			description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC"
+			filter="safehtml"
+			label="JGLOBAL_DESCRIPTION"
+			asset_id="com_weblinks"
+		/>
+
+		<field name="state" type="list"
+			default="1"
+			description="JFIELD_PUBLISHED_DESC"
+			label="JSTATUS"
+			size="1"
+		>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+		</field>
+
+		<field name="catid" type="categoryedit"
+			description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
+			extension="com_weblinks"
+			label="JCATEGORY"
+			required="true"
+		/>
+
+		<field name="url" type="url"
+			filter="url"
+			description="COM_WEBLINKS_FIELD_URL_DESC"
+			label="COM_WEBLINKS_FIELD_URL_LABEL"
+			required="true"
+			size="45"
+		/>
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="JFIELD_LANGUAGE_DESC"
+			class="inputbox">
+			<option value="*">JALL</option>
+		</field>
+
+		<field name="tags"
+			type="tag"
+			label="JTAG"
+			description="JTAG_DESC"
+			class="inputbox"
+			multiple="true" />
+
+		<field
+			name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="inputbox"
+			size="45"
+			labelclass="control-label" />
+
+	</fieldset>
+	<fields name="metadata">
+		<fieldset name="jmetadata"
+			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+
+				<field name="robots"
+					type="hidden"
+					filter="unset"
+					label="JFIELD_METADATA_ROBOTS_LABEL"
+					description="JFIELD_METADATA_ROBOTS_DESC"
+					labelclass="control-label"
+					>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
+					<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+					<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+					<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				</field>
+
+				<field name="author"
+					type="hidden"
+					filter="unset"
+					label="JAUTHOR"
+					description="JFIELD_METADATA_AUTHOR_DESC"
+					size="20"
+					labelclass="control-label"
+				/>
+
+				<field name="rights"
+					type="hidden"
+					label="JFIELD_META_RIGHTS_LABEL"
+					filter="unset"
+					description="JFIELD_META_RIGHTS_DESC"
+					required="false"
+					labelclass="control-label"
+				/>
+
+				<field name="xreference"
+					type="hidden"
+					filter="unset"
+					label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
+					description="COM_CONTENT_FIELD_XREFERENCE_DESC"
+					class="inputbox"
+					size="20"
+					labelclass="control-label" />
+
+		</fieldset>
+	</fields>
+</form>

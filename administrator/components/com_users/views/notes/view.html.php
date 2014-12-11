@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * User notes list view
  *
@@ -81,7 +79,7 @@ class UsersViewNotes extends JViewLegacy
 		// Turn parameters into registry objects
 		foreach ($this->items as $item)
 		{
-			$item->cparams = new Registry;
+			$item->cparams = new JRegistry;
 			$item->cparams->loadString($item->category_params);
 		}
 

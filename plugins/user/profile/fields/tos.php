@@ -88,7 +88,6 @@ class JFormFieldTos extends JFormFieldRadio
 			$attribs['class'] = 'modal';
 			$attribs['rel'] = '{handler: \'iframe\', size: {x:800, y:500}}';
 
-			// TODO: This is broken!! We need the category ID, too, and the language
 			$url = ContentHelperRoute::getArticleRoute($tosarticle);
 
 			$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);

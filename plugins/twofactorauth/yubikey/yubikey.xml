@@ -11,6 +11,7 @@
 	<description>PLG_TWOFACTORAUTH_YUBIKEY_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="yubikey">yubikey.php</filename>
+		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
@@ -20,9 +21,9 @@
 	
 	<config>
 		<fields name="params">
+
 			<fieldset name="basic">
-				<field name="section"
-					type="radio"
+				<field name="section" type="radio"
 					default="3"
 					class="btn-group"
 					description="PLG_TWOFACTORAUTH_YUBIKEY_SECTION_DESC"

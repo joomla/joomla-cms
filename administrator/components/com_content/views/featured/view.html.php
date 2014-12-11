@@ -109,7 +109,7 @@ class ContentViewFeatured extends JViewLegacy
 			JToolbarHelper::trash('articles.trash');
 		}
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_content');
 		}

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
 /**
@@ -200,7 +198,7 @@ class BannersModelBanners extends JModelList
 
 			foreach ($this->cache['items'] as &$item)
 			{
-				$parameters = new Registry;
+				$parameters = new JRegistry;
 				$parameters->loadString($item->params);
 				$item->params = $parameters;
 			}

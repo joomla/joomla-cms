@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Registry\Registry;
-
 JLoader::register('BaseModel', __DIR__ . '/stubs/tbase.php');
 
 /**
@@ -37,10 +35,10 @@ class JModelBaseTest extends TestCase
 	{
 		// @codingStandardsIgnoreStart
 		// @todo check the instanciating new classes without brackets sniff
-		$this->assertEquals(new Registry, $this->_instance->getState(), 'Checks default state.');
+		$this->assertEquals(new JRegistry, $this->_instance->getState(), 'Checks default state.');
 		// @codingStandardsIgnoreEnd
 
-		$state = new Registry(array('foo' => 'bar'));
+		$state = new JRegistry(array('foo' => 'bar'));
 		$class = new BaseModel($state);
 		$this->assertEquals($state, $class->getState(), 'Checks state injection.');
 	}
@@ -69,7 +67,7 @@ class JModelBaseTest extends TestCase
 	 */
 	public function testSetState()
 	{
-		$state = new Registry(array('foo' => 'bar'));
+		$state = new JRegistry(array('foo' => 'bar'));
 		$this->_instance->setState($state);
 		$this->assertSame($state, $this->_instance->getState());
 	}
@@ -83,7 +81,7 @@ class JModelBaseTest extends TestCase
 	 */
 	public function testLoadState()
 	{
-		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', TestReflection::invoke($this->_instance, 'loadState'));
+		$this->assertInstanceOf('JRegistry', TestReflection::invoke($this->_instance, 'loadState'));
 	}
 
 	/**

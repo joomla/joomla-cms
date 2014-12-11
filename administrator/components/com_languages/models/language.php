@@ -17,26 +17,6 @@ defined('_JEXEC') or die;
 class LanguagesModelLanguage extends JModelAdmin
 {
 	/**
-	 * Constructor.
-	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 */
-	public function __construct($config = array())
-	{
-		$config = array_merge(
-			array(
-				'event_after_save'  => 'onExtensionAfterSave',
-				'event_before_save' => 'onExtensionBeforeSave',
-				'events_map'        => array(
-					'save' => 'extension'
-				)
-			), $config
-		);
-
-		parent::__construct($config);
-	}
-
-	/**
 	 * Override to get the table.
 	 *
 	 * @param   string  $name     Name of the table.
@@ -170,14 +150,13 @@ class LanguagesModelLanguage extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$langId = (!empty($data['lang_id'])) ? $data['lang_id'] : (int) $this->getState('language.id');
+		$langId	= (int) $this->getState('language.id');
 		$isNew	= true;
 
 		$dispatcher = JEventDispatcher::getInstance();
-		JPluginHelper::importPlugin($this->events_map['save']);
+		JPluginHelper::importPlugin('extension');
 
-		$table   = $this->getTable();
-		$context = $this->option . '.' . $this->name;
+		$table = $this->getTable();
 
 		// Load the row if saving an existing item.
 		if ($langId > 0)
@@ -208,8 +187,8 @@ class LanguagesModelLanguage extends JModelAdmin
 			return false;
 		}
 
-		// Trigger the before save event.
-		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew));
+		// Trigger the onExtensionBeforeSave event.
+		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_languages.language', &$table, $isNew));
 
 		// Check the event responses.
 		if (in_array(false, $result, true))
@@ -227,8 +206,8 @@ class LanguagesModelLanguage extends JModelAdmin
 			return false;
 		}
 
-		// Trigger the after save event.
-		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew));
+		// Trigger the onExtensionAfterSave event.
+		$dispatcher->trigger('onExtensionAfterSave', array('com_languages.language', &$table, $isNew));
 
 		$this->setState('language.id', $table->lang_id);
 

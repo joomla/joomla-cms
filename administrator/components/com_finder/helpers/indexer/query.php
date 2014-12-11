@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
@@ -183,7 +181,7 @@ class FinderIndexerQuery
 		$this->mode = 'AND';
 
 		// Initialize the temporary date storage.
-		$this->dates = new Registry;
+		$this->dates = new JRegistry;
 
 		// Populate the temporary date storage.
 		if (isset($options['date1']) && !empty($options['date1']))
@@ -508,7 +506,7 @@ class FinderIndexerQuery
 		$this->filter = (int) $filterId;
 
 		// Get a parameter object for the filter date options.
-		$registry = new Registry;
+		$registry = new JRegistry;
 		$registry->loadString($return->params);
 		$params = $registry;
 

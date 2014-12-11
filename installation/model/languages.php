@@ -733,10 +733,7 @@ class InstallationModelLanguages extends JModelBase
 			'sef'          => $sefLangString,
 			'image'        => $flag,
 			'published'    => 1,
-			'ordering'     => 0,
-			'description'  => '',
-			'metakey'      => '',
-			'metadesc'     => ''
+			'ordering'     => 0
 		);
 
 		// Bind the data.
@@ -913,8 +910,7 @@ class InstallationModelLanguages extends JModelBase
 				. '"layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}',
 			'client_id' => 0,
 			'language'  => $itemLanguage->language,
-			'published' => 1,
-			'rules' => array()
+			'published' => 1
 		);
 
 		// Bind the data.
@@ -1017,31 +1013,18 @@ class InstallationModelLanguages extends JModelBase
 
 		// Initialize a new category.
 		$category                  = JTable::getInstance('Category');
-
-		$data = array(
-			'extension'    => 'com_content',
-			'title'        => $title . ' (' . strtolower($itemLanguage->language) . ')',
-			'description'  => '',
-			'published'    => 1,
-			'access'       => 1,
-			'params'       => '{"target":"","image":""}',
-			'metadesc'     => '',
-			'metakey'      => '',
-			'metadata'     => '{"page_title":"","author":"","robots":""}',
-			'created_time' => JFactory::getDate()->toSql(),
-			'language'     => $itemLanguage->language,
-			'rules'        => array(),
-			'parent_id'    => 1
-		);
+		$category->extension       = 'com_content';
+		$category->title           = $title . ' (' . strtolower($itemLanguage->language) . ')';
+		$category->description     = '';
+		$category->published       = 1;
+		$category->access          = 1;
+		$category->params          = '{"target":"","image":""}';
+		$category->metadata        = '{"page_title":"","author":"","robots":""}';
+		$category->created_time    = JFactory::getDate()->toSql();
+		$category->language        = $itemLanguage->language;
 
 		// Set the location in the tree.
 		$category->setLocation(1, 'last-child');
-
-		// Bind the data to the table
-		if (!$category->bind($data))
-		{
-			return false;
-		}
 
 		// Check to make sure our data is valid.
 		if (!$category->check())
@@ -1080,41 +1063,26 @@ class InstallationModelLanguages extends JModelBase
 		$title = $newlanguage->_('PLG_ARTICLE_BUTTON_ARTICLE');
 
 		$article                   = JTable::getInstance('Content');
-
-		$data = array(
-			'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
-			'introtext'        => '<p>Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis'
+		$article->title            = $title . ' (' . strtolower($itemLanguage->language) . ')';
+		$article->introtext        = '<p>Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis'
 										. ' in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit'
 										. ' ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit'
 										. 'definiebas an eos. Eu sit tincidunt incorrupte definitionem, vis mutat'
 										. ' affert percipit cu, eirmod consectetuer signiferumque eu per. In usu latine'
 										. 'equidem dolores. Quo no falli viris intellegam, ut fugit veritus placerat'
 										. 'per. Ius id vidit volumus mandamus, vide veritus democritum te nec, ei eos'
-										. 'debet libris consulatu.</p>',
-			'images'           => json_encode(array()),
-			'urls'             => json_encode(array()),
-			'state'            => 1,
-			'created'          => JFactory::getDate()->toSql(),
-			'created_by'       => $this->getAdminId(),
-			'created_by_alias' => 'Joomla',
-			'publish_up'       => JFactory::getDate()->toSql(),
-			'publish_down'     => $db->getNullDate(),
-			'version'          => 1,
-			'catid'            => $categoryId,
-			'metadata'         => '{"robots":"","author":"","rights":"","xreference":"","tags":null}',
-			'metakey'          => '',
-			'metadesc'         => '{"robots":"","author":"","rights":"","xreference":""}',
-			'language'         => $itemLanguage->language,
-			'featured'         => 1,
-			'attribs'          => array(),
-			'rules'            => array()
-		);
-
-		// Bind the data to the table
-		if (!$article->bind($data))
-		{
-			return false;
-		}
+										. 'debet libris consulatu.</p>';
+		$article->state            = 1;
+		$article->created          = JFactory::getDate()->toSql();
+		$article->created_by       = $this->getAdminId();
+		$article->created_by_alias = 'Joomla';
+		$article->publish_up       = JFactory::getDate()->toSql();
+		$article->publish_down     = $db->getNullDate();
+		$article->version          = 1;
+		$article->catid            = $categoryId;
+		$article->metadata         = '{"robots":"","author":"","rights":"","xreference":"","tags":null}';
+		$article->language         = $itemLanguage->language;
+		$article->featured         = 1;
 
 		// Check to make sure our data is valid.
 		if (!$article->check())

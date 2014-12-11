@@ -306,7 +306,7 @@ class JCrypt
 		if (!defined('PASSWORD_DEFAULT'))
 		{
 			// Always make sure that the password hashing API has been defined.
-			include_once JPATH_ROOT . '/vendor/ircmaxell/password-compat/lib/password.php';
+			include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
 		}
 
 		return true;

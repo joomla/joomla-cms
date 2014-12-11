@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Tags table
  *
@@ -46,28 +44,28 @@ class TagsTableTag extends JTableNested
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
 
 		if (isset($array['urls']) && $array['urls'])
 		{
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadArray($array['urls']);
 			$array['urls'] = (string) $registry;
 		}
 
 		if (isset($array['images']) && is_array($array['images']))
 		{
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadArray($array['images']);
 			$array['images'] = (string) $registry;
 		}
@@ -162,11 +160,10 @@ class TagsTableTag extends JTableNested
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
 
-		$this->modified_time		= $date->toSql();
-
 		if ($this->id)
 		{
 			// Existing item
+			$this->modified_time		= $date->toSql();
 			$this->modified_user_id	= $user->get('id');
 		}
 		else

@@ -101,7 +101,7 @@ abstract class FinderIndexer
 		// Setup the adapter for the indexer.
 		$format = JFactory::getDbo()->name;
 
-		if ($format == 'mysqli' || $format == 'pdomysql')
+		if ($format == 'mysqli')
 		{
 			$format = 'mysql';
 		}

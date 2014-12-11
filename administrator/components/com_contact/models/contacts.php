@@ -192,7 +192,7 @@ class ContactModelContacts extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_contact.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, ul.name, l.title, uc.name, ag.title, c.title');
+				->group('a.id');
 		}
 
 		// Filter by access level.

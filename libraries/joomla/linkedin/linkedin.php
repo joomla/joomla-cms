@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die();
 
-use Joomla\Registry\Registry;
-
 /**
  * Joomla Platform class for interacting with a Linkedin API instance.
  *
@@ -19,7 +17,7 @@ use Joomla\Registry\Registry;
 class JLinkedin
 {
 	/**
-	 * @var    Registry  Options for the Linkedin object.
+	 * @var    JRegistry  Options for the Linkedin object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -76,15 +74,15 @@ class JLinkedin
 	 * Constructor.
 	 *
 	 * @param   JLinkedinOauth  $oauth    OAuth object
-	 * @param   Registry        $options  Linkedin options object.
+	 * @param   JRegistry       $options  Linkedin options object.
 	 * @param   JHttp           $client   The HTTP client object.
 	 *
 	 * @since   13.1
 	 */
-	public function __construct(JLinkedinOauth $oauth = null, Registry $options = null, JHttp $client = null)
+	public function __construct(JLinkedinOauth $oauth = null, JRegistry $options = null, JHttp $client = null)
 	{
 		$this->oauth = $oauth;
-		$this->options = isset($options) ? $options : new Registry;
+		$this->options = isset($options) ? $options : new JRegistry;
 		$this->client  = isset($client) ? $client : new JHttp($this->options);
 
 		// Setup the default API url if not already set.

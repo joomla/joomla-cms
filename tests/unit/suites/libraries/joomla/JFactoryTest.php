@@ -63,7 +63,7 @@ class JFactoryTest extends TestCaseDatabase
 		JFactory::$config = null;
 
 		$this->assertInstanceOf(
-			'\\Joomla\\Registry\\Registry',
+			'JRegistry',
 			JFactory::getConfig(JPATH_TESTS . '/config.php'),
 			'Line: ' . __LINE__
 		);

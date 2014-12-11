@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
-JHtml::_('behavior.core');
+JHtml::_('behavior.framework');
 JHtml::_('formbehavior.chosen', 'select');
 
 // Get the user object.
@@ -33,7 +33,7 @@ $n = count($this->items);
 		<?php if ($this->params->get('filter_field')) :?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search">
-					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
+					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL').'&#160;'; ?>
 				</label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>" />
 			</div>
@@ -74,9 +74,7 @@ $n = count($this->items);
 			<?php echo $item->event->afterDisplayTitle; ?>
 			<?php $images  = json_decode($item->core_images);?>
 			<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) :?>
-				<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 				<img src="<?php echo htmlspecialchars($images->image_intro);?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
-				</a>
 			<?php endif; ?>
 			<?php if ($this->params->get('tag_list_show_item_description', 1)) : ?>
 				<?php echo $item->event->beforeDisplayContent; ?>

@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
 
 /**
@@ -619,8 +617,6 @@ class JApplication extends JApplicationBase
 		// Get the global JAuthentication object.
 		jimport('joomla.user.authentication');
 
-		JPluginHelper::importPlugin('user');
-
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
@@ -788,7 +784,7 @@ class JApplication extends JApplicationBase
 		$template = new stdClass;
 
 		$template->template = 'system';
-		$template->params   = new Registry;
+		$template->params   = new JRegistry;
 
 		if ($params)
 		{
@@ -1099,7 +1095,7 @@ class JApplication extends JApplicationBase
 
 		if ($session->isNew())
 		{
-			$session->set('registry', new Registry('session'));
+			$session->set('registry', new JRegistry('session'));
 			$session->set('user', new JUser);
 		}
 	}

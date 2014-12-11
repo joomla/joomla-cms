@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
 
 /**
@@ -50,7 +48,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	{
 		$categoryId = (int) $value;
 
-		$newIds = array();
+		$i = 0;
 
 		if (!parent::checkCategoryId($categoryId))
 		{
@@ -120,7 +118,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$pk] = $newId;
+			$newIds[$i] = $newId;
+			$i++;
 		}
 
 		// Clean the cache
@@ -293,27 +292,14 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$input = JFactory::getApplication()->input;
+		$app = JFactory::getApplication();
 
-		// Alter the name for save as copy
-		if ($input->get('task') == 'save2copy')
+		// Alter the title for save as copy
+		if ($app->input->get('task') == 'save2copy')
 		{
-			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
-
-			if ($data['name'] == $origTable->name)
-			{
-				list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-				$data['name'] = $name;
-				$data['alias'] = $alias;
-			}
-			else
-			{
-				if ($data['alias'] == $origTable->alias)
-				{
-					$data['alias'] = '';
-				}
-			}
+			list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+			$data['name'] = $name;
+			$data['alias'] = $alias;
 			$data['published'] = 0;
 		}
 
@@ -405,12 +391,12 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		if ($item = parent::getItem($pk))
 		{
 			// Convert the params field to an array.
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
 
 			// Convert the images field to an array.
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadString($item->images);
 			$item->images = $registry->toArray();
 		}

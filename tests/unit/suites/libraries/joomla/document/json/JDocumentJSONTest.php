@@ -10,7 +10,11 @@
 require_once JPATH_PLATFORM . '/joomla/document/json/json.php';
 
 /**
- * Test class for JDocumentJSON
+ * Test class for JDocumentJSON.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Document
+ * @since       11.1
  */
 class JDocumentJSONTest extends TestCase
 {
@@ -22,6 +26,8 @@ class JDocumentJSONTest extends TestCase
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return  void
 	 */
 	protected function setUp()
 	{
@@ -37,35 +43,73 @@ class JDocumentJSONTest extends TestCase
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
+	 *
+	 * @return  void
 	 */
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
-		parent::tearDown();
 	}
 
 	/**
-	 * @testdox  Test the default return for render
+	 * Test...
+	 *
+	 * @return void
 	 */
-	public function testTheDefaultReturnForRender()
+	public function testRender()
 	{
-		$this->assertEmpty($this->object->render());
+		JFactory::getApplication()->allowCache(true);
+
+		$this->object->setBuffer('Unit Test Buffer');
+
+		$this->assertThat(
+			$this->object->render(),
+			$this->equalTo('Unit Test Buffer'),
+			'We did not get the buffer back properly'
+		);
+
+		$headers = JFactory::getApplication()->getHeaders();
+
+		foreach ($headers as $head)
+		{
+			if ($head['name'] == 'Expires')
+			{
+				$this->assertThat(
+					$head['value'],
+					$this->stringContains('GMT'),
+					'The expires header was not set properly (was parent::render called?)'
+				);
+			}
+
+			if ($head['name'] == 'Content-disposition')
+			{
+				$this->assertThat(
+					$head['value'],
+					$this->stringContains('.json'),
+					'The content disposition did not include json extension'
+				);
+			}
+		}
+		$this->assertThat(
+			JFactory::getApplication()->allowCache(),
+			$this->isFalse(),
+			'Caching was not disabled'
+		);
 	}
 
 	/**
-	 * @testdox  Test the default return for getName
+	 * We test both at once
+	 *
+	 * @return void
 	 */
-	public function testTheDefaultReturnForGetName()
+	public function testGetAndSetName()
 	{
-		$this->assertSame('joomla', $this->object->getName());
-	}
+		$this->object->setName('unittestfilename');
 
-	/**
-	 * @testdox  Test that setName returns an instance of $this
-	 */
-	public function testEnsureSetNameReturnsThisObject()
-	{
-		$this->assertSame($this->object, $this->object->setName('CMS'));
+		$this->assertThat(
+			$this->object->getName(),
+			$this->equalTo('unittestfilename'),
+			'setName or getName did not work'
+		);
 	}
 }

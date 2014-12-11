@@ -8,25 +8,24 @@
  */
 
 defined('_JEXEC') or die;
-JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
-
-$data	= $this->get('data');
-
-JFactory::getDocument()->addScriptDeclaration("
+?>
+<script type="text/javascript">
 	Joomla.submitbutton = function(pressbutton)
 	{
 		var form = document.getElementById('mailtoForm');
 
 		// do field validation
-		if (form.mailto.value == '' || form.from.value == '')
+		if (form.mailto.value == "" || form.from.value == "")
 		{
-			alert('" . JText::_('COM_MAILTO_EMAIL_ERR_NOINFO') . "');
+			alert('<?php echo JText::_('COM_MAILTO_EMAIL_ERR_NOINFO'); ?>');
 			return false;
 		}
 		form.submit();
 	}
-");
+</script>
+<?php
+$data	= $this->get('data');
 ?>
 
 <div id="mailto-window">

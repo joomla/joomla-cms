@@ -19,7 +19,7 @@ abstract class ModLoggedHelper
 	/**
 	 * Get a list of logged users.
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  The module parameters.
+	 * @param   JRegistry  &$params  The module parameters.
 	 *
 	 * @return  mixed  An array of users, or false on error.
 	 *
@@ -67,7 +67,7 @@ abstract class ModLoggedHelper
 	/**
 	 * Get the alternate title for the module
 	 *
-	 * @param   \Joomla\Registry\Registry  $params  The module parameters.
+	 * @param   JRegistry  $params  The module parameters.
 	 *
 	 * @return  string    The alternate title for the module.
 	 */

@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Registry\Registry;
-
 /**
  * Test class for JFacebookEvent.
  *
@@ -19,7 +17,7 @@ use Joomla\Registry\Registry;
 class JFacebookEventTest extends TestCase
 {
 	/**
-	 * @var    Registry  Options for the Facebook object.
+	 * @var    JRegistry  Options for the Facebook object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -84,7 +82,7 @@ class JFacebookEventTest extends TestCase
 			'created' => '2443672521'
 		);
 
-		$this->options = new Registry;
+		$this->options = new JRegistry;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 		$this->input = new JInput;
 		$this->oauth = new JFacebookOauth($this->options, $this->client, $this->input);

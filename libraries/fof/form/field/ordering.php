@@ -23,7 +23,7 @@ class FOFFormFieldOrdering extends JFormField implements FOFFormField
 
 	/** @var   FOFTable  The item being rendered in a repeatable form field */
 	public $item;
-
+	
 	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
 	public $rowid;
 
@@ -55,7 +55,7 @@ class FOFFormFieldOrdering extends JFormField implements FOFFormField
 					$this->repeatable = $this->getRepeatable();
 				}
 
-				return $this->repeatable;
+				return $this->static;
 				break;
 
 			default:
@@ -72,37 +72,7 @@ class FOFFormFieldOrdering extends JFormField implements FOFFormField
 	 */
 	protected function getInput()
 	{
-		$html = array();
-		$attr = '';
-
-		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$attr .= $this->disabled ? ' disabled' : '';
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-
-		// Initialize JavaScript field attributes.
-		$attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
-
-		$this->item = $this->form->getModel()->getItem();
-
-		$keyfield = $this->item->getKeyName();
-		$itemId   = $this->item->$keyfield;
-
-		$query = $this->getQuery();
-
-		// Create a read-only list (no name) with a hidden input to store the value.
-		if ($this->readonly)
-		{
-			$html[] = JHtml::_('list.ordering', '', $query, trim($attr), $this->value, $itemId ? 0 : 1);
-			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
-		}
-		else
-		{
-			// Create a regular list.
-			$html[] = JHtml::_('list.ordering', $this->name, $query, trim($attr), $this->value, $itemId ? 0 : 1);
-		}
-
-		return implode($html);
+		throw new Exception(__CLASS__ . ' cannot be used in input forms');
 	}
 
 	/**
@@ -133,23 +103,20 @@ class FOFFormFieldOrdering extends JFormField implements FOFFormField
 			throw new Exception(__CLASS__ . ' needs a FOFTable to act upon');
 		}
 
-		$class = isset($this->element['class']) ? $this->element['class'] : 'input-mini';
-		$icon  = isset($this->element['icon']) ? $this->element['icon'] : 'icon-menu';
-
 		$html = '';
 
-		$view = $this->form->getView();
+		$viewObject = $this->form->getView();
 
-		$ordering = $view->getLists()->order == 'ordering';
+		$ordering = $viewObject->getLists()->order == 'ordering';
 
-		if (!$view->hasAjaxOrderingSupport())
+		if (!$viewObject->hasAjaxOrderingSupport())
 		{
 			// Ye olde Joomla! 2.5 method
 			$disabled = $ordering ? '' : 'disabled="disabled"';
 			$html .= '<span>';
-			$html .= $view->pagination->orderUpIcon($this->rowid, true, 'orderup', 'Move Up', $ordering);
+			$html .= $viewObject->pagination->orderUpIcon($this->rowid, true, 'orderup', 'Move Up', $ordering);
 			$html .= '</span><span>';
-			$html .= $view->pagination->orderDownIcon($this->rowid, $view->pagination->total, true, 'orderdown', 'Move Down', $ordering);
+			$html .= $viewObject->pagination->orderDownIcon($this->rowid, $viewObject->pagination->total, true, 'orderdown', 'Move Down', $ordering);
 			$html .= '</span>';
 			$html .= '<input type="text" name="order[]" size="5" value="' . $this->value . '" ' . $disabled;
 			$html .= 'class="text-area-order" style="text-align: center" />';
@@ -157,12 +124,12 @@ class FOFFormFieldOrdering extends JFormField implements FOFFormField
 		else
 		{
 			// The modern drag'n'drop method
-			if ($view->getPerms()->editstate)
+			if ($viewObject->getPerms()->editstate)
 			{
 				$disableClassName = '';
 				$disabledLabel = '';
 
-				$hasAjaxOrderingSupport = $view->hasAjaxOrderingSupport();
+				$hasAjaxOrderingSupport = $viewObject->hasAjaxOrderingSupport();
 
 				if (!$hasAjaxOrderingSupport['saveOrder'])
 				{
@@ -170,49 +137,26 @@ class FOFFormFieldOrdering extends JFormField implements FOFFormField
 					$disableClassName = 'inactive tip-top';
 				}
 
-				$orderClass = $ordering ? 'order-enabled' : 'order-disabled';
-
-				$html .= '<div class="' . $orderClass . '">';
 				$html .= '<span class="sortable-handler ' . $disableClassName . '" title="' . $disabledLabel . '" rel="tooltip">';
-				$html .= '<i class="' . $icon . '"></i>';
+				$html .= '<i class="icon-menu"></i>';
 				$html .= '</span>';
+				$html .= '<input type="text" name="order[]" size="5" class="input-mini text-area-order" ';
 
-				if ($ordering)
+				if (!$hasAjaxOrderingSupport)
 				{
-					$html .= '<input type="text" name="order[]" size="5" class="' . $class . ' text-area-order" value="' . $this->value . '" />';
+					$html .= 'disabled="disabled" ';
 				}
 
-				$html .= '</div>';
+				$html .= 'value="' . $this->value . '"  class="input-mini text-area-order " />';
 			}
 			else
 			{
 				$html .= '<span class="sortable-handler inactive" >';
-				$html .= '<i class="' . $icon . '"></i>';
+				$html .= '<i class="icon-menu"></i>';
 				$html .= '</span>';
 			}
 		}
 
 		return $html;
-	}
-
-	/**
-	 * Builds the query for the ordering list.
-	 *
-	 * @since 2.3.2
-	 *
-	 * @return JDatabaseQuery  The query for the ordering form field
-	 */
-	protected function getQuery()
-	{
-		$ordering = $this->name;
-		$title    = $this->element['ordertitle'] ? (string) $this->element['ordertitle'] : $this->item->getColumnAlias('title');
-
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select(array($db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')))
-				->from($db->quoteName($this->item->getTableName()))
-				->order($ordering);
-
-		return $query;
 	}
 }

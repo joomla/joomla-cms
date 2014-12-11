@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Registry\Registry;
-
 JLoader::register('JDataBuran', __DIR__ . '/stubs/buran.php');
 JLoader::register('JDataCapitaliser', __DIR__ . '/stubs/capitaliser.php');
 
@@ -270,7 +268,7 @@ class JDataTest extends TestCase
 		$properties = array(
 			'scalar' => 'value_1',
 			'date' => new JDate('2012-01-01'),
-			'registry' => new Registry(array('key' => 'value')),
+			'registry' => new JRegistry(array('key' => 'value')),
 			'JData' => new JData(
 				array(
 					'level2' => new JData(
@@ -305,7 +303,7 @@ class JDataTest extends TestCase
 
 		$dump = $this->_instance->dump(0);
 		$this->assertInstanceOf('JDate', $dump->date);
-		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $dump->registry);
+		$this->assertInstanceOf('JRegistry', $dump->registry);
 		$this->assertInstanceOf('JData', $dump->JData);
 
 		$dump = $this->_instance->dump(1);

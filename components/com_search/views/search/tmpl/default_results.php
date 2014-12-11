@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 <dl class="search-results<?php echo $this->pageclass_sfx; ?>">
 <?php foreach ($this->results as $result) : ?>
 	<dt class="result-title">
-		<?php echo $this->pagination->limitstart + $result->count . '. ';?>
+		<?php echo $this->pagination->limitstart + $result->count.'. ';?>
 		<?php if ($result->href) :?>
 			<a href="<?php echo JRoute::_($result->href); ?>"<?php if ($result->browsernav == 1) :?> target="_blank"<?php endif;?>>
 				<?php echo $this->escape($result->title);?>

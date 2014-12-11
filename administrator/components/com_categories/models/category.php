@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Categories Component Category Model
  *
@@ -173,7 +171,7 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Convert the metadata field to an array.
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadString($result->metadata);
 			$result->metadata = $registry->toArray();
 
@@ -450,19 +448,18 @@ class CategoriesModelCategory extends JModelAdmin
 	public function save($data)
 	{
 		$dispatcher = JEventDispatcher::getInstance();
-		$table      = $this->getTable();
-		$input      = JFactory::getApplication()->input;
-		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
-		$isNew      = true;
-		$context    = $this->option . '.' . $this->name;
+		$table = $this->getTable();
+		$input = JFactory::getApplication()->input;
+		$pk = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
+		$isNew = true;
 
 		if ((!empty($data['tags']) && $data['tags'][0] != ''))
 		{
 			$table->newTags = $data['tags'];
 		}
 
-		// Include the plugins for the save events.
-		JPluginHelper::importPlugin($this->events_map['save']);
+		// Include the content plugins for the on save events.
+		JPluginHelper::importPlugin('content');
 
 		// Load the row if saving an existing category.
 		if ($pk > 0)
@@ -480,22 +477,9 @@ class CategoriesModelCategory extends JModelAdmin
 		// Alter the title for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
-
-			if ($data['title'] == $origTable->title)
-			{
-				list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-				$data['title'] = $title;
-				$data['alias'] = $alias;
-			}
-			else
-			{
-				if ($data['alias'] == $origTable->alias)
-				{
-					$data['alias'] = '';
-				}
-			}
+			list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+			$data['title'] = $title;
+			$data['alias'] = $alias;
 			$data['published'] = 0;
 		}
 
@@ -522,8 +506,8 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
-		// Trigger the before save event.
-		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew));
+		// Trigger the onContentBeforeSave event.
+		$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, &$table, $isNew));
 
 		if (in_array(false, $result, true))
 		{
@@ -605,8 +589,8 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 		}
 
-		// Trigger the after save event.
-		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew));
+		// Trigger the onContentAfterSave event.
+		$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, &$table, $isNew));
 
 		// Rebuild the path for the category:
 		if (!$table->rebuildPath($table->id))
@@ -786,7 +770,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		$db = $this->getDbo();
 		$extension = JFactory::getApplication()->input->get('extension', '', 'word');
-		$newIds = array();
+		$i = 0;
 
 		// Check that the parent exists
 		if ($parentId)
@@ -952,7 +936,8 @@ class CategoriesModelCategory extends JModelAdmin
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$pk] = $newId;
+			$newIds[$i] = $newId;
+			$i++;
 
 			// Now we log the old 'parent' to the new 'parent'
 			$parents[$oldId] = $this->table->id;
@@ -1188,7 +1173,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 	/**
 	 * Method to determine if a category association is available.
-	 *
+	 * 
 	 * @return  boolean True if a category association is available; false otherwise.
 	 */
 	public function getAssoc()

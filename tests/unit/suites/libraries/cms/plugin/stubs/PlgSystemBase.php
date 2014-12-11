@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Registry\Registry;
-
 /**
  * Stub plugin class for unit testing
  *
@@ -31,7 +29,7 @@ class PlgSystemBase extends JPlugin
 		$config = array();
 		$config['name']   = 'Base';
 		$config['type']   = 'System';
-		$config['params'] = new Registry;
+		$config['params'] = new JRegistry;
 
 		$dispatcher = JEventDispatcher::getInstance();
 

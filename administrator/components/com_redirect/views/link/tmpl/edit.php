@@ -10,24 +10,23 @@
 defined('_JEXEC') or die;
 
 // Include the HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
-
-JFactory::getDocument()->addScriptDeclaration("
+?>
+<script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'link.cancel' || document.formvalidator.isValid(document.getElementById('link-form')))
+		if (task == 'link.cancel' || document.formvalidator.isValid(document.id('link-form')))
 		{
 			Joomla.submitform(task, document.getElementById('link-form'));
 		}
-	};
-");
-?>
+	}
+</script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_redirect&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="link-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_redirect&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="link-form" class="form-validate form-horizontal">
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'basic')); ?>
 

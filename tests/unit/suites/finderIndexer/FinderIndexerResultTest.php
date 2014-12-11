@@ -217,31 +217,12 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 */
 	public function testSetLanguage()
 	{
-		// Test for an empty language
-		$this->object->language = '';
+		// Set the language value
 		$this->object->setLanguage();
 
 		$this->assertEquals(
 			$this->object->language,
 			$this->object->defaultLanguage
-		);
-
-		// Test for "all" language
-		$this->object->language = '*';
-		$this->object->setLanguage();
-
-		$this->assertEquals(
-			$this->object->language,
-			'*'
-		);
-
-		// Test for "it-IT" language
-		$this->object->language = 'it-IT';
-		$this->object->setLanguage();
-
-		$this->assertEquals(
-			$this->object->language,
-			'it-IT'
 		);
 	}
 }

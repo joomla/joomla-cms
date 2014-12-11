@@ -677,7 +677,6 @@
 			type="url"
 			validate="url"
 			filter="url"
-			relative="true"
 			label="COM_CONTENT_FIELD_URLA_LABEL"
 			description="COM_CONTENT_FIELD_URL_DESC" />
 		<field name="urlatext"
@@ -709,7 +708,6 @@
 			type="url"
 			validate="url"
 			filter="url"
-			relative="true"
 			label="COM_CONTENT_FIELD_URLB_LABEL"
 			description="COM_CONTENT_FIELD_URL_DESC"/>
 		<field name="urlbtext"
@@ -741,7 +739,6 @@
 			type="url"
 			validate="url"
 			filter="url"
-			relative="true"
 			label="COM_CONTENT_FIELD_URLC_LABEL"
 			description="COM_CONTENT_FIELD_URL_DESC"/>
 		<field

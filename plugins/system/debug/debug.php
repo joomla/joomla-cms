@@ -751,7 +751,7 @@ class PlgSystemDebug extends JPlugin
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql')))
+				if (in_array($db->name, array('mysqli', 'mysql')))
 				{
 					if (isset($this->sqlShowProfileEach[$id]))
 					{
@@ -1381,7 +1381,7 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
-		if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql', 'postgresql')))
+		if (in_array($db->name, array('mysqli', 'mysql', 'postgresql')))
 		{
 			$log = $db->getLog();
 

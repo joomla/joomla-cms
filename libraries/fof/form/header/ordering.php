@@ -58,14 +58,9 @@ class FOFFormHeaderOrdering extends FOFFormHeader
 				'JGRID_HEADING_ORDERING'
 			);
 
-			$ordering = $view->getLists()->order == 'ordering';
-
-			if ($ordering)
-			{
-				$html .= '<a href="javascript:saveorder(' . (count($model->getList()) - 1) . ', \'saveorder\')" ' .
-					'rel="tooltip" class="save-order btn btn-micro pull-right" title="' . JText::_('JLIB_HTML_SAVE_ORDER') . '">'
-					. '<span class="icon-ok"></span></a>';
-			}
+			$html .= '<a href="javascript:saveorder(' . (count($model->getList()) - 1) . ', \'saveorder\')" ' .
+				'rel="tooltip" class="save-order btn btn-micro pull-right" title="' . JText::_('JLIB_HTML_SAVE_ORDER') . '">'
+				. '<span class="icon-ok"></span></a>';
 
 			return $html;
 		}

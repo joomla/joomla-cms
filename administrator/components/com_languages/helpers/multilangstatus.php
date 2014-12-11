@@ -19,7 +19,7 @@ abstract class MultilangstatusHelper
 	/**
 	 * Method to get the number of published home pages.
 	 *
-	 * @return  integer
+	 * @return  integer 
 	 */
 	public static function getHomes()
 	{
@@ -105,7 +105,6 @@ abstract class MultilangstatusHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('language')
-			->select('id')
 			->from($db->quoteName('#__menu'))
 			->where('home = 1')
 			->where('published = 1')

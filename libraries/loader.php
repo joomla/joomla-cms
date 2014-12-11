@@ -49,14 +49,6 @@ abstract class JLoader
 	protected static $classAliases = array();
 
 	/**
-	 * Holds the inverse lookup for proxy classes and the class names the proxy.
-	 *
-	 * @var    array
-	 * @since  3.4
-	 */
-	protected static $classAliasesInverse = array();
-
-	/**
 	 * Container for namespace => path map.
 	 *
 	 * @var    array
@@ -288,8 +280,6 @@ abstract class JLoader
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
-			$path = (str_replace(JPATH_ROOT, '', $path) == $path) ? basename($path) : str_replace(JPATH_ROOT, '', $path);
-
 			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
@@ -329,21 +319,6 @@ abstract class JLoader
 		{
 			self::$classAliases[$alias] = $original;
 
-			// Remove the root backslash if present.
-			if ($original[0] == '\\')
-			{
-				$original = substr($original, 1);
-			}
-
-			if (!isset(self::$classAliasesInverse[$original]))
-			{
-				self::$classAliasesInverse[$original] = array($alias);
-			}
-			else
-			{
-				self::$classAliasesInverse[$original][] = $alias;
-			}
-
 			return true;
 		}
 
@@ -369,8 +344,6 @@ abstract class JLoader
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
-			$path = (str_replace(JPATH_ROOT, '', $path) == $path) ? basename($path) : str_replace(JPATH_ROOT, '', $path);
-
 			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
@@ -510,41 +483,7 @@ abstract class JLoader
 
 		if (isset(self::$classAliases[$class]))
 		{
-			// Force auto-load of the regular class
-			class_exists(self::$classAliases[$class], true);
-
-			// Normally this shouldn't execute as the autoloader will execute applyAliasFor when the regular class is
-			// auto-loaded above.
-			if (!class_exists($class, false) && !interface_exists($class, false))
-			{
-				class_alias(self::$classAliases[$class], $class);
-			}
-		}
-	}
-
-	/**
-	 * Applies a class alias for an already loaded class, if a class alias was created for it.
-	 *
-	 * @param   string  $class  We'll look for and register aliases for this (real) class name
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 */
-	public static function applyAliasFor($class)
-	{
-		// Remove the root backslash if present.
-		if ($class[0] == '\\')
-		{
-			$class = substr($class, 1);
-		}
-
-		if (isset(self::$classAliasesInverse[$class]))
-		{
-			foreach (self::$classAliasesInverse[$class] as $alias)
-			{
-				class_alias($class, $alias);
-			}
+			class_alias(self::$classAliases[$class], $class);
 		}
 	}
 

@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die();
 
-use Joomla\Registry\Registry;
-
 /**
  * Joomla Platform class for interacting with an OAuth 1.0 and 1.0a server.
  *
@@ -19,7 +17,7 @@ use Joomla\Registry\Registry;
 abstract class JOAuth1Client
 {
 	/**
-	 * @var    Registry  Options for the JOAuth1Client object.
+	 * @var    JRegistry  Options for the JOAuth1Client object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -57,7 +55,7 @@ abstract class JOAuth1Client
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry         $options      OAuth1Client options object.
+	 * @param   JRegistry        $options      OAuth1Client options object.
 	 * @param   JHttp            $client       The HTTP client object.
 	 * @param   JInput           $input        The input object
 	 * @param   JApplicationWeb  $application  The application object
@@ -65,10 +63,10 @@ abstract class JOAuth1Client
 	 *
 	 * @since   13.1
 	 */
-	public function __construct(Registry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null,
+	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null,
 		$version = null)
 	{
-		$this->options = isset($options) ? $options : new Registry;
+		$this->options = isset($options) ? $options : new JRegistry;
 		$this->client = isset($client) ? $client : JHttpFactory::getHttp($this->options);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 		$this->application = isset($application) ? $application : new JApplicationWeb;

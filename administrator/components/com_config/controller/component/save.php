@@ -48,19 +48,12 @@ class ConfigControllerComponentSave extends JControllerBase
 		$data   = $this->input->get('jform', array(), 'array');
 		$id     = $this->input->getInt('id');
 		$option = $this->input->get('component');
-		$user   = JFactory::getUser();
 
-		// Check if the user is authorised to do this.
-		if (!$user->authorise('core.admin', $option) && !$user->authorise('core.options', $option))
+		// Check if the user is authorized to do this.
+		if (!JFactory::getUser()->authorise('core.admin', $option))
 		{
 			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
 			$this->app->redirect('index.php');
-		}
-
-		// Remove the permissions rules data if user isn't allowed to edit them.
-		if (!$user->authorise('core.admin', $option) && isset($data['params']) && isset($data['params']['rules']))
-		{
-			unset($data['params']['rules']);
 		}
 
 		$returnUri = $this->input->post->get('return', null, 'base64');

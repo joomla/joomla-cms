@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Registry\Registry;
-
 /**
  * Test class for JFacebookOauth.
  *
@@ -19,7 +17,7 @@ use Joomla\Registry\Registry;
 class JFacebookOauthTest extends TestCase
 {
 	/**
-	 * @var    Registry  Options for the Facebook object.
+	 * @var    JRegistry  Options for the Facebook object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -57,7 +55,7 @@ class JFacebookOauthTest extends TestCase
 		$_SERVER['REQUEST_URI'] = '/index.php';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
-		$this->options = new Registry;
+		$this->options = new JRegistry;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 		$this->input = new JInput;
 

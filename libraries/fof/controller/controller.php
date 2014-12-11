@@ -470,7 +470,7 @@ class FOFController extends FOFUtilsObject
 		$iMethods = array('accesspublic', 'accessregistered', 'accessspecial',
 			'add', 'apply', 'browse', 'cancel', 'copy', 'edit', 'orderdown',
 			'orderup', 'publish', 'read', 'remove', 'save', 'savenew',
-			'saveorder', 'unpublish', 'display', 'archive', 'trash', 'loadhistory');
+			'saveorder', 'unpublish', 'display', 'archive', 'trash');
 
 		// Get the public methods in this class using reflection.
 		$r = new ReflectionClass($this);
@@ -614,6 +614,7 @@ class FOFController extends FOFUtilsObject
 		}
 
 		// Set the default view search path
+
 		if (array_key_exists('view_path', $config))
 		{
 			// User-defined dirs
@@ -655,6 +656,7 @@ class FOFController extends FOFUtilsObject
 		}
 
 		// Set the CSRF protection
+
 		if (array_key_exists('csrf_protection', $config))
 		{
 			$this->csrfProtection = $config['csrf_protection'];
@@ -666,6 +668,7 @@ class FOFController extends FOFUtilsObject
 		);
 
 		// Set any model/view name overrides
+
 		if (array_key_exists('viewName', $config))
 		{
 			$this->setThisViewName($config['viewName']);
@@ -701,6 +704,7 @@ class FOFController extends FOFUtilsObject
 		}
 
 		// Caching
+
 		if (array_key_exists('cacheableTasks', $config))
 		{
 			if (is_array($config['cacheableTasks']))
@@ -996,13 +1000,12 @@ class FOFController extends FOFUtilsObject
 	 * YOU MUST NOT USETHIS TASK DIRECTLY IN A URL. It is supposed to be
 	 * used ONLY inside your code. In the URL, use task=browse instead.
 	 *
-	 * @param   bool    $cachable   Is this view cacheable?
-	 * @param   bool    $urlparams  Add your safe URL parameters (see further down in the code)
-	 * @param   string  $tpl        The name of the template file to parse
+	 * @param   bool  $cachable   Is this view cacheable?
+	 * @param   bool  $urlparams  Add your safe URL parameters (see further down in the code)
 	 *
 	 * @return  bool
 	 */
-	public function display($cachable = false, $urlparams = false, $tpl = null)
+	public function display($cachable = false, $urlparams = false)
 	{
 		$document = FOFPlatform::getInstance()->getDocument();
 
@@ -1111,7 +1114,7 @@ class FOFController extends FOFUtilsObject
 		else
 		{
 			// Display without caching
-			$view->display($tpl);
+			$view->display();
 		}
 
 		return true;
@@ -1173,6 +1176,7 @@ class FOFController extends FOFUtilsObject
 		}
 
 		// Set the layout to item, if it's not set in the URL
+
 		if (is_null($this->layout))
 		{
 			$this->layout = 'item';
@@ -1222,7 +1226,7 @@ class FOFController extends FOFUtilsObject
 
 		// Set the layout to form, if it's not set in the URL
 
-		if (!$this->layout)
+		if (is_null($this->layout))
 		{
 			$this->layout = 'form';
 		}
@@ -1328,6 +1332,7 @@ class FOFController extends FOFUtilsObject
 	public function apply()
 	{
 		// CSRF prevention
+
 		if ($this->csrfProtection)
 		{
 			$this->_csrfProtection();
@@ -1337,6 +1342,7 @@ class FOFController extends FOFUtilsObject
 		$result = $this->applySave();
 
 		// Redirect to the edit task
+
 		if ($result)
 		{
 			$id = $this->input->get('id', 0, 'int');
@@ -1362,6 +1368,7 @@ class FOFController extends FOFUtilsObject
 	public function copy()
 	{
 		// CSRF prevention
+
 		if ($this->csrfProtection)
 		{
 			$this->_csrfProtection();
@@ -1377,6 +1384,7 @@ class FOFController extends FOFUtilsObject
 		$status = $model->copy();
 
 		// Redirect
+
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
 		{
 			$customURL = base64_decode($customURL);
@@ -1392,11 +1400,7 @@ class FOFController extends FOFUtilsObject
 		}
 		else
 		{
-			if(!FOFPlatform::getInstance()->isCli())
-			{
-				FOFPlatform::getInstance()->setHeader('Status', '201 Created', true);
-			}
-
+            FOFPlatform::getInstance()->setHeader('Status', '201 Created', true);
 			$this->setRedirect($url);
 
 			return true;
@@ -1419,6 +1423,7 @@ class FOFController extends FOFUtilsObject
 		$result = $this->applySave();
 
 		// Redirect to the display task
+
 		if ($result)
 		{
 			$textkey = strtoupper($this->component) . '_LBL_' . strtoupper($this->view) . '_SAVED';
@@ -1496,71 +1501,6 @@ class FOFController extends FOFUtilsObject
 
 		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
 		$this->setRedirect($url);
-
-		return true;
-	}
-
-	/**
-	 * Method to load a row from version history
-	 *
-	 * @return   boolean  True if the content history is reverted, false otherwise
-	 *
-	 * @since   2.2
-	 */
-	public function loadhistory()
-	{
-		$app = JFactory::getApplication();
-		$lang  = JFactory::getLanguage();
-		$model = $this->getThisModel();
-		$table = $model->getTable();
-		$historyId = $app->input->get('version_id', null, 'integer');
-		$status = $model->checkout();
-		$alias = $this->component . '.' . $this->view;
-
-		if (!$model->loadhistory($historyId, $table, $alias))
-		{
-			$this->setMessage($model->getError(), 'error');
-
-			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
-			$this->setRedirect($url);
-
-			return false;
-		}
-
-		// Determine the name of the primary key for the data.
-		if (empty($key))
-		{
-			$key = $table->getKeyName();
-		}
-
-		$recordId = $table->$key;
-
-		// To avoid data collisions the urlVar may be different from the primary key.
-		$urlVar = empty($this->urlVar) ? $key : $this->urlVar;
-
-		// Access check.
-		$privilege = $this->configProvider->get(
-			$this->component . '.views.' .
-			FOFInflector::singularize($this->view) . '.acl.edit', 'core.edit'
-		);
-
-		if (!$this->checkACL($privilege))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
-
-			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
-			$this->setRedirect($url);
-			$table->checkin();
-
-			return false;
-		}
-
-		$table->store();
-		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
-		$this->setRedirect($url);
-
-		$this->setMessage(JText::sprintf('JLIB_APPLICATION_SUCCESS_LOAD_HISTORY', $model->getState('save_date'), $model->getState('version_note')));
 
 		return true;
 	}
@@ -1756,6 +1696,7 @@ class FOFController extends FOFUtilsObject
 	public function orderdown()
 	{
 		// CSRF prevention
+
 		if ($this->csrfProtection)
 		{
 			$this->_csrfProtection();
@@ -1771,6 +1712,7 @@ class FOFController extends FOFUtilsObject
 		$status = $model->move(1);
 
 		// Redirect
+
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
 		{
 			$customURL = base64_decode($customURL);
@@ -1798,6 +1740,7 @@ class FOFController extends FOFUtilsObject
 	public function orderup()
 	{
 		// CSRF prevention
+
 		if ($this->csrfProtection)
 		{
 			$this->_csrfProtection();
@@ -1813,6 +1756,7 @@ class FOFController extends FOFUtilsObject
 		$status = $model->move(-1);
 
 		// Redirect
+
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
 		{
 			$customURL = base64_decode($customURL);
@@ -1840,6 +1784,7 @@ class FOFController extends FOFUtilsObject
 	public function remove()
 	{
 		// CSRF prevention
+
 		if ($this->csrfProtection)
 		{
 			$this->_csrfProtection();
@@ -1855,6 +1800,7 @@ class FOFController extends FOFUtilsObject
 		$status = $model->delete();
 
 		// Redirect
+
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
 		{
 			$customURL = base64_decode($customURL);
@@ -2032,6 +1978,7 @@ class FOFController extends FOFUtilsObject
 				$this->messageType = 'message';
 			}
 		}
+
 		// If the type is explicitly set, set it.
 		else
 		{
@@ -2048,7 +1995,7 @@ class FOFController extends FOFUtilsObject
 	 *
 	 * @return  bool
 	 */
-	protected function setstate($state = 0)
+	final protected function setstate($state = 0)
 	{
 		$model = $this->getThisModel();
 
@@ -2060,6 +2007,7 @@ class FOFController extends FOFUtilsObject
 		$status = $model->publish($state);
 
 		// Redirect
+
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
 		{
 			$customURL = base64_decode($customURL);
@@ -2086,7 +2034,7 @@ class FOFController extends FOFUtilsObject
 	 *
 	 * @return  bool
 	 */
-	protected function setaccess($level = 0)
+	final protected function setaccess($level = 0)
 	{
 		$model = $this->getThisModel();
 
@@ -2095,7 +2043,8 @@ class FOFController extends FOFUtilsObject
 			$model->setIDsFromRequest();
 		}
 
-		$id   = $model->getId();
+		$id = $model->getId();
+
 		$item = $model->getItem();
 
 		if (!($item instanceof FOFTable))
@@ -2103,13 +2052,12 @@ class FOFController extends FOFUtilsObject
 			return false;
 		}
 
-		$accessField = $item->getColumnAlias('access');
-		$key         = $item->getKeyName();
-		$loadedid    = $item->$key;
+		$key = $item->getKeyName();
+		$loadedid = $item->$key;
 
 		if ($id == $loadedid)
 		{
-			$item->$accessField = $level;
+			$item->access = $level;
 			$status = $model->save($item);
 		}
 		else
@@ -2118,6 +2066,7 @@ class FOFController extends FOFUtilsObject
 		}
 
 		// Redirect
+
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
 		{
 			$customURL = base64_decode($customURL);
@@ -2142,7 +2091,7 @@ class FOFController extends FOFUtilsObject
 	 *
 	 * @return  boolean  Returns true on success
 	 */
-	final private function applySave()
+	final protected function applySave()
 	{
 		// Load the model
 		$model = $this->getThisModel();
@@ -2179,11 +2128,11 @@ class FOFController extends FOFUtilsObject
 
 			// Try to check-in the record if it's not a new one
 			$status = $model->checkin();
-		}
 
-		if ($status)
-		{
-			$status = $this->onAfterApplySave();
+			if ($status)
+			{
+				$status = $this->onAfterApplySave();
+			}
 		}
 
 		$this->input->set('id', $model->getId());
@@ -2280,6 +2229,7 @@ class FOFController extends FOFUtilsObject
 	public function getModel($name = '', $prefix = '', $config = array())
 	{
 		// Make sure $config is an array
+
 		if (is_object($config))
 		{
 			$config = (array) $config;
@@ -2746,53 +2696,14 @@ class FOFController extends FOFUtilsObject
 			$config['helper_path'][] = $componentPaths['main'] . '/' . $extraHelperPath;
 		}
 
-		// Set up the page title
-		$setFrontendPageTitle = $this->configProvider->get($config['option'] . '.views.' . $config['view'] . '.config.setFrontendPageTitle', null);
-
-		if ($setFrontendPageTitle)
-		{
-			$setFrontendPageTitle = strtolower($setFrontendPageTitle);
-			$config['setFrontendPageTitle'][] = in_array($setFrontendPageTitle, array('1', 'yes', 'true', 'on'));
-		}
-
-		$defaultPageTitle = $this->configProvider->get($config['option'] . '.views.' . $config['view'] . '.config.defaultPageTitle', null);
-
-		if ($defaultPageTitle)
-		{
-			$config['defaultPageTitle'][] = in_array($defaultPageTitle, array('1', 'yes', 'true', 'on'));
-		}
-
 		// Set the use_hypermedia flag in $config if it's not already set
+
 		if (!isset($config['use_hypermedia']))
 		{
 			$config['use_hypermedia'] = $this->configProvider->get($config['option'] . '.views.' . $config['view'] . '.config.use_hypermedia', false);
 		}
 
-		// Set also the linkbar_style
-		if (!isset($config['linkbar_style']))
-		{
-			$style = $this->configProvider->get($config['option'] . '.views.' . $config['view'] . '.config.linkbar_style', false);
-
-			if ($style) {
-				$config['linkbar_style'] = $style;
-			}
-		}
-
-		/**
-		 * Some administrative templates force format=utf (yeah, I know, what the heck, right?) when a format
-		 * URL parameter does not exist in the URL. Of course there is no such thing as FOFViewUtf (why the heck would
-		 * it be, there is no such thing as a format=utf in Joomla! for crying out loud) which causes a Fatal Error. So
-		 * we have to detect that and force $type='html'...
-		 */
-		if (!class_exists($viewClass) && ($type != 'html'))
-		{
-			$type = 'html';
-			$result = $this->createView($name, $prefix, $type, $config);
-		}
-		else
-		{
-			$result = new $viewClass($config);
-		}
+		$result = new $viewClass($config);
 
 		return $result;
 	}
@@ -2937,7 +2848,7 @@ class FOFController extends FOFUtilsObject
 				}
 			}
 		}
-
+		
 		return false;
 	}
 

@@ -53,9 +53,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $item->group; ?>" onclick="Joomla.isChecked(this.checked);" />
 					</td>
 					<td>
-						<label for="cb<?php echo $i ?>">
-							<strong><?php echo $item->group; ?></strong>
-						</label>
+						<strong><?php echo $item->group; ?></strong>
 					</td>
 					<td class="center">
 						<?php echo $item->count; ?>

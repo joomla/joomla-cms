@@ -193,7 +193,7 @@ class JSchemaChangeset
 		// Get the folder from the database name
 		$sqlFolder = $this->db->name;
 
-		if ($sqlFolder == 'mysqli' || $sqlFolder == 'pdomysql')
+		if ($sqlFolder == 'mysqli')
 		{
 			$sqlFolder = 'mysql';
 		}

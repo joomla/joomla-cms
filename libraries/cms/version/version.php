@@ -20,10 +20,10 @@ final class JVersion
 	public $PRODUCT = 'Joomla!';
 
 	/** @var  string  Release version. */
-	public $RELEASE = '3.4';
+	public $RELEASE = '3.3';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '0-dev';
+	public $DEV_LEVEL = '7-dev';
 
 	/** @var  string  Development STATUS. */
 	public $DEV_STATUS = 'Development';

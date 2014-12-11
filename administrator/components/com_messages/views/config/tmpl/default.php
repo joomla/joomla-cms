@@ -10,22 +10,21 @@
 defined('_JEXEC') or die;
 
 // Include the HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.modal');
-
-JFactory::getDocument()->addScriptDeclaration("
-		Joomla.submitbutton = function(task)
-		{
-			if (task == 'config.cancel' || document.formvalidator.isValid(document.getElementById('config-form')))
-			{
-				Joomla.submitform(task, document.getElementById('config-form'));
-			}
-		};
-");
 ?>
+<script type="text/javascript">
+	Joomla.submitbutton = function(task)
+	{
+		if (task == 'config.cancel' || document.formvalidator.isValid(document.id('config-form')))
+		{
+			Joomla.submitform(task, document.getElementById('config-form'));
+		}
+	}
+</script>
 <form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" class="form-validate form-horizontal">
 	<fieldset>
 		<div>

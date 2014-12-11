@@ -67,11 +67,11 @@ class InstallerModel extends JModelList
 
 			if (!empty($search))
 			{
-				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
+				$search = str_replace(' ', '.*', preg_quote(trim($search), '/'));
 
 				foreach ($result as $i => $item)
 				{
-					if (!preg_match("/$escapedSearchString/i", $item->name))
+					if (!preg_match("/$search/i", $item->name))
 					{
 						unset($result[$i]);
 					}
@@ -107,7 +107,7 @@ class InstallerModel extends JModelList
 	 *
 	 * @return  array The array of translated objects
 	 */
-	protected function translate(&$items)
+	private function translate(&$items)
 	{
 		$lang = JFactory::getLanguage();
 

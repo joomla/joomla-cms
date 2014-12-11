@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * HTML View class for the Newsfeeds component
  *
@@ -162,7 +160,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Get the newsfeed
 		$newsfeed = $item;
 
-		$temp = new Registry;
+		$temp = new JRegistry;
 		$temp->loadString($item->params);
 		$params->merge($temp);
 

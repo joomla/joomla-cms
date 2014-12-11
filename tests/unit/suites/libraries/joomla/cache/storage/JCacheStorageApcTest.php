@@ -13,52 +13,60 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
+ *
  * @since       11.1
  */
 class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JCacheStorageApc
+	 * @access protected
 	 */
 	protected $object;
 
 	/**
-	 * @var    boolean
+	 * @var    apcAvailable
+	 * @access protected
 	 */
-	protected $extensionAvailable;
+	protected $apcAvailable;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
 
-		$this->extensionAvailable = extension_loaded('apc');
+		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
+		include_once JPATH_PLATFORM . '/joomla/cache/storage/apc.php';
 
-		if ($this->extensionAvailable)
-		{
-			$this->object = JCacheStorage::getInstance('apc');
-		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
+		$this->object = JCacheStorage::getInstance('apc');
+		$this->apcAvailable = extension_loaded('apc');
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 */
+	protected function tearDown()
+	{
 	}
 
 	/**
 	 * Testing isSupported().
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function testIsSupported()
 	{
-		$this->assertEquals(
-			$this->extensionAvailable,
+		$this->assertThat(
 			$this->object->isSupported(),
+			$this->equalTo($this->apcAvailable),
 			'Claims APC is not loaded.'
 		);
 	}

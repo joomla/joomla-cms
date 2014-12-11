@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
+ * @package	    Joomla.UnitTest
  * @subpackage  Router
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
@@ -14,7 +14,7 @@
  * @subpackage  Router
  * @since       3.0
  */
-class JRouterAdministratorTest extends TestCase
+class JRouterAdministratorTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Backup of the SERVER superglobal
@@ -22,7 +22,7 @@ class JRouterAdministratorTest extends TestCase
 	 * @var    array
 	 * @since  3.1
 	 */
-	protected $server;
+	protected $backupServer;
 
 	/**
 	 * Class being tested
@@ -44,12 +44,10 @@ class JRouterAdministratorTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->server = $_SERVER;
+		$this->backupServer = $_SERVER;
 
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['SCRIPT_NAME'] = '';
-
-		JUri::reset();
 
 		$this->object = new JRouterAdministrator;
 	}
@@ -64,7 +62,7 @@ class JRouterAdministratorTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		$_SERVER = $this->server;
+		$_SERVER = $this->backupServer;
 
 		parent::tearDown();
 	}

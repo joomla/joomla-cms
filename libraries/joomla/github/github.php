@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Joomla Platform class for interacting with a GitHub server instance.
  *
@@ -41,7 +39,7 @@ use Joomla\Registry\Registry;
 class JGithub
 {
 	/**
-	 * @var    Registry  Options for the GitHub object.
+	 * @var    JRegistry  Options for the GitHub object.
 	 * @since  11.3
 	 */
 	protected $options;
@@ -68,14 +66,14 @@ class JGithub
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry     $options  GitHub options object.
+	 * @param   JRegistry    $options  GitHub options object.
 	 * @param   JGithubHttp  $client   The HTTP client object.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(Registry $options = null, JGithubHttp $client = null)
+	public function __construct(JRegistry $options = null, JGithubHttp $client = null)
 	{
-		$this->options = isset($options) ? $options : new Registry;
+		$this->options = isset($options) ? $options : new JRegistry;
 		$this->client  = isset($client) ? $client : new JGithubHttp($this->options);
 
 		// Setup the default API url if not already set.

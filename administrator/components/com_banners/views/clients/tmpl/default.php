@@ -23,27 +23,24 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 $archived   = $this->state->get('filter.state') == 2 ? true : false;
 $trashed    = $this->state->get('filter.state') == -2 ? true : false;
 $sortFields = $this->getSortFields();
-
-JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
+?>
+<script type="text/javascript">
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != "' . $listOrder . '")
+		if (order != '<?php echo $listOrder; ?>')
 		{
-			dirn = "asc";
+			dirn = 'asc';
 		}
 		else
 		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
-		Joomla.tableOrdering(order, dirn, "");
+		Joomla.tableOrdering(order, dirn, '');
 	}
-});');
-?>
-
+</script>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=clients'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>

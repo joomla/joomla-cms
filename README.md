@@ -50,9 +50,9 @@ Is it easy to change the layout display?
 
 Ready to install Joomla?
 ---------------------
-* Check the [minimum requirements](http://www.joomla.org/technical-requirements.html). 
+* Check the [minimum requirements](http://www.joomla.org/technical-requirements.html).
 * How do you [install Joomla](http://docs.joomla.org/Installing_Joomla!)?
-* You could start your Joomla! experience by [building your site on a local test server](http://docs.joomla.org/Installing_Joomla_locally).
+* You could start your Joomla! experience by [building your site on a local test server](http://docs.joomla.org/Tutorial:Joomla_Local_install).
 When ready, it can be moved to an on-line hosting account of your choice.
 
 Updates are free!
@@ -67,7 +67,7 @@ Where can you get support and help?
 * Post questions at [our forums](http://forum.joomla.org);
 * [Joomla Resources Directory](http://resources.joomla.org/tos.html) (JRD).
 
-Do you already have a Joomla site that isn't built with Joomla 3.x?
+Do you already have a Joomla site that isn't built with Joomla 3.x ?
 ---------------------
 * What's [new in Joomla! 3.x](http://www.joomla.org/3)?
 * What are the [main differences between 2.5 and 3.x](http://docs.joomla.org/What_are_the_major_differences_between_Joomla!_2.5_and_3.x%3F)?

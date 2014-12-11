@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Menu table
  *
@@ -72,7 +70,7 @@ class JTableMenu extends JTableNested
 
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}

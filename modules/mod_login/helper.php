@@ -22,8 +22,8 @@ class ModLoginHelper
 	/**
 	 * Retrieve the url where the user should be returned after logging in
 	 *
-	 * @param   \Joomla\Registry\Registry  $params  module parameters
-	 * @param   string                     $type    return type
+	 * @param   JRegistry  $params  module parameters
+	 * @param   string     $type    return type
 	 *
 	 * @return string
 	 */
@@ -60,7 +60,8 @@ class ModLoginHelper
 		if (!$url)
 		{
 			// Stay on the same page
-			$vars = $router->getVars();
+			$uri = clone JUri::getInstance();
+			$vars = $router->parse($uri);
 			unset($vars['lang']);
 
 			if ($router->getMode() == JROUTER_MODE_SEF)

@@ -9,7 +9,10 @@
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
-JFormHelper::loadFieldClass('accesslevel');
+if (!class_exists('JFormFieldAccessLevel'))
+{
+	require_once JPATH_LIBRARIES . '/joomla/form/fields/accesslevel.php';
+}
 
 /**
  * Form Field class for FOF
@@ -23,10 +26,10 @@ class FOFFormFieldAccesslevel extends JFormFieldAccessLevel implements FOFFormFi
 	protected $static;
 
 	protected $repeatable;
-
+	
 	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
 	public $rowid;
-
+	
 	/** @var   FOFTable  The item being rendered in a repeatable form field */
 	public $item;
 
@@ -58,7 +61,7 @@ class FOFFormFieldAccesslevel extends JFormFieldAccessLevel implements FOFFormFi
 					$this->repeatable = $this->getRepeatable();
 				}
 
-				return $this->repeatable;
+				return $this->static;
 				break;
 
 			default:

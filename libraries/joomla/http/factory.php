@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * HTTP factory class.
  *
@@ -21,8 +19,8 @@ class JHttpFactory
 	/**
 	 * method to receive Http instance.
 	 *
-	 * @param   Registry  $options   Client options object.
-	 * @param   mixed     $adapters  Adapter (string) or queue of adapters (array) to use for communication.
+	 * @param   JRegistry  $options   Client options object.
+	 * @param   mixed      $adapters  Adapter (string) or queue of adapters (array) to use for communication.
 	 *
 	 * @return  JHttp      Joomla Http class
 	 *
@@ -30,11 +28,11 @@ class JHttpFactory
 	 *
 	 * @since   12.1
 	 */
-	public static function getHttp(Registry $options = null, $adapters = null)
+	public static function getHttp(JRegistry $options = null, $adapters = null)
 	{
 		if (empty($options))
 		{
-			$options = new Registry;
+			$options = new JRegistry;
 		}
 
 		if (empty($adapters))
@@ -58,14 +56,14 @@ class JHttpFactory
 	/**
 	 * Finds an available http transport object for communication
 	 *
-	 * @param   Registry  $options  Option for creating http transport object
-	 * @param   mixed     $default  Adapter (string) or queue of adapters (array) to use
+	 * @param   JRegistry  $options  Option for creating http transport object
+	 * @param   mixed      $default  Adapter (string) or queue of adapters (array) to use
 	 *
 	 * @return  JHttpTransport Interface sub-class
 	 *
 	 * @since   12.1
 	 */
-	public static function getAvailableDriver(Registry $options, $default = null)
+	public static function getAvailableDriver(JRegistry $options, $default = null)
 	{
 		if (is_null($default))
 		{
@@ -87,7 +85,7 @@ class JHttpFactory
 		{
 			$class = 'JHttpTransport' . ucfirst($adapter);
 
-			if (class_exists($class) && $class::isSupported())
+			if ($class::isSupported())
 			{
 				return new $class($options);
 			}

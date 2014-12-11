@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Base class for rendering a display layout
  *
@@ -22,7 +20,7 @@ class JLayoutBase implements JLayout
 	/**
 	 * Options object
 	 *
-	 * @var    Registry
+	 * @var    JRegistry
 	 * @since  3.2
 	 */
 	protected $options = null;
@@ -38,7 +36,7 @@ class JLayoutBase implements JLayout
 	/**
 	 * Set the options
 	 *
-	 * @param   array|Registry  $options  Array / Registry object with the options to load
+	 * @param   mixed  $options  Array / JRegistry object with the options to load
 	 *
 	 * @return  JLayoutBase  Instance of $this to allow chaining.
 	 *
@@ -46,19 +44,19 @@ class JLayoutBase implements JLayout
 	 */
 	public function setOptions($options = null)
 	{
-		// Received Registry
-		if ($options instanceof Registry)
+		// Received JRegistry
+		if ($options instanceof JRegistry)
 		{
 			$this->options = $options;
 		}
 		// Received array
 		elseif (is_array($options))
 		{
-			$this->options = new Registry($options);
+			$this->options = new JRegistry($options);
 		}
 		else
 		{
-			$this->options = new Registry;
+			$this->options = new JRegistry;
 		}
 
 		return $this;
@@ -67,14 +65,14 @@ class JLayoutBase implements JLayout
 	/**
 	 * Get the options
 	 *
-	 * @return  Registry  Object with the options
+	 * @return  JRegistry  Object with the options
 	 *
 	 * @since   3.2
 	 */
 	public function getOptions()
 	{
-		// Always return a Registry instance
-		if (!($this->options instanceof Registry))
+		// Always return a JRegistry instance
+		if (!($this->options instanceof JRegistry))
 		{
 			$this->resetOptions();
 		}

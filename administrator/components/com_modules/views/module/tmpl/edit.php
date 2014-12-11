@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -29,7 +29,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 
 $script = "Joomla.submitbutton = function(task)
 	{
-			if (task == 'module.cancel' || document.formvalidator.isValid(document.getElementById('module-form'))) {";
+			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {";
 if ($hasContent)
 {
 	$script .= $this->form->getField($hasContentFieldName)->save();
