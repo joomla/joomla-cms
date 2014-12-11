@@ -78,10 +78,14 @@ var FinderIndexer = function(){
 		progress = (offset / totalItems) * 100;
 		jQuery('#finder-progress-header').text(header);
 		jQuery('#finder-progress-message').html(message);
-		if (progress <= 100) {
+		if (progress < 100) {
 			jQuery('#progress-bar').css('width', progress + '%').attr('aria-valuenow', progress);
 		}
 		else {
+			jQuery('#progress-bar').removeClass('bar-success').addClass('bar-warning').attr('aria-valuemin', 100).attr('aria-valuemax', 200);
+			jQuery('#progress-bar').css('width', progress + '%').attr('aria-valuenow', progress);
+		}
+		if (progress == 200) {
 			jQuery('#progress').remove();
 		}
 	};
