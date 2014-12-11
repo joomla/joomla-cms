@@ -18,7 +18,6 @@
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
 				<field name="mode" type="list"
 					default="1"
