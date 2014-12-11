@@ -338,13 +338,14 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_administrator')))
 			{
+				$msg = JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DIRECTORY_ADMIN', $this->parent->getPath('extension_administrator'));
 				JLog::add(
-					JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DIRECTORY_ADMIN', $this->parent->getPath('extension_administrator')),
+					$msg,
 					JLog::WARNING, 'jerror'
 				);
 
 				// Install failed, rollback any changes
-				$this->parent->abort();
+				$this->parent->abort($msg);
 
 				return false;
 			}
@@ -365,7 +366,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			if ($this->parent->parseFiles($this->manifest->files) === false)
 			{
 				// Install failed, rollback any changes
-				$this->parent->abort();
+				$this->parent->abort(JText::_("JLIB_INSTALLER_ABORT_COMP_COPY_SITE_FILES_TO_COPY_FAILED"));
 
 				return false;
 			}
@@ -377,7 +378,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			if ($this->parent->parseFiles($this->manifest->administration->files, 1) === false)
 			{
 				// Install failed, rollback any changes
-				$this->parent->abort();
+				$this->parent->abort(JText::_("JLIB_INSTALLER_ABORT_COMP_COPY_ADMIN_FILES_TO_COPY_FAILED"));
 
 				return false;
 			}
@@ -752,13 +753,14 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_administrator')))
 			{
+				$msg = JText::sprintf('JLIB_INSTALLER_ERROR_COMP_UPDATE_FAILED_TO_CREATE_DIRECTORY_ADMIN', $this->parent->getPath('extension_administrator'));
 				JLog::add(
-					JText::sprintf('JLIB_INSTALLER_ERROR_COMP_UPDATE_FAILED_TO_CREATE_DIRECTORY_ADMIN', $this->parent->getPath('extension_administrator')),
+					$msg,
 					JLog::WARNING, 'jerror'
 				);
 
 				// Install failed, rollback any changes
-				$this->parent->abort();
+				$this->parent->abort($msg);
 
 				return false;
 			}
@@ -779,7 +781,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			if ($this->parent->parseFiles($this->manifest->files, 0, $this->oldFiles) === false)
 			{
 				// Install failed, rollback any changes
-				$this->parent->abort();
+				$this->parent->abort(JText::_("JLIB_INSTALLER_ABORT_COMP_FIND_SITE_FILES_TO_COPY_FAILED"));
 
 				return false;
 			}
@@ -790,7 +792,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			if ($this->parent->parseFiles($this->manifest->administration->files, 1, $this->oldAdminFiles) === false)
 			{
 				// Install failed, rollback any changes
-				$this->parent->abort();
+				$this->parent->abort(JText::_("JLIB_INSTALLER_ABORT_COMP_FIND_ADMIN_FILES_TO_COPY_FAILED"));
 
 				return false;
 			}
