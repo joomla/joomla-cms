@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * This models supports retrieving lists of newsfeed categories.
  *
@@ -99,7 +101,7 @@ class NewsfeedsModelCategories extends JModelList
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry;
+			$params = new Registry;
 
 			if ($active)
 			{

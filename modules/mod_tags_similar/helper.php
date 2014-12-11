@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Helper for mod_tags_popular
  *
@@ -21,9 +23,9 @@ abstract class ModTagssimilarHelper
 	/**
 	 * Get a list of tags
 	 *
-	 * @param   JRegistry  &$params  Module parameters
+	 * @param   Registry  &$params  Module parameters
 	 *
-	 * @return  mixed                Results array / null
+	 * @return  mixed  Results array / null
 	 */
 	public static function getList(&$params)
 	{
@@ -43,6 +45,7 @@ abstract class ModTagssimilarHelper
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$matchtype  = $params->get('matchtype', 'all');
 		$maximum    = $params->get('maximum', 5);
+		$ordering   = $params->get('ordering', 'count');
 		$tagsHelper = new JHelperTags;
 		$prefix     = $option . '.' . $view;
 		$id         = $app->input->getInt('id');
@@ -119,7 +122,16 @@ abstract class ModTagssimilarHelper
 			$query->having('COUNT( ' . $db->quoteName('tag_id') . ')  >= ' . $tagCountHalf);
 		}
 
-		$query->order($db->quoteName('count') . ' DESC');
+		if ($ordering == 'count' || $ordering == 'countrandom')
+		{
+			$query->order($db->quoteName('count') . ' DESC');
+		}
+
+		if ($ordering == 'random' || $ordering == 'countrandom')
+		{
+			$query->order('RAND()');
+		}
+
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 
@@ -129,7 +141,7 @@ abstract class ModTagssimilarHelper
 			$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1]
 				. '&id=' . $result->content_item_id . '-' . $result->core_alias;
 
-			$result->core_params = new JRegistry($result->core_params);
+			$result->core_params = new Registry($result->core_params);
 		}
 
 		return $results;

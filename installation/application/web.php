@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla! Installation Application class.
  *
@@ -380,7 +382,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		{
 			$template = new stdClass;
 			$template->template = 'template';
-			$template->params = new JRegistry;
+			$template->params = new Registry;
 
 			return $template;
 		}
@@ -552,10 +554,10 @@ final class InstallationApplicationWeb extends JApplicationCms
 			$session->start();
 		}
 
-		if (!$session->get('registry') instanceof JRegistry)
+		if (!$session->get('registry') instanceof Registry)
 		{
 			// Registry has been corrupted somehow.
-			$session->set('registry', new JRegistry('session'));
+			$session->set('registry', new Registry('session'));
 		}
 
 		// Set the session object.

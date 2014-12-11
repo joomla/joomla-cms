@@ -34,12 +34,12 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		switch ($params->get('updatesource', 'nochange'))
 		{
-			// "Long Term Support (LTS) branch - Recommended".
+			// "Current Minor & Patch Release (recommended)".
 			case 'lts':
 				$updateURL = 'http://update.joomla.org/core/list.xml';
 				break;
 
-			// "Short term support (STS) branch".
+			// "Current Major Release".
 			case 'sts':
 				$updateURL = 'http://update.joomla.org/core/sts/list_sts.xml';
 				break;

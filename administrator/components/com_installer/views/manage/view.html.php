@@ -50,15 +50,6 @@ class InstallerViewManage extends InstallerViewDefault
 			return false;
 		}
 
-		// Check if there are no matching items.
-		if (!count($this->items))
-		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'),
-				'warning'
-			);
-		}
-
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 

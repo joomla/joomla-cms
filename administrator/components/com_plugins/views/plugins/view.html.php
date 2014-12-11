@@ -43,15 +43,6 @@ class PluginsViewPlugins extends JViewLegacy
 			return false;
 		}
 
-		// Check if there are no matching items.
-		if (!count($this->items))
-		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'),
-				'warning'
-			);
-		}
-
 		$this->addToolbar();
 		parent::display($tpl);
 	}

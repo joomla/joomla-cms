@@ -8,7 +8,7 @@
  */
 (function($) {
     
-    Joomla = Joomla || {};
+    Joomla = window.Joomla || {};
     var $boxes;
     Joomla.JMultiSelect = function(table) {
         var $last,

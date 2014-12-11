@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Model for the global configuration
  *
@@ -139,7 +141,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Save the text filters
 		if (isset($data['filters']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray(array('filters' => $data['filters']));
 
 			$extension = JTable::getInstance('extension');
@@ -214,7 +216,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		// Create the new configuration object.
-		$config = new JRegistry('config');
+		$config = new Registry('config');
 		$config->loadArray($data);
 
 		// Overwrite the old FTP credentials with the new ones.
@@ -251,7 +253,7 @@ class ConfigModelApplication extends ConfigModelForm
 		$prev = JArrayHelper::fromObject($prev);
 
 		// Create the new configuration object, and unset the root_user property
-		$config = new JRegistry('config');
+		$config = new Registry('config');
 		unset($prev['root_user']);
 		$config->loadArray($prev);
 
@@ -262,14 +264,14 @@ class ConfigModelApplication extends ConfigModelForm
 	/**
 	 * Method to write the configuration to a file.
 	 *
-	 * @param   JRegistry  $config  A JRegistry object containing all global config data.
+	 * @param   Registry  $config  A Registry object containing all global config data.
 	 *
 	 * @return	boolean  True on success, false on failure.
 	 *
 	 * @since	2.5.4
 	 * @throws  RuntimeException
 	 */
-	private function writeConfigFile(JRegistry $config)
+	private function writeConfigFile(Registry $config)
 	{
 		jimport('joomla.filesystem.path');
 		jimport('joomla.filesystem.file');
