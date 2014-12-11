@@ -17,6 +17,7 @@
 		<language tag="en-GB">en-GB.plg_content_loadmodule.sys.ini</language>
 	</languages>
 	<config>
+	
 		<fields name="params">
 			<fieldset name="basic">
 				<field name="style" type="list"
