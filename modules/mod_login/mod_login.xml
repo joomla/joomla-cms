@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	type="module"
-	version="3.1"
-	client="site"
-	method="upgrade">
+<extension type="module" version="3.1" client="site" method="upgrade">
 	<name>mod_login</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
@@ -17,7 +13,7 @@
 		<filename module="mod_login">mod_login.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>index.html</filename>		<filename>mod_login.xml</filename>
+		<filename>mod_login.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_login.ini</language>
