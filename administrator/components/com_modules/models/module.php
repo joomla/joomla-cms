@@ -19,6 +19,14 @@ use Joomla\Registry\Registry;
 class ModulesModelModule extends JModelAdmin
 {
 	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.4
+	 */
+	public $typeAlias = 'com_modules.module';
+
+	/**
 	 * @var    string  The prefix to use with controller messages.
 	 * @since  1.6
 	 */
@@ -37,7 +45,7 @@ class ModulesModelModule extends JModelAdmin
 	protected $helpURL;
 
 	/**
-	 * Batch copy/move command. If set to false, 
+	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
 	 * @var string
