@@ -10,7 +10,7 @@
 	<version>3.0.0</version>
 	<description>PLG_FINDER_NEWSFEEDS_XML_DESCRIPTION</description>
 	<files>
-		<file plugin="newsfeeds">newsfeeds.php</file>
+		<filename plugin="newsfeeds">newsfeeds.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.plg_finder_newsfeeds.ini</language>
