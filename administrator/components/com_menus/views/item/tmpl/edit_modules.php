@@ -66,13 +66,13 @@ echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 				<td id="<?php echo $module->id; ?>">
 					<?php $link = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;id=' . $module->id . '&amp;tmpl=component&amp;view=module&amp;layout=modal'; ?>
 					<a class="modal" href="<?php echo $link;?>" rel="{handler: 'iframe', size: {x: 900, y: 550}}" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>" id="title-<?php echo $module->id; ?>">
-						<?php echo JText::_($this->escape($module->title)); ?></a>
+						<?php echo $this->escape($module->title); ?></a>
 				</td>
 				<td id="access-<?php echo $module->id; ?>">
-					<?php echo JText::_($this->escape($module->access_title)); ?>
+					<?php echo $this->escape($module->access_title); ?>
 				</td>
 				<td id="position-<?php echo $module->id; ?>">
-					<?php echo JText::_($this->escape($module->position)); ?>
+					<?php echo $this->escape($module->position); ?>
 				</td>
 				<td id="menus-<?php echo $module->id; ?>">
 					<?php if (is_null($module->menuid)) : ?>
