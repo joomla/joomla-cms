@@ -11,6 +11,8 @@
 	<description>PLG_CODEMIRROR_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="codemirror">codemirror.php</filename>
+		<filename>fonts.json</filename>
+		<filename>fonts.php</filename>
 	</files>
 
 	<languages>
@@ -20,7 +22,6 @@
 
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
 				<field name="lineNumbers" type="radio"
 					   class="btn-group btn-group-yesno"
