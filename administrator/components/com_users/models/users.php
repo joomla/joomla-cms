@@ -35,8 +35,8 @@ class UsersModelUsers extends JModelList
 				'email', 'a.email',
 				'block', 'a.block',
 				'sendEmail', 'a.sendEmail',
-				'registerDate', "'a.registerDate'",
-				'lastvisitDate', "'a.lastvisitDate'",
+				'registerDate', 'a.registerDate',
+				'lastvisitDate', 'a.lastvisitDate',
 				'activation', 'a.activation',
 				'active',
 				'group_id',
@@ -411,7 +411,7 @@ class UsersModelUsers extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.name')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->qn($db->escape($this->getState('list.ordering', 'a.name'))) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
