@@ -15,7 +15,6 @@
 		<files folder="admin">
 			<filename>admin.php</filename>
 			<filename>controller.php</filename>
-			<filename>index.html</filename>
 			<folder>helpers</folder>
 			<folder>models</folder>
 			<folder>views</folder>
