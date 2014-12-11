@@ -21,7 +21,8 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="section" type="radio"
+				<field name="section"
+					type="radio"
 					default="3"
 					class="btn-group"
 					description="PLG_TWOFACTORAUTH_YUBIKEY_SECTION_DESC"
