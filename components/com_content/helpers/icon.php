@@ -86,7 +86,7 @@ abstract class JHtmlIcon
 		$uri      = JUri::getInstance();
 		$base     = $uri->toString(array('scheme', 'host', 'port'));
 		$template = JFactory::getApplication()->getTemplate();
-		$link     = $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid), false);
+		$link     = $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
 		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailToHelper::addLink($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
@@ -232,7 +232,7 @@ abstract class JHtmlIcon
 		$input = $app->input;
 		$request = $input->request;
 
-		$url  = ContentHelperRoute::getArticleRoute($article->slug, $article->catid);
+		$url  = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
 		$url .= '&tmpl=component&print=1&layout=default&page=' . @ $request->limitstart;
 
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';

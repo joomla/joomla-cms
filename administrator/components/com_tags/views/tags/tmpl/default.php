@@ -140,7 +140,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					{
 						$parentsStr = "";
 						$_currentParentId = $item->parent_id;
-						$parentsStr = " ".$_currentParentId;
+						$parentsStr = " " . $_currentParentId;
 						for ($j = 0; $j < $item->level; $j++)
 						{
 							foreach ($this->ordering as $k => $v)
@@ -195,7 +195,7 @@ JFactory::getDocument()->addScriptDeclaration('
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tags.', $canCheckin); ?>
 								<?php endif; ?>
 								<?php if ($canEdit || $canEditOwn) : ?>
-									<a href="<?php echo JRoute::_('index.php?option=com_tags&task=tag.edit&id='.$item->id);?>">
+									<a href="<?php echo JRoute::_('index.php?option=com_tags&task=tag.edit&id=' . $item->id);?>">
 										<?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>
