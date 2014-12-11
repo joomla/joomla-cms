@@ -22,6 +22,14 @@ require_once JPATH_COMPONENT . '/helpers/menus.php';
 class MenusModelItem extends JModelAdmin
 {
 	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.4
+	 */
+	public $typeAlias = 'com_menus.item';
+
+	/**
 	 * @var        string    The prefix to use with controller messages.
 	 * @since   1.6
 	 */
@@ -46,7 +54,7 @@ class MenusModelItem extends JModelAdmin
 	protected $helpLocal = false;
 
 	/**
-	 * Batch copy/move command. If set to false, 
+	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
 	 * @var string
