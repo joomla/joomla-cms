@@ -37,8 +37,22 @@ class JModelListTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
-		// Create mock of abstract class JModelForm to test concrete methods in there
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockCmsApp();
+
 		$this->object = new JModelList(array("filter_fields" => array("field1", "field2")));
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**

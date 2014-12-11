@@ -13,8 +13,9 @@
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DESC"
 			>
-			<option value="lts">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LTS</option>
-			<option value="sts">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_STS</option>
+			<!-- Note: Change the values from sts and lts to major and minor with 4.0 -->
+			<option value="lts">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_MINOR</option>
+			<option value="sts">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_MAJOR</option>
 			<option value="testing">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING</option>
 			<option value="custom">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM</option>
 			<option value="nochange">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NOCHANGE</option>

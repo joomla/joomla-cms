@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform class for interacting with the Google APIs.
  *
@@ -20,13 +22,13 @@ defined('JPATH_PLATFORM') or die;
 class JGoogle
 {
 	/**
-	 * @var    JRegistry  Options for the Google object.
+	 * @var    Registry  Options for the Google object.
 	 * @since  12.3
 	 */
 	protected $options;
 
 	/**
-	 * @var    JAuth  The authentication client object to use in sending authenticated HTTP requests.
+	 * @var    JGoogleAuth  The authentication client object to use in sending authenticated HTTP requests.
 	 * @since  12.3
 	 */
 	protected $auth;
@@ -46,23 +48,23 @@ class JGoogle
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  Google options object.
-	 * @param   JAuth      $auth     The authentication client object.
+	 * @param   Registry     $options  Google options object.
+	 * @param   JGoogleAuth  $auth     The authentication client object.
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
+	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->auth  = isset($auth) ? $auth : new JGoogleAuthOauth2($this->options);
 	}
 
 	/**
 	 * Method to create JGoogleData objects
 	 *
-	 * @param   string     $name     Name of property to retrieve
-	 * @param   JRegistry  $options  Google options object.
-	 * @param   JAuth      $auth     The authentication client object.
+	 * @param   string       $name     Name of property to retrieve
+	 * @param   Registry     $options  Google options object.
+	 * @param   JGoogleAuth  $auth     The authentication client object.
 	 *
 	 * @return  JGoogleData  Google data API object.
 	 *
@@ -102,8 +104,8 @@ class JGoogle
 	/**
 	 * Method to create JGoogleEmbed objects
 	 *
-	 * @param   string     $name     Name of property to retrieve
-	 * @param   JRegistry  $options  Google options object.
+	 * @param   string    $name     Name of property to retrieve
+	 * @param   Registry  $options  Google options object.
 	 *
 	 * @return  JGoogleEmbed  Google embed API object.
 	 *

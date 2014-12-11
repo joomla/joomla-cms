@@ -9,251 +9,186 @@
 include_once JPATH_PLATFORM . '/joomla/document/html/html.php';
 
 /**
- * Test class for JDocumentHTML.
- *
- * @package     Joomla.UnitTest
- * @subpackage  Document
- * @since       11.1
+ * Test class for JDocumentHTML
  */
-class JDocumentHTMLTest extends PHPUnit_Framework_TestCase
+class JDocumentHTMLTest extends TestCase
 {
 	/**
-	 * @var JDocumentHTML
+	 * @var  JDocumentHTML
 	 */
 	protected $object;
 
 	/**
+	 * Test data for methods interfacing with the object's head data methods
+	 *
+	 * @var  array
+	 */
+	private $testHeadData = array(
+		'title' => 'My Custom Title',
+		'description' => 'My Description',
+		'link' => 'http://joomla.org',
+		'metaTags' => array(
+			'myMetaTag' => array('myMetaTag', true)
+		),
+		'links' => array(
+			'index.php' => array(
+				'relation' => 'Start',
+				'relType' => 'rel',
+				'attribs' => array()
+			)
+		),
+		'styleSheets' => array(
+			'test.css' => array(
+				'mime' => 'text/css',
+				'media' => null,
+				'attribs' => array()
+			)
+		),
+		'style' => array(
+			'text/css' => 'body { background: white; }'
+		),
+		'scripts' => array(
+			'test.js' => array(
+				'mime' => 'text/javascript',
+				'defer' => false,
+				'async' => false
+			)
+		),
+		'script' => array(
+			'text/javascript' => "window.addEvent('load', function() { new JCaption('img.caption'); });"
+		),
+		'custom' => array(
+			"<script>var html5 = true;</script>"
+		),
+	    'scriptText' => array(
+		    'JYES'
+	    )
+	);
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
-	 *
-	 * @return void
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
 
+		$this->saveFactoryState();
+
+		JFactory::$language = JLanguage::getInstance('en-GB');
+
 		$this->object = new JDocumentHTML;
 	}
 
 	/**
-	 * Test construct
-	 *
-	 * @covers  JDocumentHtml::__construct
-	 *
-	 * @return  void
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
 	 */
-	public function test__construct()
+	protected function tearDown()
 	{
-		$documentHtml = new JDocumentHtml;
+		$this->restoreFactoryState();
 
-		$this->assertThat(
-			$documentHtml->_mime,
-			$this->equalTo('text/html'),
-			'JDocumentHtml::__construct: Default Mime does not match'
-		);
+		JDocument::$_buffer = null;
 
-		$this->assertThat(
-			$documentHtml->_type,
-			$this->equalTo('html'),
-			'JDocumentHtml::__construct: Default Type does not match'
-		);
+		parent::tearDown();
 	}
 
 	/**
-	 * Test getHeadData
-	 *
-	 * @return void
+	 * @testdox  Validate the 'title' key exists in the array returned by getHeadData
 	 */
-	public function testSetAndGetHeadData()
+	public function testValidateKeyExistsInDataReturnedByGetHeadData()
 	{
-		// Get default values
-		$default = $this->object->getHeadData();
-
-		// Test invalid data
-		$return = $this->object->setHeadData('invalid');
-
-		$this->assertThat(
-			$this->object->getHeadData(),
-			$this->equalTo($default),
-			'JDocumentHtml::setHeadData invalid data allowed to be set'
-		);
-
-		// Test return value
-		$this->assertThat(
-			$return,
-			$this->isNull(),
-			'JDocumentHtml::setHeadData did not return null'
-		);
-
-		// Test setting/ getting values
-		$test_data = array(
-			'title' => 'My Custom Title',
-			'description' => 'My Description',
-			'link' => 'http://joomla.org',
-			'metaTags' => array(
-				'myMetaTag' => 'myMetaContent'
-			),
-			'links' => array(
-				'index.php' => array(
-					'relation' => 'Start',
-					'relType' => 'rel',
-					'attribs' => array()
-				)
-			),
-			'styleSheets' => array(
-				'test.css' => array(
-					'mime' => 'text/css',
-					'media' => null,
-					'attribs' => array()
-				)
-			),
-			'style' => array(
-				'text/css' => 'body { background: white; }'
-			),
-			'scripts' => array(
-				'test.js' => array(
-					'mime' => 'text/javascript',
-					'defer' => false,
-					'async' => false
-				)
-			),
-			'script' => array(
-				'text/javascript' => "window.addEvent('load', function() { new JCaption('img.caption'); });"
-			),
-			'custom' => array(
-				"<script>var html5 = true;</script>"
-			)
-		);
-
-		foreach ($test_data as $dataKey => $dataValue)
-		{
-			// Set
-			$return = $this->object->setHeadData(array($dataKey => $dataValue));
-
-			// Get
-			$compareTo = $this->object->getHeadData();
-
-			// Assert
-			$this->assertThat(
-				$compareTo[$dataKey],
-				$this->equalTo($dataValue),
-				'JDocumentHtml::setHeadData did not return ' . $dataKey . ' properly or setHeadData with ' . $dataKey . ' did not work'
-			);
-
-			// Test return value
-			$this->assertThat(
-				$return,
-				$this->equalTo($this->object),
-				'JDocumentHtml::setHeadData did not return JDocumentHtml instance'
-			);
-		}
-
-		// Could use native methods (JDocument::addStyleSheet, etc) like $this->mergeHeadData
+		$this->assertArrayHasKey('title', $this->object->getHeadData());
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
-	 *
-	 * @note    MDC: <link>  https://developer.mozilla.org/en-US/docs/HTML/Element/link
+	 * @testdox  Validate that setHeadData returns null with an empty array
 	 */
-	public function testAddHeadLink()
+	public function testValidateSetHeadDataReturnsNullWithEmptyArray()
 	{
-		// Simple
-		$this->object->addHeadLink('index.php', 'Start');
-
-		$this->assertThat(
-			$this->object->_links['index.php'],
-			$this->equalTo(array('relation' => 'Start', 'relType' => 'rel', 'attribs' => array())),
-			'addHeadLink did not work'
-		);
-
-		// RSS
-		$link = '&format=feed&limitstart=';
-		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-
-		$this->object->addHeadLink($link, 'alternate', 'rel', $attribs);
-
-		$this->assertThat(
-			$this->object->_links[$link],
-			$this->equalTo(array('relation' => 'alternate', 'relType' => 'rel', 'attribs' => $attribs)),
-			'JDocumentHtml::addHeadLink did not work for RSS'
-		);
+		$this->assertNull($this->object->setHeadData(array()));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that setHeadData returns an instance of $this
 	 */
-	public function testAddFavicon()
+	public function testEnsureSetHeadDataReturnsThisObject()
 	{
-		$this->object->addFavicon('templates\protostar\favicon.ico');
-
-		$this->assertThat(
-			$this->object->_links['templates/protostar/favicon.ico'],
-			$this->equalTo(array('relation' => 'shortcut icon', 'relType' => 'rel', 'attribs' => array('type' => 'image/vnd.microsoft.icon'))),
-			'JDocumentHtml::addFavicon did not work'
-		);
-
-		$this->object->addFavicon('favicon.gif', null);
-
-		$this->assertThat(
-			$this->object->_links['favicon.gif'],
-			$this->equalTo(array('relation' => 'shortcut icon', 'relType' => 'rel', 'attribs' => array('type' => null))),
-			'JDocumentHtml::addFavicon did not work'
-		);
+		$this->assertSame($this->object, $this->object->setHeadData($this->testHeadData));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Validate that mergeHeadData returns null with an empty array
 	 */
-	public function testAddCustomTag()
+	public function testValidateMergeHeadDataReturnsNullWithEmptyArray()
 	{
-		$this->object->addCustomTag("\t  <script>var html5 = true;</script>\r\n");
-
-		$this->assertThat(
-			in_array('<script>var html5 = true;</script>', $this->object->_custom),
-			$this->isTrue(),
-			'JDocumentHtml::addCustomTag did not work'
-		);
+		$this->assertNull($this->object->mergeHeadData(array()));
 	}
 
 	/**
-	 * We test both at once
-	 *
-	 * @return  void
+	 * @testdox  Test that mergeHeadData returns an instance of $this
 	 */
-	public function testIsAndSetHtml5()
+	public function testEnsureMergeHeadDataReturnsThisObject()
 	{
-		// Check true
-		$this->object->setHtml5(true);
+		$this->assertSame($this->object, $this->object->mergeHeadData($this->testHeadData));
+	}
 
-		$this->assertThat(
-			$this->object->isHtml5(),
-			$this->isTrue(),
-			'JDocumentHtml::setHtml5(true) did not work'
-		);
+	/**
+	 * @testdox  Test that addHeadLink returns an instance of $this
+	 */
+	public function testEnsureAddHeadLinkReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->addHeadLink('index.php', 'Start'));
+	}
 
-		// Check false
-		$this->object->setHtml5(false);
+	/**
+	 * @testdox  Test that addFavicon returns an instance of $this
+	 */
+	public function testEnsureAddFaviconReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->addFavicon('templates\protostar\favicon.ico'));
+	}
 
-		$this->assertThat(
-			$this->object->isHtml5(),
-			$this->isFalse(),
-			'JDocumentHtml::setHtml5(false) did not work'
-		);
+	/**
+	 * @testdox  Test that addCustomTag returns an instance of $this
+	 */
+	public function testEnsureAddCustomTagReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->addCustomTag("\t  <script>var html5 = true;</script>\r\n"));
+	}
 
-		// Check non-boolean
-		$this->object->setHtml5('non boolean');
+	/**
+	 * @testdox  Test the default return for isHtml5
+	 */
+	public function testTheDefaultReturnForIsHtml5()
+	{
+		$this->assertNull($this->object->isHtml5());
+	}
 
-		$this->assertThat(
-			$this->object->isHtml5(),
-			$this->logicalNot($this->equalTo('non boolean')),
-			"JDocumentHtml::setHtml5('non boolean') did not work"
+	/**
+	 * @testdox  Test the default return for setHtml5
+	 */
+	public function testTheDefaultReturnForSetHtml5()
+	{
+		$this->assertNull($this->object->setHtml5(true));
+	}
+
+	/**
+	 * @testdox  Test the default return for getBuffer is null
+	 */
+	public function testTheDefaultReturnForGetBufferIsNull()
+	{
+		$this->assertNull($this->object->getBuffer());
+	}
+
+	/**
+	 * @testdox  Test that setBuffer returns an instance of $this
+	 */
+	public function testEnsureSetBufferReturnsThisObject()
+	{
+		$this->assertSame(
+			$this->object,
+			$this->object->setBuffer('This is why we test.', array('type' => 'component', 'name' => 'Test Object', 'title' => 'Testing'))
 		);
 	}
 }

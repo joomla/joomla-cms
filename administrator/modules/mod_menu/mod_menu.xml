@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	type="module"
-	version="3.1"
-	client="administrator">
+<extension type="module" version="3.1" client="administrator" method="upgrade">
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2006</creationDate>
@@ -16,7 +13,6 @@
 		<filename module="mod_menu">mod_menu.php</filename>
 		<filename>menu.php</filename>
 		<filename>helper.php</filename>
-		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

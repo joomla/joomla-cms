@@ -9,10 +9,12 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\Registry\Registry;
+
 $list = $displayData['list'];
 $pages = $list['pages'];
 
-$options = new JRegistry($displayData['options']);
+$options = new Registry($displayData['options']);
 
 $showLimitBox   = $options->get('showLimitBox', true);
 $showPagesLinks = $options->get('showPagesLinks', true);

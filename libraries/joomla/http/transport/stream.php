@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTTP transport class for using PHP streams.
  *
@@ -17,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JHttpTransportStream implements JHttpTransport
 {
 	/**
-	 * @var    JRegistry  The client options.
+	 * @var    Registry  The client options.
 	 * @since  11.3
 	 */
 	protected $options;
@@ -25,12 +27,12 @@ class JHttpTransportStream implements JHttpTransport
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  Client options object.
+	 * @param   Registry  $options  Client options object.
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JRegistry $options)
+	public function __construct(Registry $options)
 	{
 		// Verify that URLs can be used with fopen();
 		if (!ini_get('allow_url_fopen'))

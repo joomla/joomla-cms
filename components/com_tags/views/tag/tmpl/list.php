@@ -50,3 +50,4 @@ $n = count($this->items);
 	<?php endif; ?>
 
 	<?php echo $this->loadTemplate('items'); ?>
+</div>

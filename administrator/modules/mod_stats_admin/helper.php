@@ -92,13 +92,6 @@ class ModStatsHelper
 			$db->setQuery($query);
 			$items = $db->loadResult();
 
-			$query->clear()
-				->select('COUNT(id) AS count_links ')
-				->from('#__weblinks')
-				->where('state = 1');
-			$db->setQuery($query);
-			$links = $db->loadResult();
-
 			if ($users)
 			{
 				$rows[$i]        = new stdClass;
@@ -117,13 +110,23 @@ class ModStatsHelper
 				$i++;
 			}
 
-			if ($links)
+			if (JComponentHelper::isInstalled('com_weblinks'))
 			{
-				$rows[$i]        = new stdClass;
-				$rows[$i]->title = JText::_('MOD_STATS_WEBLINKS');
-				$rows[$i]->icon  = 'out-2';
-				$rows[$i]->data  = $links;
-				$i++;
+				$query->clear()
+					->select('COUNT(id) AS count_links')
+					->from('#__weblinks')
+					->where('state = 1');
+				$db->setQuery($query);
+				$links = $db->loadResult();
+
+				if ($links)
+				{
+					$rows[$i]        = new stdClass;
+					$rows[$i]->title = JText::_('MOD_STATS_WEBLINKS');
+					$rows[$i]->icon  = 'out-2';
+					$rows[$i]->data  = $links;
+					$i++;
+				}
 			}
 		}
 

@@ -199,7 +199,7 @@ class ContentModelArticles extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id');
+				->group('a.id, l.title, uc.name, ag.title, c.title, ua.name');
 		}
 
 		// Filter by access level.

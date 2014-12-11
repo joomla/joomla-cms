@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.calendar');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
 
@@ -27,18 +27,18 @@ if (!$editoroptions)
 {
 	$params->show_urls_images_frontend = '0';
 }
-?>
 
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
 		{
-			<?php echo $this->form->getField('articletext')->save(); ?>
+			" . $this->form->getField('articletext')->save() . "
 			Joomla.submitform(task);
 		}
 	}
-</script>
+");
+?>
 <div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($params->get('show_page_heading', 1)) : ?>
 	<div class="page-header">
@@ -48,7 +48,7 @@ if (!$editoroptions)
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_content&a_id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
+	<form action="<?php echo JRoute::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
 		<div class="btn-toolbar">
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('article.save')">
