@@ -114,7 +114,11 @@ abstract class JHtmlFilter
 		if ($loadMedia)
 		{
 			JHtml::_('stylesheet', 'com_finder/sliderfilter.css', false, true, false);
-			JHtml::_('script', 'com_finder/sliderfilter.js', true, true);
+
+			if (JFactory::getDocument()->direction == 'rtl')
+			{
+				JHtml::_('stylesheet', 'com_finder/finder-rtl.css', false, true, false);
+			}
 		}
 
 		// Load plug-in language files.
