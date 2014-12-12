@@ -11,6 +11,8 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * Set the available masks for the routing mode
+ * 
+ * @deprecated  4.0
  */
 const JROUTER_MODE_RAW = 0;
 const JROUTER_MODE_SEF = 1;
@@ -22,6 +24,13 @@ const JROUTER_MODE_SEF = 1;
  */
 class JRouter
 {
+	/**
+	 * Processing-stages for the router
+	 */
+	const PROCESS_BEFORE = 'preprocess';
+	const PROCESS_DURING = '';
+	const PROCESS_AFTER   = 'postprocess';
+
 	/**
 	 * The rewrite mode
 	 *
@@ -184,7 +193,7 @@ class JRouter
 	public function parse(&$uri)
 	{
 		// Do the preprocess stage of the URL build process
-		$vars = $this->processParseRules($uri, 'preprocess');
+		$vars = $this->processParseRules($uri, self::PROCESS_BEFORE);
 
 		// Process the parsed variables based on custom defined rules
 		// This is the main parse stage
@@ -203,7 +212,7 @@ class JRouter
 		}
 
 		// Do the postprocess stage of the URL build process
-		$vars += $this->processParseRules($uri, 'postprocess');
+		$vars += $this->processParseRules($uri, self::PROCESS_AFTER);
 
 		return array_merge($this->getVars(), $vars);
 	}
@@ -230,7 +239,7 @@ class JRouter
 		$uri = $this->createURI($url);
 
 		// Do the preprocess stage of the URL build process
-		$this->processBuildRules($uri, 'preprocess');
+		$this->processBuildRules($uri, self::PROCESS_BEFORE);
 
 		// Process the uri information based on custom defined rules.
 		// This is the main build stage
@@ -249,7 +258,7 @@ class JRouter
 		}
 
 		// Do the postprocess stage of the URL build process
-		$this->processBuildRules($uri, 'postprocess');
+		$this->processBuildRules($uri, self::PROCESS_AFTER);
 
 		$this->cache[$key] = clone $uri;
 
@@ -369,7 +378,7 @@ class JRouter
 	 *
 	 * @since   1.5
 	 */
-	public function attachBuildRule($callback, $stage = '')
+	public function attachBuildRule($callback, $stage = self::PROCESS_DURING)
 	{
 		if (!array_key_exists('build' . $stage, $this->_rules))
 		{
@@ -392,7 +401,7 @@ class JRouter
 	 *
 	 * @since   1.5
 	 */
-	public function attachParseRule($callback, $stage = '')
+	public function attachParseRule($callback, $stage = self::PROCESS_DURING)
 	{
 		if (!array_key_exists('parse' . $stage, $this->_rules))
 		{
@@ -547,7 +556,7 @@ class JRouter
 	 *
 	 * @since   3.2
 	 */
-	protected function processParseRules(&$uri, $stage = '')
+	protected function processParseRules(&$uri, $stage = self::PROCESS_DURING)
 	{
 		if (!array_key_exists('parse' . $stage, $this->_rules))
 		{
@@ -591,7 +600,7 @@ class JRouter
 	 *
 	 * @since   3.2
 	 */
-	protected function processBuildRules(&$uri, $stage = '')
+	protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
 	{
 		if (!array_key_exists('build' . $stage, $this->_rules))
 		{
