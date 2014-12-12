@@ -13,14 +13,12 @@ REQUIREMENTS
 ------------
 
 First you must have the base environment for Joomla.
-We have thoroughly tested Joomla! on: Linux, Free BSD, Mac OS X and Windows NT/2000.
+We have thoroughly tested Joomla! on: Linux, Free BSD, Mac OS X and Windows.
 Linux or one of the BSD's are recommended, but anything else that can run the
-3 pieces of software listed below should do it.
+a supported PHP version, a supported database and a supported webserver listed
+at the Technical Reqirements site should do it.
 
-Apache	-> http://www.apache.org
-MySQL	-> http://www.mysql.com
-PHP	-> http://www.php.net
-
+http://www.joomla.org/technical-requirements.html
 
 SERVER CONFIGURATION
 --------------------
