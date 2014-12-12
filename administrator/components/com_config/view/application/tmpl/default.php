@@ -12,19 +12,20 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 // Load tooltips behavior
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
-?>
-<script type="text/javascript">
+
+JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'application.cancel' || document.formvalidator.isValid(document.id('application-form')))
+		if (task == "application.cancel" || document.formvalidator.isValid(document.getElementById("application-form")))
 		{
-			Joomla.submitform(task, document.getElementById('application-form'));
+			Joomla.submitform(task, document.getElementById("application-form"));
 		}
-	}
-</script>
+	};
+');
+?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
 	<div class="row-fluid">

@@ -21,10 +21,12 @@ class MessagesControllerMessage extends JControllerForm
 	 *
 	 * Adjusts for the primary key name and hands off to the parent class.
 	 *
-	 * @param   array  An array of input data.
-	 * @param   string	The name of the key for the primary key.
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
 	 *
 	 * @return  boolean
+	 *
+	 * @since   1.6
 	 */
 	protected function allowSave($data, $key = 'message_id')
 	{
@@ -35,6 +37,10 @@ class MessagesControllerMessage extends JControllerForm
 	 * Reply to an existing message.
 	 *
 	 * This is a simple redirect to the compose form.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function reply()
 	{

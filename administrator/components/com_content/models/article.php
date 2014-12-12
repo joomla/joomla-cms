@@ -49,7 +49,7 @@ class ContentModelArticle extends JModelAdmin
 	{
 		$categoryId = (int) $value;
 
-		$i = 0;
+		$newIds = array();
 
 		if (!parent::checkCategoryId($categoryId))
 		{
@@ -125,8 +125,7 @@ class ContentModelArticle extends JModelAdmin
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i] = $newId;
-			$i++;
+			$newIds[$pk] = $newId;
 
 			// Check if the article was featured and update the #__content_frontpage table
 			if ($featured == 1)
@@ -447,6 +446,17 @@ class ContentModelArticle extends JModelAdmin
 	public function save($data)
 	{
 		$input = JFactory::getApplication()->input;
+		$filter  = JFilterInput::getInstance();
+
+		if (isset($data['metadata']) && isset($data['metadata']['author']))
+		{
+			$data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
+		}
+
+		if (isset($data['created_by_alias']))
+		{
+			$data['created_by_alias'] = $filter->clean($data['created_by_alias'], 'TRIM');
+		}
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
@@ -457,15 +467,14 @@ class ContentModelArticle extends JModelAdmin
 
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
-
 			foreach ($data['urls'] as $i => $url)
 			{
 				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc'))
 				{
 					$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
 				}
-
 			}
+
 			$registry = new Registry;
 			$registry->loadArray($data['urls']);
 			$data['urls'] = (string) $registry;
@@ -490,6 +499,7 @@ class ContentModelArticle extends JModelAdmin
 					$data['alias'] = '';
 				}
 			}
+
 			$data['state'] = 0;
 		}
 

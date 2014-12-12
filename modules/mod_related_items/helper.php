@@ -79,7 +79,7 @@ abstract class ModRelatedItemsHelper
 					$query->clear()
 						->select('a.id')
 						->select('a.title')
-						->select('DATE_FORMAT(a.created, "%Y-%m-%d") as created')
+						->select('DATE(a.created) as created')
 						->select('a.catid')
 						->select('cc.access AS cat_access')
 						->select('cc.published AS cat_state');
@@ -108,10 +108,15 @@ abstract class ModRelatedItemsHelper
 						->where('a.id != ' . (int) $id)
 						->where('a.state = 1')
 						->where('a.access IN (' . $groups . ')');
-					$concat_string = $query->concatenate(array('","', ' REPLACE(a.metakey, ", ", ",")', ' ","'));
 
-					// Remove single space after commas in keywords)
-					$query->where('(' . $concat_string . ' LIKE "%' . implode('%" OR ' . $concat_string . ' LIKE "%', $likes) . '%")')
+					$wheres = array();
+
+					foreach ($likes as $keyword)
+					{
+						$wheres[] = 'a.metakey LIKE ' . $db->quote('%' . $keyword . '%');
+					}
+
+					$query->where('(' . implode(' OR ', $wheres) . ')')
 						->where('(a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ')')
 						->where('(a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')');
 
@@ -130,7 +135,7 @@ abstract class ModRelatedItemsHelper
 						{
 							if ($row->cat_state == 1)
 							{
-								$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug));
+								$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
 								$related[] = $row;
 							}
 						}

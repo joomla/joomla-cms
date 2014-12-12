@@ -11,6 +11,9 @@ defined('_JEXEC') or die;
 
 $text = JText::_('COM_MESSAGES_TOOLBAR_MY_SETTINGS');
 ?>
-<a rel="{handler:'iframe', size:{x:700,y:300}}" href="index.php?option=com_messages&amp;view=config&amp;tmpl=component" title="<?php echo $text; ?>" class="messagesSettings btn btn-small">
-	<i class="icon-cog"></i> <?php echo $text; ?>
+<a
+	rel="{handler:'iframe', size:{x:700,y:300}}"
+	href="index.php?option=com_messages&amp;view=config&amp;tmpl=component"
+	title="<?php echo $text; ?>" class="messagesSettings btn btn-small">
+		<i class="icon-cog"></i> <?php echo $text; ?>
 </a>

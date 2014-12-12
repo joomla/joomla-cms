@@ -786,7 +786,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		$db = $this->getDbo();
 		$extension = JFactory::getApplication()->input->get('extension', '', 'word');
-		$i = 0;
+		$newIds = array();
 
 		// Check that the parent exists
 		if ($parentId)
@@ -952,8 +952,7 @@ class CategoriesModelCategory extends JModelAdmin
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i] = $newId;
-			$i++;
+			$newIds[$pk] = $newId;
 
 			// Now we log the old 'parent' to the new 'parent'
 			$parents[$oldId] = $this->table->id;

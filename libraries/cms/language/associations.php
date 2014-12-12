@@ -32,6 +32,8 @@ class JLanguageAssociations
 	 * @return  array                The associated items
 	 *
 	 * @since   3.1
+	 *
+	 * @throws  Exception
 	 */
 	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid')
 	{

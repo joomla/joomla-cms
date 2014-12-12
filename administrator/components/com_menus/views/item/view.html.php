@@ -50,6 +50,7 @@ class MenusViewItem extends JViewLegacy
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->modules	= $this->get('Modules');
+		$this->levels	= $this->get('ViewLevels');
 		$this->state	= $this->get('State');
 		$this->canDo	= JHelperContent::getActions('com_menus');
 

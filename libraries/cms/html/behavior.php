@@ -85,7 +85,6 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/core.js', false, true);
 		static::$loaded[__METHOD__] = true;
 
@@ -178,6 +177,9 @@ abstract class JHtmlBehavior
 
 		// Include core
 		static::core();
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
@@ -427,8 +429,11 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
+		// Include core
 		static::core();
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/multiselect.js', false, true);
 
@@ -676,8 +681,11 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
+		// Include core
 		static::core();
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/highlighter.js', false, true);
 
@@ -723,8 +731,11 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
+		// Include core
 		static::core();
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		$js = "jQuery(function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
 			" else {top.location = self.location; }});";

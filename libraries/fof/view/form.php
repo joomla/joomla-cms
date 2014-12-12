@@ -130,7 +130,6 @@ class FOFViewForm extends FOFViewHtml
 
 		// Assign the item and form to the view
 		$this->item = $model->getItem();
-		$this->form = $this->form;
 
 		return true;
 	}

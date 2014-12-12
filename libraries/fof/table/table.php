@@ -1046,18 +1046,21 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 			$fields = array_merge($fields, $j_fields);
 		}
 
-		foreach ($fields as $k => $v)
+		if (is_array($fields) && !empty($fields))
 		{
-			// If the property is not the primary key or private, reset it.
-			if ($k != $this->_tbl_key && (strpos($k, '_') !== 0))
+			foreach ($fields as $k => $v)
 			{
-				$this->$k = $v->Default;
+				// If the property is not the primary key or private, reset it.
+				if ($k != $this->_tbl_key && (strpos($k, '_') !== 0))
+				{
+					$this->$k = $v->Default;
+				}
 			}
-		}
 
-		if (!$this->onAfterReset())
-		{
-			return false;
+			if (!$this->onAfterReset())
+			{
+				return false;
+			}
 		}
 	}
 

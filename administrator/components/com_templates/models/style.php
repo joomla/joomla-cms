@@ -51,13 +51,11 @@ class TemplatesModelStyle extends JModelAdmin
 	{
 		$config = array_merge(
 			array(
-				array(
-					'event_before_delete' => 'onExtensionBeforeDelete',
-					'event_after_delete'  => 'onExtensionAfterDelete',
-					'event_before_save'   => 'onExtensionBeforeSave',
-					'event_after_save'    => 'onExtensionAfterSave',
-					'events_map'          => array('delete' => 'extension', 'save' => 'extension')
-				)
+				'event_before_delete' => 'onExtensionBeforeDelete',
+				'event_after_delete'  => 'onExtensionAfterDelete',
+				'event_before_save'   => 'onExtensionBeforeSave',
+				'event_after_save'    => 'onExtensionAfterSave',
+				'events_map'          => array('delete' => 'extension', 'save' => 'extension')
 			), $config
 		);
 

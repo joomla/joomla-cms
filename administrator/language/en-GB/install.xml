@@ -113,6 +113,8 @@
 		<filename>en-GB.plg_authentication_joomla.sys.ini</filename>
 		<filename>en-GB.plg_authentication_ldap.ini</filename>
 		<filename>en-GB.plg_authentication_ldap.sys.ini</filename>
+		<filename>en-GB.plg_captcha_nocaptcha.ini</filename>
+		<filename>en-GB.plg_captcha_nocaptcha.sys.ini</filename>
 		<filename>en-GB.plg_captcha_recaptcha.ini</filename>
 		<filename>en-GB.plg_captcha_recaptcha.sys.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.ini</filename>

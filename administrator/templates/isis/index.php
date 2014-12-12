@@ -113,7 +113,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<!-- Link color -->
 	<?php if ($this->params->get('linkColor')) : ?>
 		<style type="text/css">
-			a
+			a, .j-toggle-sidebar-button
 			{
 				color: <?php echo $this->params->get('linkColor'); ?>;
 			}
