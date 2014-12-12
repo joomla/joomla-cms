@@ -747,6 +747,40 @@ class MenusModelItem extends JModelAdmin
 	}
 
 	/**
+	 * Get the list of all view levels
+	 *
+	 * @return  array  An array of all view levels (id, title).
+	 *
+	 * @since   3.4
+	 */
+	public function getViewLevels()
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		// Get all the available view levels
+		$query->select($db->quoteName('id'))
+			->select($db->quoteName('title'))
+			->from($db->quoteName('#__viewlevels'))
+			->order($db->quoteName('id'));
+
+		$db->setQuery($query);
+
+		try
+		{
+			$result = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return $result;
+	}
+
+	/**
 	 * A protected method to get the where clause for the reorder.
 	 * This ensures that the row will be moved relative to a row with the same menutype.
 	 *
