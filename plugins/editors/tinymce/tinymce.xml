@@ -11,14 +11,14 @@
 	<description>PLG_TINY_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="tinymce">tinymce.php</filename>
-		<filename>index.html</filename>	</files>
+		<folder>fields</folder>
+	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_editors_tinymce.ini</language>
 		<language tag="en-GB">en-GB.plg_editors_tinymce.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic" addfieldpath="/plugins/editors/tinymce/fields">
 				<field name="skins" type="note"
 					label="PLG_TINY_FIELD_SKIN_INFO_LABEL"
