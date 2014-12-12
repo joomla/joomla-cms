@@ -134,10 +134,10 @@ Joomla! ADMINISTRATION
 Upon a new installation, your Joomla website defaults to a very basic
 configuration with only a few active components, modules and templates.
 
-Use Admin to install and configure additional Extensions, add users, select
+Use Admin to install and configure additional extensions, add users, select
 default language and much more.
 
-Note that additional community-contributed Extensions and languages are
+Note that additional community-contributed extensions and languages are
 available at the Joomla! Extensions Directory: http://extensions.joomla.org/
 You can also install and use the `Install from Web Tab` to access the JED
 directly out of the backend here:
