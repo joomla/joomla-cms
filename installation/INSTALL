@@ -16,9 +16,8 @@ First you must have the base environment for Joomla.
 We have thoroughly tested Joomla! on: Linux, Free BSD, Mac OS X and Windows.
 Linux or one of the BSD's are recommended, but anything else that can run the
 a supported PHP version, a supported database and a supported webserver listed
-at the Technical Reqirements site should do it.
-
-http://www.joomla.org/technical-requirements.html
+in the Technical Requirements at http://www.joomla.org/technical-requirements.html
+should do it.
 
 SERVER CONFIGURATION
 --------------------
@@ -133,11 +132,13 @@ Joomla! ADMINISTRATION
 ----------------------
 
 Upon a new installation, your Joomla website defaults to a very basic
-configuration with only a few active components, modules and templates
-(CMTs).
+configuration with only a few active components, modules and templates.
 
-Use Admin to install and configure additional CMTs, add users, select
+Use Admin to install and configure additional Extensions, add users, select
 default language and much more.
 
-Note that additional community-contributed CMTs and languages are
-available via http://extensions.joomla.org/
+Note that additional community-contributed Extensions and languages are
+available at the Joomla! Extensions Directory: http://extensions.joomla.org/
+You can also install and use the `Install from Web Tab` to access the JED
+directly out of the backend here:
+http://www.example.org/administrator/index.php?option=com_installer&view=install
