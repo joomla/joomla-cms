@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="content">
+<extension version="3.1" type="plugin" group="content" method="upgrade">
 	<name>plg_content_joomla</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2010</creationDate>
@@ -9,7 +9,6 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_CONTENT_JOOMLA_XML_DESCRIPTION</description>
-
 	<files>
 		<filename plugin="joomla">joomla.php</filename>
 	</files>
