@@ -1743,4 +1743,35 @@ class PlgSystemDebug extends JPlugin
 
 		return implode('<br /><br />', $out);
 	}
+	function write2file()
+	{
+	//
+	  $app = JFactory::getApplication();
+		$conf = JFactory::getConfig();
+	  $domain 	= $conf->get('sitename', 'site');
+		if ($app->isSite()) {	
+	   	$alias =JFactory::getApplication()->getMenu()->getActive()->alias;
+	  	$id    =JFactory::getApplication()->getMenu()->getActive()->id;	  
+      $file = $alias.$id.'.sql';
+      $file=JFactory::getApplication()->get('log_path').'/'.$domain.'_'.$file;      
+    } else {	    	
+    	$file = JRequest::getVar( 'option' ).JRequest::getVar( 'view' ).JRequest::getVar( 'layout' ).'.sql';
+    	$file=JFactory::getApplication()->get('log_path').'/'.$domain.'_'.$file;    	
+    }
+    $current='';	
+		$db = JFactory::getDbo();                                                       
+    $log = $db->getLog();                   
+    $timings = $db->getTimings();	 
+		foreach ($log as $id => $query)
+				{				
+				if (isset($timings[$id * 2 + 1]))
+					{
+						$temp= str_replace('`', '', $log[$id]);		  
+            $temp= str_replace ("\t", " ", $temp);
+            $temp= str_replace ("\n", " ", $temp);
+		        $current.= str_replace ("\r\n" ," ", $temp).";\n";		  									  
+					}
+				}		
+		file_put_contents($file, $current);	
+		}
 }
