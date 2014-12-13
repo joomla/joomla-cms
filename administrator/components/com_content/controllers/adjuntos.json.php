@@ -260,11 +260,7 @@ class ContentControllerAdjuntos extends JControllerForm
         $db->setQuery($query);
         $results = $db->loadObjectList();
 
-        $data = json_encode($results, JSON_FORCE_OBJECT);
-
-        print_r($data);
-
-        return;
+        return $results;
 
     }
 }
