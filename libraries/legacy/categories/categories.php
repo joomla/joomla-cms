@@ -107,7 +107,11 @@ class JCategories
 		$options['access'] = (isset($options['access'])) ? $options['access'] : 'true';
 		$options['published'] = (isset($options['published'])) ? $options['published'] : 1;
 		$options['countItems'] = (isset($options['countItems'])) ? $options['countItems'] : 0;
-		$options['currentlang'] = (isset($options['currentlang'])) ? (JLanguageMultilang::isEnabled() ? $options['currentlang'] : 0) : 0;
+		$options['currentlang'] = (isset($options['currentlang']) && JLanguageMultilang::isEnabled()) ? $options['currentlang'] : 0;
+		if ($options['currentlang'] == 1)
+		{
+			$options['currentlang'] = JFactory::getLanguage()->getTag();
+		}
 		$this->_options = $options;
 
 		return true;
@@ -261,7 +265,7 @@ class JCategories
 			->where('badcats.id is null');
 
 		// Note: i for item
-		if ($this->_options['currentlang'] == 1 || $this->_options['countItems'] == 1)
+		if ($this->_options['currentlang'] != 0 || $this->_options['countItems'] == 1)
 		{
 			$queryjoin = $db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id';
 
@@ -270,9 +274,9 @@ class JCategories
 				$queryjoin .= ' AND i.' . $this->_statefield . ' = 1';
 			}
 
-			if ($this->_options['currentlang'] == 1)
+			if ($this->_options['currentlang'] != 0)
 			{
-				$queryjoin .= ' AND (i.language = \'*\' OR i.language = ' . $db->quote(JFactory::getLanguage()->getTag()) . ')';
+				$queryjoin .= ' AND (i.language = \'*\' OR i.language = ' . $db->quote($this->_options['currentlang']) . ')';
 			}
 
 			$query->join('LEFT', $queryjoin);
