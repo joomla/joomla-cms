@@ -634,6 +634,10 @@ class PlgSystemDebug extends JPlugin
 						'PLG_DEBUG_QUERIES_TIME',
 						sprintf('<span class="label ' . $labelClass . '">%.1f&nbsp;ms</span>', $totalQueryTime)
 					) . '</div>';
+			  if ($this->params->get('log-executed-sql', 1))
+			  {
+				 $this->write2file(); 
+			  }	
 			}
 		}
 
