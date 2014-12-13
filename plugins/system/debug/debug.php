@@ -1758,24 +1758,24 @@ class PlgSystemDebug extends JPlugin
 			$id    =JFactory::getApplication()->getMenu()->getActive()->id;
 			$file = $alias.$id.'.sql';
 			$file=JFactory::getApplication()->get('log_path').'/'.$domain.'_'.$file;
-			} else {
-				$file = JRequest::getVar( 'option' ).JRequest::getVar( 'view' ).JRequest::getVar( 'layout' ).'.sql';
-				$file=JFactory::getApplication()->get('log_path').'/'.$domain.'_'.$file;
-			}
-			$current='';
-			$db = JFactory::getDbo();
-			$log = $db->getLog();
-			$timings = $db->getTimings();
-			foreach ($log as $id => $query)
+		} else {
+			$file = JRequest::getVar( 'option' ).JRequest::getVar( 'view' ).JRequest::getVar( 'layout' ).'.sql';
+			$file=JFactory::getApplication()->get('log_path').'/'.$domain.'_'.$file;
+		}
+		$current='';
+		$db = JFactory::getDbo();
+		$log = $db->getLog();
+		$timings = $db->getTimings();
+		foreach ($log as $id => $query)
+		{
+			if (isset($timings[$id * 2 + 1]))
 			{
-				if (isset($timings[$id * 2 + 1]))
-				{
-					$temp= str_replace('`', '', $log[$id]);
-					$temp= str_replace ("\t", " ", $temp);
-					$temp= str_replace ("\n", " ", $temp);
-					$current.= str_replace ("\r\n" ," ", $temp).";\n";
-				}
+				$temp= str_replace('`', '', $log[$id]);
+				$temp= str_replace ("\t", " ", $temp);
+				$temp= str_replace ("\n", " ", $temp);
+				$current.= str_replace ("\r\n" ," ", $temp).";\n";
 			}
-			file_put_contents($file, $current);
+		}
+		file_put_contents($file, $current);
 		}
 	}
