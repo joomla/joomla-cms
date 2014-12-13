@@ -40,9 +40,9 @@ class JFormFieldAdjuntos extends JFormField
         $nombre         = $this->element['nombre'];
         $descripcion    = $this->element['descripcion'];
         $extensiones    = $this->element->getAttribute('extensiones');
-        
+
         // Path subida de archivos
-        $path       = $this->element['path'];       
+        $path       = $this->element['path'];
 
         // Icono eliminar adjunto
         $caneca     = JHtml::_('image', 'media/adjuntos/caneca.png', 'Eliminar adjunto', 'class="img-eliminar"', false);
@@ -99,8 +99,6 @@ class JFormFieldAdjuntos extends JFormField
         $script = array();
         $script[] = 'window.addEvent("domready", function(){';
 
-        $script[] = 'mostrarAdjuntos();';
-
         $script[] = 'aId =('.$id.'==0) ? false : true';
 
         $script[] = 'var btnAgregarAdjunto = new Element("button", {';
@@ -119,19 +117,6 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '$("controles-adjuntos").grab(btnAgregarAdjunto);';
 
         $script[] = '});';
-
-        $script[] = 'function mostrarAdjuntos() {';
-        $script[] = '   var request = new Request.JSON({';
-        $script[] = '       url: "'.JURI::root().'administrator/index.php?option=com_content&task=adjuntos.mostrar&format=json",';
-        $script[] = '       onComplete: function(res){';
-        $script[] = '           console.log(res)';
-        $script[] = '       },';
-        $script[] = '       onFailure: function(err){';
-        $script[] = '           console.log(err)';
-        $script[] = '       }';
-        $script[] = '   })';
-        $script[] = '}';
-
 
         $script[] = 'var adjuntoCount = 0;';     
 
