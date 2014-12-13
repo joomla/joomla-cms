@@ -267,12 +267,12 @@ class JCategories
 
 			if ($this->_options['published'] == 1)
 			{
-				$queryjoin .=  ' AND i.' . $this->_statefield . ' = 1';
+				$queryjoin .= ' AND i.' . $this->_statefield . ' = 1';
 			}
 
 			if ($this->_options['currentlang'] == 1)
 			{
-				$queryjoin .=  ' AND (i.language = \'*\' OR i.language = ' . $db->quote(JFactory::getLanguage()->getTag()) . ')';
+				$queryjoin .= ' AND (i.language = \'*\' OR i.language = ' . $db->quote(JFactory::getLanguage()->getTag()) . ')';
 			}
 
 			$query->join('LEFT', $queryjoin);
