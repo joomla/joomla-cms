@@ -251,7 +251,7 @@ class ContentControllerAdjuntos extends JControllerForm
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);
 
-        $columnas = array('propietario_id', 'nombre_archivo');
+        $columnas = array('propietario_id', 'nombre_archivo','hash','ruta');
         $query
             ->select($db->quoteName($columnas))
             ->from($db->quoteName('#__adjuntos'))
