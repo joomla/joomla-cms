@@ -89,6 +89,7 @@ class TagsHelperRoute extends JHelperRoute
 		else
 		{
 			$link = 'index.php?option=com_tags&view=tag&id=' . $id;
+
 			if ($item = self::_findItem($needles))
 			{
 				$link .= '&Itemid=' . $item;
