@@ -27,39 +27,6 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	protected $route = 'Install';
 
 	/**
-	 * The installation manifest XML object
-	 *
-	 * @var    SimpleXMLElement
-	 * @since  3.1
-	 */
-	protected $manifest = null;
-
-	/**
-	 * A path to the PHP file that the scriptfile declaration in
-	 * the manifest refers to.
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	protected $manifest_script = null;
-
-	/**
-	 * Extension name
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	protected $name = null;
-
-	/**
-	 * Extension element
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	protected $element = null;
-
-	/**
 	 * <scriptfile> element of the extension manifest
 	 *
 	 * @var    object

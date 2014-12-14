@@ -19,30 +19,6 @@ jimport('joomla.filesystem.folder');
 class JInstallerAdapterTemplate extends JInstallerAdapter
 {
 	/**
-	 * Copy of the XML manifest file
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	protected $manifest = null;
-
-	/**
-	 * Name of the extension
-	 *
-	 * @var    string
-	 * @since  3.1
-	 * */
-	protected $name = null;
-
-	/**
-	 * The unique identifier for the extension (e.g. mod_login)
-	 *
-	 * @var    string
-	 * @since  3.1
-	 * */
-	protected $element = null;
-
-	/**
 	 * Method of system
 	 *
 	 * @var    string
