@@ -22,6 +22,14 @@ jimport('joomla.base.adapterinstance');
 abstract class JInstallerAdapter extends JAdapterInstance
 {
 	/**
+	 * ID for the currently installed extension if present
+	 *
+	 * @var    integer
+	 * @since  3.4
+	 */
+	protected $currentExtensionId = null;
+
+	/**
 	 * The unique identifier for the extension (e.g. mod_login)
 	 *
 	 * @var    string
@@ -137,15 +145,16 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 *
 	 * @param   string  $extension  The name of the extension
 	 * @param   string  $source     Path to the extension
+	 * @param   string  $base       Base path for the extension language
 	 *
 	 * @return  void
 	 *
 	 * @since   3.4
 	 */
-	protected function doLoadLanguage($extension, $source)
+	protected function doLoadLanguage($extension, $source, $base = JPATH_ADMINISTRATOR)
 	{
 		$lang = JFactory::getLanguage();
-		$lang->load($extension . '.sys', $source, null, false, true) || $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true);
+		$lang->load($extension . '.sys', $source, null, false, true) || $lang->load($extension . '.sys', $base, null, false, true);
 	}
 
 	/**

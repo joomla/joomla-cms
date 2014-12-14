@@ -560,7 +560,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		// And now we run the postflight
-		$this->triggerManifestScript('postflight');
+		$this->triggerManifestScript('postflight', 'install');
 
 		return $this->extension->extension_id;
 	}
