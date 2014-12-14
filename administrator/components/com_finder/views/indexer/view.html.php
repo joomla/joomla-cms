@@ -16,17 +16,5 @@ defined('_JEXEC') or die;
  */
 class FinderViewIndexer extends JViewLegacy
 {
-	/**
-	 * Method to display the view.
-	 *
-	 * @param   string  $tpl  A template file to load. [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	public function display($tpl = null)
-	{
-		parent::display();
-	}
+
 }
