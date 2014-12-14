@@ -346,6 +346,10 @@ final class JApplicationSite extends JApplicationCms
 			$temp = clone JComponentHelper::getParams('com_menus');
 
 			// Lets cascade the parameters if we have menu item parameters
+
+			// Retrieve com_menu global settings
+			$temp = clone JComponentHelper::getParams('com_menus');
+
 			if (is_object($menu))
 			{
 				// Get show_page_heading from com_menu global settings
