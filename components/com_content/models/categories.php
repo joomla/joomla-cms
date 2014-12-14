@@ -111,7 +111,10 @@ class ContentModelCategories extends JModelList
 
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_num_articles_cat', 1) || !$params->get('show_empty_categories_cat', 0);
+
+			// Setting the 'currentlang' option to 1 filters the returned items count to those assigned to the active language and to "All"
 			$options['currentlang'] = 1;
+
 			$categories = JCategories::getInstance('Content', $options);
 			$this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
 
