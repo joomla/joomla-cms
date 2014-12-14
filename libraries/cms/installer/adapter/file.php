@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -17,7 +16,7 @@ jimport('joomla.filesystem.folder');
  *
  * @since  3.1
  */
-class JInstallerAdapterFile extends JAdapterInstance
+class JInstallerAdapterFile extends JInstallerAdapter
 {
 	/**
 	 * Install function routing
