@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.framework');
 JHtml::_('behavior.keepalive');
+JHtml::_('jquery.framework');
+JHtml::_('script', 'com_finder/indexer.js', false, true);
 ?>
 
 <div id="finder-indexer-container">
@@ -19,9 +20,9 @@ JHtml::_('behavior.keepalive');
 
 	<p id="finder-progress-message"><?php echo JText::_('COM_FINDER_INDEXER_MESSAGE_INIT'); ?></p>
 
-	<form id="finder-progress-form"></form>
-
-	<div id="finder-progress-container"></div>
+	<div id="progress" class="progress progress-striped active">
+		<div id="progress-bar" class="bar bar-success" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+	</div>
 
 	<input id="finder-indexer-token" type="hidden" name="<?php echo JFactory::getSession()->getFormToken(); ?>" value="1" />
 </div>
