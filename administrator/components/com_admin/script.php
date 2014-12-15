@@ -25,8 +25,9 @@ class JoomlaInstallerScript
 	 */
 	public function update($installer)
 	{
-		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
+
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
 		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
 
@@ -1078,6 +1079,75 @@ class JoomlaInstallerScript
 			'/libraries/phpmailer/phpmailer.php',
 			'/libraries/phpmailer/pop.php',
 			'/libraries/phpmailer/smtp.php',
+			'/libraries/joomla/environment/request.php',
+			'/media/editors/tinymce/templates/template_list.js',
+			'/administrator/help/en-GB/Components_Banners_Banners.html',
+			'/administrator/help/en-GB/Components_Banners_Banners_Edit.html',
+			'/administrator/help/en-GB/Components_Banners_Categories.html',
+			'/administrator/help/en-GB/Components_Banners_Category_Edit.html',
+			'/administrator/help/en-GB/Components_Banners_Clients.html',
+			'/administrator/help/en-GB/Components_Banners_Clients_Edit.html',
+			'/administrator/help/en-GB/Components_Banners_Tracks.html',
+			'/administrator/help/en-GB/Components_Contact_Categories.html',
+			'/administrator/help/en-GB/Components_Contact_Category_Edit.html',
+			'/administrator/help/en-GB/Components_Contacts_Contacts.html',
+			'/administrator/help/en-GB/Components_Contacts_Contacts_Edit.html',
+			'/administrator/help/en-GB/Components_Content_Categories.html',
+			'/administrator/help/en-GB/Components_Content_Category_Edit.html',
+			'/administrator/help/en-GB/Components_Messaging_Inbox.html',
+			'/administrator/help/en-GB/Components_Messaging_Read.html',
+			'/administrator/help/en-GB/Components_Messaging_Write.html',
+			'/administrator/help/en-GB/Components_Newsfeeds_Categories.html',
+			'/administrator/help/en-GB/Components_Newsfeeds_Category_Edit.html',
+			'/administrator/help/en-GB/Components_Newsfeeds_Feeds.html',
+			'/administrator/help/en-GB/Components_Newsfeeds_Feeds_Edit.html',
+			'/administrator/help/en-GB/Components_Redirect_Manager.html',
+			'/administrator/help/en-GB/Components_Redirect_Manager_Edit.html',
+			'/administrator/help/en-GB/Components_Search.html',
+			'/administrator/help/en-GB/Components_Weblinks_Categories.html',
+			'/administrator/help/en-GB/Components_Weblinks_Category_Edit.html',
+			'/administrator/help/en-GB/Components_Weblinks_Links.html',
+			'/administrator/help/en-GB/Components_Weblinks_Links_Edit.html',
+			'/administrator/help/en-GB/Content_Article_Manager.html',
+			'/administrator/help/en-GB/Content_Article_Manager_Edit.html',
+			'/administrator/help/en-GB/Content_Featured_Articles.html',
+			'/administrator/help/en-GB/Content_Media_Manager.html',
+			'/administrator/help/en-GB/Extensions_Extension_Manager_Discover.html',
+			'/administrator/help/en-GB/Extensions_Extension_Manager_Install.html',
+			'/administrator/help/en-GB/Extensions_Extension_Manager_Manage.html',
+			'/administrator/help/en-GB/Extensions_Extension_Manager_Update.html',
+			'/administrator/help/en-GB/Extensions_Extension_Manager_Warnings.html',
+			'/administrator/help/en-GB/Extensions_Language_Manager_Content.html',
+			'/administrator/help/en-GB/Extensions_Language_Manager_Edit.html',
+			'/administrator/help/en-GB/Extensions_Language_Manager_Installed.html',
+			'/administrator/help/en-GB/Extensions_Module_Manager.html',
+			'/administrator/help/en-GB/Extensions_Module_Manager_Edit.html',
+			'/administrator/help/en-GB/Extensions_Plugin_Manager.html',
+			'/administrator/help/en-GB/Extensions_Plugin_Manager_Edit.html',
+			'/administrator/help/en-GB/Extensions_Template_Manager_Styles.html',
+			'/administrator/help/en-GB/Extensions_Template_Manager_Styles_Edit.html',
+			'/administrator/help/en-GB/Extensions_Template_Manager_Templates.html',
+			'/administrator/help/en-GB/Extensions_Template_Manager_Templates_Edit.html',
+			'/administrator/help/en-GB/Extensions_Template_Manager_Templates_Edit_Source.html',
+			'/administrator/help/en-GB/Glossary.html',
+			'/administrator/help/en-GB/Menus_Menu_Item_Manager.html',
+			'/administrator/help/en-GB/Menus_Menu_Item_Manager_Edit.html',
+			'/administrator/help/en-GB/Menus_Menu_Manager.html',
+			'/administrator/help/en-GB/Menus_Menu_Manager_Edit.html',
+			'/administrator/help/en-GB/Site_Global_Configuration.html',
+			'/administrator/help/en-GB/Site_Maintenance_Clear_Cache.html',
+			'/administrator/help/en-GB/Site_Maintenance_Global_Check-in.html',
+			'/administrator/help/en-GB/Site_Maintenance_Purge_Expired_Cache.html',
+			'/administrator/help/en-GB/Site_System_Information.html',
+			'/administrator/help/en-GB/Start_Here.html',
+			'/administrator/help/en-GB/Users_Access_Levels.html',
+			'/administrator/help/en-GB/Users_Access_Levels_Edit.html',
+			'/administrator/help/en-GB/Users_Debug_Users.html',
+			'/administrator/help/en-GB/Users_Groups.html',
+			'/administrator/help/en-GB/Users_Groups_Edit.html',
+			'/administrator/help/en-GB/Users_Mass_Mail_Users.html',
+			'/administrator/help/en-GB/Users_User_Manager.html',
+			'/administrator/help/en-GB/Users_User_Manager_Edit.html',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1153,6 +1223,9 @@ class JoomlaInstallerScript
 			'/libraries/framework',
 			'/libraries/phpmailer/language',
 			'/libraries/phpmailer',
+			'/administrator/components/com_config/views',
+			'/administrator/components/com_config/models/fields',
+			'/administrator/components/com_config/models/forms',
 		);
 
 		jimport('joomla.filesystem.file');
