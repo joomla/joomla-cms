@@ -7105,6 +7105,8 @@ body .navbar-fixed-top {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff17568c', endColorstr='#ff1a3867', GradientType=0);
 	border-top: 1px solid rgba(255,255,255,0.2);
 	padding: 5px 25px;
+	height: 36px;
+	overflow: hidden;
 }
 .navbar .btn-navbar {
 	background: #17568c;
