@@ -1037,7 +1037,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$this->set('element', $this->getElement());
 
 		// Attempt to load the admin language file; might have uninstall strings
-		$this->loadLanguage(JPATH_ADMINISTRATOR . '/components/' . $element);
+		$this->loadLanguage(JPATH_ADMINISTRATOR . '/components/' . $this->element);
 
 		/**
 		 * ---------------------------------------------------------------------------------------------

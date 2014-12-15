@@ -372,7 +372,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		// If in postflight or uninstall, set the message for display
 		if (($method == 'uninstall' || $method == 'postflight') && $this->extensionMessage != '')
 		{
-			$this->parent->extension_message = $this->extensionMessage;
+			$this->parent->set('extension_message', $this->extensionMessage);
 		}
 
 		return true;
