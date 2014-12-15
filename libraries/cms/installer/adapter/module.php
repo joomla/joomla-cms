@@ -206,7 +206,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 				{
 					if ((string) $file->attributes()->module)
 					{
-						$element = (string) $file->attributes()->module;
+						$element = strtolower((string) $file->attributes()->module);
 
 						break;
 					}

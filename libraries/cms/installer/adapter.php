@@ -181,9 +181,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		}
 
 		// Filter the name for illegal characters
-		$element = JFilterInput::getInstance()->clean($element, 'cmd');
-
-		return $element;
+		return strtolower(JFilterInput::getInstance()->clean($element, 'cmd'));
 	}
 
 	/**
