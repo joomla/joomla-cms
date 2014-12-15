@@ -457,13 +457,13 @@ class JUser extends JObject
 	}
 
 	/**
-	 * Gets an array of the authorised user groups
+	 * Gets an array of the groups a user is a member of
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   3.4
 	 */
-	public function getAuthorisedGroups()
+	public function getGroups()
 	{
 		if ($this->_authGroups === null)
 		{
@@ -479,6 +479,47 @@ class JUser extends JObject
 	}
 
 	/**
+	 * Adds this user to the given group
+	 *
+	 * @param   integer  $groupId  The group the user should be added to
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.4
+	 */
+	public function addGroup($groupId)
+	{
+		return JUserHelper::addUserToGroup($this->id, $groupId);
+	}
+
+	/**
+	 * Remove this user from the given group
+	 *
+	 * @param   integer  $groupId  The group the user should be removed to
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.4
+	 */
+	public function removeGroup($groupId)
+	{
+		return JUserHelper::removeUserFromGroup($this->id, $groupId);
+	}
+
+	/**
+	 * Gets an array of the authorised user groups
+	 *
+	 * @return  array
+	 *
+	 * @since   11.1
+	 * @deprecated  4.0
+	 */
+	public function getAuthorisedGroups()
+	{
+		return $this->getGroups();
+	}
+
+	/**
 	 * Clears the access rights cache of this user
 	 *
 	 * @return  void
@@ -491,6 +532,9 @@ class JUser extends JObject
 		$this->_authGroups = null;
 		$this->isRoot = null;
 		JAccess::clearStatics();
+
+		// Re-populate the $groups variable
+		$this->groups = $this->getGroups();
 	}
 
 	/**
