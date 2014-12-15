@@ -70,7 +70,11 @@ if (!empty($this->items))
 
 	<table class="category table table-striped table-bordered table-hover">
 		<?php
-		$headerTitle = $headerDate = $headerAuthor = $headerHits = $headerEdit = '';
+		$headerTitle    = '';
+		$headerDate     = '';
+		$headerAuthor   = '';
+		$headerHits     = '';
+		$headerEdit     = '';
 		?>
 		<?php if ($this->params->get('show_headings')) : ?>
 			<?php
