@@ -16,6 +16,7 @@ jimport('joomla.base.adapterinstance');
  *
  * @method         JInstaller  getParent()  Retrieves the parent object.
  * @property-read  JInstaller  $parent      Parent object
+ *
  * @since          3.4
  * @note           As of 4.0, this class will no longer extend from JAdapterInstance
  */
@@ -337,8 +338,8 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			switch ($method)
 			{
 				// The preflight and postflight take the route as a param
-				case 'preflight':
-				case 'postflight':
+				case 'preflight' :
+				case 'postflight' :
 					if ($this->parent->manifestClass->$method($route, $this) === false)
 					{
 						if ($method != 'postflight')
@@ -350,9 +351,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					break;
 
 				// The install, uninstall, and update methods only pass this object as a param
-				case 'install':
-				case 'uninstall':
-				case 'update':
+				case 'install' :
+				case 'uninstall' :
+				case 'update' :
 					if ($this->parent->manifestClass->$method($this) === false)
 					{
 						if ($method != 'uninstall')
