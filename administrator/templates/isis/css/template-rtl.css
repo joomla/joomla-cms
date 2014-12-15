@@ -7125,6 +7125,7 @@ body .navbar-fixed-top {
 		padding: 4px 18px;
 		margin-left: -20px;
 		margin-right: -20px;
+		height: auto;
 	}
 	.navbar .admin-logo {
 		margin-left: 10px;
