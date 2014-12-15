@@ -17,8 +17,8 @@ jimport('joomla.base.adapterinstance');
  * @method         JInstaller  getParent()  Retrieves the parent object.
  * @property-read  JInstaller  $parent      Parent object
  *
- * @since          3.4
- * @note           As of 4.0, this class will no longer extend from JAdapterInstance
+ * @since  3.4
+ * @note   As of 4.0, this class will no longer extend from JAdapterInstance
  */
 abstract class JInstallerAdapter extends JAdapterInstance
 {
