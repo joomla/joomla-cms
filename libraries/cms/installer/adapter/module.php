@@ -224,7 +224,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since   3.4
 	 */
 	public function loadLanguage($path = null)
 	{
@@ -933,7 +933,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			/** @var JTableModule $module */
 			$module = JTable::getInstance('Module');
 
-			foreach ($modID as $modInstanceId)
+			foreach ($modules as $modInstanceId)
 			{
 				$module->load($modInstanceId);
 
