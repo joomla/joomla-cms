@@ -91,13 +91,19 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 				{
 					// If the site exists say so.
 					throw new RuntimeException(
-						JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_SITE', $this->parent->getPath('extension_site'))
+						JText::sprintf(
+							'JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_SITE',
+							$this->parent->getPath('extension_site')
+						)
 					);
 				}
 
 				// If the admin exists say so
 				throw new RuntimeException(
-					JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_ADMIN', $this->parent->getPath('extension_administrator'))
+					JText::sprintf(
+						'JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_ADMIN',
+						$this->parent->getPath('extension_administrator')
+					)
 				);
 			}
 		}
@@ -135,8 +141,9 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		// If there is a manifest script, let's copy it.
 		if ($this->manifest_script)
 		{
-			$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
+			$path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
 			$path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $this->manifest_script;
+
 			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
 			{
 				if (!$this->parent->copyFiles(array($path)))
@@ -179,7 +186,12 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		 */
 		if ($created)
 		{
-			$this->parent->pushStep(array('type' => 'folder', 'path' => $this->parent->getPath('extension_site')));
+			$this->parent->pushStep(
+				array(
+					'type' => 'folder',
+					'path' => $this->parent->getPath('extension_site')
+				)
+			);
 		}
 
 		// If the component admin directory does not exist, let's create it
@@ -204,10 +216,14 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		 */
 		if ($created)
 		{
-			$this->parent->pushStep(array('type' => 'folder', 'path' => $this->parent->getPath('extension_administrator')));
+			$this->parent->pushStep(
+				array(
+					'type' => 'folder',
+					'path' => $this->parent->getPath('extension_administrator')
+				)
+			);
 		}
 	}
-
 
 	/**
 	 * Method to finalise the installation processing
@@ -225,8 +241,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		// Clobber any possible pending updates
 		$uid = $update->find(
 			array(
-				'element' => $this->element,
-				'type' => $this->extension->type,
+				'element'   => $this->element,
+				'type'      => $this->extension->type,
 				'client_id' => 1
 			)
 		);
@@ -253,10 +269,10 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$asset = JTable::getInstance('Asset');
 
 		// Register the component container just under root in the assets table.
-		$asset->name = $this->extension->element;
+		$asset->name      = $this->extension->element;
 		$asset->parent_id = 1;
-		$asset->rules = '{}';
-		$asset->title = $this->extension->name;
+		$asset->rules     = '{}';
+		$asset->title     = $this->extension->name;
 		$asset->setLocation(1, 'last-child');
 
 		if (!$asset->store())
@@ -313,10 +329,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 		// Set the manifest object
 		$this->manifest = $this->getManifest();
-
-		$extension = $this->getElement();
-
-		$source = $path ? $path : $client . '/components/' . $extension;
+		$extension      = $this->getElement();
+		$source         = $path ? $path : $client . '/components/' . $extension;
 
 		if ($this->manifest->administration->files)
 		{
@@ -370,17 +384,17 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	protected function storeExtension()
 	{
 		// Add an entry to the extension table with a whole heap of defaults
-		$this->extension->name = $this->name;
-		$this->extension->type = 'component';
+		$this->extension->name    = $this->name;
+		$this->extension->type    = 'component';
 		$this->extension->element = $this->element;
 
 		// There is no folder for components
-		$this->extension->folder = '';
-		$this->extension->enabled = 1;
-		$this->extension->protected = 0;
-		$this->extension->access = 0;
-		$this->extension->client_id = 1;
-		$this->extension->params = $this->parent->getParams();
+		$this->extension->folder         = '';
+		$this->extension->enabled        = 1;
+		$this->extension->protected      = 0;
+		$this->extension->access         = 0;
+		$this->extension->client_id      = 1;
+		$this->extension->params         = $this->parent->getParams();
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
 		if (!$this->extension->store())
@@ -960,7 +974,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	 */
 	public function uninstall($id)
 	{
-		$db = $this->db;
+		$db     = $this->db;
 		$retval = true;
 
 		// First order of business will be to load the component object table from the database.
@@ -1091,7 +1105,14 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->extension->element, 'type' => 'component', 'client_id' => 1, 'folder' => ''));
+		$uid = $update->find(
+			array(
+				'element'   => $this->extension->element,
+				'type'      => 'component',
+				'client_id' => 1,
+				'folder'    => ''
+			)
+		);
 
 		if ($uid)
 		{
@@ -1144,8 +1165,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	 */
 	protected function _buildAdminMenus()
 	{
-		$db = $this->parent->getDbo();
-		$table = JTable::getInstance('menu');
+		$db     = $this->parent->getDbo();
+		$table  = JTable::getInstance('menu');
 		$option = $this->get('element');
 
 		// If a component exists with this option in the table then we don't need to add menus
@@ -1158,7 +1179,6 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			->where('e.element = ' . $db->quote($option));
 
 		$db->setQuery($query);
-
 		$componentrow = $db->loadObject();
 
 		// Check if menu items exist
@@ -1190,7 +1210,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 			$db->setQuery($query);
 
-			// TODO Find Some better way to discover the component_id
+			// @TODO: Find Some better way to discover the component_id
 			$component_id = $db->loadResult();
 		}
 
