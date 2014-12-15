@@ -225,7 +225,6 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 	}
 
-
 	/**
 	 * Method to finalise the installation processing
 	 *
