@@ -37,7 +37,7 @@ $fieldSets = $this->form->getFieldsets('params');
 	<?php $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CONFIG_' . $name . '_FIELDSET_LABEL'; ?>
 	<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 		<?php echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>'; ?>
-	<?php endif; 
+	<?php endif; ?>
 	<fieldset class="form-horizontal">
 		<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 			<div class="control-group">
