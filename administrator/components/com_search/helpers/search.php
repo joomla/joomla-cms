@@ -114,7 +114,6 @@ class SearchHelper
 			}
 		}
 
-
 		return $ignored;
 	}
 
