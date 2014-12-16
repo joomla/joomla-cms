@@ -45,14 +45,12 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	/**
 	 * Method to check if the extension is already present in the database
 	 *
-	 * @param   integer  $clientId  Client ID
-	 *
 	 * @return  void
 	 *
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
-	protected function checkExistingExtension($clientId)
+	protected function checkExistingExtension()
 	{
 		try
 		{
