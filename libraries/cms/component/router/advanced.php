@@ -291,7 +291,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 			$r = null;
 			if (!preg_match('/(.*)Router/i', get_class($this), $r))
 			{
-				JError::raiseError(500, 'JLIB_APPLICATION_ERROR_ROUTER_GET_NAME');
+				throw new Exception('JLIB_APPLICATION_ERROR_ROUTER_GET_NAME', 500);
 			}
 			$this->name = strtolower($r[1]);
 		}
