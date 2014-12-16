@@ -38,7 +38,7 @@ class BannersModelBanner extends JModelLegacy
 		$id = $this->getState('banner.id');
 
 		// Update click count
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->update('#__banners')
 			->set('clicks = (clicks + 1)')
@@ -67,7 +67,7 @@ class BannersModelBanner extends JModelLegacy
 
 		if ($trackClicks < 0)
 		{
-			$config = JComponentHelper::getParams('com_banners');
+			$config      = JComponentHelper::getParams('com_banners');
 			$trackClicks = $config->get('track_clicks');
 		}
 
@@ -143,16 +143,14 @@ class BannersModelBanner extends JModelLegacy
 	{
 		if (!isset($this->_item))
 		{
-			$cache = JFactory::getCache('com_banners', '');
-
-			$id = $this->getState('banner.id');
-
+			$cache       = JFactory::getCache('com_banners', '');
+			$id          = $this->getState('banner.id');
 			$this->_item = $cache->get($id);
 
 			if ($this->_item === false)
 			{
 				// Redirect to banner url
-				$db = $this->getDbo();
+				$db    = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select(
 						'a.clickurl as clickurl,' .
@@ -161,7 +159,6 @@ class BannersModelBanner extends JModelLegacy
 					)
 					->from('#__banners as a')
 					->where('a.id = ' . (int) $id)
-
 					->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid')
 					->select('cl.track_clicks as client_track_clicks');
 
@@ -194,7 +191,7 @@ class BannersModelBanner extends JModelLegacy
 	public function getUrl()
 	{
 		$item = $this->getItem();
-		$url = $item->clickurl;
+		$url  = $item->clickurl;
 
 		// Check for links
 		if (!preg_match('#http[s]?://|index[2]?\.php#', $url))
