@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
+JHtml::_('jquery.framework');
+
 JHtml::_('bootstrap.tooltip');
 
 // Load the smart search component language file.
@@ -122,7 +124,6 @@ jQuery(document).ready(function() {
  */
 if ($params->get('show_autosuggest', 1))
 {
-	JHtml::_('jquery.framework');
 	JHtml::_('script', 'media/jui/js/jquery.autocomplete.min.js', false, false, false, false, true);
 
 	$script .= "
