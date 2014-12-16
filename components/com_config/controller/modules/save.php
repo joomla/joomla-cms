@@ -12,14 +12,14 @@ defined('_JEXEC') or die;
 /**
  * Save Controller for module editing
  *
- * @since       3.2
+ * @since  3.2
 */
 class ConfigControllerModulesSave extends JControllerBase
 {
 	/**
 	 * Method to save module editing.
 	 *
-	 * @return  bool	True on success.
+	 * @return  bool  True on success.
 	 *
 	 * @since   3.2
 	 */
