@@ -11,51 +11,53 @@ defined('_JEXEC') or die;
 
 if ($this->params->get('show_advanced', 1) || $this->params->get('show_autosuggest', 1))
 {
-	JHtml::_('behavior.core');
 	JHtml::_('jquery.framework');
 
-	$script = "jQuery(function() {";
+	$script = "
+		jQuery(function() {
+		";
 	if ($this->params->get('show_advanced', 1))
 	{
 		/*
 		* This segment of code adds the slide effect to the advanced search box.
 		*/
 		$script .= "
-		var searchSlider = jQuery('#advanced-search');
-		if (searchSlider.length)
-		{";
+			var searchSlider = jQuery('#advanced-search');
+			if (searchSlider.length)
+			{";
 		if (!$this->params->get('expand_advanced', 0))
 		{
 			$script .= "searchSlider.hide();";
 		}
 
 		$script .= "
-			jQuery('#advanced-search-toggle').on('click', function(e) {
-					e.stopPropagation();
-					e.preventDefault();
-					searchSlider.slideToggle();
-				});
-		}";
+				jQuery('#advanced-search-toggle').on('click', function(e) {
+						e.stopPropagation();
+						e.preventDefault();
+						searchSlider.slideToggle();
+					});
+			}";
 		/*
 		* This segment of code disables select boxes that have no value when the
 		* form is submitted so that the URL doesn't get blown up with null values.
 		*/
 		$script .= "
-		if (jQuery('#finder-search').length) {
-			jQuery('#finder-search').on('submit', function(e){
-				e.stopPropagation();
-				if (searchSlider.length)
-				{
-					// Disable select boxes with no value selected.
-					searchSlider.find('select').each(function(index, el) {
-						var el = jQuery(el);
-						if(!el.val()){
-							el.attr('disabled', 'disabled');
-						}
-					});
-				}
-			});
-		}";
+			if (jQuery('#finder-search').length) {
+				jQuery('#finder-search').on('submit', function(e){
+					e.stopPropagation();
+					if (searchSlider.length)
+					{
+						// Disable select boxes with no value selected.
+						searchSlider.find('select').each(function(index, el) {
+							var el = jQuery(el);
+							if(!el.val()){
+								el.attr('disabled', 'disabled');
+							}
+						});
+					}
+				});
+			}
+		";
 	}
 	/*
 	* This segment of code sets up the autocompleter.
@@ -66,19 +68,21 @@ if ($this->params->get('show_advanced', 1) || $this->params->get('show_autosugge
 		JHtml::_('script', 'media/jui/js/jquery.autocomplete.min.js', false, false, false, false, true);
 
 		$script .= "
-		var suggest = jQuery('#q').autocomplete({
-			serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false) . "',
-			paramName: 'q',
-			minChars: 1,
-			maxHeight: 400,
-			width: 300,
-			zIndex: 9999,
-			deferRequestBy: 500
-		});";
+			var suggest = jQuery('#q').autocomplete({
+				serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false) . "',
+				paramName: 'q',
+				minChars: 1,
+				maxHeight: 400,
+				width: 300,
+				zIndex: 9999,
+				deferRequestBy: 500
+			});
+		";
 	}
 
 	$script .= "
-	});";
+		});
+		";
 
 	JFactory::getDocument()->addScriptDeclaration($script);
 }
