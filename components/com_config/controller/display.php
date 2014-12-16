@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Base Display Controller
@@ -42,8 +42,7 @@ class ConfigControllerDisplay extends JControllerBase
 	public function execute()
 	{
 		// Get the document object.
-		$document = JFactory::getDocument();
-
+		$document        = JFactory::getDocument();
 		$componentFolder = $this->input->getWord('option', 'com_config');
 
 		if ($this->app->isAdmin())
