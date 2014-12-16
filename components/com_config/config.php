@@ -8,7 +8,7 @@
  */
 
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die();
 
 // Load classes
 JLoader::registerPrefix('Config', JPATH_COMPONENT);
@@ -20,7 +20,7 @@ $app = JFactory::getApplication();
 $app->setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
 
 $controllerHelper = new ConfigControllerHelper;
-$controller = $controllerHelper->parseController($app);
+$controller       = $controllerHelper->parseController($app);
 
 $controller->prefix = 'Config';
 
