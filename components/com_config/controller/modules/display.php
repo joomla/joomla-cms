@@ -11,16 +11,14 @@ defined('_JEXEC') or die;
 /**
  * Display Controller for module editing
  *
- * @package     Joomla.Site
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
 */
 class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 {
 	/**
 	 * Method to display module editing.
 	 *
-	 * @return  bool	True on success, false on failure.
+	 * @return  bool  True on success, false on failure.
 	 *
 	 * @since   3.2
 	 */
@@ -31,12 +29,11 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 		$app = $this->getApplication();
 
 		// Get the document object.
-		$document     = JFactory::getDocument();
-
-		$viewName     = $this->input->getWord('view', 'modules');
-		$viewFormat   = $document->getType();
-		$layoutName   = $this->input->getWord('layout', 'default');
-		$returnUri    = $this->input->get->get('return', null, 'base64');
+		$document   = JFactory::getDocument();
+		$viewName   = $this->input->getWord('view', 'modules');
+		$viewFormat = $document->getType();
+		$layoutName = $this->input->getWord('layout', 'default');
+		$returnUri  = $this->input->get->get('return', null, 'base64');
 
 		// Construct redirect URI
 		$redirect = '';
@@ -90,7 +87,6 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			{
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 				$app->redirect($redirect);
-
 			}
 
 			// Need to add module name to the state of model
@@ -118,7 +114,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			// Render view.
 			echo $view->render();
 		}
+
 		return true;
 	}
-
 }
