@@ -390,14 +390,14 @@ class UsersModelUsers extends JModelList
 			if ($range == 'post_year')
 			{
 				$query->where(
-					$db->qn('a.registerDate'). ' < ' . $db->quote($dStart->format('Y-m-d H:i:s'))
+					$db->qn('a.registerDate') . ' < ' . $db->quote($dStart->format('Y-m-d H:i:s'))
 				);
 			}
 			else
 			{
 				$query->where(
-					$db->qn('a.registerDate'). ' >= ' . $db->quote($dStart->format('Y-m-d H:i:s')) .
-					' AND '.$db->qn('a.registerDate'). ' <= ' . $db->quote($dNow->format('Y-m-d H:i:s'))
+					$db->qn('a.registerDate') . ' >= ' . $db->quote($dStart->format('Y-m-d H:i:s')) .
+					' AND ' . $db->qn('a.registerDate') . ' <= ' . $db->quote($dNow->format('Y-m-d H:i:s'))
 				);
 			}
 		}
@@ -425,7 +425,7 @@ class UsersModelUsers extends JModelList
 	 */
 	function _getUserDisplayedGroups($user_id)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = "SELECT title FROM " . $db->quoteName('#__usergroups') . " ug left join " .
 			$db->quoteName('#__user_usergroup_map') . " map on (ug.id = map.group_id)" .
 			" WHERE map.user_id=" . (int) $user_id;
