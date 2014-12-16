@@ -59,6 +59,7 @@ if ($this->params->get('show_advanced', 1))
  */
 if ($this->params->get('show_autosuggest', 1))
 {
+	JHtml::_('jquery.framework');
 	JHtml::_('script', 'media/jui/js/jquery.autocomplete.min.js', false, false, false, false, true);
 
 	$script .= "
