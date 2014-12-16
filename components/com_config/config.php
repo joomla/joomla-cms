@@ -8,7 +8,7 @@
  */
 
 // No direct access
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 // Load classes
 JLoader::registerPrefix('Config', JPATH_COMPONENT);
