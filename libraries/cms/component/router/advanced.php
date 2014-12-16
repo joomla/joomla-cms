@@ -234,7 +234,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 		// Process the parsed variables based on custom defined rules
 		foreach ($this->rules as $rule)
 		{
-			$rule->preprocess(&$query);
+			$rule->preprocess($query);
 		}
 		return $query;
 	}
@@ -253,7 +253,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 		// Process the parsed variables based on custom defined rules
 		foreach ($this->rules as $rule)
 		{
-			$rule->build(&$query, &$segments);
+			$rule->build($query, $segments);
 		}
 		return $segments;
 	}
@@ -272,7 +272,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 		// Process the parsed variables based on custom defined rules
 		foreach ($this->rules as $rule)
 		{
-			$rule->parse(&$segments, &$vars);
+			$rule->parse($segments, $vars);
 		}
 		return $vars;
 	}
