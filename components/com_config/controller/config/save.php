@@ -59,10 +59,7 @@ class ConfigControllerConfigSave extends JControllerBase
 		// Check for validation errors.
 		if ($return === false)
 		{
-			/*
-			 * The validate method enqueued all messages for us, so we just need to redirect back.
-			 */
-
+			// The validate method enqueued all messages for us, so we just need to redirect back.
 			// Save the data in the session.
 			$this->app->setUserState('com_config.config.global.data', $data);
 
@@ -92,10 +89,7 @@ class ConfigControllerConfigSave extends JControllerBase
 		// Check the return value.
 		if ($return === false)
 		{
-			/*
-			 * The save method enqueued all messages for us, so we just need to redirect back.
-			 */
-
+			// The save method enqueued all messages for us, so we just need to redirect back.
 			// Save the data in the session.
 			$this->app->setUserState('com_config.config.global.data', $data);
 
