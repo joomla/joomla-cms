@@ -12,49 +12,15 @@ defined('_JEXEC') or die;
 // Load chosen.css
 JHtml::_('formbehavior.chosen', 'select');
 
-?>
-<?php
-
-	$fieldSets = $this->form->getFieldsets('params');
+$fieldSets = $this->form->getFieldsets('params');
 ?>
 
 <legend><?php echo JText::_('COM_CONFIG_TEMPLATE_SETTINGS'); ?></legend>
 
-<?php
-
-	// Search for com_config field set
-	if (!empty($fieldSets['com_config'])):?>
-
+<?php // Search for com_config field set ?>
+<?php if (!empty($fieldSets['com_config'])) : ?>
 	<fieldset class="form-horizontal">
-
-<?php foreach ($this->form->getFieldset('com_config') as $field) : ?>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $field->label; ?>
-				</div>
-				<div class="controls">
-					<?php echo $field->input; ?>
-				</div>
-			</div>
-
-<?php endforeach;	?>
-
-	</fieldset>
-
-<?php else:
-
-	// Fall-back to display all in params
-	foreach ($fieldSets as $name => $fieldSet) :
-	$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CONFIG_' . $name . '_FIELDSET_LABEL';
-
-	if (isset($fieldSet->description) && trim($fieldSet->description)) :
-		echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
-	endif;
-	?>
-
-<fieldset class="form-horizontal">
-
-	<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+	<?php foreach ($this->form->getFieldset('com_config') as $field) : ?>
 		<div class="control-group">
 			<div class="control-label">
 				<?php echo $field->label; ?>
@@ -64,6 +30,25 @@ JHtml::_('formbehavior.chosen', 'select');
 			</div>
 		</div>
 	<?php endforeach; ?>
-</fieldset>
-	<?php endforeach;
-	endif;
+	</fieldset>
+<?php else : ?>
+	<?php // Fall-back to display all in params ?>
+	<?php foreach ($fieldSets as $name => $fieldSet) : ?>
+	<?php $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CONFIG_' . $name . '_FIELDSET_LABEL'; ?>
+	<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
+		<?php echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>'; ?>
+	<?php endif; 
+	<fieldset class="form-horizontal">
+		<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $field->label; ?>
+				</div>
+				<div class="controls">
+					<?php echo $field->input; ?>
+				</div>
+			</div>
+		<?php endforeach; ?>
+	</fieldset>
+	<?php endforeach; ?>
+<?php endif; ?>
