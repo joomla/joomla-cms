@@ -29,11 +29,10 @@ class ConfigControllerConfigDisplay extends ConfigControllerDisplay
 		$app = $this->getApplication();
 
 		// Get the document object.
-		$document     = JFactory::getDocument();
-
-		$viewName     = $this->input->getWord('view', 'config');
-		$viewFormat   = $document->getType();
-		$layoutName   = $this->input->getWord('layout', 'default');
+		$document   = JFactory::getDocument();
+		$viewName   = $this->input->getWord('view', 'config');
+		$viewFormat = $document->getType();
+		$layoutName = $this->input->getWord('layout', 'default');
 
 		// Access back-end com_config
 		JLoader::registerPrefix(ucfirst($viewName), JPATH_ADMINISTRATOR . '/components/com_config');
