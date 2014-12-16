@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 /**
  * Cancel Controller for module editing
  *
- * @package     Joomla.Site
- * @subpackage  com_config
  * @since       3.2
  */
 class ConfigControllerModulesCancel extends ConfigControllerCanceladmin
