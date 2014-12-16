@@ -29,7 +29,7 @@ $format = strtolower($input->getWord('format'));
 
 // Initialize default response and module name
 $results = null;
-$parts = null;
+$parts   = null;
 
 // Check for valid format
 if (!$format)
@@ -69,6 +69,7 @@ elseif ($input->get('module'))
 		if ($parts)
 		{
 			$class = 'mod';
+
 			foreach ($parts as $part)
 			{
 				$class .= ucfirst($part);
@@ -97,21 +98,21 @@ elseif ($input->get('module'))
 					$results = $e;
 				}
 			}
-			// Method does not exist
 			else
 			{
+				// Method does not exist
 				$results = new LogicException(JText::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
 			}
 		}
-		// The helper file does not exist
 		else
 		{
+			// The helper file does not exist
 			$results = new RuntimeException(JText::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
 		}
 	}
-	// Module is not published, you do not have access to it, or it is not assigned to the current menu item
 	else
 	{
+		// Module is not published, you do not have access to it, or it is not assigned to the current menu item
 		$results = new LogicException(JText::sprintf('COM_AJAX_MODULE_NOT_ACCESSIBLE', 'mod_' . $module), 404);
 	}
 }
@@ -126,8 +127,9 @@ elseif ($input->get('module'))
  */
 elseif ($input->get('plugin'))
 {
-	$group      = $input->get('group', 'ajax');
+	$group = $input->get('group', 'ajax');
 	JPluginHelper::importPlugin($group);
+
 	$plugin     = ucfirst($input->get('plugin'));
 	$dispatcher = JEventDispatcher::getInstance();
 
@@ -145,18 +147,18 @@ elseif ($input->get('plugin'))
 switch ($format)
 {
 	// JSONinzed
-	case 'json':
+	case 'json' :
 		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', true, 'bool'));
 		break;
 
 	// Human-readable format
-	case 'debug':
+	case 'debug' :
 		echo '<pre>' . print_r($results, true) . '</pre>';
 		$app->close();
 		break;
 
 	// Handle as raw format
-	default:
+	default :
 		// Output exception
 		if ($results instanceof Exception)
 		{
@@ -169,14 +171,14 @@ switch ($format)
 			// Echo exception type and message
 			$out = get_class($results) . ': ' . $results->getMessage();
 		}
-		// Output string/ null
 		elseif (is_scalar($results))
 		{
+			// Output string/ null
 			$out = (string) $results;
 		}
-		// Output array/ object
 		else
 		{
+			// Output array/ object
 			$out = implode((array) $results);
 		}
 
