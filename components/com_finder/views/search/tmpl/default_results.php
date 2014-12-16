@@ -55,7 +55,7 @@ defined('_JEXEC') or die;
 	<?php $this->baseUrl = JUri::getInstance()->toString(array('scheme', 'host', 'port')); ?>
 
 	<?php foreach ($this->results as $result) : ?>
-		<?php $this->result	= &$result; ?>
+		<?php $this->result = &$result; ?>
 		<?php $layout = $this->getLayoutFile($this->result->layout); ?>
 		<?php echo $this->loadTemplate($layout); ?>
 	<?php endforeach; ?>
