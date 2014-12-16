@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Cancel Controller for module editing
  *
- * @since       3.2
+ * @since  3.2
  */
 class ConfigControllerModulesCancel extends ConfigControllerCanceladmin
 {
