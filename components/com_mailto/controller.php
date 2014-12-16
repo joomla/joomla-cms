@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Site
- * @subpackage  com_mailto
- * @since       1.5
+ * Mailto Controller
+ *
+ * @since  1.5
  */
 class MailtoController extends JControllerLegacy
 {
