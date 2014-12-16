@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.2" type="plugin" group="editors">
+<extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_codemirror</name>
 	<version>4.8</version>
 	<creationDate>28 March 2011</creationDate>
@@ -11,7 +11,8 @@
 	<description>PLG_CODEMIRROR_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="codemirror">codemirror.php</filename>
-		<filename>index.html</filename>
+		<filename>fonts.json</filename>
+		<filename>fonts.php</filename>
 	</files>
 
 	<languages>
@@ -21,7 +22,6 @@
 
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
 				<field name="lineNumbers" type="radio"
 					   class="btn-group btn-group-yesno"

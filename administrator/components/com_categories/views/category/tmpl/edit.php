@@ -27,7 +27,7 @@ jQuery(document).ready(function() {
 	{
 		if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
-			'. $this->form->getField("description")->save() .'
+			' . $this->form->getField("description")->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
 		}
 	}

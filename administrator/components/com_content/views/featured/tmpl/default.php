@@ -90,7 +90,7 @@ $saveOrder	= $listOrder == 'fp.ordering';
 				<?php foreach ($this->items as $i => $item) :
 					$item->max_ordering = 0;
 					$ordering	= ($listOrder == 'fp.ordering');
-					$assetId	= 'com_content.article.'.$item->id;
+					$assetId	= 'com_content.article.' . $item->id;
 					$canCreate	= $user->authorise('core.create',     'com_content.category.' . $item->catid);
 					$canEdit	= $user->authorise('core.edit',       'com_content.article.' . $item->id);
 					$canCheckin	= $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;

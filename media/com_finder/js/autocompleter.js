@@ -1,3 +1,4 @@
+//@deprecated  3.4
 var Observer = new Class({
 	Implements: [Options, Events],
 	options: {
