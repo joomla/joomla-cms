@@ -47,6 +47,7 @@ class ConfigControllerTemplatesSave extends JControllerBase
 		JLoader::register('TemplatesControllerStyle', JPATH_ADMINISTRATOR . '/components/com_templates/controllers/style.php');
 		JLoader::register('TemplatesModelStyle', JPATH_ADMINISTRATOR . '/components/com_templates/models/style.php');
 		JLoader::register('TemplatesTableStyle', JPATH_ADMINISTRATOR . '/components/com_templates/tables/style.php');
+
 		$controllerClass = new TemplatesControllerStyle;
 
 		// Get a document object
@@ -69,7 +70,7 @@ class ConfigControllerTemplatesSave extends JControllerBase
 			$app->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$message = JText::sprintf('JERROR_SAVE_FAILED');
+			$message = JText::_('JERROR_SAVE_FAILED');
 
 			$app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.templates', false), $message, 'error');
 
