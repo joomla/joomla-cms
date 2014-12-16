@@ -57,9 +57,8 @@ if (!empty($this->query->highlight)
 		</p>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_url', 1)) : ?>
-		<?php $base = JUri::getInstance()->toString(array('scheme', 'host', 'port')); ?>
 		<div class="small result-url<?php echo $this->pageclass_sfx; ?>">
-			<?php echo $base, JRoute::_($this->result->route); ?>
+			<?php echo $this->baseUrl, JRoute::_($this->result->route); ?>
 		</div>
 	<?php endif; ?>
 </li>
