@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Config Module model.
  *
- * @package     Joomla.Site
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigModelModules extends ConfigModelForm
 {
@@ -33,8 +31,7 @@ class ConfigModelModules extends ConfigModelForm
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		$pk = $app->input->getInt('id');
-
+		$pk    = $app->input->getInt('id');
 		$state = $this->loadState();
 
 		$state->set('module.id', $pk);
@@ -84,15 +81,13 @@ class ConfigModelModules extends ConfigModelForm
 		jimport('joomla.filesystem.path');
 
 		$lang     = JFactory::getLanguage();
-
-		$module = $this->getState()->get('module.name');
+		$module   = $this->getState()->get('module.name');
 		$basePath = JPATH_BASE;
-
 		$formFile = JPath::clean($basePath . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $basePath, null, false, true)
-			||	 $lang->load($module, $basePath . '/modules/' . $module, null, false, true);
+			|| $lang->load($module, $basePath . '/modules/' . $module, null, false, true);
 
 		if (file_exists($formFile))
 		{
@@ -126,11 +121,11 @@ class ConfigModelModules extends ConfigModelForm
 	 */
 	public function getPositions()
 	{
-		$lang            = JFactory::getLanguage();
+		$lang         = JFactory::getLanguage();
 		$templateName = JFactory::getApplication()->getTemplate();
 
 		// Load templateDetails.xml file
-		$path = JPath::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
+		$path             = JPath::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
 		$currentPositions = array();
 
 		if (file_exists($path))
@@ -143,9 +138,9 @@ class ConfigModelModules extends ConfigModelForm
 				{
 					// Load language files
 					$lang->load('tpl_' . $templateName . '.sys', JPATH_BASE, null, false, true)
-					||	$lang->load('tpl_' . $templateName . '.sys', JPATH_BASE . '/templates/' . $templateName, null, false, true);
+					|| $lang->load('tpl_' . $templateName . '.sys', JPATH_BASE . '/templates/' . $templateName, null, false, true);
 
-					$key = (string) $position;
+					$key   = (string) $position;
 					$value = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . strtoupper($templateName) . '_POSITION_' . strtoupper($key));
 
 					// Construct list of positions
