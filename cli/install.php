@@ -169,7 +169,6 @@ class JApplicationCliInstaller extends JApplicationCli
 
 		// Installer internally has an option "admin_password2", but it
 		// doesn't seem to be necessary.
-
 		foreach (array_keys($optionsMetadata) as $key)
 		{
 			if (!isset($optionsMetadata[$key]['syntax']))
@@ -229,9 +228,11 @@ class JApplicationCliInstaller extends JApplicationCli
 			$this->fatal("Error executing createDatabase");
 		}
 
-		// FIXME InstallationModelDatabase relies on session manipulation which doesn't work well in cli
-		// $session = JFactory::getSession();
-		// $options = $session->get('setup.options', NULL);
+		/* 
+		   FIXME InstallationModelDatabase relies on session manipulation which doesn't work well in cli
+		   $session = JFactory::getSession();
+		   $options = $session->get('setup.options', NULL);
+		*/
 		$options['db_created'] = 1;
 		$options['db_select']  = 1;
 
@@ -419,7 +420,14 @@ class JApplicationCliInstaller extends JApplicationCli
 	}
 
 	/**
-	 * FIXME: Duplicated from ./installation/application/web.php
+	 * Returns the installed language files in the administrative and
+	 * front-end area.
+	 *
+	 * @param   mixed  $db  JDatabaseDriver instance.
+	 *
+	 * @return  array  Array with installed language packs in admin and site area.
+	 *
+	 * @since   3.4
 	 */
 	public function getLocaliseAdmin($db = false)
 	{
