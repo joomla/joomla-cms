@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ require_once JPATH_LIBRARIES . '/cms.php';
  * TODO description
  *
  * @package  Joomla.Cli
- * @since    2.5
+ * @since    3.4
  */
 class JApplicationCliInstaller extends JApplicationCli
 {
@@ -44,58 +44,59 @@ class JApplicationCliInstaller extends JApplicationCli
 	 *	 - required: bool, an indication of whether the value is required
 	 *	 - default: mixed, default value to use if none is provided
 	 *	 - factory: callable, a fnction which produces the default value
+	 *
+	 * @since  3.4
 	 */
 	public function getOptionsMetadata()
 	{
 		$optionsMetadata = array(
 			'help' => array(
-				'getopt' => 'help',
+				'getopt'      => 'help',
 				'description' => 'Display help',
 			),
-			'admin_email' => array(
-				'getopt' => 'admin-email:',
+			'admin_email'         => array(
+				'getopt'      => 'admin-email:',
 				'description' => 'Admin user\'s email',
-				'required' => true,
+				'required'    => true,
 			),
 			'admin_password' => array(
-				'getopt' => 'admin-pass:',
+				'getopt'      => 'admin-pass:',
 				'description' => 'Admin user\'s password',
-				'required' => true,
+				'required'    => true,
 			),
 			'admin_user' => array(
-				'getopt' => 'admin-user:',
+				'getopt'      => 'admin-user:',
 				'description' => 'Admin user\'s username',
-				'default' => 'admin',
+				'default'     => 'admin',
 			),
 			'db_host' => array(
-				'getopt' => 'db-host:',
+				'getopt'      => 'db-host:',
 				'description' => 'Hostname (or hostname:port)',
-				'default' => 'localhost',
+				'default'     => 'localhost',
 			),
 			'db_name' => array(
-				'getopt' => 'db-name:',
+				'getopt'      => 'db-name:',
 				'description' => 'Database name',
-				'required' => true,
+				'required'    => true,
 			),
 			'db_old' => array(
-				'getopt' => 'db-old:',
+				'getopt'      => 'db-old:',
 				'description' => 'Policy to use with old DB [remove,backup]]',
-				'default' => 'remove',
+				'default'     => 'backup',
 			),
 			'db_pass' => array(
-				'getopt' => 'db-pass:',
+				'getopt'      => 'db-pass:',
 				'description' => 'Database password',
-				'required' => true,
+				'required'    => true,
 			),
 			'db_prefix' => array(
-				'getopt' => 'db-prefix:',
+				'getopt'      => 'db-prefix:',
 				'description' => 'Table prefix',
-				'factory' => function () {
+				'factory'     => function () {
 					// FIXME: Duplicated from installation/model/fields/prefix.php
-					$size = 5;
-
-					$prefix = '';
-					$chars = range('a', 'z');
+					$size    = 5;
+					$prefix  = '';
+					$chars   = range('a', 'z');
 					$numbers = range(0, 9);
 
 					// We want the fist character to be a random letter:
@@ -118,51 +119,51 @@ class JApplicationCliInstaller extends JApplicationCli
 				},
 			),
 			'db_type' => array(
-				'getopt' => 'db-type:',
+				'getopt'      => 'db-type:',
 				'description' => 'Database type [mysql,mysqli,postgresql,sqlsrv,sqlazure]',
-				'default' => 'mysqli',
+				'default'     => 'mysqli',
 			),
 			'db_user' => array(
-				'getopt' => 'db-user:',
+				'getopt'      => 'db-user:',
 				'description' => 'Database user',
-				'required' => true,
+				'required'    => true,
 			),
 			'helpurl' => array(
-				'getopt' => 'help-url:',
+				'getopt'      => 'help-url:',
 				'description' => 'Help URL',
-				'default' => 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}',
+				'default'     => 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}',
 			),
 			// FIXME: Not clear if this is useful. Seems to be "the language of the installation application"
 			// and not "the language of the installed CMS"
 			'language' => array(
-				'getopt' => 'lang:',
+				'getopt'      => 'lang:',
 				'description' => 'Language',
-				'default' => 'en-US',
+				'default'     => 'en-GB',
 			),
 			'site_metadesc' => array(
-				'getopt' => 'desc:',
+				'getopt'      => 'desc:',
 				'description' => 'Site description',
-				'default' => ''
+				'default'     => ''
 			),
 			'site_name' => array(
-				'getopt' => 'name:',
+				'getopt'      => 'name:',
 				'description' => 'Site name',
-				'default' => 'Joomla'
+				'default'     => 'Joomla'
 			),
 			'site_offline' => array(
-				'getopt' => 'offline',
+				'getopt'      => 'offline',
 				'description' => 'Set site as offline',
-				'default' => 0,
+				'default'     => 0,
 			),
 			'sample_file' => array(
-				'getopt' => 'sample:',
+				'getopt'      => 'sample:',
 				'description' => 'Sample SQL file (sample_blog.sql,sample_brochure.sql,...)',
-				'default' => '',
+				'default'     => '',
 			),
 			'summary_email' => array(
-				'getopt' => 'email',
+				'getopt'      => 'email',
 				'description' => 'Send email notification',
-				'default' => 0,
+				'default'     => 0,
 			),
 		);
 
@@ -190,9 +191,9 @@ class JApplicationCliInstaller extends JApplicationCli
 	/**
 	 * Entry point for the script
 	 *
-	 * @return	void
+	 * @return  void
 	 *
-	 * @since	 2.5
+	 * @since   3.4
 	 */
 	public function doExecute()
 	{
@@ -232,7 +233,7 @@ class JApplicationCliInstaller extends JApplicationCli
 		// $session = JFactory::getSession();
 		// $options = $session->get('setup.options', NULL);
 		$options['db_created'] = 1;
-		$options['db_select'] = 1;
+		$options['db_select']  = 1;
 
 		if ($options['db_old'] == 'backup')
 		{
@@ -271,6 +272,8 @@ class JApplicationCliInstaller extends JApplicationCli
 	 * Display help text
 	 *
 	 * @return void
+	 *
+	 * @since  3.4
 	 */
 	public function displayUsage()
 	{
@@ -310,7 +313,9 @@ class JApplicationCliInstaller extends JApplicationCli
 	 *
 	 * @param   array  $options  parsed input values
 	 *
-	 * @return array of error messages
+	 * @return  array  An array of error messages
+	 *
+	 * @since   3.4
 	 */
 	public function validateOptions($options)
 	{
@@ -332,6 +337,8 @@ class JApplicationCliInstaller extends JApplicationCli
 	 * Parse all options from the command-line
 	 *
 	 * @return array
+	 *
+	 * @since  3.4
 	 */
 	public function parseOptions()
 	{
@@ -343,7 +350,7 @@ class JApplicationCliInstaller extends JApplicationCli
 		}
 
 		$optionsMetadata = $this->getOptionsMetadata();
-		$longopts = array();
+		$longopts        = array();
 
 		foreach ($optionsMetadata as $key => $spec)
 		{
@@ -351,7 +358,7 @@ class JApplicationCliInstaller extends JApplicationCli
 		}
 
 		$rawOptions = getopt("", $longopts);
-		$options = array();
+		$options    = array();
 
 		foreach ($optionsMetadata as $key => $spec)
 		{
@@ -387,9 +394,9 @@ class JApplicationCliInstaller extends JApplicationCli
 	 * @param   string  $msg   The message to enqueue.
 	 * @param   string  $type  The message type. Default is message.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
-	 * @since	 3.2
+	 * @since   3.4
 	 */
 	public function enqueueMessage($msg, $type = 'message')
 	{
@@ -401,7 +408,9 @@ class JApplicationCliInstaller extends JApplicationCli
 	 *
 	 * @param   string  $msg  The message to enqueue.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   3.4
 	 */
 	public function fatal($msg)
 	{
@@ -415,19 +424,20 @@ class JApplicationCliInstaller extends JApplicationCli
 	public function getLocaliseAdmin($db = false)
 	{
 		// Read the files in the admin area
-		$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
+		$path               = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
 		$langfiles['admin'] = JFolder::folders($path);
 
 		// Read the files in the site area
-		$path = JLanguage::getLanguagePath(JPATH_SITE);
+		$path              = JLanguage::getLanguagePath(JPATH_SITE);
 		$langfiles['site'] = JFolder::folders($path);
 
 		if ($db)
 		{
-			$langfiles_disk = $langfiles;
-			$langfiles = array();
+			$langfiles_disk     = $langfiles;
+			$langfiles          = array();
 			$langfiles['admin'] = array();
-			$langfiles['site'] = array();
+			$langfiles['site']  = array();
+
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('element', 'client_id')))
 				->from($db->quoteName('#__extensions'))
@@ -440,7 +450,7 @@ class JApplicationCliInstaller extends JApplicationCli
 				switch ($lang->client_id)
 				{
 					// Site
-					case 0:
+					case 0 :
 						if (in_array($lang->element, $langfiles_disk['site']))
 						{
 							$langfiles['site'][] = $lang->element;
@@ -449,7 +459,7 @@ class JApplicationCliInstaller extends JApplicationCli
 						break;
 
 					// Administrator
-					case 1:
+					case 1 :
 						if (in_array($lang->element, $langfiles_disk['admin']))
 						{
 							$langfiles['admin'][] = $lang->element;
