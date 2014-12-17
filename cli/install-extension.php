@@ -62,35 +62,41 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 	/**
 	 * The installation method. One of folder, package, url, web
 	 *
-	 * @var  null|string
+	 * @var    null|string
+	 * @since  3.4
 	 */
 	private $installationMethod = null;
 
 	/**
 	 * The installation source. It can be a folder, file or URL depending on the installationMethod.
 	 *
-	 * @var  null|string
+	 * @var    null|string
+	 * @since  3.4
 	 */
 	private $installationSource = null;
 
 	/**
 	 * The path to the temporary package file downloaded from the web. Only used with url and web installation methods.
 	 *
-	 * @var  null|string
+	 * @var    null|string
+	 * @since  3.4
 	 */
 	private $temporaryPackage = null;
 
 	/**
 	 * The path to the temporary folder where the package is extracted. Not used with the folder installation method.
 	 *
-	 * @var  null|string
+	 * @var    null|string
+	 * @since  3.4
 	 */
 	private $temporaryFolder = null;
 
 	/**
 	 * Get the metadata of the possible options
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   3.4
 	 */
 	private function getOptionsMeta()
 	{
@@ -130,6 +136,8 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 	 * Shows the usage instructions of this script
 	 *
 	 * @return  void
+	 *
+	 * @since   3.4
 	 */
 	private function showUsage()
 	{
@@ -157,6 +165,8 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 	 * installationSource properties.
 	 *
 	 * @return  bool  True if there was an installation method and source specified
+	 *
+	 * @since  3.4
 	 */
 	private function getAndValidateParameters()
 	{
@@ -227,7 +237,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 		$this->out();
 
 		// Verify the command-line options
-		if ( !$this->getAndValidateParameters())
+		if (!$this->getAndValidateParameters())
 		{
 			$this->showUsage();
 			$this->close(1);
@@ -241,15 +251,15 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 
 		switch ($this->installationMethod)
 		{
-			case 'folder':
+			case 'folder' :
 				$packageFile = null;
 
-			case 'file':
+			case 'file' :
 				$packageFile = $this->installationSource;
 				break;
 
-			case 'web':
-			case 'url':
+			case 'web' :
+			case 'url' :
 				$url = $this->installationSource;
 
 				if ($this->installationMethod == 'web')
@@ -279,14 +289,14 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 
 				break;
 
-			default:
+			default :
 				$this->showUsage();
 				$this->close(1);
 				break;
 		}
 
 		// Make sure the package file exists
-		if ( !is_null($packageFile) && !file_exists($packageFile))
+		if (!is_null($packageFile) && !file_exists($packageFile))
 		{
 			$this->out(JText::sprintf('CLI_INSTALL_EXTENSION_ERR_PACKAGE_NOT_EXISTS', $packageFile));
 			$this->close(2);
@@ -300,7 +310,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 			$extensionDirectory = $this->installationSource;
 		}
 
-		if ( !is_null($packageFile))
+		if (!is_null($packageFile))
 		{
 			$this->out(JText::sprintf('CLI_INSTALL_EXTENSION_EXTRACTING_PACKAGE', $packageFile));
 			$package = JInstallerHelper::unpack($packageFile);
@@ -344,6 +354,8 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 	 * @param   string  $url  The URL to the update XML source
 	 *
 	 * @return  string|bool  The download URL or false if it's not found
+	 *
+	 * @since   3.4
 	 */
 	private function getDownloadUrlFromXML($url)
 	{
@@ -382,8 +394,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 	 */
 	public function getTemplate($params = false)
 	{
-		$template = new stdClass;
-
+		$template           = new stdClass;
 		$template->template = 'system';
 		$template->params   = new Registry;
 
@@ -404,6 +415,8 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 	 * @param   boolean  $replace  Ignored
 	 *
 	 * @return  $this
+	 *
+	 * @since   3.4
 	 */
 	public function setHeader($name, $value, $replace = false)
 	{
@@ -414,15 +427,17 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 	 * Cleans up temporary files and folders used in the installation
 	 *
 	 * @return  void
+	 *
+	 * @since   3.4
 	 */
 	private function cleanUp()
 	{
-		if ( !empty($this->temporaryFolder) && JFolder::exists($this->temporaryFolder))
+		if (!empty($this->temporaryFolder) && JFolder::exists($this->temporaryFolder))
 		{
 			JFolder::delete($this->temporaryFolder);
 		}
 
-		if ( !empty($this->temporaryPackage) && JFile::exists($this->temporaryPackage))
+		if (!empty($this->temporaryPackage) && JFile::exists($this->temporaryPackage))
 		{
 			JFile::delete($this->temporaryPackage);
 		}
