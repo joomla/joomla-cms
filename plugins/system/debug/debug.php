@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
@@ -7,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,7 +14,8 @@ defined('_JEXEC') or die;
  *
  * @since  1.5
  */
-class PlgSystemDebug extends JPlugin {
+class PlgSystemDebug extends JPlugin 
+{
 
     /**
      * xdebug.file_link_format from the php.ini.
@@ -88,28 +89,33 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   1.5
      */
-    public function __construct(&$subject, $config) {
+    public function __construct(&$subject, $config) 
+    {
         parent::__construct($subject, $config);
 
         // Log the deprecated API.
-        if ($this->params->get('log-deprecated')) {
+        if ($this->params->get('log-deprecated')) 
+        {
             JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
         }
 
         // Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
-        if (!$this->app) {
+        if (!$this->app) 
+        {
             $this->app = JFactory::getApplication();
         }
 
         $this->debugLang = $this->app->get('debug_lang');
 
         // Skip the plugin if debug is off
-        if ($this->debugLang == '0' && $this->app->get('debug') == '0') {
+        if ($this->debugLang == '0' && $this->app->get('debug') == '0') 
+        {
             return;
         }
 
         // Only if debugging or language debug is enabled.
-        if (JDEBUG || $this->debugLang) {
+        if (JDEBUG || $this->debugLang) 
+        {
             JFactory::getConfig()->set('gzip', 0);
             ob_start();
             ob_implicit_flush(false);
@@ -117,13 +123,16 @@ class PlgSystemDebug extends JPlugin {
 
         $this->linkFormat = ini_get('xdebug.file_link_format');
 
-        if ($this->params->get('logs', 1)) {
+        if ($this->params->get('logs', 1)) 
+        {
             $priority = 0;
 
-            foreach ($this->params->get('log_priorities', array()) as $p) {
+            foreach ($this->params->get('log_priorities', array()) as $p) 
+            {
                 $const = 'JLog::' . strtoupper($p);
 
-                if (!defined($const)) {
+                if (!defined($const)) 
+                {
                     continue;
                 }
 
@@ -150,14 +159,17 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   2.5
      */
-    public function onAfterDispatch() {
+    public function onAfterDispatch() 
+    {
         // Only if debugging or language debug is enabled.
-        if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug()) {
+        if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug()) 
+        {
             JHtml::_('stylesheet', 'cms/debug.css', array(), true);
         }
 
         // Only if debugging is enabled for SQL query popovers.
-        if (JDEBUG && $this->isAuthorisedDisplayDebug()) {
+        if (JDEBUG && $this->isAuthorisedDisplayDebug()) 
+        {
             JHtml::_('bootstrap.tooltip');
             JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'top'));
         }
@@ -168,32 +180,38 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since  1.6
      */
-    public function __destruct() {
+    public function __destruct() 
+    {
         // Do not render if debugging or language debug is not enabled.
-        if (!JDEBUG && !$this->debugLang) {
+        if (!JDEBUG && !$this->debugLang) 
+        {
             return;
         }
 
         // User has to be authorised to see the debug information.
-        if (!$this->isAuthorisedDisplayDebug()) {
+        if (!$this->isAuthorisedDisplayDebug()) 
+        {
             return;
         }
 
         // Only render for HTML output.
-        if (JFactory::getDocument()->getType() !== 'html') {
+        if (JFactory::getDocument()->getType() !== 'html') 
+        {
             return;
         }
 
         // Capture output.
         $contents = ob_get_contents();
 
-        if ($contents) {
+        if ($contents) 
+        {
             ob_end_clean();
         }
 
         // No debug for Safari and Chrome redirection.
         if (strstr(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ""), 'webkit') !== false
-                && substr($contents, 0, 50) == '<html><head><meta http-equiv="refresh" content="0;') {
+                && substr($contents, 0, 50) == '<html><head><meta http-equiv="refresh" content="0;') 
+        {
             echo $contents;
 
             return;
@@ -215,41 +233,51 @@ class PlgSystemDebug extends JPlugin {
 
         $html[] = '<h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1>';
 
-        if (JDEBUG) {
-            if (JError::getErrors()) {
+        if (JDEBUG) 
+        {
+            if (JError::getErrors()) 
+            {
                 $html[] = $this->display('errors');
             }
 
             $html[] = $this->display('session');
 
-            if ($this->params->get('profile', 1)) {
+            if ($this->params->get('profile', 1)) 
+            {
                 $html[] = $this->display('profile_information');
             }
 
-            if ($this->params->get('memory', 1)) {
+            if ($this->params->get('memory', 1)) 
+            {
                 $html[] = $this->display('memory_usage');
             }
 
-            if ($this->params->get('queries', 1)) {
+            if ($this->params->get('queries', 1)) 
+            {
                 $html[] = $this->display('queries');
             }
 
-            if ($this->params->get('logs', 1) && !empty($this->logEntries)) {
+            if ($this->params->get('logs', 1) && !empty($this->logEntries)) 
+            {
                 $html[] = $this->display('logs');
             }
         }
 
-        if ($this->debugLang) {
-            if ($this->params->get('language_errorfiles', 1)) {
+        if ($this->debugLang) 
+        {
+            if ($this->params->get('language_errorfiles', 1)) 
+            {
                 $languageErrors = JFactory::getLanguage()->getErrorFiles();
                 $html[] = $this->display('language_files_in_error', $languageErrors);
             }
 
-            if ($this->params->get('language_files', 1)) {
+            if ($this->params->get('language_files', 1)) 
+            {
                 $html[] = $this->display('language_files_loaded');
             }
 
-            if ($this->params->get('language_strings')) {
+            if ($this->params->get('language_strings')) 
+            {
                 $html[] = $this->display('untranslated_strings');
             }
         }
@@ -266,20 +294,24 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   3.0
      */
-    private function isAuthorisedDisplayDebug() {
+    private function isAuthorisedDisplayDebug() 
+    {
         static $result = null;
 
-        if (!is_null($result)) {
+        if (!is_null($result)) 
+        {
             return $result;
         }
 
         // If the user is not allowed to view the output then end here.
         $filterGroups = (array) $this->params->get('filter_groups', null);
 
-        if (!empty($filterGroups)) {
+        if (!empty($filterGroups)) 
+        {
             $userGroups = JFactory::getUser()->get('groups');
 
-            if (!array_intersect($filterGroups, $userGroups)) {
+            if (!array_intersect($filterGroups, $userGroups)) 
+            {
                 $result = false;
 
                 return false;
@@ -301,18 +333,21 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   2.5
      */
-    protected function display($item, array $errors = array()) {
+    protected function display($item, array $errors = array()) 
+    {
         $title = JText::_('PLG_DEBUG_' . strtoupper($item));
 
         $status = '';
 
-        if (count($errors)) {
+        if (count($errors)) 
+        {
             $status = ' dbg-error';
         }
 
         $fncName = 'display' . ucfirst(str_replace('_', '', $item));
 
-        if (!method_exists($this, $fncName)) {
+        if (!method_exists($this, $fncName)) 
+        {
             return __METHOD__ . ' -- Unknown method: ' . $fncName . '<br />';
         }
 
@@ -347,34 +382,44 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   2.5
      */
-    protected function displaySession($key = '', $session = null, $id = 0) {
-        if (!$session) {
+    protected function displaySession($key = '', $session = null, $id = 0) 
+    {
+        if (!$session) 
+        {
             $session = $_SESSION;
         }
 
         $html = array();
         static $id;
 
-        if (!is_array($session)) {
+        if (!is_array($session)) 
+        {
             $html[] = $key . ' &rArr;' . $session . PHP_EOL;
-        } else {
-            foreach ($session as $sKey => $entries) {
+        } 
+        else 
+        {
+            foreach ($session as $sKey => $entries) 
+            {
                 $display = true;
 
-                if (is_array($entries) && $entries) {
+                if (is_array($entries) && $entries) 
+                {
                     $display = false;
                 }
 
-                if (is_object($entries)) {
+                if (is_object($entries)) 
+                {
                     $o = JArrayHelper::fromObject($entries);
 
-                    if ($o) {
+                    if ($o) 
+                    {
                         $entries = $o;
                         $display = false;
                     }
                 }
 
-                if (!$display) {
+                if (!$display) 
+                {
                     $js = "toggleContainer('dbg_container_session" . $id . '_' . $sKey . "');";
 
                     $html[] = '<div class="dbg-header" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $sKey . '</h3></a></div>';
@@ -393,11 +438,13 @@ class PlgSystemDebug extends JPlugin {
                     continue;
                 }
 
-                if (is_array($entries)) {
+                if (is_array($entries)) 
+                {
                     $entries = implode($entries);
                 }
 
-                if (is_string($entries)) {
+                if (is_string($entries)) 
+                {
                     $html[] = '<code>';
                     $html[] = $sKey . ' &rArr; ' . $entries . '<br />';
                     $html[] = '</code>';
@@ -415,12 +462,14 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   2.5
      */
-    protected function displayErrors() {
+    protected function displayErrors() 
+    {
         $html = array();
 
         $html[] = '<ol>';
 
-        while ($error = JError::getError(true)) {
+        while ($error = JError::getError(true)) 
+        {
             $col = (E_WARNING == $error->get('level')) ? 'red' : 'orange';
 
             $html[] = '<li>';
@@ -428,7 +477,8 @@ class PlgSystemDebug extends JPlugin {
 
             $info = $error->get('info');
 
-            if ($info) {
+            if ($info) 
+            {
                 $html[] = '<pre>' . print_r($info, true) . '</pre><br />';
             }
 
@@ -448,7 +498,8 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   2.5
      */
-    protected function displayProfileInformation() {
+    protected function displayProfileInformation() 
+    {
         $html = array();
 
         $htmlMarks = array();
@@ -457,7 +508,8 @@ class PlgSystemDebug extends JPlugin {
         $totalMem = 0;
         $marks = array();
 
-        foreach (JProfiler::getInstance('Application')->getMarks() as $mark) {
+        foreach (JProfiler::getInstance('Application')->getMarks() as $mark) 
+        {
             $totalTime += $mark->time;
             $totalMem += $mark->memory;
             $htmlMark = sprintf(
@@ -477,25 +529,36 @@ class PlgSystemDebug extends JPlugin {
         $avgTime = $totalTime / count($marks);
         $avgMem = $totalMem / count($marks);
 
-        foreach ($marks as $mark) {
-            if ($mark->time > $avgTime * 1.5) {
+        foreach ($marks as $mark) 
+        {
+            if ($mark->time > $avgTime * 1.5) 
+            {
                 $barClass = 'bar-danger';
                 $labelClass = 'label-important';
-            } elseif ($mark->time < $avgTime / 1.5) {
+            } 
+            elseif ($mark->time < $avgTime / 1.5) 
+            {
                 $barClass = 'bar-success';
                 $labelClass = 'label-success';
-            } else {
+            } 
+            else 
+            {
                 $barClass = 'bar-warning';
                 $labelClass = 'label-warning';
             }
 
-            if ($mark->memory > $avgMem * 1.5) {
+            if ($mark->memory > $avgMem * 1.5) 
+            {
                 $barClassMem = 'bar-danger';
                 $labelClassMem = 'label-important';
-            } elseif ($mark->memory < $avgMem / 1.5) {
+            } 
+            elseif ($mark->memory < $avgMem / 1.5) 
+            {
                 $barClassMem = 'bar-success';
                 $labelClassMem = 'label-success';
-            } else {
+            } 
+            else 
+            {
                 $barClassMem = 'bar-warning';
                 $labelClassMem = 'label-warning';
             }
@@ -526,35 +589,47 @@ class PlgSystemDebug extends JPlugin {
 
         $log = $db->getLog();
 
-        if ($log) {
+        if ($log) 
+        {
             $timings = $db->getTimings();
 
-            if ($timings) {
+            if ($timings) 
+            {
                 $totalQueryTime = 0.0;
                 $lastStart = null;
 
-                foreach ($timings as $k => $v) {
-                    if (!($k % 2)) {
+                foreach ($timings as $k => $v) 
+                {
+                    if (!($k % 2)) 
+                    {
                         $lastStart = $v;
-                    } else {
+                    } 
+                    else 
+                    {
                         $totalQueryTime += $v - $lastStart;
                     }
                 }
 
                 $totalQueryTime = $totalQueryTime * 1000;
 
-                if ($totalQueryTime > ($totalTime * 0.25)) {
+                if ($totalQueryTime > ($totalTime * 0.25)) 
+                {
                     $labelClass = 'label-important';
-                } elseif ($totalQueryTime < ($totalTime * 0.15)) {
+                } 
+                elseif ($totalQueryTime < ($totalTime * 0.15)) 
+                {
                     $labelClass = 'label-success';
-                } else {
+                } 
+                else 
+                {
                     $labelClass = 'label-warning';
                 }
 
                 $html[] = '<br /><div>' . JText::sprintf(
                                 'PLG_DEBUG_QUERIES_TIME', sprintf('<span class="label ' . $labelClass . '">%.1f&nbsp;ms</span>', $totalQueryTime)
                         ) . '</div>';
-                if ($this->params->get('log-executed-sql', 1)) {
+                if ($this->params->get('log-executed-sql', 1)) 
+                {
                     $this->write2file();
                 }
             }
@@ -570,7 +645,8 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   2.5
      */
-    protected function displayMemoryUsage() {
+    protected function displayMemoryUsage() 
+    {
         $bytes = memory_get_usage();
 
         return '<span class="label">' . JHtml::_('number.bytes', $bytes) . '</span>'
@@ -588,12 +664,14 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   2.5
      */
-    protected function displayQueries() {
+    protected function displayQueries() 
+    {
         $db = JFactory::getDbo();
 
         $log = $db->getLog();
 
-        if (!$log) {
+        if (!$log) 
+        {
             return null;
         }
 
@@ -608,21 +686,27 @@ class PlgSystemDebug extends JPlugin {
         $timing = array();
         $maxtime = 0;
 
-        if (isset($timings[0])) {
+        if (isset($timings[0])) 
+        {
             $startTime = $timings[0];
             $endTime = $timings[count($timings) - 1];
             $totalBargraphTime = $endTime - $startTime;
 
-            if ($totalBargraphTime > 0) {
-                foreach ($log as $id => $query) {
-                    if (isset($timings[$id * 2 + 1])) {
+            if ($totalBargraphTime > 0) 
+            {
+                foreach ($log as $id => $query) 
+                {
+                    if (isset($timings[$id * 2 + 1])) 
+                    {
                         // Compute the query time: $timing[$k] = array( queryTime, timeBetweenQueries ).
                         $timing[$id] = array(($timings[$id * 2 + 1] - $timings[$id * 2]) * 1000, $id > 0 ? ($timings[$id * 2] - $timings[$id * 2 - 1]) * 1000 : 0);
                         $maxtime = max($maxtime, $timing[$id]['0']);
                     }
                 }
             }
-        } else {
+        } 
+        else 
+        {
             $startTime = null;
             $totalBargraphTime = 1;
         }
@@ -632,16 +716,19 @@ class PlgSystemDebug extends JPlugin {
         $totalQueryTime = 0;
         $duplicates = array();
 
-        foreach ($log as $id => $query) {
+        foreach ($log as $id => $query) 
+        {
             $did = md5($query);
 
-            if (!isset($duplicates[$did])) {
+            if (!isset($duplicates[$did])) 
+            {
                 $duplicates[$did] = array();
             }
 
             $duplicates[$did][] = $id;
 
-            if ($timings && isset($timings[$id * 2 + 1])) {
+            if ($timings && isset($timings[$id * 2 + 1])) 
+            {
                 // Compute the query time.
                 $queryTime = ($timings[$id * 2 + 1] - $timings[$id * 2]) * 1000;
                 $totalQueryTime += $queryTime;
@@ -650,17 +737,22 @@ class PlgSystemDebug extends JPlugin {
                 $hasWarnings = false;
                 $hasWarningsInProfile = false;
 
-                if (isset($this->explains[$id])) {
+                if (isset($this->explains[$id])) 
+                {
                     $explain = $this->tableToHtml($this->explains[$id], $hasWarnings);
-                } else {
+                } 
+                else 
+                {
                     $explain = JText::sprintf('PLG_DEBUG_QUERY_EXPLAIN_NOT_POSSIBLE', htmlspecialchars($query));
                 }
 
                 // Run a SHOW PROFILE query.
                 $profile = '';
 
-                if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql'))) {
-                    if (isset($this->sqlShowProfileEach[$id])) {
+                if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql'))) 
+                {
+                    if (isset($this->sqlShowProfileEach[$id])) 
+                    {
                         $profileTable = $this->sqlShowProfileEach[$id];
                         $profile = $this->tableToHtml($profileTable, $hasWarningsInProfile);
                     }
@@ -671,13 +763,18 @@ class PlgSystemDebug extends JPlugin {
                 $timeScore = $queryTime / ((strlen($query) + 1) * $ratio) * 200;
 
                 // Determine color of bargraph depending on query speed and presence of warnings in EXPLAIN.
-                if ($timeScore > 10) {
+                if ($timeScore > 10) 
+                {
                     $barClass = 'bar-danger';
                     $labelClass = 'label-important';
-                } elseif ($hasWarnings || $timeScore > 5) {
+                } 
+                elseif ($hasWarnings || $timeScore > 5) 
+                {
                     $barClass = 'bar-warning';
                     $labelClass = 'label-warning';
-                } else {
+                }
+                else 
+                {
                     $barClass = 'bar-success';
                     $labelClass = 'label-success';
                 }
@@ -689,10 +786,12 @@ class PlgSystemDebug extends JPlugin {
                 $barWidth = round($timing[$id][0] / ($totalBargraphTime * 10), 4);
                 $minWidth = 0.3;
 
-                if ($barWidth < $minWidth) {
+                if ($barWidth < $minWidth) 
+                {
                     $barPre -= ($minWidth - $barWidth);
 
-                    if ($barPre < 0) {
+                    if ($barPre < 0) 
+                    {
                         $minWidth += $barPre;
                         $barPre = 0;
                     }
@@ -718,10 +817,14 @@ class PlgSystemDebug extends JPlugin {
         // Remove single queries from $duplicates.
         $total_duplicates = 0;
 
-        foreach ($duplicates as $did => $dups) {
-            if (count($dups) < 2) {
+        foreach ($duplicates as $did => $dups) 
+        {
+            if (count($dups) < 2) 
+            {
                 unset($duplicates[$did]);
-            } else {
+            } 
+            else 
+            {
                 $total_duplicates += count($dups);
             }
         }
@@ -729,10 +832,12 @@ class PlgSystemDebug extends JPlugin {
         // Fix first bar width.
         $minWidth = 0.3;
 
-        if ($bars[0]->width < $minWidth && isset($bars[1])) {
+        if ($bars[0]->width < $minWidth && isset($bars[1])) 
+        {
             $bars[1]->pre -= ($minWidth - $bars[0]->width);
 
-            if ($bars[1]->pre < 0) {
+            if ($bars[1]->pre < 0) 
+            {
                 $minWidth += $bars[1]->pre;
                 $bars[1]->pre = 0;
             }
@@ -743,16 +848,19 @@ class PlgSystemDebug extends JPlugin {
         $memoryUsageNow = memory_get_usage();
         $list = array();
 
-        foreach ($log as $id => $query) {
+        foreach ($log as $id => $query) 
+        {
             // Start query type ticker additions.
             $fromStart = stripos($query, 'from');
             $whereStart = stripos($query, 'where', $fromStart);
 
-            if ($whereStart === false) {
+            if ($whereStart === false) 
+            {
                 $whereStart = stripos($query, 'order by', $fromStart);
             }
 
-            if ($whereStart === false) {
+            if ($whereStart === false) 
+            {
                 $whereStart = strlen($query) - 1;
             }
 
@@ -762,26 +870,32 @@ class PlgSystemDebug extends JPlugin {
             $fromString = trim($fromString);
 
             // Initialise the select/other query type counts the first time.
-            if (!isset($selectQueryTypeTicker[$fromString])) {
+            if (!isset($selectQueryTypeTicker[$fromString])) 
+            {
                 $selectQueryTypeTicker[$fromString] = 0;
             }
 
-            if (!isset($otherQueryTypeTicker[$fromString])) {
+            if (!isset($otherQueryTypeTicker[$fromString])) 
+            {
                 $otherQueryTypeTicker[$fromString] = 0;
             }
 
             // Increment the count.
-            if (stripos($query, 'select') === 0) {
+            if (stripos($query, 'select') === 0) 
+            {
                 $selectQueryTypeTicker[$fromString] = $selectQueryTypeTicker[$fromString] + 1;
                 unset($otherQueryTypeTicker[$fromString]);
-            } else {
+            } 
+            else 
+            {
                 $otherQueryTypeTicker[$fromString] = $otherQueryTypeTicker[$fromString] + 1;
                 unset($selectQueryTypeTicker[$fromString]);
             }
 
             $text = $this->highlightQuery($query);
 
-            if ($timings && isset($timings[$id * 2 + 1])) {
+            if ($timings && isset($timings[$id * 2 + 1])) 
+            {
                 // Compute the query time.
                 $queryTime = ($timings[$id * 2 + 1] - $timings[$id * 2]) * 1000;
 
@@ -789,22 +903,29 @@ class PlgSystemDebug extends JPlugin {
                 $htmlTiming = '<div style="margin: 0px 0 5px;"><span class="dbg-query-time">'
                         . JText::sprintf('PLG_DEBUG_QUERY_TIME', sprintf('<span class="label ' . $info[$id]->class . '">%.2f&nbsp;ms</span>', $timing[$id]['0']));
 
-                if ($timing[$id]['1']) {
+                if ($timing[$id]['1']) 
+                {
                     $htmlTiming .= ' ' . JText::sprintf('PLG_DEBUG_QUERY_AFTER_LAST', sprintf('<span class="label">%.2f&nbsp;ms</span>', $timing[$id]['1']));
                 }
 
                 $htmlTiming .= '</span>';
 
-                if (isset($callStacks[$id][0]['memory'])) {
+                if (isset($callStacks[$id][0]['memory'])) 
+                {
                     $memoryUsed = $callStacks[$id][0]['memory'][1] - $callStacks[$id][0]['memory'][0];
                     $memoryBeforeQuery = $callStacks[$id][0]['memory'][0];
 
                     // Determine colour of query memory usage.
-                    if ($memoryUsed > 0.1 * $memoryUsageNow) {
+                    if ($memoryUsed > 0.1 * $memoryUsageNow) 
+                    {
                         $labelClass = 'label-important';
-                    } elseif ($memoryUsed > 0.05 * $memoryUsageNow) {
+                    } 
+                    elseif ($memoryUsed > 0.05 * $memoryUsageNow) 
+                    {
                         $labelClass = 'label-warning';
-                    } else {
+                    } 
+                    else 
+                    {
                         $labelClass = 'label-success';
                     }
 
@@ -812,17 +933,25 @@ class PlgSystemDebug extends JPlugin {
                             )
                             . '</span>';
 
-                    if ($callStacks[$id][0]['memory'][2] !== null) {
+                    if ($callStacks[$id][0]['memory'][2] !== null) 
+                    {
                         // Determine colour of number or results.
                         $resultsReturned = $callStacks[$id][0]['memory'][2];
 
-                        if ($resultsReturned > 3000) {
+                        if ($resultsReturned > 3000) 
+                        {
                             $labelClass = 'label-important';
-                        } elseif ($resultsReturned > 1000) {
+                        } 
+                        elseif ($resultsReturned > 1000) 
+                        {
                             $labelClass = 'label-warning';
-                        } elseif ($resultsReturned == 0) {
+                        } 
+                        elseif ($resultsReturned == 0) 
+                        {
                             $labelClass = '';
-                        } else {
+                        } 
+                        else 
+                        {
                             $labelClass = 'label-success';
                         }
 
@@ -840,7 +969,8 @@ class PlgSystemDebug extends JPlugin {
                 // Profile query.
                 $title = JText::_('PLG_DEBUG_PROFILE');
 
-                if (!$info[$id]->profile) {
+                if (!$info[$id]->profile) 
+                {
                     $title = '<span class="dbg-noprofile">' . $title . '</span>';
                 }
 
@@ -849,11 +979,14 @@ class PlgSystemDebug extends JPlugin {
                 // Backtrace and call stack.
                 $htmlCallStack = '';
 
-                if (isset($callStacks[$id])) {
+                if (isset($callStacks[$id])) 
+                {
                     $htmlCallStackElements = array();
 
-                    foreach ($callStacks[$id] as $functionCall) {
-                        if (isset($functionCall['file']) && isset($functionCall['line']) && (strpos($functionCall['file'], '/libraries/joomla/database/') === false)) {
+                    foreach ($callStacks[$id] as $functionCall) 
+                    {
+                        if (isset($functionCall['file']) && isset($functionCall['line']) && (strpos($functionCall['file'], '/libraries/joomla/database/') === false)) 
+                        {
                             $htmlFile = htmlspecialchars($functionCall['file']);
                             $htmlLine = htmlspecialchars($functionCall['line']);
                             $htmlCallStackElements[] = '<span class="dbg-log-called-from">' . $this->formatLink($htmlFile, $htmlLine) . '</span>';
@@ -862,7 +995,8 @@ class PlgSystemDebug extends JPlugin {
 
                     $htmlCallStack = '<div class="dbg-query-table"><div>' . implode('</div><div>', $htmlCallStackElements) . '</div></div>';
 
-                    if (!$this->linkFormat) {
+                    if (!$this->linkFormat) 
+                    {
                         $htmlCallStack .= '<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">'
                                 . JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
                     }
@@ -882,7 +1016,8 @@ class PlgSystemDebug extends JPlugin {
                         . $htmlProfile
                         . JHtml::_('bootstrap.endSlide');
 
-                if ($htmlCallStack) {
+                if ($htmlCallStack) 
+                {
                     $htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $id, JText::_('PLG_DEBUG_CALL_STACK'), 'dbg_query_callstack_' . $id)
                             . $htmlCallStack
                             . JHtml::_('bootstrap.endSlide');
@@ -892,18 +1027,23 @@ class PlgSystemDebug extends JPlugin {
 
                 $did = md5($query);
 
-                if (isset($duplicates[$did])) {
+                if (isset($duplicates[$did])) 
+                {
                     $dups = array();
 
-                    foreach ($duplicates[$did] as $dup) {
-                        if ($dup != $id) {
+                    foreach ($duplicates[$did] as $dup) 
+                    {
+                        if ($dup != $id) 
+                        {
                             $dups[] = '<a href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
                         }
                     }
 
                     $htmlQuery = '<div class="alert alert-error">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</div>'
                             . '<pre class="alert hasTooltip" title="' . JHtml::tooltipText('PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
-                } else {
+                } 
+                else 
+                {
                     $htmlQuery = '<pre>' . $text . '</pre>';
                 }
 
@@ -912,22 +1052,30 @@ class PlgSystemDebug extends JPlugin {
                         . $htmlBar
                         . $htmlQuery
                         . $htmlAccordions;
-            } else {
+            } 
+            else 
+            {
                 $list[] = '<pre>' . $text . '</pre>';
             }
         }
 
         $totalTime = 0;
 
-        foreach (JProfiler::getInstance('Application')->getMarks() as $mark) {
+        foreach (JProfiler::getInstance('Application')->getMarks() as $mark) 
+        {
             $totalTime += $mark->time;
         }
 
-        if ($totalQueryTime > ($totalTime * 0.25)) {
+        if ($totalQueryTime > ($totalTime * 0.25)) 
+        {
             $labelClass = 'label-important';
-        } elseif ($totalQueryTime < ($totalTime * 0.15)) {
+        } 
+        elseif ($totalQueryTime < ($totalTime * 0.15)) 
+        {
             $labelClass = 'label-success';
-        } else {
+        } 
+        else 
+        {
             $labelClass = 'label-warning';
         }
 
@@ -936,14 +1084,17 @@ class PlgSystemDebug extends JPlugin {
         $html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries)
                 . sprintf(' <span class="label ' . $labelClass . '">%.1f&nbsp;ms</span>', ($totalQueryTime)) . '</h4><br />';
 
-        if ($total_duplicates) {
+        if ($total_duplicates) 
+        {
             $html[] = '<div class="alert alert-error">'
                     . '<h4>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_TOTAL_NUMBER', $total_duplicates) . '</h4>';
 
-            foreach ($duplicates as $dups) {
+            foreach ($duplicates as $dups) 
+            {
                 $links = array();
 
-                foreach ($dups as $dup) {
+                foreach ($dups as $dup) 
+                {
                     $links[] = '<a href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
                 }
 
@@ -955,7 +1106,8 @@ class PlgSystemDebug extends JPlugin {
 
         $html[] = '<ol><li>' . implode('<hr /></li><li>', $list) . '<hr /></li></ol>';
 
-        if (!$this->params->get('query_types', 1)) {
+        if (!$this->params->get('query_types', 1)) 
+        {
             return implode('', $html);
         }
 
@@ -966,14 +1118,16 @@ class PlgSystemDebug extends JPlugin {
 
         $html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERY_TYPES_LOGGED', $totalQueryTypes) . '</h4>';
 
-        if ($totalSelectQueryTypes) {
+        if ($totalSelectQueryTypes) 
+        {
             $html[] = '<h5>' . JText::_('PLG_DEBUG_SELECT_QUERIES') . '</h5>';
 
             arsort($selectQueryTypeTicker);
 
             $list = array();
 
-            foreach ($selectQueryTypeTicker as $query => $occurrences) {
+            foreach ($selectQueryTypeTicker as $query => $occurrences) 
+            {
                 $list[] = '<pre>'
                         . JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
                         . '</pre>';
@@ -982,14 +1136,16 @@ class PlgSystemDebug extends JPlugin {
             $html[] = '<ol><li>' . implode('</li><li>', $list) . '</li></ol>';
         }
 
-        if ($totalOtherQueryTypes) {
+        if ($totalOtherQueryTypes) 
+        {
             $html[] = '<h5>' . JText::_('PLG_DEBUG_OTHER_QUERIES') . '</h5>';
 
             arsort($otherQueryTypeTicker);
 
             $list = array();
 
-            foreach ($otherQueryTypeTicker as $query => $occurrences) {
+            foreach ($otherQueryTypeTicker as $query => $occurrences) 
+            {
                 $list[] = '<pre>'
                         . JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
                         . '</pre>';
@@ -1012,23 +1168,28 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   3.1.2
      */
-    protected function renderBars(&$bars, $class = '', $id = null) {
+    protected function renderBars(&$bars, $class = '', $id = null) 
+    {
         $html = array();
 
-        foreach ($bars as $i => $bar) {
-            if (isset($bar->pre) && $bar->pre) {
+        foreach ($bars as $i => $bar) 
+        {
+            if (isset($bar->pre) && $bar->pre) 
+            {
                 $html[] = '<div class="dbg-bar-spacer" style="width:' . $bar->pre . '%;"></div>';
             }
 
             $barClass = trim('bar dbg-bar ' . (isset($bar->class) ? $bar->class : ''));
 
-            if ($id !== null && $i == $id) {
+            if ($id !== null && $i == $id) 
+            {
                 $barClass .= ' dbg-bar-active';
             }
 
             $tip = '';
 
-            if (isset($bar->tip) && $bar->tip) {
+            if (isset($bar->tip) && $bar->tip) 
+            {
                 $barClass .= ' hasTooltip';
                 $tip = JHtml::tooltipText($bar->tip, '', 0);
             }
@@ -1050,8 +1211,10 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   3.1.2
      */
-    protected function tableToHtml($table, &$hasWarnings) {
-        if (!$table) {
+    protected function tableToHtml($table, &$hasWarnings) 
+    {
+        if (!$table) 
+        {
             return null;
         }
 
@@ -1059,7 +1222,8 @@ class PlgSystemDebug extends JPlugin {
 
         $html[] = '<table class="table table-striped dbg-query-table"><tr>';
 
-        foreach (array_keys($table[0]) as $k) {
+        foreach (array_keys($table[0]) as $k) 
+        {
             $html[] = '<th>' . htmlspecialchars($k) . '</th>';
         }
 
@@ -1067,49 +1231,67 @@ class PlgSystemDebug extends JPlugin {
 
         $durations = array();
 
-        foreach ($table as $tr) {
-            if (isset($tr['Duration'])) {
+        foreach ($table as $tr) 
+        {
+            if (isset($tr['Duration'])) 
+            {
                 $durations[] = $tr['Duration'];
             }
         }
 
         rsort($durations, SORT_NUMERIC);
 
-        foreach ($table as $tr) {
+        foreach ($table as $tr) 
+        {
             $html[] = '<tr>';
 
-            foreach ($tr as $k => $td) {
-                if ($td === null) {
+            foreach ($tr as $k => $td) 
+            {
+                if ($td === null) 
+                {
                     // Display null's as 'NULL'.
                     $td = 'NULL';
                 }
 
                 // Treat special columns.
-                if ($k == 'Duration') {
-                    if ($td >= 0.001 && ($td == $durations[0] || (isset($durations[1]) && $td == $durations[1]))) {
+                if ($k == 'Duration') 
+                {
+                    if ($td >= 0.001 && ($td == $durations[0] || (isset($durations[1]) && $td == $durations[1]))) 
+                    {
                         // Duration column with duration value of more than 1 ms and within 2 top duration in SQL engine: Highlight warning.
                         $html[] = '<td class="dbg-warning">';
                         $hasWarnings = true;
-                    } else {
+                    } 
+                    else 
+                    {
                         $html[] = '<td>';
                     }
 
                     // Display duration in milliseconds with the unit instead of seconds.
                     $html[] = sprintf('%.1f&nbsp;ms', $td * 1000);
-                } elseif ($k == 'Error') {
+                } 
+                elseif ($k == 'Error') 
+                {
                     // An error in the EXPLAIN query occured, display it instead of the result (means original query had syntax error most probably).
                     $html[] = '<td class="dbg-warning">' . htmlspecialchars($td);
                     $hasWarnings = true;
-                } elseif ($k == 'key') {
-                    if ($td === 'NULL') {
+                } 
+                elseif ($k == 'key') 
+                {
+                    if ($td === 'NULL') 
+                    {
                         // Displays query parts which don't use a key with warning.
                         $html[] = '<td><strong>' . '<span class="dbg-warning hasTooltip" title="' . JHtml::tooltipText('PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">'
                                 . JText::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
                         $hasWarnings = true;
-                    } else {
+                    } 
+                    else 
+                    {
                         $html[] = '<td><strong>' . htmlspecialchars($td) . '</strong>';
                     }
-                } elseif ($k == 'Extra') {
+                } 
+                elseif ($k == 'Extra') 
+                {
                     $htmlTd = htmlspecialchars($td);
 
                     // Replace spaces with &nbsp; (non-breaking spaces) for less tall tables displayed.
@@ -1120,12 +1302,15 @@ class PlgSystemDebug extends JPlugin {
                             . JHtml::tooltipText('PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">' . JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>', $htmlTd
                     );
 
-                    if ($htmlTdWithWarnings !== $htmlTd) {
+                    if ($htmlTdWithWarnings !== $htmlTd) 
+                    {
                         $hasWarnings = true;
                     }
 
                     $html[] = '<td>' . $htmlTdWithWarnings;
-                } else {
+                } 
+                else
+                {
                     $html[] = '<td>' . htmlspecialchars($td);
                 }
 
@@ -1149,50 +1334,66 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   3.1.2
      */
-    public function mysqlDisconnectHandler(&$db) {
+    public function mysqlDisconnectHandler(&$db) 
+    {
         $db->setDebug(false);
 
         $this->totalQueries = $db->getCount();
 
         $dbVersion5037 = (strncmp($db->name, 'mysql', 5) == 0) && version_compare($db->getVersion(), '5.0.37', '>=');
 
-        if ($dbVersion5037) {
-            try {
+        if ($dbVersion5037) 
+        {
+            try 
+            {
                 // Check if profiling is enabled.
                 $db->setQuery("SHOW VARIABLES LIKE 'have_profiling'");
                 $hasProfiling = $db->loadResult();
 
-                if ($hasProfiling) {
+                if ($hasProfiling) 
+                {
                     // Run a SHOW PROFILE query.
                     $db->setQuery('SHOW PROFILES');
                     $this->sqlShowProfiles = $db->loadAssocList();
 
-                    if ($this->sqlShowProfiles) {
-                        foreach ($this->sqlShowProfiles as $qn) {
+                    if ($this->sqlShowProfiles) 
+                    {
+                        foreach ($this->sqlShowProfiles as $qn) 
+                        {
                             // Run SHOW PROFILE FOR QUERY for each query where a profile is available (max 100).
                             $db->setQuery('SHOW PROFILE FOR QUERY ' . (int) ($qn['Query_ID']));
                             $this->sqlShowProfileEach[(int) ($qn['Query_ID'] - 1)] = $db->loadAssocList();
                         }
                     }
-                } else {
+                } 
+                else 
+                {
                     $this->sqlShowProfileEach[0] = array(array('Error' => 'MySql have_profiling = off'));
                 }
-            } catch (Exception $e) {
+            } 
+            catch (Exception $e) 
+            {
                 $this->sqlShowProfileEach[0] = array(array('Error' => $e->getMessage()));
             }
         }
 
-        if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql', 'postgresql'))) {
+        if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql', 'postgresql'))) 
+        {
             $log = $db->getLog();
 
-            foreach ($log as $k => $query) {
+            foreach ($log as $k => $query) 
+            {
                 $dbVersion56 = (strncmp($db->name, 'mysql', 5) == 0) && version_compare($db->getVersion(), '5.6', '>=');
 
-                if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0)))) {
-                    try {
+                if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0)))) 
+                {
+                    try 
+                    {
                         $db->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
                         $this->explains[$k] = $db->loadAssocList();
-                    } catch (Exception $e) {
+                    } 
+                    catch (Exception $e) 
+                    {
                         $this->explains[$k] = array(array('Error' => $e->getMessage()));
                     }
                 }
@@ -1207,10 +1408,12 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   2.5
      */
-    protected function displayLanguageFilesInError() {
+    protected function displayLanguageFilesInError() 
+    {
         $errorfiles = JFactory::getLanguage()->getErrorFiles();
 
-        if (!count($errorfiles)) {
+        if (!count($errorfiles)) 
+        {
             return '<p>' . JText::_('JNONE') . '</p>';
         }
 
@@ -1218,7 +1421,8 @@ class PlgSystemDebug extends JPlugin {
 
         $html[] = '<ul>';
 
-        foreach ($errorfiles as $file => $error) {
+        foreach ($errorfiles as $file => $error) 
+        {
             $html[] = '<li>' . $this->formatLink($file) . str_replace($file, '', $error) . '</li>';
         }
 
@@ -1234,13 +1438,16 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   2.5
      */
-    protected function displayLanguageFilesLoaded() {
+    protected function displayLanguageFilesLoaded() 
+    {
         $html = array();
 
         $html[] = '<ul>';
 
-        foreach (JFactory::getLanguage()->getPaths() as /* $extension => */ $files) {
-            foreach ($files as $file => $status) {
+        foreach (JFactory::getLanguage()->getPaths() as /* $extension => */ $files) 
+        {
+            foreach ($files as $file => $status) 
+            {
                 $html[] = '<li>';
 
                 $html[] = ($status) ? JText::_('PLG_DEBUG_LANG_LOADED') : JText::_('PLG_DEBUG_LANG_NOT_LOADED');
@@ -1263,14 +1470,16 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   2.5
      */
-    protected function displayUntranslatedStrings() {
+    protected function displayUntranslatedStrings() 
+    {
         $stripFirst = $this->params->get('strip-first');
         $stripPref = $this->params->get('strip-prefix');
         $stripSuff = $this->params->get('strip-suffix');
 
         $orphans = JFactory::getLanguage()->getOrphans();
 
-        if (!count($orphans)) {
+        if (!count($orphans)) 
+        {
             return '<p>' . JText::_('JNONE') . '</p>';
         }
 
@@ -1278,27 +1487,35 @@ class PlgSystemDebug extends JPlugin {
 
         $guesses = array();
 
-        foreach ($orphans as $key => $occurance) {
-            if (is_array($occurance) && isset($occurance[0])) {
+        foreach ($orphans as $key => $occurance) 
+        {
+            if (is_array($occurance) && isset($occurance[0])) 
+            {
                 $info = $occurance[0];
                 $file = ($info['file']) ? $info['file'] : '';
 
-                if (!isset($guesses[$file])) {
+                if (!isset($guesses[$file])) 
+                {
                     $guesses[$file] = array();
                 }
 
                 // Prepare the key.
-                if (($pos = strpos($info['string'], '=')) > 0) {
+                if (($pos = strpos($info['string'], '=')) > 0) 
+                {
                     $parts = explode('=', $info['string']);
                     $key = $parts[0];
                     $guess = $parts[1];
-                } else {
+                } 
+                else 
+                {
                     $guess = str_replace('_', ' ', $info['string']);
 
-                    if ($stripFirst) {
+                    if ($stripFirst) 
+                    {
                         $parts = explode(' ', $guess);
 
-                        if (count($parts) > 1) {
+                        if (count($parts) > 1) 
+                        {
                             array_shift($parts);
                             $guess = implode(' ', $parts);
                         }
@@ -1306,11 +1523,13 @@ class PlgSystemDebug extends JPlugin {
 
                     $guess = trim($guess);
 
-                    if ($stripPref) {
+                    if ($stripPref) 
+                    {
                         $guess = trim(preg_replace(chr(1) . '^' . $stripPref . chr(1) . 'i', '', $guess));
                     }
 
-                    if ($stripSuff) {
+                    if ($stripSuff) 
+                    {
                         $guess = trim(preg_replace(chr(1) . $stripSuff . '$' . chr(1) . 'i', '', $guess));
                     }
                 }
@@ -1326,7 +1545,8 @@ class PlgSystemDebug extends JPlugin {
 
         $html = array();
 
-        foreach ($guesses as $file => $keys) {
+        foreach ($guesses as $file => $keys) 
+        {
             $html[] = "\n\n# " . ($file ? $this->formatLink($file) : JText::_('PLG_DEBUG_UNKNOWN_FILE')) . "\n\n";
             $html[] = implode("\n", $keys);
         }
@@ -1343,7 +1563,8 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   2.5
      */
-    protected function highlightQuery($query) {
+    protected function highlightQuery($query) 
+    {
         $newlineKeywords = '#\b(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND|CASE)\b#i';
 
         $query = htmlspecialchars($query, ENT_QUOTES);
@@ -1380,12 +1601,14 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   2.5
      */
-    protected function renderBacktrace($error) {
+    protected function renderBacktrace($error) 
+    {
         $backtrace = $error->getTrace();
 
         $html = array();
 
-        if (is_array($backtrace)) {
+        if (is_array($backtrace)) 
+        {
             $j = 1;
 
             $html[] = '<table cellpadding="0" cellspacing="0">';
@@ -1400,19 +1623,24 @@ class PlgSystemDebug extends JPlugin {
             $html[] = '<th>Location</th>';
             $html[] = '</tr>';
 
-            for ($i = count($backtrace) - 1; $i >= 0; $i--) {
+            for ($i = count($backtrace) - 1; $i >= 0; $i--) 
+            {
                 $link = '&#160;';
 
-                if (isset($backtrace[$i]['file'])) {
+                if (isset($backtrace[$i]['file'])) 
+                {
                     $link = $this->formatLink($backtrace[$i]['file'], $backtrace[$i]['line']);
                 }
 
                 $html[] = '<tr>';
                 $html[] = '<td>' . $j . '</td>';
 
-                if (isset($backtrace[$i]['class'])) {
+                if (isset($backtrace[$i]['class'])) 
+                {
                     $html[] = '<td>' . $backtrace[$i]['class'] . $backtrace[$i]['type'] . $backtrace[$i]['function'] . '()</td>';
-                } else {
+                } 
+                else 
+                {
                     $html[] = '<td>' . $backtrace[$i]['function'] . '()</td>';
                 }
 
@@ -1440,17 +1668,21 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   2.5
      */
-    protected function formatLink($file, $line = '') {
+    protected function formatLink($file, $line = '') 
+    {
         $link = str_replace(JPATH_ROOT, 'JROOT', $file);
         $link .= ($line) ? ':' . $line : '';
 
-        if ($this->linkFormat) {
+        if ($this->linkFormat) 
+        {
             $href = $this->linkFormat;
             $href = str_replace('%f', $file, $href);
             $href = str_replace('%l', $line, $href);
 
             $html = '<a href="' . $href . '">' . $link . '</a>';
-        } else {
+        } 
+        else 
+        {
             $html = $link;
         }
 
@@ -1467,7 +1699,8 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   3.1
      */
-    public function logger(JLogEntry $entry) {
+    public function logger(JLogEntry $entry) 
+    {
         $this->logEntries[] = $entry;
     }
 
@@ -1478,7 +1711,8 @@ class PlgSystemDebug extends JPlugin {
      *
      * @since   3.1
      */
-    protected function displayLogs() {
+    protected function displayLogs() 
+    {
         $priorities = array(
             JLog::EMERGENCY => 'EMERGENCY',
             JLog::ALERT => 'ALERT',
@@ -1492,24 +1726,28 @@ class PlgSystemDebug extends JPlugin {
 
         $out = array();
 
-        foreach ($this->logEntries as $entry) {
+        foreach ($this->logEntries as $entry) 
+        {
             $out[] = '<h5>' . $priorities[$entry->priority] . ' - ' . $entry->category . ' </h5><code>' . $entry->message . '</code>';
         }
 
         return implode('<br /><br />', $out);
     }
 
-    function write2file() {
-        //
+    function write2file() 
+    {
         $app = JFactory::getApplication();
         $conf = JFactory::getConfig();
         $domain = $conf->get('sitename', 'site');
-        if ($app->isSite()) {
+        if ($app->isSite()) 
+        {
             $alias = JFactory::getApplication()->getMenu()->getActive()->alias;
             $id = JFactory::getApplication()->getMenu()->getActive()->id;
             $file = $alias . $id . '.sql';
             $file = JFactory::getApplication()->get('log_path') . '/' . $domain . '_' . $file;
-        } else {
+        } 
+        else 
+        {
             $file = JRequest::getVar('option') . JRequest::getVar('view') . JRequest::getVar('layout') . '.sql';
             $file = JFactory::getApplication()->get('log_path') . '/' . $domain . '_' . $file;
         }
@@ -1517,16 +1755,19 @@ class PlgSystemDebug extends JPlugin {
         $db = JFactory::getDbo();
         $log = $db->getLog();
         $timings = $db->getTimings();
-        foreach ($log as $id => $query) {
-            if (isset($timings[$id * 2 + 1])) {
+        foreach ($log as $id => $query) 
+        {
+            if (isset($timings[$id * 2 + 1])) 
+            {
                 $temp = str_replace('`', '', $log[$id]);
                 $temp = str_replace("\t", " ", $temp);
                 $temp = str_replace("\n", " ", $temp);
                 $current.= str_replace("\r\n", " ", $temp) . ";\n";
             }
         }
-        //file_put_contents($file, $current);
-        if (JFile::exists($file)) {
+         
+        if (JFile::exists($file)) 
+        {
             JFile::delete($file);
         }
 
@@ -1534,20 +1775,27 @@ class PlgSystemDebug extends JPlugin {
         $result = JFile::write($file, $current);
 
         // In case JFile used FTP but direct access could help.
-        if (!$result) {
-            if (function_exists('file_put_contents')) {
+        if (!$result) 
+        {
+            if (function_exists('file_put_contents')) 
+            {
                 $result = @file_put_contents($file, $current);
 
-                if ($result !== false) {
+                if ($result !== false) 
+                {
                     $result = true;
                 }
-            } else {
+            } 
+            else 
+            {
                 $fp = @fopen($file, 'wt');
 
-                if ($fp !== false) {
+                if ($fp !== false) 
+                {
                     $result = @fwrite($fp, $current);
 
-                    if ($result !== false) {
+                    if ($result !== false) 
+                    {
                         $result = true;
                     }
 
