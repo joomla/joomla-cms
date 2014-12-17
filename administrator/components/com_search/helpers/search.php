@@ -96,6 +96,7 @@ class SearchHelper
 		if (count($aterms) > 1 && $searchphrase != 'exact')
 		{
 			$pruned = array_diff($aterms, $search_ignore);
+			
 			if (count($pruned) > 0)
 			{
 				// If search word has at least one legal word then leave all phrase for type 'all'.
@@ -111,7 +112,7 @@ class SearchHelper
 			else
 			{
 				$searchword = '';
-				$ignored = true;
+				$ignored    = true;
 			}
 		}
 
