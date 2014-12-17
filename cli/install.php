@@ -40,10 +40,11 @@ class JApplicationCliInstaller extends JApplicationCli
 	 * Get a list of command-line options
 	 *
 	 * @return array each item is keyed by the installation system's internal option name; values arrays with keys:
-	 *	 - getopt: string, a specification for use with getopt
+	 *	 - arg: string, the name of the command-line argument
 	 *	 - required: bool, an indication of whether the value is required
 	 *	 - default: mixed, default value to use if none is provided
 	 *	 - factory: callable, a fnction which produces the default value
+	 *       - type: string, e.g. "bool"
 	 *
 	 * @since  3.4
 	 */
@@ -51,46 +52,47 @@ class JApplicationCliInstaller extends JApplicationCli
 	{
 		$optionsMetadata = array(
 			'help' => array(
-				'getopt'      => 'help',
+				'arg'         => 'help',
 				'description' => 'Display help',
+				'type'        => 'bool',
 			),
 			'admin_email'         => array(
-				'getopt'      => 'admin-email:',
+				'arg'         => 'admin-email',
 				'description' => 'Admin user\'s email',
 				'required'    => true,
 			),
 			'admin_password' => array(
-				'getopt'      => 'admin-pass:',
+				'arg'         => 'admin-pass',
 				'description' => 'Admin user\'s password',
 				'required'    => true,
 			),
 			'admin_user' => array(
-				'getopt'      => 'admin-user:',
+				'arg'         => 'admin-user',
 				'description' => 'Admin user\'s username',
 				'default'     => 'admin',
 			),
 			'db_host' => array(
-				'getopt'      => 'db-host:',
+				'arg'         => 'db-host',
 				'description' => 'Hostname (or hostname:port)',
 				'default'     => 'localhost',
 			),
 			'db_name' => array(
-				'getopt'      => 'db-name:',
+				'arg'         => 'db-name',
 				'description' => 'Database name',
 				'required'    => true,
 			),
 			'db_old' => array(
-				'getopt'      => 'db-old:',
+				'arg'         => 'db-old',
 				'description' => 'Policy to use with old DB [remove,backup]]',
 				'default'     => 'backup',
 			),
 			'db_pass' => array(
-				'getopt'      => 'db-pass:',
+				'arg'         => 'db-pass',
 				'description' => 'Database password',
 				'required'    => true,
 			),
 			'db_prefix' => array(
-				'getopt'      => 'db-prefix:',
+				'arg'         => 'db-prefix',
 				'description' => 'Table prefix',
 				'factory'     => function () {
 					// FIXME: Duplicated from installation/model/fields/prefix.php
@@ -119,51 +121,53 @@ class JApplicationCliInstaller extends JApplicationCli
 				},
 			),
 			'db_type' => array(
-				'getopt'      => 'db-type:',
+				'arg'         => 'db-type',
 				'description' => 'Database type [mysql,mysqli,postgresql,sqlsrv,sqlazure]',
 				'default'     => 'mysqli',
 			),
 			'db_user' => array(
-				'getopt'      => 'db-user:',
+				'arg'         => 'db-user',
 				'description' => 'Database user',
 				'required'    => true,
 			),
 			'helpurl' => array(
-				'getopt'      => 'help-url:',
+				'arg'         => 'help-url',
 				'description' => 'Help URL',
 				'default'     => 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}',
 			),
 			// FIXME: Not clear if this is useful. Seems to be "the language of the installation application"
 			// and not "the language of the installed CMS"
 			'language' => array(
-				'getopt'      => 'lang:',
+				'arg'         => 'lang',
 				'description' => 'Language',
 				'default'     => 'en-GB',
 			),
 			'site_metadesc' => array(
-				'getopt'      => 'desc:',
+				'arg'         => 'desc',
 				'description' => 'Site description',
 				'default'     => ''
 			),
 			'site_name' => array(
-				'getopt'      => 'name:',
+				'arg'         => 'name',
 				'description' => 'Site name',
 				'default'     => 'Joomla'
 			),
 			'site_offline' => array(
-				'getopt'      => 'offline',
+				'arg'         => 'offline',
 				'description' => 'Set site as offline',
 				'default'     => 0,
+				'type'        => 'bool',
 			),
 			'sample_file' => array(
-				'getopt'      => 'sample:',
+				'arg'         => 'sample',
 				'description' => 'Sample SQL file (sample_blog.sql,sample_brochure.sql,...)',
 				'default'     => '',
 			),
 			'summary_email' => array(
-				'getopt'      => 'email',
+				'arg'         => 'email',
 				'description' => 'Send email notification',
 				'default'     => 0,
+				'type'        => 'bool',
 			),
 		);
 
@@ -171,15 +175,18 @@ class JApplicationCliInstaller extends JApplicationCli
 		// doesn't seem to be necessary.
 		foreach (array_keys($optionsMetadata) as $key)
 		{
+			if (!isset($optionsMetadata[$key]['type'])) {
+				$optionsMetadata[$key]['type'] = 'raw';
+			}
 			if (!isset($optionsMetadata[$key]['syntax']))
 			{
-				if (preg_match('/:$/', $optionsMetadata[$key]['getopt']))
+				if ($optionsMetadata[$key]['type'] == 'bool')
 				{
-					$optionsMetadata[$key]['syntax'] = '--' . rtrim($optionsMetadata[$key]['getopt'], ':') . '="..."';
+					$optionsMetadata[$key]['syntax'] = '--' . $optionsMetadata[$key]['arg'];
 				}
 				else
 				{
-					$optionsMetadata[$key]['syntax'] = '--' . $optionsMetadata[$key]['getopt'];
+					$optionsMetadata[$key]['syntax'] = '--' . rtrim($optionsMetadata[$key]['arg'], ':') . '="..."';
 				}
 			}
 		}
@@ -351,30 +358,13 @@ class JApplicationCliInstaller extends JApplicationCli
 		}
 
 		$optionsMetadata = $this->getOptionsMetadata();
-		$longopts        = array();
+		$options         = array();
 
 		foreach ($optionsMetadata as $key => $spec)
 		{
-			$longopts[] = $spec['getopt'];
-		}
-
-		$rawOptions = getopt("", $longopts);
-		$options    = array();
-
-		foreach ($optionsMetadata as $key => $spec)
-		{
-			$rawKey = rtrim($spec['getopt'], ':');
-
-			if (isset($rawOptions[$rawKey]))
+			if ($this->input->get($spec['arg'], NULL, $spec['type']))
 			{
-				if (preg_match('/:$/', $spec['getopt']))
-				{
-					$options[$key] = $rawOptions[$rawKey];
-				}
-				else
-				{
-					$options[$key] = 1;
-				}
+				$options[$key] = $this->input->get($spec['arg'], NULL, $spec['type']);
 			}
 			elseif (isset($spec['factory']))
 			{
