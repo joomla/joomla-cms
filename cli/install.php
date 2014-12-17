@@ -175,7 +175,8 @@ class JApplicationCliInstaller extends JApplicationCli
 		// doesn't seem to be necessary.
 		foreach (array_keys($optionsMetadata) as $key)
 		{
-			if (!isset($optionsMetadata[$key]['type'])) {
+			if (!isset($optionsMetadata[$key]['type']))
+			{
 				$optionsMetadata[$key]['type'] = 'raw';
 			}
 			if (!isset($optionsMetadata[$key]['syntax']))
@@ -362,9 +363,9 @@ class JApplicationCliInstaller extends JApplicationCli
 
 		foreach ($optionsMetadata as $key => $spec)
 		{
-			if ($this->input->get($spec['arg'], NULL, $spec['type']))
+			if ($this->input->get($spec['arg'], null, $spec['type']))
 			{
-				$options[$key] = $this->input->get($spec['arg'], NULL, $spec['type']);
+				$options[$key] = $this->input->get($spec['arg'], null, $spec['type']);
 			}
 			elseif (isset($spec['factory']))
 			{
