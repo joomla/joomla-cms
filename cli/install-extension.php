@@ -14,6 +14,15 @@
  * https://github.com/alikon/joomla-platform-examples/blob/master/Joomla%20CLI%20App/cli/jeicli.php
  * and
  * https://github.com/akeeba/vagrant/master/vagrant/files/joomla/install-joomla-extension.php
+ *
+ * Error codes returned from this script are:
+ * 0	Success
+ * 1	Missing parameters
+ * 2	Package file not found
+ * 3	Could not find download URL in the XML manifest
+ * 4	Could not download package
+ * 5	Could not extract package
+ * 250	Installation failed (package error, unwriteable directories, etc)
  */
 
 // Set flag that this is a parent file.
@@ -43,6 +52,11 @@ require_once JPATH_CONFIGURATION . '/configuration.php';
 // Load the JApplicationCli class
 JLoader::import('joomla.application.cli');
 
+/**
+ * A command line script to install extensions and extension updates from a folder, file, URL or update XML source
+ *
+ * @since  3.4
+ */
 class JoomlaExtensionInstallerCli extends JApplicationCli
 {
 	/**
@@ -105,7 +119,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 			array(
 				'short_name'     => 'w',
 				'long_name'      => 'web',
-				'filter'         => 'path',
+				'filter'         => 'raw',
 				'help_parameter' => '<url>',
 				'help_text'      => 'Install the extension(s) found in the web-accessible XML update file <url>'
 			),
@@ -114,6 +128,8 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 
 	/**
 	 * Shows the usage instructions of this script
+	 *
+	 * @return  void
 	 */
 	private function showUsage()
 	{
@@ -197,7 +213,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 		);
 
 		// Show the application banner
-		$jVersion = new JVersion();
+		$jVersion = new JVersion;
 		$this->out('Joomla! CLI Extensions Installer v.' . $jVersion->getShortVersion());
 		$this->out($jVersion->COPYRIGHT);
 		$this->out(str_repeat('=', 79));
@@ -209,6 +225,9 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 			$this->showUsage();
 			$this->close(1);
 		}
+
+		$this->out(sprintf("Installing with method '%s'", $this->installationMethod));
+		$this->out();
 
 		// Find the package file to extract
 		$packageFile = null;
@@ -228,9 +247,10 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 
 				if ($this->installationMethod == 'web')
 				{
+					$this->out(sprintf('Finding download URL from Update XML %s', $this->installationSource));
 					$url = $this->getDownloadUrlFromXML($this->installationSource);
 
-					if (empty($url))
+					if ($url === false)
 					{
 						$this->out(sprintf('Update XML %s does not provide a download URL', $this->installationSource));
 						$this->close(3);
@@ -238,6 +258,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 				}
 
 				// Download the package
+				$this->out(sprintf('Downloading package from %s', $url));
 				$this->temporaryPackage = JInstallerHelper::downloadPackage($url);
 
 				if ($this->temporaryPackage === false)
@@ -274,6 +295,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 
 		if ( !is_null($packageFile))
 		{
+			$this->out(sprintf('Extracting package file %s', $packageFile));
 			$package = JInstallerHelper::unpack($packageFile);
 
 			if ($package === false)
@@ -289,6 +311,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 		}
 
 		// Try installing the extension
+		$this->out(sprintf('Installing from %s', $extensionDirectory));
 		$installer = new JInstaller;
 		$installed = $installer->install($extensionDirectory);
 
@@ -309,11 +332,11 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 	}
 
 	/**
-	 * Gets the
+	 * Gets the download URL of an extension from an Update XML source
 	 *
-	 * @param $url
+	 * @param   string  $url  The URL to the update XML source
 	 *
-	 * @return string|bool
+	 * @return  string|bool  The download URL or false if it's not found
 	 */
 	private function getDownloadUrlFromXML($url)
 	{
@@ -342,7 +365,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 	/**
 	 * Gets the name of the current template. Called by the extensions installation code.
 	 *
-	 * @param   boolean $params An optional associative array of configuration settings
+	 * @param   boolean  $params  An optional associative array of configuration settings
 	 *
 	 * @return  mixed  System is the fallback.
 	 *
@@ -369,11 +392,11 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 	 * This method is called by the extensions installation code. Since we're in the context of a CLI application we
 	 * cannot set HTTP headers, so we'll simply ignore any call to this method.
 	 *
-	 * @param   string  $name    Ignored
-	 * @param   string  $value   Ignored
-	 * @param   boolean $replace Ignored
+	 * @param   string   $name     Ignored
+	 * @param   string   $value    Ignored
+	 * @param   boolean  $replace  Ignored
 	 *
-	 * @return $this
+	 * @return  $this
 	 */
 	public function setHeader($name, $value, $replace = false)
 	{
