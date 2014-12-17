@@ -313,4 +313,83 @@ class MediaModelMedia extends ConfigModelForm
 		$row = JTable::getInstance('Corecontent');
 		$row->delete($pk);
 	}
+
+	/**
+	 * Update a media entry from table
+	 *
+	 * @param   string  $source_url  Path of the media in file system
+	 * @param   string  $target_url  Path to copy the media in file system
+	 *
+	 * @return success/failure of db operation
+	 *
+	 * @since 3.5
+	 */
+	public function moveMediaFromTable($source_url, $target_url)
+	{
+		// Get relative path
+		$source_url = str_replace(JPATH_ROOT, "", $source_url);
+		$target_url = str_replace(JPATH_ROOT, "", $target_url);
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query 	-> select($db->quoteName(array('core_content_id', 'core_metadata', 'core_urls')))
+		-> from($db->quoteName('#__ucm_content'))
+		-> where($db->quoteName('core_urls') . ' = ' . $db->quote($source_url));
+
+		$db->setQuery($query);
+
+		$result = $db->loadObject();
+
+		$result -> core_urls = $target_url;
+		$metadata = json_decode($result->core_metadata);
+		$metadata -> filepath = $target_url;
+		$result->core_metadata = json_encode($metadata);
+
+		return $db -> updateObject('#__ucm_content', $result, 'core_content_id');
+	}
+
+	/**
+	 * Copy a media entry from table - TODO: try to use create()
+	 *
+	 * @param   string  $source_url  Path of the media in file system
+	 * @param   string  $target_url  Path to copy the media in file system
+	 *
+	 * @return success/failure of db operation
+	 *
+	 * @since 3.5
+	 */
+	public function copyMediaFromTable($source_url, $target_url)
+	{
+		// Get relative path
+		$source_url = str_replace(JPATH_ROOT, "", $source_url);
+		$target_url = str_replace(JPATH_ROOT, "", $target_url);
+
+		// Fetching existing record from table
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query 	-> select($db->quoteName(array('core_content_id', 'core_metadata', 'core_urls')))
+		-> from($db->quoteName('#__ucm_content'))
+		-> where($db->quoteName('core_urls') . ' = ' . $db->quote($source_url));
+
+		$db->setQuery($query);
+
+		$result = $db->loadObject();
+
+		$result -> core_urls = $target_url;
+		$metadata = json_decode($result->core_metadata);
+		$metadata -> filepath = $target_url;
+		$result -> core_metadata = json_encode($metadata);
+
+		// File object to create
+		$file = array();
+		$file['filepath'] = $target_url;
+		$file['original_name'] = $metadata->name;
+		$file['name'] = $metadata->name;
+		$file['type'] = $metadata->type;
+		$file['size'] = $metadata->size;
+
+		return $this->create($file);
+	}
 }

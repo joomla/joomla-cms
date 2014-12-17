@@ -100,6 +100,7 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 		$this->require_ftp = $ftp;
 		$this->folders_id = ' id="media-tree"';
 		$this->folders = $this->model->getFolderTree();
+		$this->folderList = $this->model->getFolderList();
 
 		// Add sidebar
 		JLoader::register('MediaHelperMedia', JPATH_ADMINISTRATOR . '/components/com_media/helper/media.php');
@@ -148,6 +149,20 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 		{
 			// Instantiate a new JLayoutFile instance and render the layout
 			$layout = new JLayoutFile('toolbar.newfolder');
+
+			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+
+			JToolbarHelper::divider();
+
+			// Instantiate a new JLayoutFile instance and render the layout for copy button
+			$layout = new JLayoutFile('toolbar.copymedia');
+
+			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+
+			JToolbarHelper::divider();
+
+			// Instantiate a new JLayoutFile instance and render the layout for copy button
+			$layout = new JLayoutFile('toolbar.movemedia');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 

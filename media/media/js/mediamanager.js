@@ -38,6 +38,30 @@ var MediaManager = this.MediaManager = {
 		form.submit();
 	},
 
+	submitWithTargetPath: function(task)
+	{
+		form = window.frames['folderframe'].document.getElementById('mediamanager-form');
+		form.task.value = task;
+		form.action += ('&controller=' + task);
+		if ($('#username').length) {
+			form.username.value = $('#username').val();
+			form.password.value = $('#password').val();
+		}
+		var inp = document.createElement("input");
+	    inp.type = "hidden";
+	    inp.name = "targetPath";
+	    
+	    var method = task.split('.')[1];
+	    if (method == "copy") {
+	    	inp.value = $('#copyTarget #folderlist').find(":selected").text().slice(1);
+	    } else if (method == "move") {
+	    	inp.value = $('#moveTarget #folderlist').find(":selected").text().slice(1);
+	    }
+
+	    form.appendChild(inp);
+		form.submit();
+	},
+
 	onloadframe: function()
 	{
 		// Update the frame url

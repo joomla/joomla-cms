@@ -30,8 +30,8 @@ $input = JFactory::getApplication()->input;
 			</script>
 		</div>
 	</div>
-
 	<!-- End Sidebar -->
+
 	<!-- Begin Content -->
 	<div id="j-main-container" class="span10">
 		<?php echo $this->loadTemplate('navigation'); ?>
@@ -120,9 +120,10 @@ $input = JFactory::getApplication()->input;
 	</div>
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
-		
-		
+
+
 	<!-- New Folder Form Modal -->
+
 	<form action="<?php echo JRoute::_('index.php?option=com_media&controller=media.create.medialist'); ?>" method="post">
 	<div id="newfolderModal" class="modal hide fade">
 		<div class="modal-header">
@@ -149,12 +150,75 @@ $input = JFactory::getApplication()->input;
 	</div>
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
+
+	<!-- Copy Media Modal -->
+
+	<div id="copyMediaModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+			<h3>
+				<?php echo JText::_('COM_MEDIA_COPY_MEDIA'); ?>
+			</h3>
+		</div>
+		<div class="modal-body">
+			<div id="" class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label"><?php echo JText::_('COM_MEDIA_COPY_TO_DIRECTORY') ?></label>
+					<div class="controls">
+						<div class="input-append" id="copyTarget">			  	
+							<?php echo $this->folderList; ?>
+						</div>	
+					</div>
+				</div>				
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
+			</a>
+			<button class="btn btn-primary" onclick="MediaManager.submitWithTargetPath('media.copy.media')">
+				<i class="icon-copy"></i> <?php echo JText::_('COM_MEDIA_COPY_MEDIA'); ?>
+			</button>
+		</div>
+	</div>
+
+	<!-- Move Media Modal -->
+
+	<div id="moveMediaModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+			<h3>
+				<?php echo JText::_('COM_MEDIA_MOVE_MEDIA'); ?>
+			</h3>
+		</div>
+		<div class="modal-body">
+			<div id="" class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label"><?php echo JText::_('COM_MEDIA_MOVE_TO_DIRECTORY') ?></label>
+					<div class="controls">
+						<div class="input-append" id="moveTarget">			  	
+						<?php echo $this->folderList; ?>
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
+			</a>
+			<button class="btn btn-primary" onclick="MediaManager.submitWithTargetPath('media.move.media')">
+				<i class="icon-copy"></i> <?php echo JText::_('COM_MEDIA_MOVE_MEDIA'); ?>
+			</button>
+		</div>
+	</div>	
 		
 		<?php endif;?>
 
 		<?php if ($user->authorise('core.delete', 'com_media')):?>
+
 	<!-- Delete Media Modal -->
-	
+
 	<div id="deleteMediaModal" class="modal hide fade">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal"
