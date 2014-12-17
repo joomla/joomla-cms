@@ -33,7 +33,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JComponentRouterAdvanced  $router   Router this rule belongs to
+	 * @param   JComponentRouterAdvanced  $router  Router this rule belongs to
 	 *
 	 * @since   3.4
 	 */
@@ -55,15 +55,20 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	 */
 	public function preprocess(&$query)
 	{
-		if (isset($query['Itemid'])) {
+		if (isset($query['Itemid']))
+		{
 			return;
 		}
 
 		$language = '*';
-		if (isset($query['lang']) && !isset($this->lookup[$query['lang']]))
+		if (isset($query['lang']))
 		{
-			$this->buildLookup($query['lang']);
 			$language = $query['lang'];
+
+			if (!isset($this->lookup[$query['lang']]))
+			{
+				$this->buildLookup($query['lang']);
+			}
 		}
 
 		$needles = $this->router->getPath($query);
@@ -81,9 +86,9 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 					}
 					foreach ($ids as $id)
 					{
-						if (isset($this->lookup[$language][$view][(int)$id]))
+						if (isset($this->lookup[$language][$view][(int) $id]))
 						{
-							$query['Itemid'] = $this->lookup[$language][$view][(int)$id];
+							$query['Itemid'] = $this->lookup[$language][$view][(int) $id];
 							return;
 						}
 					}
@@ -111,11 +116,12 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	}
 
 	/**
-	 * 
+	 * Method to build the lookup array
 	 * 
 	 * @param   string  $language  The language that the lookup should be built up for
 	 * 
 	 * @return  void
+	 * 
 	 * @since   3.4
 	 */
 	protected function buildLookup($language = '*')
