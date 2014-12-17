@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 			if (($browser->isBrowser('msie')	&& ($browserVersion < 10)	) ||
 				($browser->isBrowser('mozilla')	&& ($browserVersion < 4)	) ||
 				($browser->isBrowser('opera')	&& ($browserVersion < 11)	))
-			{ // show old javascript variant in not HTML 5 compliant browsers
+			{ // Show old javascript variant in not HTML 5 compliant browsers
 				$output .= ' value="' . $text . '" onblur="if (this.value==\'\') this.value=\'' . $text . '\';" onfocus="if (this.value==\'' . $text . '\') this.value=\'\';"';
 			}
 			else
