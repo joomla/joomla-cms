@@ -22,7 +22,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	 * @var string
 	 * @since 3.4
 	 */
-	public $name;
+	protected $name;
 
 	/**
 	 * Array of rules
@@ -62,7 +62,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	 * 
 	 * @since 3.4
 	 */
-	public function register($name, $view, $id = false, $parent = false, $parent_id = false, $nestable = false, $layout = 'default')
+	public function registerView($name, $view, $id = false, $parent = false, $parent_id = false, $nestable = false, $layout = 'default')
 	{
 		$viewobj = new stdClass;
 		$viewobj->view = $view;
