@@ -228,7 +228,7 @@ class JApplicationCliInstaller extends JApplicationCli
 			$this->fatal("Error executing createDatabase");
 		}
 
-		/* 
+		/*
 		   FIXME InstallationModelDatabase relies on session manipulation which doesn't work well in cli
 		   $session = JFactory::getSession();
 		   $options = $session->get('setup.options', NULL);
