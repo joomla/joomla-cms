@@ -99,29 +99,29 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 				'short_name'     => 'f',
 				'long_name'      => 'folder',
 				'filter'         => 'path',
-				'help_parameter' => '<folder>',
-				'help_text'      => 'Install an extension already extracted in local directory <folder>'
+				'help_parameter' => 'CLI_INSTALL_EXTENSION_HELP_OPTION_FOLDER_PARAM',
+				'help_text'      => 'CLI_INSTALL_EXTENSION_HELP_OPTION_FOLDER'
 			),
 			array(
 				'short_name'     => 'p',
 				'long_name'      => 'package',
 				'filter'         => 'path',
-				'help_parameter' => '<file>',
-				'help_text'      => 'Install the locally stored ZIP, tar or tar.gz/.tgz package file <file>'
+				'help_parameter' => 'CLI_INSTALL_EXTENSION_HELP_OPTION_PACKAGE_PARAM',
+				'help_text'      => 'CLI_INSTALL_EXTENSION_HELP_OPTION_PACKAGE'
 			),
 			array(
 				'short_name'     => 'u',
 				'long_name'      => 'url',
 				'filter'         => 'raw',
-				'help_parameter' => '<url>',
-				'help_text'      => 'Install the web-accessible ZIP, tar or tar.gz/.tgz package file <url>'
+				'help_parameter' => 'CLI_INSTALL_EXTENSION_HELP_OPTION_URL_PARAM',
+				'help_text'      => 'CLI_INSTALL_EXTENSION_HELP_OPTION_URL'
 			),
 			array(
 				'short_name'     => 'w',
 				'long_name'      => 'web',
 				'filter'         => 'raw',
-				'help_parameter' => '<url>',
-				'help_text'      => 'Install the extension(s) found in the web-accessible XML update file <url>'
+				'help_parameter' => 'CLI_INSTALL_EXTENSION_HELP_OPTION_WEB_PARAM',
+				'help_text'      => 'CLI_INSTALL_EXTENSION_HELP_OPTION_WEB'
 			),
 		);
 	}
@@ -134,20 +134,20 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 	private function showUsage()
 	{
 		$phpPath = defined('PHP_BINARY') ? PHP_BINARY : '/usr/bin/php';
-		$this->out(sprintf('Usage: %s %s [options]', $phpPath, basename(__FILE__)));
+		$this->out(JText::sprintf('CLI_INSTALL_EXTENSION_USAGE', $phpPath, basename(__FILE__)));
 		$this->out('');
-		$this->out('Options:');
+		$this->out(JText::_('CLI_INSTALL_EXTENSION_OPTIONS'));
 		$this->out('');
 
 		foreach ($this->getOptionsMeta() as $optionDef)
 		{
 			$this->out('-' . $optionDef['short_name'], false);
-			$this->out(' ' . $optionDef['help_parameter'], false);
+			$this->out(' ' . JText::_($optionDef['help_parameter']), false);
 			$this->out(' | ', false);
 			$this->out('--' . $optionDef['long_name'], false);
-			$this->out('=' . $optionDef['help_parameter'], false);
+			$this->out('=' . JText::_($optionDef['help_parameter']), false);
 			$this->out();
-			$this->out("\t" . $optionDef['help_text']);
+			$this->out("\t" . JText::_($optionDef['help_text']));
 			$this->out();
 		}
 	}
@@ -197,12 +197,19 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 		JLoader::import('joomla.filesystem.file');
 		JLoader::import('joomla.filesystem.folder');
 
-		// Load the language files for the Joomla! library (lib_joomla) and the extensions installer (com_installer)
+		// Load the language files for the Joomla! library (lib_joomla)
 		$jlang = JFactory::getLanguage();
-		$jlang->load('lib_joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
-		$jlang->load('lib_joomla', JPATH_ADMINISTRATOR, null, true);
+		$jlang->load('lib_joomla', JPATH_SITE, 'en-GB', true);
+		$jlang->load('lib_joomla', JPATH_SITE, null, true);
+
+		// Load the language files for the extensions installer (com_installer). IMPORTANT: These langauge files are
+		// located in the back-end of the site, hence JPATH_ADMINISTRATOR.
 		$jlang->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', true);
 		$jlang->load('com_installer', JPATH_ADMINISTRATOR, null, true);
+
+		// Load the language files for this CLI APP
+		$jlang->load('cli_install_extension', JPATH_SITE, 'en-GB', true);
+		$jlang->load('cli_install_extension', JPATH_SITE, null, true);
 
 		// Add a logger
 		JLog::addLogger(
@@ -214,7 +221,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 
 		// Show the application banner
 		$jVersion = new JVersion;
-		$this->out('Joomla! CLI Extensions Installer v.' . $jVersion->getShortVersion());
+		$this->out(JText::sprintf('CLI_INSTALL_EXTENSION', $jVersion->getShortVersion()));
 		$this->out($jVersion->COPYRIGHT);
 		$this->out(str_repeat('=', 79));
 		$this->out();
@@ -226,7 +233,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 			$this->close(1);
 		}
 
-		$this->out(sprintf("Installing with method '%s'", $this->installationMethod));
+		$this->out(JText::sprintf('CLI_INSTALL_EXTENSION_INSTALL_WITH_METHOD', $this->installationMethod));
 		$this->out();
 
 		// Find the package file to extract
@@ -247,23 +254,23 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 
 				if ($this->installationMethod == 'web')
 				{
-					$this->out(sprintf('Finding download URL from Update XML %s', $this->installationSource));
+					$this->out(JText::sprintf('CLI_INSTALL_EXTENSION_FIND_DOWNLOAD_FROM_XML', $this->installationSource));
 					$url = $this->getDownloadUrlFromXML($this->installationSource);
 
 					if ($url === false)
 					{
-						$this->out(sprintf('Update XML %s does not provide a download URL', $this->installationSource));
+						$this->out(JText::sprintf('CLI_INSTALL_EXTENSION_ERR_XML_PROVIDES_NO_URL', $this->installationSource));
 						$this->close(3);
 					}
 				}
 
 				// Download the package
-				$this->out(sprintf('Downloading package from %s', $url));
+				$this->out(JText::sprintf('CLI_INSTALL_EXTENSION_DOWNLOAD_FROM_URL', $url));
 				$this->temporaryPackage = JInstallerHelper::downloadPackage($url);
 
 				if ($this->temporaryPackage === false)
 				{
-					$this->out(sprintf('Could not download package from %s', $url));
+					$this->out(JText::sprintf('CLI_INSTALL_EXTENSION_ERR_CANT_DOWNLOAD', $url));
 					$this->close(4);
 				}
 
@@ -281,7 +288,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 		// Make sure the package file exists
 		if ( !is_null($packageFile) && !file_exists($packageFile))
 		{
-			$this->out(sprintf('Package file %s does not exist', $packageFile));
+			$this->out(JText::sprintf('CLI_INSTALL_EXTENSION_ERR_PACKAGE_NOT_EXISTS', $packageFile));
 			$this->close(2);
 		}
 
@@ -295,14 +302,14 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 
 		if ( !is_null($packageFile))
 		{
-			$this->out(sprintf('Extracting package file %s', $packageFile));
+			$this->out(JText::sprintf('CLI_INSTALL_EXTENSION_EXTRACTING_PACKAGE', $packageFile));
 			$package = JInstallerHelper::unpack($packageFile);
 
 			if ($package === false)
 			{
 				$this->cleanUp();
 
-				$this->out(sprintf('Cannot extract package file %s', $packageFile));
+				$this->out(JText::sprintf('CLI_INSTALL_EXTENSION_ERR_CANNOT_EXTRACT', $packageFile));
 				$this->close(5);
 			}
 
@@ -311,7 +318,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 		}
 
 		// Try installing the extension
-		$this->out(sprintf('Installing from %s', $extensionDirectory));
+		$this->out(JText::sprintf('CLI_INSTALL_EXTENSION_INSTALLING_FROM', $extensionDirectory));
 		$installer = new JInstaller;
 		$installed = $installer->install($extensionDirectory);
 
@@ -321,12 +328,12 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 		// Print a message
 		if ($installed)
 		{
-			$this->out("Extension successfully installed");
+			$this->out(JText::_('CLI_INSTALL_EXTENSION_MSG_SUCCESS'));
 			$this->close(0);
 		}
 		else
 		{
-			$this->out("Extension installation failed");
+			$this->out(JText::_('CLI_INSTALL_EXTENSION_MSG_FAIL'));
 			$this->close(250);
 		}
 	}
