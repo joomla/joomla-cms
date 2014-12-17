@@ -18,14 +18,15 @@ defined('_JEXEC') or die;
 			jimport('joomla.environment.browser');
 			$browser = JBrowser::getInstance();
 			$browserVersion = $browser->getMajor();
-			if(	( $browser->isBrowser('msie') 		&& ($browserVersion < 10) 	) ||
-				( $browser->isBrowser('mozilla')	&& ($browserVersion < 4) 	) ||
-				( $browser->isBrowser('opera') 		&& ($browserVersion < 11) 	) )
+			if (($browser->isBrowser('msie')	&& ($browserVersion < 10)	) ||
+				($browser->isBrowser('mozilla')	&& ($browserVersion < 4)	) ||
+				($browser->isBrowser('opera')	&& ($browserVersion < 11)	))
 			{ //show old java script variant in not HTML 5 compilant browsers
 				$output .= ' value="' . $text . '" onblur="if (this.value==\'\') this.value=\'' . $text . '\';" onfocus="if (this.value==\'' . $text . '\') this.value=\'\';"';
-			} else 
+			}
+			else 
 			{ //Use HTML 5 placeholder attribute if supported
-				$output .= ' placeholder="' . $text . '"'
+				$output .= ' placeholder="' . $text . '"';
 			}
 			$output .= ' />'
 			if ($button) :
