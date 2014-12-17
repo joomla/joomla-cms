@@ -596,9 +596,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array    $pks       An array of row IDs.
 	 * @param   array    $contexts  An array of item contexts.
 	 *
-	 * @return  void.
-	 *
-	 * @since   3.1
+	 * @return  boolean  true if successful; false otherwise.
 	 */
 	protected function batchTag($value, $pks, $contexts)
 	{
