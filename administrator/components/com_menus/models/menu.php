@@ -274,20 +274,23 @@ class MenusModelMenu extends JModelForm
 		// Iterate the items to delete each one.
 		foreach ($itemIds as $itemId)
 		{
-			// Trigger the before delete event.
-			$result = $dispatcher->trigger('onContentBeforeDelete', array($this->_context, $table));
-
-			if (in_array(false, $result, true) || !$table->delete($itemId))
+			if ($table->load($itemId))
 			{
-				$this->setError($table->getError());
+				// Trigger the before delete event.
+				$result = $dispatcher->trigger('onContentBeforeDelete', array($this->_context, $table));
 
-				return false;
+				if (in_array(false, $result, true) || !$table->delete($itemId))
+				{
+					$this->setError($table->getError());
+
+					return false;
+				}
+
+				// Trigger the after delete event.
+				$dispatcher->trigger('onContentAfterDelete', array($this->_context, $table));
+
+				// TODO: Delete the menu associations - Menu items and Modules
 			}
-
-			// Trigger the after delete event.
-			$dispatcher->trigger('onContentAfterDelete', array($this->_context, $table));
-
-			// TODO: Delete the menu associations - Menu items and Modules
 		}
 
 		// Clean the cache
