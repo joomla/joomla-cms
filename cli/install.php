@@ -122,7 +122,7 @@ class JApplicationCliInstaller extends JApplicationCli
 			),
 			'db_type' => array(
 				'arg'         => 'db-type',
-				'description' => 'Database type [mysql,mysqli,postgresql,sqlsrv,sqlazure]',
+				'description' => 'Database type [mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure]',
 				'default'     => 'mysqli',
 			),
 			'db_user' => array(
