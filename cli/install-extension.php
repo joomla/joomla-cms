@@ -393,7 +393,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 	{
 		$template           = new stdClass;
 		$template->template = 'system';
-		$template->params   = new Registry;
+		$template->params   = new \Joomla\Registry\Registry;
 
 		if ($params)
 		{
