@@ -19,44 +19,20 @@ if ($this->params->get('show_advanced', 1) || $this->params->get('show_autosugge
 	if ($this->params->get('show_advanced', 1))
 	{
 		/*
-		* This segment of code adds the slide effect to the advanced search box.
-		*/
-		$script .= "
-			var searchSlider = jQuery('#advanced-search');
-			if (searchSlider.length)
-			{";
-		if (!$this->params->get('expand_advanced', 0))
-		{
-			$script .= "searchSlider.hide();";
-		}
-
-		$script .= "
-				jQuery('#advanced-search-toggle').on('click', function(e) {
-						e.stopPropagation();
-						e.preventDefault();
-						searchSlider.slideToggle();
-					});
-			}";
-		/*
 		* This segment of code disables select boxes that have no value when the
 		* form is submitted so that the URL doesn't get blown up with null values.
 		*/
 		$script .= "
-			if (jQuery('#finder-search').length) {
-				jQuery('#finder-search').on('submit', function(e){
-					e.stopPropagation();
-					if (searchSlider.length)
-					{
-						// Disable select boxes with no value selected.
-						searchSlider.find('select').each(function(index, el) {
-							var el = jQuery(el);
-							if(!el.val()){
-								el.attr('disabled', 'disabled');
-							}
-						});
+			jQuery('#finder-search').on('submit', function(e){
+				e.stopPropagation();
+				// Disable select boxes with no value selected.
+				jQuery('#advancedSearch').find('select').each(function(index, el) {
+					var el = jQuery(el);
+					if(!el.val()){
+						el.attr('disabled', 'disabled');
 					}
 				});
-			}
+			});
 		";
 	}
 	/*
