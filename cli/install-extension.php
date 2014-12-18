@@ -28,9 +28,6 @@
 // Set flag that this is a parent file.
 const _JEXEC = 1;
 
-// Required by the CMS
-define('DS', DIRECTORY_SEPARATOR);
-
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
 {
