@@ -23,7 +23,7 @@ if (!file_exists(dirname(__DIR__) . '/installation/application/bootstrap.php'))
 }
 
 require_once dirname(__DIR__) . '/installation/application/bootstrap.php';
-chdir(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'installation');
+chdir(dirname(__DIR__) . '/installation');
 
 require_once JPATH_LIBRARIES . '/import.legacy.php';
 require_once JPATH_LIBRARIES . '/cms.php';
