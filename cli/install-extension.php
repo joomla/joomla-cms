@@ -101,14 +101,14 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 			array(
 				'short_name'     => 'f',
 				'long_name'      => 'folder',
-				'filter'         => 'path',
+				'filter'         => 'raw',
 				'help_parameter' => 'CLI_INSTALL_EXTENSION_HELP_OPTION_FOLDER_PARAM',
 				'help_text'      => 'CLI_INSTALL_EXTENSION_HELP_OPTION_FOLDER'
 			),
 			array(
 				'short_name'     => 'p',
 				'long_name'      => 'package',
-				'filter'         => 'path',
+				'filter'         => 'raw',
 				'help_parameter' => 'CLI_INSTALL_EXTENSION_HELP_OPTION_PACKAGE_PARAM',
 				'help_text'      => 'CLI_INSTALL_EXTENSION_HELP_OPTION_PACKAGE'
 			),
