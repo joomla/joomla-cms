@@ -209,7 +209,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 		$jlang->load('lib_joomla', JPATH_SITE, 'en-GB', true);
 		$jlang->load('lib_joomla', JPATH_SITE, null, true);
 
-		// Load the language files for the extensions installer (com_installer). IMPORTANT: These langauge files are
+		// Load the language files for the extensions installer (com_installer). IMPORTANT: These language files are
 		// located in the back-end of the site, hence JPATH_ADMINISTRATOR.
 		$jlang->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', true);
 		$jlang->load('com_installer', JPATH_ADMINISTRATOR, null, true);
@@ -251,7 +251,7 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 			case 'folder' :
 				$packageFile = null;
 
-			case 'file' :
+			case 'package' :
 				$packageFile = $this->installationSource;
 				break;
 
