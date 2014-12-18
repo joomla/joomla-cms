@@ -114,7 +114,7 @@ if ($this->params->get('show_advanced', 1) || $this->params->get('show_autosugge
 	</fieldset>
 
 	<?php if ($this->params->get('show_advanced', 1)) : ?>
-		<div id="advancedSearch" class="collapse">
+		<div id="advancedSearch" class="collapse <?php if ($this->params->get('expand_advanced', 0)) echo 'in'?>">
 			<hr />
 			<?php if ($this->params->get('show_advanced_tips', 1)) : ?>
 				<div class="advanced-search-tip">
