@@ -197,6 +197,9 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 	 */
 	public function execute()
 	{
+		// Unset the exceptions handler (allows the exceptions to be presented to the user)
+		restore_exception_handler();
+
 		// Load dependencies
 		JLoader::import('cms.component.helper');
 		JLoader::import('joomla.application.component.helper');
