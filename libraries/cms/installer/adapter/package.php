@@ -248,6 +248,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 		}
 
 		// Parse optional tags
+		$this->parent->parseMedia($this->manifest->media);
 		$this->parent->parseLanguages($this->manifest->languages);
 
 		/*
@@ -516,6 +517,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 		}
 
 		// Remove any language files
+		$this->parent->removeFiles($xml->media);
 		$this->parent->removeFiles($xml->languages);
 
 		// Clean up manifest file after we're done if there were no errors
