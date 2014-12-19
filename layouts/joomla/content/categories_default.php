@@ -9,6 +9,17 @@
 
 defined('_JEXEC') or die;
 
+JFactory::getDocument()->addScriptDeclaration("
+jQuery(function($) {
+	$('.categories-list').find('[id^=category-btn-]').each(function(index, btn) {
+		var btn = $(btn);
+		btn.on('click', function() {
+			btn.find('span').toggleClass('icon-plus');
+			btn.find('span').toggleClass('icon-minus');
+		});
+	});
+});");
+
 ?>
 <div class="categories-list<?php echo $displayData->pageclass_sfx;?>">
 <?php if ($displayData->params->get('show_page_heading')) : ?>
