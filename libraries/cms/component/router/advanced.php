@@ -50,24 +50,24 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	/**
 	 * Register the views of a component
 	 * 
-	 * @param   string  $name       Internal name of the view. Has to be unique for the component
-	 * @param   string  $view       Identifier of the view
-	 * @param   string  $id         Identifier of the ID variable used to identify the primary content item of this view 
-	 * @param   string  $parent     Internal name of the parent view
-	 * @param   string  $parent_id  Identifier of the ID variable used to identify the content item of the parent view
-	 * @param   bool    $nestable   Is this view nestable?
-	 * @param   string  $layout     Layout to use for this view by default
+	 * @param   string  $name        Internal name of the view. Has to be unique for the component
+	 * @param   string  $view        Identifier of the view
+	 * @param   string  $key         Identifier of the key variable used to identify the primary content item of this view 
+	 * @param   string  $parent      Internal name of the parent view
+	 * @param   string  $parent_key  Identifier of the key variable used to identify the content item of the parent view
+	 * @param   bool    $nestable    Is this view nestable?
+	 * @param   string  $layout      Layout to use for this view by default
 	 * 
 	 * @return void
 	 * 
 	 * @since 3.4
 	 */
-	public function registerView($name, $view, $id = false, $parent = false, $parent_id = false, $nestable = false, $layout = 'default')
+	public function registerView($name, $view, $key = false, $parent = false, $parent_key = false, $nestable = false, $layout = 'default')
 	{
 		$viewobj = new stdClass;
 		$viewobj->view = $view;
 		$viewobj->name = $name;
-		$viewobj->id = $id;
+		$viewobj->key = $key;
 		if ($parent)
 		{
 			$viewobj->parent = $this->views[$parent];
@@ -80,11 +80,11 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 			$viewobj->path = array();
 		}
 		$viewobj->path[] = $name;
-		$viewobj->child_id = false;
-		$viewobj->parent_id = $parent_id;
-		if ($parent_id)
+		$viewobj->child_key = false;
+		$viewobj->parent_key = $parent_key;
+		if ($parent_key)
 		{
-			$this->views[$parent]->child_id = $parent_id;
+			$this->views[$parent]->child_key = $parent_key;
 		}
 		$viewobj->nestable = $nestable;
 		$viewobj->layout = $layout;
@@ -139,7 +139,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	{
 		$views = $this->getViews();
 		$result = array();
-		$id = false;
+		$key = false;
 		if (isset($query['view']) && $this->view_map[$query['view']])
 		{
 			$view = $query['view'];
@@ -165,15 +165,15 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 			$path = array_reverse($viewobj->path);
 
 			$view = $views[array_shift($path)];
-			$id = $view->id;
+			$key = $view->key;
 			foreach ($path as $element)
 			{
-				if ($id && isset($query[$id]))
+				if ($key && isset($query[$key]))
 				{
-					$result[$view->name] = array($query[$id]);
+					$result[$view->name] = array($query[$key]);
 					if ($view->nestable)
 					{
-						$nestable = call_user_func_array(array($this, 'get' . ucfirst($view->name)), array($query[$id]));
+						$nestable = call_user_func_array(array($this, 'get' . ucfirst($view->name)), array($query[$key]));
 						if ($nestable)
 						{
 							$result[$view->name] = array_reverse($nestable->getPath());
@@ -185,10 +185,22 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 					$result[$view->name] = true;
 				}
 				$view = $views[$element];
-				$id = $view->child_id;
+				$key = $view->child_key;
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Get all currently attached rules
+	 * 
+	 * @return array  All currently attached rules in an array
+	 * 
+	 * @since 3.4
+	 */
+	public function getRules()
+	{
+		return $this->rules;
 	}
 
 	/**
@@ -218,6 +230,27 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	public function attachRule(JComponentRouterRulesInterface $rule)
 	{
 		$this->rules[] = $rule;
+	}
+
+	/**
+	 * Remove a build rule
+	 *
+	 * @param   JComponentRouterRulesInterface  $rule  The rule to be removed.
+	 * 
+	 * @return   boolean  Was a rule removed?
+	 */
+	public function removeRule(JComponentRouterRulesInterface $rule)
+	{
+		foreach ($this->rules as $id => $r)
+		{
+			if ($r == $rule)
+			{
+				unset($this->rules[$id]);
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
