@@ -10,8 +10,10 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
+JHtml::_('behavior.core');
 JHtml::_('jquery.framework');
 JHtml::_('script', 'com_finder/indexer.js', false, true);
+JFactory::getDocument()->addScriptDeclaration('var msg = "' . JText::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE') . '";');
 ?>
 
 <div id="finder-indexer-container">

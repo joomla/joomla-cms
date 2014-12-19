@@ -2413,7 +2413,7 @@
 			<value>0</value>
 			<value>1</value>
 			<value></value>
-			<value>{&quot;allowUserRegistration&quot;:&quot;1&quot;,&quot;new_usertype&quot;:&quot;2&quot;,&quot;useractivation&quot;:&quot;1&quot;,&quot;frontend_userparams&quot;:&quot;1&quot;,&quot;mailSubjectPrefix&quot;:&quot;&quot;,&quot;mailBodySuffix&quot;:&quot;&quot;}</value>
+			<value>{&quot;allowUserRegistration&quot;:&quot;0&quot;,&quot;new_usertype&quot;:&quot;2&quot;,&quot;useractivation&quot;:&quot;1&quot;,&quot;frontend_userparams&quot;:&quot;1&quot;,&quot;mailSubjectPrefix&quot;:&quot;&quot;,&quot;mailBodySuffix&quot;:&quot;&quot;}</value>
 			<value></value>
 			<value></value>
 			<value>0</value>
