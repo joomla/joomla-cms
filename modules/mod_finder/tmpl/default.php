@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
+JHtml::_('jquery.framework');
+
 JHtml::_('bootstrap.tooltip');
 
 // Load the smart search component language file.
@@ -125,7 +127,7 @@ if ($params->get('show_autosuggest', 1))
 	JHtml::_('script', 'media/jui/js/jquery.autocomplete.min.js', false, false, false, false, true);
 
 	$script .= "
-	var a = jQuery('#mod-finder-searchword').autocomplete({
+	var suggest = jQuery('#mod-finder-searchword').autocomplete({
 		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false) . "',
 		paramName: 'q',
 		minChars: 1,
