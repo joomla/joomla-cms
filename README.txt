@@ -43,6 +43,7 @@
 	* Always use the latest version: http://www.joomla.org/download.html
 
 10- Where can you get support and help?
+	* The Joomla! Documentation: https://docs.joomla.org/Main_Page
 	* FAQ Frequently Asked Questions: http://docs.joomla.org/Category:FAQ
 	* Find the information you need: http://docs.joomla.org/Start_here
 	* Find help and other users: http://www.joomla.org/about-joomla/create-and-share.html
@@ -50,12 +51,12 @@
 	* Joomla Resources Directory (JRD): http://resources.joomla.org/tos.html
 
 11- Do you already have a Joomla site that's not built with Joomla 3.x ?
-	* What's new in Joomla 3.x - http://www.joomla.org/3
+	* What's new in Joomla 3.x: http://www.joomla.org/3
 	* What are the main differences from 2.5 to 3? Table of contents: http://docs.joomla.org/Differences_from_Joomla_2.5_to_Joomla_3.0
-	* How to migrate from 2.5.x to 3.x? Tutorial: http://docs.joomla.org/Migrating_from_Joomla_2.5_to_Joomla_3.0
+	* How to migrate from 2.5.x to 3.x? Tutorial: http://docs.joomla.org/Joomla_2.5_to_3.x_Step_by_Step_Migration
 	* What are the main differences from 1.5 to 2.5? Table of contents: http://docs.joomla.org/Differences_from_Joomla_1.5_to_Joomla_2.5
-	* How to migrate from 1.5.x to 3.x? Tutorial: http://docs.joomla.org/Migrating_from_Joomla_1.5_to_Joomla_3.0
-	* Convert an existing Web site to Joomla - http://docs.joomla.org/How_to_Convert_an_existing_Web_site_to_a_Joomla!_Web_site
+	* How to migrate from 1.5.x to 3.x? Tutorial: https://docs.joomla.org/Joomla_1.5_to_3.x_Step_by_Step_Migration
+	* Convert an existing Web site to Joomla: http://docs.joomla.org/How_to_Convert_an_existing_Web_site_to_a_Joomla!_Web_site
 
 12- Do you want to improve Joomla?
 	* How do you request a feature? http://docs.joomla.org/How_do_you_request_a_feature%3F
