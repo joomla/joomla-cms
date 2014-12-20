@@ -43,7 +43,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Observer
- * @link        http://docs.joomla.org/JObserverInterface
+ * @link        https://docs.joomla.org/JObserverInterface
  * @since       3.1.2
  */
 interface JObserverInterface

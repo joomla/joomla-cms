@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Table
- * @link        http://docs.joomla.org/JTableObserver
+ * @link        https://docs.joomla.org/JTableObserver
  * @since       3.2
  */
 class JTableObserverContenthistory extends JTableObserver

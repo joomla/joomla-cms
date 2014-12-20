@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Libraries
  * @subpackage  Table
- * @link        http://docs.joomla.org/JTableObserver
+ * @link        https://docs.joomla.org/JTableObserver
  * @since       3.1.2
  */
 class JTableObserverTags extends JTableObserver

@@ -18,7 +18,7 @@ jimport('joomla.filesystem.path');
  *
  * @package     Joomla.Platform
  * @subpackage  Table
- * @link        http://docs.joomla.org/JTable
+ * @link        https://docs.joomla.org/JTable
  * @since       11.1
  * @tutorial	Joomla.Platform/jtable.cls
  */
@@ -250,7 +250,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
 	 *
-	 * @link    http://docs.joomla.org/JTable/getInstance
+	 * @link    https://docs.joomla.org/JTable/getInstance
 	 * @since   11.1
 	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
@@ -302,7 +302,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  array  An array of filesystem paths to find JTable classes in.
 	 *
-	 * @link    http://docs.joomla.org/JTable/addIncludePath
+	 * @link    https://docs.joomla.org/JTable/addIncludePath
 	 * @since   11.1
 	 */
 	public static function addIncludePath($path = null)
@@ -366,7 +366,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  string  The string to use as the title in the asset table.
 	 *
-	 * @link    http://docs.joomla.org/JTable/getAssetTitle
+	 * @link    https://docs.joomla.org/JTable/getAssetTitle
 	 * @since   11.1
 	 */
 	protected function _getAssetTitle()
@@ -444,7 +444,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @since   11.1
 	 *
-	 * @link    http://docs.joomla.org/JTable/getTableName
+	 * @link    https://docs.joomla.org/JTable/getTableName
 	 */
 	public function getTableName()
 	{
@@ -458,7 +458,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  mixed  Array of primary key field names or string containing the first primary key field.
 	 *
-	 * @link    http://docs.joomla.org/JTable/getKeyName
+	 * @link    https://docs.joomla.org/JTable/getKeyName
 	 * @since   11.1
 	 */
 	public function getKeyName($multiple = false)
@@ -486,7 +486,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  JDatabaseDriver  The internal database driver object.
 	 *
-	 * @link    http://docs.joomla.org/JTable/getDBO
+	 * @link    https://docs.joomla.org/JTable/getDBO
 	 * @since   11.1
 	 */
 	public function getDbo()
@@ -501,7 +501,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/setDBO
+	 * @link    https://docs.joomla.org/JTable/setDBO
 	 * @since   11.1
 	 */
 	public function setDBO($db)
@@ -551,7 +551,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  void
 	 *
-	 * @link    http://docs.joomla.org/JTable/reset
+	 * @link    https://docs.joomla.org/JTable/reset
 	 * @since   11.1
 	 */
 	public function reset()
@@ -580,7 +580,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/bind
+	 * @link    https://docs.joomla.org/JTable/bind
 	 * @since   11.1
 	 * @throws  InvalidArgumentException
 	 */
@@ -630,7 +630,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  boolean  True if successful. False if row not found.
 	 *
-	 * @link    http://docs.joomla.org/JTable/load
+	 * @link    https://docs.joomla.org/JTable/load
 	 * @since   11.1
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
@@ -729,7 +729,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @link    http://docs.joomla.org/JTable/check
+	 * @link    https://docs.joomla.org/JTable/check
 	 * @since   11.1
 	 */
 	public function check()
@@ -748,7 +748,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/store
+	 * @link    https://docs.joomla.org/JTable/store
 	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
@@ -874,7 +874,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/save
+	 * @link    https://docs.joomla.org/JTable/save
 	 * @since   11.1
 	 */
 	public function save($src, $orderingFilter = '', $ignore = '')
@@ -923,7 +923,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/delete
+	 * @link    https://docs.joomla.org/JTable/delete
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
@@ -1005,7 +1005,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/checkOut
+	 * @link    https://docs.joomla.org/JTable/checkOut
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
@@ -1068,7 +1068,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/checkIn
+	 * @link    https://docs.joomla.org/JTable/checkIn
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
@@ -1170,7 +1170,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/hit
+	 * @link    https://docs.joomla.org/JTable/hit
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
@@ -1232,7 +1232,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  boolean  True if checked out.
 	 *
-	 * @link    http://docs.joomla.org/JTable/isCheckedOut
+	 * @link    https://docs.joomla.org/JTable/isCheckedOut
 	 * @since   11.1
 	 */
 	public function isCheckedOut($with = 0, $against = null)
@@ -1269,7 +1269,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  mixed  Boolean false an failure or the next ordering value as an integer.
 	 *
-	 * @link    http://docs.joomla.org/JTable/getNextOrder
+	 * @link    https://docs.joomla.org/JTable/getNextOrder
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
@@ -1331,7 +1331,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  mixed  Boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/reorder
+	 * @link    https://docs.joomla.org/JTable/reorder
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
@@ -1394,7 +1394,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  mixed    Boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/move
+	 * @link    https://docs.joomla.org/JTable/move
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
@@ -1491,7 +1491,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @return  boolean  True on success; false if $pks is empty.
 	 *
-	 * @link    http://docs.joomla.org/JTable/publish
+	 * @link    https://docs.joomla.org/JTable/publish
 	 * @since   11.1
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)

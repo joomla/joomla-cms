@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Event
- * @link        http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
+ * @link        https://docs.joomla.org/Tutorial:Plugins Plugin tutorials
  * @see         JPlugin
  * @since       12.1
  */

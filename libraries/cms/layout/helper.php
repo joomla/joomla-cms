@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Libraries
  * @subpackage  Layout
- * @see         http://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
+ * @see         https://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
  * @since       3.1
  */
 class JLayoutHelper

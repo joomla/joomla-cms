@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Observer
- * @link        http://docs.joomla.org/JObserverMapper
+ * @link        https://docs.joomla.org/JObserverMapper
  * @since       3.1.2
  */
 class JObserverMapper

@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Table
- * @link        http://docs.joomla.org/JTableNested
+ * @link        https://docs.joomla.org/JTableNested
  * @since       11.1
  */
 class JTableNested extends JTable
@@ -243,7 +243,7 @@ class JTableNested extends JTable
 	 *
 	 * @return  mixed    Boolean true on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/move
+	 * @link    https://docs.joomla.org/JTable/move
 	 * @since   11.1
 	 */
 	public function move($delta, $where = '')
@@ -296,7 +296,7 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTableNested/moveByReference
+	 * @link    https://docs.joomla.org/JTableNested/moveByReference
 	 * @since   11.1
 	 * @throws  RuntimeException on database error.
 	 */
@@ -716,7 +716,7 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTableNested/store
+	 * @link    https://docs.joomla.org/JTableNested/store
 	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
@@ -908,7 +908,7 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTableNested/publish
+	 * @link    https://docs.joomla.org/JTableNested/publish
 	 * @since   11.1
 	 * @throws UnexpectedValueException
 	 */
@@ -1285,7 +1285,7 @@ class JTableNested extends JTable
 	 *
 	 * @return  integer  1 + value of root rgt on success, false on failure
 	 *
-	 * @link    http://docs.joomla.org/JTableNested/rebuild
+	 * @link    https://docs.joomla.org/JTableNested/rebuild
 	 * @since   11.1
 	 * @throws  RuntimeException on database error.
 	 */
@@ -1375,7 +1375,7 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTableNested/rebuildPath
+	 * @link    https://docs.joomla.org/JTableNested/rebuildPath
 	 * @since   11.1
 	 */
 	public function rebuildPath($pk = null)
