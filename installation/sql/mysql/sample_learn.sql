@@ -188,9 +188,9 @@ INSERT IGNORE INTO `#__banners` (`id`, `cid`, `type`, `name`, `alias`, `imptotal
 (4, 1, 0, 'Support Joomla!', 'support-joomla', 0, 0, 0, 'http://contribute.joomla.org', 1, 15, 'Your contributions of time, talent and money make Joomla possible.', '', 0, 3, '', '{"imageurl":"images\\/banners\\/white.png","width":"","height":"","alt":""}', 0, '', -1, 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2011-01-01 00:00:01', 'en-GB', 42, 'Joomla', '0000-00-00 00:00:00', 0, 1);
 
 INSERT IGNORE INTO `#__banner_clients` (`id`, `name`, `contact`, `email`, `extrainfo`, `state`, `checked_out`, `checked_out_time`, `metakey`, `own_prefix`, `metakey_prefix`, `purchase_type`, `track_clicks`, `track_impressions`) VALUES
-(1, 'Joomla!', 'Administrator', 'banner_joomla@example.org', '', 1, 0, '0000-00-00 00:00:00', '', 0, '', -1, -1, -1),
-(2, 'Shop', 'Example', 'banner_shop@example.org', '', 1, 0, '0000-00-00 00:00:00', '', 0, '', -1, 0, 0),
-(3, 'Bookstore', 'Bookstore Example', 'banner_bookstore@example.org', '', 1, 0, '0000-00-00 00:00:00', '', 0, '', -1, 0, 0);
+(1, 'Joomla!', 'Administrator', 'banner@example.org', '', 1, 0, '0000-00-00 00:00:00', '', 0, '', -1, -1, -1),
+(2, 'Shop', 'Example', 'banner@example.org', '', 1, 0, '0000-00-00 00:00:00', '', 0, '', -1, 0, 0),
+(3, 'Bookstore', 'Bookstore Example', 'banner@example.org', '', 1, 0, '0000-00-00 00:00:00', '', 0, '', -1, 0, 0);
 
 INSERT IGNORE INTO `#__categories` (`id`, `asset_id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `extension`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `modified_user_id`, `modified_time`, `hits`, `language`, `version`) VALUES
 (1, 0, 0, 0, 133, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 910, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
