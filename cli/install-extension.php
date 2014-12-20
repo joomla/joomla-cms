@@ -46,9 +46,6 @@ require_once JPATH_LIBRARIES . '/cms.php';
 // Load the configuration
 require_once JPATH_CONFIGURATION . '/configuration.php';
 
-// Load the JApplicationCli class
-JLoader::import('joomla.application.cli');
-
 /**
  * A command line script to install extensions and extension updates from a folder, file, URL or update XML source
  *
@@ -199,13 +196,6 @@ class JoomlaExtensionInstallerCli extends JApplicationCli
 	{
 		// Unset the exceptions handler (allows the exceptions to be presented to the user)
 		restore_exception_handler();
-
-		// Load dependencies
-		JLoader::import('cms.component.helper');
-		JLoader::import('joomla.application.component.helper');
-		JLoader::import('joomla.updater.update');
-		JLoader::import('joomla.filesystem.file');
-		JLoader::import('joomla.filesystem.folder');
 
 		// Load the language files for the Joomla! library (lib_joomla)
 		$jlang = JFactory::getLanguage();
