@@ -3,7 +3,7 @@
 	<sites>
 		<site
 			tag="en-GB"
-			url="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}">English (GB) - Joomla help wiki</site>
+			url="https://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}">English (GB) - Joomla help wiki</site>
 		<site
 			tag="fr-FR"
 			url="http://help.joomla.fr/3/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}">Français (FR) - Aide de Joomla!</site>
