@@ -70,7 +70,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 			),
 			array(
 				array('language' => "de-de", 'direction' => 'rtl',
-					'tab' => 'Crazy Tab', 'link' => 'http://joomla.org',
+					'tab' => 'Crazy Tab', 'link' => 'https://joomla.org',
 					'base' => 'http://base.joomla.org/dir'),
 				array(
 					'lineend' => "\12",
@@ -78,7 +78,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 					'language' => 'de-de',
 					'direction' => 'rtl',
 					'tab' => "Crazy Tab",
-					'link' => 'http://joomla.org',
+					'link' => 'https://joomla.org',
 					'base' => 'http://base.joomla.org/dir'
 				)
 			)
@@ -279,19 +279,19 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAddScript()
 	{
-		$this->object->addScript('http://www.joomla.org');
+		$this->object->addScript('https://www.joomla.org');
 		$this->assertThat(
-			$this->object->_scripts['http://www.joomla.org']['mime'],
+			$this->object->_scripts['https://www.joomla.org']['mime'],
 			$this->equalTo('text/javascript'),
 			'JDocument->addScript failed'
 		);
 		$this->assertThat(
-			$this->object->_scripts['http://www.joomla.org']['defer'],
+			$this->object->_scripts['https://www.joomla.org']['defer'],
 			$this->equalTo(false),
 			'JDocument->addScript failed'
 		);
 		$this->assertThat(
-			$this->object->_scripts['http://www.joomla.org']['async'],
+			$this->object->_scripts['https://www.joomla.org']['async'],
 			$this->equalTo(false),
 			'JDocument->addScript failed'
 		);
@@ -351,21 +351,21 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	public function testAddStyleSheet()
 	{
 		$this->object->addStyleSheet(
-			'http://www.joomla.org', 'text/style', 'screen', array('attrib1' => 'value1')
+			'https://www.joomla.org', 'text/style', 'screen', array('attrib1' => 'value1')
 		);
 
 		$this->assertThat(
-			$this->object->_styleSheets['http://www.joomla.org']['mime'],
+			$this->object->_styleSheets['https://www.joomla.org']['mime'],
 			$this->equalTo('text/style')
 		);
 
 		$this->assertThat(
-			$this->object->_styleSheets['http://www.joomla.org']['media'],
+			$this->object->_styleSheets['https://www.joomla.org']['media'],
 			$this->equalTo('screen')
 		);
 
 		$this->assertThat(
-			$this->object->_styleSheets['http://www.joomla.org']['attribs'],
+			$this->object->_styleSheets['https://www.joomla.org']['attribs'],
 			$this->equalTo(array('attrib1' => 'value1'))
 		);
 	}

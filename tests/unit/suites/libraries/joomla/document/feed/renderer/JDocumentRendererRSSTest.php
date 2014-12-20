@@ -96,7 +96,7 @@ class JDocumentRendererRSSTest extends TestCase
 		$item = new JFeedItem(
 			array(
 				'title' => 'Joomla!',
-				'link' => 'http://www.joomla.org',
+				'link' => 'https://www.joomla.org',
 				'description' => 'Joomla main site',
 				'author' => 'Joomla',
 				'authorEmail' => 'joomla@joomla.org',
@@ -104,7 +104,7 @@ class JDocumentRendererRSSTest extends TestCase
 				'comments' => 'No comment',
 				'guid' => 'joomla',
 				'date' => 'Mon, 20 Jan 03 18:05:41 +0400',
-				'source' => 'http://www.joomla.org'
+				'source' => 'https://www.joomla.org'
 			)
 		);
 		$this->object->addItem($item);
@@ -123,7 +123,7 @@ class JDocumentRendererRSSTest extends TestCase
 		<language>en-gb</language>
 		<item>
 			<title>Joomla!</title>
-			<link>http://www.joomla.org</link>
+			<link>https://www.joomla.org</link>
 			<guid isPermaLink="false">joomla</guid>
 			<description><![CDATA[Joomla main site]]></description>
 			<author>joomla@joomla.org (Joomla)</author>

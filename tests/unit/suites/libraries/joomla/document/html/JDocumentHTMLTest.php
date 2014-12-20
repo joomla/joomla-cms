@@ -89,7 +89,7 @@ class JDocumentHTMLTest extends PHPUnit_Framework_TestCase
 		$test_data = array(
 			'title' => 'My Custom Title',
 			'description' => 'My Description',
-			'link' => 'http://joomla.org',
+			'link' => 'https://joomla.org',
 			'metaTags' => array(
 				'myMetaTag' => 'myMetaContent'
 			),

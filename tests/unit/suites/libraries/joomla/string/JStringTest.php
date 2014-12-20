@@ -873,7 +873,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
 
 		// Test special characters in URL
-		$url = 'http://joomla.org/mytestpath/È';
+		$url = 'https://joomla.org/mytestpath/È';
 		$expected = parse_url($url);
 
 		// Fix up path for UTF-8 characters

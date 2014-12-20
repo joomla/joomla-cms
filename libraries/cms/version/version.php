@@ -49,7 +49,7 @@ final class JVersion
 	public $COPYRIGHT = 'Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.';
 
 	/** @var  string  Link text. */
-	public $URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	public $URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 * Compares two a "PHP standardized" version number against the current Joomla version.

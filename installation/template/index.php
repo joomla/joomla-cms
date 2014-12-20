@@ -50,7 +50,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			<hr />
 			<h5>
 				<?php
-				$joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
+				$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
 				$license = '<a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank">' . JText::_('INSTL_GNU_GPL_LICENSE') . '</a>';
 				echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla, $license);
 				?>
