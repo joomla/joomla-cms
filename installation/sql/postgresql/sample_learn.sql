@@ -189,9 +189,9 @@ SELECT setval('#__banners_id_seq', max(id)) FROM #__banners;
 -- Dumping data for table #__banner_clients
 --
 INSERT INTO "#__banner_clients" VALUES
-(1,'Joomla!','Administrator','email@email.com','',1,0,'1970-01-01 00:00:00','',0,'',-1,-1,-1),
-(2,'Shop','Example','example@example.com','',1,0,'1970-01-01 00:00:00','',0,'',-1,0,0),
-(3,'Bookstore','Bookstore Example','example@example.com','',1,0,'1970-01-01 00:00:00','',0,'',-1,0,0);
+(1,'Joomla!','Administrator','banner@example.com','',1,0,'1970-01-01 00:00:00','',0,'',-1,-1,-1),
+(2,'Shop','Example','banner@example.com'','',1,0,'1970-01-01 00:00:00','',0,'',-1,0,0),
+(3,'Bookstore','Bookstore Example','banner@example.com'','',1,0,'1970-01-01 00:00:00','',0,'',-1,0,0);
 
 SELECT setval('#__banner_clients_id_seq', max(id)) FROM #__banner_clients;
 
