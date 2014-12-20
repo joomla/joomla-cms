@@ -530,7 +530,7 @@ INSERT [#__content] ([id], [asset_id], [title], [alias], [introtext], [fulltext]
 <li><a href="http://docs.joomla.org/API16:JForm">Forms library</a></li>
 <li><a href="http://docs.joomla.org/Working_with_Mootools_1.3">Working with Mootools 1.3</a></li>
 <li><a href="http://docs.joomla.org/Layout_Overrides_in_Joomla_1.6">Using new features of the override system</a></li>
-<li><a href="http://api.joomla.org">Joomla! API</a></li>
+<li><a href="https://api.joomla.org">Joomla! API</a></li>
 <li><a href="http://docs.joomla.org/API16:JDatabaseQuery">Using JDatabaseQuery</a></li>
 <li><a href="http://docs.joomla.org/What''s_new_in_Joomla_1.6#Events">New and updated events</a></li>
 <li><a href="http://docs.joomla.org/J2.5:Xml-rpc_changes_in_Joomla!">Xmlrpc</a></li>
