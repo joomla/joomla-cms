@@ -12,10 +12,12 @@ defined('_JEXEC') or die;
 $app             = JFactory::getApplication();
 $doc             = JFactory::getDocument();
 $lang            = JFactory::getLanguage();
+$user            = JFactory::getUser();
+$input           = $app->input;
+$debugMode       = $app->get('debug');
+$debugModeLang   = $app->get('debug_lang');
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
-$input           = $app->input;
-$user            = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -41,7 +43,7 @@ $itemid   = $input->get('Itemid', '');
 $sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $cpanel   = ($option === 'com_cpanel');
 
-$hidden = JFactory::getApplication()->input->get('hidemainmenu');
+$hidden   = JFactory::getApplication()->input->get('hidemainmenu');
 
 $showSubmenu          = false;
 $this->submenumodules = JModuleHelper::getModules('submenu');
@@ -272,7 +274,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 <jdoc:include type="modules" name="debug" style="none" />
 <?php if ($stickyToolbar) : ?>
 	<script>
-		(function($)
+		jQuery(document).ready(function($)
 		{
 			// fix sub nav on scroll
 			var $win = $(window)
@@ -306,7 +308,49 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 					$nav.removeClass('subhead-fixed')
 				}
 			}
-		})(jQuery);
+		});
+	</script>
+<?php endif; ?>
+<?php if ($hidden && !$debugMode && !$debugModeLang) : ?>
+	<script>
+		jQuery(document).ready(function($)
+		{
+			$.fn.bindFirst = function(name, fn) {
+				var elem, handlers, i, _len;
+				this.bind(name, fn);
+				for (i = 0, _len = this.length; i < _len; i++) {
+					elem = this[i];
+					handlers = jQuery._data(elem).events[name.split('.')[0]];
+					handlers.unshift(handlers.pop());
+				}
+			};
+
+				// Prevent alert for links
+				$('a').bindFirst("mousedown", function () {
+					$(window).off("beforeunload");
+				});
+
+				// Prevent alert for buttons
+				$(':button').bindFirst("mousedown", function () {
+					$(window).off("beforeunload");
+				});
+
+				// Prevent alert for forms
+				$('form').bindFirst("submit", function () {
+					$(window).off("beforeunload");
+				});
+
+				// Prevent alert for forms
+				$('input[type=submit]').bindFirst("mousedown", function () {
+					$(window).off("beforeunload");
+				});
+
+				// Alert on unintentional exit
+				$(window).on("beforeunload", function (event) {
+					return '<?php echo JText::_('TPL_ISIS_WARNING_MSG'); ?>';
+				});
+
+		});
 	</script>
 <?php endif; ?>
 </body>
