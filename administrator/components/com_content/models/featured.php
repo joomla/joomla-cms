@@ -79,7 +79,7 @@ class ContentModelFeatured extends ContentModelArticles
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
+				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
 					'a.featured, a.language, a.created_by_alias, a.publish_up, a.publish_down'
 			)
 		);
@@ -190,6 +190,17 @@ class ContentModelFeatured extends ContentModelArticles
 		if (is_numeric($tagId))
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
+				->join(
+					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+				);
+		}
+		elseif (is_array($tagId))
+		{
+			JArrayHelper::toInteger($tagId);
+			$tagId = implode(',', $tagId);
+			$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')')
 				->join(
 					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
