@@ -37,6 +37,17 @@
 				</field>
 
 				<field
+					name="tag"
+					type="tag"
+					mode="nested"
+					multiple="true"
+					label="JTAG"
+					description="JTAG_DESC"
+				>
+					<option value="">JOPTION_ALL_TAGS</option>
+				</field>
+
+				<field
 					name="image"
 					type="radio"
 					class="btn-group btn-group-yesno"
