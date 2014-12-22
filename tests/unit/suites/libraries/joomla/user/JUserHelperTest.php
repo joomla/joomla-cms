@@ -99,12 +99,12 @@ class JUserHelperTest extends TestCaseDatabase
 			),
 			'publisher' => array(
 				43,
-				array(5 => 5),
+				array(0 => 5),
 				array(),
 			),
 			'manager' => array(
 				44,
-				array(6 => 6),
+				array(0 => 6),
 				array(),
 			),
 		);

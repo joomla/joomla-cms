@@ -409,16 +409,12 @@ class JUser extends JObject
 		// TODO: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
 		$db = JFactory::getDbo();
 
-		$subQuery = $db->getQuery(true)
-			->select('id,asset_id')
-			->from('#__categories')
-			->where('extension = ' . $db->quote($component))
-			->where('published = 1');
-
 		$query = $db->getQuery(true)
 			->select('c.id AS id, a.name AS asset_name')
-			->from('(' . $subQuery->__toString() . ') AS c')
-			->join('INNER', '#__assets AS a ON c.asset_id = a.id');
+			->from('#__categories AS c')
+			->join('INNER', '#__assets AS a ON c.asset_id = a.id')
+			->where('c.extension = ' . $db->quote($component))
+			->where('c.published = 1');
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
@@ -440,8 +436,21 @@ class JUser extends JObject
 	 * @return  array
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function getAuthorisedViewLevels()
+	{
+		return $this->getViewLevels();
+	}
+
+	/**
+	 * Gets an array of the authorised access levels for the user
+	 *
+	 * @return  array
+	 *
+	 * @since   3.4
+	 */
+	public function getViewLevels()
 	{
 		if ($this->_authLevels === null)
 		{
@@ -458,16 +467,23 @@ class JUser extends JObject
 
 	/**
 	 * Gets an array of the groups a user is a member of
+	 * 
+	 * @param   bool  $recursive  If true, returns all groups including parents
 	 *
 	 * @return  array
 	 *
 	 * @since   3.4
 	 */
-	public function getGroups()
+	public function getGroups($recursive = true)
 	{
-		if ($this->_authGroups === null)
+		if (!$recursive)
 		{
-			$this->_authGroups = array();
+			if ($this->guest)
+			{
+				return array();
+			}
+
+			return JAccess::getGroupsByUser($this->id, $recursive);
 		}
 
 		if (empty($this->_authGroups))
@@ -489,7 +505,30 @@ class JUser extends JObject
 	 */
 	public function addGroup($groupId)
 	{
-		return JUserHelper::addUserToGroup($this->id, $groupId);
+		// Add the user to the group if necessary.
+		if (!in_array($groupId, $this->getGroups(false)))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('id')
+				->from('#__usergroups')
+				->where('id = ' . (int) $groupId);
+			$db->setQuery($query);
+			$groupExists = $db->loadResult();
+
+			if (!$groupExists)
+			{
+				throw new RuntimeException('Access Usergroup Invalid');
+			}
+
+			$query = $db->getQuery(true)
+				->insert('#__user_usergroup_map')
+				->values((int) $this->id . ',' . (int) $groupId);
+			$db->setQuery($query);
+			$db->execute();
+		}
+
+		return true;
 	}
 
 	/**
@@ -503,7 +542,18 @@ class JUser extends JObject
 	 */
 	public function removeGroup($groupId)
 	{
-		return JUserHelper::removeUserFromGroup($this->id, $groupId);
+		// Add the user to the group if necessary.
+		if (in_array($groupId, $this->getGroups(false)))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->delete('#__user_usergroup_map')
+				->where(array('user_id' => (int) $this->id, 'group_id' => (int) $groupId));
+			$db->setQuery($query);
+			$db->execute();
+		}
+
+		return true;
 	}
 
 	/**
@@ -534,7 +584,7 @@ class JUser extends JObject
 		JAccess::clearStatics();
 
 		// Re-populate the $groups variable
-		$this->groups = $this->getGroups();
+		$this->groups = $this->getGroups(false);
 	}
 
 	/**

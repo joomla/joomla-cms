@@ -29,29 +29,21 @@ abstract class JUserHelper
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
+	 * @deprecated  4.0
 	 */
 	public static function addUserToGroup($userId, $groupId)
 	{
 		// Get the user object.
-		$user = new JUser((int) $userId);
+		$user = JUser::getInstance((int) $userId);
 
-		// Add the user to the group if necessary.
-		if (!in_array($groupId, $user->getGroups()))
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->insert('#__user_usergroup_map')
-				->values((int) $userId . ',' . (int) $groupId);
-			$db->setQuery($query);
-			$db->execute();
-		}
+		$result = $user->addGroup($groupId);
 
-		if (JFactory::getUser()->id == $userId)
+		if (JFactory::getUser()->id == $user->id)
 		{
 			$user->clearAccessRights();
 		}
 
-		return true;
+		return $result;
 	}
 
 	/**
@@ -66,7 +58,9 @@ abstract class JUserHelper
 	 */
 	public static function getUserGroups($userId)
 	{
-		return JUser::getInstance((int) $userId)->getGroups();
+		$user = JUser::getInstance((int) $userId);
+
+		return $user->getGroups(false);
 	}
 
 	/**
@@ -78,30 +72,21 @@ abstract class JUserHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public static function removeUserFromGroup($userId, $groupId)
 	{
 		// Get the user object.
 		$user = JUser::getInstance((int) $userId);
 
-		// Remove the user from the group if necessary.
-		$key = array_search($groupId, $user->groups);
-
-		if ($key !== false)
-		{
-			// Remove the user from the group.
-			unset($user->groups[$key]);
-
-			// Store the user object.
-			$user->save();
-		}
+		$result = $user->removeGroup($groupId);
 
 		if (JFactory::getUser()->id == $userId)
 		{
 			$user->clearAccessRights();
 		}
 
-		return true;
+		return $result;
 	}
 
 	/**
@@ -121,7 +106,7 @@ abstract class JUserHelper
 
 		// Set the group ids.
 		JArrayHelper::toInteger($groups);
-		
+
 		foreach ($groups as $group)
 		{
 			$user->addGroup($group);
@@ -282,7 +267,6 @@ abstract class JUserHelper
 			JCrypt::hasStrongPasswordSupport();
 			$match = password_verify($password, $hash);
 
-			// Uncomment this line if we actually move to bcrypt.
 			$rehash = password_needs_rehash($hash, PASSWORD_DEFAULT);
 		}
 		elseif (substr($hash, 0, 8) == '{SHA256}')
@@ -609,6 +593,7 @@ abstract class JUserHelper
 	 * @return  string  $value converted to the 64 MD5 characters.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	protected static function _toAPRMD5($value, $count)
 	{
@@ -635,6 +620,7 @@ abstract class JUserHelper
 	 * @return  string  Binary data.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	private static function _bin($hex)
 	{
