@@ -69,6 +69,8 @@ class UsersModelDebuggroup extends JModelList
 					}
 				}
 			}
+
+			unset($asset);
 		}
 
 		return $assets;
