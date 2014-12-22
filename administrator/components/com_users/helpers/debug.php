@@ -84,6 +84,8 @@ class UsersHelperDebug
 				{
 					$actions[$action->title] = array($action->name, $action->description);
 				}
+
+				unset($action);
 			}
 		}
 
