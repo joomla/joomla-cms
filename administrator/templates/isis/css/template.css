@@ -7199,6 +7199,9 @@ body .navbar-fixed-top {
 	margin-bottom: 10px;
 	min-height: 43px;
 }
+.subhead-collapse {
+	margin-bottom: 11px;
+}
 .subhead-collapse.collapse {
 	height: auto;
 	overflow: visible;

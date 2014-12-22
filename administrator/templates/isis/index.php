@@ -125,7 +125,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<![endif]-->
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>" <?php if ($stickyToolbar) : ?>data-spy="scroll" data-target=".subhead" data-offset="87"<?php endif; ?>>
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
 <!-- Top Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
@@ -274,10 +274,19 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<script>
 		(function($)
 		{
+			// Only apply the scrollspy when the toolbar is not collapsed
+			if (document.body.clientWidth > 480)
+			{
+				$('.subhead-collapse').height($('.subhead').height());
+				$('.subhead').scrollspy({
+					offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}
+				});
+			}
+
 			// fix sub nav on scroll
 			var $win = $(window)
 				, $nav    = $('.subhead')
-				, navTop  = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>40<?php else:?>20<?php endif;?>
+				, navTop  = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>
 				, isFixed = 0
 
 			processScroll()
