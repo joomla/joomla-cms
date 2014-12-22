@@ -62,6 +62,7 @@ $cparams = JComponentHelper::getParams('com_media');
 		</article>
 		<?php $leadingcount++; ?>
 	<?php endforeach; ?>
+	<?php unset($item); ?>
 </div>
 <?php endif; ?>
 <?php
