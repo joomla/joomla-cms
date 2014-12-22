@@ -30,25 +30,25 @@ class MenusModelItem extends JModelAdmin
 	public $typeAlias = 'com_menus.item';
 
 	/**
-	 * @var        string    The prefix to use with controller messages.
+	 * @var     string    The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_MENUS_ITEM';
 
 	/**
-	 * @var        string    The help screen key for the menu item.
+	 * @var     string    The help screen key for the menu item.
 	 * @since   1.6
 	 */
 	protected $helpKey = 'JHELP_MENUS_MENU_ITEM_MANAGER_EDIT';
 
 	/**
-	 * @var        string    The help screen base URL for the menu item.
+	 * @var     string    The help screen base URL for the menu item.
 	 * @since   1.6
 	 */
 	protected $helpURL;
 
 	/**
-	 * @var        boolean    True to use local lookup for the help screen.
+	 * @var     boolean    True to use local lookup for the help screen.
 	 * @since   1.6
 	 */
 	protected $helpLocal = false;
@@ -1149,6 +1149,8 @@ class MenusModelItem extends JModelAdmin
 
 			unset($registry);
 		}
+
+		unset($item);
 
 		// Clean the cache
 		$this->cleanCache();
