@@ -1013,6 +1013,8 @@ class ModulesModelModule extends JModelAdmin
 					$tuples[] = '(' . (int) $table->id . ',' . (int) $pk * $sign . ')';
 				}
 
+				unset($pk);
+
 				$this->_db->setQuery(
 					'INSERT INTO #__modules_menu (moduleid, menuid) VALUES ' .
 					implode(',', $tuples)
