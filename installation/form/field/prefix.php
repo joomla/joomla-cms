@@ -13,7 +13,7 @@ defined('JPATH_BASE') or die;
  *
  * @since  1.6
  */
-class JFormFieldPrefix extends JFormField
+class InstallationFormFieldPrefix extends JFormField
 {
 	/**
 	 * The form field type.

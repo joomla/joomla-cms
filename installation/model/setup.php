@@ -66,7 +66,7 @@ class InstallationModelSetup extends JModelBase
 	 *
 	 * @param   string  $view  The view being processed.
 	 *
-	 * @return  mixed  JForm object on success, false on failure.
+	 * @return  JForm|boolean  JForm object on success, false on failure.
 	 *
 	 * @since   3.1
 	 */
@@ -82,8 +82,6 @@ class InstallationModelSetup extends JModelBase
 
 		// Get the form.
 		JForm::addFormPath(JPATH_COMPONENT . '/model/forms');
-		JForm::addFieldPath(JPATH_COMPONENT . '/model/fields');
-		JForm::addRulePath(JPATH_COMPONENT . '/model/rules');
 
 		try
 		{
@@ -415,7 +413,7 @@ class InstallationModelSetup extends JModelBase
 	 * @param   array   $data  The form data.
 	 * @param   string  $view  The view.
 	 *
-	 * @return  mixed   Array of filtered data if valid, false otherwise.
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
 	 * @since	3.1
 	 */
