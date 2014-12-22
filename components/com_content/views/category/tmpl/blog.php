@@ -63,6 +63,7 @@ JHtml::_('behavior.caption');
 				</div>
 				<?php $leadingcount++; ?>
 			<?php endforeach; ?>
+			<?php unset($item); ?>
 		</div><!-- end items-leading -->
 	<?php endif; ?>
 
