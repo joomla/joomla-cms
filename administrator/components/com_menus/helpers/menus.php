@@ -233,8 +233,10 @@ class MenusHelper
 			foreach ($menuTypes as &$type)
 			{
 				$rlu[$type->menutype] = & $type;
-				$type->links = array();
+				$type->links          = array();
 			}
+
+			unset($type);
 
 			// Loop through the list of menu links.
 			foreach ($links as &$link)
@@ -247,6 +249,8 @@ class MenusHelper
 					unset($link->menutype);
 				}
 			}
+
+			unset($link);
 
 			return $menuTypes;
 		}
