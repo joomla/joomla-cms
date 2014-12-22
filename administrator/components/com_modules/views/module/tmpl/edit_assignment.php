@@ -121,6 +121,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					</li>
 					<?php endif; ?>
 				<?php endforeach; ?>
+				<?php unset($type); ?>
 			</ul>
 			<div style="display:none;" id="treeselectmenu">
 				<div class="pull-left nav-hover treeselect-menu">
