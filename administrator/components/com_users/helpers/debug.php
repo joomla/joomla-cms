@@ -51,6 +51,8 @@ class UsersHelperDebug
 				$item->text = JText::_($item->text);
 			}
 
+			unset($item);
+
 			// Sort by component name
 			JArrayHelper::sortObjects($items, 'text', 1, true, true);
 		}
