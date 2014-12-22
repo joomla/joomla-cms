@@ -52,12 +52,12 @@ class InstallerModel extends JModelList
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		$ordering	= $this->getState('list.ordering');
-		$search		= $this->getState('filter.search');
+		$ordering = $this->getState('list.ordering');
+		$search   = $this->getState('filter.search');
 
 		// Replace slashes so preg_match will work
-		$search 	= str_replace('/', ' ', $search);
-		$db			= $this->getDbo();
+		$search = str_replace('/', ' ', $search);
+		$db     = $this->getDbo();
 
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
 		{
@@ -133,14 +133,14 @@ class InstallerModel extends JModelList
 			}
 
 			$item->author_info = @$item->authorEmail . '<br />' . @$item->authorUrl;
-			$item->client = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
-			$path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
+			$item->client      = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+			$path              = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
 			switch ($item->type)
 			{
 				case 'component':
 					$extension = $item->element;
-					$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+					$source    = JPATH_ADMINISTRATOR . '/components/' . $extension;
 						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
 					||	$lang->load("$extension.sys", $source, null, false, true);
 				break;
@@ -154,7 +154,7 @@ class InstallerModel extends JModelList
 				break;
 				case 'module':
 					$extension = $item->element;
-					$source = $path . '/modules/' . $extension;
+					$source    = $path . '/modules/' . $extension;
 						$lang->load("$extension.sys", $path, null, false, true)
 					||	$lang->load("$extension.sys", $source, null, false, true);
 				break;
@@ -164,13 +164,13 @@ class InstallerModel extends JModelList
 				break;
 				case 'plugin':
 					$extension = 'plg_' . $item->folder . '_' . $item->element;
-					$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
+					$source    = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
 						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
 					||	$lang->load("$extension.sys", $source, null, false, true);
 				break;
 				case 'template':
 					$extension = 'tpl_' . $item->element;
-					$source = $path . '/templates/' . $item->element;
+					$source    = $path . '/templates/' . $item->element;
 						$lang->load("$extension.sys", $path, null, false, true)
 					||	$lang->load("$extension.sys", $source, null, false, true);
 				break;
@@ -188,5 +188,7 @@ class InstallerModel extends JModelList
 				$item->description = JText::_($item->description);
 			}
 		}
+
+		unset($item);
 	}
 }
