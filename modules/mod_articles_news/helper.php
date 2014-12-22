@@ -114,6 +114,8 @@ abstract class ModArticlesNewsHelper
 			$item->beforeDisplayContent = trim(implode("\n", $results));
 		}
 
+		unset($item);
+
 		return $items;
 	}
 }
