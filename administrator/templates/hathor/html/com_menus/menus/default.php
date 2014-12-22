@@ -132,6 +132,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						</li>
 						<?php
 						endforeach;
+						unset($module);
 					endif;
 					?>
 				</ul>
