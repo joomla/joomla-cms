@@ -1752,11 +1752,11 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Write query to the log file
 	 *
-	 * @return  string
+	 * @return  void
 	 *
 	 * @since   3.4
 	 */
-	 protected function write2file() 
+	protected function write2file()
 	{
 		$app    = JFactory::getApplication();
 		$conf   = JFactory::getConfig();
