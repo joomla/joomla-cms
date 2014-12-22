@@ -31,9 +31,9 @@ class ContactViewContacts extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		ContactHelper::addSubmenu('contacts');
 
@@ -52,6 +52,8 @@ class ContactViewContacts extends JViewLegacy
 			$item->order_up = true;
 			$item->order_dn = true;
 		}
+
+		unset($item);
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
