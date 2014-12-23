@@ -1166,7 +1166,10 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	protected function _buildAdminMenus()
 	{
 		$db     = $this->parent->getDbo();
+
+		/** @var  JTableMenu  $table */
 		$table  = JTable::getInstance('menu');
+
 		$option = $this->get('element');
 
 		// If a component exists with this option in the table then we don't need to add menus
@@ -1179,10 +1182,12 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			->where('e.element = ' . $db->quote($option));
 
 		$db->setQuery($query);
-		$componentrow = $db->loadObject();
+
+		// In case of a failed installation (e.g. timeout error) we may have duplicate menu item and extension records.
+		$componentrows = $db->loadObjectList();
 
 		// Check if menu items exist
-		if ($componentrow)
+		if (!empty($componentrows))
 		{
 			// Don't do anything if overwrite has not been enabled
 			if (!$this->parent->isOverwrite())
@@ -1190,41 +1195,49 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 				return true;
 			}
 
-			// Remove existing menu items if overwrite has been enabled
-			if ($option)
+			// Remove all menu items
+			foreach ($componentrows as $componentrow)
 			{
-				// If something goes wrong, there's no way to rollback TODO: Search for better solution
-				$this->_removeAdminMenus($componentrow->extension_id);
+				// Remove existing menu items if overwrite has been enabled
+				if ($option)
+				{
+					// If something goes wrong, there's no way to rollback TODO: Search for better solution
+					$this->_removeAdminMenus($componentrow->extension_id);
+				}
 			}
-
-			$component_id = $componentrow->extension_id;
 		}
-		else
-		{
-			// Lets find the extension id
-			$query->clear()
-				->select('e.extension_id')
-				->from('#__extensions AS e')
-				->where('e.type = ' . $db->quote('component'))
-				->where('e.element = ' . $db->quote($option));
 
-			$db->setQuery($query);
+		// Lets find the extension id
+		$query->clear()
+			->select('e.extension_id')
+			->from('#__extensions AS e')
+			->where('e.type = ' . $db->quote('component'))
+			->where('e.element = ' . $db->quote($option));
 
-			// @TODO: Find Some better way to discover the component_id
-			$component_id = $db->loadResult();
-		}
+		$db->setQuery($query);
+		$component_id = $db->loadResult();
 
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
 		$menuElement = $this->manifest->administration->menu;
 
-		// @TODO: Just do not create the menu if $menuElement not exist
+		// Just do not create the menu if $menuElement not exist
+		if (!$menuElement)
+		{
+			return true;
+		}
+
+		// If the menu item is hidden do nothing more, just return
 		if (in_array((string) $menuElement['hidden'], array('true', 'hidden')))
 		{
 			return true;
 		}
-		elseif ($menuElement)
+
+		// Let's figure out what the menu item data should look like
+		$data = array();
+
+		if ($menuElement)
 		{
-			$data = array();
+			// I have a menu element, use this information
 			$data['menutype'] = 'main';
 			$data['client_id'] = 1;
 			$data['title'] = (string) trim($menuElement);
@@ -1236,73 +1249,10 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['component_id'] = $component_id;
 			$data['img'] = ((string) $menuElement->attributes()->img) ? (string) $menuElement->attributes()->img : 'class:component';
 			$data['home'] = 0;
-
-			try
-			{
-				$table->setLocation(1, 'last-child');
-			}
-			catch (InvalidArgumentException $e)
-			{
-				JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
-
-				return false;
-			}
-
-			if (!$table->bind($data) || !$table->check() || !$table->store())
-			{
-				// The menu item already exists. Delete it and retry instead of throwing an error.
-				$query->clear()
-					->select('id')
-					->from('#__menu')
-					->where('menutype = ' . $db->quote('main'))
-					->where('client_id = 1')
-					->where('link = ' . $db->quote('index.php?option=' . $option))
-					->where('type = ' . $db->quote('component'))
-					->where('parent_id = 1')
-					->where('home = 0');
-
-				$db->setQuery($query);
-				$menu_id = $db->loadResult();
-
-				if (!$menu_id)
-				{
-					// Oops! Could not get the menu ID. Go back and rollback changes.
-					JError::raiseWarning(1, $table->getError());
-
-					return false;
-				}
-				else
-				{
-					// Remove the old menu item
-					$query->clear()
-						->delete('#__menu')
-						->where('id = ' . (int) $menu_id);
-
-					$db->setQuery($query);
-					$db->query();
-
-					// Retry creating the menu item
-					$table->setLocation(1, 'last-child');
-
-					if (!$table->bind($data) || !$table->check() || !$table->store())
-					{
-						// Install failed, warn user and rollback changes
-						JError::raiseWarning(1, $table->getError());
-
-						return false;
-					}
-				}
-			}
-
-			/*
-			 * Since we have created a menu item, we add it to the installation step stack
-			 * so that if we have to rollback the changes we can undo it.
-			 */
-			$this->parent->pushStep(array('type' => 'menu', 'id' => $component_id));
 		}
-		// No menu element was specified, Let's make a generic menu item
 		else
 		{
+			// No menu element was specified, Let's make a generic menu item
 			$data = array();
 			$data['menutype'] = 'main';
 			$data['client_id'] = 1;
@@ -1315,31 +1265,25 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['component_id'] = $component_id;
 			$data['img'] = 'class:component';
 			$data['home'] = 0;
+		}
 
-			try
-			{
-				$table->setLocation(1, 'last-child');
-			}
-			catch (InvalidArgumentException $e)
-			{
-				JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+		// Try to create the menu item in the database
+		try
+		{
+			$table->setLocation(1, 'last-child');
+		}
+		catch (InvalidArgumentException $e)
+		{
+			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
 
-				return false;
-			}
+			return false;
+		}
 
-			if (!$table->bind($data) || !$table->check() || !$table->store())
-			{
-				// Install failed, warn user and rollback changes
-				JLog::add($table->getError(), JLog::WARNING, 'jerror');
+		$result = $this->_createAdminMenuItem($table, $data);
 
-				return false;
-			}
-
-			/*
-			 * Since we have created a menu item, we add it to the installation step stack
-			 * so that if we have to rollback the changes we can undo it.
-			 */
-			$this->parent->pushStep(array('type' => 'menu', 'id' => $component_id));
+		if ($result === false)
+		{
+			return $result;
 		}
 
 		/*
@@ -1348,6 +1292,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 		if (!$this->manifest->administration->submenu)
 		{
+			// No submenu? We're done.
 			return true;
 		}
 
@@ -1410,8 +1355,6 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 				$data['link'] = 'index.php?option=' . $option . $qstring;
 			}
 
-			$table = JTable::getInstance('menu');
-
 			try
 			{
 				$table->setLocation($parent_id, 'last-child');
@@ -1421,10 +1364,11 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 				return false;
 			}
 
-			if (!$table->bind($data) || !$table->check() || !$table->store())
+			$result = $this->_createAdminMenuItem($table, $data);
+
+			if ($result === false)
 			{
-				// Install failed, rollback changes
-				return false;
+				return $result;
 			}
 
 			/*
@@ -1862,6 +1806,64 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 			return false;
 		}
+	}
+
+	/**
+	 * Creates the menu item in the database. If the item already exists it tries to remove it and create it afresh.
+	 *
+	 * @param   JTableMenu  &$table  The menu table on which to create the menu item
+	 * @param   array       &$data   The menu item data to create
+	 *
+	 * @return  bool  True on success
+	 */
+	protected function _createAdminMenuItem(JTableMenu &$table, array &$data)
+	{
+		$db = $this->parent->getDbo();
+
+		if ( !$table->bind($data) || !$table->check() || !$table->store())
+		{
+			// The menu item already exists. Delete it and retry instead of throwing an error.
+			$query = $db->getQuery(true)
+						->select('id')
+						->from('#__menu')
+						->where('menutype = ' . $db->q($data['menutype']))
+						->where('client_id = 1')
+						->where('link = ' . $db->q($data['link']))
+						->where('type = ' . $db->q($data['type']))
+						->where('parent_id = ' . $db->q($data['parent_id']))
+						->where('home = ' . $db->q($data['home']));
+
+			$db->setQuery($query);
+			$menu_id = $db->loadResult();
+
+			if ( !$menu_id)
+			{
+				// Oops! Could not get the menu ID. Go back and rollback changes.
+				JError::raiseWarning(1, $table->getError());
+
+				return false;
+			}
+			else
+			{
+				/** @var  JTableMenu $temporaryTable */
+				$temporaryTable = JTable::getInstance('menu');
+				$temporaryTable->delete($menu_id, true);
+				$temporaryTable->rebuild($data['parent_id']);
+
+				// Retry creating the menu item
+				$table->setLocation(1, 'last-child');
+
+				if ( !$table->bind($data) || !$table->check() || !$table->store())
+				{
+					// Install failed, warn user and rollback changes
+					JError::raiseWarning(1, $table->getError());
+
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 }
 
