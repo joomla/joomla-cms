@@ -1771,8 +1771,9 @@ class PlgSystemDebug extends JPlugin
 		}
 		else
 		{
-			$file = JRequest::getVar('option') . JRequest::getVar('view') . JRequest::getVar('layout') . '.sql';
-			$file = JFactory::getApplication()->get('log_path') . '/' . $domain . '_' . $file;
+			$input = JFactory::getApplication()->input;
+			$file  = $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
+			$file  = JFactory::getApplication()->get('log_path') . '/' . $domain . '_' . $file;
 		}
 
 		$current = '';
