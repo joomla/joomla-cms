@@ -74,6 +74,10 @@ INSTALLATION
 	the following instructions are for MySQL. Refer to relevant
 	documentation if you are using another database.
 
+	You can use your web control panel or phpMyAdmin to
+	create a database for Joomla.
+
+	Alternatively you can create a database with the CLI.
 	In the following examples, "db_user" is an example MySQL user
 	which has the CREATE and GRANT privileges. You will need to use
 	the appropriate user name for your system.
@@ -110,15 +114,10 @@ INSTALLATION
 
 	and then enter 'exit' or 'quit' to exit MySQL.
 
-	Alternatively you can use your web control panel or phpMyAdmin to
-	create a database for Joomla.
-
-
 3. WEB INSTALLER
 
 Finally point your web browser to http://www.example.org where the Joomla! web
 based installer will guide you through the rest of the installation.
-
 
 4. CONFIGURE Joomla
 
