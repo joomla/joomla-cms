@@ -14,9 +14,7 @@ include_once __DIR__ . '/../default/view.php';
 /**
  * Extension Manager Install View
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.5
+ * @since  1.5
  */
 class InstallerViewInstall extends InstallerViewDefault
 {

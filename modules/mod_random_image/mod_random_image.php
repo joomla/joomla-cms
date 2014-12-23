@@ -20,6 +20,7 @@ $images	= ModRandomImageHelper::getImages($params, $folder);
 if (!count($images))
 {
 	echo JText::_('MOD_RANDOM_IMAGE_NO_IMAGES');
+
 	return;
 }
 

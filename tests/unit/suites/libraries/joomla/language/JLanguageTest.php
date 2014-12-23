@@ -558,7 +558,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang = new JLanguage('');
 
 		$this->assertEquals(
-			20,
+			200,
 			$lang->getUpperLimitSearchWord(),
 			'Line: ' . __LINE__
 		);
@@ -753,21 +753,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Implement testLoad().
-	 *
-	 * @return void
-	 */
-	public function testLoad()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
 	 * @return void
 	 */
 	public function testParse()
@@ -822,11 +807,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			'English (United Kingdom)',
 			$this->object->get('name')
 		);
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**
@@ -839,11 +819,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			'English (United Kingdom)',
 			$this->object->getName()
-		);
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
 		);
 	}
 
@@ -858,24 +833,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$this->assertNull(
 			$this->object->getPaths('')
 		);
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @return void
-	 */
-	public function testGetErrorFiles()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**
@@ -889,11 +846,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			'en-GB',
 			$this->object->getTag()
 		);
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**
@@ -905,11 +857,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertFalse(
 			$this->object->isRTL()
-		);
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
 		);
 	}
 
@@ -1012,11 +959,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			$this->object->getOrphans(),
 			'Line: ' . __LINE__
 		);
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**
@@ -1031,11 +973,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			$this->object->getUsed(),
 			'Line: ' . __LINE__
 		);
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**
@@ -1048,11 +985,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		// Key doesn't exist, returns false
 		$this->assertFalse(
 			$this->object->hasKey('com_admin.key')
-		);
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
 		);
 	}
 
@@ -1173,51 +1105,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			'es-ES',
 			$this->object->setLanguage('en-GB'),
 			'Line: ' . __LINE__
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetLocale().
-	 *
-	 * @return void
-	 */
-	public function testGetLocale()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetFirstDay().
-	 *
-	 * @return void
-	 */
-	public function testGetFirstDay()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetWeekEnd().
-	 *
-	 * @return void
-	 */
-	public function testGetWeekEnd()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
 		);
 	}
 

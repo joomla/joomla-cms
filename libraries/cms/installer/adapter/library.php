@@ -9,17 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.folder');
 
 /**
  * Library installer
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
-class JInstallerAdapterLibrary extends JAdapterInstance
+class JInstallerAdapterLibrary extends JInstallerAdapter
 {
 	/**
 	 * Custom loadLanguage method
@@ -468,8 +465,6 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 /**
  * Deprecated class placeholder. You should use JInstallerAdapterLibrary instead.
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore

@@ -34,7 +34,7 @@ $parts = null;
 // Check for valid format
 if (!$format)
 {
-	$results = new InvalidArgumentException('Please specify response format other that HTML (json, raw, etc.)', 404);
+	$results = new InvalidArgumentException(JText::_('COM_AJAX_SPECIFY_FORMAT'), 404);
 }
 /*
  * Module support.
@@ -100,23 +100,24 @@ elseif ($input->get('module'))
 			// Method does not exist
 			else
 			{
-				$results = new LogicException(sprintf('Method %s does not exist', $method . 'Ajax'), 404);
+				$results = new LogicException(JText::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
 			}
 		}
 		// The helper file does not exist
 		else
 		{
-			$results = new RuntimeException(sprintf('The file at %s does not exist', 'mod_' . $module . '/helper.php'), 404);
+			$results = new RuntimeException(JText::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
 		}
 	}
 	// Module is not published, you do not have access to it, or it is not assigned to the current menu item
 	else
 	{
-		$results = new LogicException(sprintf('Module %s is not published, you do not have access to it, or it\'s not assigned to the current menu item', 'mod_' . $module), 404);
+		$results = new LogicException(JText::sprintf('COM_AJAX_MODULE_NOT_ACCESSIBLE', 'mod_' . $module), 404);
 	}
 }
 /*
- * Plugin support is based on the "Ajax" plugin group.
+ * Plugin support by default is based on the "Ajax" plugin group.
+ * An optional 'group' variable can be passed via the URL.
  *
  * The plugin event triggered is onAjaxFoo, where 'foo' is
  * the value of the 'plugin' variable passed via the URL
@@ -125,7 +126,8 @@ elseif ($input->get('module'))
  */
 elseif ($input->get('plugin'))
 {
-	JPluginHelper::importPlugin('ajax');
+	$group      = $input->get('group', 'ajax');
+	JPluginHelper::importPlugin($group);
 	$plugin     = ucfirst($input->get('plugin'));
 	$dispatcher = JEventDispatcher::getInstance();
 

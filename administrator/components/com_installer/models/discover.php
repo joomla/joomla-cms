@@ -14,9 +14,7 @@ require_once __DIR__ . '/extension.php';
 /**
  * Installer Discover Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.6
+ * @since  1.6
  */
 class InstallerModelDiscover extends InstallerModel
 {
@@ -160,7 +158,8 @@ class InstallerModelDiscover extends InstallerModel
 	{
 		$app       = JFactory::getApplication();
 		$installer = JInstaller::getInstance();
-		$eid       = JRequest::getVar('cid', 0);
+		$input     = $app->input;
+		$eid       = $input->get('cid', 0, 'array');
 
 		if (is_array($eid) || $eid)
 		{

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Script file of Joomla CMS
  *
- * @package     Joomla.Administrator
- * @subpackage  com_admin
- * @since       1.6.4
+ * @since  1.6.4
  */
 class JoomlaInstallerScript
 {
@@ -40,7 +38,7 @@ class JoomlaInstallerScript
 	}
 
 	/**
-	 * Medtho to update Database
+	 * Method to update Database
 	 *
 	 * @return void
 	 */
@@ -112,7 +110,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_plugins', '', 1);
 		$extensions[] = array('component', 'com_search', '', 1);
 		$extensions[] = array('component', 'com_templates', '', 1);
-		$extensions[] = array('component', 'com_weblinks', '', 1);
 		$extensions[] = array('component', 'com_content', '', 1);
 		$extensions[] = array('component', 'com_config', '', 1);
 		$extensions[] = array('component', 'com_redirect', '', 1);
@@ -149,7 +146,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('module', 'mod_stats', '', 0);
 		$extensions[] = array('module', 'mod_syndicate', '', 0);
 		$extensions[] = array('module', 'mod_users_latest', '', 0);
-		$extensions[] = array('module', 'mod_weblinks', '', 0);
 		$extensions[] = array('module', 'mod_whosonline', '', 0);
 		$extensions[] = array('module', 'mod_wrapper', '', 0);
 		$extensions[] = array('module', 'mod_articles_category', '', 0);
@@ -196,7 +192,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'content', 'search', 0);
 		$extensions[] = array('plugin', 'newsfeeds', 'search', 0);
 		$extensions[] = array('plugin', 'tags', 'search', 0);
-		$extensions[] = array('plugin', 'weblinks', 'search', 0);
 		$extensions[] = array('plugin', 'languagefilter', 'system', 0);
 		$extensions[] = array('plugin', 'p3p', 'system', 0);
 		$extensions[] = array('plugin', 'cache', 'system', 0);
@@ -219,9 +214,10 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'contacts', 'finder', 0);
 		$extensions[] = array('plugin', 'content', 'finder', 0);
 		$extensions[] = array('plugin', 'newsfeeds', 'finder', 0);
-		$extensions[] = array('plugin', 'weblinks', 'finder', 0);
 		$extensions[] = array('plugin', 'tags', 'finder', 0);
 		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
+		$extensions[] = array('plugin', 'yubikey', 'twofactorauth', 0);
+		$extensions[] = array('plugin', 'nocaptcha', 'captcha', 0);
 
 		// Templates
 		$extensions[] = array('template', 'beez3', '', 0);
@@ -1027,6 +1023,66 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format/json.php',
 			'/libraries/joomla/registry/format/php.php',
 			'/libraries/joomla/registry/format/xml.php',
+			// Joomla! 3.4
+			'/administrator/components/com_tags/helpers/html/index.html',
+			'/administrator/components/com_tags/models/fields/index.html',
+			'/administrator/manifests/libraries/phpmailer.xml',
+			'/administrator/templates/hathor/html/com_finder/filter/index.html',
+			'/administrator/templates/hathor/html/com_finder/statistics/index.html',
+			'/components/com_contact/helpers/icon.php',
+			'/language/en-GB/en-GB.lib_phpmailer.sys.ini',
+			'/libraries/compat/jsonserializable.php',
+			'/libraries/compat/password/lib/index.html',
+			'/libraries/compat/password/lib/password.php',
+			'/libraries/compat/password/lib/version_test.php',
+			'/libraries/compat/password/index.html',
+			'/libraries/compat/password/LICENSE.md',
+			'/libraries/compat/index.html',
+			'/libraries/framework/Joomla/Application/Cli/Output/Processor/ColorProcessor.php',
+			'/libraries/framework/Joomla/Application/Cli/Output/Processor/ProcessorInterface.php',
+			'/libraries/framework/Joomla/Application/Cli/Output/Stdout.php',
+			'/libraries/framework/Joomla/Application/Cli/Output/Xml.php',
+			'/libraries/framework/Joomla/Application/Cli/CliOutput.php',
+			'/libraries/framework/Joomla/Application/Cli/ColorProcessor.php',
+			'/libraries/framework/Joomla/Application/Cli/ColorStyle.php',
+			'/libraries/framework/index.html',
+			'/libraries/framework/Joomla/DI/Exception/DependencyResolutionException.php',
+			'/libraries/framework/Joomla/DI/Exception/index.html',
+			'/libraries/framework/Joomla/DI/Container.php',
+			'/libraries/framework/Joomla/DI/ContainerAwareInterface.php',
+			'/libraries/framework/Joomla/DI/index.html',
+			'/libraries/framework/Joomla/DI/ServiceProviderInterface.php',
+			'/libraries/framework/Joomla/Registry/Format/index.html',
+			'/libraries/framework/Joomla/Registry/Format/Ini.php',
+			'/libraries/framework/Joomla/Registry/Format/Json.php',
+			'/libraries/framework/Joomla/Registry/Format/Php.php',
+			'/libraries/framework/Joomla/Registry/Format/Xml.php',
+			'/libraries/framework/Joomla/Registry/Format/Yaml.php',
+			'/libraries/framework/Joomla/Registry/AbstractRegistryFormat.php',
+			'/libraries/framework/Joomla/Registry/index.html',
+			'/libraries/framework/Joomla/Registry/Registry.php',
+			'/libraries/framework/Symfony/Component/Yaml/Exception/DumpException.php',
+			'/libraries/framework/Symfony/Component/Yaml/Exception/ExceptionInterface.php',
+			'/libraries/framework/Symfony/Component/Yaml/Exception/index.html',
+			'/libraries/framework/Symfony/Component/Yaml/Exception/ParseException.php',
+			'/libraries/framework/Symfony/Component/Yaml/Exception/RuntimeException.php',
+			'/libraries/framework/Symfony/Component/Yaml/Dumper.php',
+			'/libraries/framework/Symfony/Component/Yaml/Escaper.php',
+			'/libraries/framework/Symfony/Component/Yaml/index.html',
+			'/libraries/framework/Symfony/Component/Yaml/Inline.php',
+			'/libraries/framework/Symfony/Component/Yaml/LICENSE',
+			'/libraries/framework/Symfony/Component/Yaml/Parser.php',
+			'/libraries/framework/Symfony/Component/Yaml/Unescaper.php',
+			'/libraries/framework/Symfony/Component/Yaml/Yaml.php',
+			'/libraries/joomla/string/inflector.php',
+			'/libraries/joomla/string/normalise.php',
+			'/libraries/phpmailer/language/index.html',
+			'/libraries/phpmailer/language/phpmailer.lang-joomla.php',
+			'/libraries/phpmailer/index.html',
+			'/libraries/phpmailer/LICENSE',
+			'/libraries/phpmailer/phpmailer.php',
+			'/libraries/phpmailer/pop.php',
+			'/libraries/phpmailer/smtp.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1084,6 +1140,28 @@ class JoomlaInstallerScript
 			'/plugins/user/joomla/postinstall',
 			'/libraries/joomla/registry/format',
 			'/libraries/joomla/registry',
+			// Joomla! 3.4
+			'/administrator/components/com_tags/helpers/html',
+			'/administrator/components/com_tags/models/fields',
+			'/administrator/templates/hathor/html/com_finder/filter',
+			'/administrator/templates/hathor/html/com_finder/statistics',
+			'/libraries/compat/password/lib',
+			'/libraries/compat/password',
+			'/libraries/compat',
+			'/libraries/framework/Joomla/Application/Cli/Output/Processor',
+			'/libraries/framework/Joomla/Application/Cli/Output',
+			'/libraries/framework/Joomla/Application/Cli',
+			'/libraries/framework/Joomla/Application',
+			'/libraries/framework/Joomla/DI/Exception',
+			'/libraries/framework/Joomla/DI',
+			'/libraries/framework/Joomla/Registry/Format',
+			'/libraries/framework/Joomla/Registry',
+			'/libraries/framework/Joomla',
+			'/libraries/framework/Symfony/Component/Yaml/Exception',
+			'/libraries/framework/Symfony/Component/Yaml',
+			'/libraries/framework',
+			'/libraries/phpmailer/language',
+			'/libraries/phpmailer',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1103,6 +1181,18 @@ class JoomlaInstallerScript
 			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
 			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
+			}
+		}
+
+		/*
+		 * Needed for updates post-3.4
+		 * If com_weblinks doesn't exist then assume we can delete the weblinks package manifest (included in the update packages)
+		 */
+		if (!JFile::exists(JPATH_ADMINISTRATOR . '/components/com_weblinks/weblinks.php'))
+		{
+			if (JFile::exists(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml'))
+			{
+				JFile::delete(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml');
 			}
 		}
 	}
@@ -1128,7 +1218,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to create assets for newly installed components
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */

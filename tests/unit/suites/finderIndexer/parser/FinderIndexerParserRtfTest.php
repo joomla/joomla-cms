@@ -38,11 +38,9 @@ class FinderIndexerParserRtfTest extends PHPUnit_Framework_TestCase
 
 		$input = file_get_contents(dirname(__DIR__) . '/data/parseHtml.txt');
 
-		$parsed = $this->object->parse($input);
-
 		$this->assertContains(
 			$testResult,
-			$parsed
+			$this->object->parse($input)
 		);
 	}
 }

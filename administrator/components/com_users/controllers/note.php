@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User note controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       2.5
+ * @since  2.5
  */
 class UsersControllerNote extends JControllerForm
 {
@@ -41,6 +39,7 @@ class UsersControllerNote extends JControllerForm
 		$append = parent::getRedirectToItemAppend($recordId, $key);
 
 		$userId = JFactory::getApplication()->input->get('u_id', 0, 'int');
+
 		if ($userId)
 		{
 			$append .= '&u_id=' . $userId;

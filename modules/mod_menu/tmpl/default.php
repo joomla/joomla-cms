@@ -26,7 +26,7 @@ foreach ($list as $i => &$item)
 {
 	$class = 'item-' . $item->id;
 
-	if ($item->id == $active_id)
+	if (($item->id == $active_id) OR ($item->type == 'alias' AND $item->params->get('aliasoptions') == $active_id))
 	{
 		$class .= ' current';
 	}

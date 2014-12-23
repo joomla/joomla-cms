@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Cache output type object
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @since  11.1
  */
 class JCacheControllerOutput extends JCacheController
 {
@@ -64,6 +62,7 @@ class JCacheControllerOutput extends JCacheController
 		if ($data === false)
 		{
 			$this->_locktest = $this->cache->lock($id, $group);
+
 			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true)
 			{
 				$data = $this->cache->get($id, $group);
@@ -74,10 +73,12 @@ class JCacheControllerOutput extends JCacheController
 		{
 			$data = unserialize(trim($data));
 			echo $data;
+
 			if ($this->_locktest->locked == true)
 			{
 				$this->cache->unlock($id, $group);
 			}
+
 			return true;
 		}
 		else
@@ -87,6 +88,7 @@ class JCacheControllerOutput extends JCacheController
 			{
 				$this->_locktest = $this->cache->lock($id, $group);
 			}
+
 			ob_start();
 			ob_implicit_flush(false);
 

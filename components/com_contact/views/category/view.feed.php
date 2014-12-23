@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Contact component
  *
- * @package     Joomla.Site
- * @subpackage  com_contact
- * @since       1.5
+ * @since  1.5
  */
 class ContactViewCategory extends JViewCategoryfeed
 {

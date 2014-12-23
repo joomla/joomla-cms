@@ -11,8 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Utility class for the button bar.
  *
- * @package  Joomla.Administrator
- * @since    1.5
+ * @since  1.5
  */
 abstract class JToolbarHelper
 {
@@ -639,7 +638,6 @@ abstract class JToolbarHelper
 /**
  * Utility class for the submenu.
  *
- * @package     Joomla.Administrator
  * @since       1.5
  * @deprecated  4.0  Use JHtmlSidebar instead.
  */

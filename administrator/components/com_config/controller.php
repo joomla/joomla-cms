@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Config Component Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       1.5
+ * @since  1.5
  */
 class ConfigController extends JControllerLegacy
 {
@@ -41,7 +39,11 @@ class ConfigController extends JControllerLegacy
 		// Set the default view name and format from the Request.
 		$vName = $this->input->get('view', 'application');
 
-		JLog::add('ConfigController is deprecated. Use ConfigControllerApplicationDisplay or ConfigControllerComponentDisplay instead.', JLog::WARNING, 'deprecated');
+		JLog::add(
+			'ConfigController is deprecated. Use ConfigControllerApplicationDisplay or ConfigControllerComponentDisplay instead.',
+			JLog::WARNING,
+			'deprecated'
+		);
 
 		if (ucfirst($vName) == 'Application')
 		{

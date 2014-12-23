@@ -38,66 +38,6 @@ class JCryptTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Implement testDecrypt().
-	 *
-	 * @return void
-	 */
-	public function testDecrypt()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testEncrypt().
-	 *
-	 * @return void
-	 */
-	public function testEncrypt()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGenerateKey().
-	 *
-	 * @return void
-	 */
-	public function testGenerateKey()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetKey().
-	 *
-	 * @return void
-	 */
-	public function testSetKey()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
 	 * @return void
 	 */
 	public function testGenRandomBytes()

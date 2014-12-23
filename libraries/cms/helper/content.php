@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Helper for standard content style extensions.
  * This class mainly simplifies static helper methods often repeated in individual components
  *
- * @package     Joomla.Libraries
- * @subpackage  Helper
- * @since       3.1
+ * @since  3.1
  */
 class JHelperContent
 {

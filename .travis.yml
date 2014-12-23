@@ -4,20 +4,33 @@ php:
   - 5.3
   - 5.4
   - 5.5
+  - 5.6
+
+services:
+  - memcached
+  - redis-server
 
 before_script:
-  - composer self-update
-  - pyrus channel-discover pear.phpunit.de
-  - pyrus channel-discover pear.symfony.com
-  - pyrus install --force phpunit/DbUnit
+  # - composer self-update
+  # - composer update
+  - pyrus install -f pear/PHP_CodeSniffer-1.5.5
+  - pyrus install -f pear/Cache_Lite
   - phpenv rehash
+  # Set up databases for testing
   - mysql -e 'create database joomla_ut;'
-  - mysql joomla_ut < tests/unit/suites/database/stubs/mysql.sql
+  - mysql joomla_ut < tests/unit/schema/mysql.sql
   - psql -c 'create database joomla_ut;' -U postgres
-  - psql -d joomla_ut -a -f tests/unit/suites/database/stubs/postgresql.sql
+  - psql -d joomla_ut -a -f tests/unit/schema/postgresql.sql
+  # Set up Apache
+  # - ./build/travis/php-apache.sh
+  # Enable additional PHP extensions
+  - phpenv config-add build/travis/phpenv/memcached.ini
+  - phpenv config-add build/travis/phpenv/apc-$TRAVIS_PHP_VERSION.ini
+  - phpenv config-add build/travis/phpenv/redis.ini
 
 script:
   - phpunit --configuration travisci-phpunit.xml
+  - phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .
 
 branches:
   except:

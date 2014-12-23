@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Contact component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contact
- * @since       1.6
+ * @since  1.6
  */
 class ContactHelper extends JHelperContent
 {
@@ -41,5 +39,4 @@ class ContactHelper extends JHelperContent
 			$vName == 'categories'
 		);
 	}
-
 }

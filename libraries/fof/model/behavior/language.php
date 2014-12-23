@@ -78,9 +78,14 @@ class FOFModelBehaviorLanguage extends FOFModelBehavior
 		$languages = array_unique($languages);
 
 		// And filter the query output by these languages
-		$db        = FOFPlatform::getInstance()->getDbo();
+		$db = FOFPlatform::getInstance()->getDbo();
+
+		// Alias
+		$alias = $model->getTableAlias();
+		$alias = $alias ? $db->qn($alias) . '.' : '';
+
 		$languages = array_map(array($db, 'quote'), $languages);
-		$query->where($db->qn($languageField) . ' IN (' . implode(',', $languages) . ')');
+		$query->where($alias . $db->qn($languageField) . ' IN (' . implode(',', $languages) . ')');
 	}
 
 	/**

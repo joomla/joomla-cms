@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * to retrieve the stored bounded variables on demand prior to
  * query execution.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @since  12.1
  */
 interface JDatabaseQueryPreparable
 {

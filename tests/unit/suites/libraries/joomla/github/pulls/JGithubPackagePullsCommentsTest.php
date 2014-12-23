@@ -56,7 +56,6 @@ class JGithubPackagePullsCommentsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackagePullsComments::create
-	 * @todo   Implement testCreate().
 	 */
 	public function testCreate()
 	{
@@ -76,7 +75,6 @@ class JGithubPackagePullsCommentsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackagePullsComments::createReply
-	 * @todo   Implement testCreateReply().
 	 */
 	public function testCreateReply()
 	{
@@ -96,7 +94,6 @@ class JGithubPackagePullsCommentsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackagePullsComments::delete
-	 * @todo   Implement testDelete().
 	 */
 	public function testDelete()
 	{
@@ -116,7 +113,6 @@ class JGithubPackagePullsCommentsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackagePullsComments::edit
-	 * @todo   Implement testEdit().
 	 */
 	public function testEdit()
 	{
@@ -136,7 +132,6 @@ class JGithubPackagePullsCommentsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackagePullsComments::get
-	 * @todo   Implement testGet().
 	 */
 	public function testGet()
 	{
@@ -156,7 +151,6 @@ class JGithubPackagePullsCommentsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackagePullsComments::getList
-	 * @todo   Implement testGetList().
 	 */
 	public function testGetList()
 	{

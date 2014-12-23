@@ -18,9 +18,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/repos/downloads
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Repositories
- * @since       11.3
+ * @since  11.3
  */
 class JGithubPackageRepositoriesDownloads extends JGithubPackage
 {

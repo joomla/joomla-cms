@@ -108,16 +108,4 @@ class JUcmBaseTest extends TestCaseDatabase
 			'The type title for com_content.article is Article.'
 		);
 	}
-
-	/**
-	 * Tests the mapBase() method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testMapBase()
-	{
-		$this->markTestSkipped('Test not implemented.');
-	}
 }

@@ -12,16 +12,14 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_version
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_version
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModVersionHelper
 {
 	/**
 	 * Get the member items of the submenu.
 	 *
-	 * @param   JRegistry  &$params  The parameters object.
+	 * @param   \Joomla\Registry\Registry  &$params  The parameters object.
 	 *
 	 * @return  string  String containing the current Joomla version based on the selected format.
 	 */

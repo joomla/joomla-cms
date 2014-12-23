@@ -100,15 +100,12 @@
 				rows="5"
 				filter="safehtml"
 			/>
-			<field name="dob_spacer" type="spacer"
-				class="text"
-				label="PLG_USER_PROFILE_SPACER_DOB"
-			/>
 			<field
 				name="dob"
-				type="calendar"
+				type="dob"
 				label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
 				description="PLG_USER_PROFILE_FIELD_DOB_DESC"
+				info="PLG_USER_PROFILE_SPACER_DOB"
 				format="%Y-%m-%d"
 				filter="server_utc"
 			/>

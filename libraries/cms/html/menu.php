@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with menu select lists
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.5
+ * @since  1.5
  */
 abstract class JHtmlMenu
 {
@@ -306,7 +304,7 @@ abstract class JHtmlMenu
 	 * @param   array    &$children  The children of the current item
 	 * @param   integer  $maxlevel   The maximum number of levels in the tree
 	 * @param   integer  $level      The starting level
-	 * @param   string   $type       Type of link: component, URL, alias, separator
+	 * @param   int      $type       Set the type of spacer to use. Use 1 for |_ or 0 for -
 	 *
 	 * @return  array
 	 *

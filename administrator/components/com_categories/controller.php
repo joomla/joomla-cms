@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Categories view class for the Category package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesController extends JControllerLegacy
 {

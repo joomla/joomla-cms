@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://php.net/manual/en/book.mysqli.php
- * @since       12.1
+ * @see    http://php.net/manual/en/book.mysqli.php
+ * @since  12.1
  */
 class JDatabaseDriverMysqli extends JDatabaseDriver
 {
@@ -105,8 +103,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		 * have to extract them from the host string.
 		 */
 		$port = isset($this->options['port']) ? $this->options['port'] : 3306;
+		$regex = '/^(?P<host>((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(:(?P<port>.+))?$/';
 
-		if (preg_match('/^(?P<host>((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(:(?P<port>.+))?$/', $this->options['host'], $matches))
+		if (preg_match($regex, $this->options['host'], $matches))
 		{
 			// It's an IPv4 address with ot without port
 			$this->options['host'] = $matches['host'];
@@ -305,7 +304,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	}
 
 	/**
-	 * Method to get the database collation in use by sampling a text field of a table in the database.
+	 * Method to get the database collation.
 	 *
 	 * @return  mixed  The collation in use by the database (string) or boolean false if not supported.
 	 *
@@ -316,25 +315,18 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		$tables = $this->getTableList();
+		// Attempt to get the database collation by accessing the server system variable.
+		$this->setQuery('SHOW VARIABLES LIKE "collation_database"');
+		$result = $this->loadObject();
 
-		/*
-		@todo: $this->quoteName($tables[0]) is not the best solution as
-		we test possible on a non-Joomla table if we have e.g. different
-		tables (application) in the same database.
-		*/
-		$this->setQuery('SHOW FULL COLUMNS FROM ' . $this->quoteName($tables[0]));
-		$array = $this->loadAssocList();
-
-		foreach ($array as $field)
+		if (property_exists($result, 'Value'))
 		{
-			if (!is_null($field['Collation']))
-			{
-				return $field['Collation'];
-			}
+			return $result->Value;
 		}
-
-		return null;
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -369,6 +361,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		// Sanitize input to an array and iterate over the list.
 		settype($tables, 'array');
+
 		foreach ($tables as $table)
 		{
 			// Set the query to get the table CREATE statement.
@@ -578,7 +571,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				$this->callStacks[] = debug_backtrace();
 			}
 
-			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array($memoryBefore, memory_get_usage(), is_object($this->cursor) ? $this->getNumRows() : null);
+			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array(
+				$memoryBefore,
+				memory_get_usage(),
+				is_object($this->cursor) ? $this->getNumRows() : null
+			);
 		}
 
 		// If an error occurred handle it.

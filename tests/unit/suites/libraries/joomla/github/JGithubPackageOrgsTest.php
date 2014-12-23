@@ -60,7 +60,6 @@ class JGithubPackageOrgsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgs::getList
-     * @todo   Implement testGetList().
      */
     public function testGetList()
     {
@@ -80,7 +79,6 @@ class JGithubPackageOrgsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgs::get
-     * @todo   Implement testGet().
      */
     public function testGet()
     {
@@ -100,7 +98,6 @@ class JGithubPackageOrgsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgs::edit
-     * @todo   Implement testEdit().
      */
     public function testEdit()
     {

@@ -12,9 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Clicks Field class for the Joomla Framework.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldClicks extends JFormField
 {
@@ -35,7 +33,7 @@ class JFormFieldClicks extends JFormField
 	 */
 	protected function getInput()
 	{
-		$onclick = ' onclick="document.id(\'' . $this->id . '\').value=\'0\';"';
+		$onclick = ' onclick="document.getElementById(\'' . $this->id . '\').value=\'0\';"';
 
 		return
 			'<input class="input-small" type="text" name="' . $this->name . '" id="' . $this->id . '" value="'

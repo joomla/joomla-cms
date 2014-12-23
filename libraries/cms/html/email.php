@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for cloaking email addresses
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.5
+ * @since  1.5
  */
 abstract class JHtmlEmail
 {
@@ -45,7 +43,7 @@ abstract class JHtmlEmail
 		$rand = rand(1, 100000);
 
 		$replacement = '<span id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</span>' . "<script type='text/javascript'>";
-		$replacement .= "\n <!--";
+		$replacement .= "\n //<!--";
 		$replacement .= "\n document.getElementById('cloak$rand').innerHTML = '';";
 		$replacement .= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
 		$replacement .= "\n var path = 'hr' + 'ef' + '=';";
@@ -73,20 +71,22 @@ abstract class JHtmlEmail
 					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
 				}
 
-				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+					. $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';";
 			}
 			else
 			{
-				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>' +addy" . $rand . "+'<\/a>';";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+					. $rand . " + '\'>' +addy" . $rand . "+'<\/a>';";
 			}
 		}
 		else
 		{
-			$replacement .= "\n document.getElementById('cloak$rand').innerHTML += 'addy" . $rand . "';";
+			$replacement .= "\n document.getElementById('cloak$rand').innerHTML += addy" . $rand . ";";
 		}
 
 		$replacement .= "\n //-->";
-		$replacement .= '\n </script>';
+		$replacement .= "\n </script>";
 
 		return $replacement;
 	}
@@ -102,12 +102,15 @@ abstract class JHtmlEmail
 	 */
 	protected static function convertEncoding($text)
 	{
+		$text = html_entity_decode($text);
+
 		// Replace vowels with character encoding
 		$text = str_replace('a', '&#97;', $text);
 		$text = str_replace('e', '&#101;', $text);
 		$text = str_replace('i', '&#105;', $text);
 		$text = str_replace('o', '&#111;', $text);
 		$text = str_replace('u', '&#117;', $text);
+		$text = htmlentities($text, ENT_QUOTES, 'UTF-8', false);
 
 		return $text;
 	}

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Finder route helper class.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderHelperRoute
 {

@@ -12,12 +12,17 @@ defined('_JEXEC') or die;
 /**
  * Content Component Category Tree
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentCategories extends JCategories
 {
+	/**
+	 * Class constructor
+	 *
+	 * @param   array  $options  Array of options
+	 *
+	 * @since   11.1
+	 */
 	public function __construct($options = array())
 	{
 		$options['table'] = '#__content';

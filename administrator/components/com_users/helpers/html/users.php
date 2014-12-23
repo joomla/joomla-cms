@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Extended Utility class for the Users component.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       2.5
+ * @since  2.5
  */
 class JHtmlUsers
 {
@@ -200,6 +198,7 @@ class JHtmlUsers
 				'inactive_class'	=> 'publish'
 			)
 		);
+
 		return $states;
 	}
 }

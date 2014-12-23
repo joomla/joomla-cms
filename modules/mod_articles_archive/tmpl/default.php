@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
-<?php if (!empty($list)) :?>
+<?php if (!empty($list)) : ?>
 	<ul class="archive-module<?php echo $moduleclass_sfx; ?>">
 	<?php foreach ($list as $item) : ?>
 	<li>

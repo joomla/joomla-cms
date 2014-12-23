@@ -60,7 +60,6 @@ class JGithubPackageUsersFollowersTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageUsersFollowers::getList
-     * @todo   Implement testGetList().
      */
     public function testGetList()
     {
@@ -80,7 +79,6 @@ class JGithubPackageUsersFollowersTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageUsersFollowers::getList
-	 * @todo   Implement testGetList().
 	 */
 	public function testGetListWithUser()
 	{
@@ -100,7 +98,6 @@ class JGithubPackageUsersFollowersTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageUsersFollowers::getListFollowedBy
-     * @todo   Implement testGetListFollowedBy().
      */
     public function testGetListFollowedBy()
     {
@@ -120,7 +117,6 @@ class JGithubPackageUsersFollowersTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageUsersFollowers::getListFollowedBy
-	 * @todo   Implement testGetListFollowedBy().
 	 */
 	public function testGetListFollowedByWithUser()
 	{
@@ -140,7 +136,6 @@ class JGithubPackageUsersFollowersTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JGithubPackageUsersFollowers::check
-     * @todo   Implement testCheck().
      */
     public function testCheck()
     {
@@ -160,7 +155,6 @@ class JGithubPackageUsersFollowersTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageUsersFollowers::check
-	 * @todo   Implement testCheck().
 	 */
 	public function testCheckNo()
 	{
@@ -180,7 +174,6 @@ class JGithubPackageUsersFollowersTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageUsersFollowers::check
-	 * @todo   Implement testCheck().
 	 *
 	 * @expectedException UnexpectedValueException
 	 */
@@ -202,7 +195,6 @@ class JGithubPackageUsersFollowersTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JGithubPackageUsersFollowers::follow
-     * @todo   Implement testFollow().
      */
     public function testFollow()
     {
@@ -222,7 +214,6 @@ class JGithubPackageUsersFollowersTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageUsersFollowers::unfollow
-     * @todo   Implement testUnfollow().
      */
     public function testUnfollow()
     {

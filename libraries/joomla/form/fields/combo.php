@@ -15,9 +15,7 @@ JFormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Implements a combo box field.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormFieldCombo extends JFormFieldList
 {
@@ -42,7 +40,7 @@ class JFormFieldCombo extends JFormFieldList
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class=combobox"' . $this->class . '"' : ' class="combobox"';
+		$attr .= !empty($this->class) ? ' class="combobox ' . $this->class . '"' : ' class="combobox"';
 		$attr .= $this->readonly ? ' readonly' : '';
 		$attr .= $this->disabled ? ' disabled' : '';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';

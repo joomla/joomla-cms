@@ -17,10 +17,10 @@ defined('_JEXEC') or die;
 	foreach ($fieldSets as $name => $fieldSet) :
 		if (!(($this->item->link == 'index.php?option=com_wrapper&view=wrapper') && $fieldSet->name == 'request')
 				&& !($this->item->link == 'index.php?Itemid=' && $fieldSet->name == 'aliasoptions')) :
-			$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MENUS_'.$name.'_FIELDSET_LABEL';
+			$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MENUS_' . $name . '_FIELDSET_LABEL';
 			echo JHtml::_('bootstrap.addSlide', 'menuOptions', JText::_($label), 'collapse' . $i++);
 				if (isset($fieldSet->description) && trim($fieldSet->description)) :
-					echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
+					echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
 				endif;
 				?>
 					<?php foreach ($this->form->getFieldset($name) as $field) : ?>

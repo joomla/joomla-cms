@@ -12,24 +12,22 @@ defined('_JEXEC') or die;
 /**
  * The HTML Joomla Core Pre-Install View
  *
- * @package     Joomla.Installation
- * @subpackage  View
- * @since       3.1
+ * @since  3.1
  */
 class InstallationViewPreinstallHtml extends InstallationViewDefault
 {
 	/**
-	 * Array of PHP config options
-     *
-     * @var    array
+	 * Array of PHP config options.
+	 *
+	 * @var    array
 	 * @since  3.1
 	 */
 	protected $options;
 
 	/**
 	 * Array of PHP settings
-     *
-     * @var    array
+	 *
+	 * @var    array
 	 * @since  3.1
 	 */
 	protected $settings;

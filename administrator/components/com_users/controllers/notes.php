@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User notes controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       2.5
+ * @since  2.5
  */
 class UsersControllerNotes extends JControllerAdmin
 {
@@ -27,6 +25,8 @@ class UsersControllerNotes extends JControllerAdmin
 	protected $text_prefix = 'COM_USERS_NOTES';
 
 	/**
+	 * Method to get a model object, loading it if required.
+	 *
 	 * @param   string  $name    The model name. Optional.
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.

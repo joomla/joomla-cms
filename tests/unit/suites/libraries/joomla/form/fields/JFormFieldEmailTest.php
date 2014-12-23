@@ -17,7 +17,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldEmail-helper-dataset.php';
  * @subpackage  Form
  * @since       12.1
  */
-class JFormFieldEMailTest extends TestCase
+class JFormFieldEMailTest extends TestCaseDatabase
 {
 	/**
 	 * Sets up dependencies for the test.
@@ -32,7 +32,7 @@ class JFormFieldEMailTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->backupServer = $_SERVER;
 

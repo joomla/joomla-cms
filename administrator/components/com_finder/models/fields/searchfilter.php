@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Search Filter field for the Finder package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class JFormFieldSearchFilter extends JFormFieldList
 {

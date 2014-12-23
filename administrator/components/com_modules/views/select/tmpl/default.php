@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.popover');
 $document = JFactory::getDocument();
@@ -21,7 +21,7 @@ $document = JFactory::getDocument();
 	<?php
 		// Prepare variables for the link.
 
-		$link	= 'index.php?option=com_modules&task=module.add&eid='. $item->extension_id;
+		$link	= 'index.php?option=com_modules&task=module.add&eid=' . $item->extension_id;
 		$name	= $this->escape($item->name);
 		$desc	= JHTML::_('string.truncate', ($this->escape($item->desc)), 200);
 		$short_desc	= JHTML::_('string.truncate', ($this->escape($item->desc)), 90);

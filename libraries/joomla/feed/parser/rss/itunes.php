@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * RSS Feed Parser Namespace handler for iTunes.
  *
- * @package     Joomla.Platform
- * @subpackage  Feed
- * @see         http://www.apple.com/itunes/podcasts/specs.html
- * @since       12.3
+ * @see    http://www.apple.com/itunes/podcasts/specs.html
+ * @since  12.3
  */
 class JFeedParserRssItunes implements JFeedParserNamespace
 {
@@ -31,7 +29,7 @@ class JFeedParserRssItunes implements JFeedParserNamespace
 	 */
 	public function processElementForFeed(JFeed $feed, SimpleXMLElement $el)
 	{
-
+		return;
 	}
 
 	/**
@@ -46,6 +44,6 @@ class JFeedParserRssItunes implements JFeedParserNamespace
 	 */
 	public function processElementForFeedEntry(JFeedEntry $entry, SimpleXMLElement $el)
 	{
-
+		return;
 	}
 }

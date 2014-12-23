@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Prototype admin view.
  *
- * @package     Joomla.Libraries
- * @subpackage  Model
- * @since       3.2
+ * @since  3.2
  */
 abstract class ConfigViewCmsHtml extends JViewHtml
 {
@@ -101,12 +99,6 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 		$lang = JFactory::getLanguage();
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
-
-		// Change the template folder if alternative layout is in different template
-		/* if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
-		{
-			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
-		} */
 
 		// Prevents adding path twise
 		if (empty($this->_path['template']))

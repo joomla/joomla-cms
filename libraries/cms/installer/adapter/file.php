@@ -9,17 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.folder');
 
 /**
  * File installer
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
-class JInstallerAdapterFile extends JAdapterInstance
+class JInstallerAdapterFile extends JInstallerAdapter
 {
 	/**
 	 * Install function routing
@@ -810,8 +807,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 /**
  * Deprecated class placeholder. You should use JInstallerAdapterFile instead.
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore

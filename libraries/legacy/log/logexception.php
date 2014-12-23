@@ -14,8 +14,6 @@ JLog::add('LogException is deprecated, use SPL Exceptions instead.', JLog::WARNI
 /**
  * Exception class definition for the Log subpackage.
  *
- * @package     Joomla.Legacy
- * @subpackage  Log
  * @since       11.1
  * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use semantic exceptions instead
  */

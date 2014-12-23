@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Observer mapping pattern implementation for Joomla
  *
- * @package     Joomla.Platform
- * @subpackage  Observer
- * @link        http://docs.joomla.org/JObserverMapper
- * @since       3.1.2
+ * @link   http://docs.joomla.org/JObserverMapper
+ * @since  3.1.2
  */
 class JObserverMapper
 {

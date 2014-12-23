@@ -22,9 +22,7 @@ jimport('joomla.filesystem.path');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @package     Joomla.Platform
- * @subpackage  Archive
- * @since       11.1
+ * @since  11.1
  */
 class JArchiveTar implements JArchiveExtractable
 {
@@ -115,6 +113,7 @@ class JArchiveTar implements JArchiveExtractable
 						throw new RuntimeException('Unable to create destination');
 					}
 				}
+
 				if (JFile::write($path, $buffer) === false)
 				{
 					if (class_exists('JError'))
@@ -128,6 +127,7 @@ class JArchiveTar implements JArchiveExtractable
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -223,9 +223,11 @@ class JArchiveTar implements JArchiveExtractable
 				{
 					/* Some other type. */
 				}
+
 				$return_array[] = $file;
 			}
 		}
+
 		$this->_metadata = $return_array;
 
 		return true;

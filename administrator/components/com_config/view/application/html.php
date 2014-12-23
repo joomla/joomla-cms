@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View for the global configuration
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 {
@@ -76,6 +74,7 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
 		$this->addToolbar();
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		return parent::render();
 	}

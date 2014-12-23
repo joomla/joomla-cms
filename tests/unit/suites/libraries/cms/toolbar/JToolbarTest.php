@@ -38,7 +38,7 @@ class JToolbarTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**
@@ -166,19 +166,6 @@ class JToolbarTest extends TestCase
 		);
 	}
 
-	/**
-	 * @todo   Implement testRenderButton().
-	 */
-	public function testRenderButton()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo   Implement testLoadButtonType().
-	 */
 	public function testLoadButtonType()
 	{
 		$this->assertThat(

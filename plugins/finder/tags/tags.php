@@ -9,15 +9,15 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\Registry\Registry;
+
 // Load the base adapter.
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
  * Finder adapter for Joomla Tag.
  *
- * @package     Joomla.Plugin
- * @subpackage  Finder.Tags
- * @since       3.1
+ * @since  3.1
  */
 class PlgFinderTags extends FinderIndexerAdapter
 {
@@ -215,12 +215,12 @@ class PlgFinderTags extends FinderIndexerAdapter
 		$item->setLanguage();
 
 		// Initialize the item parameters.
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($item->params);
 		$item->params = JComponentHelper::getParams('com_tags', true);
 		$item->params->merge($registry);
 
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($item->metadata);
 		$item->metadata = $registry;
 

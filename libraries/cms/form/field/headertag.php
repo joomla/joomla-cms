@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla! CMS.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.0
+ * @since  3.0
  */
 class JFormFieldHeadertag extends JFormFieldList
 {
@@ -38,7 +36,7 @@ class JFormFieldHeadertag extends JFormFieldList
 	protected function getOptions()
 	{
 		$options = array();
-		$tags = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p');
+		$tags = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div');
 
 		// Create one new option object for each tag
 		foreach ($tags as $tag)

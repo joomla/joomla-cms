@@ -17,9 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/orgs/teams/
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Orgs
- * @since       12.3
+ * @since  12.3
  */
 class JGithubPackageOrgsTeams extends JGithubPackage
 {

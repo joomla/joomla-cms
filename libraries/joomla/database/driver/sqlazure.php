@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQL Server database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://msdn.microsoft.com/en-us/library/ee336279.aspx
- * @since       12.1
+ * @see    http://msdn.microsoft.com/en-us/library/ee336279.aspx
+ * @since  12.1
  */
 class JDatabaseDriverSqlazure extends JDatabaseDriverSqlsrv
 {
@@ -25,5 +23,5 @@ class JDatabaseDriverSqlazure extends JDatabaseDriverSqlsrv
 	 * @var    string
 	 * @since  12.1
 	 */
-	public $name = 'sqlzure';
+	public $name = 'sqlazure';
 }

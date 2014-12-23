@@ -14,11 +14,9 @@ jimport('joomla.base.adapterinstance');
 /**
  * UpdateAdapter class.
  *
- * @package     Joomla.Platform
- * @subpackage  Updater
- * @since       11.1
+ * @since  11.1
  */
-class JUpdateAdapter extends JAdapterInstance
+abstract class JUpdateAdapter extends JAdapterInstance
 {
 	/**
 	 * Resource handle for the XML Parser
@@ -53,6 +51,21 @@ class JUpdateAdapter extends JAdapterInstance
 	protected $updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL');
 
 	/**
+	 * The minimum stability required for updates to be taken into account. The possible values are:
+	 * 0	dev			Development snapshots, nightly builds, pre-release versions and so on
+	 * 1	alpha		Alpha versions (work in progress, things are likely to be broken)
+	 * 2	beta		Beta versions (major functionality in place, show-stopper bugs are likely to be present)
+	 * 3	rc			Release Candidate versions (almost stable, minor bugs might be present)
+	 * 4	stable		Stable versions (production quality code)
+	 *
+	 * @var    int
+	 * @since  14.1
+	 *
+	 * @see    JUpdater
+	 */
+	protected $minimum_stability = JUpdater::STABILITY_STABLE;
+
+	/**
 	 * Gets the reference to the current direct parent
 	 *
 	 * @return  object
@@ -75,4 +88,15 @@ class JUpdateAdapter extends JAdapterInstance
 	{
 		return $this->stack[count($this->stack) - 1];
 	}
+
+	/**
+	 * Finds an update
+	 *
+	 * @param   array  $options  Options to use: update_site_id: the unique ID of the update site to look at
+	 *
+	 * @return  array  Update_sites and updates discovered
+	 *
+	 * @since   11.1
+	 */
+	abstract public function findUpdate($options);
 }

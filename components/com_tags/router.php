@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_tags
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.3
+ * @since  3.3
  */
 class TagsRouter extends JComponentRouterBase
 {
@@ -32,19 +30,17 @@ class TagsRouter extends JComponentRouterBase
 		$segments = array();
 
 		// Get a menu item based on Itemid or currently active
-		$app		= JFactory::getApplication();
-		$menu		= $app->getMenu();
 		$params		= JComponentHelper::getParams('com_tags');
 		$advanced	= $params->get('sef_advanced_link', 0);
 
 		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))
 		{
-			$menuItem = $menu->getActive();
+			$menuItem = $this->menu->getActive();
 		}
 		else
 		{
-			$menuItem = $menu->getItem($query['Itemid']);
+			$menuItem = $this->menu->getItem($query['Itemid']);
 		}
 
 		$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
@@ -72,6 +68,7 @@ class TagsRouter extends JComponentRouterBase
 		{
 			unset($query['view']);
 			unset($query['id']);
+
 			return $segments;
 		}
 
@@ -145,9 +142,7 @@ class TagsRouter extends JComponentRouterBase
 		}
 
 		// Get the active menu item.
-		$app	= JFactory::getApplication();
-		$menu	= $app->getMenu();
-		$item	= $menu->getActive();
+		$item	= $this->menu->getActive();
 
 		// Count route segments
 		$count = count($segments);
@@ -191,10 +186,11 @@ class TagsRouter extends JComponentRouterBase
 }
 
 /**
- * Tags router functions
+ * Tags router functions. These functions are proxys for the new router interface or old SEF extensions.
  *
- * These functions are proxys for the new router interface
- * for old SEF extensions.
+ * @param   array  &$query  An array of URL arguments.
+ *
+ * @return array
  *
  * @deprecated  4.0  Use Class based routers instead
  */
@@ -205,6 +201,15 @@ function TagsBuildRoute(&$query)
 	return $router->build($query);
 }
 
+/**
+ * Parse the segments of a URL. These functions are proxys for the new router interface or old SEF extensions.
+ *
+ * @param   array  $segments  The segments of the URL to parse.
+ *
+ * @return  array  The URL attributes to be used by the application.
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
 function TagsParseRoute($segments)
 {
 	$router = new TagsRouter;

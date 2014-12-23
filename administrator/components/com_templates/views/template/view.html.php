@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
 * View to edit a template style.
 *
-* @package     Joomla.Administrator
-* @subpackage  com_templates
-* @since       1.6
+* @since  1.6
 */
 class TemplatesViewTemplate extends JViewLegacy
 {

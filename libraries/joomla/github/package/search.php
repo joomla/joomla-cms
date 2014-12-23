@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/search
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Search
- * @since       12.3
+ * @since  12.3
  */
 class JGithubPackageSearch extends JGithubPackage
 {

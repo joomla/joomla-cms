@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla! Captcha base object
  *
@@ -228,7 +230,7 @@ class JCaptcha extends JObject
 			throw new RuntimeException(JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
-		$params = new JRegistry($plugin->params);
+		$params = new Registry($plugin->params);
 		$plugin->params = $params;
 
 		// Build captcha plugin classname

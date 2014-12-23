@@ -14,8 +14,6 @@ JLog::add('JDatabaseSqlazure is deprecated, use JDatabaseDriverSqlazure instead.
 /**
  * SQL Server database driver
  *
- * @package     Joomla.Legacy
- * @subpackage  Database
  * @see         http://msdn.microsoft.com/en-us/library/ee336279.aspx
  * @since       11.1
  * @deprecated  13.1 (Platform) & 4.0 (CMS) - Use JDatabaseDriverSqlazure instead.

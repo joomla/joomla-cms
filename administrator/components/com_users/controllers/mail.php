@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Users mail controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerMail extends JControllerLegacy
 {
@@ -27,6 +25,12 @@ class UsersControllerMail extends JControllerLegacy
 	 */
 	public function send()
 	{
+		// Redirect to admin index if mass mailer disabled in conf
+		if (JFactory::getApplication()->get('massmailoff', 0) == 1)
+		{
+			JFactory::getApplication()->redirect(JRoute::_('index.php', false));
+		}
+
 		// Check for request forgeries.
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 

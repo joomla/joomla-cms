@@ -19,8 +19,11 @@ ini_set('magic_quotes_runtime', 0);
 
 // Maximise error reporting.
 ini_set('zend.ze1_compatibility_mode', '0');
-error_reporting(E_ALL & ~E_STRICT);
+error_reporting(E_ALL & ~(E_STRICT|E_USER_DEPRECATED));
 ini_set('display_errors', 1);
+
+// Set fixed precision value to avoid round related issues
+ini_set('precision', 14);
 
 /*
  * Ensure that required path constants are defined.  These can be overridden within the phpunit.xml file

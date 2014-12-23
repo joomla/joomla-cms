@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * This is an abstracted input class used to manage retrieving data from the application environment.
  *
- * @package     Joomla.Platform
- * @subpackage  Input
- * @since       11.1
+ * @since  11.1
  *
  * @property-read    JInput        $get
  * @property-read    JInput        $post

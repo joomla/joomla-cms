@@ -94,20 +94,6 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the base method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @covers  JUri::base
-	 */
-	public function testBase()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Test the root method.
 	 *
 	 * @return  void
@@ -648,19 +634,5 @@ class JUriTest extends PHPUnit_Framework_TestCase
 			$this->object->isSSL(),
 			$this->equalTo(false)
 		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testIsInternal().
-	 * @covers  JUri::isInternal
-	 *
-	 * @return void
-	 */
-	public function testIsInternal()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

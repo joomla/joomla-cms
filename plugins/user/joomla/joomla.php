@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla User plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  User.joomla
- * @since       1.5
+ * @since  1.5
  */
 class PlgUserJoomla extends JPlugin
 {
@@ -96,7 +96,7 @@ class PlgUserJoomla extends JPlugin
 					 * 	1. User frontend language
 					 * 	2. User backend language
 					 */
-					$userParams = new JRegistry($user['params']);
+					$userParams = new Registry($user['params']);
 					$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
 
 					if ($userLocale != $defaultLocale)
@@ -254,12 +254,17 @@ class PlgUserJoomla extends JPlugin
 			$session->destroy();
 		}
 
-		// Force logout all users with that userid
-		$query = $this->db->getQuery(true)
-			->delete($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
-			->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
-		$this->db->setQuery($query)->execute();
+		// Enable / Disable Forcing logout all users with same userid
+		$forceLogout = $this->params->get('forceLogout', 1);
+
+		if ($forceLogout)
+		{
+			$query = $this->db->getQuery(true)
+				->delete($this->db->quoteName('#__session'))
+				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
+				->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
+			$this->db->setQuery($query)->execute();
+		}
 
 		return true;
 	}

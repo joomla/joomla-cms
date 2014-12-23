@@ -18,7 +18,7 @@ include_once 'JFormDataHelper.php';
  * @subpackage  Form
  * @since       11.1
  */
-class JFormFieldTest extends TestCase
+class JFormFieldTest extends TestCaseDatabase
 {
 	/**
 	 * Backup of the SERVER superglobal
