@@ -147,14 +147,14 @@ class JFormFieldModal_Newsfeed extends JFormField
 			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden') .
 				'" href="index.php?option=com_newsfeeds&layout=modal&tmpl=component&task=newsfeed.edit&id=' . $value .
 				'" target="_blank" title="' . JHtml::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED') .
-				'" ><span class="icon-edit"></span> .  JText::__('JACTION_EDIT') . '</a>';
+				'" ><span class="icon-edit"></span>' .  JText::__('JACTION_EDIT') . '</a>';
 		}
 
 		// Clear newsfeed button
 		if ($allowClear)
 		{
 			$html[] = '<button id="' . $this->id . '_clear" class="btn' . ($value ? '' : ' hidden') . '" onclick="return jClearNewsfeed(\'' .
-				$this->id . '\')"><span class="icon-remove"></span> .  JText::__('JCLEAR') . '</button>';
+				$this->id . '\')"><span class="icon-remove"></span>' .  JText::__('JCLEAR') . '</button>';
 		}
 
 		$html[] = '</span>';

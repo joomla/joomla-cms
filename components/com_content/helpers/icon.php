@@ -99,7 +99,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = '<span class="icon-envelope"></span> .  JText::__('JGLOBAL_EMAIL');
+				$text = '<span class="icon-envelope"></span>' .  JText::__('JGLOBAL_EMAIL');
 			}
 		}
 		else

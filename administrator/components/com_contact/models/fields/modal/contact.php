@@ -152,7 +152,7 @@ class JFormFieldModal_Contact extends JFormField
 				. ' href="index.php?option=com_contact&layout=modal&tmpl=component&task=contact.edit&id=' . $value . '"'
 				. ' target="_blank"'
 				. ' title="' . JHtml::tooltipText('COM_CONTACT_EDIT_CONTACT') . '" >'
-				. '<span class="icon-edit"></span> .  JText::__('JACTION_EDIT')
+				. '<span class="icon-edit"></span>' .  JText::__('JACTION_EDIT')
 				. '</a>';
 		}
 
@@ -163,7 +163,7 @@ class JFormFieldModal_Contact extends JFormField
 				. ' id="' . $this->id . '_clear"'
 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
 				. ' onclick="return jClearContact(\'' . $this->id . '\')">'
-				. '<span class="icon-remove"></span> .  JText::__('JCLEAR')
+				. '<span class="icon-remove"></span>' .  JText::__('JCLEAR')
 				. '</button>';
 		}
 
