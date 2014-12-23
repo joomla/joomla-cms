@@ -41,10 +41,10 @@
 					type="tag"
 					mode="nested"
 					multiple="true"
+					class="multipleTags"
 					label="JTAG"
 					description="JTAG_DESC"
 				>
-					<option value="">JOPTION_ALL_TAGS</option>
 				</field>
 
 				<field

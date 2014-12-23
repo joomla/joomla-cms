@@ -184,28 +184,35 @@ class ContentModelFeatured extends ContentModelArticles
 			$query->where('a.language = ' . $db->quote($language));
 		}
 
-		// Filter by a single tag.
-		$tagId = $this->getState('filter.tag');
+		// Filter by a single or group of tags.
+		$hasTag = false;
+		$tagId = $this->getState('filter.tag');		
 
 		if (is_numeric($tagId))
 		{
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
-				->join(
-					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
-				);
+			$hasTag = true;
+
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
 		}
 		elseif (is_array($tagId))
 		{
 			JArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
-			$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')')
-				->join(
-					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
-				);
+			
+			if (!empty($tagId))
+			{
+				$hasTag = true;
+
+				$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')');
+			}
+		}
+
+		if ($hasTag)
+		{
+			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+						. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+						. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+					);
 		}
 
 		// Add the list ordering clause.

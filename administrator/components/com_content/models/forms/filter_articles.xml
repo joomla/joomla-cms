@@ -72,7 +72,7 @@
 			type="tag"
 			mode="nested"
 			multiple="true"
-			class="advancedTags"
+			class="multipleTags"
 			label="JOPTION_FILTER_TAG"
 			description="JOPTION_FILTER_TAG_DESC"
 			onchange="this.form.submit();"
