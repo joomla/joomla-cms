@@ -1138,9 +1138,9 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 		// Remove categories for this component
 		$query->clear()
-			  ->delete('#__categories')
-			  ->where('extension=' . $db->quote($this->element), 'OR')
-			  ->where('extension LIKE ' . $db->quote($this->element . '.%'));
+			->delete('#__categories')
+			->where('extension=' . $db->quote($this->element), 'OR')
+			->where('extension LIKE ' . $db->quote($this->element . '.%'));
 		$db->setQuery($query);
 		$db->execute();
 
@@ -1252,10 +1252,10 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		{
 			// Lets find the extension id
 			$query->clear()
-				  ->select('e.extension_id')
-				  ->from('#__extensions AS e')
-				  ->where('e.type = ' . $db->quote('component'))
-				  ->where('e.element = ' . $db->quote($option));
+				->select('e.extension_id')
+				->from('#__extensions AS e')
+				->where('e.type = ' . $db->quote('component'))
+				->where('e.element = ' . $db->quote($option));
 
 			$db->setQuery($query);
 			$component_id = $db->loadResult();
@@ -1874,8 +1874,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	/**
 	 * Creates the menu item in the database. If the item already exists it tries to remove it and create it afresh.
 	 *
-	 * @param   array       &$data     The menu item data to create
-	 * @param   integer     $parentId  The parent menu item ID
+	 * @param   array    &$data     The menu item data to create
+	 * @param   integer  $parentId  The parent menu item ID
 	 *
 	 * @return  bool|int  Menu item ID on success, false on failure
 	 */
