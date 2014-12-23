@@ -17,6 +17,7 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $app		= JFactory::getApplication();
 $user		= JFactory::getUser();
+$params		= JComponentHelper::getParams('com_content');
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
@@ -103,9 +104,11 @@ JFactory::getDocument()->addScriptDeclaration('
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
+					<?php if ($params->get('hitcounter', 1)) : ?>
 						<th width="10%">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
+					<?php endif;?>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -215,9 +218,11 @@ JFactory::getDocument()->addScriptDeclaration('
 						<td class="nowrap small hidden-phone">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
+					<?php if ($params->get('hitcounter', 1)) : ?>
 						<td class="center">
 							<?php echo (int) $item->hits; ?>
 						</td>
+					<?php endif;?>
 						<td class="center hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>

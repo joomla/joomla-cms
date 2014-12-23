@@ -441,15 +441,31 @@ class ContentModelArticles extends JModelList
 			$query->where($authorWhere . $authorAliasWhere);
 		}
 
-		// Define null and now dates
-		$nullDate	= $db->quote($db->getNullDate());
-		$nowDate	= $db->quote(JFactory::getDate()->toSql());
-
+		// Process the filter for list views with user-entered filters
+		$params = $this->getState('params');
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+			if ($params->get('timerresolution', 2) == 2)
+			{
+				$date = JFactory::getDate();
+				$nowDate = $db->quote($date->toSql());
+
+				$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+					->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+		}
+		elseif ($params->get('timerresolution', 2) == 1)
 		{
+			//Create time for lower bound of publish up
+			$ts = time() - (time()%300);
+			$date = JFactory::getDate($ts);
+			$nowDate = $db->quote($date->toSql());
+			//Create time for upper bound of publish down
+			$ts += 300;
+			$date = JFactory::getDate($ts);
+			$nowDate2 = $db->quote($date->toSql());
+
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate2 . ')');
 		}
 
 		// Filter by Date Range or Relative Date
@@ -479,9 +495,6 @@ class ContentModelArticles extends JModelList
 			default:
 				break;
 		}
-
-		// Process the filter for list views with user-entered filters
-		$params = $this->getState('params');
 
 		if ((is_object($params)) && ($params->get('filter_field') != 'hide') && ($filter = $this->getState('list.filter')))
 		{

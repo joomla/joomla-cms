@@ -876,6 +876,38 @@
 		</field>
 
 	</fieldset>
+	
+	<fieldset name="performance"
+		label="COM_CONTENT_CONFIG_PERFORMANCE_LABEL"
+		description="COM_CONTENT_CONFIG_PERFORMANCE_SETTINGS_DESC"
+		>
+
+		<field
+			name="hitcounter"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="COM_CONTENT_HITCOUNTER_LABEL"
+			description="COM_CONTENT_HITCOUNTER_DESC">
+				<option value="1">JENABLED</option>
+				<option value="0">JDISABLED</option>
+		</field>
+
+		<field
+			name="timerresolution"
+			type="list"
+			label="COM_CONTENT_TIMER_RESOLUTION_LABEL"
+			description="COM_CONTENT_TIMER_RESOLUTION_DESC"
+			default="2">
+			<option
+				value="0">JDISABLED</option>
+			<option
+				value="1">COM_CONTENT_TIMER_RESOLUTION_FIVE_MINUTE_PRECISION</option>
+			<option
+				value="2">COM_CONTENT_TIMER_RESOLUTION_PRECISE_PRECISION</option>
+		</field>
+
+	</fieldset>
 
 	<fieldset
 		name="permissions"
