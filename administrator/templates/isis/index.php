@@ -272,50 +272,42 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 <jdoc:include type="modules" name="debug" style="none" />
 <?php if ($stickyToolbar) : ?>
 	<script>
-		(function($)
+		jQuery(function($)
 		{
-			// Only apply the scrollspy when the toolbar is not collapsed
-			if (document.body.clientWidth > 480)
+
+			var navTop;
+			var isFixed = false;
+
+			processScrollInit();
+			processScroll();
+
+			$(window).on('resize', processScrollInit);
+			$(window).on('scroll', processScroll);
+
+			function processScrollInit()
 			{
-				$('.subhead-collapse').height($('.subhead').height());
-				$('.subhead').scrollspy({
-					offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}
-				});
-			}
+				navTop = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>;
 
-			// fix sub nav on scroll
-			var $win = $(window)
-				, $nav    = $('.subhead')
-				, navTop  = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>
-				, isFixed = 0
-
-			processScroll()
-
-			// hack sad times - holdover until rewrite for 2.1
-			$nav.on('click', function()
-			{
-				if (!isFixed) {
-					setTimeout(function()
-					{
-						$win.scrollTop($win.scrollTop() - 47)
-					}, 10)
+				// Only apply the scrollspy when the toolbar is not collapsed
+				if (document.body.clientWidth > 480)
+				{
+					$('.subhead-collapse').height($('.subhead').height());
+					$('.subhead').scrollspy({offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}});
 				}
-			})
-
-			$win.on('scroll', processScroll)
+			}
 
 			function processScroll()
 			{
-				var i, scrollTop = $win.scrollTop()
+				var scrollTop = $(window).scrollTop();
 				if (scrollTop >= navTop && !isFixed) {
-					isFixed = 1
-					$nav.addClass('subhead-fixed')
+					isFixed = true;
+					$('.subhead').addClass('subhead-fixed');
 				} else if (scrollTop <= navTop && isFixed) {
-					isFixed = 0
-					$nav.removeClass('subhead-fixed')
+					isFixed = false;
+					$('.subhead').removeClass('subhead-fixed');
 				}
 			}
-		})(jQuery);
+		});
 	</script>
 <?php endif; ?>
 </body>
