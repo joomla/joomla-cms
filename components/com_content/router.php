@@ -16,16 +16,17 @@ defined('_JEXEC') or die;
  */
 class ContentRouter extends JComponentRouterAdvanced
 {
-	function __construct($app = null, $menu = null) {
-		
-        $this->registerView('categories', 'categories');
-        $this->registerView('category', 'category', 'id', 'categories', '', true, array('default', 'blog'));
-        $this->registerView('article', 'article', 'id', 'category', 'catid');
-        $this->registerView('archive', 'archive');
-        $this->registerView('featured', 'featured');
+	function __construct($app = null, $menu = null)
+	{
+		$this->registerView('categories', 'categories');
+		$this->registerView('category', 'category', 'id', 'categories', '', true, array('default', 'blog'));
+		$this->registerView('article', 'article', 'id', 'category', 'catid');
+		$this->registerView('archive', 'archive');
+		$this->registerView('featured', 'featured');
 		$this->registerView('form', 'form');
+
 		parent::__construct($app, $menu);
-		
+
 		$this->attachRule(new JComponentRouterRulesMenu($this));
 		require_once JPATH_SITE . '/components/com_content/helpers/legacyrouter.php';
 		$this->attachRule(new ContentRouterRulesLegacy($this));
