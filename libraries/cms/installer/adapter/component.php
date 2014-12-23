@@ -1449,6 +1449,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	protected function _removeAdminMenus($id)
 	{
 		$db = $this->parent->getDbo();
+
+		/** @var  JTableMenu  $table */
 		$table = JTable::getInstance('menu');
 
 		// Get the ids of the menu items
