@@ -376,17 +376,50 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	/**
 	 * Method to store the extension to the database
 	 *
+	 * @param   bool  $deleteExisting  Should I try to delete existing records of the same component?
+	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 * @throws  RuntimeException
 	 */
-	protected function storeExtension()
+	protected function storeExtension($deleteExisting = false)
 	{
 		// Add an entry to the extension table with a whole heap of defaults
 		$this->extension->name    = $this->name;
 		$this->extension->type    = 'component';
 		$this->extension->element = $this->element;
+
+		// If we are told to delete existing extension entries then do so.
+		if ($deleteExisting)
+		{
+			$db = $this->parent->getDBO();
+
+			$query = $db->getQuery(true)
+				->select($db->qn('extension_id'))
+				->from($db->qn('#__extensions'))
+				->where($db->qn('name') . ' = ' . $db->q($this->extension->name))
+				->where($db->qn('type') . ' = ' . $db->q($this->extension->type))
+				->where($db->qn('element') . ' = ' . $db->q($this->extension->element));
+
+			$db->setQuery($query);
+
+			$extension_ids = $db->loadColumn();
+
+			if (!empty($extension_ids))
+			{
+				foreach ($extension_ids as $eid)
+				{
+					// Remove leftover admin menus for this extension ID
+					$this->_removeAdminMenus($eid);
+
+					// Remove the extension record itself
+					/** @var JTableExtension $extensionTable */
+					$extensionTable = JTable::getInstance('extension');
+					$extensionTable->delete($eid);
+				}
+			}
+		}
 
 		// There is no folder for components
 		$this->extension->folder         = '';
@@ -397,7 +430,9 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$this->extension->params         = $this->parent->getParams();
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
-		if (!$this->extension->store())
+		$couldStore = $this->extension->store();
+
+		if (!$couldStore && $deleteExisting)
 		{
 			// Install failed, roll back changes
 			throw new RuntimeException(
@@ -406,6 +441,12 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 					$this->extension->getError()
 				)
 			);
+		}
+
+		if (!$couldStore && !$deleteExisting)
+		{
+			// Maybe we have a failed installation (e.g. timeout). Let's retry after deleting old records.
+			$this->storeExtension(true);
 		}
 	}
 
@@ -1527,15 +1568,56 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$this->parent->extension->enabled = 1;
 		$this->parent->extension->params = $this->parent->getParams();
 
+		$stored = false;
+
 		try
 		{
 			$this->parent->extension->store();
+			$stored = true;
 		}
 		catch (RuntimeException $e)
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
+			// Try to delete existing failed records before retrying
+			$db = $this->parent->getDBO();
 
-			return false;
+			$query = $db->getQuery(true)
+						->select($db->qn('extension_id'))
+						->from($db->qn('#__extensions'))
+						->where($db->qn('name') . ' = ' . $db->q($this->parent->extension->name))
+						->where($db->qn('type') . ' = ' . $db->q($this->parent->extension->type))
+						->where($db->qn('element') . ' = ' . $db->q($this->parent->extension->element));
+
+			$db->setQuery($query);
+
+			$extension_ids = $db->loadColumn();
+
+			if (!empty($extension_ids))
+			{
+				foreach ($extension_ids as $eid)
+				{
+					// Remove leftover admin menus for this extension ID
+					$this->_removeAdminMenus($eid);
+
+					// Remove the extension record itself
+					/** @var JTableExtension $extensionTable */
+					$extensionTable = JTable::getInstance('extension');
+					$extensionTable->delete($eid);
+				}
+			}
+		}
+
+		if (!$stored)
+		{
+			try
+			{
+				$this->parent->extension->store();
+			}
+			catch (RuntimeException $e)
+			{
+				JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
+
+				return false;
+			}
 		}
 
 		// Now we need to run any SQL it has, languages, media or menu stuff
