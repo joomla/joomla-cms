@@ -70,7 +70,10 @@ INSTALLATION
 
 2. CREATE THE Joomla! DATABASE
 
-	Joomla! will currently work with MySQL/MSSQL/PostgreSQL.
+	Joomla! will currently work with MySQL, MSSQL and PostgreSQL but 
+	the following instructions are for MySQL. Refer to relevant
+	documentation if you are using another database.
+
 	In the following examples, "db_user" is an example MySQL user
 	which has the CREATE and GRANT privileges. You will need to use
 	the appropriate user name for your system.
@@ -105,7 +108,7 @@ INSTALLATION
 
 	flush privileges;
 
-	and then enter '\q' to exit MySQL.
+	and then enter 'exit' or 'quit' to exit MySQL
 
 	Alternatively you can use your web control panel or phpMyAdmin to
 	create a database for Joomla.
