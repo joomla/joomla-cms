@@ -1023,7 +1023,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			JFolder::delete($this->parent->getPath('extension_site'));
 
 			// Remove the menu
-			$this->_removeAdminMenus($this->extension);
+			$this->_removeAdminMenus($this->extension->extension_id);
 
 			// Raise a warning
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_ERRORREMOVEMANUALLY'), JLog::WARNING, 'jerror');
@@ -1066,7 +1066,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$retval = false;
 		}
 
-		$this->_removeAdminMenus($this->extension);
+		$this->_removeAdminMenus($this->extension->extension_id);
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -1194,7 +1194,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			if ($option)
 			{
 				// If something goes wrong, there's no way to rollback TODO: Search for better solution
-				$this->_removeAdminMenus($componentrow);
+				$this->_removeAdminMenus($componentrow->extension_id);
 			}
 
 			$component_id = $componentrow->extension_id;
@@ -1440,17 +1440,16 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	/**
 	 * Method to remove admin menu references to a component
 	 *
-	 * @param   object  &$row  Component table object.
+	 * @param   int  $id  The ID of the extension whose admin menus will be removed
 	 *
 	 * @return  boolean  True if successful.
 	 *
 	 * @since   3.1
 	 */
-	protected function _removeAdminMenus(&$row)
+	protected function _removeAdminMenus($id)
 	{
 		$db = $this->parent->getDbo();
 		$table = JTable::getInstance('menu');
-		$id = $row->extension_id;
 
 		// Get the ids of the menu items
 		$query = $db->getQuery(true)
@@ -1463,6 +1462,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 		$ids = $db->loadColumn();
 
+		$result = true;
+
 		// Check for error
 		if (!empty($ids))
 		{
@@ -1473,14 +1474,15 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 				{
 					$this->setError($table->getError());
 
-					return false;
+					$result = false;
 				}
 			}
+
 			// Rebuild the whole tree
 			$table->rebuild();
 		}
 
-		return true;
+		return $result;
 	}
 
 	/**
@@ -1495,7 +1497,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	 */
 	protected function _rollback_menu($step)
 	{
-		return $this->_removeAdminMenus((object) array('extension_id' => $step['id']));
+		return $this->_removeAdminMenus($step['id']);
 	}
 
 	/**
