@@ -1785,10 +1785,10 @@ class PlgSystemDebug extends JPlugin
 		{
 			if (isset($timings[$id * 2 + 1]))
 			{
-				$temp    = str_replace('`', '', $log[$id]);
-				$temp    = str_replace("\t", " ", $temp);
-				$temp    = str_replace("\n", " ", $temp);
-				$current.= str_replace("\r\n", " ", $temp) . ";\n";
+				$temp     = str_replace('`', '', $log[$id]);
+				$temp     = str_replace("\t", " ", $temp);
+				$temp     = str_replace("\n", " ", $temp);
+				$current .= str_replace("\r\n", " ", $temp) . ";\n";
 			}
 		}
 
