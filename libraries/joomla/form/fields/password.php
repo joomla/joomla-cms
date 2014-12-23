@@ -95,7 +95,7 @@ class JFormFieldPassword extends JFormField
 				break;
 
 			case 'meter':
-				$this->$meter = ($value === 'true' || $value === $name || $value === '1');
+				$this->meter = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
 			default:
