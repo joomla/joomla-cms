@@ -108,7 +108,7 @@ INSTALLATION
 
 	flush privileges;
 
-	and then enter 'exit' or 'quit' to exit MySQL
+	and then enter 'exit' or 'quit' to exit MySQL.
 
 	Alternatively you can use your web control panel or phpMyAdmin to
 	create a database for Joomla.
