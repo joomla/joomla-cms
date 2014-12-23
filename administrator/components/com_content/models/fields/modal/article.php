@@ -133,19 +133,19 @@ class JFormFieldModal_Article extends JFormField
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35" />';
 		$html[] = '<a class="modal btn hasTooltip" title="' . JHtml::tooltipText('COM_CONTENT_CHANGE_ARTICLE') . '"  href="' . $link . '&amp;' . JSession::getFormToken() .
-			'=1" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-file"></i> ' . JText::_('JSELECT') . '</a>';
+			'=1" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-file"></i>' . JText::_('JSELECT') . '</a>';
 
 		// Edit article button
 		if ($allowEdit)
 		{
-			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden') . '" href="index.php?option=com_content&layout=modal&tmpl=component&task=article.edit&id=' . $value . '" target="_blank" title="' . JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '" ><span class="icon-edit"></span> ' . JText::_('JACTION_EDIT') . '</a>';
+			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden') . '" href="index.php?option=com_content&layout=modal&tmpl=component&task=article.edit&id=' . $value . '" target="_blank" title="' . JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '" ><span class="icon-edit"></span> .  JText::__('JACTION_EDIT') . '</a>';
 		}
 
 		// Clear article button
 		if ($allowClear)
 		{
 			$html[] = '<button id="' . $this->id . '_clear" class="btn' . ($value ? '' : ' hidden') . '" onclick="return jClearArticle(\'' .
-				$this->id . '\')"><span class="icon-remove"></span> ' . JText::_('JCLEAR') . '</button>';
+				$this->id . '\')"><span class="icon-remove"></span> .  JText::__('JCLEAR') . '</button>';
 		}
 
 		$html[] = '</span>';
