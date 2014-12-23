@@ -95,7 +95,7 @@ class JHtmlInstallation
 		$input = JFactory::getApplication()->input;
 		$num   = static::getTabNumber($id, $tabs);
 		$view  = static::getTabNumber($input->getWord('view'), $tabs);
-		$tab   = '<span class="badge">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
+		$tab   = '<span class="badge">' . $num . '</span>' .  JText::__('INSTL_STEP_' . strtoupper($id) . '_LABEL');
 
 		if ($view + 1 == $num)
 		{

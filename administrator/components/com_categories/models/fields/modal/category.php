@@ -148,7 +148,7 @@ class JFormFieldModal_Category extends JFormField
 			. ' title="' . JHtml::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '"'
 			. ' href="' . $link . '&amp;' . JSession::getFormToken() . '=1"'
 			. ' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
-			. '<i class="icon-file"></i> ' . JText::_('JSELECT')
+			. '<i class="icon-file"></i>' . JText::_('JSELECT')
 			. '</a>';
 
 		// Edit category button
@@ -159,7 +159,7 @@ class JFormFieldModal_Category extends JFormField
 				. ' href="index.php?option=com_categories&layout=modal&tmpl=component&task=category.edit&id=' . $value . '"'
 				. ' target="_blank"'
 				. ' title="' . JHtml::tooltipText('COM_CATEGORIES_EDIT_CATEGORY') . '" >'
-				. '<span class="icon-edit"></span> ' . JText::_('JACTION_EDIT')
+				. '<span class="icon-edit"></span>' . JText::__('JACTION_EDIT')
 				. '</a>';
 		}
 
@@ -170,7 +170,7 @@ class JFormFieldModal_Category extends JFormField
 				. ' id="' . $this->id . '_clear"'
 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
 				. ' onclick="return jClearCategory(\'' . $this->id . '\')">'
-				. '<span class="icon-remove"></span> ' . JText::_('JCLEAR')
+				. '<span class="icon-remove"></span>' .  JText::__('JCLEAR')
 				. '</button>';
 		}
 

@@ -141,7 +141,7 @@ class JFormFieldModal_Contact extends JFormField
 			. ' title="' . JHtml::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '"'
 			. ' href="' . $link . '&amp;' . JSession::getFormToken() . '=1"'
 			. ' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
-			. '<i class="icon-file"></i> ' . JText::_('JSELECT')
+			. '<i class="icon-file"></i>' . JText::_('JSELECT')
 			. '</a>';
 
 		// Edit contact button.
@@ -152,7 +152,7 @@ class JFormFieldModal_Contact extends JFormField
 				. ' href="index.php?option=com_contact&layout=modal&tmpl=component&task=contact.edit&id=' . $value . '"'
 				. ' target="_blank"'
 				. ' title="' . JHtml::tooltipText('COM_CONTACT_EDIT_CONTACT') . '" >'
-				. '<span class="icon-edit"></span> ' . JText::_('JACTION_EDIT')
+				. '<span class="icon-edit"></span>' .  JText::__('JACTION_EDIT')
 				. '</a>';
 		}
 
@@ -163,7 +163,7 @@ class JFormFieldModal_Contact extends JFormField
 				. ' id="' . $this->id . '_clear"'
 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
 				. ' onclick="return jClearContact(\'' . $this->id . '\')">'
-				. '<span class="icon-remove"></span> ' . JText::_('JCLEAR')
+				. '<span class="icon-remove"></span>' .  JText::__('JCLEAR')
 				. '</button>';
 		}
 

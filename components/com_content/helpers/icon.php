@@ -44,7 +44,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = '<span class="icon-plus"></span>&#160;' . JText::_('JNEW') . '&#160;';
+				$text = '<span class="icon-plus"></span>  JText::_('JNEW') . '&#160;';
 			}
 		}
 		else
@@ -99,7 +99,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = '<span class="icon-envelope"></span> ' . JText::_('JGLOBAL_EMAIL');
+				$text = '<span class="icon-envelope"></span>' .  JText::__('JGLOBAL_EMAIL');
 			}
 		}
 		else
@@ -246,7 +246,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = '<span class="icon-print"></span>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;';
+				$text = '<span class="icon-print"></span>  JText::_('JGLOBAL_PRINT') . '&#160;';
 			}
 		}
 		else
@@ -282,7 +282,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = '<span class="icon-print"></span>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;';
+				$text = '<span class="icon-print"></span>  JText::_('JGLOBAL_PRINT') . '&#160;';
 			}
 		}
 		else
