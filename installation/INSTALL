@@ -70,10 +70,10 @@ INSTALLATION
 
 2. CREATE THE Joomla! DATABASE
 
-	Joomla! will currently only work with MySQL. In the following examples,
-	"db_user" is an example MySQL user which has the CREATE and GRANT
-	privileges. You will need to use the appropriate user name for your
-	system.
+	Joomla! will currently work with MySQL/MSSQL/PostgreSQL.
+	In the following examples, "db_user" is an example MySQL user
+	which has the CREATE and GRANT privileges. You will need to use
+	the appropriate user name for your system.
 
 	First, you must create a new database for your Joomla! site e.g.
 
