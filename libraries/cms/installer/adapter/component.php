@@ -396,11 +396,11 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$db = $this->parent->getDBO();
 
 			$query = $db->getQuery(true)
-				->select($db->qn('extension_id'))
-				->from($db->qn('#__extensions'))
-				->where($db->qn('name') . ' = ' . $db->q($this->extension->name))
-				->where($db->qn('type') . ' = ' . $db->q($this->extension->type))
-				->where($db->qn('element') . ' = ' . $db->q($this->extension->element));
+						->select($db->qn('extension_id'))
+						->from($db->qn('#__extensions'))
+						->where($db->qn('name') . ' = ' . $db->q($this->extension->name))
+						->where($db->qn('type') . ' = ' . $db->q($this->extension->type))
+						->where($db->qn('element') . ' = ' . $db->q($this->extension->element));
 
 			$db->setQuery($query);
 
@@ -1123,8 +1123,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
-			->delete('#__schemas')
-			->where('extension_id = ' . $id);
+					->delete('#__schemas')
+					->where('extension_id = ' . $id);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -1138,9 +1138,9 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 		// Remove categories for this component
 		$query->clear()
-			->delete('#__categories')
-			->where('extension=' . $db->quote($this->element), 'OR')
-			->where('extension LIKE ' . $db->quote($this->element . '.%'));
+			  ->delete('#__categories')
+			  ->where('extension=' . $db->quote($this->element), 'OR')
+			  ->where('extension LIKE ' . $db->quote($this->element . '.%'));
 		$db->setQuery($query);
 		$db->execute();
 
@@ -1200,27 +1200,26 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	/**
 	 * Method to build menu database entries for a component
 	 *
+	 * @param   int|null  $component_id  The component ID for which I'm building menus
+	 *
 	 * @return  boolean  True if successful
 	 *
 	 * @since   3.1
 	 */
-	protected function _buildAdminMenus()
+	protected function _buildAdminMenus($component_id = null)
 	{
 		$db     = $this->parent->getDbo();
-
-		/** @var  JTableMenu  $table */
-		$table  = JTable::getInstance('menu');
 
 		$option = $this->get('element');
 
 		// If a component exists with this option in the table then we don't need to add menus
 		$query = $db->getQuery(true)
-			->select('m.id, e.extension_id')
-			->from('#__menu AS m')
-			->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
-			->where('m.parent_id = 1')
-			->where('m.client_id = 1')
-			->where('e.element = ' . $db->quote($option));
+					->select('m.id, e.extension_id')
+					->from('#__menu AS m')
+					->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
+					->where('m.parent_id = 1')
+					->where('m.client_id = 1')
+					->where('e.element = ' . $db->quote($option));
 
 		$db->setQuery($query);
 
@@ -1248,15 +1247,19 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			}
 		}
 
-		// Lets find the extension id
-		$query->clear()
-			->select('e.extension_id')
-			->from('#__extensions AS e')
-			->where('e.type = ' . $db->quote('component'))
-			->where('e.element = ' . $db->quote($option));
+		// Only try to detect the component ID if it's not provided
+		if (empty($component_id))
+		{
+			// Lets find the extension id
+			$query->clear()
+				  ->select('e.extension_id')
+				  ->from('#__extensions AS e')
+				  ->where('e.type = ' . $db->quote('component'))
+				  ->where('e.element = ' . $db->quote($option));
 
-		$db->setQuery($query);
-		$component_id = $db->loadResult();
+			$db->setQuery($query);
+			$component_id = $db->loadResult();
+		}
 
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
 		$menuElement = $this->manifest->administration->menu;
@@ -1309,22 +1312,11 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		// Try to create the menu item in the database
-		try
-		{
-			$table->setLocation(1, 'last-child');
-		}
-		catch (InvalidArgumentException $e)
-		{
-			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+		$parent_id = $this->_createAdminMenuItem($data, 1);
 
+		if ($parent_id === false)
+		{
 			return false;
-		}
-
-		$result = $this->_createAdminMenuItem($table, $data);
-
-		if ($result === false)
-		{
-			return $result;
 		}
 
 		/*
@@ -1336,8 +1328,6 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			// No submenu? We're done.
 			return true;
 		}
-
-		$parent_id = $table->id;
 
 		foreach ($this->manifest->administration->submenu->menu as $child)
 		{
@@ -1396,20 +1386,11 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 				$data['link'] = 'index.php?option=' . $option . $qstring;
 			}
 
-			try
-			{
-				$table->setLocation($parent_id, 'last-child');
-			}
-			catch (InvalidArgumentException $e)
+			$submenuId = $this->_createAdminMenuItem($data, $parent_id);
+
+			if ($submenuId === false)
 			{
 				return false;
-			}
-
-			$result = $this->_createAdminMenuItem($table, $data);
-
-			if ($result === false)
-			{
-				return $result;
 			}
 
 			/*
@@ -1440,10 +1421,10 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 		// Get the ids of the menu items
 		$query = $db->getQuery(true)
-			->select('id')
-			->from('#__menu')
-			->where($db->quoteName('client_id') . ' = 1')
-			->where($db->quoteName('component_id') . ' = ' . (int) $id);
+					->select('id')
+					->from('#__menu')
+					->where($db->quoteName('client_id') . ' = 1')
+					->where($db->quoteName('component_id') . ' = ' . (int) $id);
 
 		$db->setQuery($query);
 
@@ -1893,14 +1874,28 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	/**
 	 * Creates the menu item in the database. If the item already exists it tries to remove it and create it afresh.
 	 *
-	 * @param   JTableMenu  &$table  The menu table on which to create the menu item
-	 * @param   array       &$data   The menu item data to create
+	 * @param   array       &$data     The menu item data to create
+	 * @param   integer     $parentId  The parent menu item ID
 	 *
-	 * @return  bool  True on success
+	 * @return  bool|int  Menu item ID on success, false on failure
 	 */
-	protected function _createAdminMenuItem(JTableMenu &$table, array &$data)
+	protected function _createAdminMenuItem(array &$data, $parentId)
 	{
 		$db = $this->parent->getDbo();
+
+		/** @var  JTableMenu  $table */
+		$table  = JTable::getInstance('menu');
+
+		try
+		{
+			$table->setLocation($parentId, 'last-child');
+		}
+		catch (InvalidArgumentException $e)
+		{
+			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+
+			return false;
+		}
 
 		if ( !$table->bind($data) || !$table->check() || !$table->store())
 		{
@@ -1933,7 +1928,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 				$temporaryTable->rebuild($data['parent_id']);
 
 				// Retry creating the menu item
-				$table->setLocation(1, 'last-child');
+				$table->setLocation($parentId, 'last-child');
 
 				if ( !$table->bind($data) || !$table->check() || !$table->store())
 				{
@@ -1945,7 +1940,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			}
 		}
 
-		return true;
+		return $table->id;
 	}
 }
 
