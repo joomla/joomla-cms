@@ -2205,4 +2205,116 @@ class JInstaller extends JAdapter
 
 		return $data;
 	}
+
+	/**
+	 * Gets a list of available install adapters.
+	 *
+	 * @param   array  $options  An array of options to inject into the adapter
+	 * @param   array  $custom   Array of custom install adapters
+	 *
+	 * @return  array  An array of available install adapters.
+	 *
+	 * @since   3.4
+	 * @note    As of 4.0, this method will only return the names of available adapters and will not
+	 *          instantiate them and store to the $_adapters class var.
+	 */
+	public function getAdapters($options = array(), array $custom = array())
+	{
+		$files = new DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
+
+		// Process the core adapters
+		foreach ($files as $file)
+		{
+			$fileName = $file->getFilename();
+
+			// Only load for php files.
+			if (!$file->isFile() || $file->getExtension() != 'php')
+			{
+				continue;
+			}
+
+			// Derive the class name from the filename.
+			$name  = str_ireplace('.php', '', trim($fileName));
+			$class = $this->_classprefix . ucfirst($name);
+
+			// Core adapters should autoload based on classname, keep this fallback just in case
+			if (!class_exists($class))
+			{
+				// Try to load the adapter object
+				require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName;
+
+				if (!class_exists($class))
+				{
+					// Skip to next one
+					continue;
+				}
+			}
+
+			$this->_adapters[$name] = $this->loadAdapter($name, $options);
+		}
+
+		// Add any custom adapters if specified
+		if (count($custom) >= 1)
+		{
+			foreach ($custom as $adapter)
+			{
+				// Setup the class name
+				// TODO - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
+				$class = $this->_classprefix . ucfirst(trim($adapter));
+
+				// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
+				if (!class_exists($class))
+				{
+					continue;
+				}
+
+				$this->_adapters[$name] = $this->loadAdapter($name, $options);
+			}
+		}
+
+		return $this->_adapters;
+	}
+
+	/**
+	 * Method to load an adapter instance
+	 *
+	 * @param   string  $adapter  Adapter name
+	 * @param   array   $options  Adapter options
+	 *
+	 * @return  JInstallerAdapter
+	 *
+	 * @since   3.4
+	 * @throws  InvalidArgumentException
+	 */
+	public function loadAdapter($adapter, $options = array())
+	{
+		$class = 'JInstallerAdapter' . ucfirst($adapter);
+
+		// Verify the class exists
+		if (!class_exists($class))
+		{
+			throw new InvalidArgumentException(sprintf('The %s install adapter does not exist.', $adapter));
+		}
+
+		// Ensure the adapter type is part of the options array
+		$options['type'] = $adapter;
+
+		return new $class($this, $this->db, $options);
+	}
+
+	/**
+	 * Loads all adapters.
+	 *
+	 * @param   array  $options  Adapter options
+	 *
+	 * @return  void
+	 *
+	 * @since       3.4
+	 * @deprecated  4.0  Individual adapters should be instantiated as needed
+	 * @note        This method is serving as a proxy of the legacy JAdapter API into the preferred API
+	 */
+	public function loadAllAdapters($options = array())
+	{
+		$this->getAdapters($options);
+	}
 }

@@ -89,6 +89,14 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	protected $route = 'install';
 
 	/**
+	 * The type of adapter in use
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $type;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JInstaller       $parent   Parent object
@@ -101,16 +109,16 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	{
 		parent::__construct($parent, $db, $options);
 
-		// Set the install route from the options if set
-		if (isset($options['route']))
-		{
-			$this->setRoute($options['route']);
-		}
-
 		// Get a generic JTableExtension instance for use if not already loaded
 		if (!($this->extension instanceof JTableInterface))
 		{
 			$this->extension = JTable::getInstance('extension');
+		}
+
+		// Sanity check, make sure the type is set by taking the adapter name from the class name
+		if (!$this->type)
+		{
+			$this->type = strtolower(str_replace('JInstallerAdapter', '', get_called_class()));
 		}
 	}
 
