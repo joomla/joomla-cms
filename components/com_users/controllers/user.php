@@ -224,41 +224,26 @@ class UsersControllerUser extends UsersController
 				$message = JText::_('COM_USERS_REMIND_REQUEST_ERROR');
 			}
 
-			// Get the route to the next page.
-			$itemid = UsersHelperRoute::getRemindRoute();
-			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-			$route  = 'index.php?option=com_users&view=remind' . $itemid;
-
 			// Go back to the complete form.
-			$this->setRedirect(JRoute::_($route, false), $message, 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=remind', false), $message, 'error');
 
 			return false;
 		}
 		elseif ($return === false)
 		{
 			// Complete failed.
-			// Get the route to the next page.
-			$itemid = UsersHelperRoute::getRemindRoute();
-			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-			$route  = 'index.php?option=com_users&view=remind' . $itemid;
-
 			// Go back to the complete form.
 			$message = JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=remind', false), $message, 'notice');
 
 			return false;
 		}
 		else
 		{
 			// Complete succeeded.
-			// Get the route to the next page.
-			$itemid = UsersHelperRoute::getLoginRoute();
-			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-			$route	= 'index.php?option=com_users&view=login' . $itemid;
-
 			// Proceed to the login form.
 			$message = JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
-			$this->setRedirect(JRoute::_($route, false), $message);
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false), $message);
 
 			return true;
 		}
