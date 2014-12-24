@@ -286,25 +286,29 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 
 			function processScrollInit()
 			{
-				navTop = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>;
-
-				// Only apply the scrollspy when the toolbar is not collapsed
-				if (document.body.clientWidth > 480)
-				{
-					$('.subhead-collapse').height($('.subhead').height());
-					$('.subhead').scrollspy({offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}});
+				if ($('.subhead').length) {
+					navTop = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>;
+	
+					// Only apply the scrollspy when the toolbar is not collapsed
+					if (document.body.clientWidth > 480)
+					{
+						$('.subhead-collapse').height($('.subhead').height());
+						$('.subhead').scrollspy({offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}});
+					}
 				}
 			}
 
 			function processScroll()
 			{
-				var scrollTop = $(window).scrollTop();
-				if (scrollTop >= navTop && !isFixed) {
-					isFixed = true;
-					$('.subhead').addClass('subhead-fixed');
-				} else if (scrollTop <= navTop && isFixed) {
-					isFixed = false;
-					$('.subhead').removeClass('subhead-fixed');
+				if ($('.subhead').length) {
+					var scrollTop = $(window).scrollTop();
+					if (scrollTop >= navTop && !isFixed) {
+						isFixed = true;
+						$('.subhead').addClass('subhead-fixed');
+					} else if (scrollTop <= navTop && isFixed) {
+						isFixed = false;
+						$('.subhead').removeClass('subhead-fixed');
+					}
 				}
 			}
 		});
