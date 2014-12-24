@@ -48,7 +48,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php endif; ?>
 				<?php  if ($this->params->get('show_articles')) : ?>
 					<span class="list-hits badge badge-info pull-right">
-						<?php echo  JText::sprintf('COM_NEWSFEEDS_NUM_ARTICLES_COUNT', $item->numarticles); ?>
+						<?php echo JText::sprintf('COM_NEWSFEEDS_NUM_ARTICLES_COUNT', $item->numarticles); ?>
 					</span>
 				<?php  endif; ?>
 				<span class="list pull-left">

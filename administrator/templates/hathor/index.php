@@ -147,7 +147,7 @@ else
 			<div class="clr"></div>
 		</div><!-- end of element-box -->
 		<noscript>
-			<?php echo  JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
+			<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 		</noscript>
 		<div class="clr"></div>
 	</div><!-- end of content -->
