@@ -61,6 +61,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 					JText::sprintf(
 						'JLIB_INSTALLER_ABORT_DIRECTORY',
 						JText::_('JLIB_INSTALLER_' . $this->route),
+						$this->type,
 						$this->parent->getPath('extension_root')
 					)
 				);

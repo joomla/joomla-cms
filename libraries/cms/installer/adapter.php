@@ -187,6 +187,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					JText::sprintf(
 						'JLIB_INSTALLER_ABORT_DIRECTORY',
 						JText::_('JLIB_INSTALLER_' . $this->route),
+						$this->type,
 						$this->parent->getPath('extension_root')
 					)
 				);
@@ -223,7 +224,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			{
 				throw new RuntimeException(
 					JText::sprintf(
-						'JLIB_INSTALLER_ABORT_DIRECTORY',
+						'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
 						JText::_('JLIB_INSTALLER_' . $this->route),
 						$this->parent->getPath('extension_root')
 					)
