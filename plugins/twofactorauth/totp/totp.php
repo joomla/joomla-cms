@@ -183,6 +183,12 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		// Load raw data
 		$rawData = $input->get('jform', array(), 'array');
+
+		if (!isset($rawData['twofactor']['totp']))
+		{
+			return false;
+		}
+
 		$data = $rawData['twofactor']['totp'];
 
 		// Warn if the securitycode is empty
