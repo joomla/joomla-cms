@@ -107,11 +107,7 @@ class JCategories
 		$options['access'] = (isset($options['access'])) ? $options['access'] : 'true';
 		$options['published'] = (isset($options['published'])) ? $options['published'] : 1;
 		$options['countItems'] = (isset($options['countItems'])) ? $options['countItems'] : 0;
-		$options['currentlang'] = (isset($options['currentlang']) && JLanguageMultilang::isEnabled()) ? $options['currentlang'] : 0;
-		if ($options['currentlang'] == 1)
-		{
-			$options['currentlang'] = JFactory::getLanguage()->getTag();
-		}
+		$options['currentlang'] = JLanguageMultilang::isEnabled() ? JFactory::getLanguage()->getTag() : 0;
 		$this->_options = $options;
 
 		return true;
