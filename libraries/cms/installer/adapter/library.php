@@ -122,6 +122,8 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	/**
 	 * Get the filtered extension element from the manifest
 	 *
+	 * @param   string  $element  Optional element name to be converted
+	 *
 	 * @return  string  The filtered element
 	 *
 	 * @since   3.4

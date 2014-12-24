@@ -169,7 +169,8 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			throw new RuntimeException(
 				JText::sprintf(
 					'JLIB_INSTALLER_ABORT_PLG_INSTALL_COPY_SETUP',
-					JText::_('JLIB_INSTALLER_' . $this->route))
+					JText::_('JLIB_INSTALLER_' . $this->route)
+				)
 			);
 		}
 	}
