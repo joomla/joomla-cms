@@ -45,7 +45,7 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 	public function preprocess(&$query)
 	{
 	}
-	
+
 	/**
 	 * Build the route for the com_content component
 	 *
