@@ -52,12 +52,12 @@ JFactory::getDocument()->addScriptDeclaration("
 		<div class="btn-toolbar">
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('article.save')">
-					<span class="icon-ok"></span>&#160;<?php echo JText::_('JSAVE') ?>
+					<span class="icon-ok"></span><?php echo JText::_('JSAVE') ?>
 				</button>
 			</div>
 			<div class="btn-group">
 				<button type="button" class="btn" onclick="Joomla.submitbutton('article.cancel')">
-					<span class="icon-cancel"></span>&#160;<?php echo JText::_('JCANCEL') ?>
+					<span class="icon-cancel"></span><?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
 			<?php if ($params->get('save_history', 0)) : ?>
