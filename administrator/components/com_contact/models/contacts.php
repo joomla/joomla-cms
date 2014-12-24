@@ -200,6 +200,12 @@ class ContactModelContacts extends JModelList
 		{
 			$query->where('a.access = ' . (int) $access);
 		}
+		
+		// Filter by user_id.
+		if (($user_id = $this->getState('filter.user_id')))
+		{
+			$query->where('a.user_id = ' . (int) $user_id);
+		}
 
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
