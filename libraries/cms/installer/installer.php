@@ -501,10 +501,14 @@ class JInstaller extends JAdapter
 				return false;
 			}
 
+			$adapter = null;
+
 			// Lazy load the adapter
 			if (!isset($this->_adapters[$this->extension->type]) || !is_object($this->_adapters[$this->extension->type]))
 			{
-				if (!$this->setAdapter($this->extension->type))
+				$params = array('extension' => $this->extension, 'route' => 'discover_install');
+
+				if (!$this->setAdapter($this->extension->type, $adapter, $params))
 				{
 					return false;
 				}
@@ -683,9 +687,13 @@ class JInstaller extends JAdapter
 	 */
 	public function uninstall($type, $identifier, $cid = 0)
 	{
+		$adapter = null;
+
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
 		{
-			if (!$this->setAdapter($type))
+			$params = array('extension' => $this->extension, 'route' => 'uninstall');
+
+			if (!$this->setAdapter($type, $adapter, $params))
 			{
 				// We failed to get the right adapter
 				return false;
@@ -793,11 +801,13 @@ class JInstaller extends JAdapter
 	 * Prepare for installation: this method sets the installation directory, finds
 	 * and checks the installation file and verifies the installation type.
 	 *
+	 * @param   string  $route  The install route being followed
+	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
 	 */
-	public function setupInstall()
+	public function setupInstall($route = 'install')
 	{
 		// We need to find the installation manifest file
 		if (!$this->findManifest())
@@ -806,12 +816,14 @@ class JInstaller extends JAdapter
 		}
 
 		// Load the adapter(s) for the install manifest
-		$type = (string) $this->manifest->attributes()->type;
+		$type    = (string) $this->manifest->attributes()->type;
+		$adapter = null;
+		$params  = array('route' => $route);
 
 		// Lazy load the adapter
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
 		{
-			if (!$this->setAdapter($type))
+			if (!$this->setAdapter($type, $adapter, $params))
 			{
 				return false;
 			}

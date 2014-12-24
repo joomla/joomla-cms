@@ -469,11 +469,11 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$this->manifest = $this->getManifest();
 
 		// Set the extensions name
-		$this->set('name', $this->getName());
-		$this->set('element', $this->getElement());
+		$this->name    = $this->getName();
+		$this->element = $this->getElement();
 
 		// Get the component description
-		$this->parent->set('message', JText::_((string) $this->manifest->description));
+		$this->parent->message = JText::_((string) $this->manifest->description);
 
 		// Set the installation target paths
 		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE . '/components/' . $this->get('element')));
@@ -511,6 +511,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			// If we're on the update route now, transfer control to the update method
 			if ($this->checkExtensionInFilesystem())
 			{
+				$this->setRoute('update');
+
 				return $this->update();
 			}
 		}
@@ -528,7 +530,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		 */
 
 		$this->setupScriptfile();
-		$this->triggerManifestScript('preflight', 'install');
+		$this->triggerManifestScript('preflight');
 
 		// If the component directory does not exist, let's create it
 		try
@@ -566,7 +568,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		// Run the install queries for the component
 		try
 		{
-			$this->parseQueries('install');
+			$this->parseQueries();
 		}
 		catch (RuntimeException $e)
 		{
@@ -615,7 +617,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		// And now we run the postflight
-		$this->triggerManifestScript('postflight', 'install');
+		$this->triggerManifestScript('postflight');
 
 		return $this->extension->extension_id;
 	}

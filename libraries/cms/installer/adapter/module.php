@@ -27,14 +27,6 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	protected $clientId;
 
 	/**
-	 * Install function routing
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	protected $route = 'Install';
-
-	/**
 	 * <scriptfile> element of the extension manifest
 	 *
 	 * @var    object
@@ -399,11 +391,11 @@ class JInstallerAdapterModule extends JInstallerAdapter
 
 		if ($description)
 		{
-			$this->parent->set('message', JText::_($description));
+			$this->parent->message = JText::_($description);
 		}
 		else
 		{
-			$this->parent->set('message', '');
+			$this->parent->message = '';
 		}
 
 		/*
@@ -500,7 +492,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 				if ($id)
 				{
 					// If there is a matching extension mark this as an update; semantics really
-					$this->route = 'Update';
+					$this->setRoute('update');
 				}
 			}
 			elseif (!$this->parent->isOverwrite())
@@ -526,7 +518,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		 */
 
 		$this->setupScriptfile();
-		$this->triggerManifestScript('preflight', $this->route);
+		$this->triggerManifestScript('preflight');
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
@@ -583,7 +575,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		// Let's run the queries for the module
 		try
 		{
-			$this->parseQueries($this->route);
+			$this->parseQueries();
 		}
 		catch (RuntimeException $e)
 		{
@@ -615,7 +607,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		}
 
 		// And now we run the postflight
-		$this->triggerManifestScript('postflight', $this->route);
+		$this->triggerManifestScript('postflight');
 
 		return $this->extension->extension_id;
 	}
@@ -636,7 +628,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		$this->parent->setUpgrade(true);
 
 		// Set the route for the install
-		$this->route = 'update';
+		$this->setRoute('update');
 
 		// Go to install which handles updates properly
 		return $this->install();

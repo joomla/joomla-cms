@@ -81,6 +81,14 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	protected $name = null;
 
 	/**
+	 * Install function routing
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $route = 'install';
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JInstaller       $parent   Parent object
@@ -93,6 +101,12 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	{
 		parent::__construct($parent, $db, $options);
 
+		// Set the install route from the options if set
+		if (isset($options['route']))
+		{
+			$this->setRoute($options['route']);
+		}
+
 		// Get a generic JTableExtension instance for use if not already loaded
 		if (!($this->extension instanceof JTableInterface))
 		{
@@ -103,32 +117,30 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	/**
 	 * Method to handle database transactions for the installer
 	 *
-	 * @param   string  $route  The installation route
-	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
-	protected function doDatabaseTransactions($route)
+	protected function doDatabaseTransactions()
 	{
 		// Get a database connector object
 		$db = $this->parent->getDbo();
 
 		// Let's run the install queries for the component
-		if (isset($this->manifest->{$route}->sql))
+		if (isset($this->manifest->{$this->route}->sql))
 		{
-			$result = $this->parent->parseSQLFiles($this->manifest->{$route}->sql);
+			$result = $this->parent->parseSQLFiles($this->manifest->{$this->route}->sql);
 
 			if ($result === false)
 			{
 				// Only rollback if installing
-				if ($route == 'install')
+				if ($this->route == 'install')
 				{
 					throw new RuntimeException(
 						JText::sprintf(
 							'JLIB_INSTALLER_ABORT_SQL_ERROR',
-							JText::_('JLIB_INSTALLER_' . strtoupper($route)),
+							JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 							$db->stderr(true)
 						)
 					);
@@ -241,17 +253,15 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	/**
 	 * Method to parse the queries specified in the <sql> tags
 	 *
-	 * @param   string  $route  The installation route
-	 *
 	 * @return  void
 	 *
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
-	protected function parseQueries($route)
+	protected function parseQueries()
 	{
 		// Let's run the queries for the plugin
-		if ($route == 'install')
+		if ($this->route == 'install')
 		{
 			if (!$this->doDatabaseTransactions('install'))
 			{
@@ -265,7 +275,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 				$this->parent->setSchemaVersion($this->manifest->update->schemas, $this->extension->extension_id);
 			}
 		}
-		elseif ($route == 'update')
+		elseif ($this->route == 'update')
 		{
 			if ($this->manifest->update)
 			{
@@ -278,6 +288,22 @@ abstract class JInstallerAdapter extends JAdapterInstance
 				}
 			}
 		}
+	}
+
+	/**
+	 * Set the install route being followed
+	 *
+	 * @param   string  $route  The install route being followed
+	 *
+	 * @return  JInstallerAdapter  Instance of this class to support chaining
+	 *
+	 * @since   3.4
+	 */
+	public function setRoute($route)
+	{
+		$this->route = $route;
+
+		return $this;
 	}
 
 	/**
@@ -319,14 +345,13 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 * Executes a custom install script method
 	 *
 	 * @param   string  $method  The install method to execute
-	 * @param   string  $route   The route for preflight/postflight scripts
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
-	protected function triggerManifestScript($method, $route = null)
+	protected function triggerManifestScript($method)
 	{
 		ob_start();
 		ob_implicit_flush(false);
@@ -338,7 +363,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 				// The preflight and postflight take the route as a param
 				case 'preflight' :
 				case 'postflight' :
-					if ($this->parent->manifestClass->$method($route, $this) === false)
+					if ($this->parent->manifestClass->$method($this->route, $this) === false)
 					{
 						if ($method != 'postflight')
 						{
