@@ -29,6 +29,44 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 	protected $core = false;
 
 	/**
+	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function copyBaseFiles()
+	{
+		// TODO - Refactor adapter to use common code
+	}
+
+	/**
+	 * Method to do any prechecks and setup the install paths for the extension
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function setupInstallPaths()
+	{
+		// TODO - Refactor adapter to use common code
+	}
+
+	/**
+	 * Method to store the extension to the database
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function storeExtension()
+	{
+		// TODO - Refactor adapter to use common code
+	}
+
+	/**
 	 * Custom install method
 	 *
 	 * Note: This behaves badly due to hacks made in the middle of 1.5.x to add

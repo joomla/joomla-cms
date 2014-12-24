@@ -49,7 +49,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			$this->currentExtensionId = $this->extension->find(
 				array(
 					'element'   => $this->element,
-					'type'      => 'module',
+					'type'      => $this->type,
 					'client_id' => $this->clientId
 				)
 			);
@@ -59,7 +59,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			// Install failed, roll back changes
 			throw new RuntimeException(
 				JText::sprintf(
-					'JLIB_INSTALLER_ABORT_MOD_ROLLBACK',
+					'JLIB_INSTALLER_ABORT_ROLLBACK',
 					JText::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
 				)
@@ -80,7 +80,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		// Copy all necessary files
 		if ($this->parent->parseFiles($this->manifest->files, -1) === false)
 		{
-			throw new RuntimeException('Failed to copy files');
+			throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_MOD_COPY_FILES'));
 		}
 
 		// If there is a manifest script, let's copy it.
@@ -97,50 +97,6 @@ class JInstallerAdapterModule extends JInstallerAdapter
 					throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_MANIFEST'));
 				}
 			}
-		}
-	}
-
-	/**
-	 * Method to create the extension root path if necessary
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 * @throws  RuntimeException
-	 */
-	protected function createExtensionRoot()
-	{
-		// If the extension directory does not exist, lets create it
-		$created = false;
-
-		if (!file_exists($this->parent->getPath('extension_root')))
-		{
-			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
-			{
-				throw new RuntimeException(
-					JText::sprintf(
-						'JLIB_INSTALLER_ABORT_MOD_INSTALL_CREATE_DIRECTORY',
-						JText::_('JLIB_INSTALLER_' . $this->route),
-						$this->parent->getPath('extension_root')
-					)
-				);
-			}
-		}
-
-		/*
-		 * Since we created the module directory and will want to remove it if
-		 * we have to roll back the installation, let's add it to the
-		 * installation step stack
-		 */
-
-		if ($created)
-		{
-			$this->parent->pushStep(
-				array(
-					'type' => 'folder',
-					'path' => $this->parent->getPath('extension_root')
-				)
-			);
 		}
 	}
 
@@ -263,6 +219,59 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	}
 
 	/**
+	 * Method to do any prechecks and setup the install paths for the extension
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function setupInstallPaths()
+	{
+		// Get the target application
+		$cname = (string) $this->manifest->attributes()->client;
+
+		if ($cname)
+		{
+			// Attempt to map the client to a base path
+			$client = JApplicationHelper::getClientInfo($cname, true);
+
+			if ($client === false)
+			{
+				throw new RuntimeException(
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT_MOD_UNKNOWN_CLIENT',
+						JText::_('JLIB_INSTALLER_' . $this->route),
+						$client->name
+					)
+				);
+			}
+
+			$basePath = $client->path;
+			$this->clientId = $client->id;
+		}
+		else
+		{
+			// No client attribute was found so we assume the site as the client
+			$basePath = JPATH_SITE;
+			$this->clientId = 0;
+		}
+
+		// Set the installation path
+		if (empty($this->element))
+		{
+			throw new RuntimeException(
+				JText::sprintf(
+					'JLIB_INSTALLER_ABORT_MOD_INSTALL_NOFILE',
+					JText::_('JLIB_INSTALLER_' . $this->route)
+				)
+			);
+		}
+
+		$this->parent->setPath('extension_root', $basePath . '/modules/' . $this->element);
+	}
+
+	/**
 	 * Method to store the extension to the database
 	 *
 	 * @return  void
@@ -363,253 +372,6 @@ class JInstallerAdapterModule extends JInstallerAdapter
 
 			$module->store();
 		}
-	}
-
-	/**
-	 * Custom install method
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public function install()
-	{
-		// Get the extension manifest object
-		$this->manifest = $this->getManifest();
-
-		/*
-		 * ---------------------------------------------------------------------------------------------
-		 * Manifest Document Setup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Set the extensions name
-		$this->name = $this->getName();
-
-		// Get the module description
-		$description = (string) $this->manifest->description;
-
-		if ($description)
-		{
-			$this->parent->message = JText::_($description);
-		}
-		else
-		{
-			$this->parent->message = '';
-		}
-
-		/*
-		 * ---------------------------------------------------------------------------------------------
-		 * Target Application Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Get the target application
-		if ($cname = (string) $this->manifest->attributes()->client)
-		{
-			// Attempt to map the client to a base path
-			$client = JApplicationHelper::getClientInfo($cname, true);
-
-			if ($client === false)
-			{
-				$this->parent->abort(
-					JText::sprintf(
-						'JLIB_INSTALLER_ABORT_MOD_UNKNOWN_CLIENT',
-						JText::_('JLIB_INSTALLER_' . $this->route),
-						$client->name
-					)
-				);
-
-				return false;
-			}
-
-			$basePath       = $client->path;
-			$this->clientId = $client->id;
-		}
-		else
-		{
-			// No client attribute was found so we assume the site as the client
-			$basePath       = JPATH_SITE;
-			$this->clientId = 0;
-		}
-
-		// Set the installation path
-		$this->element = $this->getElement();
-
-		if (empty($this->element))
-		{
-			$this->parent->abort(
-				JText::sprintf(
-					'JLIB_INSTALLER_ABORT_MOD_INSTALL_NOFILE',
-					JText::_('JLIB_INSTALLER_' . $this->route)
-				)
-			);
-
-			return false;
-		}
-
-		$this->parent->setPath('extension_root', $basePath . '/modules/' . $this->element);
-
-		/*
-		 * Check to see if a module by the same name is already installed
-		 * If it is, then update the table because if the files aren't there
-		 * we can assume that it was (badly) uninstalled
-		 * If it isn't, add an entry to extensions
-		 */
-		try
-		{
-			$this->checkExistingExtension();
-		}
-		catch (RuntimeException $e)
-		{
-			// Install failed, roll back changes
-			$this->parent->abort($e->getMessage());
-
-			return false;
-		}
-
-		/*
-		 * If the module directory already exists, then we will assume that the
-		 * module is already installed or another module is using that
-		 * directory.
-		 * Check that this is either an issue where its not overwriting or it is
-		 * set to upgrade anyway
-		 */
-
-		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
-		{
-			// Look for an update function or update tag
-			$updateElement = $this->manifest->update;
-
-			// Upgrade manually set or update function available or update tag detected
-			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement)
-			{
-				// Force this one
-				$this->parent->setOverwrite(true);
-				$this->parent->setUpgrade(true);
-
-				if ($id)
-				{
-					// If there is a matching extension mark this as an update; semantics really
-					$this->setRoute('update');
-				}
-			}
-			elseif (!$this->parent->isOverwrite())
-			{
-				// Overwrite is set
-				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
-				$this->parent->abort(
-					JText::sprintf(
-						'JLIB_INSTALLER_ABORT_MOD_INSTALL_DIRECTORY',
-						JText::_('JLIB_INSTALLER_' . $this->route),
-						$this->parent->getPath('extension_root')
-					)
-				);
-
-				return false;
-			}
-		}
-
-		/*
-		 * ---------------------------------------------------------------------------------------------
-		 * Installer Trigger Loading
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		$this->setupScriptfile();
-		$this->triggerManifestScript('preflight');
-
-		/*
-		 * ---------------------------------------------------------------------------------------------
-		 * Filesystem Processing Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// If the module directory does not exist, lets create it
-		try
-		{
-			$this->createExtensionRoot();
-		}
-		catch (RuntimeException $e)
-		{
-			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Copy all necessary files
-		try
-		{
-			$this->copyBaseFiles();
-		}
-		catch (RuntimeException $e)
-		{
-			// Install failed, rollback any changes
-			$this->parent->abort($e->getMessage());
-
-			return false;
-		}
-
-		// Parse optional tags
-		$this->parseOptionalTags();
-
-		/*
-		 * ---------------------------------------------------------------------------------------------
-		 * Database Processing Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		try
-		{
-			$this->storeExtension();
-		}
-		catch (RuntimeException $e)
-		{
-			// Install failed, roll back changes
-			$this->parent->abort($e->getMessage());
-
-			return false;
-		}
-
-		// Let's run the queries for the module
-		try
-		{
-			$this->parseQueries();
-		}
-		catch (RuntimeException $e)
-		{
-			// Install failed, rollback changes
-			$this->parent->abort($e->getMessage());
-
-			return false;
-		}
-
-		// Run the custom method based on the route
-		$this->triggerManifestScript($this->route);
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Finalization and Cleanup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		try
-		{
-			$this->finaliseInstall();
-		}
-		catch (RuntimeException $e)
-		{
-			// Install failed, roll back changes
-			$this->parent->abort($e->getMessage());
-
-			return false;
-		}
-
-		// And now we run the postflight
-		$this->triggerManifestScript('postflight');
-
-		return $this->extension->extension_id;
 	}
 
 	/**
