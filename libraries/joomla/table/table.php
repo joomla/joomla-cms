@@ -678,7 +678,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// If empty primary key there's is no need to load anything
 			if ($empty)
 			{
-				return false;
+				return true;
 			}
 		}
 		elseif (!is_array($keys))
