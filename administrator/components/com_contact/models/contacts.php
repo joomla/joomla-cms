@@ -200,7 +200,7 @@ class ContactModelContacts extends JModelList
 		{
 			$query->where('a.access = ' . (int) $access);
 		}
-		
+
 		// Filter by user_id.
 		if (($user_id = $this->getState('filter.user_id')))
 		{
