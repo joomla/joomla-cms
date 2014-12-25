@@ -95,7 +95,7 @@ class ContentViewFeatured extends JViewLegacy
 		{
 			JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::custom('featured.delete', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
+			JToolbarHelper::custom('featured.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
 			JToolbarHelper::archiveList('articles.archive');
 			JToolbarHelper::checkin('articles.checkin');
 		}
