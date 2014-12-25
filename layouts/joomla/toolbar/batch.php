@@ -13,6 +13,7 @@ JHtml::_('behavior.core');
 
 $title = $displayData['title'];
 $message = JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+$message = addslashes($message);
 ?>
 <button data-toggle="modal" onclick="if (document.adminForm.boxchecked.value==0){alert('<?php echo $message; ?>');  }else{jQuery( '#collapseModal' ).modal('show'); return true;}" class="btn btn-small">
 	<i class="icon-checkbox-partial" title="<?php echo $title; ?>"></i>
