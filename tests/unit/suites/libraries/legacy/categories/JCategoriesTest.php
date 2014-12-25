@@ -39,7 +39,7 @@ class JCategoriesTest extends TestCaseDatabase
 		// Add JApplication and JLanguage dependencies
 		$this->saveFactoryState();
 		JFactory::$language = $this->getMockLanguage();
-		JFactory::$application = $this->getMockCmsApp();;
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**
