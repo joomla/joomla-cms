@@ -272,7 +272,7 @@ class JCategories
 
 			if ($this->_options['currentlang'] !== 0)
 			{
-				$queryjoin .= ' AND (i.language = \'*\' OR i.language = ' . $db->quote($this->_options['currentlang']) . ')';
+				$queryjoin .= ' AND (i.language = ' . $db->quote('*') . ' OR i.language = ' . $db->quote($this->_options['currentlang']) . ')';
 			}
 
 			$query->join('LEFT', $queryjoin);
