@@ -169,7 +169,7 @@ class ContactModelContact extends JModelAdmin
 
 				if (!$this->table->store())
 				{
-					$this->this->setError($table->getError());
+					$this->setError($this->table->getError());
 
 					return false;
 				}
