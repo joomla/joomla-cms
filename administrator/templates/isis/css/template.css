@@ -7780,6 +7780,14 @@ ul.treeselect ul.dropdown-menu li {
 }
 td.has-context {
 	height: 23px;
+	white-space: -moz-pre-wrap !important;
+	white-space: -webkit-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	word-break: break-all;
+	white-space: normal;
 }
 td.nowrap.has-context {
 	width: 45%;
