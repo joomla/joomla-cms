@@ -96,8 +96,8 @@ class BannersControllerTracks extends JControllerLegacy
 			$cookie_domain = $config->get('cookie_domain', '');
 			$cookie_path = $config->get('cookie_path', '/');
 
-			setcookie(JApplication::getHash($this->context . '.basename'), $form['basename'], time() + 365 * 86400, $cookie_path, $cookie_domain);
-			setcookie(JApplication::getHash($this->context . '.compressed'), $form['compressed'], time() + 365 * 86400, $cookie_path, $cookie_domain);
+			setcookie(JApplicationHelper::getHash($this->context . '.basename'), $form['basename'], time() + 365 * 86400, $cookie_path, $cookie_domain);
+			setcookie(JApplicationHelper::getHash($this->context . '.compressed'), $form['compressed'], time() + 365 * 86400, $cookie_path, $cookie_domain);
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
