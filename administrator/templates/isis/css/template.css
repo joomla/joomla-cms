@@ -319,6 +319,16 @@ a:focus {
 .offset1 {
 	margin-left: 100px;
 }
+.row-title {
+	white-space: -moz-pre-wrap !important;
+	white-space: -webkit-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	word-break: break-all;
+	white-space: normal;
+}
 .row-fluid {
 	width: 100%;
 	*zoom: 1;
