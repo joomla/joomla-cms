@@ -816,17 +816,20 @@ class JInstaller extends JAdapter
 		}
 
 		// Load the adapter(s) for the install manifest
-		$type    = (string) $this->manifest->attributes()->type;
-		$adapter = null;
-		$params  = array('route' => $route);
+		$type   = (string) $this->manifest->attributes()->type;
+		$params = array('route' => $route);
 
 		// Lazy load the adapter
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
 		{
-			if (!$this->setAdapter($type, $adapter, $params))
+			$adapter = $this->loadAdapter($type, $params);
+
+			if (!$adapter)
 			{
 				return false;
 			}
+
+			$this->_adapters[$type] = $adapter;
 		}
 
 		return true;
@@ -2299,7 +2302,7 @@ class JInstaller extends JAdapter
 		// Ensure the adapter type is part of the options array
 		$options['type'] = $adapter;
 
-		return new $class($this, $this->db, $options);
+		return new $class($this, $this->getDBO(), $options);
 	}
 
 	/**
