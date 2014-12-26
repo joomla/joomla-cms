@@ -12,10 +12,8 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Helper class for controllers
  *
- * @package     Joomla.Site
- * @subpackage  com_config
- * @since       3.2
-*/
+ * @since  3.2
+ */
 class ConfigControllerHelper
 {
 	/**

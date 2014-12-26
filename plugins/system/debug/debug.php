@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Debug plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.Debug
- * @since       1.5
+ * @since  1.5
  */
 class PlgSystemDebug extends JPlugin
 {
@@ -654,7 +652,11 @@ class PlgSystemDebug extends JPlugin
 		$bytes = memory_get_usage();
 
 		return '<span class="label">' . JHtml::_('number.bytes', $bytes) . '</span>'
-			. ' (<span class="label">' . number_format($bytes, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')) . ' ' . JText::_('PLG_DEBUG_BYTES') . '</span>)';
+			. ' (<span class="label">'
+			. number_format($bytes, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'))
+			. ' '
+			. JText::_('PLG_DEBUG_BYTES')
+			. '</span>)';
 	}
 
 	/**
@@ -749,7 +751,7 @@ class PlgSystemDebug extends JPlugin
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if (in_array($db->name, array('mysqli', 'mysql')))
+				if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql')))
 				{
 					if (isset($this->sqlShowProfileEach[$id]))
 					{
@@ -1379,7 +1381,7 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
-		if (in_array($db->name, array('mysqli', 'mysql', 'postgresql')))
+		if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql', 'postgresql')))
 		{
 			$log = $db->getLog();
 

@@ -18,9 +18,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/git/blobs/
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Data
- * @since       11.3
+ * @since  11.3
  */
 class JGithubPackageDataBlobs extends JGithubPackage
 {

@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/markdown
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Markdown
- * @since       3.3 (CMS)
+ * @since  3.3 (CMS)
  */
 class JGithubPackageMarkdown extends JGithubPackage
 {

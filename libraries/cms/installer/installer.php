@@ -17,9 +17,7 @@ jimport('joomla.base.adapter');
 /**
  * Joomla base installer class
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstaller extends JAdapter
 {
@@ -891,7 +889,7 @@ class JInstaller extends JAdapter
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->name);
 
-		if ($dbDriver == 'mysqli')
+		if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 		{
 			$dbDriver = 'mysql';
 		}
@@ -902,7 +900,7 @@ class JInstaller extends JAdapter
 			$fCharset = (strtolower($file->attributes()->charset) == 'utf8') ? 'utf8' : '';
 			$fDriver = strtolower($file->attributes()->driver);
 
-			if ($fDriver == 'mysqli')
+			if ($fDriver == 'mysqli' || $fDriver == 'pdomysql')
 			{
 				$fDriver = 'mysql';
 			}
@@ -987,7 +985,7 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli')
+				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1054,7 +1052,7 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli')
+				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1068,7 +1066,7 @@ class JInstaller extends JAdapter
 					// Assuming that the type is a mandatory attribute but if it is not mandatory then there should be a discussion for it.
 					$uDriver = strtolower($attrs['type']);
 
-					if ($uDriver == 'mysqli')
+					if ($uDriver == 'mysqli' || $uDriver == 'pdomysql')
 					{
 						$uDriver = 'mysql';
 					}
@@ -2179,6 +2177,21 @@ class JInstaller extends JAdapter
 		$data['version'] = (string) $xml->version;
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
+
+		if ($xml->files && count($xml->files->children()))
+		{
+			$filename = JFile::getName($path);
+			$data['filename'] = JFile::stripExt($filename);
+
+			foreach ($xml->files->children() as $oneFile)
+			{
+				if ((string) $oneFile->attributes()->plugin)
+				{
+					$data['filename'] = (string) $oneFile->attributes()->plugin;
+					break;
+				}
+			}
+		}
 
 		return $data;
 	}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="editors-xtd">
+<extension version="3.1" type="plugin" group="editors-xtd" method="upgrade">
 	<name>plg_editors-xtd_image</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2004</creationDate>
@@ -11,7 +11,7 @@
 	<description>PLG_IMAGE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="image">image.php</filename>
-		<filename>index.html</filename>	</files>
+	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_editors-xtd_image.ini</language>
 		<language tag="en-GB">en-GB.plg_editors-xtd_image.sys.ini</language>

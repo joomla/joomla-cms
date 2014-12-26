@@ -14,8 +14,6 @@ JLog::add('JDatabaseMysql is deprecated, use JDatabaseDriverMysql instead.', JLo
 /**
  * MySQL database driver
  *
- * @package     Joomla.Legacy
- * @subpackage  Database
  * @see         http://dev.mysql.com/doc/
  * @since       11.1
  * @deprecated  13.1 (Platform) & 4.0 (CMS) - Use JDatabaseDriverMysql instead.

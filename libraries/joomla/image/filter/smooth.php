@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Image Filter class adjust the smoothness of an image.
  *
- * @package     Joomla.Platform
- * @subpackage  Image
- * @since       11.3
+ * @since  11.3
  */
 class JImageFilterSmooth extends JImageFilter
 {

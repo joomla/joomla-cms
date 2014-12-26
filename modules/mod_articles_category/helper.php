@@ -28,7 +28,7 @@ abstract class ModArticlesCategoryHelper
 	/**
 	 * Get a list of articles from a specific category
 	 *
-	 * @param   JRegistry  &$params  object holding the models parameters
+	 * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
 	 *
 	 * @return  mixed
 	 *
@@ -227,12 +227,12 @@ abstract class ModArticlesCategoryHelper
 		foreach ($items as &$item)
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
-			$item->catslug = $item->catid ? $item->catid . ':' . $item->category_alias : $item->catid;
+			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
+				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 			else
 			{

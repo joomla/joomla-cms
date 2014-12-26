@@ -272,7 +272,7 @@
 		}
 		
 		this.getChildrenNodes = function (parentId) {
-			return $('tr[parents*=" '+parentId+'"]');
+			return $('tr[parents~="'+parentId+'"]');
 		}
 		
 		this.getSameLevelNodes = function (level) {

@@ -19,9 +19,7 @@ JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
  * declared will be pushed into the elements array and can be accessed
  * explicitly using the getElement() method.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderIndexerResult
 {
@@ -423,7 +421,7 @@ class FinderIndexerResult
 	 */
 	public function setLanguage()
 	{
-		if ($this->language == '*' || $this->language == '')
+		if ($this->language == '')
 		{
 			$this->language = $this->defaultLanguage;
 		}

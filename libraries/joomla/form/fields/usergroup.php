@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Supports a nested check box field listing user groups.
  * Multiselect is available by default.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormFieldUsergroup extends JFormField
 {

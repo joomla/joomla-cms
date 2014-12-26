@@ -98,20 +98,6 @@ class JTableExtensionTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @covers JTableExtension::bind
-	 * @todo   Implement testBind().
-	 *
-	 * @return void
-	 */
-	public function testBind()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Tests JTableExtension::find
 	 *
 	 * @return  void

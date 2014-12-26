@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Banners component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersHelper extends JHelperContent
 {

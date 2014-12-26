@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform View Interface
  *
- * @package     Joomla.Platform
- * @subpackage  View
- * @since       12.1
+ * @since  12.1
  */
 interface JView
 {

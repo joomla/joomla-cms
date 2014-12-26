@@ -16,9 +16,7 @@ jimport('joomla.filesystem.path');
 /**
  * Installer helper class
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 abstract class JInstallerHelper
 {
@@ -26,7 +24,7 @@ abstract class JInstallerHelper
 	 * Downloads a package
 	 *
 	 * @param   string  $url     URL of file to download
-	 * @param   string  $target  Download target filename [optional]
+	 * @param   mixed   $target  Download target filename or false to get the filename from the URL
 	 *
 	 * @return  mixed  Path to downloaded package or boolean false on failure
 	 *

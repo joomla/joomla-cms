@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of clients.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersViewClients extends JViewLegacy
 {

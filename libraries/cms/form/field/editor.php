@@ -15,10 +15,8 @@ JFormHelper::loadFieldClass('textarea');
  * Form Field class for the Joomla CMS.
  * A textarea field for content creation
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @see         JEditor
- * @since       1.6
+ * @see    JEditor
+ * @since  1.6
  */
 class JFormFieldEditor extends JFormFieldTextarea
 {

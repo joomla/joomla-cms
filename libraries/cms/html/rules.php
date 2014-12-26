@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extended Utility class for all HTML drawing classes.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlRules
 {

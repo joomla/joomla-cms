@@ -17,9 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * the Windows based implementations this can be found in the Event Log. For Windows,
  * permissions may prevent PHP from properly outputting messages.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
- * @since       11.1
+ * @since  11.1
  */
 class JLogLoggerSyslog extends JLogLogger
 {
@@ -82,6 +80,7 @@ class JLogLoggerSyslog extends JLogLogger
 		{
 			$sysOptions = $sysOptions | LOG_PID;
 		}
+
 		if ($this->options['sys_use_stderr'])
 		{
 			$sysOptions = $sysOptions | LOG_PERROR;

@@ -14,35 +14,33 @@ include_once __DIR__ . '/../default/view.php';
 /**
  * Extension Manager Update View
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.6
+ * @since  1.6
  */
 class InstallerViewUpdate extends InstallerViewDefault
 {
 	/**
-	 * List of update items
+	 * List of update items.
 	 *
 	 * @var array
 	 */
 	protected $items;
 
 	/**
-	 * Model state object
+	 * Model state object.
 	 *
 	 * @var  object
 	 */
 	protected $state;
 
 	/**
-	 * List pagination
+	 * List pagination.
 	 *
 	 * @var JPagination
 	 */
 	protected $pagination;
 
 	/**
-	 * Display the view
+	 * Display the view.
 	 *
 	 * @param   string  $tpl  Template
 	 *
@@ -54,7 +52,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 	{
 		$app = JFactory::getApplication();
 
-		// Get data from the model
+		// Get data from the model.
 		$this->state = $this->get('State');
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
@@ -62,10 +60,12 @@ class InstallerViewUpdate extends InstallerViewDefault
 		$paths->first = '';
 
 		$this->paths = &$paths;
+
 		if (count($this->items) > 0)
 		{
 			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'notice');
 		}
+
 		parent::display($tpl);
 	}
 
@@ -80,6 +80,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 	{
 		JToolbarHelper::custom('update.update', 'upload', 'upload', 'COM_INSTALLER_TOOLBAR_UPDATE', true, false);
 		JToolbarHelper::custom('update.find', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', false, false);
+		JToolbarHelper::custom('update.purge', 'purge', 'purge', 'COM_INSTALLER_TOOLBAR_PURGE', false, false);
 		JToolbarHelper::divider();
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATE');

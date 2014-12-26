@@ -12,16 +12,14 @@ defined('_JEXEC') or die;
 /**
  * Setup model for the Joomla Core Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Model
- * @since       3.1
+ * @since  3.1
  */
 class InstallationModelSetup extends JModelBase
 {
 	/**
 	 * Get the current setup options from the session.
 	 *
-	 * @return  array  An array of options from the session
+	 * @return  array  An array of options from the session.
 	 *
 	 * @since   3.1
 	 */
@@ -36,9 +34,9 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Store the current setup options in the session.
 	 *
-	 * @param   array  $options  The installation options
+	 * @param   array  $options  The installation options.
 	 *
-	 * @return  array  An array of options from the session
+	 * @return  array  An array of options from the session.
 	 *
 	 * @since   3.1
 	 */
@@ -66,7 +64,7 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Method to get the form.
 	 *
-	 * @param   string  $view  The view being processed
+	 * @param   string  $view  The view being processed.
 	 *
 	 * @return  mixed  JForm object on success, false on failure.
 	 *
@@ -94,6 +92,7 @@ class InstallationModelSetup extends JModelBase
 		catch (Exception $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
+
 			return false;
 		}
 
@@ -110,11 +109,11 @@ class InstallationModelSetup extends JModelBase
 	}
 
 	/**
-	 * Method to check the form data
+	 * Method to check the form data.
 	 *
-	 * @param   string  $page  The view being checked
+	 * @param   string  $page  The view being checked.
 	 *
-	 * @return  array  Validated form data
+	 * @return  array  Validated form data.
 	 *
 	 * @since   3.1
 	 */
@@ -128,7 +127,7 @@ class InstallationModelSetup extends JModelBase
 		$data   = $app->input->post->get('jform', array(), 'array');
 		$return	= $this->validate($data, $page);
 
-		// Attempt to save the data before validation
+		// Attempt to save the data before validation.
 		$form = $this->getForm();
 		$data = $form->filter($data);
 		unset($data['admin_password2']);
@@ -152,9 +151,9 @@ class InstallationModelSetup extends JModelBase
 	}
 
 	/**
-	 * Generate a panel of language choices for the user to select their language
+	 * Generate a panel of language choices for the user to select their language.
 	 *
-	 * @return  boolean True if successful
+	 * @return  boolean True if successful.
 	 *
 	 * @since	3.1
 	 */
@@ -193,7 +192,7 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
 	 *
-	 * @return	boolean  True if the method exists
+	 * @return	boolean  True if the method exists.
 	 *
 	 * @since	3.1
 	 */
@@ -203,7 +202,7 @@ class InstallationModelSetup extends JModelBase
 
 		if (!empty($disabled_functions))
 		{
-			// Attempt to detect them in the disable_functions black list
+			// Attempt to detect them in the disable_functions black list.
 			$disabled_functions = explode(',', trim($disabled_functions));
 			$number_of_disabled_functions = count($disabled_functions);
 
@@ -297,14 +296,14 @@ class InstallationModelSetup extends JModelBase
 			$options[] = $option;
 		}
 
-		// Check for a missing native parse_ini_file implementation
+		// Check for a missing native parse_ini_file implementation.
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_PARSE_INI_FILE_AVAILABLE');
 		$option->state  = $this->getIniParserAvailability();
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for missing native json_encode / json_decode support
+		// Check for missing native json_encode / json_decode support.
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_JSON_SUPPORT_AVAILABLE');
 		$option->state  = function_exists('json_encode') && function_exists('json_decode');
@@ -325,9 +324,9 @@ class InstallationModelSetup extends JModelBase
 	}
 
 	/**
-	 * Checks if all of the mandatory PHP options are met
+	 * Checks if all of the mandatory PHP options are met.
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
@@ -400,7 +399,7 @@ class InstallationModelSetup extends JModelBase
 		$setting->recommended = false;
 		$settings[] = $setting;
 
-		// Check for native ZIP support
+		// Check for native ZIP support.
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');
 		$setting->state = function_exists('zip_open') && function_exists('zip_read');
@@ -442,6 +441,7 @@ class InstallationModelSetup extends JModelBase
 		if ($return instanceof Exception)
 		{
 			$app->enqueueMessage($return->getMessage(), 'warning');
+
 			return false;
 		}
 

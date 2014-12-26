@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * RSS Feed Parser class.
  *
- * @package     Joomla.Platform
- * @subpackage  Feed
- * @link        http://cyber.law.harvard.edu/rss/rss.html
- * @since       12.3
+ * @link   http://cyber.law.harvard.edu/rss/rss.html
+ * @since  12.3
  */
 class JFeedParserRss extends JFeedParser
 {

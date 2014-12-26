@@ -11,8 +11,7 @@ defined('JPATH_BASE') or die;
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package  Joomla.Installation
- * @since    1.6
+ * @since  1.6
  */
 class JFormFieldPrefix extends JFormField
 {
@@ -40,26 +39,27 @@ class JFormFieldPrefix extends JFormField
 		$readonly	= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
 		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 
-		// Make sure somebody doesn't put in a too large prefix size value:
+		// Make sure somebody doesn't put in a too large prefix size value.
 		if ($size > 10)
 		{
 			$size = 10;
 		}
 
-		// If a prefix is already set, use it instead
+		// If a prefix is already set, use it instead.
 		$session = JFactory::getSession()->get('setup.options', array());
+
 		if (empty($session['db_prefix']))
 		{
-			// Create the random prefix:
+			// Create the random prefix.
 			$prefix = '';
 			$chars = range('a', 'z');
 			$numbers = range(0, 9);
 
-			// We want the fist character to be a random letter:
+			// We want the fist character to be a random letter.
 			shuffle($chars);
 			$prefix .= $chars[0];
 
-			// Next we combine the numbers and characters to get the other characters:
+			// Next we combine the numbers and characters to get the other characters.
 			$symbols = array_merge($numbers, $chars);
 			shuffle($symbols);
 
@@ -68,7 +68,7 @@ class JFormFieldPrefix extends JFormField
 				$prefix .= $symbols[$i];
 			}
 
-			// Add in the underscore:
+			// Add in the underscore.
 			$prefix .= '_';
 		}
 		else

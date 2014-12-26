@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Pagenavigation plugin class.
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.pagenavigation
- * @since       1.5
+ * @since  1.5
  */
 class PlgContentPagenavigation extends JPlugin
 {
@@ -127,22 +125,16 @@ class PlgContentPagenavigation extends JPlugin
 			$query = $db->getQuery(true);
 
 			// Sqlsrv changes
-			$case_when = ' CASE WHEN ';
-			$case_when .= $query->charLength('a.alias', '!=', '0');
-			$case_when .= ' THEN ';
+			$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0');
 			$a_id = $query->castAsChar('a.id');
-			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-			$case_when .= ' ELSE ';
-			$case_when .= $a_id . ' END as slug';
+			$case_when .= ' THEN ' . $query->concatenate(array($a_id, 'a.alias'), ':');
+			$case_when .= ' ELSE ' . $a_id . ' END as slug';
 
-			$case_when1 = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('cc.alias', '!=', '0');
-			$case_when1 .= ' THEN ';
+			$case_when1 = ' CASE WHEN ' . $query->charLength('cc.alias', '!=', '0');
 			$c_id = $query->castAsChar('cc.id');
-			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
-			$case_when1 .= ' ELSE ';
-			$case_when1 .= $c_id . ' END as catslug';
-			$query->select('a.id,' . $case_when . ',' . $case_when1)
+			$case_when1 .= ' THEN ' . $query->concatenate(array($c_id, 'cc.alias'), ':');
+			$case_when1 .= ' ELSE ' . $c_id . ' END as catslug';
+			$query->select('a.id, a.title, a.catid, a.language,' . $case_when . ',' . $case_when1)
 				->from('#__content AS a')
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
 				->where(
@@ -186,29 +178,25 @@ class PlgContentPagenavigation extends JPlugin
 				$row->next = $rows[$location + 1];
 			}
 
-			// $pnSpace is/can be used in the include file
-			$pnSpace = "";
-
-			if (JText::_('JGLOBAL_LT') || JText::_('JGLOBAL_GT'))
-			{
-				$pnSpace = " ";
-			}
-
 			if ($row->prev)
 			{
-				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catslug));
+				$row->prev_label = ($this->params->get('display', 0) == 0) ? JText::_('JPREV') : $row->prev->title;
+				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catid, $row->prev->language));
 			}
 			else
 			{
+				$row->prev_label = '';
 				$row->prev = '';
 			}
 
 			if ($row->next)
 			{
-				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catslug));
+				$row->next_label = ($this->params->get('display', 0) == 0) ? JText::_('JNEXT') : $row->next->title;
+				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catid, $row->next->language));
 			}
 			else
 			{
+				$row->next_label = '';
 				$row->next = '';
 			}
 

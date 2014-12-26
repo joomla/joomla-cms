@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * The Joomla! update controller for the Update view
  *
- * @package     Joomla.Administrator
- * @subpackage  com_joomlaupdate
- * @since       2.5.4
+ * @since  2.5.4
  */
 class JoomlaupdateControllerUpdate extends JControllerLegacy
 {

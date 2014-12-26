@@ -27,7 +27,7 @@ class JLayoutFileTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->object = new JLayoutFile('joomla.sidebars.submenu');
 	}
@@ -56,14 +56,5 @@ class JLayoutFileTest extends TestCase
 			$this->object->escape('This is cool & fun to use!'),
 			$this->equalTo('This is cool &amp; fun to use!')
 		);
-	}
-
-	/**
-	 * @todo   Implement testRender().
-	 */
-	public function testRender()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

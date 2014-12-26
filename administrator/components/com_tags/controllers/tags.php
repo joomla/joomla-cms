@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * The Tags List Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsControllerTags extends JControllerAdmin
 {
@@ -23,13 +21,16 @@ class TagsControllerTags extends JControllerAdmin
 	 *
 	 * @param   string  $name    The model name. Optional.
 	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  An optional associative array of configuration settings.
 	 *
 	 * @return  JModelLegacy  The model.
+	 *
 	 * @since   3.1
 	 */
 	public function getModel($name = 'Tag', $prefix = 'TagsModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 
@@ -48,13 +49,18 @@ class TagsControllerTags extends JControllerAdmin
 
 		$model = $this->getModel();
 
-		if ($model->rebuild()) {
+		if ($model->rebuild())
+		{
 			// Rebuild succeeded.
 			$this->setMessage(JText::_('COM_TAGS_REBUILD_SUCCESS'));
+
 			return true;
-		} else {
+		}
+		else
+		{
 			// Rebuild failed.
 			$this->setMessage(JText::_('COM_TAGSS_REBUILD_FAILURE'));
+
 			return false;
 		}
 	}

@@ -15,12 +15,10 @@ $asset  = $input->get('asset');
 $author = $input->get('author');
 
 // Access check.
-if (!$user->authorise('core.manage', 'com_media')
-	&&	(!$asset or (
-			!$user->authorise('core.edit', $asset)
-		&&	!$user->authorise('core.create', $asset)
-		&& 	count($user->getAuthorisedCategories($asset, 'core.create')) == 0)
-		&&	!($user->id == $author && $user->authorise('core.edit.own', $asset))))
+if (!$user->authorise('core.manage', 'com_media') && (!$asset or (!$user->authorise('core.edit', $asset)
+	&& !$user->authorise('core.create', $asset)
+	&& count($user->getAuthorisedCategories($asset, 'core.create')) == 0)
+	&& !($user->id == $author && $user->authorise('core.edit.own', $asset))))
 {
 	return JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 }
@@ -35,6 +33,7 @@ $popup_upload = $input->get('pop_up', null);
 $path = 'file_path';
 
 $view = $input->get('view');
+
 if (substr(strtolower($view), 0, 6) == 'images' || $popup_upload == 1)
 {
 	$path = 'image_path';

@@ -10,23 +10,26 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.core');
+JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
-?>
 
-<script type="text/javascript">
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'menu.cancel' || document.formvalidator.isValid(document.id('item-form')))
+JText::script('ERROR');
+
+JFactory::getDocument()->addScriptDeclaration("
+		Joomla.submitbutton = function(task)
 		{
-			Joomla.submitform(task, document.getElementById('item-form'));
-		}
-	}
-</script>
-
-<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-horizontal">
+			var form = document.getElementById('item-form');
+			if (task == 'menu.cancel' || document.formvalidator.isValid(form))
+			{
+				Joomla.submitform(task, form);
+			}
+		};
+");
+?>
+<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-horizontal">
 	<fieldset>
 		<legend><?php echo JText::_('COM_MENUS_MENU_DETAILS');?></legend>
 			<div class="control-group">

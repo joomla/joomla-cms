@@ -12,14 +12,12 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google authentication class abstract
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @since  12.3
  */
 abstract class JGoogleAuth
 {
 	/**
-	 * @var    JRegistry  Options for the Google authentication object.
+	 * @var    \Joomla\Registry\Registry  Options for the Google authentication object.
 	 * @since  12.3
 	 */
 	protected $options;

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! update selection list helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_joomlaupdate
- * @since       2.5.4
+ * @since  2.5.4
  */
 class JoomlaupdateHelperSelect
 {

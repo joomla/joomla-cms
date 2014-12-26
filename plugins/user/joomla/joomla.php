@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla User plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  User.joomla
- * @since       1.5
+ * @since  1.5
  */
 class PlgUserJoomla extends JPlugin
 {
@@ -96,7 +96,7 @@ class PlgUserJoomla extends JPlugin
 					 * 	1. User frontend language
 					 * 	2. User backend language
 					 */
-					$userParams = new JRegistry($user['params']);
+					$userParams = new Registry($user['params']);
 					$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
 
 					if ($userLocale != $defaultLocale)

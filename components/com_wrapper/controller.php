@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Content Component Controller
  *
- * @package     Joomla.Site
- * @subpackage  com_wrapper
- * @since       1.5
+ * @since  1.5
  */
 class WrapperController extends JControllerLegacy
 {

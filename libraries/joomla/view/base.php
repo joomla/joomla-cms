@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Base View Class
  *
- * @package     Joomla.Platform
- * @subpackage  View
- * @since       12.1
+ * @since  12.1
  */
 abstract class JViewBase implements JView
 {

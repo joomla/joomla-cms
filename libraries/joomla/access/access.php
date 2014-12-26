@@ -14,9 +14,7 @@ jimport('joomla.utilities.arrayhelper');
 /**
  * Class that handles all access authorisation routines.
  *
- * @package     Joomla.Platform
- * @subpackage  Access
- * @since       11.1
+ * @since  11.1
  */
 class JAccess
 {

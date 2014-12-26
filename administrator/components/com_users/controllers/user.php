@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerUser extends JControllerForm
 {
@@ -54,7 +52,7 @@ class UsersControllerUser extends JControllerForm
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   object   $model  The model.
+	 * @param   object  $model  The model.
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *

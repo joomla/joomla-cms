@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of featured articles.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentViewFeatured extends JViewLegacy
 {
@@ -111,7 +109,7 @@ class ContentViewFeatured extends JViewLegacy
 			JToolbarHelper::trash('articles.trash');
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_content');
 		}

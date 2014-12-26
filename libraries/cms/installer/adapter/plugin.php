@@ -15,9 +15,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Plugin installer
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstallerAdapterPlugin extends JAdapterInstance
 {
@@ -770,17 +768,19 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				$file = JFile::stripExt($file);
 
 				// Ignore example plugins
-				if ($file == 'example')
+				if ($file == 'example' || $manifest_details === false)
 				{
 					continue;
 				}
 
+				$element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
+
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'plugin');
 				$extension->set('client_id', 0);
-				$extension->set('element', $file);
+				$extension->set('element', $element);
 				$extension->set('folder', $folder);
-				$extension->set('name', $file);
+				$extension->set('name', $manifest_details['name']);
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
 				$extension->set('params', '{}');
@@ -800,18 +800,20 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 					);
 					$file = JFile::stripExt($file);
 
-					if ($file == 'example')
+					if ($file == 'example' || $manifest_details === false)
 					{
 						continue;
 					}
+
+					$element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
 					// Ignore example plugins
 					$extension = JTable::getInstance('extension');
 					$extension->set('type', 'plugin');
 					$extension->set('client_id', 0);
-					$extension->set('element', $file);
+					$extension->set('element', $element);
 					$extension->set('folder', $folder);
-					$extension->set('name', $file);
+					$extension->set('name', $manifest_details['name']);
 					$extension->set('state', -1);
 					$extension->set('manifest_cache', json_encode($manifest_details));
 					$extension->set('params', '{}');
@@ -921,8 +923,6 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 /**
  * Deprecated class placeholder. You should use JInstallerAdapterPlugin instead.
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 
 if (isset($this->error)) : ?>
 	<div class="contact-error">
@@ -44,7 +44,7 @@ if (isset($this->error)) : ?>
 					<div class="controls"><?php echo $this->form->getInput('contact_email_copy'); ?></div>
 				</div>
 			<?php endif; ?>
-			<?php //Dynamically load any additional fields from plugins. ?>
+			<?php // Dynamically load any additional fields from plugins. ?>
 			<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 				<?php if ($fieldset->name != 'contact') : ?>
 					<?php $fields = $this->form->getFieldset($fieldset->name); ?>

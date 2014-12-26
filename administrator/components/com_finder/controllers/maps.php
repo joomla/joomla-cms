@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Maps controller class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderControllerMaps extends JControllerAdmin
 {
@@ -32,6 +30,7 @@ class FinderControllerMaps extends JControllerAdmin
 	public function getModel($name = 'Maps', $prefix = 'FinderModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 }

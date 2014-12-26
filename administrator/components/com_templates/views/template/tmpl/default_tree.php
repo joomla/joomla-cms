@@ -25,7 +25,7 @@ ksort($this->files, SORT_STRING);
 				{
 					if ($keyArray[$i] === $fileArray[$i])
 					{
-						$count = $count + 1;
+						$count++;
 					}
 				}
 

@@ -9,9 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_contact
+ * Contact Table class.
+ *
+ * @since  1.0
  */
 class ContactTableContact extends JTable
 {
@@ -39,9 +42,9 @@ class ContactTableContact extends JTable
 	}
 
 	/**
-	 * Stores a contact
+	 * Stores a contact.
 	 *
-	 * @param   boolean  True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -52,7 +55,7 @@ class ContactTableContact extends JTable
 		// Transform the params field
 		if (is_array($this->params))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($this->params);
 			$this->params = (string) $registry;
 		}
@@ -60,10 +63,11 @@ class ContactTableContact extends JTable
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
 
+		$this->modified		= $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified		= $date->toSql();
 			$this->modified_by	= $user->get('id');
 		}
 		else
@@ -74,6 +78,7 @@ class ContactTableContact extends JTable
 			{
 				$this->created = $date->toSql();
 			}
+
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
@@ -106,6 +111,7 @@ class ContactTableContact extends JTable
 
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Contact', 'ContactTable');
+
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
@@ -162,23 +168,34 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		// Clean up keywords -- eliminate extra spaces between phrases
-		// and cr (\r) and lf (\n) characters from string
+		/*
+		 * Clean up keywords -- eliminate extra spaces between phrases
+		 * and cr (\r) and lf (\n) characters from string.
+		 * Only process if not empty.
+ 		 */
 		if (!empty($this->metakey))
 		{
-			// Only process if not empty
-			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
-			$keys = explode(',', $after_clean); // create array using commas as delimiter
+			// Array of characters to remove.
+			$bad_characters = array("\n", "\r", "\"", "<", ">");
+
+			// Remove bad characters.
+			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
+
+			// Create array using commas as delimiter.
+			$keys = explode(',', $after_clean);
 			$clean_keys = array();
 
-			foreach($keys as $key)
+			foreach ($keys as $key)
 			{
-				if (trim($key)) {  // ignore blank keywords
+				// Ignore blank keywords.
+				if (trim($key))
+				{
 					$clean_keys[] = trim($key);
 				}
 			}
-			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
+
+			// Put array back together delimited by ", "
+			$this->metakey = implode(", ", $clean_keys);
 		}
 
 		// Clean up description -- eliminate quotes and <> brackets

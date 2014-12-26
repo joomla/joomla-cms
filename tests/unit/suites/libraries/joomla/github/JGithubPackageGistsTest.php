@@ -138,7 +138,7 @@ class JGithubPackageGistsTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$this->object->create(
 				array(
-					__DIR__ . '/stubs/gittest'
+					JPATH_TEST_STUBS . '/gittest'
 				),
 				true,
 				'This is a gist'

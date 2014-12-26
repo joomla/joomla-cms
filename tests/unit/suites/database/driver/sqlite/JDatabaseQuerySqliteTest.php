@@ -17,7 +17,7 @@
 class JDatabaseQuerySqliteTest extends TestCase
 {
 	/**
-	 * @var    JDatabaseDriver  A mock of the JDatabaseDriver object for testing purposes.
+	 * @var    JDatabaseDriverSqlite  A mock of the JDatabaseDriver object for testing purposes.
 	 * @since  13.1
 	 */
 	protected $dbo;
@@ -43,7 +43,7 @@ class JDatabaseQuerySqliteTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->dbo = $this->getMockDatabase();
+		$this->dbo = $this->getMockDatabase('Sqlite');
 
 		$this->_instance = new JDatabaseQuerySqlite($this->dbo);
 	}
@@ -81,9 +81,9 @@ class JDatabaseQuerySqliteTest extends TestCase
 	 */
 	public function testDateAdd($date, $interval, $datePart, $expected)
 	{
-		$this->assertThat(
-			$this->_instance->dateAdd($date, $interval, $datePart),
-			$this->equalTo($expected)
+		$this->assertEquals(
+			$expected,
+			$this->_instance->dateAdd($date, $interval, $datePart)
 		);
 	}
 
@@ -97,9 +97,9 @@ class JDatabaseQuerySqliteTest extends TestCase
 	 */
 	public function testCurrentTimestamp()
 	{
-		$this->assertThat(
-			$this->_instance->currentTimestamp(),
-			$this->equalTo('CURRENT_TIMESTAMP')
+		$this->assertEquals(
+			'CURRENT_TIMESTAMP',
+			$this->_instance->currentTimestamp()
 		);
 	}
 }

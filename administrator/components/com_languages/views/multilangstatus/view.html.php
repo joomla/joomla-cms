@@ -12,14 +12,16 @@ defined('_JEXEC') or die;
 /**
  * Displays the multilang status.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
- * @since       1.7.1
+ * @since  1.7.1
  */
 class LanguagesViewMultilangstatus extends JViewLegacy
 {
 	/**
-	 * Display the view
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{

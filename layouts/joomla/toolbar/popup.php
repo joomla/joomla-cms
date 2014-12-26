@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.core');
+
 $doTask = $displayData['doTask'];
 $class  = $displayData['class'];
 $text   = $displayData['text'];
 $name   = $displayData['name'];
 ?>
-<button onclick="<?php echo $doTask; ?>" class="btn btn-small modal" data-toggle="modal" data-target="#modal-<?php echo $name; ?>">
+<button value="<?php echo $doTask; ?>" class="btn btn-small modal" data-toggle="modal" data-target="#modal-<?php echo $name; ?>">
 	<i class="<?php echo $class; ?>"></i>
 	<?php echo $text; ?>
 </button>

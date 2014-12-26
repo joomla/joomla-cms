@@ -20,9 +20,7 @@ jimport('joomla.filesystem.file');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @package     Joomla.Platform
- * @subpackage  Archive
- * @since       11.1
+ * @since  11.1
  */
 class JArchiveGzip implements JArchiveExtractable
 {
@@ -170,11 +168,13 @@ class JArchiveGzip implements JArchiveExtractable
 					}
 				}
 			}
+
 			while ($this->_data);
 
 			$output->close();
 			$input->close();
 		}
+
 		return true;
 	}
 

@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Text handling class.
  *
- * @package     Joomla.Platform
- * @subpackage  Language
- * @since       11.1
+ * @since  11.1
  */
 class JText
 {

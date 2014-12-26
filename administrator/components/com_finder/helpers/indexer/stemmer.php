@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Stemmer base class for the Finder indexer package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 abstract class FinderIndexerStemmer
 {

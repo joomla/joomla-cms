@@ -14,9 +14,7 @@ require_once __DIR__ . '/extension.php';
 /**
  * Installer Discover Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.6
+ * @since  1.6
  */
 class InstallerModelDiscover extends InstallerModel
 {

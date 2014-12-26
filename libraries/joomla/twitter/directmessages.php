@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Direct Messages class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Twitter
- * @since       12.3
+ * @since  12.3
  */
 class JTwitterDirectmessages extends JTwitterObject
 {
