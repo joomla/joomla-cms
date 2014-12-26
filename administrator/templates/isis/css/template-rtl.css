@@ -8827,3 +8827,7 @@ a.grid_true {
 .row-fluid .modal-batch [class*="span"] {
 	margin-right: 0;
 }
+.break-word {
+	word-break: break-all;
+	word-wrap: break-word;
+}
