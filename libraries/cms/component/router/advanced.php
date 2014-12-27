@@ -212,7 +212,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	 * 
 	 * @since 3.4
 	 */
-	public function setRules($rules)
+	public function attachRules($rules)
 	{
 		foreach ($rules as $rule)
 		{
@@ -239,7 +239,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	 * 
 	 * @return   boolean  Was a rule removed?
 	 */
-	public function removeRule(JComponentRouterRulesInterface $rule)
+	public function detachRule(JComponentRouterRulesInterface $rule)
 	{
 		foreach ($this->rules as $id => $r)
 		{
