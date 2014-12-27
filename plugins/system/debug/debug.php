@@ -634,6 +634,11 @@ class PlgSystemDebug extends JPlugin
 						'PLG_DEBUG_QUERIES_TIME',
 						sprintf('<span class="label ' . $labelClass . '">%.1f&nbsp;ms</span>', $totalQueryTime)
 					) . '</div>';
+
+				if ($this->params->get('log-executed-sql', '0'))
+				{
+					$this->write2file();
+				}
 			}
 		}
 
@@ -1742,5 +1747,87 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		return implode('<br /><br />', $out);
+	}
+
+	/**
+	 * Write query to the log file
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function write2file()
+	{
+		$app    = JFactory::getApplication();
+		$conf   = JFactory::getConfig();
+		$domain = $conf->get('sitename', 'site');
+
+		if ($app->isSite())
+		{
+			$alias = JFactory::getApplication()->getMenu()->getActive()->alias;
+			$id    = JFactory::getApplication()->getMenu()->getActive()->id;
+			$file  = $alias . $id . '.sql';
+			$file  = JFactory::getApplication()->get('log_path') . '/' . $domain . '_' . $file;
+		}
+		else
+		{
+			$input = JFactory::getApplication()->input;
+			$file  = $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
+			$file  = JFactory::getApplication()->get('log_path') . '/' . $domain . '_' . $file;
+		}
+
+		$current = '';
+		$db      = JFactory::getDbo();
+		$log     = $db->getLog();
+		$timings = $db->getTimings();
+
+		foreach ($log as $id => $query)
+		{
+			if (isset($timings[$id * 2 + 1]))
+			{
+				$temp     = str_replace('`', '', $log[$id]);
+				$temp     = str_replace("\t", " ", $temp);
+				$temp     = str_replace("\n", " ", $temp);
+				$current .= str_replace("\r\n", " ", $temp) . ";\n";
+			}
+		}
+
+		if (JFile::exists($file))
+		{
+			JFile::delete($file);
+		}
+
+		// Write new file. First try with JFile.
+		$result = JFile::write($file, $current);
+
+		// In case JFile used FTP but direct access could help.
+		if (!$result)
+		{
+			if (function_exists('file_put_contents'))
+			{
+				$result = @file_put_contents($file, $current);
+
+				if ($result !== false)
+				{
+					$result = true;
+				}
+			}
+			else
+			{
+				$fp = @fopen($file, 'w+');
+
+				if ($fp !== false)
+				{
+					$result = @fwrite($fp, $current);
+
+					if ($result !== false)
+					{
+						$result = true;
+					}
+
+					@fclose($fp);
+				}
+			}
+		}
 	}
 }
