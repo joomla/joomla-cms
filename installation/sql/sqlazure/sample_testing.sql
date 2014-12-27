@@ -176,9 +176,9 @@ SET IDENTITY_INSERT [#__assets] OFF;
 
 SET IDENTITY_INSERT [#__banner_clients] ON;
 
-INSERT [#__banner_clients] ([id], [name], [contact], [email], [extrainfo], [state], [checked_out], [checked_out_time], [metakey], [own_prefix], [metakey_prefix], [purchase_type], [track_clicks], [track_impressions]) VALUES (1, 'Joomla!', 'Administrator', 'email@email.com', '', 1, 0, '1900-01-01 00:00:00', '', 0, '', -1, -1, -1);
-INSERT [#__banner_clients] ([id], [name], [contact], [email], [extrainfo], [state], [checked_out], [checked_out_time], [metakey], [own_prefix], [metakey_prefix], [purchase_type], [track_clicks], [track_impressions]) VALUES (2, 'Shop', 'Example', 'example@example.com', '', 1, 0, '1900-01-01 00:00:00', '', 0, '', -1, 0, 0);
-INSERT [#__banner_clients] ([id], [name], [contact], [email], [extrainfo], [state], [checked_out], [checked_out_time], [metakey], [own_prefix], [metakey_prefix], [purchase_type], [track_clicks], [track_impressions]) VALUES (3, 'Bookstore', 'Bookstore Example', 'example@example.com', '', 1, 0, '1900-01-01 00:00:00', '', 0, '', -1, 0, 0);
+INSERT [#__banner_clients] ([id], [name], [contact], [email], [extrainfo], [state], [checked_out], [checked_out_time], [metakey], [own_prefix], [metakey_prefix], [purchase_type], [track_clicks], [track_impressions]) VALUES (1, 'Joomla!', 'Administrator', 'banner@example.com', '', 1, 0, '1900-01-01 00:00:00', '', 0, '', -1, -1, -1);
+INSERT [#__banner_clients] ([id], [name], [contact], [email], [extrainfo], [state], [checked_out], [checked_out_time], [metakey], [own_prefix], [metakey_prefix], [purchase_type], [track_clicks], [track_impressions]) VALUES (2, 'Shop', 'Example', 'banner@example.com', '', 1, 0, '1900-01-01 00:00:00', '', 0, '', -1, 0, 0);
+INSERT [#__banner_clients] ([id], [name], [contact], [email], [extrainfo], [state], [checked_out], [checked_out_time], [metakey], [own_prefix], [metakey_prefix], [purchase_type], [track_clicks], [track_impressions]) VALUES (3, 'Bookstore', 'Bookstore Example', 'banner@example.com', '', 1, 0, '1900-01-01 00:00:00', '', 0, '', -1, 0, 0);
 
 SET IDENTITY_INSERT [#__banner_clients] OFF;
 
@@ -421,7 +421,7 @@ INSERT [#__content] ([id], [asset_id], [title], [alias], [introtext], [fulltext]
 INSERT [#__content] ([id], [asset_id], [title], [alias], [introtext], [fulltext], [state], [catid], [created], [created_by], [created_by_alias], [modified], [modified_by], [checked_out], [checked_out_time], [publish_up], [publish_down], [images], [urls], [attribs], [version], [ordering], [metakey], [metadesc], [access], [hits], [metadata], [featured], [language], [xreference]) VALUES (21, 119, 'Getting Help', 'getting-help', '<p><img class="image-left" src="administrator/templates/hathor/images/header/icon-48-help_header.png" border="0" /> There are lots of places you can get help with Joomla!. In many places in your site administrator you will see the help icon. Click on this for more information about the options and functions of items on your screen. Other places to get help are:</p>
 <ul>
 <li><a href="http://forum.joomla.org">Support Forums</a></li>
-<li><a href="http://docs.joomla.org">Documentation</a></li>
+<li><a href="https://docs.joomla.org">Documentation</a></li>
 <li><a href="http://resources.joomla.org">Professionals</a></li>
 <li><a href="http://shop.joomla.org/amazoncom-bookstores.html">Books</a></li>
 </ul>', '', 1, 19, '2011-01-01 00:00:00', 793, 'Joomla', '1900-01-01 00:00:00', 0, 0, '1900-01-01 00:00:00', '2011-01-01 00:00:00', '1900-01-01 00:00:00', '', '', '{"show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_readmore":"","show_print_icon":"","show_email_icon":"","show_hits":"","page_title":"","alternative_readmore":"","layout":""}', 1, 8, '', '', 1, 0, '', 0, '*', '');
