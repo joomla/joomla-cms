@@ -74,9 +74,71 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function __construct( $options )
 	{
 		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
+		$options['port'] = (isset($options['port'])) ? $options['port'] : '';
 		$options['user'] = (isset($options['user'])) ? $options['user'] : '';
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
+
+		/*
+		 * pg_connect() takes the host and port as separate arguments. Therefore, we
+		 * have to extract them from the host string.
+		 */
+		$port = false;
+
+		if (preg_match('/^(?P<host>((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(:(?P<port>.+))?$/', $options['host'], $matches))
+		{
+			// It's an IPv4 address with or without port
+			$options['host'] = $matches['host'];
+
+			if (!empty($matches['port']))
+			{
+				$port = $matches['port'];
+			}
+		}
+		elseif (preg_match('/^\[(?P<host>.*)\](:(?P<port>.+))?$/', $options['host'], $matches))
+		{
+			// We assume square-bracketed IPv6 address with or without port, e.g. [fe80:102::2%eth1]:5432
+			$options['host'] = $matches['host'];
+
+			if (!empty($matches['port']))
+			{
+				$port = $matches['port'];
+			}
+		}
+		elseif (preg_match('/^(?P<host>(\w+:\/{2,3})?[a-z0-9\.\-]+)(:(?P<port>[^:]+))?$/i', $options['host'], $matches))
+		{
+			// Named host (e.g domain.com or localhost) with or without port
+			$options['host'] = $matches['host'];
+
+			if (!empty($matches['port']))
+			{
+				$port = $matches['port'];
+			}
+		}
+		elseif (preg_match('/^(?P<host>(\/[a-zA-Z0-9\.\-\_]*)+)(\/)?(:(?P<port>[^:]+))?$/i', $options['host'], $matches))
+		{
+			// Socket directory (e.g /var/run/postgresql) with or without port
+			$options['host']   = $matches['host'];
+			$options['socket'] = $matches['host'];
+
+			if (!empty($matches['port']))
+			{
+				$port = $matches['port'];
+			}
+		}
+		elseif (preg_match('/^:(?P<port>[^:]+)$/', $options['host'], $matches))
+		{
+			// Empty host, just port, e.g. ':5432'
+			$options['host'] = 'localhost';
+			$port = $matches['port'];
+		}
+		// ... else we assume normal (naked) IPv6 address, so host and port stay as they are or default
+
+		// Check if port number is a number
+		if (is_numeric($port))
+		{
+			$options['port'] = (int) $port;
+		}
 
 		// Finalize initialization
 		parent::__construct($options);
@@ -114,7 +176,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 
 		// Build the DSN for the connection.
-		$dsn = "host={$this->options['host']} dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
+		$dsn = "host='{$this->options['host']}' port='{$this->options['port']}' dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @pg_connect($dsn)))
