@@ -87,6 +87,14 @@ class JoomlaInstallerScript
 
 		if ($id)
 		{
+			// We need to unprotect the plugin so we can uninstall it
+			$db->setQuery(
+				$db->getQuery(true)
+					->update('#__extensions')
+					->set('protected = 0')
+					->where($db->quoteName('name') . ' = ' . $db->quote('plg_quickicon_eosnotify'))
+			)->execute();
+
 			$installer = new JInstaller;
 			$installer->uninstall('plugin', $id);
 		}
