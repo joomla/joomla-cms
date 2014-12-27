@@ -60,75 +60,71 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		// Ensure that constructor is called one time.
 		$this->cookie = SID == '';
 
-		if (!$this->default_lang)
+		$router = $this->app->getRouter();
+
+		if ($this->app->isSite())
 		{
-			$router = $this->app->getRouter();
+			// Setup language data.
+			$this->mode_sef = ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
+			$this->sefs = JLanguageHelper::getLanguages('sef');
+			$this->lang_codes = JLanguageHelper::getLanguages('lang_code');
+			$this->default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+			$this->default_sef = $this->lang_codes[$this->default_lang]->sef;
+			$this->homes = MultilangstatusHelper::getHomepages();
 
-			if ($this->app->isSite())
+			$user = JFactory::getUser();
+			$levels = $user->getAuthorisedViewLevels();
+
+			foreach ($this->sefs as $sef => &$language)
 			{
-				// Setup language data.
-				$this->mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
-				$this->sefs 		= JLanguageHelper::getLanguages('sef');
-				$this->lang_codes 	= JLanguageHelper::getLanguages('lang_code');
-				$this->default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
-				$this->default_sef 	= $this->lang_codes[$this->default_lang]->sef;
-				$this->homes		= MultilangstatusHelper::getHomepages();
-
-				$user = JFactory::getUser();
-				$levels = $user->getAuthorisedViewLevels();
-
-				foreach ($this->sefs as $sef => &$language)
+				if (isset($language->access) && $language->access && !in_array($language->access, $levels))
 				{
-					if (isset($language->access) && $language->access && !in_array($language->access, $levels))
-					{
-						unset($this->sefs[$sef]);
-					}
+					unset($this->sefs[$sef]);
 				}
-
-				$this->app->setLanguageFilter(true);
-
-				$uri = JUri::getInstance();
-
-				$sef = $uri->getVar('lang');
-
-				if (!$sef)
-				{
-					// Get the route path from the request.
-					$path = JString::substr($uri->toString(), JString::strlen($uri->base()));
-
-					// Apache mod_rewrite is Off.
-					$path = $this->app->get('sef_rewrite') ? $path : JString::substr($path, 10);
-
-					// Trim any spaces or slashes from the ends of the path and explode into segments.
-					$path  = JString::trim($path, '/ ');
-					$parts = explode('/', $path);
-
-					if (!empty($parts) && empty($sef))
-					{
-						$sef = reset($parts);
-					}
-				}
-
-				if (isset($this->sefs[$sef]))
-				{
-					$lang_code = $this->sefs[$sef]->lang_code;
-
-					// Create a cookie.
-					$cookie_domain 	= $this->app->get('cookie_domain', '');
-					$cookie_path 	= $this->app->get('cookie_path', '/');
-					setcookie(JApplicationHelper::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
-					$this->app->input->cookie->set(JApplicationHelper::getHash('language'), $lang_code);
-
-					// Set the request var.
-					$this->app->input->set('language', $lang_code);
-				}
-
-				// Detect browser feature.
-				$this->app->setDetectBrowser($this->params->get('detect_browser', '1') == '1');
 			}
+
+			$this->app->setLanguageFilter(true);
+
+			$uri = JUri::getInstance();
+
+			$sef = $uri->getVar('lang');
+
+			if (!$sef)
+			{
+				// Get the route path from the request.
+				$path = JString::substr($uri->toString(), JString::strlen($uri->base()));
+
+				// Apache mod_rewrite is Off.
+				$path = $this->app->get('sef_rewrite') ? $path : JString::substr($path, 10);
+
+				// Trim any spaces or slashes from the ends of the path and explode into segments.
+				$path = JString::trim($path, '/ ');
+				$parts = explode('/', $path);
+
+				if (!empty($parts) && empty($sef))
+				{
+					$sef = reset($parts);
+				}
+			}
+
+			if (isset($this->sefs[$sef]))
+			{
+				$lang_code = $this->sefs[$sef]->lang_code;
+
+				// Create a cookie.
+				$cookie_domain = $this->app->get('cookie_domain', '');
+				$cookie_path = $this->app->get('cookie_path', '/');
+				setcookie(JApplicationHelper::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
+				$this->app->input->cookie->set(JApplicationHelper::getHash('language'), $lang_code);
+
+				// Set the request var.
+				$this->app->input->set('language', $lang_code);
+			}
+
+			// Detect browser feature.
+			$this->app->setDetectBrowser($this->params->get('detect_browser', '1') == '1');
 		}
 	}
 
