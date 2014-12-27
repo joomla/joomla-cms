@@ -5,11 +5,12 @@
 			description ="JGLOBAL_FIELD_ID_DESC" size="10" default="0"
 			readonly="true"  />
 
-		<field
-			name="title" type="text" id="title"
-			class="input-xxlarge input-large-text"
-			label="JGLOBAL_TITLE" description="COM_FINDER_FILTER_TITLE_DESCRIPTION"
-			size="40" default="" required="true" />
+		<field name="title" type="text" label="JGLOBAL_TITLE"
+		       description="COM_FINDER_FILTER_TITLE_DESCRIPTION"
+		       class="input-xxlarge input-large-text"
+		       size="40"
+		       id="title"
+		       required="true" />
 
 		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"

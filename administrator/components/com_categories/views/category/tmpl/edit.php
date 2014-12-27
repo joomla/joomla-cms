@@ -22,16 +22,15 @@ $input = $app->input;
 $assoc = JLanguageAssociations::isEnabled();
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
-			'. $this->form->getField("description")->save() .'
+			' . $this->form->getField("description")->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
 		}
-	}
-});');
+	};
+');
 
 ?>
 

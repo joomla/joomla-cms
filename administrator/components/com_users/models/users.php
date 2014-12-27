@@ -295,7 +295,7 @@ class UsersModelUsers extends JModelList
 		{
 			if ($active == '0')
 			{
-				$query->where('a.activation IN (' . $db->quote('') . ', 0)');
+				$query->where('a.activation IN (' . $db->quote('') . ', ' . $db->quote('0') . ')');
 			}
 			elseif ($active == '1')
 			{

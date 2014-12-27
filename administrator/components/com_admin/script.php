@@ -38,7 +38,7 @@ class JoomlaInstallerScript
 	}
 
 	/**
-	 * Medtho to update Database
+	 * Method to update Database
 	 *
 	 * @return void
 	 */
@@ -217,6 +217,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'tags', 'finder', 0);
 		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
 		$extensions[] = array('plugin', 'yubikey', 'twofactorauth', 0);
+		$extensions[] = array('plugin', 'nocaptcha', 'captcha', 0);
 
 		// Templates
 		$extensions[] = array('template', 'beez3', '', 0);
@@ -1023,7 +1024,12 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format/php.php',
 			'/libraries/joomla/registry/format/xml.php',
 			// Joomla! 3.4
+			'/administrator/components/com_tags/helpers/html/index.html',
+			'/administrator/components/com_tags/models/fields/index.html',
 			'/administrator/manifests/libraries/phpmailer.xml',
+			'/administrator/templates/hathor/html/com_finder/filter/index.html',
+			'/administrator/templates/hathor/html/com_finder/statistics/index.html',
+			'/components/com_contact/helpers/icon.php',
 			'/language/en-GB/en-GB.lib_phpmailer.sys.ini',
 			'/libraries/compat/jsonserializable.php',
 			'/libraries/compat/password/lib/index.html',
@@ -1135,6 +1141,10 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format',
 			'/libraries/joomla/registry',
 			// Joomla! 3.4
+			'/administrator/components/com_tags/helpers/html',
+			'/administrator/components/com_tags/models/fields',
+			'/administrator/templates/hathor/html/com_finder/filter',
+			'/administrator/templates/hathor/html/com_finder/statistics',
 			'/libraries/compat/password/lib',
 			'/libraries/compat/password',
 			'/libraries/compat',

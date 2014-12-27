@@ -135,7 +135,7 @@ else
 			<!-- Header -->
 			<header class="header" role="banner">
 				<div class="header-inner clearfix">
-					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
+					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>/">
 						<?php echo $logo; ?>
 						<?php if ($this->params->get('sitedescription')) : ?>
 							<?php echo '<div class="site-description">' . htmlspecialchars($this->params->get('sitedescription')) . '</div>'; ?>

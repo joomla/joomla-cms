@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
@@ -28,14 +28,13 @@ $saveOrder = $listOrder == 'a.ordering';
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_contact&task=contacts.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	JHtml::_('sortablelist.sortable', 'contactList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 
 $sortFields = $this->getSortFields();
 $assoc		= JLanguageAssociations::isEnabled();
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -50,8 +49,8 @@ jQuery(document).ready(function() {
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, "");
-	}
-});');
+	};
+');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
@@ -140,13 +139,13 @@ jQuery(document).ready(function() {
 				$n = count($this->items);
 				foreach ($this->items as $i => $item) :
 					$ordering   = $listOrder == 'a.ordering';
-					$canCreate  = $user->authorise('core.create',     'com_contact.category.'.$item->catid);
-					$canEdit    = $user->authorise('core.edit',       'com_contact.category.'.$item->catid);
+					$canCreate  = $user->authorise('core.create',     'com_contact.category.' . $item->catid);
+					$canEdit    = $user->authorise('core.edit',       'com_contact.category.' . $item->catid);
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-					$canEditOwn = $user->authorise('core.edit.own',   'com_contact.category.'.$item->catid) && $item->created_by == $userId;
-					$canChange  = $user->authorise('core.edit.state', 'com_contact.category.'.$item->catid) && $canCheckin;
+					$canEditOwn = $user->authorise('core.edit.own',   'com_contact.category.' . $item->catid) && $item->created_by == $userId;
+					$canChange  = $user->authorise('core.edit.state', 'com_contact.category.' . $item->catid) && $canCheckin;
 
-					$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id='.$item->catid);
+					$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id=' . $item->catid);
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid?>">
 						<td class="order nowrap center hidden-phone">
@@ -194,7 +193,7 @@ jQuery(document).ready(function() {
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'contacts.', $canCheckin); ?>
 								<?php endif; ?>
 								<?php if ($canEdit || $canEditOwn) : ?>
-									<a href="<?php echo JRoute::_('index.php?option=com_contact&task=contact.edit&id='.(int) $item->id); ?>">
+									<a href="<?php echo JRoute::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id); ?>">
 									<?php echo $this->escape($item->name); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($item->name); ?>
@@ -209,7 +208,7 @@ jQuery(document).ready(function() {
 						</td>
 						<td align="center" class="small hidden-phone">
 							<?php if (!empty($item->linked_user)) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.$item->user_id);?>"><?php echo $item->linked_user;?></a>
+								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id);?>"><?php echo $item->linked_user;?></a>
 							<?php endif; ?>
 						</td>
 						<td class="center hidden-phone">

@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -17,32 +16,8 @@ jimport('joomla.filesystem.folder');
  *
  * @since  3.1
  */
-class JInstallerAdapterTemplate extends JAdapterInstance
+class JInstallerAdapterTemplate extends JInstallerAdapter
 {
-	/**
-	 * Copy of the XML manifest file
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	protected $manifest = null;
-
-	/**
-	 * Name of the extension
-	 *
-	 * @var    string
-	 * @since  3.1
-	 * */
-	protected $name = null;
-
-	/**
-	 * The unique identifier for the extension (e.g. mod_login)
-	 *
-	 * @var    string
-	 * @since  3.1
-	 * */
-	protected $element = null;
-
 	/**
 	 * Method of system
 	 *

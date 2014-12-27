@@ -27,16 +27,99 @@ if ($hasContent)
 // Get Params Fieldsets
 $this->fieldsets = $this->form->getFieldsets('params');
 
-$script = "Joomla.submitbutton = function(task)
-	{
-			if (task == 'module.cancel' || document.formvalidator.isValid(document.getElementById('module-form'))) {";
+$script = "
+	Joomla.submitbutton = function(task) {
+			if (task == 'module.cancel' || document.formvalidator.isValid(document.getElementById('module-form')))
+			{
+";
 if ($hasContent)
 {
 	$script .= $this->form->getField($hasContentFieldName)->save();
 }
-$script .= "	Joomla.submitform(task, document.getElementById('module-form'));
+$script .= "
+			Joomla.submitform(task, document.getElementById('module-form'));
 				if (self != top)
 				{
+					if (parent.viewLevels)
+					{
+						var updPosition = jQuery('#jform_position').chosen().val(),
+							updTitle = jQuery('#jform_title').val(),
+							updMenus = jQuery('#jform_assignment').chosen().val(),
+							updAccess = jQuery('#jform_access').chosen().val(),
+							tmpMenu = jQuery('#menus-" . $this->item->id . "', parent.document),
+							tmpRow = jQuery('#tr-" . $this->item->id . "', parent.document);
+							window.parent.inMenus = new Array();
+							window.parent.numMenus = jQuery(':input[name=\"jform[assigned][]\"]').length;
+
+						jQuery('input[name=\"jform[assigned][]\"]').each(function(){
+							if (updMenus > 0 )
+							{
+								if (jQuery(this).is(':checked'))
+								{
+									window.parent.inMenus.push(parseInt(jQuery(this).val()));
+								}
+							}
+							if (updMenus < 0 )
+							{
+								if (!jQuery(this).is(':checked'))
+								{
+									window.parent.inMenus.push(parseInt(jQuery(this).val()));
+								}
+							}
+						});
+						if (updMenus == 0) {
+							tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
+							if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+						}
+						if (updMenus == '-') {
+							tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+							if (!tmpRow.hasClass('no')) { tmpRow.addClass('no '); }
+						}
+						if (updMenus > 0) {
+							if (window.parent.inMenus.indexOf(parent.menuId) >= 0)
+							{
+								if (window.parent.numMenus == window.parent.inMenus.length)
+								{
+									tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
+									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+								}
+								else
+								{
+									tmpMenu.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
+									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+								}
+							}
+							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
+							{
+								tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+								if (!tmpRow.hasClass('no')) { tmpRow.addClass('no '); }
+							}
+						}
+						if (updMenus < 0) {
+							if (window.parent.inMenus.indexOf(parent.menuId) >= 0)
+							{
+								if (window.parent.numMenus == window.parent.inMenus.length)
+								{
+									tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
+									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+								}
+								else
+								{
+									tmpMenu.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
+									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+								}
+							}
+							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
+							{
+								tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+								if (!tmpRow.hasClass('no')) { tmpRow.addClass('no '); }
+							}
+						}
+
+							jQuery('#title-" . $this->item->id . "', parent.document).text(updTitle);
+							jQuery('#position-" . $this->item->id . "', parent.document).text(updPosition);
+							jQuery('#access-" . $this->item->id . "', parent.document).html(parent.viewLevels[updAccess]);
+					}
 					window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
 				}
 			}

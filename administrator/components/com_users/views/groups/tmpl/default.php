@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
@@ -161,13 +161,13 @@ JFactory::getDocument()->addScriptDeclaration('
 						<td>
 							<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level) ?>
 							<?php if ($canEdit) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_users&task=group.edit&id='.$item->id);?>">
+							<a href="<?php echo JRoute::_('index.php?option=com_users&task=group.edit&id=' . $item->id);?>">
 								<?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 							<?php if (JDEBUG) : ?>
-								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id='.(int) $item->id);?>">
+								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id);?>">
 								<?php echo JText::_('COM_USERS_DEBUG_GROUP');?></a></div>
 							<?php endif; ?>
 						</td>

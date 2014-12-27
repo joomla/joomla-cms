@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $client    = $this->state->get('filter.client') == '0' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -81,7 +81,7 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 						</td>
 						<td>
 							<?php if ($canEdit) : ?>
-								<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id='.$key); ?>"><?php echo $this->escape($key); ?></a>
+								<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>"><?php echo $this->escape($key); ?></a>
 							<?php else: ?>
 								<?php echo $this->escape($key); ?>
 							<?php endif; ?>

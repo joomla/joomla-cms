@@ -28,7 +28,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_newsfeeds&task=newsfeeds.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	JHtml::_('sortablelist.sortable', 'newsfeedList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
 $assoc		= JLanguageAssociations::isEnabled();
@@ -192,7 +192,7 @@ JFactory::getDocument()->addScriptDeclaration('
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'newsfeeds.', $canCheckin); ?>
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
-									<a href="<?php echo JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id='.(int) $item->id); ?>">
+									<a href="<?php echo JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id); ?>">
 										<?php echo $this->escape($item->name); ?></a>
 								<?php else : ?>
 										<?php echo $this->escape($item->name); ?>
