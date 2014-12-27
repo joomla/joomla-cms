@@ -62,7 +62,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	 * 
 	 * @since 3.4
 	 */
-	public function registerView($name, $view, $key = false, $parent = false, $parent_key = false, $nestable = false, $layout = 'default')
+	public function registerView($name, $view, $key = false, $parent = false, $parent_key = false, $nestable = false, $layout = array('default'))
 	{
 		$viewobj = new stdClass;
 		$viewobj->view = $view;
@@ -153,7 +153,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 			}
 			foreach ($this->view_map[$view] as $name)
 			{
-				if ($layout == $this->views[$name]->layout)
+				if (in_array($layout, $this->views[$name]->layout))
 				{
 					$viewobj = $this->views[$name];
 					break;
@@ -164,10 +164,17 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 		{
 			$path = array_reverse($viewobj->path);
 
-			$view = $views[array_shift($path)];
-			$key = $view->key;
+			$first = true;
 			foreach ($path as $element)
 			{
+				$view = $views[$element];
+				if ($first) {
+					$key = $view->key;
+					$first = false;
+				} else {
+					$key = $view->child_key;
+				}
+
 				if ($key && isset($query[$key]))
 				{
 					$result[$view->name] = array($query[$key]);
@@ -184,8 +191,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 				{
 					$result[$view->name] = true;
 				}
-				$view = $views[$element];
-				$key = $view->child_key;
+
 			}
 		}
 		return $result;
