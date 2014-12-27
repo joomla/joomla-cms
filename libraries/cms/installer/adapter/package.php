@@ -136,6 +136,22 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	}
 
 	/**
+	 * Method to create the extension root path if necessary
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function createExtensionRoot()
+	{
+		/*
+		 * For packages, we only need the extension root if copying manifest files; this step will be handled
+		 * at that point if necessary
+		 */
+	}
+
+	/**
 	 * Method to finalise the installation processing
 	 *
 	 * @return  void
@@ -182,7 +198,29 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			// First, we have to create a folder for the script if one isn't present
 			if (!file_exists($this->parent->getPath('extension_root')))
 			{
-				JFolder::create($this->parent->getPath('extension_root'));
+				if (!JFolder::create($this->parent->getPath('extension_root')))
+				{
+					throw new RuntimeException(
+						JText::sprintf(
+							'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+							JText::_('JLIB_INSTALLER_' . $this->route),
+							$this->parent->getPath('extension_root')
+						)
+					);
+				}
+
+				/*
+				 * Since we created the extension directory and will want to remove it if
+				 * we have to roll back the installation, let's add it to the
+				 * installation step stack
+				 */
+
+				$this->parent->pushStep(
+					array(
+						'type' => 'folder',
+						'path' => $this->parent->getPath('extension_root')
+					)
+				);
 			}
 
 			$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;

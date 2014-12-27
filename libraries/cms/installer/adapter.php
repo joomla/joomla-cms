@@ -233,7 +233,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		}
 
 		/*
-		 * Since we created the module directory and will want to remove it if
+		 * Since we created the extension directory and will want to remove it if
 		 * we have to roll back the installation, let's add it to the
 		 * installation step stack
 		 */
