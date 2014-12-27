@@ -16,18 +16,27 @@
 
 [class^="icon-"],
 [class*=" icon-"] {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  .ie7-restore-right-whitespace();
-  line-height: 14px;
-  vertical-align: text-top;
-  background-image: url("@{iconSpritePath}");
-  background-position: 14px 14px;
-  background-repeat: no-repeat;
-  margin-top: 1px;
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-right: .25em;
+	line-height: 14px;
+	vertical-align: text-top;
+	background-image: url("@{iconSpritePath}");
+	background-position: 14px 14px;
+	background-repeat: no-repeat;
+	margin-top: 1px;
 }
 
+dd > span[class^="icon-"] + time,
+dd > span[class*=" icon-"] + time{
+	margin-left: -.25em;
+}
+dl.article-info dd.hits span[class^="icon-"],
+dl.article-info dd.hits span[class*=" icon-"]{
+	margin-right: 0;
+ }
+ 
 /* White icons with optional class, or on hover/focus/active states of certain elements */
 .icon-white,
 .nav-pills > .active > a > [class^="icon-"],

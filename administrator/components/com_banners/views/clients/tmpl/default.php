@@ -25,7 +25,6 @@ $trashed    = $this->state->get('filter.state') == -2 ? true : false;
 $sortFields = $this->getSortFields();
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -40,8 +39,8 @@ jQuery(document).ready(function() {
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, "");
-	}
-});');
+	};
+');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=clients'); ?>" method="post" name="adminForm" id="adminForm">

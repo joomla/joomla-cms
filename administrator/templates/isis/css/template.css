@@ -6227,8 +6227,16 @@ div.modal.fade.in {
 	display: inline-block;
 	width: 14px;
 	height: 14px;
-	*margin-right: .3em;
+	margin-right: .25em;
 	line-height: 14px;
+}
+dd > span[class^="icon-"] + time,
+dd > span[class*=" icon-"] + time {
+	margin-left: -0.25em;
+}
+dl.article-info dd.hits span[class^="icon-"],
+dl.article-info dd.hits span[class*=" icon-"] {
+	margin-right: 0;
 }
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
@@ -7199,6 +7207,9 @@ body .navbar-fixed-top {
 	margin-bottom: 10px;
 	min-height: 43px;
 }
+.subhead-collapse {
+	margin-bottom: 11px;
+}
 .subhead-collapse.collapse {
 	height: auto;
 	overflow: visible;
@@ -7834,6 +7845,7 @@ th .tooltip-inner {
 }
 input.input-large-text {
 	font-size: 18px;
+	line-height: 22px;
 	height: auto;
 }
 .info-labels {

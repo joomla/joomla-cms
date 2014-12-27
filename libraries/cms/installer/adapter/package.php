@@ -9,14 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
-
 /**
  * Package installer
  *
  * @since  3.1
  */
-class JInstallerAdapterPackage extends JAdapterInstance
+class JInstallerAdapterPackage extends JInstallerAdapter
 {
 	/**
 	 * Method of system

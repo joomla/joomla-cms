@@ -100,11 +100,11 @@ else
 			?>
 				<li>
 					<?php if (!empty($uri)) : ?>
-						<h5 class="feed-link">
+						<span class="feed-link">
 						<a href="<?php echo htmlspecialchars($uri); ?>" target="_blank">
-						<?php echo $feed[$i]->title; ?></a></h5>
+						<?php echo $feed[$i]->title; ?></a></span>
 					<?php else : ?>
-						<h5 class="feed-link"><?php  echo $feed[$i]->title; ?></h5>
+						<span class="feed-link"><?php  echo $feed[$i]->title; ?></span>
 					<?php  endif; ?>
 
 					<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>

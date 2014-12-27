@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 $com_path = JPATH_SITE . '/components/com_content/';
-require_once $com_path . 'router.php';
 require_once $com_path . 'helpers/route.php';
 
 JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');

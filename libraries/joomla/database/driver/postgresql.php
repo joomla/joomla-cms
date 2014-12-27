@@ -697,7 +697,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				{
 					// Get the error number and message.
 					$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
-					$this->errorMsg = JText::_('JLIB_DATABASE_QUERY_FAILED') . "\n" . pg_last_error($this->connection) . "\nSQL=" . $query;
+					$this->errorMsg = pg_last_error($this->connection) . "SQL=" . $query;
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
@@ -712,7 +712,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			{
 				// Get the error number and message.
 				$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
-				$this->errorMsg = JText::_('JLIB_DATABASE_QUERY_FAILED') . "\n" . pg_last_error($this->connection) . "\nSQL=" . $query;
+				$this->errorMsg = pg_last_error($this->connection) . "SQL=" . $query;
 
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
