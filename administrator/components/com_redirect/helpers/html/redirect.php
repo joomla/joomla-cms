@@ -27,16 +27,43 @@ class JHtmlRedirect
 	 *
 	 * @since   1.6
 	 *
+	 * @deprecated  4.0
+	 *
 	 * @throws  InvalidArgumentException
 	 */
-	public static function published($value = 0, $i = null, $canChange = true)
+	public static function published($value = 0, $i = 0, $canChange = true)
 	{
+		// Log deprecated message
+		JLog::add(
+			'JHtmlRedirect::published() is deprecated. Use JHtmlRedirect::status() instead.',
+			JLog::WARNING,
+			'deprecated'
+		);
+
 		// Note: $i is required but has to be an optional argument in the function call due to argument order
 		if (null === $i)
 		{
 			throw new InvalidArgumentException('$i is a required argument in JHtmlRedirect::published');
 		}
 
+		return static::status($i, $value, $canChange);
+	}
+
+	/**
+	 * Display the published or unpublished state of an item.
+	 *
+	 * @param   int      $i          The ID of the item.
+	 * @param   int      $value      The state value.
+	 * @param   boolean  $canChange  An optional prefix for the task.
+	 *
+	 * @return  string
+	 *
+	 * @since   3.4
+	 *
+	 * @throws  InvalidArgumentException
+	 */
+	public static function status($i, $value = 0, $canChange = false)
+	{
 		// Array of image, task, title, action
 		$states	= array(
 			1	=> array('tick.png',		'links.unpublish',	'JENABLED',	'COM_REDIRECT_DISABLE_LINK'),
