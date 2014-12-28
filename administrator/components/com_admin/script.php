@@ -92,7 +92,7 @@ class JoomlaInstallerScript
 				$db->getQuery(true)
 					->update('#__extensions')
 					->set('protected = 0')
-					->where($db->quoteName('name') . ' = ' . $db->quote('plg_quickicon_eosnotify'))
+					->where($db->quoteName('extension_id') . ' = ' . $id)
 			)->execute();
 
 			$installer = new JInstaller;
