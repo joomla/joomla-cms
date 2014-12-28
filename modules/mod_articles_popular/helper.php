@@ -46,6 +46,10 @@ abstract class ModArticlesPopularHelper
 		$model->setState('filter.published', 1);
 		$model->setState('filter.featured', $params->get('show_front', 1) == 1 ? 'show' : 'hide');
 
+		// Don't fetch useless elements to speed up model
+		$model->setState('ignore.useraliases', 1);
+		$model->setState('ignore.ratings', 1);
+
 		// Access filter
 		$access = !JComponentHelper::getParams('com_content')->get('show_noauth');
 		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
