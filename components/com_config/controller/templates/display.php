@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Display Controller for global configuration
@@ -29,11 +29,10 @@ class ConfigControllerTemplatesDisplay extends ConfigControllerDisplay
 		$app = $this->getApplication();
 
 		// Get the document object.
-		$document     = JFactory::getDocument();
-
-		$viewName     = $this->input->getWord('view', 'templates');
-		$viewFormat   = $document->getType();
-		$layoutName   = $this->input->getWord('layout', 'default');
+		$document   = JFactory::getDocument();
+		$viewName   = $this->input->getWord('view', 'templates');
+		$viewFormat = $document->getType();
+		$layoutName = $this->input->getWord('layout', 'default');
 
 		// Access back-end com_config
 		JLoader::register('TemplatesController', JPATH_ADMINISTRATOR . '/components/com_templates/controller.php');

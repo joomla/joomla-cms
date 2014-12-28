@@ -26,10 +26,8 @@ JFactory::getDocument()->addScriptDeclaration("
 
 <form action="<?php echo JRoute::_('index.php?option=com_config');?>" id="application-form" method="post" name="adminForm" class="form-validate">
 	<div class="row-fluid">
-
 		<!-- Begin Content -->
 		<div class="span12">
-
 			<div class="btn-toolbar">
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('config.save.config.apply')">
@@ -42,23 +40,18 @@ JFactory::getDocument()->addScriptDeclaration("
 					</button>
 				</div>
 			</div>
-
 			<hr class="hr-condensed" />
-
 			<div id="page-site" class="tab-pane active">
 				<div class="row-fluid">
 					<div class="span6">
 						<?php echo $this->loadTemplate('site'); ?>
 						<?php echo $this->loadTemplate('metadata'); ?>
 						<?php echo $this->loadTemplate('seo'); ?>
-
 					</div>
 				</div>
 			</div>
-
 			<input type="hidden" name="task" value="" />
 			<?php echo JHtml::_('form.token'); ?>
-
 		</div>
 		<!-- End Content -->
 	</div>

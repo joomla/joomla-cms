@@ -54,15 +54,15 @@ class BannersModelBanners extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$ordering = $this->getState('filter.ordering');
-		$tagSearch = $this->getState('filter.tag_search');
-		$cid = $this->getState('filter.client_id');
+		$db         = $this->getDbo();
+		$query      = $db->getQuery(true);
+		$ordering   = $this->getState('filter.ordering');
+		$tagSearch  = $this->getState('filter.tag_search');
+		$cid        = $this->getState('filter.client_id');
 		$categoryId = $this->getState('filter.category_id');
-		$keywords = $this->getState('filter.keywords');
-		$randomise = ($ordering == 'random');
-		$nullDate = $db->quote($db->getNullDate());
+		$keywords   = $this->getState('filter.keywords');
+		$randomise  = ($ordering == 'random');
+		$nullDate   = $db->quote($db->getNullDate());
 
 		$query->select(
 			'a.id as id,' .
@@ -97,7 +97,7 @@ class BannersModelBanners extends JModelList
 
 			// Add subcategory check
 			$includeSubcategories = $this->getState('filter.subcategories', false);
-			$categoryEquals = 'a.catid ' . $type . (int) $categoryId;
+			$categoryEquals       = 'a.catid ' . $type . (int) $categoryId;
 
 			if ($includeSubcategories)
 			{
@@ -139,13 +139,13 @@ class BannersModelBanners extends JModelList
 			}
 			else
 			{
-				$temp = array();
+				$temp   = array();
 				$config = JComponentHelper::getParams('com_banners');
 				$prefix = $config->get('metakey_prefix');
 
 				foreach ($keywords as $keyword)
 				{
-					$keyword = trim($keyword);
+					$keyword    = trim($keyword);
 					$condition1 = "a.own_prefix=1 "
 						. " AND a.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH( a.metakey_prefix)) "
 						. " OR a.own_prefix=0 "
@@ -219,9 +219,9 @@ class BannersModelBanners extends JModelList
 	public function impress()
 	{
 		$trackDate = JFactory::getDate()->format('Y-m-d H');
-		$items = $this->getItems();
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$items     = $this->getItems();
+		$db        = $this->getDbo();
+		$query     = $db->getQuery(true);
 
 		foreach ($items as $item)
 		{
@@ -252,7 +252,7 @@ class BannersModelBanners extends JModelList
 
 			if ($trackImpressions < 0)
 			{
-				$config = JComponentHelper::getParams('com_banners');
+				$config           = JComponentHelper::getParams('com_banners');
 				$trackImpressions = $config->get('track_impressions');
 			}
 

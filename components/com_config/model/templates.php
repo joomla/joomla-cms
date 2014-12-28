@@ -89,23 +89,22 @@ class ConfigModelTemplates extends ConfigModelForm
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		$lang = JFactory::getLanguage();
-
+		$lang     = JFactory::getLanguage();
 		$template = JFactory::getApplication()->getTemplate();
 
 		jimport('joomla.filesystem.path');
 
 		// Load the core and/or local language file(s).
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-		||	$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
+		|| $lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
 
 		// Look for com_config.xml, which contains fileds to display
-		$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
+		$formFile = JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
 
 		if (!file_exists($formFile))
 		{
 			// If com_config.xml not found, fall back to templateDetails.xml
-			$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
+			$formFile = JPath::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
 		}
 
 		if (file_exists($formFile))

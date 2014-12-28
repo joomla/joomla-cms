@@ -1,13 +1,13 @@
 <?php
 /**
- * @package     Joomla.Cms
- * @subpackage  View
+ * @package     Joomla.Site
+ * @subpackage  com_config
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
 
 /**
  * Prototype admin view.
@@ -58,7 +58,7 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 	 */
 	public function __construct(JModel $model, SplPriorityQueue $paths = null)
 	{
-		$app = JFactory::getApplication();
+		$app       = JFactory::getApplication();
 		$component = JApplicationHelper::getComponentName();
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
 
@@ -84,16 +84,15 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 	{
 		// Clear prior output
 		$this->_output = null;
-
-		$template = JFactory::getApplication()->getTemplate();
-		$layout = $this->getLayout();
+		$template      = JFactory::getApplication()->getTemplate();
+		$layout        = $this->getLayout();
 
 		// Create the template file name based on the layout
 		$file = isset($tpl) ? $layout . '_' . $tpl : $layout;
 
 		// Clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
-		$tpl = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
+		$tpl  = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
 		// Load the language file for the template
 		$lang = JFactory::getLanguage();
@@ -113,13 +112,13 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 
 		// Load the template script
 		jimport('joomla.filesystem.path');
-		$filetofind = $this->_createFileName('template', array('name' => $file));
+		$filetofind      = $this->_createFileName('template', array('name' => $file));
 		$this->_template = JPath::find($this->_path['template'], $filetofind);
 
 		// If alternate layout can't be found, fall back to default layout
 		if ($this->_template == false)
 		{
-			$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
+			$filetofind      = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
 			$this->_template = JPath::find($this->_path['template'], $filetofind);
 		}
 
@@ -171,11 +170,11 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 
 		switch ($type)
 		{
-			case 'template':
+			case 'template' :
 				$filename = strtolower($parts['name']) . '.' . $this->_layoutExt;
 				break;
 
-			default:
+			default :
 				$filename = strtolower($parts['name']) . '.php';
 				break;
 		}
@@ -199,14 +198,14 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 		if (empty($this->_name))
 		{
 			$classname = get_class($this);
-			$viewpos = strpos($classname, 'View');
+			$viewpos   = strpos($classname, 'View');
 
 			if ($viewpos === false)
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
 
-			$lastPart = substr($classname, $viewpos + 4);
+			$lastPart  = substr($classname, $viewpos + 4);
 			$pathParts = explode(' ', JStringNormalise::fromCamelCase($lastPart));
 
 			if (!empty($pathParts[1]))

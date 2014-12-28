@@ -6,21 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
 
 /**
  * Save Controller for module editing
  *
- * @package     Joomla.Site
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
 */
 class ConfigControllerModulesSave extends JControllerBase
 {
 	/**
 	 * Method to save module editing.
 	 *
-	 * @return  bool	True on success.
+	 * @return  bool  True on success.
 	 *
 	 * @since   3.2
 	 */
@@ -51,7 +50,7 @@ class ConfigControllerModulesSave extends JControllerBase
 
 		// Get returnUri
 		$returnUri = $this->input->post->get('return', null, 'base64');
-		$redirect = '';
+		$redirect  = '';
 
 		if (!empty($returnUri))
 		{
@@ -93,11 +92,11 @@ class ConfigControllerModulesSave extends JControllerBase
 		// Set the redirect based on the task.
 		switch ($this->options[3])
 		{
-			case 'apply':
+			case 'apply' :
 				$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.modules' . $moduleId . $redirect, false));
 				break;
 
-			case 'save':
+			case 'save' :
 			default:
 
 				if (!empty($returnUri))

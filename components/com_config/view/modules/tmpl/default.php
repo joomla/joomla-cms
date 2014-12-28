@@ -41,10 +41,8 @@ JFactory::getDocument()->addScriptDeclaration("
 	class="form-validate">
 
 	<div class="row-fluid">
-
 		<!-- Begin Content -->
 		<div class="span12">
-
 			<div class="btn-toolbar">
 				<div class="btn-group">
 					<button type="button" class="btn btn-default btn-primary"
@@ -68,20 +66,20 @@ JFactory::getDocument()->addScriptDeclaration("
 					</button>
 				</div>
 			</div>
-
 			<hr class="hr-condensed" />
-
 			<legend><?php echo JText::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
-
 			<div>
-				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_NAME') ?>
-				<span class="label label-default"><?php echo $this->item['title'] ?></span>
+				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
+				<span class="label label-default">
+					<?php echo $this->item['title']; ?>
+				</span>
 				&nbsp;&nbsp;
-				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE') ?>
-				<span class="label label-default"><?php echo $this->item['module'] ?></span>
+				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
+				<span class="label label-default">
+					<?php echo $this->item['module']; ?>
+				</span>
 			</div>
 			<hr />
-
 			<div class="row-fluid">
 				<div class="span12">
 					<fieldset class="form-horizontal">
@@ -109,11 +107,8 @@ JFactory::getDocument()->addScriptDeclaration("
 								<?php echo $this->loadTemplate('positions'); ?>
 							</div>
 						</div>
-
 						<hr />
-
-						<?php
-						if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])): ?>
+						<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('published'); ?>
@@ -123,7 +118,6 @@ JFactory::getDocument()->addScriptDeclaration("
 							</div>
 						</div>
 						<?php endif ?>
-
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('publish_up'); ?>
@@ -140,7 +134,6 @@ JFactory::getDocument()->addScriptDeclaration("
 								<?php echo $this->form->getInput('publish_down'); ?>
 							</div>
 						</div>
-
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('access'); ?>
@@ -157,7 +150,6 @@ JFactory::getDocument()->addScriptDeclaration("
 								<?php echo $this->form->getInput('ordering'); ?>
 							</div>
 						</div>
-	
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('language'); ?>
@@ -174,30 +166,23 @@ JFactory::getDocument()->addScriptDeclaration("
 								<?php echo $this->form->getInput('note'); ?>
 							</div>
 						</div>
-
 						<hr />
-
 						<div id="options">
 							<?php echo $this->loadTemplate('options'); ?>
 						</div>
-
-						<?php if ($hasContent): ?>
+						<?php if ($hasContent ): ?>
 							<div class="tab-pane" id="custom">
 								<?php echo $this->form->getInput('content'); ?>
 							</div>
 						<?php endif; ?>
 					</fieldset>
 				</div>
-
-				<input type="hidden" name="id" value="<?php echo $this->item['id'];?>" />
-				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64');?>" />
+				<input type="hidden" name="id" value="<?php echo $this->item['id']; ?>" />
+				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64'); ?>" />
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
-
 			</div>
-
 		</div>
 		<!-- End Content -->
 	</div>
-
 </form>
