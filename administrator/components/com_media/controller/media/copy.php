@@ -38,9 +38,20 @@ class MediaControllerMediaCopy extends JControllerBase
 		// Get some data from the request
 		$tmpl	= $this->input->get('tmpl');
 		$paths	= $this->input->get('rm', array(), 'array');
-		$folder = $this->input->get('folder', '', 'path');
+		$folder = $this->input->get('folder', '', 'raw');
+		$targetPath = $this->input->get('targetPath', '', 'raw');
 		$return = JFactory::getSession()->get('com_media.return_url', 'index.php?option=com_media&controller=media.display.media');
-		$targetPath = $this->input->get('targetPath', '', 'path');
+
+		// Avoid issue with single string in a relative path
+		if (strlen(trim($targetPath)) == 0)
+		{
+			$targetPath = $this->input->get('targetPath', '');
+		}
+
+		if (strlen(trim($folder)) == 0)
+		{
+			$folder = $this->input->get('folder', '');
+		}
 
 		// Nothing to copy
 		if (empty($paths) || is_null($targetPath))
@@ -116,8 +127,68 @@ class MediaControllerMediaCopy extends JControllerBase
 				// Trigger the onContentAfterCopy event.
 				$dispatcher->trigger('onContentAfterCopy', array('com_media.file', &$object_file));
 				$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_COPY_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
+
+			}
+			elseif (is_dir($object_file->filepath))
+			{
+				// Create a new media folder
+				if (!JFolder::create($object_file->targetpath))
+				{
+					$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_ERROR_FOLDER_COPY', substr($object_file->filepath, strlen(COM_MEDIA_BASE))), 'error');
+					$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
+				}
+
+				// Get files & folders inside the folder as an array
+				$mediaArray = array_merge(JFolder::files($object_file->filepath), JFolder::folders($object_file->filepath));
+
+				// Filter images only
+				for ($index = 0; $index < count($mediaArray); $index++)
+				{
+					$file = JPath::clean($mediaArray[$index]);
+					$fileFullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path, $file)));
+					$targetFileFullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $targetPath, $path, $file)));
+
+					if (!JHelperMedia::isImage($file) && !is_dir($fileFullPath))
+					{
+						// Move other files directly
+						if (!JFile::copy($fileFullPath, $targetFileFullPath))
+						{
+							$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_ERROR_FILE_COPY', substr($object_file->filepath, strlen(COM_MEDIA_BASE))), 'error');
+							$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
+						}
+
+						// Remove non-image from media array
+						unset($mediaArray[$index]);
+					}
+				}
+
+				// New JInput for recursively move internal media
+				$newInput = new JInput;
+				$newInput->set('rm', $mediaArray);
+				$newInput->set('folder', JPath::clean(implode(DIRECTORY_SEPARATOR, array($folder, $path))));
+				$newInput->set('targetPath', JPath::clean(implode(DIRECTORY_SEPARATOR, array($targetPath, $path))));
+				$this->input = $newInput;
+
+				// Not to redirect during recursion
+				JFactory::getSession()->set('com_media.return_url', false);
+
+				$copyController = new MediaControllerMediaCopy;
+
+				if (!$copyController->execute())
+				{
+					$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_ERROR_FOLDER_COPY', substr($object_file->filepath, strlen(COM_MEDIA_BASE))), 'error');
+					$this->app->redirect(JRoute::_($return . '&folder=' . $this->folder, false));
+				}
 			}
 		}
-		$this->app->redirect(JRoute::_($return . '&folder=' . $folder, false));
+		
+		if ($return)
+		{
+			$this->app->redirect(JRoute::_($return . '&folder=' . $folder, false));
+		}
+		else
+		{
+			return true;
+		}
 	}
 }

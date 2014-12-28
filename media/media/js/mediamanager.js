@@ -53,9 +53,9 @@ var MediaManager = this.MediaManager = {
 	    
 	    var method = task.split('.')[1];
 	    if (method == "copy") {
-	    	inp.value = $('#copyTarget #folderlist').find(":selected").text().slice(1);
+	    	inp.value = $('#copyTarget #folderlist').find(":selected").text();
 	    } else if (method == "move") {
-	    	inp.value = $('#moveTarget #folderlist').find(":selected").text().slice(1);
+	    	inp.value = $('#moveTarget #folderlist').find(":selected").text();
 	    }
 
 	    form.appendChild(inp);

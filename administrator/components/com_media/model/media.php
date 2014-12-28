@@ -229,7 +229,18 @@ class MediaModelMedia extends ConfigModelForm
 		$data = array();
 		$data['core_urls'] = $rel_path;
 
-		$fname = explode('.', $file['original_name']);
+		$fname = null;
+
+		// Require when handling files with non-alphaneumeric filename
+		if (isset($file['original_name']))
+		{
+			$fname = explode('.', $file['original_name']);
+		}
+		else
+		{
+			$fname = explode('.', $file['name']);
+		}
+
 		$data['core_type_id'] = $typeId;
 		$data['core_type_alias'] = 'com_media.image';
 		$data['core_title'] = $fname[0];
