@@ -11,13 +11,20 @@ defined('_JEXEC') or die;
 
 /**
  * JHtml helper class.
+ *
+ * @since  1.6
  */
 class JHtmlTemplates
 {
 	/**
 	 * Display the thumb for the template.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string	 $template  The name of the template.
+	 * @param   integer  $clientId  The application client ID the template applies to
+	 *
+	 * @return  string  The html string
+	 *
+	 * @since   1.6
 	 */
 	public static function thumb($template, $clientId = 0)
 	{
@@ -44,11 +51,11 @@ class JHtmlTemplates
 					JHtml::tooltipText('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</a>';
 				$html .= JHtmlBootstrap::renderModal(
 					$template . '-Modal', array(
-						'url' => $preview,
 						'title' => JText::_('COM_TEMPLATES_BUTTON_PREVIEW'),
-						'height' => '800px',
+						'height' => '500px',
 						'width' => '800px'
-						)
+						),
+					$body = '<div><img src="' . $preview . '" style="width:100%"></div>'
 					);
 			}
 		}
