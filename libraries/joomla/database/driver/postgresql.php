@@ -114,7 +114,14 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 
 		// Build the DSN for the connection.
-		$dsn = "host={$this->options['host']} dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
+		$dsn = '';
+
+		if (!empty($this->options['host']))
+		{
+			$dsn .= "host={$this->options['host']} ";
+		}
+
+		$dsn .= "dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @pg_connect($dsn)))
