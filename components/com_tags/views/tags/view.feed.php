@@ -48,28 +48,24 @@ class TagsViewTags extends JViewLegacy
 			// Strip HTML from feed item title
 			$title = $this->escape($item->title);
 			$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
-
-			// Strip HTML from feed item description text
-			$description = $item->description;
-			$author      = $item->created_by_alias ? $item->created_by_alias : $item->author;
-			$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
+			$date = ($item->created_time ? date('r', strtotime($item->created_time)) : '');
 
 			// Load individual item creator class
 			$feeditem = new JFeedItem;
 			$feeditem->title       = $title;
-			$feeditem->link        = '/index.php?option=com_tags&view=tag&id=' . (int) $item->id;
-			$feeditem->description = $description;
+			$feeditem->link        = JRoute::_('index.php?option=com_tags&view=tag&id=' . (int) $item->id);
+			$feeditem->description = $item->description;
 			$feeditem->date        = $date;
 			$feeditem->category    = 'All Tags';
-			$feeditem->author      = $author;
+			$feeditem->author      = $item->author;
 
 			if ($feedEmail == 'site')
 			{
-				$item->authorEmail = $siteEmail;
+				$feeditem->authorEmail = $siteEmail;
 			}
 			elseif ($feedEmail === 'author')
 			{
-				$item->authorEmail = $row->author_email;
+				$feeditem->authorEmail = $item->author_email;
 			}
 
 			// Loads item info into RSS array
