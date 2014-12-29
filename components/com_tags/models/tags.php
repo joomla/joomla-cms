@@ -130,6 +130,11 @@ class TagsModelTags extends JModelList
 			->from($db->quoteName('#__tags') . ' AS a')
 			->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
 
+		// Join over the users for the author and author_email field.
+		$query->select("CASE WHEN a.created_by_alias != '' THEN a.created_by_alias ELSE u.name END AS author")
+			->select("u.email AS author_email")
+			->join('LEFT', '#__users AS u ON u.id = a.created_user_id');
+
 		if (!empty($pid))
 		{
 			$query->where($db->quoteName('a.parent_id') . ' = ' . $pid);
