@@ -355,4 +355,21 @@ class JUserHelperTest extends TestCaseDatabase
 			'Properly verifies a password hashed with Joomla legacy MD5'
 		);
 	}
+
+	/**
+	 * Testing verifyPassword() with a Joomla 1.0 style password with no salt.
+	 *
+	 * @covers  JUserHelper::verifyPassword
+	 * @return  void
+	 *
+	 * @since   3.2
+	 * @see     https://github.com/joomla/joomla-cms/pull/5551
+	 */
+	public function testVerifyPasswordWithNoSalt()
+	{
+		$this->assertTrue(
+			JUserHelper::verifyPassword('test', '098f6bcd4621d373cade4e832627b4f6:'),
+			'Joomla 1.0 passwords without a legacy hash are not verified correctly'
+		);
+	}
 }
