@@ -181,7 +181,7 @@ class MediaControllerMediaCopy extends JControllerBase
 				}
 			}
 		}
-		
+
 		if ($return)
 		{
 			$this->app->redirect(JRoute::_($return . '&folder=' . $folder, false));
