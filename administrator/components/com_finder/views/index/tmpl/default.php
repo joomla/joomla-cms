@@ -21,7 +21,6 @@ JText::script('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
 JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(pressbutton)
 	{
 		if (pressbutton == "index.purge")
@@ -48,8 +47,8 @@ jQuery(document).ready(function() {
 		}
 
 		Joomla.submitform(pressbutton);
-	}
-});');
+	};
+');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=index');?>" method="post" name="adminForm" id="adminForm">

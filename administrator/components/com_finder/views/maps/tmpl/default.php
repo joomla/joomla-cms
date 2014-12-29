@@ -19,7 +19,6 @@ $lang = JFactory::getLanguage();
 JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(pressbutton)
 	{
 		if (pressbutton == "map.delete")
@@ -34,8 +33,8 @@ jQuery(document).ready(function() {
 			}
 		}
 		Joomla.submitform(pressbutton);
-	}
-});');
+	};
+');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=maps');?>" method="post" name="adminForm" id="adminForm">

@@ -9,15 +9,13 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.framework');
-
 $n			= count($this->items);
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 
 <?php if (empty($this->items)) : ?>
-	<p> <?php echo JText::_('COM_NEWSFEEDS_NO_ARTICLES'); ?></p>
+	<p><?php echo JText::_('COM_NEWSFEEDS_NO_ARTICLES'); ?></p>
 <?php else : ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
@@ -48,7 +46,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php endif; ?>
 				<?php  if ($this->params->get('show_articles')) : ?>
 					<span class="list-hits badge badge-info pull-right">
-						<?php echo  JText::sprintf('COM_NEWSFEEDS_NUM_ARTICLES_COUNT', $item->numarticles); ?>
+						<?php echo JText::sprintf('COM_NEWSFEEDS_NUM_ARTICLES_COUNT', $item->numarticles); ?>
 					</span>
 				<?php  endif; ?>
 				<span class="list pull-left">

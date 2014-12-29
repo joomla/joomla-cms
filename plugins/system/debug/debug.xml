@@ -175,6 +175,16 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
+				<field name="log-everything" type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					description="PLG_DEBUG_FIELD_LOG_EVERYTHING_DESC"
+					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

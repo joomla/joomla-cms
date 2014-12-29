@@ -98,6 +98,12 @@ class PlgSystemDebug extends JPlugin
 			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
 		}
 
+		// Log everything (except deprecated APIs, these are logged separately with the option above).
+		if ($this->params->get('log-everything'))
+		{
+			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
+		}
+
 		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
 		if (!$this->app)
 		{

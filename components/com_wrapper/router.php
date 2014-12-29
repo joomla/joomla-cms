@@ -27,21 +27,12 @@ class WrapperRouter extends JComponentRouterBase
 	 */
 	public function build(&$query)
 	{
-		$segments = array();
-
 		if (isset($query['view']))
 		{
 			unset($query['view']);
 		}
 
-		$total = count($segments);
-
-		for ($i = 0; $i < $total; $i++)
-		{
-			$segments[$i] = str_replace(':', '-', $segments[$i]);
-		}
-
-		return $segments;
+		return array();
 	}
 
 	/**
@@ -55,17 +46,7 @@ class WrapperRouter extends JComponentRouterBase
 	 */
 	public function parse(&$segments)
 	{
-		$total = count($segments);
-		$vars = array();
-
-		for ($i = 0; $i < $total; $i++)
-		{
-			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
-		}
-
-		$vars['view'] = 'wrapper';
-
-		return $vars;
+		return array('view' => 'wrapper');
 	}
 }
 

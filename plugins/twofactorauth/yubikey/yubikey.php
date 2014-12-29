@@ -173,6 +173,12 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		// Load raw data
 		$rawData = $input->get('jform', array(), 'array');
+
+		if (!isset($rawData['twofactor']['yubikey']))
+		{
+			return false;
+		}
+
 		$data = $rawData['twofactor']['yubikey'];
 
 		// Warn if the securitycode is empty
