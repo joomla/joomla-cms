@@ -368,7 +368,9 @@ abstract class JUserHelper
 
 			$rehash = true;
 
-			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : '');
+			// Compile the hash to compare
+			// If the salt is empty AND there is a ':' in the original hash, we must append ':' at the end
+			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : (strpos($hash, ':') !== false ? ':' : ''));
 
 			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
 		}
