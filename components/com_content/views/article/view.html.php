@@ -68,7 +68,7 @@ class ContentViewArticle extends JViewLegacy
 		}
 
 		// TODO: Change based on shownoauth
-		$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
+		$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
@@ -285,7 +285,8 @@ class ContentViewArticle extends JViewLegacy
 
 		if ($app->get('MetaAuthor') == '1')
 		{
-			$this->document->setMetaData('author', $this->item->author);
+			$author = $this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author;
+			$this->document->setMetaData('author', $author);
 		}
 
 		$mdata = $this->item->metadata->toArray();

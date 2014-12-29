@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.framework');
+JHtml::_('behavior.core');
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::stylesheet('com_finder/finder.css', false, true, false);
 ?>

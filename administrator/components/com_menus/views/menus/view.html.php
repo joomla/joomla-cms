@@ -16,16 +16,34 @@ defined('_JEXEC') or die;
  */
 class MenusViewMenus extends JViewLegacy
 {
+	/**
+	 * @var  mixed
+	 */
 	protected $items;
 
+	/**
+	 * @var  array
+	 */
 	protected $modules;
 
+	/**
+	 * @var  JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * @var  JObject
+	 */
 	protected $state;
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -40,6 +58,7 @@ class MenusViewMenus extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -50,6 +69,8 @@ class MenusViewMenus extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -63,10 +84,12 @@ class MenusViewMenus extends JViewLegacy
 		{
 			JToolbarHelper::addNew('menu.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('menu.edit');
 		}
+
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::divider();
@@ -74,11 +97,13 @@ class MenusViewMenus extends JViewLegacy
 		}
 
 		JToolbarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::divider();
 			JToolbarHelper::preferences('com_menus');
 		}
+
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_MENUS_MENU_MANAGER');
 	}

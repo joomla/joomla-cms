@@ -1259,7 +1259,12 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
 		$menuElement = $this->manifest->administration->menu;
 
-		if ($menuElement)
+		// @TODO: Just do not create the menu if $menuElement not exist
+		if (in_array((string) $menuElement['hidden'], array('true', 'hidden')))
+		{
+			return true;
+		}
+		elseif ($menuElement)
 		{
 			$data = array();
 			$data['menutype'] = 'main';
@@ -1829,6 +1834,22 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		if ($uid)
 		{
 			$update->delete($uid);
+		}
+
+		// Register the component container just under root in the assets table.
+		$asset = JTable::getInstance('Asset');
+		$asset->name = $this->get('element');
+		$asset->parent_id = 1;
+		$asset->rules = '{}';
+		$asset->title = $this->get('name');
+		$asset->setLocation(1, 'last-child');
+
+		if (!$asset->store())
+		{
+			// Install failed, roll back changes
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
+
+			return false;
 		}
 
 		// And now we run the postflight

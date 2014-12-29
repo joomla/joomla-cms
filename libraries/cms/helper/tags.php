@@ -602,15 +602,14 @@ class JHelperTags extends JHelper
 		// Get the type data, limited to types in the request if there are any specified.
 		$typesarray = self::getTypes('assocList', $typesr, false);
 
-		$typeAliases = '';
+		$typeAliases = array();
 
 		foreach ($typesarray as $type)
 		{
-			$typeAliases .= "'" . $type['type_alias'] . "'" . ',';
+			$typeAliases[] = $db->quote($type['type_alias']);
 		}
 
-		$typeAliases = rtrim($typeAliases, ',');
-		$query->where('m.type_alias IN (' . $typeAliases . ')');
+		$query->where('m.type_alias IN (' . implode(',', $typeAliases) . ')');
 
 		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
 		$query->where('c.core_access IN (' . $groups . ')')
@@ -682,6 +681,7 @@ class JHelperTags extends JHelper
 	public function getTagTreeArray($id, &$tagTreeArray = array())
 	{
 		// Get a level row instance.
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 		$table = JTable::getInstance('Tag', 'TagsTable');
 
 		if ($table->isLeaf($id))

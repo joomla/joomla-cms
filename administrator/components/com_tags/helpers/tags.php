@@ -54,7 +54,6 @@ class TagsHelper extends JHelperContent
 					// Loading language file from administrator/language directory then administrator/components/<extension>/language
 					$lang->load($component, JPATH_BASE, null, false, true)
 					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
-
 				}
 			}
 		}

@@ -19,15 +19,18 @@ class UsersModelRemind extends JModelForm
 	/**
 	 * Method to get the username remind request form.
 	 *
-	 * @param   array      $data        An optional array of data for the form to interogate.
-	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
-	 * @return  JForm    A JForm object on success, false on failure
+	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  JFor     A JForm object on success, false on failure
+	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.remind', 'remind', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -39,9 +42,14 @@ class UsersModelRemind extends JModelForm
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param   object    A form object.
-	 * @param   mixed     The data expected for the form.
-	 * @throws    Exception if there is an error in the form event.
+	 * @param   JForm   $form   A JForm object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
+	 * @throws	Exception if there is an error in the form event.
+	 *
 	 * @since   1.6
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'user')
@@ -53,6 +61,8 @@ class UsersModelRemind extends JModelForm
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -67,6 +77,12 @@ class UsersModelRemind extends JModelForm
 	}
 
 	/**
+	 * Send the remind username email
+	 *
+	 * @param   array  $data  Array with the data received from the form
+	 *
+	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	public function processRemindRequest($data)
@@ -98,6 +114,7 @@ class UsersModelRemind extends JModelForm
 			{
 				$this->setError($formError->getMessage());
 			}
+
 			return false;
 		}
 
@@ -118,6 +135,7 @@ class UsersModelRemind extends JModelForm
 		catch (RuntimeException $e)
 		{
 			$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+
 			return false;
 		}
 
@@ -125,6 +143,7 @@ class UsersModelRemind extends JModelForm
 		if (empty($user))
 		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
+
 			return false;
 		}
 
@@ -132,6 +151,7 @@ class UsersModelRemind extends JModelForm
 		if ($user->block)
 		{
 			$this->setError(JText::_('COM_USERS_USER_BLOCKED'));
+
 			return false;
 		}
 
@@ -141,7 +161,7 @@ class UsersModelRemind extends JModelForm
 		$itemid = UsersHelperRoute::getLoginRoute();
 		$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 		$link = 'index.php?option=com_users&view=login' . $itemid;
-		$mode = $config->get('force_ssl', 0) == 2 ? 1 : -1;
+		$mode = $config->get('force_ssl', 0) == 2 ? 1 : (-1);
 
 		// Put together the email template data.
 		$data = JArrayHelper::fromObject($user);
@@ -169,6 +189,7 @@ class UsersModelRemind extends JModelForm
 		if ($return !== true)
 		{
 			$this->setError(JText::_('COM_USERS_MAIL_FAILED'), 500);
+
 			return false;
 		}
 

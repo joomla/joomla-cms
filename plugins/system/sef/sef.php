@@ -34,7 +34,7 @@ class PlgSystemSef extends JPlugin
 
 		$router = $app::getRouter();
 
-		$uri     = clone JUri::getInstance();
+		$uri     = JUri::getInstance();
 		$domain  = $this->params->get('domain');
 
 		if ($domain === null || $domain === '')
@@ -42,11 +42,9 @@ class PlgSystemSef extends JPlugin
 			$domain = $uri->toString(array('scheme', 'host', 'port'));
 		}
 
-		$parsed = $router->parse($uri);
-		$fakelink = 'index.php?' . http_build_query($parsed);
-		$link = $domain . JRoute::_($fakelink, false);
+		$link = $domain . JRoute::_('index.php?' . http_build_query($router->getVars()), false);
 
-		if ($uri !== $link)
+		if ($uri->toString() !== $link)
 		{
 			$doc->addHeadLink(htmlspecialchars($link), 'canonical');
 		}

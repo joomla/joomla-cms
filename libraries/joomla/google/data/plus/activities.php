@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Google+ data class for the Joomla Platform.
  *
@@ -19,12 +21,12 @@ class JGoogleDataPlusActivities extends JGoogleData
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  Google options object
+	 * @param   Registry     $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
+	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
 	parent::__construct($options, $auth);
 

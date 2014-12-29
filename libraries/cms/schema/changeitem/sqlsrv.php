@@ -86,7 +86,7 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 
 		if ($command == 'CREATE TABLE')
 		{
-			$table = $wordArray[5];
+			$table = $wordArray[2];
 			$result = 'SELECT * FROM sys.TABLES WHERE NAME = ' . $this->fixQuote($table);
 			$this->queryType = 'CREATE_TABLE';
 			$this->msgElements = array($this->fixQuote($table));
@@ -142,6 +142,8 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 	 */
 	private function fixQuote($string)
 	{
+		$string = str_replace('[', '', $string);
+		$string = str_replace(']', '', $string);
 		$string = str_replace('`', '', $string);
 		$string = str_replace(';', '', $string);
 		$string = str_replace('#__', $this->db->getPrefix(), $string);

@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 // Detect if we have full UTF-8 and unicode PCRE support.
 if (!defined('JCOMPAT_UNICODE_PROPERTIES'))
 {
@@ -46,7 +48,7 @@ class JFormRule
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
-	 * @param   JRegistry         $input    An optional JRegistry object with the entire data set to validate against the entire form.
+	 * @param   Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
 	 * @param   JForm             $form     The form object for which the field is being tested.
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
@@ -54,7 +56,7 @@ class JFormRule
 	 * @since   11.1
 	 * @throws  UnexpectedValueException if rule is invalid.
 	 */
-	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
 		// Check for a valid regex.
 		if (empty($this->regex))

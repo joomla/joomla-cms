@@ -358,6 +358,22 @@ body {
 	padding: 8px 10px;
 	color: #FFFFFF;
 }
+.navigation .nav li li .nav-child {
+	left: auto;
+	right: 100%;
+}
+.navigation .nav li li .nav-child:before {
+	left: auto;
+	right: -7px;
+	border-left: 7px solid rgba(0,0,0,0.2);
+	border-right-width: 0;
+}
+.navigation .nav li li .nav-child:after {
+	left: auto;
+	right: -6px;
+	border-left: 6px solid #ffffff;
+	border-right-width: 0;
+}
 .container-logo {
 	padding-top: 6px;
 	float: left;

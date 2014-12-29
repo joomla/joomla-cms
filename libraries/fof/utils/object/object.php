@@ -16,6 +16,7 @@ defined('FOF_INCLUDED') or die;
  * This class is based on JObject as found in Joomla! 3.2.1
  *
  * @deprecated  2.1
+ * @codeCoverageIgnore
  */
 class FOFUtilsObject
 {

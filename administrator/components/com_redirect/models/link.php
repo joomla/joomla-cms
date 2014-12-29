@@ -107,6 +107,14 @@ class RedirectModelLink extends JModelAdmin
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
+		// If in advanced mode then we make sure the new url field is not compulsory and the header
+		// field compulsory in case people select non-3xx redirects
+		if (JComponentHelper::getParams('com_redirect')->get('mode', 0) == true)
+		{
+			$form->setFieldAttribute('new_url', 'required', 'false');
+			$form->setFieldAttribute('header', 'required', 'true');
+		}
+
 		return $form;
 	}
 

@@ -48,12 +48,22 @@ class RedirectTableLink extends JTable
 			return false;
 		}
 
-		// Check for valid name.
-		if (empty($this->new_url))
+		// Check for valid name if not in advanced mode.
+		if (empty($this->new_url) && JComponentHelper::getParams('com_redirect')->get('mode', 0) == false)
 		{
 			$this->setError(JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
 
 			return false;
+		}
+		elseif (empty($this->new_url) && JComponentHelper::getParams('com_redirect')->get('mode', 0) == true)
+		{
+			// Else if an empty URL and in redirect mode only throw the same error if the code is a 3xx status code
+			if ($this->header < 400 && $this->header >= 300)
+			{
+				$this->setError(JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
+
+				return false;
+			}
 		}
 
 		// Check for duplicates
@@ -98,12 +108,9 @@ class RedirectTableLink extends JTable
 	{
 		$date = JFactory::getDate()->toSql();
 
-		if ($this->id)
-		{
-			// Existing item
-			$this->modified_date = $date;
-		}
-		else
+		$this->modified_date = $date;
+
+		if (!$this->id)
 		{
 			// New record.
 			$this->created_date = $date;

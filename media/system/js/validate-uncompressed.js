@@ -178,7 +178,7 @@ var JFormValidator = function() {
  	 	});
  	 	setHandler('email', function(value) {
 		    value = punycode.toASCII(value);
- 	 	 	regex = /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]{2,})$/;
+ 	 	 	regex = /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
  	 	 	return regex.test(value);
  	 	});
  	 	// Attach to forms with class 'form-validate'

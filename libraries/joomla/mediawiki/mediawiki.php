@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform class for interacting with a Mediawiki server instance.
  *
@@ -25,7 +27,7 @@ defined('JPATH_PLATFORM') or die;
 class JMediawiki
 {
 	/**
-	 * @var    JRegistry  Options for the MediaWiki object.
+	 * @var    Registry  Options for the MediaWiki object.
 	 * @since  12.1
 	 */
 	protected $options;
@@ -79,16 +81,16 @@ class JMediawiki
 	protected $search;
 
 	/**
-	 * Constructor.
-	 *
-	 * @param   JRegistry       $options  MediaWiki options object.
-	 * @param   JMediawikiHttp  $client   The HTTP client object.
-	 *
-	 * @since   12.3
-	 */
-	public function __construct(JRegistry $options = null, JMediawikiHttp $client = null)
+     * Constructor.
+     *
+     * @param   Registry        $options  MediaWiki options object.
+     * @param   JMediawikiHttp  $client   The HTTP client object.
+     *
+     * @since   12.3
+     */
+	public function __construct(Registry $options = null, JMediawikiHttp $client = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client = isset($client) ? $client : new JMediawikiHttp($this->options);
 	}
 

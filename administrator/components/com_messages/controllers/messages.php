@@ -30,6 +30,7 @@ class MessagesControllerMessages extends JControllerAdmin
 	public function getModel($name = 'Message', $prefix = 'MessagesModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 }

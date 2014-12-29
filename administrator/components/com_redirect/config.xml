@@ -14,4 +14,19 @@
 			component="com_redirect"
 			section="component" />
 	</fieldset>
+	<fieldset name="redirect"
+		label="COM_REDIRECT_ADVANCED_OPTIONS"
+	>
+		<field
+			name="mode"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_REDIRECT_MODE_LABEL"
+			description="COM_REDIRECT_MODE_DESC"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
 </config>

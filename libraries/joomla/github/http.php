@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTTP client class for connecting to a GitHub instance.
  *
@@ -37,12 +39,12 @@ class JGithubHttp extends JHttp
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry       $options    Client options object.
+	 * @param   Registry        $options    Client options object.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
+	public function __construct(Registry $options = null, JHttpTransport $transport = null)
 	{
 		// Call the JHttp constructor to setup the object.
 		parent::__construct($options, $transport);

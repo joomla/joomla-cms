@@ -9,19 +9,22 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
-?>
-<script language="javascript" type="text/javascript">
-Joomla.submitbutton = function(task)
-{
-	if (task == 'note.cancel' || document.formvalidator.isValid(document.id('note-form')))
+
+JFactory::getDocument()->addScriptDeclaration('
+jQuery(document).ready(function() {
+	Joomla.submitbutton = function(task)
 	{
-		Joomla.submitform(task, document.getElementById('note-form'));
+		if (task == "note.cancel" || document.formvalidator.isValid(document.getElementById("note-form")))
+		{
+			' . $this->form->getField('body')->save() . '
+			Joomla.submitform(task, document.getElementById("note-form"));
+		}
 	}
-}
-</script>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=note&id='.(int) $this->item->id);?>" method="post" name="adminForm" id="note-form" class="form-validate form-horizontal">
+});');
+?>
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=note&id=' . (int) $this->item->id);?>" method="post" name="adminForm" id="note-form" class="form-validate form-horizontal">
 		<fieldset class="adminform">
 			<div class="control-group">
 				<div class="control-label">

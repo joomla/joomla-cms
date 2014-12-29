@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.folder');
 
@@ -263,7 +265,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'folder' => ''));
 
 		if ($uid)
 		{
@@ -518,7 +520,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 		foreach ($users as $user)
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($user->params);
 
 			if ($registry->get($param_name) == $element)

@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Google API data class for the Joomla Platform.
  *
@@ -17,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 abstract class JGoogleData
 {
 	/**
-	 * @var    JRegistry  Options for the Google data object.
+	 * @var    Registry  Options for the Google data object.
 	 * @since  12.3
 	 */
 	protected $options;
@@ -31,14 +33,14 @@ abstract class JGoogleData
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  Google options object.
+	 * @param   Registry     $options  Google options object.
 	 * @param   JGoogleAuth  $auth     Google data http client object.
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
+	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->auth = isset($auth) ? $auth : new JGoogleAuthOauth2($this->options);
 	}
 

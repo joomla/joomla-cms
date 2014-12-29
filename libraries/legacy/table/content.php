@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Content table
  *
@@ -136,14 +138,14 @@ class JTableContent extends JTable
 
 		if (isset($array['attribs']) && is_array($array['attribs']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['attribs']);
 			$array['attribs'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
@@ -247,10 +249,11 @@ class JTableContent extends JTable
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
+		$this->modified = $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified = $date->toSql();
 			$this->modified_by = $user->get('id');
 		}
 		else

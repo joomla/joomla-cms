@@ -16,22 +16,41 @@ defined('_JEXEC') or die;
  */
 class MenusViewItem extends JViewLegacy
 {
+	/**
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * @var  object
+	 */
 	protected $item;
 
+	/**
+	 * @var  mixed
+	 */
 	protected $modules;
 
+	/**
+	 * @var  JObject
+	 */
 	protected $state;
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->modules	= $this->get('Modules');
+		$this->levels	= $this->get('ViewLevels');
 		$this->state	= $this->get('State');
 		$this->canDo	= JHelperContent::getActions('com_menus');
 
@@ -39,6 +58,7 @@ class MenusViewItem extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -48,6 +68,8 @@ class MenusViewItem extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -70,6 +92,7 @@ class MenusViewItem extends JViewLegacy
 			{
 				JToolbarHelper::apply('item.apply');
 			}
+
 			JToolbarHelper::save('item.save');
 		}
 
@@ -107,6 +130,7 @@ class MenusViewItem extends JViewLegacy
 		$lang = JFactory::getLanguage();
 
 		$help = $this->get('Help');
+
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
@@ -117,6 +141,7 @@ class MenusViewItem extends JViewLegacy
 		{
 			$url = $help->url;
 		}
+
 		JToolbarHelper::help($help->key, $help->local, $url);
 	}
 }

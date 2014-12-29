@@ -19,7 +19,7 @@ class MenusModelMenus extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
 	 * @since   1.6
@@ -95,6 +95,7 @@ class MenusModelMenus extends JModelList
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -111,6 +112,7 @@ class MenusModelMenus extends JModelList
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -127,6 +129,7 @@ class MenusModelMenus extends JModelList
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -222,11 +225,13 @@ class MenusModelMenus extends JModelList
 	 * Gets a list of all mod_mainmenu modules and collates them by menutype
 	 *
 	 * @return  array
+	 *
+	 * @since   1.6
 	 */
 	public function &getModules()
 	{
 		$model = JModelLegacy::getInstance('Menu', 'MenusModel', array('ignore_request' => true));
-		$result = & $model->getModules();
+		$result = $model->getModules();
 
 		return $result;
 	}

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 /**
@@ -65,7 +67,7 @@ abstract class JHtmlFilter
 			// Initialize the filter parameters.
 			if ($filter)
 			{
-				$registry = new JRegistry;
+				$registry = new Registry;
 				$registry->loadString($filter->params);
 				$filter->params = $registry;
 			}
@@ -112,7 +114,12 @@ abstract class JHtmlFilter
 		if ($loadMedia)
 		{
 			JHtml::_('stylesheet', 'com_finder/sliderfilter.css', false, true, false);
-			JHtml::_('script', 'com_finder/sliderfilter.js', false, true);
+
+			if (JFactory::getDocument()->direction == 'rtl')
+			{
+				JHtml::_('stylesheet', 'com_finder/finder-rtl.css', false, true, false);
+			}
+			JHtml::_('script', 'com_finder/sliderfilter.js', true, true);
 		}
 
 		// Load plug-in language files.
@@ -280,7 +287,7 @@ abstract class JHtmlFilter
 				// Initialize the filter parameters.
 				if ($filter)
 				{
-					$registry = new JRegistry;
+					$registry = new Registry;
 					$registry->loadString($filter->params);
 					$filter->params = $registry;
 				}
@@ -430,6 +437,11 @@ abstract class JHtmlFilter
 		if ($loadMedia)
 		{
 			JHtml::stylesheet('com_finder/sliderfilter.css', false, true, false);
+
+			if (JFactory::getDocument()->direction == 'rtl')
+			{
+				JHtml::_('stylesheet', 'com_finder/finder-rtl.css', false, true, false);
+			}
 		}
 
 		return $html;

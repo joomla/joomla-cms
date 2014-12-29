@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 jimport('joomla.filesystem.path');
 jimport('joomla.utilities.arrayhelper');
 
@@ -26,14 +28,16 @@ jimport('joomla.utilities.arrayhelper');
 class JForm
 {
 	/**
-	 * The JRegistry data store for form fields during display.
-	 * @var    object
+	 * The Registry data store for form fields during display.
+	 *
+	 * @var    Registry
 	 * @since  11.1
 	 */
 	protected $data;
 
 	/**
 	 * The form object errors array.
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -41,6 +45,7 @@ class JForm
 
 	/**
 	 * The name of the form instance.
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -48,6 +53,7 @@ class JForm
 
 	/**
 	 * The form object options for use in rendering and validation.
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -55,6 +61,7 @@ class JForm
 
 	/**
 	 * The form XML definition.
+	 *
 	 * @var    SimpleXMLElement
 	 * @since  11.1
 	 */
@@ -62,6 +69,7 @@ class JForm
 
 	/**
 	 * Form instances.
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -69,6 +77,7 @@ class JForm
 
 	/**
 	 * Alows extensions to implement repeating elements
+	 *
 	 * @var    mixed
 	 * @since  3.2
 	 */
@@ -87,8 +96,8 @@ class JForm
 		// Set the name for the form.
 		$this->name = $name;
 
-		// Initialise the JRegistry data.
-		$this->data = new JRegistry;
+		// Initialise the Registry data.
+		$this->data = new Registry;
 
 		// Set the options if specified.
 		$this->options['control'] = isset($options['control']) ? $options['control'] : false;
@@ -120,9 +129,9 @@ class JForm
 		// Convert the input to an array.
 		if (is_object($data))
 		{
-			if ($data instanceof JRegistry)
+			if ($data instanceof Registry)
 			{
-				// Handle a JRegistry.
+				// Handle a Registry.
 				$data = $data->toArray();
 			}
 			elseif ($data instanceof JObject)
@@ -204,8 +213,8 @@ class JForm
 			return false;
 		}
 
-		$input = new JRegistry($data);
-		$output = new JRegistry;
+		$input = new Registry($data);
+		$output = new Registry;
 
 		// Get the fields for which to filter the data.
 		$fields = $this->findFieldsByGroup($group);
@@ -941,7 +950,7 @@ class JForm
 	public function reset($xml = false)
 	{
 		unset($this->data);
-		$this->data = new JRegistry;
+		$this->data = new Registry;
 
 		if ($xml)
 		{
@@ -1162,7 +1171,7 @@ class JForm
 		$return = true;
 
 		// Create an input registry object from the data to validate.
-		$input = new JRegistry($data);
+		$input = new Registry($data);
 
 		// Get the fields for which to validate the data.
 		$fields = $this->findFieldsByGroup($group);
@@ -1313,8 +1322,11 @@ class JForm
 				}
 				break;
 
-			// Ensures a protocol is present in the saved field. Only use when
-			// the only permitted protocols requre '://'. See JFormRuleUrl for list of these.
+			/*
+			 * Ensures a protocol is present in the saved field unless the relative flag is set.
+			 * Only use when the only permitted protocols require '://'.
+			 * See JFormRuleUrl for list of these.
+			 */
 
 			case 'URL':
 				if (empty($value))
@@ -1340,14 +1352,17 @@ class JForm
 					$protocol = 'http';
 
 					// If it looks like an internal link, then add the root.
-					if (substr($value, 0) == 'index.php')
+					if (substr($value, 0, 9) == 'index.php')
 					{
 						$value = JUri::root() . $value;
 					}
 
-					// Otherwise we treat it is an external link.
-					// Put the url back together.
-					$value = $protocol . '://' . $value;
+					// Otherwise we treat it as an external link.
+					else
+					{
+						// Put the url back together.
+						$value = $protocol . '://' . $value;
+					}
 				}
 
 				// If relative URLS are allowed we assume that URLs without protocols are internal.
@@ -1361,10 +1376,10 @@ class JForm
 						$value = 'http://' . $value;
 					}
 
-					// Otherwise prepend the root.
-					else
+					// Otherwise if it doesn't start with "/" prepend the prefix of the current site.
+					elseif (substr($value, 0, 1) != '/')
 					{
-						$value = JUri::root() . $value;
+						$value = JUri::root(true) . '/' . $value;
 					}
 				}
 
@@ -1921,7 +1936,7 @@ class JForm
 	 * @param   SimpleXMLElement  $element  The XML element object representation of the form field.
 	 * @param   string            $group    The optional dot-separated form group path on which to find the field.
 	 * @param   mixed             $value    The optional value to use as the default for the field.
-	 * @param   JRegistry         $input    An optional JRegistry object with the entire data set to validate
+	 * @param   Registry          $input    An optional Registry object with the entire data set to validate
 	 *                                      against the entire form.
 	 *
 	 * @return  mixed  Boolean true if field value is valid, Exception on failure.
@@ -1930,7 +1945,7 @@ class JForm
 	 * @throws  InvalidArgumentException
 	 * @throws  UnexpectedValueException
 	 */
-	protected function validateField(SimpleXMLElement $element, $group = null, $value = null, JRegistry $input = null)
+	protected function validateField(SimpleXMLElement $element, $group = null, $value = null, Registry $input = null)
 	{
 		$valid = true;
 
@@ -2247,7 +2262,7 @@ class JForm
 	/**
 	 * Getter for the form data
 	 *
-	 * @return   JRegistry  Object with the data
+	 * @return   Registry  Object with the data
 	 *
 	 * @since    3.2
 	 */

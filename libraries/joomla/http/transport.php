@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTTP transport class interface.
  *
@@ -19,11 +21,11 @@ interface JHttpTransport
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  Client options object.
+	 * @param   Registry  $options  Client options object.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JRegistry $options);
+	public function __construct(Registry $options);
 
 	/**
 	 * Send a request to the server and return a JHttpResponse object with the response.
