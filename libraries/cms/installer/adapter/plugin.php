@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -17,7 +16,7 @@ jimport('joomla.filesystem.folder');
  *
  * @since  3.1
  */
-class JInstallerAdapterPlugin extends JAdapterInstance
+class JInstallerAdapterPlugin extends JInstallerAdapter
 {
 	/**
 	 * Install function routing
@@ -26,31 +25,6 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 	 * @since  3.1
 	 */
 	protected $route = 'install';
-
-	/**
-	 * The installation manifest XML object
-	 *
-	 * @var    SimpleXMLElement
-	 * @since  3.1
-	 */
-	protected $manifest = null;
-
-	/**
-	 * A path to the PHP file that the scriptfile declaration in
-	 * the manifest refers to.
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	protected $manifest_script = null;
-
-	/**
-	 * Name of the extension
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	protected $name = null;
 
 	/**
 	 * <scriptfile> element of the extension manifest

@@ -674,6 +674,7 @@ class JHelperTags extends JHelper
 	public function getTagTreeArray($id, &$tagTreeArray = array())
 	{
 		// Get a level row instance.
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 		$table = JTable::getInstance('Tag', 'TagsTable');
 
 		if ($table->isLeaf($id))
@@ -789,7 +790,7 @@ class JHelperTags extends JHelper
 	{
 		if (!empty($table->newTags) && empty($newTags))
 		{
-				$newTags = $table->newTags;
+			$newTags = $table->newTags;
 		}
 
 		// If existing row, check to see if tags have changed.

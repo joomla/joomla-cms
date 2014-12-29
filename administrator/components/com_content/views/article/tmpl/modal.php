@@ -63,7 +63,6 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 }
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "article.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
@@ -77,8 +76,8 @@ jQuery(document).ready(function() {
 
 		Joomla.submitform(task, document.getElementById("item-form"));
 		}
-	}
-});');
+	};
+');
 
 ?>
 

@@ -121,6 +121,8 @@ class JInstaller extends JAdapter
 
 		// Override the default adapter folder
 		$this->_adapterfolder = 'adapter';
+
+		$this->extension = JTable::getInstance('extension');
 	}
 
 	/**
@@ -485,8 +487,6 @@ class JInstaller extends JAdapter
 	{
 		if ($eid)
 		{
-			$this->extension = JTable::getInstance('extension');
-
 			if (!$this->extension->load($eid))
 			{
 				$this->abort(JText::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
@@ -731,8 +731,6 @@ class JInstaller extends JAdapter
 	{
 		if ($eid)
 		{
-			$this->extension = JTable::getInstance('extension');
-
 			if (!$this->extension->load($eid))
 			{
 				$this->abort(JText::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));

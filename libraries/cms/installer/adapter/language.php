@@ -11,7 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 
-jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -19,7 +18,7 @@ jimport('joomla.filesystem.folder');
  *
  * @since  3.1
  */
-class JInstallerAdapterLanguage extends JAdapterInstance
+class JInstallerAdapterLanguage extends JInstallerAdapter
 {
 	/**
 	 * Core language pack flag

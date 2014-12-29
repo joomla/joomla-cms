@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 $com_path = JPATH_SITE . '/components/com_content/';
-require_once $com_path . 'router.php';
 require_once $com_path . 'helpers/route.php';
 
 JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
@@ -227,7 +226,7 @@ abstract class ModArticlesCategoryHelper
 		foreach ($items as &$item)
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
-			$item->catslug = $item->catid ? $item->catid . ':' . $item->category_alias : $item->catid;
+			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
 			{

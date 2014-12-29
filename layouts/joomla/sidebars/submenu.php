@@ -14,9 +14,9 @@ JHtmlBehavior::core();
 JFactory::getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function($)
 	{
-		if (typeof(Joomla.toggleSidebar) !== "undefined")
+		if (window.toggleSidebar)
 		{
-			Joomla.toggleSidebar(true);
+			toggleSidebar(true);
 		}
 		else
 		{

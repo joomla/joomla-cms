@@ -15,7 +15,7 @@ JFormHelper::loadFieldClass('radio');
  *
  * @since  1.6
  */
-class JFormFieldSample extends JFormFieldRadio
+class InstallationFormFieldSample extends JFormFieldRadio
 {
 	/**
 	 * The form field type.

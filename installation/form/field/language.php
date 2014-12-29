@@ -15,7 +15,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @since  1.6
  */
-class JFormFieldLanguage extends JFormFieldList
+class InstallationFormFieldLanguage extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -91,7 +91,7 @@ class JFormFieldLanguage extends JFormFieldList
 	 *
 	 * @return  string
 	 *
-	 * @since    3.1
+	 * @since   3.1
 	 */
 	protected function _sortLanguages($a, $b)
 	{
