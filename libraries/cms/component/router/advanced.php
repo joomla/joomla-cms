@@ -62,39 +62,14 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	 * 
 	 * @since 3.4
 	 */
-	public function registerView($name, $view, $key = false, $parent = false, $parent_key = false, $nestable = false, $layout = 'default')
+	public function registerView(JComponentRouterViewconfiguration $view)
 	{
-		$viewobj = new stdClass;
-		$viewobj->view = $view;
-		$viewobj->name = $name;
-		$viewobj->key = $key;
-		if ($parent)
+		$this->views[$view->name] = $view;
+		if (!isset($this->view_map[$view->view]))
 		{
-			$viewobj->parent = $this->views[$parent];
-			$this->views[$parent]->children[] = &$viewobj;
-			$viewobj->path = $this->views[$parent]->path;
+			$this->view_map[$view->view] = array();
 		}
-		else
-		{
-			$viewobj->parent = false;
-			$viewobj->path = array();
-		}
-		$viewobj->path[] = $name;
-		$viewobj->child_key = false;
-		$viewobj->parent_key = $parent_key;
-		if ($parent_key)
-		{
-			$this->views[$parent]->child_key = $parent_key;
-		}
-		$viewobj->nestable = $nestable;
-		$viewobj->layout = $layout;
-
-		$this->views[$name] = $viewobj;
-		if (!isset($this->view_map[$view]))
-		{
-			$this->view_map[$view] = array();
-		}
-		$this->view_map[$view][] = $name;
+		$this->view_map[$view->view][] = $view->name;
 	}
 
 	/**
