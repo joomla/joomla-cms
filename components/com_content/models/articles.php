@@ -158,7 +158,7 @@ class ContentModelArticles extends JModelList
 		$id .= ':' . $this->getState('filter.end_date_range');
 		$id .= ':' . $this->getState('filter.relative_date');
 
-		// New parameters: "ignore.*" won't fetch some data to speed up the query
+		// New model states: "ignore.*" won't fetch some data to speed up the query
 		$id .= ':' . $this->getState('ignore.useraliases');
 		$id .= ':' . $this->getState('ignore.ratings');
 
