@@ -3909,13 +3909,15 @@ input[type="submit"].btn.btn-mini {
 	line-height: 30px;
 }
 .modal-body {
+	width: 98%;
 	position: relative;
 	overflow-y: auto;
-	max-height: 400px;
-	padding: 15px;
+	max-height: none;
+	padding: 1%;
 }
 .modal-body iframe {
-	max-height: 390px;
+	width: 100%;
+	max-height: none;
 	border: 0 !important;
 }
 .modal-form {
@@ -6154,11 +6156,11 @@ th .tooltip-inner {
 }
 div.modal {
 	position: fixed;
-	top: 10%;
+	top: 5%;
 	left: 50%;
 	z-index: 1050;
-	width: 580px;
-	margin-left: -280px;
+	width: 80%;
+	margin-left: -40%;
 	background-color: #fff;
 	border: 1px solid #999;
 	border: 1px solid rgba(0,0,0,0.3);
@@ -6182,7 +6184,7 @@ div.modal.fade {
 	top: -25%;
 }
 div.modal.fade.in {
-	top: 10%;
+	top: 5%;
 }
 .modal-batch {
 	overflow-y: visible;

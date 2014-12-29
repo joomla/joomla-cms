@@ -790,7 +790,7 @@ class JHelperTags extends JHelper
 	{
 		if (!empty($table->newTags) && empty($newTags))
 		{
-				$newTags = $table->newTags;
+			$newTags = $table->newTags;
 		}
 
 		// If existing row, check to see if tags have changed.
