@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
-
 /**
  * Base component routing class
  *
@@ -48,7 +46,7 @@ abstract class JComponentRouterBase implements JComponentRouterInterface
 		}
 		else
 		{
-			$this->app = JFactory::getApplication();
+			$this->app = JFactory::getApplication('site');
 		}
 
 		if ($menu)

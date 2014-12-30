@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
-
 /**
  * Advanced component routing class
  *
@@ -50,13 +48,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	/**
 	 * Register the views of a component
 	 * 
-	 * @param   string  $name        Internal name of the view. Has to be unique for the component
-	 * @param   string  $view        Identifier of the view
-	 * @param   string  $key         Identifier of the key variable used to identify the primary content item of this view 
-	 * @param   string  $parent      Internal name of the parent view
-	 * @param   string  $parent_key  Identifier of the key variable used to identify the content item of the parent view
-	 * @param   bool    $nestable    Is this view nestable?
-	 * @param   string  $layout      Layout to use for this view by default
+	 * @param   JComponentRouterViewconfiguration  $view  View configuration object
 	 * 
 	 * @return void
 	 * 
