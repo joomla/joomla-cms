@@ -32,7 +32,8 @@ class TestMockApplication
 			'getIdentity',
 			'getRouter',
 			'getTemplate',
-			'getMenu'
+			'getMenu',
+			'getLanguage'
 		);
 
 		// Create the mock.
@@ -51,6 +52,11 @@ class TestMockApplication
 		$mockObject->expects($test->any())
 				->method('getMenu')
 				->will($test->returnValue($menu));
+
+		$language = TestMockLanguage::create($test);
+		$mockObject->expects($test->any())
+				->method('getLanguage')
+				->will($test->returnValue($language));
 
 		$mockObject->input = new JInput;
 

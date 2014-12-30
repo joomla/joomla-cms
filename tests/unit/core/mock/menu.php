@@ -25,7 +25,7 @@ class TestMockMenu
 	 *
 	 * @since   3.4
 	 */
-	public static function create(PHPUnit_Framework_TestCase $test, $setDefault = true)
+	public static function create(PHPUnit_Framework_TestCase $test, $setDefault = true, $setActive = false)
 	{
 		// Collect all the relevant methods in JMenu (work in progress).
 		$methods = array(
@@ -68,6 +68,13 @@ class TestMockMenu
 			$mockObject->expects($test->any())
 				->method('getDefault')
 				->will($test->returnValueMap(self::prepareDefaultData()));
+		}
+
+		if ($setActive)
+		{
+			$mockObject->expects($test->any())
+				->method('getActive')
+				->will($test->returnValue(self::$data[$setActive]));
 		}
 
 		return $mockObject;
@@ -194,27 +201,27 @@ class TestMockMenu
 			'parent_id'    => '42', 
 			'component'    => 'com_test',
 			'tree'         => array(42, 46),
-			'query'        => array('option' => 'com_test', 'view' => 'test'));
+			'query'        => array('option' => 'com_test', 'view' => 'test2'));
 
-	/**	self::$data[47] = (object) array(
+		self::$data[47] = (object) array(
 			'id'           => '47', 
-			'menutype'     => '', 
-			'title'        => '', 
-			'alias'        => '', 
-			'route'        => '', 
-			'link'         => '', 
-			'type'         => '', 
-			'level'        => '', 
-			'language'     => '', 
-			'access'       => '', 
-			'params'       => '', 
-			'home'         => '', 
-			'component_id' => '', 
-			'parent_id'    => '', 
-			'component'    => '',
-			'query'        => array());
+			'menutype'     => 'testmenu', 
+			'title'        => 'English Test', 
+			'alias'        => 'english-test', 
+			'route'        => 'english-test', 
+			'link'         => 'index.php?option=com_test&view=test2', 
+			'type'         => 'component', 
+			'level'        => '1', 
+			'language'     => 'en-GB', 
+			'access'       => '1', 
+			'params'       => '{}', 
+			'home'         => '0', 
+			'component_id' => '1000', 
+			'parent_id'    => '0', 
+			'component'    => 'com_test',
+			'query'        => array('option' => 'com_test', 'view' => 'test2'));
 
-		self::$data[48] = (object) array(
+	/**	self::$data[48] = (object) array(
 			'id'           => '48', 
 			'menutype'     => '', 
 			'title'        => '', 

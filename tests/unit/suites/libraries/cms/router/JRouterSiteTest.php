@@ -120,6 +120,14 @@ class JRouterSiteTest extends TestCase
 			'REQUEST_URI' => '/joomla/index.php?var=value 10'
 		);
 
+		$server3 = array(
+			'HTTP_HOST'   => '',
+			'SCRIPT_NAME' => '',
+			'SCRIPT_FILENAME' => JPATH_SITE . '/cli/deletefiles.php',
+			'PHP_SELF'    => '',
+			'REQUEST_URI' => ''
+		);
+
 		$cases   = array();
 		$cases[] = array('', JROUTER_MODE_RAW, array(), $server1, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), '');
 
@@ -133,6 +141,8 @@ class JRouterSiteTest extends TestCase
 		$cases[] = array('/joomla/blog/test', JROUTER_MODE_RAW, array(), $server2, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'blog/test');
 		$cases[] = array('/joomla/blog/te%20st', JROUTER_MODE_RAW, array(), $server2, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'blog/te st');
 		$cases[] = array('/otherfolder/blog/test', JROUTER_MODE_RAW, array(), $server2, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'older/blog/test');
+
+		$cases[] = array('/cli/deletefiles.php?var1=value1', JROUTER_MODE_RAW, array(), $server3, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), '?var1=value1');
 
 		return $cases;
 	}
@@ -460,6 +470,8 @@ class JRouterSiteTest extends TestCase
 		$cases[] = array('test2/sub-menu', false, array('languagefilter' => true), array('option' => 'com_test2', 'Itemid' => 44), array('option' => 'com_test2', 'Itemid' => 44));
 		$cases[] = array('test2/sub-menu/something', true, array('languagefilter' => true), array('testvar' => 'testvalue'), array('testvar' => 'testvalue', 'option' => 'com_test2', 'Itemid' => 44));
 		$cases[] = array('test2/sub-menu/something', false, array('languagefilter' => true), array('testvar' => 'testvalue'), array('option' => 'com_test2', 'Itemid' => 44, 'testvar' => 'testvalue'));
+		
+		$cases[] = array('english-test', false, array('languagefilter' => true), array('option' => 'com_test', 'view' => 'test2'), array('option' => 'com_test', 'Itemid' => '47'), 47);
 
 		return $cases;
 	}
@@ -478,7 +490,7 @@ class JRouterSiteTest extends TestCase
 	 * @dataProvider  casesParseSefRoute
 	 * @since         3.4
 	 */
-	public function testParseSefRoute($url, $menubool, $appConfig, $expected, $expectedGlobals)
+	public function testParseSefRoute($url, $menubool, $appConfig, $expected, $expectedGlobals, $activeMenu = false)
 	{
 		$uri = new JUri($url);
 		$app = $this->object->getApp();
@@ -498,8 +510,13 @@ class JRouterSiteTest extends TestCase
 
 		if ($menubool)
 		{
-			$menu = TestMockMenu::create($this, false);
+			$menu = TestMockMenu::create($this, false, $activeMenu);
 			$menu->expects($this->any())->method('getDefault')->will($this->returnValue(null));
+			$this->object->setMenu($menu);
+		}
+		else
+		{
+			$menu = TestMockMenu::create($this, true, $activeMenu);
 			$this->object->setMenu($menu);
 		}
 
