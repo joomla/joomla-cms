@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -81,6 +81,22 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	protected $name = null;
 
 	/**
+	 * Install function routing
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $route = 'install';
+
+	/**
+	 * The type of adapter in use
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $type;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JInstaller       $parent   Parent object
@@ -98,37 +114,168 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		{
 			$this->extension = JTable::getInstance('extension');
 		}
+
+		// Sanity check, make sure the type is set by taking the adapter name from the class name
+		if (!$this->type)
+		{
+			$this->type = strtolower(str_replace('JInstallerAdapter', '', get_called_class()));
+		}
+	}
+
+	/**
+	 * Method to check if the extension is already present in the database
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function checkExistingExtension()
+	{
+		try
+		{
+			$this->currentExtensionId = $this->extension->find(
+				array('element' => $this->element, 'type' => $this->type)
+			);
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			throw new RuntimeException(
+				JText::sprintf(
+					'JLIB_INSTALLER_ABORT_ROLLBACK',
+					JText::_('JLIB_INSTALLER_' . $this->route),
+					$e->getMessage()
+				)
+			);
+		}
+	}
+
+	/**
+	 * Method to check if the extension is present in the filesystem, flags the route as update if so
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function checkExtensionInFilesystem()
+	{
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
+		{
+			// Look for an update function or update tag
+			$updateElement = $this->manifest->update;
+
+			// Upgrade manually set or update function available or update tag detected
+			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
+				|| $updateElement)
+			{
+				// Force this one
+				$this->parent->setOverwrite(true);
+				$this->parent->setUpgrade(true);
+
+				if ($this->currentExtensionId)
+				{
+					// If there is a matching extension mark this as an update
+					$this->setRoute('update');
+				}
+			}
+			elseif (!$this->parent->isOverwrite())
+			{
+				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
+				throw new RuntimeException(
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT_DIRECTORY',
+						JText::_('JLIB_INSTALLER_' . $this->route),
+						$this->type,
+						$this->parent->getPath('extension_root')
+					)
+				);
+			}
+		}
+	}
+
+	/**
+	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	abstract protected function copyBaseFiles();
+
+	/**
+	 * Method to create the extension root path if necessary
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function createExtensionRoot()
+	{
+		// If the extension directory does not exist, lets create it
+		$created = false;
+
+		if (!file_exists($this->parent->getPath('extension_root')))
+		{
+			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
+			{
+				throw new RuntimeException(
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+						JText::_('JLIB_INSTALLER_' . $this->route),
+						$this->parent->getPath('extension_root')
+					)
+				);
+			}
+		}
+
+		/*
+		 * Since we created the extension directory and will want to remove it if
+		 * we have to roll back the installation, let's add it to the
+		 * installation step stack
+		 */
+
+		if ($created)
+		{
+			$this->parent->pushStep(
+				array(
+					'type' => 'folder',
+					'path' => $this->parent->getPath('extension_root')
+				)
+			);
+		}
 	}
 
 	/**
 	 * Method to handle database transactions for the installer
-	 *
-	 * @param   string  $route  The installation route
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
-	protected function doDatabaseTransactions($route)
+	protected function doDatabaseTransactions()
 	{
 		// Get a database connector object
 		$db = $this->parent->getDbo();
 
 		// Let's run the install queries for the component
-		if (isset($this->manifest->{$route}->sql))
+		if (isset($this->manifest->{$this->route}->sql))
 		{
-			$result = $this->parent->parseSQLFiles($this->manifest->{$route}->sql);
+			$result = $this->parent->parseSQLFiles($this->manifest->{$this->route}->sql);
 
 			if ($result === false)
 			{
 				// Only rollback if installing
-				if ($route == 'install')
+				if ($this->route == 'install')
 				{
 					throw new RuntimeException(
 						JText::sprintf(
 							'JLIB_INSTALLER_ABORT_SQL_ERROR',
-							JText::_('JLIB_INSTALLER_' . strtoupper($route)),
+							JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 							$db->stderr(true)
 						)
 					);
@@ -221,6 +368,18 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
+	 * Get the install route being followed
+	 *
+	 * @return  string  The install route
+	 *
+	 * @since   3.4
+	 */
+	public function getRoute()
+	{
+		return $this->route;
+	}
+
+	/**
 	 * Get the class name for the install adapter script.
 	 *
 	 * @return  string  The class name.
@@ -239,24 +398,199 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
-	 * Method to parse the queries specified in the <sql> tags
+	 * Generic install method for extensions
 	 *
-	 * @param   string  $route  The installation route
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.4
+	 */
+	public function install()
+	{
+		// Get the component description
+		$description = (string) $this->getManifest()->description;
+
+		if ($description)
+		{
+			$this->parent->message = JText::_($description);
+		}
+		else
+		{
+			$this->parent->message = '';
+		}
+
+		// Set the extension's name and element
+		$this->name    = $this->getName();
+		$this->element = $this->getElement();
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Extension Precheck and Setup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		// Setup the install paths and perform other prechecks as necessary
+		try
+		{
+			$this->setupInstallPaths();
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
+
+		// Check to see if an extension by the same name is already installed.
+		try
+		{
+			$this->checkExistingExtension();
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
+
+		// Check if the extension is present in the filesystem
+		try
+		{
+			$this->checkExtensionInFilesystem();
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Installer Trigger Loading
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		$this->setupScriptfile();
+		$this->triggerManifestScript('preflight');
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Filesystem Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		// If the extension directory does not exist, lets create it
+		try
+		{
+			$this->createExtensionRoot();
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
+
+		// Copy all necessary files
+		try
+		{
+			$this->copyBaseFiles();
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
+
+		// Parse optional tags
+		$this->parseOptionalTags();
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Database Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		try
+		{
+			$this->storeExtension();
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
+
+		try
+		{
+			$this->parseQueries();
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
+
+		// Run the custom method based on the route
+		$this->triggerManifestScript($this->route);
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Finalization and Cleanup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		try
+		{
+			$this->finaliseInstall();
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
+
+		// And now we run the postflight
+		$this->triggerManifestScript('postflight');
+
+		return $this->extension->extension_id;
+	}
+
+	/**
+	 * Method to parse the queries specified in the <sql> tags
 	 *
 	 * @return  void
 	 *
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
-	protected function parseQueries($route)
+	protected function parseQueries()
 	{
 		// Let's run the queries for the plugin
-		if ($route == 'install')
+		if ($this->route == 'install')
 		{
+			// This method may throw an exception, but it is caught by the parent caller
 			if (!$this->doDatabaseTransactions('install'))
 			{
-				// TODO: Exception
-				return false;
+				throw new RuntimeException(
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT_SQL_ERROR',
+						JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+						$this->db->stderr(true)
+					)
+				);
 			}
 
 			// Set the schema version to be the latest update version
@@ -265,7 +599,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 				$this->parent->setSchemaVersion($this->manifest->update->schemas, $this->extension->extension_id);
 			}
 		}
-		elseif ($route == 'update')
+		elseif ($this->route == 'update')
 		{
 			if ($this->manifest->update)
 			{
@@ -274,11 +608,54 @@ abstract class JInstallerAdapter extends JAdapterInstance
 				if ($result === false)
 				{
 					// Install failed, rollback changes
-					throw new RuntimeException(JText::sprintf('JLIB_INSTALLER_ABORT_PLG_UPDATE_SQL_ERROR', $this->db->stderr(true)));
+					throw new RuntimeException(
+						JText::sprintf(
+							'JLIB_INSTALLER_ABORT_SQL_ERROR',
+							JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+							$this->db->stderr(true)
+						)
+					);
 				}
 			}
 		}
 	}
+
+	/**
+	 * Method to parse optional tags in the manifest
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function parseOptionalTags()
+	{
+		// Some extensions may not have optional tags
+	}
+
+	/**
+	 * Set the install route being followed
+	 *
+	 * @param   string  $route  The install route being followed
+	 *
+	 * @return  JInstallerAdapter  Instance of this class to support chaining
+	 *
+	 * @since   3.4
+	 */
+	public function setRoute($route)
+	{
+		$this->route = $route;
+
+		return $this;
+	}
+
+	/**
+	 * Method to do any prechecks and setup the install paths for the extension
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	abstract protected function setupInstallPaths();
 
 	/**
 	 * Setup the manifest script file for those adapters that use it.
@@ -316,17 +693,26 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
+	 * Method to store the extension to the database
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	abstract protected function storeExtension();
+
+	/**
 	 * Executes a custom install script method
 	 *
 	 * @param   string  $method  The install method to execute
-	 * @param   string  $route   The route for preflight/postflight scripts
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
-	protected function triggerManifestScript($method, $route = null)
+	protected function triggerManifestScript($method)
 	{
 		ob_start();
 		ob_implicit_flush(false);
@@ -338,7 +724,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 				// The preflight and postflight take the route as a param
 				case 'preflight' :
 				case 'postflight' :
-					if ($this->parent->manifestClass->$method($route, $this) === false)
+					if ($this->parent->manifestClass->$method($this->route, $this) === false)
 					{
 						if ($method != 'postflight')
 						{
