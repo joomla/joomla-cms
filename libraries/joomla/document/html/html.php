@@ -591,7 +591,6 @@ class JDocumentHTML extends JDocument
 			if (file_exists($icon))
 			{
 				$path = str_replace(JPATH_BASE . '/', '', $dir);
-				$path = str_replace('\\', '/', $path);
 				$this->addFavicon(JUri::base(true) . '/' . $path . 'favicon.ico');
 				break;
 			}
@@ -612,7 +611,7 @@ class JDocumentHTML extends JDocument
 	protected function _fetchTemplate($params = array())
 	{
 		// Check
-		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
+		$directory = isset($params['directory']) ? str_replace('\\', '/', $params['directory']) : 'templates';
 		$filter = JFilterInput::getInstance();
 		$template = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
