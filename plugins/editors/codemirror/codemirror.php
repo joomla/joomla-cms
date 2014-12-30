@@ -297,7 +297,7 @@ class PlgEditorCodemirror extends JPlugin
 
 		$html = array();
 		$html[]	= '<p class="label">' . JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $this->fullScreenCombo) . '</p>';
-		$html[]	= '<textarea name="' . $name . '" id="'. $id . '" cols="' . $col . '" rows="' . $row . '">' . $content . '</textarea>';
+		$html[]	= '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row . '">' . $content . '</textarea>';
 		$html[] = $buttons;
 		$html[] = '<script type="text' . '/javascript">';
 		$html[] = '(function (id, options) {';
