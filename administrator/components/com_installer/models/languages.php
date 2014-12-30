@@ -260,12 +260,13 @@ class InstallerModelLanguages extends JModelList
 	 */
 	public function install($lids)
 	{
-		$app       = JFactory::getApplication();
-		$installer = JInstaller::getInstance();
+		$app = JFactory::getApplication();
 
 		// Loop through every selected language
 		foreach ($lids as $id)
 		{
+			$installer = new JInstaller;
+
 			// Loads the update database object that represents the language.
 			$language = JTable::getInstance('update');
 			$language->load($id);
