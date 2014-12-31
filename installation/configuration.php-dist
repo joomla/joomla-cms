@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * -------------------------------------------------------------------------
@@ -40,7 +40,7 @@ class JConfig {
 	public $secret = 'FBVtggIk5lAzEU9H';     // Change this to something more secure
 	public $gzip = '0';
 	public $error_reporting = 'default';
-	public $helpurl = 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';
+	public $helpurl = 'https://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';
 	public $ftp_host = '';
 	public $ftp_port = '';
 	public $ftp_user = '';

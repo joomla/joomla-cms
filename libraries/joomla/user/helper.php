@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -368,7 +368,9 @@ abstract class JUserHelper
 
 			$rehash = true;
 
-			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : '');
+			// Compile the hash to compare
+			// If the salt is empty AND there is a ':' in the original hash, we must append ':' at the end
+			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : (strpos($hash, ':') !== false ? ':' : ''));
 
 			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
 		}

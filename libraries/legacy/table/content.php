@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -272,7 +272,7 @@ class JTableContent extends JTable
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Content', 'JTable');
+		$table = JTable::getInstance('Content', 'JTable', array('dbo', $this->getDbo()));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{

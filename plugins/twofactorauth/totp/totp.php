@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -183,6 +183,12 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		// Load raw data
 		$rawData = $input->get('jform', array(), 'array');
+
+		if (!isset($rawData['twofactor']['totp']))
+		{
+			return false;
+		}
+
 		$data = $rawData['twofactor']['totp'];
 
 		// Warn if the securitycode is empty
