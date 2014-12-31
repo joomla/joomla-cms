@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @since  1.6
  */
-class JFormFieldLanguage extends JFormFieldList
+class InstallationFormFieldLanguage extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -91,7 +91,7 @@ class JFormFieldLanguage extends JFormFieldList
 	 *
 	 * @return  string
 	 *
-	 * @since    3.1
+	 * @since   3.1
 	 */
 	protected function _sortLanguages($a, $b)
 	{

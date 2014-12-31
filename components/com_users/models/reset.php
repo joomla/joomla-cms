@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -440,7 +440,7 @@ class UsersModelReset extends JModelForm
 		}
 
 		// Set the confirmation token.
-		$token = JApplication::getHash(JUserHelper::genRandomPassword());
+		$token = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
 		$salt = JUserHelper::getSalt('crypt-md5');
 		$hashedToken = md5($token . $salt) . ':' . $salt;
 		$user->activation = $hashedToken;

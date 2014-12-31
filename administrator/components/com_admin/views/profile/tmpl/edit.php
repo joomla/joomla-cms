@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,15 +15,14 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidator');
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
-		if (task == "profile.cancel" || document.formvalidator.isValid(document.id("profile-form")))
+		if (task == "profile.cancel" || document.formvalidator.isValid(document.getElementById("profile-form")))
 		{
 			Joomla.submitform(task, document.getElementById("profile-form"));
 		}
-	}
-});');
+	};
+');
 // Load chosen.css
 JHtml::_('formbehavior.chosen', 'select');
 
