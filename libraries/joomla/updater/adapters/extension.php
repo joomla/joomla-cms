@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -215,55 +215,10 @@ class JUpdaterExtension extends JUpdateAdapter
 	 */
 	public function findUpdate($options)
 	{
-		$url = trim($options['location']);
-		$this->_url = &$url;
-		$this->updateSiteId = $options['update_site_id'];
+		$response = $this->getUpdateSiteResponse($options);
 
-		$appendExtension = false;
-
-		if (array_key_exists('append_extension', $options))
+		if ($response === false)
 		{
-			$appendExtension = $options['append_extension'];
-		}
-
-		if ($appendExtension && (substr($url, -4) != '.xml'))
-		{
-			if (substr($url, -1) != '/')
-			{
-				$url .= '/';
-			}
-
-			$url .= 'extension.xml';
-		}
-
-		$db = $this->parent->getDBO();
-
-		$http = JHttpFactory::getHttp();
-
-		// JHttp transport throws an exception when there's no response.
-		try
-		{
-			$response = $http->get($url);
-		}
-		catch (RuntimeException $e)
-		{
-			$response = null;
-		}
-
-		if ($response === null || $response->code !== 200)
-		{
-			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$appendExtension && (substr($url, -4) != '.xml'))
-			{
-				$options['append_extension'] = true;
-
-				return $this->findUpdate($options);
-			}
-
-			JLog::add("Error opening url: " . $url, JLog::WARNING, 'updater');
-			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), 'warning');
-
 			return false;
 		}
 
@@ -280,17 +235,17 @@ class JUpdaterExtension extends JUpdateAdapter
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$appendExtension && (substr($url, -4) != '.xml'))
+			if (!$this->appendExtension && (substr($this->_url, -4) != '.xml'))
 			{
 				$options['append_extension'] = true;
 
 				return $this->findUpdate($options);
 			}
 
-			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
+			JLog::add("Error parsing url: " . $this->_url, JLog::WARNING, 'updater');
 
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $url), 'warning');
+			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
 
 			return false;
 		}
