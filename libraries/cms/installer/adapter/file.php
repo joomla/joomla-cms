@@ -27,6 +27,16 @@ class JInstallerAdapterFile extends JInstallerAdapter
 	protected $scriptElement = null;
 
 	/**
+	 * Flag if the adapter supports discover installs
+	 *
+	 * Adapters should override this and set to false if discover install is unsupported
+	 *
+	 * @var    boolean
+	 * @since  3.4
+	 */
+	protected $supportsDiscoverInstall = false;
+
+	/**
 	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
 	 *
 	 * @return  void
