@@ -25,6 +25,16 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	protected $results = array();
 
 	/**
+	 * Flag if the adapter supports discover installs
+	 *
+	 * Adapters should override this and set to false if discover install is unsupported
+	 *
+	 * @var    boolean
+	 * @since  3.4
+	 */
+	protected $supportsDiscoverInstall = false;
+
+	/**
 	 * Method to check if the extension is present in the filesystem, flags the route as update if so
 	 *
 	 * @return  void

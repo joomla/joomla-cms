@@ -253,10 +253,13 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		// We will copy the manifest file to its appropriate place.
-		if (!$this->parent->copyManifest())
+		if ($this->route != 'discover_install')
 		{
-			// Install failed, roll back changes
-			throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_COPY_SETUP'));
+			if (!$this->parent->copyManifest())
+			{
+				// Install failed, roll back changes
+				throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_COPY_SETUP'));
+			}
 		}
 
 		// Time to build the admin menus
@@ -268,22 +271,26 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		/** @var JTableAsset $asset */
 		$asset = JTable::getInstance('Asset');
 
-		// Register the component container just under root in the assets table.
-		$asset->name      = $this->extension->element;
-		$asset->parent_id = 1;
-		$asset->rules     = '{}';
-		$asset->title     = $this->extension->name;
-		$asset->setLocation(1, 'last-child');
-
-		if (!$asset->store())
+		// Check if an asset already exists for this extension and create it if not
+		if (!$asset->loadByName($this->extension->element))
 		{
-			// Install failed, roll back changes
-			throw new RuntimeException(
-				JText::sprintf(
-					'JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK',
-					$this->extension->getError()
-				)
-			);
+			// Register the component container just under root in the assets table.
+			$asset->name      = $this->extension->element;
+			$asset->parent_id = 1;
+			$asset->rules     = '{}';
+			$asset->title     = $this->extension->name;
+			$asset->setLocation(1, 'last-child');
+
+			if (!$asset->store())
+			{
+				// Install failed, roll back changes
+				throw new RuntimeException(
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK',
+						$this->extension->getError()
+					)
+				);
+			}
 		}
 	}
 
@@ -374,6 +381,83 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	}
 
 	/**
+	 * Prepares the adapter for a discover_install task
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function prepareDiscoverInstall()
+	{
+		// Need to find to find where the XML file is since we don't store this normally
+		$client = JApplicationHelper::getClientInfo($this->extension->client_id);
+		$short_element = str_replace('com_', '', $this->extension->element);
+		$manifestPath = $client->path . '/components/' . $this->extension->element . '/' . $short_element . '.xml';
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+		$this->parent->setPath('source', $client->path . '/components/' . $this->extension->element);
+		$this->parent->setPath('extension_root', $this->parent->getPath('source'));
+
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$this->extension->manifest_cache = json_encode($manifest_details);
+		$this->extension->state = 0;
+		$this->extension->name = $manifest_details['name'];
+		$this->extension->enabled = 1;
+		$this->extension->params = $this->parent->getParams();
+
+		$stored = false;
+
+		try
+		{
+			$this->extension->store();
+			$stored = true;
+		}
+		catch (RuntimeException $e)
+		{
+			// Try to delete existing failed records before retrying
+			$db = $this->db;
+
+			$query = $db->getQuery(true)
+				->select($db->qn('extension_id'))
+				->from($db->qn('#__extensions'))
+				->where($db->qn('name') . ' = ' . $db->q($this->extension->name))
+				->where($db->qn('type') . ' = ' . $db->q($this->extension->type))
+				->where($db->qn('element') . ' = ' . $db->q($this->extension->element));
+
+			$db->setQuery($query);
+
+			$extension_ids = $db->loadColumn();
+
+			if (!empty($extension_ids))
+			{
+				foreach ($extension_ids as $eid)
+				{
+					// Remove leftover admin menus for this extension ID
+					$this->_removeAdminMenus($eid);
+
+					// Remove the extension record itself
+					/** @var JTableExtension $extensionTable */
+					$extensionTable = JTable::getInstance('extension');
+					$extensionTable->delete($eid);
+				}
+			}
+		}
+
+		if (!$stored)
+		{
+			try
+			{
+				$this->extension->store();
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'));
+			}
+		}
+	}
+
+	/**
 	 * Method to do any prechecks and setup the install paths for the extension
 	 *
 	 * @return  void
@@ -404,11 +488,17 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	protected function storeExtension($deleteExisting = false)
 	{
+		// The extension is stored during prepareDiscoverInstall for discover installs
+		if ($this->route == 'discover_install')
+		{
+			return;
+		}
+
 		// Add an entry to the extension table with a whole heap of defaults
 		$this->extension->name    = $this->name;
 		$this->extension->type    = 'component';
@@ -1376,321 +1466,6 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		return $results;
-	}
-
-	/**
-	 * Install unregistered extensions that have been discovered.
-	 *
-	 * @return  mixed
-	 *
-	 * @since   3.1
-	 */
-	public function discover_install()
-	{
-		// Need to find to find where the XML file is since we don't store this normally
-		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$short_element = str_replace('com_', '', $this->parent->extension->element);
-		$manifestPath = $client->path . '/components/' . $this->parent->extension->element . '/' . $short_element . '.xml';
-		$this->parent->manifest = $this->parent->isManifest($manifestPath);
-		$this->parent->setPath('manifest', $manifestPath);
-		$this->parent->setPath('source', $client->path . '/components/' . $this->parent->extension->element);
-		$this->parent->setPath('extension_root', $this->parent->getPath('source'));
-
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->state = 0;
-		$this->parent->extension->name = $manifest_details['name'];
-		$this->parent->extension->enabled = 1;
-		$this->parent->extension->params = $this->parent->getParams();
-
-		$stored = false;
-
-		try
-		{
-			$this->parent->extension->store();
-			$stored = true;
-		}
-		catch (RuntimeException $e)
-		{
-			// Try to delete existing failed records before retrying
-			$db = $this->parent->getDBO();
-
-			$query = $db->getQuery(true)
-						->select($db->qn('extension_id'))
-						->from($db->qn('#__extensions'))
-						->where($db->qn('name') . ' = ' . $db->q($this->parent->extension->name))
-						->where($db->qn('type') . ' = ' . $db->q($this->parent->extension->type))
-						->where($db->qn('element') . ' = ' . $db->q($this->parent->extension->element));
-
-			$db->setQuery($query);
-
-			$extension_ids = $db->loadColumn();
-
-			if (!empty($extension_ids))
-			{
-				foreach ($extension_ids as $eid)
-				{
-					// Remove leftover admin menus for this extension ID
-					$this->_removeAdminMenus($eid);
-
-					// Remove the extension record itself
-					/** @var JTableExtension $extensionTable */
-					$extensionTable = JTable::getInstance('extension');
-					$extensionTable->delete($eid);
-				}
-			}
-		}
-
-		if (!$stored)
-		{
-			try
-			{
-				$this->parent->extension->store();
-			}
-			catch (RuntimeException $e)
-			{
-				JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
-
-				return false;
-			}
-		}
-
-		// Now we need to run any SQL it has, languages, media or menu stuff
-
-		// Get a database connector object
-		$db = $this->parent->getDbo();
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Manifest Document Setup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Set the extensions name
-		$name = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
-
-		if (substr($name, 0, 4) == 'com_')
-		{
-			$element = $name;
-		}
-		else
-		{
-			$element = 'com_' . $name;
-		}
-
-		$this->set('name', $name);
-		$this->set('element', $element);
-
-		// Get the component description
-		$description = (string) $this->manifest->description;
-
-		if ($description)
-		{
-			$this->parent->set('message', JText::_((string) $description));
-		}
-		else
-		{
-			$this->parent->set('message', '');
-		}
-
-		// Set the installation target paths
-		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE . '/components/' . $this->get('element')));
-		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $this->get('element')));
-
-		// Copy the admin path as it's used as a common base
-		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator'));
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Basic Checks Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Make sure that we have an admin element
-		if (!$this->manifest->administration)
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'), JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Installer Trigger Loading
-		 * ---------------------------------------------------------------------------------------------
-		 */
-		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
-		$manifestScript = (string) $this->manifest->scriptfile;
-
-		if ($manifestScript)
-		{
-			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
-
-			if (is_file($manifestScriptFile))
-			{
-				// Load the file
-				include_once $manifestScriptFile;
-			}
-
-			// Set the class name
-			$classname = $element . 'InstallerScript';
-
-			if (class_exists($classname))
-			{
-				// Create a new instance
-				$this->parent->manifestClass = new $classname($this);
-
-				// And set this so we can copy it later
-				$this->set('manifest_script', $manifestScript);
-			}
-		}
-
-		// Run preflight if possible (since we know we're not an update)
-		ob_start();
-		ob_implicit_flush(false);
-
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight'))
-		{
-			if ($this->parent->manifestClass->preflight('discover_install', $this) === false)
-			{
-				// Install failed, rollback changes
-				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
-
-				return false;
-			}
-		}
-
-		// Create msg object; first use here
-		$msg = ob_get_contents();
-		ob_end_clean();
-
-		/*
-		 *
-		 * Normally we would copy files and create directories, lets skip to the optional files
-		 * Note: need to dereference things!
-		 * Parse optional tags
-		 * @todo remove code: $this->parent->parseMedia($this->manifest->media);
-		 *
-		 * We don't do language because 1.6 suggests moving to extension based languages
-		 * @todo remove code: $this->parent->parseLanguages($this->manifest->languages);
-		 * @todo remove code: $this->parent->parseLanguages($this->manifest->administration->languages, 1);
-		 */
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Database Processing Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Let's run the install queries for the component
-		if (isset($this->manifest->install->sql))
-		{
-			$utfresult = $this->parent->parseSQLFiles($this->manifest->install->sql);
-
-			if ($utfresult === false)
-			{
-				// Install failed, rollback changes
-				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_SQL_ERROR', $db->stderr(true)));
-
-				return false;
-			}
-		}
-
-		// Time to build the admin menus
-		if (!$this->_buildAdminMenus($this->parent->extension->extension_id))
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'), JLog::WARNING, 'jerror');
-
-			// @todo remove code: $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
-
-			// @todo remove code: return false;
-		}
-
-		// Set the schema version to be the latest update version
-		if ($this->manifest->update)
-		{
-			$this->parent->setSchemaVersion($this->manifest->update->schemas, $this->parent->extension->extension_id);
-		}
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Custom Installation Script Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		/*
-		 * If we have an install script, lets include it, execute the custom
-		 * discover_install method, and append the return value from the custom discover_install
-		 * method to the installation message.
-		 */
-		ob_start();
-		ob_implicit_flush(false);
-
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'install'))
-		{
-			if ($this->parent->manifestClass->install($this) === false)
-			{
-				// Install failed, rollback changes
-				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
-
-				return false;
-			}
-		}
-
-		// Append messages
-		$msg .= ob_get_contents();
-		ob_end_clean();
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Finalization and Cleanup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Clobber any possible pending updates
-		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
-
-		if ($uid)
-		{
-			$update->delete($uid);
-		}
-
-		// Register the component container just under root in the assets table.
-		$asset = JTable::getInstance('Asset');
-		$asset->name = $this->get('element');
-		$asset->parent_id = 1;
-		$asset->rules = '{}';
-		$asset->title = $this->get('name');
-		$asset->setLocation(1, 'last-child');
-
-		if (!$asset->store())
-		{
-			// Install failed, roll back changes
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
-
-			return false;
-		}
-
-		// And now we run the postflight
-		ob_start();
-		ob_implicit_flush(false);
-
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'postflight'))
-		{
-			$this->parent->manifestClass->postflight('discover_install', $this);
-		}
-
-		// Append messages
-		$msg .= ob_get_contents();
-		ob_end_clean();
-
-		if ($msg != '')
-		{
-			$this->parent->set('extension_message', $msg);
-		}
-
-		return $this->parent->extension->extension_id;
 	}
 
 	/**

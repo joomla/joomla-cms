@@ -89,6 +89,16 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	protected $route = 'install';
 
 	/**
+	 * Flag if the adapter supports discover installs
+	 *
+	 * Adapters should override this and set to false if discover install is unsupported
+	 *
+	 * @var    boolean
+	 * @since  3.4
+	 */
+	protected $supportsDiscoverInstall = true;
+
+	/**
 	 * The type of adapter in use
 	 *
 	 * @var    string
@@ -250,6 +260,139 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
+	 * Generic discover_install method for extensions
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.4
+	 */
+	public function discover_install()
+	{
+		// Check if this is supported
+		if (!$this->supportsDiscoverInstall)
+		{
+			$this->parent->abort(
+				JText::sprintf('JLIB_INSTALLER_ERROR_DISCOVER_INSTALL_UNSUPPORTED', $this->type)
+			);
+
+			return false;
+		}
+
+		// Prepare the discover install for the adapter
+		try
+		{
+			$this->prepareDiscoverInstall();
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
+
+		// Get the extension's description
+		$description = (string) $this->getManifest()->description;
+
+		if ($description)
+		{
+			$this->parent->message = JText::_($description);
+		}
+		else
+		{
+			$this->parent->message = '';
+		}
+
+		// Set the extension's name and element
+		$this->name    = $this->getName();
+		$this->element = $this->getElement();
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Extension Precheck and Setup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		// Setup the install paths and perform other prechecks as necessary
+		try
+		{
+			$this->setupInstallPaths();
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Installer Trigger Loading
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		$this->setupScriptfile();
+		$this->triggerManifestScript('preflight');
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Database Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		try
+		{
+			$this->storeExtension();
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
+
+		try
+		{
+			$this->parseQueries();
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
+
+		// Run the custom install method
+		$this->triggerManifestScript('install');
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Finalization and Cleanup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		try
+		{
+			$this->finaliseInstall();
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
+
+		// And now we run the postflight
+		$this->triggerManifestScript('postflight');
+
+		return $this->extension->extension_id;
+	}
+
+	/**
 	 * Method to handle database transactions for the installer
 	 *
 	 * @return  boolean  True on success
@@ -406,7 +549,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 */
 	public function install()
 	{
-		// Get the component description
+		// Get the extension's description
 		$description = (string) $this->getManifest()->description;
 
 		if ($description)
@@ -578,8 +721,8 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 */
 	protected function parseQueries()
 	{
-		// Let's run the queries for the plugin
-		if ($this->route == 'install')
+		// Let's run the queries for the extension
+		if (in_array($this->route, array('install', 'discover_install')))
 		{
 			// This method may throw an exception, but it is caught by the parent caller
 			if (!$this->doDatabaseTransactions('install'))
@@ -630,6 +773,18 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	protected function parseOptionalTags()
 	{
 		// Some extensions may not have optional tags
+	}
+
+	/**
+	 * Prepares the adapter for a discover_install task
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function prepareDiscoverInstall()
+	{
+		// Adapters may not support discover install or may have overridden the default task and aren't using this
 	}
 
 	/**
