@@ -3263,7 +3263,7 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 		// If the internal paths have not been initialised, do so with the base table path.
 		if (empty(self::$_includePaths))
 		{
-			self::$_includePaths = array(__DIR__);
+			self::$_includePaths = array(str_replace('\\', '/', __DIR__));
 		}
 
 		// Convert the passed path(s) to add to an array.

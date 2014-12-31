@@ -511,7 +511,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	protected function _cleanPath($path, $ds = DIRECTORY_SEPARATOR)
+	protected function _cleanPath($path, $ds = '/')
 	{
 		$path = trim($path);
 
@@ -521,7 +521,7 @@ class JCacheStorageFile extends JCacheStorage
 		}
 		else
 		{
-			// Remove double slashes and backslahses and convert all slashes and backslashes to DIRECTORY_SEPARATOR
+			// Remove double slashes and backslahses and convert all slashes and backslashes to $ds
 			$path = preg_replace('#[/\\\\]+#', $ds, $path);
 		}
 

@@ -389,7 +389,7 @@ class JLayoutFile extends JLayoutBase
 		// (5 - highest priority) Received a custom high priority path ?
 		if (!is_null($this->basePath))
 		{
-			$this->addIncludePath(rtrim($this->basePath, DIRECTORY_SEPARATOR));
+			$this->addIncludePath(rtrim($this->basePath, '/'));
 		}
 	}
 

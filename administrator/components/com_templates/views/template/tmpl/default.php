@@ -208,10 +208,10 @@ if($this->type == 'font')
 						<ul class="nav nav-stacked nav-list well">
 							<?php foreach ($this->archive as $file): ?>
 								<li>
-									<?php if (substr($file, -1) === DIRECTORY_SEPARATOR): ?>
+									<?php if (substr($file, -1) === '/'): ?>
 										<i class="icon-folder"></i>&nbsp;<?php echo $file; ?>
 									<?php endif; ?>
-									<?php if (substr($file, -1) != DIRECTORY_SEPARATOR): ?>
+									<?php if (substr($file, -1) != '/'): ?>
 										<i class="icon-file"></i>&nbsp;<?php echo $file; ?>
 									<?php endif; ?>
 								</li>

@@ -45,8 +45,8 @@ abstract class JFolder
 		}
 
 		// Eliminate trailing directory separators, if any
-		$src = rtrim($src, DIRECTORY_SEPARATOR);
-		$dest = rtrim($dest, DIRECTORY_SEPARATOR);
+		$src = rtrim($src, '/');
+		$dest = rtrim($dest, '/');
 
 		if (!self::exists($src))
 		{

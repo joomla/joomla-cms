@@ -70,7 +70,7 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 	<head>
-		<?php require __DIR__ . '/jsstrings.php';?>
+		<?php require str_replace('\\', '/', __DIR__) . '/jsstrings.php';?>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes"/>
 		<meta name="HandheldFriendly" content="true" />

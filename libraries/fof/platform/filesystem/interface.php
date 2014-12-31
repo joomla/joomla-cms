@@ -71,7 +71,7 @@ interface FOFPlatformFilesystemInterface
      *
      * @throws  UnexpectedValueException
      */
-    public function pathClean($path, $ds = DIRECTORY_SEPARATOR);
+    public function pathClean($path, $ds = '/');
 
     /**
      * Searches the directory paths for a given file.

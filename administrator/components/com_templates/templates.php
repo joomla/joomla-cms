@@ -24,7 +24,7 @@ if (!$user->authorise('core.manage', 'com_templates')
 	return false;
 }
 
-JLoader::register('TemplatesHelper', __DIR__ . '/helpers/templates.php');
+JLoader::register('TemplatesHelper', str_replace('\\', '/', __DIR__) . '/helpers/templates.php');
 
 $controller	= JControllerLegacy::getInstance('Templates');
 $controller->execute(JFactory::getApplication()->input->get('task'));

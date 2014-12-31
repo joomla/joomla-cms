@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JLog::add(
-	'ConfigModelApplication has moved from ' . __DIR__ . '/component.php to ' . dirname(__DIR__) . '/model/component.php.',
+	'ConfigModelApplication has moved from ' . str_replace('\\', '/', __DIR__) . '/component.php to ' . dirname(str_replace('\\', '/', __DIR__)) . '/model/component.php.',
 	JLog::WARNING,
 	'deprecated'
 );

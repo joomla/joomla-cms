@@ -114,7 +114,7 @@ abstract class TemplateHelper
 					$entry = $zip->getNameIndex($i);
 					$endString = substr($entry, -1);
 
-					if ($endString != DIRECTORY_SEPARATOR)
+					if ($endString != '/')
 					{
 						$explodeArray = explode('.', $entry);
 						$ext = end($explodeArray);

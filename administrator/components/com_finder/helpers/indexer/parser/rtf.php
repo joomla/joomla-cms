@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('FinderIndexerParser', dirname(__DIR__) . '/parser.php');
+JLoader::register('FinderIndexerParser', dirname(str_replace('\\', '/', __DIR__)) . '/parser.php');
 
 /**
  * RTF Parser class for the Finder indexer package.

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('FinderIndexerStemmer', dirname(__DIR__) . '/stemmer.php');
+JLoader::register('FinderIndexerStemmer', dirname(str_replace('\\', '/', __DIR__)) . '/stemmer.php');
 
 /**
  * Snowball stemmer class for the Finder indexer package.

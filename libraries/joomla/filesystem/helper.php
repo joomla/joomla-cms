@@ -262,7 +262,7 @@ class JFilesystemHelper
 
 		if (!$streams)
 		{
-			$files = new DirectoryIterator(__DIR__ . '/streams');
+			$files = new DirectoryIterator(str_replace('\\', '/', __DIR__) . '/streams');
 
 			/* @type  $file  DirectoryIterator */
 			foreach ($files as $file)

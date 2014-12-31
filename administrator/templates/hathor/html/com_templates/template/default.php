@@ -334,10 +334,10 @@ if($this->type == 'image')
 				<ul class="nav nav-list">
 					<?php foreach ($this->archive as $file): ?>
 						<li>
-							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR): ?>
+							<?php if (substr($file, -1) === '/'): ?>
 								<i class="icon-folder"></i>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
-							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR): ?>
+							<?php if (substr($file, -1) != '/'): ?>
 								<i class="icon-file"></i>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>

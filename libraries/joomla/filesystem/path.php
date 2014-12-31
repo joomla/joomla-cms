@@ -191,7 +191,7 @@ class JPath
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
-	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
+	public static function clean($path, $ds = '/')
 	{
 		if (!is_string($path) && !empty($path))
 		{
@@ -204,7 +204,7 @@ class JPath
 		{
 			$path = JPATH_ROOT;
 		}
-		// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
+		// Remove double slashes and backslashes and convert all slashes and backslashes to $ds
 		// If dealing with a UNC path don't forget to prepend the path with a backslash.
 		elseif (($ds == '\\') && ($path[0] == '\\' ) && ( $path[1] == '\\' ))
 		{

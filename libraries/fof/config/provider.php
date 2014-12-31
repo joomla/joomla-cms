@@ -186,7 +186,7 @@ class FOFConfigProvider
 		{
 			$filesystem = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
 
-			$files = $filesystem->folderFiles(__DIR__ . '/domain', '.php');
+			$files = $filesystem->folderFiles(str_replace('\\', '/', __DIR__) . '/domain', '.php');
 
 			if (!empty($files))
 			{

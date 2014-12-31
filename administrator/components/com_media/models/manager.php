@@ -40,7 +40,7 @@ class MediaModelManager extends JModelLegacy
 			$fieldid = $input->get('fieldid', '');
 			$this->setState('field.id', $fieldid);
 
-			$parent = str_replace("\\", "/", dirname($folder));
+			$parent = dirname($folder);
 			$parent = ($parent == '.') ? null : $parent;
 			$this->setState('parent', $parent);
 			$set = true;
@@ -66,8 +66,7 @@ class MediaModelManager extends JModelLegacy
 			$base = COM_MEDIA_BASE;
 		}
 		// Corrections for windows paths
-		$base = str_replace(DIRECTORY_SEPARATOR, '/', $base);
-		$com_media_base_uni = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE);
+		$com_media_base_uni = COM_MEDIA_BASE;
 
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
@@ -77,13 +76,13 @@ class MediaModelManager extends JModelLegacy
 		$document->setTitle(JText::_('COM_MEDIA_INSERT_IMAGE'));
 
 		// Build the array of select options for the folder list
-		$options[] = JHtml::_('select.option', "", "/");
+		$options[] = JHtml::_('select.option', '', '/');
 
 		foreach ($folders as $folder)
 		{
-			$folder		= str_replace($com_media_base_uni, "", str_replace(DIRECTORY_SEPARATOR, '/', $folder));
+			$folder		= str_replace($com_media_base_uni, "", $folder);
 			$value		= substr($folder, 1);
-			$text		= str_replace(DIRECTORY_SEPARATOR, "/", $folder);
+			$text		= $folder;
 			$options[]	= JHtml::_('select.option', $value, $text);
 		}
 
@@ -130,7 +129,7 @@ class MediaModelManager extends JModelLegacy
 			$base = COM_MEDIA_BASE;
 		}
 
-		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
+		$mediaBase = COM_MEDIA_BASE . '/';
 
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
@@ -140,7 +139,6 @@ class MediaModelManager extends JModelLegacy
 
 		foreach ($folders as $folder)
 		{
-			$folder		= str_replace(DIRECTORY_SEPARATOR, '/', $folder);
 			$name		= substr($folder, strrpos($folder, '/') + 1);
 			$relative	= str_replace($mediaBase, '', $folder);
 			$absolute	= $folder;

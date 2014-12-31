@@ -9,4 +9,4 @@
 
 defined('_JEXEC') or die;
 
-include __DIR__ . '/component.php';
+include  __DIR__ . '/component.php';

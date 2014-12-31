@@ -80,7 +80,7 @@ class MediaControllerFolder extends JControllerLegacy
 					continue;
 				}
 
-				$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
+				$fullPath = JPath::clean(implode('/', array(COM_MEDIA_BASE, $folder, $path)));
 				$object_file = new JObject(array('filepath' => $fullPath));
 
 				if (is_file($object_file->filepath))

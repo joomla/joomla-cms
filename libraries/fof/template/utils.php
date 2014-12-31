@@ -244,7 +244,7 @@ class FOFTemplateUtils
 
 		if ($localFile)
 		{
-			$url = rtrim($platformDirs['root'], DIRECTORY_SEPARATOR) . '/';
+			$url = rtrim($platformDirs['root'], '/') . '/';
 		}
 		else
 		{
@@ -307,7 +307,7 @@ class FOFTemplateUtils
 			$path = $protoAndPath[1];
 		}
 
-		$path = ltrim($path, '/' . DIRECTORY_SEPARATOR);
+		$path = ltrim($path, '/' . '/');
 
 		switch ($protocol)
 		{

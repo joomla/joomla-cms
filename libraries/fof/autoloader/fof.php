@@ -51,7 +51,7 @@ class FOFAutoloaderFof
 	 */
 	public function __construct()
 	{
-		self::$fofPath = realpath(__DIR__ . '/../');
+		self::$fofPath = str_replace('\\', '/', realpath(__DIR__) . '/../');
 
 		spl_autoload_register(array($this,'autoload_fof_core'));
 	}

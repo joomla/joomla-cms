@@ -618,7 +618,7 @@ class TemplatesModelTemplate extends JModelForm
 		if ($template = $this->getTemplate())
 		{
 			$app            = JFactory::getApplication();
-			$explodeArray   = explode(DIRECTORY_SEPARATOR, $override);
+			$explodeArray   = explode('/', $override);
 			$name           = end($explodeArray);
 			$client 	    = JApplicationHelper::getClientInfo($template->client_id);
 
@@ -628,7 +628,7 @@ class TemplatesModelTemplate extends JModelForm
 			}
 			elseif (stristr($override, 'com_') != false)
 			{
-				$folderExplode = explode(DIRECTORY_SEPARATOR, $override);
+				$folderExplode = explode('/', $override);
 				$size = count($folderExplode);
 
 				$url = JPath::clean($folderExplode[$size - 3] . '/' . $folderExplode[$size - 1]);
