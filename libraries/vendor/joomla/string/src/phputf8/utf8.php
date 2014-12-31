@@ -24,7 +24,7 @@
 * Put the current directory in this constant
 */
 if ( !defined('UTF8') ) {
-    define('UTF8',str_replace('\\', '/', dirname(__FILE__)));
+    define('UTF8',str_replace('\\', '/', __DIR__));
 }
 
 /**

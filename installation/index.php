@@ -18,7 +18,7 @@ if (version_compare(PHP_VERSION, '5.3.10', '<'))
 define('_JEXEC', 1);
 
 // Bootstrap the application
-require_once str_replace('\\', '/', dirname(__FILE__)) . '/application/bootstrap.php';
+require_once str_replace('\\', '/', __DIR__) . '/application/bootstrap.php';
 
 // Get the application
 $app = JApplicationWeb::getInstance('InstallationApplicationWeb');

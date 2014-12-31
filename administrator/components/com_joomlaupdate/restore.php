@@ -36,7 +36,7 @@ if (!defined('_AKEEBA_IS_WINDOWS'))
 // Get the file's root
 if (!defined('KSROOTDIR'))
 {
-	define('KSROOTDIR', str_replace('\\', '/', dirname(__FILE__)));
+	define('KSROOTDIR', str_replace('\\', '/', __DIR__));
 }
 if (!defined('KSLANGDIR'))
 {
@@ -7541,9 +7541,9 @@ if(!defined('KICKSTART'))
 				$postproc->unlink( $basepath.'restoration.php' );
 
 				// Import a custom finalisation file
-				if (file_exists(str_replace('\\', '/', dirname(__FILE__)) . '/restore_finalisation.php'))
+				if (file_exists(str_replace('\\', '/', __DIR__) . '/restore_finalisation.php'))
 				{
-					include_once str_replace('\\', '/', dirname(__FILE__)) . '/restore_finalisation.php';
+					include_once str_replace('\\', '/', __DIR__) . '/restore_finalisation.php';
 				}
 
 				// Run a custom finalisation script
