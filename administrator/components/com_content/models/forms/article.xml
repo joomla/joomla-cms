@@ -388,7 +388,47 @@
 				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 			</field>
 
-			<field
+            <field
+                    name="facebook"
+                    type="radio"
+                    class="btn-group"
+                    label="COM_CONTENT_SOCIAL_FACEBOOK"
+                    description="COM_CONTENT_SOCIAL_FACEBOOK_DESC">
+                <option value="">JGLOBAL_USE_GLOBAL</option>
+                <option
+                        value="0">JHIDE</option>
+                <option
+                        value="1">JSHOW</option>
+            </field>
+
+            <field
+                    name="twitter"
+                    type="radio"
+                    class="btn-group"
+                    label="COM_CONTENT_SOCIAL_TWITTER"
+                    description="COM_CONTENT_SOCIAL_TWITTER_DESC">
+                <option value="">JGLOBAL_USE_GLOBAL</option>
+                <option
+                        value="0">JHIDE</option>
+                <option
+                        value="1">JSHOW</option>
+            </field>
+
+            <field
+                    name="google"
+                    type="radio"
+                    class="btn-group"
+                    label="COM_CONTENT_SOCIAL_GOOGLE"
+                    description="COM_CONTENT_SOCIAL_GOOGLE_DESC">
+                <option value="">JGLOBAL_USE_GLOBAL</option>
+                <option
+                        value="0">JHIDE</option>
+                <option
+                        value="1">JSHOW</option>
+            </field>
+
+
+            <field
 				name="spacer2"
 				type="spacer"
 				hr="true"

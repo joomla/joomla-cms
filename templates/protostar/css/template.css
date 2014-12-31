@@ -7457,6 +7457,12 @@ code {
 #filter-search {
 	vertical-align: top;
 }
+#social {
+	min-height: 30px;
+}
+#social div {
+	float: left;
+}
 .editor {
 	overflow: hidden;
 	position: relative;
