@@ -23,14 +23,6 @@ class JComponentRouterViewconfiguration
 	public $name;
 
 	/**
-	 * Identifier of the view
-	 * 
-	 * @var string
-	 * @since 3.4
-	 */
-	public $view;
-
-	/**
 	 * Key of the view
 	 * 
 	 * @var string
@@ -79,6 +71,14 @@ class JComponentRouterViewconfiguration
 	public $children = array();
 
 	/**
+	 * Keys used for this parent view by the child views
+	 * 
+	 * @var array
+	 * @since 3.4
+	 */
+	public $child_keys = array();
+
+	/**
 	 * Path of views from this one to the root view
 	 * 
 	 * @var array
@@ -96,14 +96,11 @@ class JComponentRouterViewconfiguration
 	public function __construct($name)
 	{
 		$this->name = $name;
-		$this->view = $name;
 		$this->path[] = $name;
 	}
 
 	/**
 	 * Set the name of the view
-	 * The name is different to the view-name. One view can be injected with
-	 * several names and the same view-name into the routing system
 	 * 
 	 * @param   string  $name  Name of the view
 	 * 
@@ -121,21 +118,6 @@ class JComponentRouterViewconfiguration
 	}
 
 	/**
-	 * Set the view-name of the view
-	 * 
-	 * @param   string  $name  Name of the view-name
-	 * 
-	 * @return  JComponentRouterViewconfiguration  This object for chaining
-	 * @since 3.4
-	 */
-	public function setViewName($name)
-	{
-		$this->view = $name;
-
-		return $this;
-	}
-
-	/**
 	 * Set the key-identifier for the view
 	 * 
 	 * @param   string  $key  Key of the view
@@ -143,7 +125,7 @@ class JComponentRouterViewconfiguration
 	 * @return  JComponentRouterViewconfiguration  This object for chaining
 	 * @since 3.4
 	 */
-	public function setViewKey($key)
+	public function setKey($key)
 	{
 		$this->key = $key;
 
@@ -170,7 +152,10 @@ class JComponentRouterViewconfiguration
 				unset($this->parent->children[$key]);
 			}
 
-			unset($this->parent->child_key);
+			if ($this->parent_key) {
+				$child_key = array_search($this->parent_key, $this->parent->child_keys);
+				unset($this->parent->child_keys[$child_key]);
+			}
 		}
 
 		$this->parent = $parent;
@@ -183,7 +168,7 @@ class JComponentRouterViewconfiguration
 
 		if ($parent_key)
 		{
-			$parent->child_key = $parent_key;
+			$parent->child_keys[] = $parent_key;
 		}
 
 		return $this;

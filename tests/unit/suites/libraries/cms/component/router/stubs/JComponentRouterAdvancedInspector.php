@@ -17,16 +17,38 @@
 class JComponentRouterAdvancedInspector extends JComponentRouterAdvanced
 {
 	/**
-	 * Runs the protected createURI() method
+	 * Gets an attribute of the object
 	 * 
-	 * @param   array   $url  valid inputs to the createURI() method
+	 * @param   string   $key  Attributename to return
 	 *
-	 * @return  object  JURI object from the given parameters
+	 * @return  mixed  Attributes of the object
 	 *
 	 * @since   3.4
 	 */
-	public function runCreateURI($url)
+	public function get($key)
 	{
-		return $this->createURI($url);
+		return $this->$key;
 	}
+
+	/**
+	 * Sets an attribute of the object
+	 * 
+	 * @param   string   $key    Attributename to return
+	 * @param   mixed    $value  Value to be set
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public function set($key, $value)
+	{
+		$this->$key = $value;
+	}
+}
+
+/**
+ * Mock class to crash JComponentRouterAdvanced::getName
+ */
+class FakeComponentURLCreator extends JComponentRouterAdvancedInspector
+{
 }
