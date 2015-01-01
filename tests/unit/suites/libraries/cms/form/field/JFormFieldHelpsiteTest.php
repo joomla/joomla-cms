@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -91,7 +91,7 @@ class JFormFieldHelpsiteTest extends TestCase
 		);
 
 		$this->assertContains(
-			'<option value="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}">',
+			'<option value="https://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}">',
 			$field->input,
 			'Line:' . __LINE__ . ' The getInput method should return an option with a link to the help site.'
 		);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -159,7 +159,7 @@ class JFormFieldModal_Category extends JFormField
 				. ' href="index.php?option=com_categories&layout=modal&tmpl=component&task=category.edit&id=' . $value . '"'
 				. ' target="_blank"'
 				. ' title="' . JHtml::tooltipText('COM_CATEGORIES_EDIT_CATEGORY') . '" >'
-				. '<span class="icon-edit"></span> ' . JText::_('JACTION_EDIT')
+				. '<span class="icon-edit"></span>' . JText::_('JACTION_EDIT')
 				. '</a>';
 		}
 
@@ -170,7 +170,7 @@ class JFormFieldModal_Category extends JFormField
 				. ' id="' . $this->id . '_clear"'
 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
 				. ' onclick="return jClearCategory(\'' . $this->id . '\')">'
-				. '<span class="icon-remove"></span> ' . JText::_('JCLEAR')
+				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
 				. '</button>';
 		}
 

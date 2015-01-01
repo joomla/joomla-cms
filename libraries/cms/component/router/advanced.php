@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
-
 /**
  * Advanced component routing class
  *
@@ -41,90 +39,29 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	protected $views = array();
 
 	/**
-	 * Mapping names with actual views
-	 * 
-	 * @var array
-	 */
-	protected $view_map = array();
-
-	/**
 	 * Register the views of a component
 	 * 
-	 * @param   string  $name        Internal name of the view. Has to be unique for the component
-	 * @param   string  $view        Identifier of the view
-	 * @param   string  $key         Identifier of the key variable used to identify the primary content item of this view 
-	 * @param   string  $parent      Internal name of the parent view
-	 * @param   string  $parent_key  Identifier of the key variable used to identify the content item of the parent view
-	 * @param   bool    $nestable    Is this view nestable?
-	 * @param   string  $layout      Layout to use for this view by default
+	 * @param   JComponentRouterViewconfiguration  $view  View configuration object
 	 * 
 	 * @return void
 	 * 
 	 * @since 3.4
 	 */
-	public function registerView($name, $view, $key = false, $parent = false, $parent_key = false, $nestable = false, $layout = 'default')
+	public function registerView(JComponentRouterViewconfiguration $view)
 	{
-		$viewobj = new stdClass;
-		$viewobj->view = $view;
-		$viewobj->name = $name;
-		$viewobj->key = $key;
-		if ($parent)
-		{
-			$viewobj->parent = $this->views[$parent];
-			$this->views[$parent]->children[] = &$viewobj;
-			$viewobj->path = $this->views[$parent]->path;
-		}
-		else
-		{
-			$viewobj->parent = false;
-			$viewobj->path = array();
-		}
-		$viewobj->path[] = $name;
-		$viewobj->child_key = false;
-		$viewobj->parent_key = $parent_key;
-		if ($parent_key)
-		{
-			$this->views[$parent]->child_key = $parent_key;
-		}
-		$viewobj->nestable = $nestable;
-		$viewobj->layout = $layout;
-
-		$this->views[$name] = $viewobj;
-		if (!isset($this->view_map[$view]))
-		{
-			$this->view_map[$view] = array();
-		}
-		$this->view_map[$view][] = $name;
+		$this->views[$view->name] = $view;
 	}
 
 	/**
 	 * Return an array of registered view objects
 	 * 
-	 * @return array Array of registered view objects
+	 * @return array|JComponentRouterViewconfiguration Array of registered view objects
 	 * 
 	 * @since 3.4
 	 */
 	public function getViews()
 	{
 		return $this->views;
-	}
-
-	/**
-	 * Return the map of views to names of the registered view objects
-	 * 
-	 * @param   object  $view  View to return
-	 * 
-	 * @return array Array of names
-	 * 
-	 * @since 3.4
-	 */
-	public function getViewMap($view = false)
-	{
-		if ($view && isset($this->view_map[$view]))
-		{
-			return $this->view_map[$view];
-		}
-		return $this->view_map;
 	}
 
 	/**
@@ -140,38 +77,39 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 		$views = $this->getViews();
 		$result = array();
 		$key = false;
-		if (isset($query['view']) && $this->view_map[$query['view']])
+
+		// Get the right view object
+		if (isset($query['view']) && $views[$query['view']])
 		{
-			$view = $query['view'];
-			if (isset($query['layout']))
-			{
-				$layout = $query['layout'];
-			}
-			else
-			{
-				$layout = 'default';
-			}
-			foreach ($this->view_map[$view] as $name)
-			{
-				if ($layout == $this->views[$name]->layout)
-				{
-					$viewobj = $this->views[$name];
-					break;
-				}
-			}
+			$viewobj = $views[$query['view']];
 		}
+
+		// Get the path from the current item to the root view with all IDs
 		if (isset($viewobj))
 		{
 			$path = array_reverse($viewobj->path);
+			$start = true;
+			$childkey = false;
 
-			$view = $views[array_shift($path)];
-			$key = $view->key;
 			foreach ($path as $element)
 			{
+				$view = $views[$element];
+
+				if ($start)
+				{
+					$key = $view->key;
+					$start = false;
+				}
+				else
+				{
+					$key = $childkey;
+				}
+				$childkey = $view->parent_key;
+
 				if ($key && isset($query[$key]))
 				{
 					$result[$view->name] = array($query[$key]);
-					if ($view->nestable)
+					if ($view->nestable && is_callable(array($this, 'get' . ucfirst($view->name))))
 					{
 						$nestable = call_user_func_array(array($this, 'get' . ucfirst($view->name)), array($query[$key]));
 						if ($nestable)
@@ -184,8 +122,6 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 				{
 					$result[$view->name] = true;
 				}
-				$view = $views[$element];
-				$key = $view->child_key;
 			}
 		}
 		return $result;
@@ -212,7 +148,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	 * 
 	 * @since 3.4
 	 */
-	public function setRules($rules)
+	public function attachRules($rules)
 	{
 		foreach ($rules as $rule)
 		{
@@ -239,7 +175,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	 * 
 	 * @return   boolean  Was a rule removed?
 	 */
-	public function removeRule(JComponentRouterRulesInterface $rule)
+	public function detachRule(JComponentRouterRulesInterface $rule)
 	{
 		foreach ($this->rules as $id => $r)
 		{
