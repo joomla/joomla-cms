@@ -100,7 +100,7 @@ class FOFIntegrationJoomlaFilesystem extends FOFPlatformFilesystem implements FO
 	 */
     public function pathClean($path, $ds = DIRECTORY_SEPARATOR)
     {
-        return JPath:clean($path, $ds);
+        return JPath::clean($path, $ds);
     }
 
 	/**
