@@ -11,6 +11,7 @@
  */
 
 define('_AKEEBA_RESTORATION', 1);
+defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 
 // Unarchiver run states
 define('AK_STATE_NOFILE', 0); // File header not read yet
@@ -36,7 +37,7 @@ if (!defined('_AKEEBA_IS_WINDOWS'))
 // Get the file's root
 if (!defined('KSROOTDIR'))
 {
-	define('KSROOTDIR', str_replace('\\', '/', __DIR__));
+	define('KSROOTDIR', dirname(__FILE__));
 }
 if (!defined('KSLANGDIR'))
 {
@@ -1917,7 +1918,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 		{
 			++$count;
 			$extension = substr($base_extension, 0, 2).sprintf('%02d', $count);
-			$filename = $dirname.'/'.$basename.$extension;
+			$filename = $dirname.DIRECTORY_SEPARATOR.$basename.$extension;
 			$found = file_exists($filename);
 			if($found)
 			{
@@ -6050,7 +6051,7 @@ class AKUtilsLister extends AKAbstractObject
 
 			if (($file != '.') && ($file != '..'))
 			{
-				$ds = ($folder == '') || ($folder == '/') || (@substr($folder, -1) == '/')) ? '' : '/';
+				$ds = ($folder == '') || ($folder == '/') || (@substr($folder, -1) == '/') || (@substr($folder, -1) == DIRECTORY_SEPARATOR) ? '' : DIRECTORY_SEPARATOR;
 				$dir = $folder . $ds . $file;
 				$isDir = is_dir($dir);
 				if (!$isDir) {
@@ -6084,7 +6085,7 @@ class AKUtilsLister extends AKAbstractObject
 
 			if (($file != '.') && ($file != '..'))
 			{
-				$ds = ($folder == '') || ($folder == '/') || (@substr($folder, -1) == '/')) ? '' : '/';
+				$ds = ($folder == '') || ($folder == '/') || (@substr($folder, -1) == '/') || (@substr($folder, -1) == DIRECTORY_SEPARATOR) ? '' : DIRECTORY_SEPARATOR;
 				$dir = $folder . $ds . $file;
 				$isDir = is_dir($dir);
 				if ($isDir) {
@@ -6442,10 +6443,10 @@ class AKText extends AKAbstractObject
 		$basename = basename(__FILE__, '.php') . '.ini';
 		if( empty($lang) ) $lang = $this->language;
 
-		$translationFilename = $dirname.'/'.$lang.'.'.$basename;
+		$translationFilename = $dirname.DIRECTORY_SEPARATOR.$lang.'.'.$basename;
 		if(!@file_exists($translationFilename) && ($basename != 'kickstart.ini')) {
 			$basename = 'kickstart.ini';
-			$translationFilename = $dirname.'/'.$lang.'.'.$basename;
+			$translationFilename = $dirname.DIRECTORY_SEPARATOR.$lang.'.'.$basename;
 		}
 		if(!@file_exists($translationFilename)) return;
 		$temp = self::parse_ini_file($translationFilename, false);
@@ -7541,9 +7542,9 @@ if(!defined('KICKSTART'))
 				$postproc->unlink( $basepath.'restoration.php' );
 
 				// Import a custom finalisation file
-				if (file_exists(str_replace('\\', '/', __DIR__) . '/restore_finalisation.php'))
+				if (file_exists(dirname(__FILE__) . '/restore_finalisation.php'))
 				{
-					include_once str_replace('\\', '/', __DIR__) . '/restore_finalisation.php';
+					include_once dirname(__FILE__) . '/restore_finalisation.php';
 				}
 
 				// Run a custom finalisation script
