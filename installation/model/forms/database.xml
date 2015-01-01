@@ -40,10 +40,10 @@
 				<option value="backup">INSTL_DATABASE_FIELD_VALUE_BACKUP</option>
 				<option value="remove">INSTL_DATABASE_FIELD_VALUE_REMOVE</option>
 			</field>
-			<field name="db_prefix" type="prefix" id="db_prefix" class="inputbox"
+			<field name="db_prefix" type="installation.prefix" id="db_prefix" class="inputbox"
 				label="INSTL_DATABASE_PREFIX_LABEL"
 				required="true"
-				validate="prefix"
+				validate="installation.prefix"
 				message="INSTL_DATABASE_PREFIX_MSG"
 			/>
 		</fieldset>

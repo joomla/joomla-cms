@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -788,7 +788,7 @@ class JRouterSiteTest extends TestCase
 		 * Check if a proper router is automatically loaded
 		 * by loading the router of com_content
 		 */
-		$this->assertInstanceOf('ContentRouter', $this->object->getComponentRouter('com_content'));
+		$this->assertInstanceOf('WrapperRouter', $this->object->getComponentRouter('com_wrapper'));
 
 		/**
 		 * Check if an instance of JComponentRouterLegacy

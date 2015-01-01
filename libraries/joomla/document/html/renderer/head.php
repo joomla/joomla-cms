@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -227,14 +227,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			}
 
 			$buffer .= $tab . $tab . '(function() {' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . 'var strings = ' . json_encode(JText::script()) . ';' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . 'if (typeof Joomla == \'undefined\') {' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . $tab . 'Joomla = {};' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . $tab . 'Joomla.JText = strings;' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . '}' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . 'else {' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . $tab . 'Joomla.JText.load(strings);' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . '}' . $lnEnd;
+			$buffer .= $tab . $tab . $tab . 'Joomla.JText.load(' . json_encode(JText::script()) . ');' . $lnEnd;
 			$buffer .= $tab . $tab . '})();' . $lnEnd;
 
 			if ($document->_mime != 'text/html')
