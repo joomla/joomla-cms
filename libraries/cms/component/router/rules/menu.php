@@ -135,13 +135,10 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 			$views = $this->router->getViews();
 
 			$attributes = array('component_id');
-			$values     = array($component->id);
+			$values     = array((int) $component->id);
 
-			if ($language != '*')
-			{
-				$attributes[] = 'language';
-				$values[]     = array($needles['language'], '*');
-			}
+			$attributes[] = 'language';
+			$values[]     = array($language, '*');
 
 			$items = $this->router->menu->getItems($attributes, $values);
 
@@ -195,6 +192,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @codeCoverageIgnore
 	 */
 	public function parse(&$segments, &$vars)
 	{
@@ -209,6 +207,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @codeCoverageIgnore
 	 */
 	public function build(&$query, &$segments)
 	{
