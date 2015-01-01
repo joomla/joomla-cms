@@ -38,10 +38,14 @@ abstract class JFolder
 
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
+		$src =  JPath::ux_clean($src);
+		$dest =  JPath::ux_clean($dest);
+
 		if ($path)
 		{
-			$src = JPath::ux_clean($path . '/' . $src);
-			$dest = JPath::ux_clean($path . '/' . $dest);
+			$path = JPath::ux_clean($path);
+			$src = $path . '/' . $src;
+			$dest = $path . '/' . $dest;
 		}
 
 		// Eliminate trailing directory separators, if any
@@ -409,10 +413,14 @@ abstract class JFolder
 	{
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
+		$src =  JPath::ux_clean($src);
+		$dest =  JPath::ux_clean($dest);
+
 		if ($path)
 		{
-			$src = JPath::ux_clean($path . '/' . $src);
-			$dest = JPath::ux_clean($path . '/' . $dest);
+			$path = JPath::ux_clean($path);
+			$src = $path . '/' . $src;
+			$dest = $path . '/' . $dest;
 		}
 
 		if (!self::exists($src))
@@ -604,6 +612,9 @@ abstract class JFolder
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
+		// Check to make sure the path valid and clean
+		$path = JPath::ux_clean($path);
+
 		$arr = array();
 
 		// Read the source directory
@@ -674,6 +685,9 @@ abstract class JFolder
 	 */
 	public static function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
 	{
+		// Check to make sure the path valid and clean
+		$path = JPath::ux_clean($path);
+
 		$dirs = array();
 
 		if ($level == 0)

@@ -81,11 +81,14 @@ class JFile
 	 */
 	public static function copy($src, $dest, $path = null, $use_streams = false)
 	{
-		// Prepend a base path if it exists
+		$src =  JPath::ux_clean($src);
+		$dest =  JPath::ux_clean($dest);
+
 		if ($path)
 		{
-			$src = JPath::ux_clean($path . '/' . $src);
-			$dest = JPath::ux_clean($path . '/' . $dest);
+			$path = JPath::ux_clean($path);
+			$src = $path . '/' . $src;
+			$dest = $path . '/' . $dest;
 		}
 
 		// Check src path
@@ -237,10 +240,14 @@ class JFile
 	 */
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
+		$src =  JPath::ux_clean($src);
+		$dest =  JPath::ux_clean($dest);
+
 		if ($path)
 		{
-			$src = JPath::ux_clean($path . '/' . $src);
-			$dest = JPath::ux_clean($path . '/' . $dest);
+			$path = JPath::ux_clean($path);
+			$src = $path . '/' . $src;
+			$dest = $path . '/' . $dest;
 		}
 
 		// Check src path
