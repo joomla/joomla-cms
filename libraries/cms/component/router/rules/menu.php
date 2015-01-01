@@ -55,7 +55,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	 */
 	public function preprocess(&$query)
 	{
-		if (isset($query['Itemid']))
+		if (isset($query['Itemid']) && $query['Itemid'] != $this->router->menu->getActive()->id)
 		{
 			return;
 		}
@@ -132,6 +132,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 			$this->lookup[$language] = array();
 
 			$component  = JComponentHelper::getComponent('com_' . $this->router->getName());
+			$views = $this->router->getViews();
 
 			$attributes = array('component_id');
 			$values     = array($component->id);
@@ -150,21 +151,34 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 				{
 					$view = $item->query['view'];
 
-					if (!isset($this->lookup[$language][$view]))
+					if ($views[$view]->key)
 					{
-						$this->lookup[$language][$view] = array();
-					}
+						if (!isset($this->lookup[$language][$view]))
+						{
+							$this->lookup[$language][$view] = array();
+						}
 
-					if (isset($item->query['id']))
+						/**
+						 * Here it will become a bit tricky
+						 * language != * can override existing entries
+						 * language == * cannot override existing entries
+						 */
+						if (isset($item->query[$views[$view]->key]) &&
+							(!isset($this->lookup[$language][$view][$item->query[$views[$view]->key]]) || $item->language != '*'))
+						{
+							$this->lookup[$language][$view][$item->query['id']] = $item->id;
+						}
+					}
+					else
 					{
 						/**
 						 * Here it will become a bit tricky
 						 * language != * can override existing entries
 						 * language == * cannot override existing entries
 						 */
-						if (!isset($this->lookup[$language][$view][$item->query['id']]) || $item->language != '*')
+						if (!isset($this->lookup[$language][$view]) || $item->language != '*')
 						{
-							$this->lookup[$language][$view][$item->query['id']] = $item->id;
+							$this->lookup[$language][$view] = $item->id;
 						}
 					}
 				}
