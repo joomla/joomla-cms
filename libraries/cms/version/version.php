@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Version
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,7 +44,7 @@ final class JVersion
 	public $RELTZ = 'GMT';
 
 	/** @var  string  Copyright Notice. */
-	public $COPYRIGHT = 'Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.';
+	public $COPYRIGHT = 'Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.';
 
 	/** @var  string  Link text. */
 	public $URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';

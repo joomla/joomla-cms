@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 
-jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -19,7 +18,7 @@ jimport('joomla.filesystem.folder');
  *
  * @since  3.1
  */
-class JInstallerAdapterLanguage extends JAdapterInstance
+class JInstallerAdapterLanguage extends JInstallerAdapter
 {
 	/**
 	 * Core language pack flag
@@ -28,6 +27,44 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 	 * @since  12.1
 	 */
 	protected $core = false;
+
+	/**
+	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function copyBaseFiles()
+	{
+		// TODO - Refactor adapter to use common code
+	}
+
+	/**
+	 * Method to do any prechecks and setup the install paths for the extension
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function setupInstallPaths()
+	{
+		// TODO - Refactor adapter to use common code
+	}
+
+	/**
+	 * Method to store the extension to the database
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function storeExtension()
+	{
+		// TODO - Refactor adapter to use common code
+	}
 
 	/**
 	 * Custom install method

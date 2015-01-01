@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -538,7 +538,7 @@ class JTableNested extends JTable
 		if ($this->_trackAssets)
 		{
 			$name = $this->_getAssetName();
-			$asset = JTable::getInstance('Asset');
+			$asset = JTable::getInstance('Asset', 'JTable', array('dbo', $this->getDbo()));
 
 			// Lock the table for writing.
 			if (!$asset->_lock())
