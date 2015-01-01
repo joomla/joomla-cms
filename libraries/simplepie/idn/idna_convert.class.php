@@ -95,9 +95,9 @@ class idna_convert
     {
         $this->slast = $this->_sbase + $this->_lcount * $this->_vcount * $this->_tcount;
         if (function_exists('file_get_contents')) {
-            $this->NP = unserialize(file_get_contents(str_replace('\\', '/', __DIR__).'/npdata.ser'));
+            $this->NP = unserialize(file_get_contents(dirname(__FILE__).'/npdata.ser'));
         } else {
-            $this->NP = unserialize(join('', file(str_replace('\\', '/', __DIR__).'/npdata.ser')));
+            $this->NP = unserialize(join('', file(dirname(__FILE__).'/npdata.ser')));
         }
         // If parameters are given, pass these to the respective method
         if (is_array($options)) {
