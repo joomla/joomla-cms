@@ -1,0 +1,2 @@
+.CodeMirror-fullscreen{z-index:1040}.CodeMirror-foldmarker{background:#ff8000;background:rgba(255,128,0,.5);box-shadow:inset 0 0 2px rgba(255,255,255,.5);font-family:serif;font-size:90%;border-radius:1em;padding:0 1em;vertical-align:middle;color:white;text-shadow:none}
+.CodeMirror-foldgutter,.CodeMirror-markergutter{width:1.2em;text-align:center}.CodeMirror-markergutter{cursor:pointer}.CodeMirror-markergutter-mark{cursor:pointer;text-align:center}.CodeMirror-markergutter-mark:after{content:"\25CF"}

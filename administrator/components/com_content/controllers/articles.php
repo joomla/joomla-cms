@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,17 +81,26 @@ class ContentControllerArticles extends JControllerAdmin
 			{
 				JError::raiseWarning(500, $model->getError());
 			}
+
+			if ($value == 1)
+			{
+				$message = JText::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
+			}
+			else
+			{
+				$message = JText::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
+			}
 		}
 
 		$view = $this->input->get('view', '');
 
 		if ($view == 'featured')
 		{
-			$this->setRedirect('index.php?option=com_content&view=featured');
+			$this->setRedirect(JRoute::_('index.php?option=com_content&view=featured', false), $message);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_content&view=articles');
+			$this->setRedirect(JRoute::_('index.php?option=com_content&view=articles', false), $message);
 		}
 	}
 
