@@ -18,9 +18,15 @@ class NewsfeedsRouter extends JComponentRouterAdvanced
 {
 	function __construct($app = null, $menu = null)
 	{
-		$this->registerView('categories', 'categories');
-		$this->registerView('category', 'category', 'id', 'categories', '', true, array('default', 'blog'));
-		$this->registerView('newsfeed', 'newsfeed', 'id', 'category', 'catid');
+		$categories = new JComponentRouterViewconfiguration('categories');
+		$categories->setKey('id');
+		$this->registerView($categories);
+		$category = new JComponentRouterViewconfiguration('category');
+		$category->setKey('id')->setParent($categories, 'id')->setNestable();
+		$this->registerView($category);
+		$newsfeed = new JComponentRouterViewconfiguration('newsfeed');
+		$newsfeed->setKey('id')->setParent($category, 'catid');
+		$this->registerView($newsfeed);
 
 		parent::__construct($app, $menu);
 
