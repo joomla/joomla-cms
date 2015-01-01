@@ -45,7 +45,7 @@ class NewsfeedsRouterRulesLegacy implements JComponentRouterRulesInterface
 	public function preprocess(&$query)
 	{
 	}
-	
+
 	/**
 	 * Build the route for the com_newsfeeds component
 	 *
