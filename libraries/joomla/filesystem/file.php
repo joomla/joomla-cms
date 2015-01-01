@@ -81,8 +81,8 @@ class JFile
 	 */
 	public static function copy($src, $dest, $path = null, $use_streams = false)
 	{
-		$src =  JPath::ux_clean($src);
-		$dest =  JPath::ux_clean($dest);
+		$src = JPath::ux_clean($src);
+		$dest = JPath::ux_clean($dest);
 
 		if ($path)
 		{
@@ -240,8 +240,8 @@ class JFile
 	 */
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
-		$src =  JPath::ux_clean($src);
-		$dest =  JPath::ux_clean($dest);
+		$src = JPath::ux_clean($src);
+		$dest = JPath::ux_clean($dest);
 
 		if ($path)
 		{

@@ -38,8 +38,8 @@ abstract class JFolder
 
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
-		$src =  JPath::ux_clean($src);
-		$dest =  JPath::ux_clean($dest);
+		$src = JPath::ux_clean($src);
+		$dest = JPath::ux_clean($dest);
 
 		if ($path)
 		{
@@ -413,8 +413,8 @@ abstract class JFolder
 	{
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
-		$src =  JPath::ux_clean($src);
-		$dest =  JPath::ux_clean($dest);
+		$src = JPath::ux_clean($src);
+		$dest = JPath::ux_clean($dest);
 
 		if ($path)
 		{
