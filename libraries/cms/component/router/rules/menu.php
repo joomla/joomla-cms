@@ -160,8 +160,8 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 						 * language != * can override existing entries
 						 * language == * cannot override existing entries
 						 */
-						if (isset($item->query[$views[$view]->key]) &&
-							(!isset($this->lookup[$language][$view][$item->query[$views[$view]->key]]) || $item->language != '*'))
+						if (isset($item->query[$views[$view]->key])
+							&& (!isset($this->lookup[$language][$view][$item->query[$views[$view]->key]]) || $item->language != '*'))
 						{
 							$this->lookup[$language][$view][$item->query['id']] = $item->id;
 						}
