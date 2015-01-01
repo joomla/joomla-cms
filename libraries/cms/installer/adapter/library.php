@@ -132,7 +132,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	{
 		if (!$element)
 		{
-			$manifestPath = JPath:ux_clean($this->parent->getPath('manifest'));
+			$manifestPath = JPath::ux_clean($this->parent->getPath('manifest'));
 			$element = preg_replace('/\.xml/', '', basename($manifestPath));
 		}
 

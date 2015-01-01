@@ -37,7 +37,7 @@ class TagsHelper extends JHelperContent
 		}
 
 		// Try to find the component helper.
-		$file = JPath:ux_clean(JPATH_ADMINISTRATOR . '/components/com_tags/helpers/tags.php');
+		$file = JPath::ux_clean(JPATH_ADMINISTRATOR . '/components/com_tags/helpers/tags.php');
 
 		if (file_exists($file))
 		{
@@ -53,7 +53,7 @@ class TagsHelper extends JHelperContent
 
 					// Loading language file from administrator/language directory then administrator/components/<extension>/language
 					$lang->load($component, JPATH_BASE, null, false, true)
-					||	$lang->load($component, JPath:ux_clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+					||	$lang->load($component, JPath::ux_clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 				}
 			}
 		}

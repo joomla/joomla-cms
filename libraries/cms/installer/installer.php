@@ -1456,7 +1456,7 @@ class JInstaller extends JAdapter
 		// Default 'media' Files are copied to the JPATH_BASE/media folder
 
 		$folder = ((string) $element->attributes()->destination) ? '/' . $element->attributes()->destination : null;
-		$destination = JPath:ux_clean(JPATH_ROOT . '/media' . $folder);
+		$destination = JPath::ux_clean(JPATH_ROOT . '/media' . $folder);
 
 		// Here we set the folder we are going to copy the files from.
 
@@ -1599,8 +1599,8 @@ class JInstaller extends JAdapter
 			foreach ($files as $file)
 			{
 				// Get the source and destination paths
-				$filesource = JPath:ux_clean($file['src']);
-				$filedest = JPath:ux_clean($file['dest']);
+				$filesource = JPath::ux_clean($file['src']);
+				$filedest = JPath::ux_clean($file['dest']);
 				$filetype = array_key_exists('type', $file) ? $file['type'] : 'file';
 
 				if (!file_exists($filesource))

@@ -407,7 +407,7 @@ class AdmintoolsHelperDownload
 		$ftpOptions = JClientHelper::getCredentials('ftp');
 
 		// Check to make sure the path valid and clean
-		$path = JPath:ux_clean($path);
+		$path = JPath::ux_clean($path);
 
 		if ($ftpOptions['enabled'] == 1)
 		{
@@ -425,7 +425,7 @@ class AdmintoolsHelperDownload
 		elseif ($ftpOptions['enabled'] == 1)
 		{
 			// Translate path and delete
-			$path = JPath:ux_clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $path), '/');
+			$path = JPath::ux_clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $path), '/');
 
 			// FTP connector throws an error
 			$ret = $ftp->chmod($path, $mode);

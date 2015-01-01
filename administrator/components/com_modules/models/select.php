@@ -119,7 +119,7 @@ class ModulesModelSelect extends JModelList
 		// and load language support.
 		foreach ($items as &$item)
 		{
-			$path = JPath:ux_clean($client->path . '/modules/' . $item->module . '/' . $item->module . '.xml');
+			$path = JPath::ux_clean($client->path . '/modules/' . $item->module . '/' . $item->module . '.xml');
 
 			if (file_exists($path))
 			{

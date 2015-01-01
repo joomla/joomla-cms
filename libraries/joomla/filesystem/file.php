@@ -84,8 +84,8 @@ class JFile
 		// Prepend a base path if it exists
 		if ($path)
 		{
-			$src = JPath:ux_clean($path . '/' . $src);
-			$dest = JPath:ux_clean($path . '/' . $dest);
+			$src = JPath::ux_clean($path . '/' . $src);
+			$dest = JPath::ux_clean($path . '/' . $dest);
 		}
 
 		// Check src path
@@ -126,7 +126,7 @@ class JFile
 				}
 
 				// Translate the destination path for the FTP account
-				$dest = JPath:ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+				$dest = JPath::ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				if (!$ftp->store($src, $dest))
 				{
@@ -183,7 +183,7 @@ class JFile
 
 		foreach ($files as $file)
 		{
-			$file = JPath:ux_clean($file);
+			$file = JPath::ux_clean($file);
 
 			if (!is_file($file))
 			{
@@ -202,7 +202,7 @@ class JFile
 			}
 			elseif ($FTPOptions['enabled'] == 1)
 			{
-				$file = JPath:ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+				$file = JPath::ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
 
 				if (!$ftp->delete($file))
 				{
@@ -239,8 +239,8 @@ class JFile
 	{
 		if ($path)
 		{
-			$src = JPath:ux_clean($path . '/' . $src);
-			$dest = JPath:ux_clean($path . '/' . $dest);
+			$src = JPath::ux_clean($path . '/' . $src);
+			$dest = JPath::ux_clean($path . '/' . $dest);
 		}
 
 		// Check src path
@@ -272,8 +272,8 @@ class JFile
 				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account
-				$src = JPath:ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-				$dest = JPath:ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+				$src = JPath::ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+				$dest = JPath::ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				// Use FTP rename to simulate move
 				if (!$ftp->rename($src, $dest))
@@ -420,12 +420,12 @@ class JFile
 				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account and use FTP write buffer to file
-				$file = JPath:ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+				$file = JPath::ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
 				$ret = $ftp->write($file, $buffer);
 			}
 			else
 			{
-				$file = JPath:ux_clean($file);
+				$file = JPath::ux_clean($file);
 				$ret = is_int(file_put_contents($file, $buffer)) ? true : false;
 			}
 
@@ -447,7 +447,7 @@ class JFile
 	public static function upload($src, $dest, $use_streams = false)
 	{
 		// Ensure that the path is valid and clean
-		$dest = JPath:ux_clean($dest);
+		$dest = JPath::ux_clean($dest);
 
 		// Create the destination directory if it does not exist
 		$baseDir = dirname($dest);
@@ -482,7 +482,7 @@ class JFile
 				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account
-				$dest = JPath:ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+				$dest = JPath::ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				// Copy the file to the destination directory
 				if (is_uploaded_file($src) && $ftp->store($src, $dest))
@@ -530,7 +530,7 @@ class JFile
 	 */
 	public static function exists($file)
 	{
-		return is_file(JPath:ux_clean($file));
+		return is_file(JPath::ux_clean($file));
 	}
 
 	/**

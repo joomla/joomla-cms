@@ -1038,7 +1038,7 @@ class JApplicationCms extends JApplicationWeb
 		else
 		{
 			$dir = str_replace('\\', '/', __DIR__);
-			$this->docOptions['directory'] = defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : $dir)) . '/themes';
+			$this->docOptions['directory'] = defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : $dir) . '/themes';
 		}
 
 		// Parse the document.

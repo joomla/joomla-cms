@@ -43,7 +43,7 @@ class CategoriesHelper
 
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
-		$file = JPath:ux_clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$file = JPath::ux_clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
 		if (file_exists($file))
 		{
@@ -61,7 +61,7 @@ class CategoriesHelper
 					// Loading language file from the administrator/language directory then
 					// loading language file from the administrator/components/*extension*/language directory
 					$lang->load($component, JPATH_BASE, null, false, true)
-					|| $lang->load($component, JPath:ux_clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+					|| $lang->load($component, JPath::ux_clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 
 					call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
 				}

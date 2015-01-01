@@ -392,7 +392,7 @@ ENDDATA;
 			{
 				$FTPOptions = JClientHelper::getCredentials('ftp');
 				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
-				$dest = JPath:ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
+				$dest = JPath::ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
 
 				if (!@mkdir($tempdir . '/admintools'))
 				{
@@ -426,7 +426,7 @@ ENDDATA;
 				{
 					$FTPOptions = JClientHelper::getCredentials('ftp');
 					$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
-					$dest = JPath:ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
+					$dest = JPath::ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
 
 					if (!@mkdir($tempdir . '/admintools'))
 					{
@@ -556,7 +556,7 @@ ENDDATA;
 
 		$manifest = $installer->getManifest();
 
-		$manifestPath = JPath:ux_clean($installer->getPath('manifest'));
+		$manifestPath = JPath::ux_clean($installer->getPath('manifest'));
 		$element = preg_replace('/\.xml/', '', basename($manifestPath));
 
 		// Run the script file.

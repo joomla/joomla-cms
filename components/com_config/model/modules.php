@@ -88,7 +88,7 @@ class ConfigModelModules extends ConfigModelForm
 		$module = $this->getState()->get('module.name');
 		$basePath = JPATH_BASE;
 
-		$formFile = JPath:ux_clean($basePath . '/modules/' . $module . '/' . $module . '.xml');
+		$formFile = JPath::ux_clean($basePath . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $basePath, null, false, true)
@@ -130,7 +130,7 @@ class ConfigModelModules extends ConfigModelForm
 		$templateName = JFactory::getApplication()->getTemplate();
 
 		// Load templateDetails.xml file
-		$path = JPath:ux_clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
+		$path = JPath::ux_clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
 		$currentPositions = array();
 
 		if (file_exists($path))

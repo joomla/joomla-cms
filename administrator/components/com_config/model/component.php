@@ -37,7 +37,7 @@ class ConfigModelComponent extends ConfigModelForm
 		// Set an alternative path for the configuration file.
 		if ($path = $input->getString('path'))
 		{
-			$path = JPath:ux_clean(JPATH_SITE . '/' . $path);
+			$path = JPath::ux_clean(JPATH_SITE . '/' . $path);
 			JPath::check($path);
 			$state->set('component.path', $path);
 		}
