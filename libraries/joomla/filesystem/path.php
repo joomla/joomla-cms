@@ -230,7 +230,7 @@ class JPath
 	 */
 	public static function ux_clean($path, $ds = '/')
 	{
-		return $this->clean($path, '/');
+		return self::clean($path, '/');
 	}
 
 	/**
