@@ -18,10 +18,16 @@ class ContactRouter extends JComponentRouterAdvanced
 {
 	function __construct($app = null, $menu = null)
 	{
-		$this->registerView('categories', 'categories');
-		$this->registerView('category', 'category', 'id', 'categories', '', true, array('default', 'blog'));
-		$this->registerView('contact', 'contact', 'id', 'category', 'catid');
-		$this->registerView('featured', 'featured');
+		$categories = new JComponentRouterViewconfiguration('categories');
+		$categories->setKey('id');
+		$this->registerView($categories);
+		$category = new JComponentRouterViewconfiguration('category');
+		$category->setKey('id')->setParent($categories, 'id')->setNestable();
+		$this->registerView($category);
+		$contact = new JComponentRouterViewconfiguration('contact');
+		$contact->setKey('id')->setParent($category, 'catid');
+		$this->registerView($contact);
+		$this->registerView(new JComponentRouterViewconfiguration('featured'));
 
 		parent::__construct($app, $menu);
 
