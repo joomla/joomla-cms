@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-JLoader::register('FinderIndexerParser', str_replace('\\', '/', __DIR__) . '/parser.php');
-JLoader::register('FinderIndexerStemmer', str_replace('\\', '/', __DIR__) . '/stemmer.php');
-JLoader::register('FinderIndexerToken', str_replace('\\', '/', __DIR__) . '/token.php');
+JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
+JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
+JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
 /**
  * Helper class for the Finder indexer package.

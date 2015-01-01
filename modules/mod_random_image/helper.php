@@ -136,7 +136,7 @@ class ModRandomImageHelper
 	 */
 	public static function getFolder(&$params)
 	{
-		$folder	= $params->get('folder');
+		$folder	= JPath:ux_clean($params->get('folder'));
 
 		$LiveSite	= JUri::base();
 

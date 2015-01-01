@@ -563,7 +563,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			// Load component associations.
 			$cName = JString::ucfirst($eName . 'HelperAssociation');
-			JLoader::register($cName, JPath:ux_clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
 
 			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
 			{

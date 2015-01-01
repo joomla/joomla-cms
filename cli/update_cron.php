@@ -19,7 +19,7 @@ error_reporting(E_ALL | E_NOTICE);
 ini_set('display_errors', 1);
 
 // Load system defines
-if (file_exists(dirname(str_replace('\\', '/', __DIR__)) . '/defines.php'))
+if (file_exists(dirname(__DIR__) . '/defines.php'))
 {
 	require_once dirname(__DIR__) . '/defines.php';
 }

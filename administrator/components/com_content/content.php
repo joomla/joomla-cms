@@ -15,7 +15,7 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_content'))
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-JLoader::register('ContentHelper', str_replace('\\', '/', __DIR__) . '/helpers/content.php');
+JLoader::register('ContentHelper', __DIR__ . '/helpers/content.php');
 
 $controller = JControllerLegacy::getInstance('Content');
 $controller->execute(JFactory::getApplication()->input->get('task'));

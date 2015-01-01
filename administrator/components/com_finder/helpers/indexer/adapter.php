@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('FinderIndexer', str_replace('\\', '/', __DIR__) . '/indexer.php');
-JLoader::register('FinderIndexerHelper', str_replace('\\', '/', __DIR__) . '/helper.php');
-JLoader::register('FinderIndexerResult', str_replace('\\', '/', __DIR__) . '/result.php');
-JLoader::register('FinderIndexerTaxonomy', str_replace('\\', '/', __DIR__) . '/taxonomy.php');
+JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
+JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
+JLoader::register('FinderIndexerResult', __DIR__ . '/result.php');
+JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 
 /**
  * Prototype adapter class for the Finder indexer package.

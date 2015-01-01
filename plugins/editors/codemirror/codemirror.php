@@ -118,7 +118,7 @@ class PlgEditorCodemirror extends JPlugin
 	protected function getExtraStyles()
 	{
 		// Get our custom styles from a css file
-		$styles = JFile::read(str_replace('\\', '/', __DIR__) . (JDEBUG ? '/styles.css' : '/styles.min.css'));
+		$styles = JFile::read(__DIR__ . (JDEBUG ? '/styles.css' : '/styles.min.css'));
 
 		// Set the active line color.
 		$color = $this->params->get('activeLineColor', '#a4c2eb');
@@ -430,7 +430,7 @@ class PlgEditorCodemirror extends JPlugin
 
 		if (!$fonts)
 		{
-			$fonts = json_decode(JFile::read(str_replace('\\', '/', __DIR__) . '/fonts.json'), true);
+			$fonts = json_decode(JFile::read(__DIR__ . '/fonts.json'), true);
 		}
 
 		return isset($fonts[$font]) ? (object) $fonts[$font] : null;

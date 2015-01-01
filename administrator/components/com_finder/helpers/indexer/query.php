@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-JLoader::register('FinderIndexerHelper', str_replace('\\', '/', __DIR__) . '/helper.php');
-JLoader::register('FinderIndexerTaxonomy', str_replace('\\', '/', __DIR__) . '/taxonomy.php');
+JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
+JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 

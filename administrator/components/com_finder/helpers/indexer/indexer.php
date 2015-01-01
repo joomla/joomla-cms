@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('FinderIndexerHelper', str_replace('\\', '/', __DIR__) . '/helper.php');
-JLoader::register('FinderIndexerParser', str_replace('\\', '/', __DIR__) . '/parser.php');
-JLoader::register('FinderIndexerStemmer', str_replace('\\', '/', __DIR__) . '/stemmer.php');
-JLoader::register('FinderIndexerTaxonomy', str_replace('\\', '/', __DIR__) . '/taxonomy.php');
-JLoader::register('FinderIndexerToken', str_replace('\\', '/', __DIR__) . '/token.php');
+JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
+JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
+JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
+JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
+JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
 jimport('joomla.filesystem.file');
 
@@ -110,7 +110,7 @@ abstract class FinderIndexer
 			$format = 'sqlsrv';
 		}
 
-		$path = str_replace('\\', '/', __DIR__) . '/driver/' . $format . '.php';
+		$path = __DIR__ . '/driver/' . $format . '.php';
 		$class = 'FinderIndexerDriver' . ucfirst($format);
 
 		// Check if a parser exists for the format.

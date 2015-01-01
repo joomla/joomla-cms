@@ -331,8 +331,8 @@ class JApplicationWeb extends JApplicationBase
 		// Fall back to constants.
 		else
 		{
-			$options['directory']
-				= defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : str_replace('\\', '/', __DIR__)) . '/themes';
+			$dir = str_replace('\\', '/', __DIR__);
+			$options['directory'] = defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : $dir) . '/themes';
 		}
 
 		// Parse the document.

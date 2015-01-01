@@ -17,7 +17,7 @@ if (version_compare(PHP_VERSION, '5.3.10', '<'))
  */
 define('_JEXEC', 1);
 
-if (file_exists(str_replace('\\', '/', __DIR__) . '/defines.php'))
+if (file_exists(__DIR__ . '/defines.php'))
 {
 	include_once __DIR__ . '/defines.php';
 }

@@ -333,6 +333,7 @@ if($this->type == 'image')
 			<fieldset>
 				<ul class="nav nav-list">
 					<?php foreach ($this->archive as $file): ?>
+					<?php $file = str_replace('\\', '/', $file); ?>
 						<li>
 							<?php if (substr($file, -1) === '/'): ?>
 								<i class="icon-folder"></i>&nbsp;<?php echo $file; ?>

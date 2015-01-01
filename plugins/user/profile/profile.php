@@ -43,7 +43,7 @@ class PlgUserProfile extends JPlugin
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
-		JFormHelper::addFieldPath(str_replace('\\', '/', __DIR__) . '/fields');
+		JFormHelper::addFieldPath(__DIR__ . '/fields');
 	}
 
 	/**
@@ -218,7 +218,7 @@ class PlgUserProfile extends JPlugin
 		}
 
 		// Add the registration fields to the form.
-		JForm::addFormPath(str_replace('\\', '/', __DIR__) . '/profiles');
+		JForm::addFormPath(__DIR__ . '/profiles');
 		$form->loadFile('profile', false);
 
 		$fields = array(
