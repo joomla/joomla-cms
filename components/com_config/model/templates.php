@@ -100,12 +100,12 @@ class ConfigModelTemplates extends ConfigModelForm
 		||	$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
 
 		// Look for com_config.xml, which contains fileds to display
-		$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
+		$formFile	= JPath:ux_clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
 
 		if (!file_exists($formFile))
 		{
 			// If com_config.xml not found, fall back to templateDetails.xml
-			$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
+			$formFile	= JPath:ux_clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
 		}
 
 		if (file_exists($formFile))

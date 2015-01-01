@@ -140,7 +140,7 @@ class ModulesModelPositions extends JModelList
 			// Load the positions from the installed templates.
 			foreach (ModulesHelper::getTemplates($clientId) as $template)
 			{
-				$path = JPath::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
+				$path = JPath:ux_clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
 
 				if (file_exists($path))
 				{

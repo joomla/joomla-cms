@@ -356,7 +356,7 @@ class TemplatesModelStyle extends JModelAdmin
 
 			// Get the template XML.
 			$client	= JApplicationHelper::getClientInfo($table->client_id);
-			$path	= JPath::clean($client->path . '/templates/' . $table->template . '/templateDetails.xml');
+			$path	= JPath:ux_clean($client->path . '/templates/' . $table->template . '/templateDetails.xml');
 
 			if (file_exists($path))
 			{
@@ -411,7 +411,7 @@ class TemplatesModelStyle extends JModelAdmin
 
 		jimport('joomla.filesystem.path');
 
-		$formFile = JPath::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
+		$formFile = JPath:ux_clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
 		// Load the core and/or local language file(s).
 			$lang->load('tpl_' . $template, $client->path, null, false, true)

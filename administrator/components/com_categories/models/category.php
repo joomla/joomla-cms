@@ -347,12 +347,12 @@ class CategoriesModelCategory extends JModelAdmin
 		$name = 'category' . ($section ? ('.' . $section) : '');
 
 		// Looking first in the component models/forms folder
-		$path = JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/models/forms/$name.xml");
+		$path = JPath:ux_clean(JPATH_ADMINISTRATOR . "/components/$component/models/forms/$name.xml");
 
 		// Old way: looking in the component folder
 		if (!file_exists($path))
 		{
-			$path = JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/$name.xml");
+			$path = JPath:ux_clean(JPATH_ADMINISTRATOR . "/components/$component/$name.xml");
 		}
 
 		if (file_exists($path))
@@ -368,7 +368,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
-		$path = JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/category.php");
+		$path = JPath:ux_clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/category.php");
 
 		if (file_exists($path))
 		{

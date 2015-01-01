@@ -67,13 +67,13 @@ class InstallationControllerRemovefolder extends JControllerBase
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 
 			// Translate path for the FTP account.
-			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
+			$file = JPath:ux_clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
 			$return = $ftp->delete($file);
 
 			// Delete the extra XML file while we're at it.
 			if ($return)
 			{
-				$file = JPath::clean($options->ftp_root . '/joomla.xml');
+				$file = JPath:ux_clean($options->ftp_root . '/joomla.xml');
 
 				if (file_exists($file))
 				{
@@ -84,8 +84,8 @@ class InstallationControllerRemovefolder extends JControllerBase
 			// Rename the robots.txt.dist file to robots.txt.
 			if ($return)
 			{
-				$robotsFile = JPath::clean($options->ftp_root . '/robots.txt');
-				$distFile = JPath::clean($options->ftp_root . '/robots.txt.dist');
+				$robotsFile = JPath:ux_clean($options->ftp_root . '/robots.txt');
+				$distFile = JPath:ux_clean($options->ftp_root . '/robots.txt.dist');
 
 				if (!file_exists($robotsFile) && file_exists($distFile))
 				{

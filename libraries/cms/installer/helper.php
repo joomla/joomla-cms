@@ -113,8 +113,8 @@ abstract class JInstallerHelper
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = JPath::clean(dirname($p_filename) . '/' . $tmpdir);
-		$archivename = JPath::clean($archivename);
+		$extractdir = JPath:ux_clean(dirname($p_filename) . '/' . $tmpdir);
+		$archivename = JPath:ux_clean($archivename);
 
 		// Do the unpacking of the archive
 		try
@@ -169,7 +169,7 @@ abstract class JInstallerHelper
 		{
 			if (JFolder::exists($extractdir . '/' . $dirList[0]))
 			{
-				$extractdir = JPath::clean($extractdir . '/' . $dirList[0]);
+				$extractdir = JPath:ux_clean($extractdir . '/' . $dirList[0]);
 			}
 		}
 
@@ -293,10 +293,10 @@ abstract class JInstallerHelper
 		{
 			JFile::delete($package);
 		}
-		elseif (is_file(JPath::clean($config->get('tmp_path') . '/' . $package)))
+		elseif (is_file(JPath:ux_clean($config->get('tmp_path') . '/' . $package)))
 		{
 			// It might also be just a base filename
-			JFile::delete(JPath::clean($config->get('tmp_path') . '/' . $package));
+			JFile::delete(JPath:ux_clean($config->get('tmp_path') . '/' . $package));
 		}
 	}
 

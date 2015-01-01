@@ -98,9 +98,9 @@ class FOFIntegrationJoomlaFilesystem extends FOFPlatformFilesystem implements FO
 	 *
 	 * @throws  UnexpectedValueException
 	 */
-    public function pathClean($path, $ds = '/')
+    public function pathClean($path, $ds = DIRECTORY_SEPARATOR)
     {
-        return JPath::clean($path, $ds);
+        return JPath:clean($path, $ds);
     }
 
 	/**

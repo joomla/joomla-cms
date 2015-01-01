@@ -113,7 +113,7 @@ class TemplatesHelper
 		$data = new JObject;
 
 		// Check of the xml file exists
-		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+		$filePath = JPath:ux_clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
 
 		if (is_file($filePath))
 		{
@@ -148,7 +148,7 @@ class TemplatesHelper
 		$positions = array();
 
 		$templateBaseDir = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+		$filePath = JPath:ux_clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
 
 		if (is_file($filePath))
 		{

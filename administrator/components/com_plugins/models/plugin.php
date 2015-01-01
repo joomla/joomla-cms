@@ -170,7 +170,7 @@ class PluginsModelPlugin extends JModelAdmin
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the plugin XML.
-			$path = JPath::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
+			$path = JPath:ux_clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
 
 			if (file_exists($path))
 			{
@@ -262,7 +262,7 @@ class PluginsModelPlugin extends JModelAdmin
 			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
 		}
 
-		$formFile = JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
+		$formFile = JPath:ux_clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
 
 		if (!file_exists($formFile))
 		{

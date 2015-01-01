@@ -89,13 +89,13 @@ class JFilesystemWrapperPath
 	 *
 	 * @return  string  The cleaned path.
 	 *
-	 * @see     JPath::clean()
+	 * @see     JPath:ux_clean()
 	 * @since   3.4
 	 * @throws  UnexpectedValueException
 	 */
 	public function clean($path, $ds = '\\')
 	{
-		return JPath::clean($path, $ds);
+		return JPath:ux_clean($path, $ds);
 	}
 
 	/**

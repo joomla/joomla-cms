@@ -62,7 +62,7 @@ abstract class ModLanguagesHelper
 			$option = $app->input->get('option');
 			$eName = JString::ucfirst(JString::str_ireplace('com_', '', $option));
 			$cName = JString::ucfirst($eName . 'HelperAssociation');
-			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+			JLoader::register($cName, JPath:ux_clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
 
 			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
 			{
