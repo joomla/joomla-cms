@@ -18,18 +18,18 @@ class ContentRouter extends JComponentRouterAdvanced
 {
 	function __construct($app = null, $menu = null)
 	{
-        $categories = new JComponentRouterViewconfiguration('categories');
+		$categories = new JComponentRouterViewconfiguration('categories');
 		$categories->setKey('id');
-        $this->registerView($categories);
-        $category = new JComponentRouterViewconfiguration('category');
-        $category->setKey('id')->setParent($categories, 'id')->setNestable()->addLayout('blog');
-        $this->registerView($category);
-        $article = new JComponentRouterViewconfiguration('article');
-        $article->setKey('id')->setParent($category, 'catid');
-        $this->registerView($article);
-        $this->registerView(new JComponentRouterViewconfiguration('archive'));
-        $this->registerView(new JComponentRouterViewconfiguration('featured'));
-        $this->registerView(new JComponentRouterViewconfiguration('form'));
+		$this->registerView($categories);
+		$category = new JComponentRouterViewconfiguration('category');
+		$category->setKey('id')->setParent($categories, 'id')->setNestable()->addLayout('blog');
+		$this->registerView($category);
+		$article = new JComponentRouterViewconfiguration('article');
+		$article->setKey('id')->setParent($category, 'catid');
+		$this->registerView($article);
+		$this->registerView(new JComponentRouterViewconfiguration('archive'));
+		$this->registerView(new JComponentRouterViewconfiguration('featured'));
+		$this->registerView(new JComponentRouterViewconfiguration('form'));
 
 		parent::__construct($app, $menu);
 
