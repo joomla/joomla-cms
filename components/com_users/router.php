@@ -18,11 +18,11 @@ class UsersRouter extends JComponentRouterAdvanced
 {
 	function __construct($app = null, $menu = null)
 	{
-		$this->registerView('login', 'login');
-		$this->registerView('profile', 'profile');
-		$this->registerView('registration', 'registration');
-		$this->registerView('remind', 'remind');
-		$this->registerView('reset', 'reset');
+		$this->registerView(new JComponentRouterViewconfiguration('login'));
+		$this->registerView(new JComponentRouterViewconfiguration('profile'));
+		$this->registerView(new JComponentRouterViewconfiguration('registration'));
+		$this->registerView(new JComponentRouterViewconfiguration('remind'));
+		$this->registerView(new JComponentRouterViewconfiguration('reset'));
 
 		parent::__construct($app, $menu);
 
