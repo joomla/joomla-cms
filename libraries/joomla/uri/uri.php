@@ -143,7 +143,7 @@ class JUri extends Uri
 
 				if (defined('JPATH_BASE') && defined('JPATH_ADMINISTRATOR'))
 				{
-					if (JPATH_BASE == JPATH_ADMINISTRATOR)
+					if (JPath::clean(JPATH_BASE) == JPath::clean(JPATH_ADMINISTRATOR))
 					{
 						self::$base['path'] .= '/administrator';
 					}
