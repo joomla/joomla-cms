@@ -729,16 +729,11 @@ class ModulesModelModule extends JModelAdmin
 
 			// Get the module XML.
 			$client = JApplicationHelper::getClientInfo($table->client_id);
-			$path   = JPath::clean($client->path . '/modules/' . $table->module . '/' . $table->module . '.xml');
+			$path	= JPath::clean($client->path . '/modules/' . $table->module);
 
-			if (file_exists($path))
-			{
-				$this->_cache[$pk]->xml = simplexml_load_file($path);
-			}
-			else
-			{
-				$this->_cache[$pk]->xml = null;
-			}
+			$installer = JInstaller::getInstance();
+			$installer->setPath('source', $path);
+			$this->_cache[$pk]->xml = $installer->getManifest();
 		}
 
 		return $this->_cache[$pk];
@@ -807,25 +802,41 @@ class ModulesModelModule extends JModelAdmin
 		$clientId = $this->getState('item.client_id');
 		$module   = $this->getState('item.module');
 
-		$client   = JApplicationHelper::getClientInfo($clientId);
-		$formFile = JPath::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
+		$client       = JApplicationHelper::getClientInfo($clientId);
+		$manifestPath = $client->path . '/modules/' . $module;
+		$installer    = JInstaller::getInstance();
+		$installer->setPath('source', $manifestPath);
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $client->path, null, false, true)
 		||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
 
-		if (file_exists($formFile))
+		if ($xml = $installer->getManifest())
 		{
-			// Get the module form.
-			if (!$form->loadFile($formFile, false, '//config'))
-			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-			}
+			$manifestConfigXPath = $xml->xpath('//config');
 
-			// Attempt to load the xml file.
-			if (!$xml = simplexml_load_file($formFile))
-			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			// Look for the config tag inside the manifest file
+			if (!empty($manifestConfigXPath)) {
+				// Get the module params form from the manifest file
+				if (!$form->load($xml, false, '//config'))
+				{
+					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				}
+			} else {
+				// Look for the config.xml file
+				jimport('joomla.filesystem.file');
+
+				$configFilePath = $manifestPath . '/config.xml';
+
+				if (JFile::exists($configFilePath)) {
+					$configXML = JFile::read($configFilePath);
+
+					// Get the module params form from config.xml file
+					if (!$form->load($configXML, false, '//config'))
+					{
+						throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+					}
+				}
 			}
 
 			// Get the help data from the XML file if present.
@@ -839,6 +850,10 @@ class ModulesModelModule extends JModelAdmin
 				$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
 				$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
 			}
+		}
+		else
+		{
+			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Load the default advanced params

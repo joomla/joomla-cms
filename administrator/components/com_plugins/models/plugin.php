@@ -170,16 +170,11 @@ class PluginsModelPlugin extends JModelAdmin
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the plugin XML.
-			$path = JPath::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
+			$path = JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element;
+			$installer = JInstaller::getInstance();
+			$installer->setPath('source', $path);
 
-			if (file_exists($path))
-			{
-				$this->_cache[$pk]->xml = simplexml_load_file($path);
-			}
-			else
-			{
-				$this->_cache[$pk]->xml = null;
-			}
+			$this->_cache[$pk]->xml = $installer->getManifest();
 		}
 
 		return $this->_cache[$pk];
@@ -262,28 +257,44 @@ class PluginsModelPlugin extends JModelAdmin
 			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
 		}
 
-		$formFile = JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
+		$manifestPath = JPATH_PLUGINS . '/' . $folder . '/' . $element;
 
-		if (!file_exists($formFile))
-		{
-			throw new Exception(JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
-		}
+		$installer = JInstaller::getInstance();
+		$installer->setPath('source', $manifestPath);
 
 		// Load the core and/or local language file(s).
 			$lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR, null, false, true)
 		||	$lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element, null, false, true);
 
-		if (file_exists($formFile))
+		if ($xml = $installer->getManifest())
 		{
-			// Get the plugin form.
-			if (!$form->loadFile($formFile, false, '//config'))
-			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			$manifestConfigXPath = $xml->xpath('//config');
+
+			// Look for the config tag inside the manifest file
+			if (!empty($manifestConfigXPath)) {
+				// Get the plugin params form from the manifest file
+				if (!$form->load($xml, false, '//config'))
+				{
+					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				}
+			} else {
+				// Look for the config.xml file
+				jimport('joomla.filesystem.file');
+
+				$configFilePath = $manifestPath . '/config.xml';
+
+				if (JFile::exists($configFilePath)) {
+					$configXML = JFile::read($configFilePath);
+
+					// Get the plugin params form from config.xml file
+					if (!$form->load($configXML, false, '//config'))
+					{
+						throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+					}
+				}
 			}
 		}
-
-		// Attempt to load the xml file.
-		if (!$xml = simplexml_load_file($formFile))
+		else
 		{
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
