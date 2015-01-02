@@ -207,11 +207,12 @@ if($this->type == 'font')
 					<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 						<ul class="nav nav-stacked nav-list well">
 							<?php foreach ($this->archive as $file): ?>
+							<?php $file = str_replace('\\', '/', $file); ?>
 								<li>
-									<?php if (substr($file, -1) === DIRECTORY_SEPARATOR): ?>
+									<?php if (substr($file, -1) === '/'): ?>
 										<i class="icon-folder"></i>&nbsp;<?php echo $file; ?>
 									<?php endif; ?>
-									<?php if (substr($file, -1) != DIRECTORY_SEPARATOR): ?>
+									<?php if (substr($file, -1) != '/'): ?>
 										<i class="icon-file"></i>&nbsp;<?php echo $file; ?>
 									<?php endif; ?>
 								</li>

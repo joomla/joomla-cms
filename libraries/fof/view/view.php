@@ -947,7 +947,7 @@ abstract class FOFView extends FOFUtilsObject
 
 		if (empty(self::$renderers) || !class_exists('FOFRenderJoomla', false))
 		{
-			$path = dirname(__FILE__) . '/../render/';
+			$path = str_replace('\\', '/', __DIR__) . '/../render/';
 			$renderFiles = $filesystem->folderFiles($path, '.php');
 
 			if (!empty($renderFiles))
@@ -1136,10 +1136,10 @@ abstract class FOFView extends FOFUtilsObject
 			$dir = trim($dir);
 
 			// Add trailing separators as needed
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+			if (substr($dir, -1) != '/')
 			{
 				// Directory
-				$dir .= DIRECTORY_SEPARATOR;
+				$dir .= '/';
 			}
 
 			// Add to the top of the search dirs

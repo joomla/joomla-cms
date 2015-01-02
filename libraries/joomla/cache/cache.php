@@ -92,7 +92,7 @@ class JCache
 		$handlers = array();
 
 		// Get an iterator and loop trough the driver classes.
-		$iterator = new DirectoryIterator(__DIR__ . '/storage');
+		$iterator = new DirectoryIterator(str_replace('\\', '/', __DIR__) . '/storage');
 
 		/* @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
@@ -773,7 +773,7 @@ class JCache
 		if (!empty($path) && !in_array($path, $paths))
 		{
 			jimport('joomla.filesystem.path');
-			array_unshift($paths, JPath::clean($path));
+			array_unshift($paths, JPath::ux_clean($path));
 		}
 
 		return $paths;

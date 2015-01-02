@@ -387,7 +387,7 @@ class JSession implements IteratorAggregate
 		$connectors = array();
 
 		// Get an iterator and loop trough the driver classes.
-		$iterator = new DirectoryIterator(__DIR__ . '/storage');
+		$iterator = new DirectoryIterator(str_replace('\\', '/', __DIR__) . '/storage');
 
 		/* @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)

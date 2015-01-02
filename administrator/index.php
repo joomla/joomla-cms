@@ -24,7 +24,7 @@ if (file_exists(__DIR__ . '/defines.php'))
 
 if (!defined('_JDEFINES'))
 {
-	define('JPATH_BASE', __DIR__);
+	define('JPATH_BASE', str_replace('\\', '/', __DIR__));
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 

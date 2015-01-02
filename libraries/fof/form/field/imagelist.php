@@ -124,7 +124,7 @@ class FOFFormFieldImagelist extends JFormFieldImageList implements FOFFormField
 		}
 
 		$path = (string) $this->element['directory'];
-		$path = trim($path, '/' . DIRECTORY_SEPARATOR);
+		$path = trim($path, '/' . '/');
 
 		if ($this->value && file_exists(JPATH_ROOT . '/' . $path . '/' . $this->value))
 		{

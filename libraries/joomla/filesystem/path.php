@@ -204,7 +204,7 @@ class JPath
 		{
 			$path = JPATH_ROOT;
 		}
-		// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
+		// Remove double slashes and backslashes and convert all slashes and backslashes to $ds
 		// If dealing with a UNC path don't forget to prepend the path with a backslash.
 		elseif (($ds == '\\') && ($path[0] == '\\' ) && ( $path[1] == '\\' ))
 		{
@@ -216,6 +216,21 @@ class JPath
 		}
 
 		return $path;
+	}
+
+	/**
+	 * Function to strip additional / or \ in a path name and convert it to Unix style (/ as directory separator)
+	 *
+	 * @param   string  $path  The path to clean.
+	 * @param   string  $ds    Ignored: for calling syntax compatibility with JPath::clean().
+	 *
+	 * @return  string  The cleaned path in Unix style.
+	 *
+	 * @since   11.1 - SMZ TODO: Set correct version
+	 */
+	public static function ux_clean($path, $ds = '/')
+	{
+		return self::clean($path, '/');
 	}
 
 	/**

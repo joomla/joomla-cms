@@ -91,7 +91,7 @@ class InstallationModelFtp extends JModelBase
 		}
 
 		// Search through the segments of JPATH_SITE looking for root possibilities.
-		$parts = explode(DIRECTORY_SEPARATOR, JPATH_SITE);
+		$parts = explode('/', JPATH_SITE);
 		$tmp = '';
 
 		for ($i = count($parts) - 1; $i >= 0; $i--)

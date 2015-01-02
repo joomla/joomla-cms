@@ -75,7 +75,7 @@ class FOFDownloadAdapterCurl extends FOFDownloadAdapterAbstract implements FOFDo
 			CURLOPT_BINARYTRANSFER  => 1,
 			CURLOPT_RETURNTRANSFER  => 1,
 			CURLOPT_FOLLOWLOCATION  => 1,
-			CURLOPT_CAINFO          => __DIR__ . '/cacert.pem'
+			CURLOPT_CAINFO          => str_replace('\\', '/', __DIR__) . '/cacert.pem'
 		);
 
 		if (!(empty($from) && empty($to)))

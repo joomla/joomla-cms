@@ -62,14 +62,7 @@ class MediaViewMedia extends JViewLegacy
 			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
 		}
 
-		if (DIRECTORY_SEPARATOR == '\\')
-		{
-			$base = str_replace(DIRECTORY_SEPARATOR, "\\\\", COM_MEDIA_BASE);
-		}
-		else
-		{
-			$base = COM_MEDIA_BASE;
-		}
+		$base = COM_MEDIA_BASE;
 
 		$js = "
 			var basepath = '" . $base . "';

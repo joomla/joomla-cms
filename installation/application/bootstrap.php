@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Define the base path and require the other defines
-define('JPATH_BASE', dirname(__DIR__));
+define('JPATH_BASE', dirname(str_replace('\\', '/', __DIR__)));
 require_once __DIR__ . '/defines.php';
 
 // Launch the application

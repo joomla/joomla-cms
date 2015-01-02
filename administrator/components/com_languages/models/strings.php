@@ -87,7 +87,7 @@ class LanguagesModelStrings extends JModelLegacy
 
 				foreach ($strings as $key => $string)
 				{
-					$query->values($this->_db->quote($key) . ',' . $this->_db->quote($string) . ',' . $this->_db->quote(JPath::clean($file)));
+					$query->values($this->_db->quote($key) . ',' . $this->_db->quote($string) . ',' . $this->_db->quote(JPath::ux_clean($file)));
 				}
 
 				try

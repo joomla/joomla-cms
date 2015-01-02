@@ -187,7 +187,7 @@ class InstallationModelConfiguration extends JModelBase
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 
 			// Translate path for the FTP account.
-			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
+			$file = JPath::ux_clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
 
 			// Use FTP write buffer to file.
 			if (!$ftp->write($file, $buffer))

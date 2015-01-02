@@ -940,7 +940,7 @@ class MenusModelItem extends JModelAdmin
 				if (!$formFile && (strpos($layout, ':') > 0))
 				{
 					$temp = explode(':', $layout);
-					$templatePath = JPATH::clean(JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $option . '/' . $view . '/' . $temp[1] . '.xml');
+					$templatePath = JPath::ux_clean(JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $option . '/' . $view . '/' . $temp[1] . '.xml');
 
 					if (is_file($templatePath))
 					{
@@ -960,7 +960,7 @@ class MenusModelItem extends JModelAdmin
 					);
 					$metaPath = JPath::find($metadataFolders, 'metadata.xml');
 
-					if (is_file($path = JPath::clean($metaPath)))
+					if (is_file($path = JPath::ux_clean($metaPath)))
 					{
 						$formFile = $path;
 					}
@@ -968,7 +968,7 @@ class MenusModelItem extends JModelAdmin
 				else
 				{
 					// Now check for a component manifest file
-					$path = JPath::clean($base . '/metadata.xml');
+					$path = JPath::ux_clean($base . '/metadata.xml');
 
 					if (is_file($path))
 					{
@@ -1027,7 +1027,7 @@ class MenusModelItem extends JModelAdmin
 		// TODO: Work out why 'fixing' this breaks JForm
 		if ($isNew = false)
 		{
-			$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $option . '/config.xml');
+			$path = JPath::ux_clean(JPATH_ADMINISTRATOR . '/components/' . $option . '/config.xml');
 		}
 		else
 		{

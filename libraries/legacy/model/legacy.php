@@ -103,12 +103,12 @@ abstract class JModelLegacy extends JObject
 
 			if (!in_array($path, $paths[$prefix]))
 			{
-				array_unshift($paths[$prefix], JPath::clean($path));
+				array_unshift($paths[$prefix], JPath::ux_clean($path));
 			}
 
 			if (!in_array($path, $paths['']))
 			{
-				array_unshift($paths[''], JPath::clean($path));
+				array_unshift($paths[''], JPath::ux_clean($path));
 			}
 		}
 
