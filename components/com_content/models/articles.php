@@ -181,53 +181,99 @@ class ContentModelArticles extends JModelList
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		// Prefetch bad categories (saves a join later)
-		// Create a new query object for badcats
-		$q_badcats = $db->getQuery(true);
+		/*
+		 * Prefetch bad categories (saves a join later)
+		 * The output will be cached for a small amount of time, to share this
+		 * result with all future calls to getListQuery() in this request
+		 */
 
-		// Get the id
-		$q_badcats
-			->select($db->quoteName('c.id', 'id'))
-			->select($db->quoteName('c.published', 'state'))
-			->from($db->quoteName('#__categories', 'c'))
-			->join('INNER', $db->quoteName('#__categories', 'p') . ' ON (' . $db->quoteName('c.lft') .
-				' BETWEEN ' . $db->quoteName('p.lft') . ' AND ' . $db->quoteName('p.rgt') . ') ')
-			->where($db->quoteName('p.extension') . " IN ('com_content','system') ")
-			->where($db->quoteName('p.published') . ' != 1 ');
+		// Enable cache for badcats
+		$cache = JFactory::getCache('com_content_badcats', '');
+		$cache->setCaching(true);
 
-		// Execute query
-		$db->setQuery($q_badcats);
-
-		// Load bad categories
-		$r_badcats = $db->loadAssocList();
-
-		// Init categories as empty arrays
-		$a_unpublished = array();
-		$a_archived = array();
-
-		// Divide bad categories by type and filter duplicates
-		foreach ($r_badcats as $element)
+		// Hack: lifetime should be an int, but it works
+		try
 		{
-			// Unpublished elements
-			if ($element['state'] == 0)
-			{
-				$a_unpublished[$element['id']] = $element['id'];
-			}
-
-			// Archived elements
-			elseif ($element['state'] == 2)
-			{
-				$a_archived[$element['id']] = $element['id'];
-			}
+			// Keep the result for 6 seconds
+			$cache->setLifeTime(0.1);
+		}
+		// If someone will add a check...
+		catch (Exception $e)
+		{
+			// Keep the result for 1 minute
+			$cache->setLifeTime(1);
 		}
 
-		// Convert to comma-separated list (will be used in the IN clause)
-		$unpublished_cats = implode(',', $a_unpublished);
-		$archived_cats = implode(',', $a_archived);
-		$bad_cats = implode(',', $a_unpublished + $a_unpublished);
+		// Create a Cache ID
+		$cacheid = md5('com_content_badcats');
+
+		// Get badcats from cache
+		$badcats = $cache->get($cacheid);
+
+		// Check if badcats were cached
+		if ($badcats === false)
+		{
+			// Initialize output variable
+			$badcats = array();
+
+			// Create a new query object for badcats
+			$q_badcats = $db->getQuery(true);
+
+			// Get the id
+			$q_badcats
+				->select($db->quoteName('c.id', 'id'))
+				->select($db->quoteName('c.published', 'state'))
+				->from($db->quoteName('#__categories', 'c'))
+				->join('INNER', $db->quoteName('#__categories', 'p') . ' ON (' . $db->quoteName('c.lft') .
+					' BETWEEN ' . $db->quoteName('p.lft') . ' AND ' . $db->quoteName('p.rgt') . ') ')
+				->where($db->quoteName('p.extension') . " IN ('com_content','system') ")
+				->where($db->quoteName('p.published') . ' != 1 ');
+
+			// Execute query
+			$db->setQuery($q_badcats);
+
+			// Load bad categories
+			$r_badcats = $db->loadAssocList();
+
+			// Init categories as empty arrays
+			$a_unpublished = array();
+			$a_archived = array();
+
+			// Divide bad categories by type and filter duplicates
+			foreach ($r_badcats as $element)
+			{
+				// Unpublished elements
+				if ($element['state'] == 0)
+				{
+					$a_unpublished[$element['id']] = $element['id'];
+				}
+
+				// Archived elements
+				elseif ($element['state'] == 2)
+				{
+					$a_archived[$element['id']] = $element['id'];
+				}
+			}
+
+			// Convert to comma-separated list (will be used in the IN clause)
+			$badcats['unpublished'] = implode(',', $a_unpublished);
+			$badcats['archived'] = implode(',', $a_archived);
+			$badcats['all'] = implode(',', $a_unpublished + $a_unpublished);
+
+			// Store badcats in cache
+			$cache->store($badcats, $cacheid);
+
+			// Free memory
+			unset($q_badcats, $r_badcats, $a_unpublished, $a_archived);
+		}
+
+		// Parse badcats
+		$unpublished_cats = $badcats['unpublished'];
+		$archived_cats = $badcats['archived'];
+		$bad_cats = $badcats['all'];
 
 		// Free memory
-		unset($q_badcats, $r_badcats, $a_unpublished, $a_archived);
+		unset($badcats);
 
 		// Select the required fields from the table.
 		$query->select(
