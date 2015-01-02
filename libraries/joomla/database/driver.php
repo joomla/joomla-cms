@@ -198,7 +198,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$connectors = array();
 
 		// Get an iterator and loop trough the driver classes.
-		$iterator = new DirectoryIterator(str_replace('\\', '/', __DIR__) . '/driver');
+		$iterator = new DirectoryIterator(__DIR__ . '/driver');
 
 		/* @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)

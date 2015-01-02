@@ -18,7 +18,8 @@ if (version_compare(PHP_VERSION, '5.3.10', '<'))
 define('_JEXEC', 1);
 
 // Bootstrap the application
-require_once __DIR__ . '/application/bootstrap.php';
+// Do not modify dirname(__FILE__) into __DIR__ as it is needed to gracefully display an error message with PHP 5.2 (!) at install time
+require_once dirname(__FILE__) . '/application/bootstrap.php';
 
 // Get the application
 $app = JApplicationWeb::getInstance('InstallationApplicationWeb');

@@ -423,10 +423,10 @@ class JCacheStorageFile extends JCacheStorage
 			return false;
 		}
 
-		$path = $this->_cleanPath($path);
+		$path = $this->_cleanPath($path, '/');
 
 		// Check to make sure path is inside cache folder, we do not want to delete Joomla root!
-		$pos = strpos($path, $this->_cleanPath($this->_root));
+		$pos = strpos($path, $this->_cleanPath($this->_root, '/'));
 
 		if ($pos === false || $pos > 0)
 		{
@@ -449,7 +449,7 @@ class JCacheStorageFile extends JCacheStorage
 		{
 			foreach ($files as $file)
 			{
-				$file = $this->_cleanPath($file);
+				$file = $this->_cleanPath($file, '/');
 
 				// In case of restricted permissions we zap it one way or the other
 				// as long as the owner is either the webserver or the ftp
@@ -505,13 +505,13 @@ class JCacheStorageFile extends JCacheStorage
 	 * Function to strip additional / or \ in a path name
 	 *
 	 * @param   string  $path  The path to clean
+	 * @param   string  $ds    Directory separator (optional)
 	 *
 	 * @return  string  The cleaned path
 	 *
 	 * @since   11.1
-	 * SMZ TODO: Update documentation? - This is a protected function. It was called only inside this class, always without 2nd optional parameter
 	 */
-	protected function _cleanPath($path)
+	protected function _cleanPath($path, $ds = DIRECTORY_SEPARATOR)
 	{
 		$path = trim($path);
 
@@ -521,8 +521,8 @@ class JCacheStorageFile extends JCacheStorage
 		}
 		else
 		{
-			// Remove double slashes and backslahses and convert all slashes and backslashes to $ds
-			$path = preg_replace('#[/\\\\]+#', '/', $path);
+			// Remove double slashes and backslahses and convert all slashes and backslashes to DIRECTORY_SEPARATOR
+			$path = preg_replace('#[/\\\\]+#', $ds, $path);
 		}
 
 		return $path;
@@ -550,7 +550,7 @@ class JCacheStorageFile extends JCacheStorage
 		$arr = array();
 
 		// Check to make sure the path valid and clean
-		$path = $this->_cleanPath($path);
+		$path = $this->_cleanPath($path, '/');
 
 		// Is the path a folder?
 		if (!is_dir($path))
@@ -640,7 +640,7 @@ class JCacheStorageFile extends JCacheStorage
 		$arr = array();
 
 		// Check to make sure the path valid and clean
-		$path = $this->_cleanPath($path);
+		$path = $this->_cleanPath($path, '/');
 
 		// Is the path a folder?
 		if (!is_dir($path))
