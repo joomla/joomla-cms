@@ -279,7 +279,7 @@ class InstallerModelInstall extends JModelLegacy
 
 		// Get the path to the package to install.
 		$p_dir = $input->getString('install_directory');
-		$p_dir = JPath::ux_clean($p_dir);
+		$p_dir = JPath::clean($p_dir);
 
 		// Did you give us a valid directory?
 		if (!is_dir($p_dir))

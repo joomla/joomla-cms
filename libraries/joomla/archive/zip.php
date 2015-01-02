@@ -252,7 +252,7 @@ class JArchiveZip implements JArchiveExtractable
 			if ($lastPathCharacter !== '/' && $lastPathCharacter !== '\\')
 			{
 				$buffer = $this->_getFileData($i);
-				$path = JPath::ux_clean($destination . '/' . $this->_metadata[$i]['name']);
+				$path = JPath::clean($destination . '/' . $this->_metadata[$i]['name']);
 
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path)))

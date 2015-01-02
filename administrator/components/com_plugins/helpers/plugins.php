@@ -104,7 +104,7 @@ class PluginsHelper
 		$data = new JObject;
 
 		// Check of the xml file exists.
-		$filePath = JPath::ux_clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
 
 		if (is_file($filePath))
 		{

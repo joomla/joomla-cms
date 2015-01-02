@@ -80,7 +80,7 @@ class MediaControllerFolder extends JControllerLegacy
 					continue;
 				}
 
-				$fullPath = JPath::ux_clean(implode('/', array(COM_MEDIA_BASE, $folder, $path)));
+				$fullPath = JPath::clean(implode('/', array(COM_MEDIA_BASE, $folder, $path)));
 				$object_file = new JObject(array('filepath' => $fullPath));
 
 				if (is_file($object_file->filepath))
@@ -181,7 +181,7 @@ class MediaControllerFolder extends JControllerLegacy
 				return false;
 			}
 
-			$path = JPath::ux_clean(COM_MEDIA_BASE . '/' . $parent . '/' . $folder);
+			$path = JPath::clean(COM_MEDIA_BASE . '/' . $parent . '/' . $folder);
 
 			if (!is_dir($path) && !is_file($path))
 			{

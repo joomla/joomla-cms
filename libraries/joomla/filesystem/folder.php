@@ -38,12 +38,12 @@ abstract class JFolder
 
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
-		$src = JPath::ux_clean($src);
-		$dest = JPath::ux_clean($dest);
+		$src = JPath::clean($src);
+		$dest = JPath::clean($dest);
 
 		if ($path)
 		{
-			$path = JPath::ux_clean($path);
+			$path = JPath::clean($path);
 			$src = $path . '/' . $src;
 			$dest = $path . '/' . $dest;
 		}
@@ -100,7 +100,7 @@ abstract class JFolder
 
 					case 'file':
 						// Translate path for the FTP account
-						$dfid = JPath::ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid), '/');
+						$dfid = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid), '/');
 
 						if (!$ftp->store($sfid, $dfid))
 						{
@@ -177,7 +177,7 @@ abstract class JFolder
 		static $nested = 0;
 
 		// Check to make sure the path valid and clean
-		$path = JPath::ux_clean($path);
+		$path = JPath::clean($path);
 
 		// Check if parent dir exists
 		$parent = dirname($path);
@@ -221,7 +221,7 @@ abstract class JFolder
 			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 			// Translate path to FTP path
-			$path = JPath::ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
+			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
 			$ret = $ftp->mkdir($path);
 			$ftp->chmod($path, $mode);
 		}
@@ -249,7 +249,7 @@ abstract class JFolder
 				// Iterate through open_basedir paths looking for a match
 				foreach ($obdArray as $test)
 				{
-					$test = JPath::ux_clean($test);
+					$test = JPath::clean($test);
 
 					if (strpos($path, $test) === 0)
 					{
@@ -316,7 +316,7 @@ abstract class JFolder
 		try
 		{
 			// Check to make sure the path valid and clean
-			$path = JPath::ux_clean($path);
+			$path = JPath::clean($path);
 		}
 		catch (UnexpectedValueException $e)
 		{
@@ -383,7 +383,7 @@ abstract class JFolder
 		elseif ($FTPOptions['enabled'] == 1)
 		{
 			// Translate path and delete
-			$path = JPath::ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
+			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
 
 			// FTP connector throws an error
 			$ret = $ftp->delete($path);
@@ -413,12 +413,12 @@ abstract class JFolder
 	{
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
-		$src = JPath::ux_clean($src);
-		$dest = JPath::ux_clean($dest);
+		$src = JPath::clean($src);
+		$dest = JPath::clean($dest);
 
 		if ($path)
 		{
-			$path = JPath::ux_clean($path);
+			$path = JPath::clean($path);
 			$src = $path . '/' . $src;
 			$dest = $path . '/' . $dest;
 		}
@@ -452,8 +452,8 @@ abstract class JFolder
 				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account
-				$src = JPath::ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-				$dest = JPath::ux_clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+				$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				// Use FTP rename to simulate move
 				if (!$ftp->rename($src, $dest))
@@ -488,7 +488,7 @@ abstract class JFolder
 	 */
 	public static function exists($path)
 	{
-		return is_dir(JPath::ux_clean($path));
+		return is_dir(JPath::clean($path));
 	}
 
 	/**
@@ -510,7 +510,7 @@ abstract class JFolder
 		$excludefilter = array('^\..*', '.*~'), $naturalSort = false)
 	{
 		// Check to make sure the path valid and clean
-		$path = JPath::ux_clean($path);
+		$path = JPath::clean($path);
 
 		// Is the path a folder?
 		if (!is_dir($path))
@@ -564,7 +564,7 @@ abstract class JFolder
 		$excludefilter = array('^\..*'))
 	{
 		// Check to make sure the path valid and clean
-		$path = JPath::ux_clean($path);
+		$path = JPath::clean($path);
 
 		// Is the path a folder?
 		if (!is_dir($path))
@@ -613,7 +613,7 @@ abstract class JFolder
 		@set_time_limit(ini_get('max_execution_time'));
 
 		// Check to make sure the path valid and clean
-		$path = JPath::ux_clean($path);
+		$path = JPath::clean($path);
 
 		$arr = array();
 
@@ -686,7 +686,7 @@ abstract class JFolder
 	public static function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
 	{
 		// Check to make sure the path valid and clean
-		$path = JPath::ux_clean($path);
+		$path = JPath::clean($path);
 
 		$dirs = array();
 
@@ -703,7 +703,7 @@ abstract class JFolder
 			foreach ($folders as $name)
 			{
 				$id = ++$GLOBALS['_JFolder_folder_tree_index'];
-				$fullName = JPath::ux_clean($path . '/' . $name);
+				$fullName = JPath::clean($path . '/' . $name);
 				$dirs[] = array('id' => $id, 'parent' => $parent, 'name' => $name, 'fullname' => $fullName,
 					'relname' => str_replace(JPATH_ROOT, '', $fullName));
 				$dirs2 = self::listFolderTree($fullName, $filter, $maxLevel, $level + 1, $id);

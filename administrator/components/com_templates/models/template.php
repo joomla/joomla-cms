@@ -71,7 +71,7 @@ class TemplatesModelTemplate extends JModelForm
 			jimport('joomla.filesystem.folder');
 			$app    = JFactory::getApplication();
 			$client = JApplicationHelper::getClientInfo($template->client_id);
-			$path   = JPath::ux_clean($client->path . '/templates/' . $template->element . '/');
+			$path   = JPath::clean($client->path . '/templates/' . $template->element . '/');
 			$lang   = JFactory::getLanguage();
 
 			// Load the core and/or local language file(s).
@@ -265,7 +265,7 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			jimport('joomla.filesystem.folder');
 			$client = JApplicationHelper::getClientInfo($template->client_id);
-			$fromPath = JPath::ux_clean($client->path . '/templates/' . $template->element . '/');
+			$fromPath = JPath::clean($client->path . '/templates/' . $template->element . '/');
 
 			// Delete new folder if it exists
 			$toPath = $this->getState('to_path');
@@ -439,7 +439,7 @@ class TemplatesModelTemplate extends JModelForm
 			$input    = JFactory::getApplication()->input;
 			$fileName = base64_decode($input->get('file'));
 			$client   = JApplicationHelper::getClientInfo($this->template->client_id);
-			$filePath = JPath::ux_clean($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+			$filePath = JPath::clean($client->path . '/templates/' . $this->template->element . '/' . $fileName);
 
 			if (file_exists($filePath))
 			{
@@ -480,7 +480,7 @@ class TemplatesModelTemplate extends JModelForm
 		$app = JFactory::getApplication();
 		$fileName = base64_decode($app->input->get('file'));
 		$client = JApplicationHelper::getClientInfo($template->client_id);
-		$filePath = JPath::ux_clean($client->path . '/templates/' . $template->element . '/' . $fileName);
+		$filePath = JPath::clean($client->path . '/templates/' . $template->element . '/' . $fileName);
 
 		// Include the extension plugins for the save events.
 		JPluginHelper::importPlugin('extension');
@@ -561,14 +561,14 @@ class TemplatesModelTemplate extends JModelForm
 		if ($template = $this->getTemplate())
 		{
 			$client 	        = JApplicationHelper::getClientInfo($template->client_id);
-			$componentPath		= JPath::ux_clean($client->path . '/components/');
-			$modulePath		    = JPath::ux_clean($client->path . '/modules/');
-			$layoutPath		    = JPath::ux_clean(JPATH_ROOT . '/layouts/joomla/');
+			$componentPath		= JPath::clean($client->path . '/components/');
+			$modulePath		    = JPath::clean($client->path . '/modules/');
+			$layoutPath		    = JPath::clean(JPATH_ROOT . '/layouts/joomla/');
 			$components         = JFolder::folders($componentPath);
 
 			foreach ($components as $component)
 			{
-				$viewPath	= JPath::ux_clean($componentPath . '/' . $component . '/views/');
+				$viewPath	= JPath::clean($componentPath . '/' . $component . '/views/');
 
 				if (file_exists($viewPath))
 				{
@@ -624,20 +624,20 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (stristr($name, 'mod_') != false)
 			{
-				$htmlPath   = JPath::ux_clean($client->path . '/templates/' . $template->element . '/html/' . $name);
+				$htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
 			}
 			elseif (stristr($override, 'com_') != false)
 			{
 				$folderExplode = explode('/', $override);
 				$size = count($folderExplode);
 
-				$url = JPath::ux_clean($folderExplode[$size - 3] . '/' . $folderExplode[$size - 1]);
+				$url = JPath::clean($folderExplode[$size - 3] . '/' . $folderExplode[$size - 1]);
 
-				$htmlPath = JPath::ux_clean($client->path . '/templates/' . $template->element . '/html/' . $url);
+				$htmlPath = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $url);
 			}
 			else
 			{
-				$htmlPath   = JPath::ux_clean($client->path . '/templates/' . $template->element . '/html/layouts/joomla/' . $name);
+				$htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/layouts/joomla/' . $name);
 			}
 
 			// Check Html folder, create if not exist
@@ -753,7 +753,7 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			$app          = JFactory::getApplication();
 			$client       = JApplicationHelper::getClientInfo($template->client_id);
-			$path         = JPath::ux_clean($client->path . '/templates/' . $template->element . '/');
+			$path         = JPath::clean($client->path . '/templates/' . $template->element . '/');
 			$inFile       = urldecode(base64_decode($input));
 			$explodeArray = explode('/', $inFile);
 			$fileName     = end($explodeArray);
@@ -790,7 +790,7 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			$app      = JFactory::getApplication();
 			$client   = JApplicationHelper::getClientInfo($template->client_id);
-			$path     = JPath::ux_clean($client->path . '/templates/' . $template->element . '/');
+			$path     = JPath::clean($client->path . '/templates/' . $template->element . '/');
 			$filePath = $path . urldecode(base64_decode($file));
 
 			$return = JFile::delete($filePath);
@@ -823,16 +823,16 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			$app    = JFactory::getApplication();
 			$client = JApplicationHelper::getClientInfo($template->client_id);
-			$path   = JPath::ux_clean($client->path . '/templates/' . $template->element . '/');
+			$path   = JPath::clean($client->path . '/templates/' . $template->element . '/');
 
-			if (file_exists(JPath::ux_clean($path . '/' . $location . '/' . $name . '.' . $type)))
+			if (file_exists(JPath::clean($path . '/' . $location . '/' . $name . '.' . $type)))
 			{
 				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
 
 				return false;
 			}
 
-			if (!fopen(JPath::ux_clean($path . '/' . $location . '/' . $name . '.' . $type), 'x'))
+			if (!fopen(JPath::clean($path . '/' . $location . '/' . $name . '.' . $type), 'x'))
 			{
 				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_CREATE_ERROR'), 'error');
 
@@ -861,7 +861,7 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			$app      = JFactory::getApplication();
 			$client   = JApplicationHelper::getClientInfo($template->client_id);
-			$path     = JPath::ux_clean($client->path . '/templates/' . $template->element . '/');
+			$path     = JPath::clean($client->path . '/templates/' . $template->element . '/');
 			$fileName = JFile::makeSafe($file['name']);
 
 			$err = null;
@@ -873,21 +873,21 @@ class TemplatesModelTemplate extends JModelForm
 				return false;
 			}
 
-			if (file_exists(JPath::ux_clean($path . '/' . $location . '/' . $file['name'])))
+			if (file_exists(JPath::clean($path . '/' . $location . '/' . $file['name'])))
 			{
 				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
 
 				return false;
 			}
 
-			if (!JFile::upload($file['tmp_name'], JPath::ux_clean($path . '/' . $location . '/' . $fileName)))
+			if (!JFile::upload($file['tmp_name'], JPath::clean($path . '/' . $location . '/' . $fileName)))
 			{
 				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'), 'error');
 
 				return false;
 			}
 
-			$url = JPath::ux_clean($location . '/' . $fileName);
+			$url = JPath::clean($location . '/' . $fileName);
 
 			return $url;
 		}
@@ -911,16 +911,16 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			$app    = JFactory::getApplication();
 			$client = JApplicationHelper::getClientInfo($template->client_id);
-			$path   = JPath::ux_clean($client->path . '/templates/' . $template->element . '/');
+			$path   = JPath::clean($client->path . '/templates/' . $template->element . '/');
 
-			if (file_exists(JPath::ux_clean($path . '/' . $location . '/' . $name . '/')))
+			if (file_exists(JPath::clean($path . '/' . $location . '/' . $name . '/')))
 			{
 				$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_EXISTS'), 'error');
 
 				return false;
 			}
 
-			if (!JFolder::create(JPath::ux_clean($path . '/' . $location . '/' . $name)))
+			if (!JFolder::create(JPath::clean($path . '/' . $location . '/' . $name)))
 			{
 				$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_CREATE_ERROR'), 'error');
 
@@ -948,7 +948,7 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			$app    = JFactory::getApplication();
 			$client = JApplicationHelper::getClientInfo($template->client_id);
-			$path   = JPath::ux_clean($client->path . '/templates/' . $template->element . '/' . $location);
+			$path   = JPath::clean($client->path . '/templates/' . $template->element . '/' . $location);
 
 			if (!file_exists($path))
 			{
@@ -986,7 +986,7 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			$app          = JFactory::getApplication();
 			$client       = JApplicationHelper::getClientInfo($template->client_id);
-			$path         = JPath::ux_clean($client->path . '/templates/' . $template->element . '/');
+			$path         = JPath::clean($client->path . '/templates/' . $template->element . '/');
 			$fileName     = base64_decode($file);
 			$explodeArray = explode('.', $fileName);
 			$type         = end($explodeArray);
@@ -1025,7 +1025,7 @@ class TemplatesModelTemplate extends JModelForm
 			$app      = JFactory::getApplication();
 			$client   = JApplicationHelper::getClientInfo($template->client_id);
 			$fileName = base64_decode($app->input->get('file'));
-			$path     = JPath::ux_clean($client->path . '/templates/' . $template->element . '/');
+			$path     = JPath::clean($client->path . '/templates/' . $template->element . '/');
 
 			if (stristr($client->path, 'administrator') == false)
 			{
@@ -1038,9 +1038,9 @@ class TemplatesModelTemplate extends JModelForm
 
 			$uri = JUri::root(true) . $folder . $template->element;
 
-			if (file_exists(JPath::ux_clean($path . $fileName)))
+			if (file_exists(JPath::clean($path . $fileName)))
 			{
-				$JImage = new JImage(JPath::ux_clean($path . $fileName));
+				$JImage = new JImage(JPath::clean($path . $fileName));
 				$image['address'] 	= $uri . $fileName;
 				$image['path']		= $fileName;
 				$image['height'] 	= $JImage->getHeight();
@@ -1078,7 +1078,7 @@ class TemplatesModelTemplate extends JModelForm
 			$app      = JFactory::getApplication();
 			$client   = JApplicationHelper::getClientInfo($template->client_id);
 			$relPath  = base64_decode($file);
-			$path     = JPath::ux_clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+			$path     = JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 			$JImage   = new JImage($path);
 
 			try
@@ -1113,7 +1113,7 @@ class TemplatesModelTemplate extends JModelForm
 			$app     = JFactory::getApplication();
 			$client  = JApplicationHelper::getClientInfo($template->client_id);
 			$relPath = base64_decode($file);
-			$path    = JPath::ux_clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+			$path    = JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
 			$JImage = new JImage($path);
 
@@ -1185,7 +1185,7 @@ class TemplatesModelTemplate extends JModelForm
 			$relPath      = base64_decode($app->input->get('file'));
 			$explodeArray = explode('/', $relPath);
 			$fileName     = end($explodeArray);
-			$path         = JPath::ux_clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+			$path         = JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
 			if (stristr($client->path, 'administrator') == false)
 			{
@@ -1198,7 +1198,7 @@ class TemplatesModelTemplate extends JModelForm
 
 			$uri = JUri::root(true) . $folder . $template->element;
 
-			if (file_exists(JPath::ux_clean($path)))
+			if (file_exists(JPath::clean($path)))
 			{
 				$font['address'] = $uri . $relPath;
 
@@ -1238,8 +1238,8 @@ class TemplatesModelTemplate extends JModelForm
 			$relPath      = base64_decode($file);
 			$explodeArray = explode('.', $relPath);
 			$ext          = end($explodeArray);
-			$path         = JPath::ux_clean($client->path . '/templates/' . $template->element . '/');
-			$newPath      = JPath::ux_clean($path . '/' . $location . '/' . $newName . '.' . $ext);
+			$path         = JPath::clean($client->path . '/templates/' . $template->element . '/');
+			$newPath      = JPath::clean($path . '/' . $location . '/' . $newName . '.' . $ext);
 
 			if (file_exists($newPath))
 			{
@@ -1275,9 +1275,9 @@ class TemplatesModelTemplate extends JModelForm
 			$app     = JFactory::getApplication();
 			$client  = JApplicationHelper::getClientInfo($template->client_id);
 			$relPath = base64_decode($app->input->get('file'));
-			$path    = JPath::ux_clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+			$path    = JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
-			if (file_exists(JPath::ux_clean($path)))
+			if (file_exists(JPath::clean($path)))
 			{
 				$files = array();
 				$zip = new ZipArchive;
@@ -1327,19 +1327,19 @@ class TemplatesModelTemplate extends JModelForm
 			$explodeArray = explode('/', $relPath);
 			$fileName     = end($explodeArray);
 			$folderPath   = stristr($relPath, $fileName, true);
-			$path         = JPath::ux_clean($client->path . '/templates/' . $template->element . '/' . $folderPath . '/');
+			$path         = JPath::clean($client->path . '/templates/' . $template->element . '/' . $folderPath . '/');
 
-			if (file_exists(JPath::ux_clean($path . '/' . $fileName)))
+			if (file_exists(JPath::clean($path . '/' . $fileName)))
 			{
 				$zip = new ZipArchive;
 
-				if ($zip->open(JPath::ux_clean($path . '/' . $fileName)) === true)
+				if ($zip->open(JPath::clean($path . '/' . $fileName)) === true)
 				{
 					for ($i = 0; $i < $zip->numFiles; $i++)
 					{
 						$entry = $zip->getNameIndex($i);
 
-						if (file_exists(JPath::ux_clean($path . '/' . $entry)))
+						if (file_exists(JPath::clean($path . '/' . $entry)))
 						{
 							$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_EXISTS'), 'error');
 

@@ -104,7 +104,7 @@ class JFormFieldModulelayout extends JFormField
 			$templates = $db->loadObjectList('element');
 
 			// Build the search paths for module layouts.
-			$module_path = JPath::ux_clean($client->path . '/modules/' . $module . '/tmpl');
+			$module_path = JPath::clean($client->path . '/modules/' . $module . '/tmpl');
 
 			// Prepare array of component layouts
 			$module_layouts = array();
@@ -139,7 +139,7 @@ class JFormFieldModulelayout extends JFormField
 					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
 						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
 
-					$template_path = JPath::ux_clean($client->path . '/templates/' . $template->element . '/html/' . $module);
+					$template_path = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $module);
 
 					// Add the layout options from the template path.
 					if (is_dir($template_path) && ($files = JFolder::files($template_path, '^[^_]*\.php$')))

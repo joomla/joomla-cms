@@ -764,7 +764,7 @@ class JViewLegacy extends JObject
 			jimport('joomla.filesystem.path');
 
 			// Clean up the path
-			$dir = JPath::ux_clean($dir);
+			$dir = JPath::clean($dir);
 
 			// Add trailing separators as needed
 			if (substr($dir, -1) != '/')

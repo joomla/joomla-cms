@@ -99,7 +99,7 @@ class JArchiveTar implements JArchiveExtractable
 			if ($type == 'file' || $type == 'unix file')
 			{
 				$buffer = $this->_metadata[$i]['data'];
-				$path = JPath::ux_clean($destination . '/' . $this->_metadata[$i]['name']);
+				$path = JPath::clean($destination . '/' . $this->_metadata[$i]['name']);
 
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path)))

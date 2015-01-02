@@ -1043,7 +1043,7 @@ abstract class JHtml
 		{
 			if (!empty($dir) && !in_array($dir, static::$includePaths))
 			{
-				array_unshift(static::$includePaths, JPath::ux_clean($dir));
+				array_unshift(static::$includePaths, JPath::clean($dir));
 			}
 		}
 

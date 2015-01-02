@@ -536,7 +536,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 
 		// Set root folder names
 		$packagePath = $this->parent->getPath('source');
-		$jRootPath = JPath::ux_clean(JPATH_ROOT);
+		$jRootPath = JPath::clean(JPATH_ROOT);
 
 		// Loop through all elements and get list of files and folders
 		foreach ($this->manifest->fileset->files as $eFiles)

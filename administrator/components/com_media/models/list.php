@@ -151,7 +151,7 @@ class MediaModelList extends JModelLegacy
 					$tmp = new JObject;
 					$tmp->name = $file;
 					$tmp->title = $file;
-					$tmp->path = JPath::ux_clean($basePath . '/' . $file);
+					$tmp->path = JPath::clean($basePath . '/' . $file);
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 					$tmp->size = filesize($tmp->path);
 
@@ -219,7 +219,7 @@ class MediaModelList extends JModelLegacy
 			{
 				$tmp = new JObject;
 				$tmp->name = basename($folder);
-				$tmp->path = JPath::ux_clean($basePath . '/' . $folder);
+				$tmp->path = JPath::clean($basePath . '/' . $folder);
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 				$count = MediaHelper::countFiles($tmp->path);
 				$tmp->files = $count[0];
