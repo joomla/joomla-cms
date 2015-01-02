@@ -160,7 +160,7 @@ abstract class JLoader
 			$success = false;
 			$parts = explode('.', $key);
 			$class = array_pop($parts);
-			$base = (!empty($base)) ? $base : JPath::clean(__DIR__, '/');
+			$base = (!empty($base)) ? $base : str_replace('\\', '/', __DIR__);
 			$path = str_replace('.', '/', $key);
 
 			// Handle special case for helper classes.
