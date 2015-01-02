@@ -16,11 +16,11 @@ $params = $this->params;
 <div id="archive-items">
 	<?php foreach ($this->items as $i => $item) : ?>
 		<?php $info = $item->params->get('info_block_position', 0); ?>
-		<div class="row<?php echo $i % 2; ?>" itemscope itemtype="http://schema.org/Article">
+		<div class="row<?php echo $i % 2; ?>" data-sd="Article">
 			<div class="page-header">
-				<h2 itemprop="name">
+				<h2 data-sd="name">
 					<?php if ($params->get('link_titles')) : ?>
-						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
+						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)); ?>" data-sd="url">
 							<?php echo $this->escape($item->title); ?>
 						</a>
 					<?php else: ?>
@@ -28,11 +28,11 @@ $params = $this->params;
 					<?php endif; ?>
 				</h2>
 				<?php if ($params->get('show_author') && !empty($item->author )) : ?>
-					<div class="createdby" itemprop="author" itemscope itemtype="http://schema.org/Person">
-					<?php $author = ($item->created_by_alias) ? $item->created_by_alias : $item->author; ?>
-					<?php $author = '<span itemprop="name">' . $author . '</span>'; ?>
+					<div class="createdby" data-sd="author.Person">
+						<?php $author = ($item->created_by_alias) ? $item->created_by_alias : $item->author; ?>
+						<?php $author = '<span data-sd="Person name">' . $author . '</span>'; ?>
 						<?php if (!empty($item->contact_link) && $params->get('link_author') == true) : ?>
-							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author, array('itemprop' => 'url'))); ?>
+							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author, array('data-sd' => 'url'))); ?>
 						<?php else: ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 						<?php endif; ?>
@@ -53,10 +53,10 @@ $params = $this->params;
 						<div class="parent-category-name">
 							<?php $title = $this->escape($item->parent_title); ?>
 							<?php if ($params->get('link_parent_category') && !empty($item->parent_slug)) : ?>
-								<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($item->parent_slug)) . '" itemprop="genre">' . $title . '</a>'; ?>
+								<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($item->parent_slug)) . '" itemprop="Article genre">' . $title . '</a>'; ?>
 								<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 							<?php else : ?>
-								<?php echo JText::sprintf('COM_CONTENT_PARENT', '<span itemprop="genre">' . $title . '</span>'); ?>
+								<?php echo JText::sprintf('COM_CONTENT_PARENT', '<span data-sd="Article genre">' . $title . '</span>'); ?>
 							<?php endif; ?>
 						</div>
 					</dd>
@@ -66,10 +66,10 @@ $params = $this->params;
 						<div class="category-name">
 							<?php $title = $this->escape($item->category_title); ?>
 							<?php if ($params->get('link_category') && $item->catslug) : ?>
-								<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug)) . '" itemprop="genre">' . $title . '</a>'; ?>
+								<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug)) . '" data-sd="Article genre">' . $title . '</a>'; ?>
 								<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 							<?php else : ?>
-								<?php echo JText::sprintf('COM_CONTENT_CATEGORY', '<span itemprop="genre">' . $title . '</span>'); ?>
+								<?php echo JText::sprintf('COM_CONTENT_CATEGORY', '<span data-sd="Article genre">' . $title . '</span>'); ?>
 							<?php endif; ?>
 						</div>
 					</dd>
@@ -79,7 +79,7 @@ $params = $this->params;
 					<dd>
 						<div class="published">
 							<span class="icon-calendar"></span>
-							<time datetime="<?php echo JHtml::_('date', $item->publish_up, 'c'); ?>" itemprop="datePublished">
+							<time datetime="<?php echo JHtml::_('date', $item->publish_up, 'c'); ?>" data-sd="Article datePublished">
 								<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
 							</time>
 						</div>
@@ -91,7 +91,7 @@ $params = $this->params;
 						<dd>
 							<div class="modified">
 								<span class="icon-calendar"></span>
-								<time datetime="<?php echo JHtml::_('date', $item->modified, 'c'); ?>" itemprop="dateModified">
+								<time datetime="<?php echo JHtml::_('date', $item->modified, 'c'); ?>" data-sd="Article dateModified">
 									<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
 								</time>
 							</div>
@@ -101,7 +101,7 @@ $params = $this->params;
 						<dd>
 							<div class="create">
 								<span class="icon-calendar"></span>
-								<time datetime="<?php echo JHtml::_('date', $item->created, 'c'); ?>" itemprop="dateCreated">
+								<time datetime="<?php echo JHtml::_('date', $item->created, 'c'); ?>" data-sd="Article dateCreated">
 									<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC3'))); ?>
 								</time>
 							</div>
@@ -112,7 +112,7 @@ $params = $this->params;
 						<dd>
 							<div class="hits">
 								<span class="icon-eye-open"></span> 
-								<meta itemprop="interactionCount" content="UserPageVisits:<?php echo $item->hits; ?>" />
+								<meta data-sd="Article interactionCount" content="UserPageVisits:<?php echo $item->hits; ?>" />
 								<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
 							</div>
 						</dd>
@@ -127,7 +127,7 @@ $params = $this->params;
 		<?php endif; ?>
 		<?php echo $item->event->beforeDisplayContent; ?>
 		<?php if ($params->get('show_intro')) :?>
-			<div class="intro" itemprop="articleBody"> <?php echo JHtml::_('string.truncateComplex', $item->introtext, $params->get('introtext_limit')); ?> </div>
+			<div class="intro" data-sd="Article articleBody"> <?php echo JHtml::_('string.truncateComplex', $item->introtext, $params->get('introtext_limit')); ?> </div>
 		<?php endif; ?>
 
 		<?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
@@ -141,10 +141,10 @@ $params = $this->params;
 							<div class="parent-category-name">
 								<?php $title = $this->escape($item->parent_title); ?>
 								<?php if ($params->get('link_parent_category') && $item->parent_slug) : ?>
-									<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($item->parent_slug)) . '" itemprop="genre">' . $title . '</a>'; ?>
+									<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($item->parent_slug)) . '" data-sd="Article genre">' . $title . '</a>'; ?>
 									<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 								<?php else : ?>
-									<?php echo JText::sprintf('COM_CONTENT_PARENT', '<span itemprop="genre">' . $title . '</span>'); ?>
+									<?php echo JText::sprintf('COM_CONTENT_PARENT', '<span data-sd="Article genre">' . $title . '</span>'); ?>
 								<?php endif; ?>
 							</div>
 						</dd>
@@ -154,10 +154,10 @@ $params = $this->params;
 							<div class="category-name">
 								<?php $title = $this->escape($item->category_title); ?>
 								<?php if ($params->get('link_category') && $item->catslug) : ?>
-									<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug)) . '" itemprop="genre">' . $title . '</a>'; ?>
+									<?php $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug)) . '" data-sd="Article genre">' . $title . '</a>'; ?>
 									<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 								<?php else : ?>
-									<?php echo JText::sprintf('COM_CONTENT_CATEGORY', '<span itemprop="genre">' . $title . '</span>'); ?>
+									<?php echo JText::sprintf('COM_CONTENT_CATEGORY', '<span data-sd="Article genre">' . $title . '</span>'); ?>
 								<?php endif; ?>
 							</div>
 						</dd>
@@ -166,7 +166,7 @@ $params = $this->params;
 						<dd>
 							<div class="published">
 								<span class="icon-calendar"></span>
-								<time datetime="<?php echo JHtml::_('date', $item->publish_up, 'c'); ?>" itemprop="datePublished">
+								<time datetime="<?php echo JHtml::_('date', $item->publish_up, 'c'); ?>" data-sd="Article datePublished">
 									<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
 								</time>
 							</div>
@@ -178,7 +178,7 @@ $params = $this->params;
 					<dd>
 						<div class="create">
 							<span class="icon-calendar"></span>
-							<time datetime="<?php echo JHtml::_('date', $item->created, 'c'); ?>" itemprop="dateCreated">
+							<time datetime="<?php echo JHtml::_('date', $item->created, 'c'); ?>" data-sd="Article dateCreated">
 								<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
 							</time>
 						</div>
@@ -188,7 +188,7 @@ $params = $this->params;
 					<dd>
 						<div class="modified">
 							<span class="icon-calendar"></span>
-							<time datetime="<?php echo JHtml::_('date', $item->modified, 'c'); ?>" itemprop="dateModified">
+							<time datetime="<?php echo JHtml::_('date', $item->modified, 'c'); ?>" data-sd="Article dateModified">
 								<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
 							</time>
 						</div>
@@ -198,7 +198,7 @@ $params = $this->params;
 					<dd>
 						<div class="hits">
 							<span class="icon-eye-open"></span> 
-							<meta content="UserPageVisits:<?php echo $item->hits; ?>" itemprop="interactionCount" />
+							<meta content="UserPageVisits:<?php echo $item->hits; ?>" data-sd="Article interactionCount" />
 							<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
 						</div>
 					</dd>

@@ -293,7 +293,7 @@ class ContentViewArticle extends JViewLegacy
 
 		foreach ($mdata as $k => $v)
 		{
-			if ($v)
+			if ($v && strpos($k, 'microdata') === false)
 			{
 				$this->document->setMetadata($k, $v);
 			}

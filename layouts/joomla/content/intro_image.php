@@ -19,12 +19,12 @@ $params  = $displayData->params;
 	<?php if ($images->image_intro_caption):
 		echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"';
 	endif; ?>
-	src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>" itemprop="thumbnailUrl"/></a>
+	src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>" data-sd="thumbnailUrl"/></a>
 	<?php else : ?><img
 	<?php if ($images->image_intro_caption):
 		echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"';
 	endif; ?>
-	src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>" itemprop="thumbnailUrl"/>
+	src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>" data-sd="thumbnailUrl"/>
 	<?php endif; ?> 
 </div>
 <?php endif; ?>
