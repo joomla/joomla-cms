@@ -77,10 +77,6 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 		<?php endif; ?>
 	<?php endif; ?>
 
-	<?php // Todo Not that elegant would be nice to group the params ?>
-	<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
-		|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') ); ?>
-
 	<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 		<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
 	<?php endif; ?>
