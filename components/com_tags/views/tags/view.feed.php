@@ -53,7 +53,7 @@ class TagsViewTags extends JViewLegacy
 			// Load individual item creator class
 			$feeditem = new JFeedItem;
 			$feeditem->title       = $title;
-			$feeditem->link        = JRoute::_('index.php?option=com_tags&view=tag&id=' . (int) $item->id);
+			$feeditem->link        = JRoute::_(TagsHelperRoute::getTagRoute($item->id));
 			$feeditem->description = $item->description;
 			$feeditem->date        = $date;
 			$feeditem->category    = 'All Tags';
