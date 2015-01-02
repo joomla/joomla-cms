@@ -160,8 +160,8 @@ abstract class JLoader
 			$success = false;
 			$parts = explode('.', $key);
 			$class = array_pop($parts);
-			$base = (!empty($base)) ? $base : __DIR__;
-			$path = str_replace('.', DIRECTORY_SEPARATOR, $key);
+			$base = (!empty($base)) ? $base : str_replace('\\', '/', __DIR__);
+			$path = str_replace('.', '/', $key);
 
 			// Handle special case for helper classes.
 			if ($class == 'helper')
@@ -457,7 +457,7 @@ abstract class JLoader
 		// If one is found, we're dealing with a NS'd class.
 		if ($pos !== false)
 		{
-			$classPath = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 0, $pos)) . DIRECTORY_SEPARATOR;
+			$classPath = str_replace('\\', '/', substr($class, 0, $pos)) . '/';
 			$className = substr($class, $pos + 1);
 		}
 		// If not, no need to parse path.
@@ -467,7 +467,7 @@ abstract class JLoader
 			$className = $class;
 		}
 
-		$classPath .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+		$classPath .= str_replace('_', '/', $className) . '.php';
 
 		// Loop through registered namespaces until we find a match.
 		foreach (self::$namespaces as $ns => $paths)
@@ -477,7 +477,7 @@ abstract class JLoader
 				// Loop through paths registered to this namespace until we find a match.
 				foreach ($paths as $path)
 				{
-					$classFilePath = $path . DIRECTORY_SEPARATOR . $classPath;
+					$classFilePath = $path . '/' . $classPath;
 
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))

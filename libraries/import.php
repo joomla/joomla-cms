@@ -12,7 +12,7 @@
 // Set the platform root path as a constant if necessary.
 if (!defined('JPATH_PLATFORM'))
 {
-	define('JPATH_PLATFORM', __DIR__);
+	define('JPATH_PLATFORM', str_replace('\\', '/', __DIR__));
 }
 
 // Detect the native operating system type.

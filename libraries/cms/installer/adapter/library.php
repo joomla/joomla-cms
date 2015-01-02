@@ -194,7 +194,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 			throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_NOFILE'));
 		}
 
-		$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
+		$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode('/', explode('/', $group)));
 	}
 
 	/**

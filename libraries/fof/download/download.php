@@ -37,7 +37,7 @@ class FOFDownload
 	public function __construct()
 	{
 		// Find the best fitting adapter
-		$allAdapters = self::getFiles(__DIR__ . '/adapter', array(), array('abstract.php'));
+		$allAdapters = self::getFiles(str_replace('\\', '/', __DIR__) . '/adapter', array(), array('abstract.php'));
 		$priority    = 0;
 
 		foreach ($allAdapters as $adapterInfo)

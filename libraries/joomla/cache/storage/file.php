@@ -505,13 +505,13 @@ class JCacheStorageFile extends JCacheStorage
 	 * Function to strip additional / or \ in a path name
 	 *
 	 * @param   string  $path  The path to clean
-	 * @param   string  $ds    Directory separator (optional)
 	 *
 	 * @return  string  The cleaned path
 	 *
 	 * @since   11.1
+	 * SMZ TODO: Update documentation? - This is a protected function. It was called only inside this class, always without 2nd optional parameter
 	 */
-	protected function _cleanPath($path, $ds = DIRECTORY_SEPARATOR)
+	protected function _cleanPath($path)
 	{
 		$path = trim($path);
 
@@ -521,8 +521,8 @@ class JCacheStorageFile extends JCacheStorage
 		}
 		else
 		{
-			// Remove double slashes and backslahses and convert all slashes and backslashes to DIRECTORY_SEPARATOR
-			$path = preg_replace('#[/\\\\]+#', $ds, $path);
+			// Remove double slashes and backslahses and convert all slashes and backslashes to $ds
+			$path = preg_replace('#[/\\\\]+#', '/', $path);
 		}
 
 		return $path;

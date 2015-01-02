@@ -36,7 +36,7 @@ class JMail extends PHPMailer
 	public function __construct()
 	{
 		// PHPMailer has an issue using the relative path for its language files
-		$this->setLanguage('joomla', __DIR__ . '/language');
+		$this->setLanguage('joomla', str_replace('\\', '/', __DIR__) . '/language');
 	}
 
 	/**

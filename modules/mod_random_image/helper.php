@@ -136,7 +136,7 @@ class ModRandomImageHelper
 	 */
 	public static function getFolder(&$params)
 	{
-		$folder	= $params->get('folder');
+		$folder	= JPath::clean($params->get('folder'));
 
 		$LiveSite	= JUri::base();
 
@@ -151,9 +151,6 @@ class ModRandomImageHelper
 		{
 			$folder = str_replace(JPATH_BASE, '', $folder);
 		}
-
-		$folder = str_replace('\\', DIRECTORY_SEPARATOR, $folder);
-		$folder = str_replace('/', DIRECTORY_SEPARATOR, $folder);
 
 		return $folder;
 	}

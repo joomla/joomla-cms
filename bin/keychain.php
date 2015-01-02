@@ -8,7 +8,7 @@
  */
 
 define('_JEXEC', 1);
-define('JPATH_BASE', dirname(__FILE__));
+define('JPATH_BASE', str_replace('\\', '/', __DIR__));
 
 // Load the Joomla! Platform
 require_once realpath('../libraries/import.php');

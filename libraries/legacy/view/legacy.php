@@ -767,10 +767,10 @@ class JViewLegacy extends JObject
 			$dir = JPath::clean($dir);
 
 			// Add trailing separators as needed
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+			if (substr($dir, -1) != '/')
 			{
 				// Directory
-				$dir .= DIRECTORY_SEPARATOR;
+				$dir .= '/';
 			}
 
 			// Add to the top of the search dirs

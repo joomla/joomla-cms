@@ -117,7 +117,7 @@ class JInstaller extends JAdapter
 	 */
 	public function __construct()
 	{
-		parent::__construct(__DIR__, 'JInstallerAdapter', __DIR__ . '/adapter');
+		parent::__construct(str_replace('\\', '/', __DIR__), 'JInstallerAdapter', str_replace('\\', '/', __DIR__) . '/adapter');
 
 		// Override the default adapter folder
 		$this->_adapterfolder = 'adapter';

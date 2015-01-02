@@ -64,7 +64,7 @@ class JToolbar
 		$this->_name = $name;
 
 		// Set base path to find buttons.
-		$this->_buttonPath[] = __DIR__ . '/button';
+		$this->_buttonPath[] = str_replace('\\', '/', __DIR__) . '/button';
 	}
 
 	/**
@@ -242,7 +242,7 @@ class JToolbar
 					$dirs = array();
 				}
 
-				$file = JFilterInput::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
+				$file = JFilterInput::getInstance()->clean(str_replace('_', '/', strtolower($type)) . '.php', 'path');
 
 				jimport('joomla.filesystem.path');
 
@@ -298,10 +298,10 @@ class JToolbar
 			$dir = trim($dir);
 
 			// Add trailing separators as needed.
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+			if (substr($dir, -1) != '/')
 			{
 				// Directory
-				$dir .= DIRECTORY_SEPARATOR;
+				$dir .= '/';
 			}
 
 			// Add to the top of the search dirs.

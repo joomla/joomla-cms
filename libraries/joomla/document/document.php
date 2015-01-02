@@ -276,8 +276,8 @@ class JDocument
 		if (empty(self::$instances[$signature]))
 		{
 			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-			$path = __DIR__ . '/' . $type . '/' . $type . '.php';
-			$rawpath = __DIR__ . '/raw/raw.php';
+			$path = str_replace('\\', '/', __DIR__) . '/' . $type . '/' . $type . '.php';
+			$rawpath = str_replace('\\', '/', __DIR__) . '/raw/raw.php';
 			$ntype = null;
 
 			// Determine the path and class
@@ -1011,7 +1011,7 @@ class JDocument
 
 		if (!class_exists($class))
 		{
-			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
+			$path = str_replace('\\', '/', __DIR__) . '/' . $this->_type . '/renderer/' . $type . '.php';
 
 			if (file_exists($path))
 			{

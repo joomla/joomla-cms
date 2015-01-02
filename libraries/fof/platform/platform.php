@@ -155,7 +155,7 @@ abstract class FOFPlatform implements FOFPlatformInterface
 		if (!is_object(self::$instance))
 		{
 			// Where to look for platform integrations
-			$paths = array(__DIR__ . '/../integration');
+			$paths = array(str_replace('\\', '/', __DIR__) . '/../integration');
 
 			if (is_array(self::$paths))
 			{

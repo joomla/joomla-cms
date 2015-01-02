@@ -296,7 +296,7 @@ class JFormHelper
 			 * an inflector class to "libraries/joomla/utilities" and use it here (or somebody can use a real inflector in his subclass).
 			 * See also: pluralization snippet by Paul Osman in JControllerForm's constructor.
 			 */
-			$paths[] = __DIR__ . '/' . $entity_plural;
+			$paths[] = str_replace('\\', '/', __DIR__) . '/' . $entity_plural;
 		}
 
 		// Force the new path(s) to an array.

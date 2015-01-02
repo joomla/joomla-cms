@@ -56,7 +56,7 @@ abstract class JSessionStorage
 
 			if (!class_exists($class))
 			{
-				$path = __DIR__ . '/storage/' . $name . '.php';
+				$path = str_replace('\\', '/', __DIR__) . '/storage/' . $name . '.php';
 
 				if (file_exists($path))
 				{
