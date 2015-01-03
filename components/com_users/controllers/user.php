@@ -117,6 +117,7 @@ class UsersControllerUser extends UsersController
 		}
 		else
 		{
+			$app->enqueueMessage($error->getMessage());
 			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
 		}
 	}
