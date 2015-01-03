@@ -162,11 +162,23 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 		$query = array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'Itemid' => '99');
 		$this->object->preprocess($query);
 		$this->assertEquals(array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'Itemid' => '99'), $query);
-	
+
 		// Check if a query with existing Itemid that is the current active menu-item is correctly searched
 		$query = array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'Itemid' => '49');
 		$this->object->preprocess($query);
 		$this->assertEquals(array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'Itemid' => '48'), $query);
+
+		// Test if the default Itemid is used if everything else fails
+		$router = $this->object->get('router');
+		$router->menu->active = null;
+		$query = array();
+		$this->object->preprocess($query);
+		$this->assertEquals(array('Itemid' => '47'), $query);
+
+		// Test if the correct default item is used based on the language
+		$query = array('lang' => 'en-GB');
+		$this->object->preprocess($query);
+		$this->assertEquals(array('lang' => 'en-GB', 'Itemid' => '51'), $query);
 	}
 
 	/**
