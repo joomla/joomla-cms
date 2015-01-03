@@ -942,7 +942,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 		catch (Exception $ex)
 		{
-			JFactory::getApplication()->enqueueMessage($ex->getMessage());
+			$this->enqueueMessage($ex->getMessage());
 		}
 
 		// Trigger onUserLoginFailure Event.
