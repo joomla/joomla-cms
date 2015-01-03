@@ -124,7 +124,7 @@ class JFormFieldTag extends JFormFieldList
 			// Only item assigned values
 			$values = (array) $this->value;
 			JArrayHelper::toInteger($values);
-			$query->where('a.id IN (' . implode(',', $values) . ')');
+			$query->where('a.id IN (' . implode(',', $values) . ') OR 1 = 1');
 		}
 
 		// Filter language
