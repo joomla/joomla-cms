@@ -926,10 +926,13 @@ class JApplicationCms extends JApplicationWeb
 		// Import the user plugin group.
 		JPluginHelper::importPlugin('user');
 
-		try {
+		try
+		{
 			// OK, the credentials are built. Lets fire the onLogout event.
 			$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
-		} catch (Exception $ex) {
+		}
+		catch (Exception $ex)
+		{
 			return $ex;
 		}
 
