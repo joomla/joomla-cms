@@ -297,10 +297,10 @@ class JComponentRouterAdvancedTest extends TestCaseDatabase
 	 *
 	 * @since   3.4
 	 */
-	public function testGetCategory()
+	public function testGetCategorySlug()
 	{
 		$this->object->set('name', 'unittest');
-		$result = $this->object->getCategory(9);
+		$result = $this->object->getCategorySlug(9);
 		$this->assertInstanceOf('JCategoryNode', $result);
 		$this->assertEquals('com_content', $result->extension);
 	}

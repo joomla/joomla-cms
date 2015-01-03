@@ -109,9 +109,9 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 				if ($key && isset($query[$key]))
 				{
 					$result[$view->name] = array($query[$key]);
-					if ($view->nestable && is_callable(array($this, 'get' . ucfirst($view->name))))
+					if ($view->nestable && is_callable(array($this, 'get' . ucfirst($view->name) . 'Slug')))
 					{
-						$nestable = call_user_func_array(array($this, 'get' . ucfirst($view->name)), array($query[$key]));
+						$nestable = call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Slug'), array($query[$key]));
 						if ($nestable)
 						{
 							$result[$view->name] = array_reverse($nestable->getPath());
@@ -279,9 +279,42 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	 * 
 	 * @since 3.4
 	 */
-	public function getCategory($id)
+	public function getCategorySlug($id)
 	{
 		$category = JCategories::getInstance($this->getName())->get($id);
 		return $category;
+	}
+
+	/**
+	 * Get the key for a content items of the type category
+	 * This is a generic function for all components that use the JCategories
+	 * system and can be overriden if necessary.
+	 * 
+	 * @param   string  $segment  Segment that represents the category
+	 * @param   array   $vars     Parameters of the query that have been parsed so far
+	 * 
+	 * @return   int  Category id
+	 * 
+	 * @since 3.4
+	 */
+	public function getCategoryKey($segment, $vars)
+	{
+		$views = $this->getViews();
+		$view = $views['category'];
+		$category = JCategories::getInstance($this->getName())->get($vars[$view->key]);
+		@list($id, $alias) = explode('-', $segment, 2);
+		if ((int) $id > 0)
+		{
+			$children = $category->getChildren();
+			foreach ($children as $child)
+			{
+				if ($child->id == $id)
+				{
+					return $child->id;
+				}
+			}
+		}
+
+		return false;
 	}
 }
