@@ -506,15 +506,15 @@ class UsersModelRegistration extends JModelForm
 			}
 		}
 
-		// Send the registration email to the user if this feature is enabled
-        if (json_decode(JPluginHelper::getPlugin('user', 'joomla')->params)->mail_to_user)
-        {
-            $return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
-        }
-        else
-        {
-            $return = true;
-        }
+	// Send the registration email to the user if this feature is enabled
+	if (json_decode(JPluginHelper::getPlugin('user', 'joomla')->params)->mail_to_user)
+	{
+		$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+	}
+	else
+	{
+		$return = true;
+	}
 
 		// Send Notification mail to administrators
 		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1))
