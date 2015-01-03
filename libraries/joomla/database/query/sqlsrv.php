@@ -34,7 +34,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $null_date = '1900-01-01 00:00:00.000';
+	protected $null_date = '1900-01-01 00:00:00';
 
 	/**
 	 * @var    integer  The affected row limit for the current SQL statement.

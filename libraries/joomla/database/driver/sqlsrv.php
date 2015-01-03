@@ -43,7 +43,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 * @var    string
 	 * @since  12.1
 	 */
-	protected $nullDate = '1900-01-01 00:00:00.000';
+	protected $nullDate = '1900-01-01 00:00:00';
 
 	/**
 	 * @var    string  The minimum supported database version.
