@@ -760,18 +760,19 @@ class JApplication extends JApplicationBase
 		{
 			// OK, the credentials are built. Lets fire the onLogout event.
 			$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
+
+			// Check if any of the plugins failed. If none did, success.
+			if (!in_array(false, $results, true))
+			{
+				$options['username'] = $user->get('username');
+				$this->triggerEvent('onUserAfterLogout', array($options));
+
+				return true;
+			}
 		}
 		catch (Exception $ex)
 		{
-			return $ex;
-		}
-
-		if (!in_array(false, $results, true))
-		{
-				$options['username'] = $user->get('username');
-				$results = $this->triggerEvent('onUserAfterLogout', array($options));
-
-			return true;
+			JFactory::getApplication()->enqueueMessage($ex->getMessage());
 		}
 
 		// Trigger onUserLoginFailure Event.
