@@ -101,7 +101,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
