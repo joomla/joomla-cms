@@ -750,7 +750,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Rule to trigger the preprocess method of a component router
 	 * 
-	 * @param   JUri  $uri  URI to process
+	 * @param   JRouter  &$router  The router calling this rule
+	 * @param   JUri     &$uri     URI to process
 	 * 
 	 * @return  void
 	 * 
