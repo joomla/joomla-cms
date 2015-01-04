@@ -543,7 +543,7 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_tags" type="radio"
+		<field name="show_cat_tags" type="radio"
 			label="COM_CONTENT_FIELD_SHOW_CAT_TAGS_LABEL"
 			description="COM_CONTENT_FIELD_SHOW_CAT_TAGS_DESC"
 			class="btn-group btn-group-yesno"

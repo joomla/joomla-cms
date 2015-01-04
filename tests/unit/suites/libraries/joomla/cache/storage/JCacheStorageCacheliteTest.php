@@ -2,12 +2,11 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
-include_once JPATH_PLATFORM . '/joomla/cache/storage/cachelite.php';
+@include_once 'Cache/Lite.php';
 
 /**
  * Test class for JCacheStorageCachelite.
@@ -15,120 +14,58 @@ include_once JPATH_PLATFORM . '/joomla/cache/storage/cachelite.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
- *
  * @since       11.1
  */
 class JCacheStorageCacheliteTest extends PHPUnit_Framework_TestCase
 {
-
 	/**
-	 * @var JCacheStorageCachelite
+	 * @var    JCacheStorageCachelite
 	 */
 	protected $object;
 
 	/**
-	 * Test Get
-	 *
-	 * @todo Implement testGet().
+	 * @var    boolean
+	 */
+	protected $extensionAvailable;
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
 	 *
 	 * @return void
 	 */
-	public function testGet()
+	protected function setUp()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		parent::setUp();
+
+		$this->extensionAvailable = class_exists('Cache_Lite');
+
+		if ($this->extensionAvailable)
+		{
+			$options = array(
+				'cachebase' => JPATH_TESTS . '/tmp',
+			    'caching'   => true
+			);
+
+			$this->object = JCacheStorage::getInstance('cachelite', $options);
+		}
+		else
+		{
+			$this->markTestSkipped('This caching method is not supported on this system.');
+		}
 	}
 
 	/**
-	 * Test...
+	 * Testing isSupported().
 	 *
-	 * @todo Implement testGetAll().
-	 *
-	 * @return void
-	 */
-	public function testGetAll()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testStore().
-	 *
-	 * @return void
-	 */
-	public function testStore()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testRemove().
-	 *
-	 * @return void
-	 */
-	public function testRemove()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testClean().
-	 *
-	 * @return void
-	 */
-	public function testClean()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGc().
-	 *
-	 * @return void
-	 */
-	public function testGc()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testIsSupported().
-	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function testIsSupported()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
+		$this->assertEquals(
+			$this->extensionAvailable,
+			$this->object->isSupported(),
+			'Claims Cache_Lite is not loaded.'
 		);
 	}
-
 }

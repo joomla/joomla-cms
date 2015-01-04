@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,8 +19,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $version = new JVersion;
 
 ?>
-
-<div id="installer-languages">
+<div id="installer-languages" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=languages');?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
@@ -71,13 +70,15 @@ $version = new JVersion;
 							<?php echo JHtml::_('grid.id', $i, $language->update_id, false, 'cid'); ?>
 						</td>
 						<td>
-							<?php echo $language->name; ?>
+							<label for="cb<?php echo $i; ?>">
+								<?php echo $language->name; ?>
 
-							<?php // Display a Note if language pack version is not equal to Joomla version ?>
-							<?php if (substr($language->version, 0, 3) != $version->RELEASE
+								<?php // Display a Note if language pack version is not equal to Joomla version ?>
+								<?php if (substr($language->version, 0, 3) != $version->RELEASE
 									|| substr($language->version, 0, 5) != $version->RELEASE . "." . $version->DEV_LEVEL) : ?>
-								<div class="small"><?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?></div>
-							<?php endif; ?>
+									<div class="small"><?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?></div>
+								<?php endif; ?>
+							</label>
 						</td>
 						<td class="center small">
 							<?php echo $language->version; ?>

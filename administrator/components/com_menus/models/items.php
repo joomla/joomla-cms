@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Menu Item List Model for Menus.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
- * @since       1.6
+ * @since  1.6
  */
 class MenusModelItems extends JModelList
 {
@@ -66,14 +64,18 @@ class MenusModelItems extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication('administrator');
 
-		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id', 0, 'int');
+		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
 		$this->setState('filter.parent_id', $parentId);
 
 		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
@@ -82,13 +84,13 @@ class MenusModelItems extends JModelList
 		$published = $this->getUserStateFromRequest($this->context . '.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', 0, 'int');
+		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
 		$this->setState('filter.access', $access);
 
-		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id', 0, 'int');
+		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
 		$this->setState('filter.parent_id', $parentId);
 
-		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', 0, 'int');
+		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
 		$menuType = $app->input->getString('menutype', null);
@@ -177,6 +179,8 @@ class MenusModelItems extends JModelList
 	 * Builds an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery    A query object.
+	 *
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -191,8 +195,16 @@ class MenusModelItems extends JModelList
 			$this->getState(
 				'list.select',
 				$db->quoteName(
-					array('a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id', 'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav', 'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'),
-					array(null, null, null, null, null, null, null, null, null, null, 'apublished', null, null, null, null, null, null, null, null, null, null, null, null, null)
+					array(
+						'a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id',
+						'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav',
+						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'
+					),
+					array(
+						null, null, null, null, null, null, null, null, null,
+						null, 'apublished', null, null, null, null,
+						null, null, null, null, null, null, null, null, null
+					)
 				)
 			)
 		);
@@ -231,7 +243,7 @@ class MenusModelItems extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id');
+				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name');
 		}
 
 		// Join over the extensions
@@ -265,13 +277,13 @@ class MenusModelItems extends JModelList
 			{
 				if ($search = substr($search, 5))
 				{
-					$search = $db->quote('%' . $db->escape($search, true) . '%');
+					$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 					$query->where('a.link LIKE ' . $search);
 				}
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('(' . 'a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}

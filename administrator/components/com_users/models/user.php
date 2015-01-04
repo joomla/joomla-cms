@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * User model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelUser extends JModelAdmin
 {
@@ -27,6 +27,16 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function __construct($config = array())
 	{
+		$config = array_merge(
+			array(
+				'event_after_delete'  => 'onUserAfterDelete',
+				'event_after_save'    => 'onUserAfterSave',
+				'event_before_delete' => 'onUserBeforeDelete',
+				'event_before_save'   => 'onUserBeforeSave',
+				'events_map'          => array('save' => 'user', 'delete' => 'user')
+			), $config
+		);
+
 		parent::__construct($config);
 
 		// Load the Joomla! RAD layer
@@ -46,7 +56,7 @@ class UsersModelUser extends JModelAdmin
 	 * @return  JTable  A database object
 	 *
 	 * @since   1.6
-	*/
+	 */
 	public function getTable($type = 'User', $prefix = 'JTable', $config = array())
 	{
 		$table = JTable::getInstance($type, $prefix, $config);
@@ -67,15 +77,20 @@ class UsersModelUser extends JModelAdmin
 	{
 		$result = parent::getItem($pk);
 
-		$result->tags = new JHelperTags;
-		$result->tags->getTagIds($result->id, 'com_users.user');
+		$context = 'com_users.user';
 
-		// Get the dispatcher and load the users plugins.
+		$result->tags = new JHelperTags;
+		$result->tags->getTagIds($result->id, $context);
+
+		// Get the dispatcher and load the content plugins.
 		$dispatcher	= JEventDispatcher::getInstance();
+		JPluginHelper::importPlugin('content');
+
+		// Load the user plugins for backward compatibility (v3.3.3 and earlier).
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
-		$dispatcher->trigger('onContentPrepareData', array('com_users.user', $result));
+		$dispatcher->trigger('onContentPrepareData', array($context, $result));
 
 		return $result;
 	}
@@ -93,7 +108,7 @@ class UsersModelUser extends JModelAdmin
 	public function getForm($data = array(), $loadData = true)
 	{
 		$plugin = JPluginHelper::getPlugin('user', 'joomla');
-		$pluginParams = new JRegistry($plugin->params);
+		$pluginParams = new Registry($plugin->params);
 
 		// Get the form.
 		$form = $this->loadForm('com_users.user', 'user', array('control' => 'jform', 'load_data' => $loadData));
@@ -304,8 +319,7 @@ class UsersModelUser extends JModelAdmin
 		// Check if I am a Super Admin
 		$iAmSuperAdmin = $user->authorise('core.admin');
 
-		// Trigger the onUserBeforeSave event.
-		JPluginHelper::importPlugin('user');
+		JPluginHelper::importPlugin($this->events_map['delete']);
 		$dispatcher = JEventDispatcher::getInstance();
 
 		if (in_array($user->id, $pks))
@@ -331,8 +345,8 @@ class UsersModelUser extends JModelAdmin
 					// Get users data for the users to delete.
 					$user_to_delete = JFactory::getUser($pk);
 
-					// Fire the onUserBeforeDelete event.
-					$dispatcher->trigger('onUserBeforeDelete', array($table->getProperties()));
+					// Fire the before delete event.
+					$dispatcher->trigger($this->event_before_delete, array($table->getProperties()));
 
 					if (!$table->delete($pk))
 					{
@@ -342,8 +356,8 @@ class UsersModelUser extends JModelAdmin
 					}
 					else
 					{
-						// Trigger the onUserAfterDelete event.
-						$dispatcher->trigger('onUserAfterDelete', array($user_to_delete->getProperties(), true, $this->getError()));
+						// Trigger the after delete event.
+						$dispatcher->trigger($this->event_after_delete, array($user_to_delete->getProperties(), true, $this->getError()));
 					}
 				}
 				else
@@ -385,7 +399,7 @@ class UsersModelUser extends JModelAdmin
 		$table         = $this->getTable();
 		$pks           = (array) $pks;
 
-		JPluginHelper::importPlugin('user');
+		JPluginHelper::importPlugin($this->events_map['save']);
 
 		// Access checks.
 		foreach ($pks as $i => $pk)
@@ -436,8 +450,8 @@ class UsersModelUser extends JModelAdmin
 							return false;
 						}
 
-						// Trigger the onUserBeforeSave event.
-						$result = $dispatcher->trigger('onUserBeforeSave', array($old, false, $table->getProperties()));
+						// Trigger the before save event.
+						$result = $dispatcher->trigger($this->event_before_save, array($old, false, $table->getProperties()));
 
 						if (in_array(false, $result, true))
 						{
@@ -453,8 +467,8 @@ class UsersModelUser extends JModelAdmin
 							return false;
 						}
 
-						// Trigger the onAftereStoreUser event
-						$dispatcher->trigger('onUserAfterSave', array($table->getProperties(), false, true, null));
+						// Trigger the after save event
+						$dispatcher->trigger($this->event_after_save, array($table->getProperties(), false, true, null));
 					}
 					catch (Exception $e)
 					{
@@ -500,7 +514,7 @@ class UsersModelUser extends JModelAdmin
 		$table         = $this->getTable();
 		$pks           = (array) $pks;
 
-		JPluginHelper::importPlugin('user');
+		JPluginHelper::importPlugin($this->events_map['save']);
 
 		// Access checks.
 		foreach ($pks as $i => $pk)
@@ -533,8 +547,8 @@ class UsersModelUser extends JModelAdmin
 							return false;
 						}
 
-						// Trigger the onUserBeforeSave event.
-						$result = $dispatcher->trigger('onUserBeforeSave', array($old, false, $table->getProperties()));
+						// Trigger the before save event.
+						$result = $dispatcher->trigger($this->event_before_save, array($old, false, $table->getProperties()));
 
 						if (in_array(false, $result, true))
 						{
@@ -550,8 +564,8 @@ class UsersModelUser extends JModelAdmin
 							return false;
 						}
 
-						// Fire the onAftereStoreUser event
-						$dispatcher->trigger('onUserAfterSave', array($table->getProperties(), false, true, null));
+						// Fire the after save event
+						$dispatcher->trigger($this->event_after_save, array($table->getProperties(), false, true, null));
 					}
 					catch (Exception $e)
 					{

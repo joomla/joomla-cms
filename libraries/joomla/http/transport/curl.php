@@ -3,23 +3,23 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTTP transport class for using cURL.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
- * @since       11.3
+ * @since  11.3
  */
 class JHttpTransportCurl implements JHttpTransport
 {
 	/**
-	 * @var    JRegistry  The client options.
+	 * @var    Registry  The client options.
 	 * @since  11.3
 	 */
 	protected $options;
@@ -27,13 +27,13 @@ class JHttpTransportCurl implements JHttpTransport
 	/**
 	 * Constructor. CURLOPT_FOLLOWLOCATION must be disabled when open_basedir or safe_mode are enabled.
 	 *
-	 * @param   JRegistry  $options  Client options object.
+	 * @param   Registry  $options  Client options object.
 	 *
 	 * @see     http://www.php.net/manual/en/function.curl-setopt.php
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JRegistry $options)
+	public function __construct(Registry $options)
 	{
 		if (!function_exists('curl_init') || !is_callable('curl_init'))
 		{

@@ -8,10 +8,7 @@
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
-if (!class_exists('JFormFieldSpacer'))
-{
-	require_once JPATH_LIBRARIES . '/joomla/form/fields/spacer.php';
-}
+JFormHelper::loadFieldClass('spacer');
 
 /**
  * Form Field class for the FOF framework
@@ -25,10 +22,10 @@ class FOFFormFieldSpacer extends JFormFieldSpacer implements FOFFormField
 	protected $static;
 
 	protected $repeatable;
-	
+
 	/** @var   FOFTable  The item being rendered in a repeatable form field */
 	public $item;
-	
+
 	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
 	public $rowid;
 
@@ -60,7 +57,7 @@ class FOFFormFieldSpacer extends JFormFieldSpacer implements FOFFormField
 					$this->repeatable = $this->getRepeatable();
 				}
 
-				return $this->static;
+				return $this->repeatable;
 				break;
 
 			default:

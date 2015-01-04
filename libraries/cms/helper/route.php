@@ -3,11 +3,11 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Route Helper
@@ -15,9 +15,7 @@ defined('_JEXEC') or die;
  * A class providing basic routing for urls that are for content types found in
  * the #__content_types table and rows found in the #__ucm_content table.
  *
- * @package     Joomla.Libraries
- * @subpackage  Helper
- * @since       3.1
+ * @since  3.1
  */
 class JHelperRoute
 {
@@ -246,9 +244,17 @@ class JHelperRoute
 	 * @return  string
 	 *
 	 * @since   3.2
+	 *
+	 * @throws  InvalidArgumentException
 	 */
-	public static function getCategoryRoute($catid, $language = 0, $extension)
+	public static function getCategoryRoute($catid, $language = 0, $extension = '')
 	{
+		// Note: $extension is required but has to be an optional argument in the function call due to argument order
+		if (empty($extension))
+		{
+			throw new InvalidArgumentException('$extension is a required argument in JHelperRoute::getCategoryRoute');
+		}
+
 		if ($catid instanceof JCategoryNode)
 		{
 			$id       = $catid->id;

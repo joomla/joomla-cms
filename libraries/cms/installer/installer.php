@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,9 +17,7 @@ jimport('joomla.base.adapter');
 /**
  * Joomla base installer class
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstaller extends JAdapter
 {
@@ -123,6 +121,8 @@ class JInstaller extends JAdapter
 
 		// Override the default adapter folder
 		$this->_adapterfolder = 'adapter';
+
+		$this->extension = JTable::getInstance('extension');
 	}
 
 	/**
@@ -487,8 +487,6 @@ class JInstaller extends JAdapter
 	{
 		if ($eid)
 		{
-			$this->extension = JTable::getInstance('extension');
-
 			if (!$this->extension->load($eid))
 			{
 				$this->abort(JText::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
@@ -503,10 +501,14 @@ class JInstaller extends JAdapter
 				return false;
 			}
 
+			$adapter = null;
+
 			// Lazy load the adapter
 			if (!isset($this->_adapters[$this->extension->type]) || !is_object($this->_adapters[$this->extension->type]))
 			{
-				if (!$this->setAdapter($this->extension->type))
+				$params = array('extension' => $this->extension, 'route' => 'discover_install');
+
+				if (!$this->setAdapter($this->extension->type, $adapter, $params))
 				{
 					return false;
 				}
@@ -685,9 +687,13 @@ class JInstaller extends JAdapter
 	 */
 	public function uninstall($type, $identifier, $cid = 0)
 	{
+		$adapter = null;
+
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
 		{
-			if (!$this->setAdapter($type))
+			$params = array('extension' => $this->extension, 'route' => 'uninstall');
+
+			if (!$this->setAdapter($type, $adapter, $params))
 			{
 				// We failed to get the right adapter
 				return false;
@@ -733,8 +739,6 @@ class JInstaller extends JAdapter
 	{
 		if ($eid)
 		{
-			$this->extension = JTable::getInstance('extension');
-
 			if (!$this->extension->load($eid))
 			{
 				$this->abort(JText::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
@@ -797,11 +801,13 @@ class JInstaller extends JAdapter
 	 * Prepare for installation: this method sets the installation directory, finds
 	 * and checks the installation file and verifies the installation type.
 	 *
+	 * @param   string  $route  The install route being followed
+	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
 	 */
-	public function setupInstall()
+	public function setupInstall($route = 'install')
 	{
 		// We need to find the installation manifest file
 		if (!$this->findManifest())
@@ -810,15 +816,20 @@ class JInstaller extends JAdapter
 		}
 
 		// Load the adapter(s) for the install manifest
-		$type = (string) $this->manifest->attributes()->type;
+		$type   = (string) $this->manifest->attributes()->type;
+		$params = array('route' => $route);
 
 		// Lazy load the adapter
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
 		{
-			if (!$this->setAdapter($type))
+			$adapter = $this->loadAdapter($type, $params);
+
+			if (!$adapter)
 			{
 				return false;
 			}
+
+			$this->_adapters[$type] = $adapter;
 		}
 
 		return true;
@@ -891,7 +902,7 @@ class JInstaller extends JAdapter
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->name);
 
-		if ($dbDriver == 'mysqli')
+		if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 		{
 			$dbDriver = 'mysql';
 		}
@@ -902,7 +913,7 @@ class JInstaller extends JAdapter
 			$fCharset = (strtolower($file->attributes()->charset) == 'utf8') ? 'utf8' : '';
 			$fDriver = strtolower($file->attributes()->driver);
 
-			if ($fDriver == 'mysqli')
+			if ($fDriver == 'mysqli' || $fDriver == 'pdomysql')
 			{
 				$fDriver = 'mysql';
 			}
@@ -987,7 +998,7 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli')
+				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1054,7 +1065,7 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli')
+				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1065,7 +1076,15 @@ class JInstaller extends JAdapter
 				{
 					$attrs = $entry->attributes();
 
-					if ($attrs['type'] == $dbDriver)
+					// Assuming that the type is a mandatory attribute but if it is not mandatory then there should be a discussion for it.
+					$uDriver = strtolower($attrs['type']);
+
+					if ($uDriver == 'mysqli' || $uDriver == 'pdomysql')
+					{
+						$uDriver = 'mysql';
+					}
+
+					if ($uDriver == $dbDriver)
 					{
 						$schemapath = $entry;
 						break;
@@ -1089,56 +1108,58 @@ class JInstaller extends JAdapter
 					$db->setQuery($query);
 					$version = $db->loadResult();
 
-					if ($version)
+					// No version - use initial version.
+					if (!$version)
 					{
-						// We have a version!
-						foreach ($files as $file)
+						$version = '0.0.0';
+					}
+
+					foreach ($files as $file)
+					{
+						if (version_compare($file, $version) > 0)
 						{
-							if (version_compare($file, $version) > 0)
+							$buffer = file_get_contents($this->getPath('extension_root') . '/' . $schemapath . '/' . $file . '.sql');
+
+							// Graceful exit and rollback if read not successful
+							if ($buffer === false)
 							{
-								$buffer = file_get_contents($this->getPath('extension_root') . '/' . $schemapath . '/' . $file . '.sql');
+								JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), JLog::WARNING, 'jerror');
 
-								// Graceful exit and rollback if read not successful
-								if ($buffer === false)
+								return false;
+							}
+
+							// Create an array of queries from the sql file
+							$queries = JDatabaseDriver::splitSql($buffer);
+
+							if (count($queries) == 0)
+							{
+								// No queries to process
+								continue;
+							}
+
+							// Process each query in the $queries array (split out of sql file).
+							foreach ($queries as $query)
+							{
+								$query = trim($query);
+
+								if ($query != '' && $query{0} != '#')
 								{
-									JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), JLog::WARNING, 'jerror');
+									$db->setQuery($query);
 
-									return false;
-								}
-
-								// Create an array of queries from the sql file
-								$queries = JDatabaseDriver::splitSql($buffer);
-
-								if (count($queries) == 0)
-								{
-									// No queries to process
-									continue;
-								}
-
-								// Process each query in the $queries array (split out of sql file).
-								foreach ($queries as $query)
-								{
-									$query = trim($query);
-
-									if ($query != '' && $query{0} != '#')
+									if (!$db->execute())
 									{
-										$db->setQuery($query);
+										JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
 
-										if (!$db->execute())
-										{
-											JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
-
-											return false;
-										}
-										else
-										{
-											$queryString = (string) $query;
-											$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
-											JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
-										}
-
-										$update_count++;
+										return false;
 									}
+									else
+									{
+										$queryString = (string) $query;
+										$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
+										JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
+									}
+
+									$update_count++;
 								}
 							}
 						}
@@ -1575,7 +1596,6 @@ class JInstaller extends JAdapter
 		 */
 		if (is_array($files) && count($files) > 0)
 		{
-
 			foreach ($files as $file)
 			{
 				// Get the source and destination paths
@@ -1595,7 +1615,6 @@ class JInstaller extends JAdapter
 				}
 				elseif (($exists = file_exists($filedest)) && !$overwrite)
 				{
-
 					// It's okay if the manifest already exists
 					if ($this->getPath('manifest') == $filesource)
 					{
@@ -1869,7 +1888,6 @@ class JInstaller extends JAdapter
 		// If at least one XML file exists
 		if (!empty($xmlfiles))
 		{
-
 			foreach ($xmlfiles as $file)
 			{
 				// Is it a valid Joomla installation manifest file?
@@ -2173,6 +2191,133 @@ class JInstaller extends JAdapter
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
 
+		if ($xml->files && count($xml->files->children()))
+		{
+			$filename = JFile::getName($path);
+			$data['filename'] = JFile::stripExt($filename);
+
+			foreach ($xml->files->children() as $oneFile)
+			{
+				if ((string) $oneFile->attributes()->plugin)
+				{
+					$data['filename'] = (string) $oneFile->attributes()->plugin;
+					break;
+				}
+			}
+		}
+
 		return $data;
+	}
+
+	/**
+	 * Gets a list of available install adapters.
+	 *
+	 * @param   array  $options  An array of options to inject into the adapter
+	 * @param   array  $custom   Array of custom install adapters
+	 *
+	 * @return  array  An array of available install adapters.
+	 *
+	 * @since   3.4
+	 * @note    As of 4.0, this method will only return the names of available adapters and will not
+	 *          instantiate them and store to the $_adapters class var.
+	 */
+	public function getAdapters($options = array(), array $custom = array())
+	{
+		$files = new DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
+
+		// Process the core adapters
+		foreach ($files as $file)
+		{
+			$fileName = $file->getFilename();
+
+			// Only load for php files.
+			if (!$file->isFile() || $file->getExtension() != 'php')
+			{
+				continue;
+			}
+
+			// Derive the class name from the filename.
+			$name  = str_ireplace('.php', '', trim($fileName));
+			$class = $this->_classprefix . ucfirst($name);
+
+			// Core adapters should autoload based on classname, keep this fallback just in case
+			if (!class_exists($class))
+			{
+				// Try to load the adapter object
+				require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName;
+
+				if (!class_exists($class))
+				{
+					// Skip to next one
+					continue;
+				}
+			}
+
+			$this->_adapters[$name] = $this->loadAdapter($name, $options);
+		}
+
+		// Add any custom adapters if specified
+		if (count($custom) >= 1)
+		{
+			foreach ($custom as $adapter)
+			{
+				// Setup the class name
+				// TODO - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
+				$class = $this->_classprefix . ucfirst(trim($adapter));
+
+				// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
+				if (!class_exists($class))
+				{
+					continue;
+				}
+
+				$this->_adapters[$name] = $this->loadAdapter($name, $options);
+			}
+		}
+
+		return $this->_adapters;
+	}
+
+	/**
+	 * Method to load an adapter instance
+	 *
+	 * @param   string  $adapter  Adapter name
+	 * @param   array   $options  Adapter options
+	 *
+	 * @return  JInstallerAdapter
+	 *
+	 * @since   3.4
+	 * @throws  InvalidArgumentException
+	 */
+	public function loadAdapter($adapter, $options = array())
+	{
+		$class = 'JInstallerAdapter' . ucfirst($adapter);
+
+		// Verify the class exists
+		if (!class_exists($class))
+		{
+			throw new InvalidArgumentException(sprintf('The %s install adapter does not exist.', $adapter));
+		}
+
+		// Ensure the adapter type is part of the options array
+		$options['type'] = $adapter;
+
+		return new $class($this, $this->getDBO(), $options);
+	}
+
+	/**
+	 * Loads all adapters.
+	 *
+	 * @param   array  $options  Adapter options
+	 *
+	 * @return  void
+	 *
+	 * @since       3.4
+	 * @deprecated  4.0  Individual adapters should be instantiated as needed
+	 * @note        This method is serving as a proxy of the legacy JAdapter API into the preferred API
+	 */
+	public function loadAllAdapters($options = array())
+	{
+		$this->getAdapters($options);
 	}
 }

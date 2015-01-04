@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Field to select a user ID from a modal list.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldUser extends JFormField
 {
@@ -57,7 +55,8 @@ class JFormFieldUser extends JFormField
 		$script[] = '		if (old_id != id) {';
 		$script[] = '			document.getElementById("' . $this->id . '_id").value = id;';
 		$script[] = '			document.getElementById("' . $this->id . '").value = title;';
-		$script[] = '			document.getElementById("' . $this->id . '").className = document.getElementById("' . $this->id . '").className.replace(" invalid" , "");';
+		$script[] = '			document.getElementById("'
+			. $this->id . '").className = document.getElementById("' . $this->id . '").className.replace(" invalid" , "");';
 		$script[] = '			' . $this->onchange;
 		$script[] = '		}';
 		$script[] = '		SqueezeBox.close();';
@@ -76,7 +75,9 @@ class JFormFieldUser extends JFormField
 		// Handle the special case for "current".
 		elseif (strtoupper($this->value) == 'CURRENT')
 		{
-			$table->load(JFactory::getUser()->id);
+			// 'CURRENT' is not a reasonable value to be placed in the html
+			$this->value = JFactory::getUser()->id;
+			$table->load($this->value);
 		}
 		else
 		{
@@ -99,7 +100,7 @@ class JFormFieldUser extends JFormField
 		$html[] = '</div>';
 
 		// Create the real field, hidden, that stored the user id.
-		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . (int) $this->value . '" />';
+		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $this->value . '" />';
 
 		return implode("\n", $html);
 	}

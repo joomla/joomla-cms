@@ -3,30 +3,40 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Utility class for creating HTML Grids
+ * Utility class for creating HTML Grids.
  *
- * @static
- * @package     Joomla.Administrator
- * @subpackage  com_redirect
- * @since       1.6
+ * @since  1.6
  */
 class JHtmlRedirect
 {
 	/**
-	 * @param   int $value	The state value.
-	 * @param   int $i
-	 * @param   string  An optional prefix for the task.
-	 * @param   boolean		An optional setting for access control on the action.
+	 * Display the published or unpublished state of an item.
+	 *
+	 * @param   int      $value      The state value.
+	 * @param   int      $i          The ID of the item.
+	 * @param   boolean  $canChange  An optional prefix for the task.
+	 *
+	 * @return  string
+	 *
+	 * @since   1.6
+	 *
+	 * @throws  InvalidArgumentException
 	 */
-	public static function published($value = 0, $i, $canChange = true)
+	public static function published($value = 0, $i = null, $canChange = true)
 	{
+		// Note: $i is required but has to be an optional argument in the function call due to argument order
+		if (null === $i)
+		{
+			throw new InvalidArgumentException('$i is a required argument in JHtmlRedirect::published');
+		}
+
 		// Array of image, task, title, action
 		$states	= array(
 			1	=> array('tick.png',		'links.unpublish',	'JENABLED',	'COM_REDIRECT_DISABLE_LINK'),
@@ -35,11 +45,11 @@ class JHtmlRedirect
 			-2	=> array('trash.png',		'links.publish',		'JTRASHED',	'COM_REDIRECT_ENABLE_LINK'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= JHtml::_('image', 'admin/'.$state[0], JText::_($state[2]), null, true);
+		$html	= JHtml::_('image', 'admin/' . $state[0], JText::_($state[2]), null, true);
+
 		if ($canChange)
 		{
-			$html	= '<a href="#" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
-					. $html.'</a>';
+			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" title="' . JText::_($state[3]) . '">' . $html . '</a>';
 		}
 
 		return $html;

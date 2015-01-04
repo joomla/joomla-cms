@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of user access level records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelLevels extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -43,6 +42,11 @@ class UsersModelLevels extends JModelList
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -67,7 +71,7 @@ class UsersModelLevels extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 */
@@ -104,6 +108,7 @@ class UsersModelLevels extends JModelList
 
 		// Filter the items over the search string if set.
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -112,7 +117,7 @@ class UsersModelLevels extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('a.title LIKE ' . $search);
 			}
 		}
@@ -122,15 +127,15 @@ class UsersModelLevels extends JModelList
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.lft')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 
 	/**
 	 * Method to adjust the ordering of a row.
 	 *
-	 * @param   integer    The ID of the primary key to move.
-	 * @param   integer    Increment, usually +1 or -1
+	 * @param   integer  $pk         The ID of the primary key to move.
+	 * @param   integer  $direction  Increment, usually +1 or -1
+	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 */
 	public function reorder($pk, $direction = 0)
@@ -146,6 +151,7 @@ class UsersModelLevels extends JModelList
 		if (!$table->load($pk))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -155,6 +161,7 @@ class UsersModelLevels extends JModelList
 		if (!$allow)
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+
 			return false;
 		}
 
@@ -168,8 +175,10 @@ class UsersModelLevels extends JModelList
 	/**
 	 * Saves the manually set order of records.
 	 *
-	 * @param   array    An array of primary key ids.
-	 * @param   integer  +/-1
+	 * @param   array    $pks    An array of primary key ids.
+	 * @param   integer  $order  Order position
+	 *
+	 * @return   boolean
 	 */
 	public function saveorder($pks, $order)
 	{
@@ -182,7 +191,7 @@ class UsersModelLevels extends JModelList
 			return JError::raiseWarning(500, JText::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'));
 		}
 
-		// update ordering values
+		// Update ordering values
 		foreach ($pks as $i => $pk)
 		{
 			$table->load((int) $pk);
@@ -199,9 +208,11 @@ class UsersModelLevels extends JModelList
 			elseif ($table->ordering != $order[$i])
 			{
 				$table->ordering = $order[$i];
+
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
+
 					return false;
 				}
 			}

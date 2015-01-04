@@ -3,18 +3,18 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla User plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  User.joomla
- * @since       1.5
+ * @since  1.5
  */
 class PlgUserJoomla extends JPlugin
 {
@@ -40,7 +40,7 @@ class PlgUserJoomla extends JPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  boolean
@@ -70,7 +70,7 @@ class PlgUserJoomla extends JPlugin
 	 *
 	 * @param   array    $user     Holds the new user data.
 	 * @param   boolean  $isnew    True if a new user is stored.
-	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
 	 * @return  void
@@ -96,7 +96,7 @@ class PlgUserJoomla extends JPlugin
 					 * 	1. User frontend language
 					 * 	2. User backend language
 					 */
-					$userParams = new JRegistry($user['params']);
+					$userParams = new Registry($user['params']);
 					$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
 
 					if ($userLocale != $defaultLocale)
@@ -254,12 +254,17 @@ class PlgUserJoomla extends JPlugin
 			$session->destroy();
 		}
 
-		// Force logout all users with that userid
-		$query = $this->db->getQuery(true)
-			->delete($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
-			->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
-		$this->db->setQuery($query)->execute();
+		// Enable / Disable Forcing logout all users with same userid
+		$forceLogout = $this->params->get('forceLogout', 1);
+
+		if ($forceLogout)
+		{
+			$query = $this->db->getQuery(true)
+				->delete($this->db->quoteName('#__session'))
+				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
+				->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
+			$this->db->setQuery($query)->execute();
+		}
 
 		return true;
 	}

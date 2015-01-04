@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,24 +12,24 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
 $params = $params->toArray();
-?>
 
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'tag.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
-			<?php echo $this->form->getField('description')->save(); ?>
+		if (task == 'tag.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
+			" . $this->form->getField('description')->save() . "
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
-	}
-</script>
+	};
+");
+?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tags&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
@@ -64,6 +64,10 @@ $params = $params->toArray();
 
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS', true)); ?>
+		<?php echo $this->form->renderFieldset('images'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo $this->form->renderFieldset('urls'); ?>
 	</div>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

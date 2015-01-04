@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Keychain
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,11 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Keychain Class
  *
- * @package     Joomla.Platform
- * @subpackage  Keychain
- * @since       12.3
+ * @since  12.3
  */
-class JKeychain extends JRegistry
+class JKeychain extends \Joomla\Registry\Registry
 {
 	/**
 	 * @var    string  Method to use for encryption.
@@ -86,11 +84,12 @@ class JKeychain extends JRegistry
 			// Traverse the registry to find the correct node for the result.
 			for ($i = 0, $n = count($nodes) - 1; $i < $n; $i++)
 			{
-			if (!isset($node->$nodes[$i]) && ($i != $n))
-			{
-			$node->$nodes[$i] = new stdClass;
-			}
-			$node = $node->$nodes[$i];
+				if (!isset($node->$nodes[$i]) && ($i != $n))
+				{
+					$node->$nodes[$i] = new stdClass;
+				}
+
+				$node = $node->$nodes[$i];
 			}
 
 			// Get the old value if exists so we can return it
@@ -119,6 +118,7 @@ class JKeychain extends JRegistry
 		{
 			throw new RuntimeException('Attempting to load non-existent keychain file');
 		}
+
 		$passphrase = $this->getPassphraseFromFile($passphraseFile, $publicKeyFile);
 
 		$cleartext = openssl_decrypt(file_get_contents($keychainFile), $this->method, $passphrase, true, $this->iv);
@@ -175,6 +175,7 @@ class JKeychain extends JRegistry
 		{
 			throw new RuntimeException('Missing public key file');
 		}
+
 		$publicKey = openssl_get_publickey(file_get_contents($publicKeyFile));
 
 		if (!$publicKey)
@@ -186,12 +187,14 @@ class JKeychain extends JRegistry
 		{
 			throw new RuntimeException('Missing passphrase file');
 		}
+
 		$passphrase = '';
 
 		if (!openssl_public_decrypt(file_get_contents($passphraseFile), $passphrase, $publicKey))
 		{
 			throw new RuntimeException('Failed to decrypt passphrase file');
 		}
+
 		return $passphrase;
 	}
 }

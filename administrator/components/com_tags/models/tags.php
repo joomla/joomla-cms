@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,14 @@ defined('_JEXEC') or die;
 /**
  * Tags Component Tags Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsModelTags extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param    array  $config  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see    JController
 	 * @since  3.0.3
@@ -60,6 +58,7 @@ class TagsModelTags extends JModelList
 	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
 	 * @return    void
+	 *
 	 * @since    3.1
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -99,6 +98,7 @@ class TagsModelTags extends JModelList
 	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
+	 *
 	 * @since   3.1
 	 */
 	protected function getStoreId($id = '')
@@ -174,6 +174,7 @@ class TagsModelTags extends JModelList
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.published = ' . (int) $published);
@@ -185,6 +186,7 @@ class TagsModelTags extends JModelList
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -198,7 +200,7 @@ class TagsModelTags extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
@@ -212,6 +214,7 @@ class TagsModelTags extends JModelList
 		// Add the list ordering clause
 		$listOrdering = $this->getState('list.ordering', 'a.lft');
 		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));
+
 		if ($listOrdering == 'a.access')
 		{
 			$query->order('a.access ' . $listDirn . ', a.lft ' . $listDirn);
@@ -221,7 +224,6 @@ class TagsModelTags extends JModelList
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
-		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 
@@ -250,7 +252,6 @@ class TagsModelTags extends JModelList
 		{
 			if ($table->load($pk))
 			{
-
 				if ($table->checked_out > 0)
 				{
 					// Only attempt to check the row in if it exists.
@@ -260,9 +261,11 @@ class TagsModelTags extends JModelList
 
 						// Get an instance of the row to checkin.
 						$table = $this->getTable();
+
 						if (!$table->load($pk))
 						{
 							$this->setError($table->getError());
+
 							return false;
 						}
 
@@ -270,6 +273,7 @@ class TagsModelTags extends JModelList
 						if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 						{
 							$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+
 							return false;
 						}
 
@@ -277,6 +281,7 @@ class TagsModelTags extends JModelList
 						if (!$table->checkin($pk))
 						{
 							$this->setError($table->getError());
+
 							return false;
 						}
 					}

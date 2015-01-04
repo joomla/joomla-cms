@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Utility class for the button bar.
  *
- * @package  Joomla.Administrator
- * @since    1.5
+ * @since  1.5
  */
 abstract class JToolbarHelper
 {
@@ -32,11 +31,11 @@ abstract class JToolbarHelper
 	public static function title($title, $icon = 'generic.png')
 	{
 		$layout = new JLayoutFile('joomla.toolbar.title');
-		$html = $layout->render(array('title' => $title, 'icon' => $icon));
+		$html   = $layout->render(array('title' => $title, 'icon' => $icon));
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;
-		JFactory::getDocument()->setTitle($app->getCfg('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . $title);
+		JFactory::getDocument()->setTitle($app->get('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . $title);
 	}
 
 	/**
@@ -629,7 +628,7 @@ abstract class JToolbarHelper
 		JHtml::_('behavior.modal');
 		$title = JText::_($alt);
 		$dhtml = "<button data-toggle='modal' data-target='#" . $targetModalId . "' class='btn btn-small'>
-			<i class='" . $icon . "' title='" . $title . "'></i>" . $title . "</button>";
+			<i class='" . $icon . "' title='" . $title . "'></i> " . $title . "</button>";
 
 		$bar = JToolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);
@@ -639,7 +638,6 @@ abstract class JToolbarHelper
 /**
  * Utility class for the submenu.
  *
- * @package     Joomla.Administrator
  * @since       1.5
  * @deprecated  4.0  Use JHtmlSidebar instead.
  */

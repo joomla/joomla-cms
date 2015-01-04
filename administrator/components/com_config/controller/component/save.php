@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Save Controller for global configuration
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigControllerComponentSave extends JControllerBase
 {
@@ -50,12 +48,19 @@ class ConfigControllerComponentSave extends JControllerBase
 		$data   = $this->input->get('jform', array(), 'array');
 		$id     = $this->input->getInt('id');
 		$option = $this->input->get('component');
+		$user   = JFactory::getUser();
 
-		// Check if the user is authorized to do this.
-		if (!JFactory::getUser()->authorise('core.admin', $option))
+		// Check if the user is authorised to do this.
+		if (!$user->authorise('core.admin', $option) && !$user->authorise('core.options', $option))
 		{
 			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
 			$this->app->redirect('index.php');
+		}
+
+		// Remove the permissions rules data if user isn't allowed to edit them.
+		if (!$user->authorise('core.admin', $option) && isset($data['params']) && isset($data['params']['rules']))
+		{
+			unset($data['params']['rules']);
 		}
 
 		$returnUri = $this->input->post->get('return', null, 'base64');

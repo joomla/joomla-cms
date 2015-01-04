@@ -247,7 +247,7 @@ ul.menu a:hover,ul.menu a:active,ul.menu a:focus {
 	background-color: #F5F5F5;
 	background-image: -moz-linear-gradient(center top, #FFFFFF, #E6E6E6);
 	background-repeat: repeat-x;
-	background: url(../images/3.0/arrow.png) no-repeat right center;
+	background: url(../images/arrow.png) no-repeat right center;
 	color: #095197
 }
 
@@ -274,7 +274,7 @@ ul.menu ul a {
 }
 
 ul.menu ul ul ul a {
-	background: #f5f5f5 url(../images/3.0/arrow.png) no-repeat 24px center;
+	background: #f5f5f5 url(../images/arrow.png) no-repeat 24px center;
 }
 
 ul.menu ul ul ul ul a {

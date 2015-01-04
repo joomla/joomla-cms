@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla CMS.
  * Provides a modal media selector including upload mechanism
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldMedia extends JFormField
 {
@@ -176,7 +174,7 @@ class JFormFieldMedia extends JFormField
 			$this->link          = (string) $this->element['link'];
 			$this->preview       = (string) $this->element['preview'];
 			$this->directory     = (string) $this->element['directory'];
-			$this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 300;
+			$this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
 			$this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
 		}
 
@@ -379,7 +377,8 @@ class JFormFieldMedia extends JFormField
 					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
 					. $this->form->getValue($this->authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
 				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn hasTooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
+			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn hasTooltip" title="'
+				. JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
 			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
 			$html[] = 'return false;';
 			$html[] = '">';

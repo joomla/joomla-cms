@@ -3,17 +3,17 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Content table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
  * @since       11.1
  * @deprecated  Class will be removed upon completion of transition to UCM
  */
@@ -30,16 +30,8 @@ class JTableContent extends JTable
 	{
 		parent::__construct('#__content', 'id', $db);
 
-		/*
-		 * This is left here for reference:
-		 *
-		 * This would set up the tags observer in $this from here (so not entirely decoupled):
-		 * JTableObserverTags::createObserver($this, array('typeAlias' => 'com_content.article'));
-		 *
-		 * But this makes the relation between content and tags completely external to Content as JTable is observable:
-		 * So we are doing this only once in libraries/cms.php:
-		 * JObserverFactory::addObserverClassToClass('JTableObserverTags', 'JTableContent', array('typeAlias' => 'com_content.article'));
-		 */
+		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_content.article'));
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_content.article'));
 	}
 
 	/**
@@ -146,14 +138,14 @@ class JTableContent extends JTable
 
 		if (isset($array['attribs']) && is_array($array['attribs']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['attribs']);
 			$array['attribs'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
@@ -257,10 +249,11 @@ class JTableContent extends JTable
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
+		$this->modified = $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified = $date->toSql();
 			$this->modified_by = $user->get('id');
 		}
 		else
@@ -279,7 +272,7 @@ class JTableContent extends JTable
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Content', 'JTable');
+		$table = JTable::getInstance('Content', 'JTable', array('dbo', $this->getDbo()));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{

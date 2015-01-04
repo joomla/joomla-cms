@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,15 +12,6 @@ defined('_JEXEC') or die;
 jimport('joomla.language.help');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm">
-<div class="width-40 fltlft">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_ADMIN_SEARCH'); ?></legend>
-		<input class="textarea" type="hidden" name="option" value="com_admin" />
-		<input type="text" name="helpsearch" size="40"  value="<?php echo $this->escape($this->help_search);?>" />
-		<input type="submit" value="<?php echo JText::_('COM_ADMIN_GO'); ?>" class="button" />
-		<input type="button" value="<?php echo JText::_('COM_ADMIN_CLEAR_RESULTS'); ?>" class="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" />
-	</fieldset>
-</div>
 <div class="width-50 fltrt helplinks">
 	<ul class="helpmenu">
 		<li><?php echo JHtml::_('link', JHelp::createUrl('JHELP_GLOSSARY'), JText::_('COM_ADMIN_GLOSSARY'), array('target' => 'helpFrame')) ?></li>

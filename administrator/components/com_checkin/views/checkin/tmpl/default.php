@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 			<div class="btn-group pull-left">
 				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
 					<i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();">
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();">
 					<i class="icon-remove"></i></button>
 			</div>
 		</div>
@@ -42,12 +42,18 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach ($this->items as $table => $count): $i = 0; ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->items as $table => $count): ?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center"><?php echo JHtml::_('grid.id', $i, $table); ?></td>
-						<td><?php echo JText::sprintf('COM_CHECKIN_TABLE', $table); ?></td>
+						<td>
+							<label for="cb<?php echo $i ?>">
+								<?php echo JText::sprintf('COM_CHECKIN_TABLE', $table); ?>
+							</label>
+						</td>
 						<td width="200" class="center"><span class="label label-info"><?php echo $count; ?></span></td>
 					</tr>
+					<?php $i++; ?>
 				<?php endforeach; ?>
 			</tbody>
 			<tfoot>

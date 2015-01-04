@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Model class for handling lists of items.
  *
- * @package     Joomla.Legacy
- * @subpackage  Model
- * @since       12.2
+ * @since  12.2
  */
 class JModelList extends JModelLegacy
 {
@@ -549,7 +547,7 @@ class JModelList extends JModelLegacy
 			// Keep B/C for components previous to jform forms for filters
 			{
 				// Pre-fill the limits
-				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
 				$this->setState('list.limit', $limit);
 
 				// Check if the ordering field is in the white list, otherwise use the incoming value.
@@ -578,7 +576,7 @@ class JModelList extends JModelLegacy
 			// Support old ordering field
 			$oldOrdering = $app->input->get('filter_order');
 
-			if (!empty($oldOrdering) && in_array($value, $this->filter_fields))
+			if (!empty($oldOrdering) && in_array($oldOrdering, $this->filter_fields))
 			{
 				$this->setState('list.ordering', $oldOrdering);
 			}
@@ -656,7 +654,7 @@ class JModelList extends JModelLegacy
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
-		$app = JFactory::getApplication();
+		$app       = JFactory::getApplication();
 		$input     = $app->input;
 		$old_state = $app->getUserState($key);
 		$cur_state = (!is_null($old_state)) ? $old_state : $default;
@@ -678,5 +676,30 @@ class JModelList extends JModelLegacy
 		}
 
 		return $new_state;
+	}
+
+	/**
+	 * Parse and transform the search string into a string fit for regex-ing arbitrary strings against
+	 *
+	 * @param   string  $search          The search string
+	 * @param   string  $regexDelimiter  The regex delimiter to use for the quoting
+	 *
+	 * @return string Search string escaped for regex
+	 */
+	protected function refineSearchStringToRegex($search, $regexDelimiter = '/')
+	{
+		$searchArr = explode('|', trim($search, ' |'));
+
+		foreach ($searchArr as $key => $searchString)
+		{
+			if (strlen(trim($searchString)) == 0)
+			{
+				unset($searchArr[$key]);
+				continue;
+			}
+			$searchArr[$key] = str_replace(' ', '.*', preg_quote(trim($searchString), $regexDelimiter));
+		}
+
+		return implode('|', $searchArr);
 	}
 }

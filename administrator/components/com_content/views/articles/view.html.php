@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of articles.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentViewArticles extends JViewLegacy
 {
@@ -109,18 +107,10 @@ class ContentViewArticles extends JViewLegacy
 		{
 			JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURED', true);
+			JToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
+			JToolbarHelper::custom('articles.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
 			JToolbarHelper::archiveList('articles.archive');
 			JToolbarHelper::checkin('articles.checkin');
-		}
-
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			JToolbarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::trash('articles.trash');
 		}
 
 		// Add a batch button
@@ -136,7 +126,16 @@ class ContentViewArticles extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($user->authorise('core.admin', 'com_content'))
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::trash('articles.trash');
+		}
+
+		if ($user->authorise('core.admin', 'com_content') || $user->authorise('core.options', 'com_content'))
 		{
 			JToolbarHelper::preferences('com_content');
 		}

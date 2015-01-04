@@ -3,8 +3,7 @@
 	<name>com_admin</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2014 Open Source Matters. All rights reserved.
-	</copyright>
+	<copyright>(C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -15,7 +14,6 @@
 		<files folder="admin">
 			<filename>admin.php</filename>
 			<filename>controller.php</filename>
-			<filename>index.html</filename>
 			<folder>helpers</folder>
 			<folder>models</folder>
 			<folder>views</folder>

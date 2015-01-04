@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Simplecrypt
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JSimpleCrypt is a very simple encryption algorithm for encrypting/decrypting strings
  *
- * @package     Joomla.Legacy
- * @subpackage  Simplecrypt
  * @since       11.1
  * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JCrypt instead.
  */

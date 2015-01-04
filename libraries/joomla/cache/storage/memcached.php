@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcached cache storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @see         http://php.net/manual/en/book.memcached.php
- * @since       12.1
+ * @see    http://php.net/manual/en/book.memcached.php
+ * @since  12.1
  */
 class JCacheStorageMemcached extends JCacheStorage
 {
@@ -53,6 +51,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
+
 		if (self::$_db === null)
 		{
 			$this->getConnection();
@@ -75,8 +74,8 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$config = JFactory::getConfig();
-		$this->_persistent = $config->get('memcache_persist', true);
-		$this->_compress = $config->get('memcache_compress', false) == false ? 0 : Memcached::OPT_COMPRESSION;
+		$this->_persistent = $config->get('memcached_persist', true);
+		$this->_compress = $config->get('memcached_compress', false) == false ? 0 : Memcached::OPT_COMPRESSION;
 
 		/*
 		 * This will be an array of loveliness
@@ -84,8 +83,8 @@ class JCacheStorageMemcached extends JCacheStorage
 		 * $servers	= (isset($params['servers'])) ? $params['servers'] : array();
 		 */
 		$server = array();
-		$server['host'] = $config->get('memcache_server_host', 'localhost');
-		$server['port'] = $config->get('memcache_server_port', 11211);
+		$server['host'] = $config->get('memcached_server_host', 'localhost');
+		$server['port'] = $config->get('memcached_server_port', 11211);
 
 		// Create the memcache connection
 		if ($this->_persistent)
@@ -97,6 +96,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		{
 			self::$_db = new Memcached;
 		}
+
 		$memcachedtest = self::$_db->addServer($server['host'], $server['port']);
 
 		if ($memcachedtest == false)
@@ -131,6 +131,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$back = self::$_db->get($cache_id);
+
 		return $back;
 	}
 
@@ -158,11 +159,11 @@ class JCacheStorageMemcached extends JCacheStorage
 				{
 					continue;
 				}
+
 				$namearr = explode('-', $key->name);
 
 				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
 				{
-
 					$group = $namearr[2];
 
 					if (!isset($data[$group]))
@@ -205,6 +206,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();
@@ -246,6 +248,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();
@@ -257,8 +260,10 @@ class JCacheStorageMemcached extends JCacheStorage
 			{
 				unset($index[$key]);
 			}
+
 			break;
 		}
+
 		self::$_db->replace($this->_hash . '-index', $index, 0);
 		$this->unlockindex();
 
@@ -285,23 +290,26 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();
 		}
 
 		$secret = $this->_hash;
+
 		foreach ($index as $key => $value)
 		{
-
 			if (strpos($value->name, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
 			{
 				self::$_db->delete($value->name, 0);
 				unset($index[$key]);
 			}
 		}
+
 		self::$_db->replace($this->_hash . '-index', $index, 0);
 		$this->unlockindex();
+
 		return true;
 	}
 
@@ -320,8 +328,8 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$config = JFactory::getConfig();
-		$host = $config->get('memcache_server_host', 'localhost');
-		$port = $config->get('memcache_server_port', 11211);
+		$host = $config->get('memcached_server_host', 'localhost');
+		$port = $config->get('memcached_server_port', 11211);
 
 		$memcached = new Memcached;
 		$memcachedtest = @$memcached->addServer($host, $port);
@@ -362,6 +370,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();
@@ -380,14 +389,12 @@ class JCacheStorageMemcached extends JCacheStorage
 
 		if ($data_lock === false)
 		{
-
 			$lock_counter = 0;
 
 			// Loop until you find that the lock has been released.
 			// That implies that data get from other thread has finished
 			while ($data_lock === false)
 			{
-
 				if ($lock_counter > $looptime)
 				{
 					$returning->locked = false;
@@ -399,8 +406,8 @@ class JCacheStorageMemcached extends JCacheStorage
 				$data_lock = self::$_db->add($cache_id . '_lock', 1, $locktime);
 				$lock_counter++;
 			}
-
 		}
+
 		$returning->locked = $data_lock;
 
 		return $returning;
@@ -426,6 +433,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();
@@ -437,6 +445,7 @@ class JCacheStorageMemcached extends JCacheStorage
 			{
 				unset($index[$key]);
 			}
+
 			break;
 		}
 
@@ -460,7 +469,6 @@ class JCacheStorageMemcached extends JCacheStorage
 
 		if ($data_lock === false)
 		{
-
 			$lock_counter = 0;
 
 			// Loop until you find that the lock has been released.  that implies that data get from other thread has finished

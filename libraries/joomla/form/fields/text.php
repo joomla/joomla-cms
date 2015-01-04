@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,10 +13,8 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Supports a one line text field.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @link        http://www.w3.org/TR/html-markup/input.text.html#input.text
- * @since       11.1
+ * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
+ * @since  11.1
  */
 class JFormFieldText extends JFormField
 {
@@ -182,7 +180,6 @@ class JFormFieldText extends JFormField
 		$pattern      = !empty($this->pattern) ? ' pattern="' . $this->pattern . '"' : '';
 		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
 		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
-		$list         = '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
@@ -191,30 +188,47 @@ class JFormFieldText extends JFormField
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		// Get the field suggestions.
-		$options = (array) $this->getSuggestions();
+		$datalist = '';
+		$list     = '';
 
-		if (!empty($options))
+		/* Get the field options for the datalist.
+		Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
+		$options  = (array) $this->getSuggestions();
+
+		if ($options)
 		{
-			$html[] = JHtml::_('select.suggestionlist', $options, 'value', 'text', $this->id . '_datalist"');
-			$list = ' list="' . $this->id . '_datalist"';
+			$datalist = '<datalist id="' . $this->id . '_datalist">';
+
+			foreach ($options as $option)
+			{
+				if (!$option->value)
+				{
+					continue;
+				}
+
+				$datalist .= '<option value="' . $option->value . '">' . $option->text . '</option>';
+			}
+
+			$datalist .= '</datalist>';
+			$list     = ' list="' . $this->id . '_datalist"';
 		}
 
 		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . $dirname . ' value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly . $list
 			. $hint . $onchange . $maxLength . $required . $autocomplete . $autofocus . $spellcheck . $inputmode . $pattern . ' />';
+		$html[] = $datalist;
 
 		return implode($html);
 	}
 
 	/**
-	 * Method to get the field suggestions.
+	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   3.4
 	 */
-	protected function getSuggestions()
+	protected function getOptions()
 	{
 		$options = array();
 
@@ -233,8 +247,19 @@ class JFormFieldText extends JFormField
 			);
 		}
 
-		reset($options);
-
 		return $options;
+	}
+
+	/**
+	 * Method to get the field suggestions.
+	 *
+	 * @return  array  The field option objects.
+	 *
+	 * @since       3.2
+	 * @deprecated  4.0  Use getOptions instead
+	 */
+	protected function getSuggestions()
+	{
+		return $this->getOptions();
 	}
 }

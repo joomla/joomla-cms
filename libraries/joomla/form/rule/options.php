@@ -2,19 +2,19 @@
 /**
  * @package     Joomla.Platform
  * @subpackage  Form
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Form Rule class for the Joomla Platform.
  * Requires the value entered be one of the options in a field of type="list"
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormRuleOptions extends JFormRule
 {
@@ -26,14 +26,14 @@ class JFormRuleOptions extends JFormRule
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
-	 * @param   JRegistry         $input    An optional JRegistry object with the entire data set to validate against the entire form.
+	 * @param   Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
 	 * @param   JForm             $form     The form object for which the field is being tested.
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   11.1
 	 */
-	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
 		// Check each value and return true if we get a match
 		foreach ($element->option as $option)
@@ -43,6 +43,7 @@ class JFormRuleOptions extends JFormRule
 				return true;
 			}
 		}
+
 		return false;
 	}
 }

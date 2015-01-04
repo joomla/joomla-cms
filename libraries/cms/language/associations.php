@@ -3,18 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Utitlity class for associations in multilang
  *
- * @package     Joomla.Libraries
- * @subpackage  Language
- * @since       3.1
+ * @since  3.1
  */
 class JLanguageAssociations
 {
@@ -32,6 +32,8 @@ class JLanguageAssociations
 	 * @return  array                The associated items
 	 *
 	 * @since   3.1
+	 *
+	 * @throws  Exception
 	 */
 	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid')
 	{
@@ -65,7 +67,10 @@ class JLanguageAssociations
 		// Use catid field ?
 		if (!empty($catField))
 		{
-			$query->join('INNER', $db->quoteName('#__categories', 'ca') . ' ON ' . $db->quoteName('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->quote($extension))
+			$query->join(
+					'INNER',
+					$db->quoteName('#__categories', 'ca') . ' ON ' . $db->quoteName('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->quote($extension)
+				)
 				->select(
 					$query->concatenate(
 						array('ca.id', 'ca.alias'),
@@ -123,9 +128,14 @@ class JLanguageAssociations
 			// If already tested, don't test again.
 			if (!$tested)
 			{
-				$params = new JRegistry(JPluginHelper::getPlugin('system', 'languagefilter')->params);
+				$plugin = JPluginHelper::getPlugin('system', 'languagefilter');
 
-				$enabled  = (boolean) $params->get('item_associations', true);
+				if (!empty($plugin))
+				{
+					$params = new Registry($plugin->params);
+					$enabled  = (boolean) $params->get('item_associations', true);
+				}
+
 				$tested = true;
 			}
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,9 +18,7 @@ const JROUTER_MODE_SEF = 1;
 /**
  * Class to create and parse routes
  *
- * @package     Joomla.Libraries
- * @subpackage  Router
- * @since       1.5
+ * @since  1.5
  */
 class JRouter
 {
@@ -384,13 +382,13 @@ class JRouter
 	 *
 	 * @param   JUri  &$uri  The raw route
 	 *
-	 * @return  boolean
+	 * @return  array  Array of variables
 	 *
 	 * @since   3.2
 	 */
 	protected function parseRawRoute(&$uri)
 	{
-		return false;
+		return array();
 	}
 
 	/**
@@ -413,13 +411,13 @@ class JRouter
 	 *
 	 * @param   JUri  &$uri  The sef URI
 	 *
-	 * @return  string  Internal URI
+	 * @return  array  Array of variables
 	 *
 	 * @since   3.2
 	 */
 	protected function parseSefRoute(&$uri)
 	{
-		return false;
+		return array();
 	}
 
 	/**
@@ -555,6 +553,7 @@ class JRouter
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  Use createURI() instead
+	 * @codeCoverageIgnore
 	 */
 	protected function _createURI($url)
 	{
@@ -572,15 +571,14 @@ class JRouter
 	 */
 	protected function createURI($url)
 	{
-		if (is_array($url))
+		if (!is_array($url) && substr($url, 0, 1) != '&')
 		{
-			$uri = new JUri('index.php');
-			$uri->setQuery($url);
-
-			return $uri;
+			return new JUri($url);
 		}
-		// Create full URL if we are only appending variables to it
-		elseif (substr($url, 0, 1) == '&')
+
+		$uri = new JUri('index.php');
+
+		if (is_string($url))
 		{
 			$vars = array();
 
@@ -590,22 +588,25 @@ class JRouter
 			}
 
 			parse_str($url, $vars);
-
-			$vars = array_merge($this->getVars(), $vars);
-
-			foreach ($vars as $key => $var)
-			{
-				if ($var == "")
-				{
-					unset($vars[$key]);
-				}
-			}
-
-			$url = 'index.php?' . JUri::buildQuery($vars);
+		}
+		else
+		{
+			$vars = $url;
 		}
 
-		// Decompose link into url component parts
-		return new JUri($url);
+		$vars = array_merge($this->getVars(), $vars);
+
+		foreach ($vars as $key => $var)
+		{
+			if ($var == "")
+			{
+				unset($vars[$key]);
+			}
+		}
+
+		$uri->setQuery($vars);
+
+		return $uri;
 	}
 
 	/**
@@ -617,6 +618,7 @@ class JRouter
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  This should be performed in the component router instead
+	 * @codeCoverageIgnore
 	 */
 	protected function _encodeSegments($segments)
 	{
@@ -654,6 +656,7 @@ class JRouter
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  This should be performed in the component router instead
+	 * @codeCoverageIgnore
 	 */
 	protected function _decodeSegments($segments)
 	{

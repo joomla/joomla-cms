@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Abstract Form Field class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 abstract class JFormField
 {
@@ -312,6 +310,13 @@ abstract class JFormField
 	protected $renderLayout = 'joomla.form.renderfield';
 
 	/**
+	 * Layout to render the label
+	 *
+	 * @var  string
+	 */
+	protected $renderLabelLayout = 'joomla.form.renderlabel';
+
+	/**
 	 * Method to instantiate the form field object.
 	 *
 	 * @param   JForm  $form  The form to attach to the form field object.
@@ -576,6 +581,12 @@ abstract class JFormField
 		// Set the visibility.
 		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
 
+		// Add required to class list if field is required.
+		if ($this->required)
+		{
+			$this->class = trim($this->class . ' required');
+		}
+
 		return true;
 	}
 
@@ -696,45 +707,30 @@ abstract class JFormField
 	 */
 	protected function getLabel()
 	{
-		$label = '';
-
 		if ($this->hidden)
 		{
-			return $label;
+			return '';
 		}
 
 		// Get the label text from the XML element, defaulting to the element name.
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 		$text = $this->translateLabel ? JText::_($text) : $text;
 
-		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTooltip' : '';
-		$class = $this->required == true ? $class . ' required' : $class;
-		$class = !empty($this->labelclass) ? $class . ' ' . $this->labelclass : $class;
+		// Forcing the Alias field to display the tip below
+		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
 
-		// Add the opening label tag and main attributes attributes.
-		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
+		$description = ($this->translateDescription && !empty($this->description)) ? JText::_($this->description) : $this->description;
 
-		// If a description is specified, use it to build a tooltip.
-		if (!empty($this->description))
-		{
-			// Don't translate discription if specified in the field xml.
-			$description = $this->translateDescription ? JText::_($this->description) : $this->description;
-			JHtml::_('bootstrap.tooltip');
-			$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), $description, 0) . '"';
-		}
+		$displayData = array(
+				'text'        => $text,
+				'description' => $description,
+				'for'         => $this->id,
+				'required'    => (bool) $this->required,
+				'classes'     => explode(' ', $this->labelclass),
+				'position'    => $position
+			);
 
-		// Add the label text and closing tag.
-		if ($this->required)
-		{
-			$label .= '>' . $text . '<span class="star">&#160;*</span></label>';
-		}
-		else
-		{
-			$label .= '>' . $text . '</label>';
-		}
-
-		return $label;
+		return JLayoutHelper::render($this->renderLabelLayout, $displayData);
 	}
 
 	/**

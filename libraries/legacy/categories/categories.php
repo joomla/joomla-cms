@@ -3,18 +3,18 @@
  * @package     Joomla.Legacy
  * @subpackage  Categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * JCategories Class.
  *
- * @package     Joomla.Legacy
- * @subpackage  Categories
- * @since       11.1
+ * @since  11.1
  */
 class JCategories
 {
@@ -138,6 +138,7 @@ class JCategories
 		if (!class_exists($classname))
 		{
 			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
+
 			if (is_file($path))
 			{
 				include_once $path;
@@ -367,9 +368,7 @@ class JCategories
 /**
  * Helper class to load Categorytree
  *
- * @package     Joomla.Legacy
- * @subpackage  Categories
- * @since       11.1
+ * @since  11.1
  */
 class JCategoryNode extends JObject
 {
@@ -664,6 +663,7 @@ class JCategoryNode extends JObject
 		if ($category)
 		{
 			$this->setProperties($category);
+
 			if ($constructor)
 			{
 				$this->_constructor = $constructor;
@@ -709,6 +709,7 @@ class JCategoryNode extends JObject
 				{
 					$this->_path = $parent->getPath();
 				}
+
 				$this->_path[] = $this->id . ':' . $this->alias;
 			}
 
@@ -769,6 +770,7 @@ class JCategoryNode extends JObject
 		if (!$this->_allChildrenloaded)
 		{
 			$temp = $this->_constructor->get($this->id, true);
+
 			if ($temp)
 			{
 				$this->_children = $temp->getChildren();
@@ -781,11 +783,13 @@ class JCategoryNode extends JObject
 		if ($recursive)
 		{
 			$items = array();
+
 			foreach ($this->_children as $child)
 			{
 				$items[] = $child;
 				$items = array_merge($items, $child->getChildren(true));
 			}
+
 			return $items;
 		}
 
@@ -884,15 +888,15 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category parameters
 	 *
-	 * @return  JRegistry
+	 * @return  Registry
 	 *
 	 * @since   11.1
 	 */
 	public function getParams()
 	{
-		if (!($this->params instanceof JRegistry))
+		if (!($this->params instanceof Registry))
 		{
-			$temp = new JRegistry;
+			$temp = new Registry;
 			$temp->loadString($this->params);
 			$this->params = $temp;
 		}
@@ -903,15 +907,15 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category metadata
 	 *
-	 * @return  JRegistry  A JRegistry object containing the metadata
+	 * @return  Registry  A Registry object containing the metadata
 	 *
 	 * @since   11.1
 	 */
 	public function getMetadata()
 	{
-		if (!($this->metadata instanceof JRegistry))
+		if (!($this->metadata instanceof Registry))
 		{
-			$temp = new JRegistry;
+			$temp = new Registry;
 			$temp->loadString($this->metadata);
 			$this->metadata = $temp;
 		}
@@ -960,6 +964,7 @@ class JCategoryNode extends JObject
 	public function setAllLoaded()
 	{
 		$this->_allChildrenloaded = true;
+
 		foreach ($this->_children as $child)
 		{
 			$child->setAllLoaded();
