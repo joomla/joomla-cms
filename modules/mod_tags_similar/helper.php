@@ -93,8 +93,10 @@ abstract class ModTagssimilarHelper
 
 		// Only return published tags
 		$query->where($db->quoteName('cc.core_state') . ' = 1 ')
-			->where('(' . $db->quoteName('cc.core_publish_up') . '=' . $db->quote($nullDate) . ' OR ' . $db->quoteName('cc.core_publish_up') . '<=' . $db->quote($now) . ')')
-			->where('(' . $db->quoteName('cc.core_publish_down') . '=' . $db->quote($nullDate) . ' OR ' . $db->quoteName('cc.core_publish_down') . '>=' . $db->quote($now) . ')');
+			->where('(' . $db->quoteName('cc.core_publish_up') . '=' . $db->quote($nullDate) . ' OR '
+				. $db->quoteName('cc.core_publish_up') . '<=' . $db->quote($now) . ')')
+			->where('(' . $db->quoteName('cc.core_publish_down') . '=' . $db->quote($nullDate) . ' OR '
+				. $db->quoteName('cc.core_publish_down') . '>=' . $db->quote($now) . ')');
 
 		// Optionally filter on language
 		$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
