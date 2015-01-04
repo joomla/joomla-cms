@@ -770,9 +770,9 @@ class JApplication extends JApplicationBase
 				return true;
 			}
 		}
-		catch (Exception $ex)
+		catch (Exception $e)
 		{
-			$this->enqueueMessage($ex->getMessage());
+			$this->enqueueMessage($e->getMessage());
 		}
 
 		// Trigger onUserLoginFailure Event.
