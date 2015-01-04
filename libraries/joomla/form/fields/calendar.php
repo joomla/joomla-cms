@@ -162,7 +162,7 @@ class JFormFieldCalendar extends JFormField
 			$attributes['aria-required'] = 'true';
 		}
 
-		if ($this->value && $this->value !== '0000-00-00 00:00:00')
+		if ($this->value && $this->value !== JFactory::getDbo()->getNullDate())
 		{
 			// Get some system objects.
 			$config = JFactory::getConfig();
