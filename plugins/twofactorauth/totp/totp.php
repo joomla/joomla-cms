@@ -141,9 +141,9 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		JLoader::import('joomla.filesystem.file');
 
-		if (JFile::exists($path . 'form.php'))
+		if (JFile::exists($path . '/form.php'))
 		{
-			include_once $path . 'form.php';
+			include_once $path . '/form.php';
 		}
 		else
 		{
