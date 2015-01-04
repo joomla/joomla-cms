@@ -173,7 +173,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 	 */
 	public function build(&$query, &$segments)
 	{
-		//Get the menu item belonging to the Itemid that has been found
+		// Get the menu item belonging to the Itemid that has been found
 		$item = $this->router->menu->getItem($query['Itemid']);
 
 		if (!isset($query['view']))
@@ -181,16 +181,19 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 			return;
 		}
 
-		//Get all views for this component
+		// Get all views for this component
 		$views = $this->router->getViews();
 
-		//Return directly when the URL of the Itemid is identical with the URL to build
-		if(isset($item->query['view']) && isset($query['view']) && $item->query['view'] == $query['view']) {
+		// Return directly when the URL of the Itemid is identical with the URL to build
+		if (isset($item->query['view']) && isset($query['view']) && $item->query['view'] == $query['view'])
+		{
 			$view = $views[$query['view']];
-			if(isset($item->query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key]) {
+			if (isset($item->query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
+			{
 				unset($query[$view->key]);
 				$view = $view->parent;
-				while($view) {
+				while($view)
+				{
 					unset($query[$view->parent_key]);
 					$view = $view->parent;
 				}
@@ -200,40 +203,58 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 			}
 		}
 
-		//get the path from the view of the current URL and parse it to the menu item
+		// get the path from the view of the current URL and parse it to the menu item
 		$path = array_reverse($this->router->getPath($query));
 		$found = false;
 		$found2 = false;
-		for($i = 0, $j = count($path); $i < $j; $i++) {
+		for ($i = 0, $j = count($path); $i < $j; $i++)
+		{
 			reset($path);
 			$view = key($path);
-			if($found) {
+			if ($found)
+			{
 				$ids = array_shift($path);
-				if($views[$view]->nestable) {
-					foreach(array_reverse($ids) as $id) {
-						if($found2) {
+				if ($views[$view]->nestable)
+				{
+					foreach (array_reverse($ids) as $id)
+					{
+						if ($found2)
+						{
 							$segments[] = str_replace(':', '-', $id);
-						} else {
-							if((int) $item->query[$views[$view]->key] == (int) $id)
+						}
+						else
+						{
+							if ((int) $item->query[$views[$view]->key] == (int) $id)
 							{
 								$found2 = true;
 							}
 						}
 					}
 				} else {
-					if(is_bool($ids)) {
+					if (is_bool($ids))
+					{
 						$segments[] = $views[$view]->name;
-					} else {
+					}
+					else
+					{
 						$segments[] = str_replace(':', '-', $ids[0]);
 					}
 				}
-			} else {
-				if($item->query['view'] != $view) {
+			}
+			else
+			{
+				if ($item->query['view'] != $view)
+				{
 					array_shift($path);
-				} else {
-					if(!$views[$view]->nestable) {
+				}
+				else
+				{
+					if (!$views[$view]->nestable)
+					{
 						array_shift($path);
-					} else {
+					}
+					else
+					{
 						$i--;
 						$found2 = false;
 					}
