@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<title>jQuery Calendars</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="jquery.calendars.js"></script>
+<script src="jquery.calendars.plus.js"></script>
+<script src="jquery.calendars.taiwan.js"></script>
+<script src="jquery.calendars.thai.js"></script>
+<script src="jquery.calendars.julian.js"></script>
+<script src="jquery.calendars.persian.js"></script>
+<script src="jquery.calendars.islamic.js"></script>
+<script src="jquery.calendars.ummalqura.js"></script>
+<script src="jquery.calendars.hebrew.js"></script>
+<script src="jquery.calendars.coptic.js"></script>
+<script src="jquery.calendars.ethiopian.js"></script>
+<script src="jquery.calendars.nepali.js"></script>
+<script src="jquery.calendars.mayan.js"></script>
+<script>
+$(function() {
+	var calendar;
+	$('#calendar').change(function() {
+		calendar = $.calendars.instance($(this).val());
+		$('#default').text(calendar.local.dateFormat);
+	}).change();
+	$('#check').click(function() {
+		try {
+			var date = calendar.parseDate('', $('#input').val());
+			$('#output').val(calendar.formatDate($('#format').val(), date));
+		}
+		catch (e) {
+			alert(e);
+		}
+	});
+});
+</script>
+</head>
+<body>
+<h1>jQuery Calendars</h1>
+<p>This page demonstrates the very basics of the
+	<a href="http://keith-wood.name/calendars.html">jQuery Calendars plugin</a>.
+	It contains the minimum requirements for using the plugin and
+	can be used as the basis for your own experimentation.</p>
+<p>For more detail see the <a href="http://keith-wood.name/calendarsRef.html">documentation reference</a> page.</p>
+<p>Select a calendar: <select id="calendar">
+	<option value="gregorian">Gregorian</option><option value="taiwan">Taiwan</option>
+	<option value="thai">Thai</option><option value="julian">Julian</option>
+	<option value="persian">Persian</option><option value="islamic">Islamic</option>
+	<option value="ummalqura">Umm al-Qura</option><option value="hebrew">Hebrew</option>
+	<option value="coptic">Coptic</option><option value="ethiopian">Ethiopian</option>
+	<option value="nepali">Nepali</option><option value="mayan">Mayan</option></select></p>
+<p>Enter a date: <input type="text" id="input" value="01/26/2014"> (<span id="default"></span>)</p>
+<p>Check and format: <input type="text" id="format" value="DD, MM d, yyyy">
+	<button type="button" id="check">Format</button></p>
+<p>Result: <input type="text" id="output" size="40" readonly></p>
+</body>
+</html>

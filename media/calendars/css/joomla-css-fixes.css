@@ -1,0 +1,11 @@
+/* 
+    this is required to correct the template.css select width 
+    and the formatting on RTL
+*/
+
+select.calendars-month-year {
+    width:inherit !important;
+    font-family:Tahoma, Geneva, sans-serif !important;
+    font-size:inherit !important;
+    padding:0px;
+}

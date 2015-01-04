@@ -51,6 +51,7 @@ class JFormFieldCalendar extends JFormField
 	 */
 	protected $filter;
 
+
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
@@ -155,7 +156,7 @@ class JFormFieldCalendar extends JFormField
 		empty($hint)            ? null : $attributes['placeholder'] = $hint;
 		$this->autocomplete     ? null : $attributes['autocomplete'] = 'off';
 		!$this->autofocus       ? null : $attributes['autofocus'] = '';
-
+		
 		if ($this->required)
 		{
 			$attributes['required'] = '';

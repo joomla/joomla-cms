@@ -952,75 +952,79 @@ abstract class JHtml
 	 *
 	 * @since   1.5
 	 */
-	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
+	public static function calendar($value, $name, $id, $format = 'yyyy-mm-dd', $attribs = null)
 	{
-		static $done;
+        $doc = JFactory::getDocument();
+        $config = JFactory::getConfig();
+        $lang = JFactory::getLanguage();
+        $calType = $lang->get('calendar','gregorian');
 
-		if ($done === null)
-		{
-			$done = array();
-		}
+		// Switch the format if needed.  Existing Joomla calendar uses default format: %Y-%m-%d
+		$format = preg_replace(array('/\%Y/','/\%m/','/\%d/'),array('yyyy','mm','dd'),$format);
 
-		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
-		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
+		// Strip out the time formatting strings if set (I have not yet coded the time picker support) -- and in the default
+		// calendar picker the time could not be enabled anyway!
+		$format = preg_replace(array('/\%H/','/\:\%M/','/\:\%S/'),'',$format);
 
-		if (is_array($attribs))
-		{
-			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
-			$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
+        // Inject the calendar scripts into the document
+        JHtml::_('script','calendars/jquery.calendars.js', true, true);
+        JHtml::_('script','calendars/jquery.calendars.plus.js', true, true);
+        JHtml::_('script','calendars/jquery.plugin.js', true, true);
+        JHtml::_('script','calendars/jquery.calendars.picker.js', true, true);
+        JHtml::_('stylesheet','calendars/jquery.calendars.picker.css', null, true);
+        JHtml::_('stylesheet','calendars/redmond.calendars.picker.css', null, true);
+        JHtml::_('stylesheet','calendars/joomla-css-fixes.css', null, true);
 
-			$attribs = JArrayHelper::toString($attribs);
-		}
+        
+        // The translation packs could be under one of two different tags.  Test for the presence of files are store this to help set regional setings.
+        $langTag = $lang->getTag();
+        if (!file_exists(JPATH_BASE.'/media/calendars/js/jquery-calendars-'. $langTag .'.js'))
+        {
+        	$langTag = preg_replace('/(\w\w)-\w\w.*/',"$1",$langTag);
 
-		static::_('bootstrap.tooltip');
+        }
+       	// Test for the default language first.
+        JHtml::_('script','calendars/jquery.calendars-' . $langTag . '.js', true, true);
+	    JHtml::_('script','calendars/jquery.calendars.picker-' . $langTag . '.js', true, true);
 
-		// Format value when not '0000-00-00 00:00:00', otherwise blank it as it would result in 1970-01-01.
-		if ((int) $value)
-		{
-			$tz = date_default_timezone_get();
-			date_default_timezone_set('UTC');
-			$inputvalue = strftime($format, strtotime($value));
-			date_default_timezone_set($tz);
-		}
-		else
-		{
-			$inputvalue = '';
-		}
+	    // Finally load the calendar type if it's needed
+	    if ($calType !== 'gregorian')
+	    {
+		    JHtml::_('script','calendars/jquery.calendars.' . $calType . '.js', true, true);
+	    }
 
-		// Load the calendar behavior
-		static::_('behavior.calendar');
+        // Setup the calendar
+        $doc->addScriptDeclaration('jQuery(document).ready(function(){
+                jQuery("#' . $id . '").calendarsPicker({
+                            dateFormat:"' . $format . '",
+                            showTrigger: "<button type=\"button\" class=\"btn trigger\"><i class=\"icon-calendar\"></i></button>",
+                            calendar: jQuery.calendars.instance(\'' . $calType . '\',\''. $langTag .'\')
+                            }
+                        );
+    			});');
 
-		// Only display the triggers once for each control.
-		if (!in_array($id, $done))
-		{
-			$document = JFactory::getDocument();
-			$document
-				->addScriptDeclaration(
-				'jQuery(document).ready(function($) {Calendar.setup({
-			// Id of the input field
-			inputField: "' . $id . '",
-			// Format of the input field
-			ifFormat: "' . $format . '",
-			// Trigger for the calendar (button ID)
-			button: "' . $id . '_img",
-			// Alignment (defaults to "Bl")
-			align: "Tl",
-			singleClick: true,
-			firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
-			});});'
-			);
-			$done[] = $id;
-		}
+	    // Finally if the calendar is other than Gregorian we will need to do some conversions both when displaing and on save.
+	    if ($calType !== 'gregorian')
+	    {
+	    	// Inject the script for conversion
+	    	JHtml::_('script','calendars/jquery-calendars-setup.js',true, true);		    
+		    $doc->addScriptDeclaration('jQuery(document).ready(function(){setElToDate("'.$id.'","'.$value.'");});');
 
-		// Hide button using inline styles for readonly/disabled fields
-		$btn_style	= ($readonly || $disabled) ? ' style="display:none;"' : '';
-		$div_class	= (!$readonly && !$disabled) ? ' class="input-append"' : '';
+	    }
 
-		return '<div' . $div_class . '>'
-				. '<input type="text" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
-				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><i class="icon-calendar"></i></button>'
-			. '</div>';
+        // Including fallback code for HTML5 non supported browsers.
+        JHtml::_('jquery.framework');
+        JHtml::_('script', 'system/html5fallback.js', false, true);
+
+
+
+        $html = '<div class="input-append"><input type="text" name="' . $name . '" id="' . $id . '"' . ' value="'
+            . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" class="input-medium hascalpicker"/>
+            </div>';
+
+        return $html;
+
+	
 	}
 
 	/**
