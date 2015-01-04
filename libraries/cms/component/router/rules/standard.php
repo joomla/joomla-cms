@@ -192,7 +192,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 			{
 				unset($query[$view->key]);
 				$view = $view->parent;
-				while($view)
+				while ($view)
 				{
 					unset($query[$view->parent_key]);
 					$view = $view->parent;
@@ -203,7 +203,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 			}
 		}
 
-		// get the path from the view of the current URL and parse it to the menu item
+		// Get the path from the view of the current URL and parse it to the menu item
 		$path = array_reverse($this->router->getPath($query));
 		$found = false;
 		$found2 = false;
@@ -230,7 +230,9 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 							}
 						}
 					}
-				} else {
+				}
+				else
+				{
 					if (is_bool($ids))
 					{
 						$segments[] = $views[$view]->name;
