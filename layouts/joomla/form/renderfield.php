@@ -27,7 +27,7 @@ if (!empty($displayData['options']['showonEnabled']))
 }
 ?>
 
-<div class="control-group <?php echo $displayData['options']['class']; ?>" <?php echo $displayData['options']['rel']; ?>>
+<div class="control-group<?php echo empty($displayData['options']['class']) ? "" : " " . $displayData['options']['class']; ?>"<?php echo empty($displayData['options']['rel']) ? "" : " " .  $displayData['options']['rel']; ?>>
 	<?php if (empty($displayData['options']['hiddenLabel'])) : ?>
 		<div class="control-label"><?php echo $displayData['label']; ?></div>
 	<?php endif; ?>
