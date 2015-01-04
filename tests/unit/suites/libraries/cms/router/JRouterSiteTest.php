@@ -577,26 +577,14 @@ class JRouterSiteTest extends TestCase
 		// Check if URLs without an option are returned identically
 		$cases[] = array('index.php?var1=value1', 'index.php?var1=value1');
 
-		// Check if URLs with an option are processed by the pre-process method
-		$cases[] = array('index.php?option=com_test&var1=value1', 'index.php/component/test/?var1=value1&testvar=testvalue');
-
-		// Check if URLs with a mangled option are processed by the pre-process method
-		$cases[] = array('index.php?option=com_ Tes§t&var1=value1', 'index.php/component/ Tes§t/?var1=value1&testvar=testvalue');
-
-		// Check if URLs with an option and some path are processed by the pre-process method and returned with the original path
-		$cases[] = array('test-folder?option=com_test&var1=value1', 'test-folder/component/test/?var1=value1&testvar=testvalue');
-
 		// Check if the menu item is properly prepended
-		$cases[] = array('index.php?option=com_test&var1=value1&Itemid=42', 'index.php/test?var1=value1&testvar=testvalue');
+		$cases[] = array('index.php?option=com_test&var1=value1&Itemid=42', 'index.php/test?var1=value1');
 
 		// Check if a non existing menu item is correctly ignored
-		$cases[] = array('index.php?option=com_test&var1=value1&Itemid=41', 'index.php/component/test/?var1=value1&Itemid=41&testvar=testvalue');
+		$cases[] = array('index.php?option=com_test&var1=value1&Itemid=41', 'index.php/component/test/?var1=value1&Itemid=41');
 
 		// Check if a menu item with a parent is properly prepended
-		$cases[] = array('index.php?option=com_test&var1=value1&Itemid=46', 'index.php/test/sub-menu?var1=value1&testvar=testvalue');
-
-		// Component router build: Check if URLs with an option and some path are processed by the pre-process method and returned with the original path
-		$cases[] = array('test-folder?option=com_test2&var1=value1', 'test-folder/component/test2/router-test/another-segment?var1=value1');
+		$cases[] = array('index.php?option=com_test&var1=value1&Itemid=46', 'index.php/test/sub-menu?var1=value1');
 
 		// Component router build: Check if the menu item is properly prepended
 		$cases[] = array('index.php?option=com_test2&var1=value1&Itemid=43', 'index.php/test2/router-test/another-segment?var1=value1');
@@ -830,5 +818,56 @@ class JRouterSiteTest extends TestCase
 
 		// Check if a false router is correctly rejected
 		$this->assertFalse($this->object->setComponentRouter('com_test3', new stdClass));
+	}
+
+	/**
+	 * Cases for testPreprocessComponentStage
+	 *
+	 * @return  array
+	 *
+	 * @since   3.4
+	 */
+	public function casesPreprocessComponentStage()
+	{
+		$cases = array();
+
+		// Check empty URLs are returned identically
+		$cases[] = array('', '');
+
+		// Check if URLs without an option are returned identically
+		$cases[] = array('index.php?var1=value1', 'index.php?var1=value1');
+
+		// Check if URLs with an option are processed by the pre-process method
+		$cases[] = array('index.php?option=com_test&var1=value1', 'index.php?option=com_test&var1=value1&testvar=testvalue');
+
+		// Check if URLs with a mangled option are processed by the pre-process method
+		$cases[] = array('index.php?option=com_ Tes§t&var1=value1', 'index.php?option=com_ Tes§t&var1=value1&testvar=testvalue');
+
+		// Check if URLs with an option and some path are processed by the pre-process method and returned with the original path
+		$cases[] = array('test-folder?option=com_test&var1=value1', 'test-folder?option=com_test&var1=value1&testvar=testvalue');
+
+		// Component router build: Check if URLs with an option and some path are processed by the pre-process method and returned with the original path
+		$cases[] = array('test-folder?option=com_test2&var1=value1', 'test-folder?option=com_test2&var1=value1');
+
+		return $cases;
+	}
+
+	/**
+	 * testPreprocessComponentStage().
+	 *
+	 * @param   string  $url        Input URL
+	 * @param   string  $expected   Expected return value
+	 *
+	 * @dataProvider casesPreprocessComponentStage
+	 *
+	 * @return void
+	 *
+	 * @since  3.4
+	 */
+	public function testPreprocessComponentStage($url, $expected)
+	{
+		$uri = new JUri($url);
+		$this->object->preprocessComponentStage($this->object, $uri);
+		$this->assertEquals($expected, $uri->toString());
 	}
 }

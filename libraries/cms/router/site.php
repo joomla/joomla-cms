@@ -55,6 +55,8 @@ class JRouterSite extends JRouter
 
 		$this->app  = $app ? $app : JApplicationCms::getInstance('site');
 		$this->menu = $menu ? $menu : $this->app->getMenu();
+
+		$this->attachBuildRule(array($this, 'preprocessComponentStage'), self::PROCESS_BEFORE);
 	}
 
 	/**
@@ -480,7 +482,6 @@ class JRouterSite extends JRouter
 		$tmp       = '';
 		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
 		$crouter   = $this->getComponentRouter($component);
-		$query     = $crouter->preprocess($query);
 		$parts     = $crouter->build($query);
 		$result    = implode('/', $parts);
 		$tmp       = ($result != "") ? $result : '';
@@ -744,5 +745,31 @@ class JRouterSite extends JRouter
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Rule to trigger the preprocess method of a component router
+	 * 
+	 * @param   JUri  $uri  URI to process
+	 * 
+	 * @return  void
+	 * 
+	 * @since   3.4
+	 */
+	public function preprocessComponentStage(JRouter &$router, JUri &$uri)
+	{
+		// Get the query data
+		$query = $uri->getQuery(true);
+
+		if (!isset($query['option']))
+		{
+			return;
+		}
+
+		// Build the component route
+		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
+		$crouter   = $this->getComponentRouter($component);
+		$query     = $crouter->preprocess($query);
+		$uri->setQuery($query);
 	}
 }
