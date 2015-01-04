@@ -114,7 +114,7 @@ var JFormValidator = function() {
  	 	 	error.error = [];
  	 	 	for ( i = 0; i < errors.length; i++) {
  	 	 	 	label = jQuery('label[for=' + errors[i].id + ']').text();
- 	 	 	 	if (label !== 'undefined') {
+ 	 	 	 	if (label.length) {
  	 	 	 	 	error.error[i] = message + label.replace("*", "");
  	 	 	 	}
  	 	 	}
