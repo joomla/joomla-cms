@@ -3,33 +3,67 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
- * Frontpage View class
+ * Featured View class
  *
- * @package     Joomla.Site
- * @subpackage  com_contact
- * @since       1.6
+ * @since  1.6
  */
 class ContactViewFeatured extends JViewLegacy
 {
+	/**
+	 * The item model state
+	 *
+	 * @var    \Joomla\Registry\Registry
+	 * @since  1.6.0
+	 */
 	protected $state;
 
+	/**
+	 * The item details
+	 *
+	 * @var    JObject
+	 * @since  1.6.0
+	 */
 	protected $items;
 
+	/**
+	 * Who knows what this variable was intended for - but it's never been used
+	 *
+	 * @var         array
+	 * @since       1.6.0
+	 * @deprecated  4.0  This variable has been null since 1.6.0-beta8
+	 */
 	protected $category;
 
+	/**
+	 * Who knows what this variable was intended for - but it's never been used
+	 *
+	 * @var         JObject  Maybe.
+	 * @since       1.6.0
+	 * @deprecated  4.0  This variable has never been used ever
+	 */
 	protected $categories;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var    JPagination
+	 * @since  1.6.0
+	 */
 	protected $pagination;
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  False on error, null otherwise.
 	 */
@@ -59,7 +93,7 @@ class ContactViewFeatured extends JViewLegacy
 		{
 			$item       = &$items[$i];
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$temp       = new JRegistry;
+			$temp       = new Registry;
 
 			$temp->loadString($item->params);
 			$item->params = clone($params);
@@ -67,10 +101,13 @@ class ContactViewFeatured extends JViewLegacy
 			if ($item->params->get('show_email', 0) == 1)
 			{
 				$item->email_to = trim($item->email_to);
+
 				if (!empty($item->email_to) && JMailHelper::isEmailAddress($item->email_to))
 				{
 					$item->email_to = JHtml::_('email.cloak', $item->email_to);
-				} else {
+				}
+				else
+				{
 					$item->email_to = '';
 				}
 			}
@@ -96,6 +133,10 @@ class ContactViewFeatured extends JViewLegacy
 
 	/**
 	 * Prepares the document
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function _prepareDocument()
 	{

@@ -3,18 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  Editor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * JEditor class to handle WYSIWYG editors
  *
- * @package     Joomla.Libraries
- * @subpackage  Editor
- * @since       1.5
+ * @since  1.5
  */
 class JEditor extends JObject
 {
@@ -508,7 +508,7 @@ class JEditor extends JObject
 
 		// Get the plugin
 		$plugin = JPluginHelper::getPlugin('editors', $this->_name);
-		$params = new JRegistry;
+		$params = new Registry;
 		$params->loadString($plugin->params);
 		$params->loadArray($config);
 		$plugin->params = $params;

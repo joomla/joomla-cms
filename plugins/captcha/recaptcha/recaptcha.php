@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,7 @@ defined('_JEXEC') or die;
  * Recaptcha Plugin.
  * Based on the official recaptcha library( https://developers.google.com/recaptcha/docs/php )
  *
- * @package     Joomla.Plugin
- * @subpackage  Captcha
- * @since       2.5
+ * @since  2.5
  */
 class PlgCaptchaRecaptcha extends JPlugin
 {

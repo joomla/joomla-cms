@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.calendar');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
 
@@ -27,18 +27,18 @@ if (!$editoroptions)
 {
 	$params->show_urls_images_frontend = '0';
 }
-?>
 
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
 		{
-			<?php echo $this->form->getField('articletext')->save(); ?>
+			" . $this->form->getField('articletext')->save() . "
 			Joomla.submitform(task);
 		}
 	}
-</script>
+");
+?>
 <div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($params->get('show_page_heading', 1)) : ?>
 	<div class="page-header">
@@ -48,16 +48,16 @@ if (!$editoroptions)
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_content&a_id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
+	<form action="<?php echo JRoute::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
 		<div class="btn-toolbar">
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('article.save')">
-					<span class="icon-ok"></span>&#160;<?php echo JText::_('JSAVE') ?>
+					<span class="icon-ok"></span><?php echo JText::_('JSAVE') ?>
 				</button>
 			</div>
 			<div class="btn-group">
 				<button type="button" class="btn" onclick="Joomla.submitbutton('article.cancel')">
-					<span class="icon-cancel"></span>&#160;<?php echo JText::_('JCANCEL') ?>
+					<span class="icon-cancel"></span><?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
 			<?php if ($params->get('save_history', 0)) : ?>

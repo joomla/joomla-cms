@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Admin Component Help Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_admin
- * @since       1.6
+ * @since  1.6
  */
 class AdminModelHelp extends JModelLegacy
 {
@@ -203,7 +201,7 @@ class AdminModelHelp extends JModelLegacy
 	{
 		if (!$this->latest_version_check)
 		{
-			$override = 'http://help.joomla.org/proxy/index.php?option=com_help&keyref=Help{major}{minor}:Joomla_Version_{major}_{minor}_{maintenance}';
+			$override = 'https://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:Joomla_Version_{major}_{minor}_{maintenance}/{langcode}&amp;lang={langcode}';
 			$this->latest_version_check = JHelp::createUrl('JVERSION', false, $override);
 		}
 

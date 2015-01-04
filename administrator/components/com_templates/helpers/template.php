@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Template Helper class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       3.2
+ * @since  3.2
  */
 abstract class TemplateHelper
 {
@@ -64,7 +62,7 @@ abstract class TemplateHelper
 		);
 		$explodedFileName = explode('.', $file['name']);
 
-		if (count($explodedFileName > 2))
+		if (count($explodedFileName) > 2)
 		{
 			foreach ($executable as $extensionName)
 			{

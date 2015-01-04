@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,12 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Prototype form model.
  *
- * @package     Joomla.Site
- * @subpackage  com_config
- * @see         JForm
- * @see         JFormField
- * @see         JFormRule
- * @since       3.2
+ * @see    JForm
+ * @see    JFormField
+ * @see    JFormRule
+ * @since  3.2
  */
 abstract class ConfigModelForm extends ConfigModelCms
 {
@@ -188,7 +186,6 @@ abstract class ConfigModelForm extends ConfigModelCms
 
 			// Load the data into the form after the plugins have operated.
 			$form->bind($data);
-
 		}
 		catch (Exception $e)
 		{

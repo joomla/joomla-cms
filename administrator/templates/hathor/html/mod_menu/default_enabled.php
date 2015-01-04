@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,10 +96,13 @@ if ($user->authorise('core.manage', 'com_users'))
 		$menu->getParent();
 	}
 
-	$menu->addSeparator();
-	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_MASS_MAIL_USERS'), 'index.php?option=com_users&view=mail', 'class:massmail')
-	);
+	if (JFactory::getApplication()->get('massmailoff', 0) != 1)
+	{
+		$menu->addSeparator();
+		$menu->addChild(
+			new JMenuNode(JText::_('MOD_MENU_MASS_MAIL_USERS'), 'index.php?option=com_users&view=mail', 'class:massmail')
+		);
+	}
 
 	$menu->getParent();
 }

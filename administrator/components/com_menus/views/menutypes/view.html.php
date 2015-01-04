@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,14 +12,18 @@ defined('_JEXEC') or die;
 /**
  * The HTML Menus Menu Item TYpes View.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
- * @since       1.6
+ * @since  1.6
  */
 class MenusViewMenutypes extends JViewLegacy
 {
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -68,9 +72,11 @@ class MenusViewMenutypes extends JViewLegacy
 			{
 				$tmp[JText::_($item->title)] = $item;
 			}
+
 			ksort($tmp);
 			$sortedTypes[JText::_($name)] = $tmp;
 		}
+
 		ksort($sortedTypes);
 
 		$this->types = $sortedTypes;
@@ -82,6 +88,8 @@ class MenusViewMenutypes extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   3.0
 	 */

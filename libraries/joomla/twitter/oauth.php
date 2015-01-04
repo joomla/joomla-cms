@@ -3,41 +3,40 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die();
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform class for generating Twitter API access token.
  *
- * @package     Joomla.Platform
- * @subpackage  Twitter
- *
- * @since       12.3
+ * @since  12.3
  */
 class JTwitterOAuth extends JOAuth1Client
 {
 	/**
-	* @var JRegistry Options for the JTwitterOauth object.
-	* @since 12.3
+	* @var Registry  Options for the JTwitterOauth object.
+	* @since  12.3
 	*/
 	protected $options;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry        $options      JTwitterOauth options object.
+	 * @param   Registry         $options      JTwitterOauth options object.
 	 * @param   JHttp            $client       The HTTP client object.
 	 * @param   JInput           $input        The input object.
 	 * @param   JApplicationWeb  $application  The application object.
 	 *
-	 * @since 12.3
+	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null)
+	public function __construct(Registry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 
 		$this->options->def('accessTokenURL', 'https://api.twitter.com/oauth/access_token');
 		$this->options->def('authenticateURL', 'https://api.twitter.com/oauth/authenticate');

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.emailcloak
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Email cloack plugin class.
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.emailcloak
- * @since       1.5
+ * @since  1.5
  */
 class PlgContentEmailcloak extends JPlugin
 {
@@ -54,8 +52,7 @@ class PlgContentEmailcloak extends JPlugin
 	 */
 	protected function _getPattern ($link, $text)
 	{
-		$pattern = '~(?:<a ([\w "\'=\@\.\-:;]*)href\s*=\s*"mailto:'
-			. $link . '"([\w "\'=\@\.\-:;]*))>' . $text . '</a>~i';
+		$pattern = '~(?:<a ([^>]*)href\s*=\s*"mailto:' . $link . '"([^>]*))>' . $text . '</a>~i';
 
 		return $pattern;
 	}
@@ -231,7 +228,7 @@ class PlgContentEmailcloak extends JPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[2][0];
-			$mailText = $regs[4][0] . $regs[5][0] . $regs[6][0];
+			$mailText = $regs[4][0] . addslashes($regs[5][0]) . $regs[6][0];
 
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
 
@@ -251,7 +248,7 @@ class PlgContentEmailcloak extends JPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[2][0];
-			$mailText = $regs[4][0];
+			$mailText = addslashes($regs[4][0]);
 
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
 
@@ -311,7 +308,7 @@ class PlgContentEmailcloak extends JPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[2][0];
-			$mailText = $regs[4][0] . ($regs[5][0]);
+			$mailText = $regs[4][0] . addslashes($regs[5][0]);
 
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
 
@@ -355,7 +352,7 @@ class PlgContentEmailcloak extends JPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[2][0] . $regs[3][0];
-			$mailText = $regs[5][0];
+			$mailText = addslashes($regs[5][0]);
 
 			// Needed for handling of Body parameter
 			$mail = str_replace('&amp;', '&', $mail);
@@ -399,7 +396,7 @@ class PlgContentEmailcloak extends JPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[2][0] . $regs[3][0];
-			$mailText = $regs[4][0] . $regs[5][0] . $regs[6][0] . $regs[7][0];
+			$mailText = $regs[4][0] . $regs[5][0] . addslashes($regs[6][0]) . $regs[7][0];
 
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
 
@@ -467,7 +464,7 @@ class PlgContentEmailcloak extends JPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[1][0] . $regs[2][0] . $regs[3][0];
-			$mailText = $regs[4][0] . $regs[5][0] . $regs[6][0];
+			$mailText = $regs[4][0] . $regs[5][0] . addslashes($regs[6][0]);
 
 			// Needed for handling of Body parameter
 			$mail = str_replace('&amp;', '&', $mail);

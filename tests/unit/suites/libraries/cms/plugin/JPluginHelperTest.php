@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,6 +31,7 @@ class JPluginHelperTest extends TestCaseDatabase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$session     = $this->getMockSession();
 	}
 
 	/**
@@ -114,21 +115,6 @@ class JPluginHelperTest extends TestCaseDatabase
 		$this->assertTrue(
 			(bool) JPluginHelper::isEnabled('content', 'loadmodule'),
 			'plg_content_loadmodule should be enabled'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testImportPlugin().
-	 *
-	 * @return void
-	 */
-	public function testImportPlugin()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
 		);
 	}
 }

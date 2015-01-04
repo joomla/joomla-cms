@@ -3,29 +3,32 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 $input = JFactory::getApplication()->input;
-// Checking if loaded via index.php or component.php
-$tmpl = $input->getCmd('tmpl', '');
-$document = JFactory::getDocument();
-?>
 
-<script type="text/javascript">
-	setmenutype = function(type)
-	{
-		<?php if ($tmpl) : ?>
-			window.parent.Joomla.submitbutton('item.setType', type);
-			window.parent.SqueezeBox.close();
-		<?php else : ?>
-			window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+('item.setType', type);
-		<?php endif; ?>
-	}
-</script>
+// Checking if loaded via index.php or component.php
+$tmpl = ($input->getCmd('tmpl') != '') ? '1' : '';
+
+JFactory::getDocument()->addScriptDeclaration('
+		setmenutype = function(type) {
+			var tmpl = "' . $tmpl . '";
+			if (tmpl)
+			{
+				window.parent.Joomla.submitbutton(\'item.setType\', type);
+				window.parent.SqueezeBox.close();
+			}
+			else
+			{
+				window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+(\'item.setType\', type);
+			}
+		};
+');
+?>
 
 <?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
 	<?php
@@ -45,4 +48,4 @@ $document = JFactory::getDocument();
 		<?php echo JHtml::_('bootstrap.endSlide'); ?>
 	<?php endforeach; ?>
 	<?php echo JHtml::_('bootstrap.endSlide'); ?>
-<?php echo JHtml::_('bootstrap.endAccordion'); ?>
+<?php echo JHtml::_('bootstrap.endAccordion');

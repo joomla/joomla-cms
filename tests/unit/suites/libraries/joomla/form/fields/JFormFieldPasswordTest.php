@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,7 +41,7 @@ class JFormFieldPasswordTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$database    = $this->getMockDatabase();
 
 		$this->backupServer = $_SERVER;
@@ -147,16 +147,45 @@ class JFormFieldPasswordTest extends TestCase
 		$element = simplexml_load_string(
 			'<field name="myName" type="password" strengthmeter="true" />');
 
-		$this->assertThat(
+		$this->assertTrue(
 			$field->setup($element, ''),
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
-		$this->assertThat(
+		$this->assertTrue(
 			$field->meter,
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+	}
+
+	/**
+	 * Tests meter attribute setup by using the magic set method
+	 *
+	 * @covers JFormFieldPassword::__set
+	 *
+	 * @return void
+	 */
+	public function testSetMeter()
+	{
+		$field = new JFormFieldPassword;
+		$element = simplexml_load_string(
+			'<field name="myName" type="password" />');
+
+		$this->assertTrue(
+			$field->setup($element, ''),
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+		);
+
+		$this->assertFalse(
+			$field->meter,
+			'Line:' . __LINE__ . ' The property is false by default.'
+		);
+
+		$field->meter = true;
+
+		$this->assertTrue(
+			$field->meter,
+			'Line:' . __LINE__ . ' The magic set method should set the property correctly.'
 		);
 	}
 

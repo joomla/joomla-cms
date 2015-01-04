@@ -60,7 +60,6 @@ class JGithubPackageRepositoriesCommentsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageRepositoriesComments::getListRepository
-     * @todo   Implement testGetListRepository().
      */
     public function testGetListRepository()
     {
@@ -80,7 +79,6 @@ class JGithubPackageRepositoriesCommentsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageRepositoriesComments::getList
-     * @todo   Implement testGetList().
      */
     public function testGetList()
     {
@@ -100,7 +98,6 @@ class JGithubPackageRepositoriesCommentsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageRepositoriesComments::get
-     * @todo   Implement testGet().
      */
     public function testGet()
     {
@@ -120,7 +117,6 @@ class JGithubPackageRepositoriesCommentsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageRepositoriesComments::edit
-     * @todo   Implement testEdit().
      */
     public function testEdit()
     {
@@ -140,7 +136,6 @@ class JGithubPackageRepositoriesCommentsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageRepositoriesComments::delete
-     * @todo   Implement testDelete().
      */
     public function testDelete()
     {
@@ -160,7 +155,6 @@ class JGithubPackageRepositoriesCommentsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageRepositoriesComments::create
-     * @todo   Implement testCreate().
      */
     public function testCreate()
     {

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocument Modules renderer
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JDocumentRendererModules extends JDocumentRenderer
 {
@@ -38,14 +36,13 @@ class JDocumentRendererModules extends JDocumentRenderer
 		$frontediting = $app->get('frontediting', 1);
 		$user = JFactory::getUser();
 
-		$canEdit = $user->id && $frontediting && !($app->isAdmin() && $frontediting < 2) && $user->authorise('core.edit', 'com_modules');
 		$menusEditing = ($frontediting == 2) && $user->authorise('core.edit', 'com_menus');
 
 		foreach (JModuleHelper::getModules($position) as $mod)
 		{
 			$moduleHtml = $renderer->render($mod, $params, $content);
 
-			if ($app->isSite() && $canEdit && trim($moduleHtml) != '' && $user->authorise('core.edit', 'com_modules.module.' . $mod->id))
+			if ($app->isSite() && $frontediting && trim($moduleHtml) != '' && $user->authorise('module.edit.frontend', 'com_modules.module.' . $mod->id))
 			{
 				$displayData = array('moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position, 'menusediting' => $menusEditing);
 				JLayoutHelper::render('joomla.edit.frontediting_modules', $displayData);

@@ -208,8 +208,21 @@ class FOFUtilsObservableDispatcher extends FOFUtilsObject
             }
 
             $this->_observers[] = $observer;
-            //$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
-            $methods = get_class_methods($observer);
+
+            $methods = array();
+
+            foreach(get_class_methods($observer) as $obs_method)
+            {
+                // Magic methods are not allowed
+                if(strpos('__', $obs_method) === 0)
+                {
+                    continue;
+                }
+
+                $methods[] = $obs_method;
+            }
+
+            //$methods = get_class_methods($observer);
         }
 
         $key = key($this->_observers);

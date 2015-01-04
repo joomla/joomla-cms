@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="system">
+<extension version="3.1" type="plugin" group="system" method="upgrade">
 	<name>plg_twofactorauth_totp</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,7 +11,6 @@
 	<description>PLG_TWOFACTORAUTH_TOTP_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="totp">totp.php</filename>
-		<filename>index.html</filename>
 		<folder>postinstall</folder>
 		<folder>tmpl</folder>
 	</files>
@@ -19,10 +18,8 @@
 		<language tag="en-GB">en-GB.plg_twofactorauth_totp.ini</language>
 		<language tag="en-GB">en-GB.plg_twofactorauth_totp.sys.ini</language>
 	</languages>
-
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
 				<field name="section" type="radio"
 					default="3"

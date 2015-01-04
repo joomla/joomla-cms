@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Registration view class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.5
+ * @since  1.5
  */
 class UsersViewRemind extends JViewLegacy
 {
@@ -27,7 +25,10 @@ class UsersViewRemind extends JViewLegacy
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string	$tpl  The template file to include
+	 * @param   string  $tpl  The template file to include
+	 *
+	 * @return  mixed
+	 *
 	 * @since   1.5
 	 */
 	public function display($tpl = null)
@@ -47,12 +48,13 @@ class UsersViewRemind extends JViewLegacy
 
 		// Check for layout override
 		$active = JFactory::getApplication()->getMenu()->getActive();
+
 		if (isset($active->query['layout']))
 		{
 			$this->setLayout($active->query['layout']);
 		}
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
 		$this->prepareDocument();
@@ -62,6 +64,8 @@ class UsersViewRemind extends JViewLegacy
 
 	/**
 	 * Prepares the document.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -74,6 +78,7 @@ class UsersViewRemind extends JViewLegacy
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
+
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));

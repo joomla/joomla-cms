@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of template styles.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesViewStyles extends JViewLegacy
 {
@@ -46,15 +44,6 @@ class TemplatesViewStyles extends JViewLegacy
 			JError::raiseError(500, implode("\n", $errors));
 
 			return false;
-		}
-
-			// Check if there are no matching items
-		if (!count($this->items))
-		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_STYLES'),
-				'warning'
-			);
 		}
 
 		$this->addToolbar();

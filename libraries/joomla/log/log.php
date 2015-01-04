@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,9 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * or plain Formattedtext) and finally MySQL offers the most features (e.g. rapid searching)
  * but will incur a performance hit due to INSERT being issued.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
- * @since       11.1
+ * @since  11.1
  */
 class JLog
 {
@@ -178,6 +176,7 @@ class JLog
 		{
 			$options['logger'] = 'formattedtext';
 		}
+
 		$options['logger'] = strtolower($options['logger']);
 
 		// Special case - if a Closure object is sent as the callback (in case of JLogLoggerCallback)
@@ -247,7 +246,6 @@ class JLog
 			// Attempt to instantiate the logger object if it doesn't already exist.
 			if (empty($this->loggers[$signature]))
 			{
-
 				$class = 'JLogLogger' . ucfirst($this->configurations[$signature]['logger']);
 
 				if (class_exists($class))
@@ -261,7 +259,7 @@ class JLog
 			}
 
 			// Add the entry to the logger.
-			$this->loggers[$signature]->addEntry(clone($entry));
+			$this->loggers[$signature]->addEntry(clone $entry);
 		}
 	}
 

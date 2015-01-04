@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,8 +22,8 @@ class ModLoginHelper
 	/**
 	 * Retrieve the url where the user should be returned after logging in
 	 *
-	 * @param   JRegistry  $params  module parameters
-	 * @param   string     $type    return type
+	 * @param   \Joomla\Registry\Registry  $params  module parameters
+	 * @param   string                     $type    return type
 	 *
 	 * @return string
 	 */
@@ -60,8 +60,7 @@ class ModLoginHelper
 		if (!$url)
 		{
 			// Stay on the same page
-			$uri = clone JUri::getInstance();
-			$vars = $router->parse($uri);
+			$vars = $router->getVars();
 			unset($vars['lang']);
 
 			if ($router->getMode() == JROUTER_MODE_SEF)

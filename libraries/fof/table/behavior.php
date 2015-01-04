@@ -74,7 +74,7 @@ abstract class FOFTableBehavior extends FOFUtilsObservableEvent
 	 * The event which runs after storing (saving) data to the database
 	 *
 	 * @param   FOFTable  &$table  The table which calls this event
-	 * 
+	 *
 	 * @return  boolean  True to allow saving without an error
 	 */
 	public function onAfterStore(&$table)
@@ -90,7 +90,7 @@ abstract class FOFTableBehavior extends FOFUtilsObservableEvent
 	 *
 	 * @return  boolean  True to allow moving
 	 */
-	public function onBeforeMove(&$table, $updateNulls) 
+	public function onBeforeMove(&$table, $updateNulls)
 	{
 		return true;
 	}
@@ -99,7 +99,7 @@ abstract class FOFTableBehavior extends FOFUtilsObservableEvent
 	 * The event which runs after moving a record
 	 *
 	 * @param   FOFTable  &$table  The table which calls this event
-	 * 
+	 *
 	 * @return  boolean  True to allow moving without an error
 	 */
 	public function onAfterMove(&$table)
@@ -124,7 +124,7 @@ abstract class FOFTableBehavior extends FOFUtilsObservableEvent
 	 * The event which runs after reordering a table
 	 *
 	 * @param   FOFTable  &$table  The table which calls this event
-	 * 
+	 *
 	 * @return  boolean  True to allow the reordering to complete without an error
 	 */
 	public function onAfterReorder(&$table)
@@ -229,7 +229,7 @@ abstract class FOFTableBehavior extends FOFUtilsObservableEvent
 	 * The event which runs after the object is reset to its default values.
 	 *
 	 * @param   FOFTable &$table  The table which calls this event
-	 * 
+	 *
 	 * @return  boolean  True to allow the reset to complete without errors
 	 */
 	public function onAfterReset(&$table)
@@ -241,7 +241,7 @@ abstract class FOFTableBehavior extends FOFUtilsObservableEvent
 	 * The even which runs before the object is reset to its default values.
 	 *
 	 * @param   FOFTable &$table  The table which calls this event
-	 * 
+	 *
 	 * @return  boolean  True to allow the reset to complete
 	 */
 	public function onBeforeReset(&$table)

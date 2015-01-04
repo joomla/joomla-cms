@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Plugin helper class
  *
- * @package     Joomla.Libraries
- * @subpackage  Plugin
- * @since       1.5
+ * @since  1.5
  */
 abstract class JPluginHelper
 {
@@ -303,9 +301,9 @@ abstract class JPluginHelper
 			$query = $db->getQuery(true)
 				->select('folder AS type, element AS name, params')
 				->from('#__extensions')
-				->where('enabled >= 1')
+				->where('enabled = 1')
 				->where('type =' . $db->quote('plugin'))
-				->where('state >= 0')
+				->where('state IN (0,1)')
 				->where('access IN (' . $levels . ')')
 				->order('ordering');
 

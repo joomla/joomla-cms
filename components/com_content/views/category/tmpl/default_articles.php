@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,9 +47,9 @@ if (!empty($this->items))
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search">
-					<?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?>
+					<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL') . '&#160;'; ?>
 				</label>
-				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL'); ?>" />
+				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>" />
 			</div>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
@@ -78,11 +78,11 @@ if (!empty($this->items))
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
 					<th id="categorylist_header_date">
 						<?php if ($date == "created") : ?>
-							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.created', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.created', $listDirn, $listOrder); ?>
 						<?php elseif ($date == "modified") : ?>
-							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.modified', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.modified', $listDirn, $listOrder); ?>
 						<?php elseif ($date == "published") : ?>
-							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
 						<?php endif; ?>
 					</th>
 				<?php endif; ?>
@@ -111,17 +111,17 @@ if (!empty($this->items))
 				<?php endif; ?>
 					<td headers="categorylist_header_title" class="list-title">
 						<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
-							<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
+							<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 								<?php echo $this->escape($article->title); ?>
 							</a>
 						<?php else: ?>
 							<?php
-							echo $this->escape($article->title).' : ';
+							echo $this->escape($article->title) . ' : ';
 							$menu		= JFactory::getApplication()->getMenu();
 							$active		= $menu->getActive();
 							$itemId		= $active->id;
-							$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
-							$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid));
+							$link = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
+							$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language));
 							$fullURL = new JUri($link);
 							$fullURL->setVar('return', base64_encode($returnURL));
 							?>

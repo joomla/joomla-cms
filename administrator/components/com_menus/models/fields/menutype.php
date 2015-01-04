@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldMenutype extends JFormFieldList
 {
@@ -32,6 +30,7 @@ class JFormFieldMenutype extends JFormFieldList
 	 * Method to get the field input markup.
 	 *
 	 * @return  string	The field input markup.
+	 *
 	 * @since   1.6
 	 */
 	protected function getInput()
@@ -40,6 +39,7 @@ class JFormFieldMenutype extends JFormFieldList
 		$recordId	= (int) $this->form->getValue('id');
 		$size		= ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
 		$class		= ($v = $this->element['class']) ? ' class="' . $v . '"' : 'class="text_area"';
+		$required	= ($v = $this->element['required']) ? ' required="required"' : '';
 
 		// Get a reverse lookup of the base link URL to Title
 		$model 	= JModelLegacy::getInstance('menutypes', 'menusModel');
@@ -65,6 +65,7 @@ class JFormFieldMenutype extends JFormFieldList
 
 			default:
 				$link	= $this->form->getValue('link');
+
 				// Clean the link back to the option, view and layout
 				$value	= JText::_(JArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));
 				break;
@@ -73,8 +74,15 @@ class JFormFieldMenutype extends JFormFieldList
 		JHtml::_('behavior.framework');
 		JHtml::_('behavior.modal');
 
-		$html[] = '<span class="input-append"><input type="text" disabled="disabled" readonly="readonly" id="' . $this->id . '" value="' . $value . '"' . $size . $class . ' /><a class="btn btn-primary" onclick="SqueezeBox.fromElement(this, {handler:\'iframe\', size: {x: 600, y: 450}, url:\''.JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&recordId='.$recordId).'\'})"><i class="icon-list icon-white"></i> '.JText::_('JSELECT').'</a></span>';
-		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
+		$getMenuTypesUrl = 'index.php?option=com_menus&view=menutypes&tmpl=component&recordId=' . $recordId;
+		$html[] = '<span class="input-append">'
+			. '<input type="text" ' . $required . ' readonly="readonly" id="' . $this->id . '" value="' . $value . '"' . $size . $class . ' />'
+			. '<a class="btn btn-primary" '
+				. 'onclick="SqueezeBox.fromElement(this, {handler:\'iframe\', size: {x: 600, y: 450}, url:\'' . JRoute::_($getMenuTypesUrl) . '\'})">'
+				. '<i class="icon-list icon-white"></i> ' . JText::_('JSELECT')
+			. '</a></span>';
+		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" '
+			. 'value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
 
 		return implode("\n", $html);
 	}

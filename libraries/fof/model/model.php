@@ -9,7 +9,7 @@
 defined('FOF_INCLUDED') or die;
 
 /**
- * FrameworkOnFramework Model class. The Model is the worhorse. It performs all
+ * FrameworkOnFramework Model class. The Model is the workhorse. It performs all
  * of the business logic based on its state and then returns the raw (processed)
  * data to the caller, or modifies its own state. It's important to note that
  * the model doesn't get data directly from the request (this is the
@@ -89,7 +89,7 @@ class FOFModel extends FOFUtilsObject
 
 	/**
 	 * Input variables, passed on from the controller, in an associative array
-	 * @var array
+	 * @var FOFInput
 	 */
 	protected $input = array();
 
@@ -422,7 +422,7 @@ class FOFModel extends FOFUtilsObject
 			$config = array();
 		}
 
-		if (!array_key_exists('savesate', $config))
+		if (!array_key_exists('savestate', $config))
 		{
 			$config['savestate'] = false;
 		}
@@ -602,8 +602,16 @@ class FOFModel extends FOFUtilsObject
 		}
 		else
 		{
-			$eliminatePart = ucfirst($bareComponent) . 'Model';
-			$view = strtolower(str_replace($eliminatePart, '', $className));
+            if (array_key_exists('view', $config))
+            {
+                $view = $config['view'];
+            }
+
+            if (empty($view))
+            {
+                $eliminatePart = ucfirst($bareComponent) . 'Model';
+                $view = strtolower(str_replace($eliminatePart, '', $className));
+            }
 		}
 
 		if (array_key_exists('name', $config))
@@ -1066,6 +1074,58 @@ class FOFModel extends FOFUtilsObject
 	}
 
 	/**
+	 * Method to load a row for editing from the version history table.
+	 *
+	 * @param   integer    $version_id  Key to the version history table.
+	 * @param   FOFTable   &$table      Content table object being loaded.
+	 * @param   string     $alias       The type_alias in #__content_types
+	 *
+	 * @return  boolean  False on failure or error, true otherwise.
+	 *
+	 * @since   2.3
+	 */
+	public function loadhistory($version_id, FOFTable &$table, $alias)
+	{
+		// Only attempt to check the row in if it exists.
+		if ($version_id)
+		{
+			$user = JFactory::getUser();
+
+			// Get an instance of the row to checkout.
+			$historyTable = JTable::getInstance('Contenthistory');
+
+			if (!$historyTable->load($version_id))
+			{
+				$this->setError($historyTable->getError());
+
+				return false;
+			}
+
+			$rowArray = JArrayHelper::fromObject(json_decode($historyTable->version_data));
+
+			$typeId = JTable::getInstance('Contenttype')->getTypeId($alias);
+
+			if ($historyTable->ucm_type_id != $typeId)
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
+				$key = $table->getKeyName();
+
+				if (isset($rowArray[$key]))
+				{
+					$table->checkIn($rowArray[$key]);
+				}
+
+				return false;
+			}
+		}
+
+		$this->setState('save_date', $historyTable->save_date);
+		$this->setState('version_note', $historyTable->version_note);
+
+		return $table->bind($rowArray);
+	}
+
+	/**
 	 * Returns a single item. It uses the id set with setId, or the first ID in
 	 * the list of IDs for batch operations
 	 *
@@ -1214,7 +1274,7 @@ class FOFModel extends FOFUtilsObject
 		else
 		{
 			$limitStart = $this->getState('limitstart');
-			$limit = $this->getState('limit');
+			$limit      = $this->getState('limit');
 		}
 
 		// This is required to prevent one relation from killing the db cursor used in a different relation...
@@ -1354,6 +1414,13 @@ class FOFModel extends FOFUtilsObject
 
 		if (!$this->onBeforeSave($allData, $table))
 		{
+			if ($this->_savestate)
+			{
+				$session = JFactory::getSession();
+				$hash = $this->getHash() . 'savedata';
+				$session->set($hash, serialize($allData));
+			}
+
 			return false;
 		}
 		else
@@ -2025,8 +2092,14 @@ class FOFModel extends FOFUtilsObject
 				$order = $db->qn($this->getTableAlias()) . '.' . $order;
 			}
 
-			$dir = $this->getState('filter_order_Dir', 'ASC', 'cmd');
-			$query->order($order . ' ' . $dir);
+			$dir = strtoupper($this->getState('filter_order_Dir', 'ASC', 'cmd'));
+			$dir = in_array($dir, array('DESC', 'ASC')) ? $dir : 'ASC';
+
+			// If the table cache is broken you may end up with an empty order by.
+			if (!empty($order) && ($order != $db->qn('')))
+			{
+				$query->order($order . ' ' . $dir);
+			}
 		}
 
 		// Call the behaviors
@@ -2219,8 +2292,6 @@ class FOFModel extends FOFUtilsObject
 	{
 		$this->_formData = $data;
 
-		$name = $this->input->getCmd('option', 'com_foobar') . '.' . $this->name;
-
 		if (empty($source))
 		{
 			$source = $this->getState('form_name', null);
@@ -2230,6 +2301,8 @@ class FOFModel extends FOFUtilsObject
 		{
 			$source = 'form.' . $this->name;
 		}
+
+		$name = $this->input->getCmd('option', 'com_foobar') . '.' . $this->name . '.' . $source;
 
 		$options = array(
 			'control'	 => false,
@@ -2258,6 +2331,8 @@ class FOFModel extends FOFUtilsObject
      * @param   bool|string     $xpath      An optional xpath to search for the fields.
      *
      * @return  mixed  FOFForm object on success, False on error.
+	 *
+	 * @throws  Exception
      *
      * @see     FOFForm
      * @since   2.0

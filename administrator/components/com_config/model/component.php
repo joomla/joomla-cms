@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Model for component configuration
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigModelComponent extends ConfigModelForm
 {
@@ -83,7 +81,6 @@ class ConfigModelComponent extends ConfigModelForm
 
 		if (empty($form))
 		{
-
 			return false;
 		}
 
@@ -124,7 +121,10 @@ class ConfigModelComponent extends ConfigModelForm
 	 */
 	public function save($data)
 	{
-		$table	= JTable::getInstance('extension');
+		$table      = JTable::getInstance('extension');
+		$dispatcher = JEventDispatcher::getInstance();
+		$context    = $this->option . '.' . $this->name;
+		JPluginHelper::importPlugin('extension');
 
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules']))
@@ -173,11 +173,16 @@ class ConfigModelComponent extends ConfigModelForm
 			throw new RuntimeException($table->getError());
 		}
 
-		// Store the data.
-		if (!$table->store())
+		$result = $dispatcher->trigger('onExtensionBeforeSave', array($context, &$table, false));
+
+			// Store the data.
+		if (in_array(false, $result, true) || !$table->store())
 		{
 			throw new RuntimeException($table->getError());
 		}
+
+		// Trigger the after save event.
+		$dispatcher->trigger('onExtensionAfterSave', array($context, &$table, false));
 
 		// Clean the component cache.
 		$this->cleanCache('_system', 0);

@@ -1,0 +1,26 @@
+.checklist {
+   float: right;
+}
+
+.checklist {
+    border-right-width: 0;
+ }
+
+#filter_lists div {
+    float: right;
+ }
+
+.checklist dt,
+#branch-selectors dt {
+    padding: 0 2px 2px 0;
+    text-align: right;
+ }
+
+.checklist,
+.checklist dd,
+#branch-selectors dd,
+.checklist div.control-group,
+#branch-selectors div.control-group {
+    padding: 0 2px 0 0;
+    text-align: right;
+ }

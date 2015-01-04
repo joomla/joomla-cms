@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_random_image
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,8 +21,8 @@ class ModRandomImageHelper
 	/**
 	 * Retrieves a random image
 	 *
-	 * @param   JRegistry  &$params  module parameters object
-	 * @param   array      $images   list of images
+	 * @param   \Joomla\Registry\Registry  &$params  module parameters object
+	 * @param   array                      $images   list of images
 	 *
 	 * @return  mixed
 	 */
@@ -76,8 +76,8 @@ class ModRandomImageHelper
 	/**
 	 * Retrieves images from a specific folder
 	 *
-	 * @param   JRegistry  &$params  module params
-	 * @param   string     $folder   folder to get the images from
+	 * @param   \Joomla\Registry\Registry  &$params  module params
+	 * @param   string                     $folder   folder to get the images from
 	 *
 	 * @return array
 	 */
@@ -130,9 +130,9 @@ class ModRandomImageHelper
 	/**
 	 * Get sanitized folder
 	 *
-	 * @param   JRegistry  &$params  module params objects
+	 * @param   \Joomla\Registry\Registry  &$params  module params objects
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 */
 	public static function getFolder(&$params)
 	{

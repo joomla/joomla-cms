@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,24 +32,26 @@ if ($saveOrder)
 
 $sortFields = $this->getSortFields();
 $assoc		= JLanguageAssociations::isEnabled();
-?>
-<script type="text/javascript">
+
+JFactory::getDocument()->addScriptDeclaration('
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != '<?php echo $listOrder; ?>')
+		if (order != "' . $listOrder . '")
 		{
-			dirn = 'asc';
+			dirn = "asc";
 		}
 		else
 		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
-		Joomla.tableOrdering(order, dirn, '');
-	}
-</script>
+		Joomla.tableOrdering(order, dirn, "");
+	};
+');
+
+?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -111,13 +113,13 @@ $assoc		= JLanguageAssociations::isEnabled();
 				</thead>
 				<tbody>
 				<?php foreach ($this->items as $i => $item) :
-					$item->max_ordering = 0; //??
+					$item->max_ordering = 0;
 					$ordering   = ($listOrder == 'a.ordering');
-					$canCreate  = $user->authorise('core.create',     'com_content.category.'.$item->catid);
-					$canEdit    = $user->authorise('core.edit',       'com_content.article.'.$item->id);
+					$canCreate  = $user->authorise('core.create',     'com_content.category.' . $item->catid);
+					$canEdit    = $user->authorise('core.edit',       'com_content.article.' . $item->id);
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-					$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.'.$item->id) && $item->created_by == $userId;
-					$canChange  = $user->authorise('core.edit.state', 'com_content.article.'.$item->id) && $canCheckin;
+					$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
+					$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
 						<td class="order nowrap center hidden-phone">
@@ -195,11 +197,11 @@ $assoc		= JLanguageAssociations::isEnabled();
 						<?php endif;?>
 						<td class="small hidden-phone">
 							<?php if ($item->created_by_alias) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
 								<?php echo $this->escape($item->author_name); ?></a>
 								<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
 							<?php else : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
 								<?php echo $this->escape($item->author_name); ?></a>
 							<?php endif; ?>
 						</td>
@@ -224,8 +226,9 @@ $assoc		= JLanguageAssociations::isEnabled();
 				</tbody>
 			</table>
 		<?php endif; ?>
+
 		<?php echo $this->pagination->getListFooter(); ?>
-		<?php //Load the batch processing form. ?>
+		<?php // Load the batch processing form. ?>
 		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="task" value="" />

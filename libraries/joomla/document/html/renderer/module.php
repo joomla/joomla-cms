@@ -3,18 +3,18 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * JDocument Module renderer
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JDocumentRendererModule extends JDocumentRenderer
 {
@@ -70,13 +70,13 @@ class JDocumentRendererModule extends JDocumentRenderer
 		}
 
 		// Get module parameters
-		$params = new JRegistry;
+		$params = new Registry;
 		$params->loadString($module->params);
 
 		// Use parameters from template
 		if (isset($attribs['params']))
 		{
-			$template_params = new JRegistry;
+			$template_params = new Registry;
 			$template_params->loadString(html_entity_decode($attribs['params'], ENT_COMPAT, 'UTF-8'));
 			$params->merge($template_params);
 			$module = clone $module;
@@ -89,7 +89,6 @@ class JDocumentRendererModule extends JDocumentRenderer
 
 		if ($params->get('cache', 0) == 1 && $conf->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
 		{
-
 			// Default to itemid creating method and workarounds on
 			$cacheparams = new stdClass;
 			$cacheparams->cachemode = $cachemode;
@@ -98,7 +97,6 @@ class JDocumentRendererModule extends JDocumentRenderer
 			$cacheparams->methodparams = array($module, $attribs);
 
 			$contents = JModuleHelper::ModuleCache($module, $params, $cacheparams);
-
 		}
 		else
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Login Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_login
- * @since       1.5
+ * @since  1.5
  */
 class LoginModelLogin extends JModelLegacy
 {
@@ -41,7 +39,7 @@ class LoginModelLogin extends JModelLegacy
 		);
 		$this->setState('credentials', $credentials);
 
-		// Check for return URL from the request first
+		// Check for return URL from the request first.
 		if ($return = $input->$method->get('return', '', 'BASE64'))
 		{
 			$return = base64_decode($return);
@@ -62,12 +60,12 @@ class LoginModelLogin extends JModelLegacy
 	}
 
 	/**
-	 * Get the administrator login module by name (real, eg 'login' or folder, eg 'mod_login')
+	 * Get the administrator login module by name (real, eg 'login' or folder, eg 'mod_login').
 	 *
-	 * @param   string  $name   The name of the module
-	 * @param   string  $title  The title of the module, optional
+	 * @param   string  $name   The name of the module.
+	 * @param   string  $title  The title of the module, optional.
 	 *
-	 * @return  object  The Module object
+	 * @return  object  The Module object.
 	 *
 	 * @since   11.1
 	 */
@@ -79,7 +77,7 @@ class LoginModelLogin extends JModelLegacy
 
 		for ($i = 0; $i < $total; $i++)
 		{
-			// Match the title if we're looking for a specific instance of the module
+			// Match the title if we're looking for a specific instance of the module.
 			if (!$title || $modules[$i]->title == $title)
 			{
 				$result = $modules[$i];
@@ -87,7 +85,7 @@ class LoginModelLogin extends JModelLegacy
 			}
 		}
 
-		// If we didn't find it, and the name is mod_something, create a dummy object
+		// If we didn't find it, and the name is mod_something, create a dummy object.
 		if (is_null($result) && substr($name, 0, 4) == 'mod_')
 		{
 			$result = new stdClass;
@@ -114,7 +112,7 @@ class LoginModelLogin extends JModelLegacy
 	 * This is put in as a failsafe to avoid super user lock out caused by an unpublished
 	 * login module or by a module set to have a viewing access level that is not Public.
 	 *
-	 * @param   string  $module  The name of the module
+	 * @param   string  $module  The name of the module.
 	 *
 	 * @return  array
 	 *
@@ -145,11 +143,10 @@ class LoginModelLogin extends JModelLegacy
 				->select('m.id, m.title, m.module, m.position, m.showtitle, m.params')
 				->from('#__modules AS m')
 				->where('m.module =' . $db->quote($module) . ' AND m.client_id = 1')
-
 				->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
 				->where('e.enabled = 1');
 
-			// Filter by language
+			// Filter by language.
 			if ($app->isSite() && $app->getLanguageFilter())
 			{
 				$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
@@ -157,7 +154,7 @@ class LoginModelLogin extends JModelLegacy
 
 			$query->order('m.position, m.ordering');
 
-			// Set the query
+			// Set the query.
 			$db->setQuery($query);
 
 			try

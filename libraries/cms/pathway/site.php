@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Pathway
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to manage the site application pathway.
  *
- * @package     Joomla.Libraries
- * @subpackage  Pathway
- * @since       1.5
+ * @since  1.5
  */
 class JPathwaySite extends JPathway
 {
@@ -31,11 +29,21 @@ class JPathwaySite extends JPathway
 
 		$app  = JApplication::getInstance('site');
 		$menu = $app->getMenu();
+		$lang = JFactory::getLanguage();
 
 		if ($item = $menu->getActive())
 		{
 			$menus = $menu->getMenu();
-			$home  = $menu->getDefault();
+
+			// Look for the home menu
+			if (JLanguageMultilang::isEnabled())
+			{
+				$home = $menu->getDefault($lang->getTag());
+			}
+			else
+			{
+				$home  = $menu->getDefault();
+			}
 
 			if (is_object($home) && ($item->id != $home->id))
 			{
