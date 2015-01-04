@@ -160,8 +160,8 @@ class JFormFieldCalendarTest extends TestCase
 				array(
 					'name' => 'myCalendarElement',
 					'id' => 'myCalendarId',
-					'value' => 'myValue',
-					'format' => '%m-%Y-%d',
+					'value' => date('d-m-Y'),
+					'format' => '%d-%m-%Y',
 					'size' => 25,
 					'maxlength' => 45,
 					'class' => 'myClass',
@@ -171,10 +171,10 @@ class JFormFieldCalendarTest extends TestCase
 					'filter' => '',
 				),
 				array(
-					'myValue',
+					date('Y-m-d') . ' 00:00:00',
 					'myCalendarElement',
 					'myCalendarId',
-					'%m-%Y-%d',
+					'%d-%m-%Y',
 					array(
 						'size' => 25,
 						'maxlength' => 45,
@@ -200,7 +200,7 @@ class JFormFieldCalendarTest extends TestCase
 					'filter' => '',
 				),
 				array(
-					'strftime(\'%Y-%m-%d\')',
+					'NOW',
 					'myCalendarElement',
 					'myCalendarId',
 					'%Y-%m-%d',
@@ -211,7 +211,36 @@ class JFormFieldCalendarTest extends TestCase
 						'onchange' => 'This is my onchange value',
 					)
 				)
-			)
+			),
+
+			/*
+			 * value = 'now +1 year'
+			 */
+			'value_is_now_plus_year' => array(
+				array(
+					'name' => 'myCalendarElement',
+					'id' => 'myCalendarId',
+					'value' => 'now +1 year',
+					'format' => '%Y-%m-%d',
+					'size' => 25,
+					'maxlength' => 45,
+					'disabled' => true,
+					'onchange' => 'This is my onchange value',
+					'filter' => '',
+				),
+				array(
+					'now +1 year',
+					'myCalendarElement',
+					'myCalendarId',
+					'%Y-%m-%d',
+					array(
+						'size' => 25,
+						'maxlength' => 45,
+						'disabled' => 'disabled',
+						'onchange' => 'This is my onchange value',
+					)
+				)
+			),
 		);
 	}
 
@@ -291,10 +320,15 @@ class JFormFieldCalendarTest extends TestCase
 		// Instantiate the calendar field
 		$calendar = new JFormFieldCalendar;
 
-		if ($expectedParameters[0] == 'strftime(\'%Y-%m-%d\')')
+		if ($expectedParameters[0] === 'NOW')
 		{
-			date_default_timezone_set('UTC');
-			$expectedParameters[0] = strftime('%Y-%m-%d');
+			$date = new JDate('now', 'UTC');
+			$expectedParameters[0] = $date->format('Y-m-d H:i:s', false, false);
+		}
+		elseif ($expectedParameters[0] === 'now +1 year')
+		{
+			$date = new JDate('now +1 year', 'UTC');
+			$expectedParameters[0] = $date->format('Y-m-d H:i:s', false, false);
 		}
 
 		// Setup our values from our data set
@@ -514,7 +548,7 @@ class JFormFieldCalendarTest extends TestCase
 		$field = new JFormFieldCalendar($form);
 
 		$this->assertThat(
-			$field->setup($form->getXml()->field, 'value'),
+			$field->setup($form->getXml()->field, ''),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
