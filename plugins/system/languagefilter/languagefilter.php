@@ -98,25 +98,48 @@ class PlgSystemLanguageFilter extends JPlugin
 			$router = $this->app->getRouter();
 
 			// Attach build rules for language SEF.
-			$router->attachBuildRule(array($this, 'buildRule'));
+			$router->attachBuildRule(array($this, 'preprocessBuildRule'), JRouter::PROCESS_BEFORE);
+			$router->attachBuildRule(array($this, 'buildRule'), JRouter::PROCESS_DURING);
 
 			if ($this->mode_sef)
 			{
-				$router->attachBuildRule(array($this, 'postprocessSEFBuildRule'), 'postprocess');
+				$router->attachBuildRule(array($this, 'postprocessSEFBuildRule'), JRouter::PROCESS_AFTER);
 			}
 			else
 			{
-				$router->attachBuildRule(array($this, 'postprocessNonSEFBuildRule'), 'postprocess');
+				$router->attachBuildRule(array($this, 'postprocessNonSEFBuildRule'), JRouter::PROCESS_AFTER);
 			}
 
 			// Attach parse rules for language SEF.
-			$router->attachParseRule(array($this, 'parseRule'));
+			$router->attachParseRule(array($this, 'parseRule'), JRouter::PROCESS_DURING);
 
 			// Add custom site name.
 			if (isset($this->lang_codes[$this->tag]) && $this->lang_codes[$this->tag]->sitename)
 			{
 				$this->app->set('sitename', $this->lang_codes[$this->tag]->sitename);
 			}
+		}
+	}
+
+	/**
+	 * Add build preprocess rule to router.
+	 *
+	 * @param   JRouter  &$router  JRouter object.
+	 * @param   JUri     &$uri     JUri object.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public function preprocessBuildRule(&$router, &$uri)
+	{
+		$lang = $uri->getVar('lang', $this->default_lang);
+		$uri->setVar('lang', $lang);
+
+		if (isset($this->sefs[$lang]))
+		{
+			$lang = $this->sefs[$lang]->lang_code;
+			$uri->setVar('lang', $lang);
 		}
 	}
 
@@ -132,14 +155,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function buildRule(&$router, &$uri)
 	{
-		$lang = $uri->getVar('lang', $this->default_lang);
-		$uri->setVar('lang', $lang);
-
-		if (isset($this->sefs[$lang]))
-		{
-			$lang = $this->sefs[$lang]->lang_code;
-			$uri->setVar('lang', $lang);
-		}
+		$lang = $uri->getVar('lang');
 
 		if (isset($this->lang_codes[$lang]))
 		{
