@@ -55,8 +55,6 @@ class JRouterSite extends JRouter
 
 		$this->app  = $app ? $app : JApplicationCms::getInstance('site');
 		$this->menu = $menu ? $menu : $this->app->getMenu();
-
-		$this->attachBuildRule(array($this, 'preprocessComponentStage'), self::PROCESS_BEFORE);
 	}
 
 	/**
@@ -580,7 +578,7 @@ class JRouterSite extends JRouter
 	 */
 	protected function processBuildRules(&$uri, $stage = '')
 	{
-		if ($stage == '')
+		if ($stage == self::PROCESS_DURING)
 		{
 			// Make sure any menu vars are used if no others are specified
 			if (($this->_mode != JROUTER_MODE_SEF) && $uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
@@ -601,7 +599,24 @@ class JRouterSite extends JRouter
 		// Process the attached build rules
 		parent::processBuildRules($uri, $stage);
 
-		if ($stage == '')
+		if ($stage == self::PROCESS_BEFORE)
+		{
+			// Get the query data
+			$query = $uri->getQuery(true);
+
+			if (!isset($query['option']))
+			{
+				return;
+			}
+
+			// Build the component route
+			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
+			$router   = $this->getComponentRouter($component);
+			$query     = $router->preprocess($query);
+			$uri->setQuery($query);
+		}
+
+		if ($stage == self::PROCESS_DURING)
 		{
 			// Get the path data
 			$route = $uri->getPath();
@@ -747,30 +762,4 @@ class JRouterSite extends JRouter
 		}
 	}
 
-	/**
-	 * Rule to trigger the preprocess method of a component router
-	 * 
-	 * @param   JRouter  &$router  The router calling this rule
-	 * @param   JUri     &$uri     URI to process
-	 * 
-	 * @return  void
-	 * 
-	 * @since   3.4
-	 */
-	public function preprocessComponentStage(JRouter &$router, JUri &$uri)
-	{
-		// Get the query data
-		$query = $uri->getQuery(true);
-
-		if (!isset($query['option']))
-		{
-			return;
-		}
-
-		// Build the component route
-		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
-		$crouter   = $this->getComponentRouter($component);
-		$query     = $crouter->preprocess($query);
-		$uri->setQuery($query);
-	}
 }
