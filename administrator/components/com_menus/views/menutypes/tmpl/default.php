@@ -24,7 +24,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			}
 			else
 			{
-				window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type="+("item.setType", type);
+				window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type=" + type;
 			}
 		};
 ');
