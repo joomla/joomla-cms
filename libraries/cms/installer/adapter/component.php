@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -374,6 +374,30 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	}
 
 	/**
+	 * Method to do any prechecks and setup the install paths for the extension
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function setupInstallPaths()
+	{
+		// Set the installation target paths
+		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE . '/components/' . $this->element));
+		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $this->element));
+
+		// Copy the admin path as it's used as a common base
+		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator'));
+
+		// Make sure that we have an admin element
+		if (!$this->manifest->administration)
+		{
+			throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'));
+		}
+	}
+
+	/**
 	 * Method to store the extension to the database
 	 *
 	 * @param   bool  $deleteExisting  Should I try to delete existing records of the same component?
@@ -448,176 +472,6 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			// Maybe we have a failed installation (e.g. timeout). Let's retry after deleting old records.
 			$this->storeExtension(true);
 		}
-	}
-
-	/**
-	 * Custom install method for components
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public function install()
-	{
-		/*
-		 * ---------------------------------------------------------------------------------------------
-		 * Manifest Document Setup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Set the manifest object
-		$this->manifest = $this->getManifest();
-
-		// Set the extensions name
-		$this->set('name', $this->getName());
-		$this->set('element', $this->getElement());
-
-		// Get the component description
-		$this->parent->set('message', JText::_((string) $this->manifest->description));
-
-		// Set the installation target paths
-		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE . '/components/' . $this->get('element')));
-		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $this->get('element')));
-
-		// Copy the admin path as it's used as a common base
-		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator'));
-
-		/*
-		 * ---------------------------------------------------------------------------------------------
-		 * Basic Checks Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Make sure that we have an admin element
-		if (!$this->manifest->administration)
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'), JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		/*
-		 * ---------------------------------------------------------------------------------------------
-		 * Filesystem Processing Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		/*
-		 * If the component site or admin directory already exists, then we will assume that the component is already
-		 * installed or another component is using that directory.
-		 */
-		try
-		{
-			// If we're on the update route now, transfer control to the update method
-			if ($this->checkExtensionInFilesystem())
-			{
-				return $this->update();
-			}
-		}
-		catch (RuntimeException $e)
-		{
-			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		/*
-		 * ---------------------------------------------------------------------------------------------
-		 * Installer Trigger Loading
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		$this->setupScriptfile();
-		$this->triggerManifestScript('preflight', 'install');
-
-		// If the component directory does not exist, let's create it
-		try
-		{
-			$this->createExtensionRoot();
-		}
-		catch (RuntimeException $e)
-		{
-			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		try
-		{
-			$this->copyBaseFiles();
-		}
-		catch (RuntimeException $e)
-		{
-			// Install failed, rollback any changes
-			$this->parent->abort($e->getMessage());
-
-			return false;
-		}
-
-		// Parse optional tags
-		$this->parseOptionalTags();
-
-		/*
-		 * ---------------------------------------------------------------------------------------------
-		 * Database Processing Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Run the install queries for the component
-		try
-		{
-			$this->parseQueries('install');
-		}
-		catch (RuntimeException $e)
-		{
-			// Install failed, rollback changes
-			$this->parent->abort($e->getMessage());
-
-			return false;
-		}
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Custom Installation Script Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		$this->triggerManifestScript('install');
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Finalization and Cleanup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		try
-		{
-			$this->storeExtension();
-		}
-		catch (RuntimeException $e)
-		{
-			// Install failed, roll back changes
-			$this->parent->abort($e->getMessage());
-
-			return false;
-		}
-
-		try
-		{
-			$this->finaliseInstall();
-		}
-		catch (RuntimeException $e)
-		{
-			// Install failed, roll back changes
-			$this->parent->abort($e->getMessage());
-
-			return false;
-		}
-
-		// And now we run the postflight
-		$this->triggerManifestScript('postflight', 'install');
-
-		return $this->extension->extension_id;
 	}
 
 	/**

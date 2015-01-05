@@ -54,7 +54,6 @@
 	* What's new in Joomla 3.x: http://www.joomla.org/3
 	* What are the main differences from 2.5 to 3? Table of contents: https://docs.joomla.org/Differences_from_Joomla_2.5_to_Joomla_3.0
 	* How to migrate from 2.5.x to 3.x? Tutorial: https://docs.joomla.org/Joomla_2.5_to_3.x_Step_by_Step_Migration
-	* What are the main differences from 1.5 to 2.5? Table of contents: https://docs.joomla.org/Differences_from_Joomla_1.5_to_Joomla_2.5
 	* How to migrate from 1.5.x to 3.x? Tutorial: https://docs.joomla.org/Joomla_1.5_to_3.x_Step_by_Step_Migration
 	* Convert an existing Web site to Joomla: https://docs.joomla.org/How_to_Convert_an_existing_Web_site_to_a_Joomla!_Web_site
 
@@ -66,7 +65,7 @@
 	* Are you a Web designer? https://docs.joomla.org/Web_designers
 
 Copyright:
-	* Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+	* Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
 	* Credits: https://docs.joomla.org/Joomla!_Credits_and_Thanks
 	* Distributed under the GNU General Public License version 2 or later
 	* See Licenses details at https://docs.joomla.org/Joomla_Licenses

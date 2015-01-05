@@ -38,10 +38,8 @@
 		<folder>toolbar</folder>
 		<folder>utils</folder>
 		<folder>view</folder>
-
 		<file>LICENSE.txt</file>
 		<file>include.php</file>
-		<file>index.html</file>
 		<file>version.txt</file>
 	</files>
 </extension>

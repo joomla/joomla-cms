@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.yubikey
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -131,9 +131,9 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		JLoader::import('joomla.filesystem.file');
 
-		if (JFile::exists($path . 'form.php'))
+		if (JFile::exists($path . '/form.php'))
 		{
-			include_once $path . 'form.php';
+			include_once $path . '/form.php';
 		}
 		else
 		{

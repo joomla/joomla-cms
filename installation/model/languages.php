@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -131,12 +131,13 @@ class InstallationModelLanguages extends JModelBase
 	public function install($lids)
 	{
 		/* @var InstallationApplicationWeb $app */
-		$app       = JFactory::getApplication();
-		$installer = JInstaller::getInstance();
+		$app = JFactory::getApplication();
 
 		// Loop through every selected language.
 		foreach ($lids as $id)
 		{
+			$installer = new JInstaller;
+
 			// Loads the update database object that represents the language.
 			$language = JTable::getInstance('update');
 			$language->load($id);
