@@ -17,17 +17,17 @@ defined('_JEXEC') or die;
  * 	$input           : (string) The input field html code
  */
 
-?>
-
-<?php
 if (!empty($displayData['options']['showonEnabled']))
 {
 	JHtml::_('jquery.framework');
 	JHtml::_('script', 'jui/cms.js', false, true);
 }
+
+$class = empty($displayData['options']['class']) ? "" : " " . $displayData['options']['class'];
+$rel   = empty($displayData['options']['rel']) ? "" : " " .  $displayData['options']['rel'];
 ?>
 
-<div class="control-group<?php echo empty($displayData['options']['class']) ? "" : " " . $displayData['options']['class']; ?>"<?php echo empty($displayData['options']['rel']) ? "" : " " .  $displayData['options']['rel']; ?>>
+<div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
 	<?php if (empty($displayData['options']['hiddenLabel'])) : ?>
 		<div class="control-label"><?php echo $displayData['label']; ?></div>
 	<?php endif; ?>
