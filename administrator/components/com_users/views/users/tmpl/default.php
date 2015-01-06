@@ -58,7 +58,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<table class="table table-striped" id="userList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th class="left">
@@ -110,7 +110,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					}
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="center hidden-phone">
+						<td class="center">
 							<?php if ($canEdit) : ?>
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							<?php endif; ?>
