@@ -60,7 +60,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%" class="hidden-phone">
+						<th width="1%">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="5%" class="nowrap center">
@@ -99,7 +99,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						$canChange  = $user->authorise('core.edit.state', 'com_banners') && $canCheckin;
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
-							<td class="center hidden-phone">
+							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="center">

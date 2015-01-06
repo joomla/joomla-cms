@@ -53,19 +53,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th class="nowrap">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_UPDATESITE_NAME', 'update_site_name', $listDirn, $listOrder); ?>
 					</th>
-					<th class="nowrap">
+					<th class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 					</th>
-					<th>
+					<th class="hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
 					</th>
-					<th>
+					<th class="hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 					</th>
-					<th>
+					<th class="hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10">
+					<th width="10"  class="hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_UPDATESITEID', 'update_site_id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -93,21 +93,21 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<td>
 						<?php echo $item->update_site_name; ?>
 					</td>
-					<td>
+					<td  class="hidden-phone">
 						<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>">
 							<?php echo $item->name; ?>
 						</span>
 					</td>
-					<td class="center">
+					<td class="center hidden-phone"">
 						<?php echo $item->client; ?>
 					</td>
-					<td class="center">
+					<td class="center hidden-phone">
 						<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
 					</td>
-					<td class="center">
+					<td class="center hidden-phone">
 						<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 					</td>
-					<td>
+					<td class="hidden-phone">
 						<?php echo $item->update_site_id; ?>
 					</td>
 				</tr>
