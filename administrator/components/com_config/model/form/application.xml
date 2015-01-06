@@ -724,7 +724,7 @@
 			filter="integer"
 			size="6"
 			class="inputbox validate-number"
-			min="5"	/>
+			min="1"	/>
 
 		<field
 			name="session_handler"
