@@ -716,13 +716,15 @@
 		label="CONFIG_SESSION_SETTINGS_LABEL">
 		<field
 			name="lifetime"
-			type="text"
+			type="number"
 			default="15"
 			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_TIME_DESC"
 			required="true"
 			filter="integer"
-			size="6" />
+			size="6"
+			class="inputbox validate-number"
+			min="5"	/>
 
 		<field
 			name="session_handler"
