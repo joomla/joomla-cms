@@ -57,7 +57,7 @@
 				<field name="lang_cookie" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_LABEL"
-					default="0"
+					default="1"
 					class="btn-group btn-group-yesno"
 				>
 					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_OPTION_YEAR</option>
