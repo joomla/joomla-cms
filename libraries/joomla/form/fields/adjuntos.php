@@ -13,7 +13,7 @@ jimport('joomla.form.formfield');
 
 /*
  * Clase de campo de formulario para la plataforma Joomla
- * Provee el control para agregar adjuntos usando el mecanismo para subida de archivos de mootools  
+ * Provee el control para agregar adjuntos usando el mecanismo para subida de archivos de mootools
  *
  */
 
@@ -27,7 +27,7 @@ class JFormFieldAdjuntos extends JFormField
 
     protected $type = 'Adjuntos';
 
-    function getInput() 
+    function getInput()
     {
         $jinput = JFactory::getApplication()->input;
         $id = $jinput->get->get('id', '0', null);
@@ -118,7 +118,7 @@ class JFormFieldAdjuntos extends JFormField
 
         $script[] = '});';
 
-        $script[] = 'var adjuntoCount = 0;';     
+        $script[] = 'var adjuntoCount = 0;';
 
         $script[] = 'function agregarAdjunto() {';
 
@@ -139,7 +139,7 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '   });';
 
         $script[] = '   fieldArchivo.addEvents({';
-        $script[] = '           "change": function() {'; 
+        $script[] = '           "change": function() {';
         $script[] = '               if(aId) {';
         $script[] = '                    subirArchivo();';
         $script[] = '               } else { ';
@@ -147,13 +147,13 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '                   mostrarMensaje(msg, "warn")';
         $script[] = '               }';
         $script[] = '           }';
-        $script[] = '   })';    
+        $script[] = '   })';
 
         $script[] = '   var btnEliminarAdjunto = new Element("button", {';
         $script[] = '       id: "btn-eliminar-adjunto-"+adjuntoCount,';
         $script[] = '       class:"btn-adjunto",';
         $script[] = '       events: {';
-        $script[] = '           click: function(event) {'; 
+        $script[] = '           click: function(event) {';
         $script[] = '               event.preventDefault();';
         $script[] = '               eliminarAdjunto(this)';
         $script[] = '           }';
@@ -172,7 +172,7 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '               "exts":"'.$extensiones.'",';
         $script[] = '               "id":'.$id.'},';
         $script[] = '           images: ["campo-adjunto-"+adjuntoCount],';
-        $script[] = '           adjuntoId: adjuntoCount,'; 
+        $script[] = '           adjuntoId: adjuntoCount,';
         $script[] = '           onComplete: function(res) {';
         $script[] = '               var data = JSON.decode(res);';
         $script[] = '               if (data.tipo == "error" || data.tipo == "warn") {';
@@ -223,7 +223,7 @@ class JFormFieldAdjuntos extends JFormField
 
         // Salida HTML
         $html = '<div id="controles-adjuntos"></div><div id="adjuntos"></div>';
-        
+
         return $html;
     }
 
