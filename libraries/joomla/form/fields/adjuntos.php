@@ -58,6 +58,7 @@ class JFormFieldAdjuntos extends JFormField
         $style[] = '    width: 100%;';
         $style[] = '}';
         $style[] = '.form-adjunto {';
+        $style[] = '    clear: both;';
         $style[] = '    margin-bottom: 3px;';
         $style[] = '    position:relative;';
         $style[] = '}';
@@ -114,7 +115,7 @@ class JFormFieldAdjuntos extends JFormField
 
         $script[] = 'contenedor = $("controles-adjuntos").getParent("fieldset")';
 
-        $script[] = '$("controles-adjuntos").grab(btnAgregarAdjunto);';
+        $script[] = '$("controles-adjuntos").grab(btnAgregarAdjunto, "top");';
 
         $script[] = '});';
 
@@ -162,7 +163,7 @@ class JFormFieldAdjuntos extends JFormField
 
         $script[] = '   fieldArchivo.inject(formAdjunto);';
         $script[] = '   btnEliminarAdjunto.inject(formAdjunto);';
-        $script[] = '   $("adjuntos").grab(formAdjunto);';
+        $script[] = '   $("adjuntos").grab(formAdjunto, "top");';
 
         $script[] = '   function subirArchivo() {';
         $script[] = '       var upload = new File.Upload({';
