@@ -16,7 +16,7 @@ JHtml::_('bootstrap.tooltip');
 		<?php foreach ($list as $i => $item) : ?>
 			<?php // Calculate popular items ?>
 			<?php $hits = (int) $item->hits; ?>
-			<?php $hits_class = $hits >= 100 ? 'important' : $hits >= 25 ? 'warning' : $hits >= 10 ? 'info' : ''; ?>
+			<?php $hits_class = ($hits >= 100 ? 'important' : ($hits >= 25 ? 'warning' : ($hits >= 10 ? 'info' : ''))); ?>
 			<div class="row-fluid">
 				<div class="span9">
 					<span class="badge badge-<?php echo $hits_class; ?> hasTooltip" title="<?php echo JHtml::tooltipText('JGLOBAL_HITS'); ?>"><?php echo $item->hits; ?></span>
