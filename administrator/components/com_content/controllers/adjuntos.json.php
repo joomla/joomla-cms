@@ -35,7 +35,7 @@ class ContentControllerAdjuntos extends JControllerForm
             return;
         }
 
-        // Obtiene la variable @campo enviada en el request 
+        // Obtiene la variable @campo enviada en el request
         $campo = $jinput->get->get('campo', null, null);
 
         // Obtiene la variable @exts (extensiones) enviada en el request
@@ -83,7 +83,7 @@ class ContentControllerAdjuntos extends JControllerForm
             $nombreArchivo = strtolower(JFile::makeSafe($archivo['name']));
 
             // Define el origen y destino del archivo
-            // TODO: Crear directorio propio para los adjuntos del artículo 
+            // TODO: Crear directorio propio para los adjuntos del artículo
             // y usarlo como path destino.
             $src = $archivo['tmp_name'];
             $dest = JPATH_ROOT.DS.'uploads'.DS.sha1(time()).'-'.$nombreArchivo;
@@ -96,7 +96,7 @@ class ContentControllerAdjuntos extends JControllerForm
                 print_r(json_encode($data));
 
             } else {
-                // Muestra el mensaje a partir del código de error generado durante la 
+                // Muestra el mensaje a partir del código de error generado durante la
                 // subida del archivo
                 $err = $archivo['error'];
 
@@ -136,7 +136,7 @@ class ContentControllerAdjuntos extends JControllerForm
     /**
      * Asigna un formato estandard al nombre de archivo
      *
-     * @param   $id     String entregado por el Id del artículo     
+     * @param   $id     String entregado por el Id del artículo
      * @param   $dest   String ruta de destino del archivo
      * @return  $arr    Array con los datos relacionados con el archivo subido
      */
@@ -160,10 +160,10 @@ class ContentControllerAdjuntos extends JControllerForm
      * Valida que el tipo mime del archivo corresponda al los tipos mime definidos en
      * la configuración del elemento Adjuntos
      *
-     * @param   $exts           Array con las extensiones de archivo permitidas, 
+     * @param   $exts           Array con las extensiones de archivo permitidas,
      *                          definidas en la configuración xml
      * @param   $mimeArchivo    String contiene el tipo mime del archivo
-     * @return  $arr            Array con el estado de la validación, mensaje resultante 
+     * @return  $arr            Array con el estado de la validación, mensaje resultante
      *                          y tipo de mensaje
      */
 
@@ -175,11 +175,11 @@ class ContentControllerAdjuntos extends JControllerForm
 
         if ($estado === false) {
             $arr['msg'] = JText::_('COM_CONTENT_ADJUNTOS_MSG_MIMETYPE_NO_PERMITIDO', $mimeArchivo);
-            $arr['tipo'] = "warn"; 
+            $arr['tipo'] = "warn";
             $arr['estado'] = false;
         } else {
             $arr['msg'] = JText::_('COM_CONTENT_ADJUNTOS_MSG_MIMETYPE_PERMITIDO', $mimeArchivo);
-            $arr['tipo'] = "success"; 
+            $arr['tipo'] = "success";
             $arr['estado'] = true;
         }
 
@@ -188,7 +188,7 @@ class ContentControllerAdjuntos extends JControllerForm
 
     /*
      * Elimina los datos del archivo adjunto indicado
-     * 
+     *
      * $return  $arr    Array con el estado de la eliminación y mensaje resultante
      */
 
@@ -207,7 +207,7 @@ class ContentControllerAdjuntos extends JControllerForm
      * Guarda los datos del archivo adjunto en la Base de Datos
      *
      * @param   $data   Array con los datos del archivo adjuntado
-     * @return  $arr    Array con el estado de la subida y mensaje resultante        
+     * @return  $arr    Array con el estado de la subida y mensaje resultante
      *
      */
 
@@ -218,11 +218,11 @@ class ContentControllerAdjuntos extends JControllerForm
 
         $columnas = array('propietario_id', 'nombre_archivo', 'ruta', 'hash');
         $valores = array(
-            $data['id'], 
-            $db->quote($data['nombreArchivo']), 
-            $db->quote($data['ruta']), 
+            $data['id'],
+            $db->quote($data['nombreArchivo']),
+            $db->quote($data['ruta']),
             $db->quote($data['hash']));
-        
+
         $query
             ->insert($db->quoteName('#__adjuntos'))
             ->columns($db->quoteName($columnas))
@@ -242,7 +242,7 @@ class ContentControllerAdjuntos extends JControllerForm
             $arr['msg'] = JText::_('COM_CONTENT_ADJUNTOS_MSG_ERROR_AL_GUARDAR',$e->getMessage());
             $arr['tipo'] = "error";
         }
-        
+
         return $arr;
     }
 
