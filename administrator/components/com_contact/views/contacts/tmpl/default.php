@@ -103,7 +103,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<th width="1%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 						</th>
-						<th width="1%" class="hidden-phone">
+						<th width="1%" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="1%" style="min-width:55px" class="nowrap center">
@@ -168,7 +168,7 @@ JFactory::getDocument()->addScriptDeclaration('
 									value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
 							<?php endif; ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td class="center">
