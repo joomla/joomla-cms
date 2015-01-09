@@ -49,6 +49,8 @@ abstract class ModTagssimilarHelper
 		$tagsHelper = new JHelperTags;
 		$prefix     = $option . '.' . $view;
 		$id         = $app->input->getInt('id');
+		$now        = JFactory::getDate()->toSql();
+		$nullDate   = $db->getNullDate();
 
 		$tagsToMatch = $tagsHelper->getTagIds($id, $prefix);
 
@@ -90,7 +92,11 @@ abstract class ModTagssimilarHelper
 			. ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')');
 
 		// Only return published tags
-		$query->where($db->quoteName('cc.core_state') . ' = 1 ');
+		$query->where($db->quoteName('cc.core_state') . ' = 1 ')
+			->where('(' . $db->quoteName('cc.core_publish_up') . '=' . $db->quote($nullDate) . ' OR '
+				. $db->quoteName('cc.core_publish_up') . '<=' . $db->quote($now) . ')')
+			->where('(' . $db->quoteName('cc.core_publish_down') . '=' . $db->quote($nullDate) . ' OR '
+				. $db->quoteName('cc.core_publish_down') . '>=' . $db->quote($now) . ')');
 
 		// Optionally filter on language
 		$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');

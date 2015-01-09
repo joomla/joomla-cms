@@ -63,7 +63,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_TAGS_ITEMS_SEARCH_FILTER');?></label>
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TAGS_ITEMS_SEARCH_FILTER'); ?>" />
 			</div>
-			<div class="btn-group hidden-phone">
+			<div class="btn-group">
 				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
 				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
@@ -97,7 +97,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<table class="table table-striped" id="categoryList">
 				<thead>
 					<tr>
-						<th width="1%" class="hidden-phone">
+						<th width="1%" class="center">
 							<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 						</th>
 						<th width="1%" class="hidden-phone">
@@ -181,7 +181,7 @@ JFactory::getDocument()->addScriptDeclaration('
 									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" />
 								<?php endif; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="center">

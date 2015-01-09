@@ -49,11 +49,14 @@ class JoomlaInstallerScript
 		if (substr($db->name, 0, 5) == 'mysql')
 		{
 			$db->setQuery('SHOW ENGINES');
-			$results = $db->loadObjectList();
 
-			if ($db->getErrorNum())
+			try
 			{
-				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+				$results = $db->loadObjectList();
+			}
+			catch (Exception $e)
+			{
+				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
 
 				return;
 			}
@@ -63,11 +66,14 @@ class JoomlaInstallerScript
 				if ($result->Support == 'DEFAULT')
 				{
 					$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
-					$db->execute();
 
-					if ($db->getErrorNum())
+					try
 					{
-						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+						$db->execute();
+					}
+					catch (Exception $e)
+					{
+						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
 
 						return;
 					}
@@ -252,16 +258,19 @@ class JoomlaInstallerScript
 		}
 
 		$db->setQuery($query);
-		$extensions = $db->loadObjectList();
-		$installer = new JInstaller;
 
-		// Check for a database error.
-		if ($db->getErrorNum())
+		try
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+			$extensions = $db->loadObjectList();
+		}
+		catch (Exception $e)
+		{
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
 
 			return;
 		}
+
+		$installer = new JInstaller;
 
 		foreach ($extensions as $extension)
 		{

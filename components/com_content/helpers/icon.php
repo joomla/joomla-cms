@@ -189,7 +189,7 @@ abstract class JHtmlIcon
 			$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
 
 			if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
-				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00'))
+				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
 			{
 				$icon = 'edit_unpublished.png';
 			}
@@ -201,7 +201,7 @@ abstract class JHtmlIcon
 			$icon = $article->state ? 'edit' : 'eye-close';
 
 			if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
-				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00'))
+				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
 			{
 				$icon = 'eye-close';
 			}
