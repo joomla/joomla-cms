@@ -73,7 +73,6 @@ Do you already have a Joomla site that isn't built with Joomla 3.x?
 * What's [new in Joomla! 3.x](http://www.joomla.org/3)?
 * What are the [main differences between 2.5 and 3.x](https://docs.joomla.org/What_are_the_major_differences_between_Joomla!_2.5_and_3.x%3F)?
 * How to [migrate from 2.5.x to 3.x](https://docs.joomla.org/Joomla_2.5_to_3.x_Step_by_Step_Migration).
-* What are the [main differences betwen 1.5 and 2.5](https://docs.joomla.org/Differences_from_Joomla_1.5_to_Joomla_2.5)?
 * How to [migrate from 1.5.x to 3.x](https://docs.joomla.org/Joomla_1.5_to_3.x_Step_by_Step_Migration).
 * How to [convert an existing website to Joomla](https://docs.joomla.org/How_to_Convert_an_existing_Web_site_to_a_Joomla!_Web_site).
 

@@ -59,7 +59,7 @@ class JFormFieldUser extends JFormField
 			. $this->id . '").className = document.getElementById("' . $this->id . '").className.replace(" invalid" , "");';
 		$script[] = '			' . $this->onchange;
 		$script[] = '		}';
-		$script[] = '		SqueezeBox.close();';
+		$script[] = '		jModalClose();';
 		$script[] = '	}';
 
 		// Add the script to the document head.

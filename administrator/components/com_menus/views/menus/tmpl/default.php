@@ -49,7 +49,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_MENUS_MENU_SEARCH_FILTER');?></label>
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_MENUS_ITEMS_SEARCH_FILTER'); ?>" />
 			</div>
-			<div class="btn-group pull-left hidden-phone">
+			<div class="btn-group pull-left">
 				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
 				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
