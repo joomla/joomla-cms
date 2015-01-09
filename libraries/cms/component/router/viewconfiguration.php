@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('JPATH_PLATFORM') or die;
+
 /**
  * View-configuration class for the advanced component router
  *
@@ -184,7 +186,7 @@ class JComponentRouterViewconfiguration
 	 */
 	public function setNestable($isNestable = true)
 	{
-		$this->nestable = $isNestable;
+		$this->nestable = (bool) $isNestable;
 
 		return $this;
 	}
