@@ -35,7 +35,6 @@ class JRouter
 	 *
 	 * @var    string
 	 * @since  3.4
-	 * Processing-stages for the router
 	 */
 	const PROCESS_BEFORE = 'preprocess';
 
@@ -53,7 +52,7 @@ class JRouter
 	 * @var    string
 	 * @since  3.4
 	 */
-	const PROCESS_AFTER = 'postprocess';
+	const PROCESS_AFTER  = 'postprocess';
 
 	/**
 	 * The rewrite mode
