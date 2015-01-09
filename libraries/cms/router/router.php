@@ -13,8 +13,6 @@ defined('JPATH_PLATFORM') or die;
  * Mask for the raw routing mode
  *
  * @deprecated  4.0
- * 
- * @deprecated  4.0
  */
 const JROUTER_MODE_RAW = 0;
 
@@ -33,11 +31,29 @@ const JROUTER_MODE_SEF = 1;
 class JRouter
 {
 	/**
+	 * Mask for the before process stage
+	 *
+	 * @var string
+	 * @since 3.4
 	 * Processing-stages for the router
 	 */
 	const PROCESS_BEFORE = 'preprocess';
+
+	/**
+	 * Mask for the during process stage
+	 *
+	 * @var string
+	 * @since 3.4
+	 */
 	const PROCESS_DURING = '';
-	const PROCESS_AFTER   = 'postprocess';
+
+	/**
+	 * Mask for the after process stage
+	 *
+	 * @var string
+	 * @since 3.4
+	 */
+	const PROCESS_AFTER = 'postprocess';
 
 	/**
 	 * The rewrite mode
