@@ -33,8 +33,8 @@ class JRouter
 	/**
 	 * Mask for the before process stage
 	 *
-	 * @var string
-	 * @since 3.4
+	 * @var    string
+	 * @since  3.4
 	 * Processing-stages for the router
 	 */
 	const PROCESS_BEFORE = 'preprocess';
@@ -42,16 +42,16 @@ class JRouter
 	/**
 	 * Mask for the during process stage
 	 *
-	 * @var string
-	 * @since 3.4
+	 * @var    string
+	 * @since  3.4
 	 */
 	const PROCESS_DURING = '';
 
 	/**
 	 * Mask for the after process stage
 	 *
-	 * @var string
-	 * @since 3.4
+	 * @var    string
+	 * @since  3.4
 	 */
 	const PROCESS_AFTER = 'postprocess';
 
