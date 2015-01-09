@@ -542,12 +542,12 @@ class JRouterSite extends JRouter
 	 *
 	 * @since   3.2
 	 */
-	protected function processParseRules(&$uri, $stage = '')
+	protected function processParseRules(&$uri, $stage = self::PROCESS_DURING)
 	{
 		// Process the attached parse rules
 		$vars = parent::processParseRules($uri, $stage);
 
-		if ($stage == '')
+		if ($stage == self::PROCESS_DURING)
 		{
 			// Process the pagination support
 			if ($this->_mode == JROUTER_MODE_SEF)
@@ -576,7 +576,7 @@ class JRouterSite extends JRouter
 	 * @since   3.2
 	 * @deprecated  4.0  The special logic should be implemented as rule
 	 */
-	protected function processBuildRules(&$uri, $stage = '')
+	protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
 	{
 		if ($stage == self::PROCESS_DURING)
 		{

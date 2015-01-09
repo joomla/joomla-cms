@@ -35,8 +35,19 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 		// Strip invalid UTF-8 characters.
 		$input = iconv("utf-8", "utf-8//IGNORE", $input);
 
-		// Convert <style> tags to <script> tags so we can remove them efficiently.
-		$input = str_replace(array('<style', '</style'), array('<script', '</script'), $input);
+		// Convert <style>, <noscript> and <head> tags to <script> tags
+		// so we can remove them efficiently.
+		$search = array(
+			'<style', '</style',
+			'<noscript', '</noscript',
+			'<head', '</head',
+		);
+		$replace = array(
+			'<script', '</script',
+			'<script', '</script',
+			'<script', '</script',
+		);
+		$input = str_replace($search, $replace, $input);
 
 		// Strip all script blocks.
 		$input = $this->removeBlocks($input, '<script', '</script>');

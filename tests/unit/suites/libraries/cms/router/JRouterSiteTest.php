@@ -150,7 +150,7 @@ class JRouterSiteTest extends TestCase
 	/**
 	 * Tests the parse method
 	 *
-	 * @param   string   $uri        An associative array with variables
+	 * @param   string   $url        An associative array with variables
 	 * @param   integer  $mode       JROUTER_MODE_RAW or JROUTER_MODE_SEF
 	 * @param   array    $map        An associative array with app config vars
 	 * @param   array    $server     An associative array with $_SERVER vars
@@ -473,6 +473,8 @@ class JRouterSiteTest extends TestCase
 		
 		$cases[] = array('english-test', false, array('languagefilter' => true), array('option' => 'com_test', 'view' => 'test2'), array('option' => 'com_test', 'Itemid' => '47'), 47);
 
+		$cases[] = array('english-test', false, array('languagefilter' => true), array('option' => 'com_test', 'view' => 'test2'), array('option' => 'com_test', 'Itemid' => '47'), 47);
+
 		return $cases;
 	}
 
@@ -484,6 +486,7 @@ class JRouterSiteTest extends TestCase
 	 * @param   array    $appConfig        An associative array with app config vars
 	 * @param   array    $expected         An associative array with $_SERVER vars
 	 * @param   array    $expectedGlobals  An associative array with $_SERVER vars
+	 * @param   boolean  $activeMenu       Flag if the item is the active menu
 	 *
 	 * @return  void
 	 *

@@ -26,19 +26,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	if (!empty($fieldSets['com_config'])):?>
 
 	<fieldset class="form-horizontal">
-
-<?php foreach ($this->form->getFieldset('com_config') as $field) : ?>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $field->label; ?>
-				</div>
-				<div class="controls">
-					<?php echo $field->input; ?>
-				</div>
-			</div>
-
-<?php endforeach;	?>
-
+		<?php echo $this->form->renderFieldset('com_config'); ?>
 	</fieldset>
 
 <?php else:
@@ -53,17 +41,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	?>
 
 <fieldset class="form-horizontal">
-
-	<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $field->label; ?>
-			</div>
-			<div class="controls">
-				<?php echo $field->input; ?>
-			</div>
-		</div>
-	<?php endforeach; ?>
+	<?php echo $this->form->renderFieldset($name); ?>
 </fieldset>
 	<?php endforeach;
 	endif;

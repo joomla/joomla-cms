@@ -66,7 +66,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');  ?></option>
 				</select>
 			</div>
-			<div class="btn-group pull-right">
+			<div class="btn-group pull-right hidden-phone">
 				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY'); ?></label>
 				<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
 					<option value=""><?php echo JText::_('JGLOBAL_SORT_BY');?></option>
