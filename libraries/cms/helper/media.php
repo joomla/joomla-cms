@@ -108,14 +108,21 @@ class JHelperMedia
 		$allowable = explode(',', $params->get('upload_extensions'));
 		$ignored   = explode(',', $params->get('ignore_extensions'));
 
-		array_walk($allowable,function(&$extension) {
-			$extension = trim($extension);
-		});
+		array_walk(
+				$allowable,
+				function(&$extension)
+				{
+					$extension = trim($extension);
+				}
+		);
 
-		array_walk($ignored,function(&$extension) {
-			$extension = trim($extension);
-		});
-
+		array_walk(
+				$ignored,
+				function(&$extension)
+				{
+					$extension = trim($extension);
+				}
+		);
 
 		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))
 		{
