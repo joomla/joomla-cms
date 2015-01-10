@@ -406,20 +406,6 @@ class JRouterTest extends TestCase
 	}
 
 	/**
-	 * Tests the attachBuildRule() method throwing a proper exception
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 * @expectedException InvalidArgumentException
-	 */
-	public function testAttachBuildRuleException()
-	{
-		$callback = array(function (&$router, &$uri) {});
-		$this->object->attachBuildRule($callback, 'wrongStage');
-	}
-
-	/**
 	 * Cases for testAttachParseRule
 	 *
 	 * @return  array
