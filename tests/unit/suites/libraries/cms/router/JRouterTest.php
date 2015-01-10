@@ -390,7 +390,7 @@ class JRouterTest extends TestCase
 
 		$this->assertEquals($object->getRules(), $expected);
 	}
-	
+
 	/**
 	 * Tests the attachBuildRule() method throwing a proper exception
 	 *

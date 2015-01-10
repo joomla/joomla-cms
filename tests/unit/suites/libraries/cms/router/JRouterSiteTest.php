@@ -470,7 +470,7 @@ class JRouterSiteTest extends TestCase
 		$cases[] = array('test2/sub-menu', false, array('languagefilter' => true), array('option' => 'com_test2', 'Itemid' => 44), array('option' => 'com_test2', 'Itemid' => 44));
 		$cases[] = array('test2/sub-menu/something', true, array('languagefilter' => true), array('testvar' => 'testvalue'), array('testvar' => 'testvalue', 'option' => 'com_test2', 'Itemid' => 44));
 		$cases[] = array('test2/sub-menu/something', false, array('languagefilter' => true), array('testvar' => 'testvalue'), array('option' => 'com_test2', 'Itemid' => 44, 'testvar' => 'testvalue'));
-		
+
 		$cases[] = array('english-test', false, array('languagefilter' => true), array('option' => 'com_test', 'view' => 'test2'), array('option' => 'com_test', 'Itemid' => '47'), 47);
 
 		return $cases;
