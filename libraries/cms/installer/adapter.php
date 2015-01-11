@@ -147,6 +147,12 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			$this->currentExtensionId = $this->extension->find(
 				array('element' => $this->element, 'type' => $this->type)
 			);
+
+			// If it does exist, load it
+			if ($this->currentExtensionId)
+			{
+				$this->extension->load(array('element' => $this->element, 'type' => $this->type));
+			}
 		}
 		catch (RuntimeException $e)
 		{
@@ -610,6 +616,22 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			return false;
 		}
 
+		// If we are on the update route, run any custom setup routines
+		if ($this->route == 'update')
+		{
+			try
+			{
+				$this->setupUpdates();
+			}
+			catch (RuntimeException $e)
+			{
+				// Install failed, roll back changes
+				$this->parent->abort($e->getMessage());
+
+				return false;
+			}
+		}
+
 		/*
 		 * ---------------------------------------------------------------------------------------------
 		 * Installer Trigger Loading
@@ -848,6 +870,18 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
+	 * Method to setup the update routine for the adapter
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function setupUpdates()
+	{
+		// Some extensions may not have custom setup routines for updates
+	}
+
+	/**
 	 * Method to store the extension to the database
 	 *
 	 * @return  void
@@ -915,5 +949,25 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		}
 
 		return true;
+	}
+
+	/**
+	 * Generic update method for extensions
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.4
+	 */
+	public function update()
+	{
+		// Set the overwrite setting
+		$this->parent->setOverwrite(true);
+		$this->parent->setUpgrade(true);
+
+		// And make sure the route is set correctly
+		$this->setRoute('update');
+
+		// Now jump into the install method to run the update
+		return $this->install();
 	}
 }

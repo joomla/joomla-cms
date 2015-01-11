@@ -413,28 +413,6 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	}
 
 	/**
-	 * Custom update method
-	 *
-	 * This is really a shell for the install system
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 */
-	public function update()
-	{
-		// Set the overwrite setting
-		$this->parent->setOverwrite(true);
-		$this->parent->setUpgrade(true);
-
-		// Set the route for the install
-		$this->setRoute('update');
-
-		// Go to install which handles updates properly
-		return $this->install();
-	}
-
-	/**
 	 * Custom discover method
 	 *
 	 * @return  array  JExtension list of extensions available

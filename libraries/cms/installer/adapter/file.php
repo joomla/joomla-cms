@@ -279,24 +279,6 @@ class JInstallerAdapterFile extends JInstallerAdapter
 	}
 
 	/**
-	 * Custom update method
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public function update()
-	{
-		// Set the overwrite setting
-		$this->parent->setOverwrite(true);
-		$this->parent->setUpgrade(true);
-		$this->route = 'update';
-
-		// ...and adds new files
-		return $this->install();
-	}
-
-	/**
 	 * Custom uninstall method
 	 *
 	 * @param   string  $id  The id of the file to uninstall
