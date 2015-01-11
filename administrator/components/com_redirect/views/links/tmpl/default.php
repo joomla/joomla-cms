@@ -108,7 +108,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
-						<td>
+						<td class="break-word">
 							<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id);?>" title="<?php echo $this->escape($item->old_url); ?>">
@@ -117,10 +117,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 									<?php echo $this->escape(str_replace(JUri::root(), '', rawurldecode($item->old_url))); ?>
 							<?php endif; ?>
 						</td>
-						<td class="small">
+						<td class="small break-word">
 							<?php echo $this->escape(rawurldecode($item->new_url)); ?>
 						</td>
-						<td class="small">
+						<td class="small break-word">
 							<?php echo $this->escape($item->referer); ?>
 						</td>
 						<td class="small">
