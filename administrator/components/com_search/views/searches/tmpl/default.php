@@ -32,7 +32,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
 			<?php echo $this->pagination->getLimitBox(); ?>
 		</div>
-		<div class="filter-select btn-group pull-left">
+		<div class="filter-select btn-group pull-left hidden-phone">
 			<span class="adminlist-searchstatus">
 			<?php if ($this->state->get('filter.results')) : ?>
 				<a class="btn" href="<?php echo JRoute::_('index.php?option=com_search&filter_results=0');?>">
