@@ -68,7 +68,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="10%" class="center">
 						<?php echo JText::_('JVERSION'); ?>
 					</th>
-					<th width="10%" class="center">
+					<th width="10%" class="center hidden-phone">
 						<?php echo JText::_('JDATE'); ?>
 					</th>
 					<th class="hidden-phone">
@@ -104,7 +104,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<td class="center">
 						<?php echo @$item->version != '' ? $item->version : '&#160;'; ?>
 					</td>
-					<td class="center">
+					<td class="center hidden-phone">
 						<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
 					</td>
 					<td class="center hidden-phone">
