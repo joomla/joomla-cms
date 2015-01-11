@@ -68,7 +68,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="20">
+						<th width="20" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th class="title">
