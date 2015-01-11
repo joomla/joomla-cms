@@ -744,10 +744,10 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	protected function parseQueries()
 	{
 		// Let's run the queries for the extension
-		if (in_array($this->route, array('install', 'discover_install')))
+		if (in_array($this->route, array('install', 'discover_install', 'uninstall')))
 		{
 			// This method may throw an exception, but it is caught by the parent caller
-			if (!$this->doDatabaseTransactions('install'))
+			if (!$this->doDatabaseTransactions())
 			{
 				throw new RuntimeException(
 					JText::sprintf(

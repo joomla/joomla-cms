@@ -742,7 +742,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		// Let's run the uninstall queries for the component
 		try
 		{
-			$this->parseQueries('uninstall');
+			$this->parseQueries();
 		}
 		catch (RuntimeException $e)
 		{

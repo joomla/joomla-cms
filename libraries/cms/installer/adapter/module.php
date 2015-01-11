@@ -590,7 +590,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		// Let's run the uninstall queries for the module
 		try
 		{
-			$this->parseQueries('uninstall');
+			$this->parseQueries();
 		}
 		catch (RuntimeException $e)
 		{
