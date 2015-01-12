@@ -408,24 +408,23 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 */
 	protected function doDatabaseTransactions()
 	{
-		// Get a database connector object
-		$db = $this->parent->getDbo();
+		$route = $this->route == 'discover_install' ? 'install' : $this->route;
 
 		// Let's run the install queries for the component
-		if (isset($this->manifest->{$this->route}->sql))
+		if (isset($this->manifest->{$route}->sql))
 		{
-			$result = $this->parent->parseSQLFiles($this->manifest->{$this->route}->sql);
+			$result = $this->parent->parseSQLFiles($this->manifest->{$route}->sql);
 
 			if ($result === false)
 			{
 				// Only rollback if installing
-				if ($this->route == 'install')
+				if ($route == 'install')
 				{
 					throw new RuntimeException(
 						JText::sprintf(
 							'JLIB_INSTALLER_ABORT_SQL_ERROR',
 							JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-							$db->stderr(true)
+							$this->parent->getDBO()->stderr(true)
 						)
 					);
 				}
