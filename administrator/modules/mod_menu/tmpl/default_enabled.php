@@ -140,6 +140,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 	// Menu Types
 	$menuTypes = JArrayHelper::sortObjects(ModMenuHelper::getMenus(), 'title');
+
 	foreach ($menuTypes as $menuType)
 	{
 		$alt = '*' . $menuType->sef . '*';
