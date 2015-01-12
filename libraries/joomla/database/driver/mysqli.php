@@ -67,7 +67,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
 		$options['select']   = (isset($options['select'])) ? (bool) $options['select'] : true;
 		$options['port']     = isset($options['port']) ? $options['port'] : null;
-		$options['socket']   = null;
+		$options['socket']   = isset($options['socket']) ? $options['socket'] : null;
 
 		// Finalize initialisation.
 		parent::__construct($options);
