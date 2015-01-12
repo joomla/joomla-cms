@@ -139,7 +139,8 @@ if ($user->authorise('core.manage', 'com_menus'))
 	$menu->addSeparator();
 
 	// Menu Types
-	$menuTypes = JArrayHelper::sortObjects(ModMenuHelper::getMenus(), 'title');
+	$menuTypes = ModMenuHelper::getMenus();
+	$menuTypes = JArrayHelper::sortObjects($menuTypes, 'title');
 
 	foreach ($menuTypes as $menuType)
 	{
