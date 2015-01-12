@@ -139,7 +139,8 @@ if ($user->authorise('core.manage', 'com_menus'))
 	$menu->addSeparator();
 
 	// Menu Types
-	foreach (ModMenuHelper::getMenus() as $menuType)
+	$menuTypes = JArrayHelper::sortObjects(ModMenuHelper::getMenus(), 'title');
+	foreach ($menuTypes as $menuType)
 	{
 		$alt = '*' . $menuType->sef . '*';
 
