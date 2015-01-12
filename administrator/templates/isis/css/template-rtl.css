@@ -7847,6 +7847,7 @@ th .tooltip-inner {
 }
 input.input-large-text {
 	font-size: 18px;
+	line-height: 22px;
 	height: auto;
 }
 .info-labels {
@@ -8101,6 +8102,10 @@ a.grid_true {
 	.j-sidebar-container {
 		margin: 0;
 	}
+}
+.break-word {
+	word-break: break-all;
+	word-wrap: break-word;
 }
 .pull-right {
 	float: left;

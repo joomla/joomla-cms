@@ -162,7 +162,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							</div>
 						</td>
 						<td class="has-context">
-							<div class="pull-left">
+							<div class="pull-left break-word">
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 								<?php endif; ?>
@@ -177,7 +177,7 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php else : ?>
 									<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 								<?php endif; ?>
-								<span class="small">
+								<span class="small break-word">
 									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 								</span>
 								<div class="small">
