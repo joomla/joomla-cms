@@ -3777,3 +3777,7 @@ div.toggle-editor {
 .module-edit {
 	display: inline-block;
 }
+.break-word {
+    word-break: break-all;
+    word-wrap: break-word;
+}

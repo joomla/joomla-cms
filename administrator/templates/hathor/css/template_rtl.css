@@ -1301,3 +1301,7 @@ div.toggle-editor {
 div.toggle-editor {
 	margin-top: 14px;
 }
+.break-word {
+    word-break: break-all;
+    word-wrap: break-word;
+}
