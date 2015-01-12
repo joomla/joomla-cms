@@ -137,7 +137,7 @@ defined('_JEXEC') or die;
 				<td>
 					<?php echo JText::_('COM_ADMIN_DISABLED_FUNCTIONS'); ?>
 				</td>
-				<td>
+				<td class="break-word">
 					<?php echo JHtml::_('phpsetting.string', $this->php_settings['disable_functions']); ?>
 				</td>
 			</tr>
