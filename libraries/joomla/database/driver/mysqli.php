@@ -66,7 +66,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
 		$options['select']   = (isset($options['select'])) ? (bool) $options['select'] : true;
-		$options['port']     = null;
+		$options['port']     = isset($options['port']) ? $options['port'] : null;
 		$options['socket']   = null;
 
 		// Finalize initialisation.
