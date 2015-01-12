@@ -181,6 +181,16 @@
 					<option value="0">JOFF</option>
 				</field>
 
+				<field name="resize_horizontal" type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
+					label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
+				>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
+
 				<field name="element_path" type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"

@@ -224,12 +224,19 @@ class PlgEditorTinymce extends JPlugin
 			$image_advtab = "false";
 		}
 
-		// The param is true false, so we turn true to both rather than showing vertical resize only
+		// The param is true for vertical resizing only, false or both
 		$resizing = $this->params->get('resizing', '1');
 
 		if ($resizing || $resizing == 'true')
 		{
-			$resizing = 'resize: "both",';
+			if ($this->params->get('resize_horizontal', '1'))
+			{
+				$resizing = 'resize: "both",';
+			}
+			else
+			{
+				$resizing = 'resize: true,';
+			}
 		}
 		else
 		{
