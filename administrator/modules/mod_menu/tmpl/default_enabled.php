@@ -140,7 +140,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 	// Menu Types
 	$menuTypes = ModMenuHelper::getMenus();
-	$menuTypes = JArrayHelper::sortObjects($menuTypes, 'title');
+	$menuTypes = JArrayHelper::sortObjects($menuTypes, 'title', 1, false, true);
 
 	foreach ($menuTypes as $menuType)
 	{
