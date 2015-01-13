@@ -9,11 +9,12 @@
  */
 
 // No direct access
-defined('_JEXEC') or die;
+defined('_JEXEC') or die();
 
 jimport('joomla.application.component.controllerform');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.mime');
+jimport('joomla.database.table');
 
 class ContentControllerAdjuntos extends JControllerForm
 {
@@ -194,13 +195,26 @@ class ContentControllerAdjuntos extends JControllerForm
 
     public function borrar() {
 
+        JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_content'.DS.'tables');
+
         // Recibe los datos necesarios para eliminar el archivo adjunto indicado
         $jinput = JFactory::getApplication()->input;
 
-        $id = $jinput->get('id', null, null);
         $hash = $jinput->get('hash', null, null);
+        $id = self::obtenerRecordID($hash);
 
-        print_r('{"hash": "'.$hash.'"}');
+        $row =& JTable::getInstance('adjuntos', 'Table');
+        $row->load((int)$id);
+
+
+        // TODO: Componer el nombre del archivo y su ubicación
+
+        // TODO: Verificar la existencia del archivo en el disco y eliminar
+
+        // TODO: Finalmente eliminar la referencia del archivo de la base de datos
+
+        print_r(json_encode('{"hash": "'.$row->hash.'"}'));
+
     }
 
     /*
@@ -262,5 +276,22 @@ class ContentControllerAdjuntos extends JControllerForm
 
         return $results;
 
+    }
+
+    private function obtenerRecordID ($hash) {
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+
+        $columnas = array('id','hash');
+        $query
+            ->select($db->quoteName($columnas))
+            ->from($db->quoteName('#__adjuntos'))
+            ->where($db->quoteName('hash'). ' = '. $db->quote($hash));
+
+        $db->setQuery($query);
+
+        $id = $db->loadObject()->id;
+
+        return $id;
     }
 }
