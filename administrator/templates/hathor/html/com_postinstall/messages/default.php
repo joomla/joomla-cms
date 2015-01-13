@@ -8,6 +8,19 @@
  */
 
 defined('_JEXEC') or die;
+
+$renderer       = JFactory::getDocument()->loadRenderer('module');
+$options        = array('style' => 'raw');
+$mod            = JModuleHelper::getModule('mod_feed');
+$param          = array("rssurl" => "http://www.joomla.org/announcements/release-news.feed?type=rss",
+                         +						"rsstitle" => 0,
+                         +						"rssdesc" => 0,
+                         +						"rssimage" => 1,
+                         +						"rssitems" => 5,
+                         +						"rssitemdesc" => 1,
+                         +						"word_count" => 200,
+                         +						"cache" => 0);
+$params         = array('params' => json_encode($param));
 ?>
 
 <?php if (empty($this->items)): ?>
@@ -52,8 +65,7 @@ defined('_JEXEC') or die;
 	if ($this->eid == 700):
 		echo JHtml::_('sliders.panel', JText::_('COM_POSTINSTALL_LBL_RELEASENEWS'), 'postinstall-panel-releasenotes');
 ?>
-		<iframe width="100%" height="1000" src="http://www.joomla.org/announcements/release-news">
-		</iframe>
+		<?php echo $renderer->render($mod, $params, $options); ?>
 <?php
 	echo JHtml::_('sliders.end');
 	endif;
