@@ -52,7 +52,7 @@ defined('_JEXEC') or die;
 	if ($this->eid == 700):
 		echo JHtml::_('sliders.panel', JText::_('COM_POSTINSTALL_LBL_RELEASENEWS'), 'postinstall-panel-releasenotes');
 ?>
-		<iframe width="100%" height="1000" src="http://www.joomla.org/announcements/release-news">
+		<iframe width="100%" height="1000" src="https://www.joomla.org/announcements/release-news">
 		</iframe>
 <?php
 	echo JHtml::_('sliders.end');
