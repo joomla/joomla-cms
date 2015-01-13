@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $renderer       = JFactory::getDocument()->loadRenderer('module');
 $options        = array('style' => 'raw');
 $mod            = JModuleHelper::getModule('mod_feed');
-$param          = array("rssurl" => "http://www.joomla.org/announcements/release-news.feed?type=rss",
+$param          = array("rssurl" => "https://www.joomla.org/announcements/release-news.feed?type=rss",
                          						"rsstitle" => 0,
                          						"rssdesc" => 0,
                          						"rssimage" => 1,
@@ -56,7 +56,7 @@ $params         = array('params' => json_encode($param));
 			<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
 			<button onclick="window.location='index.php?option=com_postinstall&view=message&task=unpublish&id=<?php echo $item->postinstall_message_id ?>&<?php echo $this->token ?>=1'; return false;" class="btn btn-inverse btn-small">
 				<?php echo JText::_('COM_POSTINSTALL_BTN_HIDE') ?>
-			</a>
+			</button>
 			<?php endif; ?>
 		</div>
 	</fieldset>
