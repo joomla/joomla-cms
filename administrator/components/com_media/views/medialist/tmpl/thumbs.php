@@ -10,6 +10,17 @@
 defined('_JEXEC') or die;
 ?>
 <form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
+	<?php if ($this->state->folder != '') : ?>
+		<div>
+			<ul class="unstyled">
+				<li>
+					<i class="icon-folder"> </i>
+					<?php echo $this->state->folder; ?>
+				</li>
+			</ul>
+		</div>
+	<?php endif; ?>
+
 	<ul class="manager thumbnails">
 		<?php
 		echo $this->loadTemplate('up');
