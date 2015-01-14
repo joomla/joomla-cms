@@ -207,13 +207,26 @@ class ContentControllerAdjuntos extends JControllerForm
         $row->load((int)$id);
 
 
-        // TODO: Componer el nombre del archivo y su ubicación
+        // Componer el nombre del archivo y su ubicación
+        $adjuntoPath = $row->ruta . DS . $row->hash . '-' . $row->nombre_archivo;
 
-        // TODO: Verificar la existencia del archivo en el disco y eliminar
+        $arr = array();
+
+        // Verificar la existencia del archivo en el disco y eliminar
+        if (JFile::exists($adjuntoPath)) {
+            $del = JFile::delete($adjuntoPath);
+            $arr['msg'] = JText::_("Se ha eliminado el archivo");
+            $arr['tipo'] = "success";
+            $arr['estado'] = true;
+        } else {
+            $arr['msg'] = JText::_("No existe el archivo");
+            $arr['tipo'] = "error";
+            $arr['estado'] = true;
+        }
 
         // TODO: Finalmente eliminar la referencia del archivo de la base de datos
 
-        print_r(json_encode('{"hash": "'.$row->hash.'"}'));
+        print_r(json_encode($arr));
 
     }
 
