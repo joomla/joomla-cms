@@ -163,11 +163,13 @@ JFactory::getDocument()->addScriptDeclaration("
 							onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
 							data-original-title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_OFF'); ?>">
 							<?php echo JText::_('JYES'); ?>&nbsp;<i class="icon-lock"></i>
+						</a>
 					<?php else : ?>
 						<a class="btn btn-micro active" rel="tooltip" href="javascript:void(0);"
 							onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
 							data-original-title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_ON'); ?>">
 							<?php echo JText::_('JNO'); ?>
+						</a>
 					<?php endif; ?>
 				</td>
 				<td align="left">
@@ -188,5 +190,3 @@ JFactory::getDocument()->addScriptDeclaration("
 	</div>
 	</div>
 </form>
-
-
