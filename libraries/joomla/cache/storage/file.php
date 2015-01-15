@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * File cache storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @since  11.1
  */
 class JCacheStorageFile extends JCacheStorage
 {
@@ -63,6 +61,7 @@ class JCacheStorageFile extends JCacheStorage
 			if (file_exists($path))
 			{
 				$data = file_get_contents($path);
+
 				if ($data)
 				{
 					// Remove the initial die() statement
@@ -102,6 +101,7 @@ class JCacheStorageFile extends JCacheStorage
 			{
 				$item->updateSize(filesize($path . '/' . $folder . '/' . $file) / 1024);
 			}
+
 			$data[$folder] = $item;
 		}
 
@@ -161,10 +161,12 @@ class JCacheStorageFile extends JCacheStorage
 	public function remove($id, $group)
 	{
 		$path = $this->_getFilePath($id, $group);
+
 		if (!@unlink($path))
 		{
 			return false;
 		}
+
 		return true;
 	}
 
@@ -194,6 +196,7 @@ class JCacheStorageFile extends JCacheStorage
 		{
 			case 'notgroup':
 				$folders = $this->_folders($this->_root);
+
 				for ($i = 0, $n = count($folders); $i < $n; $i++)
 				{
 					if ($folders[$i] != $folder)
@@ -210,6 +213,7 @@ class JCacheStorageFile extends JCacheStorage
 				}
 				break;
 		}
+
 		return $return;
 	}
 
@@ -226,14 +230,17 @@ class JCacheStorageFile extends JCacheStorage
 
 		// Files older than lifeTime get deleted from cache
 		$files = $this->_filesInFolder($this->_root, '', true, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html'));
+
 		foreach ($files as $file)
 		{
 			$time = @filemtime($file);
+
 			if (($time + $this->_lifetime) < $this->_now || empty($time))
 			{
 				$result |= @unlink($file);
 			}
 		}
+
 		return $result;
 	}
 
@@ -247,6 +254,7 @@ class JCacheStorageFile extends JCacheStorage
 	public static function isSupported()
 	{
 		$conf = JFactory::getConfig();
+
 		return is_writable($conf->get('cache_path', JPATH_CACHE));
 	}
 
@@ -282,14 +290,12 @@ class JCacheStorageFile extends JCacheStorage
 
 		if ($data_lock === false)
 		{
-
 			$lock_counter = 0;
 
 			// Loop until you find that the lock has been released.
 			// That implies that data get from other thread has finished
 			while ($data_lock === false)
 			{
-
 				if ($lock_counter > $looptime)
 				{
 					$returning->locked = false;
@@ -301,8 +307,8 @@ class JCacheStorageFile extends JCacheStorage
 				$data_lock = @flock($_fileopen, LOCK_EX);
 				$lock_counter++;
 			}
-
 		}
+
 		$returning->locked = $data_lock;
 
 		return $returning;
@@ -351,13 +357,17 @@ class JCacheStorageFile extends JCacheStorage
 		if (file_exists($path))
 		{
 			$time = @filemtime($path);
+
 			if (($time + $this->_lifetime) < $this->_now || empty($time))
 			{
 				@unlink($path);
+
 				return false;
 			}
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -379,7 +389,6 @@ class JCacheStorageFile extends JCacheStorage
 		// If the folder doesn't exist try to create it
 		if (!is_dir($dir))
 		{
-
 			// Make sure the index file is there
 			$indexFile = $dir . '/index.html';
 			@ mkdir($dir) && file_put_contents($indexFile, '<!DOCTYPE html><title></title>');
@@ -390,6 +399,7 @@ class JCacheStorageFile extends JCacheStorage
 		{
 			return false;
 		}
+
 		return $dir . '/' . $name . '.php';
 	}
 
@@ -409,6 +419,7 @@ class JCacheStorageFile extends JCacheStorage
 		{
 			// Bad programmer! Bad, bad programmer!
 			JLog::add('JCacheStorageFile::_deleteFolder ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -420,6 +431,7 @@ class JCacheStorageFile extends JCacheStorage
 		if ($pos === false || $pos > 0)
 		{
 			JLog::add('JCacheStorageFile::_deleteFolder' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -435,7 +447,6 @@ class JCacheStorageFile extends JCacheStorage
 		}
 		elseif (!empty($files) && is_array($files))
 		{
-
 			foreach ($files as $file)
 			{
 				$file = $this->_cleanPath($file);
@@ -450,6 +461,7 @@ class JCacheStorageFile extends JCacheStorage
 				{
 					$filename = basename($file);
 					JLog::add('JCacheStorageFile::_deleteFolder' . JText::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', $filename), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}
@@ -485,6 +497,7 @@ class JCacheStorageFile extends JCacheStorage
 			JLog::add('JCacheStorageFile::_deleteFolder' . JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), JLog::WARNING, 'jerror');
 			$ret = false;
 		}
+
 		return $ret;
 	}
 
@@ -543,6 +556,7 @@ class JCacheStorageFile extends JCacheStorage
 		if (!is_dir($path))
 		{
 			JLog::add('JCacheStorageFile::_filesInFolder' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -560,12 +574,14 @@ class JCacheStorageFile extends JCacheStorage
 		{
 			$excludefilter = '';
 		}
+
 		while (($file = readdir($handle)) !== false)
 		{
 			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file)))
 			{
 				$dir = $path . '/' . $file;
 				$isDir = is_dir($dir);
+
 				if ($isDir)
 				{
 					if ($recurse)
@@ -598,6 +614,7 @@ class JCacheStorageFile extends JCacheStorage
 				}
 			}
 		}
+
 		closedir($handle);
 
 		return $arr;
@@ -629,6 +646,7 @@ class JCacheStorageFile extends JCacheStorage
 		if (!is_dir($path))
 		{
 			JLog::add('JCacheStorageFile::_folders' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -646,6 +664,7 @@ class JCacheStorageFile extends JCacheStorage
 		{
 			$excludefilter_string = '';
 		}
+
 		while (($file = readdir($handle)) !== false)
 		{
 			if (($file != '.') && ($file != '..')
@@ -654,6 +673,7 @@ class JCacheStorageFile extends JCacheStorage
 			{
 				$dir = $path . '/' . $file;
 				$isDir = is_dir($dir);
+
 				if ($isDir)
 				{
 					// Removes filtered directories
@@ -668,6 +688,7 @@ class JCacheStorageFile extends JCacheStorage
 							$arr[] = $file;
 						}
 					}
+
 					if ($recurse)
 					{
 						if (is_int($recurse))
@@ -684,6 +705,7 @@ class JCacheStorageFile extends JCacheStorage
 				}
 			}
 		}
+
 		closedir($handle);
 
 		return $arr;

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.yubikey
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Two Factor Authentication using Yubikey Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Twofactorauth.yubikey
- * @since       3.2
+ * @since  3.2
  */
 class PlgTwofactorauthYubikey extends JPlugin
 {
@@ -133,9 +131,9 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		JLoader::import('joomla.filesystem.file');
 
-		if (JFile::exists($path . 'form.php'))
+		if (JFile::exists($path . '/form.php'))
 		{
-			include_once $path . 'form.php';
+			include_once $path . '/form.php';
 		}
 		else
 		{
@@ -175,6 +173,12 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		// Load raw data
 		$rawData = $input->get('jform', array(), 'array');
+
+		if (!isset($rawData['twofactor']['yubikey']))
+		{
+			return false;
+		}
+
 		$data = $rawData['twofactor']['yubikey'];
 
 		// Warn if the securitycode is empty

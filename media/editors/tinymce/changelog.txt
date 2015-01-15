@@ -1,3 +1,66 @@
+Version 4.1.6 (2014-10-08)
+	Fixed bug with clicking on the scrollbar of the iframe would cause a JS error to be thrown.
+	Fixed bug where null would produce an exception if you passed it to selection.setRng.
+	Fixed bug where Ctrl/Cmd+Tab would indent the current list item if you switched tabs in the browser.
+	Fixed bug where pasting empty cells from Excel would result in a broken table.
+	Fixed bug where it wasn't possible to switch back to default list style type.
+	Fixed issue where the select all quirk fix would fire for other modifiers than Ctrl/Cmd combinations.
+	Replaced jake with grunt since it is more mainstream and has better plugin support.
+Version 4.1.5 (2014-09-09)
+	Fixed bug where sometimes the resize rectangles wouldn't properly render on images on WebKit/Blink.
+	Fixed bug in list plugin where delete/backspace would merge empty LI elements in lists incorrectly.
+	Fixed bug where empty list elements would result in empty LI elements without it's parent container.
+	Fixed bug where backspace in empty caret formated element could produce an type error exception of Gecko.
+	Fixed bug where lists pasted from word with a custom start index above 9 wouldn't be properly handled.
+	Fixed bug where tabfocus plugin would tab out of the editor instance even if the default action was prevented.
+	Fixed bug where tabfocus wouldn't tab properly to other adjacent editor instances.
+	Fixed bug where the DOMUtils setStyles wouldn't properly removed or update the data-mce-style attribute.
+	Fixed bug where dialog select boxes would be placed incorrectly if document.body wasn't statically positioned.
+	Fixed bug where pasting would sometimes scroll to the top of page if the user was using the autoresize plugin.
+	Fixed bug where caret wouldn't be properly rendered by Chrome when clicking on the iframes documentElement.
+	Fixed so custom images for menubutton/splitbutton can be provided. Patch contributed by Naim Hammadi.
+	Fixed so the default action of windows closing can be prevented by blocking the default action of the close event.
+	Fixed so nodeChange and focus of the editor isn't automatically performed when opening sub dialogs.
+Version 4.1.4 (2014-08-21)
+	Added new media_filter_html option to media plugin that blocks any conditional comments, scripts etc within a video element.
+	Added new content_security_policy option allows you to set custom policy for iframe contents. Patch contributed by Francois Chagnon.
+	Fixed bug where activate/deactivate events wasn't firing properly when switching between editors.
+	Fixed bug where placing the caret on iOS was difficult due to a WebKit bug with touch events.
+	Fixed bug where the resize helper wouldn't render properly on older IE versions.
+	Fixed bug where resizing images inside tables on older IE versions would sometimes fail depending mouse position.
+	Fixed bug where editor.insertContent would produce an exception when inserting select/option elements.
+	Fixed bug where extra empty paragraphs would be produced if block elements where inserted inside span elements.
+	Fixed bug where the spellchecker menu item wouldn't be properly checked if spell checking was started before it was rendered.
+	Fixed bug where the DomQuery filter function wouldn't remove non elements from collection.
+	Fixed bug where document with custom document.domain wouldn't properly render the editor.
+	Fixed bug where IE 8 would throw exception when trying to enter invalid color values into colorboxes.
+	Fixed bug where undo manager could incorrectly add an extra undo level when custom resize handles was removed.
+	Fixed bug where it wouldn't be possible to alter cell properties properly on table cells on IE 8.
+	Fixed so the color picker button in table dialog isn't shown unless you include the colorpicker plugin or add your own custom color picker.
+	Fixed so activate/deactivate events fire when windowManager opens a window since.
+	Fixed so the table advtab options isn't separated by an underscore to normalize naming with image_advtab option.
+	Fixed so the table cell dialog has proper padding when the advanced tab in disabled.
+Version 4.1.3 (2014-07-29)
+	Added event binding logic to tinymce.util.XHR making it possible to override headers and settings before any request is made.
+	Fixed bug where drag events wasn't fireing properly on older IE versions since the event handlers where bound to document.
+	Fixed bug where drag/dropping contents within the editor on IE would force the contents into plain text mode even if it was internal content.
+	Fixed bug where IE 7 wouldn't open menus properly due to a resize bug in the browser auto closing them immediately.
+	Fixed bug where the DOMUtils getPos logic wouldn't produce a valid coordinate inside the body if the body was positioned non static.
+	Fixed bug where the element path and format state wasn't properly updated if you had the wordcount plugin enabled.
+	Fixed bug where a comment at the beginning of source would produce an exception in the formatter logic.
+	Fixed bug where setAttrib/getAttrib on null would throw exception together with any hooked attributes like style.
+	Fixed bug where table sizes wasn't properly retained when copy/pasting on WebKit/Blink.
+	Fixed bug where WebKit/Blink would produce colors in RGB format instead of the forced HEX format when deleting contents.
+	Fixed bug where the width attribute wasn't updated on tables if you changed the size inside the table dialog.
+	Fixed bug where control selection wasn't properly handled when the caret was placed directly after an image.
+	Fixed bug where selecting the contents of table cells using the selection.select method wouldn't place the caret properly.
+	Fixed bug where the selection state for images wasn't removed when placing the caret right after an image on WebKit/Blink.
+	Fixed bug where all events wasn't properly unbound when and editor instance was removed or destroyed by some external innerHTML call.
+	Fixed bug where it wasn't possible or very hard to select images on iOS when the onscreen keyboard was visible.
+	Fixed so auto_focus can take a boolean argument this will auto focus the last initialized editor might be useful for single inits.
+	Fixed so word auto detect lists logic works better for faked lists that doesn't have specific markup.
+	Fixed so nodeChange gets fired on mouseup as it used to before 4.1.1 we optimized that event to fire less often.
+	Removed the finish menu item from spellchecker menu since it's redundant you can stop spellchecking by toggling menu item or button.
 Version 4.1.2 (2014-07-15)
 	Added offset/grep to DomQuery class works basically the same as it's jQuery equivalent.
 	Fixed bug where backspace/delete or setContent with an empty string would remove header data when using the fullpage plugin.
@@ -222,7 +285,7 @@ Version 4.0.17 (2014-02-26)
 	Fixed bug where older IE versions would fire focus/blur events even though the editor focus didn't change.
 	Fixed bug where IE 11 would add two trailing BR elements to the editor iframe body if the editor was hidden.
 	Fixed bug where the visualchars plugin wouldn't display non breaking spaces if they where inserted while the state was enabled.
-	Fixed bug where the wordcount plugin would be very slow some HTML where to much backtracking occured.
+	Fixed bug where the wordcount plugin would be very slow some HTML where to much backtracking occurred.
 	Fixed so pagebreak elements in the editor breaks pages when printing. Patch contributed by penc.
 	Fixed so UndoManager events pass though the original event that created the undo level such as a keydown, blur etc.
 	Fixed so the inserttime button is callsed insertdatetime the same as the menu item and plugin name.

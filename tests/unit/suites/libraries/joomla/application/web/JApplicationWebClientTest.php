@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -199,30 +199,6 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 
 		// Get a new JWebInspector instance.
 		$this->inspector = new JWebClientInspector;
-	}
-
-	/**
-	 * Tests the JApplicationWebClient::__construct method.
-	 *
-	 * @return void
-	 *
-	 * @since 11.3
-	 */
-	public function test__construct()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Tests the JApplicationWebClient::__get method.
-	 *
-	 * @return void
-	 *
-	 * @since 11.3
-	 */
-	public function test__get()
-	{
-		$this->markTestIncomplete();
 	}
 
 	/**

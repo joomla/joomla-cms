@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.article
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Editor Article buton
  *
- * @package     Joomla.Plugin
- * @subpackage  Editors-xtd.article
- * @since       1.5
+ * @since  1.5
  */
 class PlgButtonArticle extends JPlugin
 {
@@ -51,7 +49,7 @@ class PlgButtonArticle extends JPlugin
 			}
 			var tag = '<a' + hreflang + ' href=\"' + link + '\">' + title + '</a>';
 			jInsertEditorText(tag, '" . $name . "');
-			SqueezeBox.close();
+			jModalClose();
 		}";
 
 		$doc = JFactory::getDocument();

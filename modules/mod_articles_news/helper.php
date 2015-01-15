@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ abstract class ModArticlesNewsHelper
 	/**
 	 * Get a list of the latest articles from the article model
 	 *
-	 * @param   JRegistry  &$params  object holding the models parameters
+	 * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
 	 *
 	 * @return  mixed
 	 *
@@ -51,7 +51,7 @@ abstract class ModArticlesNewsHelper
 
 		$model->setState('list.select', 'a.fulltext, a.id, a.title, a.alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
 			' a.modified, a.modified_by, a.publish_up, a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access,' .
-			' a.hits, a.featured' );
+			' a.hits, a.featured, a.language');
 
 		// Access filter
 		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
@@ -90,7 +90,7 @@ abstract class ModArticlesNewsHelper
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link     = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid));
+				$item->link     = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE');
 			}
 			else

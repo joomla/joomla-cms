@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 // Getting params from template
 $params = JFactory::getApplication()->getTemplate(true)->params;
@@ -145,7 +147,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 					<?php $this->menumodules = JModuleHelper::getModules('menu'); ?>
 					<?php foreach ($this->menumodules as $menumodule) : ?>
 						<?php $output = JModuleHelper::renderModule($menumodule, array('style' => 'none')); ?>
-						<?php $params = new JRegistry; ?>
+						<?php $params = new Registry; ?>
 						<?php $params->loadString($menumodule->params); ?>
 						<?php echo $output; ?>
 					<?php endforeach; ?>
@@ -202,7 +204,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 				<?php $this->statusmodules = JModuleHelper::getModules('status'); ?>
 				<?php foreach ($this->statusmodules as $statusmodule) : ?>
 					<?php $output = JModuleHelper::renderModule($statusmodule, array('style' => 'no')); ?>
-					<?php $params = new JRegistry; ?>
+					<?php $params = new Registry; ?>
 					<?php $params->loadString($statusmodule->params); ?>
 					<?php echo $output; ?>
 				<?php endforeach; ?>

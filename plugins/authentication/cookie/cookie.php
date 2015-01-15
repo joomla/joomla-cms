@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.cookie
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Joomla Authentication plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Authentication.cookie
- * @since       3.2
- * @note        Code based on http://jaspan.com/improved_persistent_login_cookie_best_practice
- *              and http://fishbowl.pastiche.org/2004/01/19/persistent_login_cookie_best_practice/
+ * @since  3.2
+ * @note   Code based on http://jaspan.com/improved_persistent_login_cookie_best_practice
+ *         and http://fishbowl.pastiche.org/2004/01/19/persistent_login_cookie_best_practice/
  */
 class PlgAuthenticationCookie extends JPlugin
 {

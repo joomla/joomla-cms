@@ -1,17 +1,14 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @subpackage form
- * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  form
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
-if (!class_exists('JFormFieldCalendar'))
-{
-	require_once JPATH_LIBRARIES . '/joomla/form/fields/calendar.php';
-}
+JFormHelper::loadFieldClass('calendar');
 
 /**
  * Form Field class for the FOF framework
@@ -47,6 +44,7 @@ class FOFFormFieldCalendar extends JFormFieldCalendar implements FOFFormField
 		{
 			// ATTENTION: Redirected getInput() to getStatic()
 			case 'input':
+			case 'static':
 				if (empty($this->static))
 				{
 					$this->static = $this->getStatic();
@@ -61,7 +59,7 @@ class FOFFormFieldCalendar extends JFormFieldCalendar implements FOFFormField
 					$this->repeatable = $this->getRepeatable();
 				}
 
-				return $this->static;
+				return $this->repeatable;
 				break;
 
 			default:
@@ -98,7 +96,7 @@ class FOFFormFieldCalendar extends JFormFieldCalendar implements FOFFormField
 	/**
 	 * Method to get the calendar input markup.
 	 *
-	 * @param	string	$display	The display to render ('static' or 'repeatable')
+	 * @param   string  $display  The display to render ('static' or 'repeatable')
 	 *
 	 * @return  string	The field input markup.
 	 *
@@ -119,48 +117,46 @@ class FOFFormFieldCalendar extends JFormFieldCalendar implements FOFFormField
 		// Check for empty date values
 		if (empty($this->value) || $this->value == '0000-00-00 00:00:00' || $this->value == '0000-00-00')
 		{
-			if ($default == 'now')
-			{
-				$this->value = $default;
-			}
-			else
-			{
-				$this->value = 0;
-			}
+			$this->value = $default;
 		}
 
 		// Get some system objects.
 		$config = FOFPlatform::getInstance()->getConfig();
 		$user   = JFactory::getUser();
-		$date   = FOFPlatform::getInstance()->getDate($this->value, 'UTC');
 
-		// If a known filter is given use it.
-		switch (strtoupper((string) $this->element['filter']))
+		// Format date if exists
+		if (!empty($this->value))
 		{
-			case 'SERVER_UTC':
-				// Convert a date to UTC based on the server timezone.
-				if ((int) $this->value)
-				{
-					// Get a date object based on the correct timezone.
-					$date->setTimezone(new DateTimeZone($config->get('offset')));
-				}
-				break;
+			$date   = FOFPlatform::getInstance()->getDate($this->value, 'UTC');
 
-			case 'USER_UTC':
-				// Convert a date to UTC based on the user timezone.
-				if ((int) $this->value)
-				{
-					// Get a date object based on the correct timezone.
-					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
-				}
-				break;
+			// If a known filter is given use it.
+			switch (strtoupper((string) $this->element['filter']))
+			{
+				case 'SERVER_UTC':
+					// Convert a date to UTC based on the server timezone.
+					if ((int) $this->value)
+					{
+						// Get a date object based on the correct timezone.
+						$date->setTimezone(new DateTimeZone($config->get('offset')));
+					}
+					break;
 
-			default:
-				break;
+				case 'USER_UTC':
+					// Convert a date to UTC based on the user timezone.
+					if ((int) $this->value)
+					{
+						// Get a date object based on the correct timezone.
+						$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+					}
+					break;
+
+				default:
+					break;
+			}
+
+			// Transform the date string.
+			$this->value = $date->format($formatPHP, true, false);
 		}
-
-		// Transform the date string.
-		$this->value = $date->format($formatPHP, true, false);
 
 		if ($display == 'static')
 		{
@@ -171,26 +167,32 @@ class FOFFormFieldCalendar extends JFormFieldCalendar implements FOFFormField
 			{
 				$attributes['size'] = (int) $this->element['size'];
 			}
+
 			if ($this->element['maxlength'])
 			{
 				$attributes['maxlength'] = (int) $this->element['maxlength'];
 			}
+
 			if ($this->element['class'])
 			{
 				$attributes['class'] = (string) $this->element['class'];
 			}
+
 			if ((string) $this->element['readonly'] == 'true')
 			{
 				$attributes['readonly'] = 'readonly';
 			}
+
 			if ((string) $this->element['disabled'] == 'true')
 			{
 				$attributes['disabled'] = 'disabled';
 			}
+
 			if ($this->element['onchange'])
 			{
 				$attributes['onchange'] = (string) $this->element['onchange'];
 			}
+
 			if ($this->required)
 			{
 				$attributes['required'] = 'required';

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Joomla.Libraries
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,10 +12,8 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Base Display Controller
  *
- * @package     Joomla.Site
- * @subpackage  com_config
- * @since       3.2
-*/
+ * @since  3.2
+ */
 class ConfigControllerDisplay extends JControllerBase
 {
 	/**
@@ -77,10 +75,12 @@ class ConfigControllerDisplay extends JControllerBase
 
 		if (class_exists($viewClass))
 		{
-			$model = new $modelClass;
+			$model     = new $modelClass;
+			$component = $model->getState()->get('component.option');
 
 			// Access check.
-			if (!JFactory::getUser()->authorise('core.admin', $model->getState()->get('component.option')))
+			if (!JFactory::getUser()->authorise('core.admin', $component)
+				&& !JFactory::getUser()->authorise('core.options', $component))
 			{
 				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 

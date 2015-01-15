@@ -3,23 +3,22 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
+use Joomla\Registry\Registry;
+
 jimport('joomla.filesystem.folder');
 
 /**
  * Language installer
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
-class JInstallerAdapterLanguage extends JAdapterInstance
+class JInstallerAdapterLanguage extends JInstallerAdapter
 {
 	/**
 	 * Core language pack flag
@@ -28,6 +27,44 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 	 * @since  12.1
 	 */
 	protected $core = false;
+
+	/**
+	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function copyBaseFiles()
+	{
+		// TODO - Refactor adapter to use common code
+	}
+
+	/**
+	 * Method to do any prechecks and setup the install paths for the extension
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function setupInstallPaths()
+	{
+		// TODO - Refactor adapter to use common code
+	}
+
+	/**
+	 * Method to store the extension to the database
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function storeExtension()
+	{
+		// TODO - Refactor adapter to use common code
+	}
 
 	/**
 	 * Custom install method
@@ -265,7 +302,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'folder' => ''));
 
 		if ($uid)
 		{
@@ -520,7 +557,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 		foreach ($users as $user)
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($user->params);
 
 			if ($registry->get($param_name) == $element)
@@ -669,8 +706,6 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 /**
  * Deprecated class placeholder. You should use JInstallerAdapterLanguage instead.
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore

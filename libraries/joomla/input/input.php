@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Input
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * This is an abstracted input class used to manage retrieving data from the application environment.
  *
- * @package     Joomla.Platform
- * @subpackage  Input
- * @since       11.1
+ * @since  11.1
  *
  * @property-read    JInput        $get
  * @property-read    JInput        $post

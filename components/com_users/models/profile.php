@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Profile model class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelProfile extends JModelForm
 {
@@ -24,6 +24,15 @@ class UsersModelProfile extends JModelForm
 	 */
 	protected $data;
 
+	/**
+	 * Constructor
+	 *
+	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 *
+	 * @since   3.2
+	 *
+	 * @throws  Exception
+	 */
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
@@ -42,8 +51,10 @@ class UsersModelProfile extends JModelForm
 	/**
 	 * Method to check in a user.
 	 *
-	 * @param   integer		The id of the row to check out.
+	 * @param   integer  $userId  The id of the row to check out.
+	 *
 	 * @return  boolean  True on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function checkin($userId = null)
@@ -60,6 +71,7 @@ class UsersModelProfile extends JModelForm
 			if (!$table->checkin($userId))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -70,8 +82,10 @@ class UsersModelProfile extends JModelForm
 	/**
 	 * Method to check out a user for editing.
 	 *
-	 * @param   integer		The id of the row to check out.
+	 * @param   integer  $userId  The id of the row to check out.
+	 *
 	 * @return  boolean  True on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function checkout($userId = null)
@@ -91,6 +105,7 @@ class UsersModelProfile extends JModelForm
 			if (!$table->checkout($user->get('id'), $userId))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -105,12 +120,13 @@ class UsersModelProfile extends JModelForm
 	 * for users plugins to extend the data.
 	 *
 	 * @return  mixed  	Data object on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function getData()
 	{
-		if ($this->data === null) {
-
+		if ($this->data === null)
+		{
 			$userId = $this->getState('user.id');
 
 			// Initialise the table with JUser.
@@ -122,6 +138,7 @@ class UsersModelProfile extends JModelForm
 
 			// Override the base user data with any data in the session.
 			$temp = (array) JFactory::getApplication()->getUserState('com_users.edit.profile.data', array());
+
 			foreach ($temp as $k => $v)
 			{
 				$this->data->$k = $v;
@@ -131,7 +148,7 @@ class UsersModelProfile extends JModelForm
 			unset($this->data->password1);
 			unset($this->data->password2);
 
-			$registry = new JRegistry($this->data->params);
+			$registry = new Registry($this->data->params);
 			$this->data->params = $registry->toArray();
 
 			// Get the dispatcher and load the users plugins.
@@ -158,15 +175,18 @@ class UsersModelProfile extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array  $data		An optional array of data for the form to interogate.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return  JForm	A JForm object on success, false on failure
+	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  JForm  A JForm object on success, false on failure
+	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.profile', 'profile', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -209,6 +229,7 @@ class UsersModelProfile extends JModelForm
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
+	 *
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -223,9 +244,14 @@ class UsersModelProfile extends JModelForm
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param   object	A form object.
-	 * @param   mixed	The data expected for the form.
+	 * @param   JForm   $form   A JForm object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
 	 * @throws	Exception if there is an error in the form event.
+	 *
 	 * @since   1.6
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'user')
@@ -233,11 +259,13 @@ class UsersModelProfile extends JModelForm
 		if (JComponentHelper::getParams('com_users')->get('frontend_userparams'))
 		{
 			$form->loadFile('frontend', false);
+
 			if (JFactory::getUser()->authorise('core.login.admin'))
 			{
 				$form->loadFile('frontend_admin', false);
 			}
 		}
+
 		parent::preprocessForm($form, $data, $group);
 	}
 
@@ -245,6 +273,8 @@ class UsersModelProfile extends JModelForm
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -267,8 +297,10 @@ class UsersModelProfile extends JModelForm
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array  The form data.
-	 * @return  mixed  	The user id on success, false on failure.
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  mixed  The user id on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function save($data)
@@ -296,7 +328,7 @@ class UsersModelProfile extends JModelForm
 		// Unset the sendEmail so it does not get overwritten
 		unset($data['sendEmail']);
 
-		// handle the two factor authentication setup
+		// Handle the two factor authentication setup
 		if (array_key_exists('twofactor', $data))
 		{
 			$model = new UsersModelUser;
@@ -353,6 +385,7 @@ class UsersModelProfile extends JModelForm
 		if (!$user->bind($data))
 		{
 			$this->setError(JText::sprintf('COM_USERS_PROFILE_BIND_FAILED', $user->getError()));
+
 			return false;
 		}
 
@@ -366,6 +399,7 @@ class UsersModelProfile extends JModelForm
 		if (!$user->save())
 		{
 			$this->setError($user->getError());
+
 			return false;
 		}
 
@@ -382,6 +416,8 @@ class UsersModelProfile extends JModelForm
 	 * @param   integer  $user_id  The user ID to load the forms for (optional)
 	 *
 	 * @return  array
+	 *
+	 * @since   3.2
 	 */
 	public function getTwofactorform($user_id = null)
 	{
@@ -392,9 +428,20 @@ class UsersModelProfile extends JModelForm
 		$otpConfig = $model->getOtpConfig($user_id);
 
 		FOFPlatform::getInstance()->importPlugin('twofactorauth');
+
 		return FOFPlatform::getInstance()->runPlugins('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
 	}
 
+	/**
+	 * Returns the one time password (OTP) – a.k.a. two factor authentication –
+	 * configuration for a particular user.
+	 *
+	 * @param   integer  $user_id  The numeric ID of the user
+	 *
+	 * @return  stdClass  An object holding the OTP configuration for this user
+	 *
+	 * @since   3.2
+	 */
 	public function getOtpConfig($user_id = null)
 	{
 		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');

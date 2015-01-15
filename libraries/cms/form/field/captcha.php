@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       2.5
+ * @since  2.5
  */
 class JFormFieldCaptcha extends JFormField
 {

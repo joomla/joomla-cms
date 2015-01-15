@@ -133,7 +133,8 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 				}
 				else
 				{
-					$isCLI = JFactory::getApplication() instanceof JException;
+                    $app = JFactory::getApplication();
+					$isCLI = $app instanceof JException || $app instanceof JApplicationCli;
 				}
 			}
 			catch (Exception $e)
@@ -539,7 +540,14 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 		{
 			// IMPORTANT: DO NOT REPLACE THIS INSTANCE OF JDispatcher WITH ANYTHING ELSE. WE NEED JOOMLA!'S PLUGIN EVENT
 			// DISPATCHER HERE, NOT OUR GENERIC EVENTS DISPATCHER
-			$dispatcher = JDispatcher::getInstance();
+			if (version_compare($this->version, '3.0', 'ge'))
+			{
+				$dispatcher = JEventDispatcher::getInstance();
+			}
+			else
+			{
+				$dispatcher = JDispatcher::getInstance();
+			}
 
 			return $dispatcher->trigger($event, $data);
 		}
@@ -914,11 +922,25 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
      */
     public function setHeader($name, $value, $replace = false)
     {
-        JResponse::setHeader($name, $value, $replace);
+		if (version_compare($this->version, '3.2', 'ge'))
+		{
+			JFactory::getApplication()->setHeader($name, $value, $replace);
+		}
+		else
+		{
+			JResponse::setHeader($name, $value, $replace);
+		}
     }
 
     public function sendHeaders()
     {
-        JResponse::sendHeaders();
+    	if (version_compare($this->version, '3.2', 'ge'))
+		{
+			JFactory::getApplication()->sendHeaders();
+		}
+		else
+		{
+			JResponse::sendHeaders();
+		}
     }
 }

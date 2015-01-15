@@ -3,20 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 /**
  * Item Model for an Article.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentModelArticle extends JModelAdmin
 {
@@ -49,7 +49,7 @@ class ContentModelArticle extends JModelAdmin
 	{
 		$categoryId = (int) $value;
 
-		$i = 0;
+		$newIds = array();
 
 		if (!parent::checkCategoryId($categoryId))
 		{
@@ -93,11 +93,14 @@ class ContentModelArticle extends JModelAdmin
 			// Reset hits because we are making a copy
 			$this->table->hits = 0;
 
+			// Unpublish because we are making a copy
+			$this->table->state = 0;
+
 			// New category ID
 			$this->table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			//$table->ordering	= 1;
+			// $table->ordering	= 1;
 
 			// Get the featured state
 			$featured = $this->table->featured;
@@ -122,8 +125,7 @@ class ContentModelArticle extends JModelAdmin
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i] = $newId;
-			$i++;
+			$newIds[$pk] = $newId;
 
 			// Check if the article was featured and update the #__content_frontpage table
 			if ($featured == 1)
@@ -146,9 +148,10 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object    $record    A record object.
+	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 *
 	 * @since   1.6
 	 */
 	protected function canDelete($record)
@@ -157,19 +160,23 @@ class ContentModelArticle extends JModelAdmin
 		{
 			if ($record->state != -2)
 			{
-				return;
+				return false;
 			}
 			$user = JFactory::getUser();
+
 			return $user->authorise('core.delete', 'com_content.article.' . (int) $record->id);
 		}
+
+		return false;
 	}
 
 	/**
 	 * Method to test whether a record can have its state edited.
 	 *
-	 * @param   object    $record    A record object.
+	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
 	 * @since   1.6
 	 */
 	protected function canEditState($record)
@@ -196,15 +203,17 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   JTable    A JTable object.
+	 * @param   JTable  $table  A JTable object.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function prepareTable($table)
 	{
 		// Set the publish date to now
 		$db = $this->getDbo();
+
 		if ($table->state == 1 && (int) $table->publish_up == 0)
 		{
 			$table->publish_up = JFactory::getDate()->toSql();
@@ -228,9 +237,9 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Returns a Table object, always creating it.
 	 *
-	 * @param   type      The table type to instantiate
-	 * @param   string    A prefix for the table class name. Optional.
-	 * @param   array     Configuration array for model. Optional.
+	 * @param   string  $type    The table type to instantiate
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return  JTable    A database object
 	 */
@@ -242,7 +251,7 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   integer    The id of the primary key.
+	 * @param   integer  $pk  The id of the primary key.
 	 *
 	 * @return  mixed  Object on success, false on failure.
 	 */
@@ -251,22 +260,22 @@ class ContentModelArticle extends JModelAdmin
 		if ($item = parent::getItem($pk))
 		{
 			// Convert the params field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->attribs);
 			$item->attribs = $registry->toArray();
 
 			// Convert the metadata field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
 
 			// Convert the images field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->images);
 			$item->images = $registry->toArray();
 
 			// Convert the urls field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->urls);
 			$item->urls = $registry->toArray();
 
@@ -304,10 +313,11 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array      $data        Data for the form.
-	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
+	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
@@ -334,8 +344,10 @@ class ContentModelArticle extends JModelAdmin
 		if ($this->getState('article.id'))
 		{
 			$id = $this->getState('article.id');
+
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
+
 			// Existing record. Can only edit own articles in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
 		}
@@ -350,8 +362,7 @@ class ContentModelArticle extends JModelAdmin
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
 		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
-			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content'))
-		)
+			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');
@@ -395,6 +406,7 @@ class ContentModelArticle extends JModelAdmin
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
+	 *
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -425,45 +437,101 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array  The form data.
+	 * @param   array  $data  The form data.
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   1.6
 	 */
 	public function save($data)
 	{
-		$app = JFactory::getApplication();
+		$input = JFactory::getApplication()->input;
+		$filter  = JFilterInput::getInstance();
+
+		if (isset($data['metadata']) && isset($data['metadata']['author']))
+		{
+			$data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
+		}
+
+		if (isset($data['created_by_alias']))
+		{
+			$data['created_by_alias'] = $filter->clean($data['created_by_alias'], 'TRIM');
+		}
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($data['images']);
 			$data['images'] = (string) $registry;
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
-
 			foreach ($data['urls'] as $i => $url)
 			{
 				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc'))
 				{
 					$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
 				}
-
 			}
-			$registry = new JRegistry;
+
+			$registry = new Registry;
 			$registry->loadArray($data['urls']);
 			$data['urls'] = (string) $registry;
 		}
 
 		// Alter the title for save as copy
-		if ($app->input->get('task') == 'save2copy')
+		if ($input->get('task') == 'save2copy')
 		{
-			list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-			$data['title'] = $title;
-			$data['alias'] = $alias;
+			$origTable = clone $this->getTable();
+			$origTable->load($input->getInt('id'));
+
+			if ($data['title'] == $origTable->title)
+			{
+				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+				$data['title'] = $title;
+				$data['alias'] = $alias;
+			}
+			else
+			{
+				if ($data['alias'] == $origTable->alias)
+				{
+					$data['alias'] = '';
+				}
+			}
+
 			$data['state'] = 0;
+		}
+
+		// Automatic handling of alias for empty fields
+		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (int) $input->get('id') == 0)
+		{
+			if ($data['alias'] == null)
+			{
+				if (JFactory::getConfig()->get('unicodeslugs') == 1)
+				{
+					$data['alias'] = JFilterOutput::stringURLUnicodeSlug($data['title']);
+				}
+				else
+				{
+					$data['alias'] = JFilterOutput::stringURLSafe($data['title']);
+				}
+
+				$table = JTable::getInstance('Content', 'JTable');
+
+				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
+				{
+					$msg = JText::_('COM_CONTENT_SAVE_WARNING');
+				}
+
+				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+				$data['alias'] = $alias;
+
+				if (isset($msg))
+				{
+					JFactory::getApplication()->enqueueMessage($msg, 'warning');
+				}
+			}
 		}
 
 		if (parent::save($data))
@@ -513,6 +581,7 @@ class ContentModelArticle extends JModelAdmin
 				if ($error = $db->getErrorMsg())
 				{
 					$this->setError($error);
+
 					return false;
 				}
 
@@ -548,8 +617,8 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Method to toggle the featured setting of articles.
 	 *
-	 * @param   array    The ids of the items to toggle.
-	 * @param   integer  The value to toggle to.
+	 * @param   array    $pks    The ids of the items to toggle.
+	 * @param   integer  $value  The value to toggle to.
 	 *
 	 * @return  boolean  True on success.
 	 */
@@ -562,6 +631,7 @@ class ContentModelArticle extends JModelAdmin
 		if (empty($pks))
 		{
 			$this->setError(JText::_('COM_CONTENT_NO_ITEM_SELECTED'));
+
 			return false;
 		}
 
@@ -589,25 +659,26 @@ class ContentModelArticle extends JModelAdmin
 			}
 			else
 			{
-				// first, we find out which of our new featured articles are already featured.
+				// First, we find out which of our new featured articles are already featured.
 				$query = $db->getQuery(true)
 					->select('f.content_id')
 					->from('#__content_frontpage AS f')
 					->where('content_id IN (' . implode(',', $pks) . ')');
-				//echo $query;
 				$db->setQuery($query);
 
 				$old_featured = $db->loadColumn();
 
-				// we diff the arrays to get a list of the articles that are newly featured
+				// We diff the arrays to get a list of the articles that are newly featured
 				$new_featured = array_diff($pks, $old_featured);
 
 				// Featuring.
 				$tuples = array();
+
 				foreach ($new_featured as $pk)
 				{
 					$tuples[] = $pk . ', 0';
 				}
+
 				if (count($tuples))
 				{
 					$db = $this->getDbo();
@@ -637,15 +708,17 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   object    A record object.
+	 * @param   object  $table  A record object.
 	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
+	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
 		$condition = array();
 		$condition[] = 'catid = ' . (int) $table->catid;
+
 		return $condition;
 	}
 
@@ -654,7 +727,12 @@ class ContentModelArticle extends JModelAdmin
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   JForm   $form   The form object
+	 * @param   array   $data   The data to be merged into the form object
+	 * @param   string  $group  The plugin group to be executed
+	 *
 	 * @return  void
+	 *
 	 * @since    3.0
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
@@ -662,6 +740,7 @@ class ContentModelArticle extends JModelAdmin
 		// Association content items
 		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
+
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
@@ -672,6 +751,7 @@ class ContentModelArticle extends JModelAdmin
 			$fieldset->addAttribute('name', 'item_associations');
 			$fieldset->addAttribute('description', 'COM_CONTENT_ITEM_ASSOCIATIONS_FIELDSET_DESC');
 			$add = false;
+
 			foreach ($languages as $tag => $language)
 			{
 				if (empty($data->language) || $tag != $data->language)
@@ -698,6 +778,11 @@ class ContentModelArticle extends JModelAdmin
 
 	/**
 	 * Custom clean the cache of com_content and content modules
+	 *
+	 * @param   string   $group      The cache group
+	 * @param   integer  $client_id  The ID of the client
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
