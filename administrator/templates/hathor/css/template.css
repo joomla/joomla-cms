@@ -3781,6 +3781,6 @@ div.toggle-editor {
 	word-break: break-all;
 	word-wrap: break-word;
 }
-ul.unstyled {
-	list-style: none;
+.muted {
+	color: #999;
 }
