@@ -17,7 +17,7 @@ $client		= $this->state->get('filter.client_id') ? 'administrator' : 'site';
 $user		= JFactory::getUser();
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
-$trashed	= $this->state->get('filter.published') == -2 ? true : false;
+$trashed	= $this->state->get('filter.state') == -2 ? true : false;
 $canOrder	= $user->authorise('core.edit.state', 'com_modules');
 $saveOrder	= $listOrder == 'ordering';
 if ($saveOrder)
