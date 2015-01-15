@@ -8107,3 +8107,12 @@ a.grid_true {
 	word-break: break-all;
 	word-wrap: break-word;
 }
+textarea {
+	resize: both;
+}
+textarea.vert {
+	resize: vertical;
+}
+textarea.noResize {
+	resize: none;
+}
