@@ -20,7 +20,7 @@ JHtml::_('formbehavior.chosen', 'select');
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
 	{
-		if (task == "config.cancel.component" || document.formvalidator.isValid(document.getElementById("component-form")))
+		if (task === "config.cancel.component" || document.formvalidator.isValid(document.getElementById("component-form")))
 		{
 			Joomla.submitform(task, document.getElementById("component-form"));
 		}
