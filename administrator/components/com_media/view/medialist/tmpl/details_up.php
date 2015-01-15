@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 $user = JFactory::getUser();
 ?>
+<?php if ($this->state->get('folder') != '') : ?>
 		<tr>
 			<td class="imgTotal">
 				<a href="index.php?option=com_media&amp;controller=media.display.medialist&amp;view=medialist&amp;tmpl=component&amp;folder=<?php echo $this->state->get('parent'); ?>" target="folderframe">
@@ -25,3 +26,4 @@ $user = JFactory::getUser();
 			<td>&#160;</td>
 		<?php endif;?>
 		</tr>
+<?php endif; ?>

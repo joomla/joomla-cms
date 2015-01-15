@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
+<?php if ($this->state->get('folder') != '') : ?>
 		<li class="span2">
 			<article class="thumbnail center" >
 				<div class="height-100">
@@ -25,3 +26,4 @@ defined('_JEXEC') or die;
 				</div>
 			</article>
 		</li>
+<?php endif; ?>

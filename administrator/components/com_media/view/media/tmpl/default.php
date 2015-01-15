@@ -16,10 +16,11 @@ $input = JFactory::getApplication()->input;
 	<!-- Begin Sidebar -->
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
-		<div id="treeview">
-			<hr>
-			<b><?php echo JText::_('COM_MEDIA_FOLDERS');?></b>
-			<hr>
+		<hr/>
+		<div class="j-toggle-sidebar-header">
+			<?php echo JText::_('COM_MEDIA_FOLDERS');?>
+		</div>
+		<div id="treeview" class="sidebar">
 			<div id="media-tree_tree" class="sidebar-nav">
 				<?php echo $this->loadTemplate('folders'); ?>
 			</div>
