@@ -344,19 +344,11 @@ class PlgUserProfile extends JPlugin
 	 */
 	public function onUserBeforeSave($user, $isnew, $data)
 	{
-		// Convert website url to punycode
-		if (!empty($data['profile']['website']))
-		{
-			$data['profile']['website'] = JStringPunycode::urlToPunycode($data['profile']['website']);	
-		}
-		
 		// Check that the date is valid.
 		if (!empty($data['profile']['dob']))
 		{
 			try
 			{
-				
-
 				$date = new JDate($data['profile']['dob']);
 				$this->date = $date->format('Y-m-d');
 			}
