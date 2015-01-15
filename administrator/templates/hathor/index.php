@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -147,7 +147,7 @@ else
 			<div class="clr"></div>
 		</div><!-- end of element-box -->
 		<noscript>
-			<?php echo  JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
+			<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 		</noscript>
 		<div class="clr"></div>
 	</div><!-- end of content -->

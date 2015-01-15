@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,11 +49,14 @@ class JoomlaInstallerScript
 		if (substr($db->name, 0, 5) == 'mysql')
 		{
 			$db->setQuery('SHOW ENGINES');
-			$results = $db->loadObjectList();
 
-			if ($db->getErrorNum())
+			try
 			{
-				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+				$results = $db->loadObjectList();
+			}
+			catch (Exception $e)
+			{
+				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
 
 				return;
 			}
@@ -63,11 +66,14 @@ class JoomlaInstallerScript
 				if ($result->Support == 'DEFAULT')
 				{
 					$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
-					$db->execute();
 
-					if ($db->getErrorNum())
+					try
 					{
-						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+						$db->execute();
+					}
+					catch (Exception $e)
+					{
+						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
 
 						return;
 					}
@@ -217,6 +223,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'tags', 'finder', 0);
 		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
 		$extensions[] = array('plugin', 'yubikey', 'twofactorauth', 0);
+		$extensions[] = array('plugin', 'nocaptcha', 'captcha', 0);
 
 		// Templates
 		$extensions[] = array('template', 'beez3', '', 0);
@@ -251,16 +258,19 @@ class JoomlaInstallerScript
 		}
 
 		$db->setQuery($query);
-		$extensions = $db->loadObjectList();
-		$installer = new JInstaller;
 
-		// Check for a database error.
-		if ($db->getErrorNum())
+		try
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+			$extensions = $db->loadObjectList();
+		}
+		catch (Exception $e)
+		{
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
 
 			return;
 		}
+
+		$installer = new JInstaller;
 
 		foreach ($extensions as $extension)
 		{
@@ -1023,7 +1033,11 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format/php.php',
 			'/libraries/joomla/registry/format/xml.php',
 			// Joomla! 3.4
+			'/administrator/components/com_tags/helpers/html/index.html',
+			'/administrator/components/com_tags/models/fields/index.html',
 			'/administrator/manifests/libraries/phpmailer.xml',
+			'/administrator/templates/hathor/html/com_finder/filter/index.html',
+			'/administrator/templates/hathor/html/com_finder/statistics/index.html',
 			'/components/com_contact/helpers/icon.php',
 			'/language/en-GB/en-GB.lib_phpmailer.sys.ini',
 			'/libraries/compat/jsonserializable.php',
@@ -1136,6 +1150,10 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format',
 			'/libraries/joomla/registry',
 			// Joomla! 3.4
+			'/administrator/components/com_tags/helpers/html',
+			'/administrator/components/com_tags/models/fields',
+			'/administrator/templates/hathor/html/com_finder/filter',
+			'/administrator/templates/hathor/html/com_finder/statistics',
 			'/libraries/compat/password/lib',
 			'/libraries/compat/password',
 			'/libraries/compat',

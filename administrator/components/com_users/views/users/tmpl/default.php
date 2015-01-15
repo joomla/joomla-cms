@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,7 +58,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<table class="table table-striped" id="userList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th class="left">
@@ -110,7 +110,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					}
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="center hidden-phone">
+						<td class="center">
 							<?php if ($canEdit) : ?>
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							<?php endif; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -797,7 +797,7 @@ class JHelperTags extends JHelper
 	{
 		if (!empty($table->newTags) && empty($newTags))
 		{
-				$newTags = $table->newTags;
+			$newTags = $table->newTags;
 		}
 
 		// If existing row, check to see if tags have changed.
