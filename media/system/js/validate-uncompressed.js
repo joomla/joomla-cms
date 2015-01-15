@@ -12,7 +12,7 @@
  */
 var JFormValidator = function() {
 	"use strict";
-	var $, handlers, inputEmail, custom,
+	var handlers, inputEmail, custom,
 
  	setHandler = function(name, fn, en) {
  	 	en = (en === '') ? true : en;
@@ -135,7 +135,7 @@ var JFormValidator = function() {
  	 		$form = jQuery(form);
  	 	// Iterate through the form object and attach the validate method to all input fields.
  	 	$form.find('input, textarea, select, fieldset, button').each(function() {
- 	 	 	var $el = $(this), tagName = $el.prop("tagName").toLowerCase();
+ 	 	 	var $el = jQuery(this), tagName = $el.prop("tagName").toLowerCase();
  	 	 	if ($el.hasClass('required')) {
  	 	 	 	$el.attr('aria-required', 'true').attr('required', 'required');
  	 	 	}
@@ -162,7 +162,6 @@ var JFormValidator = function() {
  	},
 
  	initialize = function() {
- 	 	$ = jQuery.noConflict();
  	 	handlers = {};
  	 	custom = custom || {};
 
