@@ -9,8 +9,21 @@
 
 defined('_JEXEC') or die;
 $user = JFactory::getUser();
+$params = JComponentHelper::getParams('com_media');
+$path = 'file_path';
 ?>
 <form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->get('folder'); ?>" method="post" id="mediamanager-form" name="mediamanager-form">
+	<div class="muted">
+		<p>
+			<i class="icon-folder"> </i>
+			<?php if ($this->state->get('folder') != '') : ?>
+				<?php echo JText::_('JGLOBAL_ROOT') . ': ' . $params->get($path, 'images') . '/' . $this->state->get('folder'); ?>
+			<?php else : ?>
+				<?php echo JText::_('JGLOBAL_ROOT') . ': ' . $params->get($path, 'images'); ?>
+			<?php endif; ?>
+		</p>
+	</div>
+
 	<div class="manager">
 	<table class="table table-striped table-condensed">
 	<thead>
