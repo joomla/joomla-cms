@@ -11,6 +11,7 @@
  * @since  1.5
  */
 var JFormValidator = function() {
+	"use strict";
 	var $, handlers, inputEmail, custom,
 
  	setHandler = function(name, fn, en) {
@@ -130,11 +131,11 @@ var JFormValidator = function() {
  	},
 
  	attachToForm = function(form) {
- 	 	var inputFields = []
+ 	 	var inputFields = [],
  	 		$form = jQuery(form);
  	 	// Iterate through the form object and attach the validate method to all input fields.
  	 	$form.find('input, textarea, select, fieldset, button').each(function() {
- 	 	 	var $el = $(this), id = $el.attr('id'), tagName = $el.prop("tagName").toLowerCase();
+ 	 	 	var $el = $(this), tagName = $el.prop("tagName").toLowerCase();
  	 	 	if ($el.hasClass('required')) {
  	 	 	 	$el.attr('aria-required', 'true').attr('required', 'required');
  	 	 	}
@@ -153,7 +154,7 @@ var JFormValidator = function() {
  	 	 	 	 	 	$el.get(0).type = 'email';
  	 	 	 	 	}
  	 	 	 	}
- 	 	 	 	$el.data('form', $form)
+ 	 	 	 	$el.data('form', $form);
  	 	 	 	inputFields.push($el);
  	 	 	}
  	 	});
@@ -172,20 +173,20 @@ var JFormValidator = function() {
  	 	})();
  	 	// Default handlers
  	 	setHandler('username', function(value, element) {
- 	 	 	regex = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&]", "i");
+ 	 	 	var regex = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&]", "i");
  	 	 	return !regex.test(value);
  	 	});
  	 	setHandler('password', function(value, element) {
- 	 	 	regex = /^\S[\S ]{2,98}\S$/;
+ 	 	 	var regex = /^\S[\S ]{2,98}\S$/;
  	 	 	return regex.test(value);
  	 	});
  	 	setHandler('numeric', function(value, element) {
- 	 	 	regex = /^(\d|-)?(\d|,)*\.?\d*$/;
+ 	 		var regex = /^(\d|-)?(\d|,)*\.?\d*$/;
  	 	 	return regex.test(value);
  	 	});
  	 	setHandler('email', function(value, element) {
 		    value = punycode.toASCII(value);
- 	 	 	regex = /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+ 	 	 	var regex = /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
  	 	 	return regex.test(value);
  	 	});
  	 	// Attach to forms with class 'form-validate'
