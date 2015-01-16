@@ -241,11 +241,11 @@ class JCategories
 		{
 			$query->where('c.published = 1');
 		}
-// Filter category by language
+		// Filter category by language
 		if (JLanguageMultilang::isEnabled())
 		{
 			$query->where('c.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
-		}	
+		}
 
 		$query->order('c.lft');
 
