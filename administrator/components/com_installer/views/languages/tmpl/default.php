@@ -31,6 +31,11 @@ $version = new JVersion;
 	<?php endif;?>
 		<?php if (count($this->items) || $this->escape($this->state->get('filter.search'))) : ?>
 			<?php echo $this->loadTemplate('filter'); ?>
+			<?php if (empty($this->items)) : ?>
+				<div class="alert alert-no-items">
+					<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+				</div>
+			<?php else : ?>
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -62,11 +67,6 @@ $version = new JVersion;
 					</tr>
 				</tfoot>
 				<tbody>
-				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-no-items">
-					<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-				<?php else : ?>
-				</div>
 				<?php foreach ($this->items as $i => $language) : ?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
@@ -97,9 +97,10 @@ $version = new JVersion;
 						</td>
 					</tr>
 					<?php endforeach; ?>
-				<?php endif; ?>
+				
 				</tbody>
 			</table>
+			<?php endif; ?>
 		<?php else : ?>
 			<div class="alert"><?php echo JText::_('COM_INSTALLER_MSG_LANGUAGES_NOLANGUAGES'); ?></div>
 		<?php endif; ?>
