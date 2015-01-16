@@ -33,7 +33,7 @@ class ModUsersLatestHelper
 			->select($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.registerDate')))
 			->order($db->quoteName('a.registerDate') . ' DESC')
 			->from('#__users AS a');
-		
+
 		if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1)
 		{
 			$groups = $user->getAuthorisedGroups();
