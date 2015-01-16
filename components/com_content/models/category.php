@@ -400,6 +400,19 @@ class ContentModelCategory extends JModelList
 			$this->getCategory();
 		}
 
+		// Filter Parent category by language
+		if ($this->getState('filter.language'))
+		{
+			if (in_array($this->_item->language, array(JFactory::getLanguage()->getTag(), '*')))
+			{
+				return $this->_parent;
+			}
+			else
+			{
+				return null;
+			}
+		}
+
 		return $this->_parent;
 	}
 
