@@ -104,6 +104,7 @@ class PlgAuthenticationLdap extends JPlugin
 					$response->error_message = JText::_('JGLOBAL_AUTH_NO_BIND');
 				}
 			}
+
 			break;
 
 			case 'bind' :
@@ -121,6 +122,7 @@ class PlgAuthenticationLdap extends JPlugin
 					$response->error_message = JText::_('JGLOBAL_AUTH_BIND_FAILED');
 				}
 			}
+
 			break;
 		}
 
