@@ -36,7 +36,6 @@ if ($user->authorise('core.manage', 'com_checkin'))
 
 if ($user->authorise('core.manage', 'com_cache'))
 {
-	$menu->addSeparator();
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_CLEAR_CACHE'), 'index.php?option=com_cache', 'class:clear'));
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_PURGE_EXPIRED_CACHE'), 'index.php?option=com_cache&view=purge', 'class:purge'));
 }
