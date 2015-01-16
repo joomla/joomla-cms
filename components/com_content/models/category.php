@@ -451,6 +451,22 @@ class ContentModelCategory extends JModelList
 			$this->getCategory();
 		}
 
+		// Filter subcategories by language
+		if (count($this->_children) && $this->getState('filter.language'))
+		{
+			$children = array();
+
+			foreach ($this->_children as $id => $child)
+			{
+				if (in_array($child->language, array(JFactory::getLanguage()->getTag(), '*')))
+				{
+					$children[] = $child;
+				}
+			}
+
+			$this->_children = $children;
+		}
+
 		// Order subcategories
 		if (count($this->_children))
 		{
