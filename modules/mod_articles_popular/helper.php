@@ -16,10 +16,7 @@ JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'Con
 /**
  * Helper for mod_articles_popular
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_popular
- *
- * @since       1.6.0
+ * @since  1.6
  */
 abstract class ModArticlesPopularHelper
 {
@@ -29,6 +26,8 @@ abstract class ModArticlesPopularHelper
 	 * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
 	 *
 	 * @return mixed
+	 *
+	 * @since  1.6
 	 */
 	public static function getList(&$params)
 	{
