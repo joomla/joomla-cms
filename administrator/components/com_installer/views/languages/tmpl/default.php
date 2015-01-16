@@ -29,12 +29,7 @@ $version = new JVersion;
 	<?php else : ?>
 		<div id="j-main-container">
 	<?php endif;?>
-		<?php if (empty($this->items)) : ?>
-			<?php echo $this->loadTemplate('filter'); ?>
-			<div class="alert alert-no-items">
-				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-			</div>
-		<?php elseif (count($this->items) || $this->escape($this->state->get('filter.search'))) : ?>
+		<?php if (count($this->items) || $this->escape($this->state->get('filter.search'))) : ?>
 			<?php echo $this->loadTemplate('filter'); ?>
 			<table class="table table-striped">
 				<thead>
@@ -67,8 +62,12 @@ $version = new JVersion;
 					</tr>
 				</tfoot>
 				<tbody>
-					<?php foreach ($this->items as $i => $language) :
-				?>
+				<?php if (empty($this->items)) : ?>
+					<div class="alert alert-no-items">
+					<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+				<?php else : ?>
+				</div>
+				<?php foreach ($this->items as $i => $language) : ?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $language->update_id, false, 'cid'); ?>
@@ -98,6 +97,7 @@ $version = new JVersion;
 						</td>
 					</tr>
 					<?php endforeach; ?>
+				<?php endif; ?>
 				</tbody>
 			</table>
 		<?php else : ?>
