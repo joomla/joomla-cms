@@ -14,10 +14,7 @@ require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 /**
  * Helper for mod_articles_categories
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_categories
- *
- * @since       1.5
+ * @since  1.5
  */
 abstract class ModArticlesCategoriesHelper
 {
