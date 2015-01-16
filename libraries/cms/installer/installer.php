@@ -636,7 +636,7 @@ class JInstaller extends JAdapter
 			return false;
 		}
 
-		if (!$this->setupInstall())
+		if (!$this->setupInstall('update'))
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
 

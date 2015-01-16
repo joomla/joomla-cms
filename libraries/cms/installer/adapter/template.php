@@ -389,20 +389,6 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	}
 
 	/**
-	 * Custom update method for components
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public function update()
-	{
-		$this->route = 'update';
-
-		return $this->install();
-	}
-
-	/**
 	 * Custom uninstall method
 	 *
 	 * @param   integer  $id  The extension ID

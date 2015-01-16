@@ -451,22 +451,6 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	}
 
 	/**
-	 * Updates a package
-	 *
-	 * The only difference between an update and a full install
-	 * is how we handle the database
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function update()
-	{
-		$this->route = 'update';
-		$this->install();
-	}
-
-	/**
 	 * Custom uninstall method
 	 *
 	 * @param   integer  $id  The id of the package to uninstall.

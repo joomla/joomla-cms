@@ -147,6 +147,12 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			$this->currentExtensionId = $this->extension->find(
 				array('element' => $this->element, 'type' => $this->type)
 			);
+
+			// If it does exist, load it
+			if ($this->currentExtensionId)
+			{
+				$this->extension->load(array('element' => $this->element, 'type' => $this->type));
+			}
 		}
 		catch (RuntimeException $e)
 		{
@@ -402,24 +408,23 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 */
 	protected function doDatabaseTransactions()
 	{
-		// Get a database connector object
-		$db = $this->parent->getDbo();
+		$route = $this->route == 'discover_install' ? 'install' : $this->route;
 
 		// Let's run the install queries for the component
-		if (isset($this->manifest->{$this->route}->sql))
+		if (isset($this->manifest->{$route}->sql))
 		{
-			$result = $this->parent->parseSQLFiles($this->manifest->{$this->route}->sql);
+			$result = $this->parent->parseSQLFiles($this->manifest->{$route}->sql);
 
 			if ($result === false)
 			{
 				// Only rollback if installing
-				if ($this->route == 'install')
+				if ($route == 'install')
 				{
 					throw new RuntimeException(
 						JText::sprintf(
 							'JLIB_INSTALLER_ABORT_SQL_ERROR',
 							JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-							$db->stderr(true)
+							$this->parent->getDBO()->stderr(true)
 						)
 					);
 				}
@@ -610,6 +615,22 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			return false;
 		}
 
+		// If we are on the update route, run any custom setup routines
+		if ($this->route == 'update')
+		{
+			try
+			{
+				$this->setupUpdates();
+			}
+			catch (RuntimeException $e)
+			{
+				// Install failed, roll back changes
+				$this->parent->abort($e->getMessage());
+
+				return false;
+			}
+		}
+
 		/*
 		 * ---------------------------------------------------------------------------------------------
 		 * Installer Trigger Loading
@@ -722,10 +743,10 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	protected function parseQueries()
 	{
 		// Let's run the queries for the extension
-		if (in_array($this->route, array('install', 'discover_install')))
+		if (in_array($this->route, array('install', 'discover_install', 'uninstall')))
 		{
 			// This method may throw an exception, but it is caught by the parent caller
-			if (!$this->doDatabaseTransactions('install'))
+			if (!$this->doDatabaseTransactions())
 			{
 				throw new RuntimeException(
 					JText::sprintf(
@@ -848,6 +869,18 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
+	 * Method to setup the update routine for the adapter
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function setupUpdates()
+	{
+		// Some extensions may not have custom setup routines for updates
+	}
+
+	/**
 	 * Method to store the extension to the database
 	 *
 	 * @return  void
@@ -915,5 +948,25 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		}
 
 		return true;
+	}
+
+	/**
+	 * Generic update method for extensions
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.4
+	 */
+	public function update()
+	{
+		// Set the overwrite setting
+		$this->parent->setOverwrite(true);
+		$this->parent->setUpgrade(true);
+
+		// And make sure the route is set correctly
+		$this->setRoute('update');
+
+		// Now jump into the install method to run the update
+		return $this->install();
 	}
 }
