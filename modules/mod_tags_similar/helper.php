@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Helper for mod_tags_popular
  *
- * @package     Joomla.Site
- * @subpackage  mod_tags_popular
- * @since       3.1
+ * @since  3.1
  */
 abstract class ModTagssimilarHelper
 {
@@ -26,12 +24,14 @@ abstract class ModTagssimilarHelper
 	 * @param   Registry  &$params  Module parameters
 	 *
 	 * @return  mixed  Results array / null
+	 *
+	 * @since  3.1
 	 */
 	public static function getList(&$params)
 	{
-		$app        = JFactory::getApplication();
-		$option     = $app->input->get('option');
-		$view       = $app->input->get('view');
+		$app    = JFactory::getApplication();
+		$option = $app->input->get('option');
+		$view   = $app->input->get('view');
 
 		// For now assume com_tags and com_users do not have tags.
 		// This module does not apply to list views in general at this point.
@@ -40,18 +40,17 @@ abstract class ModTagssimilarHelper
 			return;
 		}
 
-		$db         = JFactory::getDbo();
-		$user       = JFactory::getUser();
-		$groups     = implode(',', $user->getAuthorisedViewLevels());
-		$matchtype  = $params->get('matchtype', 'all');
-		$maximum    = $params->get('maximum', 5);
-		$ordering   = $params->get('ordering', 'count');
-		$tagsHelper = new JHelperTags;
-		$prefix     = $option . '.' . $view;
-		$id         = $app->input->getInt('id');
-		$now        = JFactory::getDate()->toSql();
-		$nullDate   = $db->getNullDate();
-
+		$db          = JFactory::getDbo();
+		$user        = JFactory::getUser();
+		$groups      = implode(',', $user->getAuthorisedViewLevels());
+		$matchtype   = $params->get('matchtype', 'all');
+		$maximum     = $params->get('maximum', 5);
+		$ordering    = $params->get('ordering', 'count');
+		$tagsHelper  = new JHelperTags;
+		$prefix      = $option . '.' . $view;
+		$id          = $app->input->getInt('id');
+		$now         = JFactory::getDate()->toSql();
+		$nullDate    = $db->getNullDate();
 		$tagsToMatch = $tagsHelper->getTagIds($id, $prefix);
 
 		if (!$tagsToMatch || is_null($tagsToMatch))
@@ -74,7 +73,7 @@ abstract class ModTagssimilarHelper
 				$db->quoteName('cc.core_catid'),
 				$db->quoteName('cc.core_language'),
 				$db->quoteName('cc.core_params')
-				)
+			)
 		);
 
 		$query->from($db->quoteName('#__contentitem_tag_map', 'm'));
@@ -144,7 +143,7 @@ abstract class ModTagssimilarHelper
 		foreach ($results as $result)
 		{
 			$explodedAlias = explode('.', $result->type_alias);
-			$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1]
+			$result->link  = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1]
 				. '&id=' . $result->content_item_id . '-' . $result->core_alias;
 
 			$result->core_params = new Registry($result->core_params);
