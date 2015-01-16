@@ -33,7 +33,7 @@ class PlgAuthenticationLdap extends JPlugin
 		$success     = 0;
 		$userdetails = array();
 
-		// Se the response type for JLog
+		// Set the response type for JLog
 		$response->type = 'LDAP';
 
 		// Strip null bytes from the password
