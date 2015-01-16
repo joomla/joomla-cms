@@ -14,9 +14,7 @@ require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 /**
  * Helper for mod_related_items
  *
- * @package     Joomla.Site
- * @subpackage  mod_related_items
- * @since       1.5
+ * @since  1.5
  */
 abstract class ModRelatedItemsHelper
 {
@@ -29,24 +27,21 @@ abstract class ModRelatedItemsHelper
 	 */
 	public static function getList(&$params)
 	{
-		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
-		$date = JFactory::getDate();
-		$maximum = (int) $params->get('maximum', 5);
-
-		$option = $app->input->get('option');
-		$view = $app->input->get('view');
-
-		$temp = $app->input->getString('id');
-		$temp = explode(':', $temp);
-		$id = $temp[0];
-
+		$db       = JFactory::getDbo();
+		$app      = JFactory::getApplication();
+		$user     = JFactory::getUser();
+		$groups   = implode(',', $user->getAuthorisedViewLevels());
+		$date     = JFactory::getDate();
+		$maximum  = (int) $params->get('maximum', 5);
+		$option   = $app->input->get('option');
+		$view     = $app->input->get('view');
+		$temp     = $app->input->getString('id');
+		$temp     = explode(':', $temp);
+		$id       = $temp[0];
 		$nullDate = $db->getNullDate();
-		$now = $date->toSql();
-		$related = array();
-		$query = $db->getQuery(true);
+		$now      = $date->toSql();
+		$related  = array();
+		$query    = $db->getQuery(true);
 
 		if ($option == 'com_content' && $view == 'article' && $id)
 		{
@@ -59,7 +54,7 @@ abstract class ModRelatedItemsHelper
 			if ($metakey = trim($db->loadResult()))
 			{
 				// Explode the meta keys on a comma
-				$keys = explode(',', $metakey);
+				$keys  = explode(',', $metakey);
 				$likes = array();
 
 				// Assemble any non-blank word(s)
@@ -136,7 +131,7 @@ abstract class ModRelatedItemsHelper
 							if ($row->cat_state == 1)
 							{
 								$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
-								$related[] = $row;
+								$related[]  = $row;
 							}
 						}
 					}
