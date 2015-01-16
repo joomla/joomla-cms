@@ -75,7 +75,6 @@ $version = new JVersion;
 						<td>
 							<label for="cb<?php echo $i; ?>">
 								<?php echo $language->name; ?>
-
 								<?php // Display a Note if language pack version is not equal to Joomla version ?>
 								<?php if (substr($language->version, 0, 3) != $version->RELEASE
 									|| substr($language->version, 0, 5) != $version->RELEASE . "." . $version->DEV_LEVEL) : ?>
@@ -97,7 +96,6 @@ $version = new JVersion;
 						</td>
 					</tr>
 					<?php endforeach; ?>
-				
 				</tbody>
 			</table>
 			<?php endif; ?>
