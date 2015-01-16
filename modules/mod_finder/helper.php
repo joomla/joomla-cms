@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Finder module helper.
  *
- * @package     Joomla.Site
- * @subpackage  mod_finder
- * @since       2.5
+ * @since  2.5
  */
 class ModFinderHelper
 {
@@ -33,9 +31,9 @@ class ModFinderHelper
 	{
 		// Determine if there is an item id before routing.
 		$needId = !JURI::getInstance($route)->getVar('Itemid');
-
 		$fields = array();
-		$uri = JURI::getInstance(JRoute::_($route));
+		$uri    = JURI::getInstance(JRoute::_($route));
+
 		$uri->delVar('q');
 
 		// Create hidden input elements for each part of the URI.
@@ -47,7 +45,7 @@ class ModFinderHelper
 		// Add a field for Itemid if we need one.
 		if ($needId)
 		{
-			$id = JFactory::getApplication()->input->get('Itemid', '0', 'int');
+			$id       = JFactory::getApplication()->input->get('Itemid', '0', 'int');
 			$fields[] = '<input type="hidden" name="Itemid" value="' . $id . '" />';
 		}
 
@@ -65,10 +63,10 @@ class ModFinderHelper
 	 */
 	public static function getQuery($params)
 	{
-		$app = JFactory::getApplication();
-		$input = $app->input;
+		$app     = JFactory::getApplication();
+		$input   = $app->input;
 		$request = $input->request;
-		$filter = JFilterInput::getInstance();
+		$filter  = JFilterInput::getInstance();
 
 		// Get the static taxonomy filters.
 		$options = array();
