@@ -30,6 +30,7 @@ $version = new JVersion;
 		<div id="j-main-container">
 	<?php endif;?>
 		<?php if (empty($this->items)) : ?>
+			<?php echo $this->loadTemplate('filter'); ?>
 			<div class="alert alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
