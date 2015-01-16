@@ -29,13 +29,13 @@ $version = new JVersion;
 	<?php else : ?>
 		<div id="j-main-container">
 	<?php endif;?>
-		<?php if (count($this->items) || $this->escape($this->state->get('filter.search'))) : ?>
-			<?php echo $this->loadTemplate('filter'); ?>
-			<?php if (empty($this->items)) : ?>
-				<div class="alert alert-no-items">
-					<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-				</div>
-			<?php else : ?>
+	<?php if (count($this->items) || $this->escape($this->state->get('filter.search'))) : ?>
+		<?php echo $this->loadTemplate('filter'); ?>
+		<?php if (empty($this->items)) : ?>
+			<div class="alert alert-no-items">
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
+		<?php else : ?>
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -104,7 +104,6 @@ $version = new JVersion;
 		<?php else : ?>
 			<div class="alert"><?php echo JText::_('COM_INSTALLER_MSG_LANGUAGES_NOLANGUAGES'); ?></div>
 		<?php endif; ?>
-
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />
 			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
