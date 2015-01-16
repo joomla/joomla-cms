@@ -177,7 +177,7 @@ class JFormFieldCalendar extends JFormField
 		{
 			case 'SERVER_UTC':
 				// Convert a date to UTC based on the server timezone.
-				if ($this->value != JFactory::getDbo()->getNullDate())
+				if (!is_null($value) && $this->value != JFactory::getDbo()->getNullDate())
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
@@ -191,7 +191,7 @@ class JFormFieldCalendar extends JFormField
 
 			case 'USER_UTC':
 				// Convert a date to UTC based on the user timezone.
-				if ($this->value != JFactory::getDbo()->getNullDate())
+				if (!is_null($value) && $this->value != JFactory::getDbo()->getNullDate())
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
