@@ -1001,6 +1001,8 @@ body {
 	font-size: 62.5%;
 	line-height: 1.5em;
 	height: 100%;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 body,
 td,
