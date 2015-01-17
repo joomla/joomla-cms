@@ -149,6 +149,11 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
 								<?php
+								if ($canEdit || $canEditOwn)
+								{
+									JHtml::_('actionsdropdown.edit', 'cb' . $i, 'article');
+								}
+
 								// Create dropdown items
 								$action = $archived ? 'unarchive' : 'archive';
 								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'articles');

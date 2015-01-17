@@ -118,6 +118,22 @@ abstract class JHtmlActionsDropdown
 	}
 
 	/**
+	 * Append an edit item to the current dropdown menu
+	 *
+	 * @param   string  $id      ID of corresponding checkbox of the record
+	 * @param   string  $prefix  The task prefix
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public static function edit($id, $prefix = '')
+	{
+		$task = ($prefix ? $prefix . '.' : '') . 'edit';
+		static::addCustomItem(JText::_('JTOOLBAR_EDIT'), 'edit', $id, $task);
+	}
+
+	/**
 	 * Append an archive item to the current dropdown menu
 	 *
 	 * @param   string  $id      ID of corresponding checkbox of the record
