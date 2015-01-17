@@ -158,7 +158,7 @@ class JTableMenu extends JTableNested
 	{
 		$db = JFactory::getDbo();
 
-		// Verify that the alias is unique
+		// Verify that the alias is unique in regards to non-deleted items.
 		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
 
 		if ($table->load(
@@ -169,8 +169,9 @@ class JTableMenu extends JTableNested
 				'language' => $this->language
 				)
 			)
-			&& ($table->id != $this->id || $this->id == 0))
+			&& (($table->published != "-2") && ($table->id != $this->id || $this->id == 0)))
 		{
+			
 			if ($this->menutype == $table->menutype)
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
