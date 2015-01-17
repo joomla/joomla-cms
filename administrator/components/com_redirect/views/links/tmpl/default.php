@@ -68,7 +68,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="20">
+						<th width="20" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th class="title">
@@ -77,16 +77,16 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<th width="30%" class="nowrap">
 							<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_NEW_URL', 'a.new_url', $listDirn, $listOrder); ?>
 						</th>
-						<th width="30%" class="nowrap">
+						<th width="30%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_REFERRER', 'a.referer', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap">
+						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_CREATED_DATE', 'a.created_date', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap">
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -108,7 +108,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
-						<td class="break-word">
+						<td>
 							<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id);?>" title="<?php echo $this->escape($item->old_url); ?>">
@@ -117,19 +117,19 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 									<?php echo $this->escape(str_replace(JUri::root(), '', rawurldecode($item->old_url))); ?>
 							<?php endif; ?>
 						</td>
-						<td class="small break-word">
+						<td class="small">
 							<?php echo $this->escape(rawurldecode($item->new_url)); ?>
 						</td>
-						<td class="small break-word">
+						<td class="small hidden-phone">
 							<?php echo $this->escape($item->referer); ?>
 						</td>
-						<td class="small">
+						<td class="small hidden-phone">
 							<?php echo JHtml::_('date', $item->created_date, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
-						<td class="center">
+						<td class="center hidden-phone">
 							<?php echo (int) $item->hits; ?>
 						</td>
-						<td class="center">
+						<td class="center hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
