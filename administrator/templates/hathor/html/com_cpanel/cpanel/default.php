@@ -36,20 +36,7 @@ if (JFactory::getUser()->authorise('core.manage', 'com_postinstall')) :
 foreach ($this->modules as $module)
 {
 	$output = JModuleHelper::renderModule($module);
-	$params = new Registry;
-	$params->loadString($module->params);
-	if ($params->get('automatic_title', '0') == '0')
-	{
-		echo JHtml::_('sliders.panel', $module->title, 'cpanel-panel-' . $module->name);
-	}
-	elseif (method_exists('mod'.$module->name.'Helper', 'getTitle'))
-	{
-		echo JHtml::_('sliders.panel', call_user_func_array(array('mod' . $module->name . 'Helper', 'getTitle'), array($params)), 'cpanel-panel-' . $module->name);
-	}
-	else
-	{
-		echo JHtml::_('sliders.panel', JText::_('MOD_' . $module->name . '_TITLE'), 'cpanel-panel-' . $module->name);
-	}
+        echo JHtml::_('sliders.panel', $module->title, 'cpanel-panel-' . $module->name);
 	echo $output;
 }
 
