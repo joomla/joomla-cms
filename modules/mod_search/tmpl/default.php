@@ -21,6 +21,8 @@ defined('_JEXEC') or die;
 
 			if (($browser->isBrowser('msie') && ($browserVersion < 10))
 				|| ($browser->isBrowser('mozilla') && ($browserVersion < 4))
+				|| ($browser->isBrowser('chrome') && ($browserVersion < 31))
+				|| ($browser->isBrowser('safari') && ($browserVersion < 7.1))
 				|| ($browser->isBrowser('opera') && ($browserVersion < 11)))
 			{
 				// Show old javascript variant in not HTML 5 compliant browsers
