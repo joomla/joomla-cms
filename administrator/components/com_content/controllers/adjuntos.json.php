@@ -19,6 +19,7 @@ jimport('joomla.database.table');
 class ContentControllerAdjuntos extends JControllerForm
 {
     public function subir() {
+        self::ajaxCheck();
 
         $jinput = JFactory::getApplication()->input;
 
@@ -142,7 +143,7 @@ class ContentControllerAdjuntos extends JControllerForm
      * @return  $arr    Array con los datos relacionados con el archivo subido
      */
 
-    function reformarArchivo($id, $dest) {
+    private function reformarArchivo($id, $dest) {
 
         // Encontrar una mejor forma de descomponer @dest :E
         $ruta = implode('/', explode('/', $dest, '-1'));
@@ -168,7 +169,7 @@ class ContentControllerAdjuntos extends JControllerForm
      *                          y tipo de mensaje
      */
 
-    function validarTipoMime($exts, $mimeArchivo) {
+    private function validarTipoMime($exts, $mimeArchivo) {
         $mimes = JMime::set($exts);
         $estado = array_search($mimeArchivo, $mimes, true);
 
@@ -194,11 +195,14 @@ class ContentControllerAdjuntos extends JControllerForm
      */
 
     public function borrar() {
+        self::ajaxCheck();
 
         JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_content'.DS.'tables');
 
         // Recibe los datos necesarios para eliminar el archivo adjunto indicado
         $jinput = JFactory::getApplication()->input;
+
+
 
         $hash = $jinput->get('hash', null, null);
         $id = self::obtenerRecordID($hash);
@@ -238,7 +242,7 @@ class ContentControllerAdjuntos extends JControllerForm
      *
      */
 
-    public function guardar($data) {
+    private function guardar($data) {
         $db = JFactory::getDbo();
 
         $query = $db->getQuery(true);
@@ -274,7 +278,6 @@ class ContentControllerAdjuntos extends JControllerForm
     }
 
     public function mostrar($id) {
-
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);
 
@@ -306,5 +309,21 @@ class ContentControllerAdjuntos extends JControllerForm
         $id = $db->loadObject()->id;
 
         return $id;
+    }
+
+    /**
+     *  Verifica JToken y hace un chequeo básico de que el request
+     *  sea a través de AJAX
+     *
+     *  Gracias a @Spunkie en 
+     *  http://joomla.stackexchange.com/questions/146/what-is-the-proper-way-to-make-an-ajax-call-in-component#answer-214
+     */
+    private function ajaxCheck () {
+        if(!JSession::checkToken('GET') || !isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
+            header('HTTP/1.1 403 Forbidden', true, 403);
+            JFactory::getApplication()->close();
+        }
+
+        return;
     }
 }

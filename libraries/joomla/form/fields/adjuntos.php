@@ -179,7 +179,7 @@ class JFormFieldAdjuntos extends JFormField
 
         $script[] = '   function subirArchivo() {';
         $script[] = '       var upload = new File.Upload({';
-        $script[] = '           url: "'.JURI::root().'administrator/index.php?option=com_content&task=adjuntos.subir&format=json",';
+        $script[] = '           url: "'.JURI::root().'administrator/index.php?option=com_content&task=adjuntos.subir&format=json&'.JUtility::getToken().'=1",';
         $script[] = '           data: {';
         $script[] = '               "campo":"campo-adjunto-"+adjuntoCount,';
         $script[] = '               "exts":"'.$extensiones.'",';
@@ -209,7 +209,7 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = 'function eliminarAdjunto(el) {';
         $script[] = '   var hash = el.get("data-hash");';
         $script[] = '   var request = new Request.JSON({';
-        $script[] = '       url: "'.JURI::root().'administrator/index.php?option=com_content&task=adjuntos.borrar&format=json",';
+        $script[] = '       url: "'.JURI::root().'administrator/index.php?option=com_content&task=adjuntos.borrar&format=json&'.JUtility::getToken().'=1",';
         $script[] = '       data: {';
         $script[] = '           "id":'.$id.',';
         $script[] = '           "hash": hash';
