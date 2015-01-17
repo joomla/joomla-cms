@@ -37,7 +37,7 @@ foreach ($this->modules as $module)
 {
 	$output = JModuleHelper::renderModule($module);
         echo JHtml::_('sliders.panel', $module->title, 'cpanel-panel-' . $module->name);
-	echo $output;
+        echo $output;
 }
 
 echo JHtml::_('sliders.end');

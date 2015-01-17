@@ -80,8 +80,8 @@ function modChrome_sliders($module, &$params, &$attribs)
 	$content = trim($module->content);
 	if (!empty($content))
 	{
-                echo JHtml::_('sliders.panel', $module->title, 'module' . $module->id);
-		echo $content;
+            echo JHtml::_('sliders.panel', $module->title, 'module' . $module->id);
+            echo $content;
 	}
 }
 
@@ -93,7 +93,7 @@ function modChrome_tabs($module, &$params, &$attribs)
 	$content = trim($module->content);
 	if (!empty($content))
 	{
-                echo JHtml::_('tabs.panel', $module->title, 'module' . $module->id);
-		echo $content;
+            echo JHtml::_('tabs.panel', $module->title, 'module' . $module->id);
+            echo $content;
 	}
 }
