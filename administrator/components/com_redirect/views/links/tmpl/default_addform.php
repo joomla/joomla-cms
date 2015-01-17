@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 ?>
-<div class="accordion" id="accordion1">
+
+<div class="accordion hidden-phone" id="accordion1">
 	<div class="accordion-group">
 		<div class="accordion-heading">
 			<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#batch">
