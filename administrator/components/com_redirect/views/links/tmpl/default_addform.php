@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-?>
 
+?>
 <div class="accordion hidden-phone" id="accordion1">
 	<div class="accordion-group">
 		<div class="accordion-heading">
