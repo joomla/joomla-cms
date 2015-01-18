@@ -41,7 +41,6 @@
 				<field
 					name="count"
 					type="text"
-                                        class="validate-numeric"
 					default="5"
 					class="validate-numeric"
 					label="MOD_BANNERS_FIELD_COUNT_LABEL"
