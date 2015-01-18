@@ -50,6 +50,7 @@ class MediaControllerFolder extends JControllerLegacy
 		// Just return if there's nothing to do
 		if (empty($paths))
 		{
+			$this->setMessage(JText::_('COM_MEDIA_ERROR_CHOOSE_DELETE'), 'warning');
 			return true;
 		}
 
