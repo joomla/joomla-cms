@@ -56,6 +56,9 @@ class ContentModelArchive extends ContentModelArticles
 		// Optional filter text
 		$this->setState('list.filter', $app->input->getString('filter-search'));
 
+		// Optional filter category
+		$this->setState('filter.acatid', $app->input->getInt('acatid', 0));
+
 		// Get list limit
 		$itemid = $app->input->get('Itemid', 0, 'int');
 		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
@@ -121,6 +124,14 @@ class ContentModelArchive extends ContentModelArticles
 		if ($year = $this->getState('filter.year'))
 		{
 			$query->where($query->year($queryDate) . ' = ' . $year);
+		}
+
+		// Filter on a category
+		$acatid = $this->getState('filter.acatid');
+
+		if ($acatid != 0)
+		{
+			$query->where('a.catid' . ' = ' . $acatid);
 		}
 
 		return $query;

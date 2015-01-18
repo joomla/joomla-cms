@@ -9,6 +9,21 @@
 		</message>
 	</layout>
 
+	<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request"
+				>
+			<field name="acatid" type="category"
+			       description="JGLOBAL_CHOOSE_CATEGORY_DESC"
+			       extension="com_content"
+			       label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
+			       default="0"
+			       required="true"
+			       show_root="true"
+					/>
+		</fieldset>
+	</fields>
+
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
 
