@@ -12,6 +12,11 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
+if (!JFactory::getApplication()->get('debug_lang') && !JFactory::getApplication()->get('debug'))
+{
+	JHtml::_('behavior.jailed');
+}
+
 JHtml::_('behavior.formvalidator');
 
 JFactory::getDocument()->addScriptDeclaration("

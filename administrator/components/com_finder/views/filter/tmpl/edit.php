@@ -9,6 +9,11 @@
 
 defined('_JEXEC') or die;
 
+if (!JFactory::getApplication()->get('debug_lang') && !JFactory::getApplication()->get('debug'))
+{
+	JHtml::_('behavior.jailed');
+}
+
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');

@@ -92,6 +92,56 @@ abstract class JHtmlBehavior
 	}
 
 	/**
+	 * Method to load jailed.js into the document head.
+	 *
+	 * Jailed.js alerts users before leaving the page
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public static function jailed()
+	{
+		// Only load once
+		if (isset(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
+		JFactory::getDocument()->addScriptDeclaration("
+		jQuery(document).ready(function() {
+			// Prevent alert for links
+			jQuery('a').bind('mousedown', function () {
+				jQuery(window).off('beforeunload');
+			});
+			// Prevent alert for buttons
+			jQuery(':button').bind('mousedown', function () {
+				jQuery(window).off('beforeunload');
+			});
+			// Prevent alert for forms
+			jQuery('form').bind('submit', function () {
+				jQuery(window).off('beforeunload');
+			});
+
+			// Prevent alert for forms
+			jQuery('input[type=submit]').bind('mousedown', function () {
+				jQuery(window).off('beforeunload');
+			});
+			// Alert on unintentional exit
+			jQuery(window).on('beforeunload', function (event) {
+				return '" . JText::_('JLIB_APPLICATION_EXIT_VIEW_FORBIDDEN') . "';
+			});
+		});
+		");
+		static::$loaded[__METHOD__] = true;
+
+		return;
+	}
+
+	/**
 	 * Add unobtrusive JavaScript support for image captions.
 	 *
 	 * @param   string  $selector  The selector for which a caption behaviour is to be applied.

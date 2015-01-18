@@ -9,6 +9,11 @@
 
 defined('_JEXEC') or die;
 
+if (!JFactory::getApplication()->get('debug_lang') && !JFactory::getApplication()->get('debug'))
+{
+	JHtml::_('behavior.jailed');
+}
+
 $script = "\t" . 'Joomla.submitbutton = function(pressbutton) {' . "\n";
 $script .= "\t\t" . 'var form = document.adminForm;' . "\n";
 $script .= "\t\t" . 'if (pressbutton == \'mail.cancel\') {' . "\n";

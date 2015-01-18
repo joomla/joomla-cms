@@ -11,6 +11,11 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
+if (!JFactory::getApplication()->get('debug_lang') && !JFactory::getApplication()->get('debug'))
+{
+	JHtml::_('behavior.jailed');
+}
+
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 $this->fieldsets = $this->form->getFieldsets('params');

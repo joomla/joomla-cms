@@ -12,6 +12,11 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $template = $app->getTemplate();
 
+if (!JFactory::getApplication()->get('debug_lang') && !JFactory::getApplication()->get('debug'))
+{
+	JHtml::_('behavior.jailed');
+}
+
 // Load the tooltip behavior.
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidator');
