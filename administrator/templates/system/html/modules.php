@@ -81,7 +81,7 @@ function modChrome_sliders($module, &$params, &$attribs)
 	if (!empty($content))
 	{
 		echo JHtml::_('sliders.panel', $module->title, 'module' . $module->id);
-	echo $content;
+		echo $content;
 	}
 }
 
