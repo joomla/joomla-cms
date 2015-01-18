@@ -36,8 +36,8 @@ if (JFactory::getUser()->authorise('core.manage', 'com_postinstall')) :
 foreach ($this->modules as $module)
 {
 	$output = JModuleHelper::renderModule($module);
-        echo JHtml::_('sliders.panel', $module->title, 'cpanel-panel-' . $module->name);
-        echo $output;
+	echo JHtml::_('sliders.panel', $module->title, 'cpanel-panel-' . $module->name);
+	echo $output;
 }
 
 echo JHtml::_('sliders.end');
