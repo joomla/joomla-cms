@@ -133,11 +133,12 @@ abstract class JHtmlBehavior
 
 			// Prevent alert for unchanged forms
 			jQuery('form :input').change(function() {
-				jQuery(this).closest('form').data('changed', true);
+				jQuery(this).parents('form').attr('data-jailed', 'changed');
 			});
+
 			// Alert on unintentional exit
-			jQuery(window).on('beforeunload.jailed', function (event) {
-				if(jQuery(this).closest('form').data('changed')) {
+			jQuery(window).on('beforeunload.jailed', function () {
+				if(jQuery('form[data-jailed=\"changed\"]').length) {
 					return '" . JText::_('JLIB_APPLICATION_EXIT_VIEW_FORBIDDEN') . "';
 				}
 			});
