@@ -130,9 +130,16 @@ abstract class JHtmlBehavior
 			jQuery('input[type=submit]').bind('mousedown', function () {
 				jQuery(window).off('beforeunload.jailed');
 			});
+
+			// Prevent alert for unchanged forms
+			jQuery('form :input').change(function() {
+				jQuery(this).closest('form').data('changed', true);
+			});
 			// Alert on unintentional exit
 			jQuery(window).on('beforeunload.jailed', function (event) {
-				return '" . JText::_('JLIB_APPLICATION_EXIT_VIEW_FORBIDDEN') . "';
+				if(jQuery(this).closest('form').data('changed')) {
+					return '" . JText::_('JLIB_APPLICATION_EXIT_VIEW_FORBIDDEN') . "';
+				}
 			});
 		});
 		");
