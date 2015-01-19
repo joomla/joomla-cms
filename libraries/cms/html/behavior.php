@@ -115,23 +115,23 @@ abstract class JHtmlBehavior
 		jQuery(document).ready(function() {
 			// Prevent alert for links
 			jQuery('a').bind('mousedown', function () {
-				jQuery(window).off('beforeunload');
+				jQuery(window).off('beforeunload.jailed');
 			});
 			// Prevent alert for buttons
 			jQuery(':button').bind('mousedown', function () {
-				jQuery(window).off('beforeunload');
+				jQuery(window).off('beforeunload.jailed');
 			});
 			// Prevent alert for forms
 			jQuery('form').bind('submit', function () {
-				jQuery(window).off('beforeunload');
+				jQuery(window).off('beforeunload.jailed');
 			});
 
 			// Prevent alert for forms
 			jQuery('input[type=submit]').bind('mousedown', function () {
-				jQuery(window).off('beforeunload');
+				jQuery(window).off('beforeunload.jailed');
 			});
 			// Alert on unintentional exit
-			jQuery(window).on('beforeunload', function (event) {
+			jQuery(window).on('beforeunload.jailed', function (event) {
 				return '" . JText::_('JLIB_APPLICATION_EXIT_VIEW_FORBIDDEN') . "';
 			});
 		});
