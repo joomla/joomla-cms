@@ -144,15 +144,27 @@ class JTableMenu extends JTableNested
 		return true;
 	}
 
+	/**
+	 * Method to set the publishing state for a row or list of rows in the database
+	 * table.  The method respects checked out rows by other users and will attempt
+	 * to checkin rows that it can after adjustments are made.
+	 *
+	 * @param   mixed    $pks     An optional array of primary key values to update.
+	 *                            If not set the instance property value is used.
+	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
+	 * @param   integer  $userId  The user id of the user performing the operation.
+	 *
+	 * @return  boolean  True on success; false if $pks is empty.
+	 *
+	 * @see    JTable::publish
+	 * @since   11.1 
+	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
 	
 		$db = JFactory::getDBO();
 		
-		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
-	
 		$query = $db->getQuery(true);
-		
 		$query->select('menutype')
 			->from('#__menu')
 			->where(
