@@ -256,7 +256,7 @@ class JFilterInput
 				break;
 
 			case 'TRIM':
-				$result = trim($source, " \t\n\r\0\x0B\xE3\x80\xC2\xA0");
+				$result = JString::trim($source, " \t\n\r\0\x0B\xE3\x80\x80\xC2\xA0");
 				break;
 
 			case 'USERNAME':
