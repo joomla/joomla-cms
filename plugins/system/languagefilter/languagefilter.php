@@ -265,6 +265,8 @@ class PlgSystemLanguageFilter extends JPlugin
 			|| count($this->app->input->files) > 0)
 		{
 			$found = true;
+			$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
+
 			if ($this->params->get('detect_browser', 1))
 			{
 				$lang_code = JLanguageHelper::detectLanguage();
