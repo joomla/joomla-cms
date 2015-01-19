@@ -101,8 +101,8 @@ abstract class ModLanguagesHelper
 					if (isset($cassociations[$language->lang_code]))
 					{
 						$language->link = JRoute::_(
-							$cassociations[$language->lang_code] 
-							. ((isset($associations[$language->lang_code])) ? '&Itemid=' . $associations[$language->lang_code]:'') 
+							$cassociations[$language->lang_code]
+							. ((isset($associations[$language->lang_code])) ? '&Itemid=' . $associations[$language->lang_code]:'')
 							. '&lang=' . $language->sef
 						);
 					}
