@@ -122,8 +122,8 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</ul>
-			<div id="noresultsfound" style="display:none;">
-				<?php echo JText::_('COM_MODULES_NO_ITEMS'); ?>
+			<div id="noresultsfound" style="display:none;" class="alert alert-no-items">
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 			<div style="display:none;" id="treeselectmenu">
 				<div class="pull-left nav-hover treeselect-menu">
