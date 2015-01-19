@@ -132,7 +132,7 @@ abstract class JHtmlBehavior
 			});
 
 			// Prevent alert for unchanged forms
-			jQuery('form :input').change(function() {
+			jQuery('form :input').on('changed input', function() {
 				jQuery(this).parents('form').attr('data-jailed', 'changed');
 			});
 
