@@ -144,6 +144,49 @@ class JTableMenu extends JTableNested
 		return true;
 	}
 
+	public function publish($pks = null, $state = 1, $userId = 0)
+	{
+	
+		$db = JFactory::getDBO();
+		
+		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
+	
+		$query = $db->getQuery(true);
+		
+		$query->select('menutype')
+			->from('#__menu')
+			->where(
+				$db->quoteName('id') . ' != ' . $db->quote($this->id) . ' AND ' .
+				$db->quoteName('alias') . ' = ' . $db->quote($this->alias) . ' AND ' .
+				$db->quoteName('parent_id') . ' = ' . $db->quote($this->parent_id) . ' AND ' .
+				$db->quoteName('client_id') . ' = ' . $db->quote((int) $this->client_id) . ' AND ' .
+				$db->quoteName('language') . ' = ' . $db->quote($this->language) . ' AND ' .
+				$db->quoteName('published') . ' != ' . $db->quote('-2'));
+				
+		$db->setQuery($query);
+		$db->execute();
+		
+		$result = $db->loadResult();
+
+		if (count($result) > 0 && $state != '-2')
+		{
+			
+			if ($this->menutype == $result)
+			{
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
+			}
+
+			return false;
+		}
+		
+		return parent::publish($pks, $state, $userId);
+
+	}
+
 	/**
 	 * Overloaded store function
 	 *
@@ -160,19 +203,29 @@ class JTableMenu extends JTableNested
 
 		// Verify that the alias is unique in regards to non-deleted items.
 		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
+		
+		//Grab all rows that match this in database.
+		$query = $db->getQuery(true);
+		
+		$query->select('menutype')
+			->from('#__menu')
+			->where(
+				$db->quoteName('id') . ' != ' . $db->quote($this->id) . ' AND ' .
+				$db->quoteName('alias') . ' = ' . $db->quote($this->alias) . ' AND ' .
+				$db->quoteName('parent_id') . ' = ' . $db->quote($this->parent_id) . ' AND ' .
+				$db->quoteName('client_id') . ' = ' . $db->quote((int) $this->client_id) . ' AND ' .
+				$db->quoteName('language') . ' = ' . $db->quote($this->language) . ' AND ' .
+				$db->quoteName('published') . ' != ' . $db->quote('-2'));
+				
+		$db->setQuery($query);
+		$db->execute();
+		
+		$result = $db->loadResult();
 
-		if ($table->load(
-				array(
-				'alias' => $this->alias,
-				'parent_id' => $this->parent_id,
-				'client_id' => (int) $this->client_id,
-				'language' => $this->language
-				)
-			)
-			&& (($table->published != "-2") && ($table->id != $this->id || $this->id == 0)))
+		if (count($result) > 0)
 		{
 			
-			if ($this->menutype == $table->menutype)
+			if ($this->menutype == $result)
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
 			}
