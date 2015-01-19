@@ -161,11 +161,10 @@ class JTableMenu extends JTableNested
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-	
+
 		$db = JFactory::getDBO();
-		
-		
-		//Check that a conflicting alias doesn't exist.
+
+		// Check that a conflicting alias doesn't exist.
 		$query = $db->getQuery(true);
 		$query->select('menutype')
 			->from('#__menu')
@@ -175,16 +174,17 @@ class JTableMenu extends JTableNested
 				$db->quoteName('parent_id') . ' = ' . $db->quote($this->parent_id) . ' AND ' .
 				$db->quoteName('client_id') . ' = ' . $db->quote((int) $this->client_id) . ' AND ' .
 				$db->quoteName('language') . ' = ' . $db->quote($this->language) . ' AND ' .
-				$db->quoteName('published') . ' != ' . $db->quote('-2'));
-				
+				$db->quoteName('published') . ' != ' . $db->quote('-2')
+			);
+	
 		$db->setQuery($query);
 		$db->execute();
-		
+
 		$result = $db->loadResult();
 
 		if (count($result) > 0 && $state != '-2')
 		{
-			
+
 			if ($this->menutype == $result)
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
@@ -196,7 +196,7 @@ class JTableMenu extends JTableNested
 
 			return false;
 		}
-		
+
 		return parent::publish($pks, $state, $userId);
 
 	}
@@ -217,10 +217,10 @@ class JTableMenu extends JTableNested
 
 		// Verify that the alias is unique in regards to non-deleted items.
 		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
-		
-		//Check that a conflicting alias doesn't exist..
+
+		// Check that a conflicting alias doesn't exist..
 		$query = $db->getQuery(true);
-		
+
 		$query->select('menutype')
 			->from('#__menu')
 			->where(
@@ -229,17 +229,17 @@ class JTableMenu extends JTableNested
 				$db->quoteName('parent_id') . ' = ' . $db->quote($this->parent_id) . ' AND ' .
 				$db->quoteName('client_id') . ' = ' . $db->quote((int) $this->client_id) . ' AND ' .
 				$db->quoteName('language') . ' = ' . $db->quote($this->language) . ' AND ' .
-				$db->quoteName('published') . ' != ' . $db->quote('-2'));
-				
+				$db->quoteName('published') . ' != ' . $db->quote('-2')
+				);
+
 		$db->setQuery($query);
 		$db->execute();
-		
-		$result = $db->loadResult();
 
+		$result = $db->loadResult();
 		
 		if (count($result) > 0)
 		{
-			
+
 			if ($this->menutype == $result)
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
