@@ -164,6 +164,8 @@ class JTableMenu extends JTableNested
 	
 		$db = JFactory::getDBO();
 		
+		
+		//Check that a conflicting alias doesn't exist.
 		$query = $db->getQuery(true);
 		$query->select('menutype')
 			->from('#__menu')
@@ -216,7 +218,7 @@ class JTableMenu extends JTableNested
 		// Verify that the alias is unique in regards to non-deleted items.
 		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
 		
-		//Grab all rows that match this in database.
+		//Check that a conflicting alias doesn't exist..
 		$query = $db->getQuery(true);
 		
 		$query->select('menutype')
@@ -234,6 +236,7 @@ class JTableMenu extends JTableNested
 		
 		$result = $db->loadResult();
 
+		
 		if (count($result) > 0)
 		{
 			
