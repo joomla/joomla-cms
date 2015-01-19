@@ -50,7 +50,6 @@ class MediaControllerFolder extends JControllerLegacy
 		// Just return if there's nothing to do
 		if (empty($paths))
 		{
-			$this->setMessage(JText::_('COM_MEDIA_NO_IMAGE_SELECTED'), 'warning');
 			return true;
 		}
 
