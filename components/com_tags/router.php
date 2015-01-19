@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,6 @@ class TagsRouter extends JComponentRouterBase
 
 		// Get a menu item based on Itemid or currently active
 		$params		= JComponentHelper::getParams('com_tags');
-		$advanced	= $params->get('sef_advanced_link', 0);
 
 		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))
@@ -51,44 +50,33 @@ class TagsRouter extends JComponentRouterBase
 			JArrayHelper::toInteger($mId);
 		}
 
+		$view = '';
 		if (isset($query['view']))
 		{
 			$view = $query['view'];
 
 			if (empty($query['Itemid']))
 			{
-				$segments[] = $query['view'];
+				$segments[] = $view;
 			}
 
 			unset($query['view']);
 		}
 
 		// Are we dealing with a tag that is attached to a menu item?
-		if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == $query['id']))
+		if ($mView == $view && isset($query['id']) && $mId == $query['id'])
 		{
-			unset($query['view']);
 			unset($query['id']);
-
 			return $segments;
 		}
 
 		if (isset($view) and $view == 'tag')
 		{
-			if ($mId != (int) $query['id'] || $mView != $view)
+			if (($mId != (int) $query['id'] || $mView != $view) && $view == 'tag')
 			{
-				if ($view == 'tag')
-				{
-					if ($advanced)
-					{
-						list($tmp, $id) = explode(':', $query['id'], 2);
-					}
-					else
-					{
-						$id = $query['id'];
-					}
-
-					$segments[] = $id;
-				}
+				// ID in com_tags can be either an integer, a string or an array of IDs
+				$id = is_array($query['id']) ? implode(',', $query['id']) : $query['id'];
+				$segments[] = $id;
 			}
 
 			unset($query['id']);
@@ -96,21 +84,13 @@ class TagsRouter extends JComponentRouterBase
 
 		if (isset($query['layout']))
 		{
-			if (!empty($query['Itemid']) && isset($menuItem->query['layout']))
+			if ((!empty($query['Itemid']) && isset($menuItem->query['layout'])
+				&& $query['layout'] == $menuItem->query['layout'])
+				|| $query['layout'] == 'default')
 			{
-				if ($query['layout'] == $menuItem->query['layout'])
-				{
-					unset($query['layout']);
-				}
+				unset($query['layout']);
 			}
-			else
-			{
-				if ($query['layout'] == 'default')
-				{
-					unset($query['layout']);
-				}
-			}
-		};
+		}
 
 		$total = count($segments);
 
@@ -159,27 +139,8 @@ class TagsRouter extends JComponentRouterBase
 		// From the tags view, we can only jump to a tag.
 		$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
 
-		$found = 0;
-
-		/*
-		 * TODO: Sort this code out. Makes no sense!
-		 * $found isn't used.
-		 * The foreach loop will always break in first itteration
-		 */
-		foreach ($segments as $segment)
-		{
-			if ($found == 0)
-			{
-				$id = $segment;
-			}
-
-			$vars['id'] = $id;
-			$vars['view'] = 'tag';
-
-			break;
-		}
-
-		$found = 0;
+		$vars['id'] = $segments[0];
+		$vars['view'] = 'tag';
 
 		return $vars;
 	}

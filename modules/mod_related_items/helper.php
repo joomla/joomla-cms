@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_related_items
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,6 +81,7 @@ abstract class ModRelatedItemsHelper
 						->select('a.title')
 						->select('DATE(a.created) as created')
 						->select('a.catid')
+						->select('a.language')
 						->select('cc.access AS cat_access')
 						->select('cc.published AS cat_state');
 

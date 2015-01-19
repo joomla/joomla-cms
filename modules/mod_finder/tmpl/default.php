@@ -3,13 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
+
+JHtml::_('jquery.framework');
 
 JHtml::_('bootstrap.tooltip');
 
@@ -125,7 +127,7 @@ if ($params->get('show_autosuggest', 1))
 	JHtml::_('script', 'media/jui/js/jquery.autocomplete.min.js', false, false, false, false, true);
 
 	$script .= "
-	var a = jQuery('#mod-finder-searchword').autocomplete({
+	var suggest = jQuery('#mod-finder-searchword').autocomplete({
 		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false) . "',
 		paramName: 'q',
 		minChars: 1,
