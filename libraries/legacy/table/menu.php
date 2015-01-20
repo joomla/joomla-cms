@@ -176,7 +176,7 @@ class JTableMenu extends JTableNested
 				$db->quoteName('language') . ' = ' . $db->quote($this->language) . ' AND ' .
 				$db->quoteName('published') . ' != ' . $db->quote('-2')
 			);
-	
+
 		$db->setQuery($query);
 		$db->execute();
 
@@ -236,7 +236,7 @@ class JTableMenu extends JTableNested
 		$db->execute();
 
 		$result = $db->loadResult();
-		
+
 		if (count($result) > 0)
 		{
 
