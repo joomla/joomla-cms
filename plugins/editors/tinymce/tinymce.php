@@ -40,7 +40,7 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * Initialises the Editor.
 	 *
-	 * @return  string  JavaScript Initialization string
+	 * @return  boolean
 	 *
 	 * @since   1.5
 	 */
@@ -615,9 +615,7 @@ class PlgEditorTinymce extends JPlugin
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 0);
 
-		$load = "\t<script type=\"text/javascript\" src=\"" .
-			JUri::root() . $this->_basePath .
-			"/tinymce.min.js\"></script>\n";
+		JFactory::getDocument()->addScript('/media/editors/tinymce/tinymce.min.js');
 
 		/**
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
@@ -640,149 +638,147 @@ class PlgEditorTinymce extends JPlugin
 		switch ($mode)
 		{
 			case 0: /* Simple mode*/
-				$return = $load .
-					"\t<script type=\"text/javascript\">
+				JFactory::getDocument()->addScriptDeclaration('
 					tinymce.init({
 						// General
-						directionality: \"$text_direction\",
-						selector: \"textarea.mce_editable\",
-						language : \"$langPrefix\",
-						mode : \"specific_textareas\",
+						directionality: "' . $text_direction . '",
+						selector: "textarea.mce_editable",
+						language : "' . $langPrefix . '",
+						mode : "specific_textareas",
 						autosave_restore_when_empty: false,
-						$skin
-						theme : \"$theme\",
-						schema: \"html5\",
+						' . $skin . '
+						theme : "' . $theme . '",
+						schema: "html5",
 						menubar: false,
-						toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist\",
+						toolbar1: "bold italics underline strikethrough | undo redo | bullist numlist",
 						// Cleanup/Output
 						inline_styles : true,
 						gecko_spellcheck : true,
-						entity_encoding : \"$entity_encoding\",
-						$forcenewline
-						$smallButtons
+						entity_encoding : "' . $entity_encoding . '",
+						' . $forcenewline . '
+						' . $smallButtons . '
 						// URL
-						relative_urls : $relative_urls,
+						relative_urls : ' . $relative_urls . ',
 						remove_script_host : false,
 						// Layout
-						$content_css
-						document_base_url : \"" . JUri::root() . "\"
+						' . $content_css . '
+						document_base_url : "' . JUri::root() . '",
 					});
-				</script>";
+				');
 				break;
 
 			case 1:
 			default: /* Advanced mode*/
 				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist";
 				$toolbar2 = "outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
-				$return = $load .
-					"\t<script type=\"text/javascript\">
-				tinyMCE.init({
-					// General
-					directionality: \"$text_direction\",
-					language : \"$langPrefix\",
-					mode : \"specific_textareas\",
-					autosave_restore_when_empty: false,
-					$skin
-					theme : \"$theme\",
-					schema: \"html5\",
-					selector: \"textarea.mce_editable\",
-					// Cleanup/Output
-					inline_styles : true,
-					gecko_spellcheck : true,
-					entity_encoding : \"$entity_encoding\",
-					valid_elements : \"$valid_elements\",
-					extended_valid_elements : \"$elements\",
-					$forcenewline
-					$smallButtons
-					invalid_elements : \"$invalid_elements\",
-					// Plugins
-					plugins : \"table link image code hr charmap autolink lists importcss\",
-					// Toolbar
-					toolbar1: \"$toolbar1\",
-					toolbar2: \"$toolbar2\",
-					removed_menuitems: \"newdocument\",
-					// URL
-					relative_urls : $relative_urls,
-					remove_script_host : false,
-					document_base_url : \"" . JUri::root() . "\",
-					// Layout
-					$content_css
-					importcss_append: true,
-					// Advanced Options
-					$resizing
-					height : \"$html_height\",
-					width : \"$html_width\",
 
-				});
-				</script>";
+				JFactory::getDocument()->addScriptDeclaration('
+					tinyMCE.init({
+						// General
+						directionality: "' . $text_direction . '",
+						language : "' . $langPrefix . '",
+						mode : "specific_textareas",
+						autosave_restore_when_empty: false,
+						' . $skin . '
+						theme : "' . $theme . '",
+						schema: "html5",
+						selector: "textarea.mce_editable",
+						// Cleanup/Output
+						inline_styles : true,
+						gecko_spellcheck : true,
+						entity_encoding : "' . $entity_encoding . '",
+						valid_elements : "' . $valid_elements . '",
+						extended_valid_elements : "' . $elements . '",
+						' . $forcenewline . '
+						' . $smallButtons . '
+						invalid_elements : "' . $invalid_elements . '",
+						// Plugins
+						plugins : "table link image code hr charmap autolink lists importcss",
+						// Toolbar
+						toolbar1: "' . $toolbar1 . '",
+						toolbar2: "' . $toolbar2 . '",
+						removed_menuitems: "newdocument",
+						// URL
+						relative_urls : ' . $relative_urls . ',
+						remove_script_host : false,
+						document_base_url : "' . JUri::root() . '",
+						// Layout
+						' . $content_css . '
+						importcss_append: true,
+						// Advanced Options
+						' . $resizing . '
+						height : "' . $html_height . '",
+						width : "' . $html_width . '"
+	
+					});
+				');
 				break;
 
 			case 2: /* Extended mode*/
-				$return = $load .
-					"\t<script type=\"text/javascript\">
-				tinyMCE.init({
-					// General
-					directionality: \"$text_direction\",
-					language : \"$langPrefix\",
-					mode : \"specific_textareas\",
-					autosave_restore_when_empty: false,
-					$skin
-					theme : \"$theme\",
-					schema: \"html5\",
-					selector: \"textarea.mce_editable\",
-					// Cleanup/Output
-					inline_styles : true,
-					gecko_spellcheck : true,
-					entity_encoding : \"$entity_encoding\",
-					valid_elements : \"$valid_elements\",
-					extended_valid_elements : \"$elements\",
-					$forcenewline
-					$smallButtons
-					invalid_elements : \"$invalid_elements\",
-					// Plugins
-					plugins : \"$plugins\",
-					// Toolbar
-					toolbar1: \"$toolbar1\",
-					toolbar2: \"$toolbar2\",
-					toolbar3: \"$toolbar3\",
-					toolbar4: \"$toolbar4\",
-					removed_menuitems: \"newdocument\",
-					// URL
-					relative_urls : $relative_urls,
-					remove_script_host : false,
-					document_base_url : \"" . JUri::root() . "\",
-					rel_list : [
-						{title: 'Alternate', value: 'alternate'},
-						{title: 'Author', value: 'author'},
-						{title: 'Bookmark', value: 'bookmark'},
-						{title: 'Help', value: 'help'},
-						{title: 'License', value: 'license'},
-						{title: 'Lightbox', value: 'lightbox'},
-						{title: 'Next', value: 'next'},
-						{title: 'No Follow', value: 'nofollow'},
-						{title: 'No Referrer', value: 'noreferrer'},
-						{title: 'Prefetch', value: 'prefetch'},
-						{title: 'Prev', value: 'prev'},
-						{title: 'Search', value: 'search'},
-						{title: 'Tag', value: 'tag'}
-					],
-					//Templates
-					" . $templates . "
-					// Layout
-					$content_css
-					importcss_append: true,
-					// Advanced Options
-					$resizing
-					image_advtab: $image_advtab,
-					height : \"$html_height\",
-					width : \"$html_width\",
-
-				});
-				</script>";
+				JFactory::getDocument()->addScriptDeclaration('
+					tinyMCE.init({
+						// General
+						directionality: "' . $text_direction . '",
+						language : "' . $langPrefix . '",
+						mode : "specific_textareas",
+						autosave_restore_when_empty: false,
+						' . $skin . '
+						theme : "' . $theme . '",
+						schema: "html5",
+						selector: "textarea.mce_editable",
+						// Cleanup/Output
+						inline_styles : true,
+						gecko_spellcheck : true,
+						entity_encoding : "' . $entity_encoding . '",
+						valid_elements : "' . $valid_elements . '",
+						extended_valid_elements : "' . $elements . '",
+						' . $forcenewline . '
+						' . $smallButtons . '
+						invalid_elements : "' . $invalid_elements . '",
+						// Plugins
+						plugins : "' . $plugins . '",
+						// Toolbar
+						toolbar1: "' . $toolbar1 . '",
+						toolbar2: "' . $toolbar2 . '",
+						toolbar3: "' . $toolbar3 . '",
+						toolbar4: "' . $toolbar4 . '",
+						removed_menuitems: "newdocument",
+						// URL
+						relative_urls : ' . $relative_urls . ',
+						remove_script_host : false,
+						document_base_url : "' . JUri::root() . '",
+						rel_list : [
+							{title: \'Alternate\', value: \'alternate\'},
+							{title: \'Author\', value: \'author\'},
+							{title: \'Bookmark\', value: \'bookmark\'},
+							{title: \'Help\', value: \'help\'},
+							{title: \'License\', value: \'license\'},
+							{title: \'Lightbox\', value: \'lightbox\'},
+							{title: \'Next\', value: \'next\'},
+							{title: \'No Follow\', value: \'nofollow\'},
+							{title: \'No Referrer\', value: \'noreferrer\'},
+							{title: \'Prefetch\', value: \'prefetch\'},
+							{title: \'Prev\', value: \'prev\'},
+							{title: \'Search\', value: \'search\'},
+							{title: \'Tag\', value: \'tag\'}
+						],
+						//Templates
+						' . $templates . '
+						// Layout
+						' . $content_css . '
+						importcss_append: true,
+						// Advanced Options
+						' . $resizing . '
+						image_advtab: ' . $image_advtab . ',
+						height : "' . $html_height . '",
+						width : "' . $html_width . '",
+	
+					});
+				');
 				break;
 		}
 
-		return $return;
+		return true;
 	}
 
 	/**
@@ -832,13 +828,13 @@ class PlgEditorTinymce extends JPlugin
 	public function onGetInsertMethod($name)
 	{
 		JFactory::getDocument()->addScriptDeclaration(
-			"
-			function jInsertEditorText( text, editor )
-			{
-				tinyMCE.execCommand('mceInsertContent', false, text);
-			}
-			"
-		);
+	"
+		function jInsertEditorText( text, editor )
+		{
+			tinyMCE.execCommand('mceInsertContent', false, text);
+		}
+	"
+);
 
 		return true;
 	}
