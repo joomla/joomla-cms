@@ -3,7 +3,7 @@
 	<testsuites>
 		<testsuite name="tests">
 			<directory>installation</directory>
-			<directory>content</directory>
+			<directory>justone</directory>
 		</testsuite>
 	</testsuites>
 	<logging>
