@@ -709,7 +709,7 @@ class PlgEditorTinymce extends JPlugin
 						' . $resizing . '
 						height : "' . $html_height . '",
 						width : "' . $html_width . '"
-	
+
 					});
 				');
 				break;
