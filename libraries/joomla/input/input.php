@@ -167,7 +167,7 @@ class JInput implements Serializable, Countable
 	{
 		if (isset($this->data[$name]))
 		{	
-			if (($filter == 'int' || $fitler == 'integer' ) && empty($this->data[$name]))
+			if (($filter == 'int' || $fitler == 'integer') && empty($this->data[$name]))
 			{
 				return $default;
 			}
