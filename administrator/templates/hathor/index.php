@@ -19,10 +19,10 @@ $user  = JFactory::getUser();
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load system style CSS
-$doc->addStyleSheetVersion('templates/system/css/system.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/system/css/system.css');
 
 // Loadtemplate CSS
-$doc->addStyleSheetVersion('templates/' . $this->template . '/css/template.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Load additional CSS styles for colors
 if (!$this->params->get('colourChoice'))
@@ -34,7 +34,7 @@ else
 	$colour = htmlspecialchars($this->params->get('colourChoice'));
 }
 
-$doc->addStyleSheetVersion('templates/' . $this->template . '/css/colour_' . $colour . '.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
@@ -47,8 +47,8 @@ if (is_file($file))
 // Load additional CSS styles for rtl sites
 if ($this->direction == 'rtl')
 {
-	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/template_rtl.css');
-	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
+	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
+	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
 }
 
 // Load specific language related CSS
@@ -62,11 +62,11 @@ if (is_file($file))
 // Load additional CSS styles for bold Text
 if ($this->params->get('boldText'))
 {
-	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/boldtext.css');
+	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/boldtext.css');
 }
 
 // Load template javascript
-$doc->addScriptVersion('templates/' . $this->template . '/js/template.js');
+$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Logo file
 if ($this->params->get('logoFile'))
