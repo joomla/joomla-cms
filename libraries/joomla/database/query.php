@@ -111,6 +111,8 @@ class JDatabaseQueryElement
 	/**
 	 * Sets the name of this element.
 	 *
+	 * @param   string  $name  Name of the element.
+	 *
 	 * @return  JDatabaseQueryElement  Returns this object to allow chaining.
 	 *
 	 * @since   3.4
