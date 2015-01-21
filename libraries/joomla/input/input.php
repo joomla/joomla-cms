@@ -165,12 +165,8 @@ class JInput implements Serializable, Countable
 	 */
 	public function get($name, $default = null, $filter = 'cmd')
 	{
-		if (isset($this->data[$name]))
+		if (isset($this->data[$name]) && $this->data[$name] !=="")
 		{	
-			if (($filter == 'int' || $fitler == 'integer') && empty($this->data[$name]))
-			{
-				return $default;
-			}
 			return $this->filter->clean($this->data[$name], $filter);
 		}
 
