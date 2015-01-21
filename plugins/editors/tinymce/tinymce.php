@@ -40,7 +40,7 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * Initialises the Editor.
 	 *
-	 * @return  null
+	 * @return  void
 	 *
 	 * @since   1.5
 	 */
@@ -778,7 +778,6 @@ class PlgEditorTinymce extends JPlugin
 				break;
 		}
 
-		return null;
 	}
 
 	/**
