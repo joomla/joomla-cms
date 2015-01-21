@@ -10,11 +10,11 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Advanced component routing class
+ * View-based component routing class
  *
  * @since  3.4
  */
-abstract class JComponentRouterAdvanced extends JComponentRouterBase
+abstract class JComponentRouterView extends JComponentRouterBase
 {
 	/**
 	 * Name of the router of the component
@@ -27,7 +27,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	/**
 	 * Array of rules
 	 * 
-	 * @var array
+	 * @var JComponentRouterRulesInterface[]
 	 * @since 3.4
 	 */
 	protected $rules = array();
@@ -35,7 +35,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	/**
 	 * Views of the component
 	 * 
-	 * @var array
+	 * @var JComponentRouterViewconfiguration[]
 	 * @since 3.4
 	 */
 	protected $views = array();
@@ -57,7 +57,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	/**
 	 * Return an array of registered view objects
 	 * 
-	 * @return array|JComponentRouterViewconfiguration Array of registered view objects
+	 * @return JComponentRouterViewconfiguration[] Array of registered view objects
 	 * 
 	 * @since 3.4
 	 */
@@ -108,17 +108,9 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 				}
 				$childkey = $view->parent_key;
 
-				if ($key && isset($query[$key]))
+				if ($key && isset($query[$key]) && is_callable(array($this, 'get' . ucfirst($view->name) . 'Segment')))
 				{
-					$result[$view->name] = array($query[$key]);
-					if ($view->nestable && is_callable(array($this, 'get' . ucfirst($view->name) . 'Slug')))
-					{
-						$nestable = call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Slug'), array($query[$key]));
-						if ($nestable)
-						{
-							$result[$view->name] = array_reverse($nestable->getPath());
-						}
-					}
+					$result[$view->name] = call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$key], $query));
 				}
 				else
 				{
@@ -132,7 +124,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	/**
 	 * Get all currently attached rules
 	 * 
-	 * @return array  All currently attached rules in an array
+	 * @return JComponentRouterRulesInterface[]  All currently attached rules in an array
 	 * 
 	 * @since 3.4
 	 */
@@ -144,7 +136,7 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 	/**
 	 * Add a number of router rules to the object
 	 * 
-	 * @param   array  $rules  Array of JComponentRouterRulesInterface objects
+	 * @param   JComponentRouterRulesInterface[]  $rules  Array of JComponentRouterRulesInterface objects
 	 * 
 	 * @return void
 	 * 
@@ -268,55 +260,5 @@ abstract class JComponentRouterAdvanced extends JComponentRouterBase
 		}
 
 		return $this->name;
-	}
-
-	/**
-	 * Get content items of the type category
-	 * This is a generic function for all components that use the JCategories
-	 * system and can be overriden if necessary.
-	 * 
-	 * @param   int  $id  ID of the category to load
-	 * 
-	 * @return   JCategoryNode  Category identified by $id
-	 * 
-	 * @since 3.4
-	 */
-	public function getCategorySlug($id)
-	{
-		$category = JCategories::getInstance($this->getName())->get($id);
-		return $category;
-	}
-
-	/**
-	 * Get the key for a content items of the type category
-	 * This is a generic function for all components that use the JCategories
-	 * system and can be overriden if necessary.
-	 * 
-	 * @param   string  $segment  Segment that represents the category
-	 * @param   array   $vars     Parameters of the query that have been parsed so far
-	 * 
-	 * @return   int  Category id
-	 * 
-	 * @since 3.4
-	 */
-	public function getCategoryKey($segment, $vars)
-	{
-		$views = $this->getViews();
-		$view = $views['category'];
-		$category = JCategories::getInstance($this->getName())->get($vars[$view->key]);
-		@list($id, $alias) = explode('-', $segment, 2);
-		if ((int) $id > 0)
-		{
-			$children = $category->getChildren();
-			foreach ($children as $child)
-			{
-				if ($child->id == $id)
-				{
-					return $child->id;
-				}
-			}
-		}
-
-		return false;
 	}
 }

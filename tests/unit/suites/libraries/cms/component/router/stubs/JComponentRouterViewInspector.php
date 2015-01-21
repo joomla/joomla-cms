@@ -8,13 +8,13 @@
  */
 
 /**
- * Inspector for JComponentRouterAdvanced
+ * Inspector for JComponentRouterView
  *
  * @package     Joomla.UnitTest
  * @subpackage  Component
  * @since       3.4
  */
-class JComponentRouterAdvancedInspector extends JComponentRouterAdvanced
+class JComponentRouterViewInspector extends JComponentRouterView
 {
 	/**
 	 * Gets an attribute of the object
@@ -44,11 +44,40 @@ class JComponentRouterAdvancedInspector extends JComponentRouterAdvanced
 	{
 		$this->$key = $value;
 	}
+
+	/**
+	* Get content items of the type category
+	*
+	* @param int $id ID of the category to load
+	*
+	* @return array  Categories path identified by $id
+	*
+	* @since 3.4
+	*/
+	public function getCategorySegment($id, $query)
+	{
+		$category = JCategories::getInstance($this->getName())->get($id);
+		return array_reverse($category->getPath());
+	}
+
+	/**
+	* Get content items of the type article
+	*
+	* @param int $id ID of the article to load
+	*
+	* @return array article identified by $id
+	*
+	* @since 3.4
+	*/
+	public function getArticleSegment($id, $query)
+	{
+		return array($id);
+	}
 }
 
 /**
  * Mock class to crash JComponentRouterAdvanced::getName
  */
-class FakeComponentURLCreator extends JComponentRouterAdvancedInspector
+class FakeComponentURLCreator extends JComponentRouterViewInspector
 {
 }

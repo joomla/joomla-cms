@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * View-configuration class for the advanced component router
+ * View-configuration class for the view-based component router
  *
  * @since  3.4
  */
@@ -67,7 +67,7 @@ class JComponentRouterViewconfiguration
 	/**
 	 * Child-views of this view
 	 * 
-	 * @var array
+	 * @var JComponentRouterViewconfiguration[]
 	 * @since 3.4
 	 */
 	public $children = array();

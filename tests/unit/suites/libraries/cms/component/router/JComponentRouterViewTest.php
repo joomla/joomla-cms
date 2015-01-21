@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once __DIR__ . '/stubs/JComponentRouterAdvancedInspector.php';
+require_once __DIR__ . '/stubs/JComponentRouterViewInspector.php';
 require_once __DIR__ . '/stubs/componentrouterrule.php';
 require_once __DIR__ . '/stubs/JCategoriesMock.php';
 
@@ -18,12 +18,12 @@ require_once __DIR__ . '/stubs/JCategoriesMock.php';
  * @subpackage  Component
  * @since       3.4
  */
-class JComponentRouterAdvancedTest extends TestCaseDatabase
+class JComponentRouterViewTest extends TestCaseDatabase
 {
 	/**
 	 * Object under test
 	 *
-	 * @var    JComponentRouterAdvanced
+	 * @var    JComponentRouterView
 	 * @since  3.4
 	 */
 	protected $object;
@@ -41,7 +41,7 @@ class JComponentRouterAdvancedTest extends TestCaseDatabase
 		parent::setUp();
 
 		$app = TestMockApplication::create($this);
-		$this->object = new JComponentRouterAdvancedInspector($app, $app->getMenu());
+		$this->object = new JComponentRouterViewInspector($app, $app->getMenu());
 	}
 
 	/**
@@ -288,21 +288,6 @@ class JComponentRouterAdvancedTest extends TestCaseDatabase
 	{
 		$object = new FakeComponentURLCreator($this->object->app, $this->object->menu);
 		$object->getName();
-	}
-
-	/**
-	 * Tests the getCategory() method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 */
-	public function testGetCategorySlug()
-	{
-		$this->object->set('name', 'unittest');
-		$result = $this->object->getCategorySlug(9);
-		$this->assertInstanceOf('JCategoryNode', $result);
-		$this->assertEquals('com_content', $result->extension);
 	}
 
 	/**
