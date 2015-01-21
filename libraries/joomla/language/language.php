@@ -880,7 +880,7 @@ class JLanguage
 
 				if (!preg_match($regex, $line) || in_array($key, $blacklist))
 				{
-					$errors[] = $lineNumber;
+					$errors[] = $lineNumber + 1;
 				}
 			}
 
