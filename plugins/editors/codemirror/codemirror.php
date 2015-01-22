@@ -56,7 +56,7 @@ class PlgEditorCodemirror extends JPlugin
 		$doc = JFactory::getDocument();
 
 		// Codemirror shall have its own group of plugins to modify and extend its behavior
-		JPluginHelper::importPlugin('editors-codemirror');
+		$result = JPluginHelper::importPlugin('editors_codemirror');
 		$dispatcher	= JEventDispatcher::getInstance();
 
 		// At this point, params can be modified by a plugin before going to the layout renderer.
@@ -265,10 +265,19 @@ class PlgEditorCodemirror extends JPlugin
 				'buttons' => $buttons
 			);
 
-		// At this point, displayData can be modified by a plugin before going to the layout renderer.
-		JEventDispatcher::getInstance()->trigger('onCodeMirrorBeforeDisplay', array(&$displayData));
+		$dispatcher = JEventDispatcher::getInstance();
 
-		return JLayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts', array('debug' => JDEBUG));
+		// At this point, displayData can be modified by a plugin before going to the layout renderer.
+		$results = $dispatcher->trigger('onCodeMirrorBeforeDisplay', array(&$displayData));
+
+		$results[] = JLayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts', array('debug' => JDEBUG));
+
+		foreach ($dispatcher->trigger('onCodeMirrorAfterDisplay', array(&$displayData)) as $result)
+		{
+			$results[] = $result;
+		}
+
+		return implode("\n", $results);
 	}
 
 	/**

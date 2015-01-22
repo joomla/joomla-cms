@@ -260,6 +260,80 @@
 
 			</fieldset>
 
+			<fields name="toolbar">
+				<fieldset name="toolbar"
+					   label="PLG_CODEMIRROR_FIELDSET_TOOLBAR_OPTIONS_LABEL" >
+
+					<field name="useToolbar" type="radio"
+						   class="btn-group btn-group-yesno"
+						   default="1"
+						   filter="options"
+						   description="PLG_CODEMIRROR_FIELD_TOOLBAR_USETOOLBAR_DESC"
+						   label="PLG_CODEMIRROR_FIELD_TOOLBAR_USETOOLBAR_LABEL"
+						    >
+						<option value="1">JSHOW</option>
+						<option value="0">JHIDE</option>
+					</field>
+
+					<field name="fullscreen" type="radio"
+						   class="btn-group btn-group-yesno"
+						   default="1"
+						   filter="options"
+						   description="PLG_CODEMIRROR_FIELD_TOOLBAR_FULLSCREEN_DESC"
+						   label="PLG_CODEMIRROR_FIELD_TOOLBAR_FULLSCREEN_LABEL"
+						    >
+						<option value="1">JSHOW</option>
+						<option value="0">JHIDE</option>
+					</field>
+
+					<field name="indentOutdent" type="radio"
+						   class="btn-group btn-group-yesno"
+						   default="1"
+						   filter="options"
+						   description="PLG_CODEMIRROR_FIELD_TOOLBAR_INDENTOUTDENT_DESC"
+						   label="PLG_CODEMIRROR_FIELD_TOOLBAR_INDENTOUTDENT_LABEL"
+						    >
+						<option value="1">JSHOW</option>
+						<option value="0">JHIDE</option>
+					</field>
+
+					<field name="cleanup" type="radio"
+						   class="btn-group btn-group-yesno"
+						   default="1"
+						   filter="options"
+						   description="PLG_CODEMIRROR_FIELD_TOOLBAR_CLEANUP_DESC"
+						   label="PLG_CODEMIRROR_FIELD_TOOLBAR_CLEANUP_LABEL"
+						    >
+						<option value="1">JSHOW</option>
+						<option value="0">JHIDE</option>
+					</field>
+
+					<field name="undoRedo" type="radio"
+						   class="btn-group btn-group-yesno"
+						   default="1"
+						   filter="options"
+						   description="PLG_CODEMIRROR_FIELD_TOOLBAR_UNDOREDO_DESC"
+						   label="PLG_CODEMIRROR_FIELD_TOOLBAR_UNDOREDO_LABEL"
+						    >
+						<option value="1">JSHOW</option>
+						<option value="0">JHIDE</option>
+					</field>
+
+					<field name="closeable" type="radio"
+						   class="btn-group btn-group-yesno"
+						   default="1"
+						   filter="options"
+						   description="PLG_CODEMIRROR_FIELD_TOOLBAR_CLOSEABLE_DESC"
+						   label="PLG_CODEMIRROR_FIELD_TOOLBAR_CLOSEABLE_LABEL"
+						    >
+						<option value="1">JSHOW</option>
+						<option value="0">JHIDE</option>
+					</field>
+
+				</fieldset>
+			</fields>
+
+
 		</fields>
 	</config>
 </extension>
