@@ -43,9 +43,11 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/js/template
 $doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Check for a custom CSS file
-if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/custom.css'))
+$userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
+
+if (file_exists($userCss) && filesize($userCss) > 0)
 {
-	$doc->addStyleSheet('templates/' . $this->template . '/css/custom.css');
+	$doc->addStyleSheet('templates/' . $this->template . '/css/user.css');
 }
 
 // Load optional RTL Bootstrap CSS
