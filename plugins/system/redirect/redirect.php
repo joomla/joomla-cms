@@ -99,7 +99,7 @@ class PlgSystemRedirect extends JPlugin
 				if ($link->header < 400 && $link->header >= 300)
 				{
 					$new_link = JUri::isInternal($link->new_url) ? JRoute::_($link->new_url) : $link->new_url;
-					
+
 					$app->redirect($new_link, intval($link->header));
 				}
 				else
