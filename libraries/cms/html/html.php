@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,9 +17,7 @@ jimport('joomla.utilities.arrayhelper');
 /**
  * Utility class for all HTML drawing classes
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.5
+ * @since  1.5
  */
 abstract class JHtml
 {
@@ -976,8 +974,8 @@ abstract class JHtml
 
 		static::_('bootstrap.tooltip');
 
-		// Format value when not '0000-00-00 00:00:00', otherwise blank it as it would result in 1970-01-01.
-		if ((int) $value)
+		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
+		if ((int) $value && $value != JFactory::getDbo()->getNullDate())
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
@@ -1019,7 +1017,7 @@ abstract class JHtml
 		$div_class	= (!$readonly && !$disabled) ? ' class="input-append"' : '';
 
 		return '<div' . $div_class . '>'
-				. '<input type="text" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
+				. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
 				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><i class="icon-calendar"></i></button>'
 			. '</div>';

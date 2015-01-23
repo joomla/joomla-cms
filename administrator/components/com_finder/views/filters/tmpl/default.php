@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,25 +18,26 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
+
+JFactory::getDocument()->addScriptDeclaration('
+	Joomla.submitbutton = function(pressbutton)
+	{
+		if (pressbutton == "filters.delete")
+		{
+			if (confirm(Joomla.JText._("COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT")))
+			{
+				Joomla.submitform(pressbutton);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		Joomla.submitform(pressbutton);
+	};
+');
 ?>
 
-<script type="text/javascript">
-Joomla.submitbutton = function(pressbutton)
-{
-	if (pressbutton == 'filters.delete')
-	{
-		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')))
-		{
-			Joomla.submitform(pressbutton);
-		}
-		else
-		{
-			return false;
-		}
-	}
-	Joomla.submitform(pressbutton);
-}
-</script>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -52,7 +53,7 @@ Joomla.submitbutton = function(pressbutton)
 			</div>
 			<div class="btn-group pull-left">
 				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 		</div>
 		<div class="clearfix"> </div>
@@ -68,16 +69,16 @@ Joomla.submitbutton = function(pressbutton)
 					<th width="5%" class="nowrap">
 						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="center nowrap">
+					<th width="10%" class="center nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_CREATED_BY', 'a.created_by_alias', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="center nowrap">
+					<th width="10%" class="center nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_FINDER_FILTER_TIMESTAMP', 'a.created', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="center nowrap">
+					<th width="5%" class="center nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_FINDER_FILTER_MAP_COUNT', 'a.map_count', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="center nowrap">
+					<th width="1%" class="center nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.filter_id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -86,23 +87,20 @@ Joomla.submitbutton = function(pressbutton)
 				<?php if (count($this->items) == 0) : ?>
 				<tr class="row0">
 					<td class="center" colspan="7">
-						<?php
-						if ($this->total == 0):
-							echo JText::_('COM_FINDER_NO_FILTERS');
-							?>
+						<?php if ($this->total == 0) : ?>
+							<?php echo JText::_('COM_FINDER_NO_FILTERS'); ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_finder&task=filter.add'); ?>" title="<?php echo JText::_('COM_FINDER_CREATE_FILTER'); ?>">
 								<?php echo JText::_('COM_FINDER_CREATE_FILTER'); ?>
 							</a>
-						<?php
-						else:
-							echo JText::_('COM_FINDER_NO_RESULTS');
-						endif;
-						?>
+						<?php else : ?>
+							<?php echo JText::_('COM_FINDER_NO_RESULTS'); ?>
+						<?php endif; ?>
 					</td>
 				</tr>
 				<?php endif; ?>
 
-				<?php foreach ($this->items as $i => $item):
+				<?php
+				foreach ($this->items as $i => $item) :
 				$canCreate  = $user->authorise('core.create',     'com_finder');
 				$canEdit    = $user->authorise('core.edit',       'com_finder');
 				$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
@@ -114,30 +112,29 @@ Joomla.submitbutton = function(pressbutton)
 						<?php echo JHtml::_('grid.id', $i, $item->filter_id); ?>
 					</td>
 					<td>
-						<?php if ($item->checked_out)
-						{
-							echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckin);
-						} ?>
-						<?php if ($canEdit) { ?>
+						<?php if ($item->checked_out) : ?>
+							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckin); ?>
+						<?php endif; ?>
+						<?php if ($canEdit) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_finder&task=filter.edit&filter_id=' . (int) $item->filter_id); ?>">
 								<?php echo $this->escape($item->title); ?></a>
-						<?php } else {
-								echo $this->escape($item->title);
-						} ?>
+						<?php else : ?>
+							<?php echo $this->escape($item->title); ?>
+						<?php endif; ?>
 					</td>
 					<td class="center nowrap">
 						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'filters.', $canChange); ?>
 					</td>
-					<td class="center nowrap">
+					<td class="center nowrap hidden-phone">
 						<?php echo $item->created_by_alias ? $item->created_by_alias : $item->user_name; ?>
 					</td>
-					<td class="center nowrap">
+					<td class="center nowrap hidden-phone">
 						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 					</td>
-					<td class="center nowrap">
+					<td class="center nowrap hidden-phone">
 						<?php echo $item->map_count; ?>
 					</td>
-					<td class="center">
+					<td class="center hidden-phone">
 						<?php echo (int) $item->filter_id; ?>
 					</td>
 				</tr>

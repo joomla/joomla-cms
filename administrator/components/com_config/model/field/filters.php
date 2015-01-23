@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Text Filters form field.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldFilters extends JFormField
 {
@@ -59,7 +57,8 @@ class JFormFieldFilters extends JFormField
 		$html[] = '			<span class="acl-action" title="' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '">' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action" title="' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '">' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action" title="' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '">'
+			. JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '	</tr>';
 		$html[] = '	</thead>';
@@ -85,18 +84,33 @@ class JFormFieldFilters extends JFormField
 			$html[] = '		</th>';
 			$html[] = '		<td>';
 			$html[] = '				<select name="' . $this->name . '[' . $group->value . '][filter_type]" id="' . $this->id . $group->value . '_filter_type">';
-			$html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>' . JText::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';
-			$html[] = '					<option value="CBL"' . ($group_filter['filter_type'] == 'CBL' ? ' selected="selected"' : '') . '>' . JText::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_BLACK_LIST') . '</option>';
-			$html[] = '					<option value="WL"' . ($group_filter['filter_type'] == 'WL' ? ' selected="selected"' : '') . '>' . JText::_('COM_CONFIG_FIELD_FILTERS_WHITE_LIST') . '</option>';
-			$html[] = '					<option value="NH"' . ($group_filter['filter_type'] == 'NH' ? ' selected="selected"' : '') . '>' . JText::_('COM_CONFIG_FIELD_FILTERS_NO_HTML') . '</option>';
-			$html[] = '					<option value="NONE"' . ($group_filter['filter_type'] == 'NONE' ? ' selected="selected"' : '') . '>' . JText::_('COM_CONFIG_FIELD_FILTERS_NO_FILTER') . '</option>';
+			$html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>'
+				. JText::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';
+			$html[] = '					<option value="CBL"' . ($group_filter['filter_type'] == 'CBL' ? ' selected="selected"' : '') . '>'
+				. JText::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_BLACK_LIST') . '</option>';
+			$html[] = '					<option value="WL"' . ($group_filter['filter_type'] == 'WL' ? ' selected="selected"' : '') . '>'
+				. JText::_('COM_CONFIG_FIELD_FILTERS_WHITE_LIST') . '</option>';
+			$html[] = '					<option value="NH"' . ($group_filter['filter_type'] == 'NH' ? ' selected="selected"' : '') . '>'
+				. JText::_('COM_CONFIG_FIELD_FILTERS_NO_HTML') . '</option>';
+			$html[] = '					<option value="NONE"' . ($group_filter['filter_type'] == 'NONE' ? ' selected="selected"' : '') . '>'
+				. JText::_('COM_CONFIG_FIELD_FILTERS_NO_FILTER') . '</option>';
 			$html[] = '				</select>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
-			$html[] = '				<input name="' . $this->name . '[' . $group->value . '][filter_tags]" id="' . $this->id . $group->value . '_filter_tags" title="' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '" value="' . $group_filter['filter_tags'] . '"/>';
+			$html[] = '				<input'
+				. ' name="' . $this->name . '[' . $group->value . '][filter_tags]"'
+				. ' id="' . $this->id . $group->value . '_filter_tags"'
+				. ' title="' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '"'
+				. ' value="' . $group_filter['filter_tags'] . '"'
+				. '/>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
-			$html[] = '				<input name="' . $this->name . '[' . $group->value . '][filter_attributes]" id="' . $this->id . $group->value . '_filter_attributes" title="' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '" value="' . $group_filter['filter_attributes'] . '"/>';
+			$html[] = '				<input'
+				. ' name="' . $this->name . '[' . $group->value . '][filter_attributes]"'
+				. ' id="' . $this->id . $group->value . '_filter_attributes"'
+				. ' title="' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '"'
+				. ' value="' . $group_filter['filter_attributes'] . '"'
+				. '/>';
 			$html[] = '		</td>';
 			$html[] = '	</tr>';
 		}

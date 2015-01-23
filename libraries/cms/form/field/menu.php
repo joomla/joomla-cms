@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,9 +17,7 @@ require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus
 /**
  * Supports an HTML select list of menus
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldMenu extends JFormFieldList
 {

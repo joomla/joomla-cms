@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,7 @@ require_once JPATH_ROOT . '/components/com_content/helpers/route.php';
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
+JHtml::_('formbehavior.chosen', 'select');
 
 $extension	= $this->escape($this->state->get('filter.extension'));
 $function  	= $app->input->getCmd('function', 'jSelectCategory');
@@ -41,9 +42,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</div>
 			<div class="btn-group pull-left">
 				<button type="submit" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>">
-					<span class="icon-search"></span><?php echo '&#160;' . JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-				<button type="button" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();">
-					<span class="icon-remove"></span><?php echo '&#160;' . JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+					<span class="icon-search"></span><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
+				<button type="button" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();">
+					<span class="icon-remove"></span><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 			</div>
 			<div class="clearfix"></div>
 		</div>
@@ -144,7 +145,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 					</td>
 					<td class="center hidden-phone">
-						<?php echo (int) $item->id; ?></span>
+						<?php echo (int) $item->id; ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>

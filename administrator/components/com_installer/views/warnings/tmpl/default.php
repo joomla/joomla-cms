@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 
 		if (!count($this->messages))
 		{
-			echo '<div class="alert alert-info"><a class="close" data-dismiss="alert" href="#">&times;</a>'. JText::_('COM_INSTALLER_MSG_WARNINGS_NONE').'</div>';
+			echo '<div class="alert alert-info"><a class="close" data-dismiss="alert" href="#">&times;</a>' . JText::_('COM_INSTALLER_MSG_WARNINGS_NONE') . '</div>';
 		}
 		else
 		{
@@ -32,10 +32,10 @@ defined('_JEXEC') or die;
 			foreach($this->messages as $message)
 			{
 				echo JHtml::_('sliders.panel', $message['message'], str_replace(' ', '', $message['message']));
-				echo '<div style="padding: 5px;" >'.$message['description'].'</div>';
+				echo '<div style="padding: 5px;" >' . $message['description'] . '</div>';
 			}
 			echo JHtml::_('sliders.panel', JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'), 'furtherinfo-pane');
-			echo '<div style="padding: 5px;" >'. JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC') .'</div>';
+			echo '<div style="padding: 5px;" >' . JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC') . '</div>';
 			echo JHtml::_('sliders.end');
 		}
 		?>

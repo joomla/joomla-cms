@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Field to load a list of posible item count limits
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.2
+ * @since  3.2
  */
 class JFormFieldLimitbox extends JFormFieldList
 {

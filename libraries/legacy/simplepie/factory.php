@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Simplepie
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,8 +16,6 @@ jimport('simplepie.simplepie');
  *
  * The user's navigated path within the application.
  *
- * @package     Joomla.Legacy
- * @subpackage  Simplepie
  * @since       12.2
  * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JFeed or supply your own methods
  */

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,24 +23,26 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 $archived   = $this->state->get('filter.state') == 2 ? true : false;
 $trashed    = $this->state->get('filter.state') == -2 ? true : false;
 $sortFields = $this->getSortFields();
-?>
-<script type="text/javascript">
+
+JFactory::getDocument()->addScriptDeclaration('
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != '<?php echo $listOrder; ?>')
+		if (order != "' . $listOrder . '")
 		{
-			dirn = 'asc';
+			dirn = "asc";
 		}
 		else
 		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
-		Joomla.tableOrdering(order, dirn, '');
-	}
-</script>
+		Joomla.tableOrdering(order, dirn, "");
+	};
+');
+?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=clients'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -58,7 +60,7 @@ $sortFields = $this->getSortFields();
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%" class="hidden-phone">
+						<th width="1%" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="5%" class="nowrap center">
@@ -97,7 +99,7 @@ $sortFields = $this->getSortFields();
 						$canChange  = $user->authorise('core.edit.state', 'com_banners') && $canCheckin;
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
-							<td class="center hidden-phone">
+							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="center">

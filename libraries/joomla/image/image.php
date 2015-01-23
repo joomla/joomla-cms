@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to manipulate an image.
  *
- * @package     Joomla.Platform
- * @subpackage  Image
- * @since       11.3
+ * @since  11.3
  */
 class JImage
 {
@@ -354,7 +352,7 @@ class JImage
 		{
 			// Get the transparent color values for the current image.
 			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
-			$color = imageColorAllocate($this->handle, $rgba['red'], $rgba['green'], $rgba['blue']);
+			$color = imageColorAllocateAlpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
@@ -692,17 +690,39 @@ class JImage
 		{
 			// Get the transparent color values for the current image.
 			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
-			$color = imageColorAllocateAlpha($this->handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
+			$color = imageColorAllocateAlpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
 
-			imagecopyresized($handle, $this->handle, $offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
+			imagecopyresized(
+				$handle,
+				$this->handle,
+				$offset->x,
+				$offset->y,
+				0,
+				0,
+				$dimensions->width,
+				$dimensions->height,
+				$this->getWidth(),
+				$this->getHeight()
+			);
 		}
 		else
 		{
-			imagecopyresampled($handle, $this->handle, $offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
+			imagecopyresampled(
+				$handle,
+				$this->handle,
+				$offset->x,
+				$offset->y,
+				0,
+				0,
+				$dimensions->width,
+				$dimensions->height,
+				$this->getWidth(),
+				$this->getHeight()
+			);
 		}
 
 		// If we are resizing to a new image, create a new JImage object.
@@ -733,7 +753,7 @@ class JImage
 	 *
 	 * @param   integer  $width      The desired width of the image in pixels or a percentage.
 	 * @param   integer  $height     The desired height of the image in pixels or a percentage.
-	 * @param   integer  $createNew  If true the current image will be cloned, resized, cropped and returned.
+	 * @param   boolean  $createNew  If true the current image will be cloned, resized, cropped and returned.
 	 *
 	 * @return  object  JImage Object for chaining.
 	 *
@@ -744,16 +764,19 @@ class JImage
 		$width   = $this->sanitizeWidth($width, $height);
 		$height  = $this->sanitizeHeight($height, $width);
 
+		$resizewidth = $width;
+		$resizeheight = $height;
+
 		if (($this->getWidth() / $width) < ($this->getHeight() / $height))
 		{
-			$this->resize($width, 0, false);
+			$resizeheight = 0;
 		}
 		else
 		{
-			$this->resize(0, $height, false);
+			$resizewidth = 0;
 		}
 
-		return $this->crop($width, $height, null, null, $createNew);
+		return $this->resize($resizewidth, $resizeheight, $createNew)->crop($width, $height, null, null, false);
 	}
 
 	/**

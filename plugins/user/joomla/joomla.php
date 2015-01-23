@@ -3,18 +3,18 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla User plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  User.joomla
- * @since       1.5
+ * @since  1.5
  */
 class PlgUserJoomla extends JPlugin
 {
@@ -96,7 +96,7 @@ class PlgUserJoomla extends JPlugin
 					 * 	1. User frontend language
 					 * 	2. User backend language
 					 */
-					$userParams = new JRegistry($user['params']);
+					$userParams = new Registry($user['params']);
 					$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
 
 					if ($userLocale != $defaultLocale)

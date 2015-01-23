@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
+ * Installer HTML class.
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  * @since       2.5
@@ -17,12 +19,12 @@ defined('_JEXEC') or die;
 abstract class InstallerHtmlManage
 {
 	/**
-	 * Returns a published state on a grid
+	 * Returns a published state on a grid.
 	 *
-	 * @param   integer       $value			The state value.
-	 * @param   integer       $i				The row index
-	 * @param   boolean       $enabled			An optional setting for access control on the action.
-	 * @param   string        $checkbox			An optional prefix for checkboxes.
+	 * @param   integer  $value     The state value.
+	 * @param   integer  $i         The row index.
+	 * @param   boolean  $enabled   An optional setting for access control on the action.
+	 * @param   string   $checkbox  An optional prefix for checkboxes.
 	 *
 	 * @return  string        The Html code
 	 *

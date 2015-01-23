@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Supports a modal article picker.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       3.1
+ * @since  3.1
  */
 class JFormFieldModal_Category extends JFormField
 {
@@ -30,11 +28,19 @@ class JFormFieldModal_Category extends JFormField
 	 * Method to get the field input markup.
 	 *
 	 * @return  string	The field input markup.
+	 *
 	 * @since   1.6
 	 */
 	protected function getInput()
 	{
-		$extension 		= $this->element['extension'] ? (string) $this->element['extension'] : (string) JFactory::getApplication()->input->get('extension', 'com_content');
+		if ($this->element['extension'])
+		{
+			$extension = (string) $this->element['extension'];
+		}
+		else
+		{
+			$extension = (string) JFactory::getApplication()->input->get('extension', 'com_content');
+		}
 
 		$allowEdit		= ((string) $this->element['edit'] == 'true') ? true : false;
 		$allowClear		= ((string) $this->element['clear'] != 'false') ? true : false;
@@ -63,7 +69,7 @@ class JFormFieldModal_Category extends JFormField
 			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		SqueezeBox.close();';
+		$script[] = '		jModalClose();';
 		$script[] = '	}';
 
 		// Clear button script
@@ -75,7 +81,8 @@ class JFormFieldModal_Category extends JFormField
 
 			$script[] = '	function jClearCategory(id) {';
 			$script[] = '		document.getElementById(id + "_id").value = "";';
-			$script[] = '		document.getElementById(id + "_name").value = "' . htmlspecialchars(JText::_('COM_CATEGORIES_SELECT_A_CATEGORY', true), ENT_COMPAT, 'UTF-8') . '";';
+			$script[] = '		document.getElementById(id + "_name").value = "'
+				. htmlspecialchars(JText::_('COM_CATEGORIES_SELECT_A_CATEGORY', true), ENT_COMPAT, 'UTF-8') . '";';
 			$script[] = '		jQuery("#"+id + "_clear").addClass("hidden");';
 			$script[] = '		if (document.getElementById(id + "_edit")) {';
 			$script[] = '			jQuery("#"+id + "_edit").addClass("hidden");';
@@ -89,7 +96,8 @@ class JFormFieldModal_Category extends JFormField
 
 		// Setup variables for display.
 		$html = array();
-		$link = 'index.php?option=com_categories&amp;view=categories&amp;layout=modal&amp;tmpl=component&amp;extension=' . $extension . '&amp;function=jSelectCategory_' . $this->id;
+		$link = 'index.php?option=com_categories&amp;view=categories&amp;layout=modal&amp;tmpl=component&amp;extension='
+			. $extension . '&amp;function=jSelectCategory_' . $this->id;
 
 		if (isset($this->element['language']))
 		{
@@ -119,6 +127,7 @@ class JFormFieldModal_Category extends JFormField
 		{
 			$title = JText::_('COM_CATEGORIES_SELECT_A_CATEGORY');
 		}
+
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
 		// The active category id field.
@@ -134,24 +143,42 @@ class JFormFieldModal_Category extends JFormField
 		// The current category display field.
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35" />';
-		$html[] = '<a class="modal btn hasTooltip" title="' . JHtml::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '"  href="' . $link . '&amp;' . JSession::getFormToken() . '=1" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-file"></i> ' . JText::_('JSELECT') . '</a>';
+		$html[] = '<a'
+			. ' class="modal btn hasTooltip"'
+			. ' title="' . JHtml::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '"'
+			. ' href="' . $link . '&amp;' . JSession::getFormToken() . '=1"'
+			. ' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
+			. '<i class="icon-file"></i> ' . JText::_('JSELECT')
+			. '</a>';
 
 		// Edit category button
 		if ($allowEdit)
 		{
-			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden') . '" href="index.php?option=com_categories&layout=modal&tmpl=component&task=category.edit&id=' . $value . '" target="_blank" title="' . JHtml::tooltipText('COM_CATEGORIES_EDIT_CATEGORY') . '" ><span class="icon-edit"></span> ' . JText::_('JACTION_EDIT') . '</a>';
+			$html[] = '<a'
+				. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
+				. ' href="index.php?option=com_categories&layout=modal&tmpl=component&task=category.edit&id=' . $value . '"'
+				. ' target="_blank"'
+				. ' title="' . JHtml::tooltipText('COM_CATEGORIES_EDIT_CATEGORY') . '" >'
+				. '<span class="icon-edit"></span>' . JText::_('JACTION_EDIT')
+				. '</a>';
 		}
 
 		// Clear category button
 		if ($allowClear)
 		{
-			$html[] = '<button id="' . $this->id . '_clear" class="btn' . ($value ? '' : ' hidden') . '" onclick="return jClearCategory(\'' . $this->id . '\')"><span class="icon-remove"></span> ' . JText::_('JCLEAR') . '</button>';
+			$html[] = '<button'
+				. ' id="' . $this->id . '_clear"'
+				. ' class="btn' . ($value ? '' : ' hidden') . '"'
+				. ' onclick="return jClearCategory(\'' . $this->id . '\')">'
+				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
+				. '</button>';
 		}
 
 		$html[] = '</span>';
 
-		// class='required' for client side validation
+		// Note: class='required' for client side validation
 		$class = '';
+
 		if ($this->required)
 		{
 			$class = ' class="required modal-value"';

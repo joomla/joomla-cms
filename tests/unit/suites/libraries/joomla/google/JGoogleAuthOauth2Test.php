@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -87,8 +87,6 @@ class JGoogleAuthOauth2Test extends TestCase
 		$this->object->authenticate();
 		$this->assertEquals(0, $this->application->closed);
 
-		$this->markTestIncomplete('Unexpected test failure in CMS environment');
-
 		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
 		$this->input->set('code', '4/wEr_dK8SDkjfpwmc98KejfiwJP-f4wm.kdowmnr82jvmeisjw94mKFIJE48mcEM');
 		$this->http->expects($this->once())->method('post')->will($this->returnCallback('jsonGrantOauthCallback'));
@@ -138,8 +136,6 @@ class JGoogleAuthOauth2Test extends TestCase
 		$token['expires_in'] = 3600;
 		$this->oauth->setToken($token);
 
-		$this->markTestIncomplete('Unexpected test failure in CMS environment');
-
 		$this->http->expects($this->once())->method('get')->will($this->returnCallback('getOauthCallback'));
 		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'get');
 		$this->assertEquals($result->body, 'Lorem ipsum dolor sit amet.');
@@ -161,8 +157,6 @@ class JGoogleAuthOauth2Test extends TestCase
 	{
 		$this->assertEquals(null, $this->object->getOption('authurl'));
 		$this->assertEquals(null, $this->object->getOption('tokenurl'));
-
-		$this->markTestIncomplete('Unexpected test failure in CMS environment');
 
 		$token['access_token'] = 'accessvalue';
 		$token['refresh_token'] = 'refreshvalue';

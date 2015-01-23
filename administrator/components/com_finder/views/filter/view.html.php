@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Filter view class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderViewFilter extends JViewLegacy
 {
@@ -39,6 +37,7 @@ class FinderViewFilter extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -81,6 +80,7 @@ class FinderViewFilter extends JViewLegacy
 				JToolbarHelper::save('filter.save');
 				JToolbarHelper::save2new('filter.save2new');
 			}
+
 			JToolbarHelper::cancel('filter.cancel');
 		}
 		else
@@ -101,13 +101,16 @@ class FinderViewFilter extends JViewLegacy
 					}
 				}
 			}
+
 			// If an existing item, can save as a copy
 			if ($canDo->get('core.create'))
 			{
 				JToolbarHelper::save2copy('filter.save2copy');
 			}
+
 			JToolbarHelper::cancel('filter.cancel', 'JTOOLBAR_CLOSE');
 		}
+
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS_EDIT');
 	}

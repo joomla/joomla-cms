@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,14 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Categories view base class.
  *
- * @package     Joomla.Libraries
- * @subpackage  View
- * @since       3.2
+ * @since  3.2
  */
 class JViewCategories extends JViewLegacy
 {
 	/**
 	 * State data
 	 *
-	 * @var    JRegistry
+	 * @var    \Joomla\Registry\Registry
 	 * @since  3.2
 	 */
 	protected $state;
@@ -88,7 +86,7 @@ class JViewCategories extends JViewLegacy
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->maxLevelcat = $params->get('maxLevelcat', -1);
+		$this->maxLevelcat = $params->get('maxLevelcat', -1) < 0 ? PHP_INT_MAX : $params->get('maxLevelcat', PHP_INT_MAX);
 		$this->params      = &$params;
 		$this->parent      = &$parent;
 		$this->items       = &$items;

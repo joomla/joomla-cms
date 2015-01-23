@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,18 +14,20 @@ $template = $app->getTemplate();
 
 // Load the tooltip behavior.
 JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
-?>
-<script type="text/javascript">
+
+JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
 	{
-		if (document.formvalidator.isValid(document.id('component-form')))
+		if (task === "config.cancel.component" || document.formvalidator.isValid(document.getElementById("component-form")))
 		{
-			Joomla.submitform(task, document.getElementById('component-form'));
+			Joomla.submitform(task, document.getElementById("component-form"));
 		}
-	}
-</script>
+	};
+');
+?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
 	<div class="row-fluid">
 		<!-- Begin Sidebar -->
@@ -37,15 +39,13 @@ JHtml::_('formbehavior.chosen', 'select');
 		<!-- End Sidebar -->
 		<div class="span10">
 			<ul class="nav nav-tabs" id="configTabs">
-				<?php $fieldSets = $this->form->getFieldsets(); ?>
-				<?php foreach ($fieldSets as $name => $fieldSet) : ?>
+				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
 					<li><a href="#<?php echo $name; ?>" data-toggle="tab"><?php echo JText::_($label); ?></a></li>
 				<?php endforeach; ?>
 			</ul>
 			<div class="tab-content">
-				<?php $fieldSets = $this->form->getFieldsets(); ?>
-				<?php foreach ($fieldSets as $name => $fieldSet) : ?>
+				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<div class="tab-pane" id="<?php echo $name; ?>">
 						<?php
 						if (isset($fieldSet->description) && !empty($fieldSet->description))

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.emailcloak
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Email cloack plugin class.
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.emailcloak
- * @since       1.5
+ * @since  1.5
  */
 class PlgContentEmailcloak extends JPlugin
 {
@@ -54,8 +52,7 @@ class PlgContentEmailcloak extends JPlugin
 	 */
 	protected function _getPattern ($link, $text)
 	{
-		$pattern = '~(?:<a ([\w "\'=\@\.\-:;]*)href\s*=\s*"mailto:'
-			. $link . '"([\w "\'=\@\.\-:;]*))>' . $text . '</a>~i';
+		$pattern = '~(?:<a ([^>]*)href\s*=\s*"mailto:' . $link . '"([^>]*))>' . $text . '</a>~i';
 
 		return $pattern;
 	}

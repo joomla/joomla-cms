@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,17 +47,10 @@ class JArchiveTarTest extends JArchiveTestCase
 		if (!JArchiveTar::isSupported())
 		{
 			$this->markTestSkipped('Tar files can not be extracted.');
-
-			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo.tar', static::$outputPath);
-		$this->assertTrue(is_file(static::$outputPath . '/logo-tar.png'));
-
-		if (is_file(static::$outputPath . '/logo-tar.png'))
-		{
-			unlink(static::$outputPath . '/logo-tar.png');
-		}
+		$this->object->extract(__DIR__ . '/logo.tar', $this->outputPath);
+		$this->assertFileExists($this->outputPath . '/logo-tar.png');
 	}
 
 	/**

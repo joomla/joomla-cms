@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,13 +29,17 @@ $version = new JVersion;
 	<?php else : ?>
 		<div id="j-main-container">
 	<?php endif;?>
-
-		<?php if (count($this->items) || $this->escape($this->state->get('filter.search'))) : ?>
-			<?php echo $this->loadTemplate('filter'); ?>
+	<?php if (count($this->items) || $this->escape($this->state->get('filter.search'))) : ?>
+		<?php echo $this->loadTemplate('filter'); ?>
+		<?php if (empty($this->items)) : ?>
+			<div class="alert alert-no-items">
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
+		<?php else : ?>
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="20" class="nowrap hidden-phone">
+						<th width="20" class="nowrap center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th class="nowrap">
@@ -63,20 +67,21 @@ $version = new JVersion;
 					</tr>
 				</tfoot>
 				<tbody>
-					<?php foreach ($this->items as $i => $language) :
-				?>
+				<?php foreach ($this->items as $i => $language) : ?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="hidden-phone">
+						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $language->update_id, false, 'cid'); ?>
 						</td>
 						<td>
-							<?php echo $language->name; ?>
+							<label for="cb<?php echo $i; ?>">
+								<?php echo $language->name; ?>
 
-							<?php // Display a Note if language pack version is not equal to Joomla version ?>
-							<?php if (substr($language->version, 0, 3) != $version->RELEASE
+								<?php // Display a Note if language pack version is not equal to Joomla version ?>
+								<?php if (substr($language->version, 0, 3) != $version->RELEASE
 									|| substr($language->version, 0, 5) != $version->RELEASE . "." . $version->DEV_LEVEL) : ?>
-								<div class="small"><?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?></div>
-							<?php endif; ?>
+									<div class="small"><?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?></div>
+								<?php endif; ?>
+							</label>
 						</td>
 						<td class="center small">
 							<?php echo $language->version; ?>
@@ -91,12 +96,13 @@ $version = new JVersion;
 							<?php echo $language->update_id; ?>
 						</td>
 					</tr>
-					<?php endforeach; ?>
+				<?php endforeach; ?>		
 				</tbody>
 			</table>
-		<?php else : ?>
-			<div class="alert"><?php echo JText::_('COM_INSTALLER_MSG_LANGUAGES_NOLANGUAGES'); ?></div>
 		<?php endif; ?>
+	<?php else : ?>
+		<div class="alert"><?php echo JText::_('COM_INSTALLER_MSG_LANGUAGES_NOLANGUAGES'); ?></div>
+	<?php endif; ?>
 
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />

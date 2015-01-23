@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Default routing class for missing or legacy component routers
  *
- * @package     Joomla.Libraries
- * @subpackage  Component
- * @since       3.3
+ * @since  3.3
  */
 class JComponentRouterLegacy implements JComponentRouterInterface
 {

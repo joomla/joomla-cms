@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -933,19 +933,6 @@ class JHtmlTest extends TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
-	 *
-	 * @todo    Implement testSetFormatOptions().
-	 */
-	public function testSetFormatOptions()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Tests the stylesheet method
 	 *
 	 * @return  void
@@ -1340,19 +1327,6 @@ class JHtmlTest extends TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
-	 *
-	 * @todo    Implement testDate().
-	 */
-	public function testDate()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Tests the tooltip method
 	 *
 	 * @return  void
@@ -1506,7 +1480,7 @@ class JHtmlTest extends TestCase
 
 		$cfg = new JObject;
 		JFactory::$session = $this->getMockSession();
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$config = $cfg;
 
 		JFactory::$application->expects($this->any())
@@ -1652,19 +1626,6 @@ class JHtmlTest extends TestCase
 				);
 			}
 		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @return  void
-	 *
-	 * @todo    Implement testAddIncludePath().
-	 */
-	public function testAddIncludePath()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**

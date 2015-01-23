@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,7 +82,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 			<div class="control-group">
 				<div class="control-label">
 					<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-						   title="<strong><?php echo JText::_('COM_USERS_PROFILE_TWOFACTOR_LABEL') ?></strong><br/><?php echo JText::_('COM_USERS_PROFILE_TWOFACTOR_DESC') ?>">
+						   title="<strong><?php echo JText::_('COM_USERS_PROFILE_TWOFACTOR_LABEL') ?></strong><br /><?php echo JText::_('COM_USERS_PROFILE_TWOFACTOR_DESC') ?>">
 						<?php echo JText::_('COM_USERS_PROFILE_TWOFACTOR_LABEL'); ?>
 					</label>
 				</div>

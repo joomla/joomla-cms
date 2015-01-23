@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
@@ -17,9 +19,7 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
 /**
  * Query class for the Finder indexer package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderIndexerQuery
 {
@@ -183,21 +183,24 @@ class FinderIndexerQuery
 		$this->mode = 'AND';
 
 		// Initialize the temporary date storage.
-		$this->dates = new JRegistry;
+		$this->dates = new Registry;
 
 		// Populate the temporary date storage.
 		if (isset($options['date1']) && !empty($options['date1']))
 		{
 			$this->dates->set('date1', $options['date1']);
 		}
+
 		if (isset($options['date2']) && !empty($options['date1']))
 		{
 			$this->dates->set('date2', $options['date2']);
 		}
+
 		if (isset($options['when1']) && !empty($options['date1']))
 		{
 			$this->dates->set('when1', $options['when1']);
 		}
+
 		if (isset($options['when2']) && !empty($options['date1']))
 		{
 			$this->dates->set('when2', $options['when2']);
@@ -300,6 +303,7 @@ class FinderIndexerQuery
 					{
 						continue;
 					}
+
 					$uri->setVar('t[]', $node);
 				}
 			}
@@ -504,7 +508,7 @@ class FinderIndexerQuery
 		$this->filter = (int) $filterId;
 
 		// Get a parameter object for the filter date options.
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($return->params);
 		$params = $registry;
 
@@ -1023,6 +1027,7 @@ class FinderIndexerQuery
 					{
 						unset($phrases[$pk]);
 					}
+
 					if (($pk = array_search($terms[$i + 2], $phrases)) !== false)
 					{
 						unset($phrases[$pk]);
@@ -1084,6 +1089,7 @@ class FinderIndexerQuery
 					{
 						unset($phrases[$pk]);
 					}
+
 					if (($pk = array_search($terms[$i + 2], $phrases)) !== false)
 					{
 						unset($phrases[$pk]);
@@ -1134,7 +1140,7 @@ class FinderIndexerQuery
 				unset($terms[$i + 1]);
 
 				// Adjust the loop.
-				$i += 1;
+				$i++;
 				continue;
 			}
 			// Handle the NOT operator.
@@ -1171,7 +1177,7 @@ class FinderIndexerQuery
 				unset($terms[$i + 1]);
 
 				// Adjust the loop.
-				$i += 1;
+				$i++;
 				continue;
 			}
 		}
@@ -1286,7 +1292,7 @@ class FinderIndexerQuery
 				->where('t.phrase = 0');
 
 			// Clone the query, replace the WHERE clause.
-			$sub = clone($query);
+			$sub = clone $query;
 			$sub->clear('where');
 			$sub->where('t.stem = ' . $db->quote($token->stem));
 			$sub->where('t.phrase = 0');

@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	type="module"
-	version="3.1"
-	client="site"
-	method="upgrade">
+<extension type="module" version="3.1" client="site" method="upgrade">
 	<name>mod_related_items</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -17,7 +13,7 @@
 		<filename module="mod_related_items">mod_related_items.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>index.html</filename>		<filename>mod_related_items.xml</filename>
+		<filename>mod_related_items.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_related_items.ini</language>
@@ -66,6 +62,12 @@
 					<option
 						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
+				<field
+					name="cache_time"
+					type="text"
+					default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />				
 			</fieldset>
 		</fields>
 	</config>

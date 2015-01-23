@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.ldap
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * LDAP Authentication Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Authentication.ldap
- * @since       1.5
+ * @since  1.5
  */
 class PlgAuthenticationLdap extends JPlugin
 {
@@ -37,6 +35,9 @@ class PlgAuthenticationLdap extends JPlugin
 
 		// For JLog
 		$response->type = 'LDAP';
+
+		// Strip null bytes from the password
+		$credentials['password'] = str_replace(chr(0), '', $credentials['password']);
 
 		// LDAP does not like Blank passwords (tries to Anon Bind which is bad)
 		if (empty($credentials['password']))

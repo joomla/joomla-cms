@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * Class holding methods for displaying presentation data.
  *
- * @package     Joomla.Legacy
- * @subpackage  View
- * @since       12.2
+ * @since  12.2
  */
 class JViewLegacy extends JObject
 {
@@ -108,14 +106,14 @@ class JViewLegacy extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $config  A named configuration array for object construction.<br/>
-	 *                          name: the name (optional) of the view (defaults to the view class name suffix).<br/>
-	 *                          charset: the character set to use for display<br/>
-	 *                          escape: the name (optional) of the function to use for escaping strings<br/>
-	 *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)<br/>
-	 *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name<br/>
-	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)<br/>
-	 *                          layout: the layout (optional) to use to display the view<br/>
+	 * @param   array  $config  A named configuration array for object construction.<br />
+	 *                          name: the name (optional) of the view (defaults to the view class name suffix).<br />
+	 *                          charset: the character set to use for display<br />
+	 *                          escape: the name (optional) of the function to use for escaping strings<br />
+	 *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)<br />
+	 *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name<br />
+	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)<br />
+	 *                          layout: the layout (optional) to use to display the view<br />
 	 *
 	 * @since   12.2
 	 */
@@ -209,6 +207,7 @@ class JViewLegacy extends JObject
 	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
+
 		if ($result instanceof Exception)
 		{
 			return $result;
@@ -273,6 +272,7 @@ class JViewLegacy extends JObject
 					$this->$key = $val;
 				}
 			}
+
 			return true;
 		}
 
@@ -286,6 +286,7 @@ class JViewLegacy extends JObject
 					$this->$key = $val;
 				}
 			}
+
 			return true;
 		}
 
@@ -296,6 +297,7 @@ class JViewLegacy extends JObject
 		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
 		{
 			$this->$arg0 = $arg1;
+
 			return true;
 		}
 
@@ -335,6 +337,7 @@ class JViewLegacy extends JObject
 		if (is_string($key) && substr($key, 0, 1) != '_')
 		{
 			$this->$key = &$val;
+
 			return true;
 		}
 
@@ -396,9 +399,9 @@ class JViewLegacy extends JObject
 			{
 				// The method exists, let's call it and return what we get
 				$result = $this->_models[$model]->$method();
+
 				return $result;
 			}
-
 		}
 
 		// Degrade to JObject::get
@@ -422,6 +425,7 @@ class JViewLegacy extends JObject
 		{
 			$name = $this->_defaultModel;
 		}
+
 		return $this->_models[strtolower($name)];
 	}
 
@@ -497,6 +501,7 @@ class JViewLegacy extends JObject
 		{
 			$this->_defaultModel = $name;
 		}
+
 		return $model;
 	}
 
@@ -512,6 +517,7 @@ class JViewLegacy extends JObject
 	public function setLayout($layout)
 	{
 		$previous = $this->_layout;
+
 		if (strpos($layout, ':') === false)
 		{
 			$this->_layout = $layout;
@@ -541,6 +547,7 @@ class JViewLegacy extends JObject
 	public function setLayoutExt($value)
 	{
 		$previous = $this->_layoutExt;
+
 		if ($value = preg_replace('#[^A-Za-z0-9]#', '', trim($value)))
 		{
 			$this->_layoutExt = $value;
@@ -754,6 +761,8 @@ class JViewLegacy extends JObject
 		// Loop through the path directories
 		foreach ($path as $dir)
 		{
+			jimport('joomla.filesystem.path');
+
 			// Clean up the path
 			$dir = JPath::clean($dir);
 
@@ -791,6 +800,7 @@ class JViewLegacy extends JObject
 				$filename = strtolower($parts['name']) . '.php';
 				break;
 		}
+
 		return $filename;
 	}
 
@@ -807,6 +817,7 @@ class JViewLegacy extends JObject
 		{
 			$this->form = $this->get('Form');
 		}
+
 		return $this->form;
 	}
 }

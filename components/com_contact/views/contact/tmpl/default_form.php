@@ -3,14 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 
 if (isset($this->error)) : ?>
 	<div class="contact-error">
@@ -44,7 +44,7 @@ if (isset($this->error)) : ?>
 					<div class="controls"><?php echo $this->form->getInput('contact_email_copy'); ?></div>
 				</div>
 			<?php endif; ?>
-			<?php //Dynamically load any additional fields from plugins. ?>
+			<?php // Dynamically load any additional fields from plugins. ?>
 			<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 				<?php if ($fieldset->name != 'contact') : ?>
 					<?php $fields = $this->form->getFieldset($fieldset->name); ?>

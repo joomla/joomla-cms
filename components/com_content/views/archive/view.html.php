@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Content component
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentViewArchive extends JViewLegacy
 {
@@ -82,6 +80,7 @@ class ContentViewArchive extends JViewLegacy
 		}
 
 		$form = new stdClass;
+
 		// Month Field
 		$months = array(
 			'' => JText::_('COM_CONTENT_MONTH'),
@@ -108,13 +107,16 @@ class ContentViewArchive extends JViewLegacy
 				'option.key' => null
 			)
 		);
+
 		// Year Field
 		$years = array();
 		$years[] = JHtml::_('select.option', null, JText::_('JYEAR'));
+
 		for ($year = date('Y'), $i = $year - 10; $i <= $year; $i++)
 		{
 			$years[] = JHtml::_('select.option', $i, $i);
 		}
+
 		$form->yearField = JHtml::_(
 			'select.genericlist',
 			$years,
@@ -123,7 +125,7 @@ class ContentViewArchive extends JViewLegacy
 		);
 		$form->limitField = $pagination->getLimitBox();
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->filter     = $state->get('list.filter');
@@ -140,6 +142,8 @@ class ContentViewArchive extends JViewLegacy
 
 	/**
 	 * Prepares the document
+	 *
+	 * @return  void.
 	 */
 	protected function _prepareDocument()
 	{
@@ -150,6 +154,7 @@ class ContentViewArchive extends JViewLegacy
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
+
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));

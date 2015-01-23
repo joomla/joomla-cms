@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -217,9 +217,9 @@ class JStringTest_DataSet
 	 * @since  11.2
 	 */
 	static public $substr_replaceTests = array(
-		array('321 Main Street', 'Broadway Avenue', 4, false, '321 Broadway Avenue'),
+		array('321 Main Street', 'Broadway Avenue', 4, null, '321 Broadway Avenue'),
 		array('321 Main Street', 'Broadway', 4, 4, '321 Broadway Street'),
-		array('чадна Би шил идэй чадна', '我能吞', 6, false, 'чадна 我能吞'),
+		array('чадна Би шил идэй чадна', '我能吞', 6, null, 'чадна 我能吞'),
 		array('чадна Би шил идэй чадна', '我能吞', 6, 2, 'чадна 我能吞 шил идэй чадна')
 	);
 

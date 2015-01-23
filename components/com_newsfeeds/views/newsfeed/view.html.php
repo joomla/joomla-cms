@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTML View class for the Newsfeeds component
  *
- * @package     Joomla.Site
- * @subpackage  com_newsfeeds
- * @since       1.0
+ * @since  1.0
  */
 class NewsfeedsViewNewsfeed extends JViewLegacy
 {
@@ -83,12 +83,13 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 		$item->parent_slug = $item->category_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
-		// check if cache directory is writeable
+		// Check if cache directory is writeable
 		$cacheDir = JPATH_CACHE . '/';
 
 		if (!is_writable($cacheDir))
 		{
 			JError::raiseNotice('0', JText::_('COM_NEWSFEEDS_CACHE_DIRECTORY_UNWRITABLE'));
+
 			return;
 		}
 
@@ -97,7 +98,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$params = $state->get('params');
 		$newsfeed_params = clone $item->params;
 		$active = $app->getMenu()->getActive();
-		$temp = clone ($params);
+		$temp = clone $params;
 
 		// Check to see which parameters should take priority
 		if ($active)
@@ -105,7 +106,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			$currentLink = $active->link;
 
 			// If the current view is the active item and an newsfeed view for this feed, then the menu item params take priority
-			if (strpos($currentLink, 'view=newsfeed') && (strpos($currentLink, '&id='.(string) $item->id)))
+			if (strpos($currentLink, 'view=newsfeed') && (strpos($currentLink, '&id=' . (string) $item->id)))
 			{
 				// $item->params are the newsfeed params, $temp are the menu item params
 				// Merge so that the menu item params take priority
@@ -151,6 +152,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		if (!in_array($item->access, $levels) or ((in_array($item->access, $levels) and (!in_array($item->category_access, $levels)))))
 		{
 			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+
 			return;
 		}
 
@@ -160,7 +162,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Get the newsfeed
 		$newsfeed = $item;
 
-		$temp = new JRegistry;
+		$temp = new Registry;
 		$temp->loadString($item->params);
 		$params->merge($temp);
 
@@ -183,12 +185,13 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 
 		$feed_display_order = $params->get('feed_display_order', 'des');
+
 		if ($feed_display_order == 'asc')
 		{
 			$newsfeed->items = array_reverse($newsfeed->items);
 		}
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->assignRef('params', $params);
@@ -196,10 +199,12 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$this->assignRef('state', $state);
 		$this->assignRef('item', $item);
 		$this->assignRef('user', $user);
+
 		if (!empty($msg))
 		{
 			$this->assignRef('msg', $msg);
 		}
+
 		$this->print = $print;
 
 		$item->tags = new JHelperTags;
@@ -218,6 +223,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	 * Prepares the document
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function _prepareDocument()
@@ -244,7 +250,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 		$id = (int) @$menu->query['id'];
 
-		// if the menu item does not concern this newsfeed
+		// If the menu item does not concern this newsfeed
 		if ($menu && ($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] != 'newsfeed' || $id != $this->item->id))
 		{
 			// If this is not a single newsfeed menu item, set the page title to the newsfeed title
@@ -255,12 +261,15 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 			$path = array(array('title' => $this->item->name, 'link' => ''));
 			$category = JCategories::getInstance('Newsfeeds')->get($this->item->catid);
+
 			while (($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $category->id) && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => NewsfeedsHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
 			}
+
 			$path = array_reverse($path);
+
 			foreach ($path as $item)
 			{
 				$pathway->addItem($item['title'], $item['link']);
@@ -279,10 +288,12 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
+
 		if (empty($title))
 		{
 			$title = $this->item->name;
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->item->metadesc)
@@ -319,6 +330,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 
 		$mdata = $this->item->metadata->toArray();
+
 		foreach ($mdata as $k => $v)
 		{
 			if ($v)

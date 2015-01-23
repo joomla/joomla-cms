@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site"
-	method="upgrade"
->
+<extension type="module" version="3.1" client="site" method="upgrade">
 	<name>mod_articles_archive</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters.
-		All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see
-		LICENSE.txt</license>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
@@ -17,7 +13,6 @@
 		<filename module="mod_articles_archive">mod_articles_archive.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>index.html</filename>
 		<filename>mod_articles_archive.xml</filename>
 	</files>
 	<languages>
@@ -28,22 +23,31 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="count" type="text"
+				<field
+					name="count"
+					type="text"
 					default="10"
 					label="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_LABEL"
 					description="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_DESC" />
 			</fieldset>
 
 			<fieldset name="advanced">
-				<field name="layout" type="modulelayout"
+				<field
+					name="layout"
+					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 
-				<field name="moduleclass_sfx" type="textarea" rows="3"
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
-				<field name="cache" type="list"
+				<field
+					name="cache"
+					type="list"
 					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
@@ -52,10 +56,13 @@
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
 
-				<field name="cache_time" type="text"
+				<field
+					name="cache_time"
+					type="text"
 					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+
 				<field
 					name="cachemode"
 					type="hidden"
