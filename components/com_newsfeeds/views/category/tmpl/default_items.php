@@ -64,7 +64,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<span class="list pull-left">
 							<a href="<?php echo $item->link; ?>"><?php echo $link; ?></a>
 					</span>
-					<br/>
+					<br />
 				<?php  endif; ?>
 				</li>
 			<?php endforeach; ?>

@@ -17,6 +17,7 @@ $client    = $this->state->get('filter.client') == '0' ? JText::_('JSITE') : JTe
 $language  = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction')); ?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -47,19 +48,19 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 			<table class="table table-striped" id="overrideList">
 				<thead>
 					<tr>
-						<th width="1%">
+						<th width="1%" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="30%" class="left">
 							<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
 						</th>
-						<th class="left">
+						<th class="left hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 						</th>
-						<th class="nowrap center">
+						<th class="nowrap center hidden-phone">
 							<?php echo JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
 						</th>
-						<th class="center">
+						<th class="center hidden-phone">
 							<?php echo JText::_('JCLIENT'); ?>
 						</th>
 					</tr>
@@ -72,9 +73,9 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 					</tr>
 				</tfoot>
 				<tbody>
-				<?php $canEdit = JFactory::getUser()->authorise('core.edit', 'com_languages');
-				$i = 0;
-				foreach ($this->items as $key => $text) : ?>
+				<?php $canEdit = JFactory::getUser()->authorise('core.edit', 'com_languages'); ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->items as $key => $text) : ?>
 					<tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $key); ?>
@@ -86,21 +87,21 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 								<?php echo $this->escape($key); ?>
 							<?php endif; ?>
 						</td>
-						<td>
+						<td class="hidden-phone">
 							<span id="string[<?php	echo $this->escape($key); ?>]"><?php echo $this->escape($text); ?></span>
 						</td>
-						<td class="center">
+						<td class="center hidden-phone">
 							<?php echo $language; ?>
 						</td>
-						<td class="center">
+						<td class="center hidden-phone">
 							<?php echo $client; ?>
 						</td>
 					</tr>
-				<?php $i++;
-				endforeach; ?>
+				<?php $i++; ?>
+				<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

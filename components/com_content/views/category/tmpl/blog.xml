@@ -141,7 +141,6 @@
 					label="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL"
 			/>
 
-
 			<field name="num_leading_articles" type="text"
 				description="JGLOBAL_NUM_LEADING_ARTICLES_DESC"
 				label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
@@ -256,6 +255,15 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="show_featured" type="list" default=""
+				   label="JGLOBAL_SHOW_FEATURED_ARTICLES_LABEL"
+				   description="JGLOBAL_SHOW_FEATURED_ARTICLES_DESC"
+					>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="show">JSHOW</option>
+				<option value="hide">JHIDE</option>
+				<option value="only">JONLY</option>
+			</field>
 </fieldset>
 
 <fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">

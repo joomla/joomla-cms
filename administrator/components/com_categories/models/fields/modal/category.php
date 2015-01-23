@@ -69,7 +69,7 @@ class JFormFieldModal_Category extends JFormField
 			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		SqueezeBox.close();';
+		$script[] = '		jModalClose();';
 		$script[] = '	}';
 
 		// Clear button script

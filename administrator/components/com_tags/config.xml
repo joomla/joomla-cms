@@ -154,7 +154,8 @@
 		
 		<field 
 			name="tag_list_show_item_description" 
-			type="list"
+			type="radio"
+			class="btn-group btn-group-yesno"
 			label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 			description="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_DESC"
 		>

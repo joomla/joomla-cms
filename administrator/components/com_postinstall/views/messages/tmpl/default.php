@@ -13,7 +13,7 @@ $renderer = JFactory::getDocument()->loadRenderer('module');
 $options  = array('style' => 'raw');
 $mod      = JModuleHelper::getModule('mod_feed');
 $param    = array(
-		"rssurl" => "http://www.joomla.org/announcements/release-news.feed?type=rss",
+		"rssurl" => "https://www.joomla.org/announcements/release-news.feed?type=rss",
 		"rsstitle" => 0,
 		"rssdesc" => 0,
 		"rssimage" => 1,

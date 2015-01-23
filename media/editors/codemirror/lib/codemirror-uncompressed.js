@@ -719,7 +719,7 @@
     // width and height.
     removeChildren(display.cursorDiv);
     removeChildren(display.selectionDiv);
-    display.heightForcer.style.top = display.gutters.style.height = 0;
+    display.gutters.style.height = 0;
 
     if (different) {
       display.lastWrapHeight = update.wrapperHeight;
@@ -776,8 +776,10 @@
   }
 
   function setDocumentHeight(cm, measure) {
-    cm.display.sizer.style.minHeight = cm.display.heightForcer.style.top = measure.docHeight + "px";
-    cm.display.gutters.style.height = Math.max(measure.docHeight + scrollGap(cm), measure.clientHeight) + "px";
+    cm.display.sizer.style.minHeight = measure.docHeight + "px";
+    var total = measure.docHeight + cm.display.barHeight;
+    cm.display.heightForcer.style.top = total + "px";
+    cm.display.gutters.style.height = Math.max(total + scrollGap(cm), measure.clientHeight) + "px";
   }
 
   // Read the actual heights of the rendered lines, and update their
@@ -8021,7 +8023,7 @@
 
   // THE END
 
-  CodeMirror.version = "4.9.0";
+  CodeMirror.version = "4.11.0";
 
   return CodeMirror;
 });

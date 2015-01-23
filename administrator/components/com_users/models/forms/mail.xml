@@ -45,7 +45,7 @@
 		/>
 
 		<field name="message" type="textarea"
-			class="span11"
+			class="span11 vert"
 			cols="70"
 			description="COM_USERS_MAIL_FIELD_MESSAGE_DESC"
 			label="COM_USERS_MAIL_FIELD_MESSAGE_LABEL"

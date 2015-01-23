@@ -6993,6 +6993,8 @@ html {
 }
 body {
 	height: 100%;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 a:hover,
 a:active,
@@ -7847,6 +7849,7 @@ th .tooltip-inner {
 }
 input.input-large-text {
 	font-size: 18px;
+	line-height: 22px;
 	height: auto;
 }
 .info-labels {
@@ -8101,6 +8104,19 @@ a.grid_true {
 	.j-sidebar-container {
 		margin: 0;
 	}
+}
+.break-word {
+	word-break: break-all;
+	word-wrap: break-word;
+}
+textarea {
+	resize: both;
+}
+textarea.vert {
+	resize: vertical;
+}
+textarea.noResize {
+	resize: none;
 }
 .pull-right {
 	float: left;
