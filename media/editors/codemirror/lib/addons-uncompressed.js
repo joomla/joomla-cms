@@ -405,15 +405,15 @@
     }
   }
 
-  function autoCloseSlash(cm) {
-    if (cm.getOption("disableInput")) return CodeMirror.Pass;
+  function autoCloseCurrent(cm, typingSlash) {
     var ranges = cm.listSelections(), replacements = [];
+    var head = typingSlash ? "/" : "</";
     for (var i = 0; i < ranges.length; i++) {
       if (!ranges[i].empty()) return CodeMirror.Pass;
       var pos = ranges[i].head, tok = cm.getTokenAt(pos);
       var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
-      if (tok.type == "string" || tok.string.charAt(0) != "<" ||
-          tok.start != pos.ch - 1)
+      if (typingSlash && (tok.type == "string" || tok.string.charAt(0) != "<" ||
+                          tok.start != pos.ch - 1))
         return CodeMirror.Pass;
       // Kludge to get around the fact that we are not in XML mode
       // when completing in JS/CSS snippet in htmlmixed mode. Does not
@@ -421,16 +421,16 @@
       // way to go from a mixed mode to its current XML state).
       if (inner.mode.name != "xml") {
         if (cm.getMode().name == "htmlmixed" && inner.mode.name == "javascript")
-          replacements[i] = "/script>";
+          replacements[i] = head + "script>";
         else if (cm.getMode().name == "htmlmixed" && inner.mode.name == "css")
-          replacements[i] = "/style>";
+          replacements[i] = head + "style>";
         else
           return CodeMirror.Pass;
       } else {
         if (!state.context || !state.context.tagName ||
             closingTagExists(cm, state.context.tagName, pos, state))
           return CodeMirror.Pass;
-        replacements[i] = "/" + state.context.tagName + ">";
+        replacements[i] = head + state.context.tagName + ">";
       }
     }
     cm.replaceSelections(replacements);
@@ -439,6 +439,13 @@
       if (i == ranges.length - 1 || ranges[i].head.line < ranges[i + 1].head.line)
         cm.indentLine(ranges[i].head.line);
   }
+
+  function autoCloseSlash(cm) {
+    if (cm.getOption("disableInput")) return CodeMirror.Pass;
+    autoCloseCurrent(cm, true);
+  }
+
+  CodeMirror.commands.closeTag = function(cm) { return autoCloseCurrent(cm); };
 
   function indexOf(collection, elt) {
     if (collection.indexOf) return collection.indexOf(elt);
@@ -903,6 +910,10 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       return editorOptions[name];
     return defaultOptions[name];
   }
+
+  CodeMirror.defineExtension("foldOption", function(options, name) {
+    return getOption(this, options, name);
+  });
 });
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
@@ -973,14 +984,16 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
 
   function updateFoldInfo(cm, from, to) {
     var opts = cm.state.foldGutter.options, cur = from;
+    var minSize = cm.foldOption(opts, "minFoldSize");
+    var func = cm.foldOption(opts, "rangeFinder");
     cm.eachLine(from, to, function(line) {
       var mark = null;
       if (isFolded(cm, cur)) {
         mark = marker(opts.indicatorFolded);
       } else {
-        var pos = Pos(cur, 0), func = opts.rangeFinder || CodeMirror.fold.auto;
+        var pos = Pos(cur, 0);
         var range = func && func(cm, pos);
-        if (range && range.from.line + 1 < range.to.line)
+        if (range && range.to.line - range.from.line >= minSize)
           mark = marker(opts.indicatorOpen);
       }
       cm.setGutterMarker(line, opts.gutter, mark);
@@ -1431,14 +1444,16 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       CodeMirror.e_preventDefault(e);
       var axis = self.orientation == "horizontal" ? "pageX" : "pageY";
       var start = e[axis], startpos = self.pos;
+      function done() {
+        CodeMirror.off(document, "mousemove", move);
+        CodeMirror.off(document, "mouseup", done);
+      }
       function move(e) {
-        if (e.which != 1) {
-          CodeMirror.off(document, "mousemove", move);
-          return;
-        }
+        if (e.which != 1) return done();
         self.moveTo(startpos + (e[axis] - start) * (self.total / self.size));
       }
       CodeMirror.on(document, "mousemove", move);
+      CodeMirror.on(document, "mouseup", done);
     });
 
     CodeMirror.on(this.node, "click", function(e) {
@@ -5083,6 +5098,12 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       },
       setReversed: function(reversed) {
         vimGlobalState.isReversed = reversed;
+      },
+      getScrollbarAnnotate: function() {
+        return this.annotate;
+      },
+      setScrollbarAnnotate: function(annotate) {
+        this.annotate = annotate;
       }
     };
     function getSearchState(cm) {
@@ -5361,14 +5382,21 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       };
     }
     function highlightSearchMatches(cm, query) {
-      var overlay = getSearchState(cm).getOverlay();
+      var searchState = getSearchState(cm);
+      var overlay = searchState.getOverlay();
       if (!overlay || query != overlay.query) {
         if (overlay) {
           cm.removeOverlay(overlay);
         }
         overlay = searchOverlay(query);
         cm.addOverlay(overlay);
-        getSearchState(cm).setOverlay(overlay);
+        if (cm.showMatchesOnScrollbar) {
+          if (searchState.getScrollbarAnnotate()) {
+            searchState.getScrollbarAnnotate().clear();
+          }
+          searchState.setScrollbarAnnotate(cm.showMatchesOnScrollbar(query));
+        }
+        searchState.setOverlay(overlay);
       }
     }
     function findNext(cm, prev, query, repeat) {
@@ -5393,8 +5421,13 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       });
     }
     function clearSearchHighlight(cm) {
+      var state = getSearchState(cm);
       cm.removeOverlay(getSearchState(cm).getOverlay());
-      getSearchState(cm).setOverlay(null);
+      state.setOverlay(null);
+      if (state.getScrollbarAnnotate()) {
+        state.getScrollbarAnnotate().clear();
+        state.setScrollbarAnnotate(null);
+      }
     }
     /**
      * Check if pos is in the specified range, INCLUSIVE.
@@ -6403,6 +6436,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       var macroModeState = vimGlobalState.macroModeState;
       var lastChange = macroModeState.lastInsertModeChanges;
       var keyName = CodeMirror.keyName(e);
+      if (!keyName) { return; }
       function onKeyFound() {
         lastChange.changes.push(new InsertModeKey(keyName));
         return true;
