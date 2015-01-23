@@ -12,14 +12,9 @@
 	<files>
 		<filename module="mod_stats_admin">mod_stats_admin.php</filename>
 		<folder>tmpl</folder>
-		<folder>language</folder>
 		<filename>helper.php</filename>
 		<filename>mod_stats_admin.xml</filename>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.mod_stats.ini</language>
-		<language tag="en-GB">en-GB.mod_stats.sys.ini</language>
-	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_STATISTICS" />
 	<config>
 		<fields name="params">

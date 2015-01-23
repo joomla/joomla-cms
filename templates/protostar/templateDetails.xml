@@ -21,7 +21,6 @@
 		<folder>images</folder>
 		<folder>img</folder>
 		<folder>js</folder>
-		<folder>language</folder>
 		<folder>less</folder>
 	</files>
 	<positions>
@@ -44,10 +43,6 @@
 		<position>position-14</position>
 		<position>footer</position>
 	</positions>
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.tpl_protostar.ini</language>
-		<language tag="en-GB">en-GB/en-GB.tpl_protostar.sys.ini</language>
-	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">

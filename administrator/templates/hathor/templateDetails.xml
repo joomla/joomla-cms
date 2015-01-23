@@ -26,7 +26,6 @@
 		<folder>html</folder>
 		<folder>images</folder>
 		<folder>js</folder>
-		<folder>language</folder>
 	</files>
 
 	<positions>
@@ -42,10 +41,6 @@
 		<position>debug</position>
 		<position>footer</position>
 	</positions>
-	 <languages>
-		<language tag="en-GB">language/en-GB/en-GB.tpl_hathor.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.tpl_hathor.sys.ini</language>
-	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

@@ -12,13 +12,8 @@
 	<files>
 		<filename module="mod_multilangstatus">mod_multilangstatus.php</filename>
 		<folder>tmpl</folder>
-		<folder>language</folder>
 	</files>
 
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_multilangstatus.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_multilangstatus.sys.ini</language>
-	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_MULTILANG" />
 	<config>
 		<fields name="params">

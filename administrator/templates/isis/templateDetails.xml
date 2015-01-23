@@ -22,7 +22,6 @@
 		<folder>images</folder>
 		<folder>img</folder>
 		<folder>js</folder>
-		<folder>language</folder>
 	<folder>less</folder>
 	</files>
 	<positions>
@@ -39,10 +38,6 @@
 		<position>login</position>
 		<position>debug</position>
 	</positions>
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.tpl_isis.ini</language>
-		<language tag="en-GB">en-GB/en-GB.tpl_isis.sys.ini</language>
-	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
