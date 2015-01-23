@@ -11,7 +11,6 @@
 	<description>PLG_SYSTEM_LANGUAGECODE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="languagecode">languagecode.php</filename>
-		<folder>language</folder>
 	</files>
 	<config>
 		<fields name="params">

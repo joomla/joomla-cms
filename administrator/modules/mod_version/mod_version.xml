@@ -13,7 +13,6 @@
 		<filename module="mod_version">mod_version.php</filename>
 		<filename>helper.php</filename>
 		<folder>tmpl</folder>
-		<folder>language</folder>
 	</files>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_VERSION" />
 	<config>
