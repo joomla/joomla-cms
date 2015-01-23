@@ -144,6 +144,29 @@
 					<option value="0">JOFF</option>
 				</field>
 
+				<field name="emmet" type="radio"
+					   class="btn-group btn-group-yesno"
+					   default="0"
+					   filter="options"
+					   description="PLG_CODEMIRROR_FIELD_EMMET_DESC"
+					   label="PLG_CODEMIRROR_FIELD_EMMET_LABEL"
+					    >
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
+
+				<field name="emmetProfile" type="radio"
+					   class="btn-group"
+					   default="html"
+					   filter="options"
+					   description="PLG_CODEMIRROR_FIELD_EMMET_PROFILE_DESC"
+					   label="PLG_CODEMIRROR_FIELD_EMMET_PROFILE_LABEL"
+					    >
+					<option value="html">PLG_CODEMIRROR_FIELD_EMMET_PROFILE_HTML</option>
+					<option value="xhtml">PLG_CODEMIRROR_FIELD_EMMET_PROFILE_XHTML</option>
+					<option value="xml">PLG_CODEMIRROR_FIELD_EMMET_PROFILE_XML</option>
+				</field>
+
 				<field name="fullScreen" type="list"
 					   default="F10"
 					   filter="options"

@@ -71,6 +71,12 @@ class PlgEditorCodemirror extends JPlugin
 		JHtml::_('script', $this->basePath . 'lib/addons.min.js');
 		JHtml::_('stylesheet', $this->basePath . 'lib/codemirror.min.css');
 
+		// The Emmet plugin - not included in the standard CodeMirror distro
+		if ($this->params->get('emmet'))
+		{
+			JHtml::_('script', 'media/editors/codemirror-emmet/emmet.min.js');
+		}
+
 		JFactory::getDocument()
 			->addScriptDeclaration($this->getInitScript())
 			->addStyleDeclaration($this->getExtraStyles());
@@ -296,6 +302,12 @@ class PlgEditorCodemirror extends JPlugin
 
 		// Vim Keybindings.
 		$options->vimMode = (boolean) $this->params->get('vimKeyBinding', 0);
+
+		// Emmet settings
+		if ($this->params->get('emmet'))
+		{
+			$options->profile = $this->params->get('emmetProfile', 'html');
+		}
 
 		$html = array();
 		$html[]	= '<p class="label">' . JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $this->fullScreenCombo) . '</p>';
