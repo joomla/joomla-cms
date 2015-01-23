@@ -11,6 +11,11 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
+if (!JFactory::getApplication()->get('debug_lang') && !JFactory::getApplication()->get('debug'))
+{
+	JHtml::_('behavior.jailed');
+}
+
 // Load tooltips behavior
 JHtml::_('behavior.formvalidator');
 JHtml::_('bootstrap.tooltip');
