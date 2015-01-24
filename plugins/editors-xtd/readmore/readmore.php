@@ -33,8 +33,6 @@ class PlgButtonReadmore extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$doc = JFactory::getDocument();
-
 		// Button is not active in specific content components
 
 		$getContent = $this->_subject->getContent($name);
@@ -53,8 +51,6 @@ class PlgButtonReadmore extends JPlugin
 			}
 			";
 
-		$doc->addScriptDeclaration($js);
-
 		$button = new JObject;
 		$button->modal = false;
 		$button->class = 'btn';
@@ -65,6 +61,7 @@ class PlgButtonReadmore extends JPlugin
 		// @TODO: The button writer needs to take into account the javascript directive
 		// $button->link', 'javascript:void(0)');
 		$button->link = '#';
+		$button->js = $js;
 
 		return $button;
 	}

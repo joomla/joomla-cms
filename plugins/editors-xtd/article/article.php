@@ -52,11 +52,6 @@ class PlgButtonArticle extends JPlugin
 			jModalClose();
 		}";
 
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration($js);
-
-		JHtml::_('behavior.modal');
-
 		/*
 		 * Use the built-in element view to select the article.
 		 * Currently uses blank class.
@@ -70,6 +65,7 @@ class PlgButtonArticle extends JPlugin
 		$button->text = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
 		$button->name = 'file-add';
 		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+		$button->js = $js;
 
 		return $button;
 	}

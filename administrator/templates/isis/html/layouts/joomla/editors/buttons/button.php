@@ -19,26 +19,23 @@ if ($button->get('name'))
 	$onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : ' onclick="IeCursorFix(); return false;"';
 	$title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
 
+	$tmptitle = str_replace(' ', '', strtolower(htmlspecialchars($title)));
+
+	if ($button->get('js'))
+	{
+		// Replace the exit call
+		$js = str_replace('jModalClose();', 'jQuery("#' . $tmptitle . 'Modal").modal("hide");', $button->get('js'));
+
+		JFactory::getApplication()->getDocument()->addScriptDeclaration($js);
+	}
 
 	if ($button->get('modal'))
 	{
 		// Load modal popup behavior
 		JHtml::_('bootstrap.modal');
 
-		$tmptitle = str_replace(' ', '', strtolower(htmlspecialchars($title)));
 		echo JHtmlBootstrap::renderModal($tmptitle . 'Modal', array('url' => JUri::base() . $button->get('link'), 'title' => $title, 'height' => '500px', 'width' => '800px'));
 
-		JFactory::getApplication()->getDocument()->addScriptDeclaration('
-		if(typeof jModalClose == "function"){
-			var fnCode = jModalClose.toString() ;
-			fnCode = fnCode.replace(/\}$/, "jQuery(\"#' . $tmptitle . 'Modal\").modal(\"hide\");\n}");
-			window.eval(fnCode);
-		}
-		else {
-			function jModalClose() {
-				jQuery("#' . $tmptitle . 'Modal").modal("hide");
-			}
-		}');
 	}
 ?>
 	<a href="#<?php echo $tmptitle; ?>Modal" role="button" class="<?php echo $class; ?>" data-toggle="modal" title="<?php echo $title; ?>">

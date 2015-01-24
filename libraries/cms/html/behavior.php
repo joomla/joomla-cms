@@ -403,15 +403,8 @@ abstract class JHtmlBehavior
 				parse: "rel"
 			});
 		});
-		if(typeof jModalClose == "function"){
-			var fnCode = jModalClose.toString() ;
-			fnCode = fnCode.replace(/\}$/, "SqueezeBox.close();\n}");
-			window.eval(fnCode);
-		}
-		else {
-			function jModalClose() {
-				SqueezeBox.close();
-			}
+		function jModalClose() {
+			SqueezeBox.close();
 		}'
 		);
 
