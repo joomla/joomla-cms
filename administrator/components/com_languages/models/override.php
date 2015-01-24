@@ -135,6 +135,16 @@ class LanguagesModelOverride extends JModelAdmin
 			$client = 1 - $client;
 		}
 
+		// return false if the constant is a reserved word, i.e. YES, NO, NULL, FALSE, ON, OFF, NONE, TRUE
+		$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
+
+		if (in_array($data['key'], $blacklist))
+		{
+			$this->setError(JText::_('COM_LANGUAGES_OVERRIDE_ERROR_RESERVED_WORDS'));
+
+			return false;
+		}
+
 		$client = $client ? 'administrator' : 'site';
 
 		// Parse the override.ini file in oder to get the keys and strings.
