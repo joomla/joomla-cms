@@ -894,7 +894,7 @@ class JLanguage
 				{
 					$errors[] = $realNumber;
 					continue;
-				}             
+				}
 
 				// Check for odd number of double quotes.
 				if (substr_count($line, '"') % 2 != 0)
