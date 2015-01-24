@@ -1115,6 +1115,29 @@ class JoomlaInstallerScript
 			'/libraries/phpmailer/phpmailer.php',
 			'/libraries/phpmailer/pop.php',
 			'/libraries/phpmailer/smtp.php',
+			'/media/editors/codemirror/css/ambiance.css',
+			'/media/editors/codemirror/css/codemirror.css',
+			'/media/editors/codemirror/css/configuration.css',
+			'/media/editors/codemirror/css/index.html',
+			'/media/editors/codemirror/js/brace-fold.js',
+			'/media/editors/codemirror/js/clike.js',
+			'/media/editors/codemirror/js/closebrackets.js',
+			'/media/editors/codemirror/js/closetag.js',
+			'/media/editors/codemirror/js/codemirror.js',
+			'/media/editors/codemirror/js/css.js',
+			'/media/editors/codemirror/js/foldcode.js',
+			'/media/editors/codemirror/js/foldgutter.js',
+			'/media/editors/codemirror/js/fullscreen.js',
+			'/media/editors/codemirror/js/htmlmixed.js',
+			'/media/editors/codemirror/js/indent-fold.js',
+			'/media/editors/codemirror/js/index.html',
+			'/media/editors/codemirror/js/javascript.js',
+			'/media/editors/codemirror/js/less.js',
+			'/media/editors/codemirror/js/matchbrackets.js',
+			'/media/editors/codemirror/js/matchtags.js',
+			'/media/editors/codemirror/js/php.js',
+			'/media/editors/codemirror/js/xml-fold.js',
+			'/media/editors/codemirror/js/xml.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1194,6 +1217,8 @@ class JoomlaInstallerScript
 			'/libraries/framework',
 			'/libraries/phpmailer/language',
 			'/libraries/phpmailer',
+			'/media/editors/codemirror/css',
+			'/media/editors/codemirror/js',
 		);
 
 		jimport('joomla.filesystem.file');
