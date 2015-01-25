@@ -13,7 +13,28 @@ defined('_JEXEC') or die;
 	<form action="<?php echo JRoute::_('index.php');?>" method="post" class="form-inline">
 		<?php
 			$output = '<label for="mod-search-searchword" class="element-invisible">' . $label . '</label> ';
-			$output .= '<input name="searchword" id="mod-search-searchword" maxlength="' . $maxlength . '"  class="inputbox search-query" type="text" size="' . $width . '" value="' . $text . '"  onblur="if (this.value==\'\') this.value=\'' . $text . '\';" onfocus="if (this.value==\'' . $text . '\') this.value=\'\';" />';
+			$output .= '<input name="searchword" id="mod-search-searchword" maxlength="' . $maxlength . '"  class="inputbox search-query" type="search" size="' . $width . '"';
+
+			jimport('joomla.environment.browser');
+			$browser        = JBrowser::getInstance();
+			$browserVersion = $browser->getMajor();
+
+			if (($browser->isBrowser('msie') && ($browserVersion < 10))
+				|| ($browser->isBrowser('mozilla') && ($browserVersion < 4))
+				|| ($browser->isBrowser('chrome') && ($browserVersion < 4))
+				|| ($browser->isBrowser('safari') && ($browserVersion < 5))
+				|| ($browser->isBrowser('opera') && ($browserVersion < 11)))
+			{
+				// Show old javascript variant in not HTML 5 compliant browsers
+				$output .= ' value="' . $text . '" onblur="if (this.value==\'\') this.value=\'' . $text . '\';" onfocus="if (this.value==\'' . $text . '\') this.value=\'\';"';
+			}
+			else
+			{
+				// Use HTML 5 placeholder attribute if supported
+				$output .= ' placeholder="' . $text . '"';
+			}
+
+			$output .= ' />';
 
 			if ($button) :
 				if ($imagebutton) :

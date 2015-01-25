@@ -130,7 +130,10 @@ if ($user->authorise('core.manage', 'com_menus'))
 	$menu->addSeparator();
 
 	// Menu Types
-	foreach (ModMenuHelper::getMenus() as $menuType)
+	$menuTypes = ModMenuHelper::getMenus();
+	$menuTypes = JArrayHelper::sortObjects($menuTypes, 'title', 1, false);
+
+	foreach ($menuTypes as $menuType)
 	{
 		$alt = '*' .$menuType->sef. '*';
 		if ($menuType->home == 0)
@@ -317,7 +320,7 @@ if ($showhelp == 1)
 	}
 	$lang->setDebug($debug);
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_DOCUMENTATION'), 'http://docs.joomla.org', 'class:help-docs', false, '_blank')
+		new JMenuNode(JText::_('MOD_MENU_HELP_DOCUMENTATION'), 'https://docs.joomla.org', 'class:help-docs', false, '_blank')
 	);
 	$menu->addSeparator();
 

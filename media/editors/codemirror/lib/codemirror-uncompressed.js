@@ -112,6 +112,11 @@
     maybeUpdateLineNumberWidth(this);
     for (var i = 0; i < initHooks.length; ++i) initHooks[i](this);
     endOperation(this);
+    // Suppress optimizelegibility in Webkit, since it breaks text
+    // measuring on line wrapping boundaries.
+    if (webkit && options.lineWrapping &&
+        getComputedStyle(display.lineDiv).textRendering == "optimizelegibility")
+      display.lineDiv.style.textRendering = "auto";
   }
 
   // DISPLAY CONSTRUCTOR
@@ -719,7 +724,7 @@
     // width and height.
     removeChildren(display.cursorDiv);
     removeChildren(display.selectionDiv);
-    display.heightForcer.style.top = display.gutters.style.height = 0;
+    display.gutters.style.height = 0;
 
     if (different) {
       display.lastWrapHeight = update.wrapperHeight;
@@ -776,8 +781,10 @@
   }
 
   function setDocumentHeight(cm, measure) {
-    cm.display.sizer.style.minHeight = cm.display.heightForcer.style.top = measure.docHeight + "px";
-    cm.display.gutters.style.height = Math.max(measure.docHeight + scrollGap(cm), measure.clientHeight) + "px";
+    cm.display.sizer.style.minHeight = measure.docHeight + "px";
+    var total = measure.docHeight + cm.display.barHeight;
+    cm.display.heightForcer.style.top = total + "px";
+    cm.display.gutters.style.height = Math.max(total + scrollGap(cm), measure.clientHeight) + "px";
   }
 
   // Read the actual heights of the rendered lines, and update their
@@ -1845,7 +1852,8 @@
 
   // Converts a {top, bottom, left, right} box from line-local
   // coordinates into another coordinate system. Context may be one of
-  // "line", "div" (display.lineDiv), "local"/null (editor), or "page".
+  // "line", "div" (display.lineDiv), "local"/null (editor), "window",
+  // or "page".
   function intoCoordSystem(cm, lineObj, rect, context) {
     if (lineObj.widgets) for (var i = 0; i < lineObj.widgets.length; ++i) if (lineObj.widgets[i].above) {
       var size = widgetHeight(lineObj.widgets[i]);
@@ -2757,7 +2765,9 @@
   // Return true when the given mouse event happened in a widget
   function eventInWidget(display, e) {
     for (var n = e_target(e); n != display.wrapper; n = n.parentNode) {
-      if (!n || n.getAttribute("cm-ignore-events") == "true" || n.parentNode == display.sizer && n != display.mover) return true;
+      if (!n || (n.nodeType == 1 && n.getAttribute("cm-ignore-events") == "true") ||
+          (n.parentNode == display.sizer && n != display.mover))
+        return true;
     }
   }
 
@@ -3786,7 +3796,9 @@
 
     var lendiff = change.text.length - (to.line - from.line) - 1;
     // Remember that these lines changed, for updating the display
-    if (from.line == to.line && change.text.length == 1 && !isWholeLineUpdate(cm.doc, change))
+    if (change.full)
+      regChange(cm);
+    else if (from.line == to.line && change.text.length == 1 && !isWholeLineUpdate(cm.doc, change))
       regLineChange(cm, from.line, "text");
     else
       regChange(cm, from.line, to.line + 1, lendiff);
@@ -5568,6 +5580,7 @@
   // spans partially within the change. Returns an array of span
   // arrays with one element for each line in (after) the change.
   function stretchSpansOverChange(doc, change) {
+    if (change.full) return null;
     var oldFirst = isLine(doc, change.from.line) && getLine(doc, change.from.line).markedSpans;
     var oldLast = isLine(doc, change.to.line) && getLine(doc, change.to.line).markedSpans;
     if (!oldFirst && !oldLast) return null;
@@ -5877,7 +5890,9 @@
     if (!contains(document.body, widget.node)) {
       var parentStyle = "position: relative;";
       if (widget.coverGutter)
-        parentStyle += "margin-left: -" + widget.cm.getGutterElement().offsetWidth + "px;";
+        parentStyle += "margin-left: -" + widget.cm.display.gutters.offsetWidth + "px;";
+      if (widget.noHScroll)
+        parentStyle += "width: " + widget.cm.display.wrapper.clientWidth + "px;";
       removeChildrenAndAdd(widget.cm.display.measure, elt("div", [widget.node], null, parentStyle));
     }
     return widget.height = widget.node.offsetHeight;
@@ -6340,17 +6355,24 @@
       updateLine(line, text, spans, estimateHeight);
       signalLater(line, "change", line, change);
     }
+    function linesFor(start, end) {
+      for (var i = start, result = []; i < end; ++i)
+        result.push(new Line(text[i], spansFor(i), estimateHeight));
+      return result;
+    }
 
     var from = change.from, to = change.to, text = change.text;
     var firstLine = getLine(doc, from.line), lastLine = getLine(doc, to.line);
     var lastText = lst(text), lastSpans = spansFor(text.length - 1), nlines = to.line - from.line;
 
     // Adjust the line structure
-    if (isWholeLineUpdate(doc, change)) {
+    if (change.full) {
+      doc.insert(0, linesFor(0, text.length));
+      doc.remove(text.length, doc.size - text.length);
+    } else if (isWholeLineUpdate(doc, change)) {
       // This is a whole-line replace. Treated specially to make
       // sure line objects move the way they are supposed to.
-      for (var i = 0, added = []; i < text.length - 1; ++i)
-        added.push(new Line(text[i], spansFor(i), estimateHeight));
+      var added = linesFor(0, text.length - 1);
       update(lastLine, lastLine.text, lastSpans);
       if (nlines) doc.remove(from.line, nlines);
       if (added.length) doc.insert(from.line, added);
@@ -6358,8 +6380,7 @@
       if (text.length == 1) {
         update(firstLine, firstLine.text.slice(0, from.ch) + lastText + firstLine.text.slice(to.ch), lastSpans);
       } else {
-        for (var added = [], i = 1; i < text.length - 1; ++i)
-          added.push(new Line(text[i], spansFor(i), estimateHeight));
+        var added = linesFor(1, text.length - 1);
         added.push(new Line(lastText + firstLine.text.slice(to.ch), lastSpans, estimateHeight));
         update(firstLine, firstLine.text.slice(0, from.ch) + text[0], spansFor(0));
         doc.insert(from.line + 1, added);
@@ -6370,8 +6391,7 @@
     } else {
       update(firstLine, firstLine.text.slice(0, from.ch) + text[0], spansFor(0));
       update(lastLine, lastText + lastLine.text.slice(to.ch), lastSpans);
-      for (var i = 1, added = []; i < text.length - 1; ++i)
-        added.push(new Line(text[i], spansFor(i), estimateHeight));
+      var added = linesFor(1, text.length - 1);
       if (nlines > 1) doc.remove(from.line + 1, nlines - 1);
       doc.insert(from.line + 1, added);
     }
@@ -6582,7 +6602,7 @@
     setValue: docMethodOp(function(code) {
       var top = Pos(this.first, 0), last = this.first + this.size - 1;
       makeChange(this, {from: top, to: Pos(last, getLine(this, last).text.length),
-                        text: splitLines(code), origin: "setValue"}, true);
+                        text: splitLines(code), origin: "setValue", full: true}, true);
       setSelection(this, simpleSelection(top));
     }),
     replaceRange: function(code, from, to, origin) {
@@ -7462,13 +7482,11 @@
       if (array[i] == elt) return i;
     return -1;
   }
-  if ([].indexOf) indexOf = function(array, elt) { return array.indexOf(elt); };
   function map(array, f) {
     var out = [];
     for (var i = 0; i < array.length; i++) out[i] = f(array[i], i);
     return out;
   }
-  if ([].map) map = function(array, f) { return array.map(f); };
 
   function createObj(base, props) {
     var inst;
@@ -8021,7 +8039,7 @@
 
   // THE END
 
-  CodeMirror.version = "4.9.0";
+  CodeMirror.version = "4.12.0";
 
   return CodeMirror;
 });

@@ -87,33 +87,36 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		$manifest = array();
-		$manifest['src'] = $this->parent->getPath('manifest');
-		$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . basename($this->parent->getPath('manifest'));
-
-		if (!$this->parent->copyFiles(array($manifest), true))
+		if ($this->route != 'discover_install')
 		{
-			// Install failed, rollback changes
-			throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
-		}
+			$manifest = array();
+			$manifest['src'] = $this->parent->getPath('manifest');
+			$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . basename($this->parent->getPath('manifest'));
 
-		// If there is a manifest script, let's copy it.
-		if ($this->manifest_script)
-		{
-			$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
-			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
-
-			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+			if (!$this->parent->copyFiles(array($manifest), true))
 			{
-				if (!$this->parent->copyFiles(array($path)))
+				// Install failed, rollback changes
+				throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
+			}
+
+			// If there is a manifest script, let's copy it.
+			if ($this->manifest_script)
+			{
+				$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
+				$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
+
+				if (!file_exists($path['dest']) || $this->parent->isOverwrite())
 				{
-					// Install failed, rollback changes
-					throw new RuntimeException(
-						JText::sprintf(
-							'JLIB_INSTALLER_ABORT_MANIFEST',
-							JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
-						)
-					);
+					if (!$this->parent->copyFiles(array($path)))
+					{
+						// Install failed, rollback changes
+						throw new RuntimeException(
+							JText::sprintf(
+								'JLIB_INSTALLER_ABORT_MANIFEST',
+								JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
+							)
+						);
+					}
 				}
 			}
 		}
@@ -178,6 +181,20 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	}
 
 	/**
+	 * Prepares the adapter for a discover_install task
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function prepareDiscoverInstall()
+	{
+		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml';
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+	}
+
+	/**
 	 * Method to do any prechecks and setup the install paths for the extension
 	 *
 	 * @return  void
@@ -207,6 +224,26 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	 */
 	protected function storeExtension()
 	{
+		// Discover installs are stored a little differently
+		if ($this->route == 'discover_install')
+		{
+			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+
+			$this->extension->manifest_cache = json_encode($manifest_details);
+			$this->extension->state = 0;
+			$this->extension->name = $manifest_details['name'];
+			$this->extension->enabled = 1;
+			$this->extension->params = $this->parent->getParams();
+
+			if (!$this->extension->store())
+			{
+				// Install failed, roll back changes
+				throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_LIB_DISCOVER_STORE_DETAILS'));
+			}
+
+			return;
+		}
+
 		$this->extension->name = $this->name;
 		$this->extension->type = 'library';
 		$this->extension->element = $this->element;
@@ -414,48 +451,6 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		}
 
 		return $results;
-	}
-
-	/**
-	 * Custom discover_install method
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public function discover_install()
-	{
-		/* Libraries are a strange beast; they are actually references to files
-		 * There are two parts to a library which are disjunct in their locations
-		 * 1) The manifest file (stored in /JPATH_MANIFESTS/libraries)
-		 * 2) The actual files (stored in /JPATH_PLATFORM/libraryname)
-		 * Thus installation of a library is the process of dumping files
-		 * in two different places. As such it is impossible to perform
-		 * any operation beyond mere registration of a library under the presumption
-		 * that the files exist in the appropriate location so that come uninstall
-		 * time they can be adequately removed.
-		 */
-
-		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->parent->extension->element . '.xml';
-		$this->parent->manifest = $this->parent->isManifest($manifestPath);
-		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->state = 0;
-		$this->parent->extension->name = $manifest_details['name'];
-		$this->parent->extension->enabled = 1;
-		$this->parent->extension->params = $this->parent->getParams();
-
-		if ($this->parent->extension->store())
-		{
-			return true;
-		}
-		else
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_LIB_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
-
-			return false;
-		}
 	}
 
 	/**

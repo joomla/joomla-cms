@@ -126,10 +126,13 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if (!$this->parent->copyManifest(-1))
+		if ($this->route != 'discover_install')
 		{
-			// Install failed, rollback changes
-			throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_COPY_SETUP'));
+			if (!$this->parent->copyManifest(-1))
+			{
+				// Install failed, rollback changes
+				throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_COPY_SETUP'));
+			}
 		}
 	}
 
@@ -219,6 +222,21 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	}
 
 	/**
+	 * Prepares the adapter for a discover_install task
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function prepareDiscoverInstall()
+	{
+		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$manifestPath = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+	}
+
+	/**
 	 * Method to do any prechecks and setup the install paths for the extension
 	 *
 	 * @return  void
@@ -229,7 +247,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	protected function setupInstallPaths()
 	{
 		// Get the target application
-		$cname = (string) $this->manifest->attributes()->client;
+		$cname = (string) $this->getManifest()->attributes()->client;
 
 		if ($cname)
 		{
@@ -281,6 +299,26 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	 */
 	protected function storeExtension()
 	{
+		// Discover installs are stored a little differently
+		if ($this->route == 'discover_install')
+		{
+			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+
+			$this->extension->manifest_cache = json_encode($manifest_details);
+			$this->extension->state = 0;
+			$this->extension->name = $manifest_details['name'];
+			$this->extension->enabled = 1;
+			$this->extension->params = $this->parent->getParams();
+
+			if (!$this->extension->store())
+			{
+				// Install failed, roll back changes
+				throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_MOD_DISCOVER_STORE_DETAILS'));
+			}
+
+			return;
+		}
+
 		// Was there a module already installed with the same name?
 		if ($this->currentExtensionId)
 		{
@@ -289,7 +327,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 				// Install failed, roll back changes
 				throw new RuntimeException(
 					JText::sprintf(
-						'JLIB_INSTALLER_ABORT_PLG_INSTALL_ALLREADY_EXISTS',
+						'JLIB_INSTALLER_ABORT_MOD_INSTALL_ALLREADY_EXISTS',
 						JText::_('JLIB_INSTALLER_' . $this->route),
 						$this->name
 					)
@@ -375,28 +413,6 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	}
 
 	/**
-	 * Custom update method
-	 *
-	 * This is really a shell for the install system
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 */
-	public function update()
-	{
-		// Set the overwrite setting
-		$this->parent->setOverwrite(true);
-		$this->parent->setUpgrade(true);
-
-		// Set the route for the install
-		$this->setRoute('update');
-
-		// Go to install which handles updates properly
-		return $this->install();
-	}
-
-	/**
 	 * Custom discover method
 	 *
 	 * @return  array  JExtension list of extensions available
@@ -442,53 +458,6 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		}
 
 		return $results;
-	}
-
-	/**
-	 * Custom discover_install method
-	 *
-	 * @return  mixed  Extension ID on success, boolean false on failure
-	 *
-	 * @since   3.1
-	 */
-	public function discover_install()
-	{
-		// Modules are like templates, and are one of the easiest
-		// If its not in the extensions table we just add it
-		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
-		$this->parent->manifest = $this->parent->isManifest($manifestPath);
-		$description = (string) $this->parent->manifest->description;
-
-		if ($description)
-		{
-			$this->parent->set('message', JText::_($description));
-		}
-		else
-		{
-			$this->parent->set('message', '');
-		}
-
-		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
-
-		// TODO: Re-evaluate this; should we run installation triggers? postflight perhaps?
-		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->state = 0;
-		$this->parent->extension->name = $manifest_details['name'];
-		$this->parent->extension->enabled = 1;
-		$this->parent->extension->params = $this->parent->getParams();
-
-		if ($this->parent->extension->store())
-		{
-			return $this->parent->extension->get('extension_id');
-		}
-		else
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
-
-			return false;
-		}
 	}
 
 	/**
@@ -621,7 +590,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		// Let's run the uninstall queries for the module
 		try
 		{
-			$this->parseQueries('uninstall');
+			$this->parseQueries();
 		}
 		catch (RuntimeException $e)
 		{

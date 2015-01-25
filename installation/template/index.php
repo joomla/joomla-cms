@@ -19,7 +19,7 @@ JHtml::_('bootstrap.framework');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.framework', true);
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('script', 'installation/template/js/installation.js');
 
 // Load the JavaScript translated messages
