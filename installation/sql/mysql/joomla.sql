@@ -437,7 +437,7 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
   KEY `idx_tag` (`tag_id`),
   KEY `idx_type` (`type_id`),
   KEY `idx_core_content_id` (`core_content_id`),
-	KEY 'idx_alias_item_id' ('type_alias','content_item_id')
+  KEY 'idx_alias_item_id' ('type_alias','content_item_id')
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Maps items from content tables to tags';
 
 -- --------------------------------------------------------
