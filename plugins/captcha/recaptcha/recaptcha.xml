@@ -16,6 +16,11 @@
 	<fields name="params">
 		<fieldset name="basic">
 		<field
+			name="message"
+			type="note"
+			label="PLG_RECAPTCHA_VERSION_1_WARNING_LABEL"
+			showon="version:1.0" />
+		<field
 			name="version"
 			type="list"
 			default="1.0"
