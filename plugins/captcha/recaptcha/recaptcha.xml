@@ -46,7 +46,7 @@
 			size="50" />
 
 		<field
-			name="theme1"
+			name="theme"
 			type="list"
 			default="clean"
 			label="PLG_RECAPTCHA_THEME_LABEL"

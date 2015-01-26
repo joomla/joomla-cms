@@ -59,7 +59,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		switch ($version)
 		{
 			case '1.0':
-				$theme = $this->params->get('theme1', 'clean');
+				$theme = $this->params->get('theme', 'clean');
 
 				$server = self::RECAPTCHA_API_SERVER;
 
