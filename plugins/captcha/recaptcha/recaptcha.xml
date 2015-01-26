@@ -74,9 +74,9 @@
 			showon="version:2.0"
 			filter="">
 			<option
-					value="light">PLG_RECAPTCHA_THEME_LIGHT</option>
+				value="light">PLG_RECAPTCHA_THEME_LIGHT</option>
 			<option
-					value="dark">PLG_RECAPTCHA_THEME_DARK</option>
+				value="dark">PLG_RECAPTCHA_THEME_DARK</option>
 		</field>
 		</fieldset>
 	</fields>
