@@ -16,6 +16,16 @@
 	<fields name="params">
 		<fieldset name="basic">
 		<field
+			name="version"
+			type="list"
+			default="1.0"
+			label="PLG_RECAPTCHA_VERSION_LABEL"
+			description="PLG_RECAPTCHA_VERSION_DESC"
+			size="1">
+			<option value="1.0">PLG_RECAPTCHA_VERSION_1</option>
+			<option value="2.0">PLG_RECAPTCHA_VERSION_2</option>
+		</field>
+		<field
 			name="public_key"
 			type="text"
 			default=""
@@ -36,12 +46,13 @@
 			size="50" />
 
 		<field
-			name="theme"
+			name="theme1"
 			type="list"
 			default="clean"
 			label="PLG_RECAPTCHA_THEME_LABEL"
 			description="PLG_RECAPTCHA_THEME_DESC"
-			required="true"
+			required="false"
+			showon="version:1.0"
 			filter="">
 			<option
 				value="clean">PLG_RECAPTCHA_THEME_CLEAN</option>
@@ -52,6 +63,21 @@
 			<option
 				value="red">PLG_RECAPTCHA_THEME_RED</option>
 			</field>
+
+		<field
+			name="theme2"
+			type="list"
+			default="dark"
+			label="PLG_RECAPTCHA_THEME_LABEL"
+			description="PLG_RECAPTCHA_THEME_DESC"
+			required="false"
+			showon="version:2.0"
+			filter="">
+			<option
+					value="light">PLG_RECAPTCHA_THEME_LIGHT</option>
+			<option
+					value="dark">PLG_RECAPTCHA_THEME_DARK</option>
+		</field>
 		</fieldset>
 	</fields>
 	</config>
