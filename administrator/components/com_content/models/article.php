@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,7 @@ class ContentModelArticle extends JModelAdmin
 	{
 		$categoryId = (int) $value;
 
-		$i = 0;
+		$newIds = array();
 
 		if (!parent::checkCategoryId($categoryId))
 		{
@@ -125,8 +125,7 @@ class ContentModelArticle extends JModelAdmin
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i] = $newId;
-			$i++;
+			$newIds[$pk] = $newId;
 
 			// Check if the article was featured and update the #__content_frontpage table
 			if ($featured == 1)

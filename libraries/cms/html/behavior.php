@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -85,7 +85,6 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/core.js', false, true);
 		static::$loaded[__METHOD__] = true;
 
@@ -178,6 +177,9 @@ abstract class JHtmlBehavior
 
 		// Include core
 		static::core();
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
@@ -401,7 +403,10 @@ abstract class JHtmlBehavior
 			SqueezeBox.assign($('" . $selector . "').get(), {
 				parse: 'rel'
 			});
-		});"
+		});
+		function jModalClose() {
+			SqueezeBox.close();
+		}"
 		);
 
 		// Set static array
@@ -427,8 +432,11 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
+		// Include core
 		static::core();
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/multiselect.js', false, true);
 
@@ -676,8 +684,11 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
+		// Include core
 		static::core();
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/highlighter.js', false, true);
 
@@ -723,8 +734,11 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
+		// Include core
 		static::core();
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		$js = "jQuery(function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
 			" else {top.location = self.location; }});";

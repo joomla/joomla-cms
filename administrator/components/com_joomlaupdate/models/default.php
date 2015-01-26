@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,13 +34,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		switch ($params->get('updatesource', 'nochange'))
 		{
-			// "Current Minor & Patch Release (recommended)".
-			case 'lts':
-				$updateURL = 'http://update.joomla.org/core/list.xml';
-				break;
-
-			// "Current Major Release".
+			// "Minor & Patch Release for Current version AND Next Major Release".
 			case 'sts':
+			case 'next':
 				$updateURL = 'http://update.joomla.org/core/sts/list_sts.xml';
 				break;
 
@@ -49,11 +45,12 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				$updateURL = 'http://update.joomla.org/core/test/list_test.xml';
 				break;
 
-			// "Custom" if custom URL empty no changes.
+			// "Custom"
+			// TODO: check if the customurl is valid and not just "not empty".
 			case 'custom':
-				if ($params->get('customurl', '') != '')
+				if (trim($params->get('customurl', '')) != '')
 				{
-					$updateURL = $params->get('customurl', '');
+					$updateURL = trim($params->get('customurl', ''));
 				}
 				else
 				{
@@ -61,11 +58,13 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				}
 				break;
 
-			// "Do not change".
-			case 'nochange':
+			// "Minor & Patch Release for Current version (recommended and default)".
+			// The commented "case" below are for documenting where 'default' and legacy options falls
+			// case 'default':
+			// case 'lts':
+			// case 'nochange':
 			default:
-				return;
-				break;
+				$updateURL = 'http://update.joomla.org/core/list.xml';
 		}
 
 		$db = $this->getDbo();

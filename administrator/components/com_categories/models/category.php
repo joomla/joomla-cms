@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -786,7 +786,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		$db = $this->getDbo();
 		$extension = JFactory::getApplication()->input->get('extension', '', 'word');
-		$i = 0;
+		$newIds = array();
 
 		// Check that the parent exists
 		if ($parentId)
@@ -952,8 +952,7 @@ class CategoriesModelCategory extends JModelAdmin
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i] = $newId;
-			$i++;
+			$newIds[$pk] = $newId;
 
 			// Now we log the old 'parent' to the new 'parent'
 			$parents[$oldId] = $this->table->id;

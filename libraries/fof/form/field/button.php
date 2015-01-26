@@ -98,17 +98,18 @@ class FOFFormFieldButton extends FOFFormFieldText implements FOFFormField
 		$this->label = '';
 
 		$allowedElement = array('button', 'a');
-		
+
 		if (in_array($this->element['htmlelement'], $allowedElement))
 			$type = $this->element['htmlelement'];
 		else
 			$type = 'button';
 
-		$text  = $this->element['text'];
-		$class = $this->element['class'] ? (string) $this->element['class'] : '';
-		$icon  = $this->element['icon'] ? (string) $this->element['icon'] : '';
+		$text    = $this->element['text'];
+		$class   = $this->element['class'] ? (string) $this->element['class'] : '';
+		$icon    = $this->element['icon'] ? (string) $this->element['icon'] : '';
 		$onclick = $this->element['onclick'] ? 'onclick="' . (string) $this->element['onclick'] . '"' : '';
-		$url   = $this->element['url'] ? 'href="' . $this->parseFieldTags((string) $this->element['url']) . '"' : '';
+		$url     = $this->element['url'] ? 'href="' . $this->parseFieldTags((string) $this->element['url']) . '"' : '';
+		$title   = $this->element['title'] ? 'title="' . JText::_((string) $this->element['title']) . '"' : '';
 
 		$this->value = JText::_($text);
 
@@ -118,7 +119,7 @@ class FOFFormFieldButton extends FOFFormFieldText implements FOFFormField
 		}
 
 		return '<' . $type . ' id="' . $this->id . '" class="btn ' . $class . '" ' .
-			$onclick . $url . '>' .
+			$onclick . $url . $title . '>' .
 			$icon .
 			htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') .
 			'</' . $type . '>';

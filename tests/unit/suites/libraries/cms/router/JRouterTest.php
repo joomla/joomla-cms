@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -322,12 +322,45 @@ class JRouterTest extends TestCase
 	public function casesAttachBuildRule()
 	{
 		$cases = array();
-		$cases[] = array(array(), array('build' => array(), 'parse' => array()));
-		$callbacks = array(function (&$router, &$uri) {});
-		$cases[] = array($callbacks,
+		$cases[] = array(array(), JRouter::PROCESS_DURING,
 			array(
+				'buildpreprocess' => array(),
+				'build' => array(),
+				'buildpostprocess' => array(),
+				'parsepreprocess' => array(),
+				'parse' => array(),
+				'parsepostprocess' => array()
+			)
+		);
+		$callbacks = array(function (&$router, &$uri) {});
+		$cases[] = array($callbacks, JRouter::PROCESS_DURING,
+			array(
+				'buildpreprocess' => array(),
 				'build' => $callbacks,
-				'parse' => array()
+				'buildpostprocess' => array(),
+				'parsepreprocess' => array(),
+				'parse' => array(),
+				'parsepostprocess' => array()
+			)
+		);
+		$cases[] = array($callbacks, JRouter::PROCESS_BEFORE,
+			array(
+				'buildpreprocess' => $callbacks,
+				'build' => array(),
+				'buildpostprocess' => array(),
+				'parsepreprocess' => array(),
+				'parse' => array(),
+				'parsepostprocess' => array()
+			)
+		);
+		$cases[] = array($callbacks, JRouter::PROCESS_AFTER,
+			array(
+				'buildpreprocess' => array(),
+				'build' => array(),
+				'buildpostprocess' => $callbacks,
+				'parsepreprocess' => array(),
+				'parse' => array(),
+				'parsepostprocess' => array()
 			)
 		);
 
@@ -338,6 +371,7 @@ class JRouterTest extends TestCase
 	 * Tests the attachBuildRule method
 	 *
 	 * @param   callback  $callbacks   Callbacks to be attached
+	 * @param   string    $stage       Stage to process
 	 * @param   array     $expected    The expected internal rules array
 	 *
 	 * @return  void
@@ -345,16 +379,30 @@ class JRouterTest extends TestCase
 	 * @dataProvider  casesAttachBuildRule
 	 * @since         3.4
 	 */
-	public function testAttachBuildRule($callbacks, $expected)
+	public function testAttachBuildRule($callbacks, $stage, $expected)
 	{
 		$object = new JRouterInspector;
 
 		foreach ($callbacks as $callback)
 		{
-			$object->attachBuildRule($callback);
+			$object->attachBuildRule($callback, $stage);
 		}
 
 		$this->assertEquals($object->getRules(), $expected);
+	}
+
+	/**
+	 * Tests the attachBuildRule() method throwing a proper exception
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testAttachBuildRuleException()
+	{
+		$callback = array(function (&$router, &$uri) {});
+		$this->object->attachBuildRule($callback, 'wrongStage');
 	}
 
 	/**
@@ -367,12 +415,45 @@ class JRouterTest extends TestCase
 	public function casesAttachParseRule()
 	{
 		$cases     = array();
-		$cases[]   = array(array(), array('build' => array(), 'parse' => array()));
-		$callbacks = array(function (&$router, &$uri) {});
-		$cases[]   = array($callbacks,
+		$cases[]   = array(array(), JRouter::PROCESS_DURING,
 			array(
+				'buildpreprocess' => array(),
 				'build' => array(),
-				'parse' => $callbacks
+				'buildpostprocess' => array(),
+				'parsepreprocess' => array(),
+				'parse' => array(),
+				'parsepostprocess' => array()
+			)
+		);
+		$callbacks = array(function (&$router, &$uri) {});
+		$cases[] = array($callbacks, JRouter::PROCESS_DURING,
+			array(
+				'buildpreprocess' => array(),
+				'build' => array(),
+				'buildpostprocess' => array(),
+				'parsepreprocess' => array(),
+				'parse' => $callbacks,
+				'parsepostprocess' => array()
+			)
+		);
+		$cases[] = array($callbacks, JRouter::PROCESS_BEFORE,
+			array(
+				'buildpreprocess' => array(),
+				'build' => array(),
+				'buildpostprocess' => array(),
+				'parsepreprocess' => $callbacks,
+				'parse' => array(),
+				'parsepostprocess' => array()
+			)
+		);
+		$cases[] = array($callbacks, JRouter::PROCESS_AFTER,
+			array(
+				'buildpreprocess' => array(),
+				'build' => array(),
+				'buildpostprocess' => array(),
+				'parsepreprocess' => array(),
+				'parse' => array(),
+				'parsepostprocess' => $callbacks
 			)
 		);
 
@@ -383,6 +464,7 @@ class JRouterTest extends TestCase
 	 * Tests the attachParseRule method
 	 *
 	 * @param   callback  $callbacks   Callbacks to be attached
+	 * @param   string    $stage       Stage to process
 	 * @param   array     $expected    The expected internal rules array
 	 *
 	 * @return  void
@@ -390,16 +472,30 @@ class JRouterTest extends TestCase
 	 * @dataProvider  casesAttachParseRule
 	 * @since         3.4
 	 */
-	public function testAttachParseRule($callbacks, $expected)
+	public function testAttachParseRule($callbacks, $stage, $expected)
 	{
 		$object = new JRouterInspector;
 
 		foreach ($callbacks as $callback)
 		{
-			$object->attachParseRule($callback);
+			$object->attachParseRule($callback, $stage);
 		}
 
 		$this->assertEquals($object->getRules(), $expected);
+	}
+
+	/**
+	 * Tests the attachParseRule() method throwing a proper exception
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testAttachParseRuleException()
+	{
+		$callback = array(function (&$router, &$uri) {});
+		$this->object->attachParseRule($callback, 'wrongStage');
 	}
 
 	/**
@@ -412,14 +508,14 @@ class JRouterTest extends TestCase
 	public function casesProcessParseRules()
 	{
 		$cases   = array();
-		$cases[] = array(array(), array());
+		$cases[] = array(array(), JRouter::PROCESS_DURING, array());
 		$cases[] = array(
 			array(
 				function (&$router, &$uri)
 				{
 					return array('myvar' => 'myvalue');
 				}
-			),
+			), JRouter::PROCESS_DURING,
 			array('myvar' => 'myvalue')
 		);
 		$cases[] = array(
@@ -432,7 +528,7 @@ class JRouterTest extends TestCase
 				{
 					return array('myvar2' => 'myvalue2');
 				},
-			),
+			), JRouter::PROCESS_DURING,
 			array('myvar1' => 'myvalue1', 'myvar2' => 'myvalue2')
 		);
 		$cases[] = array(
@@ -449,8 +545,26 @@ class JRouterTest extends TestCase
 				{
 					return array('myvar1' => 'myvalue3');
 				},
-			),
+			), JRouter::PROCESS_DURING,
 			array('myvar1' => 'myvalue1', 'myvar2' => 'myvalue2')
+		);
+		$cases[] = array(
+			array(
+				function (&$router, &$uri)
+				{
+					return array('stage' => 'before');
+				}
+			), JRouter::PROCESS_BEFORE,
+			array('stage' => 'before')
+		);
+		$cases[] = array(
+			array(
+				function (&$router, &$uri)
+				{
+					return array('stage' => 'after');
+				}
+			), JRouter::PROCESS_AFTER,
+			array('stage' => 'after')
 		);
 
 		return $cases;
@@ -460,6 +574,7 @@ class JRouterTest extends TestCase
 	 * testProcessParseRules().
 	 *
 	 * @param   array   $functions  Callback to execute
+	 * @param   string  $stage      Stage to process
 	 * @param   string  $expected   Expected return value
 	 *
 	 * @return  void
@@ -467,7 +582,7 @@ class JRouterTest extends TestCase
 	 * @dataProvider  casesProcessParseRules
 	 * @since         3.4
 	 */
-	public function testProcessParseRules($functions, $expected)
+	public function testProcessParseRules($functions, $stage, $expected)
 	{
 		$myuri = 'http://localhost';
 		$stub = $this->getMock('JRouter', array('parseRawRoute'));
@@ -475,10 +590,24 @@ class JRouterTest extends TestCase
 
 		foreach ($functions as $function)
 		{
-			$stub->attachParseRule($function);
+			$stub->attachParseRule($function, $stage);
 		}
 
 		$this->assertEquals($stub->parse($myuri), $expected, __METHOD__ . ':' . __LINE__ . ': value is not expected');
+	}
+
+	/**
+	 * Tests the attachParseRule() method throwing a proper exception
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testProcessParseRulesException()
+	{
+		$object = new JRouterInspector;
+		$object->runProcessParseRules(new JUri, 'wrongStage');
 	}
 
 	/**
@@ -491,14 +620,14 @@ class JRouterTest extends TestCase
 	public function casesProcessBuildRules()
 	{
 		$cases   = array();
-		$cases[] = array(array(), 'index.php?var1=value1&var2=value2');
+		$cases[] = array(array(), JRouter::PROCESS_DURING, 'index.php?var1=value1&var2=value2');
 		$cases[] = array(
 			array(
 				function (&$router, &$uri)
 				{
 					$uri->setPath('value1');
 				}
-			),
+			), JRouter::PROCESS_DURING,
 			'value1?var1=value1&var2=value2'
 		);
 		$cases[] = array(
@@ -511,7 +640,7 @@ class JRouterTest extends TestCase
 				{
 					$uri->delVar('var1');
 				},
-			),
+			), JRouter::PROCESS_DURING,
 			'value1?var2=value2'
 		);
 		$cases[] = array(
@@ -528,8 +657,35 @@ class JRouterTest extends TestCase
 				{
 					$uri->delVar('var2');
 				},
-			),
+			), JRouter::PROCESS_DURING,
 			'value1/value2'
+		);
+		$cases[] = array(
+			array(
+				function (&$router, &$uri)
+				{
+					$uri->setVar('stage', 'during');
+				}
+			), JRouter::PROCESS_DURING,
+			'index.php?var1=value1&var2=value2&stage=during'
+		);
+		$cases[] = array(
+			array(
+				function (&$router, &$uri)
+				{
+					$uri->setVar('stage', 'before');
+				}
+			), JRouter::PROCESS_BEFORE,
+			'index.php?var1=value1&var2=value2&stage=before'
+		);
+		$cases[] = array(
+			array(
+				function (&$router, &$uri)
+				{
+					$uri->setVar('stage', 'after');
+				}
+			), JRouter::PROCESS_AFTER,
+			'index.php?var1=value1&var2=value2&stage=after'
 		);
 
 		return $cases;
@@ -539,6 +695,7 @@ class JRouterTest extends TestCase
 	 * testProcessBuildRules().
 	 *
 	 * @param   array   $functions  Callback to execute
+	 * @param   string  $stage      Stage to process
 	 * @param   string  $expected   Expected return value
 	 *
 	 * @dataProvider casesProcessBuildRules
@@ -547,7 +704,7 @@ class JRouterTest extends TestCase
 	 *
 	 * @since  3.4
 	 */
-	public function testProcessBuildRules($functions, $expected)
+	public function testProcessBuildRules($functions, $stage, $expected)
 	{
 		$myuri = 'index.php?var1=value1&var2=value2';
 		$stub  = $this->getMock('JRouter', array('buildRawRoute'));
@@ -560,6 +717,20 @@ class JRouterTest extends TestCase
 
 		$juri = $stub->build($myuri);
 		$this->assertEquals($juri->toString(), $expected, __METHOD__ . ':' . __LINE__ . ': value is not expected');
+	}
+
+	/**
+	 * Tests the attachBuildRules() method throwing a proper exception
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testProcessBuildRulesException()
+	{
+		$object = new JRouterInspector;
+		$object->runProcessBuildRules(new JUri, 'wrongStage');
 	}
 
 	/**

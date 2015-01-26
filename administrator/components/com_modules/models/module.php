@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,14 @@ use Joomla\Registry\Registry;
  */
 class ModulesModelModule extends JModelAdmin
 {
+	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.4
+	 */
+	public $typeAlias = 'com_modules.module';
+
 	/**
 	 * @var    string  The prefix to use with controller messages.
 	 * @since  1.6
@@ -35,6 +43,24 @@ class ModulesModelModule extends JModelAdmin
 	 * @since  1.6
 	 */
 	protected $helpURL;
+
+	/**
+	 * Batch copy/move command. If set to false,
+	 * the batch copy/move command is not supported
+	 *
+	 * @var string
+	 */
+	protected $batch_copymove = 'position_id';
+
+	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id' => 'batchLanguage',
+	);
 
 	/**
 	 * Constructor.
@@ -91,99 +117,6 @@ class ModulesModelModule extends JModelAdmin
 	}
 
 	/**
-	 * Method to perform batch operations on a set of modules.
-	 *
-	 * @param   array  $commands  An array of commands to perform.
-	 * @param   array  $pks       An array of item ids.
-	 * @param   array  $contexts  An array of item contexts.
-	 *
-	 * @return  boolean  Returns true on success, false on failure.
-	 *
-	 * @since   1.7
-	 */
-	public function batch($commands, $pks, $contexts)
-	{
-		// Sanitize user ids.
-		$pks = array_unique($pks);
-		JArrayHelper::toInteger($pks);
-
-		// Remove any values of zero.
-		if (array_search(0, $pks, true))
-		{
-			unset($pks[array_search(0, $pks, true)]);
-		}
-
-		if (empty($pks))
-		{
-			$this->setError(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
-
-			return false;
-		}
-
-		$done = false;
-
-		if (!empty($commands['position_id']))
-		{
-			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
-
-			if (!empty($commands['position_id']))
-			{
-				if ($cmd == 'c')
-				{
-					$result = $this->batchCopy($commands['position_id'], $pks, $contexts);
-
-					if (is_array($result))
-					{
-						$pks = $result;
-					}
-					else
-					{
-						return false;
-					}
-				}
-				elseif ($cmd == 'm' && !$this->batchMove($commands['position_id'], $pks, $contexts))
-				{
-					return false;
-				}
-
-				$done = true;
-			}
-		}
-
-		if (!empty($commands['assetgroup_id']))
-		{
-			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!empty($commands['language_id']))
-		{
-			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!$done)
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
-
-			return false;
-		}
-
-		// Clear the cache
-		$this->cleanCache();
-
-		return true;
-	}
-
-	/**
 	 * Batch copy modules to a new position or current.
 	 *
 	 * @param   integer  $value     The new value matching a module position.
@@ -200,7 +133,6 @@ class ModulesModelModule extends JModelAdmin
 		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$newIds = array();
-		$i = 0;
 
 		foreach ($pks as $pk)
 		{
@@ -246,8 +178,7 @@ class ModulesModelModule extends JModelAdmin
 				$newId = $table->get('id');
 
 				// Add the new ID to the array
-				$newIds[$i]	= $newId;
-				$i++;
+				$newIds[$pk]	= $newId;
 
 				// Now we need to handle the module assignments
 				$db = $this->getDbo();

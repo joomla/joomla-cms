@@ -937,6 +937,7 @@ HTML;
 		$html .= "\t" . '<input type="hidden" name="option" value="' . $input->getCmd('option') . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="view" value="' . FOFInflector::pluralize($input->getCmd('view')) . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="task" value="' . $input->getCmd('task', 'browse') . '" />' . PHP_EOL;
+		$html .= "\t" . '<input type="hidden" name="layout" value="' . $input->getCmd('layout', '') . '" />' . PHP_EOL;
 
 		// The id field is required in Joomla! 3 front-end to prevent the pagination limit box from screwing it up. Huh!!
 
@@ -1033,6 +1034,15 @@ HTML;
 			$formid = 'adminForm';
 		}
 
+		// Check if we have a custom task
+		$customTask = $form->getAttribute('customTask');
+
+		if (empty($customTask))
+		{
+			$customTask = '';
+		}
+
+		// Get the form action URL
         $actionUrl = FOFPlatform::getInstance()->isBackend() ? 'index.php' : JUri::root().'index.php';
 
 		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
@@ -1053,7 +1063,7 @@ HTML;
 			$class . '">' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="option" value="' . $input->getCmd('option') . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="view" value="' . $input->getCmd('view', 'edit') . '" />' . PHP_EOL;
-		$html .= "\t" . '<input type="hidden" name="task" value="" />' . PHP_EOL;
+		$html .= "\t" . '<input type="hidden" name="task" value="' . $customTask . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="' . $key . '" value="' . $keyValue . '" />' . PHP_EOL;
 
 		$html .= "\t" . '<input type="hidden" name="' . JFactory::getSession()->getFormToken() . '" value="1" />' . PHP_EOL;
@@ -1077,15 +1087,34 @@ HTML;
 	protected function renderFormRaw(FOFForm &$form, FOFModel $model, FOFInput $input, $formType)
 	{
 		$html = '';
+		$tabHtml = array();
 
 		// Do we have a tabbed form?
 		$isTabbed = $form->getAttribute('tabbed', '0');
 		$isTabbed = in_array($isTabbed, array('true', 'yes', 'on', '1'));
 
+		foreach ($form->getFieldsets() as $fieldset)
+		{
+			if ($isTabbed && $this->isTabFieldset($fieldset))
+			{
+				continue;
+			}
+			elseif ($isTabbed && isset($fieldset->innertab))
+			{
+				$inTab = $fieldset->innertab;
+			}
+			else
+			{
+				$inTab = '__outer';
+			}
+
+			$tabHtml[$inTab][] = $this->renderFieldset($fieldset, $form, $model, $input, $formType, false);
+		}
+
 		// If the form is tabbed, render the tabs bars
 		if ($isTabbed)
 		{
-			$html .= '<ul class="nav nav-tabs">' . "\n";
+			$html .= '<ul class="nav nav-tabs">' . PHP_EOL;
 
 			foreach ($form->getFieldsets() as $fieldset)
 			{
@@ -1106,10 +1135,10 @@ HTML;
 				$name = $fieldset->name;
 				$liClass = ($isTabbedFieldset == 2) ? 'class="active"' : '';
 
-				$html .= "<li $liClass><a href=\"#$name\" data-toggle=\"tab\">$label</a></li>\n";
+				$html .= "<li $liClass><a href=\"#$name\" data-toggle=\"tab\">$label</a></li>" . PHP_EOL;
 			}
 
-			$html .= '</ul>' . "\n\n<div class=\"tab-content\">\n";
+			$html .= '</ul>' . "\n\n<div class=\"tab-content\">" . PHP_EOL;
 
 			foreach ($form->getFieldsets() as $fieldset)
 			{
@@ -1118,20 +1147,15 @@ HTML;
 					continue;
 				}
 
-				$html .= $this->renderFieldset($fieldset, $form, $model, $input, $formType, false);
+				$html .= $this->renderFieldset($fieldset, $form, $model, $input, $formType, false, $tabHtml);
 			}
 
 			$html .= "</div>\n";
 		}
 
-		foreach ($form->getFieldsets() as $fieldset)
+		if (isset($tabHtml['__outer']))
 		{
-			if ($isTabbed && $this->isTabFieldset($fieldset))
-			{
-				continue;
-			}
-
-			$html .= $this->renderFieldset($fieldset, $form, $model, $input, $formType, false);
+			$html .= implode('', $tabHtml['__outer']);
 		}
 
 		return $html;
@@ -1149,7 +1173,7 @@ HTML;
 	 *
 	 * @return  string    The HTML rendering of the fieldset
 	 */
-	protected function renderFieldset(stdClass &$fieldset, FOFForm &$form, FOFModel $model, FOFInput $input, $formType, $showHeader = true)
+	protected function renderFieldset(stdClass &$fieldset, FOFForm &$form, FOFModel $model, FOFInput $input, $formType, $showHeader = true, &$innerHtml = null)
 	{
 		$html = '';
 
@@ -1164,7 +1188,17 @@ HTML;
 			$class = '';
 		}
 
-		$html .= "\t" . '<div id="' . $fieldset->name . '" ' . $class . '>' . PHP_EOL;
+		if (isset($innerHtml[$fieldset->name]))
+		{
+			$innerclass = isset($fieldset->innerclass) ? ' class="' . $fieldset->innerclass . '"' : '';
+
+			$html .= "\t" . '<div id="' . $fieldset->name . '" ' . $class . '>' . PHP_EOL;
+			$html .= "\t\t" . '<div' . $innerclass . '>' . PHP_EOL;
+		}
+		else
+		{
+			$html .= "\t" . '<div id="' . $fieldset->name . '" ' . $class . '>' . PHP_EOL;
+		}
 
 		$isTabbedFieldset = $this->isTabFieldset($fieldset);
 
@@ -1240,7 +1274,16 @@ HTML;
 			}
 		}
 
-		$html .= "\t" . '</div>' . PHP_EOL;
+		if (isset($innerHtml[$fieldset->name]))
+		{
+			$html .= "\t\t" . '</div>' . PHP_EOL;
+			$html .= implode('', $innerHtml[$fieldset->name]) . PHP_EOL;
+			$html .= "\t" . '</div>' . PHP_EOL;
+		}
+		else
+		{
+			$html .= "\t" . '</div>' . PHP_EOL;
+		}
 
 		return $html;
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,14 +113,14 @@ class MailtoController extends JControllerLegacy
 		// Check for a valid to address
 		$error = false;
 
-		if (! $email  || ! JMailHelper::isEmailAddress($email))
+		if (!$email || !JMailHelper::isEmailAddress($email))
 		{
 			$error = JText::sprintf('COM_MAILTO_EMAIL_INVALID', $email);
 			JError::raiseWarning(0, $error);
 		}
 
 		// Check for a valid from address
-		if (! $from || ! JMailHelper::isEmailAddress($from))
+		if (!$from || !JMailHelper::isEmailAddress($from))
 		{
 			$error = JText::sprintf('COM_MAILTO_EMAIL_INVALID', $from);
 			JError::raiseWarning(0, $error);
@@ -141,8 +141,8 @@ class MailtoController extends JControllerLegacy
 		$body    = JMailHelper::cleanBody($body);
 
 		// To send we need to use punycode.
-		$from = JStringPunycode::emailToPunycode($from);
-		$from	 = JMailHelper::cleanAddress($from);
+		$from  = JStringPunycode::emailToPunycode($from);
+		$from  = JMailHelper::cleanAddress($from);
 		$email = JStringPunycode::emailToPunycode($email);
 
 		// Send the email

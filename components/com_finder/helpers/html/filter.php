@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -114,7 +114,12 @@ abstract class JHtmlFilter
 		if ($loadMedia)
 		{
 			JHtml::_('stylesheet', 'com_finder/sliderfilter.css', false, true, false);
-			JHtml::_('script', 'com_finder/sliderfilter.js', false, true);
+
+			if (JFactory::getDocument()->direction == 'rtl')
+			{
+				JHtml::_('stylesheet', 'com_finder/finder-rtl.css', false, true, false);
+			}
+			JHtml::_('script', 'com_finder/sliderfilter.js', true, true);
 		}
 
 		// Load plug-in language files.
@@ -432,6 +437,11 @@ abstract class JHtmlFilter
 		if ($loadMedia)
 		{
 			JHtml::stylesheet('com_finder/sliderfilter.css', false, true, false);
+
+			if (JFactory::getDocument()->direction == 'rtl')
+			{
+				JHtml::_('stylesheet', 'com_finder/finder-rtl.css', false, true, false);
+			}
 		}
 
 		return $html;

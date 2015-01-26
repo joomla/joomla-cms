@@ -263,13 +263,54 @@ class FOFTableNested extends FOFTable
 	}
 
 	/**
-	 * Makes a copy of the record, inserting it as the last child of the current node's parent.
+	 * Makes a copy of the record, inserting it as the last child of the given node's parent.
 	 *
-	 * @return self
+	 * @param   integer|array  $cid  The primary key value (or values) or the record(s) to copy. 
+	 *                               If null, the current record will be copied
+	 * 
+	 * @return self|FOFTableNested	 The last copied node
 	 */
-	public function copy()
+	public function copy($cid = null)
 	{
-		return $this->create($this->getData());
+		//We have to cast the id as array, or the helper function will return an empty set
+		if($cid)
+		{
+			$cid = (array) $cid;
+		}
+
+        FOFUtilsArray::toInteger($cid);
+		$k = $this->_tbl_key;
+
+		if (count($cid) < 1)
+		{
+			if ($this->$k)
+			{
+				$cid = array($this->$k);
+			}
+			else
+			{
+				// Even if it's null, let's still create the record
+				$this->create($this->getData());
+				
+				return $this;
+			}
+		}
+
+		foreach ($cid as $item)
+		{
+			// Prevent load with id = 0
+
+			if (!$item)
+			{
+				continue;
+			}
+
+			$this->load($item);
+			
+			$this->create($this->getData());
+		}
+
+		return $this;
 	}
 
 	/**
@@ -682,7 +723,12 @@ class FOFTableNested extends FOFTable
 			->get(0, 1)->current();
 
 		// Move the node
-		return $this->moveToLeftOf($leftSibling);
+		if (is_object($leftSibling) && ($leftSibling instanceof FOFTableNested))
+		{
+			return $this->moveToLeftOf($leftSibling);
+		}
+
+		return false;
 	}
 
 	/**
@@ -723,7 +769,12 @@ class FOFTableNested extends FOFTable
 			->get(0, 1)->current();
 
 		// Move the node
-		return $this->moveToRightOf($rightSibling);
+		if (is_object($rightSibling) && ($rightSibling instanceof FOFTableNested))
+		{
+			return $this->moveToRightOf($rightSibling);
+		}
+
+		return false;
 	}
 
 	/**
@@ -1294,11 +1345,11 @@ class FOFTableNested extends FOFTable
 				->select($db->qn('parent') . '.' . $fldLft)
 				->from($db->qn($this->getTableName()) . ' AS ' . $db->qn('node'))
 				->join('CROSS', $db->qn($this->getTableName()) . ' AS ' . $db->qn('parent'))
-				->where($db->qn('node') . '.' . $fldLft . ' >= ' . $db->qn('parent') . '.' . $fldLft)
+				->where($db->qn('node') . '.' . $fldLft . ' > ' . $db->qn('parent') . '.' . $fldLft)
 				->where($db->qn('node') . '.' . $fldLft . ' <= ' . $db->qn('parent') . '.' . $fldRgt)
 				->where($db->qn('node') . '.' . $fldLft . ' = ' . $db->q($this->lft))
 				->order($db->qn('parent') . '.' . $fldLft . ' DESC');
-			$targetLft = $db->setQuery($query, 1, 1)->loadResult();
+			$targetLft = $db->setQuery($query, 0, 1)->loadResult();
 
 			$table = $this->getClone();
 			$table->reset();

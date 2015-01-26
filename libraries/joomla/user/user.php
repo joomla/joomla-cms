@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -476,6 +476,21 @@ class JUser extends JObject
 		}
 
 		return $this->_authGroups;
+	}
+
+	/**
+	 * Clears the access rights cache of this user
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4.0
+	 */
+	public function clearAccessRights()
+	{
+		$this->_authLevels = null;
+		$this->_authGroups = null;
+		$this->isRoot = null;
+		JAccess::clearStatics();
 	}
 
 	/**

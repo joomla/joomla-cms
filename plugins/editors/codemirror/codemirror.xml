@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.2" type="plugin" group="editors">
+<extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_codemirror</name>
-	<version>4.6</version>
+	<version>4.12</version>
 	<creationDate>28 March 2011</creationDate>
 	<author>Marijn Haverbeke</author>
 	<authorEmail>marijnh@gmail.com</authorEmail>
@@ -11,7 +11,8 @@
 	<description>PLG_CODEMIRROR_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="codemirror">codemirror.php</filename>
-		<filename>index.html</filename>
+		<filename>fonts.json</filename>
+		<filename>fonts.php</filename>
 	</files>
 
 	<languages>
@@ -21,11 +22,11 @@
 
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
 				<field name="lineNumbers" type="radio"
 					   class="btn-group btn-group-yesno"
 					   default="0"
+					   filter="options"
 					   description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
 					   label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
 					>
@@ -80,6 +81,7 @@
 				<field name="matchTags" type="radio"
 					   class="btn-group btn-group-yesno"
 					   default="1"
+					   filter="options"
 					   description="PLG_CODEMIRROR_FIELD_MATCHTAGS_DESC"
 					   label="PLG_CODEMIRROR_FIELD_MATCHTAGS_LABEL"
 						>
@@ -90,6 +92,7 @@
 				<field name="matchBrackets" type="radio"
 					   class="btn-group btn-group-yesno"
 					   default="1"
+					   filter="options"
 					   description="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_DESC"
 					   label="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_LABEL"
 						>
@@ -100,6 +103,7 @@
 				<field name="autoCloseTags" type="radio"
 					   class="btn-group btn-group-yesno"
 					   default="1"
+					   filter="options"
 					   description="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_DESC"
 					   label="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_LABEL"
 						>
@@ -110,6 +114,7 @@
 				<field name="autoCloseBrackets" type="radio"
 					   class="btn-group btn-group-yesno"
 					   default="1"
+					   filter="options"
 					   description="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_DESC"
 					   label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
 						>
@@ -120,6 +125,7 @@
 				<field name="autoFocus" type="radio"
 					   class="btn-group btn-group-yesno"
 					   default="1"
+					   filter="options"
 					   description="PLG_CODEMIRROR_FIELD_AUTOFOCUS_DESC"
 					   label="PLG_CODEMIRROR_FIELD_AUTOFOCUS_LABEL"
 						>
@@ -234,6 +240,19 @@
 					<option value="1.9">1.9</option>
 					<option value="2.0">2.0</option>
 				</field>
+
+				<field name="scrollbarStyle" type="radio"
+					   class="btn-group btn-group-yesno"
+					   default="native"
+					   filter="options"
+					   description="PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_DESC"
+					   label="PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_LABEL"
+					>
+					<option value="native">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_DEFAULT</option>
+					<option value="simple">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_SIMPLE</option>
+					<option value="overlay">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_OVERLAY</option>
+				</field>
+
 			</fieldset>
 
 		</fields>

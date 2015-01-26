@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -317,7 +317,7 @@ abstract class JModelLegacy extends JObject
 	 */
 	protected function _getListCount($query)
 	{
-		// Use fast COUNT(*) on JDatabaseQuery objects if there no GROUP BY or HAVING clause:
+		// Use fast COUNT(*) on JDatabaseQuery objects if there is no GROUP BY or HAVING clause:
 		if ($query instanceof JDatabaseQuery
 			&& $query->type == 'select'
 			&& $query->group === null
@@ -334,6 +334,14 @@ abstract class JModelLegacy extends JObject
 		}
 
 		// Otherwise fall back to inefficient way of counting all results.
+
+		// Remove the limit and offset part if it's a JDatabaseQuery object
+		if ($query instanceof JDatabaseQuery)
+		{
+			$query = clone $query;
+			$query->clear('limit')->clear('offset');
+		}
+
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 

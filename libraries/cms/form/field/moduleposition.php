@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -138,7 +138,7 @@ class JFormFieldModulePosition extends JFormFieldText
 		$script = array();
 		$script[] = '	function jSelectPosition_' . $this->id . '(name) {';
 		$script[] = '		document.getElementById("' . $this->id . '").value = name;';
-		$script[] = '		SqueezeBox.close();';
+		$script[] = '		jModalClose();';
 		$script[] = '	}';
 
 		// Add the script to the document head.

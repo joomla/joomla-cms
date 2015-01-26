@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,27 +125,21 @@ class PlgContentPagenavigation extends JPlugin
 			$query = $db->getQuery(true);
 
 			// Sqlsrv changes
-			$case_when = ' CASE WHEN ';
-			$case_when .= $query->charLength('a.alias', '!=', '0');
-			$case_when .= ' THEN ';
+			$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0');
 			$a_id = $query->castAsChar('a.id');
-			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-			$case_when .= ' ELSE ';
-			$case_when .= $a_id . ' END as slug';
+			$case_when .= ' THEN ' . $query->concatenate(array($a_id, 'a.alias'), ':');
+			$case_when .= ' ELSE ' . $a_id . ' END as slug';
 
-			$case_when1 = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('cc.alias', '!=', '0');
-			$case_when1 .= ' THEN ';
+			$case_when1 = ' CASE WHEN ' . $query->charLength('cc.alias', '!=', '0');
 			$c_id = $query->castAsChar('cc.id');
-			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
-			$case_when1 .= ' ELSE ';
-			$case_when1 .= $c_id . ' END as catslug';
-			$query->select('a.id, a.title,' . $case_when . ',' . $case_when1)
+			$case_when1 .= ' THEN ' . $query->concatenate(array($c_id, 'cc.alias'), ':');
+			$case_when1 .= ' ELSE ' . $c_id . ' END as catslug';
+			$query->select('a.id, a.title, a.catid, a.language,' . $case_when . ',' . $case_when1)
 				->from('#__content AS a')
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
 				->where(
 					'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
-						. ($canPublish ? '' : ' AND a.access = ' . (int) $row->access) . $xwhere
+						. ($canPublish ? '' : ' AND a.access IN (' . implode(",", JAccess::getAuthorisedViewLevels($user->id)) . ') ') . $xwhere
 				);
 			$query->order($orderby);
 
@@ -187,7 +181,7 @@ class PlgContentPagenavigation extends JPlugin
 			if ($row->prev)
 			{
 				$row->prev_label = ($this->params->get('display', 0) == 0) ? JText::_('JPREV') : $row->prev->title;
-				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catslug));
+				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catid, $row->prev->language));
 			}
 			else
 			{
@@ -198,7 +192,7 @@ class PlgContentPagenavigation extends JPlugin
 			if ($row->next)
 			{
 				$row->next_label = ($this->params->get('display', 0) == 0) ? JText::_('JNEXT') : $row->next->title;
-				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catslug));
+				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catid, $row->next->language));
 			}
 			else
 			{

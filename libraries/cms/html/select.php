@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,7 +35,7 @@ abstract class JHtmlSelect
 	 * @param   string  $selected  The key that is selected
 	 * @param   string  $yes       Language key for Yes
 	 * @param   string  $no        Language key for no
-	 * @param   string  $id        The id for the field
+	 * @param   mixed   $id        The id for the field or false for no id
 	 *
 	 * @return  string  HTML for the radio list
 	 *

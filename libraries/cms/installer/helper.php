@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ abstract class JInstallerHelper
 	 * Downloads a package
 	 *
 	 * @param   string  $url     URL of file to download
-	 * @param   string  $target  Download target filename [optional]
+	 * @param   mixed   $target  Download target filename or false to get the filename from the URL
 	 *
 	 * @return  mixed  Path to downloaded package or boolean false on failure
 	 *
@@ -119,17 +119,31 @@ abstract class JInstallerHelper
 		// Do the unpacking of the archive
 		try
 		{
-			JArchive::extract($archivename, $extractdir);
+			$extract = JArchive::extract($archivename, $extractdir);
 		}
 		catch (Exception $e)
 		{
 			if ($alwaysReturnArray)
 			{
-				$retval['extractdir'] = null;
-				$retval['packagefile'] = $archivename;
-				$retval['type'] = false;
+				return array(
+					'extractdir'  => null,
+					'packagefile' => $archivename,
+					'type'        => false
+				);
+			}
 
-				return $retval;
+			return false;
+		}
+
+		if (!$extract)
+		{
+			if ($alwaysReturnArray)
+			{
+				return array(
+					'extractdir'  => null,
+					'packagefile' => $archivename,
+					'type'        => false
+				);
 			}
 
 			return false;

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,8 +49,8 @@ class JFormFieldModal_Contact extends JFormField
 
 		// Select button script
 		$script[] = '	function jSelectContact_' . $this->id . '(id, name, object) {';
-		$script[] = '		document.id("' . $this->id . '_id").value = id;';
-		$script[] = '		document.id("' . $this->id . '_name").value = name;';
+		$script[] = '		document.getElementById("' . $this->id . '_id").value = id;';
+		$script[] = '		document.getElementById("' . $this->id . '_name").value = name;';
 
 		if ($allowEdit)
 		{
@@ -62,7 +62,7 @@ class JFormFieldModal_Contact extends JFormField
 			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		SqueezeBox.close();';
+		$script[] = '		jModalClose();';
 		$script[] = '	}';
 
 		// Clear button script
@@ -152,7 +152,7 @@ class JFormFieldModal_Contact extends JFormField
 				. ' href="index.php?option=com_contact&layout=modal&tmpl=component&task=contact.edit&id=' . $value . '"'
 				. ' target="_blank"'
 				. ' title="' . JHtml::tooltipText('COM_CONTACT_EDIT_CONTACT') . '" >'
-				. '<span class="icon-edit"></span> ' . JText::_('JACTION_EDIT')
+				. '<span class="icon-edit"></span>' . JText::_('JACTION_EDIT')
 				. '</a>';
 		}
 
@@ -163,7 +163,7 @@ class JFormFieldModal_Contact extends JFormField
 				. ' id="' . $this->id . '_clear"'
 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
 				. ' onclick="return jClearContact(\'' . $this->id . '\')">'
-				. '<span class="icon-remove"></span> ' . JText::_('JCLEAR')
+				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
 				. '</button>';
 		}
 

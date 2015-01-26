@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -546,9 +546,11 @@ class JApplicationWeb extends JApplicationBase
 					$status = $status ? 301 : 303;
 				}
 
-				if (!is_int($status) && !isset($this->responseMap[$status]))
+				// Now check if we have an integer status code that maps to a valid redirect. If we don't then set a 303
+				// @deprecated 4.0 From 4.0 if no valid status code is given a InvalidArgumentException will be thrown
+				if (!is_int($status) || is_int($status) && !isset($this->responseMap[$status]))
 				{
-					throw new \InvalidArgumentException('You have not supplied a valid HTTP 1.1 status code');
+					$status = 303;
 				}
 
 				// All other cases use the more efficient HTTP header for redirection.

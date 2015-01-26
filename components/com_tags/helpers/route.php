@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -88,14 +88,11 @@ class TagsHelperRoute extends JHelperRoute
 		}
 		else
 		{
-			if (!empty($needles) && $item = self::_findItem($needles))
+			$link = 'index.php?option=com_tags&view=tag&id=' . $id;
+
+			if ($item = self::_findItem($needles))
 			{
-				$link = 'index.php?Itemid=' . $item;
-			}
-			else
-			{
-				// Create the link
-				$link = 'index.php?option=com_tags&view=tag&id=' . $id;
+				$link .= '&Itemid=' . $item;
 			}
 		}
 
@@ -131,32 +128,24 @@ class TagsHelperRoute extends JHelperRoute
 				{
 					if (isset($item->query) && isset($item->query['view']))
 					{
+						$lang = ($item->language != '' ? $item->language : '*');
+
+						if (!isset(self::$lookup[$lang]))
+						{
+							self::$lookup[$lang] = array();
+						}
+
 						$view = $item->query['view'];
 
-						if (!isset(self::$lookup[$view]))
+						if (!isset(self::$lookup[$lang][$view]))
 						{
-							self::$lookup[$view] = array();
+							self::$lookup[$lang][$view] = array();
 						}
 
 						// Only match menu items that list one tag
 						if (isset($item->query['id'][0]) && count($item->query['id']) == 1)
 						{
-							/*
-							 * Here it will become a bit tricky
-							 * language != * can override existing entries
-							 * language == * cannot override existing entries
-							 */
-							if (!isset(self::$lookup[$language][$view][$item->query['id'][0]]) || $item->language != '*')
-							{
-								self::$lookup[$language][$view][$item->query['id'][0]] = $item->id;
-							}
-
-							self::$lookup[$view][$item->query['id'][0]] = $item->id;
-						}
-
-						if (isset($item->query["tag_list_language_filter"]) && $item->query["tag_list_language_filter"] != '')
-						{
-							$language = $item->query["tag_list_language_filter"];
+							self::$lookup[$lang][$view][$item->query['id'][0]] = $item->id;
 						}
 					}
 				}
@@ -167,13 +156,13 @@ class TagsHelperRoute extends JHelperRoute
 		{
 			foreach ($needles as $view => $ids)
 			{
-				if (isset(self::$lookup[$view]))
+				if (isset(self::$lookup[$language][$view]))
 				{
 					foreach ($ids as $id)
 					{
-						if (isset(self::$lookup[$view][(int) $id]))
+						if (isset(self::$lookup[$language][$view][(int) $id]))
 						{
-							return self::$lookup[$view][(int) $id];
+							return self::$lookup[$language][$view][(int) $id];
 						}
 					}
 				}

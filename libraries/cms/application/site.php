@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -342,9 +342,15 @@ final class JApplicationSite extends JApplicationCms
 			$rights = $this->get('MetaRights');
 			$robots = $this->get('robots');
 
+			// Retrieve com_menu global settings
+			$temp = clone JComponentHelper::getParams('com_menus');
+
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu))
 			{
+				// Get show_page_heading from com_menu global settings
+				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
+
 				$temp = new Registry;
 				$temp->loadString($menu->params);
 				$params[$hash]->merge($temp);
@@ -352,8 +358,7 @@ final class JApplicationSite extends JApplicationCms
 			}
 			else
 			{
-				// Get com_menu global settings
-				$temp = clone JComponentHelper::getParams('com_menus');
+				// Merge com_menu global settings
 				$params[$hash]->merge($temp);
 
 				// If supplied, use page title

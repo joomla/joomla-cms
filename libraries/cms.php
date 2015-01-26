@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,7 @@ if (!class_exists('JLoader'))
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
 // Add the Composer autoloader
-require_once JPATH_LIBRARIES . '/vendor/autoload.php';
+require_once JPATH_LIBRARIES . '/composer_autoload.php';
 
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
 require_once __DIR__ . '/classmap.php';

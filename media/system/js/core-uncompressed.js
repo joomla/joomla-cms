@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -118,36 +118,49 @@ Joomla.checkAll = function(checkbox, stub) {
 /**
  * Render messages send via JSON
  *
- * @param   object  messages    JavaScript object containing the messages to render
+ * @param   object  messages    JavaScript object containing the messages to render. Example:
+ *                              var messages = {
+ *                              	"message": ["Message one", "Message two"],
+ *                              	"error": ["Error one", "Error two"]
+ *                              };
  * @return  void
  */
 Joomla.renderMessages = function(messages) {
-    var $ = jQuery.noConflict(), $container, $div, $h4, $divList, $p;
-    Joomla.removeMessages();
-    $container = $('#system-message-container');
+	Joomla.removeMessages();
 
-    $.each(messages, function(type, item) {
-        $div = $('<div/>', {
-            'id' : 'system-message',
-            'class' : 'alert alert-' + type
-        });
-        $container.append($div)
+	var messageContainer = document.getElementById('system-message-container');
 
-        $h4 = $('<h4/>', {
-            'class' : 'alert-heading',
-            'text' : Joomla.JText._(type)
-        });
-        $div.append($h4);
+	for (var type in messages) {
+		if (messages.hasOwnProperty(type)) {
+			// Array of messages of this type
+			var typeMessages = messages[type];
 
-        $divList = $('<div/>');
-        $.each(item, function(index, item) {
-            $p = $('<p/>', {
-                html : item
-            });
-            $divList.append($p);
-        });
-        $div.append($divList);
-    });
+			// Create the alert box
+			var messagesBox = document.createElement('div');
+			messagesBox.className = 'alert alert-' + type;
+
+			// Title
+			var title = Joomla.JText._(type);
+
+			// Skip titles with untranslated strings
+			if (typeof title != 'undefined') {
+				var titleWrapper = document.createElement('h4');
+				titleWrapper.className = 'alert-heading';
+				titleWrapper.innerHTML = Joomla.JText._(type);
+
+				messagesBox.appendChild(titleWrapper)
+			}
+
+			// Add messages to the message box
+			for (var i = typeMessages.length - 1; i >= 0; i--) {
+				var messageWrapper = document.createElement('p');
+				messageWrapper.innerHTML = typeMessages[i];
+				messagesBox.appendChild(messageWrapper);
+			};
+
+			messageContainer.appendChild(messagesBox);
+		}
+	}
 };
 
 
@@ -157,7 +170,15 @@ Joomla.renderMessages = function(messages) {
  * @return  void
  */
 Joomla.removeMessages = function() {
-    jQuery('#system-message-container').empty();
+	var messageContainer = document.getElementById('system-message-container');
+
+	// Empty container with a while for Chrome performance issues
+	while (messageContainer.firstChild) messageContainer.removeChild(messageContainer.firstChild);
+
+	// Fix Chrome bug not updating element height
+	messageContainer.style.display='none';
+	messageContainer.offsetHeight;
+	messageContainer.style.display='';
 }
 
 /**
@@ -210,59 +231,6 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
             + ',scrollbars=' + scroll + ',resizable'
     win = window.open(mypage, myname, winprops)
     win.window.focus();
-}
-
-/**
- * USED IN: All list views to hide/show the sidebar
- */
-Joomla.toggleSidebar = function(force)
-{
-	var context = 'jsidebar';
-
-	var $visible = jQuery('#sidebar').is(":visible");
-
-	if (force)
-	{
-		// Load the value from localStorage
-		if (typeof(Storage) !== "undefined")
-		{
-			var $visible = localStorage.getItem(context);
-		}
-
-		// Need to convert the value to a boolean
-		$visible = ($visible == 'true') ? true : false;
-	}
-
-	if ($visible)
-	{
-		jQuery('#sidebar').hide();
-		jQuery('#j-sidebar-container').removeClass('span2').addClass('span1');
-        jQuery('#j-sidebar-container').removeClass('j-toggle-visible').addClass('j-toggle-hidden');
-		jQuery('#j-main-container').removeClass('span10').addClass('span12 expanded');
-		jQuery('#j-toggle-sidebar-icon').removeClass('icon-remove').addClass('icon-menu-3');
-		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_SHOW_SIDEBAR'));
-
-		if (typeof(Storage) !== "undefined")
-		{
-			// Set the last selection in localStorage
-			localStorage.setItem(context, true);
-		}
-	}
-	else
-	{
-		jQuery('#sidebar').show();
-		jQuery('#j-sidebar-container').removeClass('span1').addClass('span2');
-        jQuery('#j-sidebar-container').removeClass('j-toggle-hidden').addClass('j-toggle-visible');
-		jQuery('#j-main-container').removeClass('span12 expanded').addClass('span10');
-		jQuery('#j-toggle-sidebar-icon').removeClass('icon-menu-3').addClass('icon-remove');
-		jQuery('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JSEARCH_HIDE_SIDEBAR'));
-
-		if (typeof(Storage) !== "undefined")
-		{
-			// Set the last selection in localStorage
-			localStorage.setItem(context, false);
-		}
-	}
 }
 
 /**
