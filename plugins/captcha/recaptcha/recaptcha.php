@@ -17,10 +17,6 @@ defined('_JEXEC') or die;
  */
 class PlgCaptchaRecaptcha extends JPlugin
 {
-	const RECAPTCHA_API_SERVER = "http://www.google.com/recaptcha/api";
-	const RECAPTCHA_API_SECURE_SERVER = "https://www.google.com/recaptcha/api";
-	const RECAPTCHA_VERIFY_SERVER = "www.google.com";
-
 	/**
 	 * Load the language file on instantiation.
 	 *
@@ -61,14 +57,10 @@ class PlgCaptchaRecaptcha extends JPlugin
 			case '1.0':
 				$theme = $this->params->get('theme', 'clean');
 
-				$server = self::RECAPTCHA_API_SERVER;
+				$file = $app->isSSLConnection() ? 'https' : 'http';
+				$file .= '://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
+				JHtml::_('script', $file);
 
-				if ($app->isSSLConnection())
-				{
-					$server = self::RECAPTCHA_API_SECURE_SERVER;
-				}
-
-				JHtml::_('script', $server . '/js/recaptcha_ajax.js');
 				$document->addScriptDeclaration('jQuery( document ).ready(function()
 				{
 					Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
@@ -186,7 +178,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		{
 			case '1.0':
 				$response = $this->_recaptcha_http_post(
-					self::RECAPTCHA_VERIFY_SERVER, "/recaptcha/api/verify",
+					'www.google.com', '/recaptcha/api/verify',
 					array(
 						'privatekey' => $privatekey,
 						'remoteip'   => $remoteip,
