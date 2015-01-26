@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -224,12 +224,20 @@ class PlgEditorTinymce extends JPlugin
 			$image_advtab = "false";
 		}
 
-		// The param is true false, so we turn true to both rather than showing vertical resize only
+		// The param is true for vertical resizing only, false or both
 		$resizing = $this->params->get('resizing', '1');
+		$resize_horizontal = $this->params->get('resize_horizontal', '1');
 
 		if ($resizing || $resizing == 'true')
 		{
-			$resizing = 'resize: "both",';
+			if ($resize_horizontal || $resize_horizontal == 'true')
+			{
+				$resizing = 'resize: "both",';
+			}
+			else
+			{
+				$resizing = 'resize: true,';
+			}
 		}
 		else
 		{

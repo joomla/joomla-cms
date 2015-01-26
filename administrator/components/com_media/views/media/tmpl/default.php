@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,12 +21,6 @@ $input = JFactory::getApplication()->input;
 			</div>
 		</div>
 	</div>
-	<style>
-		.overall-progress,
-		.current-progress {
-			width: 150px;
-		}
-	</style>
 	<!-- End Sidebar -->
 	<!-- Begin Content -->
 	<div class="span10">

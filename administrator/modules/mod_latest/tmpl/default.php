@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ JHtml::_('bootstrap.tooltip');
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
 
-					<strong class="row-title">
+					<strong class="row-title break-word">
 						<?php if ($item->link) : ?>
 							<a href="<?php echo $item->link; ?>">
 								<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></a>
@@ -36,7 +36,7 @@ JHtml::_('bootstrap.tooltip');
 				</div>
 				<div class="span3">
 					<span class="small">
-						<i class="icon-calendar"></i> <?php echo JHtml::_('date', $item->created, 'Y-m-d'); ?>
+						<i class="icon-calendar"></i> <?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 					</span>
 				</div>
 			</div>

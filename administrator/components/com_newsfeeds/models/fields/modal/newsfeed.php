@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,7 +62,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		SqueezeBox.close();';
+		$script[] = '		jModalClose();';
 		$script[] = '	}';
 
 		// Clear button script
@@ -147,14 +147,14 @@ class JFormFieldModal_Newsfeed extends JFormField
 			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden') .
 				'" href="index.php?option=com_newsfeeds&layout=modal&tmpl=component&task=newsfeed.edit&id=' . $value .
 				'" target="_blank" title="' . JHtml::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED') .
-				'" ><span class="icon-edit"></span> ' . JText::_('JACTION_EDIT') . '</a>';
+				'" ><span class="icon-edit"></span>' . JText::_('JACTION_EDIT') . '</a>';
 		}
 
 		// Clear newsfeed button
 		if ($allowClear)
 		{
 			$html[] = '<button id="' . $this->id . '_clear" class="btn' . ($value ? '' : ' hidden') . '" onclick="return jClearNewsfeed(\'' .
-				$this->id . '\')"><span class="icon-remove"></span> ' . JText::_('JCLEAR') . '</button>';
+				$this->id . '\')"><span class="icon-remove"></span>' . JText::_('JCLEAR') . '</button>';
 		}
 
 		$html[] = '</span>';

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -136,7 +136,7 @@ class TagsModelTag extends JModelList
 		$language = $this->getState('tag.language');
 		$stateFilter = $this->getState('tag.state');
 
-	// Optionally filter on language
+		// Optionally filter on language
 		if (empty($language))
 		{
 			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
@@ -170,7 +170,7 @@ class TagsModelTag extends JModelList
 		$app = JFactory::getApplication('site');
 
 		// Load the parameters.
-		$params = $app->getParams();
+		$params = JComponentHelper::getParams('com_tags');
 		$this->setState('params', $params);
 
 		// Load state from the request.
