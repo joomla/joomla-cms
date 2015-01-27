@@ -68,11 +68,11 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
 	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
 		<!-- Load additional CSS styles for debug mode-->
-		<link rel="stylesheet" href="<?php echo JUri::root(); ?>/media/cms/css/debug.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/cms/css/debug.css" type="text/css" />
 	<?php endif; ?>
 	<?php // If Right-to-Left ?>
 	<?php if ($this->direction == 'rtl') : ?>
-		<link rel="stylesheet" href="<?php echo JUri::root(); ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
 	<?php endif; ?>
 	<?php // Load specific language related CSS ?>
 	<?php $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css'; ?>
@@ -112,12 +112,12 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 			}
 		</style>
 	<?php endif; ?>
-	<script src="../media/jui/js/jquery.js" type="text/javascript"></script>
-	<script src="../media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
-	<script src="../media/jui/js/bootstrap.js" type="text/javascript"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/jquery.js" type="text/javascript"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/bootstrap.js" type="text/javascript"></script>
 	<script src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/js/template.js" type="text/javascript"></script>
 	<!--[if lt IE 9]>
-		<script src="../media/jui/js/html5.js"></script>
+		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
 </head>
 
