@@ -1209,7 +1209,7 @@ class JForm
 			// Check for an error.
 			if ($valid instanceof Exception)
 			{
-				array_push($this->errors, $valid);
+				array_push($this->errors, $valid->getMessage());
 				$return = false;
 			}
 		}
