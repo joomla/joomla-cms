@@ -19,7 +19,7 @@ $app = JFactory::getApplication();
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/error.css" type="text/css" />
 	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
 		<!-- Load additional CSS styles for debug mode-->
-		<link rel="stylesheet" href="<?php JUri::root(); ?>/media/cms/css/debug.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo JUri::root(); ?>/media/cms/css/debug.css" type="text/css" />
 	<?php endif; ?>
 	<!-- Load additional CSS styles for rtl sites -->
 	<?php if ($this->direction == 'rtl') : ?>
