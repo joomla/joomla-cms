@@ -72,7 +72,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<?php endif; ?>
 	<?php // If Right-to-Left ?>
 	<?php if ($this->direction == 'rtl') : ?>
-		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
+		<link rel="stylesheet" href="<?php JUri::root(); ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
 	<?php endif; ?>
 	<?php // Load specific language related CSS ?>
 	<?php $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css'; ?>
