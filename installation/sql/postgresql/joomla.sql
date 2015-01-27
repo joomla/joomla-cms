@@ -87,7 +87,7 @@ SELECT setval('#__assets_id_seq', 54, false);
 -- Table: #__associations
 --
 CREATE TABLE "#__associations" (
-  "id" bigint NOT NULL,
+  "id" int NOT NULL,
   "context" varchar(50) NOT NULL,
   "key" char(32) NOT NULL,
   CONSTRAINT "#__associations_idx_context_id" PRIMARY KEY ("context", "id")
@@ -422,6 +422,7 @@ CREATE TABLE "#__contentitem_tag_map" (
  CONSTRAINT "#__uc_ItemnameTagid" UNIQUE ("type_alias", "content_item_id", "tag_id")
 );
 CREATE INDEX "#__contentitem_tag_map_idx_tag_type" ON "#__contentitem_tag_map" ("tag_id", "type_id");
+CREATE INDEX "#__contentitem_tag_map_idx_tag_name" ON "#__contentitem_tag_map" ("tag_id", "type_alias");
 CREATE INDEX "#__contentitem_tag_map_idx_date_id" ON "#__contentitem_tag_map" ("tag_date", "tag_id");
 CREATE INDEX "#__contentitem_tag_map_idx_tag" ON "#__contentitem_tag_map" ("tag_id");
 CREATE INDEX "#__contentitem_tag_map_idx_type" ON "#__contentitem_tag_map" ("type_id");
