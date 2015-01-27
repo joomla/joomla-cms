@@ -293,7 +293,7 @@ class ContentModelArticles extends JModelList
 
 		// Filter by a single or group of tags.
 		$hasTag = false;
-		$tagId = $this->getState('filter.tag');		
+		$tagId = $this->getState('filter.tag');
 
 		if (is_numeric($tagId))
 		{
@@ -305,7 +305,6 @@ class ContentModelArticles extends JModelList
 		{
 			JArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
-			
 			if (!empty($tagId))
 			{
 				$hasTag = true;

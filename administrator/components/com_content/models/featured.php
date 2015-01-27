@@ -186,7 +186,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Filter by a single or group of tags.
 		$hasTag = false;
-		$tagId = $this->getState('filter.tag');		
+		$tagId = $this->getState('filter.tag');
 
 		if (is_numeric($tagId))
 		{
@@ -198,7 +198,6 @@ class ContentModelFeatured extends ContentModelArticles
 		{
 			JArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
-			
 			if (!empty($tagId))
 			{
 				$hasTag = true;

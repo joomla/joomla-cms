@@ -242,7 +242,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 
 		// Filter by a single or group of tags.
 		$hasTag = false;
-		$tagId = $this->getState('filter.tag');		
+		$tagId = $this->getState('filter.tag');
 
 		if (is_numeric($tagId))
 		{
@@ -254,7 +254,6 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		{
 			JArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
-			
 			if (!empty($tagId))
 			{
 				$hasTag = true;
@@ -270,7 +269,6 @@ class NewsfeedsModelNewsfeeds extends JModelList
 						. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_newsfeeds.newsfeed')
 					);
 		}
-
 
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering');
