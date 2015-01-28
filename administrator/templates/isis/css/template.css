@@ -7429,6 +7429,9 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	.row-fluid [class*="span"] {
 		margin-left: 15px;
 	}
+	.nav-collapse.collapse.in {
+		height: auto !important;
+	}
 }
 @media (max-width: 767px) {
 	.navbar-search.pull-right {
