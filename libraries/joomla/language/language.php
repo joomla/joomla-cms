@@ -842,7 +842,9 @@ class JLanguage
 		}
 
 		$contents = file_get_contents($filename);
-		$contents = str_replace('_QQ_', '"\""', $contents);
+
+		$contents = $this->prepareContents($contents);
+
 		$strings = @parse_ini_string($contents);
 
 		if (!is_array($strings))
@@ -1403,5 +1405,33 @@ class JLanguage
 		}
 
 		return $metadata;
+	}
+
+	/**
+	 * Callback for preg_replace_callback to escape double quotes inside language strings.
+	 *
+	 * @param   array  $matches  Array of strings that match with the regular expression
+	 *
+	 * @return  string
+	 *
+	 * @since   3.4
+	 */
+	private function escapeContentsQuotes($matches)
+	{
+		return '"' . str_replace('"', '\"', $matches[1]) . '"';
+	}
+
+	/**
+	 * Sanitize / prepare contents to be used by parse_ini_string.
+	 *
+	 * @param   string  $contents  String containing the contents to prepare
+	 *
+	 * @return  string
+	 *
+	 * @since   3.4
+	 */
+	protected function prepareContents($contents)
+	{
+		return preg_replace_callback('/"(.*)"/', array($this, 'escapeContentsQuotes'), $contents);
 	}
 }
