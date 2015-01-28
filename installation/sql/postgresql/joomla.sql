@@ -1892,11 +1892,11 @@ COMMENT ON COLUMN "#__viewlevels"."rules" IS 'JSON encoded access control.';
 -- Dumping data for table #__viewlevels
 --
 INSERT INTO "#__viewlevels" ("id", "title", "ordering", "rules") VALUES
-(1, 'Public', 0, '[1]'),
-(2, 'Registered', 1, '[6,2,8]'),
-(3, 'Special', 2, '[6,3,8]'),
+(1, 'Public', 1, '[1]'),
+(2, 'Registered', 2, '[6,2,8]'),
+(3, 'Special', 3, '[6,3,8]'),
 (5, 'Guest', 0, '[9]'),
-(6, 'Super Users', 0, '[8]');
+(6, 'Super Users', 4, '[8]');
 
 SELECT setval('#__viewlevels_id_seq', 7, false);
 
