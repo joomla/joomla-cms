@@ -7556,9 +7556,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	.nav-collapse .nav .nav-header {
 		color: #fff;
 	}
-	.nav-collapse.collapse.in {
-		height: auto !important;
-	}
 	.nav-collapse .nav,
 	.navbar .nav-collapse .nav.pull-right {
 		margin: 0;
