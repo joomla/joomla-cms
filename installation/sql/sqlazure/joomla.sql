@@ -3006,13 +3006,13 @@ CREATE TABLE [#__viewlevels](
 SET IDENTITY_INSERT [#__viewlevels]  ON;
 
 INSERT INTO [#__viewlevels] ([id], [title], [ordering], [rules])
-SELECT 1, 'Public', 1, '[1]'
+SELECT 1, 'Public', 0, '[1]'
 UNION ALL
 SELECT 2, 'Registered', 2, '[6,2,8]'
 UNION ALL
 SELECT 3, 'Special', 3, '[6,3,8]'
 UNION ALL
-SELECT 5, 'Guest', 0, '[9]'
+SELECT 5, 'Guest', 1, '[9]'
 UNION ALL
 SELECT 6, 'Super Users', 4, '[8]';
 
