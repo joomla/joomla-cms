@@ -769,10 +769,10 @@ INSERT IGNORE INTO `#__usergroups` (`id`, `parent_id`, `lft`, `rgt`, `title`) VA
 INSERT IGNORE INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (1, 'Public', 0, '[1]'),
 (2, 'Registered', 2, '[6,2,8]'),
-(3, 'Special', 3, '[6,3,8]'),
+(3, 'Special', 4, '[6,3,8]'),
 (4, 'Customer Access Level (Example)', 3, '[6,3,12]'),
 (5, 'Guest', 1, '[13]'),
-(6, 'Super Users', 4, '[8]');
+(6, 'Super Users', 5, '[8]');
 
 UPDATE `#__extensions` SET `params`='{"allowUserRegistration":"0","new_usertype":"2","guest_usergroup":"13","sendpassword":"1","useractivation":"1","mail_to_admin":"0","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","mailSubjectPrefix":"","mailBodySuffix":"","save_history":"1","history_limit":5}' WHERE extension_id=25;
 
