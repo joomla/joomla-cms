@@ -22,10 +22,10 @@ $doc = JFactory::getDocument();
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load system style CSS
-$doc->addStyleSheet('templates/system/css/system.css');
+$doc->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
 
 // Loadtemplate CSS
-$doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Load additional CSS styles for colors
 if (!$this->params->get('colourChoice'))
@@ -37,7 +37,7 @@ else
 	$colour = htmlspecialchars($this->params->get('colourChoice'));
 }
 
-$doc->addStyleSheet('templates/' . $this->template . '/css/colour_' . $colour . '.css');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
@@ -50,8 +50,8 @@ if (is_file($file))
 // Load additional CSS styles for rtl sites
 if ($this->direction == 'rtl')
 {
-	$doc->addStyleSheet('templates/' . $this->template . '/css/template_rtl.css');
-	$doc->addStyleSheet('templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
+	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
+	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
 }
 
 // Load specific language related CSS
@@ -65,11 +65,11 @@ if (JFile::exists($file))
 // Load additional CSS styles for bold Text
 if ($this->params->get('boldText'))
 {
-	$doc->addStyleSheet('templates/' . $this->template . '/css/boldtext.css');
+	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/boldtext.css');
 }
 
 // Load template javascript
-$doc->addScript('templates/' . $this->template . '/js/template.js', 'text/javascript');
+$doc->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.js', 'text/javascript');
 
 // Logo file
 if ($this->params->get('logoFile'))
