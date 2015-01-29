@@ -40,7 +40,7 @@ if (is_file($file))
 <head>
 	<jdoc:include type="head" />
 	<!--[if lt IE 9]>
-		<script src="../media/jui/js/html5.js"></script>
+		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
 
 	<!-- Link color -->
