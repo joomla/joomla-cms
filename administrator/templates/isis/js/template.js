@@ -146,11 +146,11 @@
 
 				if (!isComponent && body_width > 768 && main_height < sidebar_height)
 				{
-						$('#system-debug').css('width', this_main+'%');
+					$('#system-debug').css('width', this_main+'%');
 				}
 				else if (!isComponent)
 				{
-						$('#system-debug').css('width', this_content+'%');
+					$('#system-debug').css('width', this_content+'%');
 				}
 
 				if (typeof(Storage) !== "undefined")
