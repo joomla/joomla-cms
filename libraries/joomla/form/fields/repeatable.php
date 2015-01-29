@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,9 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Display a JSON loaded window with a repeatable set of sub fields
  *
- * @since  3.2
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       3.2
  */
 class JFormFieldRepeatable extends JFormField
 {
@@ -36,99 +38,30 @@ class JFormFieldRepeatable extends JFormField
 	{
 		// Initialize variables.
 		$subForm = new JForm($this->name, array('control' => 'jform'));
-		$xml = $this->element->children()->asXML();
-		$subForm->load($xml);
+		$subForm->load($this->element->children()->asXML());
 
 		// Needed for repeating modals in gmaps
-		// @TODO: what and where???
 		$subForm->repeatCounter = (int) @$this->form->repeatCounter;
+		$subForm->setFields($this->element->children());
 
-		$children = $this->element->children();
-		$subForm->setFields($children);
+		// Make sure we have properly formed json or nothing at all.
+		$this->value = json_encode(json_decode($this->value));
 
-		// If a maximum value isn't set then we'll make the maximum amount of cells a large number
-		$maximum = $this->element['maximum'] ? (int) $this->element['maximum'] : '999';
+		$displayData = (object) array(
+				'id'         => $this->id,
+				'name'       => $this->name,
+				'value'      => $this->value,
+				'form'       => $this->form,
+				'subForm'    => $subForm,
+				'element'    => $this->element,
+				'attributes' => $this->element->attributes(),
+				'maximum'    => $this->element['maximum'] ? (int) $this->element['maximum'] : 999
+			);
 
-		// Build a Table
-		$head_row_str = array();
-		$body_row_str = array();
-		foreach ($subForm->getFieldset() as $field)
-		{
-			// Reset name to simple
-			$field->name = (string) $field->element['name'];
+		// Allow alternative layout
+		$layout = 'joomla.form.fields.repeatable.';
+		$layout .= $this->element['layout'] ? (string) $this->element['layout'] : 'default';
 
-			// Build heading
-			$head_row_str[] = '<th>' . strip_tags($field->getLabel($field->name));
-			$head_row_str[] = '<br /><small style="font-weight:normal">' . JText::_($field->description) . '</small>';
-			$head_row_str[] = '</th>';
-
-			// Build body
-			$body_row_str[] = '<td>' . $field->getInput() . '</td>';
-		}
-
-		// Append buttons
-		$head_row_str[] = '<th><div class="btn-group"><a href="#" class="add btn button btn-success"><span class="icon-plus"></span> </a></div></th>';
-		$body_row_str[] = '<td><div class="btn-group">';
-		$body_row_str[] = '<a class="add btn button btn-success"><span class="icon-plus"></span> </a>';
-		$body_row_str[] = '<a class="remove btn button btn-danger"><span class="icon-minus"></span> </a>';
-		$body_row_str[] = '</div></td>';
-
-		// Put all table parts together
-		$table = '<table id="' . $this->id . '_table" class="adminlist ' . $this->element['class'] . ' table table-striped">'
-					. '<thead><tr>' . implode("\n", $head_row_str) . '</tr></thead>'
-					. '<tbody><tr>' . implode("\n", $body_row_str) . '</tr></tbody>'
-				. '</table>';
-
-		// And finaly build a main container
-		$str = array();
-		$str[] = '<div id="' . $this->id . '_container">';
-
-		// Add the table to modal
-		$str[] = '<div id="' . $this->id . '_modal" class="modal hide">';
-		$str[] = $table;
-		$str[] = '<div class="modal-footer">';
-		$str[] = '<button class="close-modal btn button btn-link">' . JText::_('JCANCEL') . '</button>';
-		$str[] = '<button class="save-modal-data btn button btn-primary">' . JText::_('JAPPLY') . '</button>';
-		$str[] = '</div>';
-
-		// Close modal container
-		$str[] = '</div>';
-
-		// Close main container
-		$str[] = '</div>';
-
-		// Button for display the modal window
-		$select = (string) $this->element['select'] ? JText::_((string) $this->element['select']) : JText::_('JLIB_FORM_BUTTON_SELECT');
-		$icon = $this->element['icon'] ? '<i class="icon-' . $this->element['icon'] . '"></i> ' : '';
-		$str[] = '<button class="open-modal btn" id="' . $this->id . '_button" >' . $icon . $select . '</button>';
-
-		if (is_array($this->value))
-		{
-			$this->value = array_shift($this->value);
-		}
-
-		// Script params
-		$data = array();
-		$data[] = 'data-container="#' . $this->id . '_container"';
-		$data[] = 'data-modal-element="#' . $this->id . '_modal"';
-		$data[] = 'data-repeatable-element="table tbody tr"';
-		$data[] = 'data-bt-add="a.add"';
-		$data[] = 'data-bt-remove="a.remove"';
-		$data[] = 'data-bt-modal-open="#' . $this->id . '_button"';
-		$data[] = 'data-bt-modal-close="button.close-modal"';
-		$data[] = 'data-bt-modal-save-data="button.save-modal-data"';
-		$data[] = 'data-maximum="' . $maximum . '"';
-		$data[] = 'data-input="#' . $this->id . '"';
-
-		// Hidden input, where the main value is
-		$value = htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
-		$str[] = '<input type="hidden" name="' . $this->name . '" id="' . $this->id . '" value="' . $value
-				. '"  class="form-field-repeatable" ' . implode(' ', $data) . ' />';
-
-		// Add scripts
-		JHtml::_('bootstrap.framework');
-		JHtml::_('script', 'system/repeatable.js', true, true);
-
-		return implode("\n", $str);
+		return JLayoutHelper::render($layout, $displayData);
 	}
 }
