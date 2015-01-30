@@ -356,4 +356,76 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 		return $this;
 	}
+
+	/**
+	* Add a grouping column to the GROUP clause of the query.
+	*
+	* Usage:
+	* $query->group('id');
+	*
+	* @param   mixed  $columns  A string or array of ordering columns.
+	*
+	* @return  JDatabaseQuery  Returns this object to allow chaining.
+	*
+	* @since   11.1
+	*/
+	public function group($columns)
+	{
+		// transform $columns into an array for filtering purposes
+		$columns = explode(",", str_replace(" ", "", $columns));
+		// get the _formatted_ FROM string and remove everything except `table AS alias`
+		$fromStr = str_replace(array("[","]"), "", str_replace("#__", $this->db->getPrefix(), str_replace("FROM ", "", (string)$this->from)));
+		// start setting up an array of alias => table
+		list($table, $alias) = preg_split("/\sAS\s/i", $fromStr);
+		$tmpCols = $this->db->getTableColumns(trim($table));
+		$cols = array();
+		foreach ($tmpCols as $name => $type) {
+			$cols[] = $alias . "." . $name;
+		}
+		// now we need to get all tables from any joins
+		// go through all joins and add them to the tables array
+		$joins = array();
+		foreach ($this->join as $join) {
+			$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", "$1", (string)$join)));
+			list($table, $alias) = preg_split("/\sAS\s/i", $joinTbl);
+			$tmpCols = $this->db->getTableColumns(trim($table));
+			foreach ($tmpCols as $name => $tmpColType) {
+				array_push($cols, $alias . "." . $name);
+			}
+		}
+
+		$selectStr = str_replace("SELECT ", "", (string)$this->select);
+		// remove any functions (e.g. COUNT(), SUM(), CONCAT())
+		$selectCols = preg_replace("/([^,]*\([^\)]*\)[^,]*,?)/", "", $selectStr);
+		// remove any "as alias" statements
+		$selectCols = preg_replace("/(\sas\s[^,]*)/i", "", $selectCols);
+		// remove any extra commas
+		$selectCols = preg_replace("/,{2,}/", ",", $selectCols);
+		// remove any trailing commas and all whitespaces
+		$selectCols = trim(str_replace(" ", "", preg_replace("/,?$/", "", $selectCols)));
+		// get an array to compare against
+		$selectCols = explode(",", $selectCols);
+
+		// find all alias.* and fill with proper table column names
+		foreach ($selectCols as $key => $aliasColName) {
+			if (preg_match("/.+\*/", $aliasColName, $match)) {
+				// grab the table alias minus the .*
+				$aliasStar = preg_replace("/(.+)\.\*/", "$1", $aliasColName);
+				// unset the array key
+				unset($selectCols[$key]);
+				// get the table name
+				$tableColumns = preg_grep("/{$aliasStar}\.+/", $cols);
+				$columns = array_merge($columns, $tableColumns);
+			}
+		}
+		// finally, get a unique string of all column names that need to be included in the group statement
+		$columns = array_unique(array_merge($columns, $selectCols));
+		$columns = implode(",", $columns);
+
+		// recreate it every time, to ensure we have checked _all_ select statements
+		// each and every god damn time
+		$this->group = new JDatabaseQueryElement('GROUP BY', $columns);
+
+		return $this;
+	}
 }
