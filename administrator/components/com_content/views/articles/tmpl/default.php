@@ -173,13 +173,14 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php endif;?>
 								<?php if ($canEdit || $canEditOwn) : ?>
 									<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
+										<span class="icon-edit"></span>
 										<?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 								<?php endif; ?>
-								<span class="small break-word">
-									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-								</span>
+								<div class="small break-word">
+									<?php echo JText::_('JFIELD_ALIAS_LABEL') . ": " . $this->escape($item->alias); ?>
+								</div>
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
 								</div>
