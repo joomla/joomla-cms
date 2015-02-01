@@ -503,25 +503,31 @@ class JInstaller extends JAdapter
 
 			$adapter = null;
 
-			// Lazy load the adapter
-			if (!isset($this->_adapters[$this->extension->type]) || !is_object($this->_adapters[$this->extension->type]))
-			{
-				$params = array('extension' => $this->extension, 'route' => 'discover_install');
+			// Load the adapter(s) for the install manifest
+			$type   = $this->extension->type;
+			$params = array('extension' => $this->extension, 'route' => 'discover_install');
 
-				if (!$this->setAdapter($this->extension->type, $adapter, $params))
+			// Lazy load the adapter
+			if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
+			{
+				$adapter = $this->loadAdapter($type, $params);
+
+				if (!$adapter)
 				{
 					return false;
 				}
+
+				$this->_adapters[$type] = $adapter;
 			}
 
-			if (is_object($this->_adapters[$this->extension->type]))
+			if (is_object($this->_adapters[$type]))
 			{
-				if (method_exists($this->_adapters[$this->extension->type], 'discover_install'))
+				if (method_exists($this->_adapters[$type], 'discover_install'))
 				{
 					// Add the languages from the package itself
-					if (method_exists($this->_adapters[$this->extension->type], 'loadLanguage'))
+					if (method_exists($this->_adapters[$type], 'loadLanguage'))
 					{
-						$this->_adapters[$this->extension->type]->loadLanguage();
+						$this->_adapters[$type]->loadLanguage();
 					}
 
 					// Fire the onExtensionBeforeInstall event.
@@ -538,7 +544,7 @@ class JInstaller extends JAdapter
 					);
 
 					// Run the install
-					$result = $this->_adapters[$this->extension->type]->discover_install();
+					$result = $this->_adapters[$type]->discover_install();
 
 					// Fire the onExtensionAfterInstall
 					$dispatcher->trigger(
@@ -630,7 +636,7 @@ class JInstaller extends JAdapter
 			return false;
 		}
 
-		if (!$this->setupInstall())
+		if (!$this->setupInstall('update'))
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
 

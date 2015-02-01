@@ -36,7 +36,8 @@
 				</field>
 				<field
 					name="product"
-					type="list"
+					type="radio"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_VERSION_PRODUCT_LABEL"
 					description="MOD_VERSION_PRODUCT_DESC">

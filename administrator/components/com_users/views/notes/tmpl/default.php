@@ -149,7 +149,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					</td>
 					<td class="center">
 						<?php if (intval($item->review_time)) : ?>
-							<?php echo $this->escape($item->review_time); ?>
+							<?php echo JHtml::_('date', $item->review_time, JText::_('DATE_FORMAT_LC4')); ?>
 						<?php else : ?>
 							<?php echo JText::_('COM_USERS_EMPTY_REVIEW'); ?>
 						<?php endif; ?>

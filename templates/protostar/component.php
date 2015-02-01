@@ -18,7 +18,7 @@ $this->direction = $doc->direction;
 JHtml::_('bootstrap.framework');
 
 // Add Stylesheets
-$doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Load optional rtl Bootstrap css and Bootstrap bugfixes
 JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
@@ -30,7 +30,7 @@ JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <jdoc:include type="head" />
 <!--[if lt IE 9]>
-	<script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 <![endif]-->
 </head>
 <body class="contentpane modal">

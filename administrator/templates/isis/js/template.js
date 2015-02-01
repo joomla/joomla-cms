@@ -80,14 +80,16 @@
 			var body_width = $('body').outerWidth();
 			var sidebar_width = $sidebar.outerWidth();
 			var content_width = $('#content').outerWidth();
-
+			var isComponent = $('body').hasClass('component');
 			var this_content = content_width / body_width * 100;
 			var this_main = (content_width - sidebar_width) / body_width * 100;
 
 			$('#j-sidebar-container').removeClass('span2').addClass('j-sidebar-container');
 			$('#system-message-container').addClass('j-toggle-main');
 			$('#j-main-container').addClass('j-toggle-main');
-			$('#system-debug').addClass('j-toggle-main');
+			if (!isComponent) {
+				$('#system-debug').addClass('j-toggle-main');
+			}
 
 			if (force)
 			{
@@ -106,7 +108,9 @@
 				$('#j-sidebar-container').addClass('j-toggle-transition');
 				$('#j-toggle-button-wrapper').addClass('j-toggle-transition');
 				$('#j-main-container').addClass('j-toggle-transition');
-				$('#system-debug').addClass('j-toggle-transition');
+				if (!isComponent) {
+					$('#system-debug').addClass('j-toggle-transition');
+				}
 			}
 
 			if ($visible)
@@ -119,7 +123,9 @@
 				$('#j-main-container').removeClass('span10').addClass('span12 expanded');
 				$('#j-toggle-sidebar-icon').removeClass(open_icon).addClass(closed_icon);
 				$('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JTOGGLE_SHOW_SIDEBAR'));
-				$('#system-debug').css('width', this_content+'%');
+				if (!isComponent) {
+					$('#system-debug').css('width', this_content + '%');
+				}
 
 				if (typeof(Storage) !== "undefined")
 				{
@@ -138,11 +144,11 @@
 				$('#j-toggle-sidebar-icon').removeClass(closed_icon).addClass(open_icon);
 				$('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JTOGGLE_HIDE_SIDEBAR'));
 
-				if (body_width > 768 && main_height < sidebar_height)
+				if (!isComponent && body_width > 768 && main_height < sidebar_height)
 				{
 					$('#system-debug').css('width', this_main+'%');
 				}
-				else
+				else if (!isComponent)
 				{
 					$('#system-debug').css('width', this_content+'%');
 				}

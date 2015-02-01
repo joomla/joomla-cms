@@ -154,7 +154,7 @@ $n			= count($this->items);
 				<th class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</th>
-				<td>
+				<td class="break-word">
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 					<?php endif; ?>
