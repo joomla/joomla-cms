@@ -384,6 +384,8 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		// Set the request var.
 		$this->app->input->set('language', $lang_code);
+		$this->app->set('language', $lang_code);
+		JFactory::$language = null;
 
 		// Create a cookie.
 		if ($this->app->input->cookie->getString(JApplicationHelper::getHash('language')) !== $lang_code)
