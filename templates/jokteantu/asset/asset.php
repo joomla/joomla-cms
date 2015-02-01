@@ -38,8 +38,8 @@ $user6 		= $this->countModules('user6');
 $user7 		= $this->countModules('user7');
 $footmenu 	= $this->countModules('footmenu');
 $foot 		= $this->countModules('foot');
-$right 		= ($righttop or $rightbot or $inset or $outset);
-$left 		= ($lefttop or $insetleft or $outsetleft or $leftbottom);
+$right 		= ($righttop || $rightbot || $inset || $outset);
+$left 		= ($lefttop || $insetleft || $outsetleft || $leftbottom);
 
 // Parámetros
 $app 		= JFactory::getApplication();
@@ -82,9 +82,8 @@ $totalusert = (int) $userstop[0] + (int) $userstop[1] + (int) $userstop[2];
 //esto es lo nuevo
 if ($force == '0')
 {
-	$contentw   = 100 - ($leftw + $rightw) ;
-	}
-
+	$contentw   = 100 - ($leftw + $rightw);
+}
 	
 if ( !empty($left)  && !empty($right))
 {
@@ -92,23 +91,23 @@ if ( !empty($left)  && !empty($right))
 	$contentw   = 'width: '.$contentw.'%';
 	$rightw 	= 'width: '.$rightw.'%';
 } 
-elseif (empty($right)) 
+elseif (empty($right) && !empty($left)) 
 {
 	$leftw	  = 'width: '.$leftw.'%';
 	$contentw = 'width: '.$contentw.'%';
-	$rigthw	  = 'display:none;';	
+	$rigthw	  = 'width: "0"';	
 } 
-elseif (empty($left))
+elseif (empty($left) && !empty($right))
 {
 	$rightw	  = 'width: '.$rightw.'%';
 	$contentw = 'width: '.$contentw.'%';
-	$leftw	  = 'display:none;';
+	$leftw	  = 'width: 0';
 }
 elseif (empty($left) &&  empty($right))
 {
-	$rightw	  = 'display:none;';
-	$contentw = 'width: '.$contentw.'%';
-	$leftw	  = 'display:none;';
+	$rightw	  = 'width: "0";';
+	$contentw = 'width: "100%"';
+	$leftw	  = 'width: "0";';
 }
 
 
