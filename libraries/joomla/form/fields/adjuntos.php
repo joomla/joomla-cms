@@ -47,63 +47,6 @@ class JFormFieldAdjuntos extends JFormField
         // Icono eliminar adjunto
         $caneca     = JHtml::_('image', 'media/adjuntos/caneca.png', 'Eliminar adjunto', 'class="img-eliminar"', false);
 
-        $style = array();
-        $style[] = '#controles-adjuntos {';
-        $style[] = '    width: 180px;';
-        $style[] = '    position:relative;';
-        $style[] = '}';
-        $style[] = '#adjuntos {';
-        $style[] = '    float: left;';
-        $style[] = '    position:relative;';
-        $style[] = '    width: 100%;';
-        $style[] = '}';
-        $style[] = '.form-adjunto {';
-        $style[] = '    clear: both;';
-        $style[] = '    margin-bottom: 3px;';
-        $style[] = '    position:relative;';
-        $style[] = '}';
-        $style[] = '.success-msg {';
-        $style[] = '    background-color: #dff0d8;';
-        $style[] = '    border-bottom: 1px solid #d6e9c6;';
-        $style[] = '    color: #3c763d;';
-        $style[] = '    font-weight: bold;';
-        $style[] = '    padding: 3px 10px;';
-        $style[] = '}';
-        $style[] = '.error-msg {';
-        $style[] = '    background-color: #f2dede;';
-        $style[] = '    border-bottom: 1px solid #ebccd1;';
-        $style[] = '    color: #a94442;';
-        $style[] = '    font-weight: bold;';
-        $style[] = '    padding: 3px 10px;';
-        $style[] = '}';
-        $style[] = '.warn-msg {';
-        $style[] = '    background-color: #fcf8e3;';
-        $style[] = '    border-bottom: 1px solid #faebcc;';
-        $style[] = '    color: #8a6d3b;';
-        $style[] = '    font-weight: bold;';
-        $style[] = '    padding: 3px 10px;';
-        $style[] = '}';
-        $style[] = '.progress {';
-        $style[] = '    background-color: #111111;';
-        $style[] = '    height: 3px;';
-        $style[] = '}';
-        $style[] = '.uploaded {';
-        $style[] = '    border: 1px solid #cccccc;';
-        $style[] = '    position: relative;';
-        $style[] = '    height: 38px;';
-        $style[] = '}';
-        $style[] = '.nombre-archivo {';
-        $style[] = '    padding: 0 40px;';
-        $style[] = '}';
-        $style[] = '.uploaded .btn-adjunto {';
-        $style[] = '    position: absolute;';
-        $style[] = '    right: 0;';
-        $style[] = '    top: 0;';
-        $style[] = '}';
-        $style[] = '.img-eliminar {';
-        $style[] = '    margin: 4px 0;';
-        $style[] = '}';
-
         $script = array();
         $script[] = 'window.addEvent("domready", function(){';
 
@@ -235,7 +178,6 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '';
         $script[] = '}';
 
-        JFactory::getDocument()->addStyleDeclaration(implode("\n", $style));
         JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
         // Salida HTML
