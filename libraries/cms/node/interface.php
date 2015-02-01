@@ -21,9 +21,10 @@ interface JNodeInterface
 	 *
 	 * If the node already has a parent, the link is unset
 	 *
-	 * @param   mixed   $parent  JNodeInterface for the parent to be set or null
+	 * @param   mixed  $parent  JNodeInterface for the parent to be set or null
 	 *
 	 * @return  void
+	 * 
 	 * @since   3.4
 	 */
 	public function setParent($parent);
@@ -36,6 +37,7 @@ interface JNodeInterface
 	 * @param   JNodeInterface  $child   The child to be added.
 	 *
 	 * @return  void
+	 * 
 	 * @since   3.4
 	 */
 	public function addChild($child);
@@ -46,6 +48,7 @@ interface JNodeInterface
 	 * @param   mixed  $child  An identifier for the child node
 	 *
 	 * @return  void
+	 * 
 	 * @since   3.4
 	 */
 	public function removeChild($child);
@@ -53,9 +56,10 @@ interface JNodeInterface
 	/**
 	 * Get the children of this node
 	 *
-	 * @param   boolean  $recursive    False by default
+	 * @param   boolean  $recursive  False by default
 	 *
-	 * @return  array    The children
+	 * @return  JNodeInterface[]   The children
+	 * 
 	 * @since   3.4
 	 */
 	public function &getChildren($recursive = false);
@@ -63,7 +67,7 @@ interface JNodeInterface
 	/**
 	 * Get the parent of this node
 	 *
-	 * @return  mixed  JNodeInterface or null
+	 * @return  JNodeInterface   The parent of this node or null
 	 *
 	 * @since   3.4
 	 */
@@ -72,7 +76,7 @@ interface JNodeInterface
 	/**
 	 * Test if this node has children
 	 *
-	 * @return  boolean  True if there is a child
+	 * @return  boolean   True if there is a child
 	 *
 	 * @since   3.4
 	 */
@@ -81,7 +85,7 @@ interface JNodeInterface
 	/**
 	 * Test if this node has a parent
 	 *
-	 * @return  boolean    True if there is a parent
+	 * @return  boolean   True if there is a parent
 	 *
 	 * @since   3.4
 	 */
