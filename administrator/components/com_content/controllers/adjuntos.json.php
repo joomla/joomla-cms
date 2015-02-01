@@ -228,7 +228,8 @@ class ContentControllerAdjuntos extends JControllerForm
             $arr['estado'] = true;
         }
 
-        // TODO: Finalmente eliminar la referencia del archivo de la base de datos
+        // Eliminar la referencia del archivo de la base de datos
+        $row->delete((int)$id);
 
         print_r(json_encode($arr));
 
@@ -315,7 +316,7 @@ class ContentControllerAdjuntos extends JControllerForm
      *  Verifica JToken y hace un chequeo básico de que el request
      *  sea a través de AJAX
      *
-     *  Gracias a @Spunkie en 
+     *  Gracias a @Spunkie en
      *  http://joomla.stackexchange.com/questions/146/what-is-the-proper-way-to-make-an-ajax-call-in-component#answer-214
      */
     private function ajaxCheck () {
