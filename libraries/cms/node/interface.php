@@ -34,7 +34,7 @@ interface JNodeInterface
 	 *
 	 * If the child already has a parent, the link is unset
 	 *
-	 * @param   JNodeInterface  $child   The child to be added.
+	 * @param   JNodeInterface  $child  The child to be added.
 	 *
 	 * @return  void
 	 * 
