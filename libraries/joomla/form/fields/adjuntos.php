@@ -105,13 +105,7 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '       class:"btn-adjunto",';
         $script[] = '       events: {';
         $script[] = '           click: function(event) {';
-        $script[] = '               if(confirm("Está a punto de eliminar el archivo XXX")) {';
-        $script[] = '                   event.preventDefault();';
-        $script[] = '                   eliminarAdjunto(this)';
-        $script[] = '               }else{';
-        $script[] = '                   event.preventDefault();';
-        $script[] = '                   return';
-        $script[] = '               }';
+        $script[] = '               eliminarAdjunto(this, event)';
         $script[] = '           }';
         $script[] = '       }';
         $script[] = '   }).set({"html": "'.addslashes($caneca).'", "data-id": formAdjunto.id})';
@@ -141,7 +135,6 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '               btnEliminarAdjunto.set("data-hash", data.hash)';
         $script[] = '               uploaded = formAdjunto.getElements(".uploaded")';
         $script[] = '               uploaded.grab(nombreArchivo,"top");';
-        $script[] = '               console.log(data);';
         $script[] = '           }';
         $script[] = '       });';
         $script[] = '       upload.send();';
@@ -149,7 +142,14 @@ class JFormFieldAdjuntos extends JFormField
 
         $script[] = '}';
 
-        $script[] = 'function eliminarAdjunto(el) {';
+        $script[] = 'function eliminarAdjunto(el, event) {';
+
+        $script[] = '   if(!confirm("Está a punto de eliminar el archivo XXX")) {';
+        $script[] = '       event.preventDefault();';
+        $script[] = '       return';
+        $script[] = '   }';
+
+        $script[] = '   event.preventDefault();';
         $script[] = '   var hash = el.get("data-hash");';
         $script[] = '   var request = new Request.JSON({';
         $script[] = '       url: "'.JURI::root().'administrator/index.php?option=com_content&task=adjuntos.borrar&format=json&'.JUtility::getToken().'=1",';
@@ -158,7 +158,6 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '           "hash": hash';
         $script[] = '       },';
         $script[] = '       onComplete: function(res) {';
-        $script[] = '           console.log(res)';
         $script[] = '           if (res.tipo == "error" || res.tipo == "success") {';
         $script[] = '               mostrarMensaje(res.msg, res.tipo);';
         $script[] = '               return;';
