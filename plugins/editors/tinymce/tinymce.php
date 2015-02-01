@@ -430,6 +430,23 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = 'paste';
 		}
 
+		// Clean up on paste
+		$cleanUp = $this->params->get('paste_clean_up', 1);
+		
+		if ($cleanUp)
+		{
+			if (!$paste)
+			{
+				$plugins[] = 'paste';
+			}
+			
+			$cleanUpParam = 'paste_auto_cleanup_on_paste: true,';
+		}
+		else
+		{
+			$cleanUpParam = '';
+		}
+		
 		$toolbar4_add[] = '|';
 
 		// Visualchars
@@ -738,6 +755,7 @@ class PlgEditorTinymce extends JPlugin
 					extended_valid_elements : \"$elements\",
 					$forcenewline
 					$smallButtons
+					$cleanUpParam
 					invalid_elements : \"$invalid_elements\",
 					// Plugins
 					plugins : \"$plugins\",
