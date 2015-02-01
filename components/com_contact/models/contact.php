@@ -354,7 +354,8 @@ class ContactModelContact extends JModelForm
 					->select('a.title')
 					->select('a.state')
 					->select('a.access')
-					->select('a.created');
+					->select('a.created')
+					->select('a.language');
 
 				// SQL Server changes
 				$case_when = ' CASE WHEN ';
