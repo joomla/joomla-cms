@@ -106,8 +106,6 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			// Attach parse rules for language SEF.
 			$router->attachParseRule(array($this, 'parseRule'), JRouter::PROCESS_DURING);
-
-
 		}
 	}
 
