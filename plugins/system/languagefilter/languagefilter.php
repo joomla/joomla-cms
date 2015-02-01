@@ -22,8 +22,6 @@ class PlgSystemLanguageFilter extends JPlugin
 {
 	protected $mode_sef;
 
-	protected $tag;
-
 	protected $sefs;
 
 	protected $lang_codes;
@@ -31,8 +29,6 @@ class PlgSystemLanguageFilter extends JPlugin
 	protected $default_lang;
 
 	private $user_lang_code;
-
-	protected $current_lang;
 
 	/**
 	 * Application object.
@@ -93,8 +89,6 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		if ($this->app->isSite())
 		{
-			$this->tag = JFactory::getLanguage()->getTag();
-
 			$router = $this->app->getRouter();
 
 			// Attach build rules for language SEF.
@@ -113,11 +107,23 @@ class PlgSystemLanguageFilter extends JPlugin
 			// Attach parse rules for language SEF.
 			$router->attachParseRule(array($this, 'parseRule'), JRouter::PROCESS_DURING);
 
-			// Add custom site name.
-			if (isset($this->lang_codes[$this->tag]) && $this->lang_codes[$this->tag]->sitename)
-			{
-				$this->app->set('sitename', $this->lang_codes[$this->tag]->sitename);
-			}
+
+		}
+	}
+
+	/**
+	 * After route.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public function onAfterRoute()
+	{
+		// Add custom site name.
+		if (isset($this->lang_codes[$this->default_lang]) && $this->lang_codes[$this->default_lang]->sitename)
+		{
+			$this->app->set('sitename', $this->lang_codes[$this->default_lang]->sitename);
 		}
 	}
 
@@ -386,8 +392,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			$cookie_domain 	= $this->app->get('cookie_domain', '');
 			$cookie_path 	= $this->app->get('cookie_path', '/');
-			setcookie(JApplicationHelper::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
-			$this->app->input->cookie->set(JApplicationHelper::getHash('language'), $lang_code);
+			$this->app->input->cookie->set(JApplicationHelper::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
 		}
 
 		return $array;
@@ -462,7 +467,6 @@ class PlgSystemLanguageFilter extends JPlugin
 					$this->app->setUserState('com_users.edit.profile.redirect', 'index.php?Itemid='
 						. $this->app->getMenu()->getDefault($lang_code)->id . '&lang=' . $this->lang_codes[$lang_code]->sef
 					);
-					$this->tag = $lang_code;
 
 					// Create a cookie.
 					$cookie_domain 	= $this->app->get('cookie_domain', '');
@@ -509,10 +513,10 @@ class PlgSystemLanguageFilter extends JPlugin
 				$lang_code = $this->default_lang;
 			}
 
-			if ($lang_code != $this->tag)
+			if ($lang_code != $this->default_lang)
 			{
 				// Change language.
-				$this->tag = $lang_code;
+				$this->default_lang = $lang_code;
 
 				// Create a cookie.
 				$cookie_domain 	= $this->app->get('cookie_domain', '');
