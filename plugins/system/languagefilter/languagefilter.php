@@ -60,7 +60,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			$levels = JFactory::getUser()->getAuthorisedViewLevels();
 
-			foreach ($this->sefs as $sef => &$language)
+			foreach ($this->sefs as $sef => $language)
 			{
 				if (!in_array($language->access, $levels))
 				{
@@ -168,42 +168,6 @@ class PlgSystemLanguageFilter extends JPlugin
 		else
 		{
 			$sef = $this->lang_codes[$this->default_lang]->sef;
-		}
-
-		$Itemid = $uri->getVar('Itemid');
-
-		if (!is_null($Itemid) && $item = $this->app->getMenu()->getItem($Itemid))
-		{
-			if ($item->home && $uri->getVar('option') != 'com_search')
-			{
-				$query = $item->query;
-
-				// Test if the url contains same vars as in menu link.
-				$test = true;
-
-				foreach ($uri->getQuery(true) as $key => $value)
-				{
-					if (!in_array($key, array('format', 'Itemid', 'lang')) && !(isset($query[$key]) && $query[$key] == $value))
-					{
-						$test = false;
-						break;
-					}
-				}
-
-				if ($test)
-				{
-					foreach ($query as $key => $value)
-					{
-						$uri->delVar($key);
-					}
-
-					$uri->delVar('Itemid');
-				}
-			}
-		}
-		else
-		{
-			$uri->delVar('Itemid');
 		}
 
 		if ($this->mode_sef && $this->params->get('remove_default_prefix', 0) == 0)
@@ -385,7 +349,6 @@ class PlgSystemLanguageFilter extends JPlugin
 		// Set the request var.
 		$this->app->input->set('language', $lang_code);
 		$this->app->set('language', $lang_code);
-		JFactory::$language = null;
 
 		// Create a cookie.
 		if ($this->app->input->cookie->getString(JApplicationHelper::getHash('language')) !== $lang_code)
