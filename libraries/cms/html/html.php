@@ -975,7 +975,7 @@ abstract class JHtml
 		static::_('bootstrap.tooltip');
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-		if ((int) $value && $value != JFactory::getDbo()->getNullDate())
+		if (!is_null($value) && $value != JFactory::getDbo()->getNullDate())
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
