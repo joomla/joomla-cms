@@ -37,7 +37,7 @@ class ContentModelArticles extends JModelList
 				'checked_out', 'a.checked_out',
 				'checked_out_time', 'a.checked_out_time',
 				'catid', 'a.catid', 'category_title',
-                                'tagid', 'a.tagid',
+				'tagid', 'a.tagid',
 				'state', 'a.state',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
@@ -239,12 +239,12 @@ class ContentModelArticles extends JModelList
 		$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
 			->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
-                // join over Tag Tables if tag id is given
-                if ($this->getState('filter.tagid'))
-                {
-                        $query->join('LEFT', '#__contentitem_tag_map AS ct ON a.id = ct.content_item_id')
-                              ->join('LEFT', '#__tags as t ON ct.tag_id = t.id');
-                }
+		// join over Tag Tables if tag id is given
+		if ($this->getState('filter.tagid'))
+		{
+			$query->join('LEFT', '#__contentitem_tag_map AS ct ON a.id = ct.content_item_id')
+				->join('LEFT', '#__tags as t ON ct.tag_id = t.id');
+		}
 
 		// Join to check for category published state in parent categories up the tree
 		$query->select('c.published, CASE WHEN badcats.id is null THEN c.published ELSE 0 END AS parents_published');
@@ -525,19 +525,19 @@ class ContentModelArticles extends JModelList
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
-                // Filter by Tag ID
-                if ($this->getState('filter.tagid'))
-                {
-                        $tagID = $this->getState('filter.tagid');
-                        if (is_array($tagID))
-                        {
-                            $query->where('t.id in (' . implode(',', $tagID) . ')');
-                        }
-                        else
-                        {
-                            $query->where('t.id = ' . $tagID);
-                        }
-                }
+		// Filter by Tag ID
+		if ($this->getState('filter.tagid'))
+		{
+			$tagID = $this->getState('filter.tagid');
+			if (is_array($tagID))
+			{
+				$query->where('t.id in (' . implode(',', $tagID) . ')');
+			}
+			else
+			{
+				$query->where('t.id = ' . $tagID);
+			}
+		}
 
 		// Add the list ordering clause.
 		$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'));
