@@ -1482,7 +1482,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		{
 			$fin = array();
 
-			if (is_null($as))
+			if (is_null($as) && is_array($name))
 			{
 				foreach ($name as $str)
 				{
