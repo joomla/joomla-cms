@@ -170,7 +170,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			$sef = $this->lang_codes[$this->default_lang]->sef;
 		}
 
-		if ($this->mode_sef 
+		if ($this->mode_sef
 			&& (!$this->params->get('remove_default_prefix', 0) || $lang != JComponentHelper::getParams('com_languages')->get('site', 'en-GB')))
 		{
 			$uri->setPath($uri->getPath() . '/' . $sef . '/');
@@ -337,7 +337,6 @@ class PlgSystemLanguageFilter extends JPlugin
 					|| $lang_code != JComponentHelper::getParams('com_languages')->get('site', 'en-GB'))
 				{
 					$path = $this->lang_codes[$lang_code]->sef . '/' . $path;
-					
 				}
 				$uri->setPath($path);
 
@@ -362,7 +361,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		$this->app->input->set('language', $lang_code);
 		$this->app->set('language', $lang_code);
 		$language = JFactory::getLanguage();
-		
+
 		if ($language->getTag() != $lang_code)
 		{
 			$language->setLanguage($lang_code);
