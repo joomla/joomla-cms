@@ -18,3 +18,8 @@ function insertAtCursor(myField, myValue)
 		myField.value += myValue;
 	}
 }
+
+function jInsertEditorText(text, editor)
+{
+	insertAtCursor(document.getElementById(editor), text);
+}

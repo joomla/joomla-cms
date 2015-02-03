@@ -26,7 +26,7 @@ class PlgEditorNone extends JPlugin
 	 */
 	public function onInit()
 	{
-		JHtml::script('editors/none/on-init.min.js', false, true, false, false, true);
+		JHtml::script('editors/none/none-functions.min.js', false, true, false, false, true);
 
 		return;
 	}
@@ -77,15 +77,7 @@ class PlgEditorNone extends JPlugin
 	 */
 	public function onGetInsertMethod($id)
 	{
-		static $done = false;
-
-		// Do this only once.
-		if (!$done)
-		{
-			JHtml::script('editors/none/on-get-insert-method.min.js', false, true, false, false, true);
-		}
-
-		return true;
+		return;
 	}
 
 	/**
