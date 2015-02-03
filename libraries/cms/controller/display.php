@@ -158,10 +158,10 @@ class JControllerDisplay extends JControllerCms
 			case 'html':
 			default:
 				$renderer = $this->getRenderer();
-	
+
 				// Initialise the view class
 				$view = new $class($model, $this->doc, $renderer, $this->config);
-	
+
 				// If in html view then we set the layout
 				$layoutName = $this->input->getWord('layout', 'default');
 				$view->setLayout($layoutName);
