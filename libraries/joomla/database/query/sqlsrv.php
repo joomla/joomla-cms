@@ -389,7 +389,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		// Now we need to get all tables from any joins
 		// Go through all joins and add them to the tables array
 		$joins = array();
-		foreach ($this->join as $join)
+		foreach ((array) $this->join as $join)
 		{
 			$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", "$1", (string) $join)));
 			list($table, $alias) = preg_split("/\sAS\s/i", $joinTbl);
@@ -434,8 +434,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 				$columns = array_merge($columns, $tableColumns);
 			}
 		}
-		
-		// Finally, get a unique string of all column names that need to be included in the group statement
+
 		$columns = array_unique(array_merge($columns, $selectCols));
 		$columns = implode(",", $columns);
 
