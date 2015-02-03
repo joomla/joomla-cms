@@ -92,7 +92,7 @@ abstract class ModLanguagesHelper
 			}
 			else
 			{
-				$language->active = $language->lang_code == $lang->getTag();
+				$language->active = ($language->lang_code == $lang->getTag());
 
 				if (JLanguageMultilang::isEnabled())
 				{
@@ -107,7 +107,7 @@ abstract class ModLanguagesHelper
 					}
 					else
 					{
-						if (isset($language->active))
+						if ($language->active)
 						{
 							$language->link = JUri::current();
 						}
