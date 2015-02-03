@@ -12,6 +12,9 @@
 	<files>
 		<filename plugin="none">none.php</filename>
 	</files>
+	<media destination="editors" folder="media">
+		<folder>none</folder>
+	</media>
 	<languages>
 		<language tag="en-GB">en-GB.plg_editors_none.ini</language>
 		<language tag="en-GB">en-GB.plg_editors_none.sys.ini</language>

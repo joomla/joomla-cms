@@ -26,7 +26,7 @@ class PlgEditorNone extends JPlugin
 	 */
 	public function onInit()
 	{
-		JHtml::script('editors/none/none.min.js', false, true, false, false, true);
+		JHtml::script('editors/none/on-init.min.js', false, true, false, false, true);
 
 		return;
 	}
@@ -82,12 +82,7 @@ class PlgEditorNone extends JPlugin
 		// Do this only once.
 		if (!$done)
 		{
-			JFactory::getDocument()->addScriptDeclaration("
-				function jInsertEditorText(text, editor)
-				{
-					insertAtCursor(document.getElementById(editor), text);
-				}
-		");
+			JHtml::script('editors/none/on-get-insert-method.min.js', false, true, false, false, true);
 		}
 
 		return true;
