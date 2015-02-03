@@ -3,18 +3,18 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Configuration setup model for the Joomla Core Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Model
- * @since       3.1
+ * @since  3.1
  */
 class InstallationModelConfiguration extends JModelBase
 {
@@ -59,7 +59,7 @@ class InstallationModelConfiguration extends JModelBase
 	public function _createConfiguration($options)
 	{
 		// Create a new registry to build the configuration options.
-		$registry = new JRegistry;
+		$registry = new Registry;
 
 		// Site settings.
 		$registry->set('offline', $options->site_offline);
@@ -95,7 +95,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
 		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
 		$registry->set('ftp_root', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_root)) ? $options->ftp_root : '');
-		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : '');
+		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : 0);
 
 		// Locale settings.
 		$registry->set('offset', 'UTC');

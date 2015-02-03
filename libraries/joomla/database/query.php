@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,9 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read    array   $elements  An array of elements.
  * @property-read    string  $glue      Glue piece.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.1
+ * @since  11.1
  */
 class JDatabaseQueryElement
 {
@@ -133,9 +131,7 @@ class JDatabaseQueryElement
 /**
  * Query Building Class.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.1
+ * @since  11.1
  *
  * @method      string  q()   q($text, $escape = true)  Alias for quote method
  * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
@@ -653,6 +649,10 @@ abstract class JDatabaseQuery
 			case 'limit':
 				$this->offset = 0;
 				$this->limit = 0;
+				break;
+
+			case 'offset':
+				$this->offset = 0;
 				break;
 
 			case 'union':

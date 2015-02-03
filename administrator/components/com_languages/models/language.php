@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,26 @@ defined('_JEXEC') or die;
  */
 class LanguagesModelLanguage extends JModelAdmin
 {
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 */
+	public function __construct($config = array())
+	{
+		$config = array_merge(
+			array(
+				'event_after_save'  => 'onExtensionAfterSave',
+				'event_before_save' => 'onExtensionBeforeSave',
+				'events_map'        => array(
+					'save' => 'extension'
+				)
+			), $config
+		);
+
+		parent::__construct($config);
+	}
+
 	/**
 	 * Override to get the table.
 	 *
@@ -150,13 +170,14 @@ class LanguagesModelLanguage extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$langId	= (int) $this->getState('language.id');
+		$langId = (!empty($data['lang_id'])) ? $data['lang_id'] : (int) $this->getState('language.id');
 		$isNew	= true;
 
 		$dispatcher = JEventDispatcher::getInstance();
-		JPluginHelper::importPlugin('extension');
+		JPluginHelper::importPlugin($this->events_map['save']);
 
-		$table = $this->getTable();
+		$table   = $this->getTable();
+		$context = $this->option . '.' . $this->name;
 
 		// Load the row if saving an existing item.
 		if ($langId > 0)
@@ -187,8 +208,8 @@ class LanguagesModelLanguage extends JModelAdmin
 			return false;
 		}
 
-		// Trigger the onExtensionBeforeSave event.
-		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_languages.language', &$table, $isNew));
+		// Trigger the before save event.
+		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew));
 
 		// Check the event responses.
 		if (in_array(false, $result, true))
@@ -206,8 +227,8 @@ class LanguagesModelLanguage extends JModelAdmin
 			return false;
 		}
 
-		// Trigger the onExtensionAfterSave event.
-		$dispatcher->trigger('onExtensionAfterSave', array('com_languages.language', &$table, $isNew));
+		// Trigger the after save event.
+		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew));
 
 		$this->setState('language.id', $table->lang_id);
 

@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,7 +116,7 @@
 
 				// Add editing button with tooltip:
 				$(this).addClass('jmodinside')
-					.prepend('<a class="btn jmodedit" href="#" target="_blank"><span class="icon-edit"></span></a>')
+					.prepend('<a class="btn jmodedit" href="#" ><span class="icon-edit"></span></a>')
 					.children(":first").attr('href', moduleEditUrl).attr('title', moduleTip)
 					.tooltip({"container": false, placement: tooltipPlacer})
 					.jEditMakeAbsolute(true);
@@ -162,7 +162,7 @@
 					var enclosingModuleDiv = $(this).closest('.jmoddiv');
 					var moduleEditUrl = enclosingModuleDiv.data('jmodediturl');
 					// Transform module editing URL into Menu Item editing url:
-					var menuitemEditUrl = moduleEditUrl.replace(/\/index.php\?option=com_modules&view=module([^\d]+)\d+$/, '/index.php?option=com_menus&view=item$1' + itemids[1]);
+					var menuitemEditUrl = moduleEditUrl.replace(/\/index.php\?option=com_config&controller=config.display.modules([^\d]+).+$/, '/administrator/index.php?option=com_menus&view=item&layout=edit$1' + itemids[1]);
 
 				}
 

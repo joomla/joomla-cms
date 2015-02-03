@@ -3,17 +3,17 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Content table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
  * @since       11.1
  * @deprecated  Class will be removed upon completion of transition to UCM
  */
@@ -138,14 +138,14 @@ class JTableContent extends JTable
 
 		if (isset($array['attribs']) && is_array($array['attribs']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['attribs']);
 			$array['attribs'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
@@ -182,7 +182,7 @@ class JTableContent extends JTable
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -192,6 +192,44 @@ class JTableContent extends JTable
 		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '')
 		{
 			$this->fulltext = '';
+		}
+
+		/**
+		 * Ensure any new items have compulsory fields set. This is needed for things like
+		 * frontend editing where we don't show all the fields or using some kind of API
+		 */
+		if (!$this->id)
+		{
+			// Images can be an empty json string
+			if (!isset($this->images))
+			{
+				$this->images = '{}';
+			}
+
+			// URLs can be an empty json string
+			if (!isset($this->urls))
+			{
+				$this->urls = '{}';
+			}
+
+			// Attributes (article params) can be an empty json string
+			if (!isset($this->attribs))
+			{
+				$this->attribs = '{}';
+			}
+
+			// Metadata can be an empty json string
+			if (!isset($this->metadata))
+			{
+				$this->metadata = '{}';
+			}
+
+			// If we don't have any access rules set at this point just use an empty JAccessRules class
+			if (!isset($this->rules))
+			{
+				$rules = $this->getDefaultAssetValues('com_content');
+				$this->setRules($rules);
+			}
 		}
 
 		// Check the publish down date is not earlier than publish up.
@@ -236,6 +274,27 @@ class JTableContent extends JTable
 	}
 
 	/**
+	 * Gets the default asset values for a component.
+	 *
+	 * @param   $string  $component  The component asset name to search for
+	 *
+	 * @return  JAccessRules  The JAccessRules object for the asset
+	 */
+	protected function getDefaultAssetValues($component)
+	{
+		// Need to find the asset id by the name of the component.
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__assets'))
+			->where($db->quoteName('name') . ' = ' . $db->quote($component));
+		$db->setQuery($query);
+		$assetId = (int) $db->loadResult();
+
+		return JAccess::getAssetRules($assetId);
+	}
+
+	/**
 	 * Overrides JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
@@ -249,10 +308,11 @@ class JTableContent extends JTable
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
+		$this->modified = $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified = $date->toSql();
 			$this->modified_by = $user->get('id');
 		}
 		else
@@ -271,7 +331,7 @@ class JTableContent extends JTable
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Content', 'JTable');
+		$table = JTable::getInstance('Content', 'JTable', array('dbo', $this->getDbo()));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{

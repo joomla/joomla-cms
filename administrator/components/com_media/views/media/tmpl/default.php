@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,12 +21,6 @@ $input = JFactory::getApplication()->input;
 			</div>
 		</div>
 	</div>
-	<style>
-		.overall-progress,
-		.current-progress {
-			width: 150px;
-		}
-	</style>
 	<!-- End Sidebar -->
 	<!-- Begin Content -->
 	<div class="span10">
@@ -54,7 +48,7 @@ $input = JFactory::getApplication()->input;
 		<?php if ($user->authorise('core.create', 'com_media')):?>
 		<!-- File Upload Form -->
 		<div id="collapseUpload" class="collapse">
-			<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;format=html" id="uploadForm" class="form-inline" name="uploadForm" method="post" enctype="multipart/form-data">
+			<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;format=html" id="uploadForm" class="form-inline" name="uploadForm" method="post" enctype="multipart/form-data">
 				<div id="uploadform">
 					<fieldset id="upload-noflash" class="actions">
 							<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>

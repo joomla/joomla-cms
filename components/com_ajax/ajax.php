@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /*
  * References
  *  Support plugins in your component
- * - http://docs.joomla.org/Supporting_plugins_in_your_component
+ * - https://docs.joomla.org/Supporting_plugins_in_your_component
  *
  * Best way for JSON output
  * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
@@ -116,7 +116,8 @@ elseif ($input->get('module'))
 	}
 }
 /*
- * Plugin support is based on the "Ajax" plugin group.
+ * Plugin support by default is based on the "Ajax" plugin group.
+ * An optional 'group' variable can be passed via the URL.
  *
  * The plugin event triggered is onAjaxFoo, where 'foo' is
  * the value of the 'plugin' variable passed via the URL
@@ -125,7 +126,8 @@ elseif ($input->get('module'))
  */
 elseif ($input->get('plugin'))
 {
-	JPluginHelper::importPlugin('ajax');
+	$group      = $input->get('group', 'ajax');
+	JPluginHelper::importPlugin($group);
 	$plugin     = ucfirst($input->get('plugin'));
 	$dispatcher = JEventDispatcher::getInstance();
 

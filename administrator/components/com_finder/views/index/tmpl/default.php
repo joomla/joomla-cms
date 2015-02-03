@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,37 +19,37 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $lang = JFactory::getLanguage();
 JText::script('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
 JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
+
+JFactory::getDocument()->addScriptDeclaration('
+	Joomla.submitbutton = function(pressbutton)
+	{
+		if (pressbutton == "index.purge")
+		{
+			if (confirm(Joomla.JText._("COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT")))
+			{
+				Joomla.submitform(pressbutton);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		if (pressbutton == "index.delete")
+		{
+			if (confirm(Joomla.JText._("COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT")))
+			{
+				Joomla.submitform(pressbutton);
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		Joomla.submitform(pressbutton);
+	};
+');
 ?>
-
-<script type="text/javascript">
-Joomla.submitbutton = function(pressbutton)
-{
-	if (pressbutton == 'index.purge')
-	{
-		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT')))
-		{
-			Joomla.submitform(pressbutton);
-		}
-		else
-		{
-			return false;
-		}
-	}
-	if (pressbutton == 'index.delete')
-	{
-		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')))
-		{
-			Joomla.submitform(pressbutton);
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	Joomla.submitform(pressbutton);
-}
-</script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=index');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -66,7 +66,7 @@ Joomla.submitbutton = function(pressbutton)
 			</div>
 			<div class="btn-group pull-left">
 				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
@@ -83,7 +83,7 @@ Joomla.submitbutton = function(pressbutton)
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th width="1%" class="hidden-phone">
+					<th width="1%" class="center">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
 					<th width="5%">
@@ -120,26 +120,28 @@ Joomla.submitbutton = function(pressbutton)
 				<?php $canChange = JFactory::getUser()->authorise('core.manage', 'com_finder'); ?>
 				<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="center hidden-phone">
+					<td class="center">
 						<?php echo JHtml::_('grid.id', $i, $item->link_id); ?>
 					</td>
 					<td>
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
 					</td>
 					<td>
-						<strong>
-							<?php echo $this->escape($item->title); ?>
-						</strong>
-						<small class="muted">
-						<?php
-							if (strlen($item->url) > 80)
-							{
-								echo substr($item->url, 0, 70) . '...';
-							} else {
-								echo $item->url;
-							}
-						?>
-						</small>
+						<label for="cb<?php echo $i ?>">
+							<strong>
+								<?php echo $this->escape($item->title); ?>
+							</strong>
+							<small class="muted">
+							<?php
+								if (strlen($item->url) > 80)
+								{
+									echo substr($item->url, 0, 70) . '...';
+								} else {
+									echo $item->url;
+								}
+							?>
+							</small>
+						</label>
 					</td>
 					<td class="hidden-phone">
 						<?php if (intval($item->publish_start_date) or intval($item->publish_end_date) or intval($item->start_date) or intval($item->end_date)) : ?>

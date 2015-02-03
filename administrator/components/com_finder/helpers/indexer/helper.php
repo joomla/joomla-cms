@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
 JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
@@ -462,8 +464,8 @@ class FinderIndexerHelper
 	/**
 	 * Method to process content text using the onContentPrepare event trigger.
 	 *
-	 * @param   string     $text    The content to process.
-	 * @param   JRegistry  $params  The parameters object. [optional]
+	 * @param   string    $text    The content to process.
+	 * @param   Registry  $params  The parameters object. [optional]
 	 *
 	 * @return  string  The processed content.
 	 *
@@ -484,9 +486,9 @@ class FinderIndexerHelper
 		}
 
 		// Instantiate the parameter object if necessary.
-		if (!($params instanceof JRegistry))
+		if (!($params instanceof Registry))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($params);
 			$params = $registry;
 		}

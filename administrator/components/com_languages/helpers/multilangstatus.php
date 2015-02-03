@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ abstract class MultilangstatusHelper
 	/**
 	 * Method to get the number of published home pages.
 	 *
-	 * @return  integer 
+	 * @return  integer
 	 */
 	public static function getHomes()
 	{
@@ -105,6 +105,7 @@ abstract class MultilangstatusHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('language')
+			->select('id')
 			->from($db->quoteName('#__menu'))
 			->where('home = 1')
 			->where('published = 1')

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -77,12 +77,6 @@ class FinderViewMaps extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.delete'))
-		{
-			JToolbarHelper::deleteList('', 'maps.delete');
-			JToolbarHelper::divider();
-		}
-
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_finder');
@@ -92,6 +86,12 @@ class FinderViewMaps extends JViewLegacy
 		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
+
+		if ($canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('', 'maps.delete');
+			JToolbarHelper::divider();
+		}
 
 		JHtmlSidebar::setAction('index.php?option=com_finder&view=maps');
 

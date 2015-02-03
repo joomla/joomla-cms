@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,8 +110,9 @@ class TemplatesModelTemplates extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.element LIKE ' . $search . ' OR a.name LIKE ' . $search . ')');
+				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
+				$search = $db->quote($escapedSearchString);
+				$query->where('(' . 'a.element REGEXP ' . $search . ' OR a.name REGEXP ' . $search . ')');
 			}
 		}
 

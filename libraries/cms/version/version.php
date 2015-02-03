@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Version
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Version information class for the Joomla CMS.
  *
- * @package     Joomla.Libraries
- * @subpackage  Version
- * @since       1.0
+ * @since  1.0
  */
 final class JVersion
 {
@@ -22,13 +20,13 @@ final class JVersion
 	public $PRODUCT = 'Joomla!';
 
 	/** @var  string  Release version. */
-	public $RELEASE = '3.3';
+	public $RELEASE = '3.4';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '7-dev';
+	public $DEV_LEVEL = '0-beta2-dev';
 
 	/** @var  string  Development STATUS. */
-	public $DEV_STATUS = 'Development';
+	public $DEV_STATUS = 'Beta';
 
 	/** @var  string  Build number. */
 	public $BUILD = '';
@@ -37,16 +35,16 @@ final class JVersion
 	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELDATE = '01-October-2014';
+	public $RELDATE = '27-January-2015';
 
 	/** @var  string  Release time. */
-	public $RELTIME = '02:00';
+	public $RELTIME = '20:00';
 
 	/** @var  string  Release timezone. */
 	public $RELTZ = 'GMT';
 
 	/** @var  string  Copyright Notice. */
-	public $COPYRIGHT = 'Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.';
+	public $COPYRIGHT = 'Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.';
 
 	/** @var  string  Link text. */
 	public $URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';

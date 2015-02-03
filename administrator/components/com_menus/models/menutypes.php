@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,6 +29,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 * Method to get the reverse lookup of the base link URL to Title
 	 *
 	 * @return  array  Array of reverse lookup of the base link URL to Title
+	 *
 	 * @since   1.6
 	 */
 	public function getReverseLookup()
@@ -37,6 +38,7 @@ class MenusModelMenutypes extends JModelLegacy
 		{
 			$this->getTypeOptions();
 		}
+
 		return $this->rlu;
 	}
 
@@ -44,6 +46,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 * Method to get the available menu item type options.
 	 *
 	 * @return  array  Array of groups with menu item types.
+	 *
 	 * @since   1.6
 	 */
 	public function getTypeOptions()
@@ -79,8 +82,9 @@ class MenusModelMenutypes extends JModelLegacy
 
 						if (isset($option->request['option']))
 						{
-								$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR. '/components/'.$option->request['option'], null, false, true);
+							$componentLanguageFolder = JPATH_ADMINISTRATOR . '/components/' . $option->request['option'];
+							$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+								||	$lang->load($option->request['option'] . '.sys', $componentLanguageFolder, null, false, true);
 						}
 					}
 				}
@@ -97,9 +101,10 @@ class MenusModelMenutypes extends JModelLegacy
 	 * Method to create the reverse lookup for link-to-name.
 	 * (can be used from onAfterGetMenuTypeOptions handlers)
 	 *
-	 * @param   $option  JObject  with request array or string and title public variables
+	 * @param   JObject  $option  with request array or string and title public variables
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	public function addReverseLookupUrl($option)
@@ -107,6 +112,15 @@ class MenusModelMenutypes extends JModelLegacy
 		$this->rlu[MenusHelper::getLinkKey($option->request)] = $option->get('title');
 	}
 
+	/**
+	 * Get menu types by component.
+	 *
+	 * @param   string  $component  Component URL option.
+	 *
+	 * @return  array
+	 *
+	 * @since   1.6
+	 */
 	protected function getTypeOptionsByComponent($component)
 	{
 		$options = array();
@@ -126,6 +140,16 @@ class MenusModelMenutypes extends JModelLegacy
 		return $options;
 	}
 
+	/**
+	 * Get the menu types from an XML file
+	 *
+	 * @param   string  $file       File path
+	 * @param   string  $component  Component option as in URL
+	 *
+	 * @return  array
+	 *
+	 * @since   1.6
+	 */
 	protected function getTypeOptionsFromXML($file, $component)
 	{
 		$options = array();
@@ -206,6 +230,15 @@ class MenusModelMenutypes extends JModelLegacy
 		return $options;
 	}
 
+	/**
+	 * Get menu types from MVC
+	 *
+	 * @param   string  $component  Component option like in URLs
+	 *
+	 * @return  array
+	 *
+	 * @since   1.6
+	 */
 	protected function getTypeOptionsFromMVC($component)
 	{
 		$options = array();
@@ -215,6 +248,7 @@ class MenusModelMenutypes extends JModelLegacy
 		{
 			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, '^view[s]?$', false, true);
 		}
+
 		$path = '';
 
 		if (!empty($folders[0]))
@@ -299,7 +333,6 @@ class MenusModelMenutypes extends JModelLegacy
 
 						unset($xml);
 					}
-
 				}
 				else
 				{
@@ -311,6 +344,16 @@ class MenusModelMenutypes extends JModelLegacy
 		return $options;
 	}
 
+	/**
+	 * Get the menu types from component layouts
+	 *
+	 * @param   string  $component  Component option as in URLs
+	 * @param   string  $view       Name of the view
+	 *
+	 * @return  array
+	 *
+	 * @since   1.6
+	 */
 	protected function getTypeOptionsFromLayouts($component, $view)
 	{
 		$options = array();
@@ -372,7 +415,7 @@ class MenusModelMenutypes extends JModelLegacy
 					// Get the layout name.
 					$templateLayoutName = basename($layout, '.xml');
 
-					// add to the list only if it is not a standard layout
+					// Add to the list only if it is not a standard layout
 					if (array_search($templateLayoutName, $layoutNames) === false)
 					{
 						$layouts[] = $layout;
@@ -391,6 +434,7 @@ class MenusModelMenutypes extends JModelLegacy
 			if (strpos(basename($layout), '_') === false)
 			{
 				$file = $layout;
+
 				// Get the layout name.
 				$layout = basename($layout, '.xml');
 

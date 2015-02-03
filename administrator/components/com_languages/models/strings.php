@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,12 +119,14 @@ class LanguagesModelStrings extends JModelLegacy
 	{
 		$results = array();
 		$input   = JFactory::getApplication()->input;
+		$filter  = JFilterInput::getInstance();
+		$searchTerm = $input->getString('searchstring');
 
 		$limitstart = $input->getInt('more');
 
 		try
 		{
-			$searchstring = $this->_db->quote('%' . $input->getString('searchstring') . '%');
+			$searchstring = $this->_db->quote('%' . $filter->clean($searchTerm, 'TRIM') . '%');
 
 			// Create the search query.
 			$query = $this->_db->getQuery(true)
@@ -162,4 +164,5 @@ class LanguagesModelStrings extends JModelLegacy
 
 		return $results;
 	}
+
 }

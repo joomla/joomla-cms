@@ -3,26 +3,26 @@
  * @package     Joomla.Libraries
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Base class for rendering a display layout
  *
- * @package     Joomla.Libraries
- * @subpackage  Layout
- * @see         http://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
- * @since       3.0
+ * @see    https://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
+ * @since  3.0
  */
 class JLayoutBase implements JLayout
 {
 	/**
 	 * Options object
 	 *
-	 * @var    JRegistry
+	 * @var    Registry
 	 * @since  3.2
 	 */
 	protected $options = null;
@@ -38,7 +38,7 @@ class JLayoutBase implements JLayout
 	/**
 	 * Set the options
 	 *
-	 * @param   mixed  $options  Array / JRegistry object with the options to load
+	 * @param   array|Registry  $options  Array / Registry object with the options to load
 	 *
 	 * @return  JLayoutBase  Instance of $this to allow chaining.
 	 *
@@ -46,19 +46,19 @@ class JLayoutBase implements JLayout
 	 */
 	public function setOptions($options = null)
 	{
-		// Received JRegistry
-		if ($options instanceof JRegistry)
+		// Received Registry
+		if ($options instanceof Registry)
 		{
 			$this->options = $options;
 		}
 		// Received array
 		elseif (is_array($options))
 		{
-			$this->options = new JRegistry($options);
+			$this->options = new Registry($options);
 		}
 		else
 		{
-			$this->options = new JRegistry;
+			$this->options = new Registry;
 		}
 
 		return $this;
@@ -67,14 +67,14 @@ class JLayoutBase implements JLayout
 	/**
 	 * Get the options
 	 *
-	 * @return  JRegistry  Object with the options
+	 * @return  Registry  Object with the options
 	 *
 	 * @since   3.2
 	 */
 	public function getOptions()
 	{
-		// Always return a JRegistry instance
-		if (!($this->options instanceof JRegistry))
+		// Always return a Registry instance
+		if (!($this->options instanceof Registry))
 		{
 			$this->resetOptions();
 		}

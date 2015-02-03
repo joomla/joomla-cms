@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcached cache storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @see         http://php.net/manual/en/book.memcached.php
- * @since       12.1
+ * @see    http://php.net/manual/en/book.memcached.php
+ * @since  12.1
  */
 class JCacheStorageMemcached extends JCacheStorage
 {

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Form Field to display a list of the layouts for module display from the module or template overrides.
  *
- * @package     Joomla.Legacy
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormFieldModulelayout extends JFormField
 {
@@ -64,12 +62,12 @@ class JFormFieldModulelayout extends JFormField
 		$template = preg_replace('#\W#', '', $template);
 
 		// Get the style.
+		$template_style_id = '';
 		if ($this->form instanceof JForm)
 		{
 			$template_style_id = $this->form->getValue('template_style_id');
+			$template_style_id = preg_replace('#\W#', '', $template_style_id);
 		}
-
-		$template_style_id = preg_replace('#\W#', '', $template_style_id);
 
 		// If an extension and view are present build the options.
 		if ($module && $client)

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Request
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,8 +30,6 @@ JLog::add('JRequest is deprecated.', JLog::WARNING, 'deprecated');
  * request variables.  This includes $_POST, $_GET, and naturally $_REQUEST.  Variables
  * can be passed through an input filter to avoid injection or returned raw.
  *
- * @package     Joomla.Legacy
- * @subpackage  Request
  * @since       11.1
  * @deprecated  12.1 (Platform) & 4.0 (CMS) - Get the JInput object from the application instead
  */

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,9 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * or plain Formattedtext) and finally MySQL offers the most features (e.g. rapid searching)
  * but will incur a performance hit due to INSERT being issued.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
- * @since       11.1
+ * @since  11.1
  */
 class JLog
 {

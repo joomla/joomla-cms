@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,18 @@ jimport('joomla.updater.update');
  */
 class InstallerModelLanguages extends JModelList
 {
+	/**
+	 * @var     integer  Extension ID of the en-GB language pack.
+	 * @since   3.4
+	 */
+	private $enGbExtensionId = 0;
+
+	/**
+	 * @var     integer  Upate Site ID of the en-GB language pack.
+	 * @since   3.4
+	 */
+	private $updateSiteId = 0;
+
 	/**
 	 * Constructor override, defines a white list of column filters.
 	 *
@@ -35,6 +47,43 @@ class InstallerModelLanguages extends JModelList
 		}
 
 		parent::__construct($config);
+
+		// Get the extension_id of the en-GB package.
+		$db        = $this->getDbo();
+		$extQuery  = $db->getQuery(true);
+		$extType   = 'language';
+		$extElem   = 'en-GB';
+
+		$extQuery->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote($extType))
+			->where($db->quoteName('element') . ' = ' . $db->quote($extElem))
+			->where($db->quoteName('client_id') . ' = 0');
+
+		$db->setQuery($extQuery);
+
+		$extId = (int) $db->loadResult();
+
+		// Get the update_site_id for the en-GB package if extension_id found before.
+		if ($extId)
+		{
+			$this->enGbExtensionId = $extId;
+
+			$siteQuery = $db->getQuery(true);
+
+			$siteQuery->select($db->quoteName('update_site_id'))
+				->from($db->quoteName('#__update_sites_extensions'))
+				->where($db->quoteName('extension_id') . ' = ' . $extId);
+
+			$db->setQuery($siteQuery);
+
+			$siteId = (int) $db->loadResult();
+
+			if ($siteId)
+			{
+				$this->updateSiteId = $siteId;
+			}
+		}
 	}
 
 	/**
@@ -46,16 +95,30 @@ class InstallerModelLanguages extends JModelList
 	 */
 	protected function _getListQuery()
 	{
-		$db   = JFactory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the updates table.
-		$query->select('update_id, name, version, detailsurl, type')
+		$query->select($db->quoteName(array('update_id', 'name', 'version', 'detailsurl', 'type')))
+			->from($db->quoteName('#__updates'));
 
-			->from('#__updates');
+		/*
+		 * This where clause will limit to language updates only.
+		 * If no update site exists, set the where clause so
+		 * no available languages will be found later with the
+		 * query returned by this function here.
+		 */
+		if ($this->updateSiteId)
+		{
+			$query->where($db->quoteName('update_site_id') . ' = ' . $this->updateSiteId);
+		}
+		else
+		{
+			$query->where($db->quoteName('update_site_id') . ' = -1');
+		}
 
-		// This Where clause will avoid to list languages already installed.
-		$query->where('extension_id = 0');
+		// This where clause will avoid to list languages already installed.
+		$query->where($db->quoteName('extension_id') . ' = 0');
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
@@ -116,6 +179,44 @@ class InstallerModelLanguages extends JModelList
 	}
 
 	/**
+	 * Enable languages update server
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.4
+	 */
+	protected function enableUpdateSite()
+	{
+		// If no update site, return false.
+		if (!$this->updateSiteId)
+		{
+			return false;
+		}
+
+		// Try to enable the update site, return false if some RuntimeException
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->update('#__update_sites')
+			->set('enabled = 1')
+			->where('update_site_id = ' . $this->updateSiteId);
+
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Method to find available languages in the Accredited Languages Update Site.
 	 *
 	 * @param   int  $cache_timeout  time before refreshing the cached updates
@@ -126,13 +227,24 @@ class InstallerModelLanguages extends JModelList
 	 */
 	public function findLanguages($cache_timeout = 0)
 	{
+		if (!$this->enableUpdateSite())
+		{
+			return false;
+		}
+
+		if (!$this->enGbExtensionId)
+		{
+			return false;
+		}
+
 		$updater = JUpdater::getInstance();
 
 		/*
-		 * The following function uses extension_id 600, that is the english language extension id.
-		 * In #__update_sites_extensions you should have 600 linked to the Accredited Translations Repo
+		 * The following function call uses the extension_id of the en-GB package.
+		 * In #__update_sites_extensions you should have this extension_id linked
+		 * to the Accredited Translations Repo.
 		 */
-		$updater->findUpdates(array(600), $cache_timeout);
+		$updater->findUpdates(array($this->enGbExtensionId), $cache_timeout);
 
 		return true;
 	}
@@ -148,12 +260,13 @@ class InstallerModelLanguages extends JModelList
 	 */
 	public function install($lids)
 	{
-		$app       = JFactory::getApplication();
-		$installer = JInstaller::getInstance();
+		$app = JFactory::getApplication();
 
 		// Loop through every selected language
 		foreach ($lids as $id)
 		{
+			$installer = new JInstaller;
+
 			// Loads the update database object that represents the language.
 			$language = JTable::getInstance('update');
 			$language->load($id);

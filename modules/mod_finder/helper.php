@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,7 +57,7 @@ class ModFinderHelper
 	/**
 	 * Get Smart Search query object.
 	 *
-	 * @param   JRegistry  $params  Module parameters.
+	 * @param   \Joomla\Registry\Registry  $params  Module parameters.
 	 *
 	 * @return  FinderIndexerQuery object
 	 *

@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * This models supports retrieving a category, the articles associated with the category,
@@ -112,7 +114,7 @@ class ContentModelCategory extends JModelList
 
 		// Load the parameters. Merge Global and Menu Item params into new object
 		$params = $app->getParams();
-		$menuParams = new JRegistry;
+		$menuParams = new Registry;
 
 		if ($menu = $app->getMenu()->getActive())
 		{
@@ -213,6 +215,9 @@ class ContentModelCategory extends JModelList
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
 		$this->setState('layout', $app->input->getString('layout'));
+
+		// Set the featured articles state
+		$this->setState('filter.featured', $params->get('show_featured'));
 	}
 
 	/**
@@ -234,6 +239,7 @@ class ContentModelCategory extends JModelList
 			$model->setState('filter.published', $this->getState('filter.published'));
 			$model->setState('filter.access', $this->getState('filter.access'));
 			$model->setState('filter.language', $this->getState('filter.language'));
+			$model->setState('filter.featured', $this->getState('filter.featured'));
 			$model->setState('list.ordering', $this->_buildContentOrderBy());
 			$model->setState('list.start', $this->getState('list.start'));
 			$model->setState('list.limit', $limit);

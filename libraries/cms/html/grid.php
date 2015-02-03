@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for creating HTML Grids
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       1.5
+ * @since  1.5
  */
 abstract class JHtmlGrid
 {
@@ -71,7 +69,7 @@ abstract class JHtmlGrid
 	 *
 	 * @since   1.5
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc', $tip = '')
+	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $new_direction = 'asc', $tip = '')
 	{
 		JHtml::_('behavior.core');
 		JHtml::_('bootstrap.tooltip');
@@ -137,14 +135,15 @@ abstract class JHtmlGrid
 	 * @param   integer  $recId       The record id
 	 * @param   boolean  $checkedOut  True if item is checke out
 	 * @param   string   $name        The name of the form element
+	 * @param   string   $stub        The name of stub identifier
 	 *
 	 * @return  mixed    String of html with a checkbox if item is not checked out, null if checked out.
 	 *
 	 * @since   1.5
 	 */
-	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid')
+	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb')
 	{
-		return $checkedOut ? '' : '<input type="checkbox" id="cb' . $rowNum . '" name="' . $name . '[]" value="' . $recId
+		return $checkedOut ? '' : '<input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
 			. '" onclick="Joomla.isChecked(this.checked);" />';
 	}
 

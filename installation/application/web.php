@@ -3,18 +3,18 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla! Installation Application class.
  *
- * @package     Joomla.Installation
- * @subpackage  Application
- * @since       3.1
+ * @since  3.1
  */
 final class InstallationApplicationWeb extends JApplicationCms
 {
@@ -382,7 +382,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		{
 			$template = new stdClass;
 			$template->template = 'template';
-			$template->params = new JRegistry;
+			$template->params = new Registry;
 
 			return $template;
 		}
@@ -453,7 +453,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Check for custom helpurl.
 		if (empty($forced['helpurl']))
 		{
-			$options['helpurl'] = 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';
+			$options['helpurl'] = 'https://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';
 		}
 		else
 		{
@@ -554,10 +554,10 @@ final class InstallationApplicationWeb extends JApplicationCms
 			$session->start();
 		}
 
-		if (!$session->get('registry') instanceof JRegistry)
+		if (!$session->get('registry') instanceof Registry)
 		{
 			// Registry has been corrupted somehow.
-			$session->set('registry', new JRegistry('session'));
+			$session->set('registry', new Registry('session'));
 		}
 
 		// Set the session object.

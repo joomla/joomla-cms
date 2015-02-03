@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -123,7 +123,7 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests JUser::getInstance() with an error
+	 * Tests JUser::getInstance() with an error. It should return an empty JUser object with an id of 0.
 	 *
 	 * @return  void
 	 *
@@ -133,8 +133,15 @@ class JUserTest extends TestCaseDatabase
 	 */
 	public function testGetInstanceError()
 	{
-		$this->assertFalse(
-			JUser::getInstance('nobody')
+		$emptyUser = JUser::getInstance('nobody');
+		$this->assertInstanceOf(
+			'JUser',
+			$emptyUser
+		);
+
+		$this->assertEquals(
+			$emptyUser->id,
+			0
 		);
 	}
 

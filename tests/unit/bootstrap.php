@@ -7,7 +7,7 @@
  *
  * @package     Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  * @link        http://www.phpunit.de/manual/current/en/installation.html
  */
@@ -21,6 +21,9 @@ ini_set('magic_quotes_runtime', 0);
 ini_set('zend.ze1_compatibility_mode', '0');
 error_reporting(E_ALL & ~(E_STRICT|E_USER_DEPRECATED));
 ini_set('display_errors', 1);
+
+// Set fixed precision value to avoid round related issues
+ini_set('precision', 14);
 
 /*
  * Ensure that required path constants are defined.  These can be overridden within the phpunit.xml file

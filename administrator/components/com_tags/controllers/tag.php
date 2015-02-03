@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,6 @@ defined('_JEXEC') or die;
  */
 class TagsControllerTag extends JControllerForm
 {
-
 	/**
 	 * Method to check if you can add a new record.
 	 *
@@ -29,6 +28,7 @@ class TagsControllerTag extends JControllerForm
 	protected function allowAdd($data = array())
 	{
 		$user = JFactory::getUser();
+
 		return ($user->authorise('core.create', 'com_tags'));
 	}
 
@@ -46,7 +46,6 @@ class TagsControllerTag extends JControllerForm
 	{
 		// Since there is no asset tracking and no categories, revert to the component permissions.
 		return parent::allowEdit($data, $key);
-
 	}
 
 	/**

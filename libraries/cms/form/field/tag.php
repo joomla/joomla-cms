@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.1
+ * @since  3.1
  */
 class JFormFieldTag extends JFormFieldList
 {
@@ -39,7 +37,7 @@ class JFormFieldTag extends JFormFieldList
 	/**
 	 * com_tags parameters
 	 *
-	 * @var    JRegistry
+	 * @var    \Joomla\Registry\Registry
 	 * @since  3.1
 	 */
 	protected $comParams = null;
@@ -116,7 +114,7 @@ class JFormFieldTag extends JFormFieldList
 
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true)
-			->select('DISTINCT a.id AS value, a.path, a.title AS text, a.level, a.published')
+			->select('DISTINCT a.id AS value, a.path, a.title AS text, a.level, a.published, a.lft')
 			->from('#__tags AS a')
 			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 

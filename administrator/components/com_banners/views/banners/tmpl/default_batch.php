@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,12 +21,12 @@ $published = $this->state->get('filter.published');
 		<div class="row-fluid">
 			<div class="control-group span6">
 				<div class="controls">
-					<?php echo JHtml::_('banner.clients'); ?>
+					<?php echo JHtml::_('batch.language'); ?>
 				</div>
 			</div>
 			<div class="control-group span6">
 				<div class="controls">
-					<?php echo JHtml::_('batch.language'); ?>
+					<?php echo JHtml::_('banner.clients'); ?>
 				</div>
 			</div>
 		</div>
@@ -41,7 +41,7 @@ $published = $this->state->get('filter.published');
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn" type="button" onclick="document.id('batch-category-id').value='';document.id('batch-client-id').value='';document.id('batch-language-id').value=''" data-dismiss="modal">
+		<button class="btn" type="button" onclick="document.getElementById('batch-category-id').value='';document.getElementById('batch-client-id').value='';document.getElementById('batch-language-id').value=''" data-dismiss="modal">
 			<?php echo JText::_('JCANCEL'); ?>
 		</button>
 		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('banner.batch');">

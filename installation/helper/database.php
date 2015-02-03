@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla Installation Database Helper Class.
  *
- * @package  Joomla.Installation
- * @since    1.6
+ * @since  1.6
  */
 abstract class InstallationHelperDatabase
 {

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,8 +28,6 @@ const JERROR_ILLEGAL_MODE = 3;
  * - Sebastian Mordziol	<argh@php-tools.net>
  * - Stephan Schmidt		<scst@php-tools.net>
  *
- * @package     Joomla.Legacy
- * @subpackage  Error
  * @since       11.1
  * @deprecated  12.1 (Platform) & 4.0 (CMS) - Use PHP Exception
  */

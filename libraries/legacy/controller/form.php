@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Controller tailored to suit most form-based admin operations.
  *
- * @package     Joomla.Legacy
- * @subpackage  Controller
- * @since       12.2
- * @todo        Add ability to set redirect manually to better cope with frontend usage.
+ * @since  12.2
+ * @todo   Add ability to set redirect manually to better cope with frontend usage.
  */
 class JControllerForm extends JControllerLegacy
 {

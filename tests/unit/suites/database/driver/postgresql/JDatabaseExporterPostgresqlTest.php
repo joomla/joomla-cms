@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,25 +12,21 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       12.1
  */
 class JDatabaseExporterPostgresqlTest extends TestCase
 {
 	/**
 	 * @var    JDatabaseDriverPostgresql  The mocked database object for use by test methods.
-	 * @since  12.1
 	 */
 	protected $dbo = null;
 
 	/**
 	 * @var    string  A query string or object.
-	 * @since  12.1
 	 */
 	protected $lastQuery = null;
 
 	/**
 	 * @var    bool  Boolean value to know if current database version is newer than 9.1.0
-	 * @since  12.1
 	 */
 	private $_ver9dot1 = true;
 
@@ -38,13 +34,9 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 	 * Sets up the testing conditions
 	 *
 	 * @return  void
-	 *
-	 * @since   12.1
 	 */
 	protected function setup()
 	{
-		parent::setUp();
-
 		// Set up the database object mock.
 		$this->dbo = $this->getMockDatabase('Postgresql', array('getTableSequences'), '1970-01-01 00:00:00', 'Y-m-d H:i:s');
 
@@ -149,12 +141,10 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 	 * @param   string  $value  The value to be quoted.
 	 *
 	 * @return  string  The value passed wrapped in MySQL quotes.
-	 *
-	 * @since   3.4
 	 */
 	public function mockQuoteName($value)
 	{
-		return '"$value"';
+		return "'$value'";
 	}
 
 	/**
@@ -163,8 +153,6 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 	 * @param   boolean  $new  True to get a new query, false to get the last query.
 	 *
 	 * @return  JDatabaseQueryPostgresql
-	 *
-	 * @since   11.3
 	 */
 	public function mockGetQuery($new = false)
 	{
@@ -180,10 +168,6 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 
 	/**
 	 * Test the magic __toString method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
 	public function test__toString()
 	{
@@ -226,10 +210,6 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 
 	/**
 	 * Tests the asXml method.
-	 *
-	 * @return void
-	 *
-	 * @since  12.1
 	 */
 	public function testAsXml()
 	{
@@ -253,10 +233,6 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 
 	/**
 	 * Test the buildXML method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
 	public function testBuildXml()
 	{
@@ -300,10 +276,6 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 
 	/**
 	 * Tests the buildXmlStructure method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
 	public function testBuildXmlStructure()
 	{
@@ -342,58 +314,30 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 	/**
 	 * Tests the check method.
 	 *
-	 * @return void
-	 *
-	 * @since  12.1
+	 * @expectedException Exception
 	 */
 	public function testCheckWithNoDbo()
 	{
 		$instance = new JDatabaseExporterPostgresql;
 
-		try
-		{
-			$instance->check();
-		}
-		catch (Exception $e)
-		{
-			// Exception expected.
-			return;
-		}
-
-		$this->fail('Check method should throw exception if DBO not set');
+		$instance->check();
 	}
 
 	/**
 	 * Tests the check method.
 	 *
-	 * @return void
-	 *
-	 * @since  12.1
+	 * @expectedException Exception
 	 */
 	public function testCheckWithNoTables()
 	{
 		$instance	= new JDatabaseExporterPostgresql;
 		$instance->setDbo($this->dbo);
 
-		try
-		{
-			$instance->check();
-		}
-		catch (Exception $e)
-		{
-			// Exception expected.
-			return;
-		}
-
-		$this->fail('Check method should throw exception if the from property not set');
+		$instance->check();
 	}
 
 	/**
 	 * Tests the check method.
-	 *
-	 * @return void
-	 *
-	 * @since  12.1
 	 */
 	public function testCheckWithGoodInput()
 	{
@@ -401,85 +345,51 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
-		try
-		{
-			$result = $instance->check();
+		$result = $instance->check();
 
-			$this->assertSame(
-				$instance,
-				$result
-			);
-		}
-		catch (Exception $e)
-		{
-			$this->fail('Check method should not throw exception with good setup: ' . $e->getMessage());
-		}
+		$this->assertSame(
+			$instance,
+			$result
+		);
 	}
 
 	/**
 	 * Tests the from method with bad input.
 	 *
-	 * @return void
-	 *
-	 * @since  12.1
+	 * @expectedException Exception
 	 */
 	public function testFromWithBadInput()
 	{
 		$instance = new JDatabaseExporterPostgresql;
 
-		try
-		{
-			$instance->from(new stdClass);
-		}
-		catch (Exception $e)
-		{
-			// Exception expected.
-			return;
-		}
-
-		$this->fail('From method should thrown an exception if argument is not a string or array.');
+		$instance->from(new stdClass);
 	}
 
 	/**
 	 * Tests the from method with expected good inputs.
-	 *
-	 * @return void
-	 *
-	 * @since  12.1
 	 */
 	public function testFromWithGoodInput()
 	{
 		$instance = new JDatabaseExporterPostgresql;
 
-		try
-		{
-			$result = $instance->from('jos_foobar');
+		$result = $instance->from('jos_foobar');
 
-			$this->assertSame(
-				$instance,
-				$result,
-				'from must return an object to support chaining.'
-			);
+		$this->assertSame(
+			$instance,
+			$result,
+			'from must return an object to support chaining.'
+		);
 
-			$this->assertAttributeEquals(
-				array('jos_foobar'),
-				'from',
-				$instance,
-				'The from method should convert a string input to an array.'
-			);
-		}
-		catch (Exception $e)
-		{
-			$this->fail('From method should not throw exception with good input: ' . $e->getMessage());
-		}
+		$this->assertAttributeEquals(
+			array('jos_foobar'),
+			'from',
+			$instance,
+			'The from method should convert a string input to an array.'
+		);
 	}
 
 	/**
 	 * Tests the method getGenericTableName method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
 	public function testGetGenericTableName()
 	{
@@ -495,62 +405,22 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 
 	/**
 	 * Tests the setDbo method with the wrong type of class.
-	 *
-	 * @return void
-	 *
-	 * @since  12.1
-	 */
-	public function testSetDboWithBadInput()
-	{
-		$instance = new JDatabaseExporterPostgresql;
-
-		try
-		{
-			$instance->setDbo(new stdClass);
-		}
-		catch (PHPUnit_Framework_Error $e)
-		{
-			// Expecting the error, so just ignore it.
-			return;
-		}
-
-		$this->fail('setDbo requires a JDatabasePostgresql object and should throw an exception.');
-	}
-
-	/**
-	 * Tests the setDbo method with the wrong type of class.
-	 *
-	 * @return void
-	 *
-	 * @since  12.1
 	 */
 	public function testSetDboWithGoodInput()
 	{
 		$instance = new JDatabaseExporterPostgresql;
 
-		try
-		{
-			$result = $instance->setDbo($this->dbo);
+		$result = $instance->setDbo($this->dbo);
 
-			$this->assertSame(
-				$instance,
-				$result,
-				'setDbo must return an object to support chaining.'
-			);
-		}
-		catch (PHPUnit_Framework_Error $e)
-		{
-			// Unknown error has occurred.
-			$this->fail($e->getMessage());
-		}
+		$this->assertSame(
+			$instance,
+			$result,
+			'setDbo must return an object to support chaining.'
+		);
 	}
 
 	/**
 	 * Tests the withStructure method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
 	public function testWithStructure()
 	{

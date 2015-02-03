@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.0
  */
@@ -19,10 +19,10 @@ $user            = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-$doc->addScriptVersion('templates/' . $this->template . '/js/template.js');
+$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheetVersion('templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
@@ -38,9 +38,10 @@ $view     = $input->get('view', '');
 $layout   = $input->get('layout', '');
 $task     = $input->get('task', '');
 $itemid   = $input->get('Itemid', '');
-$sitename = $app->get('sitename');
-
+$sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $cpanel   = ($option === 'com_cpanel');
+
+$hidden = JFactory::getApplication()->input->get('hidemainmenu');
 
 $showSubmenu          = false;
 $this->submenumodules = JModuleHelper::getModules('submenu');
@@ -109,12 +110,22 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 		</style>
 	<?php endif; ?>
 
+	<!-- Link color -->
+	<?php if ($this->params->get('linkColor')) : ?>
+		<style type="text/css">
+			a, .j-toggle-sidebar-button
+			{
+				color: <?php echo $this->params->get('linkColor'); ?>;
+			}
+		</style>
+	<?php endif; ?>
+
 	<!--[if lt IE 9]>
-	<script src="../media/jui/js/html5.js"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>" <?php if ($stickyToolbar) : ?>data-spy="scroll" data-target=".subhead" data-offset="87"<?php endif; ?>>
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
 <!-- Top Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
@@ -127,7 +138,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				</a>
 			<?php endif; ?>
 
-			<a class="admin-logo" href="<?php echo $this->baseurl; ?>"><span class="icon-joomla"></span></a>
+			<a class="admin-logo <?php echo ($hidden ? 'disabled' : ''); ?>" <?php echo ($hidden ? '' : 'href="' . $this->baseurl . '"'); ?>><span class="icon-joomla"></span></a>
 
 			<a class="brand hidden-desktop hidden-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
 				<span class="icon-out-2 small"></span></a>
@@ -136,23 +147,25 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				<jdoc:include type="modules" name="menu" style="none" />
 				<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
 					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-cog"></span>
+						<a class="<?php echo ($hidden ? ' disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hidden ? '' : 'dropdown'); ?>" <?php echo ($hidden ? '' : 'href="#"'); ?>><span class="icon-cog"></span>
 							<b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li>
-								<span>
-									<span class="icon-user"></span>
-									<strong><?php echo $user->name; ?></strong>
-								</span>
-							</li>
-							<li class="divider"></li>
-							<li class="">
-								<a href="index.php?option=com_admin&amp;task=profile.edit&amp;id=<?php echo $user->id; ?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT'); ?></a>
-							</li>
-							<li class="divider"></li>
-							<li class="">
-								<a href="<?php echo JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1'); ?>"><?php echo JText::_('TPL_ISIS_LOGOUT'); ?></a>
-							</li>
+							<?php if (!$hidden) : ?>
+								<li>
+									<span>
+										<span class="icon-user"></span>
+										<strong><?php echo $user->name; ?></strong>
+									</span>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a href="index.php?option=com_admin&amp;task=profile.edit&amp;id=<?php echo $user->id; ?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT'); ?></a>
+								</li>
+								<li class="divider"></li>
+								<li class="">
+									<a href="<?php echo JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1'); ?>"><?php echo JText::_('TPL_ISIS_LOGOUT'); ?></a>
+								</li>
+							<?php endif; ?>
 						</ul>
 					</li>
 				</ul>
@@ -257,57 +270,48 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<!-- End Status Module -->
 <?php endif; ?>
 <jdoc:include type="modules" name="debug" style="none" />
-<?php
-// Get the singular view
-$singular = preg_match('/&id=|&view=mail|&layout=edit/', JURI::getInstance()->toString());
-if ($stickyToolbar) : ?>
+<?php if ($stickyToolbar) : ?>
 	<script>
-		(function($)
+		jQuery(function($)
 		{
-			// fix sub nav on scroll
-			var $win = $(window)
-				, $nav    = $('.subhead')
-				, navTop  = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>40<?php else:?>20<?php endif;?>
-				, isFixed = 0
-				, edit = <?php echo $singular; ?>
 
-			// Disable cpanel and user menu
-			if (edit)
+			var navTop;
+			var isFixed = false;
+
+			processScrollInit();
+			processScroll();
+
+			$(window).on('resize', processScrollInit);
+			$(window).on('scroll', processScroll);
+
+			function processScrollInit()
 			{
-				$('.icon-joomla').addClass('disabled');
-				$('.nav-user').addClass('disabled');
-				$(".admin-logo").removeAttr("href");
-				$('ul.nav-user > li > a').removeAttr("data-toggle").removeAttr("href");
-				$('ul.nav-user > li > .dropdown-menu').empty();
-			}
-
-			processScroll()
-
-			// hack sad times - holdover until rewrite for 2.1
-			$nav.on('click', function()
-			{
-				if (!isFixed) {
-					setTimeout(function()
+				if ($('.subhead').length) {
+					navTop = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>;
+	
+					// Only apply the scrollspy when the toolbar is not collapsed
+					if (document.body.clientWidth > 480)
 					{
-						$win.scrollTop($win.scrollTop() - 47)
-					}, 10)
+						$('.subhead-collapse').height($('.subhead').height());
+						$('.subhead').scrollspy({offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}});
+					}
 				}
-			})
-
-			$win.on('scroll', processScroll)
+			}
 
 			function processScroll()
 			{
-				var i, scrollTop = $win.scrollTop()
-				if (scrollTop >= navTop && !isFixed) {
-					isFixed = 1
-					$nav.addClass('subhead-fixed')
-				} else if (scrollTop <= navTop && isFixed) {
-					isFixed = 0
-					$nav.removeClass('subhead-fixed')
+				if ($('.subhead').length) {
+					var scrollTop = $(window).scrollTop();
+					if (scrollTop >= navTop && !isFixed) {
+						isFixed = true;
+						$('.subhead').addClass('subhead-fixed');
+					} else if (scrollTop <= navTop && isFixed) {
+						isFixed = false;
+						$('.subhead').removeClass('subhead-fixed');
+					}
 				}
 			}
-		})(jQuery);
+		});
 	</script>
 <?php endif; ?>
 </body>

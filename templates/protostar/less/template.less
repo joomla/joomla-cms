@@ -86,6 +86,10 @@
 @import "icomoon.less";
 
 /* Site Body Styles */
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
 body.site{
 	border-top:3px solid #0088cc;
 	padding: 20px;
@@ -294,18 +298,18 @@ figcaption {
 		-webkit-background-clip: padding-box;
 		 -moz-background-clip: padding;
 		      background-clip: padding-box;
-		
+
 		// Aligns the dropdown menu to right
 		&.pull-right {
 			right: 0;
 			left: auto;
 		}
-		
+
 		// Dividers (basically an hr) within the dropdown
 		.divider {
 			.nav-divider(@dropdownDividerTop, @dropdownDividerBottom);
 		}
-		
+
 		// Links within the dropdown menu
 		a {
 			display: block;
@@ -318,33 +322,62 @@ figcaption {
 			white-space: nowrap;
 		}
 	}
-	.nav > li {
+	.nav li {
 		position: relative;
 	}
 	.nav > li:hover > .nav-child,
-	.nav > li > a:focus + .nav-child, {
+	.nav > li > a:focus + .nav-child,
+	.nav li li:hover > .nav-child,
+	.nav li li > a:focus + .nav-child {
 		display: block;
 	}
-	.nav-child:before {
-	  position: absolute;
-	  top: -7px;
-	  left: 9px;
-	  display: inline-block;
-	  border-right: 7px solid transparent;
-	  border-bottom: 7px solid #ccc;
-	  border-left: 7px solid transparent;
-	  border-bottom-color: rgba(0, 0, 0, 0.2);
-	  content: '';
+	.nav > li > .nav-child {
+		&:before {
+		  position: absolute;
+		  top: -7px;
+		  left: 9px;
+		  display: inline-block;
+		  border-right: 7px solid transparent;
+		  border-bottom: 7px solid #ccc;
+		  border-left: 7px solid transparent;
+		  border-bottom-color: rgba(0, 0, 0, 0.2);
+		  content: '';
+		}
+		&:after {
+		  position: absolute;
+		  top: -6px;
+		  left: 10px;
+		  display: inline-block;
+		  border-right: 6px solid transparent;
+		  border-bottom: 6px solid #ffffff;
+		  border-left: 6px solid transparent;
+		  content: '';
+		}
 	}
-	.nav-child:after {
-	  position: absolute;
-	  top: -6px;
-	  left: 10px;
-	  display: inline-block;
-	  border-right: 6px solid transparent;
-	  border-bottom: 6px solid #ffffff;
-	  border-left: 6px solid transparent;
-	  content: '';
+	.nav li li .nav-child {
+		top: -8px;
+		left: 100%;
+
+		&:before {
+			position: absolute;
+			top: 9px;
+			left: -7px;
+			display: inline-block;
+			border-top: 7px solid transparent;
+			border-right: 7px solid rgba(0, 0, 0, 0.2);
+			border-bottom: 7px solid transparent;
+			content: '';
+		}
+		&:after {
+			position: absolute;
+			top: 10px;
+			left: -6px;
+			display: inline-block;
+			border-top: 6px solid transparent;
+			border-right: 6px solid #ffffff;
+			border-bottom: 6px solid transparent;
+			content: '';
+		}
 	}
 }
 

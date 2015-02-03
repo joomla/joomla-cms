@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
@@ -181,7 +183,7 @@ class FinderIndexerQuery
 		$this->mode = 'AND';
 
 		// Initialize the temporary date storage.
-		$this->dates = new JRegistry;
+		$this->dates = new Registry;
 
 		// Populate the temporary date storage.
 		if (isset($options['date1']) && !empty($options['date1']))
@@ -506,7 +508,7 @@ class FinderIndexerQuery
 		$this->filter = (int) $filterId;
 
 		// Get a parameter object for the filter date options.
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($return->params);
 		$params = $registry;
 

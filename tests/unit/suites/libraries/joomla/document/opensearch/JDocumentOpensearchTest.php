@@ -3,18 +3,14 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/document/opensearch/opensearch.php';
 
 /**
- * Test class for JDocumentOpensearch.
- *
- * @package     Joomla.UnitTest
- * @subpackage  Document
- * @since       11.1
+ * Test class for JDocumentOpensearch
  */
 class JDocumentOpensearchTest extends TestCase
 {
@@ -26,8 +22,6 @@ class JDocumentOpensearchTest extends TestCase
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
-	 *
-	 * @return  void
 	 */
 	protected function setUp()
 	{
@@ -47,46 +41,45 @@ class JDocumentOpensearchTest extends TestCase
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
-	 *
-	 * @return  void
 	 */
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+
+		JDocument::$_buffer = null;
+
+		parent::tearDown();
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test the default return for render
 	 */
-	public function testRender()
+	public function testTheDefaultReturnForRender()
 	{
-		$this->object->setShortName('ShortName');
-		$this->object->setDescription('Description');
+		$this->assertContains('<?xml version="1.0" encoding="utf-8"?>', $this->object->render());
+	}
 
-		$item = new JOpenSearchUrl;
-		$item->template = 'http://www.example.com';
+	/**
+	 * @testdox  Test that setShortName returns an instance of $this
+	 */
+	public function testEnsureSetShortNameReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->setShortName('CMS'));
+	}
 
-		$item2 = new JOpenSearchUrl;
-		$item2->template = 'http://www.example.com?format=feed';
-		$item2->type = 'application/rss+xml';
-		$item2->rel = 'suggestions';
+	/**
+	 * @testdox  Test that addUrl returns an instance of $this
+	 */
+	public function testEnsureAddUrlReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->addUrl(new JOpenSearchUrl('http://www.joomla.org')));
+	}
 
-		$this->object->addUrl($item);
-		$this->object->addUrl($item2);
-
-		$expected = '<?xml version="1.0" encoding="utf-8"?>' . PHP_EOL .
-			'<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"><ShortName>ShortName</ShortName>' .
-			'<Description>Description</Description><InputEncoding>UTF-8</InputEncoding>' .
-			'<Url type="application/opensearchdescription+xml" rel="self" template="http://mydomain.com/index.php"/>' .
-			'<Url type="text/html" template="http://www.example.com"/>' .
-			'<Url type="application/rss+xml" rel="suggestions" template="http://www.example.com?format=feed"/>' .
-			'</OpenSearchDescription>' . PHP_EOL;
-
-		$this->assertXmlStringEqualsXmlString(
-			$this->object->render(),
-			$expected
-		);
+	/**
+	 * @testdox  Test that addImage returns an instance of $this
+	 */
+	public function testEnsureAddImageReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->addImage(new JOpenSearchImage('http://www.joomla.org')));
 	}
 }

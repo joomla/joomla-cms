@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Response
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * This class serves to provide the Joomla Platform with a common interface to access
  * response variables for e.g. Ajax requests.
  *
- * @package     Joomla.Libraries
- * @subpackage  Response
- * @since       3.1
+ * @since  3.1
  */
 class JResponseJson
 {

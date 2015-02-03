@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ JHtml::_('behavior.caption');
 	<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 		<div class="category-desc clearfix">
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
-				<img src="<?php echo $this->category->getParams()->get('image'); ?>"/>
+				<img src="<?php echo $this->category->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($this->category->getParams()->get('image_alt')); ?>"/>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_description') && $this->category->description) : ?>
 				<?php echo JHtml::_('content.prepare', $this->category->description, '', 'com_content.category'); ?>

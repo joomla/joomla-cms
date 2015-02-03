@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Object
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,9 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * This class allows for simple but smart objects with get and set methods
  * and an internal error handler.
  *
- * @package     Joomla.Platform
- * @subpackage  Object
  * @since       11.1
+ * @deprecated  4.0
  */
 class JObject
 {

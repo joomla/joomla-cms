@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ class MenusModelMenus extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
 	 * @since   1.6
@@ -95,6 +95,7 @@ class MenusModelMenus extends JModelList
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -111,6 +112,7 @@ class MenusModelMenus extends JModelList
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -127,6 +129,7 @@ class MenusModelMenus extends JModelList
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -194,7 +197,7 @@ class MenusModelMenus extends JModelList
 		$this->setState('filter.search', $search);
 
 		// List state information.
-		parent::populateState('a.id', 'asc');
+		parent::populateState('a.title', 'asc');
 	}
 
 	/**
@@ -222,11 +225,13 @@ class MenusModelMenus extends JModelList
 	 * Gets a list of all mod_mainmenu modules and collates them by menutype
 	 *
 	 * @return  array
+	 *
+	 * @since   1.6
 	 */
 	public function &getModules()
 	{
 		$model = JModelLegacy::getInstance('Menu', 'MenusModel', array('ignore_request' => true));
-		$result = & $model->getModules();
+		$result = $model->getModules();
 
 		return $result;
 	}

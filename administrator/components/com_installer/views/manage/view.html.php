@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,15 +48,6 @@ class InstallerViewManage extends InstallerViewDefault
 			JError::raiseError(500, implode("\n", $errors));
 
 			return false;
-		}
-
-		// Check if there are no matching items.
-		if (!count($this->items))
-		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'),
-				'warning'
-			);
 		}
 
 		// Include the component HTML helpers.

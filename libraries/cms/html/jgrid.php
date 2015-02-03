@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for creating HTML Grids
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlJGrid
 {
@@ -195,7 +193,7 @@ abstract class JHtmlJGrid
 				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', $publish_down->format(JDate::$format, true));
 			}
 
-			$tip = empty($tips) ? false : implode('<br/>', $tips);
+			$tip = empty($tips) ? false : implode('<br />', $tips);
 
 			// Add tips and special titles
 			foreach ($states as $key => $state)
