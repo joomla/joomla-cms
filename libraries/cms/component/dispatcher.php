@@ -100,10 +100,16 @@ class JComponentDispatcher implements JComponentDispatcherInterface
 				$mainPath = JPATH_SITE . '/components/' . $option;
 				$altPath  = JPATH_ADMINISTRATOR . '/components/' . $option;
 			}
-			else
+			elseif (JFactory::getApplication()->isAdmin())
 			{
 				$mainPath = JPATH_ADMINISTRATOR . '/components/' . $option;
 				$altPath  = JPATH_SITE . '/components/' . $option;
+			}
+			else
+			{
+				// We are not in the site or admin area - some kind of CLI application
+				// maybe and we can't find a dispatcher. Throw an exception and bail.
+				throw new LogicException('Could not find a valid dispatcher')
 			}
 
 			$componentPaths = array(
