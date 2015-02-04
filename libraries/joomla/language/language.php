@@ -190,94 +190,8 @@ class JLanguage
 			$lang = $this->default;
 		}
 
-		$this->setLanguage($lang);
 		$this->setDebug($debug);
-
-		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
-
-		if (file_exists($filename) && $contents = $this->parse($filename))
-		{
-			if (is_array($contents))
-			{
-				// Sort the underlying heap by key values to optimize merging
-				ksort($contents, SORT_STRING);
-				$this->override = $contents;
-			}
-
-			unset($contents);
-		}
-
-		// Look for a language specific localise class
-		$class = str_replace('-', '_', $lang . 'Localise');
-		$paths = array();
-
-		if (defined('JPATH_SITE'))
-		{
-			// Note: Manual indexing to enforce load order.
-			$paths[0] = JPATH_SITE . "/language/overrides/$lang.localise.php";
-			$paths[2] = JPATH_SITE . "/language/$lang/$lang.localise.php";
-		}
-
-		if (defined('JPATH_ADMINISTRATOR'))
-		{
-			// Note: Manual indexing to enforce load order.
-			$paths[1] = JPATH_ADMINISTRATOR . "/language/overrides/$lang.localise.php";
-			$paths[3] = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
-		}
-
-		ksort($paths);
-		$path = reset($paths);
-
-		while (!class_exists($class) && $path)
-		{
-			if (file_exists($path))
-			{
-				require_once $path;
-			}
-
-			$path = next($paths);
-		}
-
-		if (class_exists($class))
-		{
-			/* Class exists. Try to find
-			 * -a transliterate method,
-			 * -a getPluralSuffixes method,
-			 * -a getIgnoredSearchWords method
-			 * -a getLowerLimitSearchWord method
-			 * -a getUpperLimitSearchWord method
-			 * -a getSearchDisplayCharactersNumber method
-			 */
-			if (method_exists($class, 'transliterate'))
-			{
-				$this->transliterator = array($class, 'transliterate');
-			}
-
-			if (method_exists($class, 'getPluralSuffixes'))
-			{
-				$this->pluralSuffixesCallback = array($class, 'getPluralSuffixes');
-			}
-
-			if (method_exists($class, 'getIgnoredSearchWords'))
-			{
-				$this->ignoredSearchWordsCallback = array($class, 'getIgnoredSearchWords');
-			}
-
-			if (method_exists($class, 'getLowerLimitSearchWord'))
-			{
-				$this->lowerLimitSearchWordCallback = array($class, 'getLowerLimitSearchWord');
-			}
-
-			if (method_exists($class, 'getUpperLimitSearchWord'))
-			{
-				$this->upperLimitSearchWordCallback = array($class, 'getUpperLimitSearchWord');
-			}
-
-			if (method_exists($class, 'getSearchDisplayedCharactersNumber'))
-			{
-				$this->searchDisplayedCharactersNumberCallback = array($class, 'getSearchDisplayedCharactersNumber');
-			}
-		}
+		$this->setLanguage($lang, false);
 
 		$this->load();
 	}
@@ -1254,17 +1168,100 @@ class JLanguage
 	 *
 	 * Once called, the language still needs to be loaded using JLanguage::load().
 	 *
-	 * @param   string  $lang  Language code.
+	 * @param   string  $lang    Language code.
+	 * @param   bool    $reload  Wether to reload already loaded language files in the new language
 	 *
 	 * @return  string  Previous value.
 	 *
 	 * @since   11.1
 	 */
-	public function setLanguage($lang)
+	public function setLanguage($lang, $reload = true)
 	{
 		$previous = $this->lang;
 		$this->lang = $lang;
 		$this->metadata = $this->getMetadata($this->lang);
+
+		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
+
+		if (file_exists($filename) && $contents = $this->parse($filename))
+		{
+			if (is_array($contents))
+			{
+				// Sort the underlying heap by key values to optimize merging
+				ksort($contents, SORT_STRING);
+				$this->override = $contents;
+			}
+
+			unset($contents);
+		}
+
+		// Look for a language specific localise class
+		$class = str_replace('-', '_', $lang . 'Localise');
+		$paths = array();
+
+		if (defined('JPATH_SITE'))
+		{
+			// Note: Manual indexing to enforce load order.
+			$paths[0] = JPATH_SITE . "/language/overrides/$lang.localise.php";
+			$paths[2] = JPATH_SITE . "/language/$lang/$lang.localise.php";
+		}
+
+		if (defined('JPATH_ADMINISTRATOR'))
+		{
+			// Note: Manual indexing to enforce load order.
+			$paths[1] = JPATH_ADMINISTRATOR . "/language/overrides/$lang.localise.php";
+			$paths[3] = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
+		}
+
+		ksort($paths);
+
+		while (!class_exists($class) && count($paths))
+		{
+			$path = array_shift($paths);
+
+			if (file_exists($path))
+			{
+				require_once $path;
+			}
+		}
+
+		if (class_exists($class))
+		{
+			/* Class exists. Try to find
+			 * -a transliterate method,
+			 * -a getPluralSuffixes method,
+			 * -a getIgnoredSearchWords method
+			 * -a getLowerLimitSearchWord method
+			 * -a getUpperLimitSearchWord method
+			 * -a getSearchDisplayCharactersNumber method
+			 */
+			if (method_exists($class, 'transliterate'))
+			{
+				$this->transliterator = array($class, 'transliterate');
+			}
+
+			$functions = array('pluralSuffixes', 'ignoredSearchWords', 'lowerLimitSearchWord', 'upperLimitSearchWord', 'searchDisplayedCharactersNumber');
+			foreach ($functions as $function)
+			{
+				if (method_exists($class, 'get' . $function))
+				{
+					$var = $function . 'Callback';
+					$this->$var = array($class, 'get' . $function);
+				}
+			}
+		}
+
+		if ($reload)
+		{
+			$extensions = array_keys($this->paths);
+			$this->strings = array();
+			$this->paths = array();
+
+			foreach($extensions as $extension)
+			{
+				$this->load($extension);
+			}
+		}
 
 		return $previous;
 	}
