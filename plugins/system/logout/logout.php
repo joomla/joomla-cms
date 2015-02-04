@@ -17,35 +17,31 @@ defined('JPATH_BASE') or die;
 class PlgSystemLogout extends JPlugin
 {
 	/**
-	 * Load the language file on instantiation.
+	 * Application object.
 	 *
-	 * @var    boolean
-	 * @since  3.1
+	 * @var    JApplicationCms
+	 * @since  3.4
 	 */
-	protected $autoloadLanguage = true;
-
+	protected $app;
+	
 	/**
-	 * Constructor.
-	 *
-	 * @param   object  &$subject  The object to observe -- event dispatcher.
-	 * @param   object  $config    An optional associative array of configuration settings.
+	 * Register the custom error handler if the cookie is set
+	 * The cookie is set on logout of the user
+	 * 
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function __construct(&$subject, $config)
+	public function onAfterInitialise()
 	{
-		parent::__construct($subject, $config);
-
-		$input = JFactory::getApplication()->input;
 		$hash  = JApplicationHelper::getHash('PlgSystemLogout');
 
-		if (JFactory::getApplication()->isSite() && $input->cookie->getString($hash))
+		if ($this->app->isSite() && $this->app->input->cookie->getString($hash))
 		{
 			// Destroy the cookie.
-			$conf = JFactory::getConfig();
-			$cookie_domain = $conf->get('cookie_domain', '');
-			$cookie_path   = $conf->get('cookie_path', '/');
-			setcookie($hash, false, time() - 86400, $cookie_path, $cookie_domain);
+			$cookie_domain 	= $this->app->get('cookie_domain');
+			$cookie_path 	= $this->app->get('cookie_path', $uri->base(true));
+			$this->app->input->cookie->set($hash, false, time() - 86400, $cookie_path, $cookie_domain);
 
 			// Set the error handler for E_ALL to be the class handleError method.
 			JError::setErrorHandling(E_ALL, 'callback', array('PlgSystemLogout', 'handleError'));
@@ -64,14 +60,13 @@ class PlgSystemLogout extends JPlugin
 	 */
 	public function onUserLogout($user, $options = array())
 	{
-		if (JFactory::getApplication()->isSite())
+		if ($this->app->isSite())
 		{
 			// Create the cookie.
-			$hash = JApplicationHelper::getHash('PlgSystemLogout');
-			$conf = JFactory::getConfig();
-			$cookie_domain 	= $conf->get('cookie_domain', '');
-			$cookie_path 	= $conf->get('cookie_path', '/');
-			setcookie($hash, true, time() + 86400, $cookie_path, $cookie_domain);
+			$hash 			= JApplicationHelper::getHash('PlgSystemLogout');
+			$cookie_domain 	= $this->app->get('cookie_domain');
+			$cookie_path 	= $this->app->get('cookie_path', $uri->base(true));
+			$this->app->input->cookie->set($hash, true, time() + 86400, $cookie_path, $cookie_domain);
 		}
 
 		return true;
@@ -88,15 +83,13 @@ class PlgSystemLogout extends JPlugin
 	 */
 	public static function handleError(&$error)
 	{
-		// Get the application object.
-		$app = JFactory::getApplication();
-
 		// Make sure the error is a 403 and we are in the frontend.
-		if ($error->getCode() == 403 and $app->isSite())
+		if ($error->getCode() == 403 and $this->app->isSite())
 		{
 			// Redirect to the home page.
-			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'));
-			$app->redirect('index.php', true);
+			$this->loadLanguage();
+			$this->app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'));
+			$this->app->redirect('index.php', true);
 		}
 		else
 		{
