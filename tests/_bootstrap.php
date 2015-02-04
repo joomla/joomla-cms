@@ -4,3 +4,5 @@
 
 $day = 'mi';
 $aaaa = 10;
+$hour = 18;
+$min  = 5;
