@@ -1257,7 +1257,7 @@ class JLanguage
 			$this->strings = array();
 			$this->paths = array();
 
-			foreach($extensions as $extension)
+			foreach ($extensions as $extension)
 			{
 				$this->load($extension);
 			}
