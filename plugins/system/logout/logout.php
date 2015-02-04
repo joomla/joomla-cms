@@ -44,7 +44,7 @@ class PlgSystemLogout extends JPlugin
 			$this->app->input->cookie->set($hash, false, time() - 86400, $cookie_path, $cookie_domain);
 
 			// Set the error handler for E_ALL to be the class handleError method.
-			JError::setErrorHandling(E_ALL, 'callback', array('PlgSystemLogout', 'handleError'));
+			JError::setErrorHandling(E_ALL, 'callback', array($this, 'handleError'));
 		}
 	}
 
@@ -81,7 +81,7 @@ class PlgSystemLogout extends JPlugin
 	 *
 	 * @since   1.6
 	 */
-	public static function handleError(&$error)
+	public function handleError(&$error)
 	{
 		// Make sure the error is a 403 and we are in the frontend.
 		if ($error->getCode() == 403 and $this->app->isSite())
