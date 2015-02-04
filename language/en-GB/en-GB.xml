@@ -10,7 +10,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>en-GB site language</description>
 	<metadata>
-		<name>English (United Kingdom)</name>
+		<name>English (UK)</name>
 		<tag>en-GB</tag>
 		<rtl>0</rtl>
 		<locale>en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
