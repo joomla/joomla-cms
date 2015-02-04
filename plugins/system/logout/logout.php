@@ -23,7 +23,7 @@ class PlgSystemLogout extends JPlugin
 	 * @since  3.4
 	 */
 	protected $app;
-	
+
 	/**
 	 * Register the custom error handler if the cookie is set
 	 * The cookie is set on logout of the user
