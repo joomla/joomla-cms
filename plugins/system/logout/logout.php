@@ -40,7 +40,7 @@ class PlgSystemLogout extends JPlugin
 		{
 			// Destroy the cookie.
 			$cookie_domain 	= $this->app->get('cookie_domain');
-			$cookie_path 	= $this->app->get('cookie_path', $uri->base(true));
+			$cookie_path 	= $this->app->get('cookie_path', JUri::base(true));
 			$this->app->input->cookie->set($hash, false, time() - 86400, $cookie_path, $cookie_domain);
 
 			// Set the error handler for E_ALL to be the class handleError method.
@@ -65,7 +65,7 @@ class PlgSystemLogout extends JPlugin
 			// Create the cookie.
 			$hash 			= JApplicationHelper::getHash('PlgSystemLogout');
 			$cookie_domain 	= $this->app->get('cookie_domain');
-			$cookie_path 	= $this->app->get('cookie_path', $uri->base(true));
+			$cookie_path 	= $this->app->get('cookie_path', JUri::base(true));
 			$this->app->input->cookie->set($hash, true, time() + 86400, $cookie_path, $cookie_domain);
 		}
 
