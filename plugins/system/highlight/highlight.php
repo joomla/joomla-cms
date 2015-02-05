@@ -17,6 +17,14 @@ defined('JPATH_BASE') or die;
 class PlgSystemHighlight extends JPlugin
 {
 	/**
+	 * Application object.
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.3
+	 */
+	protected $app;
+
+	/**
 	 * Method to catch the onAfterDispatch event.
 	 *
 	 * This is where we setup the click-through content highlighting for.
@@ -30,23 +38,19 @@ class PlgSystemHighlight extends JPlugin
 	public function onAfterDispatch()
 	{
 		// Check that we are in the site application.
-		if (JFactory::getApplication()->isAdmin())
+		if ($this->app->isAdmin())
 		{
 			return true;
 		}
 
 		// Set the variables.
-		$input = JFactory::getApplication()->input;
+		$input = $this->app->input;
 		$extension = $input->get('option', '', 'cmd');
 
-		// Check if the highlighter is enabled.
-		if (!JComponentHelper::getParams($extension)->get('highlight_terms', 1))
-		{
-			return true;
-		}
-
-		// Check if the highlighter should be activated in this environment.
-		if (JFactory::getDocument()->getType() !== 'html' || $input->get('tmpl', '', 'cmd') === 'component')
+		// Check if the highlighter is enabled and should be activated in this environment.
+		if (!JComponentHelper::getParams($extension)->get('highlight_terms', 1)
+			|| JFactory::getDocument()->getType() !== 'html'
+			|| $input->get('tmpl', '', 'cmd') === 'component')
 		{
 			return true;
 		}
@@ -64,15 +68,13 @@ class PlgSystemHighlight extends JPlugin
 		// Clean the terms array.
 		$filter = JFilterInput::getInstance();
 
-		$cleanTerms = array();
-
-		foreach ($terms as $term)
+		foreach ($terms as &$term)
 		{
-			$cleanTerms[] = htmlspecialchars($filter->clean($term, 'string'));
+			$term = htmlspecialchars($filter->clean($term, 'string'));
 		}
 
 		// Activate the highlighter.
-		JHtml::_('behavior.highlighter', $cleanTerms);
+		JHtml::_('behavior.highlighter', $terms);
 
 		// Adjust the component buffer.
 		$doc = JFactory::getDocument();
