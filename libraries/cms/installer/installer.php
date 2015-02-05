@@ -119,12 +119,8 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   3.1
 	 */
-	public function __construct($basepath = null, $classprefix = null, $adapterfolder = null)
+	public function __construct($basepath = __DIR__, $classprefix = 'JInstallerAdapter', $adapterfolder = 'adapter')
 	{
-		$basepath      = ($basepath === null) ? __DIR__ : $basepath;
-		$classprefix   = ($classprefix === null) ? 'JInstallerAdapter' : $classprefix;
-		$adapterfolder = ($adapterfolder === null) ? 'adapter' : $adapterfolder;
-
 		parent::__construct($basepath, $classprefix, $adapterfolder);
 
 		$this->extension = JTable::getInstance('extension');
@@ -141,7 +137,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   3.1
 	 */
-	public static function getInstance($basepath = null, $classprefix = null, $adapterfolder = null)
+	public static function getInstance($basepath = __DIR__, $classprefix = 'JInstallerAdapter', $adapterfolder = 'adapter')
 	{
 		if (!isset(self::$instance))
 		{
