@@ -115,7 +115,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(JInstaller $parent, $db, $options = array())
+	public function __construct(JInstaller $parent, JDatabaseDriver $db, array $options = array())
 	{
 		parent::__construct($parent, $db, $options);
 
