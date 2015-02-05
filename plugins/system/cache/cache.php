@@ -21,6 +21,14 @@ class PlgSystemCache extends JPlugin
 	var $_cache_key	= null;
 
 	/**
+	 * Application object.
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.3
+	 */
+	protected $app;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -54,20 +62,12 @@ class PlgSystemCache extends JPlugin
 	{
 		global $_PROFILER;
 
-		$app  = JFactory::getApplication();
-		$user = JFactory::getUser();
-
-		if ($app->isAdmin())
+		if ($this->app->isAdmin() || count($this->app->getMessageQueue()))
 		{
 			return;
 		}
 
-		if (count($app->getMessageQueue()))
-		{
-			return;
-		}
-
-		if ($user->get('guest') && $app->input->getMethod() == 'GET')
+		if (JFactory::getUser()->get('guest') && $this->app->input->getMethod() == 'GET')
 		{
 			$this->_cache->setCaching(true);
 		}
@@ -77,16 +77,16 @@ class PlgSystemCache extends JPlugin
 		if ($data !== false)
 		{
 			// Set cached body.
-			$app->setBody($data);
+			$this->app->setBody($data);
 
-			echo $app->toString($app->get('gzip'));
+			echo $this->app->toString($this->app->get('gzip'));
 
 			if (JDEBUG)
 			{
 				$_PROFILER->mark('afterCache');
 			}
 
-			$app->close();
+			$this->app->close();
 		}
 	}
 
@@ -99,21 +99,12 @@ class PlgSystemCache extends JPlugin
 	 */
 	public function onAfterRender()
 	{
-		$app = JFactory::getApplication();
-
-		if ($app->isAdmin())
+		if ($this->app->isAdmin() || count($this->app->getMessageQueue()))
 		{
 			return;
 		}
 
-		if (count($app->getMessageQueue()))
-		{
-			return;
-		}
-
-		$user = JFactory::getUser();
-
-		if ($user->get('guest'))
+		if (JFactory::getUser()->get('guest'))
 		{
 			// We need to check again here, because auto-login plugins have not been fired before the first aid check.
 			$this->_cache->store(null, $this->_cache_key);
