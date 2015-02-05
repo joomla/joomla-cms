@@ -113,14 +113,19 @@ class JInstaller extends JAdapter
 	/**
 	 * Constructor
 	 *
+	 * @param   string  $basepath       Base Path of the adapters
+	 * @param   string  $classprefix    Class prefix of adapters
+	 * @param   string  $adapterfolder  Name of folder to append to base path
+	 *
 	 * @since   3.1
 	 */
-	public function __construct()
+	public function __construct($basepath = null, $classprefix = null, $adapterfolder = null)
 	{
-		parent::__construct(__DIR__, 'JInstallerAdapter', __DIR__ . '/adapter');
+		$basepath      = ($basepath === null) ? __DIR__ : $basepath;
+		$classprefix   = ($classprefix === null) ? 'JInstallerAdapter' : $classprefix;
+		$adapterfolder = ($adapterfolder === null) ? 'adapter' : $adapterfolder;
 
-		// Override the default adapter folder
-		$this->_adapterfolder = 'adapter';
+		parent::__construct($basepath, $classprefix, $adapterfolder);
 
 		$this->extension = JTable::getInstance('extension');
 	}
