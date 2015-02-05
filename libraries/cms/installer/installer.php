@@ -131,18 +131,21 @@ class JInstaller extends JAdapter
 	}
 
 	/**
-	 * Returns the global Installer object, only creating it
-	 * if it doesn't already exist.
+	 * Returns the global Installer object, only creating it if it doesn't already exist.
+	 *
+	 * @param   string  $basepath       Base Path of the adapters
+	 * @param   string  $classprefix    Class prefix of adapters
+	 * @param   string  $adapterfolder  Name of folder to append to base path
 	 *
 	 * @return  JInstaller  An installer object
 	 *
 	 * @since   3.1
 	 */
-	public static function getInstance()
+	public static function getInstance($basepath = null, $classprefix = null, $adapterfolder = null)
 	{
 		if (!isset(self::$instance))
 		{
-			self::$instance = new JInstaller;
+			self::$instance = new JInstaller($basepath, $classprefix, $adapterfolder);
 		}
 
 		return self::$instance;
