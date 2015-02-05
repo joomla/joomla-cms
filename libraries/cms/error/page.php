@@ -75,6 +75,12 @@ class JErrorPage
 		}
 		catch (Exception $e)
 		{
+			// Try to set a 500 header if they haven't already been sent
+			if (!headers_sent())
+			{
+				header('HTTP/1.1 500 Internal Server Error');
+			}
+
 			exit('Error displaying the error page: ' . $e->getMessage() . ': ' . $error->getMessage());
 		}
 	}
