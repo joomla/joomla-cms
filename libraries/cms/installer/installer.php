@@ -2297,12 +2297,26 @@ class JInstaller extends JAdapter
 	 */
 	public function loadAdapter($adapter, $options = array())
 	{
-		$class = 'JInstallerAdapter' . ucfirst($adapter);
+		$class = $this->_classprefix . ucfirst($adapter);
 
-		// Verify the class exists
 		if (!class_exists($class))
 		{
-			throw new InvalidArgumentException(sprintf('The %s install adapter does not exist.', $adapter));
+			// @deprecated 4.0 - The adapter should be autoloaded or manually included by the caller
+			$path = $this->_basepath . '/' . $this->_adapterfolder . '/' . $adapter . '.php';
+
+			// Try to load the adapter object
+			if (!file_exists($path))
+			{
+				throw new InvalidArgumentException(sprintf('The %s install adapter does not exist.', $adapter));
+			}
+
+			// Try once more to find the class
+			require_once $path;
+
+			if (!class_exists($class))
+			{
+				throw new InvalidArgumentException(sprintf('The %s install adapter does not exist.', $adapter));
+			}
 		}
 
 		// Ensure the adapter type is part of the options array
