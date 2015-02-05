@@ -107,8 +107,17 @@ class JInstaller extends JAdapter
 	 *
 	 * @var    JInstaller
 	 * @since  3.1
+	 * @deprecated  4.0
 	 */
 	protected static $instance;
+
+	/**
+	 * JInstaller instances container.
+	 *
+	 * @var    JInstaller[]
+	 * @since  3.4
+	 */
+	protected static $instances;
 
 	/**
 	 * Constructor
@@ -139,12 +148,18 @@ class JInstaller extends JAdapter
 	 */
 	public static function getInstance($basepath = __DIR__, $classprefix = 'JInstallerAdapter', $adapterfolder = 'adapter')
 	{
-		if (!isset(self::$instance))
+		if (!isset(self::$instances[$basepath]))
 		{
-			self::$instance = new JInstaller($basepath, $classprefix, $adapterfolder);
+			self::$instances[$basepath] = new JInstaller($basepath, $classprefix, $adapterfolder);
+
+			// For B/C, we load the first instance into the static $instance container, remove at 4.0
+			if (!isset(self::$instance))
+			{
+				self::$instance = self::$instances[$basepath];
+			}
 		}
 
-		return self::$instance;
+		return self::$instances[$basepath];
 	}
 
 	/**
