@@ -7999,11 +7999,11 @@ a.grid_true {
 	background-image: url('../images/admin/icon-16-allow.png');
 }
 .j-sidebar-container {
-	position: absolute;
+	position: relative;
 	display: block;
-	left: -16.5%;
+	float: left;
 	width: 16.5%;
-	margin: -10px 0 0 -1px;
+	margin: -20px 0 0 -1px;
 	padding-top: 10px;
 	background: #fff;
 	background: -moz-linear-gradient(top,#ffffff 0%,#ededed 100%);
