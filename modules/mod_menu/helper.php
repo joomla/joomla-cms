@@ -98,6 +98,7 @@ class ModMenuHelper
 
 						case 'alias':
 							$aliasItem = $menu->getItem($item->params->get('aliasoptions'));
+
 							if ($aliasItem->type == 'url')
 							{
 								$item->flink = $aliasItem->link;
