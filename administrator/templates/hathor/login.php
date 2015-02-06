@@ -13,8 +13,8 @@ $app  = JFactory::getApplication();
 $lang = JFactory::getLanguage();
 $doc  = JFactory::getDocument();
 
-// Mootools needed by template.js
-JHtml::_('behavior.framework');
+// jQuery needed by template.js
+JHtml::_('jquery.framework');
 
 JHtml::_('behavior.noframes');
 
