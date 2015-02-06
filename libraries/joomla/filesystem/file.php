@@ -516,7 +516,7 @@ class JFile
 				}
 				else
 				{
-					JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR02').' FROM '.$src.' TO '.$dest, JLog::WARNING, 'jerror');
+					JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR02') . ' FROM ' . $src . ' TO ' . $dest, JLog::WARNING, 'jerror');
 				}
 			}
 
