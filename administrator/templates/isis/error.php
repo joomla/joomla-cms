@@ -29,19 +29,17 @@ $layout   = $input->get('layout', '');
 $task     = $input->get('task', '');
 $itemid   = $input->get('Itemid', '');
 $sitename = $app->get('sitename');
-$cpanel   = ($option === 'com_cpanel');
+
+$cpanel = ($option === 'com_cpanel');
 
 $showSubmenu = false;
 $this->submenumodules = JModuleHelper::getModules('submenu');
-
 foreach ($this->submenumodules as $submenumodule)
 {
 	$output = JModuleHelper::renderModule($submenumodule);
-
 	if (strlen($output))
 	{
 		$showSubmenu = true;
-
 		break;
 	}
 }
