@@ -145,7 +145,7 @@ abstract class JFolder
 						{
 							if (!@copy($sfid, $dfid))
 							{
-								throw new RuntimeException('Copy file failed'.'  '.$sfid.' => '.$dfid, -1);
+								throw new RuntimeException('Copy file failed' . '  ' . $sfid . ' => ' . $dfid, -1);
 							}
 						}
 						break;
