@@ -18,6 +18,9 @@ $user  = JFactory::getUser();
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
+// Include jQuery
+JHtml::_('jquery.framework');
+
 // Load system style CSS
 $doc->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
 

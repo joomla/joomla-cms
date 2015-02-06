@@ -89,6 +89,7 @@ else
 	<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 <![endif]-->
 
+<?php JHtml::_('jquery.framework'); ?>
 <!-- Load Template JavaScript -->
 <script type="text/javascript" src="<?php echo $this->baseurl; ?>/templates/<?php  echo  $this->template;  ?>/js/template.js"></script>
 

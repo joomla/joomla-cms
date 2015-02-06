@@ -17,7 +17,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 
 $script = "Joomla.submitbutton = function(task)
 	{
-			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {";
+			if (task == 'module.cancel' || document.formvalidator.isValid(document.getElementById('module-form'))) {";
 if ($hasContent)
 {
 	$script .= $this->form->getField('content')->save();

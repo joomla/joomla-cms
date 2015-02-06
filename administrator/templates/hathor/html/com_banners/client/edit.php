@@ -16,7 +16,7 @@ JHtml::_('behavior.formvalidation');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'client.cancel' || document.formvalidator.isValid(document.id('client-form')))
+		if (task == 'client.cancel' || document.formvalidator.isValid(document.getElementById('client-form')))
 		{
 			Joomla.submitform(task, document.getElementById('client-form'));
 		}

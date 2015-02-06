@@ -18,7 +18,7 @@ JHtml::_('behavior.keepalive');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'message.cancel' || document.formvalidator.isValid(document.id('message-form')))
+		if (task == 'message.cancel' || document.formvalidator.isValid(document.getElementById('message-form')))
 		{
 			Joomla.submitform(task, document.getElementById('message-form'));
 		}
