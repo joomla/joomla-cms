@@ -360,4 +360,25 @@ class JText
 
 		return self::$strings;
 	}
+
+	/**
+	 * Store dynamic variables into the JavaScript language store.
+	 *
+	 * @param   string  $key    The JText key.
+	 * @param   string  $value  Ensure the output is JavaScript safe.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 */
+	public static function scriptVar($key, $value)
+	{
+		// Add keys and values into strings array
+		self::$strings[strtoupper($key)] = $value;
+
+		// Load core.js dependence
+		JHtml::_('behavior.core');
+
+		return self::$strings;
+	}
 }
