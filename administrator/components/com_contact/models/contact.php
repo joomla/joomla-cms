@@ -199,8 +199,7 @@ class ContactModelContact extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		// Check against the category.
-		if (!empty($record->catid))
+		if (!empty($record->id))
 		{
 			if ($record->published != -2)
 			{
