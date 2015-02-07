@@ -376,8 +376,8 @@ class JText
 	 * });
 	 * </script>
 	 *
-	 * @param   string  $key    The JText key.
-	 * @param   string  $value  Ensure the output is JavaScript safe.
+	 * @param   string  $key    Dynamic Variable Key
+	 * @param   string  $value  Value of the variable declaration.
 	 *
 	 * @return  string
 	 *
