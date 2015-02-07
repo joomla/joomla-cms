@@ -17,10 +17,7 @@ JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
 /**
  * Helper for mod_articles_category
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_category
- *
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModArticlesCategoryHelper
 {
@@ -102,7 +99,7 @@ abstract class ModArticlesCategoryHelper
 							break;
 
 						case 'featured' :
-						default:
+						default :
 							// Return right away if not on the category or article views
 							return;
 					}
@@ -116,7 +113,7 @@ abstract class ModArticlesCategoryHelper
 				break;
 
 			case 'normal' :
-			default:
+			default :
 				$catids = $params->get('catid');
 				$articles->setState('filter.category_id.include', (bool) $params->get('category_filtering_type', 1));
 				break;
@@ -447,7 +444,7 @@ abstract class ModArticlesCategoryHelper
 					break;
 
 				case 'year' :
-				default:
+				default :
 					$year = JString::substr($item->created, 0, 4);
 
 					if (!isset($grouped[$year]))

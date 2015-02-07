@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_tags_popular
  *
- * @package     Joomla.Site
- * @subpackage  mod_tags_popular
- * @since       3.1
+ * @since  3.1
  */
 abstract class ModTagsPopularHelper
 {
@@ -23,27 +21,29 @@ abstract class ModTagsPopularHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
-	 * @return mixed
+	 * @return  mixed
+	 *
+	 * @since   3.1
 	 */
 	public static function getList(&$params)
 	{
-		$db				= JFactory::getDbo();
-		$user     		= JFactory::getUser();
-		$groups 		= implode(',', $user->getAuthorisedViewLevels());
-		$timeframe		= $params->get('timeframe', 'alltime');
-		$maximum		= $params->get('maximum', 5);
-		$order_value	= $params->get('order_value', 'count');
-		$nowDate		= JFactory::getDate()->toSql();
-		$nullDate		= $db->quote($db->getNullDate());
+		$db          = JFactory::getDbo();
+		$user        = JFactory::getUser();
+		$groups      = implode(',', $user->getAuthorisedViewLevels());
+		$timeframe   = $params->get('timeframe', 'alltime');
+		$maximum     = $params->get('maximum', 5);
+		$order_value = $params->get('order_value', 'count');
+		$nowDate     = JFactory::getDate()->toSql();
+		$nullDate    = $db->quote($db->getNullDate());
 
 		if ($order_value == 'rand()')
 		{
-			$order_direction	= '';
+			$order_direction = '';
 		}
 		else
 		{
-			$order_value		= $db->quoteName($order_value);
-			$order_direction	= $params->get('order_direction', 1) ? 'DESC' : 'ASC';
+			$order_value     = $db->quoteName($order_value);
+			$order_direction = $params->get('order_direction', 1) ? 'DESC' : 'ASC';
 		}
 
 		$query = $db->getQuery(true)

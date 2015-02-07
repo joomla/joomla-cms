@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_articles_archive
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_archive
- * @since       1.5
+ * @since  1.5
  */
 class ModArchiveHelper
 {
@@ -53,9 +51,8 @@ class ModArchiveHelper
 		$menu   = $app->getMenu();
 		$item   = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
 		$itemid = (isset($item) && !empty($item->id)) ? '&Itemid=' . $item->id : '';
-
-		$i     = 0;
-		$lists = array();
+		$i      = 0;
+		$lists  = array();
 
 		foreach ($rows as $row)
 		{

@@ -12,10 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_login
  *
- * @package     Joomla.Site
- * @subpackage  mod_login
- *
- * @since       1.5
+ * @since  1.5
  */
 class ModLoginHelper
 {
@@ -25,18 +22,20 @@ class ModLoginHelper
 	 * @param   \Joomla\Registry\Registry  $params  module parameters
 	 * @param   string                     $type    return type
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   1.5
 	 */
 	public static function getReturnURL($params, $type)
 	{
 		$app	= JFactory::getApplication();
 		$router = $app::getRouter();
-		$url = null;
+		$url    = null;
 
 		if ($itemid = $params->get($type))
 		{
-			$db		= JFactory::getDbo();
-			$query	= $db->getQuery(true)
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
 				->select($db->quoteName('link'))
 				->from($db->quoteName('#__menu'))
 				->where($db->quoteName('published') . '=1')
@@ -68,8 +67,8 @@ class ModLoginHelper
 				if (isset($vars['Itemid']))
 				{
 					$itemid = $vars['Itemid'];
-					$menu = $app->getMenu();
-					$item = $menu->getItem($itemid);
+					$menu   = $app->getMenu();
+					$item   = $menu->getItem($itemid);
 					unset($vars['Itemid']);
 
 					if (isset($item) && $vars == $item->query)
@@ -98,7 +97,9 @@ class ModLoginHelper
 	/**
 	 * Returns the current users type
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   1.5
 	 */
 	public static function getType()
 	{
@@ -110,7 +111,9 @@ class ModLoginHelper
 	/**
 	 * Get list of available two factor methods
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   3.2
 	 */
 	public static function getTwoFactorMethods()
 	{

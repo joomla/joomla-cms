@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_menu
  *
- * @package     Joomla.Site
- * @subpackage  mod_menu
- * @since       1.5
+ * @since  1.5
  */
 class ModMenuHelper
 {
@@ -29,15 +27,16 @@ class ModMenuHelper
 	 */
 	public static function getList(&$params)
 	{
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 		$menu = $app->getMenu();
 
 		// Get active menu item
-		$base = self::getBase($params);
-		$user = JFactory::getUser();
+		$base   = self::getBase($params);
+		$user   = JFactory::getUser();
 		$levels = $user->getAuthorisedViewLevels();
 		asort($levels);
-		$key = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
+
+		$key   = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
 		$cache = JFactory::getCache('mod_menu', '');
 
 		if (!($items = $cache->get($key)))
@@ -83,12 +82,12 @@ class ModMenuHelper
 					// Reverted back for CMS version 2.5.6
 					switch ($item->type)
 					{
-						case 'separator':
-						case 'heading':
+						case 'separator' :
+						case 'heading' :
 							// No further action needed.
 							continue;
 
-						case 'url':
+						case 'url' :
 							if ((strpos($item->link, 'index.php?') === 0) && (strpos($item->link, 'Itemid=') === false))
 							{
 								// If this is an internal Joomla link, ensure the Itemid is set.
@@ -96,12 +95,12 @@ class ModMenuHelper
 							}
 							break;
 
-						case 'alias':
+						case 'alias' :
 							// If this is an alias use the item id stored in the parameters to make the link.
 							$item->flink = 'index.php?Itemid=' . $item->params->get('aliasoptions');
 							break;
 
-						default:
+						default :
 							$router = $app::getRouter();
 
 							if ($router->getMode() == JROUTER_MODE_SEF)
@@ -120,7 +119,8 @@ class ModMenuHelper
 							break;
 					}
 
-					if (strcasecmp(substr($item->flink, 0, 4), 'http') && (strpos($item->flink, 'index.php?') !== false))
+					if (strcasecmp(substr($item->flink, 0, 4), 'http')
+						&& (strpos($item->flink, 'index.php?') !== false))
 					{
 						$item->flink = JRoute::_($item->flink, true, $item->params->get('secure'));
 					}
@@ -135,7 +135,7 @@ class ModMenuHelper
 					$item->anchor_css   = htmlspecialchars($item->params->get('menu-anchor_css', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_title = htmlspecialchars($item->params->get('menu-anchor_title', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->menu_image   = $item->params->get('menu_image', '') ?
-						htmlspecialchars($item->params->get('menu_image', ''), ENT_COMPAT, 'UTF-8', false) : '';
+					htmlspecialchars($item->params->get('menu_image', ''), ENT_COMPAT, 'UTF-8', false) : '';
 				}
 
 				if (isset($items[$lastitem]))
@@ -159,7 +159,7 @@ class ModMenuHelper
 	 *
 	 * @return  object
 	 *
-	 * @since	3.0.2
+	 * @since   3.0.2
 	 */
 	public static function getBase(&$params)
 	{
@@ -189,7 +189,7 @@ class ModMenuHelper
 	 *
 	 * @return  object
 	 *
-	 * @since	3.0.2
+	 * @since   3.0.2
 	 */
 	public static function getActive(&$params)
 	{

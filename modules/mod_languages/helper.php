@@ -14,10 +14,7 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
 /**
  * Helper for mod_languages
  *
- * @package     Joomla.Site
- * @subpackage  mod_languages
- *
- * @since       1.6.0
+ * @since  1.6
  */
 abstract class ModLanguagesHelper
 {
@@ -27,13 +24,15 @@ abstract class ModLanguagesHelper
 	 * @param   \Joomla\Registry\Registry  &$params  module params
 	 *
 	 * @return  array
+	 *
+	 * @since   1.6
 	 */
 	public static function getList(&$params)
 	{
-		$user	= JFactory::getUser();
-		$lang 	= JFactory::getLanguage();
-		$app	= JFactory::getApplication();
-		$menu 	= $app->getMenu();
+		$user = JFactory::getUser();
+		$lang = JFactory::getLanguage();
+		$app  = JFactory::getApplication();
+		$menu = $app->getMenu();
 
 		// Get menu home items
 		$homes = array();
@@ -60,8 +59,8 @@ abstract class ModLanguagesHelper
 
 			// Load component associations
 			$option = $app->input->get('option');
-			$eName = JString::ucfirst(JString::str_ireplace('com_', '', $option));
-			$cName = JString::ucfirst($eName . 'HelperAssociation');
+			$eName  = JString::ucfirst(JString::str_ireplace('com_', '', $option));
+			$cName  = JString::ucfirst($eName . 'HelperAssociation');
 			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
 
 			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
@@ -123,7 +122,7 @@ abstract class ModLanguagesHelper
 						}
 						elseif ($app->get('sef') == '1')
 						{
-							$itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
+							$itemid         = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
 							$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
 						}
 						else

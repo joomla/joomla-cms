@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_breadcrumbs
  *
- * @package     Joomla.Site
- * @subpackage  mod_breadcrumbs
- * @since       1.5
+ * @since  1.5
  */
 class ModBreadCrumbsHelper
 {
@@ -24,15 +22,17 @@ class ModBreadCrumbsHelper
 	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
 	 * @return array
+	 *
+	 * @since  1.5
 	 */
 	public static function getList(&$params)
 	{
 		// Get the PathWay object from the application
-		$app		= JFactory::getApplication();
-		$pathway	= $app->getPathway();
-		$items		= $pathway->getPathWay();
-		$lang = JFactory::getLanguage();
-		$menu = $app->getMenu();
+		$app     = JFactory::getApplication();
+		$pathway = $app->getPathway();
+		$items   = $pathway->getPathWay();
+		$lang    = JFactory::getLanguage();
+		$menu    = $app->getMenu();
 
 		// Look for the home menu
 		if (JLanguageMultilang::isEnabled())
@@ -51,16 +51,17 @@ class ModBreadCrumbsHelper
 
 		for ($i = 0; $i < $count; $i ++)
 		{
-			$crumbs[$i] = new stdClass;
+			$crumbs[$i]       = new stdClass;
 			$crumbs[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
 			$crumbs[$i]->link = JRoute::_($items[$i]->link);
 		}
 
 		if ($params->get('showHome', 1))
 		{
-			$item = new stdClass;
+			$item       = new stdClass;
 			$item->name = htmlspecialchars($params->get('homeText', JText::_('MOD_BREADCRUMBS_HOME')));
 			$item->link = JRoute::_('index.php?Itemid=' . $home->id);
+
 			array_unshift($crumbs, $item);
 		}
 

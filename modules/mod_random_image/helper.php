@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_random_image
  *
- * @package     Joomla.Site
- * @subpackage  mod_random_image
- * @since       1.5
+ * @since  1.5
  */
 class ModRandomImageHelper
 {
@@ -25,12 +23,13 @@ class ModRandomImageHelper
 	 * @param   array                      $images   list of images
 	 *
 	 * @return  mixed
+	 *
+	 * @since   1.5
 	 */
 	public static function getRandomImage(&$params, $images)
 	{
 		$width	= $params->get('width');
 		$height	= $params->get('height');
-
 		$i      = count($images);
 		$random = mt_rand(0, $i - 1);
 		$image  = $images[$random];
@@ -66,9 +65,9 @@ class ModRandomImageHelper
 			}
 		}
 
-		$image->width	= $width;
-		$image->height	= $height;
-		$image->folder	= str_replace('\\', '/', $image->folder);
+		$image->width  = $width;
+		$image->height = $height;
+		$image->folder = str_replace('\\', '/', $image->folder);
 
 		return $image;
 	}
@@ -79,16 +78,16 @@ class ModRandomImageHelper
 	 * @param   \Joomla\Registry\Registry  &$params  module params
 	 * @param   string                     $folder   folder to get the images from
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   1.5
 	 */
 	public static function getImages(&$params, $folder)
 	{
-		$type		= $params->get('type', 'jpg');
-
+		$type   = $params->get('type', 'jpg');
 		$files	= array();
 		$images	= array();
-
-		$dir = JPATH_BASE . '/' . $folder;
+		$dir    = JPATH_BASE . '/' . $folder;
 
 		// Check if directory exists
 		if (is_dir($dir))
@@ -97,7 +96,10 @@ class ModRandomImageHelper
 			{
 				while (false !== ($file = readdir($handle)))
 				{
-					if ($file != '.' && $file != '..' && $file != 'CVS' && $file != 'index.html')
+					if ($file != '.'
+						&& $file != '..'
+						&& $file != 'CVS'
+						&& $file != 'index.html')
 					{
 						$files[] = $file;
 					}
@@ -116,8 +118,8 @@ class ModRandomImageHelper
 					{
 						$images[$i] = new stdClass;
 
-						$images[$i]->name	= $img;
-						$images[$i]->folder	= $folder;
+						$images[$i]->name   = $img;
+						$images[$i]->folder = $folder;
 						$i++;
 					}
 				}
@@ -133,12 +135,13 @@ class ModRandomImageHelper
 	 * @param   \Joomla\Registry\Registry  &$params  module params objects
 	 *
 	 * @return  mixed
+	 *
+	 * @since   1.5
 	 */
 	public static function getFolder(&$params)
 	{
-		$folder	= $params->get('folder');
-
-		$LiveSite	= JUri::base();
+		$folder	  = $params->get('folder');
+		$LiveSite = JUri::base();
 
 		// If folder includes livesite info, remove
 		if (JString::strpos($folder, $LiveSite) === 0)

@@ -75,6 +75,7 @@ class ModWhosonlineHelper
 	 **/
 	public static function getOnlineUserNames($params)
 	{
+		$user  = JFactory::getUser();
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('a.username', 'a.userid', 'a.client_id')))
@@ -82,8 +83,6 @@ class ModWhosonlineHelper
 			->where($db->quoteName('a.userid') . ' != 0')
 			->where($db->quoteName('a.client_id') . ' = 0')
 			->group($db->quoteName(array('a.username', 'a.userid', 'a.client_id')));
-
-		$user = JFactory::getUser();
 
 		if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1)
 		{

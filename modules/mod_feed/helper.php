@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_feed
  *
- * @package     Joomla.Site
- * @subpackage  mod_feed
- * @since       1.5
+ * @since  1.5
  */
 class ModFeedHelper
 {
@@ -24,6 +22,8 @@ class ModFeedHelper
 	 * @param   \Joomla\Registry\Registry  $params  module parameters
 	 *
 	 * @return  JFeedReader|string
+	 *
+	 * @since   1.5
 	 */
 	public static function getFeed($params)
 	{
@@ -33,7 +33,7 @@ class ModFeedHelper
 		// Get RSS parsed object
 		try
 		{
-			$feed = new JFeedFactory;
+			$feed   = new JFeedFactory;
 			$rssDoc = $feed->getFeed($rssurl);
 		}
 		catch (InvalidArgumentException $e)

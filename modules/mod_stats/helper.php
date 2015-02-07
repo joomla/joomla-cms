@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_stats
  *
- * @package     Joomla.Site
- * @subpackage  mod_stats
- * @since       1.5
+ * @since  1.5
  */
 class ModStatsHelper
 {
@@ -24,51 +22,53 @@ class ModStatsHelper
 	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
 	 * @return  array
+	 *
+	 * @since   1.5
 	 */
 	public static function &getList(&$params)
 	{
-		$app	= JFactory::getApplication();
-		$db		= JFactory::getDbo();
-		$rows	= array();
-		$query	= $db->getQuery(true);
+		$app   = JFactory::getApplication();
+		$db    = JFactory::getDbo();
+		$rows  = array();
+		$query = $db->getQuery(true);
 
 		$serverinfo = $params->get('serverinfo');
-		$siteinfo	= $params->get('siteinfo');
-		$counter	= $params->get('counter');
-		$increase	= $params->get('increase');
+		$siteinfo   = $params->get('siteinfo');
+		$counter    = $params->get('counter');
+		$increase   = $params->get('increase');
 
 		$i = 0;
 
 		if ($serverinfo)
 		{
-			$rows[$i] = new stdClass;
-			$rows[$i]->title	= JText::_('MOD_STATS_OS');
-			$rows[$i]->data		= substr(php_uname(), 0, 7);
+			$rows[$i]        = new stdClass;
+			$rows[$i]->title = JText::_('MOD_STATS_OS');
+			$rows[$i]->data	 = substr(php_uname(), 0, 7);
 			$i++;
 
-			$rows[$i] = new stdClass;
-			$rows[$i]->title	= JText::_('MOD_STATS_PHP');
-			$rows[$i]->data	= phpversion();
+			$rows[$i]        = new stdClass;
+			$rows[$i]->title = JText::_('MOD_STATS_PHP');
+			$rows[$i]->data	 = phpversion();
 			$i++;
 
-			$rows[$i] = new stdClass;
+			$rows[$i]        = new stdClass;
 			$rows[$i]->title = JText::_($db->name);
-			$rows[$i]->data	= $db->getVersion();
+			$rows[$i]->data  = $db->getVersion();
 			$i++;
 
-			$rows[$i] = new stdClass;
-			$rows[$i]->title	= JTEXT::_('MOD_STATS_TIME');
-			$rows[$i]->data	= JHtml::_('date', 'now', 'H:i');
+			$rows[$i]        = new stdClass;
+			$rows[$i]->title = JTEXT::_('MOD_STATS_TIME');
+			$rows[$i]->data  = JHtml::_('date', 'now', 'H:i');
 			$i++;
 
-			$rows[$i] = new stdClass;
-			$rows[$i]->title	= JText::_('MOD_STATS_CACHING');
-			$rows[$i]->data	= $app->get('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
+			$rows[$i]        = new stdClass;
+			$rows[$i]->title = JText::_('MOD_STATS_CACHING');
+			$rows[$i]->data  = $app->get('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 
-			$rows[$i] = new stdClass;
-			$rows[$i]->title	= JText::_('MOD_STATS_GZIP');
-			$rows[$i]->data	= $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
+			$rows[$i]        = new stdClass;
+			$rows[$i]->title = JText::_('MOD_STATS_GZIP');
+			$rows[$i]->data	 = $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 		}
 
@@ -88,17 +88,17 @@ class ModStatsHelper
 
 			if ($users)
 			{
-				$rows[$i] = new stdClass;
-				$rows[$i]->title	= JText::_('MOD_STATS_USERS');
-				$rows[$i]->data	= $users;
+				$rows[$i]        = new stdClass;
+				$rows[$i]->title = JText::_('MOD_STATS_USERS');
+				$rows[$i]->data	 = $users;
 				$i++;
 			}
 
 			if ($items)
 			{
-				$rows[$i] = new stdClass;
-				$rows[$i]->title	= JText::_('MOD_STATS_ARTICLES');
-				$rows[$i]->data	= $items;
+				$rows[$i]        = new stdClass;
+				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES');
+				$rows[$i]->data	 = $items;
 				$i++;
 			}
 
@@ -133,9 +133,9 @@ class ModStatsHelper
 
 			if ($hits)
 			{
-				$rows[$i] = new stdClass;
-				$rows[$i]->title	= JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
-				$rows[$i]->data	= $hits + $increase;
+				$rows[$i]        = new stdClass;
+				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
+				$rows[$i]->data	 = $hits + $increase;
 			}
 		}
 
