@@ -364,6 +364,18 @@ class JText
 	/**
 	 * Store dynamic variables into the JavaScript language store.
 	 *
+	 * Examples:
+	 * Delare dynamic script variable in php page
+	 * <?php JText::scriptVar('article_title', $this->item->title); ?>
+	 *
+	 * Use this variable in any javascript file or declaration.
+	 * This will print article title in browser console.
+	 * <script>
+	 * jQuery(window).on('load',  function() {
+	 * 		console.log(Joomla.JText._('ARTICLE_TITLE'));
+	 * });
+	 * </script>
+	 *
 	 * @param   string  $key    The JText key.
 	 * @param   string  $value  Ensure the output is JavaScript safe.
 	 *
