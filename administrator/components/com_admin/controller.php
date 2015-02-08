@@ -45,8 +45,9 @@ class AdminController extends JControllerLegacy
 				$settings['PhpInfo'][$section][$name] = $setting;
 			}
 		}
+		header('Content-Description: File Transfer');
 		header('Content-Disposition: attachment; filename="systeminfo-' . microtime( true) . '.txt"');
-		header('Content-Transfer-Encoding: text');
+		header('Cache-Control: must-revalidate');
 		$this->renderFile($settings);
 		JFactory::getApplication()->close();
 	}
