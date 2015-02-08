@@ -44,7 +44,8 @@ class AdminController extends JControllerLegacy
 		{
 			foreach ($values as $name => $setting)
 			{
-				if (in_array($name, $remove)) {
+				if (in_array($name, $remove))
+				{
 					$setting = strlen($name) ? 'set' : 'not set';
 				}
 				$settings['PhpInfo'][$section][$name] = $setting;
@@ -64,30 +65,35 @@ class AdminController extends JControllerLegacy
 	 */
 	protected function renderFile( $settings, $level = -1 )
 	{
-		if (count($settings)) {
+		if (count($settings))
+		{
 			$margin = null;
 			foreach ($settings as $name => $value)
 			{
-				if ($level > 0) {
+				if ($level > 0)
+				{
 					$margin = str_repeat("\t", $level);
 				}
 				if (is_array($value))
 				{
-					if($name == 'Directive') {
+					if($name == 'Directive')
+					{
 						continue;
 					}
 					echo "\n";
 					echo $margin . "=============\n";
-					echo $margin . $name."\n";
+					echo $margin . $name . "\n";
 					echo $margin . "=============\n";
 					$this->renderFile($value, $level+1);
 				}
 				else
 				{
-					if (is_bool($value)) {
+					if (is_bool($value))
+					{
 						$value = $value ? 'true' : 'false';
 					}
-					if(is_int($name) && ($name == 0 || $name == 1)) {
+					if (is_int($name) && ($name == 0 || $name == 1))
+					{
 						$name = ($name == 0 ? 'Local Value' : 'Master Value');
 					}
 					echo $margin . $name . ': ' . $value . "\n";
@@ -143,7 +149,8 @@ class AdminController extends JControllerLegacy
 		$settings = array();
 		$method = 'get' . $section;
 		$sectionsValues = $model->$method();
-		if (count($sectionsValues)) {
+		if (count($sectionsValues))
+		{
 			foreach ($sectionsValues as $setting => $value)
 			{
 				if (in_array($setting, $remove))
