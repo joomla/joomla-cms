@@ -18,18 +18,24 @@ class AdminController extends JControllerLegacy
 {
 	/**
 	 * Creating a text file with all relevant system setting
+	 *
+	 * @since  3.5
 	 */
 	public function download()
 	{
-		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		/** @var AdminModelSysInfo $model */
-		$model = $this->getModel('sysinfo');
+		$model          = $this->getModel('sysinfo');
 		$settingsToLoad = array('PhpSettings', 'Config', 'Info');
+
 		foreach ($settingsToLoad as $section)
 		{
 			$settings[$section] = $this->loadSetting($section, $model);
 		}
+
 		$directories = $this->loadSetting('Directory', $model);
+
 		if (count($directories))
 		{
 			foreach ($directories as $directory => $data)
@@ -37,9 +43,29 @@ class AdminController extends JControllerLegacy
 				$settings['Directory'][$directory] = $data['writable'] ? ' is writable' : ' is not writable';
 			}
 		}
+
 		$phpInfo = $this->parsePhpInfo($model->getPHPInfo());
-		// remove sensitive information from the phpinfo output
-		$remove = array('HTTP_HOST','Server Administrator', 'Server Root', 'HTTP_ORIGIN', 'HTTP_REFERER', 'HTTP_COOKIE', 'SERVER_NAME', 'SERVER_ADDR', 'REMOTE_ADDR', 'DOCUMENT_ROOT', 'CONTEXT_DOCUMENT_ROOT', 'SERVER_ADMIN', 'SCRIPT_FILENAME', 'HTTP Request', 'Host', 'Referer');
+
+		// Remove sensitive information from the phpinfo output
+		$remove = array(
+			'HTTP_HOST',
+			'Server Administrator',
+			'Server Root',
+			'HTTP_ORIGIN',
+			'HTTP_REFERER',
+			'HTTP_COOKIE',
+			'SERVER_NAME',
+			'SERVER_ADDR',
+			'REMOTE_ADDR',
+			'DOCUMENT_ROOT',
+			'CONTEXT_DOCUMENT_ROOT',
+			'SERVER_ADMIN',
+			'SCRIPT_FILENAME',
+			'HTTP Request',
+			'Host',
+			'Referer',
+		);
+
 		foreach ($phpInfo as $section => $values)
 		{
 			foreach ($values as $name => $setting)
@@ -48,9 +74,11 @@ class AdminController extends JControllerLegacy
 				{
 					$setting = strlen($name) ? 'set' : 'not set';
 				}
+
 				$settings['PhpInfo'][$section][$name] = $setting;
 			}
 		}
+
 		header('Content-Description: File Transfer');
 		header('Content-Disposition: attachment; filename="systeminfo-' . microtime(true) . '.txt"');
 		header('Cache-Control: must-revalidate');
@@ -60,26 +88,32 @@ class AdminController extends JControllerLegacy
 
 	/**
 	 * Parses array to generate plain text output
-	 * @param array $settings
-	 * @param int $level
+	 *
+	 * @param  array  $settings  ...
+	 * @param  int    $level     ...
+	 *
+	 * @since  3.5
 	 */
-	protected function renderFile( $settings, $level = -1 )
+	protected function renderFile($settings, $level = -1)
 	{
 		if (count($settings))
 		{
 			$margin = null;
+
 			foreach ($settings as $name => $value)
 			{
 				if ($level > 0)
 				{
 					$margin = str_repeat("\t", $level);
 				}
+
 				if (is_array($value))
 				{
 					if ($name == 'Directive')
 					{
 						continue;
 					}
+
 					echo "\n";
 					echo $margin . "=============\n";
 					echo $margin . $name . "\n";
@@ -92,10 +126,12 @@ class AdminController extends JControllerLegacy
 					{
 						$value = $value ? 'true' : 'false';
 					}
+
 					if (is_int($name) && ($name == 0 || $name == 1))
 					{
 						$name = ($name == 0 ? 'Local Value' : 'Master Value');
 					}
+
 					echo $margin . $name . ': ' . $value . "\n";
 				}
 			}
@@ -104,51 +140,86 @@ class AdminController extends JControllerLegacy
 
 	/**
 	 * Parse phpinfo output into an array
-	 * Source https://gist.github.com/sbmzhcn/6255314
-	 * */
+	 * @source https://gist.github.com/sbmzhcn/6255314
+	 * 
+	 * @param  string  $string  ....
+	 * 
+	 * @since 3.5
+	 */
 	protected function parsePhpInfo($string)
 	{
 		$string = strip_tags($string, '<h2><th><td>');
 		$string = preg_replace('/<th[^>]*>([^<]+)<\/th>/', '<info>\1</info>', $string);
 		$string = preg_replace('/<td[^>]*>([^<]+)<\/td>/', '<info>\1</info>', $string);
-		$t = preg_split('/(<h2[^>]*>[^<]+<\/h2>)/', $string, -1, PREG_SPLIT_DELIM_CAPTURE);
-		$r = array();
-		$count = count($t);
-		$p1 = '<info>([^<]+)<\/info>';
-		$p2 = '/' . $p1 . '\s*' . $p1 . '\s*' . $p1 . '/';
-		$p3 = '/' . $p1 . '\s*' . $p1 . '/';
+		$t      = preg_split('/(<h2[^>]*>[^<]+<\/h2>)/', $string, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$r      = array();
+		$count  = count($t);
+		$p1     = '<info>([^<]+)<\/info>';
+		$p2     = '/' . $p1 . '\s*' . $p1 . '\s*' . $p1 . '/';
+		$p3     = '/' . $p1 . '\s*' . $p1 . '/';
+
 		for ($i = 1; $i < $count; $i++)
 		{
 			if (preg_match('/<h2[^>]*>([^<]+)<\/h2>/', $t[$i], $matches))
 			{
 				$name = trim($matches[1]);
 				$vals = explode("\n", $t[$i + 1]);
+
 				foreach ($vals AS $val)
 				{
 					if (preg_match($p2, $val, $matches))
-					{ // 3cols
+					{
+						// 3cols
 						$r[$name][trim($matches[1])] = array(trim($matches[2]), trim($matches[3]));
 					}
 					elseif (preg_match($p3, $val, $matches))
-					{ // 2cols
+					{
+						// 2cols
 						$r[$name][trim($matches[1])] = trim($matches[2]);
 					}
 				}
 			}
 		}
+
 		return $r;
 	}
 
 	/**
 	 * Load particular section
+	 *
+	 * @param ...  $section  ...
+	 * @param ...  $model    ...
+	 *
+	 * @since  3.5
 	 */
 	protected function loadSetting($section, $model)
 	{
-		/** security sensitive information to be removed from the output */
-		static $remove = array('Origin', 'live_site', 'secret', 'dbprefix', 'open_basedir', 'session.save_path', 'mailfrom', 'fromname', 'smtphost', 'log_path', 'tmp_path', 'proxy_host', 'proxy_user', 'proxy_pass', 'memcache_server_host', 'memcached_server_host', 'session_memcache_server_host', 'session_memcached_server_host');
-		$settings = array();
-		$method = 'get' . $section;
+		/** Security sensitive information to be removed from the output */
+		static $remove = array(
+			'Origin',
+			'live_site',
+			'secret',
+			'dbprefix',
+			'open_basedir',
+			'session.save_path',
+			'mailfrom',
+			'fromname',
+			'smtphost',
+			'log_path',
+			'tmp_path',
+			'proxy_host',
+			'proxy_user',
+			'proxy_pass',
+			'memcache_server_host',
+			'memcached_server_host',
+			'session_memcache_server_host',
+			'session_memcached_server_host',
+		);
+
+		$settings       = array();
+		$method         = 'get' . $section;
 		$sectionsValues = $model->$method();
+
 		if (count($sectionsValues))
 		{
 			foreach ($sectionsValues as $setting => $value)
@@ -157,9 +228,11 @@ class AdminController extends JControllerLegacy
 				{
 					$value = strlen($value) ? 'set' : 'not set';
 				}
+
 				$settings[$setting] = $value;
 			}
 		}
+
 		return $settings;
 	}
 }
