@@ -34,7 +34,7 @@ class AdminController extends JControllerLegacy
 		{
 			foreach ($directories as $directory => $data)
 			{
-				$settings['Directory'][$directory] = $data['writable'] ? ' is writable' : 'is not writable';
+				$settings['Directory'][$directory] = $data['writable'] ? ' is writable' : ' is not writable';
 			}
 		}
 		$phpInfo = $this->parsePhpInfo($model->getPHPInfo());
@@ -145,7 +145,7 @@ class AdminController extends JControllerLegacy
 	protected function loadSetting($section, $model)
 	{
 		/** security sensitive information to be removed from the output */
-		static $remove = array('dbprefix', 'open_basedir', 'session.save_path', 'mailfrom', 'fromname', 'smtphost', 'log_path', 'tmp_path', 'proxy_host', 'proxy_user', 'proxy_pass', 'memcache_server_host', 'memcached_server_host', 'session_memcache_server_host', 'session_memcached_server_host');
+		static $remove = array('Origin', 'live_site', 'secret', 'dbprefix', 'open_basedir', 'session.save_path', 'mailfrom', 'fromname', 'smtphost', 'log_path', 'tmp_path', 'proxy_host', 'proxy_user', 'proxy_pass', 'memcache_server_host', 'memcached_server_host', 'session_memcache_server_host', 'session_memcached_server_host');
 		$settings = array();
 		$method = 'get' . $section;
 		$sectionsValues = $model->$method();
