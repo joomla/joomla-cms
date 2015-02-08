@@ -1096,6 +1096,11 @@ class PlgSystemDebug extends JPlugin
 			$labelClass = 'label-warning';
 		}
 
+		if ($this->totalQueries == 0)
+		{
+			$this->totalQueries = $db->getCount();
+		}
+
 		$html = array();
 
 		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries)
