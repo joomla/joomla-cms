@@ -1259,9 +1259,12 @@ class JLanguage
 	 * @return  string  Previous value.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0 (CMS) - Instantiate a new JLanguage object instead
 	 */
 	public function setLanguage($lang)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Instantiate a new JLanguage object instead.', JLog::WARNING, 'deprecated');
+
 		$previous = $this->lang;
 		$this->lang = $lang;
 		$this->metadata = $this->getMetadata($this->lang);
