@@ -364,7 +364,13 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		if ($language->getTag() != $lang_code)
 		{
-			$language->setLanguage($lang_code);
+			$newLang = JLanguage::getInstance($lang_code);
+
+			foreach ($language->getPaths() as $extension => $files) {
+				$newLang->load($extension);
+			}
+
+			JFactory::$language = $newLang;
 		}
 
 		// Create a cookie.
