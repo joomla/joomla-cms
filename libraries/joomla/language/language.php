@@ -24,7 +24,7 @@ class JLanguage
 	/**
 	 * Array of JLanguage objects
 	 *
-	 * @var    array
+	 * @var    JLanguage[]
 	 * @since  11.1
 	 */
 	protected static $languages = array();
