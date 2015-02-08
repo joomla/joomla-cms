@@ -366,7 +366,8 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			$newLang = JLanguage::getInstance($lang_code);
 
-			foreach ($language->getPaths() as $extension => $files) {
+			foreach ($language->getPaths() as $extension => $files)
+			{
 				$newLang->load($extension);
 			}
 
