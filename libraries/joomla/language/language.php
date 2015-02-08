@@ -190,7 +190,8 @@ class JLanguage
 			$lang = $this->default;
 		}
 
-		$this->setLanguage($lang);
+		$this->lang = $lang;
+		$this->metadata = $this->getMetadata($this->lang);
 		$this->setDebug($debug);
 
 		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
