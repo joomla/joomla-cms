@@ -140,7 +140,7 @@ class AdminController extends JControllerLegacy
 
 	/**
 	 * Parse phpinfo output into an array
-	 * Source https://gist.github.com/sbmzhcn/6255314
+	 * @source https://gist.github.com/sbmzhcn/6255314
 	 * 
 	 * @param  string  $string  ....
 	 * 
