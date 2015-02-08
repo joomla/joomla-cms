@@ -76,7 +76,7 @@ class AdminController extends JControllerLegacy
 				}
 				if (is_array($value))
 				{
-					if($name == 'Directive')
+					if ($name == 'Directive')
 					{
 						continue;
 					}
@@ -84,7 +84,7 @@ class AdminController extends JControllerLegacy
 					echo $margin . "=============\n";
 					echo $margin . $name . "\n";
 					echo $margin . "=============\n";
-					$this->renderFile($value, $level+1);
+					$this->renderFile($value, $level + 1);
 				}
 				else
 				{
