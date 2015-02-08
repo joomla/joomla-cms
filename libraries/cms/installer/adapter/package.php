@@ -25,6 +25,16 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	protected $results = array();
 
 	/**
+	 * Flag if the adapter supports discover installs
+	 *
+	 * Adapters should override this and set to false if discover install is unsupported
+	 *
+	 * @var    boolean
+	 * @since  3.4
+	 */
+	protected $supportsDiscoverInstall = false;
+
+	/**
 	 * Method to check if the extension is present in the filesystem, flags the route as update if so
 	 *
 	 * @return  void
@@ -438,22 +448,6 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 
 		return true;
-	}
-
-	/**
-	 * Updates a package
-	 *
-	 * The only difference between an update and a full install
-	 * is how we handle the database
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function update()
-	{
-		$this->route = 'update';
-		$this->install();
 	}
 
 	/**

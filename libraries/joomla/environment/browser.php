@@ -604,7 +604,7 @@ class JBrowser
 			}
 		}
 
-		if (!$this->hasFeature('images') || ($type != 'image'))
+		if ($type != 'image')
 		{
 			return false;
 		}

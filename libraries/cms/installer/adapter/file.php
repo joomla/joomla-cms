@@ -27,6 +27,16 @@ class JInstallerAdapterFile extends JInstallerAdapter
 	protected $scriptElement = null;
 
 	/**
+	 * Flag if the adapter supports discover installs
+	 *
+	 * Adapters should override this and set to false if discover install is unsupported
+	 *
+	 * @var    boolean
+	 * @since  3.4
+	 */
+	protected $supportsDiscoverInstall = false;
+
+	/**
 	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
 	 *
 	 * @return  void
@@ -266,24 +276,6 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			// so that if we have to rollback the changes we can undo it.
 			$this->parent->pushStep(array('type' => 'extension', 'extension_id' => $this->extension->extension_id));
 		}
-	}
-
-	/**
-	 * Custom update method
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public function update()
-	{
-		// Set the overwrite setting
-		$this->parent->setOverwrite(true);
-		$this->parent->setUpgrade(true);
-		$this->route = 'update';
-
-		// ...and adds new files
-		return $this->install();
 	}
 
 	/**

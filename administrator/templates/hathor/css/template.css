@@ -1001,6 +1001,8 @@ body {
 	font-size: 62.5%;
 	line-height: 1.5em;
 	height: 100%;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 body,
 td,
@@ -1339,6 +1341,15 @@ input#mm_subject {
 }
 textarea#mm_message {
 	width: 100%;
+}
+textarea {
+	resize: both;
+}
+textarea.vert {
+	resize: vertical;
+}
+textarea.noResize {
+	resize: none;
 }
 .pane-sliders {
 	margin: 0;
@@ -3776,4 +3787,11 @@ div.toggle-editor {
 }
 .module-edit {
 	display: inline-block;
+}
+.break-word {
+	word-break: break-all;
+	word-wrap: break-word;
+}
+.muted {
+	color: #999;
 }

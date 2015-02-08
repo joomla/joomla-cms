@@ -69,7 +69,21 @@ if (!empty($this->items))
 	<?php endif; ?>
 
 	<table class="category table table-striped table-bordered table-hover">
+		<?php
+		$headerTitle    = '';
+		$headerDate     = '';
+		$headerAuthor   = '';
+		$headerHits     = '';
+		$headerEdit     = '';
+		?>
 		<?php if ($this->params->get('show_headings')) : ?>
+			<?php
+			$headerTitle    = 'headers="categorylist_header_title"';
+			$headerDate     = 'headers="categorylist_header_date"';
+			$headerAuthor   = 'headers="categorylist_header_author"';
+			$headerHits     = 'headers="categorylist_header_hits"';
+			$headerEdit     = 'headers="categorylist_header_edit"';
+			?>
 		<thead>
 			<tr>
 				<th id="categorylist_header_title">
@@ -109,7 +123,7 @@ if (!empty($this->items))
 				<?php else: ?>
 				<tr class="cat-list-row<?php echo $i % 2; ?>" >
 				<?php endif; ?>
-					<td headers="categorylist_header_title" class="list-title">
+					<td <?php echo $headerTitle; ?> class="list-title">
 						<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
 							<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 								<?php echo $this->escape($article->title); ?>
@@ -146,7 +160,7 @@ if (!empty($this->items))
 						<?php endif; ?>
 					</td>
 					<?php if ($this->params->get('list_show_date')) : ?>
-						<td headers="categorylist_header_date" class="list-date small">
+						<td <?php echo $headerDate; ?> class="list-date small">
 							<?php
 							echo JHtml::_(
 								'date', $article->displayDate,
@@ -155,7 +169,7 @@ if (!empty($this->items))
 						</td>
 					<?php endif; ?>
 					<?php if ($this->params->get('list_show_author', 1)) : ?>
-						<td headers="categorylist_header_author" class="list-author">
+						<td <?php echo $headerAuthor; ?> class="list-author">
 							<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 								<?php $author = $article->author ?>
 								<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
@@ -168,14 +182,14 @@ if (!empty($this->items))
 						</td>
 					<?php endif; ?>
 					<?php if ($this->params->get('list_show_hits', 1)) : ?>
-						<td headers="categorylist_header_hits" class="list-hits">
+						<td <?php echo $headerHits; ?> class="list-hits">
 							<span class="badge badge-info">
 								<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
 							</span>
 						</td>
 					<?php endif; ?>
 					<?php if ($isEditable) : ?>
-						<td headers="categorylist_header_edit" class="list-edit">
+						<td <?php echo $headerEdit; ?> class="list-edit">
 							<?php if ($article->params->get('access-edit')) : ?>
 								<?php echo JHtml::_('icon.edit', $article, $params); ?>
 							<?php endif; ?>

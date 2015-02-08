@@ -197,7 +197,7 @@ class MenusModelMenus extends JModelList
 		$this->setState('filter.search', $search);
 
 		// List state information.
-		parent::populateState('a.id', 'asc');
+		parent::populateState('a.title', 'asc');
 	}
 
 	/**

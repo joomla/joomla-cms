@@ -242,17 +242,18 @@ class JPath
 
 		if ($dir)
 		{
-			$test = $dir . '/' . $tmp;
+			$fileObject = new JFilesystemWrapperFile;
+			$test       = $dir . '/' . $tmp;
 
 			// Create the test file
 			$blank = '';
-			JFile::write($test, $blank, false);
+			$fileObject->write($test, $blank, false);
 
 			// Test ownership
 			$return = (fileowner($test) == fileowner($path));
 
 			// Delete the test file
-			JFile::delete($test);
+			$fileObject->delete($test);
 
 			return $return;
 		}
