@@ -154,6 +154,24 @@ abstract class JToolbarHelper
 	}
 
 	/**
+	 * Creates a button to redirect to a link
+	 *
+	 * @param   string  $url   The link url
+	 * @param   string  $text  Button text
+	 * @param   string  $name  Name to be used as apart of the id
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public static function link($url, $text, $name = 'link')
+	{
+		$bar = JToolbar::getInstance('toolbar');
+
+		$bar->appendButton('Link', $name, $text, $url);
+	}
+
+	/**
 	 * Writes a media_manager button.
 	 *
 	 * @param   string  $directory  The sub-directory to upload the media to.
