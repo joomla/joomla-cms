@@ -229,62 +229,58 @@ class PlgSystemLanguageFilter extends JPlugin
 		// Did we find the current and existing language yet?
 		$found = false;
 
-		// If $found is true at this point, we don't want to process this discovery code
-		if (!$found)
+		// Are we in SEF mode or not?
+		if ($this->mode_sef)
 		{
-			// Are we in SEF mode or not?
-			if ($this->mode_sef)
+			$path = $uri->getPath();
+			$parts = explode('/', $path);
+
+			$sef = $parts[0];
+
+			// If the default prefix should be removed and the SEF prefix is not among those
+			// that we have in our system, its the default language and we "found" the right language
+			if ($this->params->get('remove_default_prefix', 0) && !isset($this->sefs[$sef]))
 			{
-				$path = $uri->getPath();
-				$parts = explode('/', $path);
-
-				$sef = $parts[0];
-
-				// If the default prefix should be removed and the SEF prefix is not among those
-				// that we have in our system, its the default language and we "found" the right language
-				if ($this->params->get('remove_default_prefix', 0) && !isset($this->sefs[$sef]))
-				{
-					$found = true;
-					$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
-				}
-				else
-				{
-					// If the language prefix should always be present or it is indeed , we can now look it up in our array
-					if (isset($this->sefs[$sef]))
-					{
-						// We found our language
-						$found = true;
-						$lang_code = $this->sefs[$sef]->lang_code;
-					}
-
-					// If we found our language, but its the default language and we don't want a prefix for that, we are on a wrong URL
-					if ($this->params->get('remove_default_prefix', 0)
-						&& $lang_code == JComponentHelper::getParams('com_languages')->get('site', 'en-GB'))
-					{
-						$found = false;
-						array_shift($parts);
-						$path = implode('/', $parts);
-					}
-
-					// We have found our language and the first part of our URL is the language prefix
-					if ($found)
-					{
-						array_shift($parts);
-						$uri->setPath(implode('/', $parts));
-					}
-				}
+				$found = true;
+				$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			}
 			else
 			{
-				// We are not in SEF mode
-				$lang = $uri->getVar('lang');
-
-				if (isset($this->sefs[$lang]))
+				// If the language prefix should always be present or it is indeed , we can now look it up in our array
+				if (isset($this->sefs[$sef]))
 				{
 					// We found our language
 					$found = true;
-					$lang_code = $this->sefs[$lang]->lang_code;
+					$lang_code = $this->sefs[$sef]->lang_code;
 				}
+
+				// If we found our language, but its the default language and we don't want a prefix for that, we are on a wrong URL
+				if ($this->params->get('remove_default_prefix', 0)
+					&& $lang_code == JComponentHelper::getParams('com_languages')->get('site', 'en-GB'))
+				{
+					$found = false;
+					array_shift($parts);
+					$path = implode('/', $parts);
+				}
+
+				// We have found our language and the first part of our URL is the language prefix
+				if ($found)
+				{
+					array_shift($parts);
+					$uri->setPath(implode('/', $parts));
+				}
+			}
+		}
+		else
+		{
+			// We are not in SEF mode
+			$lang = $uri->getVar('lang');
+
+			if (isset($this->sefs[$lang]))
+			{
+				// We found our language
+				$found = true;
+				$lang_code = $this->sefs[$lang]->lang_code;
 			}
 		}
 
