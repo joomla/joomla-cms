@@ -428,7 +428,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
-	protected function prepareDiscoverInstall()
+	public function prepareDiscoverInstall()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
 		$client = JApplicationHelper::getClientInfo($this->extension->client_id);
@@ -438,6 +438,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$this->parent->setPath('manifest', $manifestPath);
 		$this->parent->setPath('source', $client->path . '/components/' . $this->extension->element);
 		$this->parent->setPath('extension_root', $this->parent->getPath('source'));
+		$this->setManifest($this->parent->getManifest());
 
 		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->extension->manifest_cache = json_encode($manifest_details);

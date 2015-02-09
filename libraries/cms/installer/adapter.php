@@ -274,29 +274,6 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 */
 	public function discover_install()
 	{
-		// Check if this is supported
-		if (!$this->supportsDiscoverInstall)
-		{
-			$this->parent->abort(
-				JText::sprintf('JLIB_INSTALLER_ERROR_DISCOVER_INSTALL_UNSUPPORTED', $this->type)
-			);
-
-			return false;
-		}
-
-		// Prepare the discover install for the adapter
-		try
-		{
-			$this->prepareDiscoverInstall();
-		}
-		catch (RuntimeException $e)
-		{
-			// Install failed, roll back changes
-			$this->parent->abort($e->getMessage());
-
-			return false;
-		}
-
 		// Get the extension's description
 		$description = (string) $this->getManifest()->description;
 
@@ -451,6 +428,18 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	{
 		$lang = JFactory::getLanguage();
 		$lang->load($extension . '.sys', $source, null, false, true) || $lang->load($extension . '.sys', $base, null, false, true);
+	}
+
+	/**
+	 * Checks if the adapter supports discover_install
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.4
+	 */
+	public function getDiscoverInstallSupported()
+	{
+		return $this->supportsDiscoverInstall;
 	}
 
 	/**
@@ -797,7 +786,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 *
 	 * @since   3.4
 	 */
-	protected function prepareDiscoverInstall()
+	public function prepareDiscoverInstall()
 	{
 		// Adapters may not support discover install or may have overridden the default task and aren't using this
 	}

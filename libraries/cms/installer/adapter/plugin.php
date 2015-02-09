@@ -301,7 +301,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	 *
 	 * @since   3.4
 	 */
-	protected function prepareDiscoverInstall()
+	public function prepareDiscoverInstall()
 	{
 		$client   = JApplicationHelper::getClientInfo($this->extension->client_id);
 		$basePath = $client->path . '/plugins/' . $this->extension->folder;
@@ -318,6 +318,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
+		$this->setManifest($this->parent->getManifest());
 	}
 
 	/**
