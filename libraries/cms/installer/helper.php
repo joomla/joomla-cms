@@ -172,7 +172,7 @@ abstract class JInstallerHelper
 		 * List all the items in the installation directory.  If there is only one, and
 		 * it is a folder, then we will set that folder to be the installation folder.
 		 */
-		$dirList = array_merge(JFolder::files($extractdir, ''), JFolder::folders($extractdir, ''));
+		$dirList = array_merge((array)JFolder::files($extractdir, ''), (array)JFolder::folders($extractdir, ''));
 
 		if (count($dirList) == 1)
 		{
@@ -218,7 +218,7 @@ abstract class JInstallerHelper
 		// Search the install dir for an XML file
 		$files = JFolder::files($p_dir, '\.xml$', 1, true);
 
-		if (!count($files))
+		if(!$files || !count($files))
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, 'jerror');
 
