@@ -75,7 +75,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		if (file_exists($this->parent->getPath('extension_site')) || file_exists($this->parent->getPath('extension_administrator')))
 		{
 			// Look for an update function or update tag
-			$updateElement = $this->manifest->update;
+			$updateElement = $this->getManifest()->update;
 
 			// Upgrade manually set or update function available or update tag detected
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
@@ -122,15 +122,15 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	protected function copyBaseFiles()
 	{
 		// Copy site files
-		if ($this->manifest->files)
+		if ($this->getManifest()->files)
 		{
 			if ($this->route == 'update')
 			{
-				$result = $this->parent->parseFiles($this->manifest->files, 0, $this->oldFiles);
+				$result = $this->parent->parseFiles($this->getManifest()->files, 0, $this->oldFiles);
 			}
 			else
 			{
-				$result = $this->parent->parseFiles($this->manifest->files);
+				$result = $this->parent->parseFiles($this->getManifest()->files);
 			}
 
 			if ($result === false)
@@ -145,15 +145,15 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		// Copy admin files
-		if ($this->manifest->administration->files)
+		if ($this->getManifest()->administration->files)
 		{
 			if ($this->route == 'update')
 			{
-				$result = $this->parent->parseFiles($this->manifest->administration->files, 1, $this->oldAdminFiles);
+				$result = $this->parent->parseFiles($this->getManifest()->administration->files, 1, $this->oldAdminFiles);
 			}
 			else
 			{
-				$result = $this->parent->parseFiles($this->manifest->administration->files, 1);
+				$result = $this->parent->parseFiles($this->getManifest()->administration->files, 1);
 			}
 
 			if ($result === false)
@@ -376,18 +376,16 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$this->parent->setPath('source', $client . '/components/' . $this->parent->extension->element);
 		}
 
-		// Set the manifest object
-		$this->manifest = $this->getManifest();
-		$extension      = $this->getElement();
-		$source         = $path ? $path : $client . '/components/' . $extension;
+		$extension = $this->getElement();
+		$source    = $path ? $path : $client . '/components/' . $extension;
 
-		if ($this->manifest->administration->files)
+		if ($this->getManifest()->administration->files)
 		{
-			$element = $this->manifest->administration->files;
+			$element = $this->getManifest()->administration->files;
 		}
-		elseif ($this->manifest->files)
+		elseif ($this->getManifest()->files)
 		{
-			$element = $this->manifest->files;
+			$element = $this->getManifest()->files;
 		}
 		else
 		{
@@ -417,9 +415,9 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	protected function parseOptionalTags()
 	{
 		// Parse optional tags
-		$this->parent->parseMedia($this->manifest->media);
-		$this->parent->parseLanguages($this->manifest->languages);
-		$this->parent->parseLanguages($this->manifest->administration->languages, 1);
+		$this->parent->parseMedia($this->getManifest()->media);
+		$this->parent->parseLanguages($this->getManifest()->languages);
+		$this->parent->parseLanguages($this->getManifest()->administration->languages, 1);
 	}
 
 	/**
@@ -430,7 +428,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
-	protected function prepareDiscoverInstall()
+	public function prepareDiscoverInstall()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
 		$client = JApplicationHelper::getClientInfo($this->extension->client_id);
@@ -440,6 +438,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$this->parent->setPath('manifest', $manifestPath);
 		$this->parent->setPath('source', $client->path . '/components/' . $this->extension->element);
 		$this->parent->setPath('extension_root', $this->parent->getPath('source'));
+		$this->setManifest($this->parent->getManifest());
 
 		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->extension->manifest_cache = json_encode($manifest_details);
@@ -517,7 +516,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator'));
 
 		// Make sure that we have an admin element
-		if (!$this->manifest->administration)
+		if (!$this->getManifest()->administration)
 		{
 			throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'));
 		}
@@ -699,9 +698,9 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		// Get the package manifest object
 		// We do findManifest to avoid problem when uninstalling a list of extension: getManifest cache its manifest file
 		$this->parent->findManifest();
-		$this->manifest = $this->parent->getManifest();
+		$this->setManifest($this->parent->getManifest());
 
-		if (!$this->manifest)
+		if (!$this->getManifest())
 		{
 			// Make sure we delete the folders if no manifest exists
 			JFolder::delete($this->parent->getPath('extension_administrator'));
@@ -761,9 +760,9 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 		// Let's remove those language files and media in the JROOT/images/ folder that are
 		// associated with the component we are uninstalling
-		$this->parent->removeFiles($this->manifest->media);
-		$this->parent->removeFiles($this->manifest->languages);
-		$this->parent->removeFiles($this->manifest->administration->languages, 1);
+		$this->parent->removeFiles($this->getManifest()->media);
+		$this->parent->removeFiles($this->getManifest()->languages);
+		$this->parent->removeFiles($this->getManifest()->administration->languages, 1);
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
@@ -906,7 +905,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
-		$menuElement = $this->manifest->administration->menu;
+		$menuElement = $this->getManifest()->administration->menu;
 
 		// Just do not create the menu if $menuElement not exist
 		if (!$menuElement)
@@ -967,13 +966,13 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		 * Process SubMenus
 		 */
 
-		if (!$this->manifest->administration->submenu)
+		if (!$this->getManifest()->administration->submenu)
 		{
 			// No submenu? We're done.
 			return true;
 		}
 
-		foreach ($this->manifest->administration->submenu->menu as $child)
+		foreach ($this->getManifest()->administration->submenu->menu as $child)
 		{
 			$data = array();
 			$data['menutype'] = 'main';
