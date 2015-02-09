@@ -229,26 +229,6 @@ class PlgSystemLanguageFilter extends JPlugin
 		// Did we find the current and existing language yet?
 		$found = false;
 
-		// We are called via POST. We don't care about the language
-		// and simply set the default language as our current language.
-		if ($this->app->input->getMethod() == "POST"
-			|| count($this->app->input->post) > 0
-			|| count($this->app->input->files) > 0)
-		{
-			$found = true;
-			$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
-
-			if ($this->params->get('detect_browser', 1) && !$lang_code)
-			{
-				$lang_code = JLanguageHelper::detectLanguage();
-			}
-
-			if (!isset($this->lang_codes[$lang_code]))
-			{
-				$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
-			}
-		}
-
 		// If $found is true at this point, we don't want to process this discovery code
 		if (!$found)
 		{
@@ -305,6 +285,26 @@ class PlgSystemLanguageFilter extends JPlugin
 					$found = true;
 					$lang_code = $this->sefs[$lang]->lang_code;
 				}
+			}
+		}
+
+		// We are called via POST. We don't care about the language
+		// and simply set the default language as our current language.
+		if ($this->app->input->getMethod() == "POST"
+			|| count($this->app->input->post) > 0
+			|| count($this->app->input->files) > 0)
+		{
+			$found = true;
+			$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
+
+			if ($this->params->get('detect_browser', 1) && !$lang_code)
+			{
+				$lang_code = JLanguageHelper::detectLanguage();
+			}
+
+			if (!isset($this->lang_codes[$lang_code]))
+			{
+				$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			}
 		}
 
