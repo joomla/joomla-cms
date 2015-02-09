@@ -50,6 +50,8 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
+		$this->app = JFactory::getApplication();
+
 		if ($this->app->isSite())
 		{
 			// Setup language data.
@@ -372,6 +374,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			}
 
 			JFactory::$language = $newLang;
+			$this->app->loadLanguage($newLang);
 		}
 
 		// Create a cookie.
