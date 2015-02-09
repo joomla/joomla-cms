@@ -20,7 +20,7 @@ $param    = array(
 		"rssitems" => 5,
 		"rssitemdesc" => 1,
 		"word_count" => 200,
-		"cache" => 0
+		"cache" => 0,
 	);
 $params = array('params' => json_encode($param));
 
