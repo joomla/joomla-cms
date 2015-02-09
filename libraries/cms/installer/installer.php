@@ -505,7 +505,9 @@ class JInstaller extends JAdapter
 
 			// Load the adapter(s) for the install manifest
 			$type   = $this->extension->type;
-			$params = array('extension' => $this->extension, 'route' => 'discover_install');
+			$params = array(
+				'extension' => $this->extension, 'route' => 'discover_install', 'manifest' => $this->getManifest()
+			);
 
 			// Lazy load the adapter
 			if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
@@ -823,7 +825,7 @@ class JInstaller extends JAdapter
 
 		// Load the adapter(s) for the install manifest
 		$type   = (string) $this->manifest->attributes()->type;
-		$params = array('route' => $route);
+		$params = array('route' => $route, 'manifest' => $this->getManifest());
 
 		// Lazy load the adapter
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))

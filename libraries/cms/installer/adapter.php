@@ -180,7 +180,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
 		{
 			// Look for an update function or update tag
-			$updateElement = $this->manifest->update;
+			$updateElement = $this->getManifest()->update;
 
 			// Upgrade manually set or update function available or update tag detected
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
@@ -411,9 +411,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		$route = $this->route == 'discover_install' ? 'install' : $this->route;
 
 		// Let's run the install queries for the component
-		if (isset($this->manifest->{$route}->sql))
+		if (isset($this->getManifest()->{$route}->sql))
 		{
-			$result = $this->parent->parseSQLFiles($this->manifest->{$route}->sql);
+			$result = $this->parent->parseSQLFiles($this->getManifest()->{$route}->sql);
 
 			if ($result === false)
 			{
@@ -488,12 +488,6 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 */
 	public function getManifest()
 	{
-		if (!$this->manifest)
-		{
-			// We are trying to find manifest for the installed extension.
-			$this->manifest = $this->parent->getManifest();
-		}
-
 		return $this->manifest;
 	}
 
@@ -758,16 +752,16 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			}
 
 			// Set the schema version to be the latest update version
-			if ($this->manifest->update)
+			if ($this->getManifest()->update)
 			{
-				$this->parent->setSchemaVersion($this->manifest->update->schemas, $this->extension->extension_id);
+				$this->parent->setSchemaVersion($this->getManifest()->update->schemas, $this->extension->extension_id);
 			}
 		}
 		elseif ($this->route == 'update')
 		{
-			if ($this->manifest->update)
+			if ($this->getManifest()->update)
 			{
-				$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $this->extension->extension_id);
+				$result = $this->parent->parseSchemaUpdates($this->getManifest()->update->schemas, $this->extension->extension_id);
 
 				if ($result === false)
 				{
@@ -809,6 +803,22 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
+	 * Set the manifest object.
+	 *
+	 * @param   object  $manifest  The manifest object
+	 *
+	 * @return  JInstallerAdapter  Instance of this class to support chaining
+	 *
+	 * @since   3.4
+	 */
+	public function setManifest($manifest)
+	{
+		$this->manifest = $manifest;
+
+		return $this;
+	}
+
+	/**
 	 * Set the install route being followed
 	 *
 	 * @param   string  $route  The install route being followed
@@ -843,7 +853,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	protected function setupScriptfile()
 	{
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
-		$manifestScript = (string) $this->manifest->scriptfile;
+		$manifestScript = (string) $this->getManifest()->scriptfile;
 
 		if ($manifestScript)
 		{

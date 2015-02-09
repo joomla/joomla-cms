@@ -289,7 +289,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	{
 		// Since this is just files, an update removes old files
 		// Get the extension manifest object
-		$this->manifest = $this->parent->getManifest();
+		$this->setManifest($this->parent->getManifest());
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
@@ -298,7 +298,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		 */
 
 		// Set the extensions name
-		$name = (string) $this->manifest->name;
+		$name = (string) $this->getManifest()->name;
 		$name = JFilterInput::getInstance()->clean($name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
