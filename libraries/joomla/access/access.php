@@ -248,16 +248,20 @@ class JAccess
 		// Get the root even if the asset is not found and in recursive mode
 		if (empty($result))
 		{
-			$db = JFactory::getDbo();
-			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
-			$rootId = $assets->getRootId();
-			$query->clear()
-				->select('rules')
-				->from('#__assets')
-				->where('id = ' . $db->quote($rootId));
-			$db->setQuery($query);
-			$result = $db->loadResult();
-			$result = array($result);
+			if(empty(self::$assetRules['root']))
+			{
+				$db = JFactory::getDbo();
+				$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+				$rootId = $assets->getRootId();
+				$query->clear()
+					->select('rules')
+					->from('#__assets')
+					->where('id = ' . $db->quote($rootId));
+				$db->setQuery($query);
+				$result = $db->loadResult();
+				self::$assetRules['root'] = array($result);
+			}
+			$result = self::$assetRules['root'];
 		}
 		// Instantiate and return the JAccessRules object for the asset rules.
 		$rules = new JAccessRules;
