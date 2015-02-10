@@ -30,7 +30,6 @@ class ModLoginHelper
 	public static function getReturnURL($params, $type)
 	{
 		$app	= JFactory::getApplication();
-		$router = $app::getRouter();
 		$item   = $app->getMenu()->getItem($params->get($type));
 
 		if ($item)
