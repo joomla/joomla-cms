@@ -102,20 +102,11 @@ class ModMenuHelper
 							break;
 
 						default:
-							$router = $app::getRouter();
+							$item->flink = 'index.php?Itemid=' . $item->id;
 
-							if ($router->getMode() == JROUTER_MODE_SEF)
+							if (isset($item->query['format']) && $app->get('sef_suffix'))
 							{
-								$item->flink = 'index.php?Itemid=' . $item->id;
-
-								if (isset($item->query['format']) && $app->get('sef_suffix'))
-								{
-									$item->flink .= '&format=' . $item->query['format'];
-								}
-							}
-							else
-							{
-								$item->flink .= '&Itemid=' . $item->id;
+								$item->flink .= '&format=' . $item->query['format'];
 							}
 							break;
 					}
