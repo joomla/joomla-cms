@@ -30,19 +30,34 @@ class JDocumentRendererModules extends JDocumentRenderer
 	public function render($position, $params = array(), $content = null)
 	{
 		$renderer = $this->_doc->loadRenderer('module');
-		$buffer = '';
+		$buffer   = '';
 
-		$app = JFactory::getApplication();
-		$frontediting = $app->get('frontediting', 1);
-		$user = JFactory::getUser();
+		$app     = JFactory::getApplication();
+		$user    = JFactory::getUser();
+		$modules = JModuleHelper::getModules($position);
 
-		$menusEditing = ($frontediting == 2) && $user->authorise('core.edit', 'com_menus');
+		$editing      = $app->get('frontediting', 1);
+		$frontediting = ($app->isSite() && $editing && !$user->guest);
+		$menusEditing = ($editing == 2) && $user->authorise('core.edit', 'com_menus');
+		$access       = array();
+
+		if($frontediting)
+		{
+			// Collect asset names
+			$assets = array();
+			foreach ($modules as $mod)
+			{
+				$assets[] = 'com_modules.module.' . $mod->id;
+			}
+			// Check access for each asset rule
+			$access = empty($assets) ? array() : JAccess::checkMultiple($user->get('id'), 'module.edit.frontend', $assets);
+		}
 
 		foreach (JModuleHelper::getModules($position) as $mod)
 		{
 			$moduleHtml = $renderer->render($mod, $params, $content);
 
-			if ($app->isSite() && $frontediting && trim($moduleHtml) != '' && $user->authorise('module.edit.frontend', 'com_modules.module.' . $mod->id))
+			if ($frontediting && trim($moduleHtml) && ($user->get('isRoot') || !empty($access['com_modules.module.' . $mod->id])))
 			{
 				$displayData = array('moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position, 'menusediting' => $menusEditing);
 				JLayoutHelper::render('joomla.edit.frontediting_modules', $displayData);
