@@ -121,7 +121,7 @@ class JAccess
 	 * @param   string   $action  The name of the action to authorise.
 	 * @param   array    $assets   Array of integer asset ids or the names of the asset as a string.
 	 *
-	 * @return  array  assets name => bool
+	 * @return  array  assets name => test result
 	 */
 	public static function checkMultiple($userId, $action, $assets)
 	{
@@ -322,8 +322,7 @@ class JAccess
 	 *
 	 * @param   array    $assets     Integer asset id or the name of the asset as a string.
 	 *
-	 * @return  array of JAccessRules   JAccessRules object for the asset.
-	 *
+	 * @return  array of JAccessRules for the assets.
 	 */
 	public static function getAssetRulesMultiple($assets)
 	{
