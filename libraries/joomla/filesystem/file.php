@@ -497,7 +497,7 @@ class JFile
 				}
 				else
 				{
-					JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR02' . ' : %s => %s' , $src, $dest), JLog::WARNING, 'jerror');
+					JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR02' . ' : %s => %s', $src, $dest), JLog::WARNING, 'jerror');
 				}
 			}
 			else
@@ -516,7 +516,7 @@ class JFile
 				}
 				else
 				{
-					JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR02' . ' : %s => %s' , $src, $dest), JLog::WARNING, 'jerror');
+					JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR02' . ' : %s => %s', $src, $dest), JLog::WARNING, 'jerror');
 				}
 			}
 
