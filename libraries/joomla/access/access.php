@@ -135,7 +135,7 @@ class JAccess
 		// Load rules for give assets
 		if(!empty($toLoad))
 		{
-			$rules = self::getAssetRulesMultiple($toLoad);
+			$rules = self::getAssetRulesMultiple($toLoad, true);
 			self::$assetRules = array_merge(self::$assetRules, $rules);
 		}
 
@@ -321,10 +321,11 @@ class JAccess
 	 * Method to return the array of JAccessRules objects for an asset.
 	 *
 	 * @param   array    $assets     Integer asset id or the name of the asset as a string.
+	 * @param   boolean  $recursive  True to return the rules object with inherited rules.
 	 *
 	 * @return  array of JAccessRules for the assets.
 	 */
-	public static function getAssetRulesMultiple($assets)
+	public static function getAssetRulesMultiple($assets, $recursive = false)
 	{
 		$rules = array();
 		// Get the database connection object.
@@ -332,8 +333,11 @@ class JAccess
 
 		// Build the database query to get the rules for the asset.
 		$query = $db->getQuery(true)
-		->select('a.rules, a.name, a.id')
-		->from('#__assets AS a');
+			->select($recursive ? 'b.rules, b.name, b.id' : 'a.rules, a.name, a.id')
+			->from('#__assets AS a');
+
+		// SQLsrv change
+		$query->group($recursive ? 'b.id, b.rules, b.lft' : 'a.id, a.rules, a.lft');
 
 		// SQLsrv change
 		$query->group('a.id, a.rules, a.lft');
@@ -348,6 +352,13 @@ class JAccess
 		{
 			$query->where('(a.name IN (' . implode(',', $db->quote($assets)) . '))');
 			$key = 'name';
+		}
+
+		// If we want the rules cascading up to the global asset node we need a self-join.
+		if ($recursive)
+		{
+			$query->join('LEFT', '#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt')
+				->order('b.lft');
 		}
 
 		// Execute the query and load the rules from the result.
@@ -388,9 +399,32 @@ class JAccess
 			$root = self::$assetRules['root.' . $rootId];
 		}
 
+		// Check whether all rules loaded
 		foreach($assets as $asset)
 		{
-			if(empty($rules[$asset]))
+			if(!empty($rules[$asset]))
+			{
+				continue;
+			}
+			elseif($recursive)
+			{
+				$parts = explode('.', $asset);
+
+				// Search available parent
+				$parent = null;
+				while(!empty($parts))
+				{
+					array_pop($parts);
+					$parentAsset = implode('.', $parts);
+					if(!empty(self::$assetRules[$parentAsset]))
+					{
+						$parent = self::$assetRules[$parentAsset];
+						break;
+					}
+				}
+				$rules[$asset] = $parent ? $parent : $root;
+			}
+			else
 			{
 				$rules[$asset] = $root;
 			}
