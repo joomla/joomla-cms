@@ -17,6 +17,7 @@
 
 4- How to find a Joomla! translation?
 	* Repository of accredited language packs: http://community.joomla.org/translations.html
+	* You can also add languages directly to your website via your Joomla! administration panel.
 
 5- Learn Joomla!
 	* Read Getting Started with Joomla to find out the basics: https://docs.joomla.org/Getting_Started_with_Joomla!
