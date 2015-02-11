@@ -54,7 +54,7 @@ class JDocumentRendererModules extends JDocumentRenderer
 			$access = empty($assets) ? array() : JAccess::checkMultiple($user->get('id'), 'module.edit.frontend', $assets);
 		}
 
-		foreach (JModuleHelper::getModules($position) as $mod)
+		foreach ($modules as $mod)
 		{
 			$moduleHtml = $renderer->render($mod, $params, $content);
 

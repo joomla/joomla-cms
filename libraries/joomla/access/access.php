@@ -119,7 +119,7 @@ class JAccess
 	 *
 	 * @param   integer  $userId  Id of the user for which to check authorisation.
 	 * @param   string   $action  The name of the action to authorise.
-	 * @param   array    $assets   Array of integer asset ids or the names of the asset as a string.
+	 * @param   array    $assets  Array of integer asset ids or the names of the asset as a string.
 	 *
 	 * @return  array  assets name => test result
 	 */
@@ -328,6 +328,7 @@ class JAccess
 	public static function getAssetRulesMultiple($assets, $recursive = false)
 	{
 		$rules = array();
+
 		// Get the database connection object.
 		$db = JFactory::getDbo();
 
@@ -414,7 +415,8 @@ class JAccess
 				{
 					array_pop($parts);
 					$parentAsset = implode('.', $parts);
-					switch (true) {
+					switch (true)
+					{
 						case !empty($parts[$parentAsset]):
 							$parent = $parts[$parentAsset];
 							break 2;
